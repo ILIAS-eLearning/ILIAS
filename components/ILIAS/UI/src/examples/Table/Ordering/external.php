@@ -53,7 +53,7 @@ function external()
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
-                yield $row_builder->buildOrderingRow((string)$record['id'], $record);
+                yield $row_builder->buildOrderingRow((string) $record['id'], $record);
             }
         }
 
@@ -63,7 +63,7 @@ function external()
             shuffle($r);
 
             foreach ($r as $id) {
-                $records[(string)$id] = ['id' => $id, 'letter' => chr($id)];
+                $records[(string) $id] = ['id' => $id, 'letter' => chr($id)];
             }
             return $records;
         }
@@ -75,7 +75,7 @@ function external()
         {
             $r = [];
             foreach ($ordered as $id) {
-                $r[(string)$id] = $this->records[(string)$id];
+                $r[(string) $id] = $this->records[(string) $id];
             }
             $this->records = $r;
         }
@@ -86,17 +86,17 @@ function external()
     /**
      * Alter the URL the tables posts its positions to (here: just add a parameter).
      */
-    $target = (new URI((string)$request->getUri()))->withParameter('external', true);
-    $table = $f->table()->ordering('sort the letters', $columns, $data_retrieval)
-        ->withTargetURL($target)
+    $target = (new URI((string) $request->getUri()))->withParameter('ordering_example', 3);
+    $table = $f->table()->ordering('sort the letters', $columns, $data_retrieval, $target)
         ->withRequest($request);
 
     /**
      * Set up an endpoint to itercept and customize ordering,
      * here: store only correct order
      */
-    if ($request_wrapper->has('external') &&
-        $request_wrapper->retrieve('external', $refinery->kindlyTo()->bool()) === true
+    if ($request->getMethod() == "POST"
+        && $request_wrapper->has('ordering_example')
+        && $request_wrapper->retrieve('ordering_example', $refinery->kindlyTo()->int()) === 3
     ) {
         $data = $table->withRequest($request)->getData();
         if($data === range(65, 68)) {

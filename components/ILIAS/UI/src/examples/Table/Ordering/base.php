@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Data\URI;
 
 function base()
 {
@@ -81,7 +82,7 @@ function base()
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
-                $row_id = (string)$record['id'];
+                $row_id = (string) $record['id'];
                 yield $row_builder->buildOrderingRow($row_id, $record);
             }
         }
@@ -121,20 +122,22 @@ function base()
         {
             $r = [];
             foreach ($ordered as $id) {
-                $r[(string)$id] = $this->records[(string)$id];
+                $r[(string) $id] = $this->records[(string) $id];
             }
             $this->records = $r;
         }
 
     };
 
-    $table = $f->table()->ordering('ordering table', $columns, $data_retrieval)
+    $target = (new URI((string) $request->getUri()))->withParameter('ordering_example', 1);
+    $table = $f->table()->ordering('ordering table', $columns, $data_retrieval, $target)
         ->withActions($actions)
         ->withRequest($request);
 
     $out = [];
     if ($request->getMethod() == "POST"
-        && !$request_wrapper->has('external') // do not listen to 3rd example
+        && $request_wrapper->has('ordering_example')
+        && $request_wrapper->retrieve('ordering_example', $refinery->kindlyTo()->int()) === 1
     ) {
         if($data = $table->getData()) {
             $out[] = $f->legacy('<pre>' . print_r($data, true) . '</pre>');

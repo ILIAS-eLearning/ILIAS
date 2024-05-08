@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Input\ViewControl\Factory as ViewControlFactory;
 use ILIAS\UI\Component\Input\Container\ViewControl\Factory as ViewControlContainerFactory;
 use ILIAS\Data\Factory as DataFactory;
 use Closure;
+use ILIAS\Data\URI;
 
 /**
  * Implementation of factory for tables
@@ -96,7 +97,8 @@ class Factory implements T\Factory
     public function ordering(
         string $title,
         array $columns,
-        T\OrderingBinding $binding
+        T\OrderingBinding $binding,
+        URI $target_url
     ): T\Ordering {
         return new Ordering(
             $this->signal_generator,
@@ -106,6 +108,7 @@ class Factory implements T\Factory
             $title,
             $columns,
             $binding,
+            $target_url,
             $this->storage
         );
     }

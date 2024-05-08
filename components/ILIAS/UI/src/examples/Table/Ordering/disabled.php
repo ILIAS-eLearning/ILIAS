@@ -6,6 +6,7 @@ namespace ILIAS\UI\examples\Table\Ordering;
 
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
+use ILIAS\Data\URI;
 
 function disabled()
 {
@@ -44,7 +45,7 @@ function disabled()
             array $visible_column_ids
         ): \Generator {
             foreach (array_values($this->records) as $record) {
-                yield $row_builder->buildOrderingRow((string)$record['id'], $record);
+                yield $row_builder->buildOrderingRow((string) $record['id'], $record);
             }
         }
 
@@ -59,7 +60,8 @@ function disabled()
     /**
      * Disable the ordering (e.g. due to missing permissions)
      */
-    $table = $f->table()->ordering('ordering table with disabled ordering', $columns, $data_retrieval)
+    $target = (new URI((string) $request->getUri()));
+    $table = $f->table()->ordering('ordering table with disabled ordering', $columns, $data_retrieval, $target)
         ->withOrderingDisabled(true)
         ->withRequest($request);
 

@@ -34,7 +34,6 @@ class Ordering extends AbstractTable implements T\Ordering
     public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
 
     protected bool $ordering_disabled = false;
-    protected ?URI $target_url = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -44,6 +43,7 @@ class Ordering extends AbstractTable implements T\Ordering
         string $title,
         array $columns,
         protected T\OrderingBinding $binding,
+        protected URI $target_url,
         \ArrayAccess $storage
     ) {
         parent::__construct(
@@ -80,13 +80,6 @@ class Ordering extends AbstractTable implements T\Ordering
     public function isOrderingDisabled(): bool
     {
         return $this->ordering_disabled;
-    }
-
-    public function withTargetURL(URI $url): self
-    {
-        $clone = clone $this;
-        $clone->target_url = $url;
-        return $clone;
     }
 
     public function getTargetURL(): ?URI

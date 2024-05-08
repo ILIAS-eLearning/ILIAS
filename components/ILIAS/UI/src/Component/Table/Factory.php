@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Table;
 
 use Closure;
+use ILIAS\Data\URI;
 
 /**
  * Table factory
@@ -300,6 +301,7 @@ interface Factory
     public function ordering(
         string $title,
         array $columns,
-        OrderingBinding $retrieval
+        OrderingBinding $retrieval,
+        URI $target_url
     ): Ordering;
 }
