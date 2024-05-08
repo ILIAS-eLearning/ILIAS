@@ -84,7 +84,7 @@ When a **post or topic** is deleted, all associated personal data is deleted. If
 
 After deleting a **user account**, the user's topics and posts remain in the forum. Their data records still contain the ID and, in the case of non-pseudonymized posts, also the username. However, "Deleted" is displayed as the name of the creator. The user account no longer appears in the forum statistics.
 
-If an **entire forum** is deleted and the ILAS recycle bin is active, all personal data is initially retained.  When the recycle bin is finally deleted or emptied, all forum data is deleted. Only the activation of the notification for a topic is retained, but is no longer processed.
+If an **entire forum** is deleted and the ILIAS "Trash" is active, all personal data is initially retained.  When the forum object is finally deleted from "Trash", all forum data (incl. user related data) is deleted as well. Only the activation of the notification for a topic is retained, but is no longer processed.
 
 ## Data being exported
 
