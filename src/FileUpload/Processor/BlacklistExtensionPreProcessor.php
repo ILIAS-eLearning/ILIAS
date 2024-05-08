@@ -66,9 +66,12 @@ final class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProces
     protected function checkPath(string $path) : bool
     {
         $extension = $this->getExtensionForFilename($path);
+        if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $extension)) {
+            return false;
+        }
+
         $in_array = in_array($extension, $this->blacklist, true);
-        // Regular expression pattern to match PHP file extensions, see https://mantis.ilias.de/view.php?id=0028626
-        if ($in_array === true || preg_match('/^ph(p[3457]?|t|tml)$/i', $extension)) {
+        if ($in_array) {
             $this->reason = $this->reason .= " ($path)";
             return false;
         }
