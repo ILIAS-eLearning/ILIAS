@@ -302,7 +302,7 @@ class ilErrorHandling
                     $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
                 }
             }
-            if ($DIC->isDependencyAvailable('ui') && $DIC->isDependencyAvailable('ctrl')) {
+            if ($DIC->isDependencyAvailable('ui') && $DIC->isDependencyAvailable('tpl') && $DIC->isDependencyAvailable('ctrl')) {
                 $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
                 $DIC->ctrl()->redirectToURL('error.php');
             } else {
