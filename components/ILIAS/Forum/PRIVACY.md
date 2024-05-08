@@ -94,6 +94,6 @@ New posts can be subscribed to via an **RSS feed** in suitable programs. In the 
 
 To support the **full-text search**, a separate server with the Apache Lucene search engine can be operated for ILIAS. When creating the full-text index for a forum, the content of a manually created start page as well as the title, content and author ID of all topics and posts are retrieved by this server and stored in the index.
 
-ILIAS users can create a **print view** in a forum topic and print it out via the browser. The personal data contained on it corresponds to the normal browser view of the forum topic. ILIAS users with the 'Edit Settings' permission for a forum can export an **HTML page** that contains to the print views of all forum topics.
+ILIAS users can create a **print view** in a forum topic and print it out via the browser. The personal data contained on it corresponds to the normal browser view of the forum topic. ILIAS users with the 'Edit Settings' permission for a forum can export an **HTML page** with the content of all forum topics. The personal data contained in it corresponds to the normal browser views of the forum topics.
 
 A forum can be exported from ILIAS in **XML format** by users with the 'Edit Settings' permission. This creates a ZIP archive that can then be downloaded and imported into another ILIAS platform. The archive contains all content of the forum, the user IDs of the moderators and authors of posts, as well as the usernames or pseudonyms of the authors.
