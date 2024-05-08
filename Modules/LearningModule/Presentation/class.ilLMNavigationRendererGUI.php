@@ -282,7 +282,7 @@ class ilLMNavigationRendererGUI
             $active = ilLMPage::_lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
+                (bool) $this->lm_set->get("time_scheduled_page_activation")
             );
 
             if ($node["type"] === "pg" &&
@@ -304,7 +304,7 @@ class ilLMNavigationRendererGUI
                             $node["obj_id"],
                             $this->lm->getPageHeader(),
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             $this->lm->getId(),
                             $this->lang,
@@ -332,7 +332,7 @@ class ilLMNavigationRendererGUI
                             $node["obj_id"],
                             ilLMObject::CHAPTER_TITLE,
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             $this->lm->getId(),
                             $this->lang,
@@ -381,7 +381,7 @@ class ilLMNavigationRendererGUI
                 $this->current_page,
                 $this->lm->getPageHeader(),
                 $this->lm->isActiveNumbering(),
-                $this->lm_set->get("time_scheduled_page_activation"),
+                (bool) $this->lm_set->get("time_scheduled_page_activation"),
                 false,
                 $this->lm->getId(),
                 $this->lang,
@@ -394,7 +394,7 @@ class ilLMNavigationRendererGUI
                     $st_id,
                     ilLMObject::CHAPTER_TITLE,
                     $this->lm->isActiveNumbering(),
-                    $this->lm_set->get("time_scheduled_page_activation"),
+                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                     false,
                     $this->lm->getId(),
                     $this->lang,

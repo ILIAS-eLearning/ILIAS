@@ -94,7 +94,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         );
 
         // is page scheduled?
-        $img_sc = ($this->lm_set->get("time_scheduled_page_activation") &&
+        $img_sc = ((bool) $this->lm_set->get("time_scheduled_page_activation") &&
             ilLMPage::_isScheduledActivation($a_set["obj_id"], $this->lm->getType()))
             ? "_sc"
             : "";
