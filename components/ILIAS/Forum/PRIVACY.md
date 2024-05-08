@@ -41,6 +41,7 @@ The following privacy-related settings can be made in an individual forum under 
 For forums within courses and groups, you can set here whether users of the forum automatically receive notifications by e-mail, whether they have to activate it manually or whether they can deactivate it individually (default setting: manual activation).
 
 ### News settings
+
 If RSS is activated in ILIAS under “Administration > News and Web Feeds”, you can set here whether an RSS feed is offered for the forum. The “Public Notification” setting enables this feed to contain forum posts without authentication (default setting: off).
 
 ## Data being stored
