@@ -63,7 +63,6 @@ The **read status** of posts and the **sorting** of topics is saved for individu
 
 If forum topics can be given a 5-star rating, **individual ratings** are saved by the rating component of ILIAS.
 
-
 ## Data being presented
 
 The title, description, start page of the forum as well as the titles of the topics and the posts may contain **manually created personal information**.
