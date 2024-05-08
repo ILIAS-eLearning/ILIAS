@@ -862,7 +862,7 @@ class ilFileUtils
 
         $extension = strtolower($pi["extension"]);
         // Regular expression pattern to match PHP file extensions, see https://mantis.ilias.de/view.php?id=0028626
-        if (preg_match('/^ph(p[3457]?|t|tml)$/i', $extension)) {
+        if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $extension)) {
             return false;
         }
 
