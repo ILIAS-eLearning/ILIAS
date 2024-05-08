@@ -166,4 +166,24 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $datetime = $this->factory->datetime('label', 'byline')
             ->withValue("this is no datetime...");
     }
+
+    public function testRender(): void
+    {
+        $datetime = $this->factory->dateTime('label', 'byline');
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($datetime));
+
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+                <div class="input-group date il-input-datetime">
+                    <input id="id_1" type="date" class="form-control form-control-sm" />
+                </div>
+                <div class="help-block">byline</div>
+            </div>
+        </div>
+        ');
+        $this->assertEquals($expected, $html);
+    }
 }

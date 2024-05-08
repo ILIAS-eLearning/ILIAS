@@ -207,7 +207,7 @@ class FilterContextRenderer extends Renderer
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer, $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
     }
 
     public function registerResources(ResourceRegistry $registry): void

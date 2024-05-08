@@ -167,7 +167,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
            <div class="col-sm-8 col-md-9 col-lg-10">
               <div class="c-input--duration" id="id_3">
                  <div class="form-group row">
@@ -206,7 +206,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-               <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+               <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                <div class="col-sm-8 col-md-9 col-lg-10">
                   <div class="c-input--duration" id="id_3">
                      <div class="form-group row">

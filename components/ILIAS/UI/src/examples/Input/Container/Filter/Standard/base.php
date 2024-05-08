@@ -51,5 +51,5 @@ function base()
     $filter_data = $DIC->uiService()->filter()->getData($filter);
 
     //Step 4: Render the filter
-    return $renderer->render($filter) . "Filter Data: " . print_r($filter_data, true);
+    return $renderer->render($filter) . "Filter Data: " . "<pre>" . print_r($filter_data, true) . "</pre><br/>";
 }

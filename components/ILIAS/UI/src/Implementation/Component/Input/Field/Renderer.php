@@ -217,7 +217,7 @@ class Renderer extends AbstractComponentRenderer
         return $name;
     }
 
-    protected function bindJSandApplyId(FormInput|ProxyFilterField $component, Template $tpl): string
+    protected function bindJSandApplyId(Component\JavaScriptBindable $component, Template $tpl): string
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);
@@ -643,7 +643,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("no_options");
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer, $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
     }
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
@@ -726,7 +726,7 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer, $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer): string
