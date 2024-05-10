@@ -28,8 +28,8 @@ use ilObjUser;
 use ilObjectFactory;
 use ilForumModeratorsGUI;
 use ilLanguage;
-use ilCtrl;
 use ilForumModerators;
+use ilCtrlInterface;
 
 class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
@@ -44,7 +44,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 
     public function __construct(
         ilForumModerators $forum_moderators,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory
