@@ -130,7 +130,8 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
         throw new RuntimeException(
             "For update steps in $this->steps_class: step $started was started " .
             "last, but step $finished was finished last. Aborting because of that " .
-            "mismatch."
+            "mismatch." . PHP_EOL .
+            "Execute `DELETE FROM il_db_steps WHERE class = '$this->steps_class' AND step = $started;` and run the setup again to retry. "
         );
     }
 }
