@@ -75,9 +75,20 @@ class ilTestScoring
         $this->questionId = $questionId;
     }
     
-    public function recalculateSolutions()
+    /**
+     * Recalculates all solutions for all users / test passes.
+     * if $activeId is passed only recalculates soluations for specified active_id user.
+     *
+     * @param [type] $activeId
+     * @return void
+     */
+    public function recalculateSolutions($activeId = null)
     {
         $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
+
+        //if activeId was sent in, filter the array down to just that participant. 
+        $participants = $activeId ? [$activeId => $participants[$activeId]] : $participants;
+
         if (is_array($participants)) {
             require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             foreach ($participants as $active_id => $userdata) {
