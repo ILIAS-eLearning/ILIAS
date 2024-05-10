@@ -381,7 +381,7 @@ class ilLOTestQuestionAdapter
                     ) ?
                         ilLOUserResults::STATUS_COMPLETED :
                         ilLOUserResults::STATUS_FAILED,
-                    (int) $res['percentage'],
+                    (float) $res['percentage'],
                     $old_result['limit_perc'],
                     $old_result['tries'],
                     $old_result['is_final']

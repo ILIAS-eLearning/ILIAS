@@ -665,7 +665,7 @@ class ilCourseObjectiveQuestion
             $qst['title'] = $question->getTitle();
             $qst['description'] = $question->getComment();
             $qst['test_type'] = (int) $this->tests[(int) $row->ref_id]['status'];
-            $qst['points'] = (int) $question->getPoints();
+            $qst['points'] = (float) $question->getPoints();
 
             $this->questions[(int) $row->qst_ass_id] = $qst;
         }

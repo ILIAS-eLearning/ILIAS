@@ -332,7 +332,7 @@ class ilCourseObjectiveResult
             "WHERE " . $ilDB->in('question_id', (array) $objectives['all_questions'], false, 'integer');
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
-            $objectives['all_question_points'][(int) $row['question_id']]['max_points'] = (int) $row['points'];
+            $objectives['all_question_points'][(int) $row['question_id']]['max_points'] = (float) $row['points'];
         }
         // Read reached points
         $query = "SELECT question_fi, MAX(points) as reached FROM tst_test_result " .
@@ -342,7 +342,7 @@ class ilCourseObjectiveResult
             "GROUP BY question_fi,user_fi";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $objectives['all_question_points'][$row->question_fi]['reached_points'] = (int) $row->reached;
+            $objectives['all_question_points'][$row->question_fi]['reached_points'] = (float) $row->reached;
         }
 
         // Check accomplished
