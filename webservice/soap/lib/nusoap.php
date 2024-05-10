@@ -2597,7 +2597,7 @@ class soap_transport_http extends nusoap_base
     * @return	string data
     * @access   public
     */
-    public function send($data, $timeout=0, $response_timeout=30, $cookies=null)
+    public function send($data, $cookies=null, $timeout=0, $response_timeout=30)
     {
         $this->debug('entered send() with data of length: ' . strlen($data));
 
@@ -2638,11 +2638,10 @@ class soap_transport_http extends nusoap_base
     * @access   public
     * @deprecated
     */
-    public function sendHTTPS($data, $timeout=0, $response_timeout=30, $cookies=null)
+    public function sendHTTPS($data, $cookies=null, $timeout=0, $response_timeout=30)
     {
-        return $this->send($data, $timeout, $response_timeout, $cookies);
+        return $this->send($data, $cookies, $timeout, $response_timeout);
     }
-
     /**
     * if authenticating, set user credentials here
     *
