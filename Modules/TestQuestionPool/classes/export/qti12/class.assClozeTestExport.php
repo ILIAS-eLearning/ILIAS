@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\TA\Questions\assSuggestedSolutionLink;
 
 /**
 * Class for cloze question exports
@@ -169,15 +171,16 @@ class assClozeTestExport extends assQuestionExport
                         ];
                         $a_xml_writer->xmlStartTag("response_str", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if ($solution !== null && count($solution)) {
-                            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
+                        if ($solution instanceof assSuggestedSolutionLink) {
+                            $internalLink = $solution->getInternalLink();
+                            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $internalLink, $matches)) {
                                 $attrs = [
                                     "label" => "suggested_solution"
                                 ];
                                 $a_xml_writer->xmlStartTag("material", $attrs);
                                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                                if (strcmp($matches[1], "") != 0) {
-                                    $intlink = $solution["internal_link"];
+                                if (strcmp($matches[1], "") !== 0) {
+                                    $intlink = $internalLink;
                                 }
                                 $a_xml_writer->xmlElement("mattext", null, $intlink);
                                 $a_xml_writer->xmlEndTag("material");
@@ -202,15 +205,16 @@ class assClozeTestExport extends assQuestionExport
                         ];
                         $a_xml_writer->xmlStartTag("response_num", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if ($solution !== null && count($solution)) {
-                            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
+                        if ($solution instanceof assSuggestedSolutionLink) {
+                            $internalLink = $solution->getInternalLink();
+                            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $internalLink, $matches)) {
                                 $attrs = [
                                     "label" => "suggested_solution"
                                 ];
                                 $a_xml_writer->xmlStartTag("material", $attrs);
                                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                                if (strcmp($matches[1], "") != 0) {
-                                    $intlink = $solution["internal_link"];
+                                if (strcmp($matches[1], "") !== 0) {
+                                    $intlink = $internalLink;
                                 }
                                 $a_xml_writer->xmlElement("mattext", null, $intlink);
                                 $a_xml_writer->xmlEndTag("material");
