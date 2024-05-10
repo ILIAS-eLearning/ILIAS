@@ -30,10 +30,6 @@
  */
 class ilTestParticipantsGUI
 {
-    /**
-     * Command/Callback Constants
-     */
-
     public const CMD_SHOW = 'show';
     public const CMD_SET_FILTER = 'setFilter';
     public const CMD_RESET_FILTER = 'resetFilter';
@@ -231,7 +227,7 @@ class ilTestParticipantsGUI
         $tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW);
 
         $tableGUI->setParticipantHasSolutionsFilterEnabled(
-            $this->getTestObj()->getFixedParticipants()
+            (bool) $this->getTestObj()->getFixedParticipants()
         );
 
         if ($this->getTestObj()->getFixedParticipants()) {
@@ -319,43 +315,34 @@ class ilTestParticipantsGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId());
+        $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId() . '_selection');
 
-        if ($selected_pax === null || !isset($selected_pax['selection'])) {
+        if (!is_string($selected_pax)) {
             return $in_rows;
         }
 
-        $sess_filter = $selected_pax['selection'];
-        $sess_filter = str_replace('"', '', $sess_filter);
-        $sess_filter = explode(':', $sess_filter);
-        $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);
+        $filter = unserialize($selected_pax, ['allowed_classes' => false]);
 
-        if ($filter == 'all' || $filter == false) {
-            return $in_rows; #unchanged - no filter.
+        if (!is_string($filter) || $filter === 'all') {
+            return $in_rows;
         }
 
-        $with_result = array();
-        $without_result = array();
+        $rows = [];
+
         foreach ($in_rows as $row) {
-            $result = $DIC->database()->query(
+            $query = $DIC->database()->query(
                 'SELECT count(solution_id) count
 				FROM tst_solutions
 				WHERE active_fi = ' . $DIC->database()->quote($row['active_id'])
+                . ' HAVING count ' . ($filter === 'withSolutions' ? '>' : '=') . ' 0'
             );
-            $count = $DIC->database()->fetchAssoc($result);
-            $count = $count['count'];
 
-            if ($count == 0) {
-                $without_result[] = $row;
-            } else {
-                $with_result[] = $row;
+            if (is_array($DIC->database()->fetchAssoc($query))) {
+                $rows[] = $row;
             }
         }
 
-        if ($filter == 'withSolutions') {
-            return $with_result;
-        }
-        return $without_result;
+        return $rows;
     }
 
     protected function initToolbarControls(ilTestParticipantList $participantList)
