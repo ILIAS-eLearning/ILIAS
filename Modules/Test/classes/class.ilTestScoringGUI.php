@@ -350,7 +350,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
         require_once './Modules/Test/classes/class.ilTestScoring.php';
         $scorer = new ilTestScoring($this->object);
         $scorer->setPreserveManualScores(true);
-        $scorer->recalculateSolutions();
+        //recalculate the solutions for this users test to update the result cache.
+        $scorer->recalculateSolutions($activeId);
         
         if ($this->object->getAnonymity() == 0) {
             $user_name = ilObjUser::_lookupName(ilObjTestAccess::_getParticipantId($activeId));

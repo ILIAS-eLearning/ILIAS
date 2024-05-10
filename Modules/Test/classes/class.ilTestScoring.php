@@ -75,16 +75,25 @@ class ilTestScoring
         $this->questionId = $questionId;
     }
     
-    public function recalculateSolutions()
+    /**
+     * Recalculates all solutions for all users / test passes.
+     * if $activeId is passed only recalculates soluations for specified active_id user.
+     *
+     * @param [type] $activeId
+     * @return void
+     */
+    public function recalculateSolutions($activeId = null)
     {
         $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
         if (is_array($participants)) {
             require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             foreach ($participants as $active_id => $userdata) {
-                if (is_object($userdata) && is_array($userdata->getPasses())) {
-                    $this->recalculatePasses($userdata, $active_id);
+                if($active_id === $activeId) {
+                    if (is_object($userdata) && is_array($userdata->getPasses())) {
+                        $this->recalculatePasses($userdata, $active_id);
+                     }
+                     assQuestion::_updateTestResultCache($active_id);
                 }
-                assQuestion::_updateTestResultCache($active_id);
             }
         }
     }
