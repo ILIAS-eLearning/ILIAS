@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -51,6 +51,22 @@ class ilIntroduceComponentArtifactDBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
         } catch (\PDOException $e) {
             $this->db->dropPrimaryKey("il_plugin");
+
+            $res = $this->db->query(
+                'SELECT plugin_id, COUNT(*) usages FROM il_plugin GROUP BY plugin_id HAVING COUNT(*) > 1'
+            );
+            $problems = [];
+            while ($row = $this->db->fetchAssoc($res)) {
+                $problems[] = ($row['plugin_id'] ?? 'NULL') . ' (usages: ' . $row['usages'] . ')';
+            }
+            if ($problems !== []) {
+                throw new DomainException(
+                    "There are multiple plugin records with the same 'plugin_id' in table 'il_plugin': "
+                        . implode(', ', $problems)
+                        . ' . Please fix these issues manually before running the setup again.'
+                );
+            }
+
             $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
         }
     }
