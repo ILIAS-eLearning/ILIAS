@@ -72,7 +72,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
             return "<span class='ilExp2NodeContent ilHighlighted'>" . $node['title'] . '</span>';
         }
 
-        return $node['title'];
+        return ilUtil::secureString($node['title']);
     }
 
     public function getRootNode(): array
