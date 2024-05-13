@@ -265,10 +265,12 @@ class AdditionalInformationGenerator
 
     public function parseForCSV(array $additional_info): string
     {
-        return array_reduce(
-            array_keys($additional_info),
-            fn($c, $k) => "{$c}, {$k}: {$this->parseValue($k, $additional_info[$k])}",
-            ''
+        return implode(
+            '; ',
+            array_map(
+                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k])}",
+                array_keys($additional_info)
+            )
         );
     }
 
