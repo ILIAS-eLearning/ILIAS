@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 
@@ -243,19 +245,19 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
-            $this->setId((int)$question_id);
-            $this->setObjId((int)$data["obj_fi"]);
+            $this->setId((int) $question_id);
+            $this->setObjId((int) $data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
             $this->setComment((string) $data["description"]);
-            $this->setOriginalId((int)$data["original_id"]);
-            $this->setNrOfTries((int)$data['nr_of_tries']);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setNrOfTries((int) $data['nr_of_tries']);
             $this->setAuthor($data["author"]);
-            $this->setPoints((float)$data["points"]);
-            $this->setOwner((int)$data["owner"]);
+            $this->setPoints((float) $data["points"]);
+            $this->setOwner((int) $data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setThumbGeometry((int)$data["thumb_geometry"]);
+            $this->setThumbGeometry((int) $data["thumb_geometry"]);
             $this->setShuffle($data["shuffle"] != '0');
-            $this->setShuffleMode((int)$data['shuffle']);
+            $this->setShuffleMode((int) $data['shuffle']);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
 
             try {
@@ -279,7 +281,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms = [];
         if ($result->numRows() > 0) {
             while ($data = $this->db->fetchAssoc($result)) {
-                $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
+                $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int) $data['ident']);
                 $this->terms[] = $term;
                 $termids[$data['term_id']] = $term;
             }
@@ -295,7 +297,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->definitions = [];
         if ($result->numRows() > 0) {
             while ($data = $this->db->fetchAssoc($result)) {
-                $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
+                $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int) $data['ident']);
                 array_push($this->definitions, $definition);
                 $definitionids[$data['def_id']] = $definition;
             }
@@ -312,12 +314,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $pair = $this->createMatchingPair(
                     $termids[$data['term_fi']],
                     $definitionids[$data['definition_fi']],
-                    (float)$data['points']
+                    (float) $data['points']
                 );
                 array_push($this->matchingpairs, $pair);
             }
         }
-        parent::loadFromDb((int)$question_id);
+        parent::loadFromDb((int) $question_id);
     }
 
     protected function cloneQuestionTypeSpecificProperties(
@@ -689,7 +691,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorized_solution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int) $pass, $authorized_solution);
         while ($data = $this->db->fetchAssoc($result)) {
             if ($data['value1'] === '') {
                 continue;
@@ -864,7 +866,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 // create thumbnail file
                 $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", (string)$this->getThumbGeometry());
+                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", (string) $this->getThumbGeometry());
             }
             if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
                 $this->deleteImagefile($previous_filename);
@@ -1392,40 +1394,41 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return new assAnswerMatchingPair($term, $definition, $points);
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
             'qpl_qst_inp_matching_mode' => $this->getMatchingMode() === self::MATCHING_MODE_1_ON_1 ? '{{ qpl_qst_inp_matching_mode_one_on_one }}' : '{{ qpl_qst_inp_matching_mode_all_on_all }}',
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
 
         foreach ($this->getTerms() as $term) {
-            $result['terms'][] = $term->getText();
+            $result[AdditionalInformationGenerator::KEY_QUESTION_MATCHING_TERMS][] = $term->getText();
         }
 
         foreach ($this->getDefinitions() as $definition) {
-            $result['definitions'][] = $this->formatSAQuestion((string) $definition->getText());
+            $result[AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITIONS][] = $this->formatSAQuestion((string) $definition->getText());
         }
 
         // #10353
         $matching_pairs = [];
         foreach ($this->getMatchingPairs() as $pair) {
             $matching_pairs[] = [
-                "term" => $pair->getTerm()->getText(),
-                "defintion" => $this->formatSAQuestion((string) $definition->getText()),
-                "points" => (int) $pair->getPoints()
+                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_TERM => $pair->getTerm()->getText(),
+                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITION => $this->formatSAQuestion((string) $definition->getText()),
+                AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => (int) $pair->getPoints()
             ];
         }
 
-        $result['matching_pairs'] = array_values($matching_pairs);
+        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = array_values($matching_pairs);
         return $result;
     }
 }

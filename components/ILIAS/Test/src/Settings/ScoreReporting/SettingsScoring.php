@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -87,12 +88,18 @@ class SettingsScoring extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         return [
-            'tst_text_count_system' => $this->getCountSystem() === 0 ? '{{ tst_count_partial_solutions }}' : '{{ tst_count_correct_solutions }}',
-            'tst_score_cutting' => $this->getScoreCutting() === 0 ? '{{ tst_score_cut_question }}' : '{{ tst_score_cut_test }}',
-            'tst_pass_scoring' => $this->getPassScoring() === 0 ? '{{ tst_pass_last_pass }}' : '{{ tst_pass_best_pass }}'
+            AdditionalInformationGenerator::KEY_SCORING_COUNT_SYSTEM => $this->getCountSystem() === 0
+                ? $additional_info->getTagForLangVar('tst_count_partial_solutions')
+                : $additional_info->getTagForLangVar('tst_count_correct_solutions'),
+            AdditionalInformationGenerator::KEY_SCORING_SCORE_CUTTING => $this->getScoreCutting() === 0
+                ? $additional_info->getTagForLangVar('tst_score_cut_question')
+                : $additional_info->getTagForLangVar('tst_score_cut_test'),
+            AdditionalInformationGenerator::KEY_SCORING_PASS_SCORING => $this->getPassScoring() === 0
+                ? $additional_info->getTagForLangVar('tst_pass_last_pass')
+                : $additional_info->getTagForLangVar('tst_pass_best_pass')
         ];
     }
 

@@ -411,6 +411,9 @@ adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
 assessment#:#action#:#Action
+assessment#:#activate_logging#:#Activer le Suivi des Tests et Evaluations
+assessment#:#activate_manual_scoring#:#Activer la Notation Manuelle pour
+assessment#:#activate_manual_scoring_desc#:#Lorsque la notation manuelle est activée pour un type de question, toutes les questions de ce type pourront être évaluées manuellement par l'auteur du test. Veuillez être attentif à ce paramètre car la modification d'une note attribuée automatiquement pourrait provoquer un contentieux !
 assessment#:#addSuggestedSolution#:#Ajouter solution suggérée
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Ajouter Zone Circulaire
@@ -583,6 +586,7 @@ assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
 assessment#:#customstyle#:#Style personnalisé
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Date/Heure
 assessment#:#definition#:#Définition
 assessment#:#definition_image#:#Texte de la définition
 assessment#:#definition_text#:#Texte de la définition
@@ -741,6 +745,7 @@ assessment#:#hints#:#Hints###31 10 2023 new variable
 assessment#:#identical_scoring#:#Résultat identique
 assessment#:#identical_scoring_desc#:#Si cochée, tous les trous à  solution identique seront comptabilisées, même si la même solution est utilisée deux fois ou plus. Si la case n'est pas cochée, seule la première occurrence de cette même solution sera comptabilisée.
 assessment#:#imagemap#:#Image Interactive
+assessment#:#imap_line_color#:#Couleur de Ligne des Zones Interactives
 assessment#:#import_question#:#Importer question(s)
 assessment#:#imported#:#importé
 assessment#:#info_answer_type_change#:#La question contient déjà  des images. Vous ne pouvez pas changer le type de question en question à  choix multiples.
@@ -802,23 +807,12 @@ assessment#:#lacex_example_header#:#Exemples
 assessment#:#last_update#:#Dernière Mise à Jour
 assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
-assessment#:#log_added_extratime#:#Ajouter %d minutes supplémentaires au participant : id %d
-assessment#:#log_answer_changed_points#:#Modification manuelle des points %s de %d à %d points par %s
-assessment#:#log_create_new_test#:#Nouveau test créé
-assessment#:#log_manual_feedback#:#%s fichier de commentaire ajouté pour individu testé %s et question %s: %s
-assessment#:#log_mark_added#:#Marque ajoutée
-assessment#:#log_mark_changed#:#Marque modifiée
-assessment#:#log_mark_removed#:#Marque supprimée
-assessment#:#log_modified_test#:#Le test a été modifié
-assessment#:#log_question_added#:#Question ajoutée à la position
-assessment#:#log_question_position_changed#:#Position de la question modifiée
-assessment#:#log_question_removed#:#Question supprimée
-assessment#:#log_selected_user_data_removed#:#Données de test supprimées pour l'utilisateur %s
-assessment#:#log_user_answered_question#:#L'utilisateur a répondu à une question et a reçu %s points
-assessment#:#log_user_entered_values#:#Valeurs saisies par l'utilisateur
-assessment#:#log_user_not_entered_values#:#L'utilisateur n'a saisi aucune valeur
+assessment#:#log_text#:#Action
 assessment#:#log_user_solution_willingly_deleted#:#L’utilisateur a supprimé la réponse.
-assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné.
+assessment#:#logging_settings#:#Historique
+assessment#:#logs_deleted#:#Les données de suivi des tests sélectionnés ont été supprimées
+assessment#:#logs_output#:#Affichage des Données de Suivi
+assessment#:#logs_wrong_test_password_provided#:#Le Participant a entré un mot de passe de test erroné.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Texte de menu long
@@ -3384,7 +3378,6 @@ common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
 common#:#actions_for#:#Actions pour %s
 common#:#activate#:#Actif
-common#:#activate_assessment_logging#:#Activer le Suivi des Tests et Evaluations
 common#:#activate_https#:#Gestion HTTPS par ILIAS<br/>(Paiement, Connexion)
 common#:#activate_tracking#:#Activation
 common#:#activation#:#Editer Chronologie
@@ -3451,24 +3444,6 @@ common#:#approve_recipient#:#Nom d'Utilisateur de l'Approbateur
 common#:#archive#:#Archive
 common#:#archive_broken#:#L'archive semble être endommagée ou vide.
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
-common#:#ass_log_admin#:#Administration des Données de Suivi
-common#:#ass_log_count_datasets#:#Entrées du Journal
-common#:#ass_log_delete_entries#:#Supprimer les Données de Suivi
-common#:#ass_log_delete_no_selection#:#Veuillez sélectionner au moins un test dont vous souhaitez supprimer les données de suivi
-common#:#ass_log_deleted#:#Les données de suivi des tests sélectionnés ont été supprimées
-common#:#ass_log_output#:#Affichage des Données de Suivi
-common#:#assessment_imap_line_color#:#Couleur de Ligne des Zones Interactives
-common#:#assessment_log#:#Afficher les données de suivi pour une période spécifique
-common#:#assessment_log_datetime#:#Date/Heure
-common#:#assessment_log_deleted#:#Les données de journal du Test & Evaluation ont été supprimés dans l'administration.
-common#:#assessment_log_for_test#:#Pour le test
-common#:#assessment_log_log_entries#:#entrées du journal
-common#:#assessment_log_logging#:#Historique
-common#:#assessment_log_manual_scoring_activate#:#Activer la Notation Manuelle pour
-common#:#assessment_log_manual_scoring_desc#:#Lorsque la notation manuelle est activée pour un type de question, toutes les questions de ce type pourront être évaluées manuellement par l'auteur du test. Veuillez être attentif à ce paramètre car la modification d'une note attribuée automatiquement pourrait provoquer un contentieux !
-common#:#assessment_log_question#:#Question
-common#:#assessment_log_text#:#Action
-common#:#assessment_settings_reporting_language#:#Langue pour les rapports
 common#:#assf_allowed_questiontypes#:#Types de Questions Disponibles
 common#:#assf_allowed_questiontypes_desc#:#Tous les types de questions cochés seront disponibles. Si vous ne voulez pas autoriser la création de certains types de questions, vous devez décocher les cases correspondantes.
 common#:#assf_questiontypes#:#Paramètres des Questions

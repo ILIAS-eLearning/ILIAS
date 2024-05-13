@@ -15,11 +15,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
+
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
  * Class for multiple choice tests.
@@ -989,29 +992,30 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return (bool) $this->is_singleline;
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
             'ass_mc_sel_lim_setting' => (int) $this->getSelectionLimit(),
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
 
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            $result['answers'][] = [
-                "answertext" => $this->formatSAQuestion($answer_obj->getAnswertext()),
-                "points_checked" => (float) $answer_obj->getPointsChecked(),
-                "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
-                "order" => (int) $answer_obj->getOrder(),
-                "image" => (string) $answer_obj->getImage(),
-                "feedback" => $this->formatSAQuestion(
+            $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS][] = [
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer_obj->getAnswertext()),
+                AdditionalInformationGenerator::KEY_QUESTION_POINTS_CHECKED => (float) $answer_obj->getPointsChecked(),
+                AdditionalInformationGenerator::KEY_QUESTION_POINTS_UNCHECKED => (float) $answer_obj->getPointsUnchecked(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer_obj->getOrder(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_IMAGE => (string) $answer_obj->getImage(),
+                AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
             ];

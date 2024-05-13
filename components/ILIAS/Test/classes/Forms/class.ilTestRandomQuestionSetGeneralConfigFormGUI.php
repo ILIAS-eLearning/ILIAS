@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * GUI class for random question set general config form
  *
@@ -145,7 +147,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
 
-    public function save(): array
+    public function save(AdditionalInformationGenerator $additional_info): array
     {
         $log_array = [];
         $question_equal_per_pool = $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked();
@@ -153,15 +155,17 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
             $question_equal_per_pool
         );
 
-        $log_array['tst_inp_all_quest_points_equal_per_pool_desc'] = $question_equal_per_pool ? '{{ true }}' : '{{ false }}';
+        $log_array[AdditionalInformationGenerator::KEY_HOMOGENEOUS_SCORING] = $additional_info
+            ->getTrueFalseTagForBool($question_equal_per_pool);
 
         $question_amount_configuration_mode = $this->getItemByPostVar('quest_amount_cfg_mode')->getValue();
         $this->questionSetConfig->setQuestionAmountConfigurationMode(
             $question_amount_configuration_mode
         );
 
-        $log_array['tst_inp_quest_amount_cfg_mode'] = $this->questionSetConfig->getQuestionAmountPerTest()
-            ? '{{ tst_inp_quest_amount_cfg_mode_test }}' : '{{ tst_inp_quest_amount_cfg_mode_pool }}';
+        $log_array[AdditionalInformationGenerator::KEY_QUESTION_AMOUNT_TYPE] = $this->questionSetConfig->getQuestionAmountPerTest()
+            ? $additional_info->getTagForLangVar('tst_inp_quest_amount_cfg_mode_test')
+            : $additional_info->getTagForLangVar('tst_inp_quest_amount_cfg_mode_pool');
 
         $this->questionSetConfig->setQuestionAmountPerTest(null);
         if (!$this->questionSetConfig->getQuestionAmountPerTest()) {
@@ -169,7 +173,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
             $this->questionSetConfig->setQuestionAmountPerTest(
                 $question_amount_per_test
             );
-            $log_array['tst_inp_quest_amount_per_test'] = $question_amount_per_test;
+            $log_array[AdditionalInformationGenerator::KEY_QUESTION_AMOUNT_PER_TEST] = $question_amount_per_test;
         }
 
         $this->questionSetConfig->saveToDb();

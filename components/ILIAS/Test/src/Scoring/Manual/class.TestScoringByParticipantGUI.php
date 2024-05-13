@@ -22,6 +22,7 @@ namespace ILIAS\Test\Scoring\Manual;
 
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
 * Scoring class for tests
@@ -289,9 +290,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                         \ilObjTestAccess::_getParticipantId($active_id),
                         TestScoringInteractionTypes::QUESTION_GRADED,
                         [
-                            'points' => $reached_points,
-                            'feedback' => $feedback_text,
-                            'finalized' => true
+                            AdditionalInformationGenerator::KEY_REACHED_POINTS => $reached_points,
+                            AdditionalInformationGenerator::KEY_FEEDBACK => $feedback_text,
+                            AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
+                                ->getAdditionalInformationGenerator()->getTrueFalseTagForBool(true)
                         ]
                     )
                 );

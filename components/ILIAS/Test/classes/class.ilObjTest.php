@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Stream\Streams;
-
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
@@ -31,6 +27,7 @@ use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
@@ -42,8 +39,13 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
+use ILIAS\Test\Export\CSVExportTrait;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilObjTest
@@ -58,6 +60,8 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilObjTest extends ilObject
 {
     use TestQuestionsImportTrait;
+    use CSVExportTrait;
+
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
     public const INVITATION_OFF = 0;
@@ -1085,7 +1089,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_REMOVED,
                     [
-                        'questions' => $remove_question_ids
+                        AdditionalInformationGenerator::KEY_QUESTIONS => $remove_question_ids
                     ]
                 )
             );
@@ -1146,8 +1150,8 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
                     [
-                        'users' => $participant_data->getUserIds(),
-                        'anonymous' => $participant_data->getAnonymousActiveIds()
+                        AdditionalInformationGenerator::KEY_USERS => $participant_data->getUserIds(),
+                        AdditionalInformationGenerator::KEY_ANON_IDS => $participant_data->getAnonymousActiveIds()
                     ]
                 )
             );
@@ -1178,7 +1182,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
                     [
-                        'users' => $participantData->getUserIds()
+                        AdditionalInformationGenerator::KEY_USERS => $participantData->getUserIds()
                     ]
                 )
             );
@@ -1359,8 +1363,8 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_ADDED,
                     [
-                        'question' => (assQuestion::instantiateQuestion($question_id))->toLog(),
-                        'order' => $this->questions
+                        AdditionalInformationGenerator::KEY_QUESTION => (assQuestion::instantiateQuestion($question_id))->toLog(),
+                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $this->questions
                     ]
                 )
             );
@@ -3056,7 +3060,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_MOVED,
                     [
-                        'order' => $this->questions
+                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $this->questions
                     ]
                 )
             );
@@ -5186,49 +5190,6 @@ class ilObjTest extends ilObject
     }
 
     /**
-    * Processes an array as a CSV row and converts the array values to correct CSV
-    * values. The "converted" array is returned
-    *
-    * @param array $row The array containing the values for a CSV row
-    * @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
-    * @param string $separator The value separator in the CSV row (used for quoting) (; = default)
-    * @return array The converted array ready for CSV use
-    * @access public
-    */
-    public function processCSVRow(
-        mixed $row,
-        bool $quote_all = false,
-        string $separator = ";"
-    ): array {
-        $resultarray = [];
-        foreach ($row as $rowindex => $entry) {
-            $surround = false;
-            if ($quote_all) {
-                $surround = true;
-            }
-            if (is_string($entry) && strpos($entry, "\"") !== false) {
-                $entry = str_replace("\"", "\"\"", $entry);
-                $surround = true;
-            }
-            if (is_string($entry) && strpos($entry, $separator) !== false) {
-                $surround = true;
-            }
-
-            if (is_string($entry)) {
-                // replace all CR LF with LF (for Excel for Windows compatibility
-                $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
-            }
-
-            if ($surround) {
-                $entry = "\"" . $entry . "\"";
-            }
-
-            $resultarray[$rowindex] = $entry;
-        }
-        return $resultarray;
-    }
-
-    /**
     * Retrieves the actual pass of a given user for a given test
     *
     * @param integer $user_id The user id
@@ -6662,8 +6623,9 @@ class ilObjTest extends ilObject
                     self::_getUserIdFromActiveId($active_id),
                     TestScoringInteractionTypes::QUESTION_GRADED,
                     [
-                        'finalized_evaluation' => $finalized ? '{{ true }}' : '{{ false }}',
-                        'feedback' => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
+                        AdditionalInformationGenerator::KEY_EVAL_FINALIZED => $this->logger
+                            ->getAdditionalInformationGenerator()->getTrueFalseTagForBool($finalized),
+                        AdditionalInformationGenerator::KEY_FEEDBACK => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
                     ]
                 )
             );
@@ -7096,8 +7058,8 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_MOVED,
                     [
-                        'order' => $orders,
-                        'obligations' => $obligations
+                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $orders,
+                        AdditionalInformationGenerator::KEY_MANDATORY_QUESTIONS => $obligations
                     ]
                 )
             );
@@ -7592,7 +7554,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
                     [
-                        'users' => $participantData->getUserIds()
+                        AdditionalInformationGenerator::KEY_USERS => $participantData->getUserIds()
                     ]
                 )
             );

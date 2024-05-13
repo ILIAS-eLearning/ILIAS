@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Veiksmas
+assessment#:#activate_logging#:#Aktyvuoti Testavimo ir Vertinimo registravimą
+assessment#:#activate_manual_scoring#:#Aktyvuoti Individualų Vertinimą
+assessment#:#activate_manual_scoring_desc#:#Jei Individualus Vertinimas šiam klausimui tipui aktyvuotas, testo autorius gali nustatyti individualius kiekvieno šio tipo klausimo vertinimo kriterijus. Su nustatymais elkitės apgalvotai, kadangi vėlesni automatiškai vertinamų klausimų tipo pataisymai gali sukelti vertinimo problemų!
 assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Sukurti tarpus
 assessment#:#create_new#:#Sukurti naują
 assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Data/Laikas
 assessment#:#definition#:#Apibrėžimas
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
@@ -737,6 +741,7 @@ assessment#:#height#:#Aukštis
 assessment#:#identical_scoring#:#Identiškas Vertinimas
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
 assessment#:#imagemap#:#Paveiksliukas žemėlapis
+assessment#:#imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 assessment#:#import_question#:#Importuoti klausimą(-us)
 assessment#:#imported#:#imported###12 06 2011 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Paskutinis atnaujinimas
 assessment#:#legend#:#Aprašas
 assessment#:#locked#:#užrakinta
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Testo sudarytojo balų pakeitimas %s iš %d į %d balus %s
-assessment#:#log_create_new_test#:#Sukurtas naujas testas
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
-assessment#:#log_mark_added#:#Pažymys įvestas
-assessment#:#log_mark_changed#:#Pažymys pakeistas
-assessment#:#log_mark_removed#:#Pažymys pašalintas
-assessment#:#log_modified_test#:#Testas buvo redaguotas
-assessment#:#log_question_added#:#Klausimas įkeltas ties (vieta)
-assessment#:#log_question_position_changed#:#Klausimo vieta pasikeitė
-assessment#:#log_question_removed#:#Klausimas ištrintas
-assessment#:#log_selected_user_data_removed#:#Vartotojo %s testo duomenys ištrinti
-assessment#:#log_user_answered_question#:#Vartotojas atsakė į klausimą ir gavo %s balų
-assessment#:#log_user_entered_values#:#Vartotojo įvestos reikšmės
-assessment#:#log_user_not_entered_values#:#Vartotojas neįvedė reikšmių
+assessment#:#log_text#:#Žurnalo įrašas
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Registravimas
+assessment#:#logs_deleted#:#Pasirinktų testų Žurnalo Duomenys buvo ištrinti
+assessment#:#logs_output#:#Registruoti Duomenų Išvestį
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -3249,7 +3243,6 @@ common#:#action_aborted#:#Veiksmas atšauktas
 common#:#actions#:#Veiksmai
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Aktyvuoti
-common#:#activate_assessment_logging#:#Aktyvuoti Testavimo ir Vertinimo registravimą
 common#:#activate_https#:#HTTPS apdorojimas ILIAS sistemoje<br>(Mokėjimas, Prisijungimas)
 common#:#activate_tracking#:#Aktyvavimas
 common#:#activation#:#Aktyvavimas
@@ -3316,24 +3309,6 @@ common#:#approve_recipient#:#Patvirtinančiojo Prisijungimo ID
 common#:#archive#:#Archyvuoti
 common#:#archive_broken#:#Archyvas sugadintas arba tuščias.
 common#:#are_you_sure#:#Ar tikrai?
-common#:#ass_log_admin#:#Registruoti Duomenų Administravimą
-common#:#ass_log_count_datasets#:#Registruoti Įrašus
-common#:#ass_log_delete_entries#:#Šalinti Žurnalo Įrašus
-common#:#ass_log_delete_no_selection#:#Pasirinkite bent vieną testą, nNorėdami ištrinti jo Žurnalo Duomenis
-common#:#ass_log_deleted#:#Pasirinktų testų Žurnalo Duomenys buvo ištrinti
-common#:#ass_log_output#:#Registruoti Duomenų Išvestį
-common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
-common#:#assessment_log#:#Sukurti Testavimo ir Vertinimo žurnalo išrašą nurodytam laiko tarpsniui
-common#:#assessment_log_datetime#:#Data/Laikas
-common#:#assessment_log_deleted#:#Testavimo ir Vertinimo žurnalo duomenys buvo ištrinti administracijoje.
-common#:#assessment_log_for_test#:#Testui
-common#:#assessment_log_log_entries#:#žurnalo įrašai
-common#:#assessment_log_logging#:#Registravimas
-common#:#assessment_log_manual_scoring_activate#:#Aktyvuoti Individualų Vertinimą
-common#:#assessment_log_manual_scoring_desc#:#Jei Individualus Vertinimas šiam klausimui tipui aktyvuotas, testo autorius gali nustatyti individualius kiekvieno šio tipo klausimo vertinimo kriterijus. Su nustatymais elkitės apgalvotai, kadangi vėlesni automatiškai vertinamų klausimų tipo pataisymai gali sukelti vertinimo problemų!
-common#:#assessment_log_question#:#Klausimas
-common#:#assessment_log_text#:#Žurnalo įrašas
-common#:#assessment_settings_reporting_language#:#Ataskaitos kalba
 common#:#assf_allowed_questiontypes#:#Galimi Klausimo Tipai
 common#:#assf_allowed_questiontypes_desc#:#Visi pasirinkti klasuimų tipai bus prieinami šioje ILIAS instaliacijoje. Jei nenorite suteikti galimybės kurti tam tikros rūšies klausimų šioje instaliacijoje, pašalinkite žymeles prie agtitinkamų žymėjimo laukelių.
 common#:#assf_questiontypes#:#Klausimo Nuostatos

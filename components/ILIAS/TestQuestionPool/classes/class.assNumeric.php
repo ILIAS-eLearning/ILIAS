@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * Class for numeric questions
  *
@@ -440,21 +442,22 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return '';
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         return [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
-            'maxchars' => $this->getMaxChars(),
-            'points' => $this->getPoints(),
-            'lower_limit' => $this->getLowerLimit(),
-            'upper_limit' => $this->getUpperLimit(),
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+            AdditionalInformationGenerator::KEY_QUESTION_MAXCHARS => $this->getMaxChars(),
+            AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $this->getPoints(),
+            AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT => $this->getLowerLimit(),
+            AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT => $this->getUpperLimit(),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
     }

@@ -29,6 +29,7 @@ use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
+use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -1088,6 +1089,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     return;
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+                if ($this->logger->isLoggingEnabled()) {
+                    $this->logger->logQuestionAdministrationInteraction(
+                        $question->toQuestionAdministrationInteraction(
+                            $this->logger->getAdditionalInformationGenerator(),
+                            $this->test_obj->getRefId(),
+                            TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
+                        )
+                    );
+                }
             } else {
                 $question_gui->$cmd();
             }
@@ -2129,11 +2139,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
-        $query_params_namespace = ['test', 'logging'];
         list($url_builder, $action_parameter_token, $row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
-            $query_params_namespace,
-            'action',
-            'log_entry'
+            LogTable::QUERY_PARAMETER_NAME_SPACE,
+            LogTable::ACTION_TOKEN_STRING,
+            LogTable::ENTRY_TOKEN_STRING
         );
 
         if ($this->request_wrapper->has($action_parameter_token->getName())) {

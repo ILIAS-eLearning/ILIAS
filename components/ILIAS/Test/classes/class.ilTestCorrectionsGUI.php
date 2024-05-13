@@ -22,9 +22,9 @@ use ILIAS\Test\Scoring\Manual\TestScoring;
 
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -209,6 +209,7 @@ class ilTestCorrectionsGUI
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
                 $question_gui->getObject()->toQuestionAdministrationInteraction(
+                    $this->logger->getAdditionalInformationGenerator(),
                     $this->test_obj->getRefId(),
                     TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED_IN_CORRECTIONS
                 )
@@ -326,6 +327,7 @@ class ilTestCorrectionsGUI
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
                 $question->toQuestionAdministrationInteraction(
+                    $this->logger->getAdditionalInformationGenerator(),
                     $this->test_obj->getRefId(),
                     TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED_IN_CORRECTIONS
                 )
@@ -406,10 +408,10 @@ class ilTestCorrectionsGUI
                     $this->scorer->getId(),
                     TestAdministrationInteractionTypes::QUESTION_REMOVED_IN_CORRECTIONS,
                     [
-                        'title' => $question_gui->getObject()->getTitle(),
-                        'questiontext' => $question_gui->getObject()->getQuestion(),
-                        'id' => $question_gui->getObject()->getId(),
-                        'type' => $question_gui->getObject()->getQuestionType()
+                        AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question_gui->getObject()->getTitle(),
+                        AdditionalInformationGenerator::KEY_QUESTION_TEXT => $question_gui->getObject()->getQuestion(),
+                        AdditionalInformationGenerator::KEY_QUESTION => $question_gui->getObject()->getId(),
+                        AdditionalInformationGenerator::KEY_QUESTION_TYPE => $question_gui->getObject()->getQuestionType()
                     ]
                 )
             );

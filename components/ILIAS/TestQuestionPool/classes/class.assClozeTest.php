@@ -22,6 +22,8 @@ use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
@@ -164,7 +166,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             $this->setQuestion($this->cleanQuestiontext($data["question_text"]));
-            $this->setClozeText($data['cloze_text']);
+            $this->setClozeText($data['cloze_text'] ?? '');
             $this->setFixedTextLength($data["fixed_textlen"]);
             $this->setIdenticalScoring(($data['tstamp'] === 0) ? true : (bool) $data['identical_scoring']);
             $this->setFeedbackMode($data['feedback_mode'] === null ? ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION : $data['feedback_mode']);
@@ -1702,50 +1704,50 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $gap->addItem($item);
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'cloze_text' => $this->formatSAQuestion($this->getClozeText()),
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_CLOZE_CLOZETEXT => $this->formatSAQuestion($this->getClozeText()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
 
         $gaps = [];
-        foreach ($this->getGaps() as $key => $gap) {
+        foreach ($this->getGaps() as $gap) {
             $items = [];
             foreach ($gap->getItems($this->getShuffler()) as $item) {
                 $item_array = [
-                    'points' => $item->getPoints(),
-                    'answer_text' => $this->formatSAQuestion($item->getAnswertext()),
-                    'order' => $item->getOrder()
+                    AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS_ => $item->getPoints(),
+                    AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($item->getAnswertext()),
+                    AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $item->getOrder()
                 ];
                 if ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
-                    $item_array['range_lower_limit'] = $item->getLowerBound();
-                    $item_array['range_upper_limit'] = $item->getUpperBound();
+                    $item_array[AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT] = $item->getLowerBound();
+                    $item_array[AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT] = $item->getUpperBound();
                 } else {
-                    $item_array['answer_text'] = trim($item_array['answer_text']);
+                    $item_array[AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS] = trim(
+                        $item_array[AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS]
+                    );
                 }
                 array_push($items, $item_array);
             }
 
-            if ($gap->getGapSize() && ($gap->getType() == assClozeGap::TYPE_TEXT || $gap->getType() == assClozeGap::TYPE_NUMERIC)) {
-                $gap_array['cloze_fixed_textlength'] = $gap->getGapSize();
-            }
-
-            $gap_array['shuffle_answers'] = $gap->getShuffle();
-            $gap_array['type'] = $gap->getType();
-            $gap_array['values'] = $items;
+            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_TEXTSIZE] = $gap->getGapSize();
+            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS] = $gap->getShuffle();
+            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAP_TYPE] = $gap->getType();
+            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $items;
 
             array_push($gaps, $gap_array);
         }
-        $result['gaps'] = $gaps;
+        $result[AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAPS] = $gaps;
         return $result;
     }
 }

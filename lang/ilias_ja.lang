@@ -418,6 +418,9 @@ adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
 assessment#:#action#:#アクション
+assessment#:#activate_logging#:#テストとアセスメントログを使用可能にする
+assessment#:#activate_manual_scoring#:#手動採点を可能にする
+assessment#:#activate_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
@@ -590,6 +593,7 @@ assessment#:#create_gaps#:#穴埋め作成
 assessment#:#create_new#:#新規作成
 assessment#:#customstyle#:#カスタムスタイル
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#日付/時間
 assessment#:#definition#:#定義
 assessment#:#definition_image#:#定義イメージ
 assessment#:#definition_text#:#定義テキスト
@@ -742,6 +746,7 @@ assessment#:#height#:#高さ
 assessment#:#identical_scoring#:#同一採点
 assessment#:#identical_scoring_desc#:#選択すると、同じ解答が2度以上使用されても同一解答の穴埋めが採点されます。選択していないと、同じ解答の最初のものだけが採点されます。
 assessment#:#imagemap#:#イメージマップ
+assessment#:#imap_line_color#:#イメージマップラインカラー
 assessment#:#import_question#:#問題をインポート
 assessment#:#imported#:#インポート完了
 assessment#:#info_answer_type_change#:#問題にはイメージが既に含まれます。複数解答に対して解答タイプの変更はできません。
@@ -803,23 +808,12 @@ assessment#:#lacex_example_header#:#例
 assessment#:#last_update#:#最終更新
 assessment#:#legend#:#凡例
 assessment#:#locked#:#固定
-assessment#:#log_added_extratime#:#受験者ID %dへ%d分時間延長しました
-assessment#:#log_answer_changed_points#:#受験者の点数を %sから%dへ%d 点を手動変更
-assessment#:#log_create_new_test#:#新規テストを作成
-assessment#:#log_manual_feedback#:#受験者 %sと問題%s:%sを手動フィードバックで%s追加
-assessment#:#log_mark_added#:#マークを追加
-assessment#:#log_mark_changed#:#マークを変更
-assessment#:#log_mark_removed#:#マークを削除
-assessment#:#log_modified_test#:#問題を修正
-assessment#:#log_question_added#:#問題が追加されました
-assessment#:#log_question_position_changed#:#問題の位置が変更されました
-assessment#:#log_question_removed#:#問題が削除されました
-assessment#:#log_selected_user_data_removed#:#ユーザ%sのテストデータが削除されました
-assessment#:#log_user_answered_question#:#ユーザは問題に解答して%s点獲得しました
-assessment#:#log_user_entered_values#:#ユーザが値を入力しました
-assessment#:#log_user_not_entered_values#:#ユーザは値を未入力です
+assessment#:#log_text#:#ログメッセージ
 assessment#:#log_user_solution_willingly_deleted#:#ユーザは回答を削除しました。
-assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
+assessment#:#logging_settings#:#ログ
+assessment#:#logs_deleted#:#選択されたテストのログデータは削除されました
+assessment#:#logs_output#:#ログデータ出力
+assessment#:#logs_wrong_test_password_provided#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
@@ -3284,7 +3278,6 @@ common#:#action_aborted#:#失敗したアクション
 common#:#actions#:#アクション
 common#:#actions_for#:#%sのアクション
 common#:#activate#:#使用可能に設定
-common#:#activate_assessment_logging#:#テストとアセスメントログを使用可能にする
 common#:#activate_https#:#ILIAS(支払、ログイン)の<br/>HTTPS操作
 common#:#activate_tracking#:#アクティベーション
 common#:#activation#:#期間調整
@@ -3351,24 +3344,6 @@ common#:#approve_recipient#:#承認者のログインID
 common#:#archive#:#アーカイブ
 common#:#archive_broken#:#アーカイブは壊れているか空のようです。
 common#:#are_you_sure#:#本当ですか?
-common#:#ass_log_admin#:#ログデータ管理
-common#:#ass_log_count_datasets#:#ログエントリー
-common#:#ass_log_delete_entries#:#ログエントリーを削除
-common#:#ass_log_delete_no_selection#:#ログデータ削除するのに最低一つテストを選択してください
-common#:#ass_log_deleted#:#選択されたテストのログデータは削除されました
-common#:#ass_log_output#:#ログデータ出力
-common#:#assessment_imap_line_color#:#イメージマップラインカラー
-common#:#assessment_log#:#特定時間のテストとアセスメントログを作成
-common#:#assessment_log_datetime#:#日付/時間
-common#:#assessment_log_deleted#:#テストとアセスメントログデータは管理にて削除されました
-common#:#assessment_log_for_test#:#対象のテスト
-common#:#assessment_log_log_entries#:#ログエントリー
-common#:#assessment_log_logging#:#ログ
-common#:#assessment_log_manual_scoring_activate#:#手動採点を可能にする
-common#:#assessment_log_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
-common#:#assessment_log_question#:#質問
-common#:#assessment_log_text#:#ログメッセージ
-common#:#assessment_settings_reporting_language#:#報告言語
 common#:#assf_allowed_questiontypes#:#利用できる問題タイプ
 common#:#assf_allowed_questiontypes_desc#:#全てのチェックした問題タイプはILIASシステムで利用可能になります。このシステムにおいて特定の問題タイプの作成を許可したくない時は、該当するチェックボックスを外す必要があります。
 common#:#assf_questiontypes#:#問題設定

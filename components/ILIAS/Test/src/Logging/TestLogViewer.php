@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Export\CSVExportTrait;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,9 +33,12 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
 
 class TestLogViewer
 {
+    use CSVExportTrait;
+
     private DataFactory $data_factory;
 
     public function __construct(
@@ -48,6 +53,8 @@ class TestLogViewer
         private readonly UIRenderer $ui_renderer,
         private readonly Refinery $refinery,
         private readonly \ilLanguage $lng,
+        private \ilGlobalTemplateInterface $tpl,
+        private readonly StreamDelivery $stream_delivery,
         private readonly \ilObjUser $current_user
     ) {
         $this->data_factory = new DataFactory();
@@ -67,19 +74,19 @@ class TestLogViewer
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
+            $this->tpl,
             $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
+            $this->stream_delivery,
             $this->current_user,
             $ref_id,
         );
 
-        $filter = $log_table->getFilter($this->ui_service);
-        $filter_data = $this->ui_service->filter()->getData($filter);
         return [
-            $filter,
-            $log_table->getTable()->withRequest($this->request)->withFilter($filter_data)
+            $log_table->getFilter($this->ui_service),
+            $log_table->getTable()->withRequest($this->request)
         ];
     }
 
@@ -88,7 +95,7 @@ class TestLogViewer
         URLBuilderToken $action_parameter_token,
         URLBuilderToken $row_id_token,
         int $ref_id = null
-    ): array {
+    ): void {
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
@@ -97,10 +104,12 @@ class TestLogViewer
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
+            $this->tpl,
             $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
+            $this->stream_delivery,
             $this->current_user,
             $ref_id,
         );
@@ -109,6 +118,10 @@ class TestLogViewer
             $action_parameter_token->getName(),
             $this->refinery->kindlyTo()->string()
         );
+
+        if ($action === '') {
+            return;
+        }
 
         $affected_items = [];
         if ($this->request_wrapper->has($row_id_token->getName())) {
@@ -136,9 +149,9 @@ class TestLogViewer
         $csv = [];
         $separator = ';';
         $header_row = [
-            $this->lng->txt('assessment_log_datetime'),
+            $this->lng->txt('date_time'),
             $this->lng->txt('user'),
-            $this->lng->txt('assessment_log_text'),
+            $this->lng->txt('log_text'),
             $this->lng->txt('question')
         ];
 
@@ -149,12 +162,12 @@ class TestLogViewer
             }
             $title = '';
             if ($log['question_fi']) {
-                $title = $this->lng->txt('assessment_log_question') . ': '
+                $title = $this->lng->txt('question') . ': '
                     . $this->questionrepository->getForQuestionId((int) $log['question_fi'])->getTitle();
             }
 
             if ($title === '' && $log['original_fi']) {
-                $title = $this->lng->txt('assessment_log_question') . ': '
+                $title = $this->lng->txt('question') . ': '
                     . $this->questionrepository->getForQuestionId((int) $log['original_fi'])->getTitle();
             }
 
@@ -173,20 +186,4 @@ class TestLogViewer
         }
         return $csvoutput;
     }
-
-    public function processCSVRow(
-        array $row
-    ): array {
-        $result_row = [];
-        foreach ($row as $colindex => $entry) {
-            if (strpos($entry, '"') !== false) {
-                $entry = str_replace('"', '""', $entry);
-
-            }
-            $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
-            $result_row[$colindex] = mb_convert_encoding('"' . $entry . '"', 'ISO-8859-1', 'UTF-8');
-        }
-        return $result_row;
-    }
-
 }

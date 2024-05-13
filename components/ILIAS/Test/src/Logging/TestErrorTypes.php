@@ -22,9 +22,9 @@ namespace ILIAS\Test\Logging;
 
 enum TestErrorTypes: string
 {
-    case ERROR_ON_TEST_INTERACTION = 'error_on_test_interaction';
-    case ERROR_ON_QUESTION_INTERACTION = 'error_on_question_interaction';
+    case ERROR_ON_TEST_ADMINISTRATION_INTERACTION = 'error_on_test_administration_interaction';
+    case ERROR_ON_QUESTION_ADMINISTRATION_INTERACTION = 'error_on_question_administration_interaction';
     case ERROR_ON_PARTICIPANT_INTERACTION = 'error_on_participant_interaction';
-    case ERROR_ON_TEST_MARKING_INTERACTION = 'error_on_test_marking_interaction';
+    case ERROR_ON_SCORING_INTERACTION = 'error_on_scoring_interaction';
     case ERROR_ON_UNDEFINED_INTERACTION = 'error_on_undefined_interaction';
 }

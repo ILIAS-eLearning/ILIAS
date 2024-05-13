@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Export\CSVExportTrait;
+
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
 class ilCSVTestExport extends ilTestExportAbstract
 {
+    use CSVExportTrait;
+
     protected string $content;
 
     public function withAllResults(): self
@@ -31,7 +35,7 @@ class ilCSVTestExport extends ilTestExportAbstract
         $separator = ";";
         $csv = "";
         foreach ($rows as $evalrow) {
-            $csvrow = $this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = $this->processCSVRow($evalrow, true, $separator);
             $csv .= implode($separator, $csvrow) . "\n";
         }
         $this->content = $csv;
@@ -73,7 +77,7 @@ class ilCSVTestExport extends ilTestExportAbstract
         $csv = "";
         $separator = ";";
         foreach ($rows as $evalrow) {
-            $csvrow = $this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = $this->processCSVRow($evalrow, true, $separator);
             $csv .= implode($separator, $csvrow) . "\n";
         }
         $this->content = $csv;

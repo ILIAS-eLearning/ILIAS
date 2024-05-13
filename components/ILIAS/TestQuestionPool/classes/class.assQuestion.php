@@ -31,6 +31,7 @@ use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\DI\Container;
@@ -179,7 +180,7 @@ abstract class assQuestion implements Question
     abstract public function getAdditionalTableName(): string;
     abstract public function getAnswerTableName(): string|array;
 
-    abstract public function toLog(): array;
+    abstract public function toLog(AdditionalInformationGenerator $additional_info): array;
 
     public static function setForcePassResultUpdateEnabled(bool $force_pass_results_update_enabled): void
     {
@@ -3031,6 +3032,7 @@ abstract class assQuestion implements Question
     }
 
     public function toQuestionAdministrationInteraction(
+        AdditionalInformationGenerator $additional_info,
         int $test_ref_id,
         TestQuestionAdministrationInteractionTypes $interaction_type
     ): TestQuestionAdministrationInteraction {
@@ -3040,7 +3042,7 @@ abstract class assQuestion implements Question
             $this->current_user->getId(),
             $interaction_type,
             time(),
-            $this->toLog()
+            $this->toLog($additional_info)
         );
     }
 
@@ -3049,9 +3051,9 @@ abstract class assQuestion implements Question
         int $pass
     ): array {
         return [
-            'pass' => $pass,
-            'points' => $this->getReachedPoints($active_id, $pass),
-            'answer' => $this->getSolutionValues($active_id)
+            AdditionalInformationGenerator::KEY_PASS => $pass,
+            AdditionalInformationGenerator::KEY_REACHED_POINTS => $this->getReachedPoints($active_id, $pass),
+            AdditionalInformationGenerator::KEY_PAX_ANSWER => $this->getSolutionValues($active_id)
         ];
     }
 }

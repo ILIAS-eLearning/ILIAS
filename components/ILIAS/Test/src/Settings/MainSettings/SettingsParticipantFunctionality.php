@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -150,33 +151,32 @@ class SettingsParticipantFunctionality extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $log_array = [
-            'use_previous_answers' => $this->getUsePreviousAnswerAllowed() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_show_cancel' => $this->getSuspendTestAllowed() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_postpone' => $this->getPostponedQuestionsMoveToEnd() ? '{{ enabled }}' : '{{ disabled }}'
+            AdditionalInformationGenerator::KEY_TEST_USE_PREVIOUS_ANSWERS_ENABELD => $additional_info
+                ->getEnabledDisabledTagForBool($this->getUsePreviousAnswerAllowed()),
+            AdditionalInformationGenerator::KEY_TEST_SUSPEND_ALLOWED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getSuspendTestAllowed()),
+            AdditionalInformationGenerator::KEY_TEST_POSTPONED_MOVE_TO_END => $additional_info
+                ->getEnabledDisabledTagForBool($this->getPostponedQuestionsMoveToEnd())
         ];
 
-        $log_array['tst_show_summary'] = '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_OVERVIEW_ENABLED] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getUsrPassOverviewEnabled());
         if ($this->getUsrPassOverviewEnabled()) {
-            $log_array['tst_show_summary'] = '{{ enabled }}';
-            $log_array['tst_list_of_questions_start'] = '{{ disabled }}';
-            $log_array['tst_list_of_questions_end'] = '{{ disabled }}';
-            $log_array['tst_list_of_questions_with_description'] = '{{ enabled }}';
-            if ($this->getShownQuestionListAtBeginning()) {
-                $log_array['tst_list_of_questions_start'] = '{{ enabled }}';
-            }
-            if ($this->getShownQuestionListAtEnd()) {
-                $log_array['tst_list_of_questions_end'] = '{{ enabled }}';
-            }
-            if ($this->getShownQuestionListAtBeginning()) {
-                $log_array['tst_list_of_questions_with_description'] = '{{ enabled }}';
-            }
+            $log_array[AdditionalInformationGenerator::KEY_TEST_OVERVIEW_SHOW_START] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getShownQuestionListAtBeginning());
+            $log_array[AdditionalInformationGenerator::KEY_TEST_OVERVIEW_SHOW_END] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getShownQuestionListAtEnd());
+            $log_array[AdditionalInformationGenerator::KEY_TEST_OVERVIEW_SHOW_DESCRIPTION] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowDescriptionInQuestionList());
         }
 
-        $log_array['question_marking'] = $this->getQuestionMarkingEnabled() ? '{{ enabled }}' : '{{ disabled }}';
-        $log_array['show_questionlist'] = $this->getQuestionListEnabled() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_MARKING_ENABLED] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getQuestionMarkingEnabled());
+        $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_LIST_ENABLED] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getQuestionListEnabled());
         return $log_array;
     }
 

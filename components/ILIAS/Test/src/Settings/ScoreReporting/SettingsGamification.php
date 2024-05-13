@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -150,36 +151,46 @@ class SettingsGamification extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         if ($this->getHighscoreEnabled()) {
             return [
-                'tst_highscore_enabled' => '{{ disabled }}'
+                AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_ENABLED => $additional_info
+                    ->getEnabledDisabledTagForBool(false)
             ];
         }
 
         switch ($this->getHighScoreMode()) {
             case self::HIGHSCORE_SHOW_OWN_TABLE:
-                $highscore_mode = '{{ tst_highscore_own_table }}';
+                $highscore_mode = $additional_info->getTagForLangVar('tst_highscore_own_table');
                 break;
             case self::HIGHSCORE_SHOW_TOP_TABLE:
-                $highscore_mode = '{{ tst_highscore_top_table }}';
+                $highscore_mode = $additional_info->getTagForLangVar('tst_highscore_top_table');
                 break;
             case self::HIGHSCORE_SHOW_ALL_TABLES:
-                $highscore_mode = '{{ tst_highscore_all_tables }}';
+                $highscore_mode = $additional_info->getTagForLangVar('tst_highscore_all_tables');
                 break;
+            default:
+                $highscore_mode = $additional_info->getEnabledDisabledTagForBool(false);
         }
 
         return [
-            'tst_highscore_enabled' => '{{ enabled }}',
-            'tst_highscore_mode' => $highscore_mode,
-            'tst_highscore_top_num' => $this->getHighscoreTopNum(),
-            'tst_highscore_anon' => $this->getHighscoreAnon() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_highscore_achieved_ts' => $this->getHighscoreAchievedTS() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_highscore_score' => $this->getHighscoreScore() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_highscore_percentage' => $this->getHighscorePercentage() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_highscore_hints' => $this->getHighscoreHints() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_highscore_wtime' => $this->getHighscoreWTime() ? '{{ enabled }}' : '{{ disabled }}'
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_ENABLED => $additional_info
+                    ->getEnabledDisabledTagForBool(true),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_MODE => $highscore_mode,
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_TOP_NUM => $this->getHighscoreTopNum(),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_ANON => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscoreAnon()),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_ACHIEVED_TS => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscoreAchievedTS()),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_SCORE => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscoreScore()),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_PERCENTAGE => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscorePercentage()),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_HINTS => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscoreHints()),
+            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_WTIME => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHighscoreWTime())
         ];
     }
 

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * A class defining mark schemas for assessment test objects
  *
@@ -158,14 +160,15 @@ class MarkSchema
     }
 
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $log_array = [];
         foreach ($this->getMarkSteps() as $mark) {
             $log_array[$mark->getShortName()] = [
-                $lng->txt('tst_mark_official_form') => $mark->getOfficialName(),
-                $lng->txt('tst_mark_minimum_level') => $mark->getMinimumLevel(),
-                $lng->txt('tst_mark_passed') => $mark->getPassed()
+                AdditionalInformationGenerator::KEY_MARK_OFFICIAL_NAME => $mark->getOfficialName(),
+                AdditionalInformationGenerator::KEY_MARK_MINIMUM_LEVEL => $mark->getMinimumLevel(),
+                AdditionalInformationGenerator::KEY_MARK_IS_PASSING => $additional_info
+                    ->getTrueFalseTagForBool($mark->getPassed())
             ];
         }
         return $log_array;

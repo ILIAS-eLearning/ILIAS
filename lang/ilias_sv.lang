@@ -426,6 +426,9 @@ adve#:#adve_use_physical#:#Ersätt #str|emp|imp med <u>B|I|U</u>
 adve#:#adve_use_physical_info#:#Inställningen ersätter knapparna i de semantiska stilklasserna för stark, eftertrycklig och viktig med de fast definierade distinktionerna <b>B</b> (fet), <i>I</i> (kursiv) och <u>U</u> (understruken). Uppmärksamhet
 adve#:#adve_use_tiny_mce#:#Aktivera TinyMCE för WYSIWYG-redigering
 assessment#:#action#:#Åtgärder
+assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
+assessment#:#activate_manual_scoring#:#Aktivera manuell bedömning för
+assessment#:#activate_manual_scoring_desc#:#Alla frågor av den valda frågetypen kan poängsättas manuellt. Uppmärksamhet
 assessment#:#addSuggestedSolution#:#Innehåll för repetition
 assessment#:#add_answers#:#Lägg till svar
 assessment#:#add_circle#:#Lägg till cirkel
@@ -599,6 +602,7 @@ assessment#:#create_gaps#:#Skapa och uppdatera luckor
 assessment#:#create_new#:#Skapa ny
 assessment#:#customstyle#:#Egen formatmall
 assessment#:#dashboard_tab#:#Deltagare
+assessment#:#date_time#:#Datum/Tid
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Image
 assessment#:#definition_text#:#Text
@@ -757,6 +761,7 @@ assessment#:#hints#:#Hints###21 11 2023 new variable
 assessment#:#identical_scoring#:#Identisk utvärdering
 assessment#:#identical_scoring_desc#:#Om den är markerad kommer luckor med identiska lösningar att poängsättas enligt specifikationerna, även om samma lösning har använts flera gånger. Om kryssrutan inte är markerad kommer endast den första identiska lösningen som används att poängsättas.
 assessment#:#imagemap#:#Imagemap
+assessment#:#imap_line_color#:#Imagemap linjefärg
 assessment#:#import_question#:#Importfrågor
 assessment#:#imported#:#importerad
 assessment#:#info_answer_type_change#:#Frågan innehåller redan bilder. Frågetypen kunde därför inte ändras till flerradiga svar.
@@ -818,23 +823,12 @@ assessment#:#lacex_example_header#:#Exempel
 assessment#:#last_update#:#Uppdaterad
 assessment#:#legend#:#Legend
 assessment#:#locked#:#låst
-assessment#:#log_added_extratime#:#Ytterligare %d minuter av behandlingstid har lagts till för deltagar-ID %d
-assessment#:#log_answer_changed_points#:#Manuellt ställa in punkterna för deltagaren %s från %d till %d punkter med %s
-assessment#:#log_create_new_test#:#Nytt test skapat
-assessment#:#log_manual_feedback#:#%s har skapat en manuell bedömning för deltagaren %s och frågan %s
-assessment#:#log_mark_added#:#Note tillagd
-assessment#:#log_mark_changed#:#Note ändrad
-assessment#:#log_mark_removed#:#Note borttagen
-assessment#:#log_modified_test#:#Testet har ändrats
-assessment#:#log_question_added#:#Fråga tillagd till position
-assessment#:#log_question_position_changed#:#Fråga position ändrad
-assessment#:#log_question_removed#:#Fråga borttagen
-assessment#:#log_selected_user_data_removed#:#Ta bort användaren %s testdata
-assessment#:#log_user_answered_question#:#En användare har svarat på en fråga och fått %s poäng
-assessment#:#log_user_entered_values#:#Användaren har angett värden
-assessment#:#log_user_not_entered_values#:#Användaren har inte angett några värden
+assessment#:#log_text#:#Protokollinmatning
 assessment#:#log_user_solution_willingly_deleted#:#Användaren har tagit bort sitt svar.
-assessment#:#log_wrong_test_password_entered#:#Deltagaren har angett fel testlösenord.
+assessment#:#logging_settings#:#Protokolluppgifter
+assessment#:#logs_deleted#:#Loggposterna för de utvalda testerna har raderats!
+assessment#:#logs_output#:#Utmatning av loggdata
+assessment#:#logs_wrong_test_password_provided#:#Deltagaren har angett fel testlösenord.
 assessment#:#longmenu#:#Lång meny
 assessment#:#longmenu_answeroptions_differ#:#Den här frågan fungerar inte korrekt eftersom den inte har samma antal luckor i texten som i svarsalternativen.
 assessment#:#longmenu_text#:#"Lång meny" text
@@ -3402,7 +3396,6 @@ common#:#action_aborted#:#Aktion avbruten
 common#:#actions#:#Åtgärder
 common#:#actions_for#:#Aktioner för %s
 common#:#activate#:#Aktivera
-common#:#activate_assessment_logging#:#Aktivera loggning av test och bedömning
 common#:#activate_https#:#Aktivera HTTPS (inloggning)
 common#:#activate_tracking#:#Aktivera spårning
 common#:#activation#:#Tillgänglighet
@@ -3469,24 +3462,6 @@ common#:#approve_recipient#:#E-postavisering för (inloggnings-ID)
 common#:#archive#:#Arkiv
 common#:#archive_broken#:#Arkivet verkar vara skadat eller tomt.
 common#:#are_you_sure#:#Är du säker?
-common#:#ass_log_admin#:#Administration av loggdata
-common#:#ass_log_count_datasets#:#Protokollposter
-common#:#ass_log_delete_entries#:#Radera loggposter
-common#:#ass_log_delete_no_selection#:#Välj minst ett test vars loggposter du vill radera!
-common#:#ass_log_deleted#:#Loggposterna för de utvalda testerna har raderats!
-common#:#ass_log_output#:#Utmatning av loggdata
-common#:#assessment_imap_line_color#:#Imagemap linjefärg
-common#:#assessment_log#:#Logga in test- och utvärderingsaktiviteter under en angiven tidsperiod.
-common#:#assessment_log_datetime#:#Datum/Tid
-common#:#assessment_log_deleted#:#Alla loggade data för testet raderades via administrationsgränssnittet.
-common#:#assessment_log_for_test#:#För testet
-common#:#assessment_log_log_entries#:#Protokollposter
-common#:#assessment_log_logging#:#Protokolluppgifter
-common#:#assessment_log_manual_scoring_activate#:#Aktivera manuell bedömning för
-common#:#assessment_log_manual_scoring_desc#:#Alla frågor av den valda frågetypen kan poängsättas manuellt. Uppmärksamhet
-common#:#assessment_log_question#:#Fråga
-common#:#assessment_log_text#:#Protokollinmatning
-common#:#assessment_settings_reporting_language#:#Språk för loggning
 common#:#assf_allowed_questiontypes#:#Tillgängliga frågetyper
 common#:#assf_allowed_questiontypes_desc#:#Alla valda frågetyper kommer att vara tillgängliga för denna ILIAS-installation. Om du vill förhindra skapandet av vissa frågetyper måste du avmarkera dessa frågetyper.
 common#:#assf_questiontypes#:#Inställningar för frågor

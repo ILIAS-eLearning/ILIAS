@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 class ScoreSettings
 {
@@ -129,13 +130,12 @@ class ScoreSettings
         return $clone;
     }
 
-    public function getArrayForLog(\ilLanguage $lng): array
-    {
-        return [
-            $this->settings_scoring->toLog(),
-            $this->settings_result_summary->toLog(),
-            $this->settings_result_details->toLog(),
-            $this->settings_gamification->toLog()
-        ];
+    public function getArrayForLog(
+        AdditionalInformationGenerator $additional_info
+    ): array {
+        return $this->settings_scoring->toLog($additional_info)
+            + $this->settings_result_summary->toLog($additional_info)
+            + $this->settings_result_details->toLog($additional_info)
+            + $this->settings_gamification->toLog($additional_info);
     }
 }

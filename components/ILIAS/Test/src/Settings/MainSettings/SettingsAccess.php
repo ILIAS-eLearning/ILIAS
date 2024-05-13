@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -273,23 +274,24 @@ class SettingsAccess extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
-        $starting_time = '{{ none }}';
+        $starting_time = $additional_info->getNoneTag();
         if (($st_immutable = $this->getStartTime()) instanceof \DateTimeImmutable) {
             $starting_time = $st_immutable->getTimestamp();
         }
 
-        $end_time = '{{ none }}';
+        $end_time = $additional_info->getNoneTag();
         if (($et_immutable = $this->getEndTime()) instanceof \DateTimeImmutable) {
             $end_time = $et_immutable->getTimestamp();
         }
 
         return [
-            'tst_starting_time' => $starting_time,
-            'tst_ending_time' => $end_time,
-            'tst_password' => $this->getPassword() ?? '{{ none }}',
-            'participants_invitation' => $this->getFixedParticipants() ? '{{ enabled }}' : '{{ disabled }}'
+            AdditionalInformationGenerator::KEY_TEST_END_TIME => $starting_time,
+            AdditionalInformationGenerator::KEY_TEST_START_TIME => $end_time,
+            AdditionalInformationGenerator::KEY_TEST_PASSWORD => $this->getPassword() ?? $additional_info->getNoneTag(),
+            AdditionalInformationGenerator::KEY_TEST_FIXED_PARTICIPANTS => $additional_info
+                ->getEnabledDisabledTagForBool($this->getFixedParticipants())
         ];
     }
 

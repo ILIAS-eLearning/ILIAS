@@ -113,6 +113,12 @@ class TestDIC extends PimpleContainer
                 $c['logging.settings'],
                 $c['logging.repository'],
                 $c['logging.factory'],
+                new Logging\AdditionalInformationGenerator(
+                    (new \ilMustacheFactory())->getBasicEngine(),
+                    $DIC['lng'],
+                    $DIC['ui.factory'],
+                    $c['question.general_properties.repository']
+                ),
                 \ilLoggerFactory::getLogger('tst'),
                 $DIC['lng']
             );
@@ -130,6 +136,8 @@ class TestDIC extends PimpleContainer
                 $DIC['ui.renderer'],
                 $DIC['refinery'],
                 $DIC['lng'],
+                $DIC['tpl'],
+                $DIC['file_delivery']->delivery(),
                 $DIC['ilUser']
             );
 

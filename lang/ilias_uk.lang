@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Дія
+assessment#:#activate_logging#:#Активувати логування Тестів & Оцінок
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for###25 02 2007 new variable
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###25 02 2007 new variable
 assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Створити проміжок
 assessment#:#create_new#:#Створити новий
 assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Дата/Час
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
@@ -737,6 +741,7 @@ assessment#:#height#:#Висота
 assessment#:#identical_scoring#:#Identical Scoring###23 09 2007 new variable
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
 assessment#:#imagemap#:#Карта зображення
+assessment#:#imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 assessment#:#import_question#:#Імпортувати питання
 assessment#:#imported#:#imported###12 06 2011 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#legend#:#Умовне позначення
 assessment#:#locked#:#заблокований
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
-assessment#:#log_create_new_test#:#Створити новий тест
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
-assessment#:#log_mark_added#:#Оцінка додана
-assessment#:#log_mark_changed#:#Оцінка змінена
-assessment#:#log_mark_removed#:#Оцінка видалена
-assessment#:#log_modified_test#:#Тест був модифікований
-assessment#:#log_question_added#:#Питання додане на позицію
-assessment#:#log_question_position_changed#:#Позиція питання змінена
-assessment#:#log_question_removed#:#Питання видалене
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
-assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
-assessment#:#log_user_entered_values#:#User entered values###22 May 2006 new variable
-assessment#:#log_user_not_entered_values#:#User did not enter values###22 May 2006 new variable
+assessment#:#log_text#:#Лог повідомлення
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logging###25 02 2007 new variable
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted###25 02 2007 new variable
+assessment#:#logs_output#:#Log Data Output###25 02 2007 new variable
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -3249,7 +3243,6 @@ common#:#action_aborted#:#Дію перервано
 common#:#actions#:#Дії
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Set Active###23 09 2007 new variable
-common#:#activate_assessment_logging#:#Активувати логування Тестів & Оцінок
 common#:#activate_https#:#Активувати HTTPS (Оплата, Вхід в систему)
 common#:#activate_tracking#:#Активувати Слідкування###19 Apr 2006 content changed
 common#:#activation#:#Активація
@@ -3316,24 +3309,6 @@ common#:#approve_recipient#:#ID логіну, що схвалив
 common#:#archive#:#Архів
 common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
 common#:#are_you_sure#:#Ви впевнені?
-common#:#ass_log_admin#:#Log Data Administration###25 02 2007 new variable
-common#:#ass_log_count_datasets#:#Log Entries###25 02 2007 new variable
-common#:#ass_log_delete_entries#:#Delete Log Entries###25 02 2007 new variable
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data###25 02 2007 new variable
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted###25 02 2007 new variable
-common#:#ass_log_output#:#Log Data Output###25 02 2007 new variable
-common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
-common#:#assessment_log#:#Створити лог по Тестування & Оцінювання для вказаного періоду часу
-common#:#assessment_log_datetime#:#Дата/Час
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###25 02 2007 new variable
-common#:#assessment_log_for_test#:#Для тесту
-common#:#assessment_log_log_entries#:#log entries###28 Feb 2006 new variable
-common#:#assessment_log_logging#:#Logging###25 02 2007 new variable
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###25 02 2007 new variable
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###25 02 2007 new variable
-common#:#assessment_log_question#:#Питання
-common#:#assessment_log_text#:#Лог повідомлення
-common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
 common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
 common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable

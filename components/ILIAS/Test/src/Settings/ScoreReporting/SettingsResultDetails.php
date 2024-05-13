@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -118,16 +119,23 @@ class SettingsResultDetails extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         return [
-            'tst_results_print_best_solution' => $this->getShowSolutionListComparison() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_show_solution_feedback' => $this->getShowSolutionFeedback() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_show_solution_suggested' => $this->getShowSolutionSuggested() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_show_solution_printview' => $this->getShowSolutionPrintview() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_hide_pagecontents' => $this->getShowSolutionAnswersOnly() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_show_solution_signature' => $this->getShowSolutionSignature() ? '{{ enabled }}' : '{{ disabled }}',
-            'examid_in_test_res' => $this->getShowExamIdInTestResults() ? '{{ enabled }}' : '{{ disabled }}'
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_BEST_SOLUTION => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionListComparison()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_FEEDBACK => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionFeedback()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_SUGGESTED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionSuggested()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_PRINTVIEW => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionPrintview()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_ANSWERS_ONLY => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionAnswersOnly()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_SIGNATRUE => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowSolutionSignature()),
+            AdditionalInformationGenerator::KEY_SCORING_SOLUTION_SHOW_EXAM_ID => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowExamIdInTestResults())
         ];
     }
 

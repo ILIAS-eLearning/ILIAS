@@ -22,8 +22,8 @@ namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
@@ -237,7 +237,8 @@ class SettingsMainGUI extends TestSettingsGUI
     private function finalizeSave(array $data): void
     {
         $this->performSaveForm($data);
-        $additional_information = $this->getObjectDataArrayForLog() + $this->main_settings->getArrayForLog();
+        $additional_information = $this->getObjectDataArrayForLog()
+            + $this->main_settings->getArrayForLog($this->logger->getAdditionalInformationGenerator());
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
@@ -258,21 +259,29 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $title_and_description = $this->object_properties->getPropertyTitleAndDescription();
         $log_array = [
-            'title' => $title_and_description->getTitle(),
-            'description' => $title_and_description->getDescription(),
-            'online' => $this->object_properties->getPropertyIsOnline()->getIsOnline()
+            AdditionalInformationGenerator::KEY_TEST_TITLE => $title_and_description->getTitle(),
+            AdditionalInformationGenerator::KEY_TEST_DESCRIPTION => $title_and_description->getDescription(),
+            AdditionalInformationGenerator::KEY_TEST_ONLINE => $this->logger
+                ->getAdditionalInformationGenerator()->getTrueFalseTagForBool(
+                    $this->object_properties->getPropertyIsOnline()->getIsOnline()
+                )
         ];
 
         if ($this->test_object->isActivationLimited()) {
-            $log_array['rep_visibility_until'] = '{{ disabled }}';
+            $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $this->logger
+                ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(false);
             return $log_array;
         }
 
-        $from = $this->test_object->getActivationStartingTime() ?? '{{ none }}';
-        $until = $this->test_object->getActivationEndingTime() ?? '{{ none }}';
+        $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
+        $from = $this->test_object->getActivationStartingTime() ?? $none_tag;
+        $until = $this->test_object->getActivationEndingTime() ?? $none_tag;
 
-        $log_array['rep_visibility_until'] = $from . ' - ' . $until;
-        $log_array['rep_activation_limited_visibility'] = $this->test_object->getActivationVisibility() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $from . ' - ' . $until;
+        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger
+            ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(
+                $this->test_object->getActivationVisibility()
+            );
         return $log_array;
     }
 
@@ -284,9 +293,14 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $data_factory = new DataFactory();
         $user_format = $this->active_user->getDateFormat();
+        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+            $user_format = $data_factory->dateFormat()->withTime24($user_format);
+        } else {
+            $user_format = $data_factory->dateFormat()->withTime12($user_format);
+        }
 
         $environment['participant_data_exists'] = $this->test_object->participantDataExist();
-        $environment['user_date_format'] = $data_factory->dateFormat()->withTime24($user_format);
+        $environment['user_date_format'] = $user_format;
         $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $main_inputs = [

@@ -27,6 +27,7 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -77,7 +78,7 @@ class SettingsScoringGUI extends TestSettingsGUI
 
         if ($template_id) {
             $this->settingsTemplate = new \ilSettingsTemplate(
-                (int)$template_id,
+                (int) $template_id,
                 \ilObjTestFolderGUI::getSettingsTemplateConfig()
             );
         }
@@ -174,7 +175,7 @@ class SettingsScoringGUI extends TestSettingsGUI
                     $this->test_gui->getRefId(),
                     $this->active_user->getId(),
                     TestAdministrationInteractionTypes::SCORING_SETTINGS_MODIFIED,
-                    $settings->getArrayForLog($this->lng)
+                    $settings->getArrayForLog($this->logger->getAdditionalInformationGenerator())
                 )
             );
         }
@@ -201,9 +202,15 @@ class SettingsScoringGUI extends TestSettingsGUI
 
 
         $environment = [];
-        $environment['user_date_format'] = (new \ILIAS\Data\Factory())->dateFormat()->withTime24(
-            $this->active_user->getDateFormat()
-        );
+
+        $data_factory = new DataFactory();
+        $user_format = $this->active_user->getDateFormat();
+        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+            $user_format = $data_factory->dateFormat()->withTime24($user_format);
+        } else {
+            $user_format = $data_factory->dateFormat()->withTime12($user_format);
+        }
+        $environment['user_date_format'] = $user_format;
         $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $anonymity_flag = (bool) $this->test_object->getAnonymity();
@@ -244,7 +251,7 @@ class SettingsScoringGUI extends TestSettingsGUI
             return false;
         }
 
-        $now = (new DateTimeImmutable("NOW"))->format('YmdHis');
+        $now = (new \DateTimeImmutable('NOW'))->format('YmdHis');
 
         if (
             $this->test_object->getScoreReporting() == SettingsResultSummary::SCORE_REPORTING_DATE

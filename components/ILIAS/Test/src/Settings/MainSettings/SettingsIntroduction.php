@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -67,11 +68,13 @@ class SettingsIntroduction extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         return [
-            'tst_introduction' => $this->getIntroductionEnabled() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled() ? '{{ enabled }}' : '{{ disabled }}',
+            AdditionalInformationGenerator::KEY_TEST_INTRODUCTION_ENABLED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getIntroductionEnabled()),
+            AdditionalInformationGenerator::KEY_TEST_CONDITIONS_ENABLED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getExamConditionsCheckboxEnabled()),
         ];
     }
 

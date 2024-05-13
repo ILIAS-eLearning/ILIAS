@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#Akcija
+assessment#:#activate_logging#:#Aktivirajte protokoliranje testa i procjene
+assessment#:#activate_manual_scoring#:#Aktivirajte ručno bodovanje za
+assessment#:#activate_manual_scoring_desc#:#Ako je za neki tip pitanja aktivirano ručno bodovanje, autor testa može ručno bodovati sva pitanja ovog tipa. Budite oprezni s ovim postavkama, jer naknadno ručno bodovanje automatski bodovanih tipova pitanja može prouzročiti eventualno i pravne probleme!
 assessment#:#addSuggestedSolution#:#Sadržaji za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
 assessment#:#add_circle#:#Dodaj krug
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Generiraj i ažuriraj praznine
 assessment#:#create_new#:#Kreiraj novo
 assessment#:#customstyle#:#Prilagodi stil
 assessment#:#dashboard_tab#:#Nadzorna ploča
+assessment#:#date_time#:#Datum/vrijeme
 assessment#:#definition#:#Definicija
 assessment#:#definition_image#:#Definicija slike
 assessment#:#definition_text#:#Definicija teksta
@@ -737,6 +741,7 @@ assessment#:#height#:#Visina
 assessment#:#identical_scoring#:#Identična ocjena
 assessment#:#identical_scoring_desc#:#Ako je odabrano, praznine s identičnim rješenjima će se bodovati, čak i ako je isto rješenje korišteno dva ili više puta. Ako nije odabrano, bodovat će se samo prvo korištenje istog rješenja.
 assessment#:#imagemap#:#Image Map
+assessment#:#imap_line_color#:#Boja crta Imagemap-a
 assessment#:#import_question#:#Uvezi pitanje(a)
 assessment#:#imported#:#uvezeno
 assessment#:#info_answer_type_change#:#Pitanje već sadrži slike. Ne možete promijeniti vrstu odgovora u odgovore s više redaka.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Primjeri
 assessment#:#last_update#:#Ažurirano
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zaključano
-assessment#:#log_added_extratime#:#Dodano je dodatno %d minuta za id sudionika %d
-assessment#:#log_answer_changed_points#:#Osoba %s je ručno promijenila bodova za ispitanika %s s %d na %d bodova
-assessment#:#log_create_new_test#:#Kreiran je novi test
-assessment#:#log_manual_feedback#:#Osoba %s dodala je ručne povratne informacije za ispitanika %s i pitanje%s: %s
-assessment#:#log_mark_added#:#Ocjena dodana
-assessment#:#log_mark_changed#:#Ocjena izmijenjena
-assessment#:#log_mark_removed#:#Ocjena uklonjena
-assessment#:#log_modified_test#:#Test je izmijenjen
-assessment#:#log_question_added#:#Na poziciji je dodano pitanje
-assessment#:#log_question_position_changed#:#Pozicija pitanja je promijenjena
-assessment#:#log_question_removed#:#Pitanje je uklonjeno
-assessment#:#log_selected_user_data_removed#:#Uklonjeni su podaci o testu za korisnika %s
-assessment#:#log_user_answered_question#:#Korisnik je odgovorio na pitanje i dobio %s bodova
-assessment#:#log_user_entered_values#:#Korisnik je unio vrijednosti
-assessment#:#log_user_not_entered_values#:#Korisnik nije unio vrijednosti
+assessment#:#log_text#:#Poruka dnevnika
 assessment#:#log_user_solution_willingly_deleted#:#Korisnik je izbrisao odgovor.
-assessment#:#log_wrong_test_password_entered#:#Sudionik je unio pogrešnu lozinku za test. Ulazni podaci: '%s'
+assessment#:#logging_settings#:#Podaci dnevnika
+assessment#:#logs_deleted#:#Podaci dnevnika za odabrane testove su izbrisani
+assessment#:#logs_output#:#Izlaz podataka dnevnika
+assessment#:#logs_wrong_test_password_provided#:#Sudionik je unio pogrešnu lozinku za test. Ulazni podaci: '%s'
 assessment#:#longmenu#:#Dugi izbornik
 assessment#:#longmenu_text#:#Tekst dugog izbornika
 assessment#:#mailnottype#:#Pošalji obavijest čak i ako korisnik završi pojedini prolaz testa
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Akcija je prekinuta
 common#:#actions#:#Akcije
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Aktiviraj
-common#:#activate_assessment_logging#:#Aktivirajte protokoliranje testa i procjene
 common#:#activate_https#:#Aktiviranje HTTPS-a od strane ILIAS <br /> (Prijava)
 common#:#activate_tracking#:#Aktivacija
 common#:#activation#:#Uredi vremena
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#ID prijave odobravatelja
 common#:#archive#:#Arhiva
 common#:#archive_broken#:#Čini se da je arhiva neispravna ili prazna.
 common#:#are_you_sure#:#Jesi li siguran?
-common#:#ass_log_admin#:#Administracija podataka dnevnika
-common#:#ass_log_count_datasets#:#Unosi u dnevnik
-common#:#ass_log_delete_entries#:#Izbriši zapise dnevnika
-common#:#ass_log_delete_no_selection#:#Odaberite barem jedan test za brisanje podataka dnevnika
-common#:#ass_log_deleted#:#Podaci dnevnika za odabrane testove su izbrisani
-common#:#ass_log_output#:#Izlaz podataka dnevnika
-common#:#assessment_imap_line_color#:#Boja crta Imagemap-a
-common#:#assessment_log#:#Kreirajte dnevnik ispitivanja i ocjenjivanja za određeno vremensko razdoblje
-common#:#assessment_log_datetime#:#Datum/vrijeme
-common#:#assessment_log_deleted#:#Dnevnički podaci o testu i ocjenjivanju izbrisani su u administraciji
-common#:#assessment_log_for_test#:#Za test
-common#:#assessment_log_log_entries#:#Unosi u dnevnik
-common#:#assessment_log_logging#:#Podaci dnevnika
-common#:#assessment_log_manual_scoring_activate#:#Aktivirajte ručno bodovanje za
-common#:#assessment_log_manual_scoring_desc#:#Ako je za neki tip pitanja aktivirano ručno bodovanje, autor testa može ručno bodovati sva pitanja ovog tipa. Budite oprezni s ovim postavkama, jer naknadno ručno bodovanje automatski bodovanih tipova pitanja može prouzročiti eventualno i pravne probleme!
-common#:#assessment_log_question#:#Pitanje
-common#:#assessment_log_text#:#Poruka dnevnika
-common#:#assessment_settings_reporting_language#:#Jezik izvještaja
 common#:#assf_allowed_questiontypes#:#Dostupni tipovi pitanja
 common#:#assf_allowed_questiontypes_desc#:#Svi odabrani tipovi pitanja bit će dostupni za ovu instalaciju ILIAS-a. Ako u ovoj instalaciji ne želite dopustiti kreiranje određenog tipa pitanja, morate ukloniti odabir u odgovarajućem potvrdnom okviru kod tog tipa pitanja.
 common#:#assf_questiontypes#:#Postavke pitanja

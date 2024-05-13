@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#str / emp / imp yerine b / i / u kullan
 adve#:#adve_use_physical_info#:#Bu ayar anlamsal stil sınıfı butonları (strong,emphatic,important) yerine b (bold), i (italic) and u (underline) butonlarını koyar. Eğer stil editörü strong/emphatic/important stil sınıflarına atanmış başka fiziksel öznitelikler kullanıyorsa tutarsızlıklar oluşabilir.
 adve#:#adve_use_tiny_mce#:#WYSIWYG düzenleme için TinyMCE kullan
 assessment#:#action#:#Eylem
+assessment#:#activate_logging#:#Test ve Değerlendirme Günlüğünü Aktif Yap
+assessment#:#activate_manual_scoring#:#için Manuel Puanlama etkinleştirin
+assessment#:#activate_manual_scoring_desc#:#Manuel Puanlama Bir soru tipi aktif ise bu soruyu türdeki tüm soruları manuel bir test yazar tarafından atılır olabilir. Otomatik attı soru tipleri geç manuel skorlama hatta hukuksal sorunlara neden olabilir, çünkü bu ayarlar ile dikkatli olun!
 assessment#:#addSuggestedSolution#:#Önerilen çözüm ekle
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Daire alanı ekle
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Boşluklar Oluştur
 assessment#:#create_new#:#Yeni Oluştur
 assessment#:#customstyle#:#Özel Stil
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Tarih / Saat
 assessment#:#definition#:#Tanım
 assessment#:#definition_image#:#Görüntü Tanımı
 assessment#:#definition_text#:#Metin Tanımı
@@ -737,6 +741,7 @@ assessment#:#height#:#Yükseklik
 assessment#:#identical_scoring#:#Özdeş Skorlama
 assessment#:#identical_scoring_desc#:#Seçilmiş ise, aynı çözümler iki veya daha fazla kullanılsa bile boşluklar aynı çözümler ile puanlanır. Şeçili değilse, sadece aynı çözümün ilki puanlanır.
 assessment#:#imagemap#:#Resim Haritası
+assessment#:#imap_line_color#:#ImageMap Çizgi Rengi
 assessment#:#import_question#:#Soruları İçe Aktar
 assessment#:#imported#:#İçe Aktarıldı
 assessment#:#info_answer_type_change#:#Soru zaten resimler içeriyor. Cevap türünü çok satırlı cevaplar olarak değiştiremezsiniz.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Son Güncelleme
 assessment#:#legend#:#Legend
 assessment#:#locked#:#Kilitli
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#Yeni test oluşturuldu
-assessment#:#log_manual_feedback#:#%s manuel geri bildirim test kişisi %s ve soru %s: %s için eklendi
-assessment#:#log_mark_added#:#İşaret eklendi
-assessment#:#log_mark_changed#:#İşaret değişti
-assessment#:#log_mark_removed#:#İşaret kaldırıldı
-assessment#:#log_modified_test#:#Test güncellenmiştir
-assessment#:#log_question_added#:#Soru pozisyonuna eklendi
-assessment#:#log_question_position_changed#:#Soru pozisyonu değişti
-assessment#:#log_question_removed#:#Soru kaldırıldı
-assessment#:#log_selected_user_data_removed#:#Kullanıcı %s kaldırılan test verileri
-assessment#:#log_user_answered_question#:#Kullanıcı bir soruyu yanıtladı ve %s puan aldı
-assessment#:#log_user_entered_values#:#Kullanıcı girdi değerleri
-assessment#:#log_user_not_entered_values#:#Kullanıcı değerler girmedi
+assessment#:#log_text#:#Log Mesajı
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Günlüğü
+assessment#:#logs_deleted#:#Seçilen testleri Giriş Veri silinmiş
+assessment#:#logs_output#:#Log Veri Çıkışı
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Kullanıcı testi bitirip geçtiği vakit bilgilendirme mesajı gönder
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Iptal edildi Eylem
 common#:#actions#:#Eylemler
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Aktif Yap
-common#:#activate_assessment_logging#:#Test ve Değerlendirme Günlüğünü Aktif Yap
 common#:#activate_https#:#HTTPS ILIAS tarafından kontrol edilsin<br>(Ödeme, Giriş)
 common#:#activate_tracking#:#Etkinleştirme
 common#:#activation#:#Aktivasyon
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#Onaylayan ve Giriş ID
 common#:#archive#:#Arşiv
 common#:#archive_broken#:#Arşiv kırık veya boş gibi görünüyor.
 common#:#are_you_sure#:#emin misiniz?
-common#:#ass_log_admin#:#Log Veri Yönetimi
-common#:#ass_log_count_datasets#:#Günlük Yazılar
-common#:#ass_log_delete_entries#:#Günlük Girdilerini Sil
-common#:#ass_log_delete_no_selection#:#Log Veri silmek için en az bir test seçiniz
-common#:#ass_log_deleted#:#Seçilen testleri Giriş Veri silinmiş
-common#:#ass_log_output#:#Log Veri Çıkışı
-common#:#assessment_imap_line_color#:#ImageMap Çizgi Rengi
-common#:#assessment_log#:#Belirli bir süre için bir Test ve Değerlendirme günlüğü oluşturun
-common#:#assessment_log_datetime#:#Tarih / Saat
-common#:#assessment_log_deleted#:#Test ve Değerlendirme günlük veri yönetiminde silinmiş
-common#:#assessment_log_for_test#:#Testi için
-common#:#assessment_log_log_entries#:#log kayıtları
-common#:#assessment_log_logging#:#Günlüğü
-common#:#assessment_log_manual_scoring_activate#:#için Manuel Puanlama etkinleştirin
-common#:#assessment_log_manual_scoring_desc#:#Manuel Puanlama Bir soru tipi aktif ise bu soruyu türdeki tüm soruları manuel bir test yazar tarafından atılır olabilir. Otomatik attı soru tipleri geç manuel skorlama hatta hukuksal sorunlara neden olabilir, çünkü bu ayarlar ile dikkatli olun!
-common#:#assessment_log_question#:#Soru
-common#:#assessment_log_text#:#Log Mesajı
-common#:#assessment_settings_reporting_language#:#Raporlama dili
 common#:#assf_allowed_questiontypes#:#Mevcut Soru Türleri
 common#:#assf_allowed_questiontypes_desc#:#tüm kontrol soru tipleri bu ILIAS yükleme satışa sunulacak. Bu yükleme belirli bir soru tipinin yaratılması izin vermek istemiyorsanız, size ilişkili onay kutusundaki seçimi kaldırmalısınız.
 common#:#assf_questiontypes#:#Soru Ayarlar
