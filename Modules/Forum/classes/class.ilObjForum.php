@@ -320,6 +320,15 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE usr_id = %s', ['integer'], $data);
         $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE usr_id = %s', ['integer'], $data);
         $DIC->database()->manipulateF('DELETE FROM frm_notification WHERE user_id = %s', ['integer'], $data);
+
+        $res = $DIC->database()->queryF('SELECT draft_id FROM frm_posts_drafts WHERE post_author_id = %s', ['integer'], $data);
+        $draft_ids = [];
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $draft_ids[] = (int) $row['draft_id'];
+        }
+        $DIC->database()->manipulate('DELETE FROM frm_drafts_history WHERE '
+            . $DIC->database()->in('draft_id', $draft_ids, false, 'integer'));
+        $DIC->database()->manipulateF('DELETE FROM frm_posts_drafts WHERE post_author_id = %s', ['integer'], $data);
     }
 
     public static function _deleteReadEntries(int $a_post_id): void
