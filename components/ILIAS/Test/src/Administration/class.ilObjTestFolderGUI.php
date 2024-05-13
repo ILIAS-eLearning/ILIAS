@@ -35,6 +35,8 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  */
 class ilObjTestFolderGUI extends ilObjectGUI
 {
+    private const SHOW_LOGS_CMD = 'logs';
+
     private RequestDataCollector $testrequest;
     private TestLogViewer $log_viewer;
 
@@ -355,7 +357,8 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportLegacyLogs')
             )
         );
-        $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
+        $here_uri = $this->data_factory->uri(ILIAS_HTTP_PATH
+            . '/' . $this->ctrl->getLinkTargetByClass(self::class, self::SHOW_LOGS_CMD));
         list($url_builder, $action_parameter_token, $row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
             LogTable::QUERY_PARAMETER_NAME_SPACE,
             LogTable::ACTION_TOKEN_STRING,
@@ -395,15 +398,15 @@ class ilObjTestFolderGUI extends ilObjectGUI
         // log output
         $this->tabs_gui->addSubTabTarget(
             'logs_output',
-            $this->ctrl->getLinkTarget($this, 'logs'),
-            ['logs'],
+            $this->ctrl->getLinkTargetByClass(self::class, self::SHOW_LOGS_CMD),
+            [self::SHOW_LOGS_CMD],
             ''
         );
     }
 
     protected function getTabs(): void
     {
-        if (in_array($this->ctrl->getCmd(), ['saveLogSettings', 'showLogSettings', 'logs'])) {
+        if (in_array($this->ctrl->getCmd(), ['saveLogSettings', 'showLogSettings', self::SHOW_LOGS_CMD])) {
             $this->getLogdataSubtabs();
         }
 
@@ -419,9 +422,9 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "logs",
                 $this->ctrl->getLinkTarget($this, "showLogSettings"),
-                ['saveLogSettings', 'showLogSettings', "logs", "showLog", "exportLog", "logAdmin", "deleteLog"],
-                "",
-                ""
+                ['saveLogSettings', 'showLogSettings', self::SHOW_LOGS_CMD, 'showLog', 'exportLog', 'logAdmin', 'deleteLog'],
+                '',
+                ''
             );
 
             $this->tabs_gui->addTarget(

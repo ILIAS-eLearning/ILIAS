@@ -146,6 +146,9 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             $log_entry_type_filter,
             $interaction_type_filter
         );
+        if ($query === '') {
+            return 0;
+        }
         $result = $this->db->query(
             $query
         );
@@ -422,21 +425,23 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?string $ip_filter,
         ?array $log_entry_type_filter,
         ?array $interaction_type_filter
-    ): string {
-        return 'SELECT COUNT(*) AS cnt FROM (' . PHP_EOL
-            . $this->buildInteractionsQuery(
-                $valid_types,
-                $from_filter,
-                $to_filter,
-                $test_filter,
-                $admin_filter,
-                $pax_filter,
-                $question_filter,
-                $ip_filter,
-                $log_entry_type_filter,
-                $interaction_type_filter
-            ) . PHP_EOL
-            . ') x';
+    ): ?string {
+        $tables_query = $this->buildInteractionsQuery(
+            $valid_types,
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
+        );
+        if ($tables_query === '') {
+            return '';
+        }
+        return 'SELECT COUNT(*) AS cnt FROM (' . PHP_EOL . $tables_query . PHP_EOL . ') x';
     }
 
     private function buildInteractionsQuery(
@@ -644,12 +649,14 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         }
         $valid_interaction_types = array_reduce(
             $valid_types,
-            fn(array $et, array $it): array => $et + $it,
+            fn(array $et, array $it): array => [...$et, ...$it],
             []
         );
 
-        if (array_intersect($filter_interaction_types, $valid_interaction_types)
-            === $filter_interaction_types) {
+        if (
+            array_intersect($filter_interaction_types, $valid_interaction_types)
+                === $filter_interaction_types
+        ) {
             return true;
         }
 

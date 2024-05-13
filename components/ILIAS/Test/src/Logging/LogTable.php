@@ -509,7 +509,9 @@ class LogTable implements Table\DataRetrieval
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_QUESTION_TITLE])) {
-            $question_filter = $this->question_repo->searchQuestionsByName($filter_array[self::FILTER_FIELD_PARTICIPANT]);
+            $question_filter = $this->question_repo->searchQuestionIdsByTitle(
+                $filter_array[self::FILTER_FIELD_QUESTION_TITLE]
+            );
         }
 
         return [

@@ -101,7 +101,7 @@ class GeneralQuestionPropertiesRepository
 
         $questions_result = $this->database->queryF(
             'SELECT question_id, points FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE original_id = %s OR question_id = %s',
-            ['integer','integer'],
+            [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$question_id, $question_id]
         );
         if ($this->database->numRows($questions_result) === 0) {
@@ -115,7 +115,7 @@ class GeneralQuestionPropertiesRepository
 
         $points_result = $this->database->query(
             'SELECT question_fi, points FROM ' . self::TEST_RESULTS_TABLE
-            . ' WHERE ' . $this->database->in('question_fi', array_keys($found_questions), false, 'integer')
+            . ' WHERE ' . $this->database->in('question_fi', array_keys($found_questions), false, \ilDBConstants::T_INTEGER)
         );
 
         $answers = [];
@@ -149,9 +149,9 @@ class GeneralQuestionPropertiesRepository
         $result = $this->database->queryF(
             'SELECT COUNT(DISTINCT question_fi) cnt FROM ' . self::TEST_RESULTS_TABLE . ' JOIN tst_active'
             . ' ON (active_id = active_fi)'
-            . ' WHERE ' . $this->database->in('question_fi', $question_ids, false, 'integer')
+            . ' WHERE ' . $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER)
             . ' AND user_fi = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$user_id]
         );
 
@@ -167,7 +167,7 @@ class GeneralQuestionPropertiesRepository
             . ' WHERE active_fi = %s'
             . ' AND question_fi = %s'
             . ' AND pass = %s',
-            ['integer', 'integer', 'integer'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$active_id, $question_id, $pass]
         );
 
@@ -193,7 +193,7 @@ class GeneralQuestionPropertiesRepository
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ', ' . self::TEST_FIXED_QUESTION_TABLE
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.question_id = ' . self::TEST_FIXED_QUESTION_TABLE . '.question_fi'
             . ' AND ' . self::MAIN_QUESTION_TABLE . '.original_id = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
         $row_tests_fixed = $this->database->fetchObject($result_tests_fixed);
@@ -208,7 +208,7 @@ class GeneralQuestionPropertiesRepository
             . ' ON ' . self::TEST_TO_ACTIVE_USER_TABLE . '.active_id = ' . self::TEST_RANDOM_QUESTION_TABLE . '.active_fi'
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.original_id = %s'
             . ' GROUP BY tst_active.test_fi',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
         $row_tests_random = $this->database->fetchObject($result_tests_random);
@@ -219,6 +219,26 @@ class GeneralQuestionPropertiesRepository
         return $count;
     }
 
+    /**
+     * @return array<int>
+     */
+    public function searchQuestionIdsByTitle(string $title): array
+    {
+        if ($title === '') {
+            return [];
+        }
+
+        $result = $this->database->query(
+            'SELECT question_id  FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE '
+                . $this->database->like('title', \ilDBConstants::T_TEXT, "%{$title}%"),
+        );
+
+        return array_map(
+            static fn(\stdClass $q): int => $q->question_id,
+            $this->database->fetchAll($result, \ilDBConstants::FETCHMODE_OBJECT)
+        );
+    }
+
     public function questionExists(int $question_id): bool
     {
         if ($question_id < 1) {
@@ -227,7 +247,7 @@ class GeneralQuestionPropertiesRepository
 
         $result = $this->database->queryF(
             'SELECT COUNT(question_id) cnt FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE question_id = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
 
@@ -244,7 +264,7 @@ class GeneralQuestionPropertiesRepository
         $result = $this->database->queryF(
             'SELECT COUNT(question_id) cnt FROM ' . self::MAIN_QUESTION_TABLE
             . ' INNER JOIN ' . self::DATA_TABLE . ' ON obj_fi = obj_id WHERE question_id = %s AND type = "qpl"',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
 
@@ -258,7 +278,7 @@ class GeneralQuestionPropertiesRepository
             'SELECT COUNT(test_random_question_id) cnt'
             . ' FROM ' . self::TEST_RANDOM_QUESTION_TABLE
             . ' WHERE question_fi = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
 
@@ -274,7 +294,7 @@ class GeneralQuestionPropertiesRepository
             . ' INNER JOIN ' . self::MAIN_QUESTION_TABLE . ' orig'
             . ' ON orig.question_id = dupl.original_id'
             . ' WHERE dupl.question_id = %s',
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
         $row = $this->database->fetchObject($res);
@@ -287,7 +307,7 @@ class GeneralQuestionPropertiesRepository
         int $pass,
         array $question_ids
     ): array {
-        $in_question_ids = $this->database->in('question_fi', $question_ids, false, 'integer');
+        $in_question_ids = $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
 
         $result = $this->database->queryF(
             'SELECT question_fi'
@@ -295,7 +315,7 @@ class GeneralQuestionPropertiesRepository
             . ' WHERE active_fi = %s'
             . ' AND pass = %s'
             . ' AND ' . $in_question_ids,
-            ['integer', 'integer'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         );
 
@@ -315,7 +335,7 @@ class GeneralQuestionPropertiesRepository
 
     public function missingResultRecordExists(int $active_id, int $pass, array $question_ids): bool
     {
-        $in_question_ids = $this->database->in('question_fi', $question_ids, false, 'integer');
+        $in_question_ids = $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
 
         $result = $this->database->queryF(
             'SELECT COUNT(*) cnt'
@@ -323,7 +343,7 @@ class GeneralQuestionPropertiesRepository
             . ' WHERE active_fi = %s'
             . ' AND pass = %s'
             . ' AND ' . $in_question_ids,
-            ['integer', 'integer'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         );
 
@@ -339,7 +359,7 @@ class GeneralQuestionPropertiesRepository
             . ' ON ' . self::TEST_FIXED_QUESTION_TABLE . '.test_fi = ' . self::TEST_TO_ACTIVE_USER_TABLE . '.test_fi '
             . ' JOIN ' . self::MAIN_QUESTION_TABLE
             . ' ON ' . self::MAIN_QUESTION_TABLE . '.question_id = ' . self::TEST_FIXED_QUESTION_TABLE . '.question_fi '
-            . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.obj_fi = ' . $this->database->quote($obj_id, 'integer')
+            . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.obj_fi = ' . $this->database->quote($obj_id, \ilDBConstants::T_INTEGER)
         );
 
         $row = $this->database->fetchObject($result);
@@ -351,7 +371,7 @@ class GeneralQuestionPropertiesRepository
         $result = $this->database->queryF(
             'SELECT COUNT(*) cnt FROM ' . self::MAIN_QUESTION_TABLE
             . ' WHERE obj_fi = %s AND title = %s',
-            ['integer','text'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_TEXT],
             [$questionpool_id, $title]
         );
         $row = $this->database->fetchObject($result);
