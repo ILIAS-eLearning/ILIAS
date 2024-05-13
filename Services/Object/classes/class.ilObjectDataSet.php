@@ -49,12 +49,12 @@ class ilObjectDataSet extends ilDataSet
     }
     public function getSupportedVersions(): array
     {
-        return ["4.4.0", "5.1.0", "5.2.0", "5.4.0"];
+        return ['4.4.0', '5.1.0', '5.2.0', '5.4.0'];
     }
 
     protected function getXmlNamespace(string $entity, string $schema_version): string
     {
-        return "http://www.ilias.de/xml/Services/Object/" . $entity;
+        return 'http://www.ilias.de/xml/Services/Object/' . $entity;
     }
 
     /**
@@ -62,66 +62,66 @@ class ilObjectDataSet extends ilDataSet
      */
     protected function getTypes(string $entity, string $version): array
     {
-        if ($entity == "transl_entry") {
+        if ($entity == 'transl_entry') {
             switch ($version) {
-                case "4.4.0":
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '4.4.0':
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     return [
-                        "ObjId" => "integer",
-                        "Title" => "text",
-                        "Description" => "text",
-                        "LangCode" => "text",
-                        "LangDefault" => "integer"
+                        'ObjId' => 'integer',
+                        'Title' => 'text',
+                        'Description' => 'text',
+                        'LangCode' => 'text',
+                        'LangDefault' => 'integer'
                     ];
             }
         }
-        if ($entity == "transl") {
+        if ($entity == 'transl') {
             switch ($version) {
-                case "4.4.0":
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '4.4.0':
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     return [
-                        "ObjId" => "integer",
-                        "MasterLang" => "text"
+                        'ObjId' => 'integer',
+                        'MasterLang' => 'text'
                     ];
             }
         }
-        if ($entity == "service_settings") {
+        if ($entity == 'service_settings') {
             switch ($version) {
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     return [
-                        "ObjId" => "integer",
-                        "Setting" => "text",
-                        "Value" => "text"
+                        'ObjId' => 'integer',
+                        'Setting' => 'text',
+                        'Value' => 'text'
                     ];
             }
         }
-        if ($entity == "common") {
-            if ($version == "5.4.0") {
+        if ($entity == 'common') {
+            if ($version == '5.4.0') {
                 return [
-                    "ObjId" => "integer"
+                    'ObjId' => 'integer'
                 ];
             }
         }
-        if ($entity == "icon") {
-            if ($version == "5.4.0") {
+        if ($entity == 'icon') {
+            if ($version == '5.4.0') {
                 return [
-                    "ObjId" => "integer",
-                    "Filename" => "text",
-                    "Dir" => "directory"
+                    'ObjId' => 'integer',
+                    'Filename' => 'text',
+                    'Dir' => 'directory'
                 ];
             }
         }
-        if ($entity == "tile") {
-            if ($version == "5.4.0") {
+        if ($entity == 'tile') {
+            if ($version == '5.4.0') {
                 return [
-                    "ObjId" => "integer",
-                    "Dir" => "directory"
+                    'ObjId' => 'integer',
+                    'Dir' => 'directory'
                 ];
             }
         }
@@ -133,41 +133,41 @@ class ilObjectDataSet extends ilDataSet
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if ($entity == "transl_entry") {
+        if ($entity == 'transl_entry') {
             switch ($version) {
-                case "4.4.0":
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '4.4.0':
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     $this->getDirectDataFromQuery(
-                        "SELECT obj_id, title, description, lang_code, lang_default" . PHP_EOL
-                        . "FROM object_translation" . PHP_EOL
-                        . "WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
+                        'SELECT obj_id, title, description, lang_code, lang_default' . PHP_EOL
+                        . 'FROM object_translation' . PHP_EOL
+                        . 'WHERE ' . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
                     );
                     break;
             }
         }
 
-        if ($entity == "transl") {
+        if ($entity == 'transl') {
             switch ($version) {
-                case "4.4.0":
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '4.4.0':
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     $this->getDirectDataFromQuery(
-                        "SELECT obj_id, master_lang" . PHP_EOL
-                        . "FROM obj_content_master_lng" . PHP_EOL
-                        . "WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
+                        'SELECT obj_id, master_lang' . PHP_EOL
+                        . 'FROM obj_content_master_lng' . PHP_EOL
+                        . 'WHERE ' . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
                     );
                     break;
             }
         }
 
-        if ($entity == "service_settings") {
+        if ($entity == 'service_settings') {
             switch ($version) {
-                case "5.1.0":
-                case "5.2.0":
-                case "5.4.0":
+                case '5.1.0':
+                case '5.2.0':
+                case '5.4.0':
                     $this->data = [];
                     foreach ($ids as $id) {
                         // info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
@@ -180,16 +180,16 @@ class ilObjectDataSet extends ilDataSet
                             ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
                             ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
                         ];
-                        if ($version == "5.2.0") {
+                        if ($version == '5.2.0') {
                             $settings[] = ilObjectServiceSettingsGUI::USE_NEWS;
                         }
                         foreach ($settings as $s) {
                             if (ilContainer::_hasContainerSetting((int) $id, $s)) {
                                 $val = ilContainer::_lookupContainerSetting((int) $id, $s);
                                 $this->data[] = [
-                                    "ObjId" => $id,
-                                    "Setting" => $s,
-                                    "Value" => $val
+                                    'ObjId' => $id,
+                                    'Setting' => $s,
+                                    'Value' => $val
                                 ];
                             }
                         }
@@ -198,11 +198,11 @@ class ilObjectDataSet extends ilDataSet
             }
         }
         // common
-        if ($entity == "common") {
+        if ($entity == 'common') {
             $this->data = [];
             foreach ($ids as $id) {
                 $this->data[] = [
-                    "ObjId" => $id
+                    'ObjId' => $id
                 ];
             }
         }
@@ -210,7 +210,8 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $rid = $this->object_properties_agregator->getFor((int) $id)->getPropertyTileImage()->getTileImage()->getRid();
+                $rid = $this->object_properties_agregator->getFor((int) $id)
+                    ->getPropertyTileImage()->getTileImage()->getRid();
                 if ($rid === null) {
                     continue;
                 }
@@ -225,7 +226,7 @@ class ilObjectDataSet extends ilDataSet
         }
 
         // icons
-        if ($entity == "icon") {
+        if ($entity == 'icon') {
             $customIconFactory = $DIC['object.customicons.factory'];
             $this->data = [];
             foreach ($ids as $id) {
@@ -233,9 +234,9 @@ class ilObjectDataSet extends ilDataSet
                 $customIcon = $customIconFactory->getByObjId((int) $id, ilObject::_lookupType((int) $id));
                 if ($customIcon->exists()) {
                     $this->data[] = [
-                        "ObjId" => $id,
-                        "Filename" => pathinfo($customIcon->getFullPath(), PATHINFO_BASENAME),
-                        "Dir" => dirname($customIcon->getFullPath())
+                        'ObjId' => $id,
+                        'Filename' => pathinfo($customIcon->getFullPath(), PATHINFO_BASENAME),
+                        'Dir' => dirname($customIcon->getFullPath())
                     ];
                 }
             }
@@ -267,7 +268,7 @@ class ilObjectDataSet extends ilDataSet
         ?array $rec = null,
         ?array $ids = null
     ): array {
-        $rec["ObjId"] = $rec["ObjId"] ?? null;
+        $rec['ObjId'] = $rec['ObjId'] ?? null;
         switch ($entity) {
             case 'common':
                 return [
@@ -293,31 +294,37 @@ class ilObjectDataSet extends ilDataSet
         global $DIC;
 
         switch ($entity) {
-            case "transl_entry":
+            case 'transl_entry':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
                     $transl = ilObjectTranslation::getInstance($new_id);
                     $transl->addLanguage(
-                        $rec["LangCode"],
-                        $rec["Title"],
-                        $rec["Description"],
-                        (bool) $rec["LangDefault"],
+                        $rec['LangCode'],
+                        strip_tags(
+                            $rec['Title'],
+                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                        ),
+                        strip_tags(
+                            $rec['Description'],
+                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                        ),
+                        (bool) $rec['LangDefault'],
                         true
                     );
                     $transl->save();
                 }
                 break;
 
-            case "transl":
+            case 'transl':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
                     $transl = ilObjectTranslation::getInstance($new_id);
-                    $transl->setMasterLanguage($rec["MasterLang"]);
+                    $transl->setMasterLanguage($rec['MasterLang']);
                     $transl->save();
                 }
                 break;
 
-            case "service_settings":
+            case 'service_settings':
                 // info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
                 $settings = [
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
@@ -331,17 +338,17 @@ class ilObjectDataSet extends ilDataSet
                 ];
                 $new_id = (int) $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    if (in_array($rec["Setting"], $settings)) {
-                        ilContainer::_writeContainerSetting($new_id, $rec["Setting"], $rec["Value"]);
+                    if (in_array($rec['Setting'], $settings)) {
+                        ilContainer::_writeContainerSetting($new_id, $rec['Setting'], $rec['Value']);
                     }
                 }
                 break;
 
-            case "icon":
+            case 'icon':
                 $new_id = (int) $this->getNewObjId($mapping, $rec['ObjId']);
-                $dir = str_replace("..", "", $rec["Dir"]);
-                if ($dir != "" && $this->getImportDirectory() != "") {
-                    $source_dir = $this->getImportDirectory() . "/" . $dir;
+                $dir = str_replace('..', '', $rec['Dir']);
+                if ($dir != '' && $this->getImportDirectory() != '') {
+                    $source_dir = $this->getImportDirectory() . '/' . $dir;
 
                     $customIconFactory = $DIC['object.customicons.factory'];
                     $customIcon = $customIconFactory->getByObjId($new_id, ilObject::_lookupType($new_id));
@@ -349,11 +356,11 @@ class ilObjectDataSet extends ilDataSet
                 }
                 break;
 
-            case "tile":
+            case 'tile':
                 $new_id = (int) $this->getNewObjId($mapping, $rec['ObjId']);
-                $dir = str_replace("..", "", $rec["Dir"]);
-                if ($new_id > 0 && $dir != "" && $this->getImportDirectory() != "") {
-                    $source_dir = $this->getImportDirectory() . "/" . $dir;
+                $dir = str_replace('..', '', $rec['Dir']);
+                if ($new_id > 0 && $dir != '' && $this->getImportDirectory() != '') {
+                    $source_dir = $this->getImportDirectory() . '/' . $dir;
                     $object_properties = $this->object_properties_agregator->getFor($new_id);
                     $ti = $object_properties->getPropertyTileImage()->getTileImage();
                     $ti->createFromImportDir($source_dir);
@@ -370,7 +377,7 @@ class ilObjectDataSet extends ilDataSet
         global $DIC;
 
         /** @var ilObjectDefinition $objDefinition */
-        $objDefinition = $DIC["objDefinition"];
+        $objDefinition = $DIC['objDefinition'];
 
         $new_id = $mapping->getMapping('Services/Container', 'objs', $old_id);
         if (!$new_id) {
@@ -381,7 +388,7 @@ class ilObjectDataSet extends ilDataSet
         }
         if (!$new_id) {
             foreach ($mapping->getAllMappings() as $k => $m) {
-                if (substr($k, 0, 8) == "Modules/") {
+                if (substr($k, 0, 8) == 'Modules/') {
                     foreach ($m as $type => $map) {
                         if (!$new_id) {
                             if ($objDefinition->isRBACObject($type)) {
