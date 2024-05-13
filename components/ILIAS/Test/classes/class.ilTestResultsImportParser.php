@@ -17,7 +17,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\LoggingServices;
+use ILIAS\Test\Logging\TestLogger;
 
 class ilTestResultsImportParser extends ilSaxParser
 {
@@ -37,7 +37,7 @@ class ilTestResultsImportParser extends ilSaxParser
         ?string $a_xml_file,
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private LoggingServices $log
+        private TestLogger $log
     ) {
         parent::__construct($a_xml_file, true);
         $this->table = '';
@@ -262,11 +262,11 @@ class ilTestResultsImportParser extends ilSaxParser
     public function handlerEndTag($a_xml_parser, $a_name): void
     {
         switch (strtolower($a_name)) {
-            case "tst_active":
-                $this->log->write("active id mapping: " . print_r($this->active_id_mapping, true));
+            case 'tst_active':
+                $this->log->info('active id mapping: ' . print_r($this->active_id_mapping, true));
                 break;
-            case "tst_test_question":
-                $this->log->write("question id mapping: " . print_r($this->question_id_mapping, true));
+            case 'tst_test_question':
+                $this->log->info('question id mapping: ' . print_r($this->question_id_mapping, true));
                 break;
         }
     }

@@ -60,7 +60,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
 
     public function setImage(?string $image = null): void
     {
-        if($image === '') {
+        if ($image === '') {
             throw new \Exception('imagename must not be empty');
         }
         $this->image = $image;

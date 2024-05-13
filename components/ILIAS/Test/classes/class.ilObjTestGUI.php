@@ -1515,7 +1515,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                         ilSession::get("tst_import_results_file"),
                         $new_obj,
                         $this->db,
-                        $this->getTestObject()->getTestlogger()
+                        $new_obj->getTestlogger()
                     );
                     $results->setQuestionIdMapping($qti_parser->getQuestionIdMapping());
                     $results->startParsing();
@@ -2234,7 +2234,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $template->setVariable("QUESTION_HEADER", $questionHeaderBlockBuilder->getHTML());
 
             $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
-            $template->setVariable("QUESTION_ID", $question_gui->object->getId());
+            $template->setVariable("QUESTION_ID", $question_gui->getObject()->getId());
             $result_output = $question_gui->getSolutionOutput(0, null, false, true, false, false);
             $template->setVariable("SOLUTION_OUTPUT", $result_output);
             $template->parseCurrentBlock("question");

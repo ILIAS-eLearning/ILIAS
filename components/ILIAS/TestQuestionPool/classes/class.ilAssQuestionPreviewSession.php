@@ -83,9 +83,9 @@ class ilAssQuestionPreviewSession
         $this->saveSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE, $instantResponseActive);
     }
 
-    public function isInstantResponseActive()
+    public function isInstantResponseActive(): bool
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE);
+        return (bool) $this->readSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE);
     }
 
     public function setParticipantsSolution($participantSolution): void

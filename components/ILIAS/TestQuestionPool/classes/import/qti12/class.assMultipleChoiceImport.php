@@ -217,8 +217,8 @@ class assMultipleChoiceImport extends assQuestionImport
             }
             $this->object->addAnswer(
                 $answer["answertext"],
-                $answer["points"],
-                $answer["points_unchecked"],
+                (float) $answer["points"],
+                (float) $answer["points_unchecked"],
                 $answer["answerorder"],
                 $answer["imagefile"]["label"] ?? null
             );

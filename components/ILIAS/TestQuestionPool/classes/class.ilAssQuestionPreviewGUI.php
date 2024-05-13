@@ -507,7 +507,7 @@ class ilAssQuestionPreviewGUI
         return $this->preview_session->isInstantResponseActive();
     }
 
-    private function isShowSpecificQuestionFeedbackRequired()
+    private function isShowSpecificQuestionFeedbackRequired(): bool
     {
         if (!$this->preview_settings->isSpecificFeedbackEnabled()) {
             return false;

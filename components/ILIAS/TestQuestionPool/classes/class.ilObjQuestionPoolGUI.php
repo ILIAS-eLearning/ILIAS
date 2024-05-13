@@ -1520,7 +1520,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     )
                 );
                 $this->tpl->setDescription(
-                    $q_gui->getObject()->getDescriptionForHTMLOutput()
+                    $question_gui->getObject()->getDescriptionForHTMLOutput()
                 );
                 $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), 'big', $this->object->getType()));
             } else {
