@@ -1,0 +1,8 @@
+
+.c-input[data-il-ui-type="OptionalGroupFieldInput"]:not(:has(>legend label input:checked)),
+.c-input[data-il-ui-type="SwitchableGroupFieldInput"] > .c-input__field >fieldset.c-input:not(:has(>legend label input:checked))
+{
+	> .c-input__field {
+		display: none;
+	}
+}

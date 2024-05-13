@@ -56,6 +56,22 @@ function foldable()
         'optional group',
         'check to edit the field of the group',
     );
+    $optional_group2 = $ui->input()->field()->optionalGroup(
+        [
+        $ui->input()->field()->section(
+            [
+                $ui->input()->field()->tag(
+                    "Basic Tag",
+                    ['Interesting', 'Boring', 'Animating', 'Repetitious'],
+                    "Just some tags"
+                ),
+                $rating = $ui->input()->field()->rating("Rate with the Stars:", "change the rating")
+            ],
+            'fields in opt. section'
+        )],
+        'optional section',
+        'byline opt. section',
+    );
 
     $group1 = $ui->input()->field()->group(
         [
@@ -103,7 +119,7 @@ function foldable()
     );
 
 
-    $form = $ui->input()->container()->form()->standard('#', [$section1, $section2]);
+    $form = $ui->input()->container()->form()->standard('#', [$optional_group2, $section1, $section2]);
 
     $button_js = $ui->button()->standard('log struct', '')->withOnLoadCode(
         fn($id) => "document.querySelector('#{$id}').addEventListener(
