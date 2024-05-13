@@ -20,6 +20,7 @@
 	</objects>
 	<events>		
 		<event type="listen" id="Services/News" />
+		<event type="listen" id="Services/User" />
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Group" />
 		<event type="listen" id="Modules/Forum" />
