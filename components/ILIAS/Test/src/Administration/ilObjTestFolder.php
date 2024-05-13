@@ -220,42 +220,6 @@ class ilObjTestFolder extends ilObject
     }
 
     /**
-     * Returns the number of log entries for a given test id
-     * @param int $test_obj_id Database id of the ILIAS test object
-     * @return int The number of log entries for the test object
-     */
-    public function getNrOfLogEntries(int $test_obj_id): int
-    {
-        $result = $this->db->queryF(
-            "SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
-            ['integer'],
-            [$test_obj_id]
-        );
-        if ($result->numRows()) {
-            $row = $this->db->fetchAssoc($result);
-            return (int) $row["logcount"];
-        }
-
-        return 0;
-    }
-
-    /**
-     * Deletes the log entries for a given array of test object IDs
-     * @param int[] $a_array An array containing the object IDs of the tests
-     */
-    public function deleteLogEntries(array $a_array): void
-    {
-        foreach ($a_array as $object_id) {
-            $affectedRows = $this->db->manipulateF(
-                "DELETE FROM ass_log WHERE obj_fi = %s",
-                ['integer'],
-                [$object_id]
-            );
-            self::_addLog($this->user->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
-        }
-    }
-
-    /**
      * Returns the fact wether content editing with ilias page editor is enabled for questions or not
      */
     public static function isAdditionalQuestionContentEditingModePageObjectEnabled(): bool

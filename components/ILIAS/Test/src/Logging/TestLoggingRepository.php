@@ -38,31 +38,37 @@ interface TestLoggingRepository
      */
     public function getLogs(
         array $valid_types,
-        Range $range,
-        Order $order,
-        ?int $from_filter,
-        ?int $to_filter,
         ?array $test_filter,
-        ?array $admin_filter,
-        ?array $pax_filter,
-        ?array $question_filter,
-        ?array $ip_filter,
-        ?array $log_entry_type_filter,
-        ?array $interaction_type_filter
+        ?Range $range = null,
+        ?Order $order = null,
+        ?int $from_filter = null,
+        ?int $to_filter = null,
+        ?array $admin_filter = null,
+        ?array $pax_filter = null,
+        ?array $question_filter = null,
+        ?string $ip_filter = null,
+        ?array $log_entry_type_filter = null,
+        ?array $interaction_type_filter = null
     ): \Generator;
 
     public function getLogsCount(
         array $valid_types,
-        ?int $from_filter,
-        ?int $to_filter,
         ?array $test_filter,
-        ?array $admin_filter,
-        ?array $pax_filter,
-        ?array $question_filter,
-        ?array $ip_filter,
-        ?array $log_entry_type_filter,
-        ?array $interaction_type_filter
+        ?int $from_filter = null,
+        ?int $to_filter = null,
+        ?array $admin_filter = null,
+        ?array $pax_filter = null,
+        ?array $question_filter = null,
+        ?string $ip_filter = null,
+        ?array $log_entry_type_filter = null,
+        ?array $interaction_type_filter = null
     ): int;
+
+    /**
+     * @param array<string> $unique_identifiers
+     * @return array<\ILIAS\Test\Logging\TestUserInteraction>
+     */
+    public function getLogsByUniqueIdentifiers(array $unique_identifiers): \Generator;
 
     public function getLog(string $unique_identifier): ?TestUserInteraction;
 

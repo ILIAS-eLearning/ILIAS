@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
@@ -53,5 +55,5 @@ abstract class TestSettings
 
     abstract public function toStorage(): array;
 
-    abstract public function toLog(): array;
+    abstract public function toLog(AdditionalInformationGenerator $additional_info): array;
 }

@@ -1860,7 +1860,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $filter_params = $this->ui_service->filter()->getData($filter);
         if ($filter_params) {
             foreach (array_filter($filter_params) as $item => $value) {
-
                 switch ($item) {
                     case 'taxonomies':
                         if($value === 'null') {

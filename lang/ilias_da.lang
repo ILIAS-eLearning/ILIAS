@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Brug b/i/u i stedet for str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Aktion
+assessment#:#activate_logging#:#Aktiver logging for Test & Assessment
+assessment#:#activate_manual_scoring#:#Brug manuel karaktergivning til
+assessment#:#activate_manual_scoring_desc#:#Hvis der gives manuelle karakterer i et spørgsmål bør alle spørgsmål af samme type vurderes af en censor. Vær opmærksom på denne indstilling, da efterfølgende manuelkaraktergivning af automatiske-scorede spørgsmål kan give juridiske problemer.
 assessment#:#addSuggestedSolution#:#Opret løsningsforslag
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Lav cirkelområde
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Opret huller
 assessment#:#create_new#:#Opret ny
 assessment#:#customstyle#:#Eget stilark
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Dato/Klokken
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definitionsbillede
 assessment#:#definition_text#:#Definitionstekst
@@ -737,6 +741,7 @@ assessment#:#height#:#Højde
 assessment#:#identical_scoring#:#Identiske scoringer
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
 assessment#:#imagemap#:#Billedmappe
+assessment#:#imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 assessment#:#import_question#:#Importer spørgsmål
 assessment#:#imported#:#importeret
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Senest opdateret
 assessment#:#legend#:#Legend###21 Apr 2005 new variable
 assessment#:#locked#:#låst
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###16 09 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
-assessment#:#log_create_new_test#:#Ny test oprettet
-assessment#:#log_manual_feedback#:#%s tilføjede manuelt feedback til test person %s og spørgsmål %s: %s
-assessment#:#log_mark_added#:#Karakter tildelt
-assessment#:#log_mark_changed#:#Karakter ændret
-assessment#:#log_mark_removed#:#Karakter ophævet
-assessment#:#log_modified_test#:#Testen er tilpasset
-assessment#:#log_question_added#:#Spørgsmål tilføjet på position
-assessment#:#log_question_position_changed#:#Spørgsmål flyttet
-assessment#:#log_question_removed#:#Spørgsmål fjernet
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
-assessment#:#log_user_answered_question#:#User answered a question and received %s points
-assessment#:#log_user_entered_values#:#User entered values
-assessment#:#log_user_not_entered_values#:#Bruger har ikke angivet nogen værdi
+assessment#:#log_text#:#Gem besked
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logging
+assessment#:#logs_deleted#:#Logningsdata for de valgte tests er blevet sluttet.
+assessment#:#logs_output#:#Log dataoutput
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -3249,7 +3243,6 @@ common#:#action_aborted#:#Handling afbrudt
 common#:#actions#:#Handlinger
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Set aktiv
-common#:#activate_assessment_logging#:#Aktiver logging for Test & Assessment
 common#:#activate_https#:#HTTPS håndtering af ILIAShandling <br/>(Betaling, brugernavn)
 common#:#activate_tracking#:#Aktiver sporing
 common#:#activation#:#Aktivering
@@ -3316,24 +3309,6 @@ common#:#approve_recipient#:#Login ID på administratoren
 common#:#archive#:#Arkiver
 common#:#archive_broken#:#Arkivfilen ser ud til at være korrupt eller tom.
 common#:#are_you_sure#:#Er du sikker?
-common#:#ass_log_admin#:#Log dataadministration
-common#:#ass_log_count_datasets#:#Log emner
-common#:#ass_log_delete_entries#:#Slet log indgange
-common#:#ass_log_delete_no_selection#:#Vælg mindst en test som logningsdata skal slettes for.
-common#:#ass_log_deleted#:#Logningsdata for de valgte tests er blevet sluttet.
-common#:#ass_log_output#:#Log dataoutput
-common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
-common#:#assessment_log#:#Lav en Test&Evaluerings log for en afgrænset periode
-common#:#assessment_log_datetime#:#Dato/Klokken
-common#:#assessment_log_deleted#:#Test & Evaluerings logdata blev slettet i administration
-common#:#assessment_log_for_test#:#For test
-common#:#assessment_log_log_entries#:#log indgange
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Brug manuel karaktergivning til
-common#:#assessment_log_manual_scoring_desc#:#Hvis der gives manuelle karakterer i et spørgsmål bør alle spørgsmål af samme type vurderes af en censor. Vær opmærksom på denne indstilling, da efterfølgende manuelkaraktergivning af automatiske-scorede spørgsmål kan give juridiske problemer.
-common#:#assessment_log_question#:#Spørgsmål
-common#:#assessment_log_text#:#Gem besked
-common#:#assessment_settings_reporting_language#:#Aktuelle sprog
 common#:#assf_allowed_questiontypes#:#Tilgængelige spørgsmålstyper
 common#:#assf_allowed_questiontypes_desc#:#Alle afkrydsede spørgsmålstyper er tilgængelige i ILIAS installationen. Hvis du ikke ønsker bestemte spørgsmålstyper skal være tilgængelige skal du fjerne afkrydsningen.
 common#:#assf_questiontypes#:#Spørgsmålsindstillinger

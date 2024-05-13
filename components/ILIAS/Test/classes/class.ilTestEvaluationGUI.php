@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\Filesystem\Stream\Streams;
 
@@ -1806,7 +1806,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 
-        $question_list = new ilAssQuestionList($ilDB, $this->lng, $this->refinery , $component_repository);
+        $question_list = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
         $question_list->setParentObjId($this->object->getId());
         $question_list->setParentObjectType($this->object->getType());
         $question_list->setIncludeQuestionIdsFilter($question_ids);
@@ -1859,7 +1859,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
 
-        $testSession = new ilTestSession();
+        $testSession = new ilTestSession($this->db, $this->user);
         $testSession->loadFromDb($active_id);
 
         if ($testSession->isSubmitted()) {
@@ -2019,7 +2019,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
                     [
-                        'user' => $user_id
+                        AdditionalInformationGenerator::KEY_USER => $user_id
                     ]
                 )
             );

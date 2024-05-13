@@ -316,7 +316,7 @@ class ilTestRandomQuestionSetConfigGUI
             return;
         }
 
-        $log_array = $form->save();
+        $log_array = $form->save($this->logger->getAdditionalInformationGenerator());
 
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();

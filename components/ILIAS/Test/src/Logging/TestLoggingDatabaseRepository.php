@@ -85,22 +85,19 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         $this->db->insert(self::ERROR_LOG_TABLE, $storage_array);
     }
 
-    /**
-     * @return \Generator<\ILIAS\Test\Logging\TestUserInteraction>
-     */
     public function getLogs(
         array $valid_types,
-        \ILIAS\Data\Range $range,
-        \ILIAS\Data\Order $order,
-        ?int $from_filter,
-        ?int $to_filter,
         ?array $test_filter,
-        ?array $admin_filter,
-        ?array $pax_filter,
-        ?array $question_filter,
-        ?array $ip_filter,
-        ?array $log_entry_type_filter,
-        ?array $interaction_type_filter
+        ?\ILIAS\Data\Range $range = null,
+        ?\ILIAS\Data\Order $order = null,
+        ?int $from_filter = null,
+        ?int $to_filter = null,
+        ?array $admin_filter = null,
+        ?array $pax_filter = null,
+        ?array $question_filter = null,
+        ?string $ip_filter = null,
+        ?array $log_entry_type_filter = null,
+        ?array $interaction_type_filter = null
     ): \Generator {
         if ($this->isFilterValid(
             $valid_types,
@@ -127,31 +124,43 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     public function getLogsCount(
         array $valid_types,
-        ?int $from_filter,
-        ?int $to_filter,
-        ?array $test_filter,
-        ?array $admin_filter,
-        ?array $pax_filter,
-        ?array $question_filter,
-        ?array $ip_filter,
-        ?array $log_entry_type_filter,
-        ?array $interaction_type_filter
+        ?array $test_filter = null,
+        ?int $from_filter = null,
+        ?int $to_filter = null,
+        ?array $admin_filter = null,
+        ?array $pax_filter = null,
+        ?array $question_filter = null,
+        ?string $ip_filter = null,
+        ?array $log_entry_type_filter = null,
+        ?array $interaction_type_filter = null
     ): int {
+        $query = $this->buildCountQuery(
+            $valid_types,
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
+        );
         $result = $this->db->query(
-            $this->buildCountQuery(
-                $valid_types,
-                $from_filter,
-                $to_filter,
-                $test_filter,
-                $admin_filter,
-                $pax_filter,
-                $question_filter,
-                $ip_filter,
-                $log_entry_type_filter,
-                $interaction_type_filter
-            )
+            $query
         );
         return $this->db->fetchObject($result)->cnt;
+    }
+
+    public function getLogsByUniqueIdentifiers(
+        array $unique_ids
+    ): \Generator {
+        foreach ($this->parseUniqueIdsToTypeArray($unique_ids) as $type => $values) {
+            $query = "SELECT *, '{$type}' AS type FROM {$this->getTableNameForTypeIdentifier($type)} WHERE "
+                . $this->db->in('id', $values, false, \ilDBConstants::T_INTEGER);
+            $result = $this->db->query($query);
+            yield from $this->fetchInteractionForResult($result);
+        }
     }
 
     public function getLog(
@@ -229,7 +238,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function buildTestAdministrationInteractionFromId(int $id): ?TestAdministrationInteraction
     {
-        $query = $this->buildSelectStatementById($id, self::TEST_ADMINISTRATION_LOG_TABLE);
+        $query = $this->buildSelectStatementForId($id, self::TEST_ADMINISTRATION_LOG_TABLE);
         if ($this->db->numRows($query) === 0) {
             return null;
         }
@@ -239,7 +248,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function buildQuestionAdministrationInteractionFromId(int $id): ?TestQuestionAdministrationInteraction
     {
-        $query = $this->buildSelectStatementById($id, self::QUESTION_ADMINISTRATION_LOG_TABLE);
+        $query = $this->buildSelectStatementForId($id, self::QUESTION_ADMINISTRATION_LOG_TABLE);
         if ($this->db->numRows($query) === 0) {
             return null;
         }
@@ -249,7 +258,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function buildParticipantInteractionFromId(int $id): ?TestParticipantInteraction
     {
-        $query = $this->buildSelectStatementById($id, self::PARTICIPANT_LOG_TABLE);
+        $query = $this->buildSelectStatementForId($id, self::PARTICIPANT_LOG_TABLE);
         if ($this->db->numRows($query) === 0) {
             return null;
         }
@@ -259,17 +268,17 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function buildScoringInteractionFromId(int $id): ?TestScoringInteraction
     {
-        $query = $this->buildSelectStatementById($id, self::SCORING_LOG_TABLE);
+        $query = $this->buildSelectStatementForId($id, self::SCORING_LOG_TABLE);
         if ($this->db->numRows($query) === 0) {
             return null;
         }
 
-        return $this->factory->buildSelectStatementById($this->db->fetchObject($query));
+        return $this->factory->buildParticipantInteractionFromDBValues($this->db->fetchObject($query));
     }
 
     private function buildErrorFromId(int $id): ?TestError
     {
-        $query = $this->buildSelectStatementById($id, self::ERROR_LOG_TABLE);
+        $query = $this->buildSelectStatementForId($id, self::ERROR_LOG_TABLE);
         if ($this->db->numRows($query) === 0) {
             return null;
         }
@@ -279,35 +288,37 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function retrieveInteractions(
         array $valid_types,
-        Range $range,
-        Order $order,
+        ?Range $range,
+        ?Order $order,
         ?int $from_filter,
         ?int $to_filter,
         ?array $test_filter,
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $log_entry_type_filter,
         ?array $interaction_type_filter
     ): \Generator {
-        $result = $this->db->query(
-            $this->buildInteractionsQueryWithLimitAndOrder(
-                $valid_types,
-                $range,
-                $order,
-                $from_filter,
-                $to_filter,
-                $test_filter,
-                $admin_filter,
-                $pax_filter,
-                $question_filter,
-                $ip_filter,
-                $log_entry_type_filter,
-                $interaction_type_filter
-            )
+        $result = $this->buildInteractionsStatementWithLimitAndOrder(
+            $valid_types,
+            $range,
+            $order,
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
         );
+        yield from $this->fetchInteractionForResult($result);
+    }
 
+    private function fetchInteractionForResult(\ilDBStatement $result): \Generator
+    {
         while ($interaction = $this->db->fetchObject($result)) {
             switch ($interaction->type) {
                 case TestAdministrationInteraction::IDENTIFIER:
@@ -329,39 +340,46 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         }
     }
 
-    private function buildSelectStatementById(int $id, string $table_name): \ilDBStatement
+    private function buildSelectStatementForId(int $id, string $table_name): \ilDBStatement
     {
         return $this->db->queryF(
-            'SELECT * FROM ' . $table_name . ' WHERE id=%s',
+            "SELECT * FROM {$table_name} WHERE id=%s",
             [\ilDBConstants::T_INTEGER],
             [$id]
         );
     }
 
-    private function buildDeleteQueryForUniqueIds(array $unique_ids): \ilDBStatement
+    private function buildDeleteQueryForUniqueIds(array $unique_ids): string
     {
+        if ($unique_ids[0] === 'ALL_OBJECTS') {
+            return 'TUNCATE TABLE ' . self::TEST_ADMINISTRATION_LOG_TABLE . ';'
+                . 'TUNCATE TABLE ' . self::QUESTION_ADMINISTRATION_LOG_TABLE . ';'
+                . 'TUNCATE TABLE ' . self::PARTICIPANT_LOG_TABLE . ';'
+                . 'TUNCATE TABLE ' . self::SCORING_LOG_TABLE . ';'
+                . 'TUNCATE TABLE ' . self::ERROR_LOG_TABLE . ';';
+        }
         $query = '';
-        foreach ($this->parseUniqueIdsToTableNameArray($unique_ids) as $table_name => $values) {
-            $query .= "DELETE FROM {$table_name} WHERE "
-                . $this->db->in('id', $values) . ';' . PHP_EOL;
+        foreach ($this->parseUniqueIdsToTypeArray($unique_ids) as $type => $values) {
+            $query .= "DELETE FROM {$this->getTableNameForTypeIdentifier($type)} WHERE "
+                . $this->db->in('id', $values, false, \ilDBConstants::T_INTEGER) . ';' . PHP_EOL;
         }
         return $query;
     }
 
-    private function buildInteractionsQueryWithLimitAndOrder(
+    private function buildInteractionsStatementWithLimitAndOrder(
         array $valid_types,
-        Range $range,
-        Order $order,
+        ?Range $range,
+        ?Order $order,
         ?int $from_filter,
         ?int $to_filter,
         ?array $test_filter,
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $log_entry_type_filter,
         ?array $interaction_type_filter
-    ): string {
+    ): \ilDBStatement {
         $query = $this->buildInteractionsQuery(
             $valid_types,
             $from_filter,
@@ -376,15 +394,21 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         );
 
         $init = PHP_EOL . 'ORDER BY ';
-        $order_by_string = $order->join(
+        $order_by_string = $order?->join(
             $init,
             static fn(string $ret, string $key, string $value): string => "{$ret} "
                 . self::VIEW_TABLE_TO_DB_TABLES[$key] . " {$value}, ",
         );
-        if ($order_by_string !== $init) {
+        if ($order_by_string !== null
+            && $order_by_string !== $init) {
             $query .= mb_substr($order_by_string, 0, -2);
         }
-        return $query . PHP_EOL . 'LIMIT ' . $range->getStart() . ', ' . $range->getLength();
+
+        if ($range !== null) {
+            $query .= PHP_EOL . 'LIMIT ' . $range->getStart() . ', ' . $range->getLength();
+        }
+
+        return $this->db->query($query);
     }
 
     private function buildCountQuery(
@@ -395,7 +419,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $log_entry_type_filter,
         ?array $interaction_type_filter
     ): string {
@@ -423,7 +447,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $log_entry_type_filter,
         ?array $interaction_type_filter
     ): string {
@@ -471,7 +495,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $interaction_type_filter
     ): ?string {
         $table_name = $this->getTableNameForTypeIdentifier($type);
@@ -537,7 +561,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $admin_filter,
         ?array $pax_filter,
         ?array $question_filter,
-        ?array $ip_filter,
+        ?string $ip_filter,
         ?array $interaction_type_filter
     ): string {
         $where = [];
@@ -563,7 +587,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             $where[] = $this->db->like('source_ip', \ilDBConstants::T_TEXT, $ip_filter);
         }
         if ($interaction_type_filter !== null) {
-            $where[] = $this->db->like('interaction_type', \ilDBConstants::T_TEXT, $interaction_type_filter);
+            $where[] = $this->db->in('interaction_type', $interaction_type_filter, false, \ilDBConstants::T_TEXT);
         }
 
         if ($where === []) {
@@ -607,10 +631,11 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     private function areInteractionTypesValid(
         array $valid_types,
-        array $filter_log_types,
+        ?array $filter_log_types,
         array $filter_interaction_types
     ): bool {
-        if ($filter_log_types !== []) {
+        if ($filter_log_types !== null
+            && $filter_log_types !== []) {
             $valid_types = array_filter(
                 $valid_types,
                 fn(string $key): bool => in_array($key, $filter_log_types),
@@ -635,7 +660,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
      * @param array<int> $unique_ids
      * @return array<string, array<int>>
      */
-    private function parseUniqueIdsToTableNameArray(array $unique_ids): string
+    private function parseUniqueIdsToTypeArray(array $unique_ids): array
     {
         return array_reduce(
             $unique_ids,
@@ -646,12 +671,11 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
                     return $type_array;
                 }
 
-                $table_name = $this->getTableNameForTypeIdentifier($unique_id_array[0]);
-                if (!array_key_exists($table_name, $unique_id_array[1])) {
-                    $type_array[$table_name] = [];
+                if (!array_key_exists($unique_id_array[0], $type_array)) {
+                    $type_array[$unique_id_array[0]] = [];
                 }
 
-                $type_array[$table_name][] = [\ilDBConstants::T_INTEGER, $unique_id_array[1]];
+                $type_array[$unique_id_array[0]][] = $unique_id_array[1];
                 return $type_array;
             },
             []

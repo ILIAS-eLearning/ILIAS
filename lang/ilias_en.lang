@@ -29,7 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-    common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
 acc#:#acc_add_document_btn_label#:#Add Document
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
@@ -429,6 +428,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#Action
+assessment#:#activate_logging#:#Activate Test and Assessment Logging
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
@@ -590,6 +592,7 @@ assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
+assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
@@ -602,6 +605,7 @@ assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Participants
+assessment#:#date_time#:#Date and Time
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -703,6 +707,7 @@ assessment#:#export_cert_ignored_for_users_s#:#The following account did not ach
 assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
+assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren
 assessment#:#extratime#:#Extra Time
 assessment#:#factor#:#Factor
 assessment#:#failed_official#:#failed
@@ -766,6 +771,7 @@ assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
+assessment#:#imap_line_color#:#Image Map Line Color
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
 assessment#:#in_range#:#Within range
@@ -774,6 +780,7 @@ assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
 assessment#:#insert_before#:#Insert Before
 assessment#:#insert_gap#:#Insert Gap
+assessment#:#interaction_type#:#Interaction Type
 assessment#:#internal_links#:#Internal Links
 assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
@@ -831,23 +838,49 @@ assessment#:#lacex_example_header#:#Examples
 assessment#:#last_update#:#Updated
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#Created new test
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#Mark added
-assessment#:#log_mark_changed#:#Mark changed
-assessment#:#log_mark_removed#:#Mark removed
-assessment#:#log_modified_test#:#The test was modified
-assessment#:#log_question_added#:#Question added at position
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#Question removed
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
-assessment#:#log_user_answered_question#:#User answered a question and received %s points
-assessment#:#log_user_entered_values#:#User entered values
-assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
+assessment#:#log_entry_type#:#Log Entry Type
+assessment#:#log_text#:#Log message
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
+assessment#:#logging_settings#:#Logging
+assessment#:#logs_answer_deleted#:#Answer deleted
+assessment#:#logs_answer_submitted#:#Answer Submitted
+assessment#:#logs_deleted#:#The selected Log Data has been deleted.
+assessment#:#logs_error_on_participant_interaction#:#Error on Participant Interaction
+assessment#:#logs_error_on_question_administration_interaction#:#Error on Question Administration Interaction
+assessment#:#logs_error_on_scoring_interaction#:#Error on Scoring Interaction
+assessment#:#logs_error_on_test_administration_interaction#:#Error on Test Administration Interaction
+assessment#:#logs_error_on_undefined_interaction#:#Error on Undefined Interaction
+assessment#:#logs_extra_time_added#:#Extra Time Added
+assessment#:#logs_main_settings_modified#:#Main Settings Modified
+assessment#:#logs_mark_schema_modified#:#Mark Schema Modified
+assessment#:#logs_mark_schema_reset#:#Mark Schema Reset
+assessment#:#logs_new_test_created#:#New Test Created
+assessment#:#logs_output#:#Log Data Output
+assessment#:#logs_participant_data_removed#:#Participant Data Removed
+assessment#:#logs_pi#:#Participant Interaction
+assessment#:#logs_qai#:#Question Administration Interaction
+assessment#:#logs_question_added#:#Question Added
+assessment#:#logs_question_graded#:#Question Graded
+assessment#:#logs_question_grading_reset#:#Grading Reset
+assessment#:#logs_question_modified#:#Question Modified
+assessment#:#logs_question_modified_in_corrections#:#Question Modified in Corrections
+assessment#:#logs_question_moved#:#Question Moved
+assessment#:#logs_question_removed#:#Question Removed
+assessment#:#logs_question_removed_in_corrections#:#Question Removed in Corrections
+assessment#:#logs_question_selection_criteria_modified#:#Question Selection Criteria Modified
+assessment#:#logs_question_shown#:#Question Shown
+assessment#:#logs_question_skipped#:#Question Skipped
+assessment#:#logs_question_synchronisation_reset#:#Question Synchronisation Reset
+assessment#:#logs_questions_synchronised#:#Questions Synchonised
+assessment#:#logs_scoring_settings_modified#:#Scoring Settings Modified
+assessment#:#logs_si#:#Scoring Interaction
+assessment#:#logs_tai#:#Test Administration Interaction
+assessment#:#logs_te#:#Error
+assessment#:#logs_test_run_finished#:#Test Run Finished
+assessment#:#logs_test_run_of_participant_closed#:#Run of Participant Closed
+assessment#:#logs_test_run_started#:#Test Run Started
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
@@ -3423,7 +3456,6 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#actions_for#:#Actions for %s
 common#:#activate#:#Set Active
-common#:#activate_assessment_logging#:#Activate Test and Assessment Logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br />(Login)
 common#:#activate_tracking#:#Activation
 common#:#activation#:#Edit Timings
@@ -3490,24 +3522,6 @@ common#:#approve_recipient#:#Login ID of Approver
 common#:#archive#:#Archive
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Are you sure?
-common#:#ass_log_admin#:#Log Data Administration
-common#:#ass_log_count_datasets#:#Log Entries
-common#:#ass_log_delete_entries#:#Delete Log Entries
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#Log Data Output
-common#:#assessment_imap_line_color#:#Image Map Line Color
-common#:#assessment_log#:#Create a Test and Assessment log for a specific time period
-common#:#assessment_log_datetime#:#Date/Time
-common#:#assessment_log_deleted#:#The Test and Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#For test
-common#:#assessment_log_log_entries#:#log entries
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
-common#:#assessment_log_question#:#Question
-common#:#assessment_log_text#:#Log message
-common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
@@ -3880,6 +3894,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted
 common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
 common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_parameter#:#Delete Parameter

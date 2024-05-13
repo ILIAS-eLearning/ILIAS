@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogViewer;
+use ILIAS\Test\Logging\LogTable;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -56,7 +57,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $this->log_viewer = $local_dic['logging.viewer'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
 
-        $this->type = "assf";
+        $this->type = 'assf';
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -164,7 +165,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $imap_line_color = 'FF0000';
         }
 
-        $linepicker = new \ilColorPickerInputGUI($this->lng->txt('assessment_imap_line_color'), 'imap_line_color');
+        $linepicker = new \ilColorPickerInputGUI($this->lng->txt('imap_line_color'), 'imap_line_color');
         $linepicker->setValue($imap_line_color);
         $form->addItem($linepicker);
 
@@ -229,15 +230,15 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         // manual scoring
         $manual = new \ilCheckboxGroupInputGUI(
-            $this->lng->txt('assessment_log_manual_scoring_activate'),
-            "chb_manual_scoring"
+            $this->lng->txt('activate_manual_scoring'),
+            'chb_manual_scoring'
         );
         $manscoring = ilObjTestFolder::_getManualScoring();
         $manual->setValue($manscoring);
         foreach ($questiontypes as $type_name => $question_type) {
             $manual->addOption(new \ilCheckboxOption($type_name, (string) $question_type["question_type_id"]));
         }
-        $manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
+        $manual->setInfo($this->lng->txt('activate_manual_scoring_desc'));
         $form->addItem($manual);
 
         // scoring adjustment active
@@ -335,18 +336,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'settings');
     }
 
-    /**
-     * Called when the a log should be shown
-     */
-    public function showLogObject(): void
-    {
-        $form = $this->getLogDataOutputForm();
-        $form->checkInput();
-
-        $form->setValuesByPost();
-        $this->logsObject($form);
-    }
-
     public function exportLegacyLogsObject(): void
     {
         $csv_output = $this->getTestFolder()->getTestLogViewer()->getLegacyLogExportForObjId();
@@ -355,59 +344,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $csv_output,
             'legacy_logs.csv'
         );
-    }
-
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getLogDataOutputForm(): ilPropertyFormGUI
-    {
-        $form = new \ilPropertyFormGUI();
-        $form->setPreventDoubleSubmission(false);
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTableWidth("100%");
-        $form->setId("logs");
-
-        $header = new \ilFormSectionHeaderGUI();
-        $header->setTitle($this->lng->txt("assessment_log"));
-        $form->addItem($header);
-
-        // from
-        $from = new \ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
-        $from->setShowTime(true);
-        $from->setRequired(true);
-        $form->addItem($from);
-
-        // until
-        $until = new \ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
-        $until->setShowTime(true);
-        $until->setRequired(true);
-        $form->addItem($until);
-
-        $available_tests = ilObjTest::_getAvailableTests(1);
-
-        // tests
-        $fortest = new \ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
-        $fortest->setRequired(true);
-        $sorted_options = [];
-        foreach ($available_tests as $key => $value) {
-            $sorted_options[] = [
-                'title' => ilLegacyFormElementsUtil::prepareFormOutput($value) . " [" . $this->getTestFolder()->getNrOfLogEntries((int) $key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
-                'key' => $key
-            ];
-        }
-        $sorted_options = ilArrayUtil::sortArray($sorted_options, 'title', 'asc');
-        $options = ['' => $this->lng->txt('please_choose')];
-        foreach ($sorted_options as $option) {
-            $options[$option['key']] = $option['title'];
-        }
-        $fortest->setOptions($options);
-        $form->addItem($fortest);
-
-        $form->addCommandButton('showLog', $this->lng->txt('show'));
-        $form->addCommandButton('exportLog', $this->lng->txt('export'));
-
-        return $form;
     }
 
     public function logsObject(): void
@@ -420,12 +356,20 @@ class ilObjTestFolderGUI extends ilObjectGUI
             )
         );
         $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
-        $query_params_namespace = ['test', 'logging'];
         list($url_builder, $action_parameter_token, $row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
-            $query_params_namespace,
-            'action',
-            'log_entry'
+            LogTable::QUERY_PARAMETER_NAME_SPACE,
+            LogTable::ACTION_TOKEN_STRING,
+            LogTable::ENTRY_TOKEN_STRING
         );
+
+        if ($this->request_wrapper->has($action_parameter_token->getName())) {
+            $this->object->getTestLogViewer()->executeLogTableAction(
+                $url_builder,
+                $action_parameter_token,
+                $row_id_token
+            );
+        }
+
         $table_gui = $this->log_viewer->getLogTable(
             $url_builder,
             $action_parameter_token,
@@ -442,41 +386,34 @@ class ilObjTestFolderGUI extends ilObjectGUI
     public function getLogdataSubtabs(): void
     {
         $this->tabs_gui->addSubTabTarget(
-            "settings",
-            $this->ctrl->getLinkTarget($this, "showLogSettings"),
-            ["saveLogSettings", "showLogSettings"],
-            ""
+            'settings',
+            $this->ctrl->getLinkTarget($this, 'showLogSettings'),
+            ['saveLogSettings', 'showLogSettings'],
+            ''
         );
 
         // log output
         $this->tabs_gui->addSubTabTarget(
-            "ass_log_output",
-            $this->ctrl->getLinkTarget($this, "logs"),
-            ["logs", "showLog", "exportLog"],
-            ""
+            'logs_output',
+            $this->ctrl->getLinkTarget($this, 'logs'),
+            ['logs'],
+            ''
         );
     }
 
     protected function getTabs(): void
     {
-        switch ($this->ctrl->getCmd()) {
-            case "saveLogSettings":
-            case "showLogSettings":
-            case "logs":
-            case "showLog":
-            case "exportLog":
-            case "deleteLog":
-                $this->getLogdataSubtabs();
-                break;
+        if (in_array($this->ctrl->getCmd(), ['saveLogSettings', 'showLogSettings', 'logs'])) {
+            $this->getLogdataSubtabs();
         }
 
-        if ($this->rbac_system->checkAccess("visible,read", $this->getTestFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
-                "settings",
-                $this->ctrl->getLinkTarget($this, "settings"),
-                ["settings", "", "view"],
-                "",
-                ""
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
+                ['settings', '', 'view'],
+                '',
+                ''
             );
 
             $this->tabs_gui->addTarget(

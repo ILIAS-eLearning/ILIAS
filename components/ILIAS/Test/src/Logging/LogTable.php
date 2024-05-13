@@ -25,6 +25,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\StaticURL\Services as StaticURLServices;
@@ -32,9 +33,15 @@ use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
+use ILIAS\Filesystem\Stream\Streams;
 
 class LogTable implements Table\DataRetrieval
 {
+    public const QUERY_PARAMETER_NAME_SPACE = ['tst', 'log'];
+    public const ACTION_TOKEN_STRING = 'action';
+    public const ENTRY_TOKEN_STRING = 'le';
+
     public const COLUMN_DATE_TIME = 'date_and_time';
     public const COLUMN_CORRESPONDING_TEST = 'corresponding_test';
     public const COLUMN_ADMIN = 'admin';
@@ -58,9 +65,18 @@ class LogTable implements Table\DataRetrieval
     private const FILTER_FIELD_LOG_ENTRY_TYPE = 'log_entry_type';
     private const FILTER_FIELD_INTERACTION_TYPE = 'interaction_type';
 
+    private const ACTION_CONFIRM_DELETE = 'confirm_delete';
     private const ACTION_DELETE = 'delete';
-    private const ACTION_ADDITIONAL_INFORMATION = 'show_additional_information';
-    private const ACTION_EXPORT_AS_CSV = 'export_as_csv';
+    private const ACTION_ADDITIONAL_INFORMATION = 'add_info';
+    private const ACTION_EXPORT_AS_CSV = 'csv_export';
+
+    private const CSV_EXPORT_FILE_NAME = '_test_log_export.csv';
+
+    /**
+     *
+     * @var array<string, string|array>
+     */
+    private array $filter_data;
 
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
@@ -70,10 +86,12 @@ class LogTable implements Table\DataRetrieval
         private readonly UIRenderer $ui_renderer,
         private readonly DataFactory $data_factory,
         private readonly \ilLanguage $lng,
+        private \ilGlobalTemplateInterface $tpl,
         private readonly StaticURLServices $static_url,
         private readonly URLBuilder $url_builder,
         private readonly URLBuilderToken $action_parameter_token,
         private readonly URLBuilderToken $row_id_token,
+        private readonly StreamDelivery $stream_delivery,
         private readonly \ilObjUser $current_user,
         private readonly ?int $ref_id = null
     ) {
@@ -97,16 +115,16 @@ class LogTable implements Table\DataRetrieval
         $field_factory = $this->ui_factory->input()->field();
         $filter_inputs = [
             self::FILTER_FIELD_TIME_FROM => $field_factory->text($this->lng->txt('from')),
-            self::FILTER_FIELD_TIME_TO => $field_factory->text($this->lng->txt('until'))
+            self::FILTER_FIELD_TIME_TO => $field_factory->text($this->lng->txt('to'))
         ];
         if ($this->ref_id === null) {
-            $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('test_title'));
+            $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('title'));
         }
 
         $filter_inputs += [
             self::FILTER_FIELD_ADMIN => $field_factory->text($this->lng->txt('author')),
-            self::FILTER_FIELD_PARTICIPANT => $field_factory->text($this->lng->txt('participant')),
-            self::FILTER_FIELD_IP => $field_factory->text($this->lng->txt('ip')),
+            self::FILTER_FIELD_PARTICIPANT => $field_factory->text($this->lng->txt('tst_participant')),
+            self::FILTER_FIELD_IP => $field_factory->text($this->lng->txt('client_ip')),
             self::FILTER_FIELD_QUESTION_TITLE => $field_factory->text($this->lng->txt('question_title')),
             self::FILTER_FIELD_LOG_ENTRY_TYPE => $field_factory->multiSelect(
                 $this->lng->txt('log_entry_type'),
@@ -121,13 +139,14 @@ class LogTable implements Table\DataRetrieval
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            "question_table_filter_id",
-            $this->url_builder->buildURI()->__toString(),
+            'log_table_filter_id',
+            $this->unmaskCmdNodesFromBuilder($this->url_builder->buildURI()->__toString()),
             $filter_inputs,
             $active,
             true,
             true
         );
+        $this->filter_data = $ui_service->filter()->getData($filter);
         return $filter;
     }
 
@@ -135,15 +154,13 @@ class LogTable implements Table\DataRetrieval
     public function getColums(): array
     {
         $f = $this->ui_factory->table()->column();
-        $df = $this->data_factory->dateFormat();
-        $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
 
         return [
-            self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_and_time'), $date_format),
+            self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->buildUserDateTimeFormat()),
             self::COLUMN_CORRESPONDING_TEST => $f->link($this->lng->txt('test'))->withIsOptional(true, true),
             self::COLUMN_ADMIN => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
-            self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('participant'))->withIsOptional(true, true),
-            self::COLUMN_SOURCE_IP => $f->text($this->lng->txt('ip'))->withIsOptional(true, true),
+            self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true),
+            self::COLUMN_SOURCE_IP => $f->text($this->lng->txt('client_ip'))->withIsOptional(true, true),
             self::COLUMN_QUESTION => $f->text($this->lng->txt('question'))->withIsOptional(true, true),
             self::COLUMN_LOG_ENTRY_TYPE => $f->text($this->lng->txt('log_entry_type'))->withIsOptional(true, true),
             self::COLUMN_INTERACTION_TYPE => $f->text($this->lng->txt('interaction_type'))->withIsOptional(true, true)
@@ -168,19 +185,20 @@ class LogTable implements Table\DataRetrieval
             $ip_filter,
             $log_entry_type_filter,
             $interaction_type_filter
-        ) = $this->prepareFilterData($filter_data);
+        ) = $this->prepareFilterData($this->filter_data);
 
         $environment = [
-            'timezone' => new \DateTimeZone($this->current_user->getTimeZone())
+            'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
+            'date_format' => $this->buildUserDateTimeFormat()->toString()
         ];
 
         foreach ($this->logging_repository->getLogs(
             $this->logger->getInteractionTypes(),
+            $test_filter,
             $range,
             $order,
             $from_filter,
             $to_filter,
-            $test_filter,
             $admin_filter,
             $pax_filter,
             $question_filter,
@@ -214,13 +232,13 @@ class LogTable implements Table\DataRetrieval
             $ip_filter,
             $log_entry_type_filter,
             $interaction_type_filter
-        ) = $this->prepareFilterData($filter_data);
+        ) = $this->prepareFilterData($this->filter_data);
 
         return $this->logging_repository->getLogsCount(
             $this->logger->getInteractionTypes(),
+            $test_filter,
             $from_filter,
             $to_filter,
-            $test_filter,
             $admin_filter,
             $pax_filter,
             $question_filter,
@@ -237,87 +255,148 @@ class LogTable implements Table\DataRetrieval
         match ($action) {
             self::ACTION_ADDITIONAL_INFORMATION => $this->showAdditionalDetails($affected_items[0]),
             self::ACTION_EXPORT_AS_CSV => $this->exportTestUserInteractionsAsCSV($affected_items),
+            self::ACTION_CONFIRM_DELETE => $this->showConfirmTestUserInteractionsDeletion($affected_items),
             self::ACTION_DELETE => $this->deleteTestUserInteractions($affected_items)
         };
-        exit;
     }
 
     protected function showAdditionalDetails(string $affected_item): void
     {
         $log = $this->logging_repository->getLog($affected_item);
         if ($log === null) {
-
+            $this->showErrorModal($this->lng->txt('no_checkbox'));
         }
 
         $environment = [
-            'timezone' => new \DateTimeZone($this->current_user->getTimeZone())
+            'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
+            'date_format' => $this->buildUserDateTimeFormat()->toString()
         ];
 
         echo $this->ui_renderer->renderAsync(
             $this->ui_factory->modal()->roundtrip(
-                $this->lng->txt('additional_information'),
-                $this->ui_factory->legacy(
-                    $log->getParsedAdditionalInformation(
-                        $this->lng,
-                        $this->static_url,
-                        $this->ui_factory,
-                        $this->ui_renderer,
-                        $environment
-                    )
+                $this->lng->txt('additional_info'),
+                $log->getParsedAdditionalInformation(
+                    $this->logger->getAdditionalInformationGenerator(),
+                    $this->ui_factory
                 )
             )
         );
+        exit;
     }
 
-    protected function deleteTestUserInteractions(array $affected_items): void
+    protected function showConfirmTestUserInteractionsDeletion(array $affected_items): void
     {
         if ($affected_items === []) {
             $this->showErrorModal($this->lng->txt('no_checkbox'));
-            exit;
-        }
-
-        if ($affected_items === 'ALL_ITEMS') {
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
-                'all',
-                $this->lng->txt('all')
-            );
-        } else {
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
-                json_encode($items),
-                $this->lng->txt('selected')
-            );
         }
 
         echo $this->ui_renderer->renderAsync(
             $this->ui_factory->modal()->interruptive(
                 $this->lng->txt('confirmation'),
-                $this->lng->txt('test_confirm_log_deletion')
-            )->withAffectedItems($items)
+                $this->lng->txt('confirm_log_deletion'),
+                $this->unmaskCmdNodesFromBuilder($this->url_builder
+                    ->withParameter($this->action_parameter_token, self::ACTION_DELETE)
+                    ->withParameter($this->row_id_token, $affected_items)
+                    ->buildURI()->__toString())
+            )
+        );
+        exit;
+    }
+
+    protected function deleteTestUserInteractions(array $affected_items): void
+    {
+        if ($this->ref_id !== null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('log_deletion_not_allowed'));
+            return;
+        }
+
+        $this->logging_repository->deleteLogs($affected_items);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('logs_deleted'));
+    }
+
+    protected function exportTestUserInteractionsAsCSV(array $affected_items): void
+    {
+        if ($affected_items === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
+            return;
+        }
+        $environment = [
+            'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
+            'date_format' => $this->buildUserDateTimeFormat()->toString()
+        ];
+
+        if ($affected_items[0] === 'ALL_OBJECTS') {
+            $interactions = $this->logging_repository->getLogs(
+                $this->logger->getInteractionTypes(),
+                $this->ref_id !== null ? [$this->ref_id] : null
+            );
+        } else {
+            $interactions = $this->logging_repository->getLogsByUniqueIdentifiers($affected_items);
+        }
+
+        $csv = $this->getColumHeadingsForCSV();
+        foreach ($interactions as $interaction) {
+            $csv .= $interaction->getLogEntryAsCsvRow(
+                $this->lng,
+                $this->question_repo,
+                $this->logger->getAdditionalInformationGenerator(),
+                $environment
+            );
+        }
+
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $csv);
+        rewind($stream);
+        $this->stream_delivery->deliver(
+            Streams::ofResource($stream),
+            date('Y-m-d') . self::CSV_EXPORT_FILE_NAME
         );
     }
 
-    protected function exportTestUserInteractionsAsCSV(): void
+    private function getColumHeadingsForCSV(): string
     {
-
+        return $this->lng->txt('date_and_time') . ';'
+            . $this->lng->txt('test') . ';'
+            . $this->lng->txt('author') . ';'
+            . $this->lng->txt('participant') . ';'
+            . $this->lng->txt('client_ip') . ';'
+            . $this->lng->txt('question') . ';'
+            . $this->lng->txt('log_entry_type') . ';'
+            . $this->lng->txt('interaction_type') . ';'
+            . $this->lng->txt('additional_info') . "\n";
     }
 
     protected function getActions(): array
     {
         $af = $this->ui_factory->table()->action();
-        return [
+        $actions = [
             self::ACTION_ID_SHOW_ADDITIONAL_INFO => $af->single(
-                $this->lng->txt('show_additional_information'),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_ADDITIONAL_INFORMATION),
+                $this->lng->txt('additional_info'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::ACTION_ADDITIONAL_INFORMATION
+                ),
                 $this->row_id_token
             )->withAsync(),
             self::ACTION_ID_EXPORT_AS_CSV => $af->multi(
-                $this->lng->txt('export_as_csv'),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_EXPORT_AS_CSV),
+                $this->lng->txt('csv_export'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::ACTION_EXPORT_AS_CSV
+                ),
                 $this->row_id_token
-            ),
+            )
+        ];
+        if ($this->ref_id !== null) {
+            return $actions;
+        }
+        return $actions + [
             self::ACTION_ID_DELETE => $af->standard(
                 $this->lng->txt('delete'),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_DELETE),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::ACTION_CONFIRM_DELETE
+                ),
                 $this->row_id_token
             )->withAsync()
         ];
@@ -328,11 +407,13 @@ class LogTable implements Table\DataRetrieval
      */
     private function buildLogEntryTypesOptionsForFilter(): array
     {
+        $lang_prefix = TestUserInteraction::LANG_VAR_PREFIX;
         $log_entry_types = $this->logger->getLogEntryTypes();
         $log_entry_options = [];
         foreach ($log_entry_types as $log_entry_type) {
-            $log_entry_options [$log_entry_type] = $log_entry_type;
+            $log_entry_options [$log_entry_type] = $this->lng->txt($lang_prefix . $log_entry_type);
         }
+        asort($log_entry_options);
         return $log_entry_options;
     }
 
@@ -341,17 +422,18 @@ class LogTable implements Table\DataRetrieval
      */
     private function buildInteractionTypesOptionsForFilter(): array
     {
+        $lang_prefix = TestUserInteraction::LANG_VAR_PREFIX;
         $interaction_types = array_reduce(
             $this->logger->getInteractionTypes(),
-            fn(array $et, array $it): array => $et + $it,
+            fn(array $et, array $it): array => [...$et, ...$it],
             []
         );
 
         $interaction_options = [];
         foreach ($interaction_types as $interaction_type) {
-            $interaction_options[$interaction_type] = $this->lng->txt($interaction_type);
+            $interaction_options[$interaction_type] = $this->lng->txt($lang_prefix . $interaction_type);
         }
-
+        asort($interaction_options);
         return $interaction_options;
     }
 
@@ -395,35 +477,38 @@ class LogTable implements Table\DataRetrieval
         $admin_filter = null;
         $question_filter = null;
 
-        if (isset($filter_array[self::FILTER_FIELD_TIME_FROM])) {
+        if (!empty($filter_array[self::FILTER_FIELD_TIME_FROM])) {
             $from_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_FROM]))->getTimestamp();
         }
 
-        if (isset($filter_array[self::FILTER_FIELD_TIME_TO])) {
-            $to_filter = (new \DateTimeImmutable(filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
+        if (!empty($filter_array[self::FILTER_FIELD_TIME_TO])) {
+            $to_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
         }
 
-        if (isset($filter_array[self::FILTER_FIELD_TEST_TITLE])) {
+        if (!empty($filter_array[self::FILTER_FIELD_TEST_TITLE])) {
             $test_filter = array_reduce(
-                \ilObject::_getIdsForTitle($filter_array[self::FILTER_FIELD_TEST_TITLE], 'tst', true),
-                static fn(array $ref_ids, int $obj_id) => $ref_ids + \ilObject::_getAllReferences($obj_id),
-                $test_filter
+                \ilObject::_getIdsForTitle($filter_array[self::FILTER_FIELD_TEST_TITLE], 'tst', true) ?? [],
+                static fn(array $ref_ids, int $obj_id) => array_merge(
+                    $ref_ids,
+                    \ilObject::_getAllReferences($obj_id)
+                ),
+                $test_filter ?? []
             );
         }
 
-        if (isset($filter_array[self::FILTER_FIELD_ADMIN])) {
+        if (!empty($filter_array[self::FILTER_FIELD_ADMIN])) {
             $admin_query = new \ilUserQuery();
             $admin_query->setTextFilter($filter_array[self::FILTER_FIELD_ADMIN]);
             $admin_filter = $admin_query->query();
         }
 
-        if (isset($filter_array[self::FILTER_FIELD_PARTICIPANT])) {
+        if (!empty($filter_array[self::FILTER_FIELD_PARTICIPANT])) {
             $pax_query = new \ilUserQuery();
             $pax_query->setTextFilter($filter_array[self::FILTER_FIELD_PARTICIPANT]);
             $pax_filter = $pax_query->query();
         }
 
-        if (isset($filter_array[self::FILTER_FIELD_QUESTION_TITLE])) {
+        if (!empty($filter_array[self::FILTER_FIELD_QUESTION_TITLE])) {
             $question_filter = $this->question_repo->searchQuestionsByName($filter_array[self::FILTER_FIELD_PARTICIPANT]);
         }
 
@@ -431,12 +516,43 @@ class LogTable implements Table\DataRetrieval
             $from_filter,
             $to_filter,
             $test_filter,
-            $admin_filter['set'] ?? null,
-            $pax_filter['set'] ?? null,
+            $admin_filter['set']['usr_id'] ?? null,
+            $pax_filter['set']['usr_id'] ?? null,
             $question_filter,
-            $filter_array[self::FILTER_FIELD_IP] ?? null,
+            !empty($filter_array[self::FILTER_FIELD_IP]) ? $filter_array[self::FILTER_FIELD_IP] : null,
             $filter_array[self::FILTER_FIELD_LOG_ENTRY_TYPE] ?? null,
             $filter_array[self::FILTER_FIELD_INTERACTION_TYPE] ?? null
         ];
+    }
+
+    private function showErrorModal(string $message): void
+    {
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->modal()->roundtrip(
+                $this->lng->txt('error'),
+                $this->ui_factory->messageBox()->failure($message)
+            )
+        );
+        exit;
+    }
+
+    private function buildUserDateTimeFormat(): DateFormat
+    {
+        $user_format = $this->current_user->getDateFormat();
+        if ($this->current_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+            return $this->data_factory->dateFormat()->withTime24($user_format);
+        }
+        return $this->data_factory->dateFormat()->withTime12($user_format);
+    }
+
+    /**
+     * 2024-05-07 skergomard: This is a workaround as I didn't find another way
+     */
+    private function unmaskCmdNodesFromBuilder(string $url): string
+    {
+        $matches = [];
+        preg_match('/cmdNode=([A-Za-z0-9]+%3)+[A-Za-z0-9]+&/i', $url, $matches);
+        $replacement = str_replace('%3', ':', $matches[0]);
+        return str_replace($matches[0], $replacement, $url);
     }
 }

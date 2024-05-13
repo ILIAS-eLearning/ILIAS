@@ -400,7 +400,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $active_id,
                 $pass,
                 $_SERVER['REMOTE_ADDR'],
-                TestParticipantInteractionTypes::QUESTION_SUBMITTED
+                TestParticipantInteractionTypes::ANSWER_SUBMITTED
             )) !== null) {
             $this->logger->logParticipantInteraction($interaction);
         }
@@ -1548,16 +1548,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function discardSolutionCmd()
     {
-        $currentSequenceElement = $this->getCurrentSequenceElement();
+        $current_sequence_element = $this->getCurrentSequenceElement();
 
-        $currentQuestionOBJ = $this->getQuestionInstance(
-            $this->test_sequence->getQuestionForSequence($currentSequenceElement)
+        $current_question_obj = $this->getQuestionInstance(
+            $this->test_sequence->getQuestionForSequence($current_sequence_element)
         );
 
-        $currentQuestionOBJ->resetUsersAnswer(
+        $current_question_obj->resetUsersAnswer(
             $this->test_session->getActiveId(),
             $this->test_session->getPass()
         );
+
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logParticipantInteraction(
+                $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                    $this->object->getRefId(),
+                    $this->test_sequence->getQuestionForSequence($current_sequence_element),
+                    $this->user->getId(),
+                    TestParticipantInteractionTypes::ANSWER_DELETED,
+                    []
+                )
+            );
+        }
 
         $this->ctrl->saveParameter($this, 'sequence');
 

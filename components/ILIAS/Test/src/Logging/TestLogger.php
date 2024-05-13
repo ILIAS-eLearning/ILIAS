@@ -37,6 +37,7 @@ class TestLogger implements LoggerInterface
         private readonly TestLoggingSettings $logging_settings,
         private readonly TestLoggingRepository $logging_repository,
         private readonly Factory $interaction_factory,
+        private readonly AdditionalInformationGenerator $additional_information,
         private readonly \ilComponentLogger $component_logger,
         private readonly \ilLanguage $lng
     ) {
@@ -164,6 +165,11 @@ class TestLogger implements LoggerInterface
     public function getInteractionFactory(): Factory
     {
         return $this->interaction_factory;
+    }
+
+    public function getAdditionalInformationGenerator(): AdditionalInformationGenerator
+    {
+        return $this->additional_information;
     }
 
     /**

@@ -418,6 +418,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#Dejavnost
+assessment#:#activate_logging#:#Aktiviraj protokol testov in ocen
+assessment#:#activate_manual_scoring#:#Aktiviraj ročno ocenjevanje za
+assessment#:#activate_manual_scoring_desc#:#Če je za določeno vrsto vprašanja aktivirano ročno ocenjevanje, lahko avtor testa ročno oceni vsa vprašanja tega tipa. Bodite previdni pri teh nastavitvah, saj lahko naknadno spreminjanje rezultatov vprašanj povzroči tudi pravne težave!
 assessment#:#addSuggestedSolution#:#Vsebine za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
 assessment#:#add_circle#:#Dodaj krog
@@ -590,6 +593,7 @@ assessment#:#create_gaps#:#Ustvarite in posodobite praznine
 assessment#:#create_new#:#Ustvari novo
 assessment#:#customstyle#:#Lastni slog
 assessment#:#dashboard_tab#:#Nadzorna plošča
+assessment#:#date_time#:#Datum/čas
 assessment#:#definition#:#Opredelitev
 assessment#:#definition_image#:#Slika
 assessment#:#definition_text#:#Besedilo
@@ -742,6 +746,7 @@ assessment#:#height#:#Višina
 assessment#:#identical_scoring#:#Enaka ocena
 assessment#:#identical_scoring_desc#:#Če je to izbrano, bodo praznine z enakimi rešitvami ocenjene v skladu z navodili, tudi če je enaka rešitev uporabljena večkrat. Če kontrolni okvirček ni izbran, se točkuje samo prva uporaba enake rešitve.
 assessment#:#imagemap#:#Imagemap
+assessment#:#imap_line_color#:#Barva črte slikovnega zemljevida
 assessment#:#import_question#:#Uvozi vprašanje/-a
 assessment#:#imported#:#uvoženo
 assessment#:#info_answer_type_change#:#Vprašanje že vsebuje slike. Tipa odgovora zato ni bilo mogoče  spremeniti v večvrstične odgovore.
@@ -803,23 +808,12 @@ assessment#:#lacex_example_header#:#Primeri
 assessment#:#last_update#:#Posodobljeno
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zaklenjeno
-assessment#:#log_added_extratime#:#Udeležencu z ID %d je bilo dodeljenih dodatnih %d minut za obdelavo.
-assessment#:#log_answer_changed_points#:#%s je ročno dodelil točke udeležencu %s od %d na %d točk
-assessment#:#log_create_new_test#:#Ustvarjen je bil nov test
-assessment#:#log_manual_feedback#:#%s je ustvaril ročno oceno za udeleženca %s in vprašanje %s %s: %s
-assessment#:#log_mark_added#:#Ocena dodana
-assessment#:#log_mark_changed#:#Ocena spremenjena
-assessment#:#log_mark_removed#:#Ocena odstranjena
-assessment#:#log_modified_test#:#Test spremenjen
-assessment#:#log_question_added#:#Vprašanje dodeljeno položaju
-assessment#:#log_question_position_changed#:#Položaj vprašanja se je spremenil
-assessment#:#log_question_removed#:#Vprašanje odstranjeno
-assessment#:#log_selected_user_data_removed#:#Odstrani testne podatke za uporabnika%
-assessment#:#log_user_answered_question#:#Uporabnik je odgovoril na vprašanje in prejel %s točk
-assessment#:#log_user_entered_values#:#Uporabnik je vnesel vrednosti
-assessment#:#log_user_not_entered_values#:#Uporabnik ni vnesel nobene vrednosti
+assessment#:#log_text#:#Vnos protokola
 assessment#:#log_user_solution_willingly_deleted#:#Uporabnik je odstranil odgovor.
-assessment#:#log_wrong_test_password_entered#:#Udeleženec je vnesel napačno testno geslo.
+assessment#:#logging_settings#:#Podatki protokola
+assessment#:#logs_deleted#:#Vnosi v protokol za izbrane teste so bili izbrisani!
+assessment#:#logs_output#:#Izhod podatkov protokola
+assessment#:#logs_wrong_test_password_provided#:#Udeleženec je vnesel napačno testno geslo.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Besedilo ‘Long Menu’
 assessment#:#mailnottype#:#Pošiljanje se izvede tudi ob zaključku posameznih opravljanj testa
@@ -3282,7 +3276,6 @@ common#:#action_aborted#:#Dejanje je prekinjeno
 common#:#actions#:#Dejanja
 common#:#actions_for#:#Actions for %s
 common#:#activate#:#Aktiviraj
-common#:#activate_assessment_logging#:#Aktiviraj protokol testov in ocen
 common#:#activate_https#:#Aktiviraj HTTPS (prijava)
 common#:#activate_tracking#:#Aktiviraj sledenje
 common#:#activation#:#Razpoložljivost
@@ -3349,24 +3342,6 @@ common#:#approve_recipient#:#Obveščanje po e-pošti za (ID uporabnika)
 common#:#archive#:#Arhiv
 common#:#archive_broken#:#Zdi se, da je arhiv poškodovan ali prazen.
 common#:#are_you_sure#:#Ali ste prepričani?
-common#:#ass_log_admin#:#Administracija podatkov protokola
-common#:#ass_log_count_datasets#:#Vnosi protokola
-common#:#ass_log_delete_entries#:#Izbriši vnose protokola
-common#:#ass_log_delete_no_selection#:#Izberite vsaj en test, za katerega želite izbrisati vnose protokola
-common#:#ass_log_deleted#:#Vnosi v protokol za izbrane teste so bili izbrisani!
-common#:#ass_log_output#:#Izhod podatkov protokola
-common#:#assessment_imap_line_color#:#Barva črte slikovnega zemljevida
-common#:#assessment_log#:#Vodi protokol dejavnosti testov in ocen za določeno časovno obdobje
-common#:#assessment_log_datetime#:#Datum/čas
-common#:#assessment_log_deleted#:#Vsi podatki protokola o testu so bili izbrisani preko administracijskega vmesnika.
-common#:#assessment_log_for_test#:#Za test
-common#:#assessment_log_log_entries#:#Vnosi protokola
-common#:#assessment_log_logging#:#Podatki protokola
-common#:#assessment_log_manual_scoring_activate#:#Aktiviraj ročno ocenjevanje za
-common#:#assessment_log_manual_scoring_desc#:#Če je za določeno vrsto vprašanja aktivirano ročno ocenjevanje, lahko avtor testa ročno oceni vsa vprašanja tega tipa. Bodite previdni pri teh nastavitvah, saj lahko naknadno spreminjanje rezultatov vprašanj povzroči tudi pravne težave!
-common#:#assessment_log_question#:#Vprašanje
-common#:#assessment_log_text#:#Vnos protokola
-common#:#assessment_settings_reporting_language#:#Jezik protokola
 common#:#assf_allowed_questiontypes#:#Razpoložljivi tipi vprašanj
 common#:#assf_allowed_questiontypes_desc#:#Za to namestitev ILIAS bodo na voljo vsi izbrani tipi vprašanj. Če želite preprečiti ustvarjanje določenih tipov vprašanj, morate odstraniti izbiro pri teh vrstah vprašanj.
 common#:#assf_questiontypes#:#Nastavitve vprašanj

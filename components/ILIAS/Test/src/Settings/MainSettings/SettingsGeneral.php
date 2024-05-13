@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -95,18 +96,21 @@ class SettingsGeneral extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         switch ($this->getQuestionSetType()) {
             case  \ilObjTest::QUESTION_SET_TYPE_FIXED:
-                $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}';
+                $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_SET_TYPE] = $additional_info
+                    ->getTagForLangVar('test_question_set_type_fixed');
                 break;
             case \ilObjTest::QUESTION_SET_TYPE_RANDOM:
-                $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}' ;
+                $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_SET_TYPE] = $additional_info
+                    ->getTagForLangVar('test_question_set_type_fixed') ;
                 break;
         }
 
-        $log_array['tst_anonymity'] = $this->getAnonymity() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_ANONYMITY] = $additional_info
+            ->getEnabledDisabledTagForBool($this->getAnonymity());
         return $log_array;
     }
 

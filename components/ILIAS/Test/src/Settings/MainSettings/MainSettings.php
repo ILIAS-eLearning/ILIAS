@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 class MainSettings
 {
@@ -202,17 +203,16 @@ class MainSettings
         return $clone;
     }
 
-    public function getArrayForLog(): array
-    {
-        return [
-            $this->settings_general->toLog(),
-            $this->settings_introduction->toLog(),
-            $this->settings_access->toLog(),
-            $this->settings_test_behaviour->toLog(),
-            $this->settings_question_behaviour->toLog(),
-            $this->settings_participant_functionality->toLog(),
-            $this->settings_finishing->toLog(),
-            $this->settings_additional->toLog()
-        ];
+    public function getArrayForLog(
+        AdditionalInformationGenerator $additional_info
+    ): array {
+        return $this->settings_general->toLog($additional_info)
+            + $this->settings_introduction->toLog($additional_info)
+            + $this->settings_access->toLog($additional_info)
+            + $this->settings_test_behaviour->toLog($additional_info)
+            + $this->settings_question_behaviour->toLog($additional_info)
+            + $this->settings_participant_functionality->toLog($additional_info)
+            + $this->settings_finishing->toLog($additional_info)
+            + $this->settings_additional->toLog($additional_info);
     }
 }

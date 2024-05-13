@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * Class for text questions
  *
@@ -826,28 +828,30 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return null;
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
-
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'points' => $this->getMaximumPoints(),
-            'qst_essay_wordcounter_enabled' => $this->isWordCounterEnabled() ? '{{ enabled }}' : '{{ disabled }}',
-            'maxchars' => $this->getMaxNumOfChars(),
-            'essay_scoring_mode' => '{{ ' . $this->getScoringModeLangVar($this->getKeywordRelation()) . ' }}',
-            'keywords' => array_map(
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $this->getMaximumPoints(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT_WORDCOUNT_ENABLED => $additional_info
+            ->getEnabledDisabledTagForBool($this->isWordCounterEnabled()),
+            AdditionalInformationGenerator::KEY_QUESTION_MAXCHARS => $this->getMaxNumOfChars(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT_SCORING_MODE => $additional_info->getTagForLangVar(
+                $this->getScoringModeLangVar($this->getKeywordRelation())
+            ),
+            AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => array_map(
                 fn(ASS_AnswerMultipleResponseImage $answer) => [
-                    'answer' => $answer->getAnswertext(),
-                    'points' => $answer->getPoints() === 0.0 ? '' : $answer->getPoints()
+                    AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $answer->getAnswertext(),
+                    AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $answer->getPoints() === 0.0 ? '' : $answer->getPoints()
                 ],
                 $this->getAnswers()
             ),
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
     }

@@ -22,6 +22,8 @@ use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -475,40 +477,38 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function getValidOptionLabelsTranslated(ilLanguage $lng): array
     {
-        return [
-            self::OPTION_LABEL_RIGHT_WRONG => $lng->txt('option_label_right_wrong'),
-            self::OPTION_LABEL_PLUS_MINUS => $lng->txt('option_label_plus_minus'),
-            self::OPTION_LABEL_APPLICABLE_OR_NOT => $lng->txt('option_label_applicable_or_not'),
-            self::OPTION_LABEL_ADEQUATE_OR_NOT => $lng->txt('option_label_adequate_or_not'),
-            self::OPTION_LABEL_CUSTOM => $lng->txt('option_label_custom')
-        ];
+        return array_map(
+            fn(string $option_label): string => $lng->txt($this->getLangVarForOptionLabel($option_label)),
+            $this->getValidOptionLabels()
+        );
+    }
+
+    public function getLangVarForOptionLabel(string $option_label): array
+    {
+        return match ($option_label) {
+            self::OPTION_LABEL_RIGHT_WRONG => 'option_label_right_wrong',
+            self::OPTION_LABEL_PLUS_MINUS => 'option_label_plus_minus',
+            self::OPTION_LABEL_APPLICABLE_OR_NOT => 'option_label_applicable_or_not',
+            self::OPTION_LABEL_ADEQUATE_OR_NOT => 'option_label_adequate_or_not',
+            self::OPTION_LABEL_CUSTOM => 'option_label_custom'
+        };
     }
 
     public function isValidOptionLabel(string $option_label): bool
     {
-        $validLabels = $this->getValidOptionLabels();
-        return in_array($option_label, $validLabels);
+        $valid_labels = $this->getValidOptionLabels();
+        return in_array($option_label, $valid_labels);
     }
 
     public function getTrueOptionLabelTranslation(ilLanguage $lng, $option_label)
     {
-        switch ($option_label) {
-            case self::OPTION_LABEL_RIGHT_WRONG:
-                return $lng->txt('option_label_right');
-
-            case self::OPTION_LABEL_PLUS_MINUS:
-                return $lng->txt('option_label_plus');
-
-            case self::OPTION_LABEL_APPLICABLE_OR_NOT:
-                return $lng->txt('option_label_applicable');
-
-            case self::OPTION_LABEL_ADEQUATE_OR_NOT:
-                return $lng->txt('option_label_adequate');
-
-            case self::OPTION_LABEL_CUSTOM:
-            default:
-                return $this->getCustomTrueOptionLabel();
+        if ($option_label === self::OPTION_LABEL_CUSTOM) {
+            return $this->getCustomTrueOptionLabel();
         }
+
+        return $lng->txt(
+            $this->getLangVarForOptionLabel($option_label)
+        );
     }
 
     public function getFalseOptionLabelTranslation(ilLanguage $lng, $option_label)
@@ -646,7 +646,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $points = 0;
             }
         }
-        return (float)$points;
+        return (float) $points;
     }
 
     protected function cloneQuestionTypeSpecificProperties(
@@ -833,55 +833,41 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return true;
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'option_label' => "{{ {$this->getOptionLabel()} }}",
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_KPRIM_OPTION_LABEL => $additional_info
+                ->getTagForLangVar($this->getLangVarForOptionLabel($this->getOptionLabel())),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
 
-        $result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());
-        $result['falseOptionLabel'] = $this->getFalseOptionLabelTranslation($this->lng, $this->getOptionLabel());
-
-        $result['num_allowed_failures'] = $this->getNumAllowedFailures();
+        $result[AdditionalInformationGenerator::KEY_QUESTION_KPRIM_SCORE_PARTIAL_SOLUTION_ENABLED] = $additional_info
+            ->getEnabledDisabledTagForBool($this->getNumAllowedFailures() > 0);
 
         $answers = [];
-        $has_image = false;
-
         foreach ($this->getAnswers() as $key => $answer) {
-            if (strlen((string) $answer->getImageFile())) {
-                $has_image = true;
-            }
-
             $answers[] = [
-                'answertext' => $this->formatSAQuestion($answer->getAnswertext()),
-                'correctness' => (bool) $answer->getCorrectness(),
-                'order' => (int) $answer->getPosition(),
-                'image' => (string) $answer->getImageFile(),
-                'feedback' => $this->formatSAQuestion(
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer->getAnswertext()),
+                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => (bool) $answer->getCorrectness(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer->getPosition(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_IMAGE => (string) $answer->getImageFile(),
+                AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
             ];
         }
 
-        $result['answers'] = $answers;
+        $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $answers;
 
-        if ($has_image) {
-            $result['path'] = $this->getImagePathWeb();
-            $result['thumb'] = $this->getThumbSize();
-        }
-
-        $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
-        $result['mobs'] = $mobs;
-
-        return json_encode($result);
+        return $result;
     }
 }

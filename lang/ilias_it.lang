@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Utilizzare b/i/u invece di str/emp/imp
 adve#:#adve_use_physical_info#:#Questa impostazione sostituisce i semantici pulsanti di stile "strong", "emphatic" e "important" con "b" (grassetto), "i" (corsivo) e "u" (sottolineato). Si prega di notare, che questo potrebbe causare incoerenze se l'editor di stile è utilizzato e altri attributi fisici sono assegnati alle classi di stile strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Abilita TinyMCE come Editor WYSIWYG (What You See Is What You Get)
 assessment#:#action#:#Azione
+assessment#:#activate_logging#:#Attiva il logging del Test e Valutazione
+assessment#:#activate_manual_scoring#:#Attiva Punteggio Manuale per
+assessment#:#activate_manual_scoring_desc#:#Se e' attivato il punteggio manuale per un tipo di domande, tutte le domande di questo tipo possono essere attribuite manualmente da un test author. Presta molta attenzione a queste impostazioni perche' la post-attribuzione dei punteggi automatici potrebbe causare problemi di giudizio!
 assessment#:#addSuggestedSolution#:#Aggiungi soluzione suggerita
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Aggiungi area circolare
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Crea uno spazio vuoto
 assessment#:#create_new#:#Crea nuova
 assessment#:#customstyle#:#Stile personalizzato
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Giorno/Ora
 assessment#:#definition#:#Definizione
 assessment#:#definition_image#:#Definizione dell'immagine
 assessment#:#definition_text#:#Definizione del testo
@@ -737,6 +741,7 @@ assessment#:#height#:#Altezza
 assessment#:#identical_scoring#:#Punteggio identico
 assessment#:#identical_scoring_desc#:#Se selezionate, le mancanze con soluzioni identiche verranno valutate secondo le impostazioni vigenti anche se sono state scelte due volte. Se il quadratino non è stato spuntato verrà valutata solo la prima risposta uguale.
 assessment#:#imagemap#:#Mappa immagine
+assessment#:#imap_line_color#:#Imagemap Line Color
 assessment#:#import_question#:#Importa domande
 assessment#:#imported#:#importato
 assessment#:#info_answer_type_change#:#La domanda contiene già delle immagini. Non puoi modificare il tipo di risposta in risposte multilinea.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Esempi
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
-assessment#:#log_added_extratime#:#Aggiunti minuti %d supplementari per l’id dei partecipanti %d
-assessment#:#log_answer_changed_points#:#Impostazione manuale dei punti da %d a %d da parte dell'autore del test
-assessment#:#log_create_new_test#:#Creato nuovo test
-assessment#:#log_manual_feedback#:#aggiunto feedback manuale per studente e domande del test
-assessment#:#log_mark_added#:#Aggiunto marcatore
-assessment#:#log_mark_changed#:#Voto modificato
-assessment#:#log_mark_removed#:#Eliminato marcatore
-assessment#:#log_modified_test#:#Il test è; stato modificato
-assessment#:#log_question_added#:#Domanda aggiunta nella posizione
-assessment#:#log_question_position_changed#:#Modificata posizione della domanda
-assessment#:#log_question_removed#:#Domanda eliminata
-assessment#:#log_selected_user_data_removed#:#Eliminati i dati del test degli utenti %s
-assessment#:#log_user_answered_question#:#Un utente ha risposto alla domanda ed ha ricevuto %s punti
-assessment#:#log_user_entered_values#:#L'utente ha inserito un valore
-assessment#:#log_user_not_entered_values#:#L'utente non ha inserito un valore
+assessment#:#log_text#:#Messaggio del report
 assessment#:#log_user_solution_willingly_deleted#:#L’utente ha eliminato la risposta.
-assessment#:#log_wrong_test_password_entered#:#Il partecipante ha inserito una password sbagliata del test.
+assessment#:#logging_settings#:#Registrazione
+assessment#:#logs_deleted#:#I dati di registro per i testi selezionati sono stati eliminati
+assessment#:#logs_output#:#Output dei dati di registro
+assessment#:#logs_wrong_test_password_provided#:#Il partecipante ha inserito una password sbagliata del test.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Testo menu lungo
 assessment#:#mailnottype#:#Inviare la notifica anche quando un utente termina un passaggio di prova
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Imposta Attivo
-common#:#activate_assessment_logging#:#Attiva il logging del Test e Valutazione
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attivazione
 common#:#activation#:#Attivazione
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#archive_broken#:#L'archivio sembra essere corrotto o vuoto.
 common#:#are_you_sure#:#Sei sicuro?
-common#:#ass_log_admin#:#Amministrazione dei dati del registro
-common#:#ass_log_count_datasets#:#Entrate registro
-common#:#ass_log_delete_entries#:#Cancella il Log delle Entrate
-common#:#ass_log_delete_no_selection#:#Selezionare almeno un test per eliminare i dati di registro
-common#:#ass_log_deleted#:#I dati di registro per i testi selezionati sono stati eliminati
-common#:#ass_log_output#:#Output dei dati di registro
-common#:#assessment_imap_line_color#:#Imagemap Line Color
-common#:#assessment_log#:#Crea il report del test indicato nel periodo
-common#:#assessment_log_datetime#:#Giorno/Ora
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#Test
-common#:#assessment_log_log_entries#:#dati nel log
-common#:#assessment_log_logging#:#Registrazione
-common#:#assessment_log_manual_scoring_activate#:#Attiva Punteggio Manuale per
-common#:#assessment_log_manual_scoring_desc#:#Se e' attivato il punteggio manuale per un tipo di domande, tutte le domande di questo tipo possono essere attribuite manualmente da un test author. Presta molta attenzione a queste impostazioni perche' la post-attribuzione dei punteggi automatici potrebbe causare problemi di giudizio!
-common#:#assessment_log_question#:#Domanda
-common#:#assessment_log_text#:#Messaggio del report
-common#:#assessment_settings_reporting_language#:#Lingua del report
 common#:#assf_allowed_questiontypes#:#Tipi di Domande disponibili
 common#:#assf_allowed_questiontypes_desc#:#Tutte le domande selezionate saranno disponibili in questa installazione di ILIAS. Se non vuoi consentire la creazione di un certo tipo di domande devi rimuovere la selezione della casella di spunta associata.
 common#:#assf_questiontypes#:#Impostazioni di domanda

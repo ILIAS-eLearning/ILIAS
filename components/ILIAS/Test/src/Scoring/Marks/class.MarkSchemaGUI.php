@@ -65,9 +65,9 @@ class MarkSchemaGUI
     ) {
         $this->mark_schema = $test->getMarkSchema();
         $this->editable = $test->marksEditable();
-
+        $uri = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, self::class], self::DEFAULT_CMD);
         $url_builder = new URLBuilder(
-            (new DataFactory())->uri(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, self::class], self::DEFAULT_CMD))
+            (new DataFactory())->uri($uri)
         );
 
         list(
@@ -152,7 +152,7 @@ class MarkSchemaGUI
                     $this->test->getRefId(),
                     $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    $this->mark_schema->toLog($this->lng)
+                    $this->mark_schema->toLog($this->logger->getAdditionalInformationGenerator())
                 )
             );
         }
@@ -218,7 +218,7 @@ class MarkSchemaGUI
                     $this->test->getRefId(),
                     $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    $this->mark_schema->toLog($this->lng)
+                    $this->mark_schema->toLog()
                 )
             );
         }

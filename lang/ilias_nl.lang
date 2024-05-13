@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
 assessment#:#action#:#Actie
+assessment#:#activate_logging#:#Inschakelen Toets&Beoordeling logging
+assessment#:#activate_manual_scoring#:#Inschakelen handmatige score voor
+assessment#:#activate_manual_scoring_desc#:#Als het handmatige noteren voor een vraagtype wordt ingeschakeld, zouden alle vragen van dit vraagtype manueel door een toetsauteur kunnen worden genoteerd. Gelieve zorgvuldig te zijn met deze instellingen, omdat late handmatig noteren van  genoteerde vraagtypes zelfs gerechtelijke problemen kan veroorzaken!
 assessment#:#addSuggestedSolution#:#Voeg voorgestelde oplossing toe
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Voeg cirkel gebied toe
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Gaten aanmaken
 assessment#:#create_new#:#Aanmaken van een nieuwe
 assessment#:#customstyle#:#Aangepaste Stijl
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Datum/Tijd
 assessment#:#definition#:#Definitie
 assessment#:#definition_image#:#Definitie afbeelding
 assessment#:#definition_text#:#Definitie Tekst
@@ -737,6 +741,7 @@ assessment#:#height#:#Hoogte
 assessment#:#identical_scoring#:#Identieke Scoring
 assessment#:#identical_scoring_desc#:#Indien geselecteerd, openingen met identieke oplossingen worden geteld, zelfs als dezelfde oplossing twee of meerdere keren werd gegeven.Indien niet geselecteerd, wordt de eerst gegeven oplossing geteld.
 assessment#:#imagemap#:#Afbeeldingen map
+assessment#:#imap_line_color#:#Lijnkleur afbeedlingsmap
 assessment#:#import_question#:#Importeren vraag(vragen)
 assessment#:#imported#:#Geimporteerd
 assessment#:#info_answer_type_change#:#De vraag bevat reeds plaatjes.U kunt het antwoordtype niet veranderen in meerregelige antwoorden
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Laatst bijgewerkt
 assessment#:#legend#:#Legende
 assessment#:#locked#:#Gesloten
-assessment#:#log_added_extratime#:#Extra %d minuten zijn toegevoegd aan deelnemer %d
-assessment#:#log_answer_changed_points#:#De handmatige verandering van punten %s van %d to %d door %s
-assessment#:#log_create_new_test#:#Maak een nieuwe toets
-assessment#:#log_manual_feedback#:#%s toegevoegde handmatige feedback voor toets persoon %s en vraag %s: %s
-assessment#:#log_mark_added#:#Punt toegevoegd
-assessment#:#log_mark_changed#:#Punt gewijzigd
-assessment#:#log_mark_removed#:#Punt verwijderd
-assessment#:#log_modified_test#:#De toets is gewijzigd
-assessment#:#log_question_added#:#Vraag toegevoegd op de positie
-assessment#:#log_question_position_changed#:#Positie van de vraag veranderd
-assessment#:#log_question_removed#:#Vraag verwijderd
-assessment#:#log_selected_user_data_removed#:#Toetsgegevens van gebruiker %s verwijderd
-assessment#:#log_user_answered_question#:#De gebruiker heeft geantwoord op een vraag en heeft %s punten gekregen
-assessment#:#log_user_entered_values#:#Gebruiker heeft waarden ingevoerd
-assessment#:#log_user_not_entered_values#:#Gebruiker heeft geen waarden ingevoerd
+assessment#:#log_text#:#Log bericht
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Registreren
+assessment#:#logs_deleted#:#De logboekgegevens voor de geselecteerde toetsen zijn verwijderd
+assessment#:#logs_output#:#Logboekgegevens output
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Verzend melding zelfs wanneer de gebruiker een toets goed afgesloten heeft
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Acties
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Inschakelen
-common#:#activate_assessment_logging#:#Inschakelen Toets&Beoordeling logging
 common#:#activate_https#:#Inschakelen HTTPS (Betalingen, Aanmelden)
 common#:#activate_tracking#:#Inschakelen voortgangscontrole
 common#:#activation#:#Timing en Voorwaarden
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#login-ID van keurder
 common#:#archive#:#Archief
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Ben je zeker?
-common#:#ass_log_admin#:#Logboekgegevens-beheer
-common#:#ass_log_count_datasets#:#Logboek ingave
-common#:#ass_log_delete_entries#:#Verwijder Logboek ingave
-common#:#ass_log_delete_no_selection#:#Gelieve minstens één toets te selecteren  om logboekgegevens te verwijderen
-common#:#ass_log_deleted#:#De logboekgegevens voor de geselecteerde toetsen zijn verwijderd
-common#:#ass_log_output#:#Logboekgegevens output
-common#:#assessment_imap_line_color#:#Lijnkleur afbeedlingsmap
-common#:#assessment_log#:#Aanmaken Toets&Beoordeling log voor een specifieke periode
-common#:#assessment_log_datetime#:#Datum/Tijd
-common#:#assessment_log_deleted#:#De logboekgegevens van de Toets&Beoordeling zijn verwijderd in het beheer
-common#:#assessment_log_for_test#:#Voor toets
-common#:#assessment_log_log_entries#:#Log gegevens
-common#:#assessment_log_logging#:#Registreren
-common#:#assessment_log_manual_scoring_activate#:#Inschakelen handmatige score voor
-common#:#assessment_log_manual_scoring_desc#:#Als het handmatige noteren voor een vraagtype wordt ingeschakeld, zouden alle vragen van dit vraagtype manueel door een toetsauteur kunnen worden genoteerd. Gelieve zorgvuldig te zijn met deze instellingen, omdat late handmatig noteren van  genoteerde vraagtypes zelfs gerechtelijke problemen kan veroorzaken!
-common#:#assessment_log_question#:#Vraag
-common#:#assessment_log_text#:#Log bericht
-common#:#assessment_settings_reporting_language#:#Taal melding
 common#:#assf_allowed_questiontypes#:#Beschikbare vraagtypes
 common#:#assf_allowed_questiontypes_desc#:#Alle gecontroleerde vraagtypes zullen in deze installatie beschikbaar zijn. Als je niet de verwezenlijking van een bepaald vraagtype in deze installatie wilt toestaan, moet je de selectie in de bijbehorende checkbox verwijderen.
 common#:#assf_questiontypes#:#Vraaginstellingen

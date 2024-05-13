@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Kasuta b/i/u str/emp/imp asemel
 adve#:#adve_use_physical_info#:#See seadistus asendab semantilise stiiliklassi nupud strong, emphatic ja important füüsiliste atribuutnuppudega b (bold), i (italic) ja u (underline). Pane tähele, et see võib põhjustada vastuolusid, kui stiili toimetit on kasutatud ja teis füüsilisi atribuute kasutatud strong/emphatic/important stiiliklasside jaoks.
 adve#:#adve_use_tiny_mce#:#Võimalda TinyMCE WYSIWYG toimetamiseks
 assessment#:#action#:#Tegevus
+assessment#:#activate_logging#:#aktiveeri testi ja hindamise logimine
+assessment#:#activate_manual_scoring#:#Aktiveeri käsitsi hindamine:
+assessment#:#activate_manual_scoring_desc#:#Kui käsitsi hindamine on aktiveeritud, saab kõiki neid küsimuste tüüpe testi autori poolt ka käsitsi hinnata ning tagasisidestada. Kuid olge antud seadega ettevaatlikud kuna automaatse puntkisumma käsitsi muutmine võib tekitada isegi juriidilisi probleeme!
 assessment#:#addSuggestedSolution#:#Lisa soovituslik lahendus
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Lisa ringiala
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Koosta lünk
 assessment#:#create_new#:#loo uus küsimus:
 assessment#:#customstyle#:#Tavaline stiil
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Kuupäev/Aeg
 assessment#:#definition#:#Definitsioon
 assessment#:#definition_image#:#Definitsiooni pilt
 assessment#:#definition_text#:#Definitsiooni tekst
@@ -737,6 +741,7 @@ assessment#:#height#:#Kõrgus
 assessment#:#identical_scoring#:#Samane punktiarvestus
 assessment#:#identical_scoring_desc#:#Kui on märgistatud, loetakse samaste lahendustega lünkade punktid arvestatuks, olgugi et sama lahendust kasutati rohkem kui üks korda. Kui on märgistamata, arvestatakse samaste lahenduste korral esimesena kasutatud vastust.
 assessment#:#imagemap#:#Kaart
+assessment#:#imap_line_color#:#Hüperpildi äärejoon
 assessment#:#import_question#:#Impordi küsimus(ed)
 assessment#:#imported#:#imporditud
 assessment#:#info_answer_type_change#:#Küsimus juba sisaldab pilte. Te ei saa muuta vastuse tüüpi mitmerealiseks.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Viimane uuendus
 assessment#:#legend#:#Legend
 assessment#:#locked#:#lukus
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
-assessment#:#log_answer_changed_points#:#Käsitsi on muudetud osaleja %s punkte:  %d asemel %d punkti (muutja: %s)
-assessment#:#log_create_new_test#:#Uus test loodud
-assessment#:#log_manual_feedback#:#%s lisas käsitsi tagasiside osalejale %s ja küsimusele %s: %s
-assessment#:#log_mark_added#:#Hinne on lisatud
-assessment#:#log_mark_changed#:#Hinne on muudetud
-assessment#:#log_mark_removed#:#Hinne on eemaldatud
-assessment#:#log_modified_test#:#Testi muudeti
-assessment#:#log_question_added#:#Küsimused lisatud
-assessment#:#log_question_position_changed#:#Küsimuse asukoht muudetud
-assessment#:#log_question_removed#:#Küsimus eemaldatud
-assessment#:#log_selected_user_data_removed#:#Kasutajate %s testiandmed eemaldatud
-assessment#:#log_user_answered_question#:#Kasutaja vastas küsimusele ja sai %s punkti
-assessment#:#log_user_entered_values#:#Kasutaja sisestas vastuse
-assessment#:#log_user_not_entered_values#:#Kasutaja ei sisestanud vastust
+assessment#:#log_text#:#logimissõnum
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logimine
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted
+assessment#:#logs_output#:#Logimisandmete väljund
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Saada märguanne isegi kui kasutaja lihtsalt lõpetab testi.
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Toiming on lõpetatud
 common#:#actions#:#Tegevused
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Muuda aktiivseks
-common#:#activate_assessment_logging#:#aktiveeri testi ja hindamise logimine
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Aktiveerimine
 common#:#activation#:#Aktiveerimine
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Arhiiv
 common#:#archive_broken#:#Säilituskoopia on kas katkine või ei sisalda midagi
 common#:#are_you_sure#:#Oled kindel?
-common#:#ass_log_admin#:#Logimisandmete haldus
-common#:#ass_log_count_datasets#:#Logimise kirjed
-common#:#ass_log_delete_entries#:#Kustuta logimise kirjed
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#Logimisandmete väljund
-common#:#assessment_imap_line_color#:#Hüperpildi äärejoon
-common#:#assessment_log#:#Loo testi&hindamise logi teatud ajaperioodi kohta
-common#:#assessment_log_datetime#:#Kuupäev/Aeg
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#Testi jaoks
-common#:#assessment_log_log_entries#:#logimise kirjed
-common#:#assessment_log_logging#:#Logimine
-common#:#assessment_log_manual_scoring_activate#:#Aktiveeri käsitsi hindamine:
-common#:#assessment_log_manual_scoring_desc#:#Kui käsitsi hindamine on aktiveeritud, saab kõiki neid küsimuste tüüpe testi autori poolt ka käsitsi hinnata ning tagasisidestada. Kuid olge antud seadega ettevaatlikud kuna automaatse puntkisumma käsitsi muutmine võib tekitada isegi juriidilisi probleeme!
-common#:#assessment_log_question#:#Küsimus
-common#:#assessment_log_text#:#logimissõnum
-common#:#assessment_settings_reporting_language#:#Aruande keel
 common#:#assf_allowed_questiontypes#:#Võimalikud küsimusetüübid
 common#:#assf_allowed_questiontypes_desc#:#Kõik valitud küsimuste tüübid on antud ILIASe installatsioonis kättesaadavad. Kui te ei taha lubada teatud tüüpi küsimuste loomist selles installatsioonis, eemaldage linnuke vastavast valikukastist.
 common#:#assf_questiontypes#:#Küsimuse seaded

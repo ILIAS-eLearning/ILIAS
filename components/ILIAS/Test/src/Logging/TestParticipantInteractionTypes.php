@@ -26,6 +26,7 @@ enum TestParticipantInteractionTypes: string
     case TEST_RUN_STARTED = 'test_run_started';
     case QUESTION_SHOWN = 'question_shown';
     case QUESTION_SKIPPED = 'question_skipped';
-    case QUESTION_SUBMITTED = 'question_submitted';
+    case ANSWER_SUBMITTED = 'answer_submitted';
+    case ANSWER_DELETED = 'answer_deleted';
     case TEST_RUN_FINISHED = 'test_run_finished';
 }

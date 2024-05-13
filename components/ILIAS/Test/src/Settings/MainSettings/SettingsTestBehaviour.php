@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -343,34 +344,36 @@ class SettingsTestBehaviour extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
-        $log_array['tst_limit_nr_of_tries'] = $this->getNumberOfTries() > 0 ? $this->getNumberOfTries() : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_LIMIT_NR_OF_TRIES] = $this->getNumberOfTries() > 0
+            ? $this->getNumberOfTries() : $additional_info->getEnabledDisabledTagForBool(false);
         if ($this->getNumberOfTries() > 0) {
-            $log_array['block_after_passed'] = $this->getBlockAfterPassedEnabled() ? '{{ enabled }}' : '{{ disabled }}';
+            $log_array[AdditionalInformationGenerator::KEY_TEST_BLOCK_AFTER_PASSED] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getBlockAfterPassedEnabled());
         }
 
-        $log_array['tst_pass_waiting_enabled'] = $this->getPassWaitingEnabled() ? $this->getPassWaiting() : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_PASSWAITING_ENABLED] = $this->getPassWaitingEnabled()
+            ? $this->getPassWaiting() : $additional_info->getEnabledDisabledTagForBool(false);
 
-        $log_array['tst_processing_time_duration'] = $this->getProcessingTimeEnabled() ? $this->getProcessingTimeAsMinutes() : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_PROCESSING_TIME_ENABLED] = $this->getProcessingTimeEnabled()
+            ? $this->getProcessingTimeAsMinutes() : $additional_info->getEnabledDisabledTagForBool(false);
         if ($this->getProcessingTimeEnabled()) {
-            $log_array['reset_processing_time'] = $this->getResetProcessingTime() ? '{{ enabled }}' : '{{ disabled }}';
+            $log_array[AdditionalInformationGenerator::KEY_TEST_RESET_PROCESSING_TIME] = $additional_info
+                ->getEnabledDisabledTagForBool(this->getResetProcessingTime());
         }
 
-        $log_array['kiosk'] = '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_KIOSK_ENABLED] = $additional_info
+            ->getEnabledDisabledTagForBool($this->getKioskModeEnabled());
         if ($this->getKioskModeEnabled()) {
-            $log_array['kiosk'] = '{{ enabled }}';
-            $log_array['kiosk_show_title'] = '{{ disabled }}';
-            $log_array['kiosk_show_participant'] = '{{ disabled }}';
-            if ($this->getShowTitleInKioskMode()) {
-                $log_array['kiosk_show_title'] = '{{ enabled }}';
-            }
-            if ($this->getShowParticipantNameInKioskMode()) {
-                $log_array['kiosk_show_participant'] = '{{ enabled }}';
-            }
+            $log_array[AdditionalInformationGenerator::KEY_TEST_KIOSK_SHOW_TITLE] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowTitleInKioskMode());
+            $log_array[AdditionalInformationGenerator::KEY_TEST_KIOSK_SHOW_PARTICIPANT_NAME] = $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowParticipantNameInKioskMode());
         }
 
-        $log_array['examid_in_test_pass'] = $this->getExamIdInTestPassEnabled() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array[AdditionalInformationGenerator::KEY_TEST_SHOW_EXAM_ID] = $additional_info
+            ->getEnabledDisabledTagForBool($this->getExamIdInTestPassEnabled());
         return $log_array;
     }
 

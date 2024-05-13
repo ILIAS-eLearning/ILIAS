@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Actiune
+assessment#:#activate_logging#:#Activati log-ul de Testare si Evaluare
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for###29 11 2006 new variable
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
 assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Creati spatii
 assessment#:#create_new#:#Creati nou
 assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Date/Time ### 2006-8-11 --- Add new translation here.
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
@@ -737,6 +741,7 @@ assessment#:#height#:#Inaltime
 assessment#:#identical_scoring#:#Identical Scoring###23 09 2007 new variable
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
 assessment#:#imagemap#:#Harta imagine
+assessment#:#imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 assessment#:#import_question#:#Importa intrebare/intrebari
 assessment#:#imported#:#imported###12 06 2011 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Ultima actualizare
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#blocat
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
-assessment#:#log_create_new_test#:#Nou test creat
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
-assessment#:#log_mark_added#:#Nota adaugata
-assessment#:#log_mark_changed#:#Nota schimbata
-assessment#:#log_mark_removed#:#Nota stearsa
-assessment#:#log_modified_test#:#Testul a fost modificat
-assessment#:#log_question_added#:#Intrebarea adaugata in pozitie
-assessment#:#log_question_position_changed#:#pozitia intrebarii schimbata
-assessment#:#log_question_removed#:#Intrebare stearsa
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
-assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
-assessment#:#log_user_entered_values#:#User entered values###10 Jul 2006 new variable
-assessment#:#log_user_not_entered_values#:#User did not enter values###10 Jul 2006 new variable
+assessment#:#log_text#:#Log message ### 2006-8-11 --- Add new translation here.
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logging###29 11 2006 new variable
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted###18 12 2006 new variable
+assessment#:#logs_output#:#Log Data Output###18 12 2006 new variable
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -3249,7 +3243,6 @@ common#:#action_aborted#:#Actiune amanata
 common#:#actions#:#Actiuni
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Set Active###23 09 2007 new variable
-common#:#activate_assessment_logging#:#Activati log-ul de Testare si Evaluare
 common#:#activate_https#:#HTTPS oferit ILIAS<br>(Plata, Login)
 common#:#activate_tracking#:#Activati Cautarea###10 Jul 2006 content changed
 common#:#activation#:#Activare###05 Aug 2006 content changed
@@ -3316,24 +3309,6 @@ common#:#approve_recipient#:#Login ID al destinatarului###10 Jul 2006 content ch
 common#:#archive#:#Arhiva
 common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
 common#:#are_you_sure#:#Sunteti sigur/a?
-common#:#ass_log_admin#:#Log Data Administration###18 12 2006 new variable
-common#:#ass_log_count_datasets#:#Log Entries###18 12 2006 new variable
-common#:#ass_log_delete_entries#:#Delete Log Entries###18 12 2006 new variable
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data###18 12 2006 new variable
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted###18 12 2006 new variable
-common#:#ass_log_output#:#Log Data Output###18 12 2006 new variable
-common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period ### 2006-8-11 --- Add new translation here.
-common#:#assessment_log_datetime#:#Date/Time ### 2006-8-11 --- Add new translation here.
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
-common#:#assessment_log_for_test#:#For test ### 2006-8-11 --- Add new translation here.
-common#:#assessment_log_log_entries#:#log entries###10 Feb 2006 new variable
-common#:#assessment_log_logging#:#Logging###29 11 2006 new variable
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
-common#:#assessment_log_question#:#Question ### 2006-8-11 --- Add new translation here.
-common#:#assessment_log_text#:#Log message ### 2006-8-11 --- Add new translation here.
-common#:#assessment_settings_reporting_language#:#Reporting language ### 2006-8-11 --- Add new translation here.
 common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
 common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable

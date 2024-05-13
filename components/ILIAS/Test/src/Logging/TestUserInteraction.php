@@ -22,12 +22,16 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
+use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 interface TestUserInteraction
 {
+    public const LANG_VAR_PREFIX = 'logs_';
+
     public function getUniqueIdentifier(): ?string;
     public function withId(int $id): self;
     public function getLogEntryAsDataTableRow(
@@ -40,12 +44,14 @@ interface TestUserInteraction
         array $environment
     ): DataRow;
     public function getParsedAdditionalInformation(
+        AdditionalInformationGenerator $additional_info,
+        UIFactory $ui_factory
+    ): DescriptiveListing|Legacy;
+    public function getLogEntryAsCsvRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
+        GeneralQuestionPropertiesRepository $properties_repository,
+        AdditionalInformationGenerator $additional_info,
         array $environment
     ): string;
-    public function getLogEntryAsCsvRow(): string;
     public function toStorage(): array;
 }

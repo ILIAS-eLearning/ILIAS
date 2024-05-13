@@ -414,6 +414,9 @@ adve#:#adve_use_physical#:#使用 b/i/u 而不是 str/emp/imp
 adve#:#adve_use_physical_info#:#为strong、emphatic和重要的物理属性按钮b(bold)、i(italic)和 u(underline)设置替代语义样式类。请注意，如果样式编辑器已在使用，并且其他物理属性已分配给strong/emphatic/important 样式类，这可能导致不一致的结果。
 adve#:#adve_use_tiny_mce#:#为所见即所得编辑启用TinyMCE。
 assessment#:#action#:#动作
+assessment#:#activate_logging#:#激测试 & 评估日志
+assessment#:#activate_manual_scoring#:#激活手动评分
+assessment#:#activate_manual_scoring_desc#:#如果一个题目类型的手动评分被激活，这个题目类型中的所有题目都能由测试的作者手动评分。请小心调整这些设置，因为已自动评分的题目类型最后弄成手动评分很有可能会造成无法裁决的问题！
 assessment#:#addSuggestedSolution#:#添加建议解决方案
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#添加圆区域
@@ -586,6 +589,7 @@ assessment#:#create_gaps#:#创建间隔
 assessment#:#create_new#:#新创建
 assessment#:#customstyle#:#自定义样式
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#日期/时间
 assessment#:#definition#:#定义
 assessment#:#definition_image#:#图像定义
 assessment#:#definition_text#:#文本定义
@@ -736,6 +740,7 @@ assessment#:#height#:#高度
 assessment#:#identical_scoring#:#相同的评分
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored.
 assessment#:#imagemap#:#图形映像
+assessment#:#imap_line_color#:#Imagemap线颜色
 assessment#:#import_question#:#导入题目
 assessment#:#imported#:#已导入
 assessment#:#info_answer_type_change#:#这道题已经包含图片。您不能更改更改答案类型为多行答案。
@@ -797,23 +802,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#上次更新
 assessment#:#legend#:#传说
 assessment#:#locked#:#锁定
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#新的测试已创建
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#标记已添加
-assessment#:#log_mark_changed#:#标记已变更
-assessment#:#log_mark_removed#:#标记已移除
-assessment#:#log_modified_test#:#测试已经被修改
-assessment#:#log_question_added#:#Question added at position
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#题目已移除
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s移除用户**的所有考试记录
-assessment#:#log_user_answered_question#:#User answered a question and received %s points用户已经回答完问题，并且得到了%的分
-assessment#:#log_user_entered_values#:#User entered values用户输入的值
-assessment#:#log_user_not_entered_values#:#User did not enter values用户没有输入值
+assessment#:#log_text#:#日志消息
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#日志
+assessment#:#logs_deleted#:#已选定测试的日志数据已经被删除
+assessment#:#logs_output#:#日志数据输出
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
@@ -3246,7 +3240,6 @@ common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#设置活动
-common#:#activate_assessment_logging#:#激测试 & 评估日志
 common#:#activate_https#:#激活HTTPS (支付,登录)
 common#:#activate_tracking#:#激活跟踪
 common#:#activation#:#激活
@@ -3313,24 +3306,6 @@ common#:#approve_recipient#:#审批人的登录ID
 common#:#archive#:#存档
 common#:#archive_broken#:#归档似乎不完整或是空的。
 common#:#are_you_sure#:#您确定吗？
-common#:#ass_log_admin#:#日志数据管理
-common#:#ass_log_count_datasets#:#日志条目
-common#:#ass_log_delete_entries#:#删除日志条目
-common#:#ass_log_delete_no_selection#:#请至少选择一个测试去删除日志数据
-common#:#ass_log_deleted#:#已选定测试的日志数据已经被删除
-common#:#ass_log_output#:#日志数据输出
-common#:#assessment_imap_line_color#:#Imagemap线颜色
-common#:#assessment_log#:#为一个特定的时期内创建一个测试和评估日志
-common#:#assessment_log_datetime#:#日期/时间
-common#:#assessment_log_deleted#:#在这次管理中测试和评估日志数据已被删除
-common#:#assessment_log_for_test#:#供测试
-common#:#assessment_log_log_entries#:#日志条目
-common#:#assessment_log_logging#:#日志
-common#:#assessment_log_manual_scoring_activate#:#激活手动评分
-common#:#assessment_log_manual_scoring_desc#:#如果一个题目类型的手动评分被激活，这个题目类型中的所有题目都能由测试的作者手动评分。请小心调整这些设置，因为已自动评分的题目类型最后弄成手动评分很有可能会造成无法裁决的问题！
-common#:#assessment_log_question#:#题目
-common#:#assessment_log_text#:#日志消息
-common#:#assessment_settings_reporting_language#:#报告语言
 common#:#assf_allowed_questiontypes#:#可用的问题类型
 common#:#assf_allowed_questiontypes_desc#:#在这次ILIAS安装中，所有已勾选的题目类型都将可用。如果您不允许在这些安装中创建某些题目类型，您必需移除相关复选框中的选项。
 common#:#assf_questiontypes#:#题目设置

@@ -20,10 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Export\CSVExportTrait;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -31,6 +34,8 @@ use ILIAS\UI\Component\Table\DataRow;
 
 class TestScoringInteraction implements TestUserInteraction
 {
+    use CSVExportTrait;
+
     public const IDENTIFIER = 'si';
 
     private int $id;
@@ -76,7 +81,10 @@ class TestScoringInteraction implements TestUserInteraction
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
-                'date_and_time' => new \DateTimeImmutable("@{$this->modification_timestamp}", $environment['timezone']),
+                'date_and_time' => new \DateTimeImmutable(
+                    "@{$this->modification_timestamp}",
+                    $environment['timezone']
+                ),
                 'corresponding_test' => $ui_factory->link()->standard(
                     \ilObject::_lookupTitle($test_obj_id),
                     $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
@@ -106,8 +114,8 @@ class TestScoringInteraction implements TestUserInteraction
                         )->__toString()
                     )
                 ),
-                'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
-                'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
+                'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+                'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
             ]
         )->withDisabledAction(
             LogTable::ACTION_ID_SHOW_ADDITIONAL_INFO,
@@ -116,18 +124,50 @@ class TestScoringInteraction implements TestUserInteraction
     }
 
     public function getParsedAdditionalInformation(
-        \ilLanguage $lng,
-        StaticURLServices $static_url,
-        UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
-        array $environment
-    ): string {
-        return serialize($this->additional_data);
+        AdditionalInformationGenerator $additional_info,
+        UIFactory $ui_factory
+    ): DescriptiveListing {
+        return $additional_info->parseForTable($this->additional_data);
     }
 
-    public function getLogEntryAsCsvRow(): string
-    {
-
+    public function getLogEntryAsCsvRow(
+        \ilLanguage $lng,
+        GeneralQuestionPropertiesRepository $properties_repository,
+        AdditionalInformationGenerator $additional_info,
+        array $environment
+    ): string {
+        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
+        return implode(
+            ';',
+            $this->processCSVRow(
+                [
+                    (new \DateTimeImmutable(
+                        "@{$this->modification_timestamp}",
+                        $environment['timezone']
+                    ))->format($environment['date_format']),
+                    \ilObject::_lookupTitle($test_obj_id),
+                    \ilUserUtil::getNamePresentation(
+                        $this->admin_id,
+                        false,
+                        false,
+                        '',
+                        true
+                    ),
+                    \ilUserUtil::getNamePresentation(
+                        $this->pax_id,
+                        false,
+                        false,
+                        '',
+                        true
+                    ),
+                    '',
+                    $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                    $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+                    $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
+                    $additional_info->parseForCSV($this->additional_data)
+                ]
+            )
+        ) . "\n";
     }
 
     public function toStorage(): array

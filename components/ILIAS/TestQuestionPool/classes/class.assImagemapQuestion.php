@@ -22,6 +22,8 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * Class for image map questions
  *
@@ -845,20 +847,22 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            'question_id' => $this->getId(),
-            'question_type' => (string) $this->getQuestionType(),
-            'question_title' => $this->getTitle(),
-            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
-            'cloze_text' => $this->formatSAQuestion($this->getClozeText()),
-            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_imap_qst_mode' => $this->getIsMultipleChoice() ? '{{ tst_imap_qst_mode_mc }}' : '{{ tst_imap_qst_mode_sc }}',
-            'image' => $this->getImagePathWeb() . $this->getImageFilename(),
-            'tst_feedback' => [
-                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_MODE => $this->getIsMultipleChoice()
+                ? $additional_info->getTagForLangVar('tst_imap_qst_mode_mc')
+                : $additional_info->getTagForLangVar('tst_imap_qst_mode_sc'),
+            AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_IMAGE => $this->getImagePathWeb() . $this->getImageFilename(),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
 
@@ -866,19 +870,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $order = 0;
         foreach ($this->getAnswers() as $key => $answer_obj) {
             array_push($answers, [
-                'answertext' => (string) $answer_obj->getAnswertext(),
-                'points' => (float) $answer_obj->getPoints(),
-                'points_unchecked' => (float) $answer_obj->getPointsUnchecked(),
-                'order' => $order,
-                'coords' => $answer_obj->getCoords(),
-                'state' => $answer_obj->getState(),
-                'feedback' => $this->formatSAQuestion(
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => (string) $answer_obj->getAnswertext(),
+                AdditionalInformationGenerator::KEY_QUESTION_POINTS_CHECKED => (float) $answer_obj->getPoints(),
+                AdditionalInformationGenerator::KEY_QUESTION_POINTS_UNCHECKED => (float) $answer_obj->getPointsUnchecked(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $order,
+                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_COORDS => $answer_obj->getCoords(),
+                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_STATE => $answer_obj->getState(),
+                AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
             ]);
             $order++;
         }
-        $result['answers'] = $answers;
+        $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $answers;
 
         return $result;
     }

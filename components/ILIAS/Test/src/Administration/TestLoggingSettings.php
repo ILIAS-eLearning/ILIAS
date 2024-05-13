@@ -48,11 +48,11 @@ class TestLoggingSettings
             'logging' => $ui_factory->input()->field()->section(
                 [
                     'activation' => $ui_factory->input()->field()->checkbox(
-                        $lng->txt('activate_assessment_logging')
+                        $lng->txt('activate_logging')
                     )->withAdditionalTransformation($trafo)
                         ->withValue($this->isLoggingEnabled())
                 ],
-                $lng->txt('assessment_log_logging')
+                $lng->txt('logging_settings')
             )
         ];
     }

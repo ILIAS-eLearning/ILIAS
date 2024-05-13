@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * GUI class for random question set pool config form
  *
@@ -198,8 +200,10 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $source_pool_definition, $available_taxonomy_ids): array
-    {
+    public function applySubmit(
+        ilTestRandomQuestionSetSourcePoolDefinition $source_pool_definition,
+        $available_taxonomy_ids
+    ): array {
         $log_array = [];
         // fau: taxFilter/typeFilter - submit multiple taxonomy and node selections - submit type selections
         $taxonomy_filter = [];
@@ -216,14 +220,14 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         $source_pool_definition->setOriginalTaxonomyFilter($taxonomy_filter);
 
         $type_filter = [];
-        if ($this->getItemByPostVar("filter_type_enabled")->getChecked()) {
-            $type_filter = $this->getItemByPostVar("filter_type")->getMultiValues();
+        if ($this->getItemByPostVar('filter_type_enabled')->getChecked()) {
+            $type_filter = $this->getItemByPostVar('filter_type')->getMultiValues();
         }
         $source_pool_definition->setTypeFilter($type_filter);
 
         $life_cycle_filter = [];
-        if ($this->getItemByPostVar("filter_lifecycle_enabled")->getChecked()) {
-            $life_cycle_filter = $this->getItemByPostVar("filter_lifecycle")->getMultiValues();
+        if ($this->getItemByPostVar('filter_lifecycle_enabled')->getChecked()) {
+            $life_cycle_filter = $this->getItemByPostVar('filter_lifecycle')->getMultiValues();
         }
         $source_pool_definition->setLifecycleFilter($life_cycle_filter);
 
@@ -232,14 +236,14 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         if ($this->questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
             $question_amount = $this->getItemByPostVar('question_amount_per_pool')->getValue();
             $source_pool_definition->setQuestionAmount(intval($question_amount));
-            $log_array['tst_inp_quest_amount_per_source_pool'] = $question_amount;
+            $log_array[AdditionalInformationGenerator::KEY_QUESTION_AMOUNT_PER_POOL] = $question_amount;
         }
 
         return [
-            'obj_qpl' => $source_pool_definition->getPoolId(),
-            'tst_inp_source_pool_filter_tax' => $taxonomy_filter,
-            'tst_filter_question_type' => $type_filter,
-            'qst_lifecycle' => $life_cycle_filter
+            AdditionalInformationGenerator::KEY_SOURCE_POOL => $source_pool_definition->getPoolId(),
+            AdditionalInformationGenerator::KEY_SOURCE_TAXONOMY_FILTER => $taxonomy_filter,
+            AdditionalInformationGenerator::KEY_SOURCE_TYPE_FILTER => $type_filter,
+            AdditionalInformationGenerator::KEY_SOURCE_LIFECYCLE_FILTER => $life_cycle_filter
         ] + $log_array;
     }
 }

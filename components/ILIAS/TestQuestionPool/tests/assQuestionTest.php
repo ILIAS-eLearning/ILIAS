@@ -71,7 +71,7 @@ class assQuestionTest extends assBaseTestCase
                 return 0;
             }
 
-            public function toLog(): array
+            public function toLog(\ILIAS\Test\Logging\AdditionalInformationGenerator $additional_info): array
             {
                 return [];
             }

@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U<
 adve#:#adve_use_physical_info#:#To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości.
 adve#:#adve_use_tiny_mce#:#Aktywuj TinyMCE do edytowania WYSIWYG
 assessment#:#action#:#Akcja
+assessment#:#activate_logging#:#Aktywuj śledzenie testów i oceniania
+assessment#:#activate_manual_scoring#:#Aktywuj ręczne punktowanie dla
+assessment#:#activate_manual_scoring_desc#:#Jeśli jest aktywowana ręczna punktacja dla typu pytania, to wszystkie pytania tego typu mogą być ręcznie punktowane przez autora testu. Ostrożnie używaj tego ustawienia, ponieważ późniejsza ręczna punktacja typów pytań automatycznie punktowanych może spowodować nieprawidłową ocenę!
 assessment#:#addSuggestedSolution#:#Pokaż sugerowane rozwiązanie
 assessment#:#add_answers#:#Dodaj odpowiedzi
 assessment#:#add_circle#:#Dodaj krąg
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#Twórz i odświeżaj odstępy
 assessment#:#create_new#:#Twórz nowe
 assessment#:#customstyle#:#Własny arkusz stylu
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Data/czas
 assessment#:#definition#:#Definicja
 assessment#:#definition_image#:#Obraz definicji
 assessment#:#definition_text#:#Tekst definicji
@@ -737,6 +741,7 @@ assessment#:#height#:#Wysokość
 assessment#:#identical_scoring#:#Identyczna ocena
 assessment#:#identical_scoring_desc#:#Jeśli wybrana jest ta opcja, luki z identycznymi rozwiązaniami są oceniane zgodnie z wytycznymi, nawet wówczas, gdy jedno rozwiązanie zostało użyte kilka razy. Jeśli nie zaznaczono pola wyboru, oceniane jest tylko pierwsze użyte identyczne rozwiązanie.
 assessment#:#imagemap#:#Mapa bitowa
+assessment#:#imap_line_color#:#Mapa bitowa, kolor linii
 assessment#:#import_question#:#Import pytań
 assessment#:#imported#:#zaimportowany
 assessment#:#info_answer_type_change#:#Pytanie zawiera już obrazy. Dlatego nie udało się zmienić typ pytania na kilkuwierszowe odpowiedzi.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Przykłady
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
-assessment#:#log_added_extratime#:#Do czasu przetwarzania dla uczestników o nr ID %d zostaną dodane dodatkowe %d minuty
-assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów %s od %d do %d przez %s.
-assessment#:#log_create_new_test#:#Utworzono nowy test
-assessment#:#log_manual_feedback#:#%s utworzono ręczną punktację dla uczestnika %s oraz pytania %s: %s
-assessment#:#log_mark_added#:#Znacznik dodany
-assessment#:#log_mark_changed#:#Znacznik zmieniony
-assessment#:#log_mark_removed#:#Znacznik usunięty
-assessment#:#log_modified_test#:#Test został zmodyfikowany
-assessment#:#log_question_added#:#Pytanie dodano na pozycji
-assessment#:#log_question_position_changed#:#Zmieniono pozycję pytania
-assessment#:#log_question_removed#:#Usunięto pytanie
-assessment#:#log_selected_user_data_removed#:#Usunięto dane testu użytkownika %s
-assessment#:#log_user_answered_question#:#Użytkownik odpowiedział na pytanie i otrzymał %s punktów
-assessment#:#log_user_entered_values#:#Wartość podana przez użytkownika
-assessment#:#log_user_not_entered_values#:#Użytkownik nie podał wartości
+assessment#:#log_text#:#Komunikat logu
 assessment#:#log_user_solution_willingly_deleted#:#Użytkownik usunął swoją odpowiedź.
-assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
+assessment#:#logging_settings#:#Rejestracja danych
+assessment#:#logs_deleted#:#Dane logu wybranych testów zostały usunięte
+assessment#:#logs_output#:#Wyniki logu danych
+assessment#:#logs_wrong_test_password_provided#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
@@ -3247,7 +3241,6 @@ common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Aktywuj
-common#:#activate_assessment_logging#:#Aktywuj śledzenie testów i oceniania
 common#:#activate_https#:#Aktywacja HTTPS (płatność, logowanie)
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
@@ -3314,24 +3307,6 @@ common#:#approve_recipient#:#Login ID zatwierdzonego
 common#:#archive#:#Archiwuj
 common#:#archive_broken#:#Archiwum wydaje się uszkodzone lub puste.
 common#:#are_you_sure#:#Jesteś pewien?
-common#:#ass_log_admin#:#Administracja logiem danych
-common#:#ass_log_count_datasets#:#Wpisy logu
-common#:#ass_log_delete_entries#:#Usuń wpisy logu
-common#:#ass_log_delete_no_selection#:#Wybierz co najmniej jeden test do usunięcia logu danych
-common#:#ass_log_deleted#:#Dane logu wybranych testów zostały usunięte
-common#:#ass_log_output#:#Wyniki logu danych
-common#:#assessment_imap_line_color#:#Mapa bitowa, kolor linii
-common#:#assessment_log#:#Twórz log testu i oceniania na określony przedział czasu
-common#:#assessment_log_datetime#:#Data/czas
-common#:#assessment_log_deleted#:#Dane logu testu i oceniania zostały usunięte
-common#:#assessment_log_for_test#:#Dla testu
-common#:#assessment_log_log_entries#:#Pozycje logu
-common#:#assessment_log_logging#:#Rejestracja danych
-common#:#assessment_log_manual_scoring_activate#:#Aktywuj ręczne punktowanie dla
-common#:#assessment_log_manual_scoring_desc#:#Jeśli jest aktywowana ręczna punktacja dla typu pytania, to wszystkie pytania tego typu mogą być ręcznie punktowane przez autora testu. Ostrożnie używaj tego ustawienia, ponieważ późniejsza ręczna punktacja typów pytań automatycznie punktowanych może spowodować nieprawidłową ocenę!
-common#:#assessment_log_question#:#Pytanie
-common#:#assessment_log_text#:#Komunikat logu
-common#:#assessment_settings_reporting_language#:#Język raportowania
 common#:#assf_allowed_questiontypes#:#Dostępne typy pytań
 common#:#assf_allowed_questiontypes_desc#:#Wszystkie wybrane typy pytań będą dostępne w tej instalacji ILIAS. Jeśli nie chcesz zezwalać na tworzenie pytań określonego typu, musisz usunąć wybór w polu wyboru.
 common#:#assf_questiontypes#:#Ustawienia pytań

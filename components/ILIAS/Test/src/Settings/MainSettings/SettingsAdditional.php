@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Checkbox;
@@ -88,11 +89,13 @@ class SettingsAdditional extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         return [
-            'tst_activate_skill_service' => $this->getSkillsServiceEnabled() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_hide_info_tab' => $this->getHideInfoTab() ? '{{ enabled }}' : '{{ disabled }}',
+            AdditionalInformationGenerator::KEY_TEST_TAXONOMIES_ENABLED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getSkillsServiceEnabled()),
+            AdditionalInformationGenerator::KEY_TEST_HIDE_INFO_TAB => $additional_info
+                ->getEnabledDisabledTagForBool($this->getHideInfoTab()),
         ];
     }
 

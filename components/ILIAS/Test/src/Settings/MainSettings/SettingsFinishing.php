@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -189,41 +190,48 @@ class SettingsFinishing extends TestSettings
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $log_array = [
-            'enable_examview' => $this->getShowAnswerOverview(),
-            'final_statement' => $this->getConcludingRemarksEnabled(),
-            'redirect_after_finishing_tst' => $this->getRedirectionMode(),
-            'redirection_url' => $this->getRedirectionUrl(),
+            AdditionalInformationGenerator::KEY_TEST_ANSWER_OVERVIEW_ENABLED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowAnswerOverview()),
+            AdditionalInformationGenerator::KEY_TEST_CONCLUDING_REMARKS_ENABLED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getConcludingRemarksEnabled()),
+            AdditionalInformationGenerator::KEY_TEST_REDIRECT_URL => $this->getRedirectionUrl(),
 
         ];
 
         switch ($this->getRedirectionMode()) {
             case \ilObjTest::REDIRECT_NONE:
-                $log_array['redirect_after_finishing_tst'] = '{{ none }}';
+                $log_array[AdditionalInformationGenerator::KEY_TEST_REDIRECT_MODE] = $additional_info
+                    ->getNoneTag();
                 break;
             case \ilObjTest::REDIRECT_ALWAYS:
-                $log_array['redirect_after_finishing_tst'] = '{{ redirect_always }}';
-                $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
+                $log_array[AdditionalInformationGenerator::KEY_TEST_REDIRECT_MODE] = $additional_info
+                    ->getTagForLangVar('redirect_always');
                 break;
             case \ilObjTest::REDIRECT_KIOSK:
-                $log_array['redirect_after_finishing_tst'] = '{{ redirect_in_kiosk_mode }}';
-                $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
+                $log_array[AdditionalInformationGenerator::KEY_TEST_REDIRECT_MODE] = $additional_info
+                    ->getTagForLangVar('redirect_in_kiosk_mode');
                 break;
         }
 
         switch ($this->getMailNotificationContentType()) {
             case 0:
-                $log_array['tst_finish_notification'] = '{{ none }}';
+                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
+                    ->getNoneTag();
                 break;
             case 1:
-                $log_array['tst_finish_notification'] = '{{ tst_finish_notification_simple }}';
-                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? '{ enabled }' : '{ disabled }';
+                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
+                    ->getTagForLangVar('tst_finish_notification_simple');
+                $log_array[AdditionalInformationGenerator::KEY_TEST_ALWAYS_SEND_NOTIFICATION] = $additional_info
+                    ->getEnabledDisabledTagForBool($this->getAlwaysSendMailNotification());
                 break;
             case 2:
-                $log_array['tst_finish_notification'] = '{{ tst_finish_notification_advanced }}';
-                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? '{ enabled }' : '{ disabled }';
+                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
+                    ->getTagForLangVar('tst_finish_notification_advanced');
+                $log_array[AdditionalInformationGenerator::KEY_TEST_ALWAYS_SEND_NOTIFICATION] = $additional_info
+                    ->getEnabledDisabledTagForBool($this->getAlwaysSendMailNotification());
                 break;
         }
 

@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#حدث
+assessment#:#activate_logging#:#تفعيل تسجيل الاختبار والتقييم
+assessment#:#activate_manual_scoring#:#تفعيل سجل العلامات اليدوي
+assessment#:#activate_manual_scoring_desc#:#اذا تم تفعيل سجل العلامات اليدوي لنوع السؤال، جميع الاسئلة من هذا النوع سيتم تسجيل علاماتها يدويا بواسطة مؤلف الاختبار. الرجاء الانتباه لهذه الاعدادات، لان سجل العلامات اليدوي المتأخر لانواع الاسئلة المسجلة آليا يمكن ان يسبب مشاكل قضائية
 assessment#:#addSuggestedSolution#:#اضافة حل مقترح
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area
@@ -587,6 +590,7 @@ assessment#:#create_gaps#:#انشاء ثغرات
 assessment#:#create_new#:#انشاء جديد
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#التاريخ\الوقت
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -737,6 +741,7 @@ assessment#:#height#:#ارتفاع
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
+assessment#:#imap_line_color#:#لون حد صورة الخريطة
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.
@@ -798,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#Created new test
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#Mark added
-assessment#:#log_mark_changed#:#Mark changed
-assessment#:#log_mark_removed#:#Mark removed
-assessment#:#log_modified_test#:#The test was modified
-assessment#:#log_question_added#:#Question added at position
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#Question removed
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
-assessment#:#log_user_answered_question#:#User answered a question and received %s points
-assessment#:#log_user_entered_values#:#قيم المستخدم المدخلة
-assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_text#:#Log message
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#تسجيل
+assessment#:#logs_deleted#:#تسجيل البيانات للاختبارات المختارة تم حذفها
+assessment#:#logs_output#:#نتيجة تسجيل البيانات
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass
@@ -3249,7 +3243,6 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#وظائف
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#وضعية فعال
-common#:#activate_assessment_logging#:#تفعيل تسجيل الاختبار والتقييم
 common#:#activate_https#:#ILIAS المعالجة بواسطة HTTPS<br>(الدفع, الدخول)
 common#:#activate_tracking#:#تفعيل
 common#:#activation#:#تعديل الوقت
@@ -3316,24 +3309,6 @@ common#:#approve_recipient#:#Login ID of Approver
 common#:#archive#:#الارشيف
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Are you sure?
-common#:#ass_log_admin#:#ادراة تسجيل البينات
-common#:#ass_log_count_datasets#:#مدخلات التسجيل
-common#:#ass_log_delete_entries#:#حذف مدخلات التسجيل
-common#:#ass_log_delete_no_selection#:#الرجاء اختيار اختبار واحد على الاقل لحذف تسجيل البيانات
-common#:#ass_log_deleted#:#تسجيل البيانات للاختبارات المختارة تم حذفها
-common#:#ass_log_output#:#نتيجة تسجيل البيانات
-common#:#assessment_imap_line_color#:#لون حد صورة الخريطة
-common#:#assessment_log#:#Create a Test & Assessment log for a specific time period
-common#:#assessment_log_datetime#:#التاريخ\الوقت
-common#:#assessment_log_deleted#:#تسجيل بيانات الاختبار والتقييم تم حذفها من الادارة
-common#:#assessment_log_for_test#:#للاختبار
-common#:#assessment_log_log_entries#:#log entries
-common#:#assessment_log_logging#:#تسجيل
-common#:#assessment_log_manual_scoring_activate#:#تفعيل سجل العلامات اليدوي
-common#:#assessment_log_manual_scoring_desc#:#اذا تم تفعيل سجل العلامات اليدوي لنوع السؤال، جميع الاسئلة من هذا النوع سيتم تسجيل علاماتها يدويا بواسطة مؤلف الاختبار. الرجاء الانتباه لهذه الاعدادات، لان سجل العلامات اليدوي المتأخر لانواع الاسئلة المسجلة آليا يمكن ان يسبب مشاكل قضائية
-common#:#assessment_log_question#:#سؤال
-common#:#assessment_log_text#:#Log message
-common#:#assessment_settings_reporting_language#:#تقرير اللغة
 common#:#assf_allowed_questiontypes#:#انواع الاسئلة الموجودة
 common#:#assf_allowed_questiontypes_desc#:#واذا كنت لا تريد السماح بانشاء نوع سؤال معين في هذا الاصدار، عليك اذن ازالة التعيين في صندوق الفحص المختصILIAS ستكون جميع انواع الاسئلة التي تم فحصها موجودة في اصدار
 common#:#assf_questiontypes#:#اعدادات السؤال

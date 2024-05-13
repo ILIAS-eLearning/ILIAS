@@ -23,11 +23,13 @@ use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 interface Question
 {
     public function validateSolutionSubmit();
 
-    public function toLog(): array;
+    public function toLog(AdditionalInformationGenerator $additional_info): array;
 
     public function answerToParticipantInteraction(
         int $test_id,
@@ -38,6 +40,7 @@ interface Question
     ): TestParticipantInteraction;
 
     public function toQuestionAdministrationInteraction(
+        AdditionalInformationGenerator $additional_info,
         int $test_id,
         TestQuestionAdministrationInteractionTypes $interaction_type
     ): TestQuestionAdministrationInteraction;

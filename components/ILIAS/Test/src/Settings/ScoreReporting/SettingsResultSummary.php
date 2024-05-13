@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -177,44 +178,53 @@ class SettingsResultSummary extends TestSettings
             'reporting_date' => ['text', (string) $dat],
             'show_grading_status' => ['integer', (int) $this->getShowGradingStatusEnabled()],
             'show_grading_mark' => ['integer', (int) $this->getShowGradingMarkEnabled()]
-            //show_pass_details
         ];
     }
 
-    public function toLog(): array
+    public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         switch ($this->getScoreReporting()) {
             case self::SCORE_REPORTING_DISABLED:
-                $log_array['tst_results_access_setting'] = '{{ tst_results_access_setting }}';
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
+                    ->getTagForLangVar('tst_results_access_setting');
                 break;
             case self::SCORE_REPORTING_FINISHED:
-                $log_array['tst_results_access_setting'] = '{{ tst_results_access_finished }}';
-                $log_array += $this->getLogEntriesForSoreReportingEnabled();
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
+                    ->getTagForLangVar('tst_results_access_finished');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_IMMIDIATLY:
-                $log_array['tst_results_access_setting'] = '{{ tst_results_access_always }}';
-                $log_array += $this->getLogEntriesForSoreReportingEnabled();
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
+                    ->getTagForLangVar('tst_results_access_always');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_DATE:
-                $log_array['tst_results_access_date'] = '{{ tst_results_access_setting }}';
-                $log_array['tst_reporting_date'] = $this->getReportingDate();
-                $log_array += $this->getLogEntriesForSoreReportingEnabled();
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
+                    ->getTagForLangVar('tst_results_access_date');
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING_DATE] = $this->getReportingDate();
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_AFTER_PASSED:
-                $log_array['tst_results_access_setting'] = '{{ tst_results_access_passed }}';
-                $log_array += $this->getLogEntriesForSoreReportingEnabled();
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
+                    ->getTagForLangVar('tst_results_access_passed');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
                 break;
         }
         return $log_array;
     }
 
-    private function getLogEntriesForSoreReportingEnabled(): array
-    {
+    private function getLogEntriesForSoreReportingEnabled(
+        AdditionalInformationGenerator $additional_info
+    ): array {
         return [
-            'tst_results_grading_opt_show_status' => $this->getShowGradingStatusEnabled() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_results_grading_opt_show_mark' => $this->getShowGradingMarkEnabled() ? '{{ enabled }}' : '{{ disabled }}',
-            'tst_results_grading_opt_show_details' => $this->getShowPassDetails() ? '{{ enabled }}' : '{{ disabled }}',
-            'pass_deletion_allowed' => $this->getPassDeletionAllowed() ? '{{ enabled }}' : '{{ disabled }}'
+            AdditionalInformationGenerator::KEY_SCORING_REPORTING_SHOW_STATUS => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowGradingStatusEnabled()),
+            AdditionalInformationGenerator::KEY_SCORING_REPORTING_SHOW_MARK => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowGradingMarkEnabled()),
+            AdditionalInformationGenerator::KEY_SCORING_REPORTING_SHOW_DETAILS => $additional_info
+                ->getEnabledDisabledTagForBool($this->getShowPassDetails()),
+            AdditionalInformationGenerator::KEY_SCORING_DELETION_ALLOWED => $additional_info
+                ->getEnabledDisabledTagForBool($this->getPassDeletionAllowed())
         ];
     }
 

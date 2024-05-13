@@ -416,6 +416,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Ενέργεια
+assessment#:#activate_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Add suggested solution###30 04 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -588,6 +591,7 @@ assessment#:#create_gaps#:#Δημιουργία κενών
 assessment#:#create_new#:#Δημιουργία νέου
 assessment#:#customstyle#:#Custom Style###02 03 2009 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Ημερομηνία/Ώρα
 assessment#:#definition#:#Ορισμός
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
@@ -738,6 +742,7 @@ assessment#:#height#:#Ύψος
 assessment#:#identical_scoring#:#Ταυτόσημα αποτελέσματα
 assessment#:#identical_scoring_desc#:#Εαν επιλεγέι, τα κενά με ταυτόσημες λύσεις θα προσμετρηθούν, ακόμα και εαν η ίδια λύση επιλέχθηκε δύο ή και περισσότερες φορές. Εαν δέν επιλεγεί, μόνο η πρώτη εμφάνιση της ίδιας λύσης θα βαθμόλογηθεί
 assessment#:#imagemap#:#Χάρτης εικόνας
+assessment#:#imap_line_color#:#Imagemap Line Color###02 03 2009 new variable
 assessment#:#import_question#:#Ερωτήσεις εισαγωγής
 assessment#:#imported#:#imported###12 06 2011 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -799,23 +804,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Τελευταία ενημέρωση
 assessment#:#legend#:#Υπόμνημα
 assessment#:#locked#:#κλειδωμένο
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Χειροκίνητη αλλαγή των βαθμών του τέστ του αξιολογούμενου %s απο %d σε %d points κατα %s
-assessment#:#log_create_new_test#:#Δημιουργήθηκε νέο τεστ
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###30 04 2009 new variable
-assessment#:#log_mark_added#:#Προστέθηκε βαθμός
-assessment#:#log_mark_changed#:#Ο βαθμός άλλαξε
-assessment#:#log_mark_removed#:#Ο βαθμός διαγράφηκε
-assessment#:#log_modified_test#:#Το τεστ τροποποιήθηκε
-assessment#:#log_question_added#:#Η ερώτηση προστέθηκε στη θέση
-assessment#:#log_question_position_changed#:#Η θέση της ερώτησης άλλαξε
-assessment#:#log_question_removed#:#Η ερώτηση διαγράφηκε
-assessment#:#log_selected_user_data_removed#:#Διαγράφηκαν τα δεδομένα διαγωνίσματος του χρήστη %s
-assessment#:#log_user_answered_question#:#Ο χρήστης απάντησε μια ερώτηση και έλαβε %s βαθμούς
-assessment#:#log_user_entered_values#:#Τιμές εισηγμένες από το χρήστη
-assessment#:#log_user_not_entered_values#:#Ο χρήστης δεν εισήγαγε τιμές
+assessment#:#log_text#:#Μήνημα καταγραφής
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logging
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted
+assessment#:#logs_output#:#Log Data Output
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -3250,7 +3244,6 @@ common#:#action_aborted#:#Η ενέργεια ακυρώθηκε
 common#:#actions#:#Ενέργειες
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Set Active
-common#:#activate_assessment_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
 common#:#activate_https#:#Διαχείρηση HTTPS από το ILIAS<br>(Πληρωμή, Σύνδεση)
 common#:#activate_tracking#:#Ενεργοποίηση Ιχνηλασίας
 common#:#activation#:#Ενεργοποίηση
@@ -3317,24 +3310,6 @@ common#:#approve_recipient#:#Ταυτότητα σύνδεσης του εξου
 common#:#archive#:#Αρχείο
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Είστε βέβαιοι;
-common#:#ass_log_admin#:#Log Data Administration
-common#:#ass_log_count_datasets#:#Log Entries
-common#:#ass_log_delete_entries#:#Delete Log Entries
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#Log Data Output
-common#:#assessment_imap_line_color#:#Imagemap Line Color###02 03 2009 new variable
-common#:#assessment_log#:#Δημιουργία καταγραφής Διαγωνίσματος & Αξιολόγησης για συγκεκριμένη χρονική περίοδο
-common#:#assessment_log_datetime#:#Ημερομηνία/Ώρα
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#Για το διαγώνισμα
-common#:#assessment_log_log_entries#:#εισαγωγές στο αρχείο καταγραφής
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
-common#:#assessment_log_question#:#Ερώτηση
-common#:#assessment_log_text#:#Μήνημα καταγραφής
-common#:#assessment_settings_reporting_language#:#Γλώσσα αναφοράς
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
