@@ -257,7 +257,8 @@ class ilImagemapPreview
 
         $ident = $this->getAreaIdent();
         $requested_preview_file = $image_path . $ident . $base_file_name;
-        if (md5_file($requested_preview_file) !== md5_file($preview_file)
+        if ((!is_file($requested_preview_file)
+            || md5_file($requested_preview_file) !== md5_file($preview_file))
             && $ident !== '') {
             copy($preview_file, $requested_preview_file);
         }

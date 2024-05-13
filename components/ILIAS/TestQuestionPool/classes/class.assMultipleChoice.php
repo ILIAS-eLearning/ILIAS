@@ -213,17 +213,22 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @see      ASS_AnswerBinaryStateImage
      */
     public function addAnswer(
-        $answertext = "",
-        $points = 0.0,
-        $points_unchecked = 0.0,
-        $order = 0,
-        $answerimage = null,
-        $answer_id = -1
+        string $answertext = '',
+        float $points = 0.0,
+        float $points_unchecked = 0.0,
+        int $order = 0,
+        ?string $answerimage = null,
+        int $answer_id = -1
     ): void {
-        $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
             // insert answer
-            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, $order, -1, 0);
+            $answer = new ASS_AnswerMultipleResponseImage(
+                $this->getHtmlQuestionContentPurifier()->purify($answertext),
+                $points,
+                $order,
+                -1,
+                0
+            );
             $answer->setPointsUnchecked($points_unchecked);
             $answer->setImage($answerimage);
             $newchoices = [];
@@ -237,8 +242,15 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 $newchoices[] = $changed;
             }
             $this->answers = $newchoices;
+            return;
         } else {
-            $answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), (int) $answer_id, 0);
+            $answer = new ASS_AnswerMultipleResponseImage(
+                $this->getHtmlQuestionContentPurifier()->purify($answertext),
+                $points,
+                count($this->answers),
+                $answer_id,
+                0
+            );
             $answer->setPointsUnchecked($points_unchecked);
             $answer->setImage($answerimage);
             $this->answers[] = $answer;

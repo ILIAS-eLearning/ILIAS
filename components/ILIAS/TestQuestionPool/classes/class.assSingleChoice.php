@@ -182,13 +182,19 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         string $answertext = '',
         float $points = 0.0,
         int $order = 0,
-        string $answerimage = '',
+        ?string $answerimage = null,
         int $answer_id = -1
     ): void {
-        $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
             // insert answer
-            $answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order, true, $answerimage, $answer_id);
+            $answer = new ASS_AnswerBinaryStateImage(
+                $this->getHtmlQuestionContentPurifier()->purify($answertext),
+                $points,
+                $order,
+                true,
+                $answerimage,
+                $answer_id
+            );
             $newchoices = [];
             for ($i = 0; $i < $order; $i++) {
                 $newchoices[] = $this->answers[$i];
@@ -200,17 +206,18 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 $newchoices[] = $changed;
             }
             $this->answers = $newchoices;
-        } else {
-            $answer = new ASS_AnswerBinaryStateImage(
-                $answertext,
-                $points,
-                count($this->answers),
-                true,
-                $answerimage,
-                $answer_id
-            );
-            $this->answers[] = $answer;
+            return;
         }
+
+        $answer = new ASS_AnswerBinaryStateImage(
+            $this->getHtmlQuestionContentPurifier()->purify($answertext),
+            $points,
+            count($this->answers),
+            true,
+            $answerimage,
+            $answer_id
+        );
+        $this->answers[] = $answer;
     }
 
     /**

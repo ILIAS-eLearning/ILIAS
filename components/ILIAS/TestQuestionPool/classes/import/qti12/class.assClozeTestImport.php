@@ -125,13 +125,17 @@ class assClozeTestImport extends assQuestionImport
                                     "shuffle" => $rendertype->getShuffle()
                                 ];
                             }
-                            array_push($gaps, ["ident" => $response->getIdent(), "type" => assClozeGap::TYPE_SELECT, "shuffle" => $rendertype->getShuffle(), "answers" => $answers]);
+                            $gaps[] = [
+                                'ident' => $response->getIdent(),
+                                'type' => assClozeGap::TYPE_SELECT,
+                                'shuffle' => $rendertype->getShuffle(),
+                                'answers' => $answers
+                            ];
                             break;
                     }
                     break;
             }
         }
-        $responses = [];
         $feedbacks = [];
         $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
@@ -247,8 +251,8 @@ class assClozeTestImport extends assQuestionImport
         $this->object->setOwner($user_id);
         $this->object->setObjId($questionpool_id);
         $textgap_rating = $item->getMetadataEntry("textgaprating");
-        $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
-        $this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
+        $this->object->setFixedTextLength((int) $item->getMetadataEntry("fixedTextLength"));
+        $this->object->setIdenticalScoring((bool) $item->getMetadataEntry("identicalScoring"));
         $this->object->setFeedbackMode(
             strlen($item->getMetadataEntry("feedback_mode")) ?
             $item->getMetadataEntry("feedback_mode") : ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION

@@ -46,13 +46,13 @@ class assErrorTextImport extends assQuestionImport
         $this->object->setOwner($user_id);
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setPointsWrong($item->getMetadataEntry("points_wrong"));
+        $this->object->setPointsWrong((float) $item->getMetadataEntry("points_wrong"));
         $this->object->setErrorText($item->getMetadataEntry("errortext"));
         $parsed_error_text = $item->getMetadataEntry("parsederrortext");
         if ($parsed_error_text !== null) {
             $this->object->setParsedErrorText(unserialize($parsed_error_text, ['allowed_classes' => false]));
         }
-        $this->object->setTextSize($item->getMetadataEntry("textsize"));
+        $this->object->setTextSize((float) $item->getMetadataEntry("textsize"));
         $errordata = unserialize($item->getMetadataEntry("errordata"), ["allowed_classes" => false]);
         if (is_array($errordata)) {
             $errordata_answers_array = [];

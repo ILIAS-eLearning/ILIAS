@@ -35,6 +35,8 @@ use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
+use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
@@ -3533,7 +3535,7 @@ class ilObjTest extends ilObject
         ilObjTestSettingsIntroduction $settings,
         array $material,
         string $importdir
-    ): ilObjTestSettingsIntroduction {
+    ): SettingsIntroduction {
         $text = $material['text'];
         $mobs = $material['mobs'];
         if (str_starts_with($text, '<PageObject>')) {
@@ -3548,7 +3550,7 @@ class ilObjTest extends ilObject
 
         $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
-        return new ilObjTestSettingsIntroduction(
+        return new SettingsIntroduction(
             $settings->getTestId(),
             $text !== '',
             $text
@@ -3559,7 +3561,7 @@ class ilObjTest extends ilObject
         ilObjTestSettingsFinishing $settings,
         array $material,
         string $importdir
-    ): ilObjTestSettingsFinishing {
+    ): SettingsFinishing {
         $file_to_import = ilSession::get('path_to_import_file');
         $text = $material['text'];
         $mobs = $material['mobs'];
@@ -3575,7 +3577,7 @@ class ilObjTest extends ilObject
 
         $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
-        return new ilObjTestSettingsFinishing(
+        return new SettingsFinishing(
             $settings->getTestId(),
             $settings->getShowAnswerOverview(),
             strlen($text) > 0,
