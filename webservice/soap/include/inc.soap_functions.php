@@ -457,7 +457,7 @@ class ilSoapFunctions
 
         $sca = new ilSoapGroupAdministration();
 
-        return $sca->excludeGroupMember($sid, $group_id, $user_id, $type);
+        return $sca->excludeGroupMember($sid, $group_id, $user_id);
     }
 
     public static function distributeMails($sid, $mail_xml)
