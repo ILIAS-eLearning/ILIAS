@@ -6293,6 +6293,7 @@ content#:#cont_dir_file#:#Mappa / fájl
 content#:#cont_dir_renamed#:#A mappát sikeresen átnevezte.
 content#:#cont_disable_def_feedback#:#Alapértelmezett kérdés-visszajelzés tiltása
 content#:#cont_disable_def_feedback_info#:#Ha ki van kapcsolva, megválaszolt kérdések semmilyen visszajelzést nem jelenítenek meg a hallgatónak. Egyéni visszajelzéseket szükséges megadni a kérdésekhez.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Letöltés
 content#:#cont_download_no_download#:#A felhasználók nem fognak tudni letölteni, mert a letöltés nincs aktiválva.
 content#:#cont_download_no_menu#:#A felhasználók nem fognak tudni letölteni, mert a tananyagmenü nincs aktiválva.

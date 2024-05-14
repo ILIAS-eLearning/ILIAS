@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Katalog/Plik
 content#:#cont_dir_renamed#:#Zmieniono nazwę indeksu.
 content#:#cont_disable_def_feedback#:#Wyłącz domyślny feedback
 content#:#cont_disable_def_feedback_info#:#Wyłącza domyślny feedback po udzieleniu odpowiedzi na pytania.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Funkcja pobierania jest aktualnie wyłączona. Dlatego plik nie jest dostępny dla uczestników kursu.
 content#:#cont_download_no_menu#:#Menu modułu nauczania jest aktualnie wyłączone. Dlatego plik nie jest dostępny dla uczestników kursu.

@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Adresář/soubor
 content#:#cont_dir_renamed#:#Adresář byl přejmenován.
 content#:#cont_disable_def_feedback#:#Vypnout výchozí ohlas otázky
 content#:#cont_disable_def_feedback_info#:#Je-li vypnuto, odpovědi otázek nebudou zobrazovat studentovi žádný ohlas. Budete muset poskytovat uživatelské ohlasy pro každou otázku.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Stáhnout
 content#:#cont_download_no_download#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována vlastnost ke stažení.
 content#:#cont_download_no_menu#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována nabídka výukového modulu.

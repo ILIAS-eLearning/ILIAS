@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Director/Fisier
 content#:#cont_dir_renamed#:#Directory has been renamed.###22 09 2009 new variable
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback###24 10 2013 new variable
 content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.###24 10 2013 new variable
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Download###27 01 2015 new variable
 content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
 content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable

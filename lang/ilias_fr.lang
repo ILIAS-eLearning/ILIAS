@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Dossier/Fichier
 content#:#cont_dir_renamed#:#Le dossier a été renommé.
 content#:#cont_disable_def_feedback#:#Désactiver le Retour Utilisateur par Défaut
 content#:#cont_disable_def_feedback_info#:#Lorsque désactivé, il n'y a aucun retour utilisateur pour les questions répondues. Vous devez fournir des retours utilisateurs personnalisés pour vos questions.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Télécharger
 content#:#cont_download_no_download#:#Le téléchargement ne sera pas disponible pour les utilisateurs dès lors que la fonction de téléchargement n'est pas active.
 content#:#cont_download_no_menu#:#Le téléchargement ne sera pas disponible pour les utilisateurs dès lors que le menu du document d'apprentissage n'est pas actif.

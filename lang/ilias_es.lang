@@ -6281,6 +6281,7 @@ content#:#cont_dir_file#:#Directorio/Archivo
 content#:#cont_dir_renamed#:#El directorio ha sido renombrado.
 content#:#cont_disable_def_feedback#:#Deshabilitar opción por defecto de mostrar comentarios del profesor al responder
 content#:#cont_disable_def_feedback_info#:#Si se marca esta opción, las preguntas contestadas no mostrarán los comentarios del profesor para el alumno. En su caso, debe proporcionar estos comentarios para cada pregunta.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Descargar
 content#:#cont_download_no_download#:#La descarga no estará disponible para los usuarios, debido a que la función de descarga no está activa.
 content#:#cont_download_no_menu#:#La descarga no estará disponible para los usuarios, debido a que el módulo de aprendizaje no está activo.

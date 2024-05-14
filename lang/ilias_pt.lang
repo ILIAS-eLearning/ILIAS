@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Sem a declaração de tamanho, este pode ser controlad
 content#:#cont_dir_renamed#:#O diretório mudou de nome.
 content#:#cont_disable_def_feedback#:#Desativar feedback predefinido de perguntas
 content#:#cont_disable_def_feedback_info#:#Se estiver desativado, as perguntas respondidas não apresentam nenhum feedback para o aluno. Tem de fornecer feedbacks personalizados para as suas perguntas.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Roman i, ii, …
 content#:#cont_download_no_menu#:#Área de mapa guardada

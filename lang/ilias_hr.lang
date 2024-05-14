@@ -6279,6 +6279,7 @@ content#:#cont_dir_file#:#Direktorij/datoteka
 content#:#cont_dir_renamed#:#Direktorij je preimenovan.
 content#:#cont_disable_def_feedback#:#Onemogući povratne informacije o zadanim pitanjima
 content#:#cont_disable_def_feedback_info#:#Ako je onemogućeno, za pitanja za koja je dan odgovor, polazniku se neće pokazivati povratne informacije.Za svoja pitanja morate osigurati prilagođene povratne informacije.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Preuzimanje
 content#:#cont_download_no_download#:#Preuzimanje neće biti dostupno korisnicima budući da značajka preuzimanja nije aktivirana.
 content#:#cont_download_no_menu#:#Preuzimanje neće biti dostupno korisnicima budući da izbornik modula za učenje nije aktiviran.
