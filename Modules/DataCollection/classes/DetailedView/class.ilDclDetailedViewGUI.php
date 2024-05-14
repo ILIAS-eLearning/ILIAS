@@ -211,7 +211,7 @@ class ilDclDetailedViewGUI
         foreach ($table->getStandardFields() as $field) {
             $html = str_ireplace(
                 "[" . $field->getId() . "]",
-                $this->record_obj->getRecordFieldSingleHTML($field->getId()),
+                $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),
                 $html
             );
         }
