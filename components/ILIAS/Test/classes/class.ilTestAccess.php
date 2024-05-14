@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\MainSettings\SettingsAccess;
 
 /**
  * Class ilTestAccess
@@ -209,7 +210,7 @@ class ilTestAccess
     private function isPartipipantWithIpAllowedToAccessTest(
         int $user_id,
         string $ip,
-        ilObjTestSettingsAccess $access_settings
+        SettingsAccess $access_settings
     ): ?bool {
         $assigned_users_result = $this->db->queryF(
             "SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
@@ -243,7 +244,7 @@ class ilTestAccess
 
     private function isIpAllowedToAccessTest(
         string $ip,
-        ilObjTestSettingsAccess $access_settings
+        SettingsAccess $access_settings
     ): bool {
         if (!$access_settings->isIpRangeEnabled()) {
             return true;
