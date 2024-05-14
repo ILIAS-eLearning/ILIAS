@@ -123,8 +123,10 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
             $this->webDirectory->delete($fileName);
         }
 
-        if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
-            $this->upload->process();
+        if ($this->upload->hasUploads()) {
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
+            }
 
             /** @var UploadResult $result */
             $result = array_values($this->upload->getResults())[0];
