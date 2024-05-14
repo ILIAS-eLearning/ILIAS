@@ -755,6 +755,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version                       | MariaDB Version        |
 |---------------|-------------------------------------|------------------------|
+| 10.0 - 10.x   | 8.0.x                               | 10.5 - 10.11           |
 | 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |
