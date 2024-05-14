@@ -384,6 +384,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlElement('MinMembers', null, (int) $this->course_obj->getSubscriptionMinMembers());
         
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
+        $this->xmlElement('AboStatus', null, $this->course_obj->getAboStatus());
         if ($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
