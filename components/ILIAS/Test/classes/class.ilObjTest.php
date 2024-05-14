@@ -985,7 +985,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getProcessingTimeAsMinutes()
     {
         if ($this->processing_time !== null) {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string)$this->processing_time, $matches)) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $this->processing_time, $matches)) {
                 return ($matches[1] * 60) + $matches[2];
             }
         }
@@ -1003,7 +1003,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getProcessingTimeInSeconds($active_id = ""): int
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime() ?? '';
-        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", (string)$processing_time, $matches)) {
+        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", (string) $processing_time, $matches)) {
             $extratime = $this->getExtraTime($active_id) * 60;
             return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
         } else {
@@ -3229,7 +3229,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function fromXML(ilQTIAssessment $assessment)
     {
-        $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
+        if (($importdir = ilSession::get('path_to_container_import_file')) === null) {
+            $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
+        }
+        ilSession::clear('path_to_container_import_file');
         ilSession::clear('import_mob_xhtml');
 
         $this->saveToDb(true);
@@ -3318,7 +3321,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     break;
 
                 case "highscore_score":
-                    $gamification_settings = $gamification_settings->withHighscoreScore((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreScore((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_percentage":
@@ -3345,7 +3348,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $gamification_settings = $gamification_settings->withHighscoreTopNum((int) $metadata["entry"]);
                     break;
                 case "use_previous_answers":
-                    $participant_functionality_settings = $participant_functionality_settings->withUsePreviousAnswerAllowed((bool)$metadata["entry"]);
+                    $participant_functionality_settings = $participant_functionality_settings->withUsePreviousAnswerAllowed((bool) $metadata["entry"]);
                     break;
                 case "title_output":
                     $question_behaviour_settings = $question_behaviour_settings->withQuestionTitleOutputMode((int) $metadata["entry"]);
@@ -3415,7 +3418,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $result_details_settings = $result_details_settings->withExportSettings((int) $metadata["entry"]);
                     break;
                 case "score_cutting":
-                    $scoring_settings = $scoring_settings->withScoreCutting((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withScoreCutting((int) $metadata["entry"]);
                     break;
                 case "password":
                     $access_settings = $access_settings->withPasswordEnabled(

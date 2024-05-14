@@ -65,17 +65,26 @@ class ilTestImporter extends ilXmlImporter
             $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $new_obj->saveToDb(); // this generates test id first time
             $question_parent_obj_id = $new_obj->getId();
+
+            ilSession::set('path_to_container_import_file', $importdir);
+            list($importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromContainerImport(
+                $this->getImportDirectory()
+            );
+            $selected_questions = [];
         } else {
             // single object
             $new_id = (int) $a_mapping->getMapping('components/ILIAS/Test', 'tst', 'new_id');
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
-
             $question_parent_obj_id = (int) (ilSession::get('tst_import_qst_parent') ?? $new_obj->getId());
+
+            $selected_questions = ilSession::get('tst_import_selected_questions');
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(
+                ilSession::get('path_to_import_file')
+            );
+            ilSession::clear('tst_import_selected_questions');
         }
 
         $new_obj->loadFromDb();
-
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(ilSession::get('path_to_import_file'));
 
         if (!file_exists($xmlfile)) {
             $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
@@ -92,9 +101,6 @@ class ilTestImporter extends ilXmlImporter
         // TODO: move all logic to ilObjTest::importVerifiedFile and call
         // this method from ilObjTestGUI and ilTestImporter
         $new_obj->getMarkSchema()->flush();
-
-        $selected_questions = ilSession::get('tst_import_selected_questions');
-        ilSession::clear('tst_import_selected_questions');
 
         // start parsing of QTI files
         $qti_parser = new ilQTIParser(
@@ -279,36 +285,6 @@ class ilTestImporter extends ilXmlImporter
         }
 
         return $newMappedFilter;
-    }
-
-    /**
-     * Create qti and xml file name
-     * @return array
-     */
-    protected function parseXmlFileNames(): array
-    {
-        $this->log->write(__METHOD__ . ': ' . $this->getImportDirectory());
-
-        $basename = basename($this->getImportDirectory());
-
-        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        $qti = $this->getImportDirectory() . '/' . preg_replace('/test|tst/', 'qti', $basename) . '.xml';
-
-        return [$xml,$qti];
-    }
-
-    private function getImportDirectoryContainer(): string
-    {
-        $dir = $this->getImportDirectory();
-        $dir = dirname($dir);
-        return $dir;
-    }
-
-    private function getImportPackageName(): string
-    {
-        $dir = $this->getImportDirectory();
-        $name = basename($dir);
-        return $name;
     }
 
     protected function importRandomQuestionSetConfig(ilObjTest $test_obj, $xmlFile, $a_mapping)

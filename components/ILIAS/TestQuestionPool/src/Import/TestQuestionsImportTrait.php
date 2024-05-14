@@ -42,6 +42,15 @@ trait TestQuestionsImportTrait
         ];
     }
 
+    private function buildImportDirectoriesFromContainerImport(string $importdir): array
+    {
+        return [
+            $importdir,
+            $importdir . DIRECTORY_SEPARATOR . basename($importdir) . '.xml',
+            $importdir . DIRECTORY_SEPARATOR . preg_replace('/test|tst/', 'qti', basename($importdir)) . '.xml'
+        ];
+    }
+
     private function getImportTempDirectory(): string
     {
         return $this->import_temp_directory;

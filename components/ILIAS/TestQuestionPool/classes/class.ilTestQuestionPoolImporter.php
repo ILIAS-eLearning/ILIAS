@@ -48,16 +48,25 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         if (($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) !== null) {
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $new_obj->getObjectProperties()->storePropertyIsOnline($new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
+
+            $selected_questions = [];
+            list($importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromContainerImport(
+                $this->getImportDirectory()
+            );
         } elseif (($new_id = $a_mapping->getMapping('components/ILIAS/TestQuestionPool', 'qpl', "new_id")) !== null) {
             $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+
+            $selected_questions = ilSession::get('qpl_import_selected_questions');
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(
+                ilSession::get('path_to_import_file')
+            );
+            ilSession::clear('qpl_import_selected_questions');
         } else {
             // Shouldn't happen
             global $DIC; /* @var ILIAS\DI\Container $DIC */
             $DIC['ilLog']->write(__METHOD__ . ': non container and no tax mapping, perhaps old qpl export');
             return;
         }
-
-        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(ilSession::get('path_to_import_file'));
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if (!file_exists($xmlfile)) {
@@ -87,9 +96,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xmlfile . ", qti file:" . $qtifile);
-
-        $selected_questions = ilSession::get('qpl_import_selected_questions');
-        ilSession::clear('qpl_import_selected_questions');
 
         $qtiParser = new ilQTIParser(
             $importdir,
