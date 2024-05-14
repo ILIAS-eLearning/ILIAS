@@ -20,8 +20,6 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\Refinery\Factory;
-use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 
 /**
  * Cloze test question GUI representation
@@ -87,7 +85,6 @@ JS;
 
     private RandomGroup $randomGroup;
     private Container $dic;
-    private Factory $refinery;
     private ArrayBasedRequestWrapper $post;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
@@ -104,7 +101,6 @@ JS;
         $this->dic = $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->refinery = $this->dic->refinery();
         $this->post = $this->dic->http()->wrapper()->post();
 
         $this->object = new assClozeTest();

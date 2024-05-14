@@ -404,8 +404,8 @@ $.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
 );
 JS;
 
-            $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
-            $this->tpl->addJavascript("asserts/js/identifiedwizardinput.js");
+            $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+            $this->tpl->addJavascript("assets/js/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode($init_code);
         }
 

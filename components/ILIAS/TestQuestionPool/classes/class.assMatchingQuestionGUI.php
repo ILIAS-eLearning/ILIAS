@@ -68,6 +68,30 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
+        $array_of_strings_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->string()
+                ),
+                $this->refinery->always([])
+            ]
+        );
+        $array_of_ints_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->int()
+                ),
+                $this->refinery->always([])
+            ]
+        );
+        $array_of_floats_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->float()
+                ),
+                $this->refinery->always([])
+            ]
+        );
         // Delete all existing answers and create new answers from the form data
         $this->object->flushMatchingPairs();
         $this->object->flushTerms();
@@ -77,9 +101,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $allowed_mime_types = ['image/jpeg', 'image/png', 'image/gif'];
 
         if ($this->request->isset('terms')) {
-            $answers = $this->request->raw('terms')['answer'] ?? [];
-            $terms_image_names = $this->request->raw('terms')['imagename'] ?? [];
-            $terms_identifiers = $this->request->raw('terms')['identifier'] ?? [];
+            $terms = $this->request->raw('terms');
+            $answers = $array_of_strings_trafo->transform($terms['answer']);
+            $terms_image_names = $array_of_strings_trafo->transform($terms['imagename'] ?? []);
+            $terms_identifiers = $array_of_ints_trafo->transform($terms['identifier']);
 
             foreach ($answers as $index => $answer) {
                 $filename = $terms_image_names[$index] ?? '';
@@ -110,9 +135,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($this->request->isset('definitions')) {
-            $answers = $this->request->raw('definitions')['answer'] ?? [];
-            $definitions_image_names = $this->request->raw('definitions')['imagename'] ?? [];
-            $definitions_identifiers = $this->request->raw('definitions')['identifier'] ?? [];
+            $definitions = $this->request->raw('definitions');
+            $answers = $array_of_strings_trafo->transform($definitions['answer']);
+            $definitions_image_names = $array_of_strings_trafo->transform($definitions['imagename'] ?? []);
+            $definitions_identifiers = $array_of_ints_trafo->transform($definitions['identifier']);
 
             foreach ($answers as $index => $answer) {
                 $filename = $definitions_image_names[$index] ?? '';
@@ -142,9 +168,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($this->request->isset('pairs')) {
-            $points_of_pairs = $this->request->raw('pairs')['points'] ?? [];
-            $pair_terms = $this->request->raw('pairs')['term'] ?? [];
-            $pair_definitions = $this->request->raw('pairs')['definition'] ?? [];
+            $pairs = $this->request->raw('pairs');
+            $points_of_pairs = $array_of_floats_trafo->transform($pairs['points']);
+            $pair_terms = $array_of_ints_trafo->transform($pairs['term']);
+            $pair_definitions = $array_of_ints_trafo->transform($pairs['definition']);
 
             foreach ($points_of_pairs as $index => $points) {
                 $term_id = $pair_terms[$index] ?? 0;
@@ -152,7 +179,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
-                    (float) str_replace(',', '.', $points)
+                    $points
                 );
             }
         }
@@ -161,14 +188,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setShuffle($_POST["shuffle"] ?? '0');
-            $this->object->setShuffleMode($_POST["shuffle"] ?? '0');
+            $this->object->setShuffle($this->request->int('shuffle'));
+            $this->object->setShuffleMode($this->request->int('shuffle'));
         } else {
             $this->object->setShuffle(1);
             $this->object->setShuffleMode(1);
         }
-        $this->object->setThumbGeometry($_POST["thumb_geometry"] ?? 0);
-        $this->object->setMatchingMode($_POST['matching_mode']);
+        $this->object->setThumbGeometry($this->request->int('thumb_geometry'));
+        $this->object->setMatchingMode($this->request->string('matching_mode'));
     }
 
     public function uploadterms(): void
@@ -407,7 +434,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $form->addItem($shuffle);
 
             $geometry = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_geometry');
-            $geometry->setValue($this->object->getThumbGeometry());
+            $geometry->setValue((string) $this->object->getThumbGeometry());
             $geometry->setRequired(true);
             $geometry->setMaxLength(6);
             $geometry->setMinValue(20);

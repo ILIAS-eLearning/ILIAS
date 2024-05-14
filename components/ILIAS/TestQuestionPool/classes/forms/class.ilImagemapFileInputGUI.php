@@ -378,7 +378,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
-        $this->tpl->addJavascript("asserts/js/imagemap.js");
+        $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+        $this->tpl->addJavascript("assets/js/imagemap.js");
     }
 }
