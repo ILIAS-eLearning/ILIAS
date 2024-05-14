@@ -115,9 +115,13 @@ class CertificateOverviewTable implements DataRetrieval
             $filter_data['issue_date'] = null;
         }
 
-        $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview($this->user->getLanguage(), $filter_data, $range));
-        $colum_to_order = array_column($table_rows, $order_field);
-        array_multisort($colum_to_order, $order_direction === 'ASC' ? SORT_ASC : SORT_DESC, $table_rows);
+        $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
+            $this->user->getLanguage(),
+            $filter_data,
+            $range,
+            $order_field,
+            $order_direction
+        ));
 
         foreach ($table_rows as $row) {
             $row['issue_date'] = DateTimeImmutable::createFromMutable((new DateTime())->setTimestamp($row['issue_date']));
