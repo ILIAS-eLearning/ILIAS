@@ -65,7 +65,8 @@ class ilAssQuestionPreviewGUI
         private ilLanguage $lng,
         private ilDBInterface $db,
         private RandomGroup $random_group,
-        private GlobalScreen $global_screen
+        private GlobalScreen $global_screen,
+        private bool $enable_editing = true
     ) {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
@@ -315,7 +316,9 @@ class ilAssQuestionPreviewGUI
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
 
         // Check Permissions first, some Toolbar Actions are only available for write access
-        if ($this->rbac_system->checkAccess('write', (int) $_GET['ref_id'])) {
+        if (!$this->enable_editing) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('question_is_part_of_running_test'), true);
+        } elseif ($this->rbac_system->checkAccess('write', (int) $_GET['ref_id'])) {
             $toolbarGUI->setEditPageCmd(
                 $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
             );

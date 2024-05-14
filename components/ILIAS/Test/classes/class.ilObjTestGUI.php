@@ -1051,7 +1051,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->db,
             $this->refinery->random(),
-            $this->global_screen
+            $this->global_screen,
+            $this->getTestObject()->evalTotalPersons() === 0
         );
 
         $gui->initQuestion($q_id ?? $this->fetchAuthoringQuestionIdParameter(), $this->getTestObject()->getId());
@@ -1090,11 +1091,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     return;
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-                if ($this->logger->isLoggingEnabled()) {
-                    $this->logger->logQuestionAdministrationInteraction(
+                if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
+                    $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
                         $question->toQuestionAdministrationInteraction(
-                            $this->logger->getAdditionalInformationGenerator(),
-                            $this->test_obj->getRefId(),
+                            $this->getTestObject()->getTestLogger()->getAdditionalInformationGenerator(),
+                            $this->getTestObject()->getRefId(),
                             TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
                         )
                     );

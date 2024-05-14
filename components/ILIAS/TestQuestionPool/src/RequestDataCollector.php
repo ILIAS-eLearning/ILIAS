@@ -173,7 +173,7 @@ class RequestDataCollector
     /*"
      * @return array<int, string>
      */
-    public function getStringArrayAnswer(string $key): ?array
+    public function getArrayOfStrings(string $key): ?array
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;

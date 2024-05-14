@@ -51,7 +51,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     private int $shufflemode = 0;
     public int $element_height;
     public int $matching_type;
-    protected string $matchingMode = self::MATCHING_MODE_1_ON_1;
+    protected string $matching_mode = self::MATCHING_MODE_1_ON_1;
 
     private RandomGroup $randomGroup;
 
@@ -843,34 +843,45 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $result;
     }
 
-    /**
-    * Sets the image file and uploads the image to the object's image directory.
-    *
-    * @param string $image_filename Name of the original image file
-    * @param string $image_tempfilename Name of the temporary uploaded image file
-    * @return integer An errorcode if the image upload fails, 0 otherwise
-    * @access public
-    */
-    public function setImageFile($image_tempfilename, $image_filename, $previous_filename = '')
-    {
+    public function setImageFile(
+        string $image_tempfilename,
+        string $image_filename,
+        string $previous_filename = ''
+    ): bool {
         $result = true;
-        if (strlen($image_tempfilename)) {
-            $image_filename = str_replace(" ", "_", $image_filename);
-            $imagepath = $this->getImagePath();
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
-            }
-            $savename = $image_filename;
-            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
-                $result = false;
-            } else {
-                // create thumbnail file
-                $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", (string) $this->getThumbGeometry());
-            }
-            if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
-                $this->deleteImagefile($previous_filename);
-            }
+        if ($image_tempfilename === '') {
+            return true;
+        }
+
+        $image_filename = str_replace(' ', '_', $image_filename);
+        $imagepath = $this->getImagePath();
+        if (!file_exists($imagepath)) {
+            ilFileUtils::makeDirParents($imagepath);
+        }
+
+        if (!ilFileUtils::moveUploadedFile(
+            $image_tempfilename,
+            $image_filename,
+            $imagepath . $image_filename
+        )
+        ) {
+            return false;
+        }
+
+        // create thumbnail file
+        $thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
+        ilShellUtil::convertImage(
+            $imagepath . $image_filename,
+            $thumbpath,
+            'JPEG',
+            (string) $this->getThumbGeometry()
+        );
+
+        if ($result
+            && $image_filename !== $previous_filename
+            && $previous_filename !== ''
+        ) {
+            $this->deleteImagefile($previous_filename);
         }
         return $result;
     }
@@ -1233,14 +1244,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return json_encode($result);
     }
 
-    public function setMatchingMode($matchingMode): void
+    public function setMatchingMode(string $matching_mode): void
     {
-        $this->matchingMode = $matchingMode;
+        $this->matching_mode = $matching_mode;
     }
 
     public function getMatchingMode(): string
     {
-        return $this->matchingMode;
+        return $this->matching_mode;
     }
 
     protected function calculateReachedPointsForSolution(?array $found_values): float

@@ -25,6 +25,7 @@ use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Notes\GUIService;
 
 /**
@@ -93,6 +94,7 @@ abstract class assQuestionGUI
     protected assQuestion $object;
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
+    protected Refinery $refinery;
 
     protected $error;
     protected string $errormessage;
@@ -147,6 +149,7 @@ abstract class assQuestionGUI
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
+        $this->refinery = $DIC['refinery'];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
