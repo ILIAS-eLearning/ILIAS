@@ -24,7 +24,6 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -99,7 +98,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->taxonomy = $DIC->taxonomy();
         $this->http_request = $DIC->http()->request();
         $this->data_factory = new DataFactory();
-        $this->archives = $DIC->legacyArchives();
+        $this->archives = $DIC->archives();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
 
         $this->ctrl->saveParameter($this, [
