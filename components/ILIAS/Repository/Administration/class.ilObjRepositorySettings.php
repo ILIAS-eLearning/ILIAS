@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -243,10 +245,10 @@ class ilObjRepositorySettings extends ilObject
         $res = [];
 
         $groups = [
+            "content" => ["file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"],
             "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"],
             "communication" => ["frm", "chtr"],
             "breaker1" => null,
-            "content" => ["file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"],
             "breaker2" => null,
             "assessment" => ["exc", "tst", "qpl", "iass"],
             "feedback" => ["poll", "svy", "spl"],
