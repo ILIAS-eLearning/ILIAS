@@ -26,7 +26,7 @@ class ilObjectDataSet extends ilDataSet
     {
         return array("4.4.0", "5.1.0", "5.2.0", "5.4.0");
     }
-    
+
     /**
      * Get xml namespace
      *
@@ -37,7 +37,7 @@ class ilObjectDataSet extends ilDataSet
     {
         return "http://www.ilias.de/xml/Services/Object/" . $a_entity;
     }
-    
+
     /**
      * Get field types for entity
      *
@@ -125,7 +125,7 @@ class ilObjectDataSet extends ilDataSet
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-                
+
         if ($a_entity == "transl_entry") {
             switch ($a_version) {
                 case "4.4.0":
@@ -251,8 +251,8 @@ class ilObjectDataSet extends ilDataSet
 
         return false;
     }
-    
-    
+
+
     /**
      * Import record
      *
@@ -271,8 +271,14 @@ class ilObjectDataSet extends ilDataSet
                     $transl = ilObjectTranslation::getInstance($new_id);
                     $transl->addLanguage(
                         $a_rec["LangCode"],
-                        $a_rec["Title"],
-                        $a_rec["Description"],
+                        strip_tags(
+                            $a_rec['Title'],
+                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                        ),
+                        strip_tags(
+                            $a_rec['Description'],
+                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                        ),
                         $a_rec["LangDefault"],
                         true
                     );
@@ -348,10 +354,10 @@ class ilObjectDataSet extends ilDataSet
     public function getNewObjId($a_mapping, $old_id)
     {
         global $DIC;
-        
+
         /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC["objDefinition"];
-        
+
         $new_id = $a_mapping->getMapping('Services/Container', 'objs', $old_id);
         if (!$new_id) {
             $new_id = $a_mapping->getMapping('Services/Object', 'objs', $old_id);
