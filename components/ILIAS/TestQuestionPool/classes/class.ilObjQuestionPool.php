@@ -1266,9 +1266,9 @@ class ilObjQuestionPool extends ilObject
         return self::$isSkillManagementGloballyActivated;
     }
 
-    public function fromXML($xmlFile): void
+    public function fromXML(?string $xml_file): void
     {
-        $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);
+        $parser = new ilObjQuestionPoolXMLParser($this, $xml_file);
         $parser->startParsing();
     }
 }

@@ -1188,7 +1188,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!is_file($qtifile)) {
             ilFileUtils::delDir($importdir);
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_import_non_ilias_zip'), true);
         }
         $qtiParser = new ilQTIParser($importdir, $qtifile, ilQTIParser::IL_MO_VERIFY_QTI, 0, []);
         $qtiParser->startParsing();
@@ -1207,7 +1207,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (count($founditems) && $complete == 0) {
             ilFileUtils::delDir($importdir);
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_import_non_ilias_files"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_import_non_ilias_files'));
             return;
         }
 

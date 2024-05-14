@@ -3225,7 +3225,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function fromXML(ilQTIAssessment $assessment)
     {
-        $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
+        if (($importdir = ilSession::get('path_to_container_import_file')) === null) {
+            $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
+        }
+        ilSession::clear('path_to_container_import_file');
         ilSession::clear('import_mob_xhtml');
 
         $this->saveToDb(true);
