@@ -7957,6 +7957,7 @@ INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Course
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Forum');
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Modules/Group');
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Services/News');
+INSERT INTO `il_event_handling` VALUES ('Modules/Forum','listen','Services/User');
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','afterPostDeletion');
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','beforePostDeletion');
 INSERT INTO `il_event_handling` VALUES ('Modules/Forum','raise','censoredPost');
@@ -13120,7 +13121,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-03-19 16:04:39','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-05-14 15:01:52','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20113,7 +20114,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.10.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.11.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25097,4 +25098,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-03-19 16:04:40
+-- Dump completed on 2024-05-14 15:01:53
