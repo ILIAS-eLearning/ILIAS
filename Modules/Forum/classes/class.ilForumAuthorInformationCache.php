@@ -67,7 +67,7 @@ class ilForumAuthorInformationCache
                 $user = new ilObjUser();
                 $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
-                $user->setGender($row['gender']);
+                $user->setGender($row['gender'] ?? '');
                 $user->setUTitle($row['title'] ?? '');
                 $user->setFirstname($row['firstname'] ?? '');
                 $user->setLastname($row['lastname'] ?? '');
