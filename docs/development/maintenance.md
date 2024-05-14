@@ -1636,14 +1636,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebDAV)
 
 * **WebDAV**
-	* Authority to Sign of Conceptual Changes: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-    * Authority to Sign of Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Sign of Testcase Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_70029.html)
-    * Authority to (De-)Assign Authorities: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-	* Testcases: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
+	* Authority to Sign off Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Testcases: [fschmid](https://docu.ilias.de/goto_docu_usr_70029.html)
 	* Tester: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebDAV)
