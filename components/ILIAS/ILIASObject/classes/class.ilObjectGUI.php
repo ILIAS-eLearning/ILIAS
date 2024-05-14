@@ -1325,7 +1325,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $new_obj = ilObjectFactory::getInstanceByObjId($new_id);
         // put new object id into tree - already done in import for containers
-        if (!$this->obj_definition->isContainer($this->typ)) {
+        if (!$this->obj_definition->isContainer($this->type)) {
             $this->putObjectInTree($new_obj);
         } else {
             $ref_ids = ilObject::_getAllReferences($new_obj->getId());
