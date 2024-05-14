@@ -38,6 +38,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
+    /**
+     * @param list<array<string, scalar|null>> $banned_users
+     */
     public function __construct(
         private readonly int $room_id,
         private readonly array $banned_users,

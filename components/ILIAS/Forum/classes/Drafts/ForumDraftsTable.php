@@ -83,6 +83,7 @@ class ForumDraftsTable implements DataRetrieval
                 if (!isset($draft['draft_id'], $draft['subject'], $draft['post_update'])) {
                     continue;
                 }
+
                 $draft_id = $draft['draft_id'];
                 $this->records[$draft_id] = ['draft_id' => $draft_id];
                 if ($this->mayEdit) {
@@ -90,7 +91,7 @@ class ForumDraftsTable implements DataRetrieval
                     $url = $this->ctrl->getLinkTarget($this->parent_object, 'editThreadDraft');
                     $this->records[$draft_id]['draft'] = $this->ui_factory->link()->standard(
                         $draft['subject'],
-                        $url ?? ''
+                        $url
                     );
                     $this->ctrl->setParameter($this->parent_object, 'draft_id', null);
                 } else {
@@ -114,29 +115,30 @@ class ForumDraftsTable implements DataRetrieval
             'draft_ids'
         );
 
-        return $this->ui_factory->table()
-                                ->data(
-                                    $this->lng->txt('drafts'),
-                                    $this->getColumns(),
-                                    $this
-                                )
-                                ->withId(
-                                    'frm_drafts_' . substr(
-                                        md5($this->parent_cmd),
-                                        0,
-                                        3
-                                    ) . '_' . $this->forum->getId()
-                                )
-                                ->withRequest($this->httpRequest)
-                                ->withActions(
-                                    [
-                                        $this->ui_factory->table()->action()->multi(
-                                            $this->lng->txt('delete'),
-                                            $url_builder->withParameter($action_parameter_token, 'delete'),
-                                            $row_id_token
-                                        )
-                                    ]
-                                );
+        return $this->ui_factory
+            ->table()
+            ->data(
+                $this->lng->txt('drafts'),
+                $this->getColumns(),
+                $this
+            )
+            ->withId(
+                'frm_drafts_' . substr(
+                    md5($this->parent_cmd),
+                    0,
+                    3
+                ) . '_' . $this->forum->getId()
+            )
+            ->withRequest($this->httpRequest)
+            ->withActions(
+                [
+                    'delete' => $this->ui_factory->table()->action()->multi(
+                        $this->lng->txt('delete'),
+                        $url_builder->withParameter($action_parameter_token, 'delete'),
+                        $row_id_token
+                    )
+                ]
+            );
     }
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int

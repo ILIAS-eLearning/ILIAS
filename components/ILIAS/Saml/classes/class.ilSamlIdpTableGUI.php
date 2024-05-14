@@ -130,27 +130,23 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     {
         $records = $this->idps;
 
-        if ($order) {
-            [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
-                return [$key, $value];
-            });
+        [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
+            return [$key, $value];
+        });
 
-            usort($records, static function (ilSamlIdp $left, ilSamlIdp $right) use ($order_field): int {
-                if ($order_field === 'title') {
-                    return ilStr::strCmp($left->getEntityId(), $right->getEntityId());
-                }
-
-                return (int) $left->isActive() <=> (int) $right->isActive();
-            });
-
-            if ($order_direction === 'DESC') {
-                $records = array_reverse($records);
+        usort($records, static function (ilSamlIdp $left, ilSamlIdp $right) use ($order_field): int {
+            if ($order_field === 'title') {
+                return ilStr::strCmp($left->getEntityId(), $right->getEntityId());
             }
+
+            return (int) $left->isActive() <=> (int) $right->isActive();
+        });
+
+        if ($order_direction === 'DESC') {
+            $records = array_reverse($records);
         }
 
-        if ($range) {
-            $records = array_slice($records, $range->getStart(), $range->getLength());
-        }
+        $records = array_slice($records, $range->getStart(), $range->getLength());
 
         return $records;
     }
