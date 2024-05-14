@@ -4400,7 +4400,7 @@ common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. 
 common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
-common#:#info_view_of_user#:#Benutzer
+common#:#info_view_of_user#:#Benutzermenü
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
 common#:#inline_file_extensions#:#Im Browser anzeigen
 common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
