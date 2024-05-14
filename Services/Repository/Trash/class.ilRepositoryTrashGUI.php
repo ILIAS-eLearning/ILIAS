@@ -221,7 +221,7 @@ class ilRepositoryTrashGUI
             $cgui->addItem(
                 "id[]",
                 $ref_id,
-                $title,
+                ilUtil::stripSlashes($title),
                 ilObject::_getIcon($obj_id, "small", $type),
                 $alt
             );
