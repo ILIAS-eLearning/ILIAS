@@ -2169,6 +2169,7 @@ badge#:#badge_backpack_no_groups#:#Program Mozilla Backpack je prázdný nebo ne
 badge#:#badge_badge#:#Odznak
 badge#:#badge_course_lp#:#Kurz LP
 badge#:#badge_course_lp_invalid#:#Následující objekty mají režim LP, který není podporován: %s.
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#Kritéria
 badge#:#badge_crs_merit#:#Zásluha
 badge#:#badge_deletion_confirmation#:#Opravdu chcete odstranit následující odznaky a všechna jejich přiřazení?
@@ -2217,6 +2218,8 @@ badge#:#badge_template_types#:#Platné typy
 badge#:#badge_template_types_all#:#Vše
 badge#:#badge_template_types_specific#:#Charakteristické
 badge#:#badge_types#:#Typy
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#Profil uživatele
 badge#:#badge_valid#:#V platnosti do
 bgtask#:#bgtask_blocked#:#Souběžné stahování
@@ -5773,6 +5776,10 @@ common#:#upload_files#:#Uložit soubory
 common#:#upload_files_title#:#Uložit soubory
 common#:#upload_pending#:#Nevyřešený
 common#:#upload_settings#:#Nastavení ukládání
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#Soubor byl odeslán a zkontrolován, můžete nyní můžete spustit jeho import.
 common#:#uploading#:#Ukládání...
 common#:#uri#:#URI
@@ -6195,6 +6202,7 @@ content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Komentář
 content#:#cont_char_style_quot#:#Citát
 content#:#cont_characteristic#:#Třída stylu
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#Zkontrolovat hodnotu
 content#:#cont_check_values_info#:#Testovací nástroj zkontroluje, zda hodnoty odeslané ze SCO odpovídají standardu SCORM. <br /> Standard SCORM je velmi náročný na ukládání hodnot. Ne všechny výukové moduly splňují požadavky standardu. Tato možnost povoluje kontrolu, zda modul odpovídá standardu nebo ne. Nezaškrtávejte tuto možnost, pokud chcete zkontrolovat, zda systém ILIAS může spustit tento modul nebo ne.
 content#:#cont_choose_characteristic#:#Výběr charakteristiky
@@ -6293,6 +6301,7 @@ content#:#cont_dir_file#:#Adresář/soubor
 content#:#cont_dir_renamed#:#Adresář byl přejmenován.
 content#:#cont_disable_def_feedback#:#Vypnout výchozí ohlas otázky
 content#:#cont_disable_def_feedback_info#:#Je-li vypnuto, odpovědi otázek nebudou zobrazovat studentovi žádný ohlas. Budete muset poskytovat uživatelské ohlasy pro každou otázku.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Stáhnout
 content#:#cont_download_no_download#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována vlastnost ke stažení.
 content#:#cont_download_no_menu#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována nabídka výukového modulu.
@@ -6723,9 +6732,6 @@ content#:#cont_numbered_list#:#Číslovaný seznam
 content#:#cont_obj_removed#:#Objekt odstraněn.
 content#:#cont_objectives#:#zapnout ukládání dat týkajících se cílů výuky
 content#:#cont_objectives_info#:#Tato možnost zlepšuje výkon, pokud jste se ujistili, že tento výukový modul běží správně.
-content#:#cont_offline_mode_allow#:#Umožnit mód Offline
-content#:#cont_offline_mode_allow_info#:#V offline módu mohou být výukové moduly zpracovány pouze v SCORM offline přehrávači. Trasovací data jsou přeneseny pokud student klepne na "Ukončit mód Offline" v ILIAS.
-content#:#cont_offline_mode_disable_not_allowed_info#:#Protože výukový modul je v současné době používán v offline režimu, nelze vypnout offline režim.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#ID obrazovky
 content#:#cont_online_info#:#Nastavte výukový modul SCORM online tak, aby byl viditelný a dostupný pro uživatele. Pokud ne, budou k němu mít přístup pouze uživatelé s oprávněním „Upravit“.
@@ -7253,6 +7259,7 @@ copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -7392,6 +7399,7 @@ crs#:#crs_course_period_not_valid#:#Doba kurzu není platná.
 crs#:#crs_course_status_of_users#:#Status uživatelů prošlí
 crs#:#crs_create_date#:#Vytvořit datum
 crs#:#crs_custom_user_fields#:#Uživatelská data relevantní kurzu
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 crs#:#crs_dates#:#Data
 crs#:#crs_deactivate_notification#:#Deaktivovat vyrozumění
 crs#:#crs_delete_objectve_sure#:#Určitě chcete smazat vybrané cíle?
@@ -8819,6 +8827,8 @@ ecs#:#ecs_cms_tree_synchronized#:#Strom byl synchronizován.
 ecs#:#ecs_communities#:#Účastníci
 ecs#:#ecs_confirm_delete_tree#:#Opravdu chcete vymazat všechna přiřazení pro tento strom managementu kampusu?
 ecs#:#ecs_connection_settings#:#Nastavení spojení
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###14 05 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###14 05 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###07 02 2020 new variable
 ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###07 02 2020 new variable
 ecs#:#ecs_crs_alloc#:#Přidělení kurzu
@@ -8847,9 +8857,16 @@ ecs#:#ecs_err_missing_value#:#Zkontrolujte prosím Váš vstup: Hodnoty atribut�
 ecs#:#ecs_error_extract_serial#:#Nelze přečíst seriové číslo certifikátu. Zkontrolujte prosím cestu k certifikátu klienta.
 ecs#:#ecs_event_appointment#:#datum události
 ecs#:#ecs_export#:#Spuštění kurzu
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###14 05 2024 new variable
 ecs#:#ecs_export_created_body_a#:#Nový kurz byl spuštěn
 ecs#:#ecs_export_disabled#:#Nespouštět tento kurz
 ecs#:#ecs_export_enabled#:#Spustit tento kurz
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###14 05 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###14 05 2024 new variable
 ecs#:#ecs_export_obj_settings#:#Nastavení spuštění kurzu
 ecs#:#ecs_export_types#:#Typy exportovatelných objektů
 ecs#:#ecs_field_begin#:#Začátek
@@ -8872,6 +8889,10 @@ ecs#:#ecs_file_export#:#Uvolnění souboru
 ecs#:#ecs_file_export_disabled#:#Neuvolňujte tento soubor
 ecs#:#ecs_file_export_enabled#:#Uvolněte tento soubor
 ecs#:#ecs_file_export_obj_settings#:#Nastavení uvolnění souboru
+ecs#:#ecs_firstname#:#First name###14 05 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###14 05 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###14 05 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###14 05 2024 new variable
 ecs#:#ecs_general_info#:#Obecné informace
 ecs#:#ecs_glo_export#:#Uvolnění glosáře
 ecs#:#ecs_glo_export_disabled#:#Neuvolňujte tento glosář
@@ -8884,20 +8905,27 @@ ecs#:#ecs_grp_export_enabled#:#Uvolněte tuto skupinu
 ecs#:#ecs_grp_export_obj_settings#:#Nastavení uvolnění skupiny
 ecs#:#ecs_ignore_field#:#Vypnout export/aktualitaci tohoto pole
 ecs#:#ecs_import#:#Importovat
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###14 05 2024 new variable
 ecs#:#ecs_import_cms#:#Managment campusu
 ecs#:#ecs_import_id#:#Importovat ID
 ecs#:#ecs_import_id_info#:#Vložte prosím ID kategorie, kde bude vytvořeno nové spojení s kurzem
 ecs#:#ecs_import_types#:#Typy importovatelných objektů
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###14 05 2024 new variable
 ecs#:#ecs_imported_content#:#ECS-Obsah importován
 ecs#:#ecs_imported_from#:#Importován z
+ecs#:#ecs_institution#:#Institution###14 05 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#Import typu "Managment campusu" může být vybrán pouze jednou.
 ecs#:#ecs_key_password#:#Klíčové heslo
+ecs#:#ecs_lastname#:#Last name###14 05 2024 new variable
 ecs#:#ecs_lm_export#:#Uvolnění výukového modulu
 ecs#:#ecs_lm_export_disabled#:#Neuvolňujte tento výukový modul
 ecs#:#ecs_lm_export_enabled#:#Uvolněte tento výukový modul
 ecs#:#ecs_lm_export_obj_settings#:#Nastavení uvolnění výukového modulu
 ecs#:#ecs_local_information#:#Další informace
 ecs#:#ecs_local_settings#:#Lokální nastavení
+ecs#:#ecs_login#:#Username or External user account###14 05 2024 new variable
 ecs#:#ecs_mapping_crs#:#Mapování kurzů
 ecs#:#ecs_mapping_exp_tbl#:#Mapování rozšířených metadat  ILIAS do ECS-dat
 ecs#:#ecs_mapping_rcrs#:#Mapování dálkových kurzů
@@ -8923,6 +8951,8 @@ ecs#:#ecs_node_mapping_status_3#:#Nemapováno
 ecs#:#ecs_not_configured#:#Není zkonfigurováno
 ecs#:#ecs_not_published#:#Nevybráno žádné schválení
 ecs#:#ecs_notifications#:#Oznámení
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###14 05 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###14 05 2024 new variable
 ecs#:#ecs_part_settings#:#Nastavení pro účastníka:
 ecs#:#ecs_participants#:#Účastníci
 ecs#:#ecs_participants_infos#:#Další informace
@@ -9858,6 +9888,7 @@ grp#:#grp_create_new_grp_in#:#Vytvořte novou skupinu v '%1'.
 grp#:#grp_create_or_use_existing#:#Chcete přidat uživatele do existující skupiny nebo vytvořit novou skupinu?
 grp#:#grp_created_and_user_been_added#:#Skupina byla vytvořena a uživatel přidán.
 grp#:#grp_custom_user_fields#:#Uživatelská data odpovídající skupině
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 grp#:#grp_deactivate_notification#:#Deaktivovat vyrozumění
 grp#:#grp_edit_members#:#Upravit účastníka
 grp#:#grp_enable_map#:#Zapnout mapu skupiny
@@ -10546,9 +10577,18 @@ lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and fo
 lti#:#form_import_provider#:#Import Global Provider###07 02 2020 new variable
 lti#:#gbl_roles_to_users#:#Globální role přiřazená uživatelům LTI
 lti#:#global_provider_subtab#:#Global Providers for all Users###07 02 2020 new variable
-lti#:#grade_activityProgress_completed#:#completed###31 03 2023 new variable
-lti#:#grade_activityProgress_passed#:#passed###31 03 2023 new variable
-lti#:#grade_all_verbs#:#all status information###31 03 2023 new variable
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###14 05 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###14 05 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###14 05 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###14 05 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###14 05 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###14 05 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###14 05 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###14 05 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###14 05 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###14 05 2024 new variable
 lti#:#highscore_achieved_ts#:#Date###07 02 2020 new variable
 lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.###07 02 2020 new variable
 lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking###07 02 2020 new variable
@@ -10759,13 +10799,13 @@ lti#:#tab_info#:#Info###07 02 2020 new variable
 lti#:#tab_scoring#:#Ranking###07 02 2020 new variable
 lti#:#tab_settings#:#Settings###07 02 2020 new variable
 lti#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
-lti#:#tbl_grade_activityProgress#:#Status Selection###31 03 2023 new variable
-lti#:#tbl_grade_activityProgress_select#:#Status###31 03 2023 new variable
+lti#:#tbl_grade_activity_progress#:#Activity Progress###14 05 2024 new variable
 lti#:#tbl_grade_actor#:#User###31 03 2023 new variable
 lti#:#tbl_grade_date#:#Date###31 03 2023 new variable
-lti#:#tbl_grade_object#:#Object###31 03 2023 new variable
+lti#:#tbl_grade_grading_progress#:#Grading Progress###14 05 2024 new variable
 lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###14 05 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#All Categories###07 02 2020 new variable
 lti#:#tbl_lti_prov_availability#:#Availability###07 02 2020 new variable
 lti#:#tbl_lti_prov_category#:#Category###07 02 2020 new variable
@@ -11115,6 +11155,7 @@ mcst#:#mcst_automatic_detection#:#Automatická detekce
 mcst#:#mcst_autoplay#:#Autoplay###31 03 2023 new variable
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)###31 03 2023 new variable
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)###31 03 2023 new variable
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#Smazat
 mcst#:#mcst_converted_file#:#Soubor byl změněn.
 mcst#:#mcst_copy#:#Kopírovat Mediacast
@@ -11356,7 +11397,14 @@ meta#:#md_used#:#Použití
 meta#:#meta_accessibility_restrictions#:#Omezení dostupnosti
 meta#:#meta_active#:#Aktivní
 meta#:#meta_add#:#Přidat
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###14 05 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###14 05 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###14 05 2024 new variable
 meta#:#meta_advmd_select_options#:#Vstupy
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###14 05 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###14 05 2024 new variable
 meta#:#meta_annotation#:#Anotace
 meta#:#meta_atomic#:#Atomická
 meta#:#meta_author#:#Autor
@@ -12680,6 +12728,7 @@ prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
 prg#:#prg_belongs_to#:#Patří k
 prg#:#prg_can_not_manage_in_repo#:#Není dovoleno řídit tento studijní program z důvodu přiřazení uživatelů.
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#Zrušit pořadí stromu
 prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
 prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
@@ -16628,6 +16677,22 @@ ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
 ui#:#duration_default_label_end#:#end###31 03 2023 new variable
 ui#:#duration_default_label_start#:#start###31 03 2023 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Zbývající znaky:

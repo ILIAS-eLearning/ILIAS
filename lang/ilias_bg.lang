@@ -2169,6 +2169,7 @@ badge#:#badge_backpack_no_groups#:#Раницата на Mozilla е празна
 badge#:#badge_badge#:#Значка
 badge#:#badge_course_lp#:#Напредък в обучението по курса
 badge#:#badge_course_lp_invalid#:#Следващите обекти имат режим LP, който не се поддържа: %s.
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#Критерий
 badge#:#badge_crs_merit#:#Заслуга
 badge#:#badge_deletion_confirmation#:#Сигурни ли сте, че искате да изтриете следните значки и всичките им съответни назначения?
@@ -2217,6 +2218,8 @@ badge#:#badge_template_types#:#Валидни типове
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific
 badge#:#badge_types#:#Видове###22 06 2022 new variable
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#Профил на потребителя
 badge#:#badge_valid#:# Валидно до
 bgtask#:#bgtask_blocked#:#Присъстващо изтегляне
@@ -5773,6 +5776,10 @@ common#:#upload_files#:#Зареждане на файлове
 common#:#upload_files_title#:#Зареждане на файлове
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Настройки за качване
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#Файлът беше актуализиран и проверен, вече можете да започнете да го импортирате.
 common#:#uploading#:#Зареждане...
 common#:#uri#:#URI
@@ -6195,6 +6202,7 @@ content#:#cont_char_style_code#:#Код###22 06 2022 new variable
 content#:#cont_char_style_com#:#Коментар###22 06 2022 new variable
 content#:#cont_char_style_quot#:#Цитат
 content#:#cont_characteristic#:#Клас на стила###22 06 2022 new variable
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#проверка на стойностите, изпратени от SCO
 content#:#cont_check_values_info#:#Инструментът за тестване ще провери дали стойностите, изпратени от SCO, отговарят на стандарта SCORM. <br /> Стандартът SCORM е много взискателен по отношение на запазването на стойности. Не всички учебни модули отговарят на изискванията на стандарта. Тази опция позволява да се провери дали модулът съответства на стандарта или не. Не отбелязвайте тази опция, ако искате само да проверите дали ILIAS може да стартира този модул или не.
 content#:#cont_choose_characteristic#:#Избор на характеристика
@@ -6293,6 +6301,7 @@ content#:#cont_dir_file#:#Директория/Файл
 content#:#cont_dir_renamed#:# Директорията е преименувана.
 content#:#cont_disable_def_feedback#:# Деактивиране на обратната връзка за въпроси по подразбиране
 content#:#cont_disable_def_feedback_info#:#Ако е деактивирано, отговорите на въпросите няма да показват никаква обратна връзка за обучаемия. Трябва да предоставите персонализирани отзиви за вашите въпроси.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Изтегляне###22 06 2022 new variable
 content#:#cont_download_no_download#:# Изтеглянето няма да бъде достъпно за потребителите, тъй като функцията за изтегляне не е активирана.
 content#:#cont_download_no_menu#:# Изтеглянето няма да бъде достъпно за потребителите, тъй като менюто на обучителния модул не е активирано.
@@ -6723,9 +6732,6 @@ content#:#cont_numbered_list#:#Номериран списък
 content#:#cont_obj_removed#:#Обектите премахнати.
 content#:#cont_objectives#:#възможност за съхранение на данни относно целите на обучението
 content#:#cont_objectives_info#:#Ако сте се уверили, че този учебен модул работи правилно, тази опция подобрява работата.
-content#:#cont_offline_mode_allow#:#Позволяване на офлайн режим
-content#:#cont_offline_mode_allow_info#:#В офлайн режим учебните модули могат да се обработват само с офлайн плейъра SCORM. Данните за проследяване се прехвърлят, ако обучаемият кликне върху "завърши офлайн режим" в ILIAS.
-content#:#cont_offline_mode_disable_not_allowed_info#:#Тъй като учебният модул в момента се използва в офлайн режим, офлайн режимът не може да бъде деактивиран.
 content#:#cont_online#:#Онлайн###22 06 2022 new variable
 content#:#cont_online_help_ids#:#Идентификатори на помощ
 content#:#cont_online_info#:#Настройте SCORM модула за обучение онлайн, за да го направите видим и достъпен за потребителите. Ако не, достъп до него ще имат само потребители с право на редактиране.
@@ -7253,6 +7259,7 @@ copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Елементът на страницата не е намерен.###22 06 2022 new variable
 copg#:#copg_page_type_stys#:#Страница за оформление
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -7392,6 +7399,7 @@ crs#:#crs_course_period_not_valid#:# Периодът на курса не е в
 crs#:#crs_course_status_of_users#:#Преминат статус на потребителите
 crs#:#crs_create_date#:#Създаване на дата
 crs#:#crs_custom_user_fields#:#Данни за потребителя, свързани с курса
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 crs#:#crs_dates#:#Дати
 crs#:#crs_deactivate_notification#:#Деактивиране на известие
 crs#:#crs_delete_objectve_sure#:#Със сигурност ли искате да изтриете избраните цели?
@@ -8819,6 +8827,8 @@ ecs#:#ecs_cms_tree_synchronized#:#Дървото е синхронизирано
 ecs#:#ecs_communities#:#Участници
 ecs#:#ecs_confirm_delete_tree#:#Изтривате ли наистина всички задания за това дърво за управление на кампуса?
 ecs#:#ecs_connection_settings#:#Настройки на връзката
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###14 05 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###14 05 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
 ecs#:#ecs_cron_task_scheduler_info#:#Задачите на ECS ще се изпълняват в съответствие с настройките на графика. Необходимо е само ако са конфигурирани сървъри ECS.
 ecs#:#ecs_crs_alloc#:#Разпределение на курсове
@@ -8847,9 +8857,16 @@ ecs#:#ecs_err_missing_value#:#Поискайте да проверите във�
 ecs#:#ecs_error_extract_serial#:#Не може да се прочете серийният номер на сертификата. Моля, проверете пътя на клиентския сертификат.
 ecs#:#ecs_event_appointment#:#Дата на събитието
 ecs#:#ecs_export#:#Съобщения за курсове
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###14 05 2024 new variable
 ecs#:#ecs_export_created_body_a#:#Открит е нов курс
 ecs#:#ecs_export_disabled#:#Не пускайте този курс
 ecs#:#ecs_export_enabled#:#Изпращане на този курс
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###14 05 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###14 05 2024 new variable
 ecs#:#ecs_export_obj_settings#:#Настройки за пускане на курса
 ecs#:#ecs_export_types#:#Типове обекти за експортиране
 ecs#:#ecs_field_begin#:#Begin
@@ -8872,6 +8889,10 @@ ecs#:#ecs_file_export#:#Предаване на файлове
 ecs#:#ecs_file_export_disabled#:#Не пускайте този файл
 ecs#:#ecs_file_export_enabled#:#Предаване на този файл
 ecs#:#ecs_file_export_obj_settings#:#Настройки за освобождаване на файлове
+ecs#:#ecs_firstname#:#First name###14 05 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###14 05 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###14 05 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###14 05 2024 new variable
 ecs#:#ecs_general_info#:#Обща информация
 ecs#:#ecs_glo_export#:#Съобщения за речника
 ecs#:#ecs_glo_export_disabled#:#Не пускайте този гласник
@@ -8884,20 +8905,27 @@ ecs#:#ecs_grp_export_enabled#:#Освобождаване на тази груп
 ecs#:#ecs_grp_export_obj_settings#:#Настройки за освобождаване на групата
 ecs#:#ecs_ignore_field#:#Забрана за експортиране/актуализиране на това поле
 ecs#:#ecs_import#:#Import
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###14 05 2024 new variable
 ecs#:#ecs_import_cms#:#Управление на кампуса
 ecs#:#ecs_import_id#:#Идентификатор на вноса
 ecs#:#ecs_import_id_info#:#Внесете идентификатора на категорията, в която ще бъдат създадени новите връзки към курсове
 ecs#:#ecs_import_types#:#Импортируеми типове обекти
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###14 05 2024 new variable
 ecs#:#ecs_imported_content#:#Импортирано електронно съдържание
 ecs#:#ecs_imported_from#:#Imported From
+ecs#:#ecs_institution#:#Institution###14 05 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#Типът на импорт "Campus Managment" може да бъде избран само веднъж.
 ecs#:#ecs_key_password#:#Парола на ключа
+ecs#:#ecs_lastname#:#Last name###14 05 2024 new variable
 ecs#:#ecs_lm_export#:# Издания на модули за обучение
 ecs#:#ecs_lm_export_disabled#:#Не пускайте този модул за обучение
 ecs#:#ecs_lm_export_enabled#:#Предаване на този модул за обучение
 ecs#:#ecs_lm_export_obj_settings#:#Настройки за пускане на учебния модул
 ecs#:#ecs_local_information#:#Допълнителна информация
 ecs#:#ecs_local_settings#:#Местни настройки
+ecs#:#ecs_login#:#Username or External user account###14 05 2024 new variable
 ecs#:#ecs_mapping_crs#:#Картиране за курсове
 ecs#:#ecs_mapping_exp_tbl#:#Картиране на разширени метаданни на ILIAS към ECS-данни
 ecs#:#ecs_mapping_rcrs#:#Картиране за отдалечени курсове
@@ -8923,6 +8951,8 @@ ecs#:#ecs_node_mapping_status_3#:#Unmapped
 ecs#:#ecs_not_configured#:#Не е конфигуриран
 ecs#:#ecs_not_published#:#Не са избрани одобрения.
 ecs#:#ecs_notifications#:#Съобщения
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###14 05 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###14 05 2024 new variable
 ecs#:#ecs_part_settings#:#Настройки за участника:
 ecs#:#ecs_participants#:#Участници
 ecs#:#ecs_participants_infos#:#Допълнителна информация
@@ -9858,6 +9888,7 @@ grp#:#grp_create_new_grp_in#:#Създаване на нова група в '%1
 grp#:#grp_create_or_use_existing#:#Искате ли да добавите потребителя към съществуваща група или да създадете нова група?
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 grp#:#grp_custom_user_fields#:#Групиране на съответните данни за потребителя
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 grp#:#grp_deactivate_notification#:#Деактивиране на известие
 grp#:#grp_edit_members#:#Редактиране на участници
 grp#:#grp_enable_map#:#Активиране на групова карта
@@ -10546,9 +10577,18 @@ lti#:#field_provider_xml_info#:#Поддържат се XML-файлове за 
 lti#:#form_import_provider#:#Import Global Provider
 lti#:#gbl_roles_to_users#:#Глобална роля, присвоена на потребителите на LTI
 lti#:#global_provider_subtab#:#Глобални доставчици за всички потребители
-lti#:#grade_activityProgress_completed#:#completed###31 03 2023 new variable
-lti#:#grade_activityProgress_passed#:#passed###31 03 2023 new variable
-lti#:#grade_all_verbs#:#all status information###31 03 2023 new variable
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###14 05 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###14 05 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###14 05 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###14 05 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###14 05 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###14 05 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###14 05 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###14 05 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###14 05 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###14 05 2024 new variable
 lti#:#highscore_achieved_ts#:#Дата
 lti#:#highscore_achieved_ts_description#:#Колона, съдържаща датата, ще бъде включена в класирането.
 lti#:#highscore_all_tables#:#Самостоятелно класиране на участника и най-високо класиране
@@ -10759,13 +10799,13 @@ lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Настройки
 lti#:#tab_statements#:#Опит в обучението
-lti#:#tbl_grade_activityProgress#:#Status Selection###31 03 2023 new variable
-lti#:#tbl_grade_activityProgress_select#:#Status###31 03 2023 new variable
+lti#:#tbl_grade_activity_progress#:#Activity Progress###14 05 2024 new variable
 lti#:#tbl_grade_actor#:#User###31 03 2023 new variable
 lti#:#tbl_grade_date#:#Date###31 03 2023 new variable
-lti#:#tbl_grade_object#:#Object###31 03 2023 new variable
+lti#:#tbl_grade_grading_progress#:#Grading Progress###14 05 2024 new variable
 lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###14 05 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#Всички категории
 lti#:#tbl_lti_prov_availability#:#Availability
 lti#:#tbl_lti_prov_category#:#Категория
@@ -11115,6 +11155,7 @@ mcst#:#mcst_automatic_detection#:#Автоматично откриване
 mcst#:#mcst_autoplay#:#Autoplay###31 03 2023 new variable
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)###31 03 2023 new variable
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)###31 03 2023 new variable
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_converted_file#:#Файлът е конвертиран.
 mcst#:#mcst_copy#:#Copy Mediacast
@@ -11356,7 +11397,14 @@ meta#:#md_used#:#Използване
 meta#:#meta_accessibility_restrictions#:#Ограничения на достъпа
 meta#:#meta_active#:#Активен
 meta#:#meta_add#:#Добавяне
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###14 05 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###14 05 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###14 05 2024 new variable
 meta#:#meta_advmd_select_options#:#Записи
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###14 05 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###14 05 2024 new variable
 meta#:#meta_annotation#:#Анотация
 meta#:#meta_atomic#:#Атомен
 meta#:#meta_author#:#Автор
@@ -12680,6 +12728,7 @@ prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#Принадлежи на
 prg#:#prg_can_not_manage_in_repo#:#Не ви е позволено да управлявате тази учебна програма поради потребителски назначения.
 prg#:#prg_cancel#:#Отмяна
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#Прекратяване на поръчката за дърво
 prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
 prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
@@ -16628,6 +16677,22 @@ ui#:#datetime_required#:#Изисква се час/дата###22 06 2022 new va
 ui#:#duration_default_label_end#:#end###31 03 2023 new variable
 ui#:#duration_default_label_start#:#start###31 03 2023 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Началото не трябва да е по-късно от края.###22 06 2022 new variable
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Максимум:
 ui#:#ui_chars_min#:#Минимално:
 ui#:#ui_chars_remaining#:#Останали символи:

@@ -2169,6 +2169,7 @@ badge#:#badge_backpack_no_groups#:#Mozilla Backpackは空か未公開です。
 badge#:#badge_badge#:#バッジ
 badge#:#badge_course_lp#:#コースLP
 badge#:#badge_course_lp_invalid#:#次のオブジェクトにはサポートされていないLPモードがあります: %s
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#判定基準
 badge#:#badge_crs_merit#:#メリット
 badge#:#badge_deletion_confirmation#:#次のバッジとそれぞれの割当てすべてを本当に削除しますか?
@@ -2217,6 +2218,8 @@ badge#:#badge_template_types#:#有効なタイプ
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#特定の
 badge#:#badge_types#:#タイプ
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#ユーザプロファイル
 badge#:#badge_valid#:#有効期限
 bgtask#:#bgtask_blocked#:#平行ダウンロード
@@ -5773,6 +5776,10 @@ common#:#upload_files#:#ファイルをアップロード
 common#:#upload_files_title#:#ファイルをアップロード
 common#:#upload_pending#:#保留
 common#:#upload_settings#:#アップロード設定
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#ファイルはアップロードされてチェックされましたので、これからインポートを開始できます。
 common#:#uploading#:#アップロード中…
 common#:#uri#:#URI
@@ -6195,6 +6202,7 @@ content#:#cont_char_style_code#:#コード
 content#:#cont_char_style_com#:#コメント
 content#:#cont_char_style_quot#:#引用
 content#:#cont_characteristic#:#スタイルクラス
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#SCOの送った値をチェック
 content#:#cont_check_values_info#:#テストツールはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。SCORMスタンダードは値の保存に関して非常に多くの要求があります。すべての学習モジュールがスタンダード要件を満たしているものではありません。このオプションはモジュールがスタンダードに準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。
 content#:#cont_choose_characteristic#:#特徴を選択
@@ -6293,6 +6301,7 @@ content#:#cont_dir_file#:#ディレクトリ/ファイル
 content#:#cont_dir_renamed#:#ディレクトリは名前変更されました。
 content#:#cont_disable_def_feedback#:#質問フィードバックを無効
 content#:#cont_disable_def_feedback_info#:#無効にすると回答済み問題は学習者へ何もフィードバック表示されなくなります。問題用にカスタムフィードバップを提供する必要があります。
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#ダウンロード
 content#:#cont_download_no_download#:#ダウンロード機能がオンになっていないのでユーザはダウンロードできません。
 content#:#cont_download_no_menu#:#ラーニングモジュールメニューがオンになっていないので、ユーザはダウンロードできません。
@@ -6723,9 +6732,6 @@ content#:#cont_numbered_list#:#段落番号
 content#:#cont_obj_removed#:#オブジェクトは削除されました。
 content#:#cont_objectives#:#学習目標データ保存する
 content#:#cont_objectives_info#:#この学習モジュールが確実に動作するならば、このオプションはパフォーマンスを改善します。
-content#:#cont_offline_mode_allow#:#オフラインモードを許可
-content#:#cont_offline_mode_allow_info#:#オフラインモードではラーニングモジュールはSCORMオフラインプレーヤでのみ処理可能です。学習者がiliasの'オフラインモード終了'をクリックすると追跡データが転送されます。
-content#:#cont_offline_mode_disable_not_allowed_info#:#ラーニングモジュールは現在オフラインモードで使用されているためオフラインモードを解除することはできません。
 content#:#cont_online#:#オンライン
 content#:#cont_online_help_ids#:#ヘルプID
 content#:#cont_online_info#:#ユーザへ表示して利用できるようにSCORM学習モジュールをオンラインに設定します。そうしないとユーザは'編集'-アクセス権のあるユーザのみしかアクセスできなくなります。
@@ -7253,6 +7259,7 @@ copg#:#copg_est_reading_time#:#予測読込み時間
 copg#:#copg_history_cleanup_cron#:#ページエディター履歴のクリーンアップ
 copg#:#copg_history_cleanup_cron_info#:#ページ履歴から過去のエントリーを削除
 copg#:#copg_more_character_formats#:#文字用の他のスタイル
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
 copg#:#copg_par_format_selection#:#図書式選択
@@ -11148,6 +11155,7 @@ mcst#:#mcst_automatic_detection#:#自動検出
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#削除
 mcst#:#mcst_converted_file#:#ファイルは変換されました。
 mcst#:#mcst_copy#:#メディアキャストをコピー
@@ -12720,6 +12728,7 @@ prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
 prg#:#prg_cancel#:#キャンセル
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
 prg#:#prg_change_deadline#:#締切を変更
 prg#:#prg_change_expire_date#:#期限を変更　
@@ -16668,6 +16677,22 @@ ui#:#datetime_required#:#Time/Dateは必須
 ui#:#duration_default_label_end#:#終了
 ui#:#duration_default_label_start#:#開始
 ui#:#duration_end_must_not_be_earlier_than_start#:#開始は終了よりも遅くできません。
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#残り文字数:

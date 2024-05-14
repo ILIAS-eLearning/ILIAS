@@ -2171,6 +2171,7 @@ badge#:#badge_backpack_no_groups#:#Mozilla Backpack está vacío o no es públic
 badge#:#badge_badge#:#Insignia
 badge#:#badge_course_lp#:#LP de curso
 badge#:#badge_course_lp_invalid#:#Los objetos siguientes tienen un modo de LP que no es compatible. %s.
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#Criterios
 badge#:#badge_crs_merit#:#Mérito
 badge#:#badge_deletion_confirmation#:#¿Seguro que desea eliminar las siguientes insignias y todas sus respectivas asignaciones?
@@ -2219,6 +2220,8 @@ badge#:#badge_template_types#:#Tipos válidos
 badge#:#badge_template_types_all#:#Todos
 badge#:#badge_template_types_specific#:#Específico
 badge#:#badge_types#:#Tipos
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#Perfil de usuario
 badge#:#badge_valid#:#Válido hasta
 bgtask#:#bgtask_blocked#:#Descarga simultánea
@@ -5775,6 +5778,10 @@ common#:#upload_files#:#Enviar archivos
 common#:#upload_files_title#:#Enviar archivos
 common#:#upload_pending#:#Pendiente
 common#:#upload_settings#:#Configuración de envíos
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#El archivo ha sido enivado y chequeado, puede comenzar a importarlo.
 common#:#uploading#:#Enviando...
 common#:#uri#:#URI
@@ -6197,6 +6204,7 @@ content#:#cont_char_style_code#:#Código
 content#:#cont_char_style_com#:#Comentario
 content#:#cont_char_style_quot#:#Cita
 content#:#cont_characteristic#:#Característica
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#Comprobar valores enviados por SCO
 content#:#cont_check_values_info#:#La herramienta de Test comprobará si los valores enviados desde los SCOs cumplen con el estándard SCORM. <br /> El estándar SCORM es muy exigente respecto al almacenamiento de los valores. No todos los módulos de aprendizaje satisfacen los requisitos del estándar. Esta opción permite comprobar si el módulo cumple el estándar o no. No marque esta opción si solo desea comprobar si ILIAS puede ejecutar este módulo o no.
 content#:#cont_choose_characteristic#:#Seleccione Característica
@@ -6295,6 +6303,7 @@ content#:#cont_dir_file#:#Directorio/Archivo
 content#:#cont_dir_renamed#:#El directorio ha sido renombrado.
 content#:#cont_disable_def_feedback#:#Deshabilitar opción por defecto de mostrar comentarios del profesor al responder
 content#:#cont_disable_def_feedback_info#:#Si se marca esta opción, las preguntas contestadas no mostrarán los comentarios del profesor para el alumno. En su caso, debe proporcionar estos comentarios para cada pregunta.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Descargar
 content#:#cont_download_no_download#:#La descarga no estará disponible para los usuarios, debido a que la función de descarga no está activa.
 content#:#cont_download_no_menu#:#La descarga no estará disponible para los usuarios, debido a que el módulo de aprendizaje no está activo.
@@ -6725,9 +6734,6 @@ content#:#cont_numbered_list#:#Lista numerada
 content#:#cont_obj_removed#:#Objetos eliminados.
 content#:#cont_objectives#:#Permitir el almacenamiento de datos relativos a los objetivos de aprendizaje
 content#:#cont_objectives_info#:#Si estás regudo de que este módulo de aprendizaje se ejecuta correctamente, esta opción mejora el rendmiento.
-content#:#cont_offline_mode_allow#:#Permitir el modo sin conexión
-content#:#cont_offline_mode_allow_info#:#En el modo fuera de línea, los módulos de aprendizaje sólo pueden procesarse con el SCORM desconectado. Los datos de seguimiento se transfieren si el alumno hace clic en "terminar el modo fuera de línea" en ILIAS.
-content#:#cont_offline_mode_disable_not_allowed_info#:#El módulo de aprendizaje se está utilizando actualmente en modo sin conexión (offline), el modo sin conexión no se puede desactivar.
 content#:#cont_online#:#Activo
 content#:#cont_online_help_ids#:#IDs de Ayuda
 content#:#cont_online_info#:#Establecer el módulo de aprendizaje SCORM como activo para hacerlo visible y que esté disponible para los usuarios. En otro caso, solo los usuarios con permisos de 'Edición' tendrán acceso.
@@ -7255,6 +7261,7 @@ copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -7394,6 +7401,7 @@ crs#:#crs_course_period_not_valid#:#La duración del curso no es válida
 crs#:#crs_course_status_of_users#:#Estado final de los usuarios
 crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_custom_user_fields#:#Datos de usuario personalizados
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 crs#:#crs_dates#:#Fechas
 crs#:#crs_deactivate_notification#:#Desactivar notificaciones
 crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?
@@ -8821,6 +8829,8 @@ ecs#:#ecs_cms_tree_synchronized#:#El árbol ha sido sincronizado.
 ecs#:#ecs_communities#:#Participantes
 ecs#:#ecs_confirm_delete_tree#:#¿Está seguro que quiere borrar todas las asignaciones de este árbol de adminstración para este campus?
 ecs#:#ecs_connection_settings#:#Opciones de conexión
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###14 05 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###14 05 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###07 02 2020 new variable
 ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###07 02 2020 new variable
 ecs#:#ecs_crs_alloc#:#Asignaciones de curso
@@ -8849,9 +8859,16 @@ ecs#:#ecs_err_missing_value#:#Por favor, revise su introducción: Valor del atri
 ecs#:#ecs_error_extract_serial#:#No se pudo leer el número del certificado. Por favor compruebe la ruta de enlace del certificado.
 ecs#:#ecs_event_appointment#:#Día de la sesión
 ecs#:#ecs_export#:#Lanzamientos de cursos.
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###14 05 2024 new variable
 ecs#:#ecs_export_created_body_a#:#Un nuevo curso ha sido creado
 ecs#:#ecs_export_disabled#:#No publicar este curso
 ecs#:#ecs_export_enabled#:#Publicar este curso
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###14 05 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###14 05 2024 new variable
 ecs#:#ecs_export_obj_settings#:#Configuración de la publicación del curso
 ecs#:#ecs_export_types#:#Tipos de objeto exportables
 ecs#:#ecs_field_begin#:#Comienzo
@@ -8874,6 +8891,10 @@ ecs#:#ecs_file_export#:#Archivos relacionados
 ecs#:#ecs_file_export_disabled#:#No relacionar este archivo
 ecs#:#ecs_file_export_enabled#:#Relacionar este archivo
 ecs#:#ecs_file_export_obj_settings#:#Configuración de archivos relacionados
+ecs#:#ecs_firstname#:#First name###14 05 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###14 05 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###14 05 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###14 05 2024 new variable
 ecs#:#ecs_general_info#:#Información general
 ecs#:#ecs_glo_export#:#Anuncios de Glosarios
 ecs#:#ecs_glo_export_disabled#:#No anunciar este glosario
@@ -8886,20 +8907,27 @@ ecs#:#ecs_grp_export_enabled#:#Anunciar este grupo
 ecs#:#ecs_grp_export_obj_settings#:#Ajustes de anuncio de grupo
 ecs#:#ecs_ignore_field#:#Desabilitar exportación/actualizaci&acute;on de este campo
 ecs#:#ecs_import#:#Importar
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###14 05 2024 new variable
 ecs#:#ecs_import_cms#:#Gestión de campus
 ecs#:#ecs_import_id#:#Importar ID
 ecs#:#ecs_import_id_info#:#Por favor seleccione el ID de la categoría, donde el enlace al curso será creado
 ecs#:#ecs_import_types#:#Tipos de objeto importables
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###14 05 2024 new variable
 ecs#:#ecs_imported_content#:#Importar E-Contenidos
 ecs#:#ecs_imported_from#:#Importar de
+ecs#:#ecs_institution#:#Institution###14 05 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#El tipo de importación "Gestión de Campus" se puede elegir solo una vez.
 ecs#:#ecs_key_password#:#Contrase&ntilde;a
+ecs#:#ecs_lastname#:#Last name###14 05 2024 new variable
 ecs#:#ecs_lm_export#:#Anunciar Módulos de aprendizaje
 ecs#:#ecs_lm_export_disabled#:#No anunciar este módulo de aprendizaje
 ecs#:#ecs_lm_export_enabled#:#Anunciar este módulo de aprendizaje
 ecs#:#ecs_lm_export_obj_settings#:#Configuración de anuncios de módulo de aprendizaje
 ecs#:#ecs_local_information#:#Información adicional
 ecs#:#ecs_local_settings#:#Opciones locales
+ecs#:#ecs_login#:#Username or External user account###14 05 2024 new variable
 ecs#:#ecs_mapping_crs#:#Asignación de cursos
 ecs#:#ecs_mapping_exp_tbl#:#Asignar metadatos avanzados de ILIAS a datos ECS
 ecs#:#ecs_mapping_rcrs#:#Asignación de cursos externos
@@ -8925,6 +8953,8 @@ ecs#:#ecs_node_mapping_status_3#:#Sin asignación
 ecs#:#ecs_not_configured#:#Sin configuración
 ecs#:#ecs_not_published#:#Selección sin aprobar
 ecs#:#ecs_notifications#:#Notificaciones
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###14 05 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###14 05 2024 new variable
 ecs#:#ecs_part_settings#:#Configuraciones para participantes:
 ecs#:#ecs_participants#:#Participantes
 ecs#:#ecs_participants_infos#:#Información adicional
@@ -9860,6 +9890,7 @@ grp#:#grp_create_new_grp_in#:#Cree el grupo nuevo en '%1'.
 grp#:#grp_create_or_use_existing#:#¿Desea añadir el usuario a un grupo existente o crear un grupo nuevo?
 grp#:#grp_created_and_user_been_added#:#Se ha creado el grupo y se ha añadido el usuario.
 grp#:#grp_custom_user_fields#:#Grupo de datos relevantes al usuario
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 grp#:#grp_deactivate_notification#:#Desactivar notificación
 grp#:#grp_edit_members#:#Editar participantes
 grp#:#grp_enable_map#:#Habilitar Mapa de Grupo
@@ -10548,9 +10579,18 @@ lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and fo
 lti#:#form_import_provider#:#Import Global Provider###07 02 2020 new variable
 lti#:#gbl_roles_to_users#:#Rol global asignado a usuarios de LTI
 lti#:#global_provider_subtab#:#Global Providers for all Users###07 02 2020 new variable
-lti#:#grade_activityProgress_completed#:#completed###31 03 2023 new variable
-lti#:#grade_activityProgress_passed#:#passed###31 03 2023 new variable
-lti#:#grade_all_verbs#:#all status information###31 03 2023 new variable
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###14 05 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###14 05 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###14 05 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###14 05 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###14 05 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###14 05 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###14 05 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###14 05 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###14 05 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###14 05 2024 new variable
 lti#:#highscore_achieved_ts#:#Date###07 02 2020 new variable
 lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.###07 02 2020 new variable
 lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking###07 02 2020 new variable
@@ -10761,13 +10801,13 @@ lti#:#tab_info#:#Info###07 02 2020 new variable
 lti#:#tab_scoring#:#Ranking###07 02 2020 new variable
 lti#:#tab_settings#:#Settings###07 02 2020 new variable
 lti#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
-lti#:#tbl_grade_activityProgress#:#Status Selection###31 03 2023 new variable
-lti#:#tbl_grade_activityProgress_select#:#Status###31 03 2023 new variable
+lti#:#tbl_grade_activity_progress#:#Activity Progress###14 05 2024 new variable
 lti#:#tbl_grade_actor#:#User###31 03 2023 new variable
 lti#:#tbl_grade_date#:#Date###31 03 2023 new variable
-lti#:#tbl_grade_object#:#Object###31 03 2023 new variable
+lti#:#tbl_grade_grading_progress#:#Grading Progress###14 05 2024 new variable
 lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###14 05 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#All Categories###07 02 2020 new variable
 lti#:#tbl_lti_prov_availability#:#Availability###07 02 2020 new variable
 lti#:#tbl_lti_prov_category#:#Category###07 02 2020 new variable
@@ -11117,6 +11157,7 @@ mcst#:#mcst_automatic_detection#:#Detección automática
 mcst#:#mcst_autoplay#:#Autoplay###31 03 2023 new variable
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)###31 03 2023 new variable
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)###31 03 2023 new variable
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#Borrar
 mcst#:#mcst_converted_file#:#El fichero ha sido convertido.
 mcst#:#mcst_copy#:#Copiar Mediacast
@@ -11358,7 +11399,14 @@ meta#:#md_used#:#Uso
 meta#:#meta_accessibility_restrictions#:#Restricciones de Accesibilidad
 meta#:#meta_active#:#Activo
 meta#:#meta_add#:#Añadir
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###14 05 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###14 05 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###14 05 2024 new variable
 meta#:#meta_advmd_select_options#:#Entradas
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###14 05 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###14 05 2024 new variable
 meta#:#meta_annotation#:#Anotación
 meta#:#meta_atomic#:#Atómico
 meta#:#meta_author#:#Autor
@@ -12682,6 +12730,7 @@ prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
 prg#:#prg_belongs_to#:#Pertenece a
 prg#:#prg_can_not_manage_in_repo#:#No puedes gestionar este programa de estudio debido a la asignación como usuario.
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#Descargar orden jerárquico
 prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
 prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
@@ -16630,6 +16679,22 @@ ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
 ui#:#duration_default_label_end#:#end###31 03 2023 new variable
 ui#:#duration_default_label_start#:#start###31 03 2023 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

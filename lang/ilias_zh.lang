@@ -2168,6 +2168,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.#
 badge#:#badge_badge#:#Badge###25 10 2016 new variable
 badge#:#badge_course_lp#:#Course LP###25 10 2016 new variable
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.###25 10 2016 new variable
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#Criteria###25 10 2016 new variable
 badge#:#badge_crs_merit#:#Merit###25 10 2016 new variable
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments? ###25 10 2016 new variable
@@ -2216,6 +2217,8 @@ badge#:#badge_template_types#:#Valid Types###25 10 2016 new variable
 badge#:#badge_template_types_all#:#All###25 10 2016 new variable
 badge#:#badge_template_types_specific#:#Specific###25 10 2016 new variable
 badge#:#badge_types#:#Types###25 10 2016 new variable
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#User Profil###25 10 2016 new variable
 badge#:#badge_valid#:#Valid until###25 10 2016 new variable
 bgtask#:#bgtask_blocked#:#Concurrent download###25 10 2016 new variable
@@ -5772,6 +5775,10 @@ common#:#upload_files#:#Upload files###24 10 2013 new variable
 common#:#upload_files_title#:#Upload files###24 10 2013 new variable
 common#:#upload_pending#:#Pending###24 10 2013 new variable
 common#:#upload_settings#:#Uploading Settings###24 10 2013 new variable
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#文件已经上传并经过检查，您现在可以导入它。
 common#:#uploading#:#Uploading...###24 10 2013 new variable
 common#:#uri#:#URI
@@ -6194,6 +6201,7 @@ content#:#cont_char_style_code#:#代码
 content#:#cont_char_style_com#:#评论
 content#:#cont_char_style_quot#:#配额
 content#:#cont_characteristic#:#特性
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#检查通过SCO发送的值
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.###23 12 2015 new variable
 content#:#cont_choose_characteristic#:#选择特征
@@ -6292,6 +6300,7 @@ content#:#cont_dir_file#:#目录/文件
 content#:#cont_dir_renamed#:#目录已被重新命名
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback###24 10 2013 new variable
 content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.###24 10 2013 new variable
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Download###27 01 2015 new variable
 content#:#cont_download_no_download#:#下载将对用户不可用，因为下载功能没激活。
 content#:#cont_download_no_menu#:#下载将对用户不可用，来自学习模块的菜单没有激活。
@@ -6722,9 +6731,6 @@ content#:#cont_numbered_list#:#编号的列表
 content#:#cont_obj_removed#:#对象已删除。
 content#:#cont_objectives#:#启用有关学习目标数据的存储
 content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.###23 12 2015 new variable
-content#:#cont_offline_mode_allow#:#Allow Offline Mode###24 10 2013 new variable
-content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.###24 10 2013 new variable
-content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.###22 01 2014 new variable
 content#:#cont_online#:#在线
 content#:#cont_online_help_ids#:#帮助IDs
 content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.###25 10 2015 new variable
@@ -7252,6 +7258,7 @@ copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -7391,6 +7398,7 @@ crs#:#crs_course_period_not_valid#:#The course period is not valid.###30 08 2015
 crs#:#crs_course_status_of_users#:#已通过的用户的状态
 crs#:#crs_create_date#:#创建日期
 crs#:#crs_custom_user_fields#:#课程相关的用户数据
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 crs#:#crs_dates#:#日期
 crs#:#crs_deactivate_notification#:#关闭通知
 crs#:#crs_delete_objectve_sure#:#您确信要删除选定的目标？
@@ -8818,6 +8826,8 @@ ecs#:#ecs_cms_tree_synchronized#:#树已经同步
 ecs#:#ecs_communities#:#参与者
 ecs#:#ecs_confirm_delete_tree#:#您确定要删除所有为这个校园管理树的所有分配吗？
 ecs#:#ecs_connection_settings#:#连接设置
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###14 05 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###14 05 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###07 02 2020 new variable
 ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###07 02 2020 new variable
 ecs#:#ecs_crs_alloc#:#课程分配
@@ -8846,9 +8856,16 @@ ecs#:#ecs_err_missing_value#:#请检查您的输入：属性值。
 ecs#:#ecs_error_extract_serial#:#无法读取证书序列号。请检查客户端证书路径。
 ecs#:#ecs_event_appointment#:#事件日期
 ecs#:#ecs_export#:#课程发布
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###14 05 2024 new variable
 ecs#:#ecs_export_created_body_a#:#一个新课程已发布
 ecs#:#ecs_export_disabled#:#不发布这门课程
 ecs#:#ecs_export_enabled#:#发布这门课程
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###14 05 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###14 05 2024 new variable
 ecs#:#ecs_export_obj_settings#:#课程发布设置
 ecs#:#ecs_export_types#:#Exportable Object Types###26 09 2014 new variable
 ecs#:#ecs_field_begin#:#开始
@@ -8871,6 +8888,10 @@ ecs#:#ecs_file_export#:#文件发布
 ecs#:#ecs_file_export_disabled#:#没有发布这个文件
 ecs#:#ecs_file_export_enabled#:#发布这个文件
 ecs#:#ecs_file_export_obj_settings#:#文件发布设置
+ecs#:#ecs_firstname#:#First name###14 05 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###14 05 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###14 05 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###14 05 2024 new variable
 ecs#:#ecs_general_info#:#常规信息
 ecs#:#ecs_glo_export#:#词汇表发布
 ecs#:#ecs_glo_export_disabled#:#不发布这个词汇表
@@ -8883,20 +8904,27 @@ ecs#:#ecs_grp_export_enabled#:#发布这个组
 ecs#:#ecs_grp_export_obj_settings#:#Group 发布设置
 ecs#:#ecs_ignore_field#:#禁止这个字段的导出/更新
 ecs#:#ecs_import#:#输入
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###14 05 2024 new variable
 ecs#:#ecs_import_cms#:#校园管理
 ecs#:#ecs_import_id#:#导入ID
 ecs#:#ecs_import_id_info#:#请输入类目ID，这里新课程链接将被创建
 ecs#:#ecs_import_types#:#Importable Object Types###26 09 2014 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###14 05 2024 new variable
 ecs#:#ecs_imported_content#:#已导入E-Content
 ecs#:#ecs_imported_from#:#Imported From
+ecs#:#ecs_institution#:#Institution###14 05 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#导入类型“校园管理”只能选择一次。
 ecs#:#ecs_key_password#:#Key Password
+ecs#:#ecs_lastname#:#Last name###14 05 2024 new variable
 ecs#:#ecs_lm_export#:#学习模块发布
 ecs#:#ecs_lm_export_disabled#:#不发布这个学习模块
 ecs#:#ecs_lm_export_enabled#:#发布这个学习模块
 ecs#:#ecs_lm_export_obj_settings#:#学习模块发布设置
 ecs#:#ecs_local_information#:#补充信息
 ecs#:#ecs_local_settings#:#本地设置
+ecs#:#ecs_login#:#Username or External user account###14 05 2024 new variable
 ecs#:#ecs_mapping_crs#:#课程映射
 ecs#:#ecs_mapping_exp_tbl#:#映射ILIAS高级元数据到ECS数据
 ecs#:#ecs_mapping_rcrs#:#远程课程映射
@@ -8922,6 +8950,8 @@ ecs#:#ecs_node_mapping_status_3#:#未映射的
 ecs#:#ecs_not_configured#:#未配置
 ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable没有批准选择。
 ecs#:#ecs_notifications#:#通知
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###14 05 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###14 05 2024 new variable
 ecs#:#ecs_part_settings#:#Settings for Participant:###26 09 2014 new variable
 ecs#:#ecs_participants#:#参与者
 ecs#:#ecs_participants_infos#:#进一步的信息
@@ -9857,6 +9887,7 @@ grp#:#grp_create_new_grp_in#:#Create new group in '%1'.###31 08 2017 new variabl
 grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?###31 08 2017 new variable
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.###31 08 2017 new variable
 grp#:#grp_custom_user_fields#:#组相关的用户数据
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 grp#:#grp_deactivate_notification#:#停用通知
 grp#:#grp_edit_members#:#编辑参与者
 grp#:#grp_enable_map#:#启用组地图
@@ -10545,9 +10576,18 @@ lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and fo
 lti#:#form_import_provider#:#Import Global Provider###07 02 2020 new variable
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users###31 08 2017 new variable
 lti#:#global_provider_subtab#:#Global Providers for all Users###07 02 2020 new variable
-lti#:#grade_activityProgress_completed#:#completed###31 03 2023 new variable
-lti#:#grade_activityProgress_passed#:#passed###31 03 2023 new variable
-lti#:#grade_all_verbs#:#all status information###31 03 2023 new variable
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###14 05 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###14 05 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###14 05 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###14 05 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###14 05 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###14 05 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###14 05 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###14 05 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###14 05 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###14 05 2024 new variable
 lti#:#highscore_achieved_ts#:#Date###07 02 2020 new variable
 lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.###07 02 2020 new variable
 lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking###07 02 2020 new variable
@@ -10758,13 +10798,13 @@ lti#:#tab_info#:#Info###07 02 2020 new variable
 lti#:#tab_scoring#:#Ranking###07 02 2020 new variable
 lti#:#tab_settings#:#Settings###07 02 2020 new variable
 lti#:#tab_statements#:#Learning Experiences###07 02 2020 new variable
-lti#:#tbl_grade_activityProgress#:#Status Selection###31 03 2023 new variable
-lti#:#tbl_grade_activityProgress_select#:#Status###31 03 2023 new variable
+lti#:#tbl_grade_activity_progress#:#Activity Progress###14 05 2024 new variable
 lti#:#tbl_grade_actor#:#User###31 03 2023 new variable
 lti#:#tbl_grade_date#:#Date###31 03 2023 new variable
-lti#:#tbl_grade_object#:#Object###31 03 2023 new variable
+lti#:#tbl_grade_grading_progress#:#Grading Progress###14 05 2024 new variable
 lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###14 05 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#All Categories###07 02 2020 new variable
 lti#:#tbl_lti_prov_availability#:#Availability###07 02 2020 new variable
 lti#:#tbl_lti_prov_category#:#Category###07 02 2020 new variable
@@ -11114,6 +11154,7 @@ mcst#:#mcst_automatic_detection#:#自动检测
 mcst#:#mcst_autoplay#:#Autoplay###31 03 2023 new variable
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)###31 03 2023 new variable
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)###31 03 2023 new variable
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#删除
 mcst#:#mcst_converted_file#:#文件已被转换。
 mcst#:#mcst_copy#:#Copy Mediacast###23 12 2015 new variable
@@ -11355,7 +11396,14 @@ meta#:#md_used#:#用法
 meta#:#meta_accessibility_restrictions#:#访问限制
 meta#:#meta_active#:#当前的
 meta#:#meta_add#:#增加
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###14 05 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###14 05 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###14 05 2024 new variable
 meta#:#meta_advmd_select_options#:#Entries###08 10 2015 new variable
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###14 05 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###14 05 2024 new variable
 meta#:#meta_annotation#:#评注
 meta#:#meta_atomic#:#微小的
 meta#:#meta_author#:#作者
@@ -12679,6 +12727,7 @@ prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
 prg#:#prg_belongs_to#:#Belongs to###30 08 2015 new variable
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.###23 12 2015 new variable
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#Dismiss tree order###30 08 2015 new variable
 prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
 prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
@@ -16627,6 +16676,22 @@ ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
 ui#:#duration_default_label_end#:#end###31 03 2023 new variable
 ui#:#duration_default_label_start#:#start###31 03 2023 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Maximum:###10 11 2018 new variable
 ui#:#ui_chars_min#:#Minimum:###10 11 2018 new variable
 ui#:#ui_chars_remaining#:#Characters remaining:###10 11 2018 new variable

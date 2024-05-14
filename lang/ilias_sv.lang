@@ -2184,6 +2184,7 @@ badge#:#badge_backpack_no_groups#:#Mozilla Backpack är tom eller inte offentlig
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Badge tilldelas enligt prestation
 badge#:#badge_course_lp_invalid#:#Följande objekt använder ett icke-stöttat inlärningsläge
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###14 05 2024 new variable
 badge#:#badge_criteria#:#Kriterier
 badge#:#badge_crs_merit#:#Manuellt tilldelat märke
 badge#:#badge_deletion_confirmation#:#Vill du verkligen ta bort följande märken och alla deras respektive uppdrag?
@@ -2232,6 +2233,8 @@ badge#:#badge_template_types#:#Valida typer
 badge#:#badge_template_types_all#:#Alla
 badge#:#badge_template_types_specific#:#Bestämd
 badge#:#badge_types#:#Typer
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###14 05 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###14 05 2024 new variable
 badge#:#badge_user_profile#:#Profil publicerad###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 badge#:#badge_valid#:#Giltig tills
 bgtask#:#bgtask_blocked#:#Running nedladdning
@@ -5788,6 +5791,10 @@ common#:#upload_files#:#Ladda upp filer
 common#:#upload_files_title#:#Ladda upp filer
 common#:#upload_pending#:#Utgående
 common#:#upload_settings#:#Inställningar för uppladdning
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###14 05 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###14 05 2024 new variable
 common#:#uploaded_and_checked#:#Filen har laddats upp och kontrollerats, du kan nu importera den.
 common#:#uploading#:#Ladda upp...
 common#:#uri#:#URI
@@ -6210,6 +6217,7 @@ content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Kommentar
 content#:#cont_char_style_quot#:#Citat
 content#:#cont_characteristic#:#Format för stycke
+content#:#cont_characteristic_table#:#Style Class###14 05 2024 new variable
 content#:#cont_check_values#:#Kontrollera värden som skickats av SCO
 content#:#cont_check_values_info#:#Testverktyget kontrollerar standardkompatibiliteten hos de värden som skickas av SCO.<br />SCORM-standarden är mycket exakt när det gäller vilka data som ska lagras. Inte alla SCORM-lärmoduler är lika exakta i sin datautmatning som standarden faktiskt kr
 content#:#cont_choose_characteristic#:#Välj styckeformat
@@ -6308,6 +6316,7 @@ content#:#cont_dir_file#:#Directory/Fil
 content#:#cont_dir_renamed#:#Katalogen har bytt namn.
 content#:#cont_disable_def_feedback#:#Avaktivera standardåterkoppling
 content#:#cont_disable_def_feedback_info#:#Standardåterkopplingen för en fråga visas inte efter att du har besvarat en fråga.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###14 05 2024 new variable
 content#:#cont_download#:#Ladda ner
 content#:#cont_download_no_download#:#Nedladdningsfunktionen är för närvarande avaktiverad. Därför erbjuds inte filen till elever.
 content#:#cont_download_no_menu#:#Menyn för utbildningsmodulen är för närvarande inaktiverad. Därför erbjuds inte filen till elever.
@@ -6738,9 +6747,6 @@ content#:#cont_numbered_list#:#Numrerad lista
 content#:#cont_obj_removed#:#Objekt borttagna
 content#:#cont_objectives#:#Spara resultat till inlärningsmål
 content#:#cont_objectives_info#:#Avaktivera endast detta alternativ om du är säker på att den här utbildningsmodulen garanterat kommer att genomföras korrekt. Detta kommer att minska lagringen av personuppgifter och öka prestandan.
-content#:#cont_offline_mode_allow#:#Tillåt Offlineläge
-content#:#cont_offline_mode_allow_info#:#Tillåter att lärmodulen används utan internetanslutning i SCORM offline-spelaren. För att göra detta laddas lärmodulen ner via ?-menyn och visas med ett tillägg i webbläsaren Firefox. Efter att ha redigerat lärmodulen måste användarna importera sina lärs
-content#:#cont_offline_mode_disable_not_allowed_info#:#Eftersom lärmodulen för närvarande används av användare i offline-läge, kan offline-läget inte avaktiveras.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Skärm-ID
 content#:#cont_online_info#:#Endast om SCORM-lärmodulen är uppkopplad online kan användare komma åt lärmodulen. Om inte, är SCORM-lärmodulen endast tillgänglig för personer med rätt "Redigera inställningar".
@@ -7268,6 +7274,7 @@ copg#:#copg_est_reading_time#:#Uppskattad lästid
 copg#:#copg_history_cleanup_cron#:#Page Editor Historik rensning
 copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigerarens historik.
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###14 05 2024 new variable
 copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -7407,6 +7414,7 @@ crs#:#crs_course_period_not_valid#:#Perioden är inte giltig.
 crs#:#crs_course_status_of_users#:#Att klara kursen
 crs#:#crs_create_date#:#Datum för skapande
 crs#:#crs_custom_user_fields#:#Personuppgifter
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 crs#:#crs_dates#:#Datum
 crs#:#crs_deactivate_notification#:#Avaktivera avisering
 crs#:#crs_delete_objectve_sure#:#Är du säker på att de utvalda lärandemålen ska tas bort?
@@ -8834,6 +8842,8 @@ ecs#:#ecs_cms_tree_synchronized#:#Trädet har synkroniserats.
 ecs#:#ecs_communities#:#Deltagare
 ecs#:#ecs_confirm_delete_tree#:#Vill du verkligen ta bort alla tilldelningar till detta CMS-träd?
 ecs#:#ecs_connection_settings#:#Anslutningsdata
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###14 05 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###14 05 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#Utföra ECS-uppgifter
 ecs#:#ecs_cron_task_scheduler_info#:#Om aktiverat, utförs ECS-uppgifter regelbundet. Detta är endast möjligt om en ECS-server är aktiverad under "Administration " Utöka ILIAS " ECS".
 ecs#:#ecs_crs_alloc#:#Kursuppgifter
@@ -8862,9 +8872,16 @@ ecs#:#ecs_err_missing_value#:#Kontrollera dina poster för attributvärden.
 ecs#:#ecs_error_extract_serial#:#Fel vid läsning av certifikatets serienummer. Vänligen kontrollera klientcertifikatet.
 ecs#:#ecs_event_appointment#:#Händelsedatum
 ecs#:#ecs_export#:#Kursreleaser
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###14 05 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###14 05 2024 new variable
 ecs#:#ecs_export_created_body_a#:#En ny kurs har släppts
 ecs#:#ecs_export_disabled#:#Inte släppa
 ecs#:#ecs_export_enabled#:#Släpp
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###14 05 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###14 05 2024 new variable
 ecs#:#ecs_export_obj_settings#:#Inställningar för kursutgåvor
 ecs#:#ecs_export_types#:#Exporterbara objekttyper
 ecs#:#ecs_field_begin#:#Startdatum
@@ -8887,6 +8904,10 @@ ecs#:#ecs_file_export#:#Fil aktier
 ecs#:#ecs_file_export_disabled#:#Inte släppa
 ecs#:#ecs_file_export_enabled#:#Släpp
 ecs#:#ecs_file_export_obj_settings#:#Inställningar för fildelning
+ecs#:#ecs_firstname#:#First name###14 05 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###14 05 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###14 05 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###14 05 2024 new variable
 ecs#:#ecs_general_info#:#Allmän information
 ecs#:#ecs_glo_export#:#Glossary utgåvor
 ecs#:#ecs_glo_export_disabled#:#Inte släppa
@@ -8899,20 +8920,27 @@ ecs#:#ecs_grp_export_enabled#:#Släpp
 ecs#:#ecs_grp_export_obj_settings#:#Inställningar för gruppaktier
 ecs#:#ecs_ignore_field#:#Uppdatera inte detta fält
 ecs#:#ecs_import#:#Externa kurser
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###14 05 2024 new variable
 ecs#:#ecs_import_cms#:#Campusförvaltning
 ecs#:#ecs_import_id#:#Import ID
 ecs#:#ecs_import_id_info#:#Ange ID för den kategori i vilken nya ECS-objekt ska skapas.
 ecs#:#ecs_import_types#:#Objekttyper som inte kan importeras
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###14 05 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###14 05 2024 new variable
 ecs#:#ecs_imported_content#:#Importerade material
 ecs#:#ecs_imported_from#:#Importerad från
+ecs#:#ecs_institution#:#Institution###14 05 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#Du kan bara välja importtypen "Campus Management" för högst en deltagare.
 ecs#:#ecs_key_password#:#Nyckelord
+ecs#:#ecs_lastname#:#Last name###14 05 2024 new variable
 ecs#:#ecs_lm_export#:#lanseringar av utbildningsmoduler
 ecs#:#ecs_lm_export_disabled#:#Inte släppa
 ecs#:#ecs_lm_export_enabled#:#Släpp
 ecs#:#ecs_lm_export_obj_settings#:#Inställningar för lanseringar av lärmoduler
 ecs#:#ecs_local_information#:#Ytterligare information
 ecs#:#ecs_local_settings#:#Lokala inställningar
+ecs#:#ecs_login#:#Username or External user account###14 05 2024 new variable
 ecs#:#ecs_mapping_crs#:#Uppgifter för kurser
 ecs#:#ecs_mapping_exp_tbl#:#Tilldelning av utökade metadata till ECS-data
 ecs#:#ecs_mapping_rcrs#:#Uppgift för ECS-kurser
@@ -8938,6 +8966,8 @@ ecs#:#ecs_node_mapping_status_3#:#Oförmärkt
 ecs#:#ecs_not_configured#:#Inte konfigurerad
 ecs#:#ecs_not_published#:#Inga releaser har valts.
 ecs#:#ecs_notifications#:#Notifieringar
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###14 05 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###14 05 2024 new variable
 ecs#:#ecs_part_settings#:#Inställningar för deltagare
 ecs#:#ecs_participants#:#Deltagare
 ecs#:#ecs_participants_infos#:#Ytterligare information
@@ -9873,6 +9903,7 @@ grp#:#grp_create_new_grp_in#:#Skapa en ny grupp i '%1'.
 grp#:#grp_create_or_use_existing#:#Vill du lägga till användaren i en befintlig grupp eller skapa en ny grupp?
 grp#:#grp_created_and_user_been_added#:#Gruppen har skapats och användaren har lagts till.
 grp#:#grp_custom_user_fields#:#Personuppgifter
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
 grp#:#grp_deactivate_notification#:#Avaktivera avisering
 grp#:#grp_edit_members#:#Deltagarstyrning
 grp#:#grp_enable_map#:#Aktivera gruppkort
@@ -10561,9 +10592,18 @@ lti#:#field_provider_xml_info#:#XML-filer stöds för Tool Consumer och för Com
 lti#:#form_import_provider#:#Importera global leverantör eller globalt verktyg
 lti#:#gbl_roles_to_users#:#Global roll tilldelad LTI-användare
 lti#:#global_provider_subtab#:#Globala leverantörer eller verktyg för alla användare
-lti#:#grade_activityProgress_completed#:#komplett redigerad
-lti#:#grade_activityProgress_passed#:#bekräftad
-lti#:#grade_all_verbs#:#alla statusar
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###14 05 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###14 05 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###14 05 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###14 05 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###14 05 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###14 05 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###14 05 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###14 05 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###14 05 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###14 05 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###14 05 2024 new variable
 lti#:#highscore_achieved_ts#:#Datum
 lti#:#highscore_achieved_ts_description#:#En kolumn med datumet ingår i rankingen.
 lti#:#highscore_all_tables#:#Egen rankning och leaderboard
@@ -10774,13 +10814,13 @@ lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Placeringar
 lti#:#tab_settings#:#Inställningar
 lti#:#tab_statements#:#lärandeerfarenheter
-lti#:#tbl_grade_activityProgress#:#Status för urval
-lti#:#tbl_grade_activityProgress_select#:#Status
+lti#:#tbl_grade_activity_progress#:#Activity Progress###14 05 2024 new variable
 lti#:#tbl_grade_actor#:#Användare
 lti#:#tbl_grade_date#:#Datum
-lti#:#tbl_grade_object#:#Objekt
+lti#:#tbl_grade_grading_progress#:#Grading Progress###14 05 2024 new variable
 lti#:#tbl_grade_period#:#Tidsperiod
 lti#:#tbl_grade_score#:#Poäng
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###14 05 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#Alla kategorier
 lti#:#tbl_lti_prov_availability#:#Tillgänglighet
 lti#:#tbl_lti_prov_category#:#Kategori
@@ -11130,6 +11170,7 @@ mcst#:#mcst_automatic_detection#:#Automatisk
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (standard 'på')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (standard 'av')
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###14 05 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#Radera
 mcst#:#mcst_converted_file#:#Filen har konverterats.
 mcst#:#mcst_copy#:#Kopiera Mediacast
@@ -11371,7 +11412,14 @@ meta#:#md_used#:#Användning (antal)
 meta#:#meta_accessibility_restrictions#:#Begränsningar av åtkomst
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Add
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###14 05 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###14 05 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###14 05 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###14 05 2024 new variable
 meta#:#meta_advmd_select_options#:#Inträden
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###14 05 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###14 05 2024 new variable
 meta#:#meta_annotation#:#Note
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Författare
@@ -12695,6 +12743,7 @@ prg#:#prg_autoassignment#:#(automatisk)
 prg#:#prg_belongs_to#:#Höra till
 prg#:#prg_can_not_manage_in_repo#:#Du får inte administrera detta studieprogram eftersom medlemmar redan är tilldelade det.
 prg#:#prg_cancel#:#Avbryt
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###14 05 2024 new variable
 prg#:#prg_cancel_tree_order#:#Bortse från beställningen av trädet.
 prg#:#prg_change_deadline#:#Justera brytdatum
 prg#:#prg_change_expire_date#:#Anpassa kvalificeringsprocessen
@@ -16643,6 +16692,22 @@ ui#:#datetime_required#:# Tid/Datum som krävs
 ui#:#duration_default_label_end#:#Slut
 ui#:#duration_default_label_start#:#Begin
 ui#:#duration_end_must_not_be_earlier_than_start#:#Starten måste vara före slutet.
+ui#:#label_fieldselection#:#Field Selection###14 05 2024 new variable
+ui#:#label_fieldselection_refresh#:#Apply###14 05 2024 new variable
+ui#:#label_pagination_limit#:#Pagination Number of Rows###14 05 2024 new variable
+ui#:#label_pagination_offset#:#Pagination Offset###14 05 2024 new variable
+ui#:#label_sortation#:#Sortation###14 05 2024 new variable
+ui#:#order_option_alphabetical_ascending#:#A to Z###14 05 2024 new variable
+ui#:#order_option_alphabetical_descending#:#Z to A###14 05 2024 new variable
+ui#:#order_option_chronological_ascending#:#Earliest first###14 05 2024 new variable
+ui#:#order_option_chronological_descending#:#Most Recent first###14 05 2024 new variable
+ui#:#order_option_first#:#first###14 05 2024 new variable
+ui#:#order_option_generic_ascending#:#ascending###14 05 2024 new variable
+ui#:#order_option_generic_descending#:#descending###14 05 2024 new variable
+ui#:#order_option_numerical_ascending#:#0 to 9###14 05 2024 new variable
+ui#:#order_option_numerical_descending#:#9 to 0###14 05 2024 new variable
+ui#:#presentation_table_collapse#:#collapse all###14 05 2024 new variable
+ui#:#presentation_table_expand#:#expand all###14 05 2024 new variable
 ui#:#ui_chars_max#:#Maximum
 ui#:#ui_chars_min#:#Minimum
 ui#:#ui_chars_remaining#:#Resterande bokstäver
