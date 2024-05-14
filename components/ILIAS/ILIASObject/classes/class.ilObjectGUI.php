@@ -1880,6 +1880,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_item_groups[0] = $this->lng->txt('rep_new_item_group_other');
         $add_new_item_elements = [];
         foreach ($new_item_groups as $group_id => $group) {
+            if (empty($new_item_groups_subitems[$group_id])) {
+                continue;
+            }
             $group_element = $this->buildGroup(
                 $create_target_class,
                 $new_item_groups_subitems[$group_id],
