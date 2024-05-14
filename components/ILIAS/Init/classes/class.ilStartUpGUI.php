@@ -293,6 +293,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
+        $this->mainTemplate->setPermanentLink('auth', null, 'login');
         self::printToGlobalTemplate($tpl);
     }
 
