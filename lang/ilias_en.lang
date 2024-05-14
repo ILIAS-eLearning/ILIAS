@@ -4366,7 +4366,7 @@ common#:#info_remark_interrupted#:#Role is interrupted at this position. The rol
 common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
-common#:#info_view_of_user#:#User
+common#:#info_view_of_user#:#User Menu
 common#:#inform_user_mail#:#Send mail to inform user about changes
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.

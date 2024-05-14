@@ -257,7 +257,7 @@ class ilObjectPermissionStatusGUI
         $ilAccess = $DIC['ilAccess'];
         $infos = array();
 
-        $result_set[0][] = $this->lng->txt("info_view_of_user");
+        $result_set[0][] = $this->lng->txt('user');
         $result_set[0][] = $this->user->getFullname() . " (#" . $this->user->getId() . ")";
 
         $assigned_valid_roles = array();
