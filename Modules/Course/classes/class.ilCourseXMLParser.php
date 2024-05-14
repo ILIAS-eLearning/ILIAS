@@ -678,6 +678,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'MailToMembersType':
                 $this->course_obj->setMailToMembersType((int) $this->cdata);
                 break;
+            case 'AboStatus':
+                 $this->course_obj->setAboStatus((int) $this->cdata);
+                break;
         }
         $this->cdata = '';
 
