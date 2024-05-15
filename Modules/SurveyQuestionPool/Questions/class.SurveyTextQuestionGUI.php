@@ -87,7 +87,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     ): array {
         $res = array();
 
-        if (is_array($a_working_data)) {
+        if (is_array($a_working_data) && $a_working_data !== []) {
             $res[] = array("textanswer" => trim($a_working_data[0]["textanswer"]));
         }
 
