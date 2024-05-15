@@ -73,6 +73,11 @@ class ilPluginLP extends ilObjectLP
 
     public function getCurrentMode(): int
     {
+        $mode = ilLPObjSettings::_lookupDBMode($this->obj_id);
+        if (!is_null($mode)) {
+            return $mode;
+        }
+
         if ($this->status !== null) {
             return ilLPObjSettings::LP_MODE_PLUGIN;
         }
