@@ -1264,11 +1264,11 @@ abstract class assQuestion
                 "question_id" => array("integer", $next_id),
                 "question_type_fi" => array("integer", $this->getQuestionTypeID()),
                 "obj_fi" => array("integer", $obj_id),
-                "title" => array("text", null),
-                "description" => array("text", null),
+                "title" => array("text", ''),
+                "description" => array("text", ''),
                 "author" => array("text", $this->getAuthor()),
                 "owner" => array("integer", $ilUser->getId()),
-                "question_text" => array("clob", null),
+                "question_text" => array("clob", ''),
                 "points" => array("float", "0.0"),
                 "nr_of_tries" => array("integer", $this->getDefaultNrOfTries()), // #10771
                 "complete" => array("text", $complete),
@@ -2585,7 +2585,7 @@ abstract class assQuestion
             "value1" => array("clob", $value1),
             "value2" => array("clob", $value2),
             "pass" => array("integer", $pass),
-            "tstamp" => array("integer", ((int)$tstamp > 0) ? (int)$tstamp : time()),
+            "tstamp" => array("integer", ((int) $tstamp > 0) ? (int) $tstamp : time()),
             'authorized' => array('integer', (int) $authorized)
         );
 
