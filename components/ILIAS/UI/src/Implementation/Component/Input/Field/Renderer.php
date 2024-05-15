@@ -104,8 +104,10 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Duration):
                 return $this->renderDurationField($component, $default_renderer);
 
-            case ($component instanceof F\Group):
             case ($component instanceof F\Link):
+                return $this->renderLinkField($component, $default_renderer);
+
+            case ($component instanceof F\Group):
                 return $default_renderer->render($component->getInputs());
 
             case ($component instanceof F\Text):

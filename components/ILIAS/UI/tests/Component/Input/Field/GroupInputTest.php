@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
@@ -41,6 +42,8 @@ abstract class Input2 extends FormInput
 
 class GroupInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     /**
      * @var Input1|mixed|MockObject
      */
@@ -366,16 +369,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $content->value());
     }
 
-    public function getFieldFactory(): FieldFactory
-    {
-        return new FieldFactory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new IncrementalSignalGenerator(),
-            new Data\Factory(),
-            $this->getRefinery(),
-            $this->getLanguage()
-        );
-    }
+
 
     public function testGroupRendering(): void
     {
@@ -388,20 +382,20 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $group = $f->group($inputs, $label);
 
         $expected = <<<EOT
-        <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
+        <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
+            <legend><label tabindex="0" for="id_1">input1</label></legend>
+            <div class="c-input__field">
                 <input id="id_1" type="text" class="form-control form-control-sm" />
-                <div class="help-block">in 1</div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">input2</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
+            <div class="c-input__help-byline">in 1</div>
+        </fieldset>
+        <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
+            <legend><label tabindex="0" for="id_2">input2</label></legend>
+            <div class="c-input__field">
                 <input id="id_2" type="text" class="form-control form-control-sm" />
-                <div class="help-block">in 2</div>
             </div>
-        </div>
+            <div class="c-input__help-byline">in 2</div>
+        </fieldset>
 EOT;
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($group));
         $expected = $this->brutallyTrimHTML($expected);

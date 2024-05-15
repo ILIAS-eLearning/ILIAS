@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\UI\Implementation\Component\Symbol as S;
 
 class DurationInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
@@ -158,74 +161,94 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): \ILIAS\UI\Component\Input\Field\Duration
     {
-        $datetime = $this->factory->duration('label', 'byline');
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($datetime));
+        $duration = $this->factory->duration('label', 'byline')
+            ->withNameFrom($this->name_source);
         $label_start = 'duration_default_label_start';
         $label_end = 'duration_default_label_end';
 
+        $f1 = $this->getFormWrappedHtml(
+            'DateTimeFieldInput',
+            $label_start,
+            '<div class="input-group date il-input-datetime">
+                <input id="id_1" type="date" name="name_0/start_1" class="form-control form-control-sm" />
+            </div>
+            ',
+            null,
+            'id_1',
+            'name_0/start_1'
+        );
+        $f2 = $this->getFormWrappedHtml(
+            'DateTimeFieldInput',
+            $label_end,
+            '<div class="input-group date il-input-datetime">
+                <input id="id_2" type="date" name="name_0/end_2" class="form-control form-control-sm" />
+            </div>
+            ',
+            null,
+            'id_2',
+            'name_0/end_2'
+        );
 
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-           <div class="col-sm-8 col-md-9 col-lg-10">
-              <div class="il-input-duration" id="id_3">
-                 <div class="form-group row">
-                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_start . '</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime"><input id="id_1" type="date" class="form-control form-control-sm" /></div>
-                    </div>
-                 </div>
-                 <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_end . '</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
-                    </div>
-                 </div>
-              </div>
-              <div class="help-block">byline</div>
-           </div>
-        </div>
-        ');
-        $this->assertEquals($expected, $html);
-
-        return $datetime;
+        $expected = $this->getFormWrappedHtml(
+            'DurationFieldInput',
+            'label',
+            '<div class="il-input-duration" id="id_3">' . $f1 . $f2 . '</div>',
+            'byline',
+            'id_2'
+        );
+        $this->assertEquals($expected, $this->render($duration));
+        return $duration;
     }
 
     /**
      * @depends testRender
      */
-    public function testRenderWithDifferentLabels($datetime): void
+    public function testRenderWithDifferentLabels($duration): void
     {
         $other_start_label = 'other startlabel';
         $other_end_label = 'other endlabel';
-        $datetime = $datetime->withLabels($other_start_label, $other_end_label);
+        $duration = $duration->withLabels($other_start_label, $other_end_label);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($datetime));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-               <div class="col-sm-8 col-md-9 col-lg-10">
-                  <div class="il-input-duration" id="id_3">
-                     <div class="form-group row">
-                        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_start_label . '</label>
-                        <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime"><input id="id_1" type="date" class="form-control form-control-sm" /></div>
-                        </div>
-                     </div>
-                     <div class="form-group row">
-                        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_end_label . '</label>
-                        <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime"><input id="id_2" type="date" class="form-control form-control-sm" /></div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="help-block">byline</div>
-               </div>
+        $f1 = $this->getFormWrappedHtml(
+            'DateTimeFieldInput',
+            $other_start_label,
+            '<div class="input-group date il-input-datetime">
+                <input id="id_1" type="date" name="name_0/start_1" class="form-control form-control-sm" />
             </div>
-        ');
-        $this->assertEquals($expected, $html);
+            ',
+            null,
+            'id_1',
+            'name_0/start_1'
+        );
+        $f2 = $this->getFormWrappedHtml(
+            'DateTimeFieldInput',
+            $other_end_label,
+            '<div class="input-group date il-input-datetime">
+                <input id="id_2" type="date" name="name_0/end_2" class="form-control form-control-sm" />
+            </div>
+            ',
+            null,
+            'id_2',
+            'name_0/end_2'
+        );
+
+        $expected = $this->getFormWrappedHtml(
+            'DurationFieldInput',
+            'label',
+            '<div class="il-input-duration" id="id_3">' . $f1 . $f2 . '</div>',
+            'byline',
+            'id_2',
+        );
+        $this->assertEquals($expected, $this->render($duration));
+    }
+
+    public function testCommonRendering(): void
+    {
+        $duration = $this->factory->duration('label')
+            ->withNameFrom($this->name_source);
+        $this->testWithError($duration);
+        $this->testWithNoByline($duration);
+        $this->testWithRequired($duration);
+        $this->testWithDisabled($duration);
     }
 }

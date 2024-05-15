@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Input\Field;
@@ -31,6 +32,8 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 
 class LinkInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     private DefNamesource $name_source;
 
     public function setUp(): void
@@ -38,25 +41,9 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): Factory
-    {
-        $data_factory = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        $language->method("txt")
-            ->will($this->returnArgument(0));
-
-        return new Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $data_factory,
-            new ILIAS\Refinery\Factory($data_factory, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $factory = $this->buildFactory();
+        $factory = $this->getFieldFactory();
         $url = $factory->link("Test Label", "Test Byline");
 
         $this->assertInstanceOf(Field\Link::class, $url);
@@ -64,36 +51,53 @@ class LinkInputTest extends ILIAS_UI_TestBase
 
     public function testRendering(): void
     {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
+        $factory = $this->getFieldFactory();
         $label = "Test Label";
         $byline = "Test Byline";
-        $url = $factory->link($label, $byline)->withNameFrom($this->name_source);
-        $html = $this->normalizeHTML($renderer->render($url));
+        $link = $factory->link($label, $byline)->withNameFrom($this->name_source);
 
-        $expected = '
-            <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_label</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input id="id_1" type="text" name="name_0/label_1" class="form-control form-control-sm" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_url</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input id="id_2" type="url" name="name_0/url_2" class="form-control form-control-sm" />
-                </div>
-            </div>';
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
+        $f1 = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            '',
+            '<input id="id_1" type="text" name="name_0/label_1" class="form-control form-control-sm" />',
+            null,
+            'id_1',
+            'name_0/label_1'
         );
+        $f2 = $this->getFormWrappedHtml(
+            'UrlFieldInput',
+            '',
+            '<input id="id_2" type="url" name="name_0/url_2" class="form-control form-control-sm" />',
+            null,
+            'id_2',
+            'name_0/url_2'
+        );
+
+        $expected = $this->getFormWrappedHtml(
+            'LinkFieldInput',
+            $label,
+            $f1 . $f2,
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($link));
+    }
+
+    public function testCommonRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $label = "label";
+        $link = $f->link($label, null)->withNameFrom($this->name_source);
+
+        $this->testWithError($link);
+        $this->testWithNoByline($link);
+        $this->testWithRequired($link);
+        $this->testWithDisabled($link);
     }
 
     public function testProducesNullWhenNoDataExists(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $input = $f->link("", "")
             ->withNameFrom(new class () implements NameSource {
                 public function getNewName(): string

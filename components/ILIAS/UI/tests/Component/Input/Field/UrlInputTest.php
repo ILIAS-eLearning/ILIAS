@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class UrlInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     private DefNamesource $name_source;
 
     public function setUp(): void
@@ -37,22 +40,9 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $data_factory = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $data_factory,
-            new Refinery($data_factory, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $factory = $this->buildFactory();
+        $factory = $this->getFieldFactory();
         $url = $factory->url("Test Label", "Test Byline");
 
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $url);
@@ -61,146 +51,44 @@ class UrlInputTest extends ILIAS_UI_TestBase
 
     public function testRendering(): void
     {
-        $factory = $this->buildFactory();
+        $factory = $this->getFieldFactory();
         $renderer = $this->getDefaultRenderer();
         $label = "Test Label";
         $byline = "Test Byline";
-        $id = "id_1";
-        $name = "name_0";
         $url = $factory->url($label, $byline)->withNameFrom($this->name_source);
-        $html = $this->normalizeHTML($renderer->render($url));
-
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                            <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
-                            <div class=\"help-block\">$byline</div>
-                        </div>
-                    </div>";
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
+        $expected = $this->getFormWrappedHtml(
+            'UrlFieldInput',
+            $label,
+            '<input id="id_1" type="url" name="name_0" class="form-control form-control-sm" />',
+            $byline
         );
-    }
-
-    public function testRenderError(): void
-    {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
-        $label = "Test Label";
-        $byline = "Test Byline";
-        $id = "id_1";
-        $name = "name_0";
-        $error = "test_error";
-        $url = $factory->url($label, $byline)->withNameFrom($this->name_source)
-            ->withError($error);
-        $html = $this->normalizeHTML($renderer->render($url));
-
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                            <div class=\"help-block alert alert-danger\" aria-describedby=\"id_1\" role=\"alert\">$error</div>
-                            <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
-                            <div class=\"help-block\">$byline</div>
-                        </div>
-                    </div>";
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
-
-    public function testRenderNoByline(): void
-    {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
-        $label = "Test Label";
-        $id = "id_1";
-        $name = "name_0";
-        $url = $factory->url($label)->withNameFrom($this->name_source);
-        $html = $this->normalizeHTML($renderer->render($url));
-
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                            <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
-                        </div>
-                    </div>";
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
+        $this->assertEquals($expected, $this->render($url));
     }
 
     public function testRenderValue(): void
     {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
+        $factory = $this->getFieldFactory();
         $label = "Test Label";
         $value = "https://www.ilias.de/";
-        $id = "id_1";
-        $name = "name_0";
         $url = $factory->url($label)->withValue($value)
             ->withNameFrom($this->name_source);
-        $html = $this->normalizeHTML($renderer->render($url));
-
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                           <input id=\"$id\" type=\"url\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />
-                        </div>
-                     </div>";
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
+        $expected = $this->getFormWrappedHtml(
+            'UrlFieldInput',
+            $label,
+            '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="form-control form-control-sm" />',
         );
+        $this->assertEquals($expected, $this->render($url));
     }
 
-    public function testRenderRequired(): void
+    public function testCommonRendering(): void
     {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
-        $label = "Test Label";
-        $id = "id_1";
-        $name = "name_0";
-        $url = $factory->url($label)->withNameFrom($this->name_source)
-            ->withRequired(true);
-        $html = $this->normalizeHTML($renderer->render($url));
+        $f = $this->getFieldFactory();
+        $url = $f->url('label', null)->withNameFrom($this->name_source);
 
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                            <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
-                        </div>
-                    </div>";
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
+        $this->testWithError($url);
+        $this->testWithNoByline($url);
+        $this->testWithRequired($url);
+        $this->testWithDisabled($url);
     }
 
-    public function testRenderDisabled(): void
-    {
-        $factory = $this->buildFactory();
-        $renderer = $this->getDefaultRenderer();
-        $label = "Test Label";
-        $id = "id_1";
-        $name = "name_0";
-        $url = $factory->url($label)->withNameFrom($this->name_source)
-            ->withDisabled(true);
-        $html = $this->normalizeHTML($renderer->render($url));
-
-        $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                            <input id=\"$id\" type=\"url\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />
-                        </div>
-                    </div>";
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
 }

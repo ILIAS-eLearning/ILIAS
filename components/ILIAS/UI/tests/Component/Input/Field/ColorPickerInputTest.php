@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component\Input\Field;
@@ -30,6 +31,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ColorPickerInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
 
     public function setUp(): void
@@ -37,24 +40,9 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->getLanguage();
-        return new I\Input\Field\Factory(
-            $this->createMock(
-                \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class
-            ),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $cp = $f->colorpicker("label", "byline");
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $cp);
         $this->assertInstanceOf(Field\ColorPicker::class, $cp);
@@ -62,105 +50,54 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source);
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($cp));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="color" name="name_0" value=""/>
-            <div class="help-block">byline</div>
-            </div>
-            </div>
-            ');
-        $this->assertHTMLEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'ColorPickerFieldInput',
+            $label,
+            '<input id="id_1" type="color" name="name_0" value=""/>',
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($cp));
     }
 
-    public function testRenderDisabled(): void
+    public function testCommonRendering(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
-        $byline = "byline";
-        $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)
-                ->withNameFrom($this->name_source)
-                ->withDisabled(true);
+        $colorpicker = $f->colorpicker($label, null)->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($cp));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="color" name="name_0" value=""/>
-            <div class="help-block">byline</div>
-            </div>
-            </div>
-            ');
-        $this->assertHTMLEquals($expected, $html);
-    }
-
-    public function testRenderRequired(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $byline = "byline";
-        $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)
-                ->withNameFrom($this->name_source)
-                ->withRequired(true);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($cp));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label
-            <span class="asterisk">*</span></label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="color" name="name_0" value=""/>
-            <div class="help-block">byline</div>
-            </div>
-            </div>
-            ');
-        $this->assertHTMLEquals($expected, $html);
+        $this->testWithError($colorpicker);
+        $this->testWithNoByline($colorpicker);
+        $this->testWithRequired($colorpicker);
+        $this->testWithDisabled($colorpicker);
     }
 
     public function testRenderValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $value = "value_0";
         $cp = $f->colorpicker($label, $byline)
                 ->withValue($value)
                 ->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($cp));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-            <input id="id_1" type="color" name="name_0" value="value_0"/>
-            <div class="help-block">byline</div>
-            </div>
-            </div>
-            ');
-        $this->assertHTMLEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'ColorPickerFieldInput',
+            $label,
+            '<input id="id_1" type="color" name="name_0" value="value_0"/>',
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($cp));
     }
 
     public function testValueRequired(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $name = "name_0";
@@ -183,7 +120,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
     public function testNullValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $colorpicker = $f->colorpicker("label", "byline");
         $this->expectException(\InvalidArgumentException::class);
         $colorpicker->withValue(null);

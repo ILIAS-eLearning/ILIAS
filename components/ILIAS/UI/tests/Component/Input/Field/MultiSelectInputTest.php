@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -31,6 +32,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class MultiSelectInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
 
     public function setUp(): void
@@ -38,22 +41,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = array(
             "1" => "Pick 1",
             "2" => "Pick 2"
@@ -65,7 +55,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
 
     public function testOptions(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = array(
             "1" => "Pick 1",
             "2" => "Pick 2"
@@ -77,7 +67,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     public function testOnlyAcceptsActualOptionsFromClientSide(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = array(
             "1" => "Pick 1",
             "2" => "Pick 2"
@@ -110,7 +100,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     public function testRender(): void
     {
         $r = $this->getDefaultRenderer();
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = array(
             "1" => "Pick 1",
             "2" => "Pick 2"
@@ -121,32 +111,34 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $name = $ms->getName();
         $label = $ms->getLabel();
         $byline = $ms->getByline();
-        $expected = ""
-            . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
-                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
-                    . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
-
+        $expected_options = "";
         foreach ($options as $opt_value => $opt_label) {
-            $expected .= ""
-                        . "<li>"
-                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
-                            . "<span>$opt_label</span>"
-                        . "</li>";
+            $expected_options .= ""
+                    . "<li><label>"
+                    . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
+                    . " $opt_label"
+                    . "</label></li>";
         }
-
-        $expected .= ""
-                    . "</ul>"
-                    . "<div class=\"help-block\">$byline</div>"
-                . "</div>"
-            . "</div>";
-        $this->assertHTMLEquals($expected, $r->render($ms));
+        $expected = $this->getFormWrappedHtml(
+            'MultiSelectFieldInput',
+            $label,
+            '
+            <fieldset class="il-input-multiselect" id="id_1">
+                <ul>'
+                . $expected_options .
+                '</ul>
+            </fieldset>
+            ',
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($ms));
     }
 
     public function testRenderValue(): void
     {
         $r = $this->getDefaultRenderer();
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = array(
             "1" => "Pick 1",
             "2" => "Pick 2"
@@ -159,76 +151,54 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $name = $ms->getName();
         $label = $ms->getLabel();
         $byline = $ms->getByline();
-        $expected = ""
-            . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
-                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
-                    . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
-
+        $expected_options = "";
         foreach ($options as $opt_value => $opt_label) {
             if ($opt_value === $value) {
-                $expected .= ""
-                        . "<li>"
-                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" checked=\"checked\" />"
-                            . "<span>$opt_label</span>"
-                        . "</li>";
+                $expected_options .= ""
+                    . "<li><label>"
+                    . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" checked=\"checked\" />"
+                    . " $opt_label"
+                    . "</label></li>";
             } else {
-                $expected .= ""
-                        . "<li>"
-                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
-                            . "<span>$opt_label</span>"
-                        . "</li>";
+                $expected_options .= ""
+                        . "<li><label>"
+                        . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
+                        . " $opt_label"
+                        . "</label></li>";
             }
         }
-
-        $expected .= ""
-                    . "</ul>"
-                    . "<div class=\"help-block\">$byline</div>"
-                . "</div>"
-            . "</div>";
-        $this->assertHTMLEquals($expected, $r->render($ms));
+        $expected = $this->getFormWrappedHtml(
+            'MultiSelectFieldInput',
+            $label,
+            '
+            <fieldset class="il-input-multiselect" id="id_1">
+                <ul>'
+                . $expected_options .
+                '</ul>
+            </fieldset>
+            ',
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($ms));
     }
 
-    public function testRenderDisabled(): void
+    public function testCommonRendering(): void
     {
-        $r = $this->getDefaultRenderer();
-        $f = $this->buildFactory();
-        $options = array(
-            "1" => "Pick 1",
-            "2" => "Pick 2"
-        );
-        $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom($this->name_source)->withDisabled(true);
+        $f = $this->getFieldFactory();
+        $label = "label";
+        $multi_select = $f->multiSelect($label, [], null)->withNameFrom($this->name_source);
 
-        $name = $ms->getName();
-        $label = $ms->getLabel();
-        $byline = $ms->getByline();
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
-            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
-            . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
-
-        foreach ($options as $opt_value => $opt_label) {
-            $expected .= ""
-                . "<li>"
-                . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" disabled=\"disabled\" />"
-                . "<span>$opt_label</span>"
-                . "</li>";
-        }
-
-        $expected .= ""
-            . "</ul>"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
-        $this->assertHTMLEquals($expected, $r->render($ms));
+        $this->testWithError($multi_select);
+        $this->testWithNoByline($multi_select);
+        $this->testWithRequired($multi_select);
+        $this->testWithDisabled($multi_select);
     }
 
     public function testRenderNoOptions(): void
     {
         $r = $this->getDefaultRenderer();
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $options = [];
         $ms = $f->multiSelect("label", $options, "byline")
             ->withNameFrom($this->name_source)->withDisabled(true);
@@ -236,16 +206,18 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $name = $ms->getName();
         $label = $ms->getLabel();
         $byline = $ms->getByline();
-        $expected = ""
-            . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
-            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
-            . "<ul class=\"il-input-multiselect\" id=\"id_1\">"
-            . "<li>-</li>"
-            . "</ul>"
-            . "<div class=\"help-block\">$byline</div>"
-            . "</div>"
-            . "</div>";
+        $expected = '
+        <fieldset class="c-input" data-il-ui-type="MultiSelectFieldInput" data-il-ui-name="name_0" disabled="disabled">
+            <legend><label tabindex="0">label</label></legend>
+            <div class="c-input__field">
+                <fieldset class="il-input-multiselect" id="id_1">
+                    <ul>
+                        <li>-</li>
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="c-input__help-byline">byline</div>
+        </fieldset>';
 
         $this->assertHTMLEquals($expected, $r->render($ms));
     }

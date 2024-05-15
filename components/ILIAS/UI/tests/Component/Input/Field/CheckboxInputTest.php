@@ -21,16 +21,17 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
-use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field;
-use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data;
 
 class CheckboxInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
     protected Refinery $refinery;
 
@@ -40,22 +41,9 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(ilLanguage::class));
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
 
         $checkbox = $f->checkbox("label", "byline");
 
@@ -65,93 +53,33 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-           <div class="col-sm-8 col-md-9 col-lg-10">
-              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
-              <div class="help-block">byline</div>
-           </div>
-        </div>
-        ');
-        $this->assertHTMLEquals($expected, $html);
-    }
-
-    public function testRenderError(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $byline = "byline";
-        $error = "an_error";
-        $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source)->withError($error);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-           <div class="col-sm-8 col-md-9 col-lg-10">
-              <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
-              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
-              <div class="help-block">byline</div>
-           </div>
-        </div>
-        ');
-
-        $this->assertHTMLEquals($expected, $html);
-    }
-
-    public function testRenderNoByline(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-           <div class="col-sm-8 col-md-9 col-lg-10">
-              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />
-           </div>
-        </div>
-        ');
-        $this->assertHTMLEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'CheckboxFieldInput',
+            $label,
+            '<input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($checkbox));
     }
 
     public function testRenderValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $value = true;
         $checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-               <div class="col-sm-8 col-md-9 col-lg-10">
-                  <input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />
-               </div>
-            </div>
-        ');
-        $this->assertHTMLEquals($expected, $html);
+        $expected = '<input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />';
+        $this->assertStringContainsString($expected, $this->render($checkbox));
     }
 
     public function testHandleInvalidValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $value = "invalid";
         try {
@@ -162,47 +90,21 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testRenderRequired(): void
+    public function testCommonRendering(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
-        $checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withRequired(true);
+        $checkbox = $f->checkbox($label, null)->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
-           <div class="col-sm-8 col-md-9 col-lg-10"><input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/></div>
-        </div>
-        ');
-
-        $this->assertHTMLEquals($expected, $html);
-    }
-
-    public function testRenderDisabled(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withDisabled(true);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($checkbox));
-
-        $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-               <div class="col-sm-8 col-md-9 col-lg-10"><input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/></div>
-            </div>
-        ');
-
-        $this->assertHTMLEquals($expected, $html);
+        $this->testWithError($checkbox);
+        $this->testWithNoByline($checkbox);
+        $this->testWithRequired($checkbox);
+        $this->testWithDisabled($checkbox);
     }
 
     public function testTrueContent(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
 
@@ -221,7 +123,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
     public function testFalseContent(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
 
@@ -240,7 +142,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
     public function testDisabledContent(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $checkbox = $f->checkbox($label)
             ->withNameFrom($this->name_source)
@@ -255,7 +157,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
     public function testTransformation(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $new_value = "NEW_VALUE";
         $checkbox = $f->checkbox($label)
@@ -275,7 +177,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
     public function testNullValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $checkbox = $f->checkbox("label");
         $checkbox->withValue(null);
         $this->assertEquals(false, $checkbox->getValue());

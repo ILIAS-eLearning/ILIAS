@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
@@ -36,24 +37,13 @@ class SelectForTest extends ILIAS\UI\Implementation\Component\Input\Field\Select
 
 class SelectInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
 
     public function setUp(): void
     {
         $this->name_source = new DefNamesource();
-    }
-
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
     }
 
     public function testOnlyValuesFromOptionsAreAcceptableClientSideValues(): void
@@ -90,7 +80,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
     public function testEmptyStringCreatesErrorIfSelectIsRequired(): void
     {
         $options = [];
-        $select = $this->buildFactory()->select(
+        $select = $this->getFieldFactory()->select(
             "",
             $options,
             ""
@@ -125,92 +115,67 @@ class SelectInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($select));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <select id="id_1" name="name_0">
-            <option selected="selected" value="">-</option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-        </select>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'SelectFieldInput',
+            $label,
+            '
+            <select id="id_1" name="name_0">
+                <option selected="selected" value="">-</option>
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+            </select>
+            ',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($select));
     }
 
 
     public function testRenderValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source)->withValue("one");
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($select));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <select id="id_1" name="name_0">
-            <option value="">-</option>
-            <option selected="selected" value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-        </select>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'SelectFieldInput',
+            $label,
+            '
+            <select id="id_1" name="name_0">
+                <option value="">-</option>
+                <option selected="selected" value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+            </select>
+            ',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($select));
     }
 
-    public function testRenderDisabled(): void
+    public function testCommonRendering(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
-        $byline = "byline";
-        $options = ["one" => "One", "two" => "Two", "three" => "Three"];
-        $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source)->withDisabled(true);
+        $select = $f->select($label, [], null)->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($select));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <select id="id_1" name="name_0" disabled="disabled">
-            <option selected="selected" value="">-</option>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-        </select>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $this->testWithError($select);
+        $this->testWithNoByline($select);
+        $this->testWithRequired($select);
+        $this->testWithDisabled($select);
     }
+
 
     public function testWithValueAndRequiredDoesNotContainNull(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $options = ["something_value" => "something"];

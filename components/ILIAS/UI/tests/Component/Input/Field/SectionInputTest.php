@@ -20,90 +20,71 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data;
 
 class SectionInputTest extends ILIAS_UI_TestBase
 {
-    public function getFieldFactory(): Field\Factory
+    use CommonFieldRendering;
+
+    protected DefNamesource $name_source;
+
+    public function setUp(): void
     {
-        $factory = new Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new IncrementalSignalGenerator(),
-            new Data\Factory(),
-            $this->getRefinery(),
-            $this->getLanguage()
-        );
-        return $factory;
+        $this->name_source = new DefNamesource();
     }
 
     public function testSectionRendering(): void
     {
         $f = $this->getFieldFactory();
-        $r = $this->getDefaultRenderer();
         $inputs = [
             $f->text("input1", "in 1"),
             $f->text("input2", "in 2")
         ];
         $label = 'section label';
         $byline = 'section byline';
-        $section = $f->section($inputs, $label, $byline);
-        $actual = $this->brutallyTrimHTML($r->render($section));
-        $expected = <<<EOT
-            <div class="il-section-input">
-                <div class="il-section-input-header">
-                    <h2>section label</h2>
-                    <div class="il-section-input-header-byline">section byline</div>
-                </div>
-                <div class="form-group row">
-                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_1" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">in 1</div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">input2</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_2" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">in 2</div>
-                    </div>
-                </div>
-            </div>
-EOT;
-        $expected = $this->brutallyTrimHTML($expected);
-        $this->assertEquals($expected, $actual);
+        $section = $f->section($inputs, $label, $byline)->withNameFrom($this->name_source);
+        $f1 = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            'input1',
+            '<input id="id_1" type="text"  name="name_0/name_1" class="form-control form-control-sm" />',
+            'in 1',
+            'id_1',
+            'name_0/name_1'
+        );
+        $f2 = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            'input2',
+            '<input id="id_2" type="text"  name="name_0/name_2" class="form-control form-control-sm" />',
+            'in 2',
+            'id_2',
+            'name_0/name_2'
+        );
+        $expected = $this->getFormWrappedHtml(
+            'SectionFieldInput',
+            $label,
+            $f1 . $f2,
+            $byline,
+            'id_3'
+        );
+        $this->assertEquals($expected, $this->render($section));
     }
 
-    public function testSectionRenderingWithError(): void
+
+    public function testCommonRendering(): void
     {
         $f = $this->getFieldFactory();
-        $r = $this->getDefaultRenderer();
         $inputs = [
-            $f->text("input1", "in 1")
+            $f->text("input1")
         ];
         $label = 'section label';
-        $byline = 'section byline';
-        $section = $f->section($inputs, $label, $byline);
-        $actual = $this->brutallyTrimHTML($r->render($section->withError("Some Error")));
-        $expected = <<<EOT
-            <div class="il-section-input">
-                <div class="il-section-input-header">
-                    <h2>section label</h2>
-                    <div class="il-section-input-header-byline">section byline</div>
-                </div>
-                <div class="help-block alert alert-danger" role="alert"> Some Error </div>
-                <div class="form-group row">
-                    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_1" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">in 1</div>
-                    </div>
-                </div>
-            </div>
-EOT;
-        $expected = $this->brutallyTrimHTML($expected);
-        $this->assertEquals($expected, $actual);
+        $section = $f->section($inputs, $label)->withNameFrom($this->name_source);
+
+        $this->testWithError($section);
+        $this->testWithNoByline($section);
+        $this->testWithRequired($section);
+        $this->testWithDisabled($section);
     }
 }

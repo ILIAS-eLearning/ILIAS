@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class TextareaTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     private DefNamesource $name_source;
 
     public function setUp(): void
@@ -37,22 +40,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $textarea = $f->textarea("label", "byline");
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
@@ -60,7 +50,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testImplementsFactoryInterface_without_byline(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $textarea = $f->textarea("label");
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
@@ -68,7 +58,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testWithMinLimit(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $limit = 5;
         $textarea = $f->textarea('label')->withMinLimit($limit);
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
@@ -78,7 +68,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testWithMaxLimit(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $limit = 15;
         $textarea = $f->textarea('label')->withMaxLimit($limit);
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
@@ -88,7 +78,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testIsLimited(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
 
         // with min limit
         $textarea = $f->textarea('label')->withMinLimit(5);
@@ -109,7 +99,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testGetMinLimit(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $limit = 5;
         $textarea = $f->textarea('label')->withMinLimit($limit);
         $this->assertEquals($textarea->getMinLimit(), $limit);
@@ -117,7 +107,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
     public function testGetMaxLimit(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $limit = 15;
         $textarea = $f->textarea('label')->withMaxLimit($limit);
         $this->assertEquals($textarea->getMaxLimit(), $limit);
@@ -126,89 +116,81 @@ class TextareaTest extends ILIAS_UI_TestBase
     // RENDERER
     public function testRenderer(): void
     {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
-        $id = "id_1";
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
-
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\"></textarea>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
+        $expected = $this->getFormWrappedHtml(
+            'TextareaFieldInput',
+            $label,
+            '
+            <div class="ui-input-textarea">
+                <textarea id="id_1" class="form-control form-control-sm" name="name_0"></textarea>
             </div>
-        ";
+            ',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($textarea));
+    }
 
-        $html = $this->normalizeHTML($r->render($textarea));
-        $this->assertHTMLEquals($expected, $html);
+    public function testCommonRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $label = "label";
+        $textarea = $f->textarea($label)->withNameFrom($this->name_source);
+
+        $this->testWithError($textarea);
+        $this->testWithNoByline($textarea);
+        $this->testWithRequired($textarea);
+        $this->testWithDisabled($textarea);
     }
 
     public function testRendererWithMinLimit(): void
     {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
-        $name = "name_0";
-        $id = "id_1";
+        $f = $this->getFieldFactory();
         $label = "label";
-
         $min = 5;
         $byline = "This is just a byline Min: " . $min;
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
-
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"$min\"></textarea>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
+        $expected = $this->getFormWrappedHtml(
+            'TextareaFieldInput',
+            $label,
+            '
+            <div class="ui-input-textarea">
+                <textarea id="id_1" class="form-control form-control-sm" name="name_0" minlength="5"></textarea>
             </div>
-        ";
-
-        $html = $this->normalizeHTML($r->render($textarea));
-        $this->assertHTMLEquals($expected, $html);
+            ',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($textarea));
     }
 
     public function testRendererWithMaxLimit(): void
     {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
-        $name = "name_0";
-        $id = "id_1";
+        $f = $this->getFieldFactory();
         $label = "label";
         $max = 20;
         $byline = "This is just a byline Max: " . $max;
         $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
-
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" maxlength=\"$max\"></textarea>
-                        <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
+        $expected = $this->getFormWrappedHtml(
+            'TextareaFieldInput',
+            $label,
+            '
+            <div class="ui-input-textarea">
+                <textarea id="id_1" class="form-control form-control-sm" name="name_0" maxlength="20"></textarea>
+                <div class="ui-input-textarea-remainder">
+                    ui_chars_remaining <span data-action="remainder">20</span>
                 </div>
             </div>
-        ";
-
-        $html = $this->brutallyTrimHTML($r->render($textarea));
-        $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $html);
+            ',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($textarea));
     }
 
     public function testRendererWithMinAndMaxLimit(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();
         $name = "name_0";
         $id = "id_1";
@@ -220,27 +202,16 @@ class TextareaTest extends ILIAS_UI_TestBase
             $this->name_source
         );
 
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
-                        <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
-            </div>
-        ";
-
-        $html = $this->brutallyTrimHTML($r->render($textarea));
-        $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $html);
+        $expected = $this->brutallyTrimHTML("
+            <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
+            <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
+        ");
+        $this->assertStringContainsString($expected, $this->render($textarea));
     }
 
     public function testRendererCounterWithValue(): void
     {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
+        $f = $this->getFieldFactory();
         $id = 'id_1';
         $label = "label";
         $byline = "byline";
@@ -248,80 +219,17 @@ class TextareaTest extends ILIAS_UI_TestBase
         $value = "Lorem ipsum dolor sit";
         $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\">$value</textarea>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
+        $expected = $this->brutallyTrimHTML("
+            <div class=\"ui-input-textarea\">
+                <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\">$value</textarea>
             </div>
-        ";
-
-        $html = $this->normalizeHTML($r->render($textarea));
-        $this->assertHTMLEquals($expected, $html);
-    }
-
-    public function testRendererWithError(): void
-    {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
-        $id = "id_1";
-        $label = "label";
-        $name = "name_0";
-        $min = 5;
-        $byline = "This is just a byline Min: " . $min;
-        $error = "an_error";
-        $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withError($error);
-
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"help-block alert alert-danger\" aria-describedby=\"$id\" role=\"alert\">an_error</div>
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\"></textarea>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
-            </div>
-        ";
-
-        $html = $this->brutallyTrimHTML($r->render($textarea));
-        $this->assertEquals($this->brutallyTrimHTML($expected), $html);
-    }
-
-    public function testRendererWithDisabled(): void
-    {
-        $f = $this->buildFactory();
-        $r = $this->getDefaultRenderer();
-        $id = "id_1";
-        $label = "label";
-        $byline = "byline";
-        $name = "name_0";
-        $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withDisabled(true);
-
-        $expected = "
-            <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
-                <div class=\"col-sm-8 col-md-9 col-lg-10\">
-                    <div class=\"ui-input-textarea\">
-                        <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" disabled=\"disabled\"></textarea>
-                    </div>
-                    <div class=\"help-block\">$byline</div>
-                </div>
-            </div>
-        ";
-
-        $html = $this->normalizeHTML($r->render($textarea));
-        $this->assertHTMLEquals($expected, $html);
+        ");
+        $this->assertStringContainsString($expected, $this->render($textarea));
     }
 
     public function testStripsTags(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $name = "name_0";
         $text = $f->textarea("")
             ->withNameFrom($this->name_source)

@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class TextInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
 
     public function setUp(): void
@@ -37,22 +40,9 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new Refinery($df, $language),
-            $language
-        );
-    }
-
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
 
         $text = $f->text("label", "byline");
 
@@ -62,145 +52,48 @@ class TextInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
         $text = $f->text($label, $byline)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10">
-      <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />		
-      <div class="help-block">byline</div>
-   </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            $label,
+            '<input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />',
+            $byline
+        );
+        $this->assertEquals($expected, $this->render($text));
     }
 
-    public function testRenderError(): void
+    public function testCommonRendering(): void
     {
-        $f = $this->buildFactory();
-        $label = "label";
-        $byline = "byline";
-        $error = "an_error";
-        $text = $f->text($label, $byline)->withNameFrom($this->name_source)->withError($error);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-   <div class="col-sm-8 col-md-9 col-lg-10">
-      <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
-      <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />
-      <div class="help-block">byline</div>
-   </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testRenderNoByline(): void
-    {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $text = $f->text($label)->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" class="form-control form-control-sm" /></div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $this->testWithError($text);
+        $this->testWithNoByline($text);
+        $this->testWithRequired($text);
+        $this->testWithDisabled($text);
     }
 
     public function testRenderValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $value = "value";
         $text = $f->text($label)->withValue($value)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" value="value" name="name_0" class="form-control form-control-sm" /></div>
-</div>
-');
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testRenderValue0(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $value = "0";
-        $text = $f->text($label)->withValue($value)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" value="0" name="name_0" class="form-control form-control-sm" /></div>
-</div>
-');
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testRenderRequired(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $text = $f->text($label)->withNameFrom($this->name_source)->withRequired(true);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>	
-   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" class="form-control form-control-sm" /></div>
-</div>
-');
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testRenderDisabled(): void
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $text = $f->text($label)->withNameFrom($this->name_source)->withDisabled(true);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" disabled="disabled" class="form-control form-control-sm" /></div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            $label,
+            '<input id="id_1" type="text" value="value" name="name_0" class="form-control form-control-sm" />'
+        );
+        $this->assertEquals($expected, $this->render($text));
     }
 
     public function testMaxLength(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
 
         $text = $f->text("")
         ->withMaxLength(4);
@@ -217,25 +110,20 @@ class TextInputTest extends ILIAS_UI_TestBase
 
     public function testRenderMaxValue(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $text = $f->text($label)->withNameFrom($this->name_source)->withMaxLength(8);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10">				<input id="id_1" type="text" name="name_0" maxlength="8"  class="form-control form-control-sm" />					</div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $expected = $this->getFormWrappedHtml(
+            'TextFieldInput',
+            $label,
+            '<input id="id_1" type="text" name="name_0" maxlength="8" class="form-control form-control-sm" />'
+        );
+        $this->assertEquals($expected, $this->render($text));
     }
 
     public function testValueRequired(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $label = "label";
         $name = "name_0";
         $text = $f->text($label)->withNameFrom($this->name_source)->withRequired(true);
@@ -252,7 +140,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
     public function testStripsTags(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
         $name = "name_0";
         $text = $f->text("")
             ->withNameFrom($this->name_source)
