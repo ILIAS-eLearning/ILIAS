@@ -47,7 +47,7 @@ trait TestQuestionsImportTrait
         return [
             $importdir,
             $importdir . DIRECTORY_SEPARATOR . basename($importdir) . '.xml',
-            $importdir . DIRECTORY_SEPARATOR . preg_replace('/test|tst/', 'qti', basename($importdir)) . '.xml'
+            $importdir . DIRECTORY_SEPARATOR . preg_replace('/test|tst|qpl/', 'qti', basename($importdir)) . '.xml'
         ];
     }
 

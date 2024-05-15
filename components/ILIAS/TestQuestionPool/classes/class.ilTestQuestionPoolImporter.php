@@ -46,7 +46,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
     {
         // Container import => pool object already created
         if (($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) !== null) {
-            $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $new_obj->getObjectProperties()->storePropertyIsOnline($new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
 
             $selected_questions = [];
@@ -162,7 +162,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                 if ($new_tax_ids !== null) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, $new);
+                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                     }
                 }
             }
