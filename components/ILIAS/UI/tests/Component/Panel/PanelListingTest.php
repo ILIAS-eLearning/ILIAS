@@ -29,6 +29,24 @@ use ILIAS\UI\Implementation as I;
  */
 class PanelListingTest extends ILIAS_UI_TestBase
 {
+    public function getUIFactory(): NoUIFactory
+    {
+        return new class () extends NoUIFactory {
+            public function button(): I\Component\Button\Factory
+            {
+                return new I\Component\Button\Factory();
+            }
+            public function symbol(): C\Symbol\Factory
+            {
+                return new I\Component\Symbol\Factory(
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
+                );
+            }
+        };
+    }
+
     public function getFactory(): C\Panel\Listing\Factory
     {
         return new I\Component\Panel\Listing\Factory();
@@ -111,6 +129,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
 <div class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
 <div class="panel-title"><h2>title</h2></div><div class="panel-controls"></div></div>
+<div class="panel-listing-body">
 <div class="il-item-group">
 <h3>Subtitle 1</h3>
 <div class="il-item-group-items">
@@ -138,6 +157,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
             </div>
         </li>
   </ul>
+</div>
 </div>
 </div>
 </div>
@@ -176,8 +196,100 @@ EOT;
 </div>
 </div>
 </div>
+<div class="panel-listing-body"></div>
 </div>
 EOT;
-        $this->assertHTMLEquals($expected, $html);
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithExpanded(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $c = $f->standard("title", [])
+            ->withExpandable(true);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+    <div class="panel-heading ilHeader">
+        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+            <h2>
+                <div class="panel-collapse-button">
+                    <button class="btn btn-bulky" data-action="" id="id_2">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">title</span>
+                    </button>
+                </div>
+                <div class="panel-expand-button">
+                    <button class="btn btn-bulky" data-action="" id="id_3">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">title</span>
+                    </button>
+                </div>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-listing-body panel-body-expandable collapse in" id="id_1_body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithCollapsed(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $c = $f->standard("title", [])
+               ->withExpandable(false);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+    <div class="panel-heading ilHeader">
+        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+            <h2>
+                <div class="panel-collapse-button">
+                    <button class="btn btn-bulky" data-action="" id="id_2">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">title</span>
+                    </button>
+                </div>
+                <div class="panel-expand-button">
+                    <button class="btn btn-bulky" data-action="" id="id_3">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">title</span>
+                    </button>
+                </div>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-listing-body panel-body-expandable collapse " id="id_1_body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
     }
 }

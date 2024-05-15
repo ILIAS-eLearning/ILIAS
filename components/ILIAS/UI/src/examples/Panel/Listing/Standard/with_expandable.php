@@ -55,6 +55,9 @@ function with_expandable(): string
                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
                );
 
+    $modal1 = $f->modal()->roundtrip("Expand", $f->legacy("Panel has been expanded."));
+    $modal2 = $f->modal()->roundtrip("Collapse", $f->legacy("Panel has been collapsed."));
+
     $std_list = $f->panel()->listing()->standard("List Title", [
         $f->item()->group("Subtitle 1", [
             $item1,
@@ -65,7 +68,7 @@ function with_expandable(): string
         ])
     ])->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(false);
+                  ->withExpandable(false, $modal1->getShowSignal(), $modal2->getShowSignal());
 
-    return $renderer->render($std_list);
+    return $renderer->render([$std_list, $modal1, $modal2]);
 }

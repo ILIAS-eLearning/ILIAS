@@ -13,16 +13,14 @@ const panel = function () {
         );
     };
 
-    const onCollapseCmd = function (event, id, action) {
+    const onCollapseCmd = function (event, id, action = null, signal = null) {
         const p = document.getElementById(id).closest('.panel-expandable');
         p.querySelector('.panel-collapse-button').style.display = 'none';
         p.querySelector('.panel-expand-button').style.display = 'block';
         p.querySelector('.panel-viewcontrols').style.display = 'none';
 
-        // Perform async request for collapse action
-        fetch(action, {
-            method: 'GET',
-        });
+        performAsync(action);
+        performSignal(id, signal);
     };
 
     /**
@@ -31,17 +29,34 @@ const panel = function () {
      * @param id
      * @param cmd
      */
-    const onExpandCmd = function (event, id, action) {
+    const onExpandCmd = function (event, id, action = null, signal = null) {
         const p = document.getElementById(id).closest('.panel-expandable');
         p.querySelector('.panel-expand-button').style.display = 'none';
         p.querySelector('.panel-collapse-button').style.display = 'block';
         p.querySelector('.panel-viewcontrols').style.display = 'flex';
 
-        // Perform async request for expand action
-        fetch(action, {
-            method: 'GET',
-        });
+        performAsync(action);
+        performSignal(id, signal);
     };
+
+    const performAsync = function (action) {
+        if (action !== null) {
+            fetch(action, {
+                method: 'GET',
+            });
+        }
+    }
+
+    const performSignal = function (id, signal) {
+        const b = document.getElementById(id);
+        if (signal !== null) {
+            $(b).trigger(signal.signal_id, {
+                'id' : signal.signal_id,
+                'event' : signal.event,
+                'triggerer' : b,
+                'options' : signal.options});
+        }
+    }
 
     /**
      * Public interface
@@ -53,7 +68,4 @@ const panel = function () {
     };
 };
 
-il = il || {};
-il.UI = il.UI || {};
-
-il.UI.panel = panel();
+export default panel;

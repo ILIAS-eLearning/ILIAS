@@ -11,6 +11,7 @@ function with_expandable(): string
     $renderer = $DIC->ui()->renderer();
     $refinery = $DIC->refinery();
     $request_wrapper = $DIC->http()->wrapper()->query();
+    $data_factory = new \ILIAS\Data\Factory();
 
     $url = $DIC->http()->request()->getRequestTarget();
 
@@ -54,6 +55,13 @@ function with_expandable(): string
                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
                );
 
+    $expand_action = $data_factory->uri(
+        $DIC->http()->request()->getUri()->__toString() . "&expand_action=1"
+    );
+    $collapse_action = $data_factory->uri(
+        $DIC->http()->request()->getUri()->__toString() . "&collapse_action=1"
+    );
+
     $std_list = $f->panel()->standard("List Title", [
         $f->item()->group("Subtitle 1", [
             $item1,
@@ -65,7 +73,7 @@ function with_expandable(): string
     ])
                   ->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(true);
+                  ->withExpandable(true, $expand_action, $collapse_action);
 
     return $renderer->render($std_list);
 }
