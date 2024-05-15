@@ -621,7 +621,7 @@ EOT;
         <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
             <h2>
                 <div class="panel-collapse-button">
-                    <button class="btn btn-bulky" data-action="" id="id_2">
+                    <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
@@ -629,7 +629,7 @@ EOT;
                     </button>
                 </div>
                 <div class="panel-expand-button">
-                    <button class="btn btn-bulky" data-action="" id="id_3">
+                    <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>
@@ -665,7 +665,7 @@ EOT;
         <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
             <h2>
                 <div class="panel-collapse-button">
-                    <button class="btn btn-bulky" data-action="" id="id_2">
+                    <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
@@ -673,7 +673,7 @@ EOT;
                     </button>
                 </div>
                 <div class="panel-expand-button">
-                    <button class="btn btn-bulky" data-action="" id="id_3">
+                    <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>

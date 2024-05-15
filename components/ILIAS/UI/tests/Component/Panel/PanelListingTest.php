@@ -210,8 +210,9 @@ EOT;
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
 
+        $uri = new ILIAS\Data\URI("http://www.ilias.de");
         $c = $f->standard("title", [])
-            ->withExpandable(true);
+            ->withExpandable(true, $uri, $uri);
 
         $html = $r->render($c);
 
@@ -254,8 +255,9 @@ EOT;
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
 
+        $uri = new ILIAS\Data\URI("http://www.ilias.de");
         $c = $f->standard("title", [])
-               ->withExpandable(false);
+               ->withExpandable(false, $uri, $uri);
 
         $html = $r->render($c);
 
