@@ -4149,7 +4149,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Impordi liigitus
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Impordi fail
-common#:#import_file_not_valid#:#Impordifaili pole kehtiv.
+common#:#import_file_not_valid_here#:#Impordifaili pole kehtiv.
 common#:#import_finished#:#Imporditud sõnumite arv.
 common#:#import_lm#:#Impordi ILIAS õppemoodul
 common#:#import_qpl#:#Impordi küsimustevaramu

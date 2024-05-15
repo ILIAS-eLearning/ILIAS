@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Importo Kategori
 common#:#import_failure_log#:#Importo rekorde të dështimeve
 common#:#import_file#:#Importo skedar
-common#:#import_file_not_valid#:#Skedari i importuar nuk është valid.
+common#:#import_file_not_valid_here#:#Skedari i importuar nuk është valid.
 common#:#import_finished#:#Numri i skedarëve të importuar.
 common#:#import_lm#:#Importo Modul Mësimor ILIAS
 common#:#import_qpl#:#Importo Fond-Pyetjesh për Test###09 Aug 2005 content changed

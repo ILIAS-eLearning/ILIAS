@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca e
 common#:#import_categories#:#Importar Categorías
 common#:#import_failure_log#:#Archivo de registro de fallos en la importación
 common#:#import_file#:#Importar archivo
-common#:#import_file_not_valid#:#La importación del archivo no es válida
+common#:#import_file_not_valid_here#:#La importación del archivo no es válida
 common#:#import_finished#:#Número de mensajes importados
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_qpl#:#Importar Banco de preguntas de Test

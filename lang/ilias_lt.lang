@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#Ši lentelė turi prasmę tik jei pažymėta parinkt
 common#:#import_categories#:#Importuoti Kategorijas
 common#:#import_failure_log#:#Nepavykusių importavimų žurnalas
 common#:#import_file#:#Importuoti Failą
-common#:#import_file_not_valid#:#Importuojamas failas netinkamas.
+common#:#import_file_not_valid_here#:#Importuojamas failas netinkamas.
 common#:#import_finished#:#Importuotų žinučių skaičius.
 common#:#import_lm#:#Importuoti ILIAS Mokymo modulį
 common#:#import_qpl#:#Importuoti Klausimyną Testui

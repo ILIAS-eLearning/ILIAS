@@ -4355,7 +4355,7 @@ common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Chec
 common#:#import_categories#:#Kategorien importieren
 common#:#import_failure_log#:#Import-Fehler-Log
 common#:#import_file#:#Datei importieren
-common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
+common#:#import_file_not_valid_here#:#Die Importdatei ist nicht gültig oder der enthaltene Objekttyp ist an dieser Stelle nicht erlaubt.
 common#:#import_finished#:#Anzahl der importierten Mails:
 common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren

@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Uvezi Kategorije
 common#:#import_failure_log#:#Uvezi neuspešne registracije
 common#:#import_file#:#Uvezi fajl
-common#:#import_file_not_valid#:#Uvezeni fajl nije ispravan.
+common#:#import_file_not_valid_here#:#Uvezeni fajl nije ispravan.
 common#:#import_finished#:#Broj uvezenih poruka.
 common#:#import_lm#:#Uvezi ILIAS metod ucenja
 common#:#import_qpl#:#Uvezi bazu pitanja za test###09 Aug 2005 content changed

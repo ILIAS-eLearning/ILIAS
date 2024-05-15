@@ -4149,7 +4149,7 @@ common#:#import_cat_table#:#A seguinte tabela só faz sentido se o quadrado esti
 common#:#import_categories#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
 common#:#import_failure_log#:#Importar registo de falha
 common#:#import_file#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Continuar’.
-common#:#import_file_not_valid#:#Agora selecione o curso ou grupo pretendido, cujo conteúdo deve ser copiado e clique no botão ‘Continuar’.
+common#:#import_file_not_valid_here#:#Agora selecione o curso ou grupo pretendido, cujo conteúdo deve ser copiado e clique no botão ‘Continuar’.
 common#:#import_finished#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
 common#:#import_lm#:#Objeto(s) selecionados movido(s)
 common#:#import_qpl#:#Função apagada

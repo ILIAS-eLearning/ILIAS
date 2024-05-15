@@ -4148,7 +4148,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Импортиране на категории
 common#:#import_failure_log#:#Import failure log###06 09 2006 new variable
 common#:#import_file#:#Импортиране на файл
-common#:#import_file_not_valid#:#Импортираният файл е невалиден.
+common#:#import_file_not_valid_here#:#Импортираният файл е невалиден.
 common#:#import_finished#:#Брой импортирани съобщения.
 common#:#import_lm#:#Импортиране на ILIAS модул за обучение
 common#:#import_qpl#:#Импортиране на набори въпроси за тестове

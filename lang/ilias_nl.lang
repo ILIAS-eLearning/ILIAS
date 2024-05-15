@@ -4149,7 +4149,7 @@ common#:#import_cat_table#:#De volgende tabel is alleen zinvol als de checkbox i
 common#:#import_categories#:#Importeer categorieën
 common#:#import_failure_log#:#Import log mislukt
 common#:#import_file#:#Importeren Bestand
-common#:#import_file_not_valid#:#Het te importeren bestand is niet geldig.
+common#:#import_file_not_valid_here#:#Het te importeren bestand is niet geldig.
 common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_lm#:#Importeren Lesmodule
 common#:#import_qpl#:#Importeer vragenpool (toets)

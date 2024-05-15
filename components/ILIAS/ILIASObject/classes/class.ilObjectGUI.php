@@ -122,6 +122,8 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected string $link_params;
     protected string $html = "";
 
+    private ?RoundTrip $import_modal = null;
+
     /**
      * @param mixed $data
      * @param int $id
@@ -852,7 +854,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     protected function addImportButtonToToolbar(): void
     {
-        $modal = $this->buildImportModal();
+        $modal = $this->import_modal ?? $this->buildImportModal();
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('import'),
@@ -1211,7 +1213,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     && ($files = $this->temp_file_system->listContents($filename))
                     && $this->importFileOfValidType(basename($files[0]->getPath()));
             },
-            $this->lng->txt('import_file_not_valid')
+            $this->lng->txt('import_file_not_valid_here')
         );
 
         $import_directory_factory = new ilImportDirectoryFactory();
@@ -1254,12 +1256,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $data = $modal->getData();
 
         if ($data === null) {
-            $this->tpl->setVariable(
-                'IL_OBJECT_IMPORT_MODAL',
-                $this->ui_renderer->render(
-                    $modal->withOnLoad($modal->getShowSignal())
-                )
-            );
+            $this->import_modal = $modal->withOnLoad($modal->getShowSignal());
             $this->viewObject();
             return;
         }
@@ -1274,14 +1271,20 @@ class ilObjectGUI implements ImplementsCreationCallback
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool('create', '', $new_type)) {
             $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-            $this->error->raiseError($this->lng->txt('no_create_permission'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'));
+            $this->viewObject();
+            return;
         }
 
         $this->lng->loadLanguageModule($new_type);
         $this->ctrl->setParameter($this, 'new_type', $new_type);
 
         $target_class = 'ilObj' . $this->obj_definition->getClassName($new_type) . 'GUI';
-        $target = new $target_class('', 0);
+        try {
+            $target = new $target_class('', 0, false, false);
+        } catch (TypeError $e) {
+            $target = new $target_class(0, ilObject2GUI::REPOSITORY_NODE_ID, $this->getRefId());
+        }
         $target->importFile($file_to_import, $path_to_uploaded_file_in_temp_dir);
         $this->viewObject();
     }
@@ -1360,7 +1363,8 @@ class ilObjectGUI implements ImplementsCreationCallback
     {
         $file_type = $this->extractFileTypeFromImportFilename($filename);
         if ($file_type === null
-            || !in_array($file_type, $this->obj_definition->getAllObjects())) {
+            || !in_array($file_type, $this->obj_definition->getAllObjects())
+            || !array_key_exists($file_type, $this->object->getPossibleSubObjects())) {
             return false;
         }
         return true;

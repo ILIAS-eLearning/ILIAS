@@ -4305,7 +4305,7 @@ common#:#import_cat_table#:#Le tableau suivant n'a de sens que si la case est co
 common#:#import_categories#:#Importer Catégories
 common#:#import_failure_log#:#Importer journal des échecs
 common#:#import_file#:#Importer Fichier
-common#:#import_file_not_valid#:#Le fichier importé n'est pas valide.
+common#:#import_file_not_valid_here#:#Le fichier importé n'est pas valide.
 common#:#import_finished#:#Nombre de messages importés.
 common#:#import_lm#:#Importer Module ILIAS
 common#:#import_qpl#:#Importer Banque de Questions (Test)

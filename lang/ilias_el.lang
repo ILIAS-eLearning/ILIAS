@@ -4152,7 +4152,7 @@ common#:#import_cat_table#:#Ο ακόλουθος πίνακας έχει σημ
 common#:#import_categories#:#Εισαγωγή κατηγοριών
 common#:#import_failure_log#:#Η εισαγωγή στο αρχείο καταγραφής απέτυχε
 common#:#import_file#:#Εισαγωγή αρχείου
-common#:#import_file_not_valid#:#Η εισαγωγή του αρχείου δεν είναι έγκυρη.
+common#:#import_file_not_valid_here#:#Η εισαγωγή του αρχείου δεν είναι έγκυρη.
 common#:#import_finished#:#Αριθμός μηνυμάτων που έχουν εισαχθεί.
 common#:#import_lm#:#Εισαγωγή εκπαιδευτικής μονάδας ILIAS
 common#:#import_qpl#:#Εισαγωγή μνήμης διαγωνίσματος ερωτήσεων

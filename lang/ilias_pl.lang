@@ -4149,7 +4149,7 @@ common#:#import_cat_table#:#Tabela ta ma znaczenie tylko po ustawieniu pola wybo
 common#:#import_categories#:#Import kategorii
 common#:#import_failure_log#:#Błąd w logu importu
 common#:#import_file#:#Importuj plik
-common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
+common#:#import_file_not_valid_here#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości:
 common#:#import_lm#:#Importuj moduł nauczania ILIAS
 common#:#import_qpl#:#Import testowej puli pytań

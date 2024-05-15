@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Імпортувати Категорії
 common#:#import_failure_log#:#Імпортувати логи невдачних операцій
 common#:#import_file#:#Імпортувати Файл
-common#:#import_file_not_valid#:#Імпортований файл не є коректним.
+common#:#import_file_not_valid_here#:#Імпортований файл не є коректним.
 common#:#import_finished#:#Кількість імпортованих повідомлень.
 common#:#import_lm#:#Імпортувати ILIAS Учбовий модуль
 common#:#import_qpl#:#Імпортувати Пул Питань для Тесту###09 Aug 2005 content changed

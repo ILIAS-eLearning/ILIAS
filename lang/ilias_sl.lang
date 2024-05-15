@@ -4184,7 +4184,7 @@ common#:#import_cat_table#:#Naslednjo tabelo upoštevajte samo, če je aktiviran
 common#:#import_categories#:#Uvozi kategorije
 common#:#import_failure_log#:#Dnevnik napak pri uvozu
 common#:#import_file#:#Uvozi datoteko
-common#:#import_file_not_valid#:#Datoteka za uvoz ni veljavna.
+common#:#import_file_not_valid_here#:#Datoteka za uvoz ni veljavna.
 common#:#import_finished#:#Število uvožene e-pošte:
 common#:#import_lm#:#Uvozi učni modul ILIAS
 common#:#import_qpl#:#Uvozi skupino vprašanj za teste

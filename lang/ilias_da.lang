@@ -4151,7 +4151,7 @@ common#:#import_cat_table#:#Nedenstående tabel giver kun mening hvis afkrydsnin
 common#:#import_categories#:#Importer kategorier
 common#:#import_failure_log#:#Import af log fejlede
 common#:#import_file#:#Importer fil
-common#:#import_file_not_valid#:#Den importerede fil er ikke gyldig.
+common#:#import_file_not_valid_here#:#Den importerede fil er ikke gyldig.
 common#:#import_finished#:#Antal importerede beskeder.
 common#:#import_lm#:#Importer ILIAS Læremodul
 common#:#import_qpl#:#Importer spørgsmålssamling til test
