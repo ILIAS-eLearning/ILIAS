@@ -244,8 +244,10 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
                         > .c-drilldown__menulevel--trigger,
                         > .btn-bulky,
                         > .link-bulky {
-                            background-color: $c-drilldown-selected-bg;
                             display: flex;
+                            background-color: $c-drilldown-selected-bg;
+                            position: relative;
+                            z-index: 40;
                         }
                     }
                     ~ .c-drilldown__branch {
