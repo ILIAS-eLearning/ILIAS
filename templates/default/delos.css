@@ -7254,6 +7254,26 @@ div.alert ul > li:before {
   order: 1;
 }
 
+.panel-expandable .panel-opener {
+  order: 1;
+  flex-grow: 1;
+}
+.panel-expandable .panel-opener .btn-bulky {
+  background-color: #f9f9f9;
+  border: none;
+  padding: 0;
+  min-height: 2.2rem;
+  font-size: 1.115rem;
+  line-height: 1.33;
+  font-weight: 600;
+  justify-content: left;
+}
+@media screen and (min-width: 993px) {
+  .panel-expandable .panel-viewcontrols {
+    flex-grow: 0;
+  }
+}
+
 .panel-primary h2.ilHeader {
   font-weight: 600;
 }

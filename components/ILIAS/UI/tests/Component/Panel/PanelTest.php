@@ -21,9 +21,11 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
+use ILIAS\Data;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ComponentDummy implements C\Component
 {
@@ -455,6 +457,144 @@ EOT;
 </div>
 EOT;
         $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    private function getDummyURI()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+
+        return $request;
+    }
+
+    public function testWithExpandableExpandedNoActions(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()));
+
+        $this->assertEquals(false, $p->isExpandable());
+
+        $p = $p->withExpandable(true);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(true, $p->isExpanded());
+        $this->assertEquals(null, $p->getExpandAction());
+        $this->assertEquals(null, $p->getCollapseAction());
+    }
+
+    public function testWithExpandableCollapsedActions(): void
+    {
+        $fp = $this->getPanelFactory();
+        $df = new Data\Factory();
+        $uri1 = $df->uri("http://localhost/ilias.php&expand=1");
+        $uri2 = $df->uri("http://localhost/ilias.php&collapse=1");
+
+        $p = $fp->standard("Title", array(new ComponentDummy()));
+
+        $this->assertEquals(false, $p->isExpandable());
+
+        $p = $p->withExpandable(false, $uri1, $uri2);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(false, $p->isExpanded());
+        $this->assertEquals($uri1, $p->getExpandAction());
+        $this->assertEquals($uri2, $p->getCollapseAction());
+    }
+
+    public function testRenderWithExpanded(): void
+    {
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+        $p = $f->standard("Title", [])
+               ->withExpandable(true);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary panel-flex panel-expandable">
+    <div class="panel-heading ilHeader">
+        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+            <h2>
+                <div class="panel-collapse-button">
+                    <button class="btn btn-bulky" data-action="" id="id_2">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">Title</span>
+                    </button>
+                </div>
+                <div class="panel-expand-button">
+                    <button class="btn btn-bulky" data-action="" id="id_3">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">Title</span>
+                    </button>
+                </div>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body panel-body-expandable collapse in" id="id_1_body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithCollapsed(): void
+    {
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+        $p = $f->standard("Title", [])
+               ->withExpandable(false);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary panel-flex panel-expandable">
+    <div class="panel-heading ilHeader">
+        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+            <h2>
+                <div class="panel-collapse-button">
+                    <button class="btn btn-bulky" data-action="" id="id_2">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">Title</span>
+                    </button>
+                </div>
+                <div class="panel-expand-button">
+                    <button class="btn btn-bulky" data-action="" id="id_3">
+                        <span class="glyph" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                        <span class="bulky-label">Title</span>
+                    </button>
+                </div>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body panel-body-expandable collapse " id="id_1_body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
             $this->brutallyTrimHTML($expected_html),
             $this->brutallyTrimHTML($html)
         );
