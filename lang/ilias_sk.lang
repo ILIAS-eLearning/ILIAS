@@ -4150,7 +4150,7 @@ common#:#import_cat_table#:#Následující tabulka je smysluplná pouze tehdy, j
 common#:#import_categories#:#Importovat kategorii
 common#:#import_failure_log#:#Záznam chyby importu
 common#:#import_file#:#Import souboru
-common#:#import_file_not_valid#:#Importovaný soubor není platný.
+common#:#import_file_not_valid_here#:#Importovaný soubor není platný.
 common#:#import_finished#:#Počet imporotvaných zpráv.
 common#:#import_lm#:#Importovat výukový modul ILIAS
 common#:#import_qpl#:#Importovat zásobník otázek testu

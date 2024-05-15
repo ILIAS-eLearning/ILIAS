@@ -4150,7 +4150,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Import Categories
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#وارد کردن فایل
-common#:#import_file_not_valid#:#فایل ورودی معتبر نیست.
+common#:#import_file_not_valid_here#:#فایل ورودی معتبر نیست.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#وارد کردن ماژول یادگیری ILIAS
 common#:#import_qpl#:#وارد کردن مخزن سوال تست

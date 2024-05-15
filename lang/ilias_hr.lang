@@ -4150,7 +4150,7 @@ common#:#import_cat_table#:#Sljedeća je tablica značajna samo ako je aktiviran
 common#:#import_categories#:#Uvezi kategorije
 common#:#import_failure_log#:#Dnevnik pogrešaka pri uvozu
 common#:#import_file#:#Uvezi datoteku
-common#:#import_file_not_valid#:#Datoteka za uvoz nije važeća.
+common#:#import_file_not_valid_here#:#Datoteka za uvoz nije važeća.
 common#:#import_finished#:#Broj uvezenih poruka.
 common#:#import_lm#:#Uvezi ILIAS modul za učenje
 common#:#import_qpl#:#Uvezi bazen pitanja za test

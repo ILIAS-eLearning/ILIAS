@@ -4188,7 +4188,7 @@ common#:#import_cat_table#:#チェックボックスがオンの場合のみ次�
 common#:#import_categories#:#インポートカテゴリ
 common#:#import_failure_log#:#失敗ログのインポート
 common#:#import_file#:#インポートファイル
-common#:#import_file_not_valid#:#インポートファイルは無効です。
+common#:#import_file_not_valid_here#:#インポートファイルは無効です。
 common#:#import_finished#:#インポートしたメッセージの数です。
 common#:#import_lm#:#ILIAS ラーニングモジュールをインポート
 common#:#import_qpl#:#テスト問題集をインポート

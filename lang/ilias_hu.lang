@@ -4150,7 +4150,7 @@ common#:#import_cat_table#:#Az alábbi táblázat csak akkor nyújt érdemleges 
 common#:#import_categories#:#Kategóriák importja
 common#:#import_failure_log#:#Hibanapló importálása
 common#:#import_file#:#Importfájl
-common#:#import_file_not_valid#:#Az importfájl nem érvényes.
+common#:#import_file_not_valid_here#:#Az importfájl nem érvényes.
 common#:#import_finished#:#Importált üzenetek száma.
 common#:#import_lm#:#ILIAS-tananyag importja
 common#:#import_qpl#:#Tesztkérdésgyűjtemény importálása

@@ -4154,7 +4154,7 @@ common#:#import_cat_table#:#Bảng sau chỉ có nghĩa nếu hộp đánh dấu
 common#:#import_categories#:#Nhập chuyên mục
 common#:#import_failure_log#:#Nhật ký nhập thất bại
 common#:#import_file#:#Nhập file
-common#:#import_file_not_valid#:#File nhập không hợp lệ.
+common#:#import_file_not_valid_here#:#File nhập không hợp lệ.
 common#:#import_finished#:#Số thư đã nhập.
 common#:#import_lm#:#Nhập học phần ILIAS
 common#:#import_qpl#:#Nhập thư viện câu hỏi kiểm tra

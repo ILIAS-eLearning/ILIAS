@@ -4152,7 +4152,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Import Categories
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#استيراد ملف
-common#:#import_file_not_valid#:#The import file is not valid.
+common#:#import_file_not_valid_here#:#The import file is not valid.
 common#:#import_finished#:#عدد الرسائل المستوردة
 common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test

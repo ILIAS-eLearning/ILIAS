@@ -109,6 +109,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->settings = $DIC['ilSetting'];
+        $this->temp_file_system = $DIC->filesystem()->temp();
 
         $tree = $DIC["tree"];
 

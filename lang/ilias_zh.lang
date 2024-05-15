@@ -4149,7 +4149,7 @@ common#:#import_cat_table#:#如果设置了复选框，下面的表才有意义�
 common#:#import_categories#:#导入类目
 common#:#import_failure_log#:#导入失败日志
 common#:#import_file#:#导入文件
-common#:#import_file_not_valid#:#导入文件无效。
+common#:#import_file_not_valid_here#:#导入文件无效。
 common#:#import_finished#:#已导入的消息数。
 common#:#import_lm#:#导入学习模块
 common#:#import_qpl#:#导入题目池测试

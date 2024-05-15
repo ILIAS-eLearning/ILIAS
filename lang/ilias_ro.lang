@@ -4152,7 +4152,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Importati Categorii
 common#:#import_failure_log#:#Import failure log ### 2006-8-11 --- Add new translation here.
 common#:#import_file#:#Importati Fisier
-common#:#import_file_not_valid#:#Fisierul importat nu este valabil.
+common#:#import_file_not_valid_here#:#Fisierul importat nu este valabil.
 common#:#import_finished#:#Numarul mesajelor importate.
 common#:#import_lm#:#Importati Modul de Invatare ILIAS
 common#:#import_qpl#:#Importati Baza de intrebari pentru Test

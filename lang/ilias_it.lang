@@ -4150,7 +4150,7 @@ common#:#import_cat_table#:#La seguente tabella &
 common#:#import_categories#:#Importa contesto
 common#:#import_failure_log#:#Log di importazione: fallimenti
 common#:#import_file#:#Scegli il file
-common#:#import_file_not_valid#:#Il file di import non &
+common#:#import_file_not_valid_here#:#Il file di import non &
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test

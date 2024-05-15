@@ -4325,7 +4325,7 @@ common#:#import_cat_table#:#Var god notera att följande tabell endast visas om 
 common#:#import_categories#:#Importkategorier
 common#:#import_failure_log#:#Import av fellogg
 common#:#import_file#:#Importera fil
-common#:#import_file_not_valid#:#Importfilen är inte giltig.
+common#:#import_file_not_valid_here#:#Importfilen är inte giltig.
 common#:#import_finished#:#Antal importerade e-postmeddelanden
 common#:#import_lm#:#Import ILIAS utbildningsmodul
 common#:#import_qpl#:#Importera frågepool för tester
