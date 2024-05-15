@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field;
@@ -54,6 +55,8 @@ class WithButtonAndSymbolButNoUIFactory extends NoUIFactory
 
 class FileInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
 
     public function setUp(): void
@@ -66,21 +69,6 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = str_replace(" />", "/>", $html);
         return parent::brutallyTrimHTML($html);
     }
-
-    protected function buildFactory(): I\Input\Field\Factory
-    {
-        $df = new Data\Factory();
-        $language = $this->createMock(ILIAS\Language\Language::class);
-
-        return new I\Input\Field\Factory(
-            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-            new SignalGenerator(),
-            $df,
-            new ILIAS\Refinery\Factory($df, $language),
-            $language
-        );
-    }
-
 
     private function getUploadHandler(?FileInfoResult $file = null): Field\UploadHandler
     {
@@ -142,7 +130,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
     public function testImplementsFactoryInterface(): void
     {
-        $f = $this->buildFactory();
+        $f = $this->getFieldFactory();
 
         $text = $f->file($this->getUploadHandler(), "label", "byline");
 
@@ -153,6 +141,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): void
     {
+<<<<<<< HEAD
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
@@ -204,15 +193,34 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                     <div class="help-block">byline</div>
+=======
+        $f = $this->getFieldFactory();
+        $label = "label";
+        $byline = "byline";
+        $file_input = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
+
+        $expected = $this->getFormWrappedHtml(
+            'FileFieldInput',
+            $label,
+            '
+            <div id="id_3" class="ui-input-file">
+                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+>>>>>>> f33efbf4a4e (UI/Input: adjust tests)
                 </div>
             </div>
-        ');
-        $this->assertEquals($expected, $html);
+            ',
+            $byline,
+            null
+        );
+        $this->assertEquals($expected, $this->render($file_input));
     }
 
-
-    public function testRenderNoByline(): void
+    public function testCommonRendering(): void
     {
+<<<<<<< HEAD
         $f = $this->buildFactory();
         $label = "label";
         $text = $f->file($this->getUploadHandler(), $label)->withNameFrom($this->name_source);
@@ -234,8 +242,16 @@ class FileInputTest extends ILIAS_UI_TestBase
             </div>
         ');
         $this->assertEquals($expected, $html);
+=======
+        $f = $this->getFieldFactory();
+        $file_input = $f->file($this->getUploadHandler(), 'label', null)
+            ->withNameFrom($this->name_source);
+        $this->testWithError($file_input);
+        $this->testWithNoByline($file_input);
+        $this->testWithRequired($file_input);
+        $this->testWithDisabled($file_input);
+>>>>>>> f33efbf4a4e (UI/Input: adjust tests)
     }
-
 
     public function testRenderValue(): void
     {
@@ -247,13 +263,14 @@ class FileInputTest extends ILIAS_UI_TestBase
         $test_file_info->method('getName')->willReturn("test file name 1");
         $test_file_info->method('getSize')->willReturn(1001);
 
-        $file_input = $this->buildFactory()->file(
+        $file_input = $this->getFieldFactory()->file(
             $this->getUploadHandler($test_file_info),
             "",
         )->withValue([
             $test_file_id,
         ])->withNameFrom($this->name_source);
 
+<<<<<<< HEAD
         $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($file_input));
 
         $expected = $this->brutallyTrimHTML('
@@ -293,17 +310,56 @@ class FileInputTest extends ILIAS_UI_TestBase
 </div>
         ');
         $this->assertEquals($expected, $html);
+=======
+        $expected = $this->getFormWrappedHtml(
+            'FileFieldInput',
+            '',
+            '
+            <div id="id_4" class="ui-input-file">
+                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
+                    <div class="ui-input-file-input ui-input-dynamic-input">
+                        <div class="ui-input-file-info">
+                            <span data-action="expand"></span>
+                            <span data-action="collapse"></span>
+                            <span data-dz-name>test file name 1</span>
+                            <span data-dz-size>1 KB</span>
+                            <span data-action="remove">
+                                <a tabindex="0" class="glyph" href="#" aria-label="close">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                        </div>
+                        <div class="ui-input-file-metadata" style="display: none;">
+                            <input id="id_1" type="hidden" name="name_0[input_0][]" value="test_file_id_1"/>
+                        </div>
+                        <div class="ui-input-file-input-progress-container">
+                            <div class="ui-input-file-input-progress-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                </div>
+            </div>
+            ',
+            null,
+            null
+        );
+        $this->assertEquals($expected, $this->render($file_input));
+>>>>>>> f33efbf4a4e (UI/Input: adjust tests)
     }
 
 
     public function testRenderWithMetadata(): void
     {
-        $factory = $this->buildFactory();
-
+        $factory = $this->getFieldFactory();
+        $label = 'file_input';
         $metadata_input = $factory->text("text_input");
         $file_input = $factory->file(
             ($u = $this->getUploadHandler()),
-            "file_input",
+            $label,
             null,
             $metadata_input
         )->withValue([
@@ -313,6 +369,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             ]
         ])->withNameFrom($this->name_source);
 
+<<<<<<< HEAD
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($file_input));
 
@@ -368,6 +425,59 @@ class FileInputTest extends ILIAS_UI_TestBase
         ');
 
         $this->assertEquals($expected, $html);
+=======
+        $expected = $this->getFormWrappedHtml(
+            'FileFieldInput',
+            $label,
+            '
+            <div id="id_6" class="ui-input-file">
+                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
+                    <div class="ui-input-file-input ui-input-dynamic-input">
+                        <div class="ui-input-file-info">
+                            <span data-action="expand">
+                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content">
+                                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span data-action="collapse">
+                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content">
+                                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span data-dz-name></span>
+                            <span data-dz-size></span>
+                            <span data-action="remove">
+                                <a tabindex="0" class="glyph" href="#" aria-label="close">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                        </div>
+                        <div class="ui-input-file-metadata" style="display: none;">
+                            <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="name_0[input_1][]">
+                                <legend><label tabindex="0" for="id_1">text_input</label></legend>
+                                <div class="c-input__field">
+                                    <input id="id_1" type="text" name="name_0[input_1][]" class="form-control form-control-sm"/>
+                                </div>
+                            </fieldset>
+                            <input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
+                        </div>
+                        <div class="ui-input-file-input-progress-container">
+                            <div class="ui-input-file-input-progress-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                </div>
+            </div>
+            ',
+            null,
+            null
+        );
+        $this->assertEquals($expected, $this->render($file_input));
+>>>>>>> f33efbf4a4e (UI/Input: adjust tests)
     }
 
 
@@ -381,12 +491,12 @@ class FileInputTest extends ILIAS_UI_TestBase
         $test_file_info->method('getName')->willReturn("test file name 1");
         $test_file_info->method('getSize')->willReturn(1000 * 1000 + 1);
 
-        $factory = $this->buildFactory();
-
+        $factory = $this->getFieldFactory();
+        $label = 'file_input';
         $metadata_input = $factory->text("text_input");
         $file_input = $factory->file(
             $u = $this->getUploadHandler($test_file_info),
-            "file_input",
+            $label,
             null,
             $metadata_input
         )->withValue([
@@ -396,6 +506,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             ]
         ])->withNameFrom($this->name_source);
 
+<<<<<<< HEAD
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($file_input));
 
@@ -499,11 +610,59 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                         <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
+=======
+        $expected = $this->getFormWrappedHtml(
+            'FileFieldInput',
+            $label,
+            '
+            <div id="id_6" class="ui-input-file">
+                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
+                    <div class="ui-input-file-input ui-input-dynamic-input">
+                        <div class="ui-input-file-info">
+                            <span data-action="expand">
+                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content">
+                                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span data-action="collapse">
+                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content">
+                                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span data-dz-name>test file name 1</span>
+                            <span data-dz-size>1 MB</span>
+                            <span data-action="remove">
+                                <a tabindex="0" class="glyph" href="#" aria-label="close">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </span>
+                            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                        </div>
+                        <div class="ui-input-file-metadata" style="display: none;">
+                            <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="name_0[input_1][]">
+                                <legend><label tabindex="0" for="id_1">text_input</label></legend>
+                                <div class="c-input__field">
+                                    <input id="id_1" type="text" value="test" name="name_0[input_1][]" class="form-control form-control-sm"/>
+                                </div>
+                            </fieldset>
+                            <input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>
+                        </div>
+                        <div class="ui-input-file-input-progress-container">
+                            <div class="ui-input-file-input-progress-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+>>>>>>> f33efbf4a4e (UI/Input: adjust tests)
                 </div>
             </div>
-        ');
-
-        $this->assertEquals($expected, $html);
+            ',
+            null,
+            null
+        );
+        $this->assertEquals($expected, $this->render($file_input));
     }
 
     protected function buildButtonFactory(): I\Button\Factory
