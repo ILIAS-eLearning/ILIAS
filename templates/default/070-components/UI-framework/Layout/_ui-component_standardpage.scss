@@ -112,8 +112,8 @@ div.il-system-infos {
 
 // logo-container
 .il-logo {
-	width: 50%; // needs further attention because of added pagetitle
 	height: $il-standard-page-logo-height;
+	overflow: hidden;
 	justify-self: start;
 	display: flex;
   	align-items: center;
@@ -126,7 +126,8 @@ div.il-system-infos {
 	font-weight: $il-font-weight-bold;
 	display: flex;
 	font-size: $il-font-size-large;
-	align-items: flex-end;
+	align-items: center;
+	min-height: 100%;
 	padding-left: 35px; // dynamic value desirable
 	color: $il-standard-page-header-page-title-color;
 }

@@ -95,9 +95,12 @@ class MarshalTest extends TestCase
             'always' => $always,
             'null' => $null,
         ]);
-        $refinery->expects(self::exactly(2))->method('byTrying')->withConsecutive(
-            [[$nice_null, $decorate->fromString()]],
-            [[$series, $decorate->toString()]]
+        $consecutive = [[$nice_null, $decorate->fromString()], [$series, $decorate->toString()]];
+        $refinery->expects(self::exactly(2))->method('byTrying')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
         )->willReturn($by_trying);
 
         $convert = (new Marshal($refinery))->nullable($decorate);

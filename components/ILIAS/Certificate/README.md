@@ -259,7 +259,7 @@ Example:
 
 ```php
 // Refers to already used certificate template
-$patternCertificateId = 10;
+use ILIAS\Certificate\ValueObject\CertificateId;$patternCertificateId = 10;
 
 // Object ID of the Module/Service (e.g. Course, Test)
 $objId                = 200;
@@ -294,6 +294,9 @@ $iliasVersion         = 'v5.4.0';
 // Determines if the current certifcate is the newest and visible certificate
 $currentlyActive      = true;
 
+// Unique UUID for the certificate
+$cert_id = new CertificateId('unique-uuid');
+
 $certificate = new ilUserCertificate(
 	$patternCertificateId,
 	$objId,
@@ -307,6 +310,7 @@ $certificate = new ilUserCertificate(
 	$version,
 	$iliasVersion,
 	$currentlyActive,
+	$cert_id
 );
 
 $repository = new ilUserCertificateRepository($database, $logger);

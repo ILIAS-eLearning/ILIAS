@@ -160,4 +160,16 @@ class InternalGUIService
     ): \ilExSubmissionTeamGUI {
         return new \ilExSubmissionTeamGUI($exc, $submission);
     }
+
+    public function getSubmissionFeedbackGUI(
+        ?\ilObjExercise $exercise,
+        \ILIAS\Exercise\Notification\NotificationManager $notification
+    ): \ilExerciseSubmissionFeedbackGUI {
+        return new \ilExerciseSubmissionFeedbackGUI(
+            $this->domain_service,
+            $this,
+            $exercise,
+            $notification
+        );
+    }
 }

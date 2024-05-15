@@ -141,6 +141,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
                 return;
 
+            case strtolower(ilAccessibilityControlConceptGUI::class):
+                $this->ctrl->forwardCommand(new ilAccessibilityControlConceptGUI());
+                return;
+
             default:
                 if (method_exists($this, $cmd)) {
                     $this->$cmd();
@@ -293,6 +297,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
+        $this->mainTemplate->setPermanentLink('auth', null, 'login');
         self::printToGlobalTemplate($tpl);
     }
 

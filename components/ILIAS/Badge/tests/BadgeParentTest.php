@@ -131,7 +131,13 @@ class BadgeParentTest extends TestCase
         ])->willReturn($descriptive);
 
         $factory->method('listing')->willReturn($listing);
-        $factory->method('legacy')->withConsecutive(['Lorem'], [$rendered])->willReturnOnConsecutiveCalls($parent_link, $legacy);
+        $consecutive = ['Lorem', $rendered];
+        $factory->method('legacy')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        )->willReturnOnConsecutiveCalls($parent_link, $legacy);
 
         $renderer->expects(self::once())->method('render')->willReturn($rendered);
 

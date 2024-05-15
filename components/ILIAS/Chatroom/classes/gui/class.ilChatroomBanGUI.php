@@ -92,6 +92,11 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
         $room->unbanUser($users);
 
+        $this->mainTpl->setOnScreenMessage(
+            $this->mainTpl::MESSAGE_TYPE_SUCCESS,
+            $this->ilLng->txt('saved_successfully'),
+            true
+        );
         $this->ilCtrl->redirect($this->gui, 'ban-show');
     }
 

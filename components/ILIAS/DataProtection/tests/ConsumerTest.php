@@ -71,7 +71,14 @@ class ConsumerTest extends TestCase
     {
         $by_trying = $this->mockTree(ByTrying::class, ['transform' => true]);
         $settings = $this->mock(ilSetting::class);
-        $settings->method('get')->withConsecutive(['dpro_enabled', ''], ['dpro_no_acceptance', ''])->willReturn('true');
+        $consecutive = ['dpro_enabled', 'dpro_no_acceptance'];
+        $settings->method('get')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            }),
+            $this->identicalTo('')
+        )->willReturn('true');
 
         $container = $this->mockTree(Container::class, [
             'settings' => $settings,
@@ -98,7 +105,14 @@ class ConsumerTest extends TestCase
         $by_trying->method('transform')->willReturnOnConsecutiveCalls(true, false);
 
         $settings = $this->mock(ilSetting::class);
-        $settings->method('get')->withConsecutive(['dpro_enabled', ''], ['dpro_no_acceptance', ''])->willReturnOnConsecutiveCalls('true', 'false');
+        $consecutive = ['dpro_enabled', 'dpro_no_acceptance'];
+        $settings->method('get')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            }),
+            $this->identicalTo('')
+        )->willReturnOnConsecutiveCalls('true', 'false');
 
         $container = $this->mockTree(Container::class, [
             'settings' => $settings,

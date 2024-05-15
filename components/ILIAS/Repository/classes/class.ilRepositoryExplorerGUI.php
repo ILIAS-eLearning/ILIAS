@@ -441,7 +441,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
     public function isNodeClickable($a_node): bool
     {
-        return $this->access->checkAccess("read", "", (int) $a_node["child"]);
+        return
+            $this->access->checkAccess("read", "", (int) $a_node["child"]) ||
+            $this->access->checkAccess("join", "", (int) $a_node["child"]);
     }
 
     public static function getTopNodeForRefId(int $ref_id): int

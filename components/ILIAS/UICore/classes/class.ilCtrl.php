@@ -56,6 +56,7 @@ class ilCtrl implements ilCtrlInterface
         protected Refinery $refinery,
         protected ilComponentFactory $component_factory,
         protected ilCtrlSubject $subject,
+        protected  ilCtrlQueryParserInterface $query_parser,
     ) {
     }
 
@@ -1089,7 +1090,8 @@ class ilCtrl implements ilCtrlInterface
 
         /** @var array{path: string|null, query: string[]|null} $parsed_url */
         $parsed_url = parse_url(str_replace('&amp;', '&', $url));
-        parse_str(($parsed_url['query'] ?? ''), $query_parameters);
+
+        $query_parameters = $this->query_parser->parseQueriesOfURL($parsed_url['query'] ?? '');
 
         // update the given parameter or add it to the list.
         $query_parameters[$parameter_name] = $value;

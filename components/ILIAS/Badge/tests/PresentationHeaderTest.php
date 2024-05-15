@@ -57,11 +57,18 @@ class PresentationHeaderTest extends TestCase
 
         $additional_component = [];
         if ($additional) {
-            $additional_component[] = [$this->getMockBuilder(Component::class)->getMock()];
+            $additional_component[] = $this->getMockBuilder(Component::class)->getMock();
         }
 
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
-        $toolbar->expects(self::exactly($additional + 1))->method('addStickyItem')->withConsecutive([$mode], ...$additional_component);
+
+        $consecutive_component = [$mode, ...$additional_component];
+        $toolbar->expects(self::exactly($additional + 1))->method('addStickyItem')->with(
+            $this->callback(function ($value) use (&$consecutive_component) {
+                $this->assertSame(array_shift($consecutive_component), $value);
+                return true;
+            })
+        );
 
         $factory = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
         $factory->expects(self::once())->method('viewControl')->willReturn($view_control);
@@ -70,9 +77,13 @@ class PresentationHeaderTest extends TestCase
         $ui->method('factory')->willReturn($factory);
 
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $ctrl->expects(self::exactly(2))->method('getLinkTargetByClass')->withConsecutive(
-            ['Some class.', 'listBadges'],
-            ['Some class.', 'manageBadges'],
+        $consecutive_cmd = ['listBadges', 'manageBadges'];
+        $ctrl->expects(self::exactly(2))->method('getLinkTargetByClass')->with(
+            $this->identicalTo('Some class.'),
+            $this->callback(function ($value) use (&$consecutive_cmd) {
+                $this->assertSame(array_shift($consecutive_cmd), $value);
+                return true;
+            })
         )->willReturnOnConsecutiveCalls('list URL', 'manage URL');
 
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
@@ -85,7 +96,7 @@ class PresentationHeaderTest extends TestCase
         $container->method('language')->willReturn($language);
 
         $head = new PresentationHeader($container, 'Some class.');
-        $head->show('tile_view', ...($additional_component[0] ?? []));
+        $head->show('tile_view', $additional_component[0] ?? null);
     }
 
     public function showProvider(): array

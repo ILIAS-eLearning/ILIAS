@@ -23,6 +23,7 @@
 		<event type="listen" id="components/ILIAS/Course" />
 		<event type="listen" id="components/ILIAS/Group" />
 		<event type="listen" id="components/ILIAS/Forum" />
+		<event type="listen" id="components/ILIAS/User" />
 		<event type="raise" id="createdPost" />
 		<event type="raise" id="updatedPost" />
 		<event type="raise" id="censoredPost" />

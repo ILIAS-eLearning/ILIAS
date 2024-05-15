@@ -65,11 +65,14 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive_get = ['cert_subitems_5', 'cert_subitems_6'];
         $setting
             ->method('get')
-            ->withConsecutive(
-                ['cert_subitems_5'],
-                ['cert_subitems_6']
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_get) {
+                    $this->assertSame(array_shift($consecutive_get), $value);
+                    return true;
+                })
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -79,24 +82,26 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
+        $consecutive_id = [10, 20, 10, 50];
         $objectHelper->method('lookupObjId')
-            ->withConsecutive(
-                [10],
-                [20],
-                [10],
-                [50]
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_id) {
+                    $this->assertSame(array_shift($consecutive_id), $value);
+                    return true;
+                })
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
         $statusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
+        $consecutive_status = [100, 200, 100, 500];
         $statusHelper->method('lookUpStatus')
-            ->withConsecutive(
-                [100],
-                [200],
-                [100],
-                [500]
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_status) {
+                    $this->assertSame(array_shift($consecutive_status), $value);
+                    return true;
+                })
             )
             ->willReturnOnConsecutiveCalls(
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -164,11 +169,14 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive_get = ['cert_subitems_5', 'cert_subitems_6'];
         $setting
             ->method('get')
-            ->withConsecutive(
-                ['cert_subitems_5'],
-                ['cert_subitems_6']
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_get) {
+                    $this->assertSame(array_shift($consecutive_get), $value);
+                    return true;
+                })
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -178,31 +186,28 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
+        $consecutive_id = [10, 20, 10, 500];
         $objectHelper->method('lookupObjId')
-            ->withConsecutive(
-                [10],
-                [20],
-                [10],
-                [500]
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_id) {
+                    $this->assertSame(array_shift($consecutive_id), $value);
+                    return true;
+                })
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
         $statusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
+        $consecutive_status = [100, 200, 100, 500];
         $statusHelper->method('lookUpStatus')
-            ->withConsecutive(
-                [100],
-                [200],
-                [100],
-                [500]
+            ->with(
+                $this->callback(function ($value) use (&$consecutive_status) {
+                    $this->assertSame(array_shift($consecutive_status), $value);
+                    return true;
+                })
             )
-            ->willReturnOnConsecutiveCalls(
-                ilLPStatus::LP_STATUS_COMPLETED_NUM,
-                ilLPStatus::LP_STATUS_COMPLETED_NUM,
-                ilLPStatus::LP_STATUS_COMPLETED_NUM,
-                ilLPStatus::LP_STATUS_COMPLETED_NUM
-            );
+            ->willReturn(ilLPStatus::LP_STATUS_COMPLETED_NUM);
 
         $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
             ->getMock();
@@ -264,16 +269,16 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive = ['cert_subitems_5', 'cert_subitems_6'];
         $setting
             ->method('get')
-            ->withConsecutive(
-                ['cert_subitems_5'],
-                ['cert_subitems_6']
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertSame(array_shift($consecutive), $value);
+                    return true;
+                })
             )
-            ->willReturnOnConsecutiveCalls(
-                null,
-                null
-            );
+            ->willReturn(null);
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();

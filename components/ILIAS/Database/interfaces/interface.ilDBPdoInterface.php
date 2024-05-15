@@ -71,7 +71,7 @@ interface ilDBPdoInterface extends ilDBInterface
      * @param ilDBStatement[] $stmt
      * @return string[]
      */
-    public function executeMultiple(array $stmt, array $data): array;
+    public function executeMultiple(ilDBStatement $stmt, array $data): array;
 
     public function fromUnixtime(string $expr, bool $to_text = true): string;
 

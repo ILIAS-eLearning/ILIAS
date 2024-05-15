@@ -33,6 +33,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 
         $placeholderValuesObject->method('getPlaceholderValuesForPreview')
             ->willReturn([
+                'CERTIFICATE_ID' => 'randomUniqueString',
                 'USER_LOGIN' => 'SomeLogin',
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'

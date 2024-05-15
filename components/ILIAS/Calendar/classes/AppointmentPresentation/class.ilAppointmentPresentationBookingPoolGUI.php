@@ -70,8 +70,14 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
             // post file
             $array_info = array();
-            if ($b_obj->getPostText()) {
-                $array_info[] = $b_obj->getPostText();
+            if (($text = $b_obj->getPostText()) != "") {
+                $period = ilDatePresentation::formatPeriod(
+                    $a_app['event']->getStart(),
+                    $a_app['event']->getEnd()
+                );
+                $text = str_replace("[OBJECT]", $b_obj->getTitle(), $text);
+                $text = str_replace("[PERIOD]", $period, $text);
+                $array_info[] = $text;
             }
             if ($b_obj->getPostFile()) {
                 $this->has_files = true;

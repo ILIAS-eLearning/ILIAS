@@ -53,7 +53,13 @@ class UITest extends TestCase
     public function testTxt(): void
     {
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['ldoc_foo'], 'baz');
-        $language->expects(self::exactly(2))->method('exists')->withConsecutive(['bar_foo'], ['ldoc_foo'])->willReturnOnConsecutiveCalls(false, true);
+        $consecutive = ['bar_foo', 'ldoc_foo'];
+        $language->expects(self::exactly(2))->method('exists')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        )->willReturnOnConsecutiveCalls(false, true);
 
         $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
@@ -62,7 +68,13 @@ class UITest extends TestCase
     public function testTxtFallback(): void
     {
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['foo'], 'baz');
-        $language->expects(self::exactly(2))->method('exists')->withConsecutive(['bar_foo'], ['ldoc_foo'])->willReturn(false);
+        $consecutive = ['bar_foo', 'ldoc_foo'];
+        $language->expects(self::exactly(2))->method('exists')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        )->willReturn(false);
 
         $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));

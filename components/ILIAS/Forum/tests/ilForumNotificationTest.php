@@ -363,22 +363,38 @@ class ilForumNotificationTest extends TestCase
         $srcId = 5749;
         $srcStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $targetStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->database->expects(self::exactly(2))->method('queryF')->withConsecutive(
-            [
-                'SELECT notification_id, user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC',
-                ['integer', 'integer'],
-                [0, $srcId],
-            ],
-            [
-                'SELECT DISTINCT user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC',
-                ['integer', 'integer'],
-                [0, $targetId],
-            ],
+        $consecutive_query_string = [
+            'SELECT notification_id, user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC',
+            'SELECT DISTINCT user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC'
+        ];
+        $consecutive_query_value = [[0, $srcId], [0, $targetId]];
+        $this->database->expects(self::exactly(2))->method('queryF')->with(
+            $this->callback(function ($value) use (&$consecutive_query_string) {
+                $this->assertSame(array_shift($consecutive_query_string), $value);
+                return true;
+            }),
+            $this->identicalTo(['integer', 'integer']),
+            $this->callback(function ($value) use (&$consecutive_query_value) {
+                $this->assertSame(array_shift($consecutive_query_value), $value);
+                return true;
+            })
         )->willReturnOnConsecutiveCalls($srcStatement, $targetStatement);
 
+        $consecutive_fetch= [
+            $targetStatement,
+            $targetStatement,
+            $srcStatement,
+            $srcStatement,
+            $srcStatement
+        ];
         $this->database->expects(self::exactly(5))
                        ->method('fetchAssoc')
-                       ->withConsecutive([$srcStatement], [$srcStatement], [$targetStatement], [$targetStatement], [$targetStatement])
+                       ->with(
+                           $this->callback(function ($value) use (&$consecutive_fetch) {
+                               $this->assertSame(array_shift($consecutive_fetch), $value);
+                               return true;
+                           })
+                       )
                        ->willReturnOnConsecutiveCalls($srcRow, null, $matchUserIdRow, $mismatchUserIdRow, null);
 
         $this->database->expects(self::once())->method('manipulateF')->with(

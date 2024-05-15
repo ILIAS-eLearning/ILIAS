@@ -37,6 +37,7 @@ class ilContactAppEventListener implements ilAppEventListener
             $user->setId((int) $a_parameter['usr_id']);
 
             $mailingLists = new ilMailingLists($user);
+            $mailingLists->deleteLists();
             $mailingLists->deleteAssignments();
         }
 

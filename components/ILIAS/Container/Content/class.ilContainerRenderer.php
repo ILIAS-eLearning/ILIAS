@@ -994,11 +994,19 @@ class ilContainerRenderer
 
         // remove embedded, but unrendered blocks
         foreach ($this->item_presentation->getPageEmbeddedBlockIds() as $id) {
-            $page_html = preg_replace(
-                '~\[list-' . $id . '\]~i',
-                "",
-                $page_html
-            );
+            if (is_numeric($id)) {
+                $page_html = preg_replace(
+                    '~\[item-group-' . $id . '\]~i',
+                    "",
+                    $page_html
+                );
+            } else {
+                $page_html = preg_replace(
+                    '~\[list-' . $id . '\]~i',
+                    "",
+                    $page_html
+                );
+            }
         }
 
         if ($valid) {

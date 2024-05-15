@@ -48,7 +48,7 @@ class ilWOPIEmbeddedApplicationGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->global_screen = $DIC->globalScreen();
-        $this->global_screen->layout()->meta()->addJs('./components/ILIAS/WOPI/js/dist/index.min.js');
+        $this->global_screen->layout()->meta()->addJs('./assets/js/wopi.min.js');
         $this->global_screen->layout()->meta()->addOnloadCode('il.WOPI.init();');
         $this->renderer = new Renderer($this->application);
         $this->ui_renderer = $DIC->ui()->renderer();

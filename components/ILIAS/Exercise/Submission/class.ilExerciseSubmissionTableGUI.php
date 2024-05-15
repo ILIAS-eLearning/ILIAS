@@ -30,6 +30,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     public const MODE_BY_ASSIGNMENT = 1;
     public const MODE_BY_USER = 2;
     protected \ILIAS\Exercise\Assignment\DomainService $ass_domain;
+    protected ilExerciseSubmissionFeedbackGUI $feedback_gui;
 
     protected ilAccessHandler $access;
     protected ilObjExercise $exc;
@@ -54,7 +55,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         object $a_parent_obj,
         string $a_parent_cmd,
         ilObjExercise $a_exc,
-        int $a_item_id
+        int $a_item_id,
+        ilExerciseSubmissionFeedbackGUI $feedback_gui
     ) {
         global $DIC;
 
@@ -69,6 +71,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
 
         $this->exc = $a_exc;
+        $this->feedback_gui = $feedback_gui;
 
         $this->initMode($a_item_id);
 
@@ -358,34 +361,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $this->tpl->setVariable("NO_TEAM_COLSPAN", $nt_colspan);
         }
 
-
-        // comment modal
-        $comment_id = "excasscomm_" . $a_ass->getId() . "_" . $a_user_id;
-        if ($this->exc->hasTutorFeedbackText()) {
-            $modal = ilModalGUI::getInstance();
-            $modal->setId($comment_id);
-            $modal->setHeading($this->lng->txt("exc_tbl_action_feedback_text"));
-
-            $lcomment_form = new ilPropertyFormGUI();
-            $lcomment_form->setId($comment_id);
-            $lcomment_form->setPreventDoubleSubmission(false);
-
-            $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
-            $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue((string) ($a_row["comment"] ?? ""));
-            $lcomment->setRows(10);
-            $lcomment_form->addItem($lcomment);
-
-            $lcomment_form->addCommandButton("save", $this->lng->txt("save"));
-            // $lcomment_form->addCommandButton("cancel", $lng->txt("cancel"));
-
-            $modal->setBody($lcomment_form->getHTML());
-
-            $this->comment_modals[] = $modal->getHTML();
-            unset($modal);
-        }
-
-
         // selectable columns
 
         foreach ($this->getSelectedColumns() as $col) {
@@ -461,6 +436,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                 case "comment":
                     // for js-updating
+                    $comment_id = "excasscomm_" . $a_ass->getId() . "_" . $a_user_id;
                     $this->tpl->setVariable("LCOMMENT_ID", $comment_id . "_snip");
 
                     // see #22076
@@ -600,12 +576,16 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 }
             }
 
-            // comment (modal - see above)
+            // comment (modal)
             if ($this->exc->hasTutorFeedbackText()) {
-                $items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_text"), "#")
-                                            ->withOnLoadCode(function ($id) use ($comment_id) {
-                                                return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";
-                                            });
+                $components = $this->feedback_gui->getComponents($a_ass->getId(), $a_user_id);
+                foreach ($components as $type => $c) {
+                    if ($type === "modal") {
+                        $this->comment_modals[] = $this->ui_renderer->render($c);
+                    } elseif ($type === "button") {
+                        $items[] = $c;
+                    }
+                }
             }
         }
 
@@ -651,15 +631,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
     public function render(): string
     {
-        global $DIC;
-        $ilCtrl = $this->ctrl;
-        $tpl = $DIC->ui()->mainTemplate();
-
-        $url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);
-
-        $tpl->addJavaScript("assets/js/ilExcManagement.js");
-        $tpl->addOnLoadCode('il.ExcManagement.init("' . $url . '");');
-
         return parent::render() .
             implode("\n", $this->comment_modals);
     }

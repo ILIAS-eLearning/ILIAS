@@ -917,8 +917,6 @@ class ilObjExerciseGUI extends ilObjectGUI
             );
         }
 
-        $ass_gui = new ilExAssignmentGUI($exc, $this->getService());
-
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
 

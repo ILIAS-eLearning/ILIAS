@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -38,9 +40,10 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
             1,
             'v5.4.0',
             true,
+            new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
             '/some/where/thumbnail.svg',
-            140
+            140,
         );
 
         $this->assertSame(1, $userCertificate->getPatternCertificateId());
@@ -57,5 +60,6 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
         $this->assertTrue($userCertificate->isCurrentlyActive());
         $this->assertSame('/some/where/background.jpg', $userCertificate->getBackgroundImagePath());
         $this->assertSame(140, $userCertificate->getId());
+        $this->assertSame('11111111-2222-3333-4444-555555555555', $userCertificate->getCertificateId()->asString());
     }
 }

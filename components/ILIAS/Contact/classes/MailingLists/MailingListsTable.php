@@ -32,21 +32,11 @@ use ilMailingLists;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
-    private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
+    private ServerRequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
     /**  @var list<array<string, mixed>>|null */
     private ?array $records = null;
-
-    private function isMailingAllowed(): bool
-    {
-        return $this->mailing_allowed;
-    }
-
-    public function setMailingAllowed(bool $mailing_allowed): void
-    {
-        $this->mailing_allowed = $mailing_allowed;
-    }
 
     public function __construct(
         private readonly ilMailingLists $mailing_lists,
@@ -57,6 +47,16 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
+    }
+
+    private function isMailingAllowed(): bool
+    {
+        return $this->mailing_allowed;
+    }
+
+    public function setMailingAllowed(bool $mailing_allowed): void
+    {
+        $this->mailing_allowed = $mailing_allowed;
     }
 
     public function getComponent(): UI\Component\Table\Data

@@ -40,7 +40,15 @@ class ProvidePublicPageTest extends TestCase
     public function testUrl(): void
     {
         $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->withConsecutive([ilStartUpGUI::class, 'id', 'foo'], [ilStartUpGUI::class, 'id', '']);
+        $consecutive = ['foo', ''];
+        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->with(
+            $this->identicalTo(ilStartUpGUI::class),
+            $this->identicalTo('id'),
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        );
         $ctrl->expects(self::once())->method('getLinkTargetByClass')->with(ilStartUpGUI::class, 'showLegalDocuments')->willReturn('url');
 
         $instance = new ProvidePublicPage('foo', $ctrl);

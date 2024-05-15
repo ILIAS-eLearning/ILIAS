@@ -129,10 +129,15 @@ class TileTest extends TestCase
 
         $ui->method('factory')->willReturn($factory);
 
+        $consecutive = [$badge_id, ''];
         $ctrl->expects(self::once())->method('getLinkTargetByClass')->with($gui_class_name, 'deactivateInCard')->willReturn($url);
-        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->withConsecutive(
-            [$gui_class_name, 'badge_id', (string) $badge_id],
-            [$gui_class_name, 'badge_id', '']
+        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->with(
+            $this->identicalTo($gui_class_name),
+            $this->identicalTo('badge_id'),
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
         );
 
         $language->method('txt')->willReturnCallback(

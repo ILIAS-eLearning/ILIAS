@@ -1,6 +1,15 @@
 @use "../050-layout/basics/" as *;
 
+$l-bar__gap--elements: $il-margin-small-horizontal;
+$l-bar__gap--groups: $il-margin-xlarge-horizontal;
 $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separates stacking elements on small screens
+
+// bridge into CSS variables, so there is something to override locally without counter-styling
+:root {
+    --l-bar__gap--elements: #{$l-bar__gap--elements};
+    --l-bar__gap--groups: #{$l-bar__gap--groups};
+    --l-bar__element__margin-bottom: #{$l-bar__element__margin-bottom};
+}
 
 .l-bar__container {
     // MAY be used to wrap the element-bar and can be styled with padding, margin, background-color as desired
@@ -16,7 +25,7 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 }
 
 .l-bar__space-keeper:not(:empty) {
-    margin-bottom: -($l-bar__element__margin-bottom); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
+    margin-bottom: calc(-1 * var(--l-bar__element__margin-bottom)); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
     &.l-bar__space-keeper--space-between {
         justify-content: space-between;
     }
@@ -24,7 +33,7 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 
 .l-bar__space-keeper > .l-bar__element,
 .l-bar__group > .l-bar__element {
-    margin-bottom: $l-bar__element__margin-bottom;
+    margin-bottom: var(--l-bar__element__margin-bottom);
     &:last-child {
         margin-right: 0;
     }
@@ -32,12 +41,12 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 
 .l-bar__group > .l-bar__element,
 .l-bar__space-keeper > .l-bar__element {
-    margin-right: $il-margin-small-horizontal;
+    margin-right: var(--l-bar__gap--elements);
 }
 
 .l-bar__space-keeper > .l-bar__group,
 .l-bar__group > .l-bar__group {
-    margin-right: $il-margin-xlarge-horizontal;
+    margin-right: var(--l-bar__gap--groups);
     &:last-child {
         margin-right: 0;
     }

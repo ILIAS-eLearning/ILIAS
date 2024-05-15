@@ -74,7 +74,7 @@ acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
-adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von ILIAS-Konten.
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Anmeldenamen.
 adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”.
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
@@ -2040,7 +2040,7 @@ auth#:#auth_err_login_attempts_deactivation#:#Das ILIAS-Konto wurde wegen zu vie
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_login_editor#:#Loginseite bearbeiten
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
@@ -2752,6 +2752,8 @@ certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundb
 certificate#:#certificate_export#:#Exportieren
 certificate#:#certificate_failed#:#nicht bestanden
 certificate#:#certificate_file_basename#:#Zertifikat
+certificate#:#certificate_id#:#Zertifikat ID
+certificate#:#certificate_issue_date#:#Ausstellungsdatum
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit aktivem Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv: %s
 certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
@@ -2763,6 +2765,7 @@ certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
 certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_cert_id#:#Eindeutige Zertifikats-ID
 certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_date#:#Aktuelles Datum
@@ -3388,7 +3391,7 @@ cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filt
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
-cntr#:#cntr_text_media_editor#:#Seite gestalten
+cntr#:#cntr_text_media_editor#:#Seite bearbeiten
 cntr#:#cntr_view_by_type#:#Gruppiert nach Typen
 cntr#:#cntr_view_info_by_type#:#Alle Objekte eines Typs werden in einer eigenen Liste dargestellt.
 cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezeigt. Objekte, die keinen Sitzungen zugeordnet sind, werden darunter aufgelistet.
@@ -3403,7 +3406,7 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_at_top#:#Oben
-cntr#:#sorting_new_items_direction#:#Ausrichtung
+cntr#:#sorting_new_items_direction#:#Ausrichtung neuer Objekte
 cntr#:#sorting_new_items_order#:#Reihenfolge
 cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -4397,7 +4400,7 @@ common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. 
 common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
-common#:#info_view_of_user#:#Benutzer
+common#:#info_view_of_user#:#Benutzermenü
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
 common#:#inline_file_extensions#:#Im Browser anzeigen
 common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
@@ -6256,6 +6259,7 @@ content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Kommentar
 content#:#cont_char_style_quot#:#Zitat
 content#:#cont_characteristic#:#Absatzformat
+content#:#cont_characteristic_table#:#Style Tabelle
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
 content#:#cont_check_values_info#:#ILIAS prüft die vom SCO geschickten Werte auf Standard-Kompatibilität. Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise, wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.
 content#:#cont_choose_characteristic#:#Absatzformat auswählen
@@ -6507,7 +6511,7 @@ content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_finish_table_editing#:#Editieren der Tabelle beenden
 content#:#cont_first_open#:#Erstes Fach geöffnet
 content#:#cont_first_page#:#Erste Seite
-content#:#cont_first_row_style#:#Stil der ersten Zeile
+content#:#cont_first_row_style#:#Style erste Zeile
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen Sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
 content#:#cont_fn#:#Fußnote
@@ -7371,6 +7375,7 @@ copg#:#copg_list_item_style#:#Listeneintrag
 copg#:#copg_list_style#:#Liste
 copg#:#copg_list_styles#:#Listenformat
 copg#:#copg_more_character_formats#:#Weitere Zeichenformate
+copg#:#copg_obj_types#:#Objekttypen
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
@@ -10195,7 +10200,7 @@ grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe „%s“ aufgeno
 grp#:#grp_admins#:#Gruppenadministration
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zur Gruppe liegt außerhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe „%s“ beigetreten.
 grp#:#grp_agree#:#Zustimmung
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
@@ -12849,7 +12854,7 @@ obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefü
 obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
-obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
+obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite bearbeiten") kann separat aktiviert werden.
 obj#:#obj_multilinguality#:#Mehrsprachigkeit
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
@@ -16190,7 +16195,7 @@ survey#:#evaluation_access#:#Zugriff auf die Ergebnisse
 survey#:#evaluation_access_all#:#Alle Personen mit ILIAS-Konto
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
 survey#:#evaluation_access_off#:#Kein Zugriff auf Ergebnisse
-survey#:#evaluation_access_participants#:#Alle Teilnehmer der Umfrage haben Zugriff auf die Ergebnisse
+survey#:#evaluation_access_participants#:#Alle Befragten der Umfrage haben Zugriff auf die Ergebnisse
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -16246,7 +16251,7 @@ survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
 survey#:#mailparticipantdata#:#Einleitungstext
 survey#:#mailparticipantdata_info#:#Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird
 survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
-survey#:#maintenance#:#Teilnehmer
+survey#:#maintenance#:#Befragte
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_empty#:#Das Objekt enthält kein geeignetes Material.
@@ -16460,7 +16465,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Teilnahmeliste > Zugangsschlüssel“.
+survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Befragte » Zugangsschlüssel“.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
@@ -16506,9 +16511,9 @@ survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden?
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
-survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_jump_to#:#Springe zu Seite
@@ -16518,20 +16523,20 @@ survey#:#survey_next#:#Weiter →
 survey#:#survey_next_question#:#Nächste Seite
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
-survey#:#survey_notification_finished_introduction#:#ein Teilnehmer hat die Umfrage beendet.
+survey#:#survey_notification_finished_introduction#:#eine Person hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage per Einladung als To-Do auf das Dashboard gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_invited#:#Personen, denen im Reiter „Befragte“ die Umfrage in die To-Dos eingetragen wurde, und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
-survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus Kurs bzw. Gruppe, welche die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus einem Kurs bzw. einer Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
+survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Befragten beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
-survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
-survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet
+survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
+survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
 survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
@@ -16572,7 +16577,7 @@ survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden alle
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse > Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
+survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse » Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage „%s“
@@ -16606,18 +16611,18 @@ survey#:#svy_all_raters#:#Alle Feedback-Geber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
-survey#:#svy_anonymous_participants#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
-survey#:#svy_anonymous_participants_min#:#Mindestteilnehmeranzahl
-survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Teilnehmer.
-survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
+survey#:#svy_anonymous_participants#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_info#:#Bei anonymen Umfragen kann eine Teilnahmeliste erzeugt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestanzahl Befragter
+survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Befragter.
+survey#:#svy_anonymous_participants_svy#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_svy_info#:#Nach dem Enddatum ist eine Teilnahmeliste verfügbar.
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
 survey#:#svy_chart_download#:#Grafik herunterladen
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_compress_view#:#Komprimierte Sicht
@@ -16683,7 +16688,6 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_participant#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
@@ -16696,7 +16700,7 @@ survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
 survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
-survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
+survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
 survey#:#svy_results_view_own#:#Eigene Antworten einsehen
@@ -16704,11 +16708,11 @@ survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung de
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
-survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Personen auswählen
 survey#:#svy_search_users#:#Benutzer suchen
 survey#:#svy_select_rater#:#Feedback-Geber auswählen
-survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmer wurden erfolgreich gelöscht.
-survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
+survey#:#svy_selected_user_data_deleted#:#Die ausgewählten Datensätze wurden erfolgreich gelöscht.
+survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Befragten
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
 survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
@@ -16737,7 +16741,7 @@ survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
 survey#:#use_other_answer#:#Freitext
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
-survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
+survey#:#users_invited#:#Es wurden %s Personen eingeladen
 survey#:#users_skipped#:#Übersprungen
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
@@ -16747,25 +16751,25 @@ survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschl�
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_all_pages#:#Alle Seiten
-svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
-svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_invite_participants#:#Als To-Do eintragen für
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Auswahl Druckansicht
-svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
-svy#:#svy_remove_participants#:#Teilnehmer entfernen
-svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
+svy#:#svy_remove_participants#:#Datensatz löschen
+svy#:#svy_selected_participants#:#Ausgewählte Befragte
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
 svy#:#svy_selection#:#Auswahl
 svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
-svy#:#svy_status_invited#:#Eingeladen
+svy#:#svy_status_invited#:#Als To-Do eingetragen
 svy#:#svy_user_added_appraisee#:#Umfrage „%1“
 svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
@@ -16773,7 +16777,7 @@ svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
-svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
+svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
@@ -17091,7 +17095,7 @@ trac#:#trac_object_statistics#:#Objekt-Statistik
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 trac#:#trac_objects#:#Benutzer
 trac#:#trac_others#:#Sonstige
-trac#:#trac_participants#:#Teilnehmer zeigen
+trac#:#trac_participants#:#Status anzeigen
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_paths#:#Pfade
 trac#:#trac_percentage#:#Prozent
@@ -17176,6 +17180,7 @@ ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#filter_nodes_in#:#Einträge in %s filtern
 ui#:#label_fieldselection#:#Spaltenauswahl
 ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
@@ -17194,6 +17199,7 @@ ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+use ILIAS\Data\Range;
+use ILIAS\Data\UUID\Factory;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -26,11 +30,13 @@ class ilUserCertificateRepository
     private readonly ilDBInterface $database;
     private readonly ilLogger $logger;
     private readonly string $defaultTitle;
+    private ?Factory $uuid_factory;
 
     public function __construct(
         ?ilDBInterface $database = null,
         ?ilLogger $logger = null,
-        ?string $defaultTitle = null
+        ?string $defaultTitle = null,
+        ?Factory $uuid_factory = null,
     ) {
         if (null === $database) {
             global $DIC;
@@ -48,7 +54,14 @@ class ilUserCertificateRepository
             global $DIC;
             $defaultTitle = $DIC->language()->txt('certificate_no_object_title');
         }
+
         $this->defaultTitle = $defaultTitle;
+
+        if (!$uuid_factory) {
+            $uuid_factory = new ILIAS\Data\UUID\Factory();
+        }
+        $this->uuid_factory = $uuid_factory;
+
     }
 
     /**
@@ -83,7 +96,8 @@ class ilUserCertificateRepository
             'ilias_version' => ['text', $userCertificate->getIliasVersion()],
             'currently_active' => ['integer', (int) $userCertificate->isCurrentlyActive()],
             'background_image_path' => ['text', $userCertificate->getBackgroundImagePath()],
-            'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()]
+            'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()],
+            'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
         ];
 
         $this->logger->debug(sprintf(
@@ -120,6 +134,7 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
+  il_cert_user_cert.certificate_id,
   COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
@@ -180,6 +195,7 @@ SELECT
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
+  il_cert_user_cert.certificate_id,
   COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
@@ -280,6 +296,7 @@ AND currently_active = 1';
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
+  il_cert_user_cert.certificate_id,
   usr_data.lastname,
   COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
@@ -346,6 +363,7 @@ AND il_cert_user_cert.currently_active = 1';
   il_cert_user_cert.background_image_path,
   il_cert_user_cert.id,
   il_cert_user_cert.thumbnail_image_path,
+  il_cert_user_cert.certificate_id,
   COALESCE(object_data.title, object_data_del.title, ' . $this->database->quote($this->defaultTitle, 'text') . ') AS title
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
@@ -604,6 +622,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             (int) $row['version'],
             $row['ilias_version'],
             (bool) $row['currently_active'],
+            new CertificateId($row['certificate_id']),
             (string) $row['background_image_path'],
             (string) $row['thumbnail_image_path'],
             isset($row['id']) ? (int) $row['id'] : null
@@ -621,5 +640,143 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
         $this->database->manipulate($sql);
 
         $this->logger->debug(sprintf('END - Successfully deleted certificate for user("%s") in object (obj_id: %s)"', $userId, $obj_id));
+    }
+
+    private function overviewTableColumnToDbColumn(string $table_column): string
+    {
+        $result = match ($table_column) {
+            'certificate_id' => $table_column,
+            'issue_date' => 'acquired_timestamp',
+            'object' => 'object_data.title',
+            'owner' => 'usr_data.login',
+            'obj_id' => 'cert.obj_id',
+            default => null,
+        };
+
+        if (!$result) {
+            throw new InvalidArgumentException('Invalid table column passed');
+        }
+
+        return '';
+    }
+
+    /**
+     * @return ilUserCertificate[]
+     * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter
+     */
+    public function fetchCertificatesForOverview(
+        string $user_language,
+        array $filter,
+        ?Range $range = null,
+        string $order_field = 'issue_date',
+        string $order_direction = 'ASC'
+    ): array {
+        $order_field = $this->overviewTableColumnToDbColumn($order_field);
+
+        $sql_filters = [];
+        foreach ($filter as $key => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            $column_name = $this->overviewTableColumnToDbColumn($key);
+
+            if ($key === 'issue_date') {
+                /** @var null|DateTime $value */
+                $sql_filters[] = $this->database->equals(
+                    $column_name,
+                    (string) $value->getTimestamp(),
+                    ilDBConstants::T_INTEGER
+                );
+            } else {
+                $sql_filters[] = $this->database->like($column_name, ilDBConstants::T_TEXT, "%$value%");
+            }
+        }
+
+        if ($range) {
+            $this->database->setLimit($range->getLength(), $range->getStart());
+        }
+
+        $result = $this->database->query(
+            'SELECT cert.*, ' .
+            '(CASE
+               WHEN (trans.title IS NOT NULL AND LENGTH(trans.title) > 0) THEN trans.title
+               WHEN (object_data.title IS NOT NULL AND LENGTH(object_data.title) > 0) THEN object_data.title 
+               WHEN (object_data_del.title IS NOT NULL AND LENGTH(object_data_del.title) > 0) THEN object_data_del.title 
+               ELSE ' . $this->database->quote($this->defaultTitle, ilDBConstants::T_TEXT) . '
+               END
+             ) as object, '
+            . 'usr_data.login AS owner FROM il_cert_user_cert AS cert '
+            . 'LEFT JOIN object_data ON object_data.obj_id = cert.obj_id '
+            . 'INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id '
+            . 'LEFT JOIN object_data_del ON object_data_del.obj_id = cert.obj_id '
+            . 'LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id AND trans.lang_code = ' . $this->database->quote($user_language, 'text')
+            . ($sql_filters !== [] ? " WHERE " . implode(" AND ", $sql_filters) : "")
+            . 'ORDER BY ' . $order_field . ' ' . $order_direction
+        );
+
+        $certificates = [];
+        while ($row = $this->database->fetchAssoc($result)) {
+            $certificates[] = $this->createUserCertificate($row);
+        }
+        return $certificates;
+    }
+
+    /**
+     * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter
+     */
+    public function fetchCertificatesForOverviewCount(array $filter, ?Range $range = null): int
+    {
+        $sql_filters = [];
+        foreach ($filter as $key => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            $column_name = $key;
+            switch ($key) {
+                case 'issue_date':
+                    $column_name = 'acquired_timestamp';
+                    break;
+                case 'object':
+                    $column_name = 'object_data.title';
+                    break;
+                case 'owner':
+                    $column_name = 'usr_data.login';
+                    break;
+                case 'obj_id':
+                    $column_name = 'cert.obj_id';
+                    break;
+            }
+
+            if ($key === 'issue_date') {
+                /** @var null|DateTime $value */
+                $sql_filters[] = $this->database->equals(
+                    $column_name,
+                    (string) $value->getTimestamp(),
+                    ilDBConstants::T_INTEGER
+                );
+            } else {
+                $sql_filters[] = $this->database->like($column_name, ilDBConstants::T_TEXT, "%$value%");
+            }
+        }
+
+        if ($range) {
+            $this->database->setLimit($range->getLength(), $range->getStart());
+        }
+
+        $result = $this->database->query(
+            'SELECT COUNT(id) as count FROM il_cert_user_cert AS cert '
+            . 'LEFT JOIN object_data ON object_data.obj_id = cert.obj_id '
+            . 'INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id'
+            . ($sql_filters !== [] ? ' AND ' . implode(' AND ', $sql_filters) : '')
+        );
+
+        return (int) $this->database->fetchAssoc($result)['count'];
+    }
+
+    public function requestIdentity(): CertificateId
+    {
+        return new CertificateId($this->uuid_factory->uuid4AsString());
     }
 }
