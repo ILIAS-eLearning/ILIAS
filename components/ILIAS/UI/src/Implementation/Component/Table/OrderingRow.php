@@ -21,23 +21,33 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use ILIAS\UI\Component\Table\Action\Action;
 
-class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
+class OrderingRow extends DataRow implements T\OrderingRow
 {
-    /**
-     * @param array<string, mixed> $record
-     */
-    public function buildDataRow(string $id, array $record): T\DataRow
+    protected int $position;
+    protected bool $ordering_disabled = false;
+
+    public function withPosition(int $position_index): self
     {
-        return new DataRow(
-            $this->row_actions !== [],
-            $this->table_has_multiactions,
-            $this->columns,
-            $this->row_actions,
-            $id,
-            $record
-        );
+        $clone = clone $this;
+        $clone->position = $position_index;
+        return $clone;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    public function withOrderingDisabled(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->ordering_disabled = $flag;
+        return $clone;
+    }
+
+    public function isOrderingDisabled(): bool
+    {
+        return $this->ordering_disabled;
     }
 }

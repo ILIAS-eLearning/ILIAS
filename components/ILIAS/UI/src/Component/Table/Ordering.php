@@ -20,33 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\Data\Order;
-use ILIAS\Data\Range;
 
 /**
- * This describes a Data Table.
+ * This describes a Table to specify the order of its data (rows).
  */
-interface Data extends Table
+interface Ordering extends Table
 {
     /**
      * @param array<string, Action\Action>    $actions
      */
     public function withActions(array $actions): static;
 
-    /**
-     * Rendering the Table must be done using the current Request:
-     * it (the request) will be forwarded to the Table's View Control Container,
-     * and parameters will already influence e.g. the presentation of
-     * column-titles (think of ordering...).
-     */
     public function withRequest(ServerRequestInterface $request): static;
 
     /**
-     * Number of Rows is the amount of rows shown per page
+     * @return string[] the row-ids in the current (submitted) order
      */
-    public function withNumberOfRows(int $number_of_rows): self;
+    public function getData(): array;
+
+    /**
+     * Turns ordering capabilites off/on.
+     */
+    public function withOrderingDisabled(bool $flag): self;
 
     /**
      * Not all columns are neccessarily visible; "selected optional" is the
@@ -55,11 +51,6 @@ interface Data extends Table
      * @param string[]  $selected_optional_column_ids
      */
     public function withSelectedOptionalColumns(array $selected_optional_column_ids): static;
-
-    public function withOrder(?Order $order): self;
-    public function withRange(?Range $range): self;
-    public function withFilter(?array $filter): self;
-    public function withAdditionalParameters(?array $additional_parameters): self;
 
     /**
      * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.

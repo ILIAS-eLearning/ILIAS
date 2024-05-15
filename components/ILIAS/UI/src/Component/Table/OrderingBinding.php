@@ -18,22 +18,19 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+namespace ILIAS\UI\Component\Table;
 
-class TableFactoryTest extends AbstractFactoryTest
+use Generator;
+
+interface OrderingBinding
 {
-    public array $kitchensink_info_settings = [
-        "presentation" => [
-            "context" => false,
-            "rules" => true
-        ],
-        "data" => [
-            "context" => false
-        ],
-        "ordering" => [
-            "context" => false
-        ]
-    ];
-
-    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    /**
+     * This is called by the (ordering-)table to retrieve rows;
+     * map data-records to rows using the $row_builder
+     * e.g. yield $row_builder->buildOrderingRow($row_id, $record).
+     */
+    public function getRows(
+        OrderingRowBuilder $row_builder,
+        array $visible_column_ids
+    ): Generator;
 }

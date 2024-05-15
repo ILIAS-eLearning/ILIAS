@@ -1,4 +1,5 @@
-<div class="c-table-data" id="{ID}">
+<div class="c-table-ordering" id="{ID}">
+
 
 	<!-- BEGIN header_title -->
 	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
@@ -6,11 +7,12 @@
 
 	<div class="viewcontrols">{VIEW_CONTROLS}</div>
 
-	<div class="c-table-data__table-wrapper">
+	<form method="post" class="c-table-ordering__form" action="{TARGET_URL}">
 		<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+
 			<thead>
 				<tr class="c-table-data__header c-table-data__row" role="rowgroup">
-					
+
 					<!-- BEGIN header_rowselection_cell -->
 					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
 						<div class="c-table-data__selection_all">{SELECTION_CONTROL_SELECT}</div>
@@ -18,12 +20,15 @@
 					</th>
 					<!-- END header_rowselection_cell -->
 
+					<!-- BEGIN header_pos_input -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
+						{POS_INPUT_TITLE}
+					</th>
+					<!-- END header_pos_input -->
+
 					<!-- BEGIN header_cell -->
-					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" tabindex="-1" aria-colindex="{COL_INDEX}"<!-- BEGIN header_cell_sortation --> aria-sort="{COL_SORTATION}"<!-- END header_cell_sortation -->>
+					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" tabindex="-1" aria-colindex="{COL_INDEX}">
 						<div class="c-table-data__header__resize-wrapper">
-							<!-- BEGIN header_cell_sortglyph -->
-							{COL_SORTATION_GLYPH}
-							<!-- END header_cell_sortglyph -->
 							{COL_TITLE}
 						</div>
 					</th>
@@ -41,18 +46,28 @@
 					{CELLS}
 				</tr>
 				<!-- END row -->
-				<!-- BEGIN multi_action -->
+				
 				<tr>
 					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{COLUMN_COUNT}">
-						<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
-						{MULTI_ACTION_ALL_MODAL}
+						<div class="l-bar__space-keeper">
+							<!-- BEGIN multi_action -->
+							<div class="l-bar__element">
+								<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+								{MULTI_ACTION_ALL_MODAL}
+								<!-- END multi_action -->
+							</div>
+							<div class="l-bar__element">
+							{FORM_BUTTONS}
+							</div>
+						</div>
 					</td>
 				</tr>
-				<!-- END multi_action -->
+
 			</tbody>
 
 		</table>
-	</div>
+	</form>
+
 
 	<div class="c-table-data__async_modal_container"></div>
 

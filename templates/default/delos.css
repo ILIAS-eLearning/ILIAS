@@ -10024,6 +10024,13 @@ th.c-table-data__cell {
   z-index: 2;
 }
 
+.c-table-data__positioninput label {
+  display: none;
+}
+.c-table-data__positioninput input {
+  width: 65px;
+}
+
 .c-table-data__multiaction-triggerer {
   width: fit-content;
 }

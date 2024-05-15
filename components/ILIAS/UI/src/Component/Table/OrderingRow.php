@@ -1,3 +1,5 @@
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -11,16 +13,19 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
-import il from 'il';
-import $ from 'jquery';
-import DataTableFactory from './datatable.factory';
-import PresentationTableFactory from './presentationtable.factory';
-import OrderingTableFactory from './orderingtable.factory';
+declare(strict_types=1);
 
-il.UI = il.UI || {};
-il.UI.table = il.UI.table || {};
-il.UI.table.data = new DataTableFactory($);
-il.UI.table.presentation = new PresentationTableFactory();
-il.UI.table.ordering = new OrderingTableFactory();
+namespace ILIAS\UI\Component\Table;
+
+use  ILIAS\UI\Component\Table\Column\Column;
+use  ILIAS\UI\Component\Table\Action\Action;
+
+interface OrderingRow extends DataRow
+{
+    public function withPosition(int $position_index): self;
+
+    public function getPosition(): int;
+}
