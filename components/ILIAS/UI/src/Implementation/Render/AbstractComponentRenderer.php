@@ -328,4 +328,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         }
         return $this->tooltip_renderer;
     }
+
+    protected function convertSpecialCharacters(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
 }
