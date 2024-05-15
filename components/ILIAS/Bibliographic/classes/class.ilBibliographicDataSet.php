@@ -196,7 +196,7 @@ class ilBibliographicDataSet extends ilDataSet
     {
         $bib_id = $this->import_bib_object->getId();
         $filename = $this->import_bib_object->getFilename();
-        $import_path = $this->getImportDirectory() . "/components/ILIAS/Bibliographic/set_1/expDir_1/" . $filename;
+        $import_path = $this->getImportDirectory() . "/Modules/Bibliographic/set_1/expDir_1/" . $filename;
 
         // create new resource from stream
         $stream = Streams::ofResource(@fopen($import_path, 'rb'));
