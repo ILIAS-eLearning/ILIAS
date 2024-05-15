@@ -423,7 +423,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $md->deleteAll();
 
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-        ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
+       // ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
 
         include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
