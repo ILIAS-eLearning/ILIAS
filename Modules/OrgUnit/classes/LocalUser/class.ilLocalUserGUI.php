@@ -211,15 +211,15 @@ class ilLocalUserGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $offset = $_GET["offset"];
+        $offset = isset($_GET["offset"]) ? $_GET["offset"] : 0;
         // init sort_by (unfortunatly sort_by is preset with 'title'
-        if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"])) {
+        if (!isset($_GET["sort_by"]) || $_GET["sort_by"] == "title" || empty($_GET["sort_by"])) {
             $order = "login";
         } else {
             $order = $_GET["sort_by"];
         }
 
-        $direction = $_GET["sort_order"];
+        $direction = isset($_GET["sort_order"]) ? $_GET["sort_order"] : 'asc';
         if (!isset($_GET['obj_id'])) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
@@ -423,10 +423,10 @@ class ilLocalUserGUI
 
     protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = ""): void
     {
-        $order = $_GET["sort_by"] ?: 'title';
-        $direction = $_GET["sort_order"] ?: 'asc';
-        $offset = $_GET["offset"] ?: 0;
-        $limit = $_GET["limit"] ?: 0;
+        $order = isset($_GET["sort_by"]) ? $_GET["sort_by"] : 'title';
+        $direction = isset($_GET["sort_order"]) ? $_GET["sort_order"] : 'asc';
+        $offset = isset($_GET["offset"]) ? $_GET["offset"] : 0;
+        $limit = isset($_GET["limit"]) ? $_GET["limit"] : 0;
 
         if ($a_from == 'clipboardObject') $tbl->disable("footer");
         $tbl->disable("linkbar");
