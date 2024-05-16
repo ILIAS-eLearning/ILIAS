@@ -410,6 +410,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $gui = new ilQuestionPoolSkillAdministrationGUI(
                     $ilias,
                     $ilCtrl,
+                    $this->refinery,
                     $ilAccess,
                     $ilTabs,
                     $tpl,
