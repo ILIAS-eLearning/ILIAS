@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
 use ILIAS\Data\Result;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Launcher\Launcher;
 use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
@@ -93,6 +94,9 @@ class ilTestScreenGUI
 
         $elements = [];
 
+        if ($this->areSkillLevelThresholdsMissing()) {
+            $elements = [$this->getSkillLevelThresholdsMissingInfo()];
+        }
         $elements = $this->handleRenderMessageBox($elements);
         $elements = $this->handleRenderIntroduction($elements);
 
@@ -504,5 +508,56 @@ class ilTestScreenGUI
                 && $this->test_passes_selector->getLastFinishedPass() >= 0
             || $this->user->isAnonymous()
         );
+    }
+
+    private function getSkillLevelThresholdsMissingInfo(): Component
+    {
+        $message = $this->lng->txt('tst_skl_level_thresholds_missing');
+
+        $link_target = $this->buildLinkTarget(
+            ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+        );
+
+        $link = $this->ui_factory->link()->standard(
+            $this->lng->txt('tst_skl_level_thresholds_link'),
+            $link_target
+        );
+
+        return $this->ui_factory->messageBox()->failure($message)->withLinks([$link]);
+    }
+
+    private function areSkillLevelThresholdsMissing(): bool
+    {
+        if (!$this->object->isSkillServiceEnabled()) {
+            return false;
+        }
+
+        $questionContainerId = $this->object->getId();
+
+        $assignmentList = new ilAssQuestionSkillAssignmentList($this->database);
+        $assignmentList->setParentObjId($questionContainerId);
+        $assignmentList->loadFromDb();
+
+        foreach ($assignmentList->getUniqueAssignedSkills() as $data) {
+            foreach ($data['skill']->getLevelData() as $level) {
+                $threshold = new ilTestSkillLevelThreshold($this->database);
+                $threshold->setTestId($this->object->getTestId());
+                $threshold->setSkillBaseId($data['skill_base_id']);
+                $threshold->setSkillTrefId($data['skill_tref_id']);
+                $threshold->setSkillLevelId($level['id']);
+
+                if (!$threshold->dbRecordExists()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function buildLinkTarget(string $cmd = null): string
+    {
+        $target = array_merge(['ilRepositoryGUI', 'ilObjTestGUI'], ['ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI']);
+        return $this->ctrl->getLinkTargetByClass($target, $cmd);
     }
 }
