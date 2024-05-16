@@ -26,8 +26,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 class Factory implements IMenu\Factory
 {
     public function __construct(
-        protected SignalGeneratorInterface $signal_generator,
-        protected \ilLanguage $lng
+        protected SignalGeneratorInterface $signal_generator
     ) {
     }
 
@@ -36,12 +35,7 @@ class Factory implements IMenu\Factory
      */
     public function drilldown(string $label, array $items): IMenu\Drilldown
     {
-        return new Drilldown(
-            $this->signal_generator,
-            $this->lng,
-            $label,
-            $items
-        );
+        return new Drilldown($this->signal_generator, $label, $items);
     }
 
     /**

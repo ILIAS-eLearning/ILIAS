@@ -34,14 +34,12 @@ class Drilldown extends Menu implements IMenu\Drilldown
 
     protected Signal $signal;
     protected ?string $persistence_id = null;
-    protected string $no_items_text = '';
 
     /**
      * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        \ilLanguage $lng,
         string $label,
         array $items
     ) {
@@ -49,7 +47,6 @@ class Drilldown extends Menu implements IMenu\Drilldown
         $this->label = $label;
         $this->items = $items;
         $this->signal = $signal_generator->create();
-        $this->no_items_text = $lng->txt('drilldown_no_items');
     }
 
     public function getBacklinkSignal(): Signal
@@ -70,10 +67,5 @@ class Drilldown extends Menu implements IMenu\Drilldown
     public function getPersistenceId(): ?string
     {
         return $this->persistence_id;
-    }
-
-    public function getNoItemsText(): string
-    {
-        return $this->no_items_text;
     }
 }

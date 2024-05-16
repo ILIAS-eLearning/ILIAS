@@ -30,6 +30,7 @@ class Renderer extends AbstractComponentRenderer
 {
     private const PARENT_CLASS = 'c-drilldown__branch';
     private const LEAF_CLASS = 'c-drilldown__leaf';
+    private const NO_ITEMS_LABEL = 'drilldown_no_items';
 
     /**
      * @inheritdoc
@@ -99,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID_FILTER', $id_filter);
         $tpl->setVariable('BACKNAV', $back_button_html);
         $tpl->setVariable('DRILLDOWN', $items_html);
-        $tpl->setVariable('NO_ITEMS_TEXT', $component->getNoItemsText());
+        $tpl->setVariable('NO_ITEMS_TEXT', $this->txt(self::NO_ITEMS_LABEL));
 
         return $tpl->get();
     }
