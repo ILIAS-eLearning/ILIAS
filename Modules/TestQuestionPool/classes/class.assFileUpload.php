@@ -694,11 +694,16 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $new_file_name = "file_" . $active_id . "_" . $pass . "_" . $upload_file_data ['solution_file_versioning_upload_ts'] . "." . $extension;
             $upload_file_data['new_file_name'] = ilFileUtils::getValidFilename($new_file_name);
 
-            ilFileUtils::moveUploadedFile(
-                $_FILES["upload"]["tmp_name"],
-                $_FILES["upload"]["name"],
-                $this->getFileUploadPath($test_id, $active_id) . $upload_file_data['new_file_name']
-            );
+            try {
+                ilFileUtils::moveUploadedFile(
+                    $_FILES["upload"]["tmp_name"],
+                    $_FILES["upload"]["name"],
+                    $this->getFileUploadPath($test_id, $active_id) . $upload_file_data['new_file_name']
+                );
+            } catch (ilException $e) {
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                return false;
+            }
         }
 
         $entered_values = false;
@@ -847,11 +852,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $filename_arr = pathinfo($_FILES["upload"]["name"]);
                     $extension = $filename_arr["extension"];
                     $newfile = "file_" . md5($_FILES["upload"]["name"]) . "_" . $version . "." . $extension;
-                    ilFileUtils::moveUploadedFile(
-                        $_FILES["upload"]["tmp_name"],
-                        $_FILES["upload"]["name"],
-                        $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile
-                    );
+                    try {
+                        ilFileUtils::moveUploadedFile(
+                            $_FILES["upload"]["tmp_name"],
+                            $_FILES["upload"]["name"],
+                            $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile
+                        );
+                    } catch (ilException $e) {
+                        $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                        return;
+                    }
+
 
                     $userSolution[$newfile] = array(
                         'solution_id' => $newfile,
