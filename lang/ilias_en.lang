@@ -5361,7 +5361,6 @@ common#:#question#:#Question
 common#:#question_message#:#Question
 common#:#quit#:#Quit
 common#:#quote#:#Quote
-common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 common#:#read#:#Read
 common#:#readcount_anonymous_users#:#Number of anonymous read accesses
 common#:#readcount_users#:#Number of non-anonymous read accesses
@@ -5545,22 +5544,11 @@ common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Server Software
 common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
-common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
-common#:#sess_mode#:#Session Mode
-common#:#sess_new#:#New Session
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
-common#:#session_max_count#:#Max Number of Active Sessions
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Set the value to ‘0’ to disable the feature.
-common#:#session_max_idle#:#Maximum Session Idle (in minutes)
-common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
-common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
-common#:#session_min_idle#:#Max Session Idle (in Minutes) When Max Number of Active Sessions Reached
-common#:#session_min_idle_info#:#If a user has been idle for at least this period of time and the maximum number of active sessions allowed has been reached, then their session will be automatically ended when a different user starts a new session.
 common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
@@ -16845,8 +16833,6 @@ trac#:#trac_assigned#:#Assigned
 trac#:#trac_average#:#Average
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_idle#:#Idle Time
-trac#:#trac_closed_idle_first#:#Idle Time (1st Request)
 trac#:#trac_closed_login#:#Anonymous To Login
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
@@ -16890,7 +16876,6 @@ trac#:#trac_in_progress#:#In Progress
 trac#:#trac_info_edited#:#Set the status to ‘Completed’ if you think you have processed all content.
 trac#:#trac_last_access#:#Last Access
 trac#:#trac_last_aggregation#:#Last Aggregation
-trac#:#trac_last_maxed_out_sessions#:#Last Full Load
 trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_settings_info#:#Activate extended data
@@ -16917,8 +16902,6 @@ trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_mark#:#Mark
 trac#:#trac_matrix#:#Matrix View
-trac#:#trac_maxed_out_counter#:#Rejected Users
-trac#:#trac_maxed_out_time#:#Full Load [min]
 trac#:#trac_measure#:#Figure
 trac#:#trac_members_short#:#Members
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:

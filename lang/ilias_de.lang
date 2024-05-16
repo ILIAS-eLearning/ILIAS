@@ -2498,7 +2498,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
-blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde. 
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
@@ -5384,7 +5384,6 @@ common#:#question#:#Frage
 common#:#question_message#:#Frage
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
-common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online sind, ist erreicht. Bitte versuchen Sie es später noch einmal.
 common#:#read#:#Lesezugriff
 common#:#readcount_anonymous_users#:#Lesezugriffe anonymer Benutzer
 common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
@@ -5568,22 +5567,11 @@ common#:#server_disabled#:#Der Chat ist deaktiviert
 common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
-common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
-common#:#sess_mode#:#Session-Modus
-common#:#sess_new#:#Neue Sitzung anlegen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“
 common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in „%s“ zur Sitzung „%s“
 common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s“ für die Sitzung „%s“
-common#:#session_max_count#:#Maximale Anzahl aktiver Sessions
-common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
-common#:#session_max_idle#:#Maximale Leerlaufzeit einer Session (in Minuten)
-common#:#session_max_idle_after_first_request#:#Minimale Leerlaufzeit einer Session nach der ersten Anfrage (in Minuten)
-common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
-common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
-common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
-common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
@@ -16958,8 +16946,6 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_idle#:#Leerlaufzeit
-trac#:#trac_closed_idle_first#:#Leerlaufzeit (1. Anfrage)
 trac#:#trac_closed_login#:#Anonym zu Login
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
@@ -17003,7 +16989,6 @@ trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_last_aggregation#:#Stand
-trac#:#trac_last_maxed_out_sessions#:#Letzte Volllast
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_settings_info#:#Erweiterte Daten aktivieren
@@ -17030,8 +17015,6 @@ trac#:#trac_manual_is_displayed#:#Bestimmt Lernfortschritt
 trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
 trac#:#trac_mark#:#Note
 trac#:#trac_matrix#:#Matrixansicht
-trac#:#trac_maxed_out_counter#:#Abgewiesene Benutzer
-trac#:#trac_maxed_out_time#:#Vollauslastung [min]
 trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
