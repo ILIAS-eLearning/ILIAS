@@ -56,7 +56,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritDoc
      */
-    public function withInput(InputData $input): Input
+    public function withInput(InputData $input)
     {
         if (!$this->isDisabled()) {
             return parent::withInput($input);
@@ -85,7 +85,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label): self
+    public function withLabel(string $label)
     {
         $clone = clone $this;
         $clone->label = $label;
@@ -103,7 +103,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withByline(string $byline): self
+    public function withByline(string $byline)
     {
         $clone = clone $this;
         $clone->byline = $byline;
@@ -121,7 +121,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
     {
         $clone = clone $this;
         $clone->is_required = $is_required;
@@ -140,7 +140,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withDisabled(bool $is_disabled): self
+    public function withDisabled(bool $is_disabled)
     {
         $clone = clone $this;
         $clone->is_disabled = $is_disabled;
@@ -150,7 +150,7 @@ abstract class FormInput extends Input implements FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withOnUpdate(Signal $signal): self
+    public function withOnUpdate(Signal $signal)
     {
         return $this->withTriggeredSignal($signal, 'update');
     }

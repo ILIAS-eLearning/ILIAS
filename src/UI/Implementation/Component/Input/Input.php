@@ -103,7 +103,7 @@ abstract class Input implements InputInternal
      * @param   mixed $value
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value): self
+    public function withValue($value)
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -129,7 +129,7 @@ abstract class Input implements InputInternal
     /**
      * Get an input like this one, with a different error.
      */
-    public function withError(string $error): self
+    public function withError(string $error)
     {
         $clone = clone $this;
         $clone->setError($error);
@@ -147,7 +147,7 @@ abstract class Input implements InputInternal
     /**
      * Apply a transformation to the current or future content.
      */
-    public function withAdditionalTransformation(Transformation $trafo): self
+    public function withAdditionalTransformation(Transformation $trafo)
     {
         $clone = clone $this;
         $clone->setAdditionalTransformation($trafo);
@@ -202,7 +202,7 @@ abstract class Input implements InputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null)
     {
         $clone = clone $this;
         if ($source instanceof DynamicInputsNameSource) {
@@ -222,7 +222,7 @@ abstract class Input implements InputInternal
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input): self
+    public function withInput(InputData $input)
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
