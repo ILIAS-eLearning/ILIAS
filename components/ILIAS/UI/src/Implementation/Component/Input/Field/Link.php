@@ -85,7 +85,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }

@@ -111,7 +111,7 @@ abstract class Input implements InputInternal
      *
      * @param mixed $value
      */
-    abstract public function isClientSideValueOk($value): bool;
+    abstract protected function isClientSideValueOk($value): bool;
 
     /**
      * The error of the input as used in HTML.
