@@ -45,7 +45,7 @@ class FieldSelection extends ViewControlInput implements VCInterface\FieldSelect
         $this->internal_selection_signal = $signal_generator->create();
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_null($value) || is_array($value);
     }

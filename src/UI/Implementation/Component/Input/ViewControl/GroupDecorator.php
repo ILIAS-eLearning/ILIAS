@@ -92,7 +92,7 @@ trait GroupDecorator
     /**
      * @inheritDoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return $this->input_group->isClientSideValueOk($value);
     }

@@ -57,7 +57,7 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_numeric($value) || $value === "" || $value === null;
     }
