@@ -263,9 +263,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $op0 = new ilRadioOption($this->lng->txt("lm_type_scorm2004"), "scorm2004");
         $op0->setInfo($this->lng->txt("lm_type_scorm2004_info"));
         $radg->addOption($op0);
-        $op0 = new ilRadioOption($this->lng->txt("sahs_export_file"), "exportFile");
-        $op0->setInfo($this->lng->txt("sahs_export_file_info"));
-        $radg->addOption($op0);
         $radg->setValue("scorm");
         $form->addItem($radg);
 
@@ -392,44 +389,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             case "scorm":
                 $newObj = new ilObjSCORMLearningModule();
                 break;
-
-            case "exportFile":
-                $sFile = $_FILES["scormfile"];
-                $fType = $sFile["type"];
-                $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
-                if (in_array($fType, $cFileTypes)) {
-                    $tempFile = $sFile["tmp_name"];
-                    $lmTempDir = ilFileUtils::ilTempnam();
-                    ilFileUtils::makeDir($lmTempDir);
-                    $zar = new ZipArchive();
-                    $zar->open($tempFile);
-                    $zar->extractTo($lmTempDir);
-                    $zar->close();
-                    ilFileUtils::renameExecutables($lmTempDir);
-                    $importer = new ilScormAiccImporter();
-                    $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                    $import_result = $importer->getResult();
-
-                    $importFromXml = true;
-                    if ($import_result->isOK()) {
-                        $properties = $import_result->value();
-                        if (($subType = $properties['SubType']) === 'scorm') {
-                            $newObj = new ilObjSCORMLearningModule();
-                        } else {
-                            $newObj = new ilObjSCORM2004LearningModule();
-                        }
-                        $name = $properties['Title'];
-                        $description = $properties['Description'];
-                    } else {
-                        ilFileUtils::delDir($lmTempDir, false);
-                        $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
-                        $ilLog->error($import_result->error());
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
-                        return;
-                    }
-                }
-                break;
         }
 
         $newObj->setTitle($name);
@@ -445,36 +404,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $newObj->createDataDirectory();
 
         if ($_FILES["scormfile"]["name"]) {
-            if ($importFromXml) {
-                $scormFile = "content.zip";
-                $scormFilePath = $import_dirname . "/" . $scormFile;
-                $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
-                ilFileUtils::rename($scormFilePath, $file_path);
-                $this->archives->unzip(
-                    $file_path,
-                    $newObj->getDataDirectory(),
-                    false,
-                    false,
-                    false
-                );
-                unlink($file_path);
-                ilFileUtils::delDir($lmTempDir, false);
-            } else {
-                // copy uploaded file to data directory
-                $file_path = $newObj->getDataDirectory() . "/" . $_FILES["scormfile"]["name"];
-                ilFileUtils::moveUploadedFile(
-                    $_FILES["scormfile"]["tmp_name"],
-                    $_FILES["scormfile"]["name"],
-                    $file_path
-                );
-                $this->archives->unzip(
-                    $file_path,
-                    $newObj->getDataDirectory(),
-                    false,
-                    false,
-                    false
-                );
-            }
+            // copy uploaded file to data directory
+            $file_path = $newObj->getDataDirectory() . "/" . $_FILES["scormfile"]["name"];
+            ilFileUtils::moveUploadedFile(
+                $_FILES["scormfile"]["tmp_name"],
+                $_FILES["scormfile"]["name"],
+                $file_path
+            );
+            $this->archives->unzip(
+                $file_path,
+                $newObj->getDataDirectory(),
+                false,
+                false,
+                false
+            );
         } else {
             // copy uploaded file to data directory
             $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
@@ -515,6 +458,77 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function upload(): void
     {
         $this->uploadObject();
+    }
+
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
+    {
+        /** ILIAS\DI\Container $DIC */
+        global $DIC;
+        $ilLog = $DIC['log'];
+
+        $lm_temp_dir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($lm_temp_dir);
+        $zar = new ZipArchive();
+        $zar->open($file_to_import);
+        $zar->extractTo($lm_temp_dir);
+        $zar->close();
+        ilFileUtils::renameExecutables($lm_temp_dir);
+        $importer = new ilScormAiccImporter();
+        $import_dirname = $lm_temp_dir . '/' . substr(basename($file_to_import), 0, -4);
+        $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+        $import_result = $importer->getResult();
+
+        if ($import_result->isOK()) {
+            $properties = $import_result->value();
+            if (($subType = $properties['SubType']) === 'scorm') {
+                $new_obj = new ilObjSCORMLearningModule();
+            } else {
+                $new_obj = new ilObjSCORM2004LearningModule();
+            }
+            $name = $properties['Title'];
+            $description = $properties['Description'];
+        } else {
+            ilFileUtils::delDir($lm_temp_dir, false);
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
+            $ilLog->error($import_result->error());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
+            return;
+        }
+
+        $new_obj->setTitle($name);
+        $new_obj->setSubType($subType);
+        $new_obj->setDescription($description);
+        $new_obj->create(true);
+        $this->putObjectInTree($new_obj);
+        $new_obj->setOfflineStatus(false);
+
+        // create data directory, copy file to directory
+        $new_obj->createDataDirectory();
+
+        $scorm_file = "content.zip";
+        $scorm_file_path = $import_dirname . "/" . $scorm_file;
+        $file_path = $new_obj->getDataDirectory() . "/" . $scorm_file;
+        ilFileUtils::rename($scorm_file_path, $file_path);
+        $this->archives->unzip(
+            $file_path,
+            $new_obj->getDataDirectory(),
+            false,
+            false,
+            false
+        );
+        unlink($file_path);
+        ilFileUtils::delDir($lm_temp_dir, false);
+        ilFileUtils::renameExecutables($new_obj->getDataDirectory());
+
+        //auto set learning progress settings
+        $new_obj->setLearningProgressSettingsAtUpload();
+
+        $importer->writeData("sahs", "5.1.0", $new_obj->getId());
+
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($new_obj->getType() . "_added"), true);
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(self::class);
     }
 
 
