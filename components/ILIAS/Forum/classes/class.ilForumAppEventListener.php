@@ -469,6 +469,8 @@ class ilForumAppEventListener implements ilAppEventListener
             case 'components/ILIAS/User':
                 if ($a_event === 'deleteUser') {
                     ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
+                    ilObjForum::_deleteUser($a_parameter['usr_id']);
+                    break;
                 }
                 break;
         }
