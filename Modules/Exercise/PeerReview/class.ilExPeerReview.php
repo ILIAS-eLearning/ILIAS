@@ -201,7 +201,7 @@ class ilExPeerReview
         }
         $data = $peer["pcomment"];
         if ($data) {
-            $items = unserialize($data);
+            $items = unserialize($data, ['allowed_classes' => false]);
             if (!is_array($items)) {
                 // v1 - pcomment == text
                 $items = array("text" => $data);
@@ -254,7 +254,7 @@ class ilExPeerReview
         $data = $a_data["pcomment"];
         if ($data) {
             try {
-                $values = unserialize($data);
+                $values = unserialize($data, ['allowed_classes' => false]);
             } catch (Exception $e) {
             }
             if (!is_array($values)) {

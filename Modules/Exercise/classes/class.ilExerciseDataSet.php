@@ -387,7 +387,7 @@ class ilExerciseDataSet extends ilDataSet
                     foreach ($this->data as $k => $v) {
                         $this->data[$k]["DefJson"] = "";
                         if ($v["Def"] != "") {
-                            $this->data[$k]["DefJson"] = json_encode(unserialize($v["Def"]));
+                            $this->data[$k]["DefJson"] = json_encode(unserialize($v["Def"], ['allowed_classes' => false]));
                         }
                     }
                     break;
