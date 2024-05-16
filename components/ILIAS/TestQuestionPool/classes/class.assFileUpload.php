@@ -349,10 +349,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     }
 
     /**
-    * Check file upload
-    *
-    * @return	boolean Input ok, true/false
-    */
+     * Check file upload
+     *
+     * @return boolean Input ok, true/false
+     */
     public function checkUpload(): bool
     {
         $this->lng->loadLanguageModule('form');
@@ -361,6 +361,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->file_upload->getResults() as $upload_result
         ) { // only one supported at the moment, but we check all
             if (!$upload_result->isOK()) {
+                $this->tpl->setOnScreenMessage('failure', $upload_result->getStatus()->getMessage(), true);
                 return false;
             }
 
