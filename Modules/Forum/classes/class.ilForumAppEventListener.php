@@ -479,7 +479,8 @@ class ilForumAppEventListener implements ilAppEventListener
             case 'Services/User':
                 switch ($a_event) {
                     case 'deleteUser':
-                        ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
+                        ilForumPostDraft::deleteDraftsByUserId((int) $a_parameter['usr_id']);
+                        ilObjForum::_deleteUser((int) $a_parameter['usr_id']);
                         break;
                 }
                 break;
