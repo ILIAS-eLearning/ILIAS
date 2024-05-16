@@ -82,7 +82,7 @@ class ilObjSCORMInitData
             if ($session_timeout > $max_idle) {
                 $session_timeout = $max_idle;
             }
-            $min_idle = (int) $ilSetting->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+            $min_idle = ilSessionControl::DEFAULT_MIN_IDLE * 60;
             if ($session_timeout > $min_idle) {
                 $session_timeout = $min_idle;
             }

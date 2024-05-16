@@ -281,9 +281,6 @@ class ilSessionStatistics
         // "relevant" closing types
         $separate_closed = array(ilSession::SESSION_CLOSE_USER,
             ilSession::SESSION_CLOSE_EXPIRE,
-            ilSession::SESSION_CLOSE_IDLE,
-            ilSession::SESSION_CLOSE_FIRST,
-            ilSession::SESSION_CLOSE_LIMIT,
             ilSession::SESSION_CLOSE_LOGIN);
 
         // gather/process data (build event timeline)
@@ -368,11 +365,6 @@ class ilSessionStatistics
         }
         unset($events);
 
-
-        // do we (really) need a log here?
-        // $max_sessions = (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
-        $max_sessions = self::getLimitForSlot($a_begin);
-
         // save aggregated data
         $fields = array(
             "active_min" => array("integer", $active_min),
@@ -382,12 +374,8 @@ class ilSessionStatistics
             "opened" => array("integer", $opened_counter),
             "closed_manual" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0)),
             "closed_expire" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0)),
-            "closed_idle" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_IDLE] ?? 0)),
-            "closed_idle_first" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_FIRST] ?? 0)),
-            "closed_limit" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LIMIT] ?? 0)),
             "closed_login" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)),
             "closed_misc" => array("integer", (int) ($closed_counter[0] ?? 0)),
-            "max_sessions" => array("integer", $max_sessions)
         );
         $ilDB->update(
             "usr_session_stats",
@@ -416,51 +404,6 @@ class ilSessionStatistics
     }
 
     /**
-     * Get latest slot during which sessions were maxed out
-     */
-    public static function getLastMaxedOut(): int
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $sql = "SELECT max(slot_end) latest FROM usr_session_stats" .
-            " WHERE active_max >= max_sessions" .
-            " AND max_sessions > " . $ilDB->quote(0, "integer");
-        $res = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($res);
-        if ($row["latest"]) {
-            return (int) $row["latest"];
-        }
-        return 0;
-    }
-
-    /**
-     * Get maxed out duration in given timeframe
-     *
-     * @return ?int seconds
-     */
-    public static function getMaxedOutDuration(int $a_from, int $a_to): ?int
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $sql = "SELECT SUM(slot_end-slot_begin) dur FROM usr_session_stats" .
-            " WHERE active_max >= max_sessions" .
-            " AND max_sessions > " . $ilDB->quote(0, "integer") .
-            " AND slot_end > " . $ilDB->quote($a_from, "integer") .
-            " AND slot_begin < " . $ilDB->quote($a_to, "integer");
-        $res = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($res);
-        if ($row["dur"]) {
-            return (int) $row["dur"];
-        }
-        //TODO check if return null as timestamp causes issues
-        return null;
-    }
-
-    /**
      * Get session counters by type (opened, closed)
      */
     public static function getNumberOfSessionsByType(int $a_from, int $a_to): array
@@ -470,8 +413,7 @@ class ilSessionStatistics
         $ilDB = $DIC['ilDB'];
 
         $sql = "SELECT SUM(opened) opened, SUM(closed_manual) closed_manual," .
-            " SUM(closed_expire) closed_expire, SUM(closed_idle) closed_idle," .
-            " SUM(closed_idle_first) closed_idle_first, SUM(closed_limit) closed_limit," .
+            " SUM(closed_expire) closed_expire," .
             " SUM(closed_login) closed_login, SUM(closed_misc) closed_misc" .
             " FROM usr_session_stats" .
             " WHERE slot_end > " . $ilDB->quote($a_from, "integer") .
@@ -490,8 +432,7 @@ class ilSessionStatistics
         /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
 
-        $sql = "SELECT slot_begin, slot_end, active_min, active_max, active_avg," .
-            " max_sessions" .
+        $sql = "SELECT slot_begin, slot_end, active_min, active_max, active_avg" .
             " FROM usr_session_stats" .
             " WHERE slot_end > " . $ilDB->quote($a_from, "integer") .
             " AND slot_begin < " . $ilDB->quote($a_to, "integer") .
@@ -525,53 +466,5 @@ class ilSessionStatistics
         }
         //TODO check if return null as timestamp causes issues
         return null;
-    }
-
-    /**
-     * Get max session setting for given timestamp
-     *
-     */
-    public static function getLimitForSlot(int $a_timestamp): int
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
-
-        $ilDB->setLimit(1);
-        $sql = "SELECT maxval FROM usr_session_log" .
-            " WHERE tstamp <= " . $ilDB->quote($a_timestamp, "integer") .
-            " ORDER BY tstamp DESC";
-        $res = $ilDB->query($sql);
-        $val = $ilDB->fetchAssoc($res);
-        if (isset($val["maxval"]) && $val["maxval"]) {
-            return (int) $val["maxval"];
-        }
-
-        return (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
-    }
-
-    /**
-     * Log max session setting
-     */
-    public static function updateLimitLog(int $a_new_value): void
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
-        $ilUser = $DIC['ilUser'];
-
-        $new_value = $a_new_value;
-        $old_value = (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
-
-        if ($new_value !== $old_value) {
-            $fields = array(
-                "tstamp" => array("timestamp", time()),
-                "maxval" => array("integer", $new_value),
-                "user_id" => array("integer", $ilUser->getId())
-            );
-            $ilDB->insert("usr_session_log", $fields);
-        }
     }
 }
