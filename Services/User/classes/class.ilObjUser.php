@@ -1108,9 +1108,6 @@ class ilObjUser extends ilObject
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
 
-        // DELETE FORUM ENTRIES (not complete in the moment)
-        ilObjForum::_deleteUser($this->getId());
-
         // Delete crs entries
         ilObjCourse::_deleteUser($this->getId());
 
