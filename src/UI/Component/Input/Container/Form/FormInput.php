@@ -66,7 +66,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
      * (see getConstraintForRequirement() on Input/Field implementations).
      * A custom constraint SHOULD be explained in the byline of the input.
      */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self;
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null);
 
     /**
      * Is this input disabled?

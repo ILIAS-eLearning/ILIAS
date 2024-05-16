@@ -76,7 +76,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         return array_key_exists($value, $this->getInputs());
     }
 
-    public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): I\Input
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return FormInput::withRequired($is_required, $requirement_constraint);
@@ -85,7 +85,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value): self
+    public function withValue($value): I\Input
     {
         if (is_string($value) || is_int($value)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -126,7 +126,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): self
+    public function withInput(InputData $input): I\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

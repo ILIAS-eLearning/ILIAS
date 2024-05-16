@@ -31,7 +31,7 @@ interface HasDynamicInputs extends FormInput
      * Returns the instance of Input which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs(): FormInput;
+    public function getTemplateForDynamicInputs(): Input;
 
     /**
      * Returns serverside generated dynamic Inputs, which happens when

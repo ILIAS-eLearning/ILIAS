@@ -34,6 +34,7 @@ use ILIAS\Data\Result\Ok;
 use Generator;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\Field\Input as LegacyInputInterface;
 
 /**
  * This implements the group input.
@@ -60,14 +61,14 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
         $this->lng = $lng;
     }
 
-    public function withDisabled(bool $is_disabled): self
+    public function withDisabled(bool $is_disabled): LegacyInputInterface
     {
         $clone = parent::withDisabled($is_disabled);
         $clone->setInputs(array_map(fn ($i) => $i->withDisabled($is_disabled), $this->getInputs()));
         return $clone;
     }
 
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): LegacyInputInterface
     {
         $clone = parent::withRequired($is_required, $requirement_constraint);
         $clone->setInputs(array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->getInputs()));
@@ -87,7 +88,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
         return false;
     }
 
-    public function withOnUpdate(Signal $signal): self
+    public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
         $clone->setInputs(array_map(fn ($i) => $i->withOnUpdate($signal), $this->getInputs()));
@@ -118,7 +119,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): LegacyInputInterface
     {
         /** @var $clone self */
         $clone = parent::withNameFrom($source, $parent_name);

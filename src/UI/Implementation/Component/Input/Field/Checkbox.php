@@ -64,7 +64,7 @@ class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable
     /**
      * @inheritdoc
      */
-    public function withValue($value): self
+    public function withValue($value): C\Input\Field\Input
     {
         $value = $value ?? false;
 
@@ -81,7 +81,7 @@ class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): self
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
