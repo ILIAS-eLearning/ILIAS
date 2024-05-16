@@ -143,7 +143,7 @@ class ilObjRepositorySettings extends ilObject
             if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
                 $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
 
-                $title = $row["titles"][$usr_lng];
+                $title = $row["titles"][$usr_lng] ?? false;
                 if (!$title) {
                     $title = $row["titles"][$def_lng];
                 }
