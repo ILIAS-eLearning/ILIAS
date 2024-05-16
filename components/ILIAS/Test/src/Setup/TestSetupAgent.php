@@ -43,6 +43,13 @@ class TestSetupAgent extends NullAgent
             ),
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new Test10DBUpdateSteps()
+            ),
+            new \ilAccessCustomRBACOperationAddedObjective(
+                'tst_history_read',
+                'View History in Tests',
+                'object',
+                7200,
+                ['tst']
             )
         );
     }

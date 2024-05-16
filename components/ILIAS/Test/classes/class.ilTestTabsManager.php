@@ -253,33 +253,26 @@ class ilTestTabsManager
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected function isReadAccessGranted(): bool
     {
         return $this->access->checkAccess('read', '', $this->getTestOBJ()->getRefId());
     }
 
-    /**
-     * @return bool
-     */
     protected function isWriteAccessGranted(): bool
     {
         return $this->access->checkAccess('write', '', $this->getTestOBJ()->getRefId());
     }
 
-    /**
-     * @return bool
-     */
     protected function isStatisticsAccessGranted(): bool
     {
         return $this->access->checkAccess('tst_statistics', '', $this->getTestOBJ()->getRefId());
     }
 
-    /**
-     * @return bool
-     */
+    protected function isHistoryAccessGranted(): bool
+    {
+        return $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
+    }
+
     protected function isPermissionsAccessGranted(): bool
     {
         return $this->access->checkAccess('edit_permission', '', $this->getTestOBJ()->getRefId());
@@ -655,14 +648,16 @@ class ilTestTabsManager
             );
         }
 
-        if ($this->isWriteAccessGranted()) {
+        if ($this->isHistoryAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_HISTORY,
                 $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'history'),
                 'history',
                 ''
             );
+        }
 
+        if ($this->isWriteAccessGranted()) {
             $mdgui = new ilObjectMetaDataGUI($this->getTestOBJ());
             $mdtab = $mdgui->getTab(ilObjTestGUI::class);
             if ($mdtab) {
