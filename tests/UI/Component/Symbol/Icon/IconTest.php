@@ -208,7 +208,7 @@ imgtag;
     {
         $ico = $this->getIconFactory()->standard('<h1>name</h1>', 'label');
         $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
-        $expected = '<img class="icon &lt;h1&gt;name&lt;/h1&gt; small" src="./templates/default/images/standard/icon_default.svg" alt="label"/>';
+        $expected = '<img class="icon &lt;h1&gt;name&lt;/h1&gt; small" src="./templates/default/images/icon_default.svg" alt="label"/>';
         $this->assertEquals($expected, $html);
     }
 
@@ -216,7 +216,7 @@ imgtag;
     {
         $ico = $this->getIconFactory()->standard('name', '<h1>label</h1>');
         $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
-        $expected = '<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="&lt;h1&gt;label&lt;/h1&gt;"/>';
+        $expected = '<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="&lt;h1&gt;label&lt;/h1&gt;"/>';
         $this->assertEquals($expected, $html);
     }
 
