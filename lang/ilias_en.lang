@@ -5780,6 +5780,7 @@ common#:#treeview#:#Show Sidebar
 common#:#tst#:#Test
 common#:#tst_add#:#Add test
 common#:#tst_edit_questions#:#Edit Questions
+common#:#tst_history_read#:#View History
 common#:#tst_new#:#New test
 common#:#tst_results#:#Test Results
 common#:#tst_run#:#Run
