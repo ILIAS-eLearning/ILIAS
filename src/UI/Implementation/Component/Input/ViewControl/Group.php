@@ -98,4 +98,10 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
     {
         return $this->data_factory;
     }
+
+    /** ATTENTION: @see GroupInternals::_isClientSideValueOk() */
+    protected function isClientSideValueOk($value): bool
+    {
+        return $this->_isClientSideValueOk($value);
+    }
 }

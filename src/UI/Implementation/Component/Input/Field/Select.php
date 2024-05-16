@@ -61,7 +61,7 @@ class Select extends FormInput implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return in_array($value, array_keys($this->options)) || $value == "";
     }
