@@ -198,10 +198,11 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         }
 
         $value = new ilNumberInputGUI('', 'threshold_' . $skillKey . '_' . $skillLevelId);
-        $value->setValue((string)$thresholdValue);
+        $value->setValue((string) $thresholdValue);
         $value->setSize(5);
         $value->setMinValue(0);
         $value->setMaxValue(100);
+        $value->setRequired(true);
 
         if (!isset($this->input_elements_by_id[$skillKey])) {
             $this->input_elements_by_id[$skillKey] = array();
