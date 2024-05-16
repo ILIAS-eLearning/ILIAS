@@ -334,9 +334,12 @@ class ilParticipantsTestResultsGUI
     private function showDetailedResultsCmd(): void
     {
         $usr_ids = $this->getUserIdsFromPost();
-        if ($usr_ids !== []) {
-            ilSession::set('show_user_results', $usr_ids);
+        if ($usr_ids === []) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('select_one_user'), true);
+            $this->ctrl->redirect($this);
         }
+
+        ilSession::set('show_user_results', $usr_ids);
         $results_href = $this->ctrl->getLinkTargetByClass(
             [ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class],
             'multiParticipantsPassDetails'
