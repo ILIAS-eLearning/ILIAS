@@ -203,4 +203,39 @@ imgtag;
 
         return $ico;
     }
+
+    public function testHTMLInName(): void
+    {
+        $ico = $this->getIconFactory()->standard('<h1>name</h1>', 'label');
+        $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon &lt;h1&gt;name&lt;/h1&gt; small" src="./templates/default/images/icon_default.svg" alt="label"/>';
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testHTMLInLabel(): void
+    {
+        $ico = $this->getIconFactory()->standard('name', '<h1>label</h1>');
+        $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="&lt;h1&gt;label&lt;/h1&gt;"/>';
+        $this->assertEquals($expected, $html);
+    }
+
+    /**
+     * @depends testRenderingStandard
+     */
+    public function testHTMLInAbbreviation(): void
+    {
+        $ico = $this->getIconFactory()->standard('name', 'label')->withAbbreviation('<h1>abbreviation</h1>');
+        $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon name small" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDMyMCAzMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMyMCAzMjA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtjbGlwLXBhdGg6dXJsKCNTVkdJRF8wMDAwMDA0Nzc1MTgzNzAxNzcyMjkwMzQ5MDAwMDAwOTM5MjQyNjM5Mzc4Mzc4Mzg1N18pO2ZpbGw6IzRDNjU4Njt9DQo8L3N0eWxlPg0KPGc+DQoJPGc+DQoJCTxkZWZzPg0KCQkJPHJlY3QgaWQ9IlNWR0lEXzFfIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIvPg0KCQk8L2RlZnM+DQoJCTxjbGlwUGF0aCBpZD0iU1ZHSURfMDAwMDAxNjU5Mjc3Njk0MzI5ODM0MDA2OTAwMDAwMTQyOTU5NjQxMjMxNjc4OTQ5MjBfIj4NCgkJCTx1c2UgeGxpbms6aHJlZj0iI1NWR0lEXzFfIiAgc3R5bGU9Im92ZXJmbG93OnZpc2libGU7Ii8+DQoJCTwvY2xpcFBhdGg+DQoJCTxwYXRoIHN0eWxlPSJjbGlwLXBhdGg6dXJsKCNTVkdJRF8wMDAwMDE2NTkyNzc2OTQzMjk4MzQwMDY5MDAwMDAxNDI5NTk2NDEyMzE2Nzg5NDkyMF8pO2ZpbGw6IzRDNjU4NjsiIGQ9Ik05MCw1MEg2MA0KCQkJYy01LjUsMC0xMCw0LjUtMTAsMTB2MjAwYzAsNS41LDQuNSwxMCwxMCwxMGgzMHYtMTVINjVWNjVoMjVWNTB6IE0yNzAsMjYwVjYwYzAtNS41LTQuNS0xMC0xMC0xMGgtMzB2MTVoMjV2MTkwaC0yNXYxNWgzMA0KCQkJQzI2NS41LDI3MCwyNzAsMjY1LjUsMjcwLDI2MCIvPg0KCTwvZz4NCjwvZz4NCjx0ZXh0CiAgIHN0eWxlPSIKICAgICAgZm9udC1zdHlsZTpub3JtYWw7CiAgICAgIGZvbnQtd2VpZ2h0Om5vcm1hbDsKICAgICAgZm9udC1zaXplOjhyZW07CiAgICAgIGZvbnQtZmFtaWx5OnNhbnMtc2VyaWY7CiAgICAgIGxldHRlci1zcGFjaW5nOjBweDsKICAgICAgZmlsbDojMDAwOwogICAgICBmaWxsLW9wYWNpdHk6MTsKICAgICIKICAgIHg9IjUwJSIKICAgIHk9IjU1JSIKICAgIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiCiAgICB0ZXh0LWFuY2hvcj0ibWlkZGxlIgogID4mbHQ7aDEmZ3Q7YWJicmV2aWF0aW9uJmx0Oy9oMSZndDs8L3RleHQ+PC9zdmc+" alt="label" data-abbreviation="&lt;h1&gt;abbreviation&lt;/h1&gt;"/>';
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testHTMLInCustomImage(): void
+    {
+        $ico = $this->getIconFactory()->custom('<h1>path</h1>', 'label');
+        $html = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon custom small" src="&lt;h1&gt;path&lt;/h1&gt;" alt="label"/>';
+        $this->assertEquals($expected, $html);
+    }
 }

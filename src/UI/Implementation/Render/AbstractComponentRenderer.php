@@ -304,4 +304,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     {
         return $this->image_path_resolver;
     }
+
+    protected function convertSpecialCharacters(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
 }
