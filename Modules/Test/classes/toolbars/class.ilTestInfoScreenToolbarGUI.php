@@ -210,54 +210,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return md5($_COOKIE[session_name()] . time());
     }
 
-    private function areSkillLevelThresholdsMissing(): bool
-    {
-        if (!$this->getTestOBJ()->isSkillServiceEnabled()) {
-            return false;
-        }
-
-        $questionContainerId = $this->getTestOBJ()->getId();
-
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-        $assignmentList->setParentObjId($questionContainerId);
-        $assignmentList->loadFromDb();
-
-        foreach ($assignmentList->getUniqueAssignedSkills() as $data) {
-            foreach ($data['skill']->getLevelData() as $level) {
-                $treshold = new ilTestSkillLevelThreshold($this->db);
-                $treshold->setTestId($this->getTestOBJ()->getTestId());
-                $treshold->setSkillBaseId($data['skill_base_id']);
-                $treshold->setSkillTrefId($data['skill_tref_id']);
-                $treshold->setSkillLevelId($level['id']);
-
-                if (!$treshold->dbRecordExists()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private function getSkillLevelThresholdsMissingInfo(): string
-    {
-        $message = $this->lng->txt('tst_skl_level_thresholds_missing');
-
-        $link_target = $this->buildLinkTarget(
-            ['ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'],
-            ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
-        );
-
-        $link = $this->ui_factory->link()->standard(
-            $this->lng->txt('tst_skl_level_thresholds_link'),
-            $link_target
-        );
-
-        $msg_box = $this->ui_factory->messageBox()->failure($message)->withLinks([$link]);
-
-        return $this->ui_renderer->render($msg_box);
-    }
-
     private function hasFixedQuestionSetSkillAssignsLowerThanBarrier(): bool
     {
         if (!$this->test_obj->isFixedTest()) {
@@ -345,10 +297,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
                 $this->populateMessage($this->ui_renderer->render($msgBox));
             } elseif ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
-                if ($this->areSkillLevelThresholdsMissing()) {
-                    $this->populateMessage($this->getSkillLevelThresholdsMissingInfo());
-                }
-
                 if ($this->hasFixedQuestionSetSkillAssignsLowerThanBarrier()) {
                     $this->addInfoMessage($this->getSkillAssignBarrierInfo());
                 }
