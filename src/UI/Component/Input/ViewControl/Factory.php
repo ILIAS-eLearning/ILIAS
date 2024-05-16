@@ -116,8 +116,9 @@ interface Factory
      *   purpose: >
      *      Input names are provided in relation to the amount of present inputs.
      *      In order to avoid wrong assignments of e.g. stored values to potentially
-     *      changing view controls, a null view control is used to 'block' the
-     *      name.
+     *      changing view controls, a null view control can be used to 'block' the
+     *      name. So, instead of checking for null, this may be used as a qualified
+     *      View Control Input that will not produce any rendered output.
      *   composition: >
      *      This view control is not composed of anything.
      *   effect: >
