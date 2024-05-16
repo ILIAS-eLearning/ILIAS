@@ -152,8 +152,8 @@ class ilTrashTableGUI extends ilTable2GUI
             $row['id'] = $item->getRefId();
             $row['obj_id'] = $item->getObjId();
             $row['type'] = $item->getType();
-            $row['title'] = $item->getTitle();
-            $row['description'] = $item->getDescription();
+            $row['title'] = ilUtil::stripSlashes($item->getTitle());
+            $row['description'] = ilUtil::stripSlashes($item->getDescription());
             $row['deleted_by_id'] = $item->getDeletedBy();
             $row['deleted_by'] = $this->lng->txt('rep_trash_deleted_by_unknown');
             if ($login = ilObjUser::_lookupLogin($row['deleted_by_id'])) {
