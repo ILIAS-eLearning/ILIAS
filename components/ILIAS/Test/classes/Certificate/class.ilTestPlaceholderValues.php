@@ -18,6 +18,22 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilObjTest;
+use ilLanguage;
+use ilException;
+use ilDatabaseException;
+use ilDateTimeException;
+use ilCertificateDateHelper;
+use ilCertificateUtilHelper;
+use ilCertificateObjectHelper;
+use ilObjectNotFoundException;
+use ilDefaultPlaceholderValues;
+use ilCertificateLPStatusHelper;
+use ilCertificateUserObjectHelper;
+use ilCertificatePlaceholderValues;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -130,9 +146,13 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($passed);
-        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput((string) $result_array['test']['total_reached_points']);
+        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput(
+            (string) $result_array['test']['total_reached_points']
+        );
         $placeholders['RESULT_PERCENT'] = sprintf('%2.2f', $percentage) . '%';
-        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput((string) $result_array['test']['total_max_points']);
+        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput(
+            (string) $result_array['test']['total_max_points']
+        );
         $placeholders['RESULT_MARK_SHORT'] = $this->utilHelper->prepareFormOutput($mark_obj->getShortName());
         $placeholders['RESULT_MARK_LONG'] = $this->utilHelper->prepareFormOutput($mark_obj->getOfficialName());
         $placeholders['TEST_TITLE'] = $this->utilHelper->prepareFormOutput($testObject->getTitle());
@@ -148,7 +168,7 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * This method is different then the 'getPlaceholderValues' method, this
+     * This method is different from the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
      */
@@ -158,12 +178,24 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_passed'));
-        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_points'));
-        $placeholders['RESULT_PERCENT'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_percent'));
-        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_max_points'));
-        $placeholders['RESULT_MARK_SHORT'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
-        $placeholders['RESULT_MARK_LONG'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
+        $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_passed')
+        );
+        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_points')
+        );
+        $placeholders['RESULT_PERCENT'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_percent')
+        );
+        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_max_points')
+        );
+        $placeholders['RESULT_MARK_SHORT'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_mark_short')
+        );
+        $placeholders['RESULT_MARK_LONG'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_mark_long')
+        );
         $placeholders['TEST_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
 
         return $placeholders;

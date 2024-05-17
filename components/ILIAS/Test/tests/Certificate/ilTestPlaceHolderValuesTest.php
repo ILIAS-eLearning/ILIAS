@@ -18,10 +18,23 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilObject;
+use ilObjTest;
+use ilLanguage;
+use ilCertificateDateHelper;
+use ilCertificateUtilHelper;
+use ilCertificateObjectHelper;
+use ilDefaultPlaceholderValues;
+use PHPUnit\Framework\TestCase;
+use ilCertificateLPStatusHelper;
+use ilCertificateUserObjectHelper;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
+class ilTestPlaceholderValuesTest extends TestCase
 {
     public function testA(): void
     {
@@ -59,7 +72,6 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $testObject->method('getTestResult')
             ->willReturn([]);
-
 
         $testObject->method('getTitle')
             ->willReturn(' Some Title');
@@ -140,7 +152,6 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
             'TEST_TITLE' => 'Formatted Output',
             'DATE_COMPLETED' => '2018-01-12',
             'DATETIME_COMPLETED' => '2018-01-12 10:32:01'
-
         ], $result);
     }
 

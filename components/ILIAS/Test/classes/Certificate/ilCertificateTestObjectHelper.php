@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilObjTest;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */

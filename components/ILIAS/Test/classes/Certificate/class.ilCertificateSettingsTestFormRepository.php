@@ -18,9 +18,23 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+namespace ILIAS\Test\Certificate;
+
+use ilAccess;
+use ilLanguage;
+use ilException;
+use ilToolbarGUI;
+use ilWACException;
+use ilCtrlInterface;
+use ilCertificateGUI;
+use ilPropertyFormGUI;
+use ilDatabaseException;
+use ilCertificateFormRepository;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

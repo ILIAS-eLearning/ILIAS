@@ -18,10 +18,18 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilObjTest;
+use ilCertificateDeleteAction;
+use ilCertificateObjectHelper;
+use PHPUnit\Framework\TestCase;
+use ILIAS\Course\Certificate\ilCertificateTestTemplateDeleteAction;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCase
+class ilCertificateTestTemplateDeleteActionTest extends TestCase
 {
     public function testDelete(): void
     {
@@ -43,8 +51,7 @@ class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCas
             ->willReturn($object);
 
         $action = new ilCertificateTestTemplateDeleteAction(
-            $deleteAction,
-            $objectHelper
+            $deleteAction
         );
 
         $action->delete(100, 200);
