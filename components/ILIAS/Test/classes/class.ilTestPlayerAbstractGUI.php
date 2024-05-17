@@ -395,11 +395,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         if ($this->logger->isLoggingEnabled()
+            && !$this->getObject()->getAnonymity()
             && ($interaction = $question_obj->answerToParticipantInteraction(
                 $this->getObject()->getRefId(),
                 $active_id,
                 $pass,
-                $_SERVER['REMOTE_ADDR'],
+                $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                 TestParticipantInteractionTypes::ANSWER_SUBMITTED
             )) !== null) {
             $this->logger->logParticipantInteraction($interaction);
@@ -1434,12 +1435,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 // fau.
                 $this->showQuestionEditable($question_gui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 
-                if ($this->logger->isLoggingEnabled()) {
+                if ($this->logger->isLoggingEnabled()
+                    && !$this->getObject()->getAnonymity()) {
+                    $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
                     $this->logger->logParticipantInteraction(
                         $this->logger->getInteractionFactory()->buildParticipantInteraction(
                             $this->object->getRefId(),
                             $question_id,
                             $this->user->getId(),
+                            $source_addr,
                             TestParticipantInteractionTypes::QUESTION_SHOWN,
                             []
                         )
@@ -1559,12 +1563,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_session->getPass()
         );
 
-        if ($this->logger->isLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()
+            && !$this->getObject()->getAnonymity()) {
+            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
+                    $source_addr,
                     TestParticipantInteractionTypes::ANSWER_DELETED,
                     []
                 )
@@ -1592,12 +1599,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_sequence->saveToDb();
         }
 
-        if ($this->logger->isLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()
+            && !$this->getObject()->getAnonymity()) {
+            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
+                    $source_addr,
                     TestParticipantInteractionTypes::QUESTION_SKIPPED,
                     []
                 )
@@ -1685,12 +1695,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->setParameter($this, 'sequence', $sequence_element);
         $this->ctrl->setParameter($this, 'pmode', '');
 
-        if ($this->logger->isLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()
+            && !$this->getObject()->getAnonymity()) {
+            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     null,
                     $this->user->getId(),
+                    $source_addr,
                     TestParticipantInteractionTypes::TEST_RUN_STARTED,
                     []
                 )

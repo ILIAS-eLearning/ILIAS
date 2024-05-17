@@ -475,7 +475,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         }
 
         $this->getTestFolder()->getGlobalSettingsRepository()
-            ->storeLoggingSettings($data['logging']['activation']);
+            ->storeLoggingSettings($data['logging']);
 
         $this->showLogSettingsObject($form);
     }

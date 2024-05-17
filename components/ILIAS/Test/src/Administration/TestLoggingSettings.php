@@ -26,7 +26,8 @@ use ILIAS\Refinery\Factory as Refinery;
 class TestLoggingSettings
 {
     public function __construct(
-        private bool $logging_enabled = false
+        private bool $logging_enabled = false,
+        private bool $ip_logging_enabled = true
     ) {
     }
 
@@ -40,8 +41,11 @@ class TestLoggingSettings
         \ilLanguage $lng
     ): array {
         $trafo = $refinery->custom()->transformation(
-            function ($v): self {
-                return new self($v);
+            function ($vs): self {
+                return new self(
+                    $vs['activation'],
+                    $vs['ip_logging']
+                );
             }
         );
         return [
@@ -49,11 +53,14 @@ class TestLoggingSettings
                 [
                     'activation' => $ui_factory->input()->field()->checkbox(
                         $lng->txt('activate_logging')
-                    )->withAdditionalTransformation($trafo)
-                        ->withValue($this->isLoggingEnabled())
+                    )->withValue($this->isLoggingEnabled()),
+                    'ip_logging' => $ui_factory->input()->field()->checkbox(
+                        $lng->txt('log_ip')
+                    )->withByline($lng->txt('log_ip_info'))
+                        ->withValue($this->isIPLoggingEnabled())
                 ],
                 $lng->txt('logging_settings')
-            )
+            )->withAdditionalTransformation($trafo)
         ];
     }
 
@@ -66,6 +73,18 @@ class TestLoggingSettings
     {
         $clone = clone $this;
         $clone->logging_enabled = $logging_enabled;
+        return $clone;
+    }
+
+    public function isIPLoggingEnabled(): bool
+    {
+        return $this->ip_logging_enabled;
+    }
+
+    public function withIPLoggingEnabled(bool $ip_logging_enabled): self
+    {
+        $clone = clone $this;
+        $clone->ip_logging_enabled = $ip_logging_enabled;
         return $clone;
     }
 }

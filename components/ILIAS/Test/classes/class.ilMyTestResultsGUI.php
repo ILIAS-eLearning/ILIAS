@@ -36,8 +36,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  */
 class ilMyTestResultsGUI
 {
-    public const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserResultsOverview';
-
     public function __construct(
         private readonly ?ilObjTest $test_obj,
         private readonly ilTestAccess $test_access,
@@ -53,20 +51,12 @@ class ilMyTestResultsGUI
 
     public function executeCommand(): void
     {
-        /* @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        if (!$DIC->ctrl()->getCmd()) {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);
-        }
-
-        switch ($DIC->ctrl()->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             case "iltestevaluationgui":
                 $gui = new ilTestEvaluationGUI($this->test_obj);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
                 $gui->setTestAccess($this->test_access);
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilassquestionpagegui':

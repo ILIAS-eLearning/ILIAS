@@ -50,10 +50,10 @@ class ilTestResultsGUI
     public const DEFAULT_CMD = 'show';
     private \ILIAS\DI\UIServices $ui;
 
-    protected ilTestAccess $testAccess;
-    protected ilTestSession $testSession;
-    protected ilTestTabsManager $testTabs;
-    protected ilTestObjectiveOrientedContainer $objectiveParent;
+    protected ilTestAccess $test_access;
+    protected ilTestSession $test_session;
+    protected ilTestTabsManager $test_tabs;
+    protected ilTestObjectiveOrientedContainer $objective_parent;
 
     public function __construct(
         private ilObjTest $testObj,
@@ -78,20 +78,14 @@ class ilTestResultsGUI
     ) {
     }
 
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
     public function getObjectiveParent(): ilTestObjectiveOrientedContainer
     {
-        return $this->objectiveParent;
+        return $this->objective_parent;
     }
 
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent($objectiveParent)
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent): void
     {
-        $this->objectiveParent = $objectiveParent;
+        $this->objective_parent = $objective_parent;
     }
 
     /**
@@ -122,32 +116,32 @@ class ilTestResultsGUI
 
     public function getTestAccess(): ilTestAccess
     {
-        return $this->testAccess;
+        return $this->test_access;
     }
 
     public function setTestAccess(ilTestAccess $testAccess): void
     {
-        $this->testAccess = $testAccess;
+        $this->test_access = $testAccess;
     }
 
     public function getTestSession(): ilTestSession
     {
-        return $this->testSession;
+        return $this->test_session;
     }
 
     public function setTestSession(ilTestSession $testSession): void
     {
-        $this->testSession = $testSession;
+        $this->test_session = $testSession;
     }
 
     public function getTestTabs(): ilTestTabsManager
     {
-        return $this->testTabs;
+        return $this->test_tabs;
     }
 
     public function setTestTabs(ilTestTabsManager $testTabs): void
     {
-        $this->testTabs = $testTabs;
+        $this->test_tabs = $testTabs;
     }
 
     public function executeCommand(): void
@@ -195,19 +189,15 @@ class ilTestResultsGUI
 
                 $gui = new ilMyTestResultsGUI(
                     $this->getTestObj(),
-                    $this->access,
-                    $this->testSession,
-                    $this->objectiveParent,
+                    $this->test_access,
+                    $this->test_session,
+                    $this->objective_parent,
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,
                     $this->questionrepository,
                     $this->testrequest
                 );
-                $gui->setTestObj($this->getTestObj());
-                $gui->setTestAccess($this->getTestAccess());
-                $gui->setTestSession($this->getTestSession());
-                $gui->setObjectiveParent($this->getObjectiveParent());
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -232,17 +222,14 @@ class ilTestResultsGUI
 
                 $gui = new ilMyTestSolutionsGUI(
                     $this->getTestObj(),
-                    $this->access,
-                    $this->objectiveParent,
+                    $this->test_access,
+                    $this->objective_parent,
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,
                     $this->questionrepository,
                     $this->testrequest
                 );
-                $gui->setTestObj($this->getTestObj());
-                $gui->setTestAccess($this->getTestAccess());
-                $gui->setObjectiveParent($this->getObjectiveParent());
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -304,7 +291,7 @@ class ilTestResultsGUI
     protected function showCmd(): void
     {
         if ($this->testObj->canShowTestResults($this->getTestSession())) {
-            if ($this->objectiveParent->isObjectiveOrientedPresentationRequired()) {
+            if ($this->objective_parent->isObjectiveOrientedPresentationRequired()) {
                 $this->ctrl->redirectByClass('ilTestEvalObjectiveOrientedGUI');
             }
 

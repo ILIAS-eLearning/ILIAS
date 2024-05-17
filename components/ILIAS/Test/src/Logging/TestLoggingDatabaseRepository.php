@@ -183,6 +183,25 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         );
     }
 
+    public function testHasParticipantInteractions(int $ref_id): bool
+    {
+        $query = $this->db->queryF(
+            'SELECT COUNT(id) AS cnt FROM ' . self::PARTICIPANT_LOG_TABLE . ' WHERE ref_id=%s',
+            [\ilDBConstants::T_INTEGER],
+            [$ref_id]
+        );
+        return $this->db->fetchObject($query)->cnt > 0;
+    }
+
+    public function deleteParticipantInteractionsForTest(int $ref_id): void
+    {
+        $this->db->manipulateF(
+            'DELETE FROM ' . self::PARTICIPANT_LOG_TABLE . ' WHERE ref_id=%s',
+            [\ilDBConstants::T_INTEGER],
+            [$ref_id]
+        );
+    }
+
     public function getLegacyLogsForObjId(?int $obj_id): array
     {
         $log = [];

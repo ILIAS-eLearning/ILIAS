@@ -840,6 +840,9 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
+assessment#:#log_ip#:#Log IP
+assessment#:#log_ip_info#:#The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records.
+assessment#:#log_participant_data_delete_warning#:#This test contains log data for participant interactions that will be deleted when changing the test to a test without names.
 assessment#:#log_text#:#Log message
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#logging_settings#:#Logging

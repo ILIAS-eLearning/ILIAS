@@ -48,6 +48,21 @@ class TestLogger implements LoggerInterface
         return $this->logging_settings->isLoggingEnabled();
     }
 
+    public function isIPLoggingEnabled(): bool
+    {
+        return $this->logging_settings->isIPLoggingEnabled();
+    }
+
+    public function testHasParticipantInteractions(int $ref_id): bool
+    {
+        return $this->logging_repository->testHasParticipantInteractions($ref_id);
+    }
+
+    public function deleteParticipantInteractionsForTest(int $ref_id): void
+    {
+        $this->logging_repository->deleteParticipantInteractionsForTest($ref_id);
+    }
+
     public function logTestAdministrationInteraction(TestAdministrationInteraction $interaction): void
     {
         $this->logging_repository->storeTestAdministrationInteraction($interaction);

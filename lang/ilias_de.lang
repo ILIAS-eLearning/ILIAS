@@ -840,6 +840,9 @@ assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
 assessment#:#log_deletion_not_allowed#:#Es fehlen Ihnen die Berechtigung, um Protokolleinträge zu löschen.
 assessment#:#log_entry_type#:#Typ des Protokolleintrags
+assessment#:#log_ip#:#IP-Adresse protokollieren
+assessment#:#log_ip_info#:#Die IP-Adresse wird bei Interaktionen von Teilnehmenden protokolliert. Bestehende Protokolleinträge werden beim Deaktivieren nicht gelöscht.
+assessment#:#log_participant_data_delete_warning#:#Für diesen Test sind Protokolldaten von Teilnehmenden vorhanden. Diese werden beim Umstellen auf "Testergebnisse ohne Namen/Anonymer Test" gelöscht.
 assessment#:#log_text#:#Protokolleintrag
 assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwort entfernt.
 assessment#:#logging_settings#:#Protokolldaten

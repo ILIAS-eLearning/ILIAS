@@ -224,9 +224,18 @@ class SettingsMainGUI extends TestSettingsGUI
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
 
-        if ($new_question_set_type !== $current_question_set_type
-            && $current_question_config->doesQuestionSetRelatedDataExist()) {
-            $modal = $this->populateConfirmationModal($current_question_set_type, $new_question_set_type);
+        $question_set_modal_required = $new_question_set_type !== $current_question_set_type
+                && $current_question_config->doesQuestionSetRelatedDataExist();
+        $anonymity_modal_required = $this->anonymityChanged(
+            $data[self::GENERAL_SETTINGS_SECTION_LABEL]['anonymity']
+        );
+
+        if ($question_set_modal_required || $anonymity_modal_required) {
+            $modal = $this->populateConfirmationModal(
+                $question_set_modal_required ? $current_question_set_type : null,
+                $question_set_modal_required ? $new_question_set_type : null,
+                $anonymity_modal_required
+            );
             $this->showForm($form, $modal);
             return;
         }
@@ -249,10 +258,22 @@ class SettingsMainGUI extends TestSettingsGUI
                 )
             );
         }
+
+        if ($this->anonymityChanged($data[self::GENERAL_SETTINGS_SECTION_LABEL]['anonymity'])) {
+            $this->logger->deleteParticipantInteractionsForTest($this->test_object->getRefId());
+        }
+
         $this->removeAllParticipantsIfRequired();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->showForm();
+    }
+
+    private function anonymityChanged(bool $anonymity_from_data): bool
+    {
+        return $this->main_settings->getGeneralSettings()->getAnonymity() === false
+            && $anonymity_from_data === true
+            && $this->logger->testHasParticipantInteractions($this->test_object->getRefId());
     }
 
     private function getObjectDataArrayForLog(): array
@@ -344,18 +365,30 @@ class SettingsMainGUI extends TestSettingsGUI
     }
 
     private function populateConfirmationModal(
-        string $current_question_set_type,
-        string $new_question_set_type
+        ?string $current_question_set_type,
+        ?string $new_question_set_type,
+        bool $anonymity_modal_required
     ): InterruptiveModal {
-        $message = sprintf(
-            $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
-            $this->test_object->getQuestionSetTypeTranslation($this->lng, $current_question_set_type),
-            $this->test_object->getQuestionSetTypeTranslation($this->lng, $new_question_set_type)
-        );
+        $message = '';
+
+        if ($current_question_set_type !== null) {
+            $message .= sprintf(
+                $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
+                $this->test_object->getQuestionSetTypeTranslation($this->lng, $current_question_set_type),
+                $this->test_object->getQuestionSetTypeTranslation($this->lng, $new_question_set_type)
+            );
+        }
 
         if ($current_question_set_type === \ilObjTest::QUESTION_SET_TYPE_FIXED
             && $this->test_object->hasQuestionsWithoutQuestionpool()) {
             $message .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
+        }
+
+        if ($anonymity_modal_required) {
+            if ($message !== '') {
+                $message .= '<br /><br />';
+            }
+            $message .= $this->lng->txt('log_participant_data_delete_warning');
         }
 
         $this->tpl->addJavaScript('assets/js/settings_confirmation.js');
