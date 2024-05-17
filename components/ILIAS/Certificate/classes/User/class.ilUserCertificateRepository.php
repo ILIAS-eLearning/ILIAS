@@ -27,12 +27,12 @@ use ILIAS\Data\UUID\Factory;
  */
 class ilUserCertificateRepository
 {
+    public const TABLE_NAME = 'il_cert_user_cert_new';
+
     private readonly ilDBInterface $database;
     private readonly ilLogger $logger;
     private readonly string $defaultTitle;
     private readonly ?Factory $uuid_factory;
-
-    public const TABLE_NAME = 'il_cert_user_cert_new';
 
     public function __construct(
         ilDBInterface $database = null,

@@ -25,10 +25,10 @@ declare(strict_types=1);
  */
 class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRepository
 {
+    public const TABLE_NAME = 'il_cert_template_new';
+
     private readonly ilLogger $logger;
     private readonly ilObjectDataCache $objectDataCache;
-
-    public const TABLE_NAME = 'il_cert_template_new';
 
     public function __construct(
         private readonly ilDBInterface $database,

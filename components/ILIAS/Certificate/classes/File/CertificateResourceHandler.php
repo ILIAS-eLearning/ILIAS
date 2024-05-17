@@ -29,20 +29,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class CertificateResourceHandler
 {
-    private ilUserCertificateRepository $user_certificate_repo;
-    private ilCertificateTemplateDatabaseRepository $certificate_template_repo;
-    private IRSS $irss;
-    private ilCertificateTemplateStakeholder $stakeholder;
-    private ilObjCertificateSettings $global_certificate_settings;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->user_certificate_repo = new ilUserCertificateRepository($DIC->database());
-        $this->certificate_template_repo = new ilCertificateTemplateDatabaseRepository($DIC->database());
-        $this->stakeholder = new ilCertificateTemplateStakeholder();
-        $this->irss = $DIC->resourceStorage();
-        $this->global_certificate_settings = new ilObjCertificateSettings();
+    public function __construct(
+        private ilUserCertificateRepository $user_certificate_repo,
+        private ilCertificateTemplateDatabaseRepository $certificate_template_repo,
+        private IRSS $irss,
+        private ilObjCertificateSettings $global_certificate_settings
+    ) {
     }
 
     public function handleResourceChange(ResourceIdentification $background_image): void
