@@ -7374,6 +7374,8 @@ INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',3,'2023-12-12 16
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',4,'2023-12-12 16:39:41.500904','2023-12-12 16:39:41.502972');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',1,'2023-12-12 16:39:38.616248','2023-12-12 16:39:38.629801');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',2,'2023-12-12 16:39:38.630407','2023-12-12 16:39:38.650076');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',3,'2024-05-17 13:25:33.945970','2024-05-17 13:25:33.948899');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',4,'2024-05-17 13:25:33.949334','2024-05-17 13:25:33.951124');
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',1,'2023-12-12 16:39:41.554740','2023-12-12 16:39:41.555315');
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',2,'2023-12-12 16:39:41.555897','2023-12-12 16:39:41.595930');
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',3,'2023-12-12 16:39:41.596587','2023-12-12 16:39:41.597086');
@@ -13569,7 +13571,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-04-30 15:11:08','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-05-17 13:25:33','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20384,7 +20386,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','9.0.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','9.1.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -24805,6 +24807,8 @@ CREATE TABLE `wopi_action` (
   `name` varchar(256) NOT NULL,
   `ext` varchar(256) NOT NULL,
   `urlsrc` varchar(2048) NOT NULL,
+  `url_appendix` varchar(4000) DEFAULT NULL,
+  `target_ext` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`app_id`)
 ) ;
@@ -25101,4 +25105,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-04-30 15:11:09
+-- Dump completed on 2024-05-17 13:25:34
