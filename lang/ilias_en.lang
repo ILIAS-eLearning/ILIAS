@@ -10448,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
 iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
