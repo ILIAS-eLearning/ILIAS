@@ -18,10 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilLanguage;
+use ilTemplate;
+use PHPUnit\Framework\TestCase;
+use ilUserDefinedFieldsPlaceholderDescription;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
+class ilExercisePlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
@@ -47,7 +54,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $templateMock->method('get')
             ->willReturn('');
 
-        $placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -75,7 +82,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 

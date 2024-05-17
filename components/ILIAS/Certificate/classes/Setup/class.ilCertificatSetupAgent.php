@@ -49,6 +49,7 @@ class ilCertificatSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsExecutedObjective(new ilCertificateDatabaseUpdateSteps()),
             new ilDatabaseUpdateStepsExecutedObjective(new MigrateCourseCertificateProviderDBUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new MigrateExerciseCertificateProviderDBUpdateSteps()),
         );
     }
 
@@ -64,6 +65,7 @@ class ilCertificatSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCertificateDatabaseUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MigrateCourseCertificateProviderDBUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MigrateExerciseCertificateProviderDBUpdateSteps()),
         );
     }
 

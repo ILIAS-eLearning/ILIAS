@@ -18,16 +18,31 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilLanguage;
+use ilException;
+use ilDatabaseException;
+use ilDateTimeException;
+use ilCertificateDateHelper;
+use ilCertificateUtilHelper;
+use ilCertificateObjectHelper;
+use ilObjectNotFoundException;
+use ilCertificateLPMarksHelper;
+use ilDefaultPlaceholderValues;
+use ilCertificateLPStatusHelper;
+use ilCertificatePlaceholderValues;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
+class ExercisePlaceholderValues implements ilCertificatePlaceholderValues
 {
     private readonly ilLanguage $language;
     private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private readonly ilCertificateLPMarksHelper $lpMarksHelper;
     private readonly ilCertificateObjectHelper $objectHelper;
-    private readonly ilCertificateExerciseMembersHelper $exerciseMembersHelper;
+    private readonly CertificateExerciseMembersHelper $exerciseMembersHelper;
     private readonly ilCertificateLPStatusHelper $lpStatusHelper;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilCertificateDateHelper $dateHelper;
@@ -37,7 +52,7 @@ class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateLPMarksHelper $lpMarksHelper = null,
-        ?ilCertificateExerciseMembersHelper $exerciseMembersHelper = null,
+        ?CertificateExerciseMembersHelper $exerciseMembersHelper = null,
         ?ilCertificateLPStatusHelper $lpStatusHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateDateHelper $dateHelper = null
@@ -68,7 +83,7 @@ class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
         $this->lpMarksHelper = $lpMarksHelper;
 
         if (null === $exerciseMembersHelper) {
-            $exerciseMembersHelper = new ilCertificateExerciseMembersHelper();
+            $exerciseMembersHelper = new CertificateExerciseMembersHelper();
         }
         $this->exerciseMembersHelper = $exerciseMembersHelper;
 
@@ -111,7 +126,9 @@ class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
         $placeHolders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         if ($status !== null) {
-            $placeHolders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
+            $placeHolders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput(
+                $this->language->txt('exc_' . $status)
+            );
         }
 
         $placeHolders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput($mark);
@@ -138,8 +155,12 @@ class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_passed'));
-        $placeholders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
+        $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_passed')
+        );
+        $placeholders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput(
+            $this->language->txt('certificate_var_result_mark_short')
+        );
         $placeholders['EXERCISE_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
 
         return $placeholders;

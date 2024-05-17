@@ -18,14 +18,29 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
+namespace ILIAS\Exercise\Certificate;
+
+use ilObject;
+use ilLanguage;
+use ilException;
+use ilToolbarGUI;
+use ilWACException;
+use ilAccessHandler;
+use ilCtrlInterface;
+use ilCertificateGUI;
+use ilPropertyFormGUI;
+use ilDatabaseException;
+use ilCertificateFormRepository;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
+class CertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
     private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
 

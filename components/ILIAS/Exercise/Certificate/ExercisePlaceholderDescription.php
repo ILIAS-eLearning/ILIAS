@@ -18,10 +18,19 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilLanguage;
+use ilTemplate;
+use ilLegacyFormElementsUtil;
+use ilDefaultPlaceholderDescription;
+use ilCertificatePlaceholderDescription;
+use ilUserDefinedFieldsPlaceholderDescription;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
+class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private readonly ilLanguage $language;
@@ -46,9 +55,7 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }
-        $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
-
-        $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        $this->placeholder = $defaultPlaceholderDescriptionObject->getPlaceholderDescriptions();
 
         $this->placeholder['RESULT_PASSED'] = ilLegacyFormElementsUtil::prepareFormOutput(
             $language->txt('certificate_var_result_passed')
@@ -92,7 +99,7 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
 
     /**
      * This method MUST return an array containing an array with
-     * the the description as array value.
+     * the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions(): array

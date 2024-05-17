@@ -18,10 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilExerciseMembers;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateExerciseMembersHelper
+class CertificateExerciseMembersHelper
 {
     public function lookUpStatus(int $objectId, int $userId): ?string
     {
