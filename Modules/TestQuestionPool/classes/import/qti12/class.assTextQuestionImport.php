@@ -247,14 +247,14 @@ class assTextQuestionImport extends assQuestionImport
             return array();
         }
 
-        $termScoring = @unserialize($termScoringString);
+        $termScoring = @unserialize($termScoringString, ['allowed_classes' => false]);
 
         if (is_array($termScoring)) {
             return $termScoring;
         }
 
         $termScoringString = base64_decode($termScoringString);
-        $termScoring = unserialize($termScoringString);
+        $termScoring = unserialize($termScoringString, ['allowed_classes' => false]);
 
         if (is_array($termScoring)) {
             return $termScoring;
