@@ -108,6 +108,8 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
                 $this->questionOBJ,
                 'updateTimestamp'
             );
+            $pageObjectGUI->setTemplateTargetVar('ADM_CONTENT');
+            $pageObjectGUI->setTemplateOutput(true);
             return $pageObjectGUI;
         }
         $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
@@ -115,6 +117,8 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             $this->questionOBJ,
             'updateTimestamp'
         );
+        $pageObjectGUI->setTemplateTargetVar('ADM_CONTENT');
+        $pageObjectGUI->setTemplateOutput(true);
         return $pageObjectGUI;
     }
 }
