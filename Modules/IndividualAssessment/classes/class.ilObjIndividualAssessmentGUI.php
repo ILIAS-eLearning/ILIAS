@@ -120,9 +120,6 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($info);
                 break;
             case 'illearningprogressgui':
-                if (!$this->object->accessHandler()->mayReadObject()) {
-                    $this->handleAccessViolation();
-                }
                 $this->tabs_gui->activateTab(self::TAB_LP);
                 $learning_progress = new ilLearningProgressGUI(
                     ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
