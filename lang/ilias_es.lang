@@ -6271,6 +6271,7 @@ content#:#cont_char_style_code#:#Código
 content#:#cont_char_style_com#:#Comentario
 content#:#cont_char_style_quot#:#Cita
 content#:#cont_characteristic#:#Característica
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Comprobar valores enviados por SCO
 content#:#cont_check_values_info#:#La herramienta de Test comprobará si los valores enviados desde los SCOs cumplen con el estándard SCORM. <br /> El estándar SCORM es muy exigente respecto al almacenamiento de los valores. No todos los módulos de aprendizaje satisfacen los requisitos del estándar. Esta opción permite comprobar si el módulo cumple el estándar o no. No marque esta opción si solo desea comprobar si ILIAS puede ejecutar este módulo o no.
 content#:#cont_choose_characteristic#:#Seleccione Característica
@@ -7386,6 +7387,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10448,7 +10450,6 @@ iass#:#iass_membership_finalized#:#Registro finalizado
 iass#:#iass_membership_saved#:#Registro guardado, aún no finalizado
 iass#:#iass_mess_notification_completed#:#Ha superado la valoración: <i>%s</i>. Compruebe el siguiente registro de calificaciones para ver los detalles:
 iass#:#iass_mess_notification_failed#:#No ha superado la valoración: <i>%s</i>. Compruebe el siguiente registro de calificaciones para ver los detalles:
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Notificar participante tras finalización
 iass#:#iass_notify_explanation#:#La persona examinada recibirá una notificación por correo electrónico tras la finalización y podrá acceder a su registro en la pantalla de información.
 iass#:#iass_phone#:#Teléfono

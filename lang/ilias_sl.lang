@@ -6267,6 +6267,7 @@ content#:#cont_char_style_code#:#Koda
 content#:#cont_char_style_com#:#Komentar
 content#:#cont_char_style_quot#:#Citat
 content#:#cont_characteristic#:#Oblika poglavja
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Preveri vrednosti, ki jih pošlje SCO
 content#:#cont_check_values_info#:#Testno orodje preveri, ali so vrednosti, ki jih pošlje SCO, skladne s standardom.<br/>Standard SCORM je zelo zahteven glede shranjevanih podatkov. Vsi učni moduli SCORM niso tako natančni pri izhodu podatkov, kot to zahteva standard. Zato lahko onemogočite preverjanje vrednosti, če želite na primer samo preveriti, ali lahko ILIAS zažene ta učni modul, ne pa tudi, ali ta ustreza standardu SCORM.<br />
 content#:#cont_choose_characteristic#:#Izberi obliko odstavka
@@ -7382,6 +7383,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###19 08 2022 new variable
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10444,7 +10446,6 @@ iass#:#iass_membership_finalized#:#Ocenjevanje zaključeno.
 iass#:#iass_membership_saved#:#Ocena je bila shranjena, ni pa še dokončno zaključena.
 iass#:#iass_mess_notification_completed#:#Opravili ste izpit „%s“. Upoštevajte tudi naslednje opombe k izpitu.
 iass#:#iass_mess_notification_failed#:#Izpita „%s“ žal niste opravili. Upoštevajte tudi naslednjo opombo k izpitu.
-iass#:#iass_no_entries#:#Noben vnos ni bil najden
 iass#:#iass_notify#:#Obvesti udeleženca po zaključenem ocenjevanju
 iass#:#iass_notify_explanation#:#Po zaključenem ocenjevanju bo udeleženec obveščen po e-pošti in bo imel vpogled v opombe k izpitu na strani z informacijami.
 iass#:#iass_phone#:#Phone

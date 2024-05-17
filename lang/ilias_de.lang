@@ -16681,6 +16681,7 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
+survey#:#svy_participant#:#Participant###17 05 2024 new variable
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden

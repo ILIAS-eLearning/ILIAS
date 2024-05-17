@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Kommentar
 content#:#cont_char_style_quot#:#Citat
 content#:#cont_characteristic#:#Format för stycke
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Kontrollera värden som skickats av SCO
 content#:#cont_check_values_info#:#Testverktyget kontrollerar standardkompatibiliteten hos de värden som skickas av SCO.<br />SCORM-standarden är mycket exakt när det gäller vilka data som ska lagras. Inte alla SCORM-lärmoduler är lika exakta i sin datautmatning som standarden faktiskt kr
 content#:#cont_choose_characteristic#:#Välj styckeformat
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Utvärderingen slutförd.
 iass#:#iass_membership_saved#:#Utvärderingen har sparats men ännu inte slutförts.
 iass#:#iass_mess_notification_completed#:#Du har klarat provet "%s". Vänligen notera även följande notering på tentan.
 iass#:#iass_mess_notification_failed#:#Du har tyvärr inte klarat provet "%s". Vänligen notera även följande information om provet.
-iass#:#iass_no_entries#:#Inga poster hittades
 iass#:#iass_notify#:#Göra resultatet tillgängligt för deltagaren
 iass#:#iass_notify_explanation#:#Deltagaren kommer att meddelas via e-post när bedömningen är klar och kan se bedömningsanteckningen på Info-sidan.
 iass#:#iass_phone#:#Telefon

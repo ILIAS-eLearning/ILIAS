@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Komentarz
 content#:#cont_char_style_quot#:#Cytat
 content#:#cont_characteristic#:#Format akapitu
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Sprawdź wartości przesłane przez SCO
 content#:#cont_check_values_info#:#Narzędzie testowe sprawdza wartości przesłane przez SCORM pod kątem ich domyślnej kompatybilności. <br>Jeśli chodzi o dane, które należy zapisać, standard SCORM jest bardzo dokładny. Nie każdy moduł nauczania SCORM jest w odniesieniu do generowania danych tak dokładny, jak wymaga tego standard. Dlatego można wyłączyć kontrolę wartości, jeśli chcesz np. tylko sprawdzić, czy moduł nauczania działa w ILIAS, a nie czy jest zgodny ze standardem SCORM.<br>
 content#:#cont_choose_characteristic#:#Wybierz format akapitu
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Ocena zakończona.
 iass#:#iass_membership_saved#:#Ocena została zapisana, ale jeszcze nie jest ukończona.
 iass#:#iass_mess_notification_completed#:#Zdałeś egzamin „%s“. Zapoznaj się z poniższą notatką dotyczącą egzaminu.
 iass#:#iass_mess_notification_failed#:#Niestety nie zdałeś egzaminu „%s“. Zapoznaj się z poniższą notatką dotyczącą egzaminu.
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Powiadom uczestnika po zakończonej ocenie
 iass#:#iass_notify_explanation#:#Po zakończeniu oceny uczestnik jest powiadamiany mailem i ma wgląd w notatkę dotyczącą egzaminu znajdującą się na stronie informacyjnej.
 iass#:#iass_phone#:#Telefon

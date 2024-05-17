@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Komentář
 content#:#cont_char_style_quot#:#Citát
 content#:#cont_characteristic#:#Třída stylu
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Zkontrolovat hodnotu
 content#:#cont_check_values_info#:#Testovací nástroj zkontroluje, zda hodnoty odeslané ze SCO odpovídají standardu SCORM. <br /> Standard SCORM je velmi náročný na ukládání hodnot. Ne všechny výukové moduly splňují požadavky standardu. Tato možnost povoluje kontrolu, zda modul odpovídá standardu nebo ne. Nezaškrtávejte tuto možnost, pokud chcete zkontrolovat, zda systém ILIAS může spustit tento modul nebo ne.
 content#:#cont_choose_characteristic#:#Výběr charakteristiky
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Záznam dokončen
 iass#:#iass_membership_saved#:#Záznam byl uložen, ale ještě nebyl dokončen
 iass#:#iass_mess_notification_completed#:#Prošli jste hodnocením %s. Podrobnosti najdete v následujícím záznamu:
 iass#:#iass_mess_notification_failed#:#Neprošli jste hodnocením %s. Podrobnosti najdete v následujícím záznamu:
-iass#:#iass_no_entries#:#Nebyly nalezeny žádné zápisy.
 iass#:#iass_notify#:#Informovat uživatele po dokončení
 iass#:#iass_notify_explanation#:#Zkoušený bude po dokončení informován e-mailem a bude mít přístup ke svému záznamu na obrazovce Informace.
 iass#:#iass_phone#:#Telefon

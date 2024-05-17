@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Komentar
 content#:#cont_char_style_quot#:#Citat
 content#:#cont_characteristic#:#Format odlomka
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Provjeri vrijednosti poslane od SCO
 content#:#cont_check_values_info#:#Alat za ispitivanje provjerit će odgovaraju li vrijednosti poslane iz SCO-a SCORM standardu. <br /> SCORM standard vrlo je zahtjevan u pogledu spremanja vrijednosti. Ne zadovoljavaju svi moduli za učenje zahtjevima standarda. Ova opcija omogućuje provjeru ispunjava li se modul standard ili ne. Nemojte označavati ovu opciju ako samo želite provjeriti može li ILIAS pokrenuti ovaj modul ili ne.
 content#:#cont_choose_characteristic#:#Odaberi karakteristike
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###04 06 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###04 06 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Zapis finaliziran
 iass#:#iass_membership_saved#:#Zapis je spremljen, ali još nije finaliziran
 iass#:#iass_mess_notification_completed#:#Položili ste ispit <i>%s</i>. Za detalje molimo provjerite sljedeći zapis o ocjenjivanju:
 iass#:#iass_mess_notification_failed#:#Niste položili ispit <i>%s</i>. Za detalje molimo provjerite sljedeći zapis o ocjenjivanju:
-iass#:#iass_no_entries#:#Nije pronađen nijedan unos.
 iass#:#iass_notify#:#Obavijesti sudionika nakon finalizacije
 iass#:#iass_notify_explanation#:#Sudionik će nakon finalizacije biti obaviješten putem e-pošte i dobit će pristup svom zapisu na stranici za informacije.
 iass#:#iass_phone#:#Telefon

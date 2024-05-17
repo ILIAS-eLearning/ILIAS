@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#კოდი
 content#:#cont_char_style_com#:#კომენტარი
 content#:#cont_char_style_quot#:#ციტატა
 content#:#cont_characteristic#:#სტილის კლასი
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Value Check
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.###23 12 2015 new variable
 content#:#cont_choose_characteristic#:#მახასიათებლის შერჩევა
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
 iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:###25 10 2016 new variable
 iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:###25 10 2016 new variable
-iass#:#iass_no_entries#:#No entries found.###10 11 2018 new variable
 iass#:#iass_notify#:#Notify user after finalization###25 10 2016 new variable
 iass#:#iass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.###25 10 2016 new variable
 iass#:#iass_phone#:#Phone###25 10 2016 new variable

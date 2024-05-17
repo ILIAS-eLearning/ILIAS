@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Commentaire
 content#:#cont_char_style_quot#:#Citation
 content#:#cont_characteristic#:#Classe
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Vérification des Valeurs
 content#:#cont_check_values_info#:#L'outil de test vérifiera si les valeurs envoyées par les SCO adhèrent à  la norme SCORM.<br />La norme SCORM est très exigeante en ce qui concerne l'économie de valeurs. Tous les modules d'apprentissage ne répondent pas aux exigences de la norme. Cette option permet de vérifier si le module respecte ou non la norme. Ne cochez pas cette option si vous voulez juste vérifier si ILIAS peut exécuter ce module ou non.
 content#:#cont_choose_characteristic#:#Choisir caractéristique
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Dossier finalisé
 iass#:#iass_membership_saved#:#Dossier sauvegardé, pas encore finalisé
 iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Notify user after finalization
 iass#:#iass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Téléphone

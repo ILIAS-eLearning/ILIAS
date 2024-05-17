@@ -6268,6 +6268,7 @@ content#:#cont_char_style_code#:#Codice
 content#:#cont_char_style_com#:#Commento
 content#:#cont_char_style_quot#:#Quotazione
 content#:#cont_characteristic#:#Stile
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#controlla i valori inviati da SCO
 content#:#cont_check_values_info#:#Lo strumento di test controllerà se i valori inviati dagli SCO aderiscono allo standard SCORM. <br /> Lo standard SCORM è molto esigente per quanto riguarda il risparmio di valori. Non tutti i moduli di apprendimento soddisfano i requisiti dello standard. Questa opzione consente di verificare se il modulo aderisce allo standard o meno. Non controllare questa opzione se si desidera solo controllare se ILIAS può eseguire questo modulo o meno.
 content#:#cont_choose_characteristic#:#Scegli caratteristiche
@@ -7383,6 +7384,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Pagina layout
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10445,7 +10447,6 @@ iass#:#iass_membership_finalized#:#Registrazione finalizzata
 iass#:#iass_membership_saved#:#Registrazione salvata, non ancora finalizzata
 iass#:#iass_mess_notification_completed#:#Hai superato la valutazione con punteggio <i>%s</i>. Controlla i seguenti risultati per dettagli:
 iass#:#iass_mess_notification_failed#:#Hai fallito la valutazione con punteggio <i>%s</i>. Controlla i seguenti risultati per dettagli:
-iass#:#iass_no_entries#:#Nessuna voce trovata.
 iass#:#iass_notify#:#Notifica l'utente dopo la finalizzazione
 iass#:#iass_notify_explanation#:#L'utente esaminato verrà notificato via e-mail e riceverà l'accesso al suo risultato nella pagina di informazioni.
 iass#:#iass_phone#:#Telefono

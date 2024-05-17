@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Код###22 06 2022 new variable
 content#:#cont_char_style_com#:#Коментар###22 06 2022 new variable
 content#:#cont_char_style_quot#:#Цитат
 content#:#cont_characteristic#:#Клас на стила###22 06 2022 new variable
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#проверка на стойностите, изпратени от SCO
 content#:#cont_check_values_info#:#Инструментът за тестване ще провери дали стойностите, изпратени от SCO, отговарят на стандарта SCORM. <br /> Стандартът SCORM е много взискателен по отношение на запазването на стойности. Не всички учебни модули отговарят на изискванията на стандарта. Тази опция позволява да се провери дали модулът съответства на стандарта или не. Не отбелязвайте тази опция, ако искате само да проверите дали ILIAS може да стартира този модул или не.
 content#:#cont_choose_characteristic#:#Избор на характеристика
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Елементът на страницата не е намерен.###22 06 2022 new variable
 copg#:#copg_page_type_stys#:#Страница за оформление
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Записът е финализиран
 iass#:#iass_membership_saved#:#Записът е запазен, но все още не е финализиран
 iass#:#iass_mess_notification_completed#:#Получихте успешно оценката %s. Моля, проверете следния запис за подробности:
 iass#:#iass_mess_notification_failed#:#Не успяхте да се справите с оценката %s. Моля, проверете следния запис за подробности:
-iass#:#iass_no_entries#:#Няма намерени записи.
 iass#:#iass_notify#:#Уведомяване на потребителя след финализиране
 iass#:#iass_notify_explanation#:#Изпитваният ще бъде уведомен по имейл след финализирането и ще получи достъп до своя запис на екрана за информация.
 iass#:#iass_phone#:#Phone

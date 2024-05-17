@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Código
 content#:#cont_char_style_com#:#Comentário
 content#:#cont_char_style_quot#:#Cotação
 content#:#cont_characteristic#:#Fragmento do conteúdo
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#Lista avançada
 content#:#cont_check_values_info#:#A ferramenta de teste verifica se os valores enviados dos SCOs estão conforme o padrão SCORM. <br /> O padrão SCORM é muito exigente relativamente à memorização dos valores. Nem todos os módulos de aprendizagem satisfazem os requisitos do padrão. Esta opção permite verificar se o módulo está conforme o padrão ou não. Não assinale esta opção se apenas quiser verificar se ILIAS pode executar este módulo ou não.
 content#:#cont_choose_characteristic#:#Escolher característico
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###30 04 2024 new variable
 copg#:#copg_list_style#:#List###30 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###30 04 2024 new variable
 copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Registo finalizado
 iass#:#iass_membership_saved#:#Registo guardado, mas não finalizado ainda
 iass#:#iass_mess_notification_completed#:#Paraguai
 iass#:#iass_mess_notification_failed#:#Reunião
-iass#:#iass_no_entries#:#Federação Russa
 iass#:#iass_notify#:#Roménia
 iass#:#iass_notify_explanation#:#Sérvia
 iass#:#iass_phone#:#Telefone

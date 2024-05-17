@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#コード
 content#:#cont_char_style_com#:#コメント
 content#:#cont_char_style_quot#:#引用
 content#:#cont_characteristic#:#スタイルクラス
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#SCOの送った値をチェック
 content#:#cont_check_values_info#:#テストツールはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。SCORMスタンダードは値の保存に関して非常に多くの要求があります。すべての学習モジュールがスタンダード要件を満たしているものではありません。このオプションはモジュールがスタンダードに準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。
 content#:#cont_choose_characteristic#:#特徴を選択
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#List Item###08 04 2024 new variable
 copg#:#copg_list_style#:#List###08 04 2024 new variable
 copg#:#copg_list_styles#:#List Formats###08 04 2024 new variable
 copg#:#copg_more_character_formats#:#文字用の他のスタイル
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
 copg#:#copg_par_format_selection#:#図書式選択
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#記録を確定しました
 iass#:#iass_membership_saved#:#記録を保存しましたが未確定です。
 iass#:#iass_mess_notification_completed#:#アセスメント%sは合格です。詳細は次の記録を確認して下さい:
 iass#:#iass_mess_notification_failed#:#アセスメント%sは不合格です。詳細は次の記録を確認して下さい:
-iass#:#iass_no_entries#:#エントリーが見つかりません。
 iass#:#iass_notify#:#確定後にユーザへ通知
 iass#:#iass_notify_explanation#:#受験者は確定後にemailで通知されInfo画面上のj記録へアクセスします。
 iass#:#iass_phone#:#電話

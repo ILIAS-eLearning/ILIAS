@@ -6269,6 +6269,7 @@ content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Megjegyzés
 content#:#cont_char_style_quot#:#Idézet
 content#:#cont_characteristic#:#Stílusosztály
+content#:#cont_characteristic_table#:#Style Class###17 05 2024 new variable
 content#:#cont_check_values#:#SCO-ból küldött értékek ellenőrzése
 content#:#cont_check_values_info#:#A Teszteszköz ellenőrzi, hogy a SCO-k a SCORM-szabványoknak megfelelő adatokat küld-e.<br />A SCORM-szabvány nagyon pontosan előírja az értékek mentését. Nem minden tananyag felel meg ezeknek az elvárásoknak. Ezen opcióval ellenőrizhető, hogy a tananyag ezen szabványnak megfelel-e vagy sem. Ne kapcsolja be, ha csak arra kíváncsi, hogy az ILIAS képes-e a tananyagot futtatni.
 content#:#cont_choose_characteristic#:#Válasszon jellemzőt
@@ -7384,6 +7385,7 @@ copg#:#copg_list_item_style#:#Felsorolás eleme
 copg#:#copg_list_style#:#Felsorolás
 copg#:#copg_list_styles#:#Felsorolási formátumok
 copg#:#copg_more_character_formats#:#More Styles for Characters###31 01 2024 new variable
+copg#:#copg_obj_types#:#Object Types###17 05 2024 new variable
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###31 01 2024 new variable
@@ -10446,7 +10448,6 @@ iass#:#iass_membership_finalized#:#Bejegyzés véglegesítve
 iass#:#iass_membership_saved#:#A bejegyzést sikeresen mentett, de az még nincs véglegesítve
 iass#:#iass_mess_notification_completed#:#'<i>%s</i>' értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:
 iass#:#iass_mess_notification_failed#:#'<i>%s</i>' értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:
-iass#:#iass_no_entries#:#Egy bejegyzés sem található.
 iass#:#iass_notify#:#Az eredmény elérhetővé tétel a résztvevő számára
 iass#:#iass_notify_explanation#:#A véglegesítésről levélben értesítjük az értékeltet, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs lapon.
 iass#:#iass_phone#:#Telefonszám
