@@ -178,7 +178,7 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
         return $this->with_time_only;
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($value instanceof \DateTimeImmutable || is_null($value)) {
             return true;
