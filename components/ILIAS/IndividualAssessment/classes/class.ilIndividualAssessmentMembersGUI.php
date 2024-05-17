@@ -197,9 +197,6 @@ class ilIndividualAssessmentMembersGUI
 
         $output = $table->render($view_controls);
 
-        if (count($entries) == 0) {
-            $output .= $this->txt("iass_no_entries");
-        }
         $this->tpl->setContent($output);
     }
 
