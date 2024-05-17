@@ -155,12 +155,18 @@ class LogTable implements Table\DataRetrieval
     {
         $f = $this->ui_factory->table()->column();
 
-        return [
+        $columns = [
             self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->buildUserDateTimeFormat()),
             self::COLUMN_CORRESPONDING_TEST => $f->link($this->lng->txt('test'))->withIsOptional(true, true),
             self::COLUMN_ADMIN => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
-            self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true),
-            self::COLUMN_SOURCE_IP => $f->text($this->lng->txt('client_ip'))->withIsOptional(true, true),
+            self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true)
+        ];
+
+        if ($this->logger->isIPLoggingEnabled()) {
+            $columns[self::COLUMN_SOURCE_IP] = $f->text($this->lng->txt('client_ip'))->withIsOptional(true, true);
+        }
+
+        return $columns + [
             self::COLUMN_QUESTION => $f->text($this->lng->txt('question'))->withIsOptional(true, true),
             self::COLUMN_LOG_ENTRY_TYPE => $f->text($this->lng->txt('log_entry_type'))->withIsOptional(true, true),
             self::COLUMN_INTERACTION_TYPE => $f->text($this->lng->txt('interaction_type'))->withIsOptional(true, true)
@@ -554,6 +560,9 @@ class LogTable implements Table\DataRetrieval
     {
         $matches = [];
         preg_match('/cmdNode=([A-Za-z0-9]+%3)+[A-Za-z0-9]+&/i', $url, $matches);
+        if (empty($matches[0])) {
+            return $url;
+        }
         $replacement = str_replace('%3', ':', $matches[0]);
         return str_replace($matches[0], $replacement, $url);
     }

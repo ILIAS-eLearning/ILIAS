@@ -44,6 +44,7 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
+    private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
 
@@ -79,9 +80,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
+        if ($cmd === '') {
+            $cmd = self::DEFAULT_CMD;
+        }
         $next_class = $this->ctrl->getNextClass($this);
-        $this->ctrl->saveParameter($this, "sequence");
-        $this->ctrl->saveParameter($this, "active_id");
+        $this->ctrl->saveParameter($this, 'sequence');
+        $this->ctrl->saveParameter($this, 'active_id');
 
         switch ($next_class) {
             case 'iltestpassdetailsoverviewtablegui':
@@ -1377,7 +1381,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $objectives_list = null;
 
-            if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+            if ($this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()) {
                 $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
                 $test_sequence->loadFromDb();
                 $test_sequence->loadQuestions();
@@ -1398,7 +1402,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $active_id,
                 $pass,
                 false,
-                !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
+                !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
             );
 
             $signature = $this->getResultsSignature();

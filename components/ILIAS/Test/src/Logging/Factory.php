@@ -96,6 +96,7 @@ class Factory
         int $ref_id,
         ?int $qst_id,
         int $pax_id,
+        string $source_addr,
         TestParticipantInteractionTypes $type,
         array $additional_data
     ): TestParticipantInteraction {
@@ -103,7 +104,7 @@ class Factory
             $ref_id,
             $qst_id,
             $pax_id,
-            $_SERVER['REMOTE_ADDR'],
+            $source_addr,
             $type,
             time(),
             $additional_data

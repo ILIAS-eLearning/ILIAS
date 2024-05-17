@@ -77,5 +77,8 @@ interface TestLoggingRepository
      */
     public function deleteLogs(array $unique_identifiers): void;
 
+    public function testHasParticipantInteractions(int $ref_id): bool;
+    public function deleteParticipantInteractionsForTest(int $ref_id): void;
+
     public function getLegacyLogsForObjId(?int $obj_id): array;
 }

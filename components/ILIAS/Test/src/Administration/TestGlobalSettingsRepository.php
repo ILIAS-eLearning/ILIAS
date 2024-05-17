@@ -23,6 +23,7 @@ namespace ILIAS\Test\Administration;
 class TestGlobalSettingsRepository
 {
     private const SETTINGS_KEY_LOGGING_ENABLED = 'assessment_logging';
+    private const SETTINGS_KEY_IP_LOGGING_ENABLED = 'assessment_logging_ip';
 
     public function __construct(
         private \ilSetting $settings
@@ -32,12 +33,14 @@ class TestGlobalSettingsRepository
     public function getLoggingSettings(): TestLoggingSettings
     {
         return new TestLoggingSettings(
-            $this->settings->get(self::SETTINGS_KEY_LOGGING_ENABLED) === '1'
+            $this->settings->get(self::SETTINGS_KEY_LOGGING_ENABLED) === '1',
+            $this->settings->get(self::SETTINGS_KEY_IP_LOGGING_ENABLED) !== '0'
         );
     }
 
     public function storeLoggingSettings(TestLoggingSettings $logging_settings): void
     {
         $this->settings->set(self::SETTINGS_KEY_LOGGING_ENABLED, $logging_settings->isLoggingEnabled() ? '1' : '0');
+        $this->settings->set(self::SETTINGS_KEY_IP_LOGGING_ENABLED, $logging_settings->isIPLoggingEnabled() ? '1' : '0');
     }
 }

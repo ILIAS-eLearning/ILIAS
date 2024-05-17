@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\Test\RequestDataCollector;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -34,8 +35,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  */
 class ilMyTestSolutionsGUI
 {
-    public const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
-
     public function __construct(
         private readonly ?ilObjTest $test_obj,
         private readonly ilTestAccess $test_access,
@@ -50,15 +49,10 @@ class ilMyTestSolutionsGUI
 
     public function executeCommand(): void
     {
-        /* @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        switch ($DIC->ctrl()->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             case "iltestevaluationgui":
                 $gui = new ilTestEvaluationGUI($this->test_obj);
-                $gui->setObjectiveOrientedContainer($this->objective_parent);
-                $gui->setTestAccess($this->test_access);
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilassquestionpagegui':
@@ -70,7 +64,6 @@ class ilMyTestSolutionsGUI
                     $this->questionrepository,
                     $this->testrequest
                 );
-                $forwarder->setTestObj($this->getTestObj());
                 $forwarder->forward();
                 break;
         }

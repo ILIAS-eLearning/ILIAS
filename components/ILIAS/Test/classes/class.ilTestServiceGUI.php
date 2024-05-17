@@ -183,7 +183,10 @@ class ilTestServiceGUI
     {
         $data = [];
 
-        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+        $objective_oriented_presentation = $this->getObjectiveOrientedContainer()
+            ?->isObjectiveOrientedPresentationRequired() ?? false;
+
+        if ($objective_oriented_presentation) {
             $considerHiddenQuestions = false;
 
             $objectives_adapter = ilLOTestQuestionAdapter::getInstance($testSession);
@@ -205,7 +208,7 @@ class ilTestServiceGUI
             ];
             $considerOptionalQuestions = true;
 
-            if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+            if ($objective_oriented_presentation) {
                 $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($testSession->getActiveId(), $pass);
                 $test_sequence->loadFromDb();
                 $test_sequence->loadQuestions();
@@ -305,7 +308,7 @@ class ilTestServiceGUI
         );
 
         $table->setObjectiveOrientedPresentationEnabled(
-            $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
+            $this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired() ?? false
         );
 
         return $table;
@@ -354,7 +357,7 @@ class ilTestServiceGUI
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
 
-                    $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
+                    $question_gui->getObject()->setShuffler($this->shuffler->getAnswerShuffleFor(
                         (int) $question_id,
                         (int) $active_id,
                         (int) $pass
@@ -373,17 +376,17 @@ class ilTestServiceGUI
 
                         if ($show_reached_points) {
                             $template->setCurrentBlock("result_points");
-                            $template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->object->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->object->getMaximumPoints());
+                            $template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->getObject()->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->getObject()->getMaximumPoints());
                             $template->parseCurrentBlock();
                         }
                         $template->setVariable("COUNTER_QUESTION", $counter . ". ");
                         $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
-                        $template->setVariable("QUESTION_ID", $question_gui->object->getId());
-                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
+                        $template->setVariable("QUESTION_ID", $question_gui->getObject()->getId());
+                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
 
                         if ($objectives_list !== null) {
                             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-                            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+                            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->getObject()->getId());
                             $template->setVariable("OBJECTIVES", $objectives);
                         }
 
@@ -460,13 +463,13 @@ class ilTestServiceGUI
             $question = $question_data["qid"];
             if (is_numeric($question)) {
                 $question_gui = $this->object->createQuestionGUI("", $question);
-                if (in_array($question_gui->object->getQuestionTypeID(), $scoring)) {
+                if (in_array($question_gui->getObject()->getQuestionTypeID(), $scoring)) {
                     $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
                     $scoretemplate = new ilTemplate("tpl.il_as_tst_manual_scoring_points.html", true, true, "components/ILIAS/Test");
                     #mbecker: No such block. $this->tpl->setCurrentBlock("printview_question");
                     $template->setVariable("COUNTER_QUESTION", $counter . ". ");
-                    $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
-                    $points = $question_gui->object->getMaximumPoints();
+                    $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
+                    $points = $question_gui->getObject()->getMaximumPoints();
                     if ($points == 1) {
                         $template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("point"));
                     } else {
@@ -476,7 +479,7 @@ class ilTestServiceGUI
                     $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
                     $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, true);
 
-                    $solout = $question_gui->object->getSuggestedSolutionOutput();
+                    $solout = $question_gui->getObject()->getSuggestedSolutionOutput();
                     if (strlen($solout)) {
                         $scoretemplate->setCurrentBlock("suggested_solution");
                         $scoretemplate->setVariable("TEXT_SUGGESTED_SOLUTION", $this->lng->txt("solution_hint"));
@@ -627,7 +630,7 @@ class ilTestServiceGUI
             $t = $this->object->_getLastAccess($testSession->getActiveId());
         }
 
-        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+        if ($this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()) {
             $uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
             $template->setCurrentBlock("name");
             $template->setVariable('TXT_USR_NAME', $this->lng->txt("name"));
@@ -690,8 +693,8 @@ class ilTestServiceGUI
         $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true, false, false);
         if ($this->object->getShowSolutionFeedback() && $this->testrequest->raw('cmd') != 'outCorrectSolution') {
             $specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
-                $question_gui->object->fetchIndexedValuesFromValuePairs(
-                    $question_gui->object->getSolutionValues($active_id, $pass)
+                $question_gui->getObject()->fetchIndexedValuesFromValuePairs(
+                    $question_gui->getObject()->getSolutionValues($active_id, $pass)
                 )
             );
             if (strlen($specificAnswerFeedback)) {
@@ -703,19 +706,19 @@ class ilTestServiceGUI
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
         $template->setVariable("TEXT_SOLUTION_OUTPUT", $this->lng->txt("tst_your_answer_was")); // Mantis 28646. I don't really know why Ingmar renamed the placeholder, so
         // I set both old and new since the old one is set as well in several places.
-        $maxpoints = $question_gui->object->getMaximumPoints();
+        $maxpoints = $question_gui->getObject()->getMaximumPoints();
         if ($maxpoints == 1) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
         } else {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
         if ($objectives_list !== null) {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->getObject()->getId());
             $template->setVariable('OBJECTIVES', $objectives);
         }
         $template->setVariable("SOLUTION_OUTPUT", $result_output);
-        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
+        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->getObject()->getReachedPoints($active_id, $pass), $maxpoints));
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
         return $template->get();

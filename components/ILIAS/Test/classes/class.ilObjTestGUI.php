@@ -199,11 +199,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->setTestAccess(new ilTestAccess($this->ref_id, $this->getTestObject()->getTestId()));
 
         $tabs_manager = new ilTestTabsManager(
+            $this->user,
             $this->tabs_gui,
             $this->lng,
             $this->ctrl,
             $this->request_wrapper,
             $this->refinery,
+            $this->rbac_review,
             $this->access,
             $this->test_access,
             $this->objective_oriented_container
@@ -2136,7 +2138,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function historyObject(): void
     {
-        if ($this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId())) {
+        if (!$this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)
+            && !$this->access->checkAccess('tst_history_read', '', $this->getTestObject()->getRefId())) {
             $this->redirectAfterMissingWrite();
         }
         if ($this->getTestObject()->getTestLogger() === null) {

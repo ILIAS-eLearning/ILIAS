@@ -101,11 +101,13 @@ class ilTestTabsManager
     protected $parent_back_label;
 
     public function __construct(
+        private ilObjUser $user,
         private ilTabsGUI $tabs,
         private ilLanguage $lng,
         private ilCtrlInterface $ctrl,
         private RequestWrapper $wrapper,
         private Refinery $refinery,
+        private ilRbacReview $rbac_review,
         private ilAccess $access,
         private ilTestAccess $test_access,
         private ilTestObjectiveOrientedContainer $objective_parent
@@ -270,7 +272,8 @@ class ilTestTabsManager
 
     protected function isHistoryAccessGranted(): bool
     {
-        return $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
+        return $this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)
+            || $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
     }
 
     protected function isPermissionsAccessGranted(): bool
