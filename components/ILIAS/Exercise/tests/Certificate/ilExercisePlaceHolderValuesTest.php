@@ -18,10 +18,22 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilObject;
+use ilLanguage;
+use ilCertificateDateHelper;
+use ilCertificateUtilHelper;
+use ilCertificateObjectHelper;
+use ilCertificateLPMarksHelper;
+use ilDefaultPlaceholderValues;
+use PHPUnit\Framework\TestCase;
+use ilCertificateLPStatusHelper;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
+class ilExercisePlaceholderValuesTest extends TestCase
 {
     public function testGetPlaceholderValues(): void
     {
@@ -59,7 +71,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->method('lookUpMark')
             ->willReturn('400');
 
-        $exerciseMemberHelper = $this->getMockBuilder(ilCertificateExerciseMembersHelper::class)
+        $exerciseMemberHelper = $this->getMockBuilder(CertificateExerciseMembersHelper::class)
             ->getMock();
 
         $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
@@ -87,8 +99,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->method('formatDateTime')
             ->willReturn('2018-09-10 12:01:33');
 
-
-        $placeHolderObject = new ilExercisePlaceholderValues(
+        $placeHolderObject = new ExercisePlaceholderValues(
             $defaultPlaceholders,
             $language,
             $objectHelper,
@@ -141,7 +152,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         $lpMarksHelper = $this->getMockBuilder(ilCertificateLPMarksHelper::class)
             ->getMock();
 
-        $exerciseMemberHelper = $this->getMockBuilder(ilCertificateExerciseMembersHelper::class)
+        $exerciseMemberHelper = $this->getMockBuilder(CertificateExerciseMembersHelper::class)
             ->getMock();
 
         $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
@@ -164,7 +175,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->method('getPlaceholderValuesForPreview')
             ->willReturn(['SOME_PLACEHOLDER' => 'something']);
 
-        $placeHolderObject = new ilExercisePlaceholderValues(
+        $placeHolderObject = new ExercisePlaceholderValues(
             $defaultPlaceholders,
             $language,
             $objectHelper,

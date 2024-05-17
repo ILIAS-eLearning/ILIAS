@@ -18,10 +18,23 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Exercise\Certificate;
+
+use ilAccess;
+use ilObject;
+use ilLanguage;
+use ilToolbarGUI;
+use ilCtrlInterface;
+use ilCertificateGUI;
+use ilPropertyFormGUI;
+use PHPUnit\Framework\TestCase;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestCase
+class ilCertificateSettingsExerciseRepositoryTest extends TestCase
 {
     public function testCreate(): void
     {
@@ -62,7 +75,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->method('createForm')
             ->willReturn($formMock);
 
-        $repository = new ilCertificateSettingsExerciseRepository(
+        $repository = new CertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
             false,
@@ -120,7 +133,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        new ilCertificateSettingsExerciseRepository(
+        new CertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
             false,
@@ -172,7 +185,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->method('fetchFormFieldData')
             ->willReturn(['something' => 'value']);
 
-        $repository = new ilCertificateSettingsExerciseRepository(
+        $repository = new CertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
             false,
