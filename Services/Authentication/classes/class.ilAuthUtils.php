@@ -581,7 +581,6 @@ class ilAuthUtils
 
         $ilSetting = $DIC->settings();
 
-        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             // always enabled
             case self::AUTH_LOCAL:
@@ -633,7 +632,6 @@ class ilAuthUtils
      */
     public static function supportsLocalPasswordValidation($a_authmode): int
     {
-        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             case self::AUTH_LDAP:
             case self::AUTH_LOCAL:
@@ -644,7 +642,7 @@ class ilAuthUtils
             case self::AUTH_SAML:
             case self::AUTH_SOAP:
             case self::AUTH_CAS:
-                if (!self::isPasswordModificationEnabled((int) $a_authmode)) {
+                if (!self::isPasswordModificationEnabled($a_authmode)) {
                     return self::LOCAL_PWV_NO;
                 }
                 return self::LOCAL_PWV_USER;
