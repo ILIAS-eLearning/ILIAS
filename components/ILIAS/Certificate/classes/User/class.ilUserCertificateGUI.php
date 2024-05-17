@@ -72,7 +72,7 @@ class ilUserCertificateGUI
         ?Filesystem $filesystem = null,
         ?ilHelpGUI $help = null,
         ?ilDBInterface $db = null,
-        ?IRSS $irss = null
+        private ?IRSS $irss = null
     ) {
         global $DIC;
 

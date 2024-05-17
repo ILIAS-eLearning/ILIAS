@@ -62,6 +62,7 @@ class ilCertificateGUI
     private readonly ilPageFormats $pageFormats;
     private readonly ilLogger $logger;
     private readonly ilObjCertificateSettings $global_certificate_settings;
+    private readonly ilDBInterface $database;
 
     public function __construct(
         private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -136,6 +137,7 @@ class ilCertificateGUI
             $this->irss
         );
         $this->fileUpload = $fileUpload ?? $DIC->upload();
+        $this->database = $DIC->database();
     }
 
     /**
@@ -337,7 +339,12 @@ class ilCertificateGUI
 
     private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, int $objId): void
     {
-        $certificate_handler = new CertificateResourceHandler();
+        $certificate_handler = new CertificateResourceHandler(
+            new ilUserCertificateRepository($this->database),
+            new ilCertificateTemplateDatabaseRepository($this->database),
+            $this->irss,
+            $this->global_certificate_settings
+        );
         $current_template = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $current_template->getVersion();
         $nextVersion = $currentVersion + 1;

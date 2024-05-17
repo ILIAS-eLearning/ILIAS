@@ -46,7 +46,12 @@ class ilObjCertificateSettings extends ilObject
         $this->certificate_settings = new ilSetting('certificate');
         $this->irss = $DIC->resourceStorage();
         $this->stakeholder = new ilCertificateTemplateStakeholder();
-        $this->resource_handler = new CertificateResourceHandler();
+        $this->resource_handler = new CertificateResourceHandler(
+            new ilUserCertificateRepository($DIC->database()),
+            new ilCertificateTemplateDatabaseRepository($DIC->database()),
+            $this->irss,
+            $this
+        );
     }
 
     public function getBackgroundImageIdentification(): ?ResourceIdentification
