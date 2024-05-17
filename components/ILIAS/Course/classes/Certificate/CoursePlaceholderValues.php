@@ -18,16 +18,33 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilObjUser;
+use ilLanguage;
+use ilException;
+use ilDatabaseException;
+use ilDateTimeException;
+use ilObjectTranslation;
+use ilCertificateDateHelper;
+use ilLegacyFormElementsUtil;
+use ilCertificateObjectHelper;
+use ilObjectNotFoundException;
+use ilDefaultPlaceholderValues;
+use ilCertificateLPStatusHelper;
+use ilInvalidCertificateException;
+use ilCertificatePlaceholderValues;
+use ilObjectCustomUserFieldsPlaceholderValues;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
+class CoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
     private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private readonly ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
     private readonly ilCertificateObjectHelper $objectHelper;
-    private readonly ilCertificateParticipantsHelper $participantsHelper;
-    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly CertificateParticipantsHelper $participantsHelper;
     private readonly ilCertificateDateHelper $dateHelper;
     private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
@@ -36,8 +53,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
         ?ilLanguage $language = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilCertificateParticipantsHelper $participantsHelper = null,
-        ?ilCertificateUtilHelper $ilUtilHelper = null,
+        ?CertificateParticipantsHelper $participantsHelper = null,
         ?ilCertificateDateHelper $dateHelper = null,
         ?ilCertificateLPStatusHelper $lpStatusHelper = null
     ) {
@@ -61,14 +77,9 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $this->objectHelper = $objectHelper;
 
         if (null === $participantsHelper) {
-            $participantsHelper = new ilCertificateParticipantsHelper();
+            $participantsHelper = new CertificateParticipantsHelper();
         }
         $this->participantsHelper = $participantsHelper;
-
-        if (null === $ilUtilHelper) {
-            $ilUtilHelper = new ilCertificateUtilHelper();
-        }
-        $this->ilUtilHelper = $ilUtilHelper;
 
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
@@ -89,11 +100,11 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      */
     private function hasCompletionDate($possibleDate): bool
     {
-        return (
+        return
             $possibleDate !== false &&
             $possibleDate !== null &&
             $possibleDate !== ''
-        );
+        ;
     }
 
     /**
@@ -139,6 +150,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
             foreach ($languages as $trans) {
                 if ($trans->getLanguageCode() === $lng_code) {
                     $title = $trans->getTitle();
+
                     break;
                 }
             }

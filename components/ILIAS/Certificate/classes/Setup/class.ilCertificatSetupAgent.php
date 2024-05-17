@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Certificate\Setup\Migration\CertificateIdMigration;
-use ILIAS\Refinery;
 use ILIAS\Setup;
+use ILIAS\Refinery;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Certificate\Setup\Migration\CertificateIdMigration;
 
 class ilCertificatSetupAgent implements Setup\Agent
 {
@@ -43,8 +44,11 @@ class ilCertificatSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilCertificateDatabaseUpdateSteps()
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Certificate',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilCertificateDatabaseUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new MigrateCourseCertificateProviderDBUpdateSteps()),
         );
     }
 
@@ -55,7 +59,12 @@ class ilCertificatSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCertificateDatabaseUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Certificate',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCertificateDatabaseUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MigrateCourseCertificateProviderDBUpdateSteps()),
+        );
     }
 
     public function getMigrations(): array

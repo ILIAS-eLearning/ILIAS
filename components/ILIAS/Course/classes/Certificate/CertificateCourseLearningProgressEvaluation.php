@@ -18,10 +18,20 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilSetting;
+use ilLPStatus;
+use ilCertificateTemplate;
+use ilCertificateObjectHelper;
+use ilCertificateLPStatusHelper;
+use ilCertificateTemplateRepository;
+use ilCertificateObjUserTrackingHelper;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCourseLearningProgressEvaluation
+class CertificateCourseLearningProgressEvaluation
 {
     private readonly ilSetting $setting;
     private readonly ilCertificateObjectHelper $objectHelper;
@@ -93,6 +103,7 @@ class ilCertificateCourseLearningProgressEvaluation
 
                     if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                         $completed = false;
+
                         break;
                     }
                 }

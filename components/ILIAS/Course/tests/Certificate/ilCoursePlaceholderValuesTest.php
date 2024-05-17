@@ -18,11 +18,53 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilLanguage;
+use ilObjCourse;
+use ilDBInterface;
+use ILIAS\DI\Container;
+use ilObjectTranslation;
+use ilCertificateDateHelper;
+use ilCertificateUtilHelper;
+use ilCertificateObjectHelper;
+use ilDefaultPlaceholderValues;
+use PHPUnit\Framework\TestCase;
+use ilObjectTranslationLanguage;
+use ilObjectCustomUserFieldsPlaceholderValues;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
+class ilCoursePlaceholderValuesTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
+        parent::setUp();
+    }
+
+    protected function setGlobalVariable(string $name, $value): void
+    {
+        global $DIC;
+
+        $GLOBALS[$name] = $value;
+
+        unset($DIC[$name]);
+        $DIC[$name] = static function (Container $c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
+
     public function testGetPlaceholderValues(): void
     {
         $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
@@ -30,14 +72,14 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValues')
-                                 ->willReturn([]);
+            ->willReturn([]);
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
-             ->disableOriginalConstructor()
-             ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $defaultPlaceholderValues->method('getPlaceholderValues')
-             ->willReturn([]);
+            ->willReturn([]);
 
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -54,25 +96,25 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('Some Title');
 
         $obj_translation = $this->getMockBuilder(ilObjectTranslation::class)
-                                ->disableOriginalConstructor()
-                                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $german = $this->createMock(ilObjectTranslationLanguage::class);
         $german->method('getLanguageCode')
-               ->willReturn('de');
+            ->willReturn('de');
 
         $english = $this->createMock(ilObjectTranslationLanguage::class);
         $english->method('getLanguageCode')
-                ->willReturn('en');
+            ->willReturn('en');
 
         $obj_translation->method('getLanguages')
-                        ->willReturn([
-                            $german,
-                            $english
-                        ]);
+            ->willReturn([
+                $german,
+                $english
+            ]);
 
         $objectMock->method('getObjectTranslation')
-                   ->willReturn($obj_translation);
+            ->willReturn($obj_translation);
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
@@ -80,7 +122,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $participantsHelper = $this->getMockBuilder(ilCertificateParticipantsHelper::class)
+        $participantsHelper = $this->getMockBuilder(CertificateParticipantsHelper::class)
             ->getMock();
 
         $participantsHelper->method('getDateTimeOfPassed')
@@ -103,18 +145,17 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('2018-09-10 10:32:00');
 
         $database = $this->getMockBuilder(ilDBInterface::class)
-                         ->getMock();
+            ->getMock();
 
         $this->setGlobalVariable('ilDB', $database);
         $this->setGlobalVariable('lng', $language);
 
-        $valuesObject = new ilCoursePlaceholderValues(
+        $valuesObject = new CoursePlaceholderValues(
             $customUserFieldsPlaceholderValues,
             $defaultPlaceholderValues,
             $language,
             $objectHelper,
             $participantsHelper,
-            $ilUtilHelper,
             $ilDateHelper,
         );
 
@@ -133,16 +174,16 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
     public function testGetPreviewPlaceholderValues(): void
     {
         $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
-              ->disableOriginalConstructor()
-              ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValuesForPreview')
-             ->willReturn(
-                 [
-                     'SOME_PLACEHOLDER' => 'ANYTHING',
-                     'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
-                 ]
-             );
+            ->willReturn(
+                [
+                    'SOME_PLACEHOLDER' => 'ANYTHING',
+                    'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
+                ]
+            );
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -197,7 +238,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $participantsHelper = $this->getMockBuilder(ilCertificateParticipantsHelper::class)
+        $participantsHelper = $this->getMockBuilder(CertificateParticipantsHelper::class)
             ->getMock();
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
@@ -215,13 +256,12 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $this->setGlobalVariable('ilDB', $database);
         $this->setGlobalVariable('lng', $language);
 
-        $valuesObject = new ilCoursePlaceholderValues(
+        $valuesObject = new CoursePlaceholderValues(
             $customUserFieldsPlaceholderValues,
             $defaultPlaceholderValues,
             $language,
             $objectHelper,
             $participantsHelper,
-            $utilHelper
         );
 
         $placeholderValues = $valuesObject->getPlaceholderValuesForPreview(100, 10);

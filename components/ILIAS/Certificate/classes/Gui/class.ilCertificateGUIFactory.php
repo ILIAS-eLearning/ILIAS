@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Course\Certificate\CoursePlaceholderValues;
+use ILIAS\Course\Certificate\CoursePlaceholderDescription;
+use ILIAS\Course\Certificate\CertificateSettingsCourseFormRepository;
 use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
 use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderDescription;
 use ILIAS\StudyProgramme\Certificate\ilCertificateSettingsStudyProgrammeFormRepository;
@@ -83,10 +86,10 @@ class ilCertificateGUIFactory
 
                 break;
             case 'crs':
-                $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
-                $placeholderValuesObject = new ilCoursePlaceholderValues();
+                $placeholderDescriptionObject = new CoursePlaceholderDescription($objectId);
+                $placeholderValuesObject = new CoursePlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsCourseFormRepository(
+                $formFactory = new CertificateSettingsCourseFormRepository(
                     $object,
                     $certificatePath,
                     false,
