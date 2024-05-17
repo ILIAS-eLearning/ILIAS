@@ -155,7 +155,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             default:
                 if (!$cmd) {
                     $cmd = 'view';
-                    if ($this->object->accessHandler()->mayEditMembers()) {
+                    if ($this->object->accessHandler()->mayViewAnyUser()) {
                         $this->ctrl->setCmdClass('ilIndividualassessmentmembersgui');
                         $cmd = 'members';
                     }
