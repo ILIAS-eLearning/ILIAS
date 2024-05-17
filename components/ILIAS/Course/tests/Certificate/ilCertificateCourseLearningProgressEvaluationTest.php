@@ -18,10 +18,28 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use PDO;
+use ilLogger;
+use ilSetting;
+use ilLPStatus;
+use ilDBInterface;
+use ilDBStatement;
+use ilObjectDataCache;
+use ilCertificateTemplate;
+use ilCertificateObjectHelper;
+use PHPUnit\Framework\TestCase;
+use ilCertificateLPStatusHelper;
+use ilCertificateTemplateRepository;
+use ilCertificateObjUserTrackingHelper;
+use ilCachedCertificateTemplateRepository;
+use ilCertificateTemplateDatabaseRepository;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
+class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
 {
     public function testOnlyOneCourseIsCompletedOnLPChange(): void
     {
@@ -91,6 +109,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 function (int $id) use (&$consecutive_lookup): int {
                     $expected = array_shift($consecutive_lookup);
                     $this->assertEquals($expected, $id);
+
                     return $id * 10;
                 }
             );
@@ -110,6 +129,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 function (int $id) use (&$consecutive_status): int {
                     list($expected, $ret) = array_shift($consecutive_lookup);
                     $this->assertEquals($expected, $id);
+
                     return $ret;
                 }
             );
@@ -118,7 +138,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->getMock();
         $trackingHelper->method('enabledLearningProgress')->willReturn(true);
 
-        $evaluation = new ilCertificateCourseLearningProgressEvaluation(
+        $evaluation = new CertificateCourseLearningProgressEvaluation(
             $templateRepository,
             $setting,
             $objectHelper,
@@ -208,6 +228,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 function (int $id) use (&$consecutive_lookup): int {
                     list($expected, $ret) = array_shift($consecutive_lookup);
                     $this->assertEquals($expected, $id);
+
                     return $ret;
                 }
             );
@@ -228,6 +249,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 function (int $id) use (&$consecutive_status): int {
                     list($expected, $ret) = array_shift($consecutive_lookup);
                     $this->assertEquals($expected, $id);
+
                     return $ret;
                 }
             );
@@ -236,7 +258,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->getMock();
         $trackingHelper->method('enabledLearningProgress')->willReturn(false);
 
-        $evaluation = new ilCertificateCourseLearningProgressEvaluation(
+        $evaluation = new CertificateCourseLearningProgressEvaluation(
             $templateRepository,
             $setting,
             $objectHelper,
@@ -302,6 +324,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 function (string $k) use (&$consecutive_get) {
                     $expected = array_shift($consecutive_get);
                     $this->assertEquals($expected, $k);
+
                     return null;
                 }
             );
@@ -316,7 +339,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             ->getMock();
         $trackingHelper->method('enabledLearningProgress')->willReturn(false);
 
-        $evaluation = new ilCertificateCourseLearningProgressEvaluation(
+        $evaluation = new CertificateCourseLearningProgressEvaluation(
             $templateRepository,
             $setting,
             $objectHelper,

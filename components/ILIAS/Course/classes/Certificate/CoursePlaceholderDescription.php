@@ -18,10 +18,20 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilLanguage;
+use ilTemplate;
+use ilLegacyFormElementsUtil;
+use ilDefaultPlaceholderDescription;
+use ilCertificatePlaceholderDescription;
+use ilUserDefinedFieldsPlaceholderDescription;
+use ilObjectCustomUserFieldsPlaceholderDescription;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescription
+class CoursePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private readonly ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
@@ -75,12 +85,12 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
             $template = new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
         }
 
-        $template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));
+        $template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
-        $template->setCurrentBlock("items");
+        $template->setCurrentBlock('items');
         foreach ($this->placeholder as $id => $caption) {
-            $template->setVariable("ID", $id);
-            $template->setVariable("TXT", $caption);
+            $template->setVariable('ID', $id);
+            $template->setVariable('TXT', $caption);
             $template->parseCurrentBlock();
         }
 
@@ -89,7 +99,7 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 
     /**
      * This method MUST return an array containing an array with
-     * the the description as array value.
+     * the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions(): array

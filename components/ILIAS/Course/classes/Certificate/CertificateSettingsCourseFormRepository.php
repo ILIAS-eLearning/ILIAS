@@ -18,14 +18,38 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
+namespace ILIAS\Course\Certificate;
+
+use ilTree;
+use ilAccess;
+use ilObject;
+use ilSetting;
+use ilLanguage;
+use ilObjectLP;
+use ilException;
+use ilToolbarGUI;
+use ilWACException;
+use ilCtrlInterface;
+use ilLPObjSettings;
+use ilCertificateGUI;
+use ilPropertyFormGUI;
+use ilDatabaseException;
+use ilFormSectionHeaderGUI;
+use ilCertificateObjectHelper;
+use ilCertificateFormRepository;
+use ilCertificateObjectLPHelper;
+use ilRepositorySelector2InputGUI;
+use ilCertificateObjUserTrackingHelper;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
+class CertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
     private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
     private readonly ilTree $tree;
@@ -106,6 +130,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 if (in_array($olp->getCurrentMode(), $invalid_modes, true)) {
                     $mode = '<strong>' . $mode . '</strong>';
                 }
+
                 return $objectHelper->lookupTitle($obj_id) . ' (' . $mode . ')';
             });
 
@@ -140,6 +165,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $this->language->txt('certificate_learning_progress_must_be_active'),
                 implode(', ', $titlesOfObjectsWithInvalidModes)
             );
+
             throw new ilException($message);
         }
 
@@ -163,6 +189,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
             $formFields['subitems'] = [];
         }
+
         return $formFields;
     }
 

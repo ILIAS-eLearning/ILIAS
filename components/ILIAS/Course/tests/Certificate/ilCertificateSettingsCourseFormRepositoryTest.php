@@ -18,10 +18,27 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilTree;
+use ilAccess;
+use ilSetting;
+use ilLanguage;
+use ilObjectLP;
+use ilObjCourse;
+use ilToolbarGUI;
+use ilCtrlInterface;
+use ilCertificateObjectHelper;
+use PHPUnit\Framework\TestCase;
+use ilCertificateObjectLPHelper;
+use ilCertificateObjUserTrackingHelper;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTestCase
+class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
 {
     public function testSaveSettings(): void
     {
@@ -91,7 +108,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->expects($this->atLeastOnce())
             ->method('set');
 
-        $repository = new ilCertificateSettingsCourseFormRepository(
+        $repository = new CertificateSettingsCourseFormRepository(
             $object,
             '/some/where',
             false,
@@ -181,7 +198,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->method('get')
             ->willReturn('[1, 2, 3]');
 
-        $repository = new ilCertificateSettingsCourseFormRepository(
+        $repository = new CertificateSettingsCourseFormRepository(
             $object,
             '/some/where',
             false,

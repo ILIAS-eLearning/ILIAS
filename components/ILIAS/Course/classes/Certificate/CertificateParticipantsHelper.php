@@ -18,10 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Course\Certificate;
+
+use ilCourseParticipants;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateParticipantsHelper
+class CertificateParticipantsHelper
 {
     public function getDateTimeOfPassed(int $objectId, int $userId): string
     {
