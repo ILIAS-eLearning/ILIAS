@@ -170,6 +170,7 @@ class ilObjBookingPool extends ilObject
         $ilDB = $this->db;
 
         $id = $this->getId();
+        $ref_ids = $this::_getAllReferences($id);
 
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -198,6 +199,11 @@ class ilObjBookingPool extends ilObject
 
         $ilDB->manipulate('DELETE FROM booking_object' .
             ' WHERE pool_id = ' . $ilDB->quote($id, 'integer'));
+
+        foreach ($ref_ids as $ref_id) {
+            $ilDB->manipulate('DELETE FROM book_obj_use_book' .
+                ' WHERE book_ref_id = ' . $ilDB->quote($ref_id, 'integer'));
+        }
 
         return true;
     }
