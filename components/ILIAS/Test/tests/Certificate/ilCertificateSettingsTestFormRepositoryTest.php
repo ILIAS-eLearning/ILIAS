@@ -18,10 +18,22 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilAccess;
+use ilLanguage;
+use ilToolbarGUI;
+use ilCtrlInterface;
+use ilCertificateGUI;
+use ilPropertyFormGUI;
+use PHPUnit\Framework\TestCase;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestCase
+class ilCertificateSettingsTestFormRepositoryTest extends TestCase
 {
     public function testCreate(): void
     {

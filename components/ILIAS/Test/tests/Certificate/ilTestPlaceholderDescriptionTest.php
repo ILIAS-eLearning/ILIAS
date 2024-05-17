@@ -18,10 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Certificate;
+
+use ilLanguage;
+use ilTemplate;
+use PHPUnit\Framework\TestCase;
+use ilUserDefinedFieldsPlaceholderDescription;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
+class ilTestPlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
@@ -42,12 +49,16 @@ class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
-            ->willReturn("Something");
+            ->willReturn('Something');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ilTestPlaceholderDescription(
+            null,
+            $languageMock,
+            $userDefinePlaceholderMock
+        );
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -70,12 +81,16 @@ class ilTestPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
-            ->willReturn("Something");
+            ->willReturn('Something');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilTestPlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ilTestPlaceholderDescription(
+            null,
+            $languageMock,
+            $userDefinePlaceholderMock
+        );
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 

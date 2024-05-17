@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Test\Certificate\ilTestPlaceholderValues;
+use ILIAS\Test\Certificate\ilTestPlaceholderDescription;
+use ILIAS\Course\Certificate\ilCertificateTestTemplateDeleteAction;
+use ILIAS\Test\Certificate\ilCertificateSettingsTestFormRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -121,6 +125,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'lti':
                 $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
@@ -136,6 +141,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'cmix':
                 $placeholderDescriptionObject = new ilCmiXapiPlaceholderDescription();
@@ -151,6 +157,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'prg':
                 $placeholderDescriptionObject = new ilStudyProgrammePlaceholderDescription();
@@ -165,6 +172,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

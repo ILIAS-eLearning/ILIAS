@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Test\Certificate\ilCertificateTestObjectHelper;
+
 /**
  * Class ilCmiXapiPlaceholderValues
  *
