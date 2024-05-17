@@ -64,7 +64,7 @@ class assErrorTextImport extends assQuestionImport
         $this->object->setErrorText($item->getMetadataEntry("errortext"));
         $parsed_error_text = $item->getMetadataEntry("parsederrortext");
         if ($parsed_error_text !== null) {
-            $this->object->setParsedErrorText(unserialize($parsed_error_text));
+            $this->object->setParsedErrorText(unserialize($parsed_error_text, ['allowed_classes' => false]));
         }
         $this->object->setTextSize($item->getMetadataEntry("textsize"));
         $errordata = unserialize($item->getMetadataEntry("errordata"), ["allowed_classes" => false]);
