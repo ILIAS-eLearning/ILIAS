@@ -2147,7 +2147,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // list item is session material (not part of "_all"-items - see below)
         $event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
         if (in_array($child_ref_id, $event_items)) {
-            foreach ($this->object->items["sess"] as $id) {
+            foreach (($this->object->items["sess"] ?? []) as $id) {
                 $items = ilObjectActivation::getItemsByEvent($id['obj_id']);
                 foreach ($items as $event_item) {
                     if ($event_item["child"] == $child_ref_id) {
