@@ -581,12 +581,12 @@ class ilExerciseManagementGUI
 
         foreach ($this->requested_learning_comments as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setComment(ilUtil::stripSlashes($v));
+            $marks_obj->setComment($v);
             $marks_obj->update();
         }
         foreach ($this->requested_marks as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setMark(ilUtil::stripSlashes($v));
+            $marks_obj->setMark($v);
             $marks_obj->update();
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_saved_grades"), true);
