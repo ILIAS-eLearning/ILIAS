@@ -908,15 +908,7 @@ il.COPagePres = {
       });
     }
   },
-
-  accordionRerender(acc_el) {
-    $(acc_el).find('video.ilPageVideo,audio.ilPageAudio').each((i, el) => {
-      if (el.player) el.player.remove();
-    });
-
-    il.COPagePres.initAudioVideo(acc_el);
-  },
-
+  
   setFullscreenModalShowSignal(signal, suffix) {
     il.COPagePres.fullscreen_signal = signal;
     il.COPagePres.fullscreen_suffix = suffix;

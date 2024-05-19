@@ -480,12 +480,11 @@ il.Accordion = {
 			ilMapRerender(acc_el);
 		}
 
-		// rerender copage content
-		if (il && il.COPagePres) {
-			il.COPagePres.accordionRerender(acc_el);
-		}
-
-
+		// see https://mantis.ilias.de/view.php?id=25301
+		// see https://mantis.ilias.de/view.php?id=34329
+		// previously we removed/re-added the player
+		// in ilCOPagePres which led to #34329
+		window.dispatchEvent(new Event('resize'));
 	}
 
 };
