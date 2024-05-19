@@ -45,6 +45,8 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\Repository\HTML\HTMLUtil $html_util;
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\HTTP\Services $http;
 
     protected ilCtrl $ctrl;
@@ -144,6 +146,8 @@ class ilExerciseManagementGUI
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
         $this->http = $DIC->http();
         $this->ctrl->saveParameter($this, array("part_id"));
+        $this->gui = $DIC->exercise()->internal()->gui();
+        $this->html_util = $this->gui->html();
     }
 
     /**
@@ -519,12 +523,12 @@ class ilExerciseManagementGUI
 
         foreach ($this->requested_learning_comments as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setComment(ilUtil::stripSlashes($v));
+            $marks_obj->setComment($this->html_util->strip($v));
             $marks_obj->update();
         }
         foreach ($this->requested_marks as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setMark(ilUtil::stripSlashes($v));
+            $marks_obj->setMark($this->html_util->strip($v));
             $marks_obj->update();
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_saved_grades"), true);

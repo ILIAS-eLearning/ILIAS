@@ -42,6 +42,12 @@ class InternalDomainService
         );
     }
 
+    public function refinery():\ILIAS\Refinery\Factory
+    {
+        global $DIC;
+        return $DIC->refinery();
+    }
+
     public function assignment(): Assignment\DomainService
     {
         return $this->assignment_service;

@@ -25,6 +25,7 @@ use ILIAS\HTTP;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen;
 use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\HTML\HTMLUtil;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -56,6 +57,11 @@ trait GlobalDICGUIServices
     public function http(): HTTP\Services
     {
         return $this->DIC->http();
+    }
+
+    public function html(): HTMLUtil
+    {
+        return new HTMLUtil();
     }
 
     public function mainTemplate(): \ilGlobalTemplateInterface
