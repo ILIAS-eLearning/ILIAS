@@ -313,6 +313,24 @@ class ilLMContentRendererGUI
         return $page_gui;
     }
 
+    public function handleCodeParagraph(
+        int $page_id,
+        int $paragraph_id,
+        string $title,
+        string $text
+    ): void {
+        $directory = $this->parent_gui->getOfflineDirectory() . "/codefiles/" . $page_id . "/" . $paragraph_id;
+        ilFileUtils::makeDirParents($directory);
+        $file = $directory . "/" . $title;
+        if (!($fp = fopen($file, "w+"))) {
+            die("<b>Error</b>: Could not open \"" . $file . "\" for writing" .
+                " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />");
+        }
+        chmod($file, 0770);
+        fwrite($fp, $text);
+        fclose($fp);
+    }
+
     protected function renderFocusMessage(): string
     {
         $focus_mess = "";
