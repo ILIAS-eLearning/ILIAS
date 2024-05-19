@@ -92,6 +92,16 @@ trait BaseGUIRequest
         return (array) ($this->get($key, $t) ?? []);
     }
 
+    protected function strip(string $input) : string
+    {
+        // see https://www.ilias.de/mantis/view.php?id=19727
+        $str = \ilUtil::stripSlashes($input);
+        if ($str !== $input) {
+            $str = \ilUtil::stripSlashes(str_replace("<", "< ", $input));
+        }
+        return $str;
+    }
+
     // get string parameter kindly
     protected function str(string $key): string
     {
@@ -99,7 +109,7 @@ trait BaseGUIRequest
             return "";
         }
         $t = $this->refinery->kindlyTo()->string();
-        return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
+        return $this->strip((string) ($this->get($key, $t) ?? ""));
     }
 
     // get string array kindly
@@ -113,11 +123,11 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
-                        static function ($k, $v): array {
+                        function ($k, $v): array {
                             if (is_array($v)) {
                                 $v = "";
                             }
-                            return [$k, \ilUtil::stripSlashes((string) $v)];
+                            return [$k, $this->strip((string) $v)];
                         },
                         array_keys($arr),
                         $arr
