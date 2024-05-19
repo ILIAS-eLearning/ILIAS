@@ -1536,7 +1536,6 @@ s     */
                 $mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true);
             }
         }
-        //var_dump($mobs_xml);
         return $mobs_xml;
     }
 
