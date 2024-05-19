@@ -851,14 +851,6 @@ il.COPagePres =
 		}
 	},
 
-	accordionRerender: function (acc_el) {
-		$(acc_el).find('video.ilPageVideo,audio.ilPageAudio').each(function(i, el) {
-			if (el.player) el.player.remove();
-		});
-
-		il.COPagePres.initAudioVideo(acc_el);
-	},
-
 	setFullscreenModalShowSignal: function (signal, suffix) {
 		il.COPagePres.fullscreen_signal = signal;
 		il.COPagePres.fullscreen_suffix = suffix
