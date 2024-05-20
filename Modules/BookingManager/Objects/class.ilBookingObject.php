@@ -22,6 +22,7 @@
  */
 class ilBookingObject
 {
+    protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilDBInterface $db;
     protected int $id = 0;
     protected int $pool_id = 0;
@@ -41,6 +42,7 @@ class ilBookingObject
         $this->db = $DIC->database();
         $this->id = (int) $a_id;
         $this->read();
+        $this->repo = $DIC->bookingManager()->internal()->repo();
     }
 
     public function getId(): int
@@ -412,8 +414,7 @@ class ilBookingObject
 
     public function deleteReservationsAndCalEntries(int $object_id): void
     {
-        $repo_fac = new ilBookingReservationDBRepositoryFactory();
-        $reservation_db = $repo_fac->getRepo();
+        $reservation_db = $this->repo->reservation();
         $reservation_ids = $reservation_db->getReservationIdsByBookingObjectId($object_id);
 
         foreach ($reservation_ids as $reservation_id) {
