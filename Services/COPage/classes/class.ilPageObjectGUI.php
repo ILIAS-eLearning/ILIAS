@@ -818,7 +818,7 @@ class ilPageObjectGUI
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                $this->tabs_gui->activateTab("meta_data");
+                $this->setBackToEditTabs();
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
                     $md_gui->addMDObserver(
