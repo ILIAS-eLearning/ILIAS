@@ -494,7 +494,7 @@ class ilWorkspaceAccessHandler
 
     public static function getSharedSessionPassword(int $a_node_id): string
     {
-        return ilSession::get("ilshpw_" . $a_node_id);
+        return (string) ilSession::get("ilshpw_" . $a_node_id);
     }
 
     public static function getGotoLink(int $a_node_id, int $a_obj_id, string $a_additional = ""): string
