@@ -480,11 +480,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public function saveContentSelection(ilLTIConsumeProvider $provider, string $token): void
     {
-        //ToDo: fetch with file_get_contents ok? needs caching?
-        $jwks = file_get_contents($provider->getPublicKeyset());
-        //ToDo: Errorhandling
-        $keyset = json_decode($jwks, true);
-        $keys = Firebase\JWT\JWK::parseKeySet($keyset);
+        if ($provider->getKeyType() == 'RSA_KEY') {
+            $key = $provider->getPublicKey();
+            $keys = new Firebase\JWT\Key($key, "RS256");
+        } else {
+            $jwks = file_get_contents($provider->getPublicKeyset());
+            //ToDo: Errorhandling
+            $keyset = json_decode($jwks, true);
+            $keys = Firebase\JWT\JWK::parseKeySet($keyset);
+        }
         $data = Firebase\JWT\JWT::decode($token, $keys);
         //ilObjLTIConsumer::getLogger()->debug(var_export($data,TRUE));
         $refId = $this->getRequestValue('ref_id');
