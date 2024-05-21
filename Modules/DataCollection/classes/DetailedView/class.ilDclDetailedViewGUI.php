@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -218,14 +219,14 @@ class ilDclDetailedViewGUI
 
             $html = str_ireplace(
                 "[" . $field->getTitle() . "]",
-                $this->record_obj->getRecordFieldSingleHTML($field->getId()),
+                $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),
                 $html
             );
         }
         foreach ($table->getStandardFields() as $field) {
             $html = str_ireplace(
                 "[" . $field->getId() . "]",
-                $this->record_obj->getRecordFieldSingleHTML($field->getId()),
+                $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),
                 $html
             );
         }
