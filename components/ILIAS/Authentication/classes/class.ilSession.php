@@ -217,9 +217,8 @@ class ilSession
         }
 
         if (!$DIC->cron()->manager()->isJobActive('auth_destroy_expired_sessions')) {
-            // finally delete deprecated sessions
-            $random = new ilRandom();
-            if ($random->int(0, 50) === 2) {
+            $r = new \Random\Randomizer();
+            if ($r->getInt(0, 50) === 2) {
                 // get time _before_ destroying expired sessions
                 self::_destroyExpiredSessions();
                 ilSessionStatistics::aggretateRaw($now);
