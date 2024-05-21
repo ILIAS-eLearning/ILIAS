@@ -953,7 +953,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         $parts = array();
                         foreach ($answers as $answer) {
                             $text = null;
-                            if ($answer["textanswer"]) {
+                            if ($answer["textanswer"] ?? false) {
                                 $text = ' ("' . $answer["textanswer"] . '")';
                             }
                             if (!isset($answer["cols"])) {
