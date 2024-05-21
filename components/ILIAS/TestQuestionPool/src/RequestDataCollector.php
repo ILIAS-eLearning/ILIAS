@@ -199,7 +199,7 @@ class RequestDataCollector
         );
     }
 
-    public function getStringAnswer(string $key): ?string
+    public function retrieveStringValueFromPost(string $key): ?string
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;
@@ -220,7 +220,24 @@ class RequestDataCollector
         );
     }
 
-    public function getNumericAnswer(string $key): ?float
+    public function retrieveIntValueFromPost(string $key): ?int
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->byTrying([
+                $r->kindlyTo()->int(),
+                $r->always(null)
+            ])
+        );
+    }
+
+    public function retrieveFloatValueFromPost(string $key): ?float
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;

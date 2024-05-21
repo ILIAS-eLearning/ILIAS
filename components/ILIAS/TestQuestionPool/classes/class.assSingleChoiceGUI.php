@@ -619,7 +619,15 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
-        $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
+        $choice = $this->cleanupAnswerText(
+            $this->request->raw('choice') ?? [],
+            $this->object->isSingleline() === false
+        );
+
+        if ($choice === []) {
+            return;
+        }
+
         if (!$this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
@@ -786,7 +794,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 break;
 
             case 2:
-                if (strcmp((string)$user_solution, $answer_id) == 0) {
+                if (strcmp((string) $user_solution, $answer_id) == 0) {
                     $feedbackOutputRequired = true;
                 }
                 break;

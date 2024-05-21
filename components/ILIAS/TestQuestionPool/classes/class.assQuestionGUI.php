@@ -1036,7 +1036,7 @@ abstract class assQuestionGUI
         }
 
         $ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
-        $ni->setValue($nr_tries);
+        $ni->setValue((string) $nr_tries);
         $ni->setMinValue(0);
         $ni->setSize(5);
         $ni->setMaxLength(5);
@@ -1745,20 +1745,27 @@ abstract class assQuestionGUI
 
     protected function writeQuestionGenericPostData(): void
     {
-        $this->object->setTitle($_POST["title"]);
-        $this->object->setAuthor($_POST["author"]);
-        $this->object->setComment($_POST["comment"] ?? '');
-        if ($this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setNrOfTries((int) ($_POST['nr_of_tries'] ?? 0));
+        $this->object->setTitle($this->request->retrieveStringValueFromPost('title') ?? '');
+        $this->object->setAuthor($this->request->retrieveStringValueFromPost('author') ?? '');
+        $this->object->setComment($this->request->retrieveStringValueFromPost('comment') ?? '');
+        if ($this->object->getSelfAssessmentEditingMode()
+            && (($nr_of_tries = $this->request->retrieveIntValueFromPost('nr_of_tries')) !== null)) {
+            $this->object->setNrOfTries($nr_of_tries);
         }
 
         try {
-            $lifecycle = ilAssQuestionLifecycle::getInstance($_POST['lifecycle']);
+            $lifecycle = ilAssQuestionLifecycle::getInstance(
+                $this->request->retrieveStringValueFromPost('lifecycle')
+            );
             $this->object->setLifecycle($lifecycle);
         } catch (ilTestQuestionPoolInvalidArgumentException $e) {
         }
 
-        $this->object->setQuestion(ilUtil::stripOnlySlashes($_POST['question']));
+        $this->object->setQuestion(
+            ilUtil::stripOnlySlashes(
+                $this->request->retrieveStringValueFromPost('question') ?? ''
+            )
+        );
 
         $this->setTestSpecificProperties();
     }
