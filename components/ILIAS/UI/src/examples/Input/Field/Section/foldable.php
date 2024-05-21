@@ -89,8 +89,11 @@ function foldable()
     );
     $group2 = $ui->input()->field()->group(
         [
-            $ui->input()->field()->multiselect("now, pick more", $options, "This is the byline text")
+            $ui->input()->field()->multiselect("now, pick more", $options, "This is the byline of multi text")
                 ->withValue([2,3]),
+            $ui->input()->field()->select("now, select one more", $options, "This is the byline of select")
+                ->withValue(2),
+
             $ui->input()->field()->radio("now, pick just one more", "byline for radio (pick one more)")
                 ->withOption('single1', 'Single 1')
                 ->withOption('single2', 'Single 2')
@@ -126,7 +129,7 @@ function foldable()
             'click',
             (event) => console.log(
                 il.UI.Input.Container.get(event.srcElement.parentNode.querySelector('form').id)
-                .getAllNodesStruct()
+                .getNodes()
             )
         );"
     );
@@ -134,18 +137,18 @@ function foldable()
         fn($id) => "document.querySelector('#{$id}').addEventListener(
             'click',
             (event) => {
-                let form = event.srcElement.parentNode.querySelector('form');
-                let section = form.querySelectorAll('[data-il-ui-type=\"SectionFieldInput\"]')[1];
-                let valArea = section.querySelector('.il-section-input-values');
-                Array.from(
-                    section.querySelectorAll('[data-il-ui-type=\"SectionFieldInput\"] > .form-group.row')
-                ).forEach(
-                    (row) => row.style.display = 'flex'
-                )
-                section.querySelector('[data-il-ui-type=\"SectionFieldInput\"] > .il-section-input-header > .il-section-input-header-byline')
-                    .style.display = 'flex'
+                const form = event.srcElement.parentNode.querySelector('form');
+                const nodes =  il.UI.Input.Container.get(form.id);
+                const formparts = nodes.getNodes().getChildren();
 
-                valArea.innerHTML = '';
+                formparts.forEach((part) => {
+                    const partArea = form.querySelector('[data-il-ui-name=\"' + part.getFullName() +'\"]');
+                    const fieldArea = partArea.querySelector(':scope > div.c-input__field');
+                    const valArea = partArea.querySelector(':scope > div.c-input__value_representation');
+
+                    fieldArea.style.display = 'block';
+                    valArea.innerHTML = '';
+                });
             }
         );"
     );
@@ -154,38 +157,32 @@ function foldable()
         fn($id) => "document.querySelector('#{$id}').addEventListener(
             'click',
             (event) => {
-                let form = event.srcElement.parentNode.querySelector('form');
-                let section = form.querySelectorAll('[data-il-ui-type=\"SectionFieldInput\"]')[1];
-                let valArea = section.querySelector('.il-section-input-values');
-                
-                let nodes =  il.UI.Input.Container.get(form.id);
-                let sectionNode = nodes.getNodeById(section.id);
+                const form = event.srcElement.parentNode.querySelector('form');
+                const nodes =  il.UI.Input.Container.get(form.id);
+                const formparts = nodes.getNodes().getChildren();
 
-                let txt = '';
-                const values = nodes.getValuesRepresentation(sectionNode);
-                values.shift();
-                values.forEach(
-                    (v) => {
+                formparts.forEach((part) => {
+                    const values = nodes.getValuesRepresentation(part);
+                    let txt = '';
+                    values.forEach((v) => {
                         const {label, value, indent, type} = v;
                         txt = txt 
-                            + ' - '.repeat(indent -1)
+                            + '&nbsp;&nbsp;'.repeat(indent + 1)
                             + label + ': '
                             + '<b>' + value + '</b>'
-                            + ' (' + type + ')'
+                            + '<small>(' + type + ')</small>'
                             + '<br/>';
-                    }
-                );
+                    });
+                   
+                    const partArea = form.querySelector('[data-il-ui-name=\"' + part.getFullName() +'\"]');
+                    const fieldArea = partArea.querySelector(':scope > div.c-input__field');
+                    const valArea = partArea.querySelector(':scope > div.c-input__value_representation');
+                    
+                    fieldArea.style.display = 'none';
+                    valArea.style.fontSize = '80%';
+                    valArea.innerHTML = txt;
+                });
 
-                 Array.from(
-                    section.querySelectorAll('[data-il-ui-type=\"SectionFieldInput\"] > .form-group.row')
-                ).forEach(
-                    (row) => row.style.display = 'none'
-                )
-                section.querySelector('[data-il-ui-type=\"SectionFieldInput\"] > .il-section-input-header > .il-section-input-header-byline')
-                    .style.display = 'none'
-
-                valArea.innerHTML = txt;
-                valArea.style.fontSize = '80%';
             }
         );"
     );

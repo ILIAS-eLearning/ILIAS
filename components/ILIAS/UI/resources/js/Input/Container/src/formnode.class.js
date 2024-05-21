@@ -17,17 +17,17 @@ export default class FormNode {
   /**
    * @type {string}
    */
-  #label;
-
-  /**
-   * @type {string}
-   */
   #type;
 
   /**
    * @type {string}
    */
-  #id;
+  #name;
+
+  /**
+   * @type {string}
+   */
+  #label;
 
   /**
    * @type {FormNode[]}
@@ -42,14 +42,15 @@ export default class FormNode {
   #transforms;
 
   /**
-   * @param {string} name
    * @param {string} type
+   * @param {string} name
+   * @param {string} label
    * @return {void}
    */
-  constructor(label, type, id) {
-    this.#label = label;
+  constructor(type, name, label) {
     this.#type = type;
-    this.#id = id;
+    this.#name = name;
+    this.#label = label;
 
     this.#children = [];
     this.#htmlFields = [];
@@ -58,8 +59,15 @@ export default class FormNode {
   /**
    * @return {string}
    */
-  getId() {
-    return this.#id;
+  getName() {
+    return this.#name.split('/').pop();
+  }
+
+  /**
+   * @return {string}
+   */
+  getFullName() {
+    return this.#name;
   }
 
   /**
@@ -89,6 +97,21 @@ export default class FormNode {
    */
   getAllChildren() {
     return this.#children;
+  }
+
+  /**
+   * @param {string} name
+   * @return {FormNode|null}
+   */
+  getChildByName(name) {
+    const filtered = Array.from(this.#children)
+      .filter(
+        (child) => child.getName() === name,
+      );
+    if (filtered.length === 0) {
+      return null;
+    }
+    return filtered.shift();
   }
 
   /**

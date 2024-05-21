@@ -16,23 +16,33 @@
 import FormNode from './formnode.class.js';
 
 /**
- * The attribute marks a DOM node as UIForm node and gives the type of
+ * The attribute marks a DOM node as UIForm node and gives the type of the
  * Component yielding this node.
  * @type {string}
  */
-const FORMNODE_ATTRIBUTE = 'data-il-ui-type';
-const SEARCH_FORMNODE = '[data-il-ui-type]';
+const FIELD_ATTRIBUTE_TYPE = 'data-il-ui-type';
+
+/**
+ * The attribute marks a DOM node as UIForm node and gives the name of the
+ * Node as provided by the Namesource
+ * @type {string}
+ */
+const FIELD_ATTRIBUTE_NAME = 'data-il-ui-name';
 
 /**
  * @type {string}
  */
-const SEARCH_FIELD = '[name]';
+const SEARCH_FIELD = `fieldset[${FIELD_ATTRIBUTE_TYPE}][ ${FIELD_ATTRIBUTE_NAME}]`;
 
 /**
- * Nodes of these types will not show up as level in the value's representation
- * @type {Array<string>}
+ * @type {string}
  */
-const TRANSPARENT_NODES = ['DependantFields'];
+const FIELD_INPUT_AREA = '.c-input__field';
+
+/**
+ * @type {string}
+ */
+const SEARCH_INPUT = '[name]';
 
 export default class Container {
 /**
@@ -69,75 +79,55 @@ export default class Container {
     this.#container = container;
     this.#nodes = new FormNode('form', 'FormContainerInput', container.getAttribute('id'));
 
-    const ilTopInputDomElements = Array.from(
-      container.querySelectorAll(SEARCH_FORMNODE),
-    ).filter((element) => !element.parentNode.closest(SEARCH_FORMNODE));
-
-    ilTopInputDomElements.forEach(
-      (topInputDomElement) => this.#register(topInputDomElement, this.#nodes),
-    );
+    Array.from(container.querySelectorAll(SEARCH_FIELD))
+      .filter((domFieldNode) => domFieldNode.parentNode === domFieldNode.closest('form'))
+      .forEach((domFieldNode) => this.#register(this.#nodes, domFieldNode));
   }
 
   /**
-   * @param {HTMLElement} outerDomNode
-   * @param {FormNode} node
+   * @param {FormNode} pointer
+   * @param {HTMLElement} domFieldNode
    * @return {void}
    */
-  #register(outerDomNode, node) {
-    const label = this.#getLabel(outerDomNode);
-    const type = outerDomNode.getAttribute(FORMNODE_ATTRIBUTE);
-    const nuNode = new FormNode(
-      label,
-      type,
-      outerDomNode.getAttribute('id'),
-    );
-    nuNode.setTransforms(this.#getTransformsFor(type));
+  #register(current, domFieldNode) {
+    const node = this.#buildNode(domFieldNode);
+    current.addChildNode(node);
 
-    const inputFields = this.#getInputFields(outerDomNode);
-    inputFields.forEach(
-      (field) => nuNode.addHtmlField(field),
-    );
-
-    const ilUIFormNodes = this.#getIlUIFormNodes(outerDomNode);
-    ilUIFormNodes.forEach(
-      (domNode) => this.#register(domNode, nuNode),
-    );
-    node.addChildNode(nuNode);
-  }
-
-  /**
-   * @param {HTMLElement} outerDomNode
-   * @return {HTMLElement[]}
-   */
-  #getIlUIFormNodes(outerDomNode) {
-    return Array.from(
-      outerDomNode.querySelectorAll(SEARCH_FORMNODE),
-    ).filter((element) => element.parentNode.closest(SEARCH_FORMNODE) === outerDomNode);
-  }
-
-  /**
-   * @param {HTMLElement} outerDomNode
-   * @return {HTMLElement[]}
-   */
-  #getInputFields(outerDomNode) {
-    return Array.from(
-      outerDomNode.querySelectorAll(SEARCH_FIELD),
-    ).filter((element) => element.parentNode.closest(SEARCH_FORMNODE) === outerDomNode);
-  }
-
-  /**
-   * @param {HTMLElement} outerDomNode
-   * @return {string}
-   */
-  #getLabel(outerDomNode) {
-    let label = '';
-    const labelNode = Array.from(
-      outerDomNode.querySelectorAll('label'),
-    ).filter((element) => element.parentNode.closest(SEARCH_FORMNODE) === outerDomNode);
-    if (labelNode.length > 0) {
-      label = labelNode[0].textContent;
+    const furtherChildren = Array.from(domFieldNode.querySelectorAll(`${FIELD_INPUT_AREA} ${SEARCH_FIELD}`))
+      .filter(
+        (childNode) => childNode.closest(FIELD_INPUT_AREA) === domFieldNode.querySelector(FIELD_INPUT_AREA),
+      );
+    if (furtherChildren.length > 0) {
+      furtherChildren.forEach((domChildFieldNode) => this.#register(node, domChildFieldNode));
     }
-    return label;
+  }
+
+  #buildNode(domFieldNode) {
+    const type = domFieldNode.getAttribute(FIELD_ATTRIBUTE_TYPE);
+    const name = domFieldNode.getAttribute(FIELD_ATTRIBUTE_NAME);
+    const label = domFieldNode.querySelector('legend > label').innerText.trim();
+
+    const node = new FormNode(type, name, label);
+    node.setTransforms(this.#getTransformsFor(type));
+
+    Array.from(domFieldNode.querySelectorAll(SEARCH_INPUT))
+      .filter(
+        (input) => input.closest(SEARCH_FIELD) === domFieldNode,
+      )
+      .forEach((input) => node.addHtmlField(input));
+
+    return node;
+  }
+
+  /**
+   * @param {string} type
+   * @return {valueRepresentation}
+   */
+  #getTransformsFor(type) {
+    if (this.#transforms[type]) {
+      return this.#transforms[type];
+    }
+    return null;
   }
 
   /**
@@ -148,50 +138,26 @@ export default class Container {
   }
 
   /**
-   * @param {?FormNode} initNode
-   * @param {?FormNode[]} initOut
-   * @return {FormNode[]}
-   */
-  getNodesFlat(initNode, initOut) {
-    let out = initOut;
-    let node = initNode;
-    if (!out) {
-      out = [];
-      node = this.#nodes;
-    }
-
-    out.push(node);
-    const children = node.getChildren();
-    if (children.length > 0) {
-      children.forEach(
-        (child) => this.getNodesFlat(child, out),
-      );
-    }
-    return out;
-  }
-
-  /**
-   * @param {string} id
+   * @param {string} name
    * @param {?FormNode} initEntry
    * @return {FormNode}
    */
-  getNodeById(id, initEntry) {
+  getNodeByName(name, initEntry) {
     let entry = initEntry;
     if (!entry) {
       entry = this.#nodes;
     }
 
-    if (entry.getId() === id) {
-      return entry;
-    }
-
-    let ret = null;
-    entry.getChildren().forEach(
-      (child) => {
-        ret = this.getNodeById(id, child);
+    const parts = name.split('/').slice(1);
+    parts.forEach(
+      (part) => {
+        entry = entry.getChildByName(part);
+        if (!entry) {
+          return null;
+        }
       },
     );
-    return ret;
+    return entry;
   }
 
   /**
@@ -215,17 +181,13 @@ export default class Container {
       out = [];
     }
 
-    if (TRANSPARENT_NODES.includes(node.getType())) {
-      indent -= 1;
-    } else {
-      const entry = {
-        label: node.getLabel(),
-        value: node.getValuesRepresentation(),
-        indent,
-        type: node.getType(),
-      };
-      out.push(entry);
-    }
+    const entry = {
+      label: node.getLabel(),
+      value: node.getValuesRepresentation(),
+      indent,
+      type: node.getType(),
+    };
+    out.push(entry);
 
     node.getChildren().forEach(
       (child) => this.getValuesRepresentation(child, indent + 1, out),
@@ -234,14 +196,25 @@ export default class Container {
   }
 
   /**
-   * @param {string} type
-   * @return {valueRepresentation}
+   * @param {?FormNode} initNode
+   * @param {?FormNode[]} initOut
+   * @return {FormNode[]}
    */
-  #getTransformsFor(type) {
-    if (this.#transforms[type]) {
-      console.log(`transforms found for ${type}`);
-      return this.#transforms[type];
+  getNodesFlat(initNode, initOut) {
+    let out = initOut;
+    let node = initNode;
+    if (!out) {
+      out = [];
+      node = this.#nodes;
     }
-    return null;
+
+    out.push(node);
+    const children = node.getChildren();
+    if (children.length > 0) {
+      children.forEach(
+        (child) => this.getNodesFlat(child, out),
+      );
+    }
+    return out;
   }
 }

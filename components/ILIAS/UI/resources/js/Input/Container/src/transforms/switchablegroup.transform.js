@@ -33,15 +33,8 @@ export default class SwitchableGroupTransforms {
    * @return {Array}
    */
   childrenTransform(node) {
-    const children = [];
-    const nodes = node.getAllChildren();
-    node.getHtmlFields().forEach(
-      (field, index) => {
-        if (field.checked) {
-          children.push(nodes[index]);
-        }
-      },
+    return node.getAllChildren().filter(
+      (child) => child.getHtmlFields()[0].checked,
     );
-    return children;
   }
 }

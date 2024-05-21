@@ -22,6 +22,7 @@ import PasswordTransforms from './transforms/password.transform';
 import DurationTransforms from './transforms/duration.transform';
 import LinkTransforms from './transforms/link.transform';
 import SelectTransforms from './transforms/select.transform';
+import MultiSelectTransforms from './transforms/multiselect.transform';
 
 import filter from './filter.main';
 import ContainerFactory from './container.factory';
@@ -30,7 +31,7 @@ const transforms = {};
 transforms.SwitchableGroupFieldInput = new SwitchableGroupTransforms();
 transforms.OptionalGroupFieldInput = new OptionalGroupTransforms();
 transforms.RadioFieldInput = new RadioTransforms();
-transforms.MultiSelectFieldInput = new RadioTransforms();
+transforms.MultiSelectFieldInput = new MultiSelectTransforms();
 transforms.PasswordFieldInput = new PasswordTransforms();
 transforms.DurationFieldInput = new DurationTransforms();
 transforms.LinkFieldInput = new LinkTransforms();

@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-export default class RadioTransforms {
+export default class MultiSelectTransforms {
   /**
    * @param {FormNode} node
    * @return {Array}
@@ -25,7 +25,7 @@ export default class RadioTransforms {
     }
     const representation = [];
     checked.forEach(
-      (field) => representation.push(field.nextElementSibling.textContent),
+      (field) => representation.push(field.parentNode.textContent),
     );
     return representation;
   }
