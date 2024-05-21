@@ -154,7 +154,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
         // additional content editor
         // assessment
-        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
             $option_rte = new ilRadioOption(
@@ -275,7 +275,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
                 // feedback editing mode
                 $add_quest_cont_edit_mode = $this->request->getString("add_quest_cont_edit_mode");
-                if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()
+                if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()
                     && $add_quest_cont_edit_mode != "") {
                     $addContEditMode = $add_quest_cont_edit_mode;
                 } else {
