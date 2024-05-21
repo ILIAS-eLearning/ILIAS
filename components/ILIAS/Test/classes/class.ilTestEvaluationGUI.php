@@ -936,12 +936,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->parseCurrentBlock();
         }
 
-        $title = sprintf(
-            $this->lng->txt("tst_result_user_name_pass"),
-            $pass + 1,
-            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-        );
-
         $pass_results = $this->results_factory->getPassResultsFor(
             $this->object,
             $active_id,
@@ -951,7 +945,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $title
+            $this->buildResultsTitle($pass)
         );
 
         $this->setCss();
@@ -997,18 +991,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $anchors = [];
 
         foreach($show_user_results as $selected_user) {
-            $active_id = (int)$selected_user;
+            $active_id = (int) $selected_user;
             $pass = ilObjTest::_getResultPass($active_id);
 
             $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
             $this->populateExamId($template, $active_id, (int) $pass);
             $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
-
-            $title = sprintf(
-                $this->lng->txt("tst_result_user_name_pass"),
-                $pass + 1,
-                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-            );
 
             $pass_results = $this->results_factory->getPassResultsFor(
                 $this->object,
@@ -1019,7 +1007,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $table = $this->results_presentation_factory->getPassResultsPresentationTable(
                 $pass_results,
-                $title
+                $this->buildResultsTitle($pass)
             );
 
             $anchor = '<a name="participant_active_' . $active_id . '"></a>';
@@ -1235,12 +1223,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->setCss();
 
-        $title = sprintf(
-            $this->lng->txt("tst_result_user_name_pass"),
-            $pass + 1,
-            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-        );
-
         $pass_results = $this->results_factory->getPassResultsFor(
             $this->object,
             $active_id,
@@ -1250,7 +1232,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $title
+            $this->buildResultsTitle($pass)
         );
 
         $tpl->setVariable("LIST_OF_ANSWERS", $table->render());
@@ -2074,5 +2056,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         ));
         $this->http->sendResponse();
         $this->http->close();
+    }
+
+    protected function buildResultsTitle(int $pass): string
+    {
+        if ($this->object->getAnonymity()) {
+            return sprintf(
+                $this->lng->txt("tst_eval_results_by_pass_lo"),
+                $pass + 1
+            );
+        }
+        return sprintf(
+            $this->lng->txt("tst_result_user_name_pass"),
+            $pass + 1,
+            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
+        );
     }
 }
