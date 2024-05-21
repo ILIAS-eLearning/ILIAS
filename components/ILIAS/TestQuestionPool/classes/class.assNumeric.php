@@ -212,7 +212,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function getSolutionSubmit(): ?float
     {
-        return $this->questionpool_request->getNumericAnswer('numeric_result');
+        return $this->questionpool_request->retrieveFloatValueFromPost('numeric_result');
     }
 
     public function isValidSolutionSubmit($numeric_solution): bool
