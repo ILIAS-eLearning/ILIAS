@@ -1140,7 +1140,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             if ($cmd === 'save') {
                 $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
-                $this->tabs_gui->setBackTarget($this->lng->txt('backtocallingpage'), $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW));
+                $this->tabs_gui->setBackTarget(
+                    $this->lng->txt('backtocallingpage'),
+                    $this->ctrl->getLinkTargetByClass(
+                        ilAssQuestionPreviewGUI::class,
+                        ilAssQuestionPreviewGUI::CMD_SHOW
+                    )
+                );
                 $question_gui->editQuestion();
             }
 
