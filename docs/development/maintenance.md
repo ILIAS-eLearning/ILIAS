@@ -105,6 +105,41 @@ addition the company the person is working for can be listed, too.
 Authorities** the company can propose a prioritized candidate for the
 succession.
 
+## Process to Change Authorities
+* To apply for an `Authority` of a `Component` that currently has a holder of the
+`Authority to (De-)Assign Authorities`, it is recommended to contact this person
+before taking the next step.
+* Please provide a pull request against the `trunk`-branch of the [official ILIAS Repository](https://github.com/ILIAS-eLearning/ILIAS)
+to change assignments to `Authorities` for some `Component`. Please explain in
+the comment of the pull request why this change should be made. Also shortly
+report your exchange with the person holding the `Authority to (De-)Assign
+Authorities`, if you are not this person. Add the tags `authorities` and
+`documentation`.
+* The PR will be assigned to all persons with `Authorities to (De-)Assign Authority`.
+These persons are asked to document in the PR if they accept the new assignment
+or not. If they accept the assignment, they should also add the tag `technical board`.
+* The Product Manager and the Technical Board will discuss the request as quickly
+as possible. Depending on the `Authority`, the `Component`, and their role in the
+community, the new assignees might be invited for a short talk to get to know them
+and their plans for the `Component` better.
+* If the Product Manager and the Technical Board do not veto the new assignment,
+they take the pull request for the next Jour Fixe for an announcement and merge it
+afterwards.
+* If you want to give up an `Authority` for a `Component`, please contact all persons
+with the `Authority to (De-)Assign Authorities` in that `Component`. If you are the
+last person holding the `Authority to (De-)Assign Authorities`, please contact
+the Product Manager and the Technical Board per email instead.
+* If the person with `Authority to (De-)Assign Authorities` for a `Component` wants
+to remove someone from an assignment to an `Authority` in said `Component`, she should
+open a PR against the `trunk`-branch of the [official ILIAS Repository](https://github.com/ILIAS-eLearning/ILIAS)
+and tag it with `authorities`, `documentation` and `jour fixe`. The change will
+then be announced on the next Jour Fixe.
+* If a `Component` lacks an `Authority to Sign off on Code Changes` or if the holder
+of the last `Authority to Sign off on Code Chagnes` would like to pass the
+responsibility over to somebody else, the `Component` is added to the agenda of
+the Jour Fixe by the Product Manager.
+
+
 ## How Authority Assignments are Stored
 Authorities are tracked in `maintenance.json` files placed in the root of the
 corresponding [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
