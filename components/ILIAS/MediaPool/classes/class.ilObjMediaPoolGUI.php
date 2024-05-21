@@ -1623,9 +1623,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $tpl = $DIC["tpl"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $request = $DIC->mediaPool()
+        $internal_gui = $DIC->mediaPool()
             ->internal()
-            ->gui()
+            ->gui();
+        $request = $internal_gui
             ->standardRequest();
 
         ilObjMediaObjectGUI::includePresentationJS($a_tpl);
@@ -1642,13 +1643,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $request->getRefId()
         );
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($lng->txt("preview"));
-        $modal->setId("ilMepPreview");
-        $modal->setType(ilModalGUI::TYPE_LARGE);
-        $modal->setBody("<iframe id='ilMepPreviewContent'></iframe>");
+        $modal = $internal_gui->ui()->factory()->modal()->roundtrip(
+            $lng->txt("preview"),
+            $internal_gui->ui()->factory()->legacy("<iframe id='ilMepPreviewContent'></iframe>")
+        );
 
-        return $modal->getHTML();
+        return $internal_gui->ui()->renderer()->render($modal);
     }
 
     public function export(): void
