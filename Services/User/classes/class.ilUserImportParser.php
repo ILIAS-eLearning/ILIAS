@@ -277,13 +277,6 @@ class ilUserImportParser extends ilSaxParser
     protected $user_settings_config;
 
     /**
-     *
-     * @var ILIAS\Refinery\Factory
-     */
-    private $refinery;
-
-
-    /**
     * Constructor
     *
     * @param	string		$a_xml_file		xml file
@@ -297,7 +290,6 @@ class ilUserImportParser extends ilSaxParser
         global $DIC;
 
         $global_settings = $DIC->settings();
-        $this->refinery = $DIC['refinery'];
 
         $this->roles = array();
         $this->mode = $a_mode;
@@ -2409,6 +2401,6 @@ class ilUserImportParser extends ilSaxParser
 
     private function stripTags(string $string) : string
     {
-        return $this->refinery->string()->stripTags()->transform($string);
+        return strip_tags($string);
     }
 }
