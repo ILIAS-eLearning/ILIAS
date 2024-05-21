@@ -9706,6 +9706,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
+exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
 export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
