@@ -334,8 +334,8 @@ class ilParticipantsTestResultsGUI
     private function showDetailedResultsCmd(): void
     {
         $usr_ids = $this->getUserIdsFromPost();
-        if (empty($usr_ids)) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
+        if ($usr_ids === []) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('select_one_user'), true);
             $this->ctrl->redirect($this);
         }
 
