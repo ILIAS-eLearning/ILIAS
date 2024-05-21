@@ -338,6 +338,9 @@ class ilExportGUI
             $info = new ilExportFileInfo($this->obj->getId(), $file[0], $file[1]);
             $info->delete();
         }
+        if (count($files) > 0) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('export_files_deleted'), true);
+        }
         $this->ctrl->redirect($this, "listExportFiles");
     }
 

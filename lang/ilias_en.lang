@@ -9514,6 +9514,7 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
+exp#:#export_files_deleted#:#The selected export files have been deleted.
 exp#:#exp_html#:#HTML
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
