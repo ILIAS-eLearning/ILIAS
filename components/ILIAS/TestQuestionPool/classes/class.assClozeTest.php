@@ -1729,13 +1729,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                     AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($item->getAnswertext()),
                     AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $item->getOrder()
                 ];
-                if ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
+                if ($gap->getType() === assClozeGap::TYPE_NUMERIC) {
                     $item_array[AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT] = $item->getLowerBound();
                     $item_array[AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT] = $item->getUpperBound();
-                } else {
-                    $item_array[AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS] = trim(
-                        $item_array[AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS]
-                    );
                 }
                 array_push($items, $item_array);
             }
