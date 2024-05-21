@@ -271,8 +271,8 @@ class ilErrorHandling
             global $DIC;
 
             $session_id = substr(session_id(), 0, 5);
-            $random = new ilRandom();
-            $err_num = $random->int(1, 9999);
+            $r = new \Random\Randomizer();
+            $err_num = $r->getInt(1, 9999);
             $file_name = $session_id . '_' . $err_num;
 
             $logger = ilLoggingErrorSettings::getInstance();
