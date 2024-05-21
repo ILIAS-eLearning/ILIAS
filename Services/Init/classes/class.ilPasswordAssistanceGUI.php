@@ -224,7 +224,7 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $username = trim($form->getInput('username'));
+        $username = $form->getInput('username');
         $email = trim($form->getInput('email'));
 
         $usrId = \ilObjUser::getUserIdByLogin($username);
@@ -488,8 +488,8 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $username = trim($form->getInput('username'));
-        $password = trim($form->getInput('password'));
+        $username = $form->getInput('username');
+        $password = $form->getInput('password');
         $pwassist_id = $form->getInput('key');
 
         // Retrieve the session
