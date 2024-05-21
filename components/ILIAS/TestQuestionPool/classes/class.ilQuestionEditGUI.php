@@ -129,11 +129,11 @@ class ilQuestionEditGUI
 
         switch ($next_class) {
             default:
-                $q_gui = assQuestionGUI::_getQuestionGUI(
+                $question_gui = assQuestionGUI::_getQuestionGUI(
                     $this->getQuestionType() ?? '',
                     $this->getQuestionId()
                 );
-                $question = $q_gui->getObject();
+                $question = $question_gui->getObject();
                 $question->setSelfAssessmentEditingMode(
                     $this->getSelfAssessmentEditingMode()
                 );
@@ -145,10 +145,10 @@ class ilQuestionEditGUI
 
                 if (is_object($this->page_config)) {
                     $question->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
-                    $q_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
+                    $question_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
                 }
                 $question->setObjId((int) $this->getPoolObjId());
-                $q_gui->setObject($question);
+                $question_gui->setObject($question);
 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
                     $object = $this->new_id_listeners[$i]['object'];
@@ -161,19 +161,23 @@ class ilQuestionEditGUI
                     );
                 }
 
-                $count = $this->questionrepository->usageCount($q_gui->getObject()->getId());
+                $count = $this->questionrepository->usageCount($question_gui->getObject()->getId());
                 if ($count > 0) {
                     if ($this->rbac_system->checkAccess('write', $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
                     }
                 }
-                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                // $this->ctrl->setCmdClass(get_class($q_gui));
-                $ret = (string) $this->ctrl->forwardCommand($q_gui);
+
+                if ($cmd !== 'save') {
+                    return (string) $this->ctrl->forwardCommand($question_gui);
+                }
+                if ($question_gui->saveQuestion()) {
+                    $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+                }
+
+                return (string) $question_gui->editQuestion();
                 break;
         }
-
-        return $ret;
     }
 
     public function setQuestionId(?int $a_questionid): void
