@@ -1725,7 +1725,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $items = [];
             foreach ($gap->getItems($this->getShuffler()) as $item) {
                 $item_array = [
-                    AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS_ => $item->getPoints(),
+                    AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $item->getPoints(),
                     AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($item->getAnswertext()),
                     AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $item->getOrder()
                 ];
