@@ -173,8 +173,8 @@ class ilCache
             ));
 
         // In 1/2000 times, delete old entries
-        $random = new \ilRandom();
-        $num = $random->int(1, 2000);
+        $random = new \Random\Randomizer();
+        $num = $random->getInt(1, 2000);
         if ($num == 500) {
             $ilDB->manipulate(
                 "DELETE FROM $table WHERE " .

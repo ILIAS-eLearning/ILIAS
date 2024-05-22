@@ -31,7 +31,7 @@ class ContentIdGenerator implements ContentIdGeneratorInterface
 
     public function generate(): string
     {
-        $random = new \ilRandom();
-        return md5((string) ($random->int(1, 9999999) + str_replace(" ", "", (string) microtime())));
+        $random = new \Random\Randomizer();
+        return md5((string) ($random->getInt(1, 9999999) + str_replace(" ", "", (string) microtime())));
     }
 }
