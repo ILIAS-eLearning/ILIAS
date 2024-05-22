@@ -53,7 +53,7 @@ trait ManipulateImagesInChoiceQuestionsTrait
 
         foreach ($answers as $answer) {
             $filename = $answer->getImage();
-            if ($filename === '') {
+            if ($filename === null || $filename === '') {
                 continue;
             }
 
