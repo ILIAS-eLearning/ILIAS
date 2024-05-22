@@ -2816,21 +2816,6 @@ class ilObjCourseGUI extends ilContainerGUI
     }
 
     /**
-     * @inheritDoc
-     */
-    public function prepareOutput(bool $show_subobjects = true): bool
-    {
-        if (!$this->getCreationMode()) {
-            $settings = ilMemberViewSettings::getInstance();
-            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
-                $settings->setContainer($this->object->getRefId());
-                $this->rbac_system->initMemberView();
-            }
-        }
-        return parent::prepareOutput($show_subobjects);
-    }
-
-    /**
      * Create a course mail signature
      * @return string
      */
