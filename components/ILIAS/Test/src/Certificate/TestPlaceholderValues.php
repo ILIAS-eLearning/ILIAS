@@ -98,17 +98,17 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
      * @throws \ilException
      * @throws \ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId): array
+    public function getPlaceholderValues(int $user_id, int $obj_id): array
     {
         /** @var \ilObjTest $testObject */
-        $testObject = $this->objectHelper->getInstanceByObjId($objId);
+        $testObject = $this->objectHelper->getInstanceByObjId($obj_id);
 
-        $active_id = $testObject->getActiveIdOfUser($userId);
+        $active_id = $testObject->getActiveIdOfUser($user_id);
         $pass = $this->testObjectHelper->getResultPass($active_id);
 
-        $result_array = &$testObject->getTestResult($active_id);
+        $result_array = $testObject->getTestResult($active_id);
         if ($pass !== null) {
-            $result_array = &$testObject->getTestResult($active_id, $pass);
+            $result_array = $testObject->getTestResult($active_id, $pass);
         }
 
         $passed = $this->language->txt('certificate_failed');
@@ -122,14 +122,14 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
         }
 
         $mark_obj = $testObject->getMarkSchema()->getMatchingMark($percentage);
-        $user_data = $this->userObjectHelper->lookupFields($userId);
+        $user_data = $this->userObjectHelper->lookupFields($user_id);
 
         $completionDate = false;
         if ($user_data['usr_id'] > 0) {
-            $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
+            $completionDate = $this->lpStatusHelper->lookupStatusChanged($obj_id, $user_id);
         }
 
-        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($user_id, $obj_id);
 
         $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($passed);
         $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput(
