@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Certificate\ilTestPlaceholderValues;
+use ILIAS\Test\Certificate\TestPlaceholderValues;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -43,7 +43,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
-        $this->assertSame(ilTestPlaceholderValues::class, $class);
+        $this->assertSame(TestPlaceholderValues::class, $class);
     }
 
     public function testFetchExercisePlaceHolderClass(): void

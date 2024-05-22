@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Test\Certificate\ilCertificateTestObjectHelper;
+use ILIAS\Test\Certificate\CertificateTestObjectHelper;
 
 /**
  * Class ilCmiXapiPlaceholderValues
@@ -52,7 +52,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
      * @param ilLanguage|null $language
      * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateTestObjectHelper|null $testObjectHelper
+     * @param CertificateTestObjectHelper|null $testObjectHelper
      * @param ilCertificateUserObjectHelper|null $userObjectHelper
      * @param ilCertificateLPStatusHelper|null $lpStatusHelper
      * @param ilCertificateUtilHelper|null $utilHelper

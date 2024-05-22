@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Certificate\ilTestPlaceholderValues;
+use ILIAS\Test\Certificate\TestPlaceholderValues;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -30,7 +30,7 @@ class ilCertificateTypeClassMap
      */
     private array $typeClassMap = [
         'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
-        'tst' => ['placeholder' => ilTestPlaceholderValues::class],
+        'tst' => ['placeholder' => TestPlaceholderValues::class],
         'exc' => ['placeholder' => ilExercisePlaceholderValues::class],
         'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
         'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
