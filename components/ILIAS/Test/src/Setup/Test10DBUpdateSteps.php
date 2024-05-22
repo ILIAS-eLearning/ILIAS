@@ -155,8 +155,8 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['ref_id'], 'rid');
         }
 
-        if (!$this->db->tableExists(TestLoggingDatabaseRepository::MARKING_LOG_TABLE)) {
-            $this->db->createTable(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, [
+        if (!$this->db->tableExists(TestLoggingDatabaseRepository::SCORING_LOG_TABLE)) {
+            $this->db->createTable(TestLoggingDatabaseRepository::SCORING_LOG_TABLE, [
                 'id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -196,9 +196,9 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->createSequence(TestLoggingDatabaseRepository::MARKING_LOG_TABLE);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['id']);
-            $this->db->addIndex(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['ref_id'], 'rid');
+            $this->db->createSequence(TestLoggingDatabaseRepository::SCORING_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::SCORING_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::SCORING_LOG_TABLE, ['ref_id'], 'rid');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::ERROR_LOG_TABLE)) {
