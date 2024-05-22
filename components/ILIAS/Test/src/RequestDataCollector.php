@@ -135,4 +135,20 @@ class RequestDataCollector
             )
         );
     }
+
+    public function getArrayOfStringsFromPost(string $key): ?array
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->container()->mapValues(
+                $r->kindlyTo()->string()
+            )
+        );
+    }
 }
