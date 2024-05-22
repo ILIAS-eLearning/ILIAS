@@ -33,11 +33,11 @@ use ilCertificateSettingsFormRepository;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsTestFormRepositoryTest extends TestCase
+class CertificateSettingsTestFormRepositoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $formMock = $this->getMockBuilder(ilPropertyFormGUI::class)
+        $form_mock = $this->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,20 +57,20 @@ class ilCertificateSettingsTestFormRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
+        $placeholder_description_object = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
+        $settings_form_factory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory
+        $settings_form_factory
             ->expects($this->once())
             ->method('createForm')
-            ->willReturn($formMock);
+            ->willReturn($form_mock);
 
-        $repository = new ilCertificateSettingsTestFormRepository(
+        $repository = new CertificateSettingsTestFormRepository(
             100,
             '/some/where/',
             false,
@@ -78,17 +78,17 @@ class ilCertificateSettingsTestFormRepositoryTest extends TestCase
             $controller,
             $access,
             $toolbar,
-            $placeholderDescriptionObject,
-            $settingsFormFactory
+            $placeholder_description_object,
+            $settings_form_factory
         );
 
-        $guiMock = $this->getMockBuilder(ilCertificateGUI::class)
+        $gui_mock = $this->getMockBuilder(ilCertificateGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $result = $repository->createForm($guiMock);
+        $result = $repository->createForm($gui_mock);
 
-        $this->assertSame($formMock, $result);
+        $this->assertSame($form_mock, $result);
     }
 
     /**
@@ -120,7 +120,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        new ilCertificateSettingsTestFormRepository(
+        new CertificateSettingsTestFormRepository(
             100,
             '/some/where/',
             false,
@@ -164,7 +164,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends TestCase
             ->method('fetchFormFieldData')
             ->willReturn(['something' => 'value']);
 
-        $repository = new ilCertificateSettingsTestFormRepository(
+        $repository = new CertificateSettingsTestFormRepository(
             100,
             '/some/where/',
             false,

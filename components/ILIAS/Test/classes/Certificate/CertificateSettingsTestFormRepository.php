@@ -39,32 +39,32 @@ use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
+class CertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilCertificateSettingsFormRepository $settings_form_factory;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        bool $hasAdditionalElements,
+        int $object_id,
+        string $certificate_path,
+        bool $has_additional_elements,
         ilLanguage $language,
         ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
-        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
+        ilCertificatePlaceholderDescription $placeholder_description_object,
+        ?ilCertificateSettingsFormRepository $settings_form_repository = null
     ) {
         global $DIC;
 
-        $this->settingsFormFactory = $settingsFormRepository ?? new ilCertificateSettingsFormRepository(
-            $objectId,
-            $certificatePath,
-            $hasAdditionalElements,
+        $this->settings_form_factory = $settings_form_repository ?? new ilCertificateSettingsFormRepository(
+            $object_id,
+            $certificate_path,
+            $has_additional_elements,
             $language,
             $ctrl,
             $access,
             $toolbar,
-            $placeholderDescriptionObject,
+            $placeholder_description_object,
             $DIC->ui()->factory(),
             $DIC->ui()->renderer()
         );
@@ -80,7 +80,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
      */
     public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
-        return $this->settingsFormFactory->createForm($certificateGUI);
+        return $this->settings_form_factory->createForm($certificateGUI);
     }
 
     public function save(array $formFields): void
@@ -92,6 +92,6 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
      */
     public function fetchFormFieldData(string $content): array
     {
-        return $this->settingsFormFactory->fetchFormFieldData($content);
+        return $this->settings_form_factory->fetchFormFieldData($content);
     }
 }

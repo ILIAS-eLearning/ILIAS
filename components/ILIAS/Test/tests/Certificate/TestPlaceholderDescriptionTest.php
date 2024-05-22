@@ -28,71 +28,71 @@ use ilUserDefinedFieldsPlaceholderDescription;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderDescriptionTest extends TestCase
+class TestPlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
+        $language_mock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $templateMock = $this->getMockBuilder(ilTemplate::class)
+        $template_mock = $this->getMockBuilder(ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateMock->method('get')
+        $template_mock->method('get')
             ->willReturn('');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
+        $user_defined_placeholder_mock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+        $user_defined_placeholder_mock->method('createPlaceholderHtmlDescription')
             ->willReturn('Something');
 
-        $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+        $user_defined_placeholder_mock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilTestPlaceholderDescription(
+        $placeholder_description_object = new TestPlaceholderDescription(
             null,
-            $languageMock,
-            $userDefinePlaceholderMock
+            $language_mock,
+            $user_defined_placeholder_mock
         );
 
-        $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
+        $html = $placeholder_description_object->createPlaceholderHtmlDescription($template_mock);
 
         $this->assertSame('', $html);
     }
 
     public function testPlaceholderDescriptions(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
+        $language_mock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $languageMock->expects($this->exactly(26))
+        $language_mock->expects($this->exactly(26))
             ->method('txt')
             ->willReturn('Something translated');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
+        $user_defined_placeholder_mock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+        $user_defined_placeholder_mock->method('createPlaceholderHtmlDescription')
             ->willReturn('Something');
 
-        $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+        $user_defined_placeholder_mock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilTestPlaceholderDescription(
+        $placeholder_description_object = new TestPlaceholderDescription(
             null,
-            $languageMock,
-            $userDefinePlaceholderMock
+            $language_mock,
+            $user_defined_placeholder_mock
         );
 
-        $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
+        $placeholders = $placeholder_description_object->getPlaceholderDescriptions();
 
         $this->assertSame(
             [
@@ -123,7 +123,7 @@ class ilTestPlaceholderDescriptionTest extends TestCase
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
             ],
-            $placeHolders
+            $placeholders
         );
     }
 }
