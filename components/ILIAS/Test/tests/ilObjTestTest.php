@@ -46,9 +46,12 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
         $this->addGlobal_filesystem();
+        $this->addGlobal_fileDelivery();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilComponentFactory();
         $this->addGlobal_ilAccess();
+        $this->addGlobal_static_url();
+        $this->addGlobal_http();
 
         $this->testObj = new ilObjTest();
     }
