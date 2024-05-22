@@ -180,7 +180,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->ordering_type = strlen($data["ordering_type"] ?? '') ? $data["ordering_type"] : OQ_TERMS;
+            $this->ordering_type = strlen($data["ordering_type"] ?? '') ? $data["ordering_type"] : self::OQ_TERMS;
             if ($data['thumb_geometry'] !== null && $data['thumb_geometry'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_geometry']);
             }
@@ -1586,7 +1586,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $formDataConverter = $this->buildOrderingElementFormDataConverter();
         $formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
 
-        if ($this->getOrderingType() == OQ_NESTED_PICTURES) {
+        if ($this->getOrderingType() == self::OQ_NESTED_PICTURES) {
             $formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
             $formDataConverter->setImageUrlPath($this->getImagePathWeb());
             $formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
