@@ -20,10 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use ilLanguage;
-use ilTemplate;
 use PHPUnit\Framework\TestCase;
-use ilUserDefinedFieldsPlaceholderDescription;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -32,19 +29,19 @@ class TestPlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
-        $language_mock = $this->getMockBuilder(ilLanguage::class)
+        $language_mock = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $template_mock = $this->getMockBuilder(ilTemplate::class)
+        $template_mock = $this->getMockBuilder(\ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $template_mock->method('get')
             ->willReturn('');
 
-        $user_defined_placeholder_mock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
+        $user_defined_placeholder_mock = $this->getMockBuilder(\ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,7 +64,7 @@ class TestPlaceholderDescriptionTest extends TestCase
 
     public function testPlaceholderDescriptions(): void
     {
-        $language_mock = $this->getMockBuilder(ilLanguage::class)
+        $language_mock = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
@@ -76,7 +73,7 @@ class TestPlaceholderDescriptionTest extends TestCase
             ->method('txt')
             ->willReturn('Something translated');
 
-        $user_defined_placeholder_mock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
+        $user_defined_placeholder_mock = $this->getMockBuilder(\ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
