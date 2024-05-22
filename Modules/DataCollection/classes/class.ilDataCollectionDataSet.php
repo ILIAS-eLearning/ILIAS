@@ -240,14 +240,14 @@ class ilDataCollectionDataSet extends ilDataSet
                     $setting->setField($new_field_id ?: $a_rec['field']);
                     $setting->setInFilter((bool)$a_rec['in_filter']);
                     $setting->setFilterValue($a_rec['filter_value'] ?: null);
-                    $setting->setFilterChangeable((bool)$a_rec['filter_changeable']);
-                    is_null($a_rec['required_create']) ? $setting->setRequiredCreate(false) : $setting->setRequiredCreate((bool)$a_rec['required_create']);
-                    is_null($a_rec['locked_create']) ? $setting->setLockedCreate(false) : $setting->setLockedCreate((bool)$a_rec['locked_create']);
-                    is_null($a_rec['visible_create']) ? $setting->setVisibleCreate(true) : $setting->setVisibleCreate((bool)$a_rec['visible_create']);
-                    is_null($a_rec['visible_edit']) ? $setting->setVisibleEdit(true) : $setting->setVisibleEdit((bool)$a_rec['visible_edit']);
-                    is_null($a_rec['required_edit']) ? $setting->setRequiredEdit(false) : $setting->setRequiredEdit((bool)$a_rec['required_edit']);
-                    is_null($a_rec['locked_edit']) ? $setting->setLockedEdit(false) : $setting->setLockedEdit((bool)$a_rec['locked_edit']);
-                    $setting->setDefaultValue($a_rec['default_value']);
+                    $setting->setFilterChangeable((bool) $a_rec['filter_changeable']);
+                    $setting->setRequiredCreate((bool)($a_rec['required_create'] ?? false));
+                    $setting->setLockedCreate((bool)($a_rec['locked_create'] ?? false));
+                    $setting->setVisibleCreate((bool)($a_rec['visible_create'] ?? true));
+                    $setting->setVisibleEdit((bool)($a_rec['visible_edit'] ?? true));
+                    $setting->setRequiredEdit((bool)($a_rec['required_edit'] ?? false));
+                    $setting->setLockedEdit((bool)($a_rec['locked_edit'] ?? false));
+                    $setting->setDefaultValue($a_rec['default_value'] ?? null);
                     $setting->create();
                     $a_mapping->addMapping(
                         'Modules/DataCollection',
@@ -490,7 +490,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     if ($value) {
                         $stloc_default = (new ilDclDefaultValueFactory())->createByTableName($a_entity);
                         if ($a_entity == ilDclTableViewNumberDefaultValue::returnDbTableName()) {
-                            $value = (int)$value;
+                            $value = (int) $value;
                         }
                         $stloc_default->setValue($value);
                         $stloc_default->setTviewSetId((int)$tview_set_id);
@@ -787,7 +787,8 @@ class ilDataCollectionDataSet extends ilDataSet
                     'il_dcl_tview_set' => ['ids' => $ids],
                 ];
             case 'il_dcl_tview_set':
-                if (!(int)$a_rec['field'] > 0) {
+
+                if (!(int) $a_rec['field'] > 0) {
                     break;
                 }
                 // Also build a cache of all values, no matter in which table they are (il_dcl_stloc(1|2|3)_value)
