@@ -37,7 +37,7 @@ use ilCertificatePlaceholderValues;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
+class TestPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private readonly ilCertificateObjectHelper $objectHelper;

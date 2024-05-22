@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Certificate\TestPlaceholderValues;
+
 class ilTest10DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -49,5 +51,14 @@ class ilTest10DBUpdateSteps implements ilDatabaseUpdateSteps
                 ]
             );
         }
+    }
+
+    public function step_2(): void
+    {
+        $this->db->update(
+            'il_cert_cron_queue',
+            ['adapter_class' => [ilDBConstants::T_TEXT, TestPlaceholderValues::class]],
+            ['adapter_class' => [ilDBConstants::T_TEXT, 'ilTestPlaceholderValues']]
+        );
     }
 }

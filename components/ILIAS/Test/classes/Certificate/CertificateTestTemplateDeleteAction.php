@@ -25,7 +25,7 @@ use ilCertificateDeleteAction;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
+class CertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
     public function __construct(private readonly ilCertificateDeleteAction $deleteAction)
     {

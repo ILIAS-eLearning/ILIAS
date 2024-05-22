@@ -30,7 +30,7 @@ use ilUserDefinedFieldsPlaceholderDescription;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescription
+class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private readonly ilLanguage $language;

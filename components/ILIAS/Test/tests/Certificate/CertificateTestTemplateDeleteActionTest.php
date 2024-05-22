@@ -24,34 +24,34 @@ use ilObjTest;
 use ilCertificateDeleteAction;
 use ilCertificateObjectHelper;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Course\Certificate\ilCertificateTestTemplateDeleteAction;
+use ILIAS\Course\Certificate\CertificateTestTemplateDeleteAction;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTestTemplateDeleteActionTest extends TestCase
+class CertificateTestTemplateDeleteActionTest extends TestCase
 {
     public function testDelete(): void
     {
-        $deleteAction = $this->getMockBuilder(ilCertificateDeleteAction::class)
+        $delete_action = $this->getMockBuilder(ilCertificateDeleteAction::class)
             ->getMock();
 
-        $deleteAction
+        $delete_action
             ->expects($this->once())
             ->method('delete');
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+        $object_helper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $object = $this->getMockBuilder(ilObjTest::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper->method('getInstanceByObjId')
+        $object_helper->method('getInstanceByObjId')
             ->willReturn($object);
 
-        $action = new ilCertificateTestTemplateDeleteAction(
-            $deleteAction
+        $action = new CertificateTestTemplateDeleteAction(
+            $delete_action
         );
 
         $action->delete(100, 200);
