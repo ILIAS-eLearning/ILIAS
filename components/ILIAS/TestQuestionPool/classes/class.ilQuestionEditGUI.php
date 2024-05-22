@@ -36,12 +36,15 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilQuestionEditGUI
 {
     private \ilGlobalTemplateInterface $main_tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilRbacSystem $rbac_system;
+    private \ilTabsGUI $tabs;
+    private readonly \ilHelpGUI $help;
+    private readonly \ilCtrlInterface $ctrl;
+    private readonly \ilAccessHandler $access;
+    private readonly \ilLanguage $lng;
+    private readonly \ilRbacSystem $rbac_system;
 
-    private RequestDataCollector $request;
-    private GeneralQuestionPropertiesRepository $questionrepository;
+    private readonly RequestDataCollector $request;
+    private readonly GeneralQuestionPropertiesRepository $questionrepository;
 
     private ?int $questionid = null;
     private ?int $poolrefid = null;
@@ -56,12 +59,16 @@ class ilQuestionEditGUI
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC['tpl'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->help = $DIC['ilHelp'];
         $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC->language();
-        $this->rbac_system = $DIC->rbac()->system();
+        $this->access = $DIC['ilAccess'];
+        $this->lng = $DIC['lng'];
+        $this->rbac_system = $DIC['rbacsystem'];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
@@ -178,6 +185,22 @@ class ilQuestionEditGUI
                 return (string) $question_gui->editQuestion();
                 break;
         }
+    }
+
+    public function forwardToFeedbackEditGUI(assQuestionGUI $question_gui): void
+    {
+        $this->ctrl->forwardCommand(
+            new ilAssQuestionFeedbackEditingGUI(
+                $question_gui,
+                $this->ctrl,
+                $this->access,
+                $this->main_tpl,
+                $this->tabs,
+                $this->lng,
+                $this->help,
+                $this->questionrepository
+            )
+        );
     }
 
     public function setQuestionId(?int $a_questionid): void
