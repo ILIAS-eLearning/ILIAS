@@ -20,26 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use ilLanguage;
-use ilTemplate;
-use ilLegacyFormElementsUtil;
-use ilDefaultPlaceholderDescription;
-use ilCertificatePlaceholderDescription;
-use ilUserDefinedFieldsPlaceholderDescription;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
+class TestPlaceholderDescription implements \ilCertificatePlaceholderDescription
 {
-    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private readonly ilLanguage $language;
+    private readonly \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly \ilLanguage $language;
     private array $placeholder;
 
     public function __construct(
-        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ?ilLanguage $language = null,
-        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?\ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?\ilLanguage $language = null,
+        ?\ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -50,38 +43,38 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
+            $defaultPlaceholderDescriptionObject = new \ilDefaultPlaceholderDescription(
                 $language,
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }
         $this->placeholder = $defaultPlaceholderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['RESULT_PASSED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['RESULT_PASSED'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_result_passed')
         );
-        $this->placeholder['RESULT_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['RESULT_POINTS'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_result_points')
         );
-        $this->placeholder['RESULT_PERCENT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['RESULT_PERCENT'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_result_percent')
         );
-        $this->placeholder['MAX_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['MAX_POINTS'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_max_points')
         );
-        $this->placeholder['RESULT_MARK_SHORT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['RESULT_MARK_SHORT'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_result_mark_short')
         );
-        $this->placeholder['RESULT_MARK_LONG'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['RESULT_MARK_LONG'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_var_result_mark_long')
         );
-        $this->placeholder['TEST_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['TEST_TITLE'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $this->language->txt('certificate_ph_testtitle')
         );
-        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['DATE_COMPLETED'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $language->txt('certificate_ph_date_completed')
         );
-        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $this->placeholder['DATETIME_COMPLETED'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $language->txt('certificate_ph_datetime_completed')
         );
     }
@@ -90,10 +83,10 @@ class TestPlaceholderDescription implements ilCertificatePlaceholderDescription
      * This methods MUST return an array containing an array with
      * the the description as array value.
      */
-    public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
+    public function createPlaceholderHtmlDescription(?\ilTemplate $template = null): string
     {
         if (null === $template) {
-            $template = new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
+            $template = new \ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
         }
 
         $template->setVariable('PLACEHOLDER_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));

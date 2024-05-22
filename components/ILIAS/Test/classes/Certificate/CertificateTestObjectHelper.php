@@ -20,15 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use ilObjTest;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTestObjectHelper
+class CertificateTestObjectHelper
 {
     public function getResultPass(int $active_id): ?int
     {
-        return ilObjTest::_getResultPass($active_id);
+        return \ilObjTest::_getResultPass($active_id);
     }
 }

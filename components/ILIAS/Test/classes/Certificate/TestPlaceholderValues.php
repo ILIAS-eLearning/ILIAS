@@ -20,43 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use ilObjTest;
-use ilLanguage;
-use ilException;
-use ilDatabaseException;
-use ilDateTimeException;
-use ilCertificateDateHelper;
-use ilCertificateUtilHelper;
-use ilCertificateObjectHelper;
-use ilObjectNotFoundException;
-use ilDefaultPlaceholderValues;
-use ilCertificateLPStatusHelper;
-use ilCertificateUserObjectHelper;
-use ilCertificatePlaceholderValues;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class TestPlaceholderValues implements ilCertificatePlaceholderValues
+class TestPlaceholderValues implements \ilCertificatePlaceholderValues
 {
-    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private readonly ilCertificateObjectHelper $objectHelper;
-    private readonly ilCertificateTestObjectHelper $testObjectHelper;
-    private readonly ilCertificateUserObjectHelper $userObjectHelper;
-    private readonly ilCertificateUtilHelper $utilHelper;
-    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
-    private readonly ilCertificateDateHelper $dateHelper;
-    private readonly ilLanguage $language;
+    private readonly \ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly \ilCertificateObjectHelper $objectHelper;
+    private readonly CertificateTestObjectHelper $testObjectHelper;
+    private readonly \ilCertificateUserObjectHelper $userObjectHelper;
+    private readonly \ilCertificateUtilHelper $utilHelper;
+    private readonly \ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly \ilCertificateDateHelper $dateHelper;
+    private readonly \ilLanguage $language;
 
     public function __construct(
-        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ?ilLanguage $language = null,
-        ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilCertificateTestObjectHelper $testObjectHelper = null,
-        ?ilCertificateUserObjectHelper $userObjectHelper = null,
-        ?ilCertificateLPStatusHelper $lpStatusHelper = null,
-        ?ilCertificateUtilHelper $utilHelper = null,
-        ?ilCertificateDateHelper $dateHelper = null
+        ?\ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?\ilLanguage $language = null,
+        ?\ilCertificateObjectHelper $objectHelper = null,
+        ?CertificateTestObjectHelper $testObjectHelper = null,
+        ?\ilCertificateUserObjectHelper $userObjectHelper = null,
+        ?\ilCertificateLPStatusHelper $lpStatusHelper = null,
+        ?\ilCertificateUtilHelper $utilHelper = null,
+        ?\ilCertificateDateHelper $dateHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -66,37 +52,37 @@ class TestPlaceholderValues implements ilCertificatePlaceholderValues
         $this->language = $language;
 
         if (null === $defaultPlaceholderValues) {
-            $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
+            $defaultPlaceholderValues = new \ilDefaultPlaceholderValues();
         }
         $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
+            $objectHelper = new \ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
 
         if (null === $testObjectHelper) {
-            $testObjectHelper = new ilCertificateTestObjectHelper();
+            $testObjectHelper = new CertificateTestObjectHelper();
         }
         $this->testObjectHelper = $testObjectHelper;
 
         if (null === $userObjectHelper) {
-            $userObjectHelper = new ilCertificateUserObjectHelper();
+            $userObjectHelper = new \ilCertificateUserObjectHelper();
         }
         $this->userObjectHelper = $userObjectHelper;
 
         if (null === $lpStatusHelper) {
-            $lpStatusHelper = new ilCertificateLPStatusHelper();
+            $lpStatusHelper = new \ilCertificateLPStatusHelper();
         }
         $this->lpStatusHelper = $lpStatusHelper;
 
         if (null === $utilHelper) {
-            $utilHelper = new ilCertificateUtilHelper();
+            $utilHelper = new \ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
 
         if (null === $dateHelper) {
-            $dateHelper = new ilCertificateDateHelper();
+            $dateHelper = new \ilCertificateDateHelper();
         }
         $this->dateHelper = $dateHelper;
     }
@@ -107,14 +93,14 @@ class TestPlaceholderValues implements ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @throws ilDatabaseException
-     * @throws ilDateTimeException
-     * @throws ilException
-     * @throws ilObjectNotFoundException
+     * @throws \ilDatabaseException
+     * @throws \ilDateTimeException
+     * @throws \ilException
+     * @throws \ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId): array
     {
-        /** @var ilObjTest $testObject */
+        /** @var \ilObjTest $testObject */
         $testObject = $this->objectHelper->getInstanceByObjId($objId);
 
         $active_id = $testObject->getActiveIdOfUser($userId);
