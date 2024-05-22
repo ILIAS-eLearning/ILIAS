@@ -143,7 +143,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $this->is_singleline = ($data['allow_images']) ? false : true;
             $this->lastChange = $data['tstamp'];
             $this->setSelectionLimit((int) $data['selection_limit'] > 0 ? (int) $data['selection_limit'] : null);
-            $this->feedback_setting = $data['feedback_setting'];
+            if (isset($data['feedback_setting'])) {
+                $this->feedback_setting = $data['feedback_setting'];
+            }
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
