@@ -87,4 +87,29 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_7(): void
+    {
+        if (!$this->db->indexExistsByFields('il_dcl_field_prop', array('field_id'))) {
+            $this->db->addIndex('il_dcl_field_prop', array('field_id'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_sel_opts', array('field_id'))) {
+            $this->db->addIndex('il_dcl_sel_opts', array('field_id'), 'i1');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_sel_opts', array('opt_id'))) {
+            $this->db->addIndex('il_dcl_sel_opts', array('opt_id'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tview_set', array('field'))) {
+            $this->db->addIndex('il_dcl_tview_set', array('field'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tview_set', array('in_filter'))) {
+            $this->db->addIndex('il_dcl_tview_set', array('in_filter'), 'i3');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tfield_set', array('field'))) {
+            $this->db->addIndex('il_dcl_tfield_set', array('field'), 'i3');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tfield_set', array('table_id'))) {
+            $this->db->addIndex('il_dcl_tfield_set', array('table_id'), 'i4');
+        }
+    }
 }
