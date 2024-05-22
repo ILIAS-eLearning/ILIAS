@@ -33,7 +33,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilLanguage $language;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
-    private readonly ilLanguage $user_language;
+    private ?ilLanguage $user_language = null;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
