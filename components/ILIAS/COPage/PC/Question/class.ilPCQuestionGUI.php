@@ -77,6 +77,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
                     $cmd = $this->sub_command;
                 }
 
+                if ($cmd === 'create_pcqst') {
+                    return $this->create();
+                }
+
                 $ret = $this->$cmd();
         }
 
@@ -281,11 +285,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 } else {
                     $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
                 }
-                $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
+                $q_gui->getObject()->setAdditionalContentEditingMode($addContEditMode);
 
                 //set default tries
-                $q_gui->object->setObjId(0);
-                $q_id = $q_gui->object->createNewQuestion(true);
+                $q_gui->getObject()->setObjId(0);
+                $q_id = $q_gui->getObject()->createNewQuestion(true);
                 $this->content_obj->setQuestionReference("il__qst_" . $q_id);
                 $this->pg_obj->update();
                 unset($q_gui);
