@@ -1092,6 +1092,7 @@ assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qst_use_nested_answers#:#Nested answers
 assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
+assessment#:#question_complete_title#:#Complete
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_id#:#Question ID
 assessment#:#question_id_short#:#ID

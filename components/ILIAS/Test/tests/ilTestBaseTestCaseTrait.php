@@ -214,8 +214,15 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_http(): void
     {
-        $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-        $http_mock->method('request')->willReturn($this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)->disableOriginalConstructor()->getMock());
+        $request_mock = $this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $request_mock->method('getUri')
+            ->willReturn(new ILIAS\Data\URI('http://wwww.ilias.de'));
+        $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()
+            ->getMock();
+        $http_mock->method('request')
+            ->willReturn($request_mock);
         $this->setGlobalVariable('http', $http_mock);
     }
 
