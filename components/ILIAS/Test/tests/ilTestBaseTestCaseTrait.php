@@ -128,6 +128,11 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('filesystem', $this->createMock(Filesystems::class));
     }
 
+    protected function addGlobal_static_url(): void
+    {
+        $this->setGlobalVariable('static_url', $this->createMock(ILIAS\StaticURL\Services::class));
+    }
+
     protected function addGlobal_upload(): void
     {
         $this->setGlobalVariable('upload', $this->createMock(FileUpload::class));
@@ -285,7 +290,20 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_fileDelivery(): void
     {
-        $this->setGlobalVariable('file_delivery', $this->createMock(\ILIAS\FileDelivery\Services::class));
+        global $DIC;
+        $file_delivery = $this->getMockBuilder(\ILIAS\FileDelivery\Services::class)->disableOriginalConstructor()->getMock();
+        $file_delivery->method('delivery')->willReturn(
+            new ILIAS\FileDelivery\Delivery\StreamDelivery(
+                new ILIAS\FileDelivery\Token\DataSigner(
+                    new ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation(
+                        new ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKey('blup')
+                    )
+                ),
+                $DIC['http'],
+                $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class)
+            )
+        );
+        $this->setGlobalVariable('file_delivery', $file_delivery);
     }
 
     protected function getTestObjMock(): ilObjTest

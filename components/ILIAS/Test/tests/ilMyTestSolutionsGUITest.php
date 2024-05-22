@@ -44,7 +44,7 @@ class ilMyTestSolutionsGUITest extends ilTestBaseTestCase
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),
             $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
-            $this->createMock(\ILIAS\TestQuestionPool\RequestDataCollector::class)
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }
 
