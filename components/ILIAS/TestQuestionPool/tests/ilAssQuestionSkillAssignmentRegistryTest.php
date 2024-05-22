@@ -117,11 +117,11 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
             $assignment->setEvalMode(\ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION);
             $assignment->setImportSkillTitle('phpunit' . $i);
             $assignment->setImportSkillPath('phpunit' . $i);
-            $random = new ilRandom();
-            $assignment->setSkillPoints($random->int(0, PHP_INT_MAX));
-            $assignment->setImportQuestionId($random->int(0, PHP_INT_MAX));
-            $assignment->setImportSkillBaseId($random->int(0, PHP_INT_MAX));
-            $assignment->setImportSkillTrefId($random->int(0, PHP_INT_MAX));
+            $random = new \Random\Randomizer();
+            $assignment->setSkillPoints($random->getInt(0, PHP_INT_MAX));
+            $assignment->setImportQuestionId($random->getInt(0, PHP_INT_MAX));
+            $assignment->setImportSkillBaseId($random->getInt(0, PHP_INT_MAX));
+            $assignment->setImportSkillTrefId($random->getInt(0, PHP_INT_MAX));
 
             $assignmentList->addAssignment($assignment);
         }

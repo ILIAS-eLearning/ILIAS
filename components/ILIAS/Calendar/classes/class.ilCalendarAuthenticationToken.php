@@ -168,8 +168,8 @@ class ilCalendarAuthenticationToken
 
     protected function createToken(): void
     {
-        $random = new \ilRandom();
-        $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
+        $random = new \Random\Randomizer();
+        $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->nextInt());
     }
 
     protected function read(): bool

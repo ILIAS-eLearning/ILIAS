@@ -140,12 +140,12 @@ class ilMDTaxon extends ilMDBase
 
     public function toXML(ilXmlWriter $writer): void
     {
-        $random = new \ilRandom();
+        $random = new \Random\Randomizer();
         $writer->xmlElement(
             'Taxon',
             array(
                 'Language' => $this->getTaxonLanguageCode() ?: 'en',
-                'Id' => $this->getTaxonId() ?: ("ID" . $random->int())
+                'Id' => $this->getTaxonId() ?: ("ID" . $random->nextInt())
             ),
             $this->getTaxon()
         );
