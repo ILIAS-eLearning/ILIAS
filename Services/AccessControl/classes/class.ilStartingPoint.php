@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilStartingPoint
@@ -178,11 +179,11 @@ class ilStartingPoint
     public static function onRoleDeleted(ilObjRole $role): void
     {
         foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
-            if ((int) $roleId === $role->getId()) {
+            if ($roleId === $role->getId()) {
                 $sp = new self((int) $data['id']);
                 $sp->delete();
             } elseif (
-                is_null($maybeDeletedRole = ilObjectFactory::getInstanceByObjId((int) $roleId, false)) ||
+                is_null($maybeDeletedRole = ilObjectFactory::getInstanceByObjId($roleId, false)) ||
                 !($maybeDeletedRole instanceof ilObjRole)
             ) {
                 $sp = new self((int) $data['id']);
@@ -193,6 +194,7 @@ class ilStartingPoint
 
     /**
      * get array with all roles which have starting point defined.
+     * @return array<int, array{"id": int, "starting_point": int, "starting_object": int, "calendar_view": int, "calendar_period": int, "position": int, "role_id": int}>
      */
     public static function getRolesWithStartingPoint(): array
     {
@@ -206,7 +208,7 @@ class ilStartingPoint
         while ($sp = $ilDB->fetchAssoc($res)) {
             $options = unserialize($sp['rule_options']);
 
-            $roles[$options['role_id']] = [
+            $roles[(int) $options['role_id']] = [
                 "id" => (int) $sp['id'],
                 "starting_point" => (int) $sp['starting_point'],
                 "starting_object" => (int) $sp['starting_object'],
