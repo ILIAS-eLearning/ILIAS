@@ -19,10 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
-use ILIAS\Test\Certificate\ilTestPlaceholderValues;
-use ILIAS\Test\Certificate\ilTestPlaceholderDescription;
-use ILIAS\Course\Certificate\ilCertificateTestTemplateDeleteAction;
-use ILIAS\Test\Certificate\ilCertificateSettingsTestFormRepository;
+use ILIAS\Test\Certificate\TestPlaceholderValues;
+use ILIAS\Test\Certificate\TestPlaceholderDescription;
+use ILIAS\Course\Certificate\CertificateTestTemplateDeleteAction;
+use ILIAS\Test\Certificate\CertificateSettingsTestFormRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -60,10 +60,10 @@ class ilCertificateGUIFactory
 
         switch ($type) {
             case 'tst':
-                $placeholderDescriptionObject = new ilTestPlaceholderDescription();
-                $placeholderValuesObject = new ilTestPlaceholderValues();
+                $placeholderDescriptionObject = new TestPlaceholderDescription();
+                $placeholderValuesObject = new TestPlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsTestFormRepository(
+                $formFactory = new CertificateSettingsTestFormRepository(
                     $objectId,
                     $certificatePath,
                     false,
@@ -74,7 +74,7 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $deleteAction = new ilCertificateTestTemplateDeleteAction(
+                $deleteAction = new CertificateTestTemplateDeleteAction(
                     $deleteAction
                 );
 
