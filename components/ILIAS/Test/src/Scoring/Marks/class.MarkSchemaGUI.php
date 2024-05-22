@@ -218,7 +218,7 @@ class MarkSchemaGUI
                     $this->test->getRefId(),
                     $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    $this->mark_schema->toLog()
+                    $this->mark_schema->toLog($this->logger->getAdditionalInformationGenerator())
                 )
             );
         }

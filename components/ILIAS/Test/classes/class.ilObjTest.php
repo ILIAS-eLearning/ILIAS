@@ -1365,7 +1365,8 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_ADDED,
                     [
-                        AdditionalInformationGenerator::KEY_QUESTION => (assQuestion::instantiateQuestion($question_id))->toLog(),
+                        AdditionalInformationGenerator::KEY_QUESTION => (assQuestion::instantiateQuestion($question_id))
+                            ->toLog($this->logger->getAdditionalInformationGenerator()),
                         AdditionalInformationGenerator::KEY_QUESTION_ORDER => $this->questions
                     ]
                 )
