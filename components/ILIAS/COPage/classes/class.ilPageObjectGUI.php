@@ -949,13 +949,12 @@ class ilPageObjectGUI
                     )->getClassName(),
                     $this->requested_q_id
                 );
-                $questionGUI->object->setObjId(0);
-                $questionGUI->object->setSelfAssessmentEditingMode(true);
-                $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                $questionGUI->getObject()->setObjId(0);
+                $questionGUI->getObject()->setSelfAssessmentEditingMode(true);
+                $questionGUI->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $this->ctrl, $this->access, $this->tpl, $this->tabs_gui, $this->lng);
-                $this->ctrl->forwardCommand($gui);
+                (new ilQuestionEditGUI())->forwardToFeedbackEditGUI($questionGUI);
                 break;
 
 
