@@ -1091,6 +1091,7 @@ assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
+assessment#:#question_complete_title#:#Vollständig
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
