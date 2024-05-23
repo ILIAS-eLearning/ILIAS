@@ -236,9 +236,10 @@ class ilMimeMail
 
         if ($DIC->settings()->get('mail_send_html', '0')) {
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
+            $style = $DIC['ilClientIniFile']->readVariable('layout', 'style');
 
-            $this->buildBodyMultiParts($skin);
-            $this->buildHtmlInlineImages($skin);
+            $this->buildBodyMultiParts($skin, $style);
+            $this->buildHtmlInlineImages($skin, $style);
         } else {
             $this->finalBody = $this->removeHTMLTags($this->body);
         }
@@ -251,7 +252,7 @@ class ilMimeMail
         return strip_tags($maybeHTML);
     }
 
-    protected function buildBodyMultiParts(string $skin): void
+    protected function buildBodyMultiParts(string $skin, string $style): void
     {
         if ($this->body === '') {
             $this->body = ' ';
@@ -268,30 +269,30 @@ class ilMimeMail
             $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
         }
 
-        $this->finalBody = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin));
+        $this->finalBody = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin, $style));
     }
 
-    protected function getHtmlEnvelope(string $skin): string
+    protected function getHtmlEnvelope(string $skin, string $style): string
     {
         $bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
 
         if ($skin !== 'default') {
-            $tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+            $tplpath = './Customizing/global/skin/' . $skin . '/' . $style . '/Services/Mail/tpl.html_mail_template.html';
 
             if (is_file($tplpath)) {
-                $bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
+                $bracket_path = './Customizing/global/skin/' . $skin . '/' . $style . '/Services/Mail/tpl.html_mail_template.html';
             }
         }
 
         return file_get_contents($bracket_path);
     }
 
-    protected function buildHtmlInlineImages(string $skin): void
+    protected function buildHtmlInlineImages(string $skin, string $style): void
     {
         $this->gatherImagesFromDirectory('./Services/Mail/templates/default/img');
 
         if ($skin !== 'default') {
-            $skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
+            $skinDirectory = './Customizing/global/skin/' . $skin . '/' . $style . '/Services/Mail/img';
             if (is_dir($skinDirectory) && is_readable($skinDirectory)) {
                 $this->gatherImagesFromDirectory($skinDirectory, true);
             }
