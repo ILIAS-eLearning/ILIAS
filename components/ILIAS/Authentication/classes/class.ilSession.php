@@ -355,12 +355,7 @@ class ilSession
     }
 
     /**
-     *
      * Returns the expiration timestamp in seconds
-     *
-     * @return	integer	The expiration timestamp in seconds
-     * @static
-     *
      */
     public static function getExpireValue(): int
     {
@@ -368,10 +363,7 @@ class ilSession
     }
 
     /**
-     *
      * Returns the idle time in seconds
-     *
-     * @return	integer	The idle time in seconds
      */
     public static function getIdleValue(): int
     {
@@ -383,11 +375,7 @@ class ilSession
     }
 
     /**
-     *
      * Returns the session expiration value
-     *
-     * @return integer	The expiration value in seconds
-     *
      */
     public static function getSessionExpireValue(): int
     {
