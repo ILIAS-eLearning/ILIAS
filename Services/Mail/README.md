@@ -95,7 +95,7 @@ when no template can be determined.
 Per Skin, one HTML template can be defined and has to be
 stored in the following location:
 
-    ./Customizing/global/skin/<NAME>/Services/Mail/tpl.html_mail_template.html.
+    ./Customizing/global/skin/<SKIN-NAME>/<STYLE-NAME>/Services/Mail/tpl.html_mail_template.html.
 
 The HTML frame template concept consists of the HTML
 markup file itself and some optional attachments.
