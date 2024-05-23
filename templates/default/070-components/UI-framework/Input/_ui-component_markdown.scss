@@ -23,6 +23,13 @@
   color: $il-text-color-invert;
 }
 
+.c-input-markdown__preview,
+.c-input-markdown .ui-input-textarea textarea {
+  border-radius: $il-border-radius-small;
+  min-height: 200px;
+  margin-bottom: $il-padding-large-vertical;
+}
+
 .c-input-markdown__preview {
   min-height: $il-textarea-height;
   border: $il-main-border;

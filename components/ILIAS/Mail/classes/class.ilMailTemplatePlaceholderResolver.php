@@ -38,15 +38,25 @@ class ilMailTemplatePlaceholderResolver
         ilMailTemplateContext $context,
         string $message,
         ?ilObjUser $user = null,
-        array $contextParameters = []
+        array $contextParameters = [],
+        bool $replaceEmptyPlaceholders = true
     ): string {
         return $this->mustache_engine->render(
             $message,
             new ilMailTemplateContextAdapter(
                 [$context],
                 $contextParameters,
-                $user
+                $user,
+                $replaceEmptyPlaceholders
             )
+        );
+    }
+
+    public function resolveForPreview(string $message): string
+    {
+        return $this->mustache_engine->render(
+            $message,
+            new ilMailPreviewContextAdapter()
         );
     }
 }

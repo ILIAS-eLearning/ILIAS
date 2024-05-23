@@ -25,4 +25,18 @@ use ILIAS\UI\Component as C;
 class Standard extends Button implements C\Button\Standard
 {
     use LoadingAnimationOnClick;
+
+    protected $formaction = '';
+
+    public function withFormaction(string $formaction): self
+    {
+        $clone = clone $this;
+        $clone->formaction = $formaction;
+        return $clone;
+    }
+
+    public function getFormaction(): string
+    {
+        return $this->formaction;
+    }
 }

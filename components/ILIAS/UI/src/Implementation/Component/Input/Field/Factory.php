@@ -140,7 +140,7 @@ class Factory implements I\Factory
      */
     public function textarea(string $label, ?string $byline = null): I\Textarea
     {
-        return new Textarea($this->data_factory, $this->refinery, $label, $byline);
+        return new Textarea($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
     }
 
     /**
@@ -233,7 +233,7 @@ class Factory implements I\Factory
      */
     public function markdown(I\MarkdownRenderer $md_renderer, string $label, string $byline = null): I\Markdown
     {
-        return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
+        return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline, $this->signal_generator);
     }
 
     /**

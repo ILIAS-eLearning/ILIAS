@@ -62,9 +62,21 @@ class Renderer extends AbstractComponentRenderer
             $component->getSubmitLabel() ?? $this->txt("save"),
             ""
         );
+        $buttons = $default_renderer->render($submit_button);
 
-        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
-        $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
+        $additional_buttons = $component->getAdditionalSubmitButtons();
+        if (count($additional_buttons) > 0) {
+            foreach ($additional_buttons as $label => $action) {
+                $button = $this->getUIFactory()->button()->standard(
+                    $label,
+                    ''
+                )->withFormaction($action);
+                $buttons .= $default_renderer->render($button);
+            }
+        }
+
+        $tpl->setVariable("BUTTONS_TOP", $buttons);
+        $tpl->setVariable("BUTTONS_BOTTOM", $buttons);
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
         return $tpl->get();

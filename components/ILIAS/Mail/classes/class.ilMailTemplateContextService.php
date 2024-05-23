@@ -105,7 +105,7 @@ class ilMailTemplateContextService
         if (is_array($a_id) && count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
-        if ($where !== []) {
+        if (count($where)) {
             $query .= ' WHERE ' . implode(' AND ', $where);
         }
 
@@ -130,8 +130,7 @@ class ilMailTemplateContextService
         if (!$a_path) {
             $a_path = $a_component . '/classes/';
         }
-        $class_file = $a_path . 'class.' . $a_class . '.php';
-
+        $class_file = $_SERVER['DOCUMENT_ROOT'] . $a_path . 'class.' . $a_class . '.php';
         if (class_exists($a_class) && file_exists($class_file)) {
             if ($isCreationContext) {
                 $reflClass = new ReflectionClass($a_class);

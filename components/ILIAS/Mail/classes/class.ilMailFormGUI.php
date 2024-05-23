@@ -24,9 +24,12 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
- * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+ * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI, ilMailFormUploadHandlerGUI
  */
 class ilMailFormGUI
 {
@@ -55,6 +58,16 @@ class ilMailFormGUI
     private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
     private readonly Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    /**
+     * @var \Psr\Http\Message\RequestInterface|\Psr\Http\Message\ServerRequestInterface $request
+     */
+    protected $request;
+    protected ArrayBasedRequestWrapper $post;
+    protected ArrayBasedRequestWrapper $query;
+    protected ilMailFormUploadHandlerGUI $upload_handler;
+    protected ilFileDataMail $fdm;
+    protected ILIAS\ResourceStorage\Services $storage;
 
     public function __construct(
         ilMailTemplateService $templateService = null,
@@ -75,7 +88,14 @@ class ilMailFormGUI
         $this->mfile = new ilFileDataMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
         $this->purifier = $bodyPurifier ?? new ilMailBodyPurifier();
-        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_factory = $ui_factory ?? $DIC->ui()->factory();
+        $this->request = $DIC->http()->request();
+        $this->ui_renderer = $ui_renderer ?? $DIC->ui()->renderer();
+        $this->post = new ArrayBasedRequestWrapper($this->request->getParsedBody());
+        $this->query = new ArrayBasedRequestWrapper($this->request->getQueryParams());
+        $this->upload_handler = new ilMailFormUploadHandlerGUI();
+        $this->storage = $DIC->resourceStorage();
+        $this->fdm = new ilFileDataMail($this->user->getId());
 
         $requestMailObjId = $this->getBodyParam(
             'mobj_id',
@@ -149,6 +169,10 @@ class ilMailFormGUI
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;
 
+            case strtolower(ilMailFormUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand($this->upload_handler);
+                break;
+
             default:
                 if (!($cmd = $this->ctrl->getCmd())) {
                     $cmd = 'showForm';
@@ -178,18 +202,20 @@ class ilMailFormGUI
 
     public function sendMessage(): void
     {
-        $message = $this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '');
+        $form = $this->buildForm()->withRequest($this->request);
+        $result = $form->getInputGroup()->getContent();
 
-        $mailBody = new ilMailBody($message, $this->purifier);
+        if (!$result->isOK()) {
+            $this->showForm($form);
+            return;
+        }
 
-        $sanitizedMessage = $mailBody->getContent();
+        $value = $result->value()[0];
 
-        $attachments = $this->getBodyParam(
-            'attachments',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-            []
-        );
-        $files = $this->decodeAttachmentFiles($attachments);
+        $files = [];
+        if (count($value["attachments"]) > 0) {
+            $files = $this->handleAttachments($value["attachments"]);
+        }
 
         $mailer = $this->umail
             ->withContextId(ilMailFormCall::getContextId() ?: '')
@@ -197,22 +223,19 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
-        $mailer->autoresponder()->enableAutoresponder();
-
         if ($errors = $mailer->enqueue(
-            ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
-            $sanitizedMessage,
+            ilUtil::securePlainString($value['rcp_to']),
+            ilUtil::securePlainString($value['rcp_cc']),
+            ilUtil::securePlainString($value['rcp_bcc']),
+            ilUtil::securePlainString($value['m_subject']),
+            $value['m_message'],
             $files,
-            $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false)
-        )) {
-            $this->requestAttachments = $files;
+            $value['use_placeholders']
+        )
+        ) {
+            $_POST['attachments'] = $files;
             $this->showSubmissionErrors($errors);
         } else {
-            $mailer->autoresponder()->disableAutoresponder();
-
             $mailer->persistToStage(
                 $this->user->getId(),
                 [],
@@ -232,35 +255,40 @@ class ilMailFormGUI
                 $this->ctrl->redirectByClass(ilMailGUI::class);
             }
         }
-        $mailer->autoresponder()->disableAutoresponder();
 
         $this->showForm();
     }
 
     public function saveDraft(): void
     {
+        $form = $this->buildForm()->withRequest($this->request);
+        $result = $form->getInputGroup()->getContent();
+
+        if (!$result->isOK()) {
+            $this->showForm($form);
+            return;
+        }
+
+        $value = $result->value()[0];
+
+        if ($value['m_subject'] === '') {
+            $value['m_subject'] = $this->lng->txt('mail_no_subject');
+        }
+
+        $files = [];
+        if (count($value["attachments"]) > 0) {
+            $files = $this->handleAttachments($value["attachments"]);
+        }
+
         $draftFolderId = $this->mbox->getDraftsFolder();
 
-        $files = $this->decodeAttachmentFiles($this->getBodyParam(
-            'attachments',
-            $this->refinery->kindlyTo()->listOf(
-                $this->refinery->custom()->transformation($this->refinery->kindlyTo()->string())
-            ),
-            []
-        ));
-
-        $rcp_to = ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), ''));
-        $rcp_cc = ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), ''));
-        $rcp_bcc = ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), ''));
-
         if ($errors = $this->umail->validateRecipients(
-            $rcp_to,
-            $rcp_cc,
-            $rcp_bcc,
+            ilUtil::securePlainString($value['rcp_to']),
+            ilUtil::securePlainString($value['rcp_cc']),
+            ilUtil::securePlainString($value['rcp_bcc'])
         )) {
-            $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
-            $this->showForm();
+            $this->showForm($form);
             return;
         }
 
@@ -274,15 +302,13 @@ class ilMailFormGUI
         $this->umail->updateDraft(
             $draftFolderId,
             $files,
-            $rcp_to,
-            $rcp_cc,
-            $rcp_bcc,
-            ilUtil::securePlainString(
-                $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
-            ) ?: 'No Subject',
-            ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
+            ilUtil::securePlainString($value['rcp_to']),
+            ilUtil::securePlainString($value['rcp_cc']),
+            ilUtil::securePlainString($value['rcp_bcc']),
+            ilUtil::securePlainString($value['m_subject']),
+            $value['m_message'],
             $draftId,
-            $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+            $value['use_placeholders'],
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -298,37 +324,9 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function searchUsers(bool $save = true): void
+    public function searchUsers(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
-
-        if ($save) {
-            $files = $this->getBodyParam(
-                'attachments',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->custom()->transformation(function ($elm): string {
-                        $attachment = $this->refinery->kindlyTo()->string()->transform($elm);
-
-                        return urldecode($attachment);
-                    })
-                ),
-                []
-            );
-
-            // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-            $this->umail->persistToStage(
-                $this->user->getId(),
-                $files,
-                ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
-                ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
-                ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-                ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
-                ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
-                $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
-                ilMailFormCall::getContextId(),
-                ilMailFormCall::getContextParameters()
-            );
-        }
 
         $form = new ilPropertyFormGUI();
         $form->setId('search_rcp');
@@ -382,11 +380,11 @@ class ilMailFormGUI
 
         if (trim(ilSession::get('mail_search_search')) === '') {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("mail_insert_query"));
-            $this->searchUsers(false);
+            $this->searchUsers();
         } elseif (strlen(trim(ilSession::get('mail_search_search'))) < 3) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
-            $this->searchUsers(false);
+            $this->searchUsers();
         } else {
             $this->ctrl->setParameterByClass(
                 ilMailSearchGUI::class,
@@ -401,37 +399,6 @@ class ilMailFormGUI
     {
         ilSession::clear('mail_search');
         $this->searchResults();
-    }
-
-    public function editAttachments(): void
-    {
-        $files = $this->getBodyParam(
-            'attachments',
-            $this->refinery->kindlyTo()->listOf(
-                $this->refinery->custom()->transformation(function ($elm): string {
-                    $attachment = $this->refinery->kindlyTo()->string()->transform($elm);
-
-                    return urldecode($attachment);
-                })
-            ),
-            []
-        );
-
-        // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-        $this->umail->persistToStage(
-            $this->user->getId(),
-            $files,
-            ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
-            $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
-            ilMailFormCall::getContextId(),
-            ilMailFormCall::getContextParameters()
-        );
-
-        $this->ctrl->redirectByClass(ilMailAttachmentGUI::class);
     }
 
     public function returnFromAttachments(): void
@@ -464,12 +431,6 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function mailAttachment(): void
-    {
-        $this->mail_form_type = self::MAIL_FORM_TYPE_ATTACH;
-        $this->showForm();
-    }
-
     protected function getTemplateDataById(): void
     {
         if (!$this->http->wrapper()->query()->has('template_id')) {
@@ -497,7 +458,7 @@ class ilMailFormGUI
         $this->http->close();
     }
 
-    public function showForm(): void
+    public function showForm(?Form $form = null): void
     {
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -521,6 +482,8 @@ class ilMailFormGUI
         $mailData['rcp_cc'] = '';
         $mailData['rcp_bcc'] = '';
         $mailData['attachments'] = [];
+        $mailData["m_subject"] = '';
+        $mailData["m_message"] = '';
 
         $mailId = $this->getQueryParam('mail_id', $this->refinery->kindlyTo()->int(), 0);
         $type = $this->getQueryParam('type', $this->refinery->kindlyTo()->string(), '');
@@ -572,10 +535,6 @@ class ilMailFormGUI
                 ilSession::clear('mail_search_results_to');
                 ilSession::clear('mail_search_results_cc');
                 ilSession::clear('mail_search_results_bcc');
-                break;
-
-            case self::MAIL_FORM_TYPE_ATTACH:
-                $mailData = $this->umail->retrieveFromStage();
                 break;
 
             case self::MAIL_FORM_TYPE_DRAFT:
@@ -698,239 +657,12 @@ class ilMailFormGUI
                 break;
         }
 
-        $form_gui = new ilPropertyFormGUI();
-        $form_gui->setTitle($this->lng->txt('compose'));
-        $form_gui->setId('mail_compose_form');
-        $form_gui->setName('mail_compose_form');
-        $form_gui->setFormAction($this->ctrl->getFormAction($this, 'sendMessage'));
-
-        $this->tpl->setVariable('FORM_ID', $form_gui->getId());
-
-        $mail_form = 'form_' . $form_gui->getName();
-
-        $btn = $this->ui_factory->button()
-                                ->standard($this->lng->txt('search_recipients'), '#')
-                                ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = document.getElementById('$mail_form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'searchUsers');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-        $this->toolbar->addStickyItem($btn);
-
-        $btn = $this->ui_factory->button()
-                                ->standard($this->lng->txt('mail_my_courses'), '#')
-                                ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = document.getElementById('$mail_form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'searchCoursesTo');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-        $this->toolbar->addComponent($btn);
-
-        $btn = $this->ui_factory->button()
-                                ->standard($this->lng->txt('mail_my_groups'), '#')
-                                ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = document.getElementById('$mail_form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'searchGroupsTo');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-        $this->toolbar->addComponent($btn);
-
-        if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
-            $btn = $this->ui_factory->button()
-                                    ->standard($this->lng->txt('mail_my_mailing_lists'), '#')
-                                    ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = document.getElementById('$mail_form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'searchMailingListsTo');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-            $this->toolbar->addComponent($btn);
-        }
-
-        $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
-
-        $inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
-        $inp->setMaxLength(null);
-        $inp->setRequired(true);
-        $inp->setSize(50);
-        $inp->setValue((string) ($mailData['rcp_to'] ?? ''));
-        $inp->setDataSource($dsDataLink, ',');
-        $form_gui->addItem($inp);
-
-        $inp = new ilTextInputGUI($this->lng->txt('mail_cc'), 'rcp_cc');
-        $inp->setMaxLength(null);
-        $inp->setSize(50);
-        $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
-        $inp->setDataSource($dsDataLink, ',');
-        $form_gui->addItem($inp);
-
-        $inp = new ilTextInputGUI($this->lng->txt('mail_bcc'), 'rcp_bcc');
-        $inp->setMaxLength(null);
-        $inp->setSize(50);
-        $inp->setValue($mailData['rcp_bcc'] ?? '');
-        $inp->setDataSource($dsDataLink, ',');
-        $form_gui->addItem($inp);
-
-        $inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
-        $inp->setSize(50);
-        $inp->setRequired(true);
-        $inp->setValue((string) ($mailData['m_subject'] ?? ''));
-        $form_gui->addItem($inp);
-
-        $att = new ilMailFormAttachmentPropertyGUI(
-            $this->lng->txt(
-                isset($mailData['attachments']) && is_array($mailData['attachments']) ?
-                'edit' :
-                'add'
-            ),
-            'm_attachment'
-        );
-        if (isset($mailData['attachments']) && is_array($mailData['attachments'])) {
-            foreach ($mailData['attachments'] as $data) {
-                if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . '_' . $data)) {
-                    $hidden = new ilHiddenInputGUI('attachments[]');
-                    $form_gui->addItem($hidden);
-                    $size = filesize($this->mfile->getMailPath() . '/' . $this->user->getId() . '_' . $data);
-                    $label = $data . ' [' . ilUtil::formatSize($size) . ']';
-                    $att->addItem($label);
-                    $hidden->setValue(urlencode($data));
-                }
-            }
-        }
-        $form_gui->addItem($att);
-
-        $context = new ilMailTemplateGenericContext();
-        if (ilMailFormCall::getContextId()) {
-            $context_id = ilMailFormCall::getContextId();
-
-            $mailData['use_placeholders'] = true;
-
-            try {
-                $context = ilMailTemplateContextService::getTemplateContextById($context_id);
-
-                $templates = $this->templateService->loadTemplatesForContextId($context->getId());
-                if ($templates !== []) {
-                    $options = [];
-
-                    $template_chb = new ilMailTemplateSelectInputGUI(
-                        $this->lng->txt('mail_template_client'),
-                        'template_id',
-                        $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true),
-                        ['m_subject' => false, 'm_message' => true]
-                    );
-
-                    foreach ($templates as $template) {
-                        $options[$template->getTplId()] = $template->getTitle();
-
-                        if (!isset($mailData['template_id']) && $template->isDefault()) {
-                            $template_chb->setValue((string) $template->getTplId());
-                            $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature(
-                                $mailData['m_message']
-                            );
-                        }
-                    }
-                    if (isset($mailData['template_id'])) {
-                        $template_chb->setValue((string) ((int) $mailData['template_id']));
-                    }
-                    asort($options);
-
-                    $template_chb->setInfo($this->lng->txt('mail_template_client_info'));
-                    $template_chb->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-                    $form_gui->addItem($template_chb);
-                }
-            } catch (Exception) {
-                ilLoggerFactory::getLogger('mail')->error(sprintf(
-                    '%s has been called with invalid context id: %s.',
-                    __METHOD__,
-                    $context_id
-                ));
-            }
-        }
-
-        $inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
-        $inp->setValue((string) ($mailData['m_message'] ?? ''));
-        $inp->setRequired(false);
-        $inp->setCols(60);
-        $inp->setRows(10);
-        $form_gui->addItem($inp);
-
-        $chb = new ilCheckboxInputGUI(
-            $this->lng->txt('mail_serial_letter_placeholders'),
-            'use_placeholders'
-        );
-        $chb->setValue('1');
-        $chb->setChecked(isset($mailData['use_placeholders']) && $mailData['use_placeholders']);
-
-        $placeholders = new ilManualPlaceholderInputGUI(
-            $this->lng->txt('mail_form_placeholders_label'),
-            'm_placeholders',
-            'm_message'
-        );
-        $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
-        try {
-            $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        } catch (Throwable $e) {
-            $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
-        }        foreach ($context->getPlaceholders() as $key => $value) {
-            $placeholders->addPlaceholder($value['placeholder'], $value['label']);
-        }
-        $chb->addSubItem($placeholders);
-        $form_gui->addItem($chb);
-
-        $form_gui->addCommandButton('sendMessage', $this->lng->txt('send_mail'));
-        $form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));
-        if (ilMailFormCall::isRefererStored()) {
-            $form_gui->addCommandButton('cancelMail', $this->lng->txt('cancel'));
-        }
-
         $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setVariable('FORM', $form_gui->getHTML());
-
+        $this->addToolbarButtons();
+        if ($form === null) {
+            $form = $this->buildForm($mailData);
+        }
+        $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
         $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
     }
@@ -987,27 +719,24 @@ class ilMailFormGUI
 
     protected function saveMailBeforeSearch(): void
     {
-        $files = $this->getBodyParam(
-            'attachments',
-            $this->refinery->kindlyTo()->listOf(
-                $this->refinery->custom()->transformation(function ($elm): string {
-                    $attachment = $this->refinery->kindlyTo()->string()->transform($elm);
+        $form = $this->buildForm()->withRequest($this->request);
+        $result = $form->getInputGroup()->getInputs()[0]->getInputs();
 
-                    return urldecode($attachment);
-                })
-            ),
-            []
-        );
+        $files = [];
+        $attachments = $result['attachments']->getValue();
+        if (count($attachments) > 0) {
+            $files = $this->handleAttachments($attachments);
+        }
 
         $this->umail->persistToStage(
             $this->user->getId(),
             $files,
-            ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
-            ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
-            $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+            ilUtil::securePlainString($result['rcp_to']->getValue()),
+            ilUtil::securePlainString($result['rcp_cc']->getValue()),
+            ilUtil::securePlainString($result['rcp_bcc']->getValue()),
+            ilUtil::securePlainString($result['m_subject']->getValue()),
+            ilUtil::securePlainString($result['m_message']->getValue()),
+            $result['use_placeholders']->getValue(),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -1031,6 +760,263 @@ class ilMailFormGUI
 
         if ($formattedErrors !== '') {
             $this->tpl->setOnScreenMessage('failure', $formattedErrors);
+        }
+    }
+
+    protected function buildForm(?array $mailData = null): Form
+    {
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'sendMessage'),
+            $this->buildFormElements($mailData)
+        )
+                               ->withSubmitLabel($this->lng->txt('send_mail'))
+                               ->withAdditionalSubmitButton(
+                                   $this->lng->txt('save_message'),
+                                   $this->ctrl->getFormAction($this, 'saveDraft')
+                               );
+    }
+
+    protected function buildFormElements(?array $mailData): array
+    {
+        $ff = $this->ui_factory->input()->field();
+
+        $rcp_to = $ff->text($this->lng->txt('mail_to'))
+                     ->withRequired(true)
+                     ->withValue($mailData["rcp_to"] ?? '');
+        $rcp_cc = $ff->text($this->lng->txt('mail_cc'))
+                     ->withValue($mailData["rcp_cc"] ?? '');
+        $rcp_bcc = $ff->text($this->lng->txt('mail_bcc'))
+                      ->withValue($mailData["rcp_bcc"] ?? '');
+
+        $attachments = $ff->file(
+            $this->upload_handler,
+            $this->lng->txt('attachments')
+        )->withMaxFiles(10);
+
+        $template_chb = null;
+        $signal = null;
+        if (ilMailFormCall::getContextId()) {
+            $context_id = ilMailFormCall::getContextId();
+
+            try {
+                $context = ilMailTemplateContextService::getTemplateContextById($context_id);
+
+                $templates = $this->templateService->loadTemplatesForContextId($context->getId());
+                if (count($templates) > 0) {
+                    $options = array();
+
+                    $tmpl_value = '';
+                    $signal_generator = new ILIAS\UI\Implementation\Component\SignalGenerator();
+                    $signal = $signal_generator->create();
+                    foreach ($templates as $template) {
+                        if (
+                            isset(ilMailFormCall::getContextParameters()["template_lng"]) &&
+                            $template->getLang() != ilMailFormCall::getContextParameters()["template_lng"]
+                        ) {
+                            continue;
+                        }
+
+                        $options[$template->getTplId()] = $template->getTitle();
+                        $signal->addOption($template->getTplId() . '_subject', urlencode($template->getSubject()));
+                        $signal->addOption($template->getTplId() . '_message', urlencode($template->getMessage()));
+
+                        if (!isset($mailData['template_id']) && $template->isDefault()) {
+                            $tmpl_value = $template->getTplId();
+                            $mailData["m_subject"] = $template->getSubject();
+                            $mailData["m_message"] = $this->umail->appendSignature($template->getMessage());
+                        }
+                    }
+                    if (isset($mailData['template_id'])) {
+                        $tmpl_value = (int) $mailData['template_id'];
+                    }
+                    asort($options);
+
+                    $template_chb = $ff->select(
+                        $this->lng->txt('mail_template_client'),
+                        $options,
+                        $this->lng->txt('mail_template_client_info')
+                    )
+                                       ->withValue($tmpl_value)
+                                       ->withOnUpdate($signal);
+                }
+            } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->error(sprintf(
+                    '%s has been called with invalid context id: %s.',
+                    __METHOD__,
+                    $context_id
+                ));
+            }
+        } else {
+            $context = new ilMailTemplateGenericContext();
+        }
+
+        $m_subject = $ff->text($this->lng->txt('subject'))
+                        ->withRequired(true)
+                        ->withMaxLength(200)
+                        ->withValue($mailData["m_subject"] ?? '');
+
+        $m_message = $ff->markdown(
+            new ilUIMarkdownPreviewGUI(),
+            $this->lng->txt('message_content')
+        )
+                        ->withValue($mailData["m_message"] ?? '')
+                        ->withRequired(true);
+
+        $use_placeholders = $ff->hidden()->withValue('0');
+        $placeholders = [];
+        foreach ($context->getPlaceholders() as $key => $value) {
+            $placeholders[$value['placeholder']] = $value['label'];
+        }
+        if (count($placeholders) > 0) {
+            $m_message = $m_message
+                ->withMustachable($placeholders)
+                ->withPlaceholderAdvice(
+                    $this->lng->txt('mail_nacc_use_placeholder') . '<br />'
+                    . sprintf($this->lng->txt('placeholders_advise'), '<br />')
+                );
+            $use_placeholders = $use_placeholders->withValue('1');
+        }
+        $use_placeholders = $use_placeholders->withAdditionalTransformation(
+            $this->refinery->kindlyTo()->bool()
+        );
+
+        if ($signal !== null) {
+            $m_subject = $m_subject->withAdditionalOnLoadCode(
+                function ($id) use ($signal) {
+                    return "
+                    $(document).on('{$signal}', function(event, signalData) {
+                        let subject = document.getElementById('{$id}');
+                        let tplId = signalData.triggerer.val();
+                        if (tplId != '') {
+                            subject.value = decodeURIComponent(signalData.options[tplId + '_subject'].replace(/\+/g, ' '));
+                        }
+                    });
+                ";
+                }
+            );
+            $m_message = $m_message->withAdditionalOnLoadCode(
+                function ($id) use ($signal) {
+                    return "
+                    $(document).on('{$signal}', function(event, signalData) {
+                        let message = document.getElementById('{$id}');
+                        let tplId = signalData.triggerer.val();
+                        if (tplId != '') {
+                            message.value = decodeURIComponent(signalData.options[tplId + '_message'].replace(/\+/g, ' '));
+                        }
+                    });
+                ";
+                }
+            );
+        }
+
+        $elements = [
+            'rcp_to' => $rcp_to,
+            'rcp_cc' => $rcp_cc,
+            'rcp_bcc' => $rcp_bcc,
+            'm_subject' => $m_subject,
+            'attachments' => $attachments
+        ];
+        if ($template_chb !== null) {
+            $elements[] = $template_chb;
+        }
+        $elements['m_message'] = $m_message;
+        $elements['use_placeholders'] = $use_placeholders;
+        $section = $ff->section(
+            $elements,
+            $this->lng->txt('compose')
+        );
+
+        return [
+            $section
+        ];
+    }
+
+    protected function handleAttachments(array $attachments): array
+    {
+        $files = [];
+        foreach ($attachments as $attachment) {
+            $info = $this->upload_handler->getInfoResult($attachment);
+            if ($info->getFileIdentifier() !== 'unknown') {
+                $src = $this->upload_handler->getStreamConsumer($attachment);
+                $stored = $this->fdm->storeAsAttachment(
+                    $info->getName(),
+                    (string) $src->getStream()
+                );
+                if ($stored === false) {
+                    throw new Exception("File '" . $info->getName() . "' could not be stored");
+                }
+                $files[] = ilFileUtils::_sanitizeFilemame($info->getName());
+                $this->upload_handler->removeFileForIdentifier($attachment);
+            }
+        }
+
+        return $files;
+    }
+
+    protected function addToolbarButtons()
+    {
+        $bf = $this->ui_factory->button();
+
+        $action = $this->ctrl->getFormAction($this, 'searchUsers');
+        $btn = $bf->standard(
+            $this->lng->txt('search_recipients'),
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.il-standard-form');
+                    mailform.action = '{$action}';
+                    mailform.submit();                    
+                });";
+            }
+        );
+        $this->toolbar->addComponent($btn);
+
+        $action = $this->ctrl->getFormAction($this, 'searchCoursesTo');
+        $btn = $bf->standard(
+            $this->lng->txt('mail_my_courses'),
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.il-standard-form');
+                    mailform.action = '{$action}';
+                    mailform.submit();                    
+                });";
+            }
+        );
+        $this->toolbar->addComponent($btn);
+
+        $action = $this->ctrl->getFormAction($this, 'searchGroupsTo');
+        $btn = $bf->standard(
+            $this->lng->txt('mail_my_groups'),
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.il-standard-form');
+                    mailform.action = '{$action}';
+                    mailform.submit();                    
+                });";
+            }
+        );
+        $this->toolbar->addComponent($btn);
+
+        if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
+            $action = $this->ctrl->getFormAction($this, 'searchMailingListsTo');
+            $btn = $bf->standard(
+                $this->lng->txt('mail_my_mailing_lists'),
+                ''
+            )->withAdditionalOnLoadCode(
+                function ($id) use ($action) {
+                    return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.il-standard-form');
+                    mailform.action = '{$action}';
+                    mailform.submit();                    
+                });";
+                }
+            );
+            $this->toolbar->addComponent($btn);
         }
     }
 }

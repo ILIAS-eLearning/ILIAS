@@ -247,9 +247,9 @@ class ilMimeMail
 
     private function removeHTMLTags(string $maybeHTML): string
     {
-        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
+        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>', '</p>'], "\n", $maybeHTML);
 
-        return strip_tags($maybeHTML);
+        return html_entity_decode(strip_tags($maybeHTML), ENT_QUOTES);
     }
 
     protected function buildBodyMultiParts(string $skin, string $style): void

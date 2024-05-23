@@ -24,6 +24,11 @@ declare(strict_types=1);
  */
 class ilFormatMail extends ilMail
 {
+    public function __construct(int $a_user_id)
+    {
+        parent::__construct($a_user_id);
+    }
+
     public function formatReplyRecipientsForCC(): string
     {
         global $DIC;
@@ -36,14 +41,14 @@ class ilFormatMail extends ilMail
 
         $currentUserLogin = $DIC->user()->getLogin();
 
-        foreach (explode(',', (string) $this->mail_data['rcp_to']) as $to) {
+        foreach (explode(',', $this->mail_data['rcp_to']) as $to) {
             $to = trim($to);
             if ($to !== '' && $currentUserLogin !== $to) {
                 $newCC[] = $to;
             }
         }
 
-        foreach (explode(',', (string) $this->mail_data['rcp_cc']) as $cc) {
+        foreach (explode(',', $this->mail_data['rcp_cc']) as $cc) {
             $cc = trim($cc);
             if ($cc !== '' && $currentUserLogin !== $cc) {
                 $newCC[] = $cc;
@@ -65,6 +70,8 @@ class ilFormatMail extends ilMail
 
     /**
      * @param string[] $a_names
+     * @param string $a_type
+     * @return array
      */
     public function appendSearchResult(array $a_names, string $a_type): array
     {
@@ -91,9 +98,15 @@ class ilFormatMail extends ilMail
         return $this->mail_data;
     }
 
+    public function formatLinebreakMessage(string $message): string
+    {
+        return $message;
+    }
+
     public function appendSignature(string $message): string
     {
-        return $message . (chr(13) . chr(10) . $this->mail_options->getSignature());
+        $message .= chr(13) . chr(10) . $this->mail_options->getSignature();
+        return $message;
     }
 
     public function prependSignature(string $message): string

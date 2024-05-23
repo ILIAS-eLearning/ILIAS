@@ -87,7 +87,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
     /**
      * @throws ReflectionException
      */
-    public static function userProvider(): array
+    public function userProvider(): array
     {
         $testUsers = [];
 

@@ -32,11 +32,11 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilAccountMail
 {
-    private readonly GlobalHttpState $http;
-    private readonly ilSetting $settings;
-    private readonly Refinery $refinery;
-    private readonly ilTree $repositoryTree;
-    private readonly ilMailMimeSenderFactory $senderFactory;
+    private GlobalHttpState $http;
+    private ilSetting $settings;
+    private Refinery $refinery;
+    private ilTree $repositoryTree;
+    private ilMailMimeSenderFactory $senderFactory;
     public string $u_password = '';
     public ?ilObjUser $user = null;
     public string $target = '';
@@ -53,7 +53,7 @@ class ilAccountMail
         $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->repositoryTree = $DIC->repositoryTree();
-        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
+        $this->senderFactory = $DIC['mail.mime.sender.factory'];
     }
 
     public function useLangVariablesAsFallback(bool $a_status): void
@@ -149,6 +149,7 @@ class ilAccountMail
 
     /**
      * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
+     * @return void
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     private function addAttachments(array $mailData): void
@@ -173,16 +174,17 @@ class ilAccountMail
      * It first tries to read the mail body, subject and sender address from posted named formular fields.
      * If no field values found the defaults are used.
      * Placehoders will be replaced by the appropriate data.
+     * @return bool
      * @throws RuntimeException
      */
     public function send(): bool
     {
         $user = $this->getUser();
-        if (!$user instanceof ilObjUser) {
+        if (null === $user) {
             throw new RuntimeException('A user instance must be passed when sending emails');
         }
 
-        if ($user->getEmail() === '') {
+        if (!$user->getEmail()) {
             return false;
         }
 
@@ -252,7 +254,9 @@ class ilAccountMail
         global $DIC;
         $tree = $DIC->repositoryTree();
         $ilSetting = $DIC->settings();
-        $mustache_factory = $DIC->mail()->mustacheFactory();
+
+        /** @var ilMustacheFactory $mustache_factory */
+        $mustache_factory = $DIC["mail.mustache.factory"];
 
         $replacements = [];
 
@@ -296,13 +300,13 @@ class ilAccountMail
             $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string()) !== ''
         ) {
             $target = $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string());
-            $tarr = explode('_', (string) $target);
-            if ($this->repositoryTree->isInTree((int) $tarr[1])) {
+            $tarr = explode("_", $target);
+            if ($tree->isInTree((int) $tarr[1])) {
                 $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
-                if ($type === $tarr[0]) {
+                if ($type == $tarr[0]) {
                     $replacements["TARGET_TITLE"] = ilObject::_lookupTitle($obj_id);
-                    $replacements["TARGET"] = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . '&target=' . $target;
+                    $replacements["TARGET"] = ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $_GET["target"];
 
                     // this looks complicated, but we may have no initilised $lng object here
                     // if mail is send during user creation in authentication

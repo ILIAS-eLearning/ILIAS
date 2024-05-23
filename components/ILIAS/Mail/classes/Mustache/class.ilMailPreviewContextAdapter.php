@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailMimeTransport
- */
-interface ilMailMimeTransport
+class ilMailPreviewContextAdapter
 {
-    public function send(ilMimeMail $mail): bool;
-    public function getErrorInformation(): string;
+    public function __isset($name)
+    {
+        return true;
+    }
+
+    public function __get($name)
+    {
+        return $name;
+    }
 }

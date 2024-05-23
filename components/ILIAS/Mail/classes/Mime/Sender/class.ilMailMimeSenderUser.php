@@ -79,19 +79,13 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
             return $this->user->getFullname();
         }
 
-        $placeholders = [
-            'FULLNAME' => $this->user->getFullname(),
-            'FIRSTNAME' => $this->user->getFirstname(),
-            'LASTNAME' => $this->user->getLastname(),
-        ];
-
-        $template = $from;
-        $interpolated = $this->mustache_factory->getBasicEngine()->render($template, $placeholders);
-
-        if ($template !== $interpolated) {
-            return $interpolated;
+        $name = str_ireplace('[FULLNAME]', $this->user->getFullname(), $from);
+        $name = str_ireplace('[FIRSTNAME]', $this->user->getFirstname(), $name);
+        $name = str_ireplace('[LASTNAME]', $this->user->getLastname(), $name);
+        if ($name !== $from) {
+            return $name;
         }
 
-        return $template;
+        return $from;
     }
 }

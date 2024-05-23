@@ -24,20 +24,27 @@ use ILIAS\UI\Component\Input\Field\MarkdownRenderer;
 use ILIAS\UI\Component\Input\Field\Markdown as MarkdownInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class Markdown extends Textarea implements MarkdownInterface
 {
+    protected MarkdownRenderer $md_renderer;
+
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
-        protected MarkdownRenderer $md_renderer,
+        MarkdownRenderer $md_renderer,
         string $label,
         ?string $byline,
+        SignalGeneratorInterface $signal_generator
     ) {
-        parent::__construct($data_factory, $refinery, $label, $byline);
+        parent::__construct($data_factory, $refinery, $label, $byline, $signal_generator, false);
+        $this->md_renderer = $md_renderer;
+        $this->signal_generator = $signal_generator;
+        $this->initSignals();
     }
 
     public function getMarkdownRenderer(): MarkdownRenderer

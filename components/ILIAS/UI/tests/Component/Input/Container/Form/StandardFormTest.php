@@ -386,4 +386,56 @@ class StandardFormTest extends ILIAS_UI_TestBase
         ');
         $this->assertHTMLEquals($expected, $html);
     }
+
+    public function test_additional_submit(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [
+            $if->text("label", "byline"),
+        ]);
+
+        $this->assertEquals([], $form->getAdditionalSubmitButtons());
+
+        $label = 'Label';
+        $action = '#bar';
+        $form = $form->withAdditionalSubmitButton($label, $action);
+
+        $this->assertEquals([$label => $action], $form->getAdditionalSubmitButtons());
+    }
+
+    public function test_additional_submit_render(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [
+            $if->text("label", "byline"),
+        ])->withAdditionalSubmitButton('save as draft', '#bar');
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($form));
+
+        $expected = $this->brutallyTrimHTML('
+            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+               <div class="il-standard-form-header clearfix">
+                  <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button><button class="btn btn-default" data-action="" formaction="#bar">save as draft</button></div>
+               </div>
+               <div class="form-group row">
+                  <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                  <div class="col-sm-8 col-md-9 col-lg-10">
+                     <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm" />
+                     <div class="help-block">byline</div>
+                  </div>
+               </div>
+               <div class="il-standard-form-footer clearfix">
+                  <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button><button class="btn btn-default" data-action="" formaction="#bar">save as draft</button></div>
+               </div>
+            </form>
+        ');
+        $this->assertHTMLEquals($expected, $html);
+    }
 }

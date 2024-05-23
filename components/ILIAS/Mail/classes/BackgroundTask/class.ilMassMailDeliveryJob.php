@@ -32,8 +32,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-    private readonly ILIAS\DI\Container $dic;
-    private readonly ilMailValueObjectJsonService $mailJsonService;
+    private ILIAS\DI\Container $dic;
+    private ilMailValueObjectJsonService $mailJsonService;
 
     public function __construct()
     {
@@ -70,7 +70,7 @@ class ilMassMailDeliveryJob extends AbstractJob
                 )
             );
 
-            $mail_data = new MailDeliveryData(
+            $mail->sendMail(
                 $recipients,
                 $recipientsCC,
                 $recipientsBCC,
@@ -79,7 +79,6 @@ class ilMassMailDeliveryJob extends AbstractJob
                 $mailValueObject->getAttachments(),
                 $mailValueObject->isUsingPlaceholders()
             );
-            $mail->sendMail($mail_data);
         }
 
         $output = new BooleanValue();

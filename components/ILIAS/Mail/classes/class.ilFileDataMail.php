@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
  * This class handles all operations on files (attachments) in directory ilias_data/mail
@@ -30,6 +29,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class ilFileDataMail extends ilFileData
 {
+    public int $user_id;
     public string $mail_path;
     protected int $mail_max_upload_file_size;
     protected Filesystem $tmpDirectory;
@@ -37,7 +37,7 @@ class ilFileDataMail extends ilFileData
     protected ilDBInterface $db;
     protected ILIAS $ilias;
 
-    public function __construct(public int $user_id = 0)
+    public function __construct(int $a_user_id = 0)
     {
         global $DIC;
 
@@ -48,6 +48,7 @@ class ilFileDataMail extends ilFileData
         $this->mail_path = $this->getPath() . "/" . MAILPATH;
         $this->ilias = $DIC['ilias'];
         $this->checkReadWrite();
+        $this->user_id = $a_user_id;
 
         $this->db = $DIC->database();
         $this->tmpDirectory = $DIC->filesystem()->temp();
@@ -154,6 +155,7 @@ class ilFileDataMail extends ilFileData
     /**
      * Adopt attachments (in case of forwarding a mail)
      * @param string[] $a_attachments
+     * @param int $a_mail_id
      * @return string An error message
      */
     public function adoptAttachments(array $a_attachments, int $a_mail_id): string
@@ -243,25 +245,27 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    public function storeUploadedFile(UploadResult $result): string
+    /**
+     * @param array{name:string, tmp_name:string} $file
+     */
+    public function storeUploadedFile(array $file): void
     {
-        $filename = ilFileUtils::_sanitizeFilemame(
-            $result->getName()
-        );
+        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
 
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $filename);
+        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
 
         ilFileUtils::moveUploadedFile(
-            $result->getPath(),
-            $filename,
-            $this->getMailPath() . '/' . $this->user_id . '_' . $filename
+            $file['tmp_name'],
+            $file['name'],
+            $this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
         );
-
-        return $filename;
     }
 
     /**
      * Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
+     * @param string $a_abs_path
+     * @param string $a_new_name
+     * @return bool
      */
     public function copyAttachmentFile(string $a_abs_path, string $a_new_name): bool
     {
@@ -307,6 +311,8 @@ class ilFileDataMail extends ilFileData
     /**
      * Resolves a path for a passed filename in regards of a user's mail attachment pool,
      * meaning attachments not being sent
+     * @param string $fileName
+     * @return string
      */
     public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string
     {
@@ -340,6 +346,9 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
+     * @param int $a_mail_id
+     * @param string $a_attachment
+     * @return bool
      */
     public function saveFile(int $a_mail_id, string $a_attachment): bool
     {
@@ -359,10 +368,11 @@ class ilFileDataMail extends ilFileData
 
     /**
      * @param string[] $a_files
+     * @return bool
      */
     public function checkFilesExist(array $a_files): bool
     {
-        if ($a_files !== []) {
+        if ($a_files) {
             foreach ($a_files as $file) {
                 if (!is_file($this->mail_path . '/' . $this->user_id . '_' . $file)) {
                     return false;
@@ -378,7 +388,7 @@ class ilFileDataMail extends ilFileData
         global $ilDB;
 
         $oStorage = self::getStorage($a_sent_mail_id, $this->user_id);
-        $ilDB->manipulateF(
+        $res = $ilDB->manipulateF(
             '
 			INSERT INTO mail_attachment 
 			( mail_id, path) VALUES (%s, %s)',
@@ -446,21 +456,21 @@ class ilFileDataMail extends ilFileData
 
         $umf_parts = preg_split(
             "/(\d+)([K|G|M])/",
-            (string) $umf,
+            $umf,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
         $pms_parts = preg_split(
             "/(\d+)([K|G|M])/",
-            (string) $pms,
+            $pms,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
 
-        if ((is_countable($umf_parts) ? count($umf_parts) : 0) === 2) {
+        if (count($umf_parts) === 2) {
             $umf = (float) $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
-        if ((is_countable($pms_parts) ? count($pms_parts) : 0) === 2) {
+        if (count($pms_parts) === 2) {
             $pms = (float) $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
@@ -496,7 +506,7 @@ class ilFileDataMail extends ilFileData
                     @unlink($file->getPathname());
                 }
             }
-        } catch (Exception) {
+        } catch (Exception $e) {
         }
 
         // Select all files attached to messages which are not shared (... = 1) with other messages anymore
@@ -532,7 +542,7 @@ class ilFileDataMail extends ilFileData
                     }
                 }
                 @rmdir($path);
-            } catch (Exception) {
+            } catch (Exception $e) {
             }
         }
 
@@ -555,7 +565,7 @@ class ilFileDataMail extends ilFileData
     /**
      * @throws ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws ILIAS\Filesystem\Exception\IOException
-     * @throws ilMailException
+     * @throws ilException
      * @throws ilFileUtilsException
      */
     public function deliverAttachmentsAsZip(
@@ -568,7 +578,7 @@ class ilFileDataMail extends ilFileData
         if (!$isDraft) {
             $path = $this->getAttachmentPathByMailId($mailId);
             if ($path === '') {
-                throw new ilMailException('mail_download_zip_no_attachments');
+                throw new ilException('mail_download_zip_no_attachments');
             }
         }
 

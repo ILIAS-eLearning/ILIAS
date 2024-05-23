@@ -29,7 +29,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
 
     public function getLabel(): string
     {
-        return 'ilUpdateMailTemplatesForMustache';
+        return "ilUpdateMailTemplatesForMustache";
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -40,6 +40,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
     public function getPreconditions(Environment $environment): array
     {
         return [
+            new \ilIniFilesLoadedObjective(),
             new \ilDatabaseUpdatedObjective()
         ];
     }
@@ -52,76 +53,52 @@ class ilUpdateMailTemplatesForMustache implements Migration
     public function step(Environment $environment): void
     {
         $tpl_values = $this->getNextTemplateToBeUpdated();
-        if ($tpl_values === null) {
+        if (is_null($tpl_values)) {
             return;
         }
 
-        [$tpl_id, $lang] = $tpl_values;
-
-        $this->replace($tpl_id, $lang);
+        list($tpl_id, $lang) = $tpl_values;
+        $this->replace($tpl_id, $lang, '[', '{{');
+        $this->replace($tpl_id, $lang, ']', '}}');
     }
 
     public function getRemainingAmountOfSteps(): int
     {
-        $q = 'SELECT COUNT(tpl_id) AS open FROM mail_man_tpl ' . PHP_EOL . $this->getWhere();
+        $q = "SELECT COUNT(tpl_id) AS open FROM mail_man_tpl" . PHP_EOL
+            . " WHERE m_message LIKE '%[%' OR m_message LIKE '%]%' OR m_subject LIKE '%[%' OR m_subject LIKE '%]%'" . PHP_EOL
+        ;
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
-
-        return (int) $row['open'];
+        return (int) $row["open"];
     }
 
-    /**
-     * @return array{0: int, 1: string}|null
-     */
     protected function getNextTemplateToBeUpdated(): ?array
     {
-        $this->db->setLimit(1);
-        $q = 'SELECT tpl_id, lang FROM mail_man_tpl ' . PHP_EOL . $this->getWhere();
+        $q = "SELECT tpl_id, lang FROM mail_man_tpl" . PHP_EOL
+            . " WHERE m_message LIKE '%[%' OR m_message LIKE '%]%' OR m_subject LIKE '%[%' OR m_subject LIKE '%]%'" . PHP_EOL
+            . " LIMIT 1"
+        ;
         $res = $this->db->query($q);
 
-        if ($this->db->numRows($res) === 0) {
+        if ($this->db->numRows($res) == 0) {
             return null;
         }
 
         $row = $this->db->fetchAssoc($res);
-
         return [
-            (int) $row['tpl_id'],
-            $row['lang']
+            (int) $row["tpl_id"],
+            $row["lang"]
         ];
     }
 
-    protected function getWhere(): string
+    protected function replace(int $tpl_id, string $lang, string $search, string $replacement): void
     {
-        return " WHERE (m_subject REGEXP '\[[A-Z_]+?\]' OR m_message REGEXP '\[[A-Z_]+?\]')" . PHP_EOL;
-    }
-
-    protected function replace(int $tpl_id, string $lang): void
-    {
-        $res = $this->db->queryF(
-            'SELECT m_subject, m_message FROM mail_man_tpl WHERE tpl_id = %s AND lang = %s',
-            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
-            [$tpl_id, $lang]
-        );
-        if ($this->db->numRows($res) === 1) {
-            $row = $this->db->fetchAssoc($res);
-
-            $subject = isset($row['m_subject']) ? preg_replace(
-                '/\[([A-Z_]+?)\]/',
-                '{{$1}}',
-                $row['m_subject']
-            ) : null;
-            $message = isset($row['m_message']) ? preg_replace(
-                '/\[([A-Z_]+?)\]/',
-                '{{$1}}',
-                $row['m_message']
-            ) : null;
-
-            $this->db->manipulateF(
-                'UPDATE mail_man_tpl SET m_subject = %s, m_message = %s WHERE tpl_id = %s AND lang = %s',
-                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
-                [$subject, $message, $tpl_id, $lang]
-            );
-        }
+        $q = "UPDATE mail_man_tpl" . PHP_EOL
+            . " SET m_subject = REPLACE(m_subject, '" . $search . "', '" . $replacement . "')," . PHP_EOL
+            . " m_message = REPLACE(m_message, '" . $search . "', '" . $replacement . "')" . PHP_EOL
+            . " WHERE tpl_id = " . $this->db->quote($tpl_id, 'integer') . PHP_EOL
+            . "    AND lang = " . $this->db->quote($lang, 'text')
+        ;
+        $this->db->manipulate($q);
     }
 }

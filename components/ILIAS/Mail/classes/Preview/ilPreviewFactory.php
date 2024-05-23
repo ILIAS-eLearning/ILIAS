@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailMimeTransport
- */
-interface ilMailMimeTransport
+class ilPreviewFactory
 {
-    public function send(ilMimeMail $mail): bool;
-    public function getErrorInformation(): string;
+    protected function getTutorContextPreview()
+    {
+        return new ilCourseMailTemplateTutorContextPreview();
+    }
+
+    protected function getPRGContextPreview()
+    {
+        return new ilStudyProgrammeMailTemplateContextPreview();
+    }
 }

@@ -23,6 +23,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Data\URI;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -35,6 +36,7 @@ class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterfa
     protected Refinery $refinery;
     protected ilCtrlInterface $ctrl;
     protected HTTPServices $http;
+    protected ArrayBasedRequestWrapper $wrapper;
 
     public function __construct()
     {
@@ -43,6 +45,7 @@ class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterfa
         $this->refinery = $DIC->refinery();
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
+        $this->wrapper = new ArrayBasedRequestWrapper($this->http->request()->getParsedBody());
     }
 
     public function executeCommand(): void
@@ -81,11 +84,11 @@ class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterfa
     {
         $parameter_name = $this->getParameterName();
 
-        if (!$this->http->wrapper()->post()->has($parameter_name)) {
+        if (!$this->wrapper->has($parameter_name)) {
             $this->sendResponse('');
         }
 
-        $raw_markdown = $this->http->wrapper()->post()->retrieve(
+        $raw_markdown = $this->wrapper->retrieve(
             $parameter_name,
             $this->refinery->to()->string()
         );

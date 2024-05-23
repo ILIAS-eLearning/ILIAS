@@ -688,6 +688,27 @@ class ilInitialisation
         }
     }
 
+    protected static function initMail(\ILIAS\DI\Container $c): void
+    {
+        $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
+            return new \ilMailMimeTransportFactory($c->settings(), $c->event());
+        };
+        $c["mail.mime.sender.factory"] = static function (\ILIAS\DI\Container $c) {
+            return new \ilMailMimeSenderFactory($c->settings(), $c["mail.mustache.factory"]);
+        };
+        $c["mail.texttemplates.service"] = static function (\ILIAS\DI\Container $c) {
+            return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()), $c["mail.mustache.factory"]);
+        };
+        $c["mail.template.placeholder.resolver"] = function (\ILIAS\DI\Container $c) {
+            return new ilMailTemplatePlaceholderResolver(
+                $c["mail.mustache.factory"]->getBasicEngine()
+            );
+        };
+        $c["mail.mustache.factory"] = function (\ILIAS\DI\Container $c) {
+            return new ilMustacheFactory();
+        };
+    }
+
     protected static function initCron(\ILIAS\DI\Container $c): void
     {
         $c['cron.repository'] = static function (\ILIAS\DI\Container $c): ilCronJobRepository {
@@ -1270,6 +1291,7 @@ class ilInitialisation
         self::initGlobal("https", "ilHTTPS", "./components/ILIAS/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
+        self::initMail($GLOBALS['DIC']);
         self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
