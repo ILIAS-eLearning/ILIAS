@@ -95,7 +95,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
             $DIC["ilSetting"] = $settings;
 
             // workaround to determine http path of client
-            define("IL_INST_ID", (int) $settings->get("inst_id", '0'));
+            if (!defined("IL_INST_ID")) {
+                define("IL_INST_ID", (int)$settings->get("inst_id", '0'));
+            }
 
             $this->xmlStartTag(
                 "Client",
