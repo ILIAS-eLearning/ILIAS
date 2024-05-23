@@ -715,14 +715,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case 'ilpageeditorgui':
-            case 'iltestexpresspageobjectgui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->forwardCommandToExpressPageObject($cmd);
-                break;
-
             case strtolower(ilAssQuestionPreviewGUI::class):
                 if (!$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
@@ -956,88 +948,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         ), true);
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
         $this->ctrl->redirectByClass('ilrepositorygui');
-    }
-
-    protected function forwardCommandToExpressPageObject(string $cmd): void
-    {
-        $this->getTabsManager()->getQuestionsSubTabs();
-        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
-        $incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($this->db);
-        $incompleteQuestionPurger->setOwnerId($this->user->getId());
-        $incompleteQuestionPurger->purge();
-
-        try {
-            $qid = $this->fetchAuthoringQuestionIdParameter();
-        } catch (ilTestException $e) {
-            $qid = 0;
-        }
-
-        $this->prepareOutput();
-        if (!in_array($cmd, ['createQuestionForm', 'browseForQuestions'])) {
-            $this->buildPageViewToolbar($qid);
-        }
-
-        if (!$qid || in_array($cmd, ['insertQuestions', 'browseForQuestions'])) {
-            $pageObject = new ilTestExpressPageObjectGUI(0, 0, $this->getTestObject());
-            $ret = $this->ctrl->forwardCommand($pageObject);
-            $this->tpl->setContent($ret);
-            return;
-        }
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $this->tpl->parseCurrentBlock();
-
-        // syntax style
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        $this->tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $this->tpl->parseCurrentBlock();
-
-        $question_gui = assQuestionGUI::_getQuestionGUI("", $qid);
-        if (!($question_gui instanceof assQuestionGUI)) {
-            $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', '');
-            $this->ctrl->redirectByClass('iltestexpresspageobjectgui', $this->ctrl->getCmd());
-        }
-
-        $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
-
-        $question_gui->outAdditionalOutput();
-        $question = $question_gui->getObject();
-        $question->setObjId($this->getTestObject()->getId());
-        $question_gui->setObject($question);
-
-        $question_gui->setTargetGuiClass(null);
-        $question_gui->setQuestionActionCmd('');
-
-        $this->ctrl->saveParameter($this, 'q_id');
-
-        #$this->lng->loadLanguageModule("content");
-        $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
-        $this->ctrl->setReturn($this, self::DEFAULT_CMD);
-
-        $page_gui = new ilTestExpressPageObjectGUI($qid, 0, $this->getTestObject());
-        $page_gui->setEditPreview(true);
-        $page_gui->setEnabledTabs(false);
-        $page_gui->setQuestionHTML([$q_gui->getObject()->getId() => $question_gui->getPreview(true)]);
-        $page_gui->setTemplateTargetVar("ADM_CONTENT");
-
-        $page_gui->setOutputMode($this->getTestObject()->evalTotalPersons() == 0 ? "edit" : 'preview');
-
-        $page_gui->setHeader($question->getTitle());
-        $page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-        $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
-        $page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
-        $page_gui->setPresentationTitle($question->getTitle() . ' [' . $this->lng->txt('question_id_short') . ': ' . $question->getId() . ']');
-        $ret = $this->ctrl->forwardCommand($page_gui);
-        if ($ret != "") {
-            $this->tpl->setContent($ret);
-        }
-        $this->tabs_gui->activateTab('assQuestions');
     }
 
     protected function forwardCommandToQuestionPreview(string $cmd, int $q_id = null): void
@@ -2834,118 +2744,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
 
-    public function buildPageViewToolbar($qid = 0)
-    {
-        if ($this->create_question_mode) {
-            return;
-        }
-        $this->ctrl->saveParameter($this, 'q_mode');
-
-        $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
-        $this->ctrl->setParameter($this, 'test_express_mode', 1);
-        $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $this->testrequest->raw('q_id'));
-        $this->ctrl->setParameter($this, 'q_id', $this->testrequest->raw('q_id'));
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass('iltestexpresspageobjectgui', 'edit'));
-
-        if ($this->getTestObject()->evalTotalPersons() == 0) {
-            $this->toolbar->addFormButton($this->lng->txt('ass_create_question'), 'createQuestionForm');
-
-            $this->toolbar->addSeparator();
-
-            $this->populateQuestionBrowserToolbarButtons($this->toolbar, ilTestQuestionBrowserTableGUI::CONTEXT_PAGE_VIEW);
-
-            $show_separator = true;
-        }
-
-        $questions = $this->getTestObject()->getQuestionTitlesAndIndexes();
-
-        // desc
-        $options = [];
-        foreach ($questions as $id => $label) {
-            $options[$id] = $label . ' [' . $this->lng->txt('question_id_short') . ': ' . $id . ']';
-        }
-
-        $optionKeys = array_keys($options);
-
-        if (!$options) {
-            $options[] = $this->lng->txt('none');
-        }
-
-        if ($questions !== []) {
-            if (isset($show_separator) && $show_separator) {
-                $this->toolbar->addSeparator();
-            }
-
-            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_prev_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
-            $this->toolbar->addComponent($btn);
-
-            if (count($options) <= 1 || $optionKeys[0] == $qid) {
-                $btn->setDisabled(true);
-            }
-
-            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_next_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
-            $this->toolbar->addComponent($btn);
-
-            if (count($options) <= 1 || $optionKeys[count($optionKeys) - 1] == $qid) {
-                $btn->setDisabled(true);
-            }
-        }
-
-        if (count($questions) > 1) {
-            $this->toolbar->addSeparator();
-            $si = new ilSelectInputGUI($this->lng->txt("test_jump_to"), "q_id");
-            $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-            $si->setOptions($options);
-
-            if ($qid) {
-                $si->setValue($qid);
-            }
-
-            $this->toolbar->addInputItem($si, true);
-        }
-
-        $total = $this->getTestObject()->evalTotalPersons();
-
-        if ($questions !== [] && $total === []) {
-            $this->ctrl->setParameter($this, 'q_id', $this->testrequest->raw('q_id'));
-            $this->toolbar->addSeparator();
-            $this->toolbar->addButton($this->lng->txt("test_delete_page"), $this->ctrl->getLinkTarget($this, "removeQuestions"));
-        }
-
-        if (count($questions) > 1 && $total === []) {
-            $this->toolbar->addSeparator();
-            $this->toolbar->addButton($this->lng->txt("test_move_page"), $this->ctrl->getLinkTarget($this, "movePageForm"));
-        }
-
-        $missing_participant_access = $this->test_access->isParticipantAllowed(
-            $this->getTestObject()->getId(),
-            $this->user->getId()
-        ) !== ParticipantAccess::ALLOWED;
-
-        if ($this->getTestObject()->getOfflineStatus()
-            || !$this->getTestObject()->isComplete($this->test_question_set_config_factory->getQuestionSetConfig())
-            || $missing_participant_access
-            || !$this->access->checkAccess('read', '', $this->ref_id)
-        ) {
-            return;
-        }
-
-        $testSession = $this->test_session_factory->getSession();
-        $executable = $this->getTestObject()->isExecutable($testSession, $this->user->getId(), true);
-        if (!$executable["executable"]) {
-            return;
-        }
-
-        $player_factory = new ilTestPlayerFactory($this->getTestObject());
-        $player_instance = $player_factory->getPlayerGUI();
-        $this->toolbar->addSeparator();
-        if ($testSession->getActiveId() > 0) {
-            $this->toolbar->addButton($this->lng->txt('tst_resume_test'), $this->ctrl->getLinkTarget($player_instance, 'resumePlayer'));
-            return;
-        }
-        $this->toolbar->addButton($this->lng->txt('tst_start_test'), $this->ctrl->getLinkTarget($player_instance, 'startTest'));
-    }
-
     public function copyQuestionsToPoolObject()
     {
         $this->copyQuestionsToPool($this->testrequest->raw('q_id'), $this->testrequest->raw('sel_qpl'));
@@ -3250,64 +3048,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
-    /**
-     * Move current page
-     */
-    protected function movePageFormObject()
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, "movePage"));
-        $form->setTitle($this->lng->txt("test_move_page"));
-
-        $old_pos = new ilHiddenInputGUI("q_id");
-        $old_pos->setValue($this->testrequest->raw('q_id'));
-        $form->addItem($old_pos);
-
-        $questions = $this->getTestObject()->getQuestionTitlesAndIndexes();
-        foreach ($questions as $k => $q) {
-            if ($k == $this->testrequest->raw('q_id')) {
-                unset($questions[$k]);
-                continue;
-            }
-            $questions[$k] = $this->lng->txt('behind') . ' ' . $q;
-        }
-
-        $options = [
-            0 => $this->lng->txt('first')
-        ];
-        foreach ($questions as $k => $q) {
-            $options[$k] = $q . ' [' . $this->lng->txt('question_id_short') . ': ' . $k . ']';
-        }
-
-        $pos = new ilSelectInputGUI($this->lng->txt('position'), 'position_after');
-        $pos->setOptions($options);
-        $form->addItem($pos);
-
-        $form->addCommandButton('movePage', $this->lng->txt('submit'));
-        $form->addCommandButton('showPage', $this->lng->txt('cancel'));
-
-        return $this->tpl->setContent($form->getHTML());
-    }
-
-    public function movePageObject()
-    {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
-            // allow only write access
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirect($this, 'infoScreen');
-        }
-
-        $this->getTestObject()->moveQuestionAfter($this->testrequest->raw('q_id'), $this->testrequest->raw('position_after'));
-        $this->showPageObject();
-    }
-
-    public function showPageObject()
-    {
-        $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $this->testrequest->raw('q_id'));
-        $this->ctrl->redirectByClass('iltestexpresspageobjectgui', 'showPage');
-    }
-
-    public function copyQuestionObject(): void
+    public function copyQuestionObject()
     {
         $this->protectByWritePermission();
 
