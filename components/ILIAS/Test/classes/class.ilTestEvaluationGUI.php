@@ -945,7 +945,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $this->buildResultsTitle($pass)
+            $this->buildResultsTitle($active_id, $pass)
         );
 
         $this->setCss();
@@ -1007,7 +1007,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $table = $this->results_presentation_factory->getPassResultsPresentationTable(
                 $pass_results,
-                $this->buildResultsTitle($pass)
+                $this->buildResultsTitle($active_id, $pass)
             );
 
             $anchor = '<a name="participant_active_' . $active_id . '"></a>';
@@ -1232,7 +1232,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $this->buildResultsTitle($pass)
+            $this->buildResultsTitle($active_id, $pass)
         );
 
         $tpl->setVariable("LIST_OF_ANSWERS", $table->render());
@@ -2058,7 +2058,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->http->close();
     }
 
-    protected function buildResultsTitle(int $pass): string
+    protected function buildResultsTitle(int $active_id, int $pass): string
     {
         if ($this->object->getAnonymity()) {
             return sprintf(
