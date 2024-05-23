@@ -43,7 +43,8 @@ Responsibilities of a component maintainer:
   by the [Issue-Tracker](https://mantis.ilias.de).
 - Component maintainers are responsible for Pull Requests to their component and get assigned related Pull Requests
   by the Technical Board according to the [Rules for Maintainers and Coordinators assigned to PRs[(Rules for Maintainers and Coordinators assigned to PRs)
-
+- Component maintainer are obliged to demand any contribution to their component in form of a PR and to provide
+  their own contributions in form of PRs, too. Fixes regarding the security of ILIAS are excluded from that rule.
 
 ## Becoming a Maintainer
 
