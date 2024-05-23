@@ -1208,7 +1208,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $data = $this->object->getCompleteEvaluationData();
-        $percent = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() / $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() * 100;
+        $reached = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints();
+        $max = $data->getParticipant($active_id)->getPass($pass)->getMaxPoints();
+        $percent = $max ? $reached / $max * 100.0 : 0;
         $result = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() . " (" . sprintf("%2.2f", $percent) . " %" . ")";
         $tpl->setCurrentBlock('total_score');
         $tpl->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
