@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.

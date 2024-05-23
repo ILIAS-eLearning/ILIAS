@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
 use ILIAS\Test\Certificate\TestPlaceholderValues;
 
 /**

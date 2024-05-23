@@ -18,16 +18,18 @@
 
 declare(strict_types=1);
 
-class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholderDescription
+namespace ILIAS\StudyProgramme\Certificate;
+
+class ilStudyProgrammePlaceholderDescription implements \ilCertificatePlaceholderDescription
 {
-    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private readonly ilLanguage $language;
+    private readonly \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly \ilLanguage $language;
     private array $placeholder;
 
     public function __construct(
-        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ?ilLanguage $language = null,
-        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?\ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?\ilLanguage $language = null,
+        ?\ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -38,7 +40,7 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
+            $defaultPlaceholderDescriptionObject = new \ilDefaultPlaceholderDescription(
                 $language,
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
@@ -58,10 +60,10 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
      * This methods MUST return an array containing an array with
      * the the description as array value.
      */
-    public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
+    public function createPlaceholderHtmlDescription(?\ilTemplate $template = null): string
     {
         if (null === $template) {
-            $template = new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
+            $template = new \ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');
         }
 
         $template->setVariable("PLACEHOLDER_INTRODUCTION", $this->language->txt('certificate_ph_introduction'));

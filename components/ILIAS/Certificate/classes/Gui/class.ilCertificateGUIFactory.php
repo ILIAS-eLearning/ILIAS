@@ -19,6 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderDescription;
+use ILIAS\StudyProgramme\Certificate\ilCertificateSettingsStudyProgrammeFormRepository;
 use ILIAS\Test\Certificate\TestPlaceholderValues;
 use ILIAS\Test\Certificate\TestPlaceholderDescription;
 use ILIAS\Course\Certificate\CertificateTestTemplateDeleteAction;

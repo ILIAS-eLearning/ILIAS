@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
-class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
+namespace ILIAS\StudyProgramme\Certificate;
+
+class ilStudyProgrammePlaceholderValues implements \ilCertificatePlaceholderValues
 {
-    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly \ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly \ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
-        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ?ilLanguage $language = null,
-        ?ilCertificateObjectHelper $objectHelper = null
+        ?\ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?\ilLanguage $language = null,
+        ?\ilCertificateObjectHelper $objectHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -35,11 +37,11 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         }
 
         if (null === $defaultPlaceholderValues) {
-            $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
+            $defaultPlaceholderValues = new \ilDefaultPlaceholderValues();
         }
 
         if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
+            $objectHelper = new \ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
 
@@ -52,9 +54,9 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @throws ilDatabaseException
-     * @throws ilException
-     * @throws ilObjectNotFoundException
+     * @throws \ilDatabaseException
+     * @throws \ilException
+     * @throws \ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId): array
     {
@@ -64,19 +66,19 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $latest_progress = $this->getRelevantProgressFromAssignments($assignments);
         $type = $object->getSubType();
 
-        $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
-        $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
-        $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $placeholders['PRG_TITLE'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+        $placeholders['PRG_DESCRIPTION'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
+        $placeholders['PRG_TYPE'] = \ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
+        $placeholders['PRG_POINTS'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress ? (string) $latest_progress->getCurrentAmountOfPoints() : ''
         );
-        $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress && $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
+        $placeholders['PRG_COMPLETION_DATE'] = \ilLegacyFormElementsUtil::prepareFormOutput(
+            $latest_progress && $latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''
         );
-        $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $placeholders['PRG_EXPIRES_AT'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress && $latest_progress->getValidityOfQualification(
-            ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
+            ) instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;
     }
@@ -92,17 +94,17 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $type = $object->getSubType();
-        $today = ilLegacyFormElementsUtil::prepareFormOutput((new DateTime())->format('d.m.Y'));
-        $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
-        $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
-        $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
+        $today = \ilLegacyFormElementsUtil::prepareFormOutput((new \DateTime())->format('d.m.Y'));
+        $placeholders['PRG_TITLE'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+        $placeholders['PRG_DESCRIPTION'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
+        $placeholders['PRG_TYPE'] = \ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
+        $placeholders['PRG_POINTS'] = \ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
         $placeholders['PRG_COMPLETION_DATE'] = $today;
         $placeholders['PRG_EXPIRES_AT'] = $today;
         return $placeholders;
     }
 
-    protected function getRelevantProgressFromAssignments(array $assignments): ?ilPRGProgress
+    protected function getRelevantProgressFromAssignments(array $assignments): ?\ilPRGProgress
     {
         if (count($assignments) === 0) {
             return null;
@@ -115,7 +117,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         return $latest_progress;
     }
 
-    protected function getLatestSuccessfulAssignment(array $assignments): ?ilPRGAssignment
+    protected function getLatestSuccessfulAssignment(array $assignments): ?\ilPRGAssignment
     {
         $successful = array_filter(
             $assignments,
@@ -132,7 +134,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         );
         if (count($unlimited) > 0) {
             $successful = $unlimited;
-            usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            usort($successful, static function (\ilPRGAssignment $a, \ilPRGAssignment $b): int {
                 $a_dat = $a->getProgressTree()->getCompletionDate();
                 $b_dat = $b->getProgressTree()->getCompletionDate();
                 if ($a_dat > $b_dat) {
@@ -150,7 +152,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
                 fn($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
             );
             $successful = $limited;
-            usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
+            usort($successful, static function (\ilPRGAssignment $a, \ilPRGAssignment $b): int {
                 $a_dat = $a->getProgressTree()->getValidityOfQualification();
                 $b_dat = $b->getProgressTree()->getValidityOfQualification();
                 if ($a_dat > $b_dat) {

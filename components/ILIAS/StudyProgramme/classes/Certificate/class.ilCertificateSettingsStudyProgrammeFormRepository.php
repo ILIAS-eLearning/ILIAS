@@ -18,28 +18,30 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Exception\IOException;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
+namespace ILIAS\StudyProgramme\Certificate;
 
-class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificateFormRepository
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+
+class ilCertificateSettingsStudyProgrammeFormRepository implements \ilCertificateFormRepository
 {
-    private readonly ilCertificateSettingsFormRepository $settingsFormRepository;
+    private readonly \ilCertificateSettingsFormRepository $settingsFormRepository;
 
     public function __construct(
-        ilObject $object,
+        \ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
-        ilLanguage $language,
-        ilCtrlInterface $ctrl,
-        ilAccess $access,
-        ilToolbarGUI $toolbar,
-        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
+        \ilLanguage $language,
+        \ilCtrlInterface $ctrl,
+        \ilAccess $access,
+        \ilToolbarGUI $toolbar,
+        \ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        ?\ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
         global $DIC;
 
-        $this->settingsFormRepository = $settingsFormRepository ?? new ilCertificateSettingsFormRepository(
+        $this->settingsFormRepository = $settingsFormRepository ?? new \ilCertificateSettingsFormRepository(
             $object->getId(),
             $certificatePath,
             $hasAdditionalElements,
@@ -57,11 +59,11 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
-     * @throws ilDatabaseException
-     * @throws ilException
-     * @throws ilWACException
+     * @throws \ilDatabaseException
+     * @throws \ilException
+     * @throws \ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
+    public function createForm(\ilCertificateGUI $certificateGUI): \ilPropertyFormGUI
     {
         return $this->settingsFormRepository->createForm($certificateGUI);
     }
