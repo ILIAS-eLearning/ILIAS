@@ -32,12 +32,6 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_lng();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilComponentRepository();
-
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
             ->method("getFormAction")
@@ -51,7 +45,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
 
         $this->parentObj_mock = $this->createMock(ilTestParticipantsGUI::class);
-        $objTest_mock = $this->createMock(ilObjTest::class);
+        $objTest_mock = $this->getTestObjMock();
 
         $this->parentObj_mock
             ->expects($this->any())

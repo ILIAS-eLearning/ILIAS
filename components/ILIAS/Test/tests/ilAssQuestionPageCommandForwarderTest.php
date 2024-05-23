@@ -25,15 +25,13 @@ declare(strict_types=1);
 class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
 {
     private ilAssQuestionPageCommandForwarder $testObj;
-    private ilObjTest $test;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->test = $this->createMock(ilObjTest::class);
         $this->testObj = new ilAssQuestionPageCommandForwarder(
-            $this->test,
+            $this->getTestObjMock(),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),

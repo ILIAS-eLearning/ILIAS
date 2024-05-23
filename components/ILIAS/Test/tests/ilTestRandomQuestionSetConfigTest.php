@@ -28,8 +28,6 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilComponentRepository();
-
         $this->testObj = new ilTestRandomQuestionSetConfig(
             $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilDBInterface::class),

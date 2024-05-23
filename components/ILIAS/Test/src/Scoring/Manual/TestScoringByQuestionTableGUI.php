@@ -46,7 +46,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
 
     public function __construct(TestScoringByQuestionGUI $parent_obj, private \ilAccess $access)
     {
-        $local_dic = TestDIC::dic();
+        $local_dic = $parent_obj->getObject()->getLocalDIC();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());

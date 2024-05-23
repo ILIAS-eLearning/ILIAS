@@ -33,7 +33,6 @@ class MarkSchemaTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
         $this->ass_mark_schema = new MarkSchema(0);

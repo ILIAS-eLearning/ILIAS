@@ -21,8 +21,6 @@ declare(strict_types=1);
 /**
  * Class ilObjTestTest
  *
- * @runTestsInSeparateProcesses
- *
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilObjTestTest extends ilTestBaseTestCase
@@ -36,22 +34,13 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_ilBench();
         $this->addGlobal_ilUser();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilias();
-        $this->addGlobal_ilDB();
         $this->addGlobal_ilErr();
         $this->addGlobal_ilLog();
         $this->addGlobal_ilSetting();
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
-        $this->addGlobal_objDefinition();
         $this->addGlobal_filesystem();
-        $this->addGlobal_fileDelivery();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilComponentFactory();
-        $this->addGlobal_ilAccess();
-        $this->addGlobal_static_url();
-        $this->addGlobal_http();
 
         $this->testObj = new ilObjTest();
     }

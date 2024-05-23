@@ -38,7 +38,7 @@ class MarkSchemaGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilTabs();
 
         $this->testObj = new MarkSchemaGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilObjUser::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),

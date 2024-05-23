@@ -34,7 +34,7 @@ class ilMyTestResultsGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->test = $this->createMock(ilObjTest::class);
+        $this->test = $this->getTestObjMock();
         $this->access = $this->createMock(ilTestAccess::class);
         $this->session = $this->createMock(ilTestSession::class);
         $this->objective_parent = $this->createMock(ilTestObjectiveOrientedContainer::class);

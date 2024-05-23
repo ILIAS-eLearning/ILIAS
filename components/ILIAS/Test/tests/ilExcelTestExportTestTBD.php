@@ -21,7 +21,7 @@ class ilExcelTestExportTest extends ilTestBaseTestCase
     public function testConstruct(): void
     {
         $ilExcelTestExport = new ilExcelTestExport(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             '',
             '',
             false,

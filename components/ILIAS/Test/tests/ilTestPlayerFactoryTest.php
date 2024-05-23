@@ -30,7 +30,7 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestPlayerFactory($this->createMock(ilObjTest::class));
+        $this->testObj = new ilTestPlayerFactory($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

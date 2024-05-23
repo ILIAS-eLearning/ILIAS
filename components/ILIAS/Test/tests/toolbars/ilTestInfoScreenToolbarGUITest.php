@@ -31,18 +31,13 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilAccess();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
         $this->addGlobal_ilUser();
-        $this->addGlobal_tpl();
         $this->addGlobal_ilToolbar();
 
 
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestPlayerFixedQuestionSetGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),

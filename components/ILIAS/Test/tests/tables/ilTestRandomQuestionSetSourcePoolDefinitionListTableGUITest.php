@@ -31,10 +31,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
     {
         parent::setUp();
 
-        $this->addGlobal_lng();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilComponentRepository();
-
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
                   ->method("getFormAction")
