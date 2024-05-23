@@ -1100,22 +1100,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if (get_class($this->object) == 'ilObjTest') {
             if ($this->qplrequest->raw('calling_test') > 0) {
-                $ref_id = $this->qplrequest->raw('calling_test');
-                $q_id = $this->qplrequest->raw('q_id');
+                $this->ctrl->setParameterByClass(
+                    ilObjTestGUI::class,
+                    'ref_id',
+                    $this->qplrequest->int('calling_test')
+                );
 
-                if ($this->qplrequest->raw('test_express_mode')) {
-                    if ($q_id) {
-                        ilUtil::redirect(
-                            'ilias.php?ref_id=' . $ref_id . '&q_id=' . $q_id . '&test_express_mode=1&cmd=showPage&cmdClass=iltestexpresspageobjectgui&baseClass=ilObjTestGUI'
-                        );
-                    } else {
-                        ilUtil::redirect(
-                            'ilias.php?ref_id=' . $ref_id . '&test_express_mode=1&cmd=showPage&cmdClass=iltestexpresspageobjectgui&baseClass=ilObjTestGUI'
-                        );
-                    }
-                } else {
-                    ilUtil::redirect('ilias.php?baseClass=ilObjTestGUI&ref_id=' . $ref_id . '&cmd=questions');
-                }
+                $this->ctrl->redirectByClass(ilObjTestGUI::class, 'questions');
             }
         }
 
