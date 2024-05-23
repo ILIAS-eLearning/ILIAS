@@ -30,7 +30,9 @@ use ILIAS\Setup\Config;
  */
 class ilSetupAgent implements Setup\Agent
 {
-    public const PHP_MEMORY_LIMIT = "128M";
+    private const PHP_MEMORY_LIMIT = "128M";
+    private const PHP_MIN_VERSION = "8.1.0";
+    private const PHP_MAX_VERSION = "8.2.999";
 
     protected Refinery\Factory $refinery;
     protected Data\Factory $data;
@@ -82,7 +84,7 @@ class ilSetupAgent implements Setup\Agent
             new Setup\ObjectiveCollection(
                 "Complete common ILIAS objectives.",
                 false,
-                new Setup\Condition\PHPVersionCondition("8.1.0"),
+                new Setup\Condition\PHPVersionCondition(self::PHP_MIN_VERSION, self::PHP_MAX_VERSION, true),
                 new Setup\Condition\PHPExtensionLoadedCondition("dom"),
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
@@ -118,6 +120,7 @@ class ilSetupAgent implements Setup\Agent
         $objectives = [
             new Setup\Objective\ObjectiveWithPreconditions(
                 new ilVersionWrittenToSettingsObjective($this->data),
+                new Setup\Condition\PHPVersionCondition(self::PHP_MIN_VERSION, self::PHP_MAX_VERSION, true),
                 new ilNoMajorVersionSkippedConditionObjective($this->data),
                 new ilNoVersionDowngradeConditionObjective($this->data)
             )
