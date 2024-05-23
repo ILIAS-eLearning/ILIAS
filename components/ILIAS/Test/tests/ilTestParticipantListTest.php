@@ -32,10 +32,9 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
 
         $this->testObj = new ilTestParticipantList(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $DIC['ilUser'],
             $DIC['lng'],
             $DIC['ilDB'],

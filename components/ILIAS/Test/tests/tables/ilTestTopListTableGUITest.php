@@ -51,7 +51,7 @@ class ilTestTopListTableGUITest extends ilTestBaseTestCase
         $this->parentObj_mock = $this->createMock(ilTestToplistGUI::class);
         $this->tableGui = new ilTestTopListTableGUI(
             $this->parentObj_mock,
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
     }
 

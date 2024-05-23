@@ -32,18 +32,12 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilAccess();
         $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
-        $this->addGlobal_tpl();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestResultsGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestQuestionSetConfig::class),
             $DIC['ilCtrl'],
             $DIC['ilAccess'],
@@ -79,7 +73,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $mock = $this->createMock(ilObjTest::class);
+        $mock = $this->getTestObjMock();
         $this->testObj->setTestObj($mock);
         $this->assertEquals($mock, $this->testObj->getTestObj());
     }

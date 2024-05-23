@@ -30,14 +30,13 @@ class TestScoringTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
         $this->testObj = new TestScoring(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilObjUser::class),
-            $DIC['ilDB'],
-            $DIC['lng']
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLanguage::class)
         );
     }
 

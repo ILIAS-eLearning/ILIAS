@@ -34,7 +34,7 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_ilBench();
 
         $this->testObj = new ilTestExportFactory(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilLanguage::class),
             $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilTree::class),

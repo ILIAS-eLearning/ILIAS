@@ -25,10 +25,6 @@ declare(strict_types=1);
 class ilTestParticipantsGUITest extends ilTestBaseTestCase
 {
     private ilTestParticipantsGUI $testObj;
-    /**
-     * @var \ILIAS\DI\Container|mixed
-     */
-    private $backup_dic;
 
     protected function setUp(): void
     {
@@ -44,7 +40,7 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
 
         $this->testObj = new ilTestParticipantsGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestQuestionSetConfig::class),
             $DIC['ilAccess'],
             $DIC['tpl'],
@@ -59,12 +55,6 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
         );
     }
 
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
-    }
-
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantsGUI::class, $this->testObj);
@@ -72,7 +62,7 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $mock = $this->createMock(ilObjTest::class);
+        $mock = $this->getTestObjMock();
         $this->testObj->setTestObj($mock);
         $this->assertEquals($mock, $this->testObj->getTestObj());
     }

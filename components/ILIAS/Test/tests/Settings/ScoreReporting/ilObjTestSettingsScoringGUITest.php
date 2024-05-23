@@ -48,7 +48,7 @@ class SettingsScoringGUITest extends ilTestBaseTestCase
         $objTestGui_mock->expects(
             $this->any()
         )->method('getObject')->willReturn(
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
 
         [$ui_factory, $ui_renderer, $request, $refinery, $main_template, $tabs_gui] = $this->getUIComponents();

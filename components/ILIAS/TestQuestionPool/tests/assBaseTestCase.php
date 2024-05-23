@@ -95,9 +95,4 @@ abstract class assBaseTestCase extends TestCase
     {
         return $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
     }
-
-    protected function getFileDeliveryMock()
-    {
-        return $this->getMockBuilder(\ILIAS\FileDelivery\Services::class)->disableOriginalConstructor()->getMock();
-    }
 }

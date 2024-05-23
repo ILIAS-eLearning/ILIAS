@@ -28,29 +28,13 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
 
-    private Container $backup_dic;
-
     protected function setUp(): void
     {
         parent::setUp();
-        global $DIC;
-
-        $this->backup_dic = $DIC;
-        $DIC = new Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
-        ]);
-
-        $this->setGlobalVariable('lng', $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
 
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
     }
 
     public function testSetAndGetOldQuestionSetType(): void

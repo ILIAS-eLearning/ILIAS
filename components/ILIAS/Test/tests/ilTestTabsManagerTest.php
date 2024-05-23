@@ -32,13 +32,11 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         global $DIC;
+        parent::setUp();
 
         $this->addGlobal_ilTabs();
-        $this->addGlobal_ilAccess();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
 
         $this->testObj = new ilTestTabsManager(
             $this->createMock(ilObjUser::class),
@@ -89,7 +87,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
 
     public function testTestOBJ(): void
     {
-        $mock = $this->createMock(ilObjTest::class);
+        $mock = $this->getTestObjMock();
         $this->testObj->setTestOBJ($mock);
         $this->assertEquals($mock, $this->testObj->getTestOBJ());
     }

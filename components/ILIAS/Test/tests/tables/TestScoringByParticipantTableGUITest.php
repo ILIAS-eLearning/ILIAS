@@ -58,7 +58,7 @@ class TestScoringByParticipantTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->getMockBuilder(TestScoringByParticipantGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new TestScoringByParticipantTableGUI($this->parentObj_mock, "");
     }
 

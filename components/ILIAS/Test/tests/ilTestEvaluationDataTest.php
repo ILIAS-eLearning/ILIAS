@@ -30,10 +30,7 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        global $DIC;
-        $this->addGlobal_ilDB();
-
-        $this->testObj = new ilTestEvaluationData($DIC['ilDB']);
+        $this->testObj = new ilTestEvaluationData($this->createMock(ilDBInterface::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -58,7 +55,7 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
 
     public function testTest(): void
     {
-        $value_mock = $this->createMock(ilObjTest::class);
+        $value_mock = $this->getTestObjMock();
         $this->testObj->setTest($value_mock);
 
         $this->assertEquals($value_mock, $this->testObj->getTest());

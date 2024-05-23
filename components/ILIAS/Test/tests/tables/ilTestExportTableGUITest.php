@@ -50,11 +50,11 @@ class ilTestExportTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilAccess", $this->createMock(ilAccessHandler::class));
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestExportTableGUI(
             $this->parentObj_mock,
             "",
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
     }
 

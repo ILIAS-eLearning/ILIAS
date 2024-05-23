@@ -68,12 +68,12 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $objTest_mock = $this->createMock(ilObjTest::class);
+        $obj_test_mock = $this->getTestObjMock();
 
         $this->assertNull($this->testObj->getTestObj());
 
-        $this->testObj->setTestObj($objTest_mock);
-        $this->assertEquals($objTest_mock, $this->testObj->getTestObj());
+        $this->testObj->setTestObj($obj_test_mock);
+        $this->assertEquals($obj_test_mock, $this->testObj->getTestObj());
     }
 
     public function testQuestionSetConfig(): void

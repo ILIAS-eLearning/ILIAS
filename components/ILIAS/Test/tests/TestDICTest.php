@@ -21,6 +21,11 @@ use ILIAS\Test\TestDIC;
 
 class TestDICTest extends ilTestBaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
+
     public function testConstruct(): void
     {
         $test_dic = new TestDIC();

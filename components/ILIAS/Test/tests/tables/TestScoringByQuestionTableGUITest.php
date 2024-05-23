@@ -34,38 +34,34 @@ class TestScoringByQuestionTableGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilComponentRepository();
-        $this->addGlobal_ilAccess();
-
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->any())
-            ->method("txt")
+            ->method('txt')
             ->willReturnCallback(function () {
-                return "testTranslation";
+                return 'testTranslation';
             });
-        $this->setGlobalVariable("lng", $lng_mock);
+        $this->setGlobalVariable('lng', $lng_mock);
 
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
-            ->method("getFormAction")
+            ->method('getFormAction')
             ->willReturnCallback(function () {
-                return "testFormAction";
+                return 'testFormAction';
             });
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
+        $this->setGlobalVariable('ilCtrl', $ctrl_mock);
 
         $component_factory = $this->createMock(ilComponentFactory::class);
-        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
-        $this->setGlobalVariable("component.factory", $component_factory);
+        $component_factory->method('getActivePluginsInSlot')->willReturn(new ArrayIterator());
+        $this->setGlobalVariable('component.factory', $component_factory);
 
-        $objTest_mock = $this->createMock(ilObjTest::class);
+        $objTest_mock = $this->getTestObjMock();
         $objTest_mock->expects($this->any())
-            ->method("getTestQuestions")
+            ->method('getTestQuestions')
             ->willReturnCallback(function () {
                 return [];
             });
         $objTest_mock->expects($this->any())
-            ->method("getPotentialRandomTestQuestions")
+            ->method('getPotentialRandomTestQuestions')
             ->willReturnCallback(function () {
                 return [];
             });
@@ -74,7 +70,10 @@ class TestScoringByQuestionTableGUITest extends ilTestBaseTestCase
             ->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($objTest_mock);
 
-        $this->tableGui = new TestScoringByQuestionTableGUI($this->parentObj_mock, $DIC['ilAccess']);
+        $this->tableGui = new TestScoringByQuestionTableGUI(
+            $this->parentObj_mock,
+            $this->createMock(ilAccess::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

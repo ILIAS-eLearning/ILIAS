@@ -28,11 +28,10 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
         $this->testObj = new ilTestRandomQuestionsQuantitiesDistribution(
-            $DIC->database(),
+            $this->createMock(ilDBInterface::class),
             $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class),
             $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class)
         );

@@ -38,7 +38,7 @@ class ilTestScreenGUITest extends ilTestBaseTestCase
     public function testConstruct(): void
     {
         $ilTestScreenGUI = new ilTestScreenGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilObjUser::class),
             $this->createMock(UIFactory::class),
             $this->createMock(UIRenderer::class),

@@ -31,7 +31,7 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestSkillEvaluationGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),

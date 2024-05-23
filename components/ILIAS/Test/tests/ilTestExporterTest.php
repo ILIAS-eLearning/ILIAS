@@ -29,7 +29,6 @@ class ilTestExporterTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->addGlobal_ilComponentRepository();
 
         $this->testObj = new ilTestExporter();
     }

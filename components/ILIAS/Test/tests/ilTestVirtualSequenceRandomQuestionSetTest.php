@@ -32,7 +32,7 @@ class ilTestVirtualSequenceRandomQuestionSetTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestVirtualSequenceRandomQuestionSet(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestSequenceFactory::class)
         );
     }
