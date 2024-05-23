@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
@@ -31,7 +31,9 @@ use ILIAS\Setup\Config;
  */
 class ilSetupAgent implements Setup\Agent
 {
-    public const PHP_MEMORY_LIMIT = "128M";
+    private const PHP_MEMORY_LIMIT = "128M";
+    private const PHP_MIN_VERSION = "7.4.0";
+    private const PHP_MAX_VERSION = "8.0.999";
 
     protected Refinery\Factory $refinery;
     protected Data\Factory $data;
@@ -78,7 +80,7 @@ class ilSetupAgent implements Setup\Agent
             new Setup\ObjectiveCollection(
                 "Complete common ILIAS objectives.",
                 false,
-                new Setup\Condition\PHPVersionCondition("7.4.0"),
+                new Setup\Condition\PHPVersionCondition(self::PHP_MIN_VERSION, self::PHP_MAX_VERSION, true),
                 new Setup\Condition\PHPExtensionLoadedCondition("dom"),
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
@@ -121,6 +123,7 @@ class ilSetupAgent implements Setup\Agent
         $objectives = [
             new Setup\Objective\ObjectiveWithPreconditions(
                 new ilVersionWrittenToSettingsObjective($this->data),
+                new Setup\Condition\PHPVersionCondition(self::PHP_MIN_VERSION, self::PHP_MAX_VERSION, true),
                 new ilNoMajorVersionSkippedConditionObjective($this->data),
                 new ilNoVersionDowngradeConditionObjective($this->data)
             )
