@@ -32,5 +32,9 @@ class StudyProgramme implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        new \ilStudyProgrammeSetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
     }
 }
