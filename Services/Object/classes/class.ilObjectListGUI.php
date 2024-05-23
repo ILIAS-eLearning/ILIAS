@@ -1359,6 +1359,7 @@ class ilObjectListGUI
                 ];
                 $nl = false;
             }
+
             $cnt_tags = self::$cnt_tags[$note_obj_id] ?? 0;
             if ($this->tags_enabled && ($cnt_tags > 0 || isset(self::$tags[$note_obj_id]))) {
                 $tags_set = new ilSetting("tags");
