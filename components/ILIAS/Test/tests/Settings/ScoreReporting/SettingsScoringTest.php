@@ -18,7 +18,7 @@
 
 namespace ScoreReporting;
 
-use ILIAS\Test\Settings\ScoreReporting\SettingsScoring;
+use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ilTestBaseTestCase;
 
 class SettingsScoringTest extends ilTestBaseTestCase
