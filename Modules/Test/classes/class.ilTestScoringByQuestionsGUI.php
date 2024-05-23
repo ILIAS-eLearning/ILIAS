@@ -158,10 +158,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function saveManScoringByQuestion(bool $ajax = false): void
     {
-        $transform_scorings = $this->refinery->custom()->transformation(function ($value) use (&$transform_scorings) {
+        $transform_scoring = $this->refinery->custom()->transformation(function ($value) use (&$transform_scoring) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    $value[$key] = $transform_scorings->transform($val);
+                    $value[$key] = $transform_scoring->transform($val);
                 }
             } elseif (is_string($value)) {
                 $value = $this->refinery->byTrying([
@@ -179,11 +179,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             return $value;
         });
 
-        $transform_finalazation = $this->refinery->custom()->transformation(
-            function ($value) use (&$transform_finalazation) {
+        $transform_finalization = $this->refinery->custom()->transformation(
+            function ($value) use (&$transform_finalization) {
                 if (is_array($value)) {
                     foreach ($value as $key => $val) {
-                        $value[$key] = $transform_finalazation->transform($val);
+                        $value[$key] = $transform_finalization->transform($val);
                     }
                 } elseif (is_string($value)) {
                     $value = $this->refinery->byTrying([
@@ -205,14 +205,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $scoring = $this->http->wrapper()->post()->retrieve(
             'scoring',
             $this->refinery->byTrying([
-                $transform_scorings,
+                $transform_scoring,
                 $this->refinery->always([])
             ])
         );
-        $finalizazion = $this->http->wrapper()->post()->retrieve(
+        $finalization = $this->http->wrapper()->post()->retrieve(
             'evaluated',
             $this->refinery->byTrying([
-                $transform_finalazation,
+                $transform_finalization,
                 $this->refinery->always([])
             ])
         );
@@ -306,7 +306,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 }
 
                 $this->saveFinalization(
-                    $finalizazion,
+                    $finalization,
                     (int) $active_id,
                     (int) $qst_id,
                     (int) $pass,
@@ -654,9 +654,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     }
 
     /**
-     * @param $result_output
-     * @param $reached_points
-     * @param $max_points
+     * @param ilTemplate $tmp_tpl
+     * @param            $result_output
+     * @param            $reached_points
+     * @param            $max_points
      */
     private function appendSolutionAndPointsToModal(
         ilTemplate $tmp_tpl,
@@ -697,10 +698,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     }
 
     /**
-     * @param array<numeric-string|int, array<numeric-string|int, array<numeric-string|int, bool>>> $finalizazion
+     * @param array<numeric-string|int, array<numeric-string|int, array<numeric-string|int, bool>>> $finalization
      */
     private function saveFinalization(
-        array $finalizazion,
+        array $finalization,
         int $active_id,
         int $qst_id,
         int $pass,
@@ -708,8 +709,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         bool $is_single_feedback
     ): void {
         $finalized = false;
-        if ($this->doesValueExistsInPostArray($finalizazion, $active_id, $qst_id, $pass)) {
-            $finalized = $finalizazion[$pass][$active_id][$qst_id] ?? false;
+        if ($this->doesValueExistsInPostArray($finalization, $active_id, $qst_id, $pass)) {
+            $finalized = $finalization[$pass][$active_id][$qst_id] ?? false;
         }
 
         $this->object->saveManualFeedback(
@@ -723,10 +724,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     }
 
     /**
-     * @param array<numeric-string|int, array<numeric-string|int, array<numeric-string|int, bool>>> $finalizazion
+     * @param array<numeric-string|int, array<numeric-string|int, array<numeric-string|int, bool>>> $finalization
      */
-    private function doesValueExistsInPostArray(array $finalizazion, int $active_id, int $qst_id, int $pass): bool
+    private function doesValueExistsInPostArray(array $finalization, int $active_id, int $qst_id, int $pass): bool
     {
-        return isset($finalizazion[$pass][$active_id][$qst_id]);
+        return isset($finalization[$pass][$active_id][$qst_id]);
     }
 }
