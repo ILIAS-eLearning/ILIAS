@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
-use ILIAS\Test\Settings\ScoreReporting\SettingsScoring;
+use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultDetails;
 use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;

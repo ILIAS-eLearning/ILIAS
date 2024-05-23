@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
+use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
+
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
     public const TABLE_NAME = 'tst_tests';
@@ -94,7 +96,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
             //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
             (new SettingsResultDetails($test_id))
-                ->withResultsPresentation((int)$row['results_presentation'])
+                ->withResultsPresentation((int) $row['results_presentation'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings']),
             (new SettingsGamification($test_id))
