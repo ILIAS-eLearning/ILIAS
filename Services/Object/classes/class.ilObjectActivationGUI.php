@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjectActivationGUI
@@ -161,7 +161,11 @@ class ilObjectActivationGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
-        $title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getItemId()));
+        $title = htmlspecialchars(
+            ilObject::_lookupTitle(ilObject::_lookupObjId($this->getItemId())),
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
         $form->setTitle($title . ': ' . $this->lng->txt('crs_edit_timings'));
 
         $availability = new ilCheckboxInputGUI($this->lng->txt('crs_timings_availability_enabled'), 'availability');
