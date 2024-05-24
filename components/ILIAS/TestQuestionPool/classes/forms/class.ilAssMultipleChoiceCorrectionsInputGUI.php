@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\ConstraintViolationException;
+
 /**
  * Class ilAssSingleChoiceCorrectionsInputGUI
  *
@@ -44,40 +46,53 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $foundvalues = $this->post_wrapper->retrieve(
+            $this->getPostVar(),
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->container()->mapValues(
+                        $this->refinery->identity()
+                    ),
+                    $this->refinery->always([])
+                ]
+            )
+        );
 
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
-            // check points
-            $max = 0;
-            if (is_array($foundvalues['points'])) {
-                foreach ($foundvalues['points'] as $points) {
-                    $points = str_replace(',', '.', $points);
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-                foreach ($foundvalues['points_unchecked'] as $points) {
-                    if ($points > $max) {
-                        $max = $points;
-                    }
-                    if (((strlen($points)) == 0) || (!is_numeric($points))) {
-                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
-                        return false;
-                    }
-                }
-            }
-            if ($max == 0) {
-                $this->setAlert($lng->txt("enter_enough_positive_points"));
+        if ($foundvalues === []) {
+            $this->setAlert($this->lng->txt("msg_input_is_required"));
+            return false;
+        }
+
+        if (!is_array($foundvalues['points'])) {
+            $this->setAlert($this->lng->txt("enter_enough_positive_points"));
+            return false;
+        }
+
+        $max = 0;
+        foreach ($foundvalues['points'] as $points) {
+            try {
+                $points = $this->refinery->kindlyTo()->float()->transform($points);
+            } catch (ConstraintViolationException $e) {
+                $this->setAlert($this->lng->txt("form_msg_numeric_value_required"));
                 return false;
             }
-        } else {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+            if ($points > $max) {
+                $max = $points;
+            }
+        }
+        foreach ($foundvalues['points_unchecked'] as $points) {
+            try {
+                $points = $this->refinery->kindlyTo()->float()->transform($points);
+            } catch (ConstraintViolationException $e) {
+                $this->setAlert($this->lng->txt("form_msg_numeric_value_required"));
+                return false;
+            }
+            if ($points > $max) {
+                $max = $points;
+            }
+        }
+        if ($max == 0) {
+            $this->setAlert($lng->txt("enter_enough_positive_points"));
             return false;
         }
 
@@ -86,19 +101,20 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $lng = $DIC->language();
-
         $tpl = new ilTemplate("tpl.prop_multiplechoicecorrection_input.html", true, true, "components/ILIAS/TestQuestionPool");
 
         $i = 0;
-
         foreach ($this->values as $value) {
             if ($this->qstObject->isSingleline()) {
+<<<<<<< HEAD
                 if ($value->hasImage()) {
+=======
+                $image = $value->getImage();
+                if ($image !== null && $image !== '') {
+>>>>>>> f9d1fb86e11 (Test: Fix Types in Corrections)
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                     if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
-                        if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
+                        if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                         }
                     }
@@ -137,18 +153,18 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
 
         if ($this->qstObject->isSingleline()) {
             $tpl->setCurrentBlock("image_heading");
-            $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+            $tpl->setVariable("ANSWER_IMAGE", $this->lng->txt('answer_image'));
             $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
 
         $tpl->setCurrentBlock("points_heading");
-        $tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('points_checked'));
-        $tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('points_unchecked'));
+        $tpl->setVariable("POINTS_CHECKED_TEXT", $this->lng->txt('points_checked'));
+        $tpl->setVariable("POINTS_UNCHECKED_TEXT", $this->lng->txt('points_unchecked'));
         $tpl->parseCurrentBlock();
 
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-        $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
+        $tpl->setVariable("ANSWER_TEXT", $this->lng->txt('answer_text'));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());

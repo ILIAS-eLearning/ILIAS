@@ -102,7 +102,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function isComplete(): bool
     {
-        if (strlen($this->getTitle())
+        if ($this->getTitle() !== ''
             && $this->getAuthor()
             && $this->getClozeText()
             && count($this->getGaps())
