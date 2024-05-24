@@ -3248,10 +3248,10 @@ class ilObjectListGUI
         $def_command = $this->getDefaultCommand();
 
         $dropdown = $ui->factory()->dropdown()->standard($actions)
-                       ->withAriaLabel(sprintf(
-                           $this->lng->txt('actions_for'),
-                           htmlspecialchars(addslashes($title))
-                       ));
+            ->withAriaLabel(sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($title))
+            ));
 
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
