@@ -40,6 +40,7 @@ abstract class Link implements C\Link\Link
     protected string $action;
     protected ?bool $open_in_new_viewport = null;
     protected ?LanguageTag $action_content_language = null;
+    protected bool $disabled = false;
 
     /**
      * @var C\Link\IsRelationship[]
@@ -112,4 +113,17 @@ abstract class Link implements C\Link\Link
         }
         return $relationships;
     }
+
+    public function withDisabled(bool $disabled = true): C\Link\Link
+    {
+        $clone = clone $this;
+        $clone->disabled = $disabled;
+        return $clone;
+    }
+
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
 }

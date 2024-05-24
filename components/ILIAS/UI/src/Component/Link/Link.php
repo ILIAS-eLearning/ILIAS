@@ -66,4 +66,9 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
      * @return IsRelationship[]
      */
     public function getRelationshipsToReferencedResource(): array;
+
+    /**
+     * disables the Link
+     */
+    public function withDisabled(bool $disabled = true): Link;
 }

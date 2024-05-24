@@ -16,3 +16,10 @@
 		color: $il-text-color;
 	}
 }
+
+a[aria-disabled] {
+	text-decoration: none;
+	cursor:initial !important;
+	color: unset;
+	background-color:unset !important;
+}
