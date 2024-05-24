@@ -29,7 +29,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     public function findById(int $id): \ilBiblFieldFilter
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return ilBiblFieldFilter::where(['id' => $id])->first();
+        return ilBiblFieldFilter::where(['id' => $id])->first() ?? new ilBiblFieldFilter();
     }
 
 
