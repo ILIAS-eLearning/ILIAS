@@ -703,7 +703,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             );
             if ($result->numRows() > 0) {
                 while ($data = $this->db->fetchAssoc($result)) {
-                    $varObj = new assFormulaQuestionVariable($data["variable"], $data["range_min"], $data["range_max"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["varprecision"], $data["intprecision"]);
+                    $varObj = new assFormulaQuestionVariable(
+                        $data['variable'],
+                        $data['range_min_txt'],
+                        $data['range_max_txt'],
+                        $this->getUnitrepository()->getUnit($data['unit_fi']),
+                        $data['varprecision'],
+                        $data['intprecision']
+                    );
                     $this->addVariable($varObj);
                 }
             }
@@ -715,7 +722,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             );
             if ($result->numRows() > 0) {
                 while ($data = $this->db->fetchAssoc($result)) {
-                    $resObj = new assFormulaQuestionResult($data["result"], $data["range_min"], $data["range_max"], $data["tolerance"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["formula"], $data["points"], $data["resprecision"], $data["rating_simple"], $data["rating_sign"], $data["rating_value"], $data["rating_unit"]);
+                    $resObj = new assFormulaQuestionResult(
+                        $data['result'],
+                        $data['range_min_txt'],
+                        $data['range_max_txt'],
+                        $data['tolerance'],
+                        $this->getUnitrepository()->getUnit($data['unit_fi']),
+                        $data['formula'],
+                        $data['points'],
+                        $data['resprecision'],
+                        $data['rating_simple'] === 1,
+                        $data['rating_sign'],
+                        $data['rating_value'],
+                        $data['rating_unit']
+                    );
                     $resObj->setResultType($data['result_type']);
                     $this->addResult($resObj);
                 }
