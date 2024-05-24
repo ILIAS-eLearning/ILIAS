@@ -2947,9 +2947,22 @@ class ilObjTest extends ilObject
     * @return array The available question pools
     * @access public
     */
-    public function getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = false, $with_questioncount = false, $permission = "read"): array
-    {
-        return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $show_path, $with_questioncount, $permission);
+    public function getAvailableQuestionpools(
+        bool $use_object_id = false,
+        ?bool $equal_points = false,
+        bool $could_be_offline = false,
+        bool $show_path = false,
+        bool $with_questioncount = false,
+        string $permission = 'read'
+    ): array {
+        return ilObjQuestionPool::_getAvailableQuestionpools(
+            $use_object_id,
+            $equal_points ?? false,
+            $could_be_offline,
+            $show_path,
+            $with_questioncount,
+            $permission
+        );
     }
 
     /**

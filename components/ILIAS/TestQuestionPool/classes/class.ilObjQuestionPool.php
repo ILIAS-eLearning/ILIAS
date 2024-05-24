@@ -958,7 +958,6 @@ class ilObjQuestionPool extends ilObject
         $lng = $DIC['lng'];
 
         $result_array = [];
-        $permission = (strlen($permission) == 0) ? 'read' : $permission;
         $qpls = ilUtil::_getObjectsByOperations('qpl', $permission, $usr_id > 0 ? $usr_id : $ilUser->getId(), -1);
         $obj_ids = [];
         foreach ($qpls as $ref_id) {
@@ -984,7 +983,7 @@ class ilObjQuestionPool extends ilObject
             }
             while ($row = $ilDB->fetchAssoc($result)) {
                 $add = true;
-                if ($equal_points) {
+                if ($equal_points !== false) {
                     if (!ilObjQuestionPool::_hasEqualPoints($row['obj_fi'])) {
                         $add = false;
                     }
