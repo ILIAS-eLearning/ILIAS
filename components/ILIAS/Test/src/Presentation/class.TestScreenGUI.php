@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Presentation;
+
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Settings\MainSettings\MainSettings;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
@@ -32,50 +35,48 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
-use ILIAS\Test\Settings\MainSettings\MainSettings;
-
 /**
- * Class ilTestScreenGUI
+ * Class TestScreenGUI
  *
  * @author Matheus Zych <mzych@databay.de>
  */
-class ilTestScreenGUI
+class TestScreenGUI
 {
     public const DEFAULT_CMD = 'testScreen';
 
-    private readonly ilTestPassesSelector $test_passes_selector;
+    private readonly \ilTestPassesSelector $test_passes_selector;
     private readonly int $ref_id;
     private readonly MainSettings $main_settings;
-    private readonly ilTestSession $test_session;
+    private readonly \ilTestSession $test_session;
     private readonly DataFactory $data_factory;
-    private ilTestPasswordChecker $password_checker;
+    private \ilTestPasswordChecker $password_checker;
 
     public function __construct(
-        private readonly ilObjTest $object,
-        private readonly ilObjUser $user,
+        private readonly \ilObjTest $object,
+        private readonly \ilObjUser $user,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly ilLanguage $lng,
+        private readonly \ilLanguage $lng,
         private readonly Refinery $refinery,
-        private readonly ilCtrlInterface $ctrl,
-        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly \ilCtrlInterface $ctrl,
+        private readonly \ilGlobalTemplateInterface $tpl,
         private readonly HTTPServices $http,
-        private readonly ilTabsGUI $tabs,
-        private readonly ilAccessHandler $access,
-        private readonly ilTestAccess $test_access,
-        private readonly ilDBInterface $database,
-        private readonly ilRbacSystem $rbac_system
+        private readonly \ilTabsGUI $tabs,
+        private readonly \ilAccessHandler $access,
+        private readonly \ilTestAccess $test_access,
+        private readonly \ilDBInterface $database,
+        private readonly \ilRbacSystem $rbac_system
     ) {
         $this->ref_id = $this->object->getRefId();
         $this->main_settings = $this->object->getMainSettings();
         $this->data_factory = new DataFactory();
 
-        $this->test_session = (new ilTestSessionFactory($this->object, $this->database, $this->user))->getSession();
+        $this->test_session = (new \ilTestSessionFactory($this->object, $this->database, $this->user))->getSession();
 
-        $this->test_passes_selector = new ilTestPassesSelector($this->database, $this->object);
+        $this->test_passes_selector = new \ilTestPassesSelector($this->database, $this->object);
         $this->test_passes_selector->setActiveId($this->test_session->getActiveId());
         $this->test_passes_selector->setLastFinishedPass($this->test_session->getLastFinishedPass());
-        $this->password_checker = new ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
+        $this->password_checker = new \ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
     }
 
     public function executeCommand(): void
@@ -93,13 +94,13 @@ class ilTestScreenGUI
             $this->lng->txt('msg_no_perm_read_item'),
             $this->object->getTitle()
         ), true);
-        $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-        $this->ctrl->redirectByClass('ilrepositorygui');
+        $this->ctrl->setParameterByClass(\ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+        $this->ctrl->redirectByClass(\ilRepositoryGUI::class);
     }
 
     public function testScreen(): void
     {
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_TEST);
+        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_TEST);
         $this->tpl->setPermanentLink($this->object->getType(), $this->ref_id);
 
         $elements = [];
@@ -147,14 +148,14 @@ class ilTestScreenGUI
         if ($this->object->isStartingTimeEnabled() && !$this->object->startingTimeReached()) {
             $message_box_message_elements[] = sprintf(
                 $this->lng->txt('detail_starting_time_not_reached'),
-                ilDatePresentation::formatDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
+                \ilDatePresentation::formatDate(new \ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
             );
         }
 
         if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
             $message_box_message_elements[] = sprintf(
                 $this->lng->txt('tst_exam_ending_time_message'),
-                ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
+                \ilDatePresentation::formatDate(new \ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
             );
         }
 
@@ -210,7 +211,7 @@ class ilTestScreenGUI
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel(sprintf(
                     $this->lng->txt('detail_starting_time_not_reached'),
-                    ilDatePresentation::formatDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
+                    \ilDatePresentation::formatDate(new \ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
                 ), false)
             ;
         }
@@ -220,7 +221,7 @@ class ilTestScreenGUI
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel(sprintf(
                     $this->lng->txt('detail_ending_time_reached'),
-                    ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
+                    \ilDatePresentation::formatDate(new \ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
                 ), false)
             ;
         }
@@ -264,7 +265,7 @@ class ilTestScreenGUI
                 ->withButtonLabel(
                     sprintf(
                         $this->lng->txt('wait_for_next_pass_hint_msg'),
-                        ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed_timestamp, IL_CAL_UNIX)),
+                        \ilDatePresentation::formatDate(new \ilDateTime($next_pass_allowed_timestamp, IL_CAL_UNIX)),
                     ),
                     false
                 )
@@ -308,7 +309,10 @@ class ilTestScreenGUI
 
     private function getResumeLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::RESUME_PLAYER);
+        $url = $this->ctrl->getLinkTarget(
+            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
+            \ilTestPlayerCommands::RESUME_PLAYER
+        );
         return $this->data_factory->link($this->lng->txt('tst_resume_test'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
     }
 
@@ -385,7 +389,10 @@ class ilTestScreenGUI
 
     private function getStartLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::INIT_TEST);
+        $url = $this->ctrl->getLinkTarget(
+            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
+            \ilTestPlayerCommands::INIT_TEST
+        );
         return $this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
     }
 
@@ -430,11 +437,15 @@ class ilTestScreenGUI
             }
 
             if ($message !== '') {
-                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $message, true);
+                $this->tpl->setOnScreenMessage(\ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $message, true);
             }
 
             if (empty($result->value())) {
-                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_required_fields_not_filled_message'), true);
+                $this->tpl->setOnScreenMessage(
+                    \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                    $this->lng->txt('tst_exam_required_fields_not_filled_message'),
+                    true
+                );
             } elseif ($conditions_met) {
                 if (
                     !$anonymous &&
@@ -445,16 +456,23 @@ class ilTestScreenGUI
                 }
 
                 if (isset($password) && $password === $access_settings_password) {
-                    ilSession::set('tst_password_' . $this->object->getTestId(), $password);
+                    \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
                 } else {
-                    ilSession::set('tst_password_' . $this->object->getTestId(), '');
+                    \ilSession::set('tst_password_' . $this->object->getTestId(), '');
                     $this->test_session->setPasswordChecked(false);
                 }
 
-                $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->object))->getPlayerGUI()::class, ilTestPlayerCommands::INIT_TEST);
+                $this->ctrl->redirectByClass(
+                    (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
+                    \ilTestPlayerCommands::INIT_TEST
+                );
             }
         } else {
-            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_exam_required_fields_not_filled_message'), true);
+            $this->tpl->setOnScreenMessage(
+                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('tst_exam_required_fields_not_filled_message'),
+                true
+            );
         }
     }
 

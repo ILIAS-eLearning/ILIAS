@@ -16,43 +16,35 @@
  *
  *********************************************************************/
 
-namespace TestScreen;
+namespace ILIAS\Test\Tests\Presentation;
 
-use ilAccessHandler;
-use ilCtrl;
-use ilDBInterface;
-use ilGlobalTemplateInterface;
-use ilLanguage;
-use ilObjTest;
-use ilObjUser;
-use ilTabsGUI;
-use ilTestBaseTestCase;
-use ilTestScreenGUI;
+use ILIAS\Test\Presentation\TestScreenGUI;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilTestScreenGUITest extends ilTestBaseTestCase
+class TestScreenGUITest extends \ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilTestScreenGUI = new ilTestScreenGUI(
+        $TestScreenGUI = new TestScreenGUI(
             $this->getTestObjMock(),
-            $this->createMock(ilObjUser::class),
+            $this->createMock(\ilObjUser::class),
             $this->createMock(UIFactory::class),
             $this->createMock(UIRenderer::class),
-            $this->createMock(ilLanguage::class),
+            $this->createMock(\ilLanguage::class),
             $this->createMock(Refinery::class),
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
+            $this->createMock(\ilCtrl::class),
+            $this->createMock(\ilGlobalTemplateInterface::class),
             $this->createMock(HTTPServices::class),
-            $this->createMock(ilTabsGUI::class),
-            $this->createMock(ilAccessHandler::class),
+            $this->createMock(\ilTabsGUI::class),
+            $this->createMock(\ilAccessHandler::class),
             $this->createMock(\ilTestAccess::class),
-            $this->createMock(ilDBInterface::class),
+            $this->createMock(\ilDBInterface::class),
             $this->createMock(\ilRbacSystem::class)
         );
-        $this->assertInstanceOf(ilTestScreenGUI::class, $ilTestScreenGUI);
+        $this->assertInstanceOf(TestScreenGUI::class, $TestScreenGUI);
     }
 }

@@ -360,7 +360,7 @@ class SettingsTestBehaviour extends TestSettings
             ? $this->getProcessingTimeAsMinutes() : $additional_info->getEnabledDisabledTagForBool(false);
         if ($this->getProcessingTimeEnabled()) {
             $log_array[AdditionalInformationGenerator::KEY_TEST_RESET_PROCESSING_TIME] = $additional_info
-                ->getEnabledDisabledTagForBool(this->getResetProcessingTime());
+                ->getEnabledDisabledTagForBool($this->getResetProcessingTime());
         }
 
         $log_array[AdditionalInformationGenerator::KEY_TEST_KIOSK_ENABLED] = $additional_info
