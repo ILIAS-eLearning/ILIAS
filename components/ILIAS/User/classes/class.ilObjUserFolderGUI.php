@@ -2021,7 +2021,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 
         // create session reminder subform
-        $cb = new ilCheckboxInputGUI(
+        $session_reminder = new ilCheckboxInputGUI(
             $this->lng->txt('session_reminder'),
             'session_reminder_enabled'
         );
@@ -2030,7 +2030,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $expires,
             true
         );
-        $cb->setInfo(
+        $session_reminder->setInfo(
             $this->lng->txt('session_reminder_info') . '<br />' .
             sprintf(
                 $this->lng->txt('session_reminder_session_duration'),
@@ -2042,18 +2042,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if ($allow_client_maintenance) {
             // just shows the status wether the session
             //setting maintenance is allowed by setup
-            $this->form->addItem($cb);
+            $this->form->addItem($session_reminder);
         } else {
             // just shows the status wether the session
             //setting maintenance is allowed by setup
-            $ti = new ilNonEditableValueGUI(
+            $session_config = new ilNonEditableValueGUI(
                 $this->lng->txt('session_config'),
                 'session_config'
             );
-            $ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
-            $cb->setDisabled(true);
-            $ti->addSubItem($cb);
-            $this->form->addItem($ti);
+            $session_config->setValue($this->lng->txt('session_config_maintenance_disabled'));
+            $session_reminder->setDisabled(true);
+            $session_config->addSubItem($session_reminder);
+            $this->form->addItem($session_config);
         }
 
         // END SESSION SETTINGS
