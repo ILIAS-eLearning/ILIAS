@@ -204,19 +204,19 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     {
         $expressions = array();
 
-        foreach ($this->getTaxonomyFilters() as $taxId => $taxNodes) {
+        foreach ($this->getTaxonomyFilters() as $taxId => $tax_nodes) {
             $questionIds = array();
 
             $forceBypass = true;
 
-            foreach ($taxNodes as $taxNode) {
+            foreach ($tax_nodes as $taxNode) {
                 $forceBypass = false;
 
                 $taxTree = new ilTaxonomyTree($taxId);
 
                 $taxNodeAssignment = new ilTaxNodeAssignment('tst', $this->getTestObjId(), 'quest', $taxId);
 
-                $subNodes = $taxTree->getSubTreeIds($taxNode);
+                $subNodes = $taxTree->getSubTreeIds((int) $taxNode);
                 $subNodes[] = $taxNode;
 
                 $taxItems = $taxNodeAssignment->getAssignmentsOfNode($subNodes);

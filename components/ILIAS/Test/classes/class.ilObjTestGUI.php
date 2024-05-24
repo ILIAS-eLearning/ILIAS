@@ -2922,7 +2922,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             false,
             true,
             false,
-            "write"
+            'write'
         );
 
         if (count($questionpools) == 0) {
