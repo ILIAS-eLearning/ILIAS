@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\InfoScreen\StandardGUIRequest;
 
@@ -91,6 +91,16 @@ class ilInfoScreenGUI
         $this->request = new StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
+        );
+    }
+
+    private function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
         );
     }
 
@@ -829,10 +839,16 @@ class ilInfoScreenGUI
                     if ($property["name"] != "") {
                         if (($property["link"] ?? "") == "") {
                             $tpl->setCurrentBlock("pv");
-                            $tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
+                            $tpl->setVariable(
+                                "TXT_PROPERTY_VALUE",
+                                $this->specialCharsAsEntities((string) $property["value"])
+                            );
                         } else {
                             $tpl->setCurrentBlock("lpv");
-                            $tpl->setVariable("TXT_PROPERTY_LVALUE", $property["value"]);
+                            $tpl->setVariable(
+                                "TXT_PROPERTY_LVALUE",
+                                $this->specialCharsAsEntities((string) $property["value"])
+                            );
                             $tpl->setVariable("LINK_PROPERTY_VALUE", $property["link"]);
                         }
                         $tpl->parseCurrentBlock();
@@ -840,7 +856,10 @@ class ilInfoScreenGUI
                         $tpl->setVariable("TXT_PROPERTY", $property["name"]);
                     } else {
                         $tpl->setCurrentBlock("property_full_row");
-                        $tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
+                        $tpl->setVariable(
+                            "TXT_PROPERTY_FULL_VALUE",
+                            $this->specialCharsAsEntities((string) $property["value"])
+                        );
                     }
                     $tpl->parseCurrentBlock();
                 }

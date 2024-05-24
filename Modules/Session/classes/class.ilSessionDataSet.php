@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -317,6 +316,32 @@ class ilSessionDataSet extends ilDataSet
 
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
+        $a_rec = $this->stripTags(
+            $a_rec,
+            [
+                'Id',
+                'MailMembers',
+                'ShowMembers',
+                'ShowCannotPart',
+                'RegistrationNotificationEnabled',
+                'RegistrationNotificationOption',
+                'Type',
+                'Registration',
+                'LimitedRegistration',
+                'LimitUsers',
+                'WaitingList',
+                'MinUsers',
+                'AutoWait',
+                'MailMembers',
+                'ShowMembers',
+                'ShowCannotPart',
+                'EventStart',
+                'EventEnd',
+                'Fulltime',
+                'ItemId',
+            ]
+        );
+
         switch ($a_entity) {
             case "sess":
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
@@ -328,6 +353,8 @@ class ilSessionDataSet extends ilDataSet
                     $newObj->setType("sess");
                     $newObj->create(true);
                 }
+
+                /** @var ilObjSession $newObj */
                 $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
                 $newObj->setDescription((string) ($a_rec["Description"] ?? ''));
                 $newObj->setLocation((string) ($a_rec["Location"] ?? ''));

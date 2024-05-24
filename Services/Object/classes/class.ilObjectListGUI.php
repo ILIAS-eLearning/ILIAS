@@ -1402,6 +1402,16 @@ class ilObjectListGUI
         return $props;
     }
 
+    protected function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
+    }
+
     public function insertProperties(): void
     {
         $props = $this->determineProperties();
@@ -1438,9 +1448,9 @@ class ilObjectListGUI
                 //BEGIN WebDAV: Support links in property values.
                 if (isset($prop['link']) && $prop['link']) {
                     $this->tpl->setVariable("LINK_PROP", $prop['link']);
-                    $this->tpl->setVariable("LINK_VAL_PROP", $prop["value"]);
+                    $this->tpl->setVariable("LINK_VAL_PROP", $this->specialCharsAsEntities((string) $prop["value"]));
                 } else {
-                    $this->tpl->setVariable("VAL_PROP", $prop["value"]);
+                    $this->tpl->setVariable("VAL_PROP",  $this->specialCharsAsEntities((string) $prop["value"]));
                 }
                 //END WebDAV: Support links in property values.
                 $this->tpl->parseCurrentBlock();

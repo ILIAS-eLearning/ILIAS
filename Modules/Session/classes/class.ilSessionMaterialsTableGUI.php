@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Session data set class
@@ -186,6 +185,16 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->setData($a_materials);
     }
 
+    private function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
+    }
+
     protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon(0, 'tiny', $a_set['type']));
@@ -194,10 +203,10 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_POSTNAME", "items");
         $this->tpl->setVariable("VAL_ID", $a_set['ref_id']);
 
-        $this->tpl->setVariable("COLL_TITLE", $a_set['title']);
+        $this->tpl->setVariable("COLL_TITLE", $this->specialCharsAsEntities($a_set['title']));
 
         if (strlen((string) $a_set['description'])) {
-            $this->tpl->setVariable("COLL_DESC", (string) $a_set['description']);
+            $this->tpl->setVariable("COLL_DESC", $this->specialCharsAsEntities((string) $a_set['description']));
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
             $ass_glyph = $this->ui->symbol()->icon()->custom(
