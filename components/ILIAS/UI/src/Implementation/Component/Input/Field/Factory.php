@@ -172,4 +172,17 @@ class Factory implements I\Factory
     {
         return new Rating($this->data_factory, $this->refinery, $label, $byline);
     }
+
+    public function treeSelect(I\Node\NodeRetrieval $node_retrieval, string $label, ?string $byline = null): I\TreeSelect
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+
+    public function treeMultiSelect(
+        I\Node\NodeRetrieval $node_retrieval,
+        string $label,
+        ?string $byline = null,
+    ): I\TreeMultiSelect {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
