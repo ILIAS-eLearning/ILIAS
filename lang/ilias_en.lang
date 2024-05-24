@@ -17154,11 +17154,11 @@ trac#:#view_mode#:#View Mode
 tstv#:#tstv_create#:#Create Test Certificate
 tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it.
 ui#:#datatable_multiaction_label#:#Bulk Actions
-ui#:#datatable_multiactionmodal_actionlabel#:#operation
-ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
-ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
-ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.
-ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
+ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries
+ui#:#datatable_multiactionmodal_apply#:#Apply
+ui#:#datatable_multiactionmodal_listentry#:#Actions for Entire Table
+ui#:#datatable_multiactionmodal_msg#:#Selected action will affect all entries in this table.
+ui#:#datatable_multiactionmodal_title#:#Actions for Entire Table
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
