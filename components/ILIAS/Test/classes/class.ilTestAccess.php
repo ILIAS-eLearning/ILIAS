@@ -243,7 +243,7 @@ class ilTestAccess
         string $ip,
         ilObjTestSettingsAccess $access_settings
     ): bool {
-        if (!$access_settings) {
+        if (!$access_settings->isIpRangeEnabled()) {
             return true;
         }
 
