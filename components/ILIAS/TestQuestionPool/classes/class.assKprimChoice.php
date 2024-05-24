@@ -483,7 +483,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         );
     }
 
-    public function getLangVarForOptionLabel(string $option_label): array
+    public function getLangVarForOptionLabel(string $option_label): string
     {
         return match ($option_label) {
             self::OPTION_LABEL_RIGHT_WRONG => 'option_label_right_wrong',

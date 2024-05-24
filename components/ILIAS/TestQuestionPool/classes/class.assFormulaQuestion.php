@@ -239,7 +239,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 return false;
             }
 
-            if (!strlen($userSolution[$varObj->getVariable()])) {
+            if ($userSolution[$varObj->getVariable()] === '') {
                 return false;
             }
         }
