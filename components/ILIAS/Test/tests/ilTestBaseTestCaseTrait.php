@@ -303,15 +303,17 @@ trait ilTestBaseTestCaseTrait
                 new ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKey('blup')
             )
         );
+        $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()->getMock();
+        $response_builder_mock = $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class);
         return new \ILIAS\FileDelivery\Services(
             new ILIAS\FileDelivery\Delivery\StreamDelivery(
                 $data_signer,
-                $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()->getMock(),
-                $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class)
+                $http_mock,
+                $response_builder_mock
             ),
             new \ILIAS\FileDelivery\Delivery\LegacyDelivery(
-                $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()->getMock(),
-                $this->createMock(\ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder::class)
+                $http_mock,
+                $response_builder_mock
             ),
             $data_signer
         );
