@@ -22,6 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
+use ILIAS\Test\Presentation\TestScreenGUI;
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
@@ -454,8 +455,8 @@ class ilTestTabsManager
                 $this->lng->txt('test'),
                 $this->ctrl->getLinkTargetByClass(
                     [
-                    ilObjTestGUI::class, ilTestScreenGUI::class],
-                    ilTestScreenGUI::DEFAULT_CMD
+                    ilObjTestGUI::class, TestScreenGUI::class],
+                    TestScreenGUI::DEFAULT_CMD
                 )
             );
         }

@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Access\ParticipantAccess;
-use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
+use ILIAS\Test\Presentation\TestScreenGUI;
 
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
@@ -415,7 +415,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function suspendTestCmd()
     {
-        $this->ctrl->redirectByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD);
+        $this->ctrl->redirectByClass(TestScreenGUI::class, TestScreenGUI::DEFAULT_CMD);
     }
 
     public function isMaxProcessingTimeReached(): bool
@@ -1087,7 +1087,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
         }
 
-        $this->ctrl->redirectByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD);
+        $this->ctrl->redirectByClass(TestScreenGUI::class, TestScreenGUI::DEFAULT_CMD);
     }
 
     /*
