@@ -980,34 +980,41 @@ class ilSoapUserAdministration extends ilSoapAdministration
      */
 
     public function __buildSearchQuery($a_keyfields, $queryOperator, $a_keyvalues)
-    {
-        global $DIC;
+{
+    global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $query = array();
+    $ilDB = $DIC['ilDB'];
+    $query = array();
 
-        $allowed_fields = array("firstname","lastname","email","login","matriculation","institution","department","title","ext_account");
+    $allowed_fields = array("firstname","lastname","email","login","matriculation","institution","department","title","ext_account");
 
-        foreach ($a_keyfields as $keyfield) {
-            $keyfield = strtolower($keyfield);
+    foreach ($a_keyfields as $keyfield) {
+        $keyfield = strtolower($keyfield);
 
-            if (!in_array($keyfield, $allowed_fields)) {
-                continue;
-            }
-
-            $field_query = array();
-            foreach ($a_keyvalues as $keyvalue) {
-                if (strlen($keyvalue) >= 3) {
-                    $field_query []= $keyfield . " like '%" . $keyvalue . "%'";
-                }
-            }
-            if (count($field_query)) {
-                $query [] = join(" " . strtoupper($queryOperator) . " ", $field_query);
-            }
+        if (!in_array($keyfield, $allowed_fields)) {
+            continue;
         }
 
-        return count($query) ? " AND ((" . join(") OR (", $query) . "))" : "AND 0";
+        $field_query = array();
+        foreach ($a_keyvalues as $keyvalue) {
+            if (strlen($keyvalue) >= 3) {
+                if ($keyfield === 'matriculation') {
+                    // Use exact match for matriculation
+                    $field_query[] = $ilDB->quoteIdentifier($keyfield) . " = " . $ilDB->quote($keyvalue, 'text');
+                } else {
+                    // Use LIKE for other fields
+                    $field_query[] = $ilDB->like($ilDB->quoteIdentifier($keyfield), 'text', '%' . $keyvalue . '%');
+                }
+            }
+        }
+        if (count($field_query)) {
+            $query[] = join(" " . strtoupper($queryOperator) . " ", $field_query);
+        }
     }
+
+    return count($query) ? " AND ((" . join(") OR (", $query) . "))" : "AND 0";
+}
+
 
 
     /**
