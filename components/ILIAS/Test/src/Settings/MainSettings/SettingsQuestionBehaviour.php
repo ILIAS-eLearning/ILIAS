@@ -423,7 +423,7 @@ class SettingsQuestionBehaviour extends TestSettings
             $log_array[AdditionalInformationGenerator::KEY_TEST_FEEDBACK_SHOW_SPECIFIC] = $additional_info
                 ->getEnabledDisabledTagForBool($this->getInstantFeedbackSpecificEnabled());
             $log_array[AdditionalInformationGenerator::KEY_TEST_FEEDBACK_SHOW_SOLUTION] = $additional_info
-                ->getEnabledDisabledTagForBool(this->getInstantFeedbackSolutionEnabled());
+                ->getEnabledDisabledTagForBool($this->getInstantFeedbackSolutionEnabled());
             $log_array[AdditionalInformationGenerator::KEY_TEST_FEEDBACK_TRIGGER] = $this->getForceInstantFeedbackOnNextQuestion()
                 ? $additional_info->getTagForLangVar('tst_instant_feedback_trigger_forced')
                 : $additional_info->getTagForLangVar('tst_instant_feedback_trigger_manual');
