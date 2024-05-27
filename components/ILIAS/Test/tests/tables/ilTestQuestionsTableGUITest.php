@@ -18,108 +18,93 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Table;
+use ILIAS\UI\Component\Modal;
+use ILIAS\UI\Implementation\Component as C;
+
 /**
  * Class ilTestQuestionsTableGUITest
- * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
 {
-    private ilTestQuestionsTableGUI $tableGui;
-    private ilObjTestGUI $parentObj_mock;
+    private ilTestQuestionsTableGUI $table_gui;
 
     protected function setUp(): void
     {
         global $DIC;
         parent::setUp();
-
-        $this->addGlobal_lng();
-        $this->addGlobal_tpl();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
+        $this->addGlobal_refinery();
+        $this->addGlobal_http();
+        $this->addGlobal_lng();
 
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock->expects($this->any())
-                  ->method("getFormAction")
-                  ->willReturnCallback(function () {
-                      return "testFormAction";
-                  });
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
 
-        $component_factory = $this->createMock(ilComponentFactory::class);
-        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
-        $this->setGlobalVariable("component.factory", $component_factory);
-
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getObject'])
-            ->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
-        $this->tableGui = new ilTestQuestionsTableGUI(
-            $this->parentObj_mock,
-            "",
-            0,
-            $this->createMock(ilAccessHandler::class),
-            $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
-        );
+        $records = $this->getSomeRecords();
+        $this->table_gui = new class ($records, $DIC) extends ilTestQuestionsTableGUI {
+            public function __construct(
+                protected $data,
+                $DIC
+            ) {
+                parent::__construct(
+                    $DIC['ui.factory'],
+                    new ILIAS\Data\Factory(),
+                    $DIC['refinery'],
+                    $DIC['http'],
+                    $DIC['lng'],
+                    'some_table_id',
+                    fn() => ''
+                );
+            }
+            public function _getBinding()
+            {
+                return $this->getBinding($this->data);
+            }
+        };
+    }
+    protected function getSomeRecords(): array
+    {
+        return [
+            [
+            'question_id' => 77,
+            'orig_obj_fi' => 88,
+            'title' => 'question one',
+            'desc' => 'description one',
+            'type_tag' => 'assOrderingQuestion',
+            'complete' => "1",
+            'lifecycle' => 'draft',
+            'points' => 3,
+            ],
+        ];
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->tableGui);
+        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui);
+        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui->withContextCorrections());
+        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui->withQuestionEditing());
     }
 
-    public function testQuestionManagingEnabled(): void
+    public function testQuestionsTableGUIwillReturnProperTypes(): void
     {
-        $this->assertIsBool($this->tableGui->isQuestionManagingEnabled());
-        $this->tableGui->setQuestionManagingEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionManagingEnabled());
-        $this->tableGui->setQuestionManagingEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionManagingEnabled());
+        $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTable([]));
+        $this->assertInstanceOf(Modal\Interruptive::class, $this->table_gui->getDeleteConfirmation([]));
+        $this->assertIsArray($this->table_gui->getOrderData());
     }
 
-    public function testPositionInsertCommandsEnabled(): void
+    public function testQuestionsTableDefinesActions(): void
     {
-        $this->assertIsBool($this->tableGui->isPositionInsertCommandsEnabled());
-        $this->tableGui->setPositionInsertCommandsEnabled(false);
-        $this->assertFalse($this->tableGui->isPositionInsertCommandsEnabled());
-        $this->tableGui->setPositionInsertCommandsEnabled(true);
-        $this->assertTrue($this->tableGui->isPositionInsertCommandsEnabled());
-    }
+        $row = $this->createMock(Table\OrderingRow::class);
+        $row->expects($this->exactly(9))
+            ->method('withDisabledAction')
+            ->willReturn($row);
 
-    public function testQuestionPositioningEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isQuestionPositioningEnabled());
-        $this->tableGui->setQuestionPositioningEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionPositioningEnabled());
-        $this->tableGui->setQuestionPositioningEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionPositioningEnabled());
-    }
+        $row_builder = $this->getMockBuilder(Table\OrderingRowBuilder::class)->getMock();
+        $row_builder
+            ->expects($this->once())
+            ->method('buildOrderingRow')
+            ->willReturn($row);
 
-    public function testObligatoryQuestionsHandlingEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isObligatoryQuestionsHandlingEnabled());
-        $this->tableGui->setObligatoryQuestionsHandlingEnabled(false);
-        $this->assertFalse($this->tableGui->isObligatoryQuestionsHandlingEnabled());
-        $this->tableGui->setObligatoryQuestionsHandlingEnabled(true);
-        $this->assertTrue($this->tableGui->isObligatoryQuestionsHandlingEnabled());
-    }
+        iterator_to_array($this->table_gui->_getBinding()->getRows($row_builder, []));
 
-    public function testTotalPoints(): void
-    {
-        $this->assertIsFloat($this->tableGui->getTotalPoints());
-        $this->tableGui->setTotalPoints(125.251);
-        $this->assertEquals(125.251, $this->tableGui->getTotalPoints());
-    }
-
-    public function testQuestionRemoveRowButtonEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isQuestionRemoveRowButtonEnabled());
-        $this->tableGui->setQuestionRemoveRowButtonEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionRemoveRowButtonEnabled());
-        $this->tableGui->setQuestionRemoveRowButtonEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionRemoveRowButtonEnabled());
     }
 }

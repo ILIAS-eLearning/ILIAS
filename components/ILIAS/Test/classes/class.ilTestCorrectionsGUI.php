@@ -56,7 +56,8 @@ class ilTestCorrectionsGUI
         protected RequestInterface $request,
         private InternalRequestService $testrequest,
         protected ilObjTest $testOBJ,
-        protected QuestionInfoService $questioninfo
+        protected QuestionInfoService $questioninfo,
+        protected ilTestQuestionsTableGUI $table
     ) {
         $this->testAccess = new ilTestAccess($testOBJ->getRefId());
     }
@@ -98,22 +99,11 @@ class ilTestCorrectionsGUI
         $this->tabs->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
 
         if ($this->testOBJ->isFixedTest()) {
-            $table_gui = new ilTestQuestionsTableGUI(
-                $this,
-                'showQuestionList',
-                $this->testOBJ->getRefId(),
-                $this->access,
-                $this->ui_factory,
-                $this->ui_renderer,
-                $this->questioninfo
+            $rendered_gui_component = $this->ui_renderer->render(
+                $this->table
+                    ->getTable($this->getQuestions())
+                    ->withOrderingDisabled(true)
             );
-
-            $table_gui->setQuestionRemoveRowButtonEnabled(true);
-            $table_gui->init();
-
-            $table_gui->setData($this->getQuestions());
-
-            $rendered_gui_component = $table_gui->getHTML();
         } else {
             $lng = $this->language;
             $txt = $lng->txt('tst_corrections_incompatible_question_set_type');
