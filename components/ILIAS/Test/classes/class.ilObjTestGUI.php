@@ -31,13 +31,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
-use ILIAS\UI\Component\Table;
-use ILIAS\UI\Component\Link;
-use ILIAS\Data\URI;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
-
 /**
  * Class ilObjTestGUI
  *
@@ -108,13 +101,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected SkillService $skills_service;
     private Archives $archives;
     protected InternalRequestService $testrequest;
+    protected ilTestQuestionsTableGUI $table;
 
     protected bool $create_question_mode;
-
-    protected DataFactory $data_factory;
-    protected URLBuilder $url_builder;
-    protected URLBuilderToken $action_parameter_token;
-    protected URLBuilderToken $row_id_token;
 
     /**
      * Constructor
@@ -203,19 +192,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->setTabsManager($tabs_manager);
         }
 
-
-        $this->data_factory = new \ILIAS\Data\Factory();
-        $url_builder = new URLBuilder($this->data_factory->uri($this->request->getUri()->__toString()));
-        $query_params_namespace = ['qlist', $ref_id];
-        list($url_builder, $action_parameter_token, $row_id_token) = $url_builder->acquireParameters(
-            $query_params_namespace,
-            "action",
-            "ids"
+        $this->table = new ilTestQuestionsTableGUI(
+            $this->ui_factory,
+            new \ILIAS\Data\Factory(),
+            $this->refinery,
+            $this->http,
+            $this->lng,
+            $this->object ? (string) $this->object->getId() : '',
+            $this->getQuestionPoolLinkBuilder()
         );
-        $this->url_builder = $url_builder;
-        $this->action_parameter_token = $action_parameter_token;
-        $this->row_id_token = $row_id_token;
-
     }
 
     /**
@@ -225,25 +210,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $cmd = $this->ctrl->getCmd('testScreen');
 
-        if($this->request_wrapper->has($this->action_parameter_token->getName())) {
-            $table_cmd = $this->request_wrapper->retrieve(
-                $this->action_parameter_token->getName(),
-                $this->refinery->kindlyTo()->string()
-            );
+        if($table_cmd = $this->table->getTableCommand()) {
 
-            $row_ids = $this->request_wrapper->retrieve(
-                $this->row_id_token->getName(),
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->int(),
-                        $this->refinery->always(null)
-                    ])
-                )
-            );
-            if ($this->request_wrapper->retrieve(
-                $this->row_id_token->getName(),
-                $this->refinery->identity()
-            ) === ['ALL_OBJECTS']) {
+            $row_ids = $this->table->getRowIds();
+            if($row_ids === ['ALL_OBJECTS']) {
                 $row_ids = array_map(
                     fn($record) => $record['question_id'],
                     $this->object->getTestQuestions()
@@ -251,13 +221,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
             switch($table_cmd) {
-                case 'save_order':
+                case ilTestQuestionsTableGUI::ACTION_SAVE_ORDER:
                     $this->protectByWritePermission();
-                    $data = $this->getTable()->getData();
+                    $data = $this->table->getOrderData();
                     $this->storeOrder(array_flip($data));
                     break;
 
-                case 'preview':
+                case ilTestQuestionsTableGUI::ACTION_PREVIEW:
                     $this->redirectWithQuestionParameters(
                         current($row_ids),
                         ilAssQuestionPreviewGUI::class,
@@ -265,7 +235,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'statistics':
+                case ilTestQuestionsTableGUI::ACTION_CORRECTION:
+                    $this->ctrl->setParameter($this, 'qid', (int) current($row_ids));
+                    $this->redirectWithQuestionParameters(
+                        current($row_ids),
+                        ilTestCorrectionsGUI::class,
+                        'showQuestion'
+                    );
+                    break;
+
+                case ilTestQuestionsTableGUI::ACTION_STATISTICS:
                     $this->redirectWithQuestionParameters(
                         current($row_ids),
                         ilAssQuestionPreviewGUI::class,
@@ -273,7 +252,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'edit_question':
+                case ilTestQuestionsTableGUI::ACTION_EDIT_QUESTION:
                     $question_id = current($row_ids);
                     $qtype = $this->object->getQuestionType($question_id);
                     $target_class = $qtype . 'GUI';
@@ -284,7 +263,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'edit_page':
+                case ilTestQuestionsTableGUI::ACTION_EDIT_PAGE:
                     $this->redirectWithQuestionParameters(
                         current($row_ids),
                         ilAssQuestionPageGUI::class,
@@ -292,7 +271,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'feedback':
+                case ilTestQuestionsTableGUI::ACTION_FEEDBACK:
                     $this->redirectWithQuestionParameters(
                         current($row_ids),
                         ilAssQuestionFeedbackEditingGUI::class,
@@ -300,7 +279,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'hints':
+                case ilTestQuestionsTableGUI::ACTION_HINTS:
                     $this->redirectWithQuestionParameters(
                         current($row_ids),
                         ilAssQuestionHintsGUI::class,
@@ -308,21 +287,36 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     );
                     break;
 
-                case 'delete':
-                    print $this->getDeleteConfirmation($row_ids);
+                case ilTestQuestionsTableGUI::ACTION_DELETE:
+                    print $this->getDeleteConfirmation(array_filter($row_ids));
                     exit();
 
-                case 'deletion_confirmed':
+                case ilTestQuestionsTableGUI::ACTION_DELETE_CONFIRMED:
+                    if(array_filter($row_ids) == []) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_selection"), true);
+                        $cmd = 'questions';
+                        break;
+                    }
                     $question_ids = $this->testrequest->getParsedBody()['interruptive_items'];
                     $this->confirmRemoveQuestionsObject($question_ids);
                     break;
 
-                case 'copy':
+                case ilTestQuestionsTableGUI::ACTION_COPY:
+                    if(array_filter($row_ids) == []) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_selection"), true);
+                        $cmd = 'questions';
+                        break;
+                    }
                     $this->protectByWritePermission();
                     $this->copyQuestions($row_ids);
                     break;
 
-                case 'add_qpl':
+                case ilTestQuestionsTableGUI::ACTION_ADD_TO_POOL:
+                    if(array_filter($row_ids) == []) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_selection"), true);
+                        $cmd = 'questions';
+                        break;
+                    }
                     $this->copyAndLinkToQuestionpool($row_ids);
                     $cmd = null;
                     break;
@@ -622,10 +616,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
-                if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-                    $this->ctrl->redirect($this, 'infoScreen');
-                }
+                $this->protectByWritePermission();
+
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $mark_schema_gui = new ilMarkSchemaGUI($this->getTestObject());
@@ -1033,7 +1025,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->request,
                     $this->testrequest,
                     $this->getTestObject(),
-                    $this->questioninfo
+                    $this->questioninfo,
+                    $this->table
+                        ->withContextCorrections()
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -1060,7 +1054,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->questionsObject();
                     return;
                 }
-                $ret = $cmd === 'testScreen' ? $this->ctrl->forwardCommand($this->getTestScreenGUIInstance()) : $this->{$cmd . "Object"}();
+                if($cmd) {
+                    $ret = $cmd === 'testScreen' ? $this->ctrl->forwardCommand($this->getTestScreenGUIInstance()) : $this->{$cmd . "Object"}();
+                }
                 break;
             default:
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
@@ -2187,253 +2183,20 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
         }
 
-        $table_gui = new ilTestQuestionsTableGUI(
-            $this,
-            'questions',
-            $this->object->getRefId(),
-            $this->access,
-            $this->ui_factory,
-            $this->ui_renderer,
-            $this->questioninfo
-        );
-
-        $isset = ilSession::get('tst_qst_move_' . $this->object->getTestId()) !== null;
-        $table_gui->setPositionInsertCommandsEnabled(
-            $isset
-            && is_array(ilSession::get('tst_qst_move_' . $this->object->getTestId()))
-            && count(ilSession::get('tst_qst_move_' . $this->object->getTestId()))
-        );
-
-        $table_gui->setQuestionPositioningEnabled(!$has_started_test_runs);
-        $table_gui->setQuestionManagingEnabled(!$has_started_test_runs);
-        $table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
-
-        $table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());
-
-        $table_gui->init();
-
-        $table_gui->setData($this->object->getTestQuestions());
-
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable(
             'QUESTIONBROWSER',
-            $table_gui->getHTML()
-            . '<hr><hr>'
-            . $this->ui_renderer->render($this->getTable())
+            $this->ui_renderer->render(
+                $this->table
+                ->withQuestionEditing(!$has_started_test_runs)
+                ->getTable($this->object->getTestQuestions())
+                ->withOrderingDisabled($has_started_test_runs)
+            )
         );
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function getTable(): Table\Ordering
-    {
-        $f = $this->ui_factory;
-        $request = $this->http->request();
-
-        $columns = [
-            'question_id' => $f->table()->column()->text($this->lng->txt("question_id"))
-                ->withIsOptional(true, false),
-            'title' => $f->table()->column()->link($this->lng->txt("tst_question_title")),
-            'desc' => $f->table()->column()->text($this->lng->txt("description"))
-                ->withIsOptional(true, false),
-            'complete' => $f->table()->column()->boolean(
-                $this->lng->txt("question_complete_title"),
-                $f->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
-                $f->symbol()->icon()->custom('assets/images/standard/icon_alert.svg', '', 'small')
-            ),
-            'type_tag' => $f->table()->column()->text($this->lng->txt("tst_question_type")),
-            'points' => $f->table()->column()->text($this->lng->txt("points")),
-            'author' => $f->table()->column()->text($this->lng->txt("author"))
-                ->withIsOptional(true, false),
-            'lifecycle' => $f->table()->column()->text($this->lng->txt("qst_lifecycle"))
-                ->withIsOptional(true, false),
-            'qpl' => $f->table()->column()->text($this->lng->txt("qpl")),
-        ];
-
-        $data_binding = $this->getDataBinding();
-        $target = $this->url_builder->withParameter($this->action_parameter_token, "save_order")->buildURI();
-        $actions = $this->getActions();
-
-        $table = $f->table()->ordering(
-            'ordering table',
-            $columns,
-            $data_binding,
-            $target
-        )
-        ->withId('qlist_' . $this->object->getId())
-        ->withActions($actions)
-        ->withRequest($request);
-
-        return $table;
-    }
-
-    private function getDataBinding(): Table\OrderingBinding
-    {
-        $data = $this->object->getTestQuestions();
-
-        return new class (
-            $data,
-            $this->getPreviewLinkBuilder(),
-            $this->getQuestionPoolLinkBuilder(),
-            $this->lng
-        ) implements Table\OrderingBinding {
-            public function __construct(
-                protected array $records,
-                protected \Closure $linkTitle,
-                protected \Closure $linkQPL,
-                protected ilLanguage $lng
-            ) {
-            }
-
-            public function getRows(
-                Table\OrderingRowBuilder $row_builder,
-                array $visible_column_ids
-            ): \Generator {
-                foreach ($this->records as $position_index => $record) {
-                    $row_id = (string) $record['question_id'];
-                    $record['title'] = $this->getQuestionLink($record['title'], $row_id);
-                    $record['type_tag'] = $this->lng->txt($record['type_tag']);
-                    $record['complete'] = (bool) $record['complete'];
-                    $record['lifecycle'] = ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
-                    $record['qpl'] = $this->getQuestionPoolLink($record['orig_obj_fi']);
-
-                    yield $row_builder->buildOrderingRow($row_id, $record);
-                }
-            }
-
-            private function getPreviewLinkBuilder(): \Closure
-            {
-                return $this->linkTitle;
-            }
-            private function getQuestionLink($title, $question_id): Link\Standard
-            {
-                $f = $this->linkTitle;
-                return $f($title, $question_id);
-            }
-            private function getQuestionPoolLink(?int $qpl_id): string
-            {
-                $f = $this->linkQPL;
-                return $f($qpl_id);
-            }
-
-        };
-    }
-
-    private function getPreviewLinkBuilder(): \Closure
-    {
-        return fn(string $title, string $question_id): Link\Standard =>
-            $this->ui_factory->link()->standard(
-                $title,
-                $this->url_builder
-                    ->withParameter($this->action_parameter_token, "preview")
-                    ->withParameter($this->row_id_token, $question_id)
-                    ->buildURI()
-                    ->__toString()
-            );
-    }
-
-
-    private function getQuestionPoolLinkBuilder(): \Closure
-    {
-        return function (?int $qpl_id): string {
-            if (!$qpl_id || ilObject::_lookupType($qpl_id) !== 'qpl') {
-                return $this->lng->txt('tst_question_not_from_pool_info');
-            } else {
-                $title = ilObject::_lookupTitle($qpl_id);
-            }
-
-            return $this->buildPossiblyLinkedQuestonPoolTitle(
-                $this->ctrl,
-                $this->access,
-                $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
-                $qpl_id,
-                $title
-            );
-        };
-    }
-
-
-    private function getActions(): array
-    {
-
-        //TODO: permissions/availability
-
-        $f = $this->ui_factory->table()->action();
-        return [
-            $f->standard(
-                $this->lng->txt('remove_question'),
-                $this->url_builder->withParameter($this->action_parameter_token, "delete"),
-                $this->row_id_token
-            )
-            ->withAsync()
-            ,
-            $f->standard(
-                $this->lng->txt('copy'),
-                $this->url_builder->withParameter($this->action_parameter_token, "copy"),
-                $this->row_id_token
-            ),
-            $f->standard(
-                $this->lng->txt('copy_and_link_to_questionpool'),
-                $this->url_builder->withParameter($this->action_parameter_token, "add_qpl"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('preview'),
-                $this->url_builder->withParameter($this->action_parameter_token, "preview"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('statistics'),
-                $this->url_builder->withParameter($this->action_parameter_token, "statistics"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('edit_question'),
-                $this->url_builder->withParameter($this->action_parameter_token, "edit_question"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('edit_page'),
-                $this->url_builder->withParameter($this->action_parameter_token, "edit_page"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('tst_feedback'),
-                $this->url_builder->withParameter($this->action_parameter_token, "feedback"),
-                $this->row_id_token
-            ),
-            $f->single(
-                $this->lng->txt('tst_question_hints_tab'),
-                $this->url_builder->withParameter($this->action_parameter_token, "hints"),
-                $this->row_id_token
-            ),
-        ];
-    }
-
-    protected function getDeleteConfirmation(array $row_ids): string
-    {
-        $items = [];
-        foreach ($row_ids as $id) {
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->keyvalue(
-                (string) $id,
-                $this->object->getQuestionDataset($id)->title,
-                (string) $id
-            );
-        }
-        return $this->ui_renderer->renderAsync([
-            $this->ui_factory->modal()->interruptive(
-                'Deletion',
-                'You are about to delete items!',
-                $this->url_builder->withParameter(
-                    $this->action_parameter_token,
-                    "deletion_confirmed"
-                )->buildURI()->__toString()
-            )
-            ->withAffectedItems($items)
-        ]);
-    }
 
     private function populateQuestionBrowserToolbarButtons(ilToolbarGUI $toolbar, string $context): void
     {
@@ -3394,16 +3157,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $ref_id = $this->createQuestionPool($title, $this->testrequest->raw('description'));
-        //$_REQUEST['sel_qpl'] = $ref_id;
-
-        //if ($_REQUEST['link'])
-        //{
         $this->copyAndLinkQuestionsToPoolObject($ref_id);
-        //}
-        //else
-        //{
-        //    $this->copyQuestionsToPoolObject();
-        //}
     }
 
     /**
@@ -3480,17 +3234,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $form->addItem($select);
         }
 
-
-        if ($this->request_wrapper->has($this->row_id_token->getName())) {
-            $question_ids = $this->request_wrapper->retrieve(
-                $this->row_id_token->getName(),
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->int(),
-                        $this->refinery->always(null)
-                    ])
-                )
-            );
+        if($this->table->getTableCommand()) {
+            $question_ids = $this->table->getRowIds();
         } elseif ($this->testrequest->isset('q_id') && is_array($this->testrequest->raw('q_id'))) {
             $question_ids = $this->testrequest->raw('q_id');
         }
@@ -3732,6 +3477,38 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->test_access,
             $this->db,
             $this->rbac_system
+        );
+    }
+
+    private function getQuestionPoolLinkBuilder(): \Closure
+    {
+        return function (?int $qpl_id): string {
+            if (!$qpl_id || ilObject::_lookupType($qpl_id) !== 'qpl') {
+                return $this->lng->txt('tst_question_not_from_pool_info');
+            } else {
+                $title = ilObject::_lookupTitle($qpl_id);
+            }
+
+            return $this->buildPossiblyLinkedQuestonPoolTitle(
+                $this->ctrl,
+                $this->access,
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $qpl_id,
+                $title
+            );
+        };
+    }
+
+    protected function getDeleteConfirmation(array $row_ids): string
+    {
+        $items = [];
+        foreach ($row_ids as $id) {
+            $items[] = [$id, $this->object->getQuestionDataset($id)->title];
+        }
+        return $this->ui_renderer->renderAsync(
+            $this->table->getDeleteConfirmation($items)
         );
     }
 }
