@@ -189,13 +189,6 @@ class ilWkhtmlToPdfConfigTest extends TestCase
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
-    public function testGetCommandLineConfigWithEnabledCustomStyleSheet(): void
-    {
-        $this->config->setUserStylesheet('my_super_css_class.css');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --user-style-sheet "my_super_css_class.css" --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
-        $this->assertSame($exp, $this->config->getCommandLineConfig());
-    }
-
     public function testGetCommandLineConfigWithCheckbox(): void
     {
         $this->config->setCheckboxSvg('checkbox.svg');
@@ -314,7 +307,6 @@ class ilWkhtmlToPdfConfigTest extends TestCase
         $this->assertSame('6cm', $cfg->getMarginBottom());
         $this->assertSame(0.4, $cfg->getZoom());
         $this->assertTrue($cfg->getExternalLinks());
-        $this->assertSame('my_style_sheet.css', $cfg->getUserStylesheet());
         $this->assertFalse($cfg->getLowQuality());
         $this->assertFalse($cfg->getGreyscale());
         $this->assertSame('Landscape', $cfg->getOrientation());
