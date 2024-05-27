@@ -365,6 +365,9 @@ class ilWkhtmlToPdfConfigFormGUI
                                                               'radio_button_svg',
                                                               'radio_button_checked_svg'
         ]);
+        if($pre_check_valid === false) {
+            $everything_ok = false;
+        }
 
         if ($path === false) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
