@@ -1058,14 +1058,6 @@ class ilObjQuestionPool extends ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
-        if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->getObjectProperties()->storePropertyIsOnline(
-                $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
-            );
-        }
-
         $new_obj->update();
 
         $new_obj->setSkillServiceEnabled($this->isSkillServiceEnabled());
