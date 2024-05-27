@@ -1598,9 +1598,15 @@ class ilObject
         $new_obj->create(true);
 
         if ($this->supportsOfflineHandling()) {
-            $new_obj->getObjectProperties()->storePropertyIsOnline(
-                $this->getObjectProperties()->getPropertyIsOnline()
-            );
+            if ($options->isRootNode($this->getRefId())) {
+                $new_obj->getObjectProperties()->storePropertyIsOnline(
+                    $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
+                );
+            } else {
+                $new_obj->getObjectProperties()->storePropertyIsOnline(
+                    $this->getObjectProperties()->getPropertyIsOnline()
+                );
+            }
         }
 
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
