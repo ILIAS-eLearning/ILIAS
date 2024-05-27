@@ -112,37 +112,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         return $this->backurl;
     }
 
-    protected function handleBackUrl(bool $a_is_portfolio = false): void
-    {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-
-        $back_url = $this->profile_request->getBackUrl();
-        $back = ($this->getBackUrl() != "")
-            ? $this->getBackUrl()
-            : $back_url;
-
-        if (!$back) {
-            if ($DIC->user()->getId() != ANONYMOUS_USER_ID) {
-                // #15984
-                $back = 'ilias.php?baseClass=ilDashboardGUI';
-            } else {
-                $back = 'ilias.php?baseClass=ilRepositoryGUI';
-            }
-        }
-
-        if (!$a_is_portfolio) {
-            // #17838
-            $ilTabs->clearTargets();
-            $ilTabs->setBackTarget(
-                $lng->txt("back"),
-                $back
-            );
-        }
-    }
-
     /**
      * Set custom preferences for public profile fields
      */
@@ -187,7 +156,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             case "ilobjportfoliogui":
                 $portfolio_id = $this->getProfilePortfolio();
                 if ($portfolio_id) {
-                    $this->handleBackUrl(true);
                     $gui = new ilObjPortfolioGUI($portfolio_id); // #11876
                     $gui->setAdditional($this->getAdditional());
                     $gui->setPermaLink($this->getUserId(), "usr");
@@ -830,8 +798,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $tpl->resetHeaderBlock();
         $tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
         $tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xsmall"));
-
-        $this->handleBackUrl();
     }
 
     /**
