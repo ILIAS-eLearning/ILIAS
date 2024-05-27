@@ -150,9 +150,11 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         }
 
         if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
-            try {
-                $this->fileUpload->process();
+            $this->fileUpload->process();
+        }
 
+        if ($this->fileUpload->hasUploads()) {
+            try {
                 /** @var UploadResult $uploadResult */
                 $uploadResult = array_values($this->fileUpload->getResults())[0];
                 if (!$uploadResult) {
