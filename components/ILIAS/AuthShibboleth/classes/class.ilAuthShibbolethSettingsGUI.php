@@ -15,6 +15,10 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Class ilAuthShibbolethSettingsGUI
  *
@@ -28,48 +32,55 @@ class ilAuthShibbolethSettingsGUI
 {
     private const PARAM_RULE_ID = 'rule_id';
 
-    private ?\ilPropertyFormGUI $form = null;
-    private ?ilShibbolethRoleAssignmentRule $rule = null;
-    private \ilCtrl $ctrl;
-    private \ilTabsGUI $tabs_gui;
-    private \ilLanguage $lng;
-    private \ilGlobalTemplateInterface $tpl;
-    private int $ref_id;
-    private ilComponentRepository $component_repository;
-    private \ILIAS\DI\RBACServices $rbac;
     private ilAccessHandler $access;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
-    private \ILIAS\Refinery\Factory $refinery;
-    private ilShibbolethSettings $shib_settings;
+    private ilComponentRepository $component_repository;
+    private ilCtrl $ctrl;
+    private ?ilPropertyFormGUI $form = null;
     private ilSetting $global_settings;
+
+    private ilLanguage $lng;
+    private RBACServices $rbac;
     private ilRbacReview $rbac_review;
+    private int $ref_id;
+    private Refinery $refinery;
+    private ?ilShibbolethRoleAssignmentRule $rule = null;
+    private ilShibbolethSettings $shib_settings;
+    private ilTabsGUI $tabs_gui;
+    private ilGlobalTemplateInterface $tpl;
+    private WrapperFactory $wrapper;
+
 
     public function __construct(int $a_auth_ref_id)
     {
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->wrapper = $DIC->http()->wrapper();
-        $this->refinery = $DIC->refinery();
-        $this->rbac = $DIC->rbac();
+
         $this->access = $DIC->access();
-        $this->tabs_gui = $DIC->tabs();
+        $this->component_repository = $DIC["component.repository"];
+        $this->ctrl = $DIC->ctrl();
+        $this->global_settings = $DIC->settings();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('shib');
-        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->rbac = $DIC->rbac();
+        $this->rbac_review = $DIC->rbac()->review();
         $this->ref_id = $a_auth_ref_id;
-        $this->component_repository = $DIC["component.repository"];
+        $this->refinery = $DIC->refinery();
         $this->shib_settings = new ilShibbolethSettings();
-        $this->global_settings = $DIC['ilSetting'];
-        $this->rbac_review = $DIC['rbacreview'];
+        $this->tabs_gui = $DIC->tabs();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->wrapper = $DIC->http()->wrapper();
     }
 
+    /**
+     * @throws ilCtrlException
+     * @throws ilException
+     */
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         if (!$this->access->checkAccess('read', '', $this->ref_id)) {
             throw new ilException('Permission denied');
         }
-        if (!$this->access->checkAccess('write', '', $this->ref_id) && $cmd !== "settings") {
+        if ($cmd !== "settings" && !$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
             $this->ctrl->redirect($this, "settings");
         }
@@ -80,9 +91,12 @@ class ilAuthShibbolethSettingsGUI
         $this->$cmd();
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function settings(): void
     {
-        $this->tabs_gui->setSubTabActive('shib_settings');
+        $this->tabs_gui->activateSubTab('shib_settings');
         $form = new ilShibbolethSettingsForm(
             $this->shib_settings,
             $this->ctrl->getLinkTarget($this, 'save')
@@ -91,6 +105,9 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function save(): void
     {
         $form = new ilShibbolethSettingsForm(
@@ -105,10 +122,13 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function roleAssignment(): bool
     {
-        $this->tabs_gui->setSubTabActive('shib_role_assignment');
-        $this->initFormRoleAssignment('default');
+        $this->tabs_gui->activateSubTab('shib_role_assignment');
+        $this->initFormRoleAssignment();
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
             'adm_content',
@@ -123,6 +143,9 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function parseRulesTable(): string
     {
         if (ilShibbolethRoleAssignmentRules::getCountRules() === 0) {
@@ -137,6 +160,9 @@ class ilAuthShibbolethSettingsGUI
         return $rules_table->getHTML();
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function confirmDeleteRules(): bool
     {
         if (!$this->wrapper->post()->has('rule_ids')) {
@@ -145,7 +171,7 @@ class ilAuthShibbolethSettingsGUI
 
             return false;
         }
-        $this->tabs_gui->setSubTabActive('shib_role_assignment');
+        $this->tabs_gui->activateTab('shib_role_assignment');
         $c_gui = new ilConfirmationGUI();
         // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRules"));
@@ -169,6 +195,9 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function deleteRules(): bool
     {
         if (!$this->wrapper->post()->has('rule_ids')) {
@@ -191,6 +220,9 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function initFormRoleAssignment(string $a_mode = 'default'): void
     {
         $this->form = new ilPropertyFormGUI();
@@ -265,6 +297,9 @@ class ilAuthShibbolethSettingsGUI
         ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function addRoleAssignmentRule(): bool
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
@@ -278,7 +313,7 @@ class ilAuthShibbolethSettingsGUI
             if (isset($err)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
             }
-            $this->tabs_gui->setSubTabActive('shib_role_assignment');
+            $this->tabs_gui->activateSubTab('shib_role_assignment');
             $this->form->setValuesByPost();
             $this->tpl->addBlockFile(
                 'ADM_CONTENT',
@@ -300,10 +335,13 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function editRoleAssignment(): bool
     {
         $this->ctrl->saveParameter($this, self::PARAM_RULE_ID);
-        $this->tabs_gui->setSubTabActive('shib_role_assignment');
+        $this->tabs_gui->activateSubTab('shib_role_assignment');
         $this->initFormRoleAssignment('update');
         $this->getRuleValues();
         $this->tpl->addBlockFile(
@@ -317,6 +355,9 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function updateRoleAssignmentRule(): bool
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
@@ -333,7 +374,7 @@ class ilAuthShibbolethSettingsGUI
             if ($err) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
             }
-            $this->tabs_gui->setSubTabActive('shib_role_assignment');
+            $this->tabs_gui->activateSubTab('shib_role_assignment');
             $this->form->setValuesByPost();
             $this->tpl->addBlockFile(
                 'ADM_CONTENT',
@@ -433,9 +474,12 @@ class ilAuthShibbolethSettingsGUI
         return $select;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function setSubTabs(): bool
     {
-        if (!(bool) $this->global_settings->get('shib_active', '0')) {
+        if (!$this->global_settings->get('shib_active', '0')) {
             return false;
         }
         $this->tabs_gui->addSubTabTarget('shib_settings', $this->ctrl->getLinkTarget($this, 'settings'));

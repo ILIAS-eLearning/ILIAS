@@ -65,15 +65,12 @@ class shibConfig
     protected bool $update_data_conv = false;
     protected string $user_default_role = '4';
     protected bool $activate_new = false;
-    protected static ?\shibConfig $cache = null;
+    protected static ?shibConfig $cache = null;
 
     protected function __construct()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-        /**
-         * @var $ilSetting ilSetting
-         */
+        $ilSetting = $DIC->settings();
         foreach (array_keys(get_class_vars('shibConfig')) as $field) {
             $str = $ilSetting->get('shib_' . $field);
             if ($str !== null) {

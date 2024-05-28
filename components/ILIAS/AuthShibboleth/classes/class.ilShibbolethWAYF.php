@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ShibbolethWAYF
@@ -38,7 +39,7 @@ class ilShibbolethWAYF
     protected WrapperFactory $wrapper;
     protected ilLanguage $lng;
     protected ilSetting $settings;
-    protected \ILIAS\Refinery\Factory $refinery;
+    protected Refinery $refinery;
 
     public function __construct()
     {
@@ -85,35 +86,35 @@ class ilShibbolethWAYF
 
     public function generateSelection(): string
     {
-        $_saml_idp = $this->wrapper->cookie()->has(self::COOKIE_NAME_SAML_IDP)
+        $saml_idp = $this->wrapper->cookie()->has(self::COOKIE_NAME_SAML_IDP)
             ? $this->wrapper->cookie()->retrieve(
                 self::COOKIE_NAME_SAML_IDP,
                 $this->refinery->kindlyTo()->string()
             )
             : null;
-        $idp_cookie = $this->generateCookieArray($_saml_idp);
+        $idp_cookie = $this->generateCookieArray($saml_idp);
 
-        $selectedIDP = null;
+        $selected_idp = null;
         if ($idp_cookie !== [] && isset($this->idp_list[end($idp_cookie)])) {
-            $selectedIDP = end($idp_cookie);
-            $selectElement = '
+            $selected_idp = end($idp_cookie);
+            $select_element = '
 		<select name="idp_selection">
 			<option value="-">' . $this->lng->txt("shib_member_of") . '</option>';
         } else {
-            $selectElement = '
+            $select_element = '
 		<select name="idp_selection">
 			<option value="-" selected="selected">' . $this->lng->txt("shib_member_of") . '</option>';
         }
 
         foreach ($this->idp_list as $idp_id => $idp_data) {
-            if ($idp_id == $selectedIDP) {
-                $selectElement .= '<option value="' . $idp_id . '" selected="selected">' . $idp_data[0] . '</option>';
+            if ($idp_id === $selected_idp) {
+                $select_element .= '<option value="' . $idp_id . '" selected="selected">' . $idp_data[0] . '</option>';
             } else {
-                $selectElement .= '<option value="' . $idp_id . '">' . $idp_data[0] . '</option>';
+                $select_element .= '<option value="' . $idp_id . '">' . $idp_data[0] . '</option>';
             }
         }
 
-        return $selectElement . '
+        return $select_element . '
 		</select>';
     }
 
@@ -133,7 +134,7 @@ class ilShibbolethWAYF
                 . urlencode($target));
         } else {
             // TODO: This has to be changed to /Shibboleth.sso/DS?entityId= for
-            // Shibbolet 2.x sometime...
+            // Shibboleth 2.x sometime...
             ilUtil::redirect('/Shibboleth.sso?providerId=' . urlencode($this->selected_idp) . '&target='
                 . urlencode($target));
         }
@@ -206,7 +207,6 @@ class ilShibbolethWAYF
 
     /**
      * @description Append a value to the array of IDPs
-     * @return mixed[]
      */
     public function appendCookieValue(string $value, array $arr_cookie): array
     {

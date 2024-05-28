@@ -16,10 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\Administration\Setting;
-use ILIAS\DI\Container;
-
-use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use Psr\Http\Message\RequestInterface;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilShibbolethSettingsForm
@@ -28,31 +29,31 @@ use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
  */
 class ilShibbolethSettingsForm
 {
-    private $refinery;
-
-    protected ilCtrl $ctrl;
-    protected \ILIAS\UI\Factory $ui;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected ?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null;
     protected string $action;
-    protected \Psr\Http\Message\RequestInterface $request;
+    protected ilCtrl $ctrl;
+    protected ?StandardForm $form = null;
     protected ilLanguage $lng;
+    protected ilRbacReview $rbac_review;
+    protected Refinery $refinery;
+    protected Renderer $renderer;
+    protected RequestInterface $request;
     protected ilShibbolethSettings $settings;
+    protected UIFactory $ui;
 
     public function __construct(ilShibbolethSettings $settings, string $action)
     {
-        /**
-         * @var $DIC Container
-         */
         global $DIC;
-        $this->ui = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
-        $this->request = $DIC->http()->request();
+
+        $this->action = $action;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->settings = $settings;
-        $this->action = $action;
+        $this->rbac_review = $DIC->rbac()->review();
         $this->refinery = $DIC->refinery();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
+        $this->settings = $settings;
+        $this->ui = $DIC->ui()->factory();
+
         $this->initForm();
     }
 
@@ -74,9 +75,8 @@ class ilShibbolethSettingsForm
     public function initForm(): void
     {
         $field = $this->ui->input()->field();
-        $custom_trafo = fn (callable $c) => $this->refinery->custom()->transformation($c);
+        $custom_trafo = fn(callable $c) => $this->refinery->custom()->transformation($c);
         /** @noRector  */
-        $read_me_link = "./components/ILIAS/AuthShibboleth/README.SHIBBOLETH.txt";
         $active = $field->checkbox($this->txt('shib_active'), $this->lng->txt("auth_shib_instructions"))
                         ->withValue($this->settings->isActive())
                         ->withAdditionalTransformation($custom_trafo(function ($v): void {
@@ -89,15 +89,33 @@ class ilShibbolethSettingsForm
                                       $this->settings->setAllowLocalAuth((bool) $v);
                                   }));
 
-        $admin_must_activate = $field->checkbox(
-            $this->txt('shib_activate_new'),
-            $this->lng->txt("shib_activate_new_info")
-        )->withValue($this->settings->adminMustActivate())
-                                     ->withAdditionalTransformation(
-                                         $custom_trafo(function ($v): void {
-                                             $this->settings->setAdminMustActivate((bool) $v);
-                                         })
-                                     );
+        $account_creation = $field->switchableGroup(
+            [
+                ilShibbolethSettings::ACCOUNT_CREATION_ENABLED => $field->group(
+                    [],
+                    $this->lng->txt("shib_account_creation_enabled"),
+                    $this->lng->txt("shib_account_creation_enabled_info")
+                ),
+                ilShibbolethSettings::ACCOUNT_CREATION_WITH_APPROVAL => $field->group(
+                    [],
+                    $this->lng->txt("shib_account_creation_with_approval"),
+                    $this->lng->txt("shib_account_creation_with_approval_info")
+                ),
+                ilShibbolethSettings::ACCOUNT_CREATION_DISABLED => $field->group(
+                    [],
+                    $this->lng->txt("shib_account_creation_disabled"),
+                    $this->lng->txt("shib_account_creation_disabled_info")
+                )
+            ],
+            $this->lng->txt("shib_account_creation"),
+            $this->lng->txt("shib_account_creation_info")
+        )->withValue(
+            $this->settings->getAccountCreation()
+        )->withRequired(
+            true
+        )->withAdditionalTransformation($custom_trafo(function ($v): void {
+            $this->settings->setAccountCreation((string) $v[0]);
+        }));
 
         $default_user_role = $field->select($this->txt('shib_user_default_role'), $this->getRoles())
                                    ->withRequired(true)
@@ -109,7 +127,7 @@ class ilShibbolethSettingsForm
         $basic_section = $field->section([
             $active,
             $auth_allow_local,
-            $admin_must_activate,
+            $account_creation,
             $default_user_role,
         ], $this->txt('shib'));
 
@@ -200,9 +218,7 @@ class ilShibbolethSettingsForm
                 $federation_section,
                 $user_fields
             ]
-        )->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
-            return true;
-        }));
+        );
     }
 
     public function setValuesByPost(): void
@@ -212,7 +228,7 @@ class ilShibbolethSettingsForm
 
     protected function fillObject(): bool
     {
-        return $this->form->getData() === true;
+        return $this->form->getData() !== null;
     }
 
     public function saveObject(): bool
@@ -229,9 +245,8 @@ class ilShibbolethSettingsForm
      */
     protected function getRoles(int $filter = ilRbacReview::FILTER_ALL_GLOBAL): array
     {
-        global $DIC;
         $opt = [];
-        foreach ($DIC->rbac()->review()->getRolesByFilter($filter) as $role) {
+        foreach ($this->rbac_review->getRolesByFilter($filter) as $role) {
             $opt[$role['obj_id']] = $role['title'] . ' (' . $role['obj_id'] . ')';
         }
 
