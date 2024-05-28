@@ -273,8 +273,7 @@ class ilTestTabsManager
 
     protected function isHistoryAccessGranted(): bool
     {
-        return $this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)
-            || $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
     }
 
     protected function isPermissionsAccessGranted(): bool
