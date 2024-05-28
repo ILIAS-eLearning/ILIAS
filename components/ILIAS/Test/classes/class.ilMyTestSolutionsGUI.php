@@ -35,6 +35,8 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  */
 class ilMyTestSolutionsGUI
 {
+    private const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
+
     public function __construct(
         private readonly ?ilObjTest $test_obj,
         private readonly ilTestAccess $test_access,
@@ -52,6 +54,10 @@ class ilMyTestSolutionsGUI
         switch ($this->ctrl->getNextClass()) {
             case "iltestevaluationgui":
                 $gui = new ilTestEvaluationGUI($this->test_obj);
+                if ($this->ctrl->getCmd() === '') {
+                    $gui->{self::EVALGUI_CMD_SHOW_PASS_OVERVIEW}();
+                    break;
+                }
                 $this->ctrl->forwardCommand($gui);
                 break;
 
