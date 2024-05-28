@@ -212,16 +212,6 @@ class UserGUIRequest
         return $this->intArray('position');
     }
 
-    public function getCurrentPassword(): string
-    {
-        return $this->str('current_password');
-    }
-
-    public function getNewPassword(): string
-    {
-        return $this->str('new_password');
-    }
-
     private function int(string $key): int
     {
         $source = $this->existsInPostOrQuery($key);

@@ -18,14 +18,25 @@
 
 declare(strict_types=1);
 
-class ilUserPasswordEncoderFactory
+namespace ILIAS\Authentication\Password;
+
+use ilArgon2idPasswordEncoder;
+use ilBcryptPasswordEncoder;
+use ilBcryptPhpPasswordEncoder;
+use ilMd5PasswordEncoder;
+use ilPasswordEncoder;
+use ilPasswordException;
+use ilUserException;
+
+class LocalUserPasswordEncoderFactory
 {
     private ?string $default_encoder = null;
+
     /** @var array<string, ilPasswordEncoder> Array of supported encoders */
     private array $supported_encoders = [];
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])
@@ -35,6 +46,7 @@ class ilUserPasswordEncoderFactory
                 switch (strtolower($key)) {
                     case 'default_password_encoder':
                         $this->setDefaultEncoder($value);
+
                         break;
                 }
             }
@@ -44,7 +56,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>    $config
      * @return list<ilPasswordEncoder>
      * @throws ilPasswordException
      */
@@ -59,7 +71,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed> $config
      * @throws ilPasswordException
      */
     private function initEncoders(array $config): void
@@ -93,7 +105,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param list<ilPasswordEncoder> $supported_encoders
+     * @param  list<ilPasswordEncoder> $supported_encoders
      * @throws ilUserException
      */
     public function setSupportedEncoders(array $supported_encoders): void
@@ -129,7 +141,9 @@ class ilUserPasswordEncoderFactory
 
         if (!$this->getDefaultEncoder()) {
             throw new ilUserException('No default encoder specified, fallback not possible.');
-        } elseif (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
+        }
+
+        if (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
             throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
         }
 

@@ -22,6 +22,7 @@ use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * User class
@@ -349,7 +350,7 @@ class ilObjUser extends ilObject
         switch ($this->passwd_type) {
             case self::PASSWD_PLAIN:
                 if (strlen($this->passwd)) {
-                    ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
+                    LocalUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
                     $pw_value = $this->getPasswd();
                 } else {
                     $pw_value = $this->passwd;
@@ -511,7 +512,7 @@ class ilObjUser extends ilObject
         switch ($this->passwd_type) {
             case self::PASSWD_PLAIN:
                 if (strlen($this->passwd)) {
-                    ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
+                    LocalUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
                     $update_array['passwd'] = ['text', $this->getPasswd()];
                 } else {
                     $update_array['passwd'] = ['text', $this->passwd];
@@ -793,7 +794,7 @@ class ilObjUser extends ilObject
             return false;
         }
 
-        ilUserPasswordManager::getInstance()->encodePassword($this, $raw);
+        LocalUserPasswordManager::getInstance()->encodePassword($this, $raw);
 
         $ilDB->manipulateF(
             'UPDATE usr_data
@@ -1844,7 +1845,7 @@ class ilObjUser extends ilObject
 
         if ($this->id == SYSTEM_USER_ID) {
             if (
-                \ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
+                LocalUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
                 !ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
             ) {
                 return true;
