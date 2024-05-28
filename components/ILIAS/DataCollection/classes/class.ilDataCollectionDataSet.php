@@ -68,6 +68,7 @@ class ilDataCollectionDataSet extends ilDataSet
      */
     protected array $import_record_field_cache = [];
     protected ilObjUser $user;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected array $import_temp_refs = [];
     protected array $import_temp_refs_props = [];
     protected array $import_temp_new_mob_ids = [];
@@ -78,6 +79,7 @@ class ilDataCollectionDataSet extends ilDataSet
         parent::__construct();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->refinery = $DIC->refinery();
     }
 
     public function getSupportedVersions(): array
@@ -110,6 +112,9 @@ class ilDataCollectionDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        foreach ($a_rec as &$value) {
+            $value = $this->refinery->encode()->htmlAttributeValue()->transform($value);
+        }
         switch ($a_entity) {
             case 'dcl':
                 if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
