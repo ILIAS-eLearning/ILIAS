@@ -1,13 +1,10 @@
 il = il || {};
-il.Container = il.Container || {};
 (function($, il) {
 	il.Container = (function($) {
 		var initShowMore = function (id, block, url) {
 			$("#" + id).on("click", function(e) {
 				e.preventDefault();
-				var ids = $("#" + id).closest(".ilContainerItemsContainer").find("[data-list-item-id]")
-					.map(function() { return $(this).data("list-item-id"); }).get();
-				il.Util.sendAjaxPostRequestToUrl(url, {ids: ids}, function(o) {
+				il.Util.sendAjaxPostRequestToUrl(url, {ids: il.Container.ids}, function(o) {
 					$("#" + id).closest(".ilContainerShowMore").replaceWith($(o).find(".ilContainerItemsContainer").children());
 				})
 			});
@@ -17,6 +14,7 @@ il.Container = il.Container || {};
 			initShowMore: initShowMore
 		};
 	})($);
+	il.Container.ids = [];
 })($, il);
 
 (function($){

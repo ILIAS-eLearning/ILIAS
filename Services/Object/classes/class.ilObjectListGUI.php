@@ -2901,8 +2901,19 @@ class ilObjectListGUI
         $this->tpl->setVariable("DIV_CLASS", 'ilContainerListItemOuter');
         $this->tpl->setVariable(
             "DIV_ID",
-            'data-list-item-id="' . $this->getUniqueItemId(true) . '" id = "' . $this->getUniqueItemId(true) . '"'
+            'id = "' . $this->getUniqueItemId(true) . '"'
         );
+        if ($this->ctrl->getCmd() === "renderBlockAsynch") {
+            $this->tpl->setVariable(
+                "ADD_IDS_SCRIPT",
+                "il.Container.ids.push('{$this->getUniqueItemId(true)}');"
+            );
+        } else {
+            $this->tpl->setVariable(
+                "ADD_IDS_SCRIPT",
+                "window.addEventListener('DOMContentLoaded',() => {il.Container.ids.push('{$this->getUniqueItemId(true)}');});"
+            );
+        }
         $this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 
         if (is_object($this->getContainerObject())) {
@@ -3319,7 +3330,7 @@ class ilObjectListGUI
                                 $def_cmd_link
                             ) . "', '" . $def_cmd_frame . "');});";
                     });
-                $title = $ui->renderer()->render($button);
+                $title = $button;
             } else {
                 $image = $image->withAction($modified_link);
             }
@@ -3363,13 +3374,18 @@ class ilObjectListGUI
         }
 
         $card = $ui->factory()->card()->repositoryObject(
-            $title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
+            $title,
             $image
         )->withObjectIcon(
             $icon
         )->withActions(
             $dropdown
         );
+
+        $list_item_id = $this->getUniqueItemId(true);
+        $card = $card->withAdditionalOnLoadCode(function ($id) use ($list_item_id) {
+            return "il.Container.ids.push('$list_item_id');";
+        });
 
         if ($card_title_action != "") {
             $card = $card->withTitleAction($card_title_action);
