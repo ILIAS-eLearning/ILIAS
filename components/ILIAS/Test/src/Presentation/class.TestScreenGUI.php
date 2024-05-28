@@ -26,7 +26,8 @@ use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
 use ILIAS\Data\Result;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MessageBox;
+use ILIAS\Data\Password;
 use ILIAS\UI\Component\Launcher\Launcher;
 use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
@@ -339,7 +340,7 @@ class TestScreenGUI
             ->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    static function (ILIAS\Data\Password $value): string {
+                    static function (Password $value): string {
                         return $value->toString();
                     }
                 )
@@ -542,7 +543,7 @@ class TestScreenGUI
         );
     }
 
-    private function getSkillLevelThresholdsMissingInfo(): Component
+    private function getSkillLevelThresholdsMissingInfo(): MessageBox
     {
         $message = $this->lng->txt('tst_skl_level_thresholds_missing');
 
