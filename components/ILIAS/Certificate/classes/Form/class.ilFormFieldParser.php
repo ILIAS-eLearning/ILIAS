@@ -91,7 +91,7 @@ class ilFormFieldParser
             }
         }
 
-        $xsl = file_get_contents("../components/ILIAS/Certificate/xml/fo2xhtml.xsl");
+        $xsl = file_get_contents(__DIR__ . "/../../xml/fo2xhtml.xsl");
         if ($content !== '' && (is_string($xsl) && $xsl !== '')) {
             $args = [
                 '/_xml' => $content,
