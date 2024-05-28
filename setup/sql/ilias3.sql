@@ -7083,6 +7083,7 @@ INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',3,'2023-03-31 
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',4,'2023-03-31 13:10:08.512557','2023-03-31 13:10:08.519415');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',5,'2023-03-31 13:10:08.519867','2023-03-31 13:10:08.530435');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',6,'2023-04-26 17:22:12.960988','2023-04-26 17:22:12.965617');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',7,'2024-05-28 13:24:16.546038','2024-05-28 13:24:16.558934');
 INSERT INTO `il_db_steps` VALUES ('ilECSDBUpdateSteps',1,'2023-03-31 13:10:08.531142','2023-03-31 13:10:08.536140');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',1,'2023-03-31 13:10:08.954044','2023-03-31 13:10:08.962950');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',2,'2023-03-31 13:10:08.963397','2023-03-31 13:10:08.967878');
@@ -7390,7 +7391,8 @@ CREATE TABLE `il_dcl_field_prop` (
   `name` varchar(4000) NOT NULL DEFAULT '',
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `i1_idx` (`id`,`field_id`)
+  KEY `i1_idx` (`id`,`field_id`),
+  KEY `i2_idx` (`field_id`)
 ) ;
 
 --
@@ -7535,7 +7537,9 @@ CREATE TABLE `il_dcl_sel_opts` (
   `opt_id` bigint(20) NOT NULL,
   `sorting` bigint(20) NOT NULL,
   `value` varchar(4000) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`field_id`),
+  KEY `i2_idx` (`opt_id`)
 ) ;
 
 --
@@ -7839,7 +7843,9 @@ CREATE TABLE `il_dcl_tfield_set` (
   `field_order` bigint(20) DEFAULT NULL,
   `exportable` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `t2_idx` (`table_id`,`field`)
+  KEY `t2_idx` (`table_id`,`field`),
+  KEY `i3_idx` (`field`),
+  KEY `i4_idx` (`table_id`)
 ) ;
 
 --
@@ -7881,7 +7887,9 @@ CREATE TABLE `il_dcl_tview_set` (
   `required_edit` tinyint(4) NOT NULL DEFAULT 0,
   `locked_edit` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `i1_idx` (`tableview_id`)
+  KEY `i1_idx` (`tableview_id`),
+  KEY `i2_idx` (`field`),
+  KEY `i3_idx` (`in_filter`)
 ) ;
 
 --
@@ -13121,7 +13129,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-05-14 15:01:52','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-05-28 13:24:16','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20114,7 +20122,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.11.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.12.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25098,4 +25106,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-05-14 15:01:53
+-- Dump completed on 2024-05-28 13:24:17
