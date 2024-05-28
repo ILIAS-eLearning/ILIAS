@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Data\UUID\Factory;
 
-require_once __DIR__ . '../../../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+require_once __DIR__ . '../../../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
 
 /**
  * Collection of basic placeholder values that can be used

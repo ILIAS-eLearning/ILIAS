@@ -31,18 +31,15 @@ use ILIAS\Certificate\Overview\CertificateOverviewTable;
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
+    public const TAB_CERTIFICATES = 'certificates';
+    public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';
+    public const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
     private IRSS $irss;
     protected ILIAS\HTTP\GlobalHttpState $httpState;
     protected ILIAS\FileUpload\FileUpload $upload;
 
     /** @var ilObjCertificateSettings */
     protected ?ilObject $object;
-    public const TAB_CERTIFICATES = 'certificates';
-    public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';
-    public const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
-
-    private readonly \ILIAS\HTTP\GlobalHttpState $httpState;
-    private readonly \ILIAS\FileUpload\FileUpload $upload;
     private readonly ilLogger $logger;
     private readonly ilUserCertificateRepository $user_certificate_repo;
     private readonly ilCertificateActiveValidator $certificate_active_validator;
@@ -243,11 +240,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($form->getHTML());
     }
+
     public function certificatesOverview(): void
     {
         if (
-            !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+            !$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
@@ -262,8 +260,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public function downloadCertificate(): void
     {
         if (
-            !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+            !$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
@@ -280,7 +278,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         }
 
-        //Only one download at a time is possible
+        // Only one download at a time is possible
         $certificate_id = $certificate_id[array_key_first($certificate_id)];
 
         try {

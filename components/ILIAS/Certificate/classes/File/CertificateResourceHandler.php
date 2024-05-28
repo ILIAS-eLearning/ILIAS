@@ -30,10 +30,11 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class CertificateResourceHandler
 {
     public function __construct(
-        private ilUserCertificateRepository $user_certificate_repo,
-        private ilCertificateTemplateDatabaseRepository $certificate_template_repo,
-        private IRSS $irss,
-        private ilObjCertificateSettings $global_certificate_settings
+        private readonly ilUserCertificateRepository $user_certificate_repo,
+        private readonly ilCertificateTemplateDatabaseRepository $certificate_template_repo,
+        private readonly IRSS $irss,
+        private readonly ilObjCertificateSettings $global_certificate_settings,
+        private readonly ilCertificateTemplateStakeholder $stakeholder
     ) {
     }
 

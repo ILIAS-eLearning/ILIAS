@@ -343,7 +343,8 @@ class ilCertificateGUI
             new ilUserCertificateRepository($this->database),
             new ilCertificateTemplateDatabaseRepository($this->database),
             $this->irss,
-            $this->global_certificate_settings
+            $this->global_certificate_settings,
+            $this->stakeholder,
         );
         $current_template = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $current_template->getVersion();

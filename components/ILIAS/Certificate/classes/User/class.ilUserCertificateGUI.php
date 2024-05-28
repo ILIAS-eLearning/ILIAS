@@ -171,7 +171,6 @@ class ilUserCertificateGUI
                     $imagePath = $this->irss->consume()->src($thumb_rid)->getSrc(true);
                 }
 
-                $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 $cardImage = $this->uiFactory->image()->standard(
                     $imagePath,
                     $certificateData['title']
