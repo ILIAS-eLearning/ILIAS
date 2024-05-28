@@ -122,7 +122,7 @@ class GeneralQuestionPropertiesRepository
         while ($points_row = $this->database->fetchObject($points_result)) {
             $answers[] = [
                 'reached' => $points_row->points,
-                'reachable' => $points_result[$points_row->question_fi]
+                'reachable' => $found_questions[$points_row->question_fi]
             ];
         }
 
