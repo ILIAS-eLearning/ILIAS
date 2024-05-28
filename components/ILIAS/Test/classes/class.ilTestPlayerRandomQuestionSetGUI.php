@@ -36,7 +36,7 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestPlayerAbstractGUI
         $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $question_list->setParentObjId($this->object->getId());
         $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-        $question_list->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
+        $question_list->setIncludeQuestionIdsFilter($this->test_sequence->getQuestionIds());
         return $question_list;
     }
 
