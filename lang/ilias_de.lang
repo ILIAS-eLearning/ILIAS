@@ -12095,6 +12095,7 @@ mme#:#type_separator#:#Trenner
 mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_file#:#Datei

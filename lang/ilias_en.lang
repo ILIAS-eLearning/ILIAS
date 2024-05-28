@@ -12095,6 +12095,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_external_url#:#External URL
 mob#:#mob_file#:#File

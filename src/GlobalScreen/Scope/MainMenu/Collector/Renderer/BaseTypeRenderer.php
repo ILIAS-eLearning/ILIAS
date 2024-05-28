@@ -47,6 +47,7 @@ class BaseTypeRenderer implements TypeRenderer
 
     use ComponentDecoratorApplierTrait;
 
+    protected \ilLanguage $lng;
     protected Factory $ui_factory;
 
     protected Renderer $ui_renderer;
@@ -59,6 +60,7 @@ class BaseTypeRenderer implements TypeRenderer
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->lng = $DIC->language();
     }
 
     /**
@@ -66,7 +68,12 @@ class BaseTypeRenderer implements TypeRenderer
      */
     public function getComponentForItem(isItem $item, bool $with_content = true): Component
     {
-        return $this->applyDecorator($with_content ? $this->getComponentWithContent($item) : $this->getComponentWithoutContent($item), $item);
+        return $this->applyDecorator(
+            $with_content
+                ? $this->getComponentWithContent($item)
+                : $this->getComponentWithoutContent($item),
+            $item
+        );
     }
 
     /**
@@ -88,7 +95,11 @@ class BaseTypeRenderer implements TypeRenderer
         /** @var $item supportsAsynchronousLoading $content */
         $content = $this->ui_factory->legacy('...');
         $name = $item instanceof hasTitle ? $item->getTitle() : "-";
-        $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
+        $slate = $this->ui_factory->mainControls()->slate()->legacy(
+            $name,
+            $this->getStandardSymbol($item),
+            $content
+        );
         $slate = $this->addAsyncLoadingCode($slate, $item);
 
         return $this->addOnloadCode($slate, $item);
@@ -123,7 +134,15 @@ class BaseTypeRenderer implements TypeRenderer
             $abbr = strtoupper(substr(uniqid('', true), -1));
         }
 
-        return $this->ui_factory->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
+        return $this->ui_factory->symbol()
+                                ->icon()
+                                ->standard(
+                                    $abbr,
+                                    $abbr,
+                                    'small',
+                                    true
+                                )
+                                ->withAbbreviation($abbr);
     }
 
     /**
