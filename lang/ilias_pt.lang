@@ -9507,6 +9507,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Foi criado um novo ficheiro de exportação.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Criar
 export#:#export_create_new_file#:#Criar ficheiro de exportação novo
 export#:#export_existing#:#Reutilizar
@@ -12079,6 +12080,7 @@ mme#:#type_separator#:#score.raw: pontuação alcançada
 mme#:#type_separator_info#:#Tipo
 mme#:#type_top_link_item#:#learner_preference.delivery_speed
 mme#:#type_top_parent_item#:#Relatório básico para interações
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Choose from Media Pool###30 04 2021 new variable
 mob#:#mob_external_url#:#External URL###30 04 2021 new variable
 mob#:#mob_file#:#Ficheiro

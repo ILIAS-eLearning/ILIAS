@@ -9521,6 +9521,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Un nuovo file di export e'stato creato
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Crea
 export#:#export_create_new_file#:#Crea Nuovo File di Esportazione
 export#:#export_existing#:#Riutilizza
@@ -12093,6 +12094,7 @@ mme#:#type_separator#:#Separatore
 mme#:#type_separator_info#:#Il titolo di questo oggetto verrà visualizzato in un banner grigio. Se non si inserisce alcun titolo, verrà visualizzata una linea semplice.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Contenitore
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Scegli dal Media Pool
 mob#:#mob_external_url#:#URL esterno
 mob#:#mob_file#:#File

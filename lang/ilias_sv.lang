@@ -9522,6 +9522,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Visa utskriftsvy
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#En ny exportfil har skapats.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Skapa ny
 export#:#export_create_new_file#:#Skapa ny exportfil
 export#:#export_existing#:#Återanvändning
@@ -12094,6 +12095,7 @@ mme#:#type_separator#:#Separatorer
 mme#:#type_separator_info#:#Separatorns titel visas i ett grått område. Du får en separatorrad om du lämnar titeln tom.
 mme#:#type_top_link_item#:#Länk
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Från mediapoolen
 mob#:#mob_external_url#:#Extern URL
 mob#:#mob_file#:#Fil

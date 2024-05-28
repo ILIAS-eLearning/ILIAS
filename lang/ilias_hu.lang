@@ -9522,6 +9522,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Nyomtatási nézet megjelenítése
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Új exportfájl jött létre.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Létrehozás
 export#:#export_create_new_file#:#Új exportfájl létrehozása
 export#:#export_existing#:#Újrafelhasználás
@@ -12094,6 +12095,7 @@ mme#:#type_separator#:#Elválasztó
 mme#:#type_separator_info#:#Ennek az elemnek a címe egy szürke sávban fog megjelenni. Amennyiben nem ad meg címet, egy egyszerű vonal fog ott megjelenni.
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_top_parent_item#:#Tartalmazza
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Választás médiagyűjteményből
 mob#:#mob_external_url#:#Külső URL
 mob#:#mob_file#:#Fájl

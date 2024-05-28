@@ -9521,6 +9521,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Ustvarjena je bila nova datoteka za izvoz.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Ustvari novo
 export#:#export_create_new_file#:#Ustvari novo datoteko za izvoz
 export#:#export_existing#:#Ponovno uporabi
@@ -12093,6 +12094,7 @@ mme#:#type_separator#:#Ločilo
 mme#:#type_separator_info#:#Naslov ločila bo prikazan v sivem področju. Če ne vnesete nobenega naslova, se prikaže razmejitvena črta.
 mme#:#type_top_link_item#:#Povezava
 mme#:#type_top_parent_item#:#Shramba
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Choose from Media Pool###19 08 2022 new variable
 mob#:#mob_external_url#:#External URL###19 08 2022 new variable
 mob#:#mob_file#:#Datoteka

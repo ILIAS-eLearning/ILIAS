@@ -9507,6 +9507,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Създаден е нов експортен файл.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Създаване
 export#:#export_create_new_file#:#Създаване на нов експортен файл
 export#:#export_existing#:#Повторно използване###22 06 2022 new variable
@@ -12079,6 +12080,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#Заглавието на този елемент ще бъде показано в сив банер. Ако не въведете никакво заглавие, ще бъде показан обикновен ред.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Контейнер
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Изберете от медийния пул###22 06 2022 new variable
 mob#:#mob_external_url#:#Външен URL адрес###22 06 2022 new variable
 mob#:#mob_file#:#Файл

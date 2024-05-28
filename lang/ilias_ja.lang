@@ -9507,6 +9507,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#印刷View表示
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#新しいエクスポートファイルが作成されました。
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#作成
 export#:#export_create_new_file#:#新規エクスポート ファイルを作成
 export#:#export_existing#:#再利用
@@ -12079,6 +12080,7 @@ mme#:#type_separator#:#セパレータ
 mme#:#type_separator_info#:#このアイテムのタイトルはグレイバナーに表示されます。タイトルを未入力の場合は単線が表示されます。
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#コンテナ
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#メディア集から選択
 mob#:#mob_external_url#:#外部URL
 mob#:#mob_file#:#ファイル

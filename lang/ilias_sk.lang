@@ -9507,6 +9507,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Nový exportní soubor byl vytvořen.###16 07 2010 new variable
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Vytvořit
 export#:#export_create_new_file#:#Vytvořit nový exportní soubor
 export#:#export_existing#:#Použít znovu
@@ -12079,6 +12080,7 @@ mme#:#type_separator#:#Separator###10 11 2018 new variable
 mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.###07 02 2020 new variable
 mme#:#type_top_link_item#:#Link###10 11 2018 new variable
 mme#:#type_top_parent_item#:#Container###10 11 2018 new variable
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Choose from Media Pool###30 04 2021 new variable
 mob#:#mob_external_url#:#External URL###30 04 2021 new variable
 mob#:#mob_file#:#File###24 10 2013 new variable

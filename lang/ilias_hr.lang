@@ -9507,6 +9507,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Kreirana je nova datoteka za izvoz.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###28 05 2024 new variable
 export#:#export_create#:#Kreiraj
 export#:#export_create_new_file#:#Kreiraj novu datoteku za izvoz
 export#:#export_existing#:#Ponovna upotreba
@@ -12079,6 +12080,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#Naslov ove stavke bit će prikazan u sivom natpisu. Ako ne unesete nijedan naslov, prikazat će se jednostavan redak.
 mme#:#type_top_link_item#:#Poveznica
 mme#:#type_top_parent_item#:#Spremnik
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###28 05 2024 new variable
 mob#:#mob_choose_from_pool#:#Choose from Media Pool###04 06 2021 new variable
 mob#:#mob_external_url#:#External URL###04 06 2021 new variable
 mob#:#mob_file#:#Datoteka
