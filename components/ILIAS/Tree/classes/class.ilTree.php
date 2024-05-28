@@ -377,15 +377,15 @@ class ilTree
      * @access    private
      * @return    string
      */
-    public function buildJoin(): string
+    public function buildJoin(string $alias = null): string
     {
         if ($this->table_obj_reference) {
             // Use inner join instead of left join to improve performance
-            return "JOIN " . $this->table_obj_reference . " ON " . $this->table_tree . ".child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
+            return "JOIN " . $this->table_obj_reference . " ON " . ($alias ?: $this->table_tree) . ".child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
                 "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
         } else {
             // Use inner join instead of left join to improve performance
-            return "JOIN " . $this->table_obj_data . " ON " . $this->table_tree . ".child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
+            return "JOIN " . $this->table_obj_data . " ON " . ($alias ?: $this->table_tree) . ".child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
         }
     }
 
