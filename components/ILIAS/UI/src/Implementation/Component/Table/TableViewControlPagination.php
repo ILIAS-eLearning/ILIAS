@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\Input\ViewControl;
 use ILIAS\Data\Range;
 
 trait TableViewControlPagination
@@ -33,7 +34,8 @@ trait TableViewControlPagination
         $this->range = $this->data_factory->range(0, $this->number_of_rows);
     }
 
-    protected function getViewControlPagination(?int $total_count = null): ?Pagination
+    protected function getViewControlPagination(?int $total_count = null
+    ): ViewControl\Pagination|ViewControl\NullControl
     {
         $smallest_option = current(Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
@@ -46,7 +48,7 @@ trait TableViewControlPagination
                         Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
-        return null;
+        return $this->view_control_factory->nullControl();
     }
 
     public function withNumberOfRows(int $number_of_rows): self
