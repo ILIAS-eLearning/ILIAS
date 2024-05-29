@@ -29,9 +29,7 @@ use ilCtrlInterface;
 use ilDatePresentation;
 use ilDateTime;
 use ILIAS\Data\Factory;
-use ILIAS\Data\Order;
-use ILIAS\Data\Range;
-use ILIAS\DI\Container;
+use ILIAS\Data\URI;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\EditLinks;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
@@ -39,17 +37,17 @@ use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Table\Action\Single;
-use ILIAS\UI\Component\Table\Data;
-use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\UI\Implementation\Component\Table\Action\Multi;
+use ILIAS\UI\Implementation\Component\Table\Ordering;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DocumentTable implements DataRetrieval
+class DocumentTable implements OrderingBinding
 {
     public const CMD_EDIT_DOCUMENT = 'editDocument';
     public const CMD_DELETE_DOCUMENT = 'deleteDocument';
@@ -59,8 +57,13 @@ class DocumentTable implements DataRetrieval
     private ServerRequestInterface|RequestInterface $request;
     private Factory $data_factory;
     private ilCtrl|ilCtrlInterface $ctrl;
-    private Data $table;
+    private Ordering $table;
     private Renderer $ui_renderer;
+    private array $order;
+    /**
+     * @var Document[]
+     */
+    private array $records;
 
     public function __construct(
         private readonly Closure                     $criterion_as_component,
@@ -82,21 +85,22 @@ class DocumentTable implements DataRetrieval
         $this->ui_renderer = $ui_renderer ?: $DIC->ui()->renderer();
 
         $this->table = $this->buildTable();
+        $this->records = $this->repository->all();
     }
 
-    private function buildTable(): Data
+    private function buildTable(): Ordering
     {
         $uiTable = $this->ui->create()->table();
-        $table = $uiTable->data(
+        $table = $uiTable->ordering(
             $this->ui->txt('tbl_docs_title'),
             [
-                'order' => $uiTable->column()->number($this->ui->txt('tbl_docs_head_sorting')),
                 'title' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_title')),
                 'created' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_created')),
                 'change' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_last_change')),
                 'criteria' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_criteria')),
             ],
-            $this
+            $this,
+            (new URI((string) $this->request->getUri()))->withParameter("cmd", "saveOrder")
         )
             ->withId('legalDocsTable')
             ->withRequest($this->request);
@@ -108,32 +112,15 @@ class DocumentTable implements DataRetrieval
     }
 
     public function getRows(
-        DataRowBuilder $row_builder,
-        array          $visible_column_ids,
-        Range          $range,
-        Order          $order,
-        ?array         $filter_data,
-        ?array         $additional_parameters
+        OrderingRowBuilder $row_builder,
+        array              $visible_column_ids
     ): Generator
     {
-        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-
-        $table_rows = $this->buildTableRows($this->repository->all());
-
-        $colum_to_order = array_column($table_rows, $order_field);
-        array_multisort(
-            $colum_to_order,
-            $order_direction === 'ASC'
-                ? SORT_ASC
-                : SORT_DESC,
-            $table_rows
-        );
-
-        foreach ($table_rows as $row) {
+        foreach ($this->buildTableRows($this->records) as $row) {
             $row['created'] = $this->formatDateRow($row['created']);
             $row['change'] = $this->formatDateRow($row['change']);
 
-            yield $row_builder->buildDataRow((string) $row['id'], $row);
+            yield $row_builder->buildOrderingRow((string) $row['id'], $row);
         }
     }
 
@@ -178,7 +165,6 @@ class DocumentTable implements DataRetrieval
 
             $table_rows[] = [
                 'id' => $document->id(),
-                'order' => $document->meta()->sorting(),
                 'title' => $this->ui_renderer->render($this->modal->create($document->content())),
                 'created' => $document->meta()->creation()->time(),
                 'change' => $document->meta()->lastModification()->time(),

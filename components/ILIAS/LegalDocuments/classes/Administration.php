@@ -435,7 +435,7 @@ class Administration
             ]),
         ]);
 
-        $order = $this->container->http()->request()->getParsedBody()['order'] ?? null;
+        $order = $this->container->http()->request()->getParsedBody();
         if (!is_array($order)) {
             throw new InvalidArgumentException('Invalid order given. List of numbers expected.');
         }
