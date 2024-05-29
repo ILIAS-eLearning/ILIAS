@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * Membership overview
  * @ilCtrl_Calls ilMembershipOverviewGUI: ilMembershipBlockGUI
+ * @ilCtrl_Calls ilMembershipOverviewGUI: ilColumnGUI
  * @author       killing@leifos.de
  */
 class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
@@ -68,6 +69,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $lng = $this->lng;
 
         $main_tpl->setTitle($lng->txt("my_courses_groups"));
+        $main_tpl->setTitleIcon(\ilUtil::getImagePath("standard/icon_crgr.svg"));
 
         $block = new ilMembershipBlockGUI();
         $main_tpl->setContent($block->getHTML());
