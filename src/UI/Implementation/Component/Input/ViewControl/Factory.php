@@ -82,13 +82,21 @@ class Factory implements VCInterface\Factory
         );
     }
 
-    public function group(array $view_contorls): VCInterface\Group
+    public function group(array $view_controls): VCInterface\Group
     {
         return new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
-            $view_contorls,
+            $view_controls,
+        );
+    }
+
+    public function nullControl(): NullControl
+    {
+        return new NullControl(
+            $this->data_factory,
+            $this->refinery
         );
     }
 }
