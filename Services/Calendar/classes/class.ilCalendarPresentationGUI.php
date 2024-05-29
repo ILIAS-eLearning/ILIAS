@@ -99,7 +99,7 @@ class ilCalendarPresentationGUI
         $this->initCalendarView();
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
 
-        if ($this->category_id > 0) {        // single calendar view
+        if ($this->category_id > 0 && $this->ref_id <= 0) {        // single calendar view
             // ensure activation of this category
             $vis = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $a_ref_id);
             $vis->forceVisibility($this->category_id);
