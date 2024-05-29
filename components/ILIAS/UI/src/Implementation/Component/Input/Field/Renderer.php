@@ -516,15 +516,22 @@ class Renderer extends AbstractComponentRenderer
 
         /** @var $markdown_actions_glyphs Component\Symbol\Glyph\Glyph[] */
         $markdown_actions_glyphs = [
-            'ACTION_HEADING' => $this->getUIFactory()->symbol()->glyph()->header(),
-            'ACTION_LINK' => $this->getUIFactory()->symbol()->glyph()->link(),
-            'ACTION_BOLD' => $this->getUIFactory()->symbol()->glyph()->bold(),
-            'ACTION_ITALIC' => $this->getUIFactory()->symbol()->glyph()->italic(),
-            'ACTION_ORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->numberedlist(),
-            'ACTION_UNORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->bulletlist()
+            F\Markdown::ACTION_HEADING => $this->getUIFactory()->symbol()->glyph()->header(),
+            F\Markdown::ACTION_LINK => $this->getUIFactory()->symbol()->glyph()->link(),
+            F\Markdown::ACTION_BOLD => $this->getUIFactory()->symbol()->glyph()->bold(),
+            F\Markdown::ACTION_ITALIC => $this->getUIFactory()->symbol()->glyph()->italic(),
+            F\Markdown::ACTION_ORDERED_LIST => $this->getUIFactory()->symbol()->glyph()->numberedlist(),
+            F\Markdown::ACTION_UNORDERED_LIST => $this->getUIFactory()->symbol()->glyph()->bulletlist()
         ];
 
+        $allowed_actions = $component->getAllowedActions();
+
         foreach ($markdown_actions_glyphs as $tpl_variable => $glyph) {
+            // only render allowed actions
+            if (null !== $allowed_actions && !in_array($tpl_variable, $allowed_actions, true)) {
+                continue;
+            }
+
             if ($component->isDisabled()) {
                 $glyph = $glyph->withUnavailableAction();
             }
@@ -536,6 +543,23 @@ class Renderer extends AbstractComponentRenderer
             }
 
             $markdown_tpl->setVariable($tpl_variable, $default_renderer->render($action));
+        }
+
+        foreach ($component->getAdditionalActions() as $action_name => $glyph) {
+            if ($component->isDisabled()) {
+                $glyph = $glyph->withUnavailableAction();
+            }
+
+            $action = $this->getUIFactory()->button()->standard($default_renderer->render($glyph), '#');
+
+            if ($component->isDisabled()) {
+                $action = $action->withUnavailableAction();
+            }
+
+            $markdown_tpl->setCurrentBlock('with_additional_action');
+            $markdown_tpl->setVariable('ACTION_BUTTON', $default_renderer->render($action));
+            $markdown_tpl->setVariable('ACTION_NAME', $action_name);
+            $markdown_tpl->parseCurrentBlock();
         }
 
         // label must point to the wrapped textarea input, not the markdown input.

@@ -54,7 +54,7 @@ trait JavaScriptBindable
         }
 
         $this->checkBinder($binder);
-        return $this->withOnLoadCode(fn ($id) => $current_binder($id) . "\n" . $binder($id));
+        return $this->withOnLoadCode(fn($id) => $binder($id) . "\n" . $current_binder($id));
     }
 
     /**

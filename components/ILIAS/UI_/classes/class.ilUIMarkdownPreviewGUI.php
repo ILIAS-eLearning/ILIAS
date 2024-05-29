@@ -65,7 +65,7 @@ class ilUIMarkdownPreviewGUI implements MarkdownRenderer, ilCtrlBaseClassInterfa
     public function getAsyncUrl(): string
     {
         return $this->ctrl->getLinkTargetByClass(
-            self::class,
+            static::class,
             self::CMD_RENDER_ASYNC,
             null,
             true
