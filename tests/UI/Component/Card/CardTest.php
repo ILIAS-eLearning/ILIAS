@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -181,5 +181,37 @@ class CardTest extends ILIAS_UI_TestBase
             "</div>";
 
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
+    }
+
+    public function test_render_content_with_allowed_tag_in_title(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $c = $this->getBaseCard();
+        $c = $c->withTitle('<b>name</b>');
+
+        $expected_html =
+            "<div class=\"il-card thumbnail\">" .
+            "   <div class=\"il-card-image-container\"><img src=\"src\" class=\"img-standard\" alt=\"open &lt;b&gt;name&lt;/b&gt;\" /></div>" .
+            "   <div class=\"card-no-highlight\"></div>" .
+            "   <div class=\"caption card-title\"><b>name</b></div>" .
+            "</div>";
+
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($r->render($c)));
+    }
+
+    public function test_render_content_with_prohibited_tag_in_title(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $c = $this->getBaseCard();
+        $c = $c->withTitle('<h1>name</h1>');
+
+        $expected_html =
+            "<div class=\"il-card thumbnail\">" .
+            "   <div class=\"il-card-image-container\"><img src=\"src\" class=\"img-standard\" alt=\"open &lt;h1&gt;name&lt;/h1&gt;\" /></div>" .
+            "   <div class=\"card-no-highlight\"></div>" .
+            "   <div class=\"caption card-title\">name</div>" .
+            "</div>";
+
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($r->render($c)));
     }
 }

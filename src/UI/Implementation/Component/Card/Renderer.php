@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Component\Link\Link;
+use ilObjectGUI;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -43,6 +44,9 @@ class Renderer extends AbstractComponentRenderer
 
         $title = $component->getTitle();
         $image_alt = $title;
+        if (is_string($title)) {
+            $title = strip_tags($title, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
+        }
 
         if ($title instanceof Button || $title instanceof Link) {
             $image_alt = $title->getLabel();
@@ -78,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getImage()) {
             $tpl->setVariable("IMAGE", $default_renderer->render(
-                $component->getImage()->withAlt($this->txt("open")." ".strip_tags($image_alt))
+                $component->getImage()->withAlt($this->txt("open") . " " . $image_alt)
             ));
         }
 
