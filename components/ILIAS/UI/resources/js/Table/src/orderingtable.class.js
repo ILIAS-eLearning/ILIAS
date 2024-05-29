@@ -55,6 +55,7 @@ export default class OrderingTable {
   #indexRows() {
     this.#rows = Array.from(this.#table.rows);
     this.#rows.shift();// exclude header
+    this.#rows.pop();// exclude footer
   }
 
   #addDraglisteners(row) {
