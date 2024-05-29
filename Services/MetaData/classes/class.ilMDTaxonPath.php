@@ -35,6 +35,9 @@ class ilMDTaxonPath extends ilMDBase
      */
     public function getTaxonIds(): array
     {
+        if (!$this->getMetaId()) {
+            return [];
+        }
         return ilMDTaxon::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_taxon_path');
     }
 
