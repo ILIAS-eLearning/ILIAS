@@ -50,6 +50,10 @@ class DocumentTableTest extends TestCase
 
     public function testConstruct(): void
     {
+        $request = $this->mock(ServerRequestInterface::class);
+        $request->method("getUri")->willReturn(
+            "http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50");
+
         $this->assertInstanceOf(DocumentTable::class, new DocumentTable(
             $this->fail(...),
             $this->mock(DocumentRepository::class),
@@ -57,7 +61,7 @@ class DocumentTableTest extends TestCase
             $this->mock(DocumentModal::class),
             $this->mock(ilLegalDocumentsAdministrationGUI::class),
             null,
-            $this->mock(ServerRequestInterface::class),
+            $request,
             new Factory(),
             $this->mock(ilCtrl::class),
             $this->mock(Renderer::class)
@@ -66,6 +70,10 @@ class DocumentTableTest extends TestCase
 
     public function testCriterionName(): void
     {
+        $request = $this->mock(ServerRequestInterface::class);
+        $request->method("getUri")->willReturn(
+            "http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50");
+
         $content = $this->mock(CriterionContent::class);
         $component = $this->mock(Component::class);
 
@@ -79,7 +87,7 @@ class DocumentTableTest extends TestCase
             $this->mock(DocumentModal::class),
             $this->mock(ilLegalDocumentsAdministrationGUI::class),
             null,
-            $this->mock(ServerRequestInterface::class),
+            $request,
             new Factory(),
             $this->mock(ilCtrl::class),
             $this->mock(Renderer::class)

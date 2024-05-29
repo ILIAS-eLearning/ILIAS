@@ -72,7 +72,10 @@ class ProvideDocumentTest extends TestCase
         $dummy_gui = new stdClass();
 
         $http = $this->mock(Services::class);
-        $http->method('request')->willReturn($this->mock(ServerRequestInterface::class));
+        $request = $this->mock(ServerRequestInterface::class);
+        $request->method("getUri")->willReturn(
+            "http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50");
+        $http->method('request')->willReturn($request);
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
@@ -97,7 +100,10 @@ class ProvideDocumentTest extends TestCase
         $dummy_gui = new stdClass();
 
         $http = $this->mock(Services::class);
-        $http->method('request')->willReturn($this->mock(ServerRequestInterface::class));
+        $request = $this->mock(ServerRequestInterface::class);
+        $request->method("getUri")->willReturn(
+            "http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50");
+        $http->method('request')->willReturn($request);
 
         $action_factory = $this->mock(Factory::class);
         $action_factory->method('multi')->willReturn($this->mock(Multi::class));
@@ -116,7 +122,7 @@ class ProvideDocumentTest extends TestCase
             ],
             'language' => $this->mock(ilLanguage::class),
             'http' => $http,
-            'ctrl' => $this->mock(ilCtrl::class)
+            'ctrl' => $this->mock(ilCtrl::class),
         ]);
 
         $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container);
