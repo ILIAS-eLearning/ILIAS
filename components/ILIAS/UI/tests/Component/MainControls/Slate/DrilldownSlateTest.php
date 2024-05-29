@@ -40,7 +40,10 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
 
             public function menu(): C\Menu\Factory
             {
-                return new I\Menu\Factory($this->getSigGen());
+                return new I\Menu\Factory(
+                    $this->getSigGen(),
+                    new ilLanguageMock()
+                );
             }
 
             public function symbol(): C\Symbol\Factory
@@ -110,7 +113,9 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             </div>
                         </header>
                         <div class="c-drilldown__menu">
-                            <ul aria-live="polite" aria-label="ddmenu"></ul>
+                            <ul aria-live="polite" aria-label="ddmenu">
+                                <li class="c-drilldown__menu--no-items"> drilldown_no_items</li>
+                            </ul>
                         </div>
                     </section>
                 </div>

@@ -17180,6 +17180,7 @@ ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
 ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
 ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
 ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
+ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
