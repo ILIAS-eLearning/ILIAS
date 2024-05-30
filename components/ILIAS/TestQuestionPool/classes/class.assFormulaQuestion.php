@@ -77,7 +77,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function clearResults(): void
     {
-        $this->results = array();
+        $this->results = [];
     }
 
     public function getResults(): array
@@ -100,7 +100,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function addResultUnits($result, $unit_ids): void
     {
-        $this->resultunits[$result->getResult()] = array();
+        $this->resultunits[$result->getResult()] = [];
         if ((!is_object($result)) || (!is_array($unit_ids))) {
             return;
         }
@@ -159,7 +159,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $this->clearVariables();
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
-                $varObj = new assFormulaQuestionVariable($variable, 0, 0, null, 0);
+                $varObj = new assFormulaQuestionVariable($variable, '0.0', '0.0', null, 0);
                 $this->addVariable($varObj);
             }
         }
@@ -214,18 +214,26 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
      * @param string $questionText
      * @return assFormulaQuestionVariable[] $varObjects
      */
-    public function fetchAllVariables($questionText): array
+    public function fetchAllVariables(string $question_text): array
     {
-        $varObjects = array();
+        $var_objects = [];
         $matches = null;
 
-        if (preg_match_all("/(\\\$v\\d+)/ims", $questionText, $matches)) {
-            foreach ($matches[1] as $variableKey) {
-                $varObjects[] = $this->getVariable($variableKey);
-            }
+        if (preg_match_all("/(\\\$v\\d+)/ims", $question_text, $matches)) {
+            $var_objects = array_reduce(
+                $matches[1],
+                function (array $c, string $v): array {
+                    $vo = $this->getVariable($v);
+                    if ($vo !== null) {
+                        $c[] = $vo;
+                    }
+                    return $c;
+                },
+                []
+            );
         }
 
-        return $varObjects;
+        return $var_objects;
     }
 
     /**
@@ -585,8 +593,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 'variable_id' => array('integer', $next_id),
                 'question_fi' => array('integer', $this->getId()),
                 'variable' => array('text', $variable->getVariable()),
-                'range_min' => array('float', ((strlen($variable->getRangeMin())) ? $variable->getRangeMin() : 0.0)),
-                'range_max' => array('float', ((strlen($variable->getRangeMax())) ? $variable->getRangeMax() : 0.0)),
+                'range_min' => array('float', $variable->getRangeMin()),
+                'range_max' => array('float', $variable->getRangeMax()),
                 'unit_fi' => array('integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)),
                 'varprecision' => array('integer', (int) $variable->getPrecision()),
                 'intprecision' => array('integer', (int) $variable->getIntprecision()),
@@ -619,9 +627,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 "result_id" => array("integer", $next_id),
                 "question_fi" => array("integer", $this->getId()),
                 "result" => array("text", $result->getResult()),
-                "range_min" => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : 0)),
-                "range_max" => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : 0)),
-                "tolerance" => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : 0)),
+                "range_min" => array("float", $result->getRangeMin()),
+                "range_max" => array("float", $result->getRangeMax()),
+                "tolerance" => array("float", $result->getTolerance()),
                 "unit_fi" => array("integer", (int) $tmp_result_unit),
                 "formula" => array("clob", $formula),
                 "resprecision" => array("integer", $result->getPrecision()),
