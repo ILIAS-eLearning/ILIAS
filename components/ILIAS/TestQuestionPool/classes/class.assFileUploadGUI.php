@@ -87,6 +87,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      */
     public function editQuestion($checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 

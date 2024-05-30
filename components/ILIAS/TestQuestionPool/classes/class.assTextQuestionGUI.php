@@ -74,6 +74,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     */
     public function editQuestion(bool $checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 

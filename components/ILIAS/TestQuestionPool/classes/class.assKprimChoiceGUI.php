@@ -58,6 +58,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
     public function editQuestion(bool $checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();

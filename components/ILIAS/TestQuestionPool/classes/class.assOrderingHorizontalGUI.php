@@ -71,6 +71,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
     public function editQuestion(bool $checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 

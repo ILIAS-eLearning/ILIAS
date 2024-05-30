@@ -203,7 +203,8 @@ abstract class assQuestionGUI
 
     /**
      * @deprecated sk 25 FEB 2024: I introduce this to not have to have the
-     * object public, but this should NEVER EVER be used and should go asap!
+     * object public, I don't think the process to access the question object
+     * through the QuestiionGUI is correct and should go asap!
      */
     public function getObject(): assQuestion
     {
@@ -309,8 +310,6 @@ abstract class assQuestionGUI
                     case self::SUGGESTED_SOLUTION_COMMANDS_CANCEL:
                     case self::SUGGESTED_SOLUTION_COMMANDS_SAVE:
                     case self::SUGGESTED_SOLUTION_COMMANDS_DEFAULT:
-                        $this->suggestedsolution();
-                        break;
                     case 'saveSuggestedSolutionType':
                     case 'saveContentsSuggestedSolution':
                     case 'deleteSuggestedSolution':
@@ -320,12 +319,9 @@ abstract class assQuestionGUI
                     case 'addST':
                     case 'addPG':
                     case 'addGIT':
-                        $this->$cmd();
-                        break;
                     case 'save':
                     case 'saveReturn':
                     case 'editQuestion':
-                        $this->addSaveOnEnterOnLoadCode();
                         $this->$cmd();
                         break;
                     default:
@@ -1164,10 +1160,18 @@ abstract class assQuestionGUI
         return $options;
     }
 
-    public function suggestedsolution(): void
+    public function saveSuggestedSolution(): void
     {
-        $cmd = $this->request->raw('cmd');
-        $save = is_array($cmd) && array_key_exists('saveSuggestedSolution', $cmd);
+        $this->suggestedsolution(true);
+    }
+
+    public function cancelSuggestedSolution(): void
+    {
+        $this->suggestedsolution();
+    }
+
+    public function suggestedsolution(bool $save = false): void
+    {
         if ($save && $this->request->int('deleteSuggestedSolution') === 1) {
             $this->object->deleteSuggestedSolutions();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
@@ -1435,7 +1439,7 @@ abstract class assQuestionGUI
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
-        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->raw('source_id'), true);
+        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->int('source_id'), true);
         $cont_obj = $cont_obj_gui->getObject();
         $pages = ilLMPageObject::getPageList($cont_obj->getId());
         $shownpages = [];

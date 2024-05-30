@@ -182,26 +182,13 @@ class ilAssQuestionFeedbackEditingGUI
         return $form;
     }
 
-    /**
-     * returns the fact wether the feedback editing form has to be saveable or not.
-     * this depends on the additional content editing mode and the current question type,
-     * as well as on fact wether the question is writable for current user or not,
-     * or the fact if we are in self assessment mode or not
-     *
-     * @access private
-     * @return boolean $isFormSaveable
-     */
     private function isFormSaveable(): bool
     {
         if ($this->question_obj->isAdditionalContentEditingModePageObject()
             && !($this->feedback_obj->isSaveableInPageObjectEditingMode())) {
             return false;
         }
-
-        $hasWriteAccess = $this->access->checkAccess("write", "", $this->question_gui->getObject()->getObjId());
-        $isSelfAssessmentEditingMode = $this->question_obj->getSelfAssessmentEditingMode();
-
-        return $hasWriteAccess || $isSelfAssessmentEditingMode;
+        return true;
     }
 
     /**

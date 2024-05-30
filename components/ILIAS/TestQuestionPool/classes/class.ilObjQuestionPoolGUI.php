@@ -665,11 +665,32 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $question_gui->addHeaderAction();
                     }
                 }
-                $question_gui->setQuestionTabs();
 
-                $ilHelp = $this->help;
-                $ilHelp->setScreenIdComponent('qpl');
-                $ret = $this->ctrl->forwardCommand($question_gui);
+                $this->help->setScreenIdComponent('qpl');
+
+                $question_gui->setQuestionTabs();
+                if (in_array($cmd, ['save', 'saveReturn'])) {
+                    if (!$question_gui->saveQuestion()) {
+                        return;
+                    }
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+                    if ($cmd === 'saveReturn') {
+                        $this->ctrl->setParameterByClass(
+                            ilAssQuestionPreviewGUI::class,
+                            'q_id',
+                            (string) $question_gui->getObject()->getId()
+                        );
+                        $this->ctrl->redirectToURL(
+                            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
+                        );
+                    }
+
+                    if ($cmd === 'save') {
+                        $question_gui->editQuestion();
+                    }
+                } else {
+                    $question_gui->$cmd();
+                }
                 break;
         }
 
@@ -1181,7 +1202,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $q_id = $this->qplrequest->getQuestionId();
 
-        if ($this->object->checkQuestionParent($q_id)) {
+        if ($q_id === 0 || $this->object->checkQuestionParent($q_id)) {
             return $q_id;
         }
 
