@@ -1009,62 +1009,72 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
-                $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
-                    $question->toQuestionAdministrationInteraction(
-                        $this->getTestObject()->getTestLogger()->getAdditionalInformationGenerator(),
-                        $this->getTestObject()->getRefId(),
-                        TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
-                    )
-                );
-            }
-
-            if ($this->getTestObject()->getQuestionSetType() === ilObjTest::QUESTION_SET_TYPE_FIXED
-                && !in_array($question_gui->getObject()->getId(), $this->getTestObject()->getQuestions())) {
-                $this->getTestObject()->insertQuestion($question_gui->getObject()->getId(), true);
-            }
-
-            if ($question_gui->getMoveAfterQuestionId() !== null) {
-                $this->getTestObject()->moveQuestionAfter($question_gui->getObject()->getId(), $question_gui->getMoveAfterQuestionId());
-                $question_gui->setMoveAfterQuestionId(null);
-            }
-
-            if ($question_gui->getCopyToExistingPoolOnSave() !== null) {
-                $original_id = $this->copyQuestionToPool(
-                    $question_gui->getObject()->getId(),
-                    new ilObjQuestionPool($question_gui->getCopyToExistingPoolOnSave())
-                );
-                assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
-                $question_gui->setCopyToExistingPoolOnSave(null);
-            }
-
-            if ($question_gui->getCopyToNewPoolOnSave() !== null) {
-                $question_pool = $this->createQuestionPool($question_gui->getCopyToNewPoolOnSave());
-                $original_id = $this->copyQuestionToPool(
-                    $question_gui->getObject()->getId(),
-                    $question_pool
-                );
-                assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
-                $question_gui->setCopyToNewPoolOnSave(null);
-            }
-            if ($cmd === 'saveReturn') {
-                $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW, $question_gui->getObject()->getId());
-            }
-
-            if ($cmd === 'save') {
-                $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
-                $this->tabs_gui->setBackTarget(
-                    $this->lng->txt('backtocallingpage'),
-                    $this->ctrl->getLinkTargetByClass(
-                        ilAssQuestionPreviewGUI::class,
-                        ilAssQuestionPreviewGUI::CMD_SHOW
-                    )
-                );
-                $question_gui->editQuestion();
-            }
+            $this->executeAfterQuestionSaveTasks($question_gui);
+            $this->showNextViewAfterQuestionSave($question_gui);
 
         } catch (ilTestException $e) {
             $this->showQuestionsObject();
+        }
+    }
+
+    private function executeAfterQuestionSaveTasks(assQuestionGUI $question_gui): void
+    {
+        if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
+            $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
+                $question_gui->getObject()->toQuestionAdministrationInteraction(
+                    $this->getTestObject()->getTestLogger()->getAdditionalInformationGenerator(),
+                    $this->getTestObject()->getRefId(),
+                    TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
+                )
+            );
+        }
+
+        if ($this->getTestObject()->getQuestionSetType() === ilObjTest::QUESTION_SET_TYPE_FIXED
+            && !in_array($question_gui->getObject()->getId(), $this->getTestObject()->getQuestions())) {
+            $this->getTestObject()->insertQuestion($question_gui->getObject()->getId(), true);
+        }
+
+        if ($question_gui->getMoveAfterQuestionId() !== null) {
+            $this->getTestObject()->moveQuestionAfter($question_gui->getObject()->getId(), $question_gui->getMoveAfterQuestionId());
+            $question_gui->setMoveAfterQuestionId(null);
+        }
+
+        if ($question_gui->getCopyToExistingPoolOnSave() !== null) {
+            $original_id = $this->copyQuestionToPool(
+                $question_gui->getObject()->getId(),
+                new ilObjQuestionPool($question_gui->getCopyToExistingPoolOnSave())
+            );
+            assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
+            $question_gui->setCopyToExistingPoolOnSave(null);
+        }
+
+        if ($question_gui->getCopyToNewPoolOnSave() !== null) {
+            $question_pool = $this->createQuestionPool($question_gui->getCopyToNewPoolOnSave());
+            $original_id = $this->copyQuestionToPool(
+                $question_gui->getObject()->getId(),
+                $question_pool
+            );
+            assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
+            $question_gui->setCopyToNewPoolOnSave(null);
+        }
+    }
+
+    private function showNextViewAfterQuestionSave(assQuestionGUI $question_gui, string $cmd): void
+    {
+        if ($cmd === 'saveReturn') {
+            $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW, $question_gui->getObject()->getId());
+        }
+
+        if ($cmd === 'save') {
+            $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
+            $this->tabs_gui->setBackTarget(
+                $this->lng->txt('backtocallingpage'),
+                $this->ctrl->getLinkTargetByClass(
+                    ilAssQuestionPreviewGUI::class,
+                    ilAssQuestionPreviewGUI::CMD_SHOW
+                )
+            );
+            $question_gui->editQuestion();
         }
     }
 
