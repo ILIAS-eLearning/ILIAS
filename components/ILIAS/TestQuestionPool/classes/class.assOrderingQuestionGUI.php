@@ -141,6 +141,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function uploadElementImage(): void
     {
+        if ($this->getObject()->getId() <= 0) {
+            $this->object->createNewQuestion();
+            $this->setQuestionTabs();
+        }
         $form = $this->buildEditForm();
         $form->setValuesByPost();
 
@@ -247,9 +251,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $list = $this->fetchSolutionListFromSubmittedForm($form);
-        $this->object->setOrderingElementList($list);
-        return;
+        $this->object->setOrderingElementList(
+            $this->fetchSolutionListFromSubmittedForm($form)
+        );
     }
 
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI

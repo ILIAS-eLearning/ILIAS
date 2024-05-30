@@ -56,12 +56,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public const VALID_UPLOAD_SUFFIXES = ["jpg", "jpeg", "png", "gif"];
     protected const HAS_SPECIFIC_FEEDBACK = false;
 
-    protected ilAssOrderingElementList $orderingElementList;
-    protected int $ordering_type;
     public ?int $element_height = null;
     public $old_ordering_depth = [];
     public $leveled_ordering = [];
     protected ?OQRepository $oq_repository = null;
+
+    protected ?ilAssOrderingElementList $element_list_for_deferred_saving = null;
 
     public function __construct(
         string $title = "",
@@ -69,11 +69,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         string $author = "",
         int $owner = -1,
         string $question = "",
-        int $ordering_type = self::OQ_TERMS
+        protected int $ordering_type = self::OQ_TERMS
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->orderingElementList = new ilAssOrderingElementList();
-        $this->ordering_type = $ordering_type;
     }
 
     public function isComplete(): bool
@@ -106,6 +104,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->saveQuestionDataToDb((int) $original_id);
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
+        if ($this->element_list_for_deferred_saving !== null) {
+            $this->setOrderingElementList($this->element_list_for_deferred_saving);
+        }
     }
 
     /**
@@ -436,14 +437,19 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function setOrderingElementList(ilAssOrderingElementList $list): void
     {
+        if ($this->getId() <= 0) {
+            $this->element_list_for_deferred_saving = $list;
+            return;
+        }
         $list = $list->withQuestionId($this->getId());
         $elements = $list->getElements();
         $nu = [];
         foreach ($elements as $e) {
             $nu[] = $list->ensureValidIdentifiers($e);
         }
-        $list = $list->withElements($nu);
-        $this->getRepository()->updateOrderingList($list);
+        $this->getRepository()->updateOrderingList(
+            $list->withElements($nu)
+        );
     }
 
     /**

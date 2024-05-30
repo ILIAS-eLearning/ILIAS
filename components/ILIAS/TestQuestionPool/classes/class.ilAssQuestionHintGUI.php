@@ -142,7 +142,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             if ($this->request->raw('calling_test')
                 && $originalexists
                 && $this->questionOBJ->isWriteable()) {
-                $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+                $this->ctrl->redirectByClass(self::class, ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
 
 
@@ -150,7 +150,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->ctrl->setParameterByClass('ilasshintpagegui', 'hint_id', $questionHint->getId());
                 $this->ctrl->redirectByClass('ilasshintpagegui', 'edit');
             } else {
-                $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+                $this->ctrl->redirectByClass(self::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             }
         }
 
@@ -161,7 +161,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     private function cancelFormCmd(): void
     {
 
-        $this->ctrl->redirectByClass('ilAssQuestionHintsGUI');
+        $this->ctrl->redirectByClass(self::class);
     }
 
     /**

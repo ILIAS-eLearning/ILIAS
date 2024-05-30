@@ -90,7 +90,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
+        $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', (string) $row['category_id']);
 
         $actions = [];
 
