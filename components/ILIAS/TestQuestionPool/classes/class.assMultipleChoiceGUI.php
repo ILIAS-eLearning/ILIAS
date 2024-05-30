@@ -111,6 +111,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function editQuestion(bool $checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 

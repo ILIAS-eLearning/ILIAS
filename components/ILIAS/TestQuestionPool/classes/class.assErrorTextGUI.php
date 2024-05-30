@@ -118,6 +118,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      */
     public function editQuestion($checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $this->tabs->setTabActive('edit_question');
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();

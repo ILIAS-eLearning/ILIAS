@@ -200,6 +200,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      */
     public function editQuestion($checkonly = false, string $suggest_range_for_result = ''): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
 
         $this->getQuestionTemplate();

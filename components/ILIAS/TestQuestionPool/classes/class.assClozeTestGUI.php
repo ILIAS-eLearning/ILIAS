@@ -301,6 +301,7 @@ JS;
     */
     public function editQuestion($checkonly = false): bool
     {
+        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
