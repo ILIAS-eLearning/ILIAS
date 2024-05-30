@@ -1276,10 +1276,13 @@ class ilPersonalProfileGUI
         $checked_values = [];
         $post = $this->request->getParsedBody();
         foreach ($post as $k => $v) {
-            if (strpos($k, "chk_") === 0 && substr($k, -2) === $key_suffix) {
-                $k = str_replace(["-1", "-2"], "", $k);
-                $checked_values[$k] = $v;
+            if (strpos($k, "chk_") !== 0) {
+                continue;
             }
+            if  (substr($k, -2) === $key_suffix) {
+                $k = str_replace(["-1", "-2"], "", $k);
+            }
+            $checked_values[$k] = $v;
         }
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             if (isset($post["chk_udf_" . $definition["field_id"] . $key_suffix])) {
