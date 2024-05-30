@@ -276,9 +276,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function editQuestion(bool $checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -312,7 +310,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }

@@ -103,9 +103,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function editQuestion(bool $checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -170,7 +168,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }

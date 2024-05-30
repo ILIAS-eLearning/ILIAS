@@ -300,9 +300,7 @@ JS;
     */
     public function editQuestion($checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -345,7 +343,7 @@ JS;
             $modal->setHeading($this->lng->txt(''));
             $modal->setId('ilGapModal');
             $modal->setBody('');
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML() . $modal->getHTML());
+            $this->renderEditForm($form, $modal->getHTML());
         }
         return $errors;
     }

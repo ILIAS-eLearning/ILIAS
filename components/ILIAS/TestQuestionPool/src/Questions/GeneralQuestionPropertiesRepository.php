@@ -269,7 +269,7 @@ class GeneralQuestionPropertiesRepository
         );
 
         $row = $this->database->fetchObject($result);
-        return $row->cnt === 0;
+        return $row->cnt === 1;
     }
 
     public function isUsedInRandomTest(int $question_id): bool
