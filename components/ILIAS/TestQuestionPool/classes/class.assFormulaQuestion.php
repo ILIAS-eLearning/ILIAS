@@ -1309,12 +1309,57 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
-            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => serialize($this->getVariables()),
-            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => serialize($this->getResults()),
+            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog($this->getVariables()),
+            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => json_encode($this->getResults()),
             AdditionalInformationGenerator::KEY_FEEDBACK => [
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ]
         ];
+    }
+
+    /**
+     *
+     * @param array<assFormulaQuestionVariable> $variables
+     */
+    private function buildVariablesForLog(array $variables): string
+    {
+        return json_encode(
+            array_map(
+                fn(assFormulaQuestionVariable $v) => [
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLE => $v->getVariable(),
+                    AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT => $v->getRangeMinTxt(),
+                    AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT => $v->getRangeMaxTxt(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_PRECISION => $v->getPrecision(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_INTPRECISION => $v->getIntprecision(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $v->getUnit()
+                ],
+                $variables
+            )
+        );
+    }
+
+    /**
+     *
+     * @param array<assFormulaQuestionResult> $variables
+     */
+    private function buildResultsForLog(array $results): string
+    {
+        return json_encode(
+            array_reduce(
+                fn(assFormulaQuestionResult $r) => [
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT => $r->getResult(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT_TYPE => $r->getResultType(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_FORMULA => $r->getFormula(),
+                    AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $r->getPoints(),
+                    AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT => $r->getRangeMinTxt(),
+                    AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT => $r->getRangeMaxTxt(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_TOLERANCE => $r->getTolerance(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_PRECISION => $r->getPrecision(),
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $r->getUnit()
+                ],
+                $results
+            )
+        );
     }
 }
