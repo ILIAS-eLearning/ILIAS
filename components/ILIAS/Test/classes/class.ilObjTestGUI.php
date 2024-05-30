@@ -1062,11 +1062,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
         } catch (ilTestException $e) {
-            if ($this->testrequest->isset('test_express_mode')) {
-                $this->showPageObject();
-            } else {
-                $this->showQuestionsObject();
-            }
+            $this->showQuestionsObject();
         }
     }
 
