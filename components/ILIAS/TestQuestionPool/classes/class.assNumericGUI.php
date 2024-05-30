@@ -111,7 +111,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $lower = $form->getItemByPostVar('lowerlimit');
             $upper = $form->getItemByPostVar('upperlimit');
 
-            if (!$this->checkRange($lower->getValue(), $upper->getValue())) {
+            $to_float_trafo = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always(0.0)
+            ]);
+
+            if (!$this->checkRange(
+                    $to_float_trafo->transform($lower->getValue()),
+                    $to_float_trafo->transform($upper->getValue())
+                )) {
                 global $DIC;
                 $lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
                 $upper->setAlert($DIC->language()->txt('qpl_numeric_upper_needs_valid_upper_alert'));

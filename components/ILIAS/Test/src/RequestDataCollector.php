@@ -81,11 +81,6 @@ class RequestDataCollector
         return $this->intArray('q_id');
     }
 
-    public function getCallingTest(): int
-    {
-        return $this->int('calling_test');
-    }
-
     public function getNextCommand(): string
     {
         return $this->str('nextCommand');

@@ -16,9 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
-use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
@@ -84,10 +85,9 @@ JS;
     private $gapIndex;
 
     private RandomGroup $randomGroup;
-    private Container $dic;
     private ArrayBasedRequestWrapper $post;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
 
     /**
     * assClozeTestGUI constructor
@@ -98,10 +98,9 @@ JS;
     {
         parent::__construct();
         global $DIC;
-        $this->dic = $DIC;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->post = $this->dic->http()->wrapper()->post();
+        $this->post = $DIC->http()->wrapper()->post();
 
         $this->object = new assClozeTest();
         if ($id >= 0) {

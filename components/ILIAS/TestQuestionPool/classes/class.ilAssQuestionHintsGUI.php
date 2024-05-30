@@ -268,7 +268,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
-        if ($this->request->raw("calling_test")
+        if ($this->request->raw('calling_test')
             && $originalexists
             && $this->questionOBJ->isWriteable()) {
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
@@ -325,7 +325,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
-        if ($this->request->raw("calling_test")
+        if ($this->request->raw('calling_test')
             && $originalexists
             && $this->questionOBJ->isWritable()) {
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);

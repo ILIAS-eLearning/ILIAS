@@ -595,7 +595,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     public function getSolutionSubmit(): array
     {
-        $answer = $this->questionpool_request->getArrayOfStrings('answer');
+        $answer = $this->questionpool_request->retrieveArrayOfStringsFromPost('answer');
 
         if ($answer === null) {
             return [];

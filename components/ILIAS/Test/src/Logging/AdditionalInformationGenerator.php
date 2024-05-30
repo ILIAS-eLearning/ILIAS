@@ -146,6 +146,14 @@ class AdditionalInformationGenerator
     public const KEY_QUESTION_TEXT_MATCHING_METHOD = 'matching_method';
     public const KEY_QUESTION_FORMULA_VARIABLES = 'variables';
     public const KEY_QUESTION_FORMULA_RESULTS = 'results';
+    public const KEY_QUESTION_FORMULA_VARIABLE = 'variable';
+    public const KEY_QUESTION_FORMULA_RESULT = 'result';
+    public const KEY_QUESTION_FORMULA_PRECISION = 'precision';
+    public const KEY_QUESTION_FORMULA_INTPRECISION = 'intprecision';
+    public const KEY_QUESTION_FORMULA_TOLERANCE = 'tolerance';
+    public const KEY_QUESTION_FORMULA_UNIT = 'unit';
+    public const KEY_QUESTION_FORMULA_RESULT_TYPE = 'result_type_selection';
+    public const KEY_QUESTION_FORMULA_FORMULA = 'formula';
     public const KEY_QUESTION_ORDERING_NESTING_TYPE = 'qst_use_nested_answers';
     public const KEY_QUESTION_ANSWER_OPTION_IMAGE = 'image';
     public const KEY_QUESTION_ANSWER_OPTION_ORDER = 'order';

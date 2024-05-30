@@ -208,7 +208,8 @@ class ilAssOrderingElement
      */
     public function isImageUploadAvailable(): bool
     {
-        return (bool) strlen($this->getUploadImageFile());
+        return $this->getUploadImageFile() !== null
+            && $this->getUploadImageFile() !== '';
     }
 
     /**

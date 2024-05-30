@@ -262,7 +262,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         foreach ($values as $identifier => $value) {
             $element = new ilAssOrderingElement();
 
-            $element->setRandomIdentifier($identifier);
+            $element->setRandomIdentifier((int) $identifier);
 
             $element->setPosition($position++);
 
