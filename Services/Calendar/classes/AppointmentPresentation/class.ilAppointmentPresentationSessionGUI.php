@@ -29,6 +29,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 {
     public function collectPropertiesAndActions(): void
     {
+        $file_infos = new ilObjFileInfoRepository();
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
         $this->lng->loadLanguageModule("sess");
@@ -94,11 +95,13 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         if (count($eventItems)) {
             $links = [];
             foreach ($eventItems as $file) {
-                if ($file['type'] == "file") {
+                if ($file['type'] === "file") {
+                    $file_ref_id = (int) $file['ref_id'];
+                    $file_info = $file_infos->getByRefId($file_ref_id);
                     $this->has_files = true;
-                    $href = ilLink::_getStaticLink((int)$file['ref_id'], "file", true, '_download');
-                    $link = $f->link()->standard($file['title'], $href);
-                    if (ilObjFileAccess::_isFileInline($file["title"])) {
+                    $href = ilLink::_getStaticLink($file_ref_id, "file", true, '_download');
+                    $link = $f->link()->standard($file_info->getListTitle(), $href);
+                    if ($file_info->shouldDeliverInline()) {
                         $link = $link->withOpenInNewViewport(true);
                     }
                     $links[] = $link;
