@@ -975,7 +975,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $gui->initStyleSheets();
         $this->tabs_gui->setBackTarget($this->lng->txt('backtocallingtest'), $this->ctrl->getLinkTargetByClass(self::class, self::DEFAULT_CMD));
 
-        $gui->{$cmd . 'Cmd'}();
+        $this->ctrl->forwardCommand($gui);
     }
 
     protected function forwardCommandToQuestion(string $cmd): void
@@ -999,22 +999,24 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_gui->setObject($question);
             $question_gui->setQuestionTabs();
 
-            if (in_array($cmd, ['save', 'saveReturn'])) {
-                if (!$question_gui->saveQuestion()) {
-                    return;
-                }
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-                if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
-                    $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
-                        $question->toQuestionAdministrationInteraction(
-                            $this->getTestObject()->getTestLogger()->getAdditionalInformationGenerator(),
-                            $this->getTestObject()->getRefId(),
-                            TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
-                        )
-                    );
-                }
-            } else {
-                $question_gui->$cmd();
+            if (!in_array($cmd, ['save', 'saveReturn'])) {
+                $this->ctrl->forwardCommand($question_gui);
+                return;
+            }
+
+            if (!$question_gui->saveQuestion()) {
+                return;
+            }
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+            if ($this->getTestObject()->getTestLogger()->isLoggingEnabled()) {
+                $this->getTestObject()->getTestLogger()->logQuestionAdministrationInteraction(
+                    $question->toQuestionAdministrationInteraction(
+                        $this->getTestObject()->getTestLogger()->getAdditionalInformationGenerator(),
+                        $this->getTestObject()->getRefId(),
+                        TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED
+                    )
+                );
             }
 
             if ($this->getTestObject()->getQuestionSetType() === ilObjTest::QUESTION_SET_TYPE_FIXED
