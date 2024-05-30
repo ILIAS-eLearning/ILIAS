@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Single choice question GUI representation
  * The assFormulaQuestionGUI class encapsulates the GUI representation
@@ -29,6 +32,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
 {
     protected const HAS_SPECIAL_QUESTION_COMMANDS = true;
 
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+
     /**
      * assFormulaQuestionGUI constructor
      * The constructor takes possible arguments an creates an instance of the assFormulaQuestionGUI object.
@@ -38,6 +44,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function __construct($id = -1)
     {
         parent::__construct();
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
         $this->object = new assFormulaQuestion();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -104,15 +114,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
             foreach ($found_vars as $variable) {
                 if ($this->object->getVariable($variable) != null) {
+                    $unit = $this->request->int("unit_{$variable}");
                     $varObj = new assFormulaQuestionVariable(
                         $variable,
-                        str_replace(',', '.', $_POST["range_min_{$variable}"]),
-                        str_replace(',', '.', $_POST["range_max_{$variable}"]),
-                        isset($_POST["unit_{$variable}"]) ? $this->object->getUnitrepository()->getUnit(
-                            $_POST["unit_{$variable}"]
+                        $this->request->float("range_min_{$variable}") ?? 0.0,
+                        $this->request->float("range_max_{$variable}") ?? 0.0,
+                        $unit !== null ? $this->object->getUnitrepository()->getUnit(
+                            $unit
                         ) : null,
-                        (int) $this->request->float("precision_{$variable}"),
-                        (int) $this->request->float("intprecision_{$variable}")
+                        $this->request->float("precision_{$variable}"),
+                        $this->request->float("intprecision_{$variable}")
                     );
                     $this->object->addVariable($varObj);
                 }
@@ -121,16 +132,24 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $tmp_form_vars = [];
             $tmp_quest_vars = [];
             foreach ($found_results as $result) {
-                $tmp_res_match = preg_match_all('/([$][v][0-9]*)/', $_POST["formula_{$result}"], $form_vars);
+                $tmp_res_match = preg_match_all(
+                    '/([$][v][0-9]*)/',
+                    $this->request->string("formula_{$result}"),
+                    $form_vars
+                );
                 $tmp_form_vars = array_merge($tmp_form_vars, $form_vars[0]);
 
-                $tmp_que_match = preg_match_all('/([$][v][0-9]*)/', $_POST['question'], $quest_vars);
+                $tmp_que_match = preg_match_all(
+                    '/([$][v][0-9]*)/',
+                    $this->request->string('question'),
+                    $quest_vars
+                );
                 $tmp_quest_vars = array_merge($tmp_quest_vars, $quest_vars[0]);
             }
             $result_has_undefined_vars = array_diff($tmp_form_vars, $found_vars);
             $question_has_unused_vars = array_diff($tmp_quest_vars, $tmp_form_vars);
 
-            if (count($result_has_undefined_vars) > 0 || count($question_has_unused_vars) > 0) {
+            if ($result_has_undefined_vars !== [] || $question_has_unused_vars !== []) {
                 $error_message = '';
                 if (count($result_has_undefined_vars) > 0) {
                     $error_message .= $this->lng->txt("res_contains_undef_var") . '<br>';
@@ -145,17 +164,18 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
             foreach ($found_results as $result) {
                 if ($this->object->getResult($result) != null) {
+                    $unit = $this->request->int("unit_{$result}");
                     $resObj = new assFormulaQuestionResult(
                         $result,
-                        str_replace(',', '.', $_POST["range_min_{$result}"]),
-                        str_replace(',', '.', $_POST["range_max_{$result}"]),
-                        $this->request->float("tolerance_{$result}"),
-                        isset($_POST["unit_{$result}"]) ? $this->object->getUnitrepository()->getUnit(
-                            $_POST["unit_{$result}"]
+                        $this->request->float("range_min_{$result}") ?? 0.0,
+                        $this->request->float("range_max_{$result}") ?? 0.0,
+                        $this->request->float("tolerance_{$result}") ?? 0.0,
+                        $unit !== null ? $this->object->getUnitrepository()->getUnit(
+                            $unit
                         ) : null,
                         $this->request->string("formula_{$result}"),
                         $this->request->float("points_{$result}"),
-                        (int) $this->request->float("precision_{$result}"),
+                        $this->request->float("precision_{$result}"),
                         $this->request->int("rating_advanced_{$result}") !== 1,
                         $this->request->int("rating_advanced_{$result}") === 1 ? $this->request->float("rating_sign_{$result}") : null,
                         $this->request->int("rating_advanced_{$result}") === 1 ? $this->request->float("rating_value_{$result}") : null,
@@ -163,12 +183,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $this->request->int("result_type_{$result}")
                     );
                     $this->object->addResult($resObj);
-                    if (isset($_POST["units_$result"]) && is_array($_POST["units_{$result}"])) {
-                        $this->object->addResultUnits($resObj, $_POST["units_{$result}"]);
+                    $available_units = $this->request->retrieveArrayOfIntsFromPost("units_{$result}");
+                    if ($available_units !== null) {
+                        $this->object->addResultUnits($resObj, $available_units);
                     }
                 }
             }
-            if ($checked == false) {
+            if ($checked === false) {
                 $this->editQuestion();
                 return 1;
             } else {
@@ -224,7 +245,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();
         $result_units = $this->object->getAllResultUnits();
 
-        $unit_options = array();
+        $unit_options = [];
         $category_name = '';
         $new_category = false;
         foreach ($categorized_units as $item) {
@@ -242,7 +263,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $new_category = false;
         }
 
-        if (count($variables)) {
+        if ($variables !== []) {
             uasort($variables, function (assFormulaQuestionVariable $v1, assFormulaQuestionVariable $v2) {
                 $num_v1 = (int) substr($v1->getVariable(), 2);
                 $num_v2 = (int) substr($v2->getVariable(), 2);
@@ -304,7 +325,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $quest_vars = array();
         $result_vars = array();
         $results = $this->object->getResults();
-        if (count($results)) {
+        if ($results !== []) {
             uasort($results, function (assFormulaQuestionResult $r1, assFormulaQuestionResult $r2) {
                 $num_r1 = (int) substr($r1->getResult(), 2);
                 $num_r2 = (int) substr($r2->getResult(), 2);
@@ -369,7 +390,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $tolerance->setValue($result->getTolerance());
 
                 $suggest_range_button = new ilCustomInputGUI('', '');
-                $suggest_range_button->setHtml('<input type="submit" class="btn btn-default" name="cmd[suggestrange_' . $result->getResult() . ']" value="' . $this->lng->txt("suggest_range") . '" />');
+                $suggest_range_button->setHtml(
+                    $this->ui_renderer->render(
+                        $this->ui_factory->button()->standard(
+                            $this->lng->txt('suggest_range'),
+                            ''
+                        )->withAdditionalOnLoadCode(
+                            $this->getSuggestRangeOnLoadCode($result->getResult())
+                        )
+                    )
+                );
 
                 $sel_result_units = new ilSelectInputGUI($this->lng->txt('unit'), 'unit_' . $result->getResult());
                 $sel_result_units->setOptions(array(0 => $this->lng->txt('no_selection')) + $unit_options);
@@ -512,8 +542,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $result_has_undefined_res = array_diff($defined_result_res, $result_vars);
         }
         $error_message = '';
-        $checked = false;
-        if (count($result_has_undefined_vars) > 0 || count($question_has_unused_vars) > 0) {
+        $checked = true;
+        if ($result_has_undefined_vars !== [] || $question_has_unused_vars !== []) {
             if (count($result_has_undefined_vars) > 0) {
                 $error_message .= $this->lng->txt("res_contains_undef_var") . '<br>';
             }
@@ -544,11 +574,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $this->populateTaxonomyFormSection($form);
 
-        $form->addCommandButton('parseQuestion', $this->lng->txt("parseQuestion"));
-        $form->addCommandButton('saveReturn', $this->lng->txt("save_return"));
-        $form->addCommandButton('save', $this->lng->txt("save"));
+        $form->addCommandButton('parseQuestion', $this->lng->txt('parseQuestion'));
+        $form->addCommandButton('saveReturn', $this->lng->txt('save_return'));
+        $form->addCommandButton('save', $this->lng->txt('save'));
 
-        $errors = $checked;
+        $errors = !$checked;
 
         if ($save) {
             $found_vars = array();
@@ -594,11 +624,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $errors = !$form->checkInput();
 
             $custom_errors = false;
-            if (count($variables)) {
+            if ($variables !== []) {
                 foreach ($variables as $variable) {
-                    /**
-                     * @var $variable assFormulaQuestionVariable
-                     */
                     $min_range = $form->getItemByPostVar('range_min_' . $variable->getVariable());
                     $max_range = $form->getItemByPostVar('range_max_' . $variable->getVariable());
                     if ($min_range->getValue() > $max_range->getValue()) {
@@ -623,7 +650,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
 
-            if (count($results)) {
+            if ($results !== []) {
                 foreach ($results as $result) {
                     /**
                      * @var $result assFormulaQuestionResult
@@ -699,6 +726,22 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->tpl->setVariable('QUESTION_DATA', $form->getHTML());
         }
         return $errors;
+    }
+
+    private function getSuggestRangeOnLoadCode(string $result): Closure
+    {
+        return static function ($id) use ($result): string {
+            return "document.getElementById('$id').addEventListener('click', "
+                . '(e) => {'
+                . '  e.target.setAttribute("name", "cmd[suggestRange]");'
+                . '  let input = document.createElement("input");'
+                . '  input.type = "hidden";'
+                . '  input.name = "suggest_range_for";'
+                . "  input.value = '$result';"
+                . '  e.target.form.appendChild(input);'
+                . '  e.target.form.requestSubmit(e.target);'
+                . '});';
+        };
     }
 
     private function hasResultUnit($result, $unit_id, $resultunits): bool
