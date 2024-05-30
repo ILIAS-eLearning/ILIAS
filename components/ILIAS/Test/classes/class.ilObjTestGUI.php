@@ -914,7 +914,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ((!$this->access->checkAccess('read', '', $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
-                if (in_array($cmd, ['editQuestion', 'previewQuestion', 'save', 'saveReturn', 'suggestedsolution'])
+                if (in_array(
+                    $cmd,
+                    ['editQuestion', 'previewQuestion', 'save', 'saveReturn',
+                            'syncQuestion', 'syncQuestionReturn', 'suggestedsolution']
+                )
                     && !$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
@@ -951,8 +955,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass('ilrepositorygui');
     }
 
-    protected function forwardCommandToQuestionPreview(string $cmd, int $q_id = null): void
-    {
+    protected function forwardCommandToQuestionPreview(
+        string $cmd,
+        assQuestionGUI $question_gui = null
+    ): void {
         $this->prepareOutput();
 
         $this->ctrl->saveParameter($this, 'q_id');
@@ -968,14 +974,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->getTestObject()->evalTotalPersons() === 0
         );
 
-        $gui->initQuestion($q_id ?? $this->fetchAuthoringQuestionIdParameter(), $this->getTestObject()->getId());
+        $gui->initQuestion(
+            $question_gui ?? assQuestion::instantiateQuestionGUI($this->fetchAuthoringQuestionIdParameter()),
+            $this->getTestObject()->getId()
+        );
         $gui->initPreviewSettings($this->getTestObject()->getRefId());
         $gui->initPreviewSession($this->user->getId(), $this->testrequest->getQuestionId());
         $gui->initHintTracking();
         $gui->initStyleSheets();
         $this->tabs_gui->setBackTarget($this->lng->txt('backtocallingtest'), $this->ctrl->getLinkTargetByClass(self::class, self::DEFAULT_CMD));
 
-        $this->ctrl->forwardCommand($gui);
+        $gui->{$cmd . 'Cmd'}();
     }
 
     protected function forwardCommandToQuestion(string $cmd): void
@@ -999,7 +1008,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_gui->setObject($question);
             $question_gui->setQuestionTabs();
 
-            if (!in_array($cmd, ['save', 'saveReturn'])) {
+            $target = strpos($cmd, 'Return') === false ? 'stay' : 'return';
+
+            if (in_array($cmd, ['syncQuestion', 'syncQuestionReturn'])) {
+                $question_gui->syncQuestion();
+                $this->showNextViewAfterQuestionSave($question_gui, $target);
+                return;
+            }
+
+            if (!in_array($cmd, ['save', 'saveReturn', 'syncQuestion', 'syncQuestionReturn'])) {
                 $this->ctrl->forwardCommand($question_gui);
                 return;
             }
@@ -1010,7 +1027,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->executeAfterQuestionSaveTasks($question_gui);
-            $this->showNextViewAfterQuestionSave($question_gui, $cmd);
+            if ($question_gui->getObject()->hasWritableOriginalInQuestionPool()) {
+                $question_gui->setShowQuestionSyncModal();
+            }
+            $this->showNextViewAfterQuestionSave($question_gui, $target);
         } catch (ilTestException $e) {
             $this->showQuestionsObject();
         }
@@ -1058,13 +1078,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
     }
 
-    private function showNextViewAfterQuestionSave(assQuestionGUI $question_gui, string $cmd): void
+    private function showNextViewAfterQuestionSave(assQuestionGUI $question_gui, string $target): void
     {
-        if ($cmd === 'saveReturn') {
-            $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW, $question_gui->getObject()->getId());
+        if ($target === 'return') {
+            $this->forwardCommandToQuestionPreview(
+                ilAssQuestionPreviewGUI::CMD_SHOW,
+                $question_gui
+            );
         }
 
-        if ($cmd === 'save') {
+        if ($target === 'stay') {
             $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt('backtocallingpage'),

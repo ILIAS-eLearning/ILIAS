@@ -165,15 +165,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function editQuestion(bool $checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();
         }
 
-        $this->getQuestionTemplate();
-
-        $this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
+        $this->renderEditForm($form);
         return false;
     }
 

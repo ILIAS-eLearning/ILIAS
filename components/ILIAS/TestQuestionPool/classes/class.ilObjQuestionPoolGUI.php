@@ -249,7 +249,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->global_screen
                 );
 
-                $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());
+                $gui->initQuestion(
+                    assQuestion::instantiateQuestionGUI($this->qplrequest->int('q_id')),
+                    $this->object->getId()
+                );
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
                 $gui->initHintTracking();
@@ -1024,7 +1027,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function confirmDeleteQuestionsObject(): void
     {
         $qst_ids = $this->qplrequest->retrieveArrayOfIntsFromPost('q_id') ?? [];
-        foreach ( $qst_ids as $value) {
+        foreach ($qst_ids as $value) {
             $this->object->deleteQuestion((int) $value);
             $this->object->cleanupClipboard((int) $value);
         }

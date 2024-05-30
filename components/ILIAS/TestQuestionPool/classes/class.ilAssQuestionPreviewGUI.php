@@ -77,9 +77,9 @@ class ilAssQuestionPreviewGUI
         return $this->question_obj;
     }
 
-    public function initQuestion(int $question_id, int $parent_obj_id): void
+    public function initQuestion(assQuestionGUI $question_gui, int $parent_obj_id): void
     {
-        $this->question_gui = assQuestion::instantiateQuestionGUI($question_id);
+        $this->question_gui = $question_gui;
         $this->question_obj = $this->question_gui->getObject();
 
         $this->question_obj->setObjId($parent_obj_id);
@@ -202,6 +202,11 @@ class ilAssQuestionPreviewGUI
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'components/ILIAS/TestQuestionPool');
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
 
+        $modal = '';
+        if ($this->question_gui->getShowQuestionSyncModal()) {
+            $modal = $this->question_gui->getQuestionSyncModal(assQuestionGUI::CMD_SYNC_QUESTION_AND_RETURN);
+        }
+
         $this->populatePreviewToolbar($tpl);
         $this->populateQuestionOutput($tpl);
         $this->handleInstantResponseRendering($tpl);
@@ -210,7 +215,7 @@ class ilAssQuestionPreviewGUI
             $this->populateCommentsPanel($tpl, $commands_panel_html);
         }
 
-        $this->tpl->setContent($tpl->get());
+        $this->tpl->setContent($tpl->get() . $modal);
     }
 
     public function assessmentCmd()

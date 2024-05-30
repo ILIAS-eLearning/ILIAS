@@ -82,9 +82,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function editQuestion(bool $checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -117,9 +115,9 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             ]);
 
             if (!$this->checkRange(
-                    $to_float_trafo->transform($lower->getValue()),
-                    $to_float_trafo->transform($upper->getValue())
-                )) {
+                $to_float_trafo->transform($lower->getValue()),
+                $to_float_trafo->transform($upper->getValue())
+            )) {
                 global $DIC;
                 $lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
                 $upper->setAlert($DIC->language()->txt('qpl_numeric_upper_needs_valid_upper_alert'));
@@ -133,7 +131,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }

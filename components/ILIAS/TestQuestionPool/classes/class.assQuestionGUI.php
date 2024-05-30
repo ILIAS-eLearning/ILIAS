@@ -74,6 +74,9 @@ abstract class assQuestionGUI
     protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
     protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
 
+    private const CMD_SYNC_QUESTION = 'syncQuestion';
+    public const CMD_SYNC_QUESTION_AND_RETURN = 'syncQuestionReturn';
+
 
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
@@ -131,6 +134,7 @@ abstract class assQuestionGUI
     private ?int $copy_to_existing_pool_on_save = null;
     private ?string $copy_to_new_pool_on_save = null;
     private ?int $move_after_question_with_id = null;
+    private bool $show_question_sync_modal = false;
 
     public function __construct()
     {
@@ -313,6 +317,8 @@ abstract class assQuestionGUI
                     case 'addGIT':
                     case 'save':
                     case 'saveReturn':
+                    case self::CMD_SYNC_QUESTION:
+                    case self::CMD_SYNC_QUESTION_AND_RETURN:
                     case 'editQuestion':
                         $this->$cmd();
                         break;
@@ -528,10 +534,10 @@ abstract class assQuestionGUI
 
         if (($question_type === '') && ($question_id > 0)) {
             $question_type = QuestionPoolDIC::dic()['question.general_properties.repository']
-                ->getForQuestionId($question_id)->getClassName();
+                ->getForQuestionId($question_id)?->getClassName();
         }
 
-        if ($question_type === '') {
+        if ($question_type === null || $question_type === '') {
             return null;
         }
 
@@ -576,10 +582,14 @@ abstract class assQuestionGUI
         }
     }
 
-    protected function renderEditForm(ilPropertyFormGUI $form): void
+    protected function renderEditForm(ilPropertyFormGUI $form, string $additional_content = ''): void
     {
+        $this->addSaveOnEnterOnLoadCode();
+        if ($this->getShowQuestionSyncModal()) {
+            $additional_content .= $this->getQuestionSyncModal(self::CMD_SYNC_QUESTION);
+        }
         $this->getQuestionTemplate();
-        $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $additional_content);
     }
 
     /**
@@ -646,62 +656,13 @@ abstract class assQuestionGUI
         return $tpl->get();
     }
 
-    public function originalSyncForm(string $return_to = "", string $return_to_feedback = ''): void
-    {
-        if (strlen($return_to)) {
-            $this->ctrl->setParameter($this, "return_to", $return_to);
-        } elseif ($this->request->raw('return_to')) {
-            $this->ctrl->setParameter($this, "return_to", $this->request->raw('return_to'));
-        }
-        if (strlen($return_to_feedback)) {
-            $this->ctrl->setParameter($this, 'return_to_fb', 'true');
-        }
-
-        $this->ctrl->saveParameter($this, 'test_express_mode');
-
-        $template = new ilTemplate("tpl.il_as_qpl_sync_original.html", true, true, "components/ILIAS/TestQuestionPool");
-        $template->setVariable("BUTTON_YES", $this->lng->txt("yes"));
-        $template->setVariable("BUTTON_NO", $this->lng->txt("no"));
-        $template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-        $template->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
-        $this->tpl->setVariable("ADM_CONTENT", $template->get());
-    }
-
-    public function sync(): void
+    public function syncQuestion(): void
     {
         $original_id = $this->object->getOriginalId();
         if ($original_id !== null) {
             $this->object->syncWithOriginal();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
-        if ($this->request->raw("return_to") !== null) {
-            $this->ctrl->redirect($this, $this->request->raw("return_to"));
-        }
-        if ($this->request->raw("return_to_fb") !== null) {
-            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
-        }
-
-        if ($this->request->raw('test_express_mode')) {
-            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-        }
-
-        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
-    }
-
-    public function cancelSync(): void
-    {
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-
-        if ($this->request->raw("return_to") !== '' && $this->request->raw("return_to") !== null) {
-            $this->ctrl->redirect($this, $this->request->raw("return_to"));
-        }
-        if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
-            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
-        }
-        if ($this->request->raw('test_express_mode')) {
-            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-        }
-        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function saveReturn(): void
@@ -2041,5 +2002,32 @@ abstract class assQuestionGUI
                 })
             }
         ");
+    }
+
+    public function setShowQuestionSyncModal(): void
+    {
+        $this->show_question_sync_modal = true;
+    }
+
+    public function getShowQuestionSyncModal(): bool
+    {
+        return $this->show_question_sync_modal;
+    }
+
+    public function getQuestionSyncModal(string $cmd): string
+    {
+        $modal = $this->ui->factory()->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('confirm_sync_questions'),
+            $this->ctrl->getFormActionByClass(static::class, $cmd)
+        )->withAffectedItems([
+            $this->ui->factory()->modal()->interruptiveItem()->standard(
+                (string) $this->object->getOriginalId(),
+                $this->object->getTitle()
+            )
+        ])->withActionButtonLabel($this->lng->txt('sync_question_to_pool'));
+        return $this->ui->renderer()->render(
+            $modal->withOnLoad($modal->getShowSignal())
+        );
     }
 }

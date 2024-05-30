@@ -118,10 +118,8 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      */
     public function editQuestion($checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $this->tabs->setTabActive('edit_question');
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -157,7 +155,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }

@@ -215,10 +215,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      */
     public function editQuestion($checkonly = false, string $suggest_range_for_result = ''): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-
-        $this->getQuestionTemplate();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -717,7 +714,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable('QUESTION_DATA', $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }

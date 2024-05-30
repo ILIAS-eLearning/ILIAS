@@ -111,9 +111,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function editQuestion(bool $checkonly = false): bool
     {
-        $this->addSaveOnEnterOnLoadCode();
         $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
 
         $is_singleline = $this->getEditAnswersSingleLine($checkonly);
 
@@ -128,7 +126,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $errors = false;
 
         if ($save) {
-            $form->getItemByPostVar('selection_limit')->setMaxValue(count((array) $_POST['choice']['answer']));
+            $form->getItemByPostVar('selection_limit')->setMaxValue(count($this->request->raw('choice')['answer'] ?? []));
 
             $form->setValuesByPost();
             $errors = !$form->checkInput();
@@ -138,7 +136,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
