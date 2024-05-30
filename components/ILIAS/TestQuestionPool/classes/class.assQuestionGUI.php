@@ -1634,8 +1634,10 @@ abstract class assQuestionGUI
     {
         $this->tabs_gui->clearTargets();
 
-        $this->setDefaultTabs($this->tabs_gui);
-        $this->setQuestionSpecificTabs($this->tabs_gui);
+        if ($this->object->getId() > 0) {
+            $this->setDefaultTabs($this->tabs_gui);
+            $this->setQuestionSpecificTabs($this->tabs_gui);
+        }
         $this->addBackTab($this->tabs_gui);
     }
 
@@ -1820,7 +1822,7 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $tabs_gui): void
     {
-        if ($this->object->getId() !== -1) {
+        if ($this->object->getId() > 0) {
             $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
             $tabs_gui->setBackTarget(
                 $this->lng->txt('backtocallingpage'),
@@ -1832,14 +1834,14 @@ abstract class assQuestionGUI
 
         if (ilObject::_lookupType($this->object->getObjId()) === 'tst') {
             $tabs_gui->setBackTarget(
-                $this->lng->txt('backtocallingtest'),
+                $this->lng->txt('cancel'),
                 $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::DEFAULT_CMD)
             );
             return;
         }
 
         $tabs_gui->setBackTarget(
-            $this->lng->txt('backtocallingpool'),
+            $this->lng->txt('cancel'),
             $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, ilObjQuestionPoolGUI::DEFAULT_CMD)
         );
         return;
