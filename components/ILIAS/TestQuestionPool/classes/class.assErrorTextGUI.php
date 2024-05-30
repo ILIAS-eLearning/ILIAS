@@ -98,15 +98,13 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         $this->object->parseErrorText();
 
-        $points_wrong = str_replace(",", ".", $this->request->raw('points_wrong') ?? '');
-        if (mb_strlen($points_wrong) == 0) {
-            $points_wrong = self::DEFAULT_POINTS_WRONG;
-        }
-        $this->object->setPointsWrong((float) $points_wrong);
+        $this->object->setPointsWrong(
+            $this->request->float('points_wrong') ?? self::DEFAULT_POINTS_WRONG
+        );
 
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $this->object->setTextSize(
-                (float) str_replace(',', '.', $this->request->raw('textsize'))
+                $this->request->float('textsize')
             );
         }
     }

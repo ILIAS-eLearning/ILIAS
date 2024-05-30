@@ -56,7 +56,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /** @var array<assAnswerErrorText> $errordata */
     protected array $errordata = [];
     protected float $textsize;
-    protected ?float $points_wrong;
+    protected ?float $points_wrong = null;
 
     public function __construct(
         string $title = '',
@@ -967,7 +967,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
-            AdditionalInformationGenerator::KEY_QUESTION_ERRORTEXT_ERRORTEXT => RTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0),
+            AdditionalInformationGenerator::KEY_QUESTION_ERRORTEXT_ERRORTEXT => ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
                 ->getTrueFalseTagForBool($this->getShuffle()),
             AdditionalInformationGenerator::KEY_FEEDBACK => [
