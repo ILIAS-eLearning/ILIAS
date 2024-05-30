@@ -173,7 +173,7 @@ class RequestDataCollector
     /*"
      * @return array<int, string>
      */
-    public function getArrayOfStrings(string $key): ?array
+    public function retrieveArrayOfStringsFromPost(string $key): ?array
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;
@@ -183,7 +183,7 @@ class RequestDataCollector
 
         return $p->retrieve(
             $key,
-            $r->byTrying(
+            $r->byTrying([
                 $r->container()->mapValues(
                     $r->in()->series(
                         [
@@ -195,7 +195,29 @@ class RequestDataCollector
                     )
                 ),
                 $r->always(null)
-            )
+            ])
+        );
+    }
+
+    /*"
+     * @return array<int, string>
+     */
+    public function retrieveArrayOfIntsFromPost(string $key): ?array
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->byTrying([
+                $r->container()->mapValues(
+                    $r->kindlyTo()->int()
+                ),
+                $r->always(null)
+            ])
         );
     }
 

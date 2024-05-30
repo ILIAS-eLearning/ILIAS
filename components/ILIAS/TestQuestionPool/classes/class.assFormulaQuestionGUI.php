@@ -56,19 +56,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
     protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs): void
     {
-        $ilTabs->addTarget('units', $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
+        $this->ctrl->setParameterByClass(ilLocalUnitConfigurationGUI::class, 'q_id', $this->object->getId());
+        $ilTabs->addTarget('units', $this->ctrl->getLinkTargetByClass(ilLocalUnitConfigurationGUI::class, ''), '', 'illocalunitconfigurationgui');
     }
 
-    protected function callSpecialQuestionCommands(string $cmd): void
+    public function suggestRange(): void
     {
-        if (preg_match('/suggestrange_(\$r\d+)/', $cmd, $matches)) {
-            $this->addSaveOnEnterOnLoadCode();
-            $this->suggestRange($matches[1]);
-        }
-    }
-
-    public function suggestRange(string $suggest_range_for_result): void
-    {
+        $suggest_range_for_result = $this->request->string('suggest_range_for');
         if ($this->writePostData()) {
             $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
         }
