@@ -116,20 +116,22 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $access = $DIC['ilAccess'];
 
-        $t_arr = explode("_", $a_target);
+        $target_parts = explode("_", $a_target);
 
         // personal workspace context: do not force normal login
-        if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+        if (isset($target_parts[2]) && $target_parts[2] === "wsp") {
+            return ilSharedResourceGUI::hasAccess($target_parts[1]);
         }
 
-        if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
+        $type = $target_parts[0]??null;
+        $ref_id = (int) ($target_parts[1] ?? 0);
+        if ($type !== "file" || $ref_id <= 0) {
             return false;
         }
-        return $ilAccess->checkAccess("visible", "", $t_arr[1])
-            || $ilAccess->checkAccess("read", "", $t_arr[1]);
+        return $access->checkAccess("visible", "", $ref_id)
+            || $access->checkAccess("read", "", $ref_id);
     }
 
     /**
