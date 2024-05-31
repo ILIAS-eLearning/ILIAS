@@ -77,7 +77,6 @@ abstract class assQuestionGUI
     private const CMD_SYNC_QUESTION = 'syncQuestion';
     public const CMD_SYNC_QUESTION_AND_RETURN = 'syncQuestionReturn';
 
-
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
@@ -673,28 +672,15 @@ abstract class assQuestionGUI
             $this->object->getCurrentUser()->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->getCurrentUser()->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb($old_id);
-            $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
-            if (($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer'))
-                && $originalexists
-                && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
+
+            $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
+
+            if (ilSession::get("info") != null) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
-                $this->ctrl->redirect($this, "originalSyncForm");
-                return;
             } else {
-                if ($this->object->getId() != $old_id) {
-                    $this->callNewIdListeners($this->object->getId());
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                    $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
-                }
-                if (ilSession::get("info") != null) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                }
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
+            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
         }
         $tabs = $this->tabs_gui;
         $tabs->setTabActive('edit_question');
@@ -798,11 +784,6 @@ abstract class assQuestionGUI
         $this->errormessage .= ((strlen($this->errormessage)) ? "<br />" : "") . $errormessage;
     }
 
-    /** Why are you here? Some magic for plugins? */
-    public function outAdditionalOutput(): void
-    {
-    }
-
     public function getQuestionType(): string
     {
         return $this->object->getQuestionType();
@@ -815,31 +796,6 @@ abstract class assQuestionGUI
             $result = " value=\"$a_value\" ";
         }
         return $result;
-    }
-
-    // scorm2004-start
-    /**
-     * Add a listener that is notified with the new question ID, when
-     * a new question is saved
-     */
-    public function addNewIdListener($a_object, string $a_method, string $a_parameters = ""): void
-    {
-        $cnt = $this->new_id_listener_cnt;
-        $this->new_id_listeners[$cnt]["object"] = &$a_object;
-        $this->new_id_listeners[$cnt]["method"] = $a_method;
-        $this->new_id_listeners[$cnt]["parameters"] = $a_parameters;
-        $this->new_id_listener_cnt++;
-    }
-
-    public function callNewIdListeners(int $new_id): void
-    {
-        for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
-            $this->new_id_listeners[$i]["parameters"]["new_id"] = $new_id;
-            $object = &$this->new_id_listeners[$i]["object"];
-            $method = $this->new_id_listeners[$i]["method"];
-            $parameters = $this->new_id_listeners[$i]["parameters"];
-            $object->$method($parameters);
-        }
     }
 
     public function addQuestionFormCommandButtons(ilPropertyFormGUI $form): void
