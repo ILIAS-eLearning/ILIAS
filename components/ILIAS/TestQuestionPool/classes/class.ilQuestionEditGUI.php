@@ -120,15 +120,6 @@ class ilQuestionEditGUI
         return $this->page_config;
     }
 
-    public function addNewIdListener(object $a_object, string $a_method, string $a_parameters = ''): void
-    {
-        $cnt = $this->new_id_listener_cnt;
-        $this->new_id_listeners[$cnt]['object'] = $a_object;
-        $this->new_id_listeners[$cnt]['method'] = $a_method;
-        $this->new_id_listeners[$cnt]['parameters'] = $a_parameters;
-        $this->new_id_listener_cnt++;
-    }
-
     public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd();
@@ -156,17 +147,6 @@ class ilQuestionEditGUI
                 }
                 $question->setObjId((int) $this->getPoolObjId());
                 $question_gui->setObject($question);
-
-                for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
-                    $object = $this->new_id_listeners[$i]['object'];
-                    $method = $this->new_id_listeners[$i]['method'];
-                    $parameters = $this->new_id_listeners[$i]['parameters'];
-                    $question_gui->addNewIdListener(
-                        $object,
-                        $method,
-                        $parameters
-                    );
-                }
 
                 $count = $this->questionrepository->usageCount($question_gui->getObject()->getId());
                 if ($count > 0) {

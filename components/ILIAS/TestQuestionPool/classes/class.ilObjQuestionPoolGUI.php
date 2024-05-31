@@ -285,7 +285,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question_gui = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParamater());
                 $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
                 $question_gui->setQuestionTabs();
-                $question_gui->outAdditionalOutput();
                 $question_gui->getObject()->setObjId($this->object->getId());
                 $question_gui->setQuestionActionCmd('');
 

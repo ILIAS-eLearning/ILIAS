@@ -102,8 +102,6 @@ class ilAssQuestionPreviewGUI
             ""
         );
 
-        $this->question_gui->outAdditionalOutput();
-
         $this->question_gui->populateJavascriptFilesRequiredForWorkForm($this->tpl);
         $this->question_gui->setTargetGui($this);
         $this->question_gui->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);

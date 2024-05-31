@@ -127,8 +127,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // TODO - BEGIN: what exactly is done here? cant we use the parent method?
         $rtestring = ilRTE::_getRTEClassname();
         $rte = new $rtestring();
-        $rte->addUserTextEditor("textinput");
-        $this->outAdditionalOutput();
+        $rte->addUserTextEditor('textinput');
 
         // TODO - END: what exactly is done here? cant we use the parent method?
     }
