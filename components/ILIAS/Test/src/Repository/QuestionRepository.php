@@ -33,8 +33,7 @@ class QuestionRepository
         private readonly \ilComponentRepository $component_repository,
         private readonly \ilLanguage $lng,
         private readonly Refinery $refinery
-    )
-    {
+    ) {
         $this->strip_tags_transformer = $this->refinery->string()->stripTags();
     }
 
@@ -75,8 +74,8 @@ class QuestionRepository
         $row['author'] = $this->strip_tags_transformer->transform($row['author']);
         $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
         $row['ttype'] = $this->lng->txt($row['type_tag']);
-        $row['feedback'] = $this->hasGenericFeedback((int)$row['question_id']);
-        $row['hints'] = $this->hasHints((int)$row['question_id']);
+        $row['feedback'] = $this->hasGenericFeedback((int) $row['question_id']);
+        $row['hints'] = $this->hasHints((int) $row['question_id']);
         $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
 

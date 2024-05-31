@@ -787,7 +787,7 @@ class ilTestTabsManager
         // question export
         $this->tabs->addSubTabTarget(
             'tst_single_results',
-            $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'singleResults'),
+            $this->ctrl->getLinkTargetByClass(ResultsByQuestionGUI::class, ResultsByQuestionGUI::CMD_SINGLE_RESULTS),
             ['singleResults'],
             '',
             ''

@@ -27,6 +27,8 @@ declare(strict_types=1);
  * @version $Id$
  *
  * @ingroup components\ILIASTest
+ *
+ * @ilCtrl_IsCalledBy ilResultsByQuestionTableGUI: ilTestEvaluationGUI
  */
 class ilResultsByQuestionTableGUI extends ilTable2GUI
 {
