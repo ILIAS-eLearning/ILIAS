@@ -178,36 +178,15 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     */
     public function uploadchoice(): void
     {
-        if ($this->object->getId() === -1) {
-            $this->object->createNewQuestion();
-        }
         $this->writePostData(true);
-        $position = key($_POST['cmd']['uploadchoice']);
         $this->editQuestion();
     }
 
     public function removeimagechoice(): void
     {
         $this->writePostData(true);
-        $position = key($_POST['cmd']['removeimagechoice']);
-        $filename = $_POST['choice']['imagename'][$position];
+        $position = key($this->request->raw('cmd')['removeimagechoice']);
         $this->object->removeAnswerImage($position);
-        $this->editQuestion();
-    }
-
-    public function addchoice(): void
-    {
-        $this->writePostData(true);
-        $position = key($_POST['cmd']['addchoice']);
-        $this->object->addAnswer("", 0, $position + 1);
-        $this->editQuestion();
-    }
-
-    public function removechoice(): void
-    {
-        $this->writePostData(true);
-        $position = key($_POST['cmd']['removechoice']);
-        $this->object->deleteAnswer($position);
         $this->editQuestion();
     }
 
