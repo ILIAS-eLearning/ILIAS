@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\Data\Result;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 require_once('ViewControlBaseTest.php');
 
@@ -30,15 +31,23 @@ class ViewControlNullTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->nullControl();
         $this->assertEquals('', $this->getDefaultRenderer()->render($vc));
     }
+
     public function testViewControlFieldNullInGroup(): void
     {
         $f = $this->buildVCFactory();
-        $group = $f->group([
-            $f->nullControl(),
-            $f->nullControl()
-        ]);
-        $expected = new Result\Ok(null);
-        $this->assertEquals($expected, $group->getContent());
+        $input = $this->createMock(InputData::class);
+        $namesource = new DefNamesource();
 
+        $group = $f->group(
+            [
+                $f->nullControl(),
+                $f->nullControl()
+            ]
+        )
+        ->withNameFrom($namesource)
+        ->withInput($input);
+
+        $expected = new Result\Ok([null, null]);
+        $this->assertEquals($expected, $group->getContent());
     }
 }
