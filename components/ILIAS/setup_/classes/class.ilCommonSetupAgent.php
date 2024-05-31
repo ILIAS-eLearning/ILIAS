@@ -31,8 +31,8 @@ use ILIAS\Setup\Config;
 class ilCommonSetupAgent implements Setup\Agent
 {
     private const PHP_MEMORY_LIMIT = "128M";
-    private const PHP_MIN_VERSION = "8.1.0";
-    private const PHP_MAX_VERSION = "8.2.999";
+    private const PHP_MIN_VERSION = "8.2.0";
+    private const PHP_MAX_VERSION = "8.3.999";
 
     protected Refinery\Factory $refinery;
     protected Data\Factory $data;
