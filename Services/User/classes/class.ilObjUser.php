@@ -203,6 +203,7 @@ class ilObjUser extends ilObject
                 )
             ) {
                 //load default (css)
+                $this->prefs["skin"] = $this->ilias->ini->readVariable("layout", "skin");
                 $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
             }
 
