@@ -154,15 +154,37 @@ abstract class ilAssQuestionFeedback
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $page_object_type = $this->getGenericFeedbackPageObjectType();
 
-            $value_feedback_solution_complete = $this->getPageObjectNonEditableValueHTML(
-                $page_object_type,
-                $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), true)
-            );
+            $page_object_id = $this->getGenericFeedbackId($this->questionOBJ->getId(), true);
 
-            $value_feedback_solution_incomplete = $this->getPageObjectNonEditableValueHTML(
-                $page_object_type,
-                $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), false)
-            );
+            if($page_object_id === -1) {
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'feedback_type', $page_object_type);
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'complete');
+                $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
+                $value_feedback_solution_complete = sprintf(
+                    '<a href="%s">%s</a>',
+                    $link,
+                    $this->lng->txt('tst_question_feedback_edit_page')
+                );
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'incomplete');
+                $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
+                $value_feedback_solution_incomplete = sprintf(
+                    '<a href="%s">%s</a>',
+                    $link,
+                    $this->lng->txt('tst_question_feedback_edit_page')
+                );
+            } else {
+                $this->ensurePageObjectExists($page_object_type, $page_object_id);
+
+                $value_feedback_solution_complete = $this->getPageObjectNonEditableValueHTML(
+                    $page_object_type,
+                    $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), true)
+                );
+                $value_feedback_solution_incomplete = $this->getPageObjectNonEditableValueHTML(
+                    $page_object_type,
+                    $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), false)
+                );
+            }
+
         } else {
             $value_feedback_solution_complete = $this->getGenericFeedbackContent(
                 $this->questionOBJ->getId(),
@@ -523,8 +545,12 @@ abstract class ilAssQuestionFeedback
     {
         $link = $this->getPageObjectEditingLink($page_object_type, $page_object_id);
         $content = $this->getPageObjectContent($page_object_type, $page_object_id);
-
-        return "$link<br /><br />$content";
+        return sprintf(
+            '<a href="%s">%s</a><br /><br />%s',
+            $link,
+            $this->lng->txt('tst_question_feedback_edit_page'),
+            $content
+        );
     }
 
     public function getClassNameByType(string $a_type, bool $a_gui = false): string
@@ -545,10 +571,7 @@ abstract class ilAssQuestionFeedback
         $this->ctrl->setParameterByClass($cl, 'feedback_type', $page_object_type);
         $this->ctrl->setParameterByClass($cl, 'feedback_id', $page_object_id);
 
-        $linkHREF = $this->ctrl->getLinkTargetByClass($cl, 'edit');
-        $linkTEXT = $this->lng->txt('tst_question_feedback_edit_page');
-
-        return "<a href='$linkHREF'>$linkTEXT</a>";
+        return $this->ctrl->getLinkTargetByClass($cl, 'edit');
     }
 
     final public function setPageObjectOutputMode(string $page_obj_output_mode): void
@@ -674,11 +697,6 @@ abstract class ilAssQuestionFeedback
     final protected function getGenericFeedbackPageObjectId(int $question_id, bool $solution_completed): int
     {
         $page_object_id = $this->getGenericFeedbackId($question_id, $solution_completed);
-
-        if ($page_object_id == -1) {
-            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
-        }
-
         return $page_object_id;
     }
 
@@ -749,4 +767,29 @@ abstract class ilAssQuestionFeedback
         }
         return $content;
     }
+
+    public function createFeedbackPages(string $mode): string
+    {
+        $page_object_type = ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK;
+        $page_object_id_complete = $this->saveGenericFeedbackContent(
+            $this->questionOBJ->getId(),
+            true,
+            ''
+        );
+        $this->ensurePageObjectExists($page_object_type, $page_object_id_complete);
+
+        $page_object_id_incomplete = $this->saveGenericFeedbackContent(
+            $this->questionOBJ->getId(),
+            false,
+            ''
+        );
+        $this->ensurePageObjectExists($page_object_type, $page_object_id_incomplete);
+
+        $page_object_id = ($mode === 'complete') ? $page_object_id_complete : $page_object_id_incomplete;
+        return $this->getPageObjectEditingLink(
+            $page_object_type,
+            $page_object_id
+        );
+    }
+
 }
