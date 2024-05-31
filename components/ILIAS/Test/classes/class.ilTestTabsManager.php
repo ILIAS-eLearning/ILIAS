@@ -474,7 +474,7 @@ class ilTestTabsManager
             if ($this->getTestOBJ()->isFixedTest()) {
                 $target = $this->ctrl->getLinkTargetByClass(
                     ilObjTestGUI::class,
-                    ilObjTestGUI::DEFAULT_CMD
+                    ilObjTestGUI::SHOW_QUESTIONS_CMD
                 );
             }
 
@@ -705,7 +705,7 @@ class ilTestTabsManager
             // edit page
             $this->tabs->setBackTarget(
                 $this->lng->txt('backtocallingtest'),
-                $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), ilObjTestGUI::DEFAULT_CMD)
+                $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), ilObjTestGUI::SHOW_QUESTIONS_CMD)
             );
             $this->tabs->addTarget(
                 'tst_browse_for_questions',
@@ -724,7 +724,7 @@ class ilTestTabsManager
             // edit page
             $this->tabs->setBackTarget(
                 $this->lng->txt('backtocallingtest'),
-                $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::DEFAULT_CMD)
+                $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD)
             );
             $this->tabs->addTarget(
                 'random_selection',
@@ -743,7 +743,7 @@ class ilTestTabsManager
         $this->tabs->addSubTab(
             self::SUBTAB_ID_QST_LIST_VIEW,
             $this->lng->txt('edit_test_questions'),
-            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::DEFAULT_CMD)
+            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD)
         );
 
         // print view subtab

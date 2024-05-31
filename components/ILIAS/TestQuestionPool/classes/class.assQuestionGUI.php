@@ -1570,7 +1570,6 @@ abstract class assQuestionGUI
         $this->addTab_QuestionFeedback($tabs_gui);
         $this->addTab_QuestionHints($tabs_gui);
         $this->addTab_SuggestedSolution($tabs_gui, static::class);
-        $this->addBackTab($tabs_gui);
     }
 
     protected function setQuestionSpecificTabs(ilTabsGUI $tabs_gui): void
@@ -1744,30 +1743,31 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $tabs_gui): void
     {
-        $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $this->object->getId());
-        if ($this->object->getId() > 0) {
-            $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
-            $tabs_gui->setBackTarget(
-                $this->lng->txt('backtocallingpage'),
-                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
-            );
-            $this->ctrl->clearParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
-            return;
-        }
-
-        if (ilObject::_lookupType($this->object->getObjId()) === 'tst') {
+        if ($this->object->getId() <= 0) {
             $tabs_gui->setBackTarget(
                 $this->lng->txt('cancel'),
-                $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::DEFAULT_CMD)
+                $this->ctrl->getParentReturnByClass(
+                    ilObjectFactory::getClassByType(
+                        ilObject::_lookupType($this->object->getObjId())
+                    ) . 'GUI'
+                )
             );
             return;
         }
-
-        $tabs_gui->setBackTarget(
-            $this->lng->txt('cancel'),
-            $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, ilObjQuestionPoolGUI::DEFAULT_CMD)
+        $this->ctrl->setParameterByClass(
+            ilAssQuestionPreviewGUI::class,
+            'q_id',
+            $this->object->getId()
         );
-        return;
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
+        $tabs_gui->setBackTarget(
+            $this->lng->txt('backtocallingpage'),
+            $this->ctrl->getLinkTargetByClass(
+                ilAssQuestionPreviewGUI::class,
+                ilAssQuestionPreviewGUI::CMD_SHOW
+            )
+        );
+        $this->ctrl->clearParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
     }
 
     public function setPreviewSession(ilAssQuestionPreviewSession $preview_session): void

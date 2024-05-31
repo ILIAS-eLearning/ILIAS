@@ -287,8 +287,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question_gui->setQuestionTabs();
                 $question_gui->outAdditionalOutput();
                 $question_gui->getObject()->setObjId($this->object->getId());
-
-                $question_gui->setTargetGuiClass(null);
                 $question_gui->setQuestionActionCmd('');
 
                 if ($this->object->getType() == 'qpl') {
@@ -944,6 +942,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
         $data = $data_with_section[0];
+
+        $this->ctrl->setReturnByClass(self::class, self::DEFAULT_CMD);
 
         /** @var assQuestionGUI $question_gui */
         $question_gui = assQuestionGUI::_getQuestionGUI(

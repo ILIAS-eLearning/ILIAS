@@ -118,7 +118,7 @@ class ilTestParticipantsGUI
                 ));
 
 
-                $this->ctrl->setReturn($this, self::CMD_SHOW);
+                $this->ctrl->setReturnByClass(self::class, self::CMD_SHOW);
                 $this->ctrl->forwardCommand($gui);
 
                 break;

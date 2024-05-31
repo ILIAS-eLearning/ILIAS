@@ -69,7 +69,6 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
         $q_gui->setQuestionTabs();
         $q_gui->outAdditionalOutput();
-        $q_gui->getObject();
         $question = $q_gui->getObject();
         $question->setObjId($this->test_obj->getId());
         $q_gui->setObject($question);
@@ -80,10 +79,10 @@ class ilAssQuestionPageCommandForwarder
             $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
         }
 
-        $this->ctrl->saveParameter($this, "q_id");
-        $this->lng->loadLanguageModule("content");
-        $this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
-        $this->ctrl->setReturnByClass("ilObjTestGUI", "questions");
+        $this->ctrl->saveParameter($this, 'q_id');
+        $this->lng->loadLanguageModule('content');
+        $this->ctrl->setReturnByClass(ilAssQuestionPageGUI::class, 'view');
+        $this->ctrl->setReturnByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD);
         $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
 
         $page_gui->setEditPreview(true);
