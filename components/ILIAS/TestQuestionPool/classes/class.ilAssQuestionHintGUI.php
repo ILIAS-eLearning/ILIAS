@@ -128,14 +128,12 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->question_obj->updateTimestamp();
             }
 
-            $original_id = $this->question_obj->getOriginalId();
-            $originalexists = $original_id === null ? false : $this->questionrepository->questionExistsInPool();
-            if ($this->request->raw('calling_test')
-                && $originalexists
-                && $this->question_obj->isWriteable()) {
-                $this->ctrl->redirectByClass(self::class, ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+            if ($this->question_gui->needsSyncQuery()) {
+                $this->ctrl->redirectByClass(
+                    ilAssQuestionHintsGUI::class,
+                    ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC
+                );
             }
-
 
             if ($hintJustCreated && $this->question_obj->isAdditionalContentEditingModePageObject()) {
                 $this->ctrl->setParameterByClass(self::class, 'hint_id', $questionHint->getId());

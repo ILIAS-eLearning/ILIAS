@@ -33,7 +33,8 @@ class ilAssQuestionFeedbackEditingGUI
      */
     public const CMD_SHOW = 'showFeedbackForm';
     public const CMD_SAVE = 'saveFeedbackForm';
-    public const CMD_SHOW_SYNC = 'showSync';
+    public const CMD_SHOW_SYNC = 'confirmSync';
+    public const CMD_SYNC = 'sync';
 
     protected ?assQuestion $question_obj = null;
     protected ?ilAssQuestionFeedback $feedback_obj = null;
@@ -97,7 +98,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function showFeedbackFormCmd(): void
+    private function showFeedbackFormCmd(string $additional_content = ''): void
     {
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
@@ -110,7 +111,7 @@ class ilAssQuestionFeedbackEditingGUI
             $this->feedback_obj->initSpecificFormProperties($form);
         }
 
-        $this->tpl->setContent($this->ctrl->getHTML($form));
+        $this->tpl->setContent($form->getHTML() . $additional_content);
     }
 
     /**
@@ -191,13 +192,6 @@ class ilAssQuestionFeedbackEditingGUI
         return true;
     }
 
-    /**
-     * returns the fact wether the presentation of the question sync2pool form
-     * is required after saving the form or not
-     *
-     * @access private
-     * @return boolean $isSyncAfterSaveRequired
-     */
     private function isSyncAfterSaveRequired(): bool
     {
         if ($this->in_pool_context) {
@@ -208,23 +202,22 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        if (!$this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
-            return false;
-        }
-
-        if (!$this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
-            return false;
-        }
-
-        if ($this->question_obj->isWriteable()) {
+        if (!$this->question_gui->needsSyncQuery()) {
             return false;
         }
 
         return true;
     }
 
-    public function showSyncCmd(): void
+    public function confirmSyncCmd(): void
     {
-        $this->question_gui->originalSyncForm('', 'true');
+        $modal = $this->question_gui->getQuestionSyncModal(self::CMD_SYNC, self::class);
+        $this->showFeedbackFormCmd($modal);
+    }
+
+    public function syncCmd(): void
+    {
+        $this->question_obj->syncWithOriginal();
+        $this->showFeedbackFormCmd();
     }
 }
