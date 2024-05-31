@@ -261,9 +261,8 @@ class ilAssQuestionSkillAssignmentsGUI
             $assignmentList->setParentObjId($this->getQuestionContainerId());
             $assignmentList->loadFromDb();
 
-            $handledSkills = array();
+            $handledSkills = [];
 
-            //$skillIds = (array)$_POST['skill_ids'];
             $sgui = $this->buildSkillSelectorExplorerGUI(array());
             $skillIds = $sgui->getSelectedSkills();
 

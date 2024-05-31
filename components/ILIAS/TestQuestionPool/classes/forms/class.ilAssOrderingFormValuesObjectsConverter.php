@@ -406,7 +406,6 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
         $requested_identfier = key($identifierArr);
 
-        // The code actually relied on a manipulation of $_POST by ilIdentifiedMultiValuesJsPositionIndexRemover
         return (string) str_replace(
             ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX,
             '',
