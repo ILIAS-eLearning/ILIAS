@@ -811,7 +811,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         // added support for direct download goto links
         if ($a_additional && substr($a_additional, -8) == "download") {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "sendfile");
+            ilObjectGUI::_gotoRepositoryNode((int)$a_target, "sendfile");
         }
 
         // static method, no workspace support yet

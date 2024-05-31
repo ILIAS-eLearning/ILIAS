@@ -128,8 +128,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        return $ilAccess->checkAccess("visible", "", $t_arr[1])
-            || $ilAccess->checkAccess("read", "", $t_arr[1]);
+        return $ilAccess->checkAccess("visible", "", (int)$t_arr[1])
+            || $ilAccess->checkAccess("read", "", (int)$t_arr[1]);
     }
 
     /**
