@@ -2730,8 +2730,6 @@ abstract class assQuestion implements Question
         $intermediateSolution = $this->getSolutionValues($activeId, $passIndex, false);
 
         if (!count($intermediateSolution)) {
-            // make the authorized solution intermediate (keeping timestamps)
-            // this keeps the solution_ids in synch with eventually selected in $_POST['deletefiles']
             $this->updateCurrentSolutionsAuthorization($activeId, $passIndex, false, true);
 
             // create a backup as authorized solution again (keeping timestamps)

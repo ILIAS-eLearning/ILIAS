@@ -238,7 +238,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 }
             }
         }
-        //$_POST['gap_json_post'] = json_encode($json);
         return !$error;
     }
 

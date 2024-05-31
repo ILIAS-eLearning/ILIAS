@@ -162,7 +162,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function removeimagechoice(): void
     {
         $this->writePostData(true);
-        $position = key($_POST['cmd']['removeimagechoice']);
+        $position = key($this->request->raw('cmd')['removeimagechoice']);
         $this->object->removeAnswerImage($position);
         $this->editQuestion();
     }
