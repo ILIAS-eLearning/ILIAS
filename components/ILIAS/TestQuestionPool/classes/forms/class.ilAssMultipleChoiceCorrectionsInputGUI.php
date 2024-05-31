@@ -106,12 +106,7 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
         $i = 0;
         foreach ($this->values as $value) {
             if ($this->qstObject->isSingleline()) {
-<<<<<<< HEAD
                 if ($value->hasImage()) {
-=======
-                $image = $value->getImage();
-                if ($image !== null && $image !== '') {
->>>>>>> f9d1fb86e11 (Test: Fix Types in Corrections)
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                     if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
                         if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {

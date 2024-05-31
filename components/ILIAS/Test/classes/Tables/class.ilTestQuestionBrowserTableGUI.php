@@ -128,12 +128,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         switch (strtolower((string) $this->ctrl->getNextClass($this))) {
             case strtolower(__CLASS__):
             case '':
-
                 $cmd = $this->ctrl->getCmd() . 'Cmd';
                 return $this->$cmd();
 
             default:
-
                 $this->ctrl->setReturn($this, self::CMD_BROWSE_QUESTIONS);
                 return parent::executeCommand();
         }
@@ -289,7 +287,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         switch ($this->fetchContextParameter()) {
             case self::CONTEXT_LIST_VIEW:
-                return ilObjTestGUI::DEFAULT_CMD;
+                return ilObjTestGUI::SHOW_QUESTIONS_CMD;
 
             case self::CONTEXT_PAGE_VIEW:
                 return 'showPage';
