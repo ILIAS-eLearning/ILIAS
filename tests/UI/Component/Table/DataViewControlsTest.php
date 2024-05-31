@@ -110,8 +110,14 @@ class DataViewControlsTest extends TableTestBase
             array_keys($view_controls->getInputs())
         );
         $this->assertInstanceOf(
-            I\Input\ViewControl\NullControl::class,
-            $view_controls->getInputs()[ C\Table\Data::VIEWCONTROL_KEY_PAGINATION]
+            I\Input\ViewControl\Group::class,
+            $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]
+        );
+
+        $group_contents = $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]->getInputs();
+        array_walk(
+            $group_contents,
+            fn($vc) => $this->assertInstanceOf(I\Input\ViewControl\NullControl::class, $vc)
         );
     }
 

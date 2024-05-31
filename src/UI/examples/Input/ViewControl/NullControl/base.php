@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\ViewControl\NullControl;
 
-use ILIAS\Data\Order;
-
 /**
  * ---
  * expected output: >

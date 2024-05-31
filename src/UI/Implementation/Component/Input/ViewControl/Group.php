@@ -65,8 +65,12 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
      */
     public function getContent(): Result
     {
-        if (empty($this->getInputs())) {
-            return new Ok([]);
+        $inputs = array_filter(
+            $this->getInputs(),
+            fn($input) => ! ($input instanceof NullControl)
+        );
+        if (empty($inputs)) {
+            return new Ok(null);
         }
         return parent::getContent();
     }
