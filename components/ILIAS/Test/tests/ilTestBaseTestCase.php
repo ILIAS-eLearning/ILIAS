@@ -32,6 +32,7 @@ class ilTestBaseTestCase extends TestCase
     use ilTestBaseTestCaseTrait;
 
     protected ?Container $dic = null;
+    private ?Container $dic_backup = null;
 
     /**
      * @inheritdoc
@@ -40,16 +41,16 @@ class ilTestBaseTestCase extends TestCase
     {
         global $DIC;
 
-        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
-
-        $DIC = $this->getMockBuilder(Container::class)->onlyMethods(['uiService'])->getMock();
-        $DIC->method('uiService')->willReturn($this->createMock(ilUIService::class));
+        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
+        $this->dic = new Container();
+        $DIC = $this->dic;
 
         $this->addGlobal_ilAccess();
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilUser();
         $this->addGlobal_ilias();
+        $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();
         $this->addGlobal_lng();
@@ -75,7 +76,7 @@ class ilTestBaseTestCase extends TestCase
     {
         global $DIC;
 
-        $DIC = $this->dic;
+        $DIC = $this->dic_backup;
 
         parent::tearDown();
     }
