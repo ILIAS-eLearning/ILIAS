@@ -655,7 +655,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
 
-                if ($this->object->getType() == 'qpl') {
+                if ($this->object->getType() === 'qpl') {
                     $question_gui->setTaxonomyIds($this->object->getTaxonomyIds());
 
                     if ($writeAccess) {

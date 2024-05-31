@@ -702,7 +702,6 @@ abstract class assQuestionGUI
 
     public function saveQuestion(): bool
     {
-        $preexisting_question_id = $this->request->getQuestionId();
         $result = $this->writePostData();
 
         if ($result !== 0) {
@@ -712,7 +711,7 @@ abstract class assQuestionGUI
         $this->object->getCurrentUser()->setPref('tst_lastquestiontype', $this->object->getQuestionType());
         $this->object->getCurrentUser()->writePref('tst_lastquestiontype', $this->object->getQuestionType());
 
-        if ($preexisting_question_id === 0) {
+        if ($this->request->getQuestionId() === 0) {
             $this->object->createNewQuestion();
             $this->setQuestionTabs();
         }
@@ -1186,22 +1185,12 @@ abstract class assQuestionGUI
                             ->withFilename($_FILES["file"]["name"])
                             ->withMime($_FILES["file"]["type"])
                             ->withSize($_FILES["file"]["size"])
-                            ->withTitle($_POST["filename"]);
+                            ->withTitle($this->request->string('filename'));
 
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
-                        $originalexists = $this->object->getOriginalId() &&
-                            $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
-                        if ($this->request->isset('calling_consumer')
-                            && (int) $this->request->raw('calling_consumer')
-                            && $originalexists
-                            && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
-                            $this->originalSyncForm("suggestedsolution");
-                            return;
-                        } else {
-                            $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
-                            $this->ctrl->redirect($this, "suggestedsolution");
-                        }
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
+                        $this->ctrl->redirect($this, 'suggestedsolution');
                     } else {
                         // BH: $res as info string? wtf? it holds a bool or something else!!?
                         $this->tpl->setOnScreenMessage('info', $res);
@@ -1232,18 +1221,8 @@ abstract class assQuestionGUI
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
                     }
 
-                    $originalexists = !is_null($this->object->getOriginalId()) &&
-                        $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
-                    if ($this->request->isset('calling_consumer')
-                        && (int) $this->request->raw('calling_consumer')
-                        && $originalexists
-                        && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
-                        $this->originalSyncForm("suggestedsolution");
-                        return;
-                    } else {
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                        $this->ctrl->redirect($this, "suggestedsolution");
-                    }
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+                    $this->ctrl->redirect($this, "suggestedsolution");
                 }
             }
 
@@ -2014,12 +1993,33 @@ abstract class assQuestionGUI
         return $this->show_question_sync_modal;
     }
 
-    public function getQuestionSyncModal(string $cmd): string
+    /**
+     * @deprecated This is a transitionary function
+     *
+     * @todo sk 2024-05-31: This is wrong as we are checking for test specifically,
+     * but this would need a lot more refactoring to change this.
+     */
+    public function needsSyncQuery(): bool
     {
+        $original_id = $this->object->getOriginalId();
+        $originalexists = $original_id === null
+            ? false
+            : $this->questionrepository->questionExistsInPool($original_id);
+
+        return ilObject::_lookupType($this->object->getObjId()) === 'tst'
+            && $originalexists
+            && assQuestion::instantiateQuestion($original_id)->isWriteable();
+    }
+
+    public function getQuestionSyncModal(string $cmd, string $cmd_class = ''): string
+    {
+        if ($cmd_class === '') {
+            $cmd_class = static::class;
+        }
         $modal = $this->ui->factory()->modal()->interruptive(
             $this->lng->txt('confirm'),
             $this->lng->txt('confirm_sync_questions'),
-            $this->ctrl->getFormActionByClass(static::class, $cmd)
+            $this->ctrl->getFormActionByClass($cmd_class, $cmd)
         )->withAffectedItems([
             $this->ui->factory()->modal()->interruptiveItem()->standard(
                 (string) $this->object->getOriginalId(),

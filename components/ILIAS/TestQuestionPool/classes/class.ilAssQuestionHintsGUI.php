@@ -48,6 +48,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_PASTE_FROM_ORDERING_CLIPBOARD_AFTER = 'pasteFromOrderingClipboardAfter';
     public const CMD_RESET_ORDERING_CLIPBOARD = 'resetOrderingClipboard';
     public const CMD_CONFIRM_SYNC = 'confirmSync';
+    public const CMD_SYNC = 'sync';
 
     private ?ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null;
     private GeneralQuestionPropertiesRepository $questionrepository;
@@ -126,7 +127,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         }
     }
 
-    private function showListCmd(): void
+    private function showListCmd(string $additional_content = ''): void
     {
         $this->initHintOrderingClipboardNotification();
 
@@ -163,7 +164,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
             $this->hintOrderingClipboard
         );
 
-        $this->main_tpl->setContent($this->ctrl->getHtml($toolbar) . $this->ctrl->getHtml($table));
+        $this->main_tpl->setContent($toolbar->getHTML() . $table->getHTML() . $additional_content);
     }
 
     private function confirmDeleteCmd(): void
@@ -176,7 +177,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                 $this->lng->txt('tst_question_hints_delete_hints_missing_selection_msg'),
                 true
             );
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirectByClass(self::class);
         }
 
         $confirmation = new ilConfirmationGUI();
@@ -213,7 +214,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         if (!count($hintIds)) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirectByClass(self::class);
         }
 
         $questionCompleteHintList = ilAssQuestionHintList::getListByQuestionId($this->question_obj->getId());
@@ -234,15 +235,14 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_question_hints_delete_success_msg'), true);
 
-        $originalexists = $this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId());
-
-        if ($this->request->raw('calling_test')
-            && $originalexists
-            && $this->question_obj->isWriteable()) {
-            $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+        if ($this->question_gui->needsSyncQuery()) {
+            $this->ctrl->redirectByClass(
+                ilAssQuestionHintsGUI::class,
+                ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC
+            );
         }
 
-        $this->ctrl->redirect($this);
+        $this->ctrl->redirectByClass(self::class);
     }
 
     private function saveListOrderCmd(): void
@@ -259,7 +259,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                 $this->lng->txt('tst_question_hints_save_order_unkown_failure_msg'),
                 true
             );
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirectByClass(self::class);
         }
 
         $curQuestionHintList = ilAssQuestionHintList::getListByQuestionId($this->question_obj->getId());
@@ -273,7 +273,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                     $this->lng->txt('tst_question_hints_save_order_unkown_failure_msg'),
                     true
                 );
-                $this->ctrl->redirect($this);
+                $this->ctrl->redirectByClass(self::class);
             }
 
             $questionHint = $curQuestionHintList->getHint($hintId);
@@ -285,15 +285,14 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_question_hints_save_order_success_msg'), true);
 
-        $originalexists = $this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId());
-
-        if ($this->request->raw('calling_test')
-            && $originalexists
-            && $this->question_obj->isWritable()) {
-            $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+        if ($this->question_gui->needsSyncQuery()) {
+            $this->ctrl->redirectByClass(
+                ilAssQuestionHintsGUI::class,
+                ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC
+            );
         }
 
-        $this->ctrl->redirect($this);
+        $this->ctrl->redirectByClass(self::class);
     }
 
     private function cutToOrderingClipboardCmd(): void
@@ -537,7 +536,14 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
     public function confirmSyncCmd(): void
     {
-        $this->question_gui->originalSyncForm('showHints');
+        $modal = $this->question_gui->getQuestionSyncModal(self::CMD_SYNC, self::class);
+        $this->showListCmd($modal);
+    }
+
+    public function syncCmd(): void
+    {
+        $this->question_obj->syncWithOriginal();
+        $this->showListCmd();
     }
 
     public function getHintPresentationLinkTarget(
