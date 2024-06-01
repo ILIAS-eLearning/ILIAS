@@ -1003,6 +1003,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question = $question_gui->getObject();
             $question->setObjId($this->getTestObject()->getId());
             $question_gui->setObject($question);
+            $question_gui->setContextAllowsSyncToPool(true);
             $question_gui->setQuestionTabs();
 
             $target = strpos($cmd, 'Return') === false ? 'stay' : 'return';
@@ -1032,9 +1033,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->executeAfterQuestionCreationTasks($question_gui);
             }
             $this->executeAfterQuestionSaveTasks($question_gui);
-            if ($question_gui->getObject()->hasWritableOriginalInQuestionPool()) {
-                $question_gui->setShowQuestionSyncModal();
-            }
             $this->showNextViewAfterQuestionSave($question_gui, $target);
         } catch (ilTestException $e) {
             $this->showQuestionsObject();

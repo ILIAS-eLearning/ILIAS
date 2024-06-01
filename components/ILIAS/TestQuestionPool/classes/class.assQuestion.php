@@ -3014,12 +3014,9 @@ abstract class assQuestion implements Question
 
     public function hasWritableOriginalInQuestionPool(): bool
     {
-        if (!is_null($this->original_id)
+        return !is_null($this->original_id)
             && $this->questionrepository->questionExistsInPool($this->original_id)
-            && assQuestion::instantiateQuestion($this->original_id)->isWriteable()) {
-            return true;
-        }
-        return false;
+            && assQuestion::instantiateQuestion($this->original_id)->isWriteable();
     }
 
     public function answerToParticipantInteraction(
