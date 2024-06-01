@@ -1377,8 +1377,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     ): void {
         parent::afterSyncWithOriginal($original_question_id, $clone_question_id, $original_parent_id, $clone_parent_id);
 
-        $original_image_path = $this->questionFilesService->buildImagePath($original_question_id, $original_parent_id);
-        $clone_image_path = $this->questionFilesService->buildImagePath($clone_question_id, $clone_parent_id);
+        $original_image_path = $this->question_files->buildImagePath($original_question_id, $original_parent_id);
+        $clone_image_path = $this->question_files->buildImagePath($clone_question_id, $clone_parent_id);
 
         ilFileUtils::delDir($original_image_path);
         if (is_dir($clone_image_path)) {

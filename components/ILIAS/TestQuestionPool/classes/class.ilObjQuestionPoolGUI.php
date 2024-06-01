@@ -1443,7 +1443,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()
-                    )->getTypeName();
+                    )->getTypeName($this->lng);
                 }
                 $ilLocator->addItem($title, $this->ctrl->getLinkTargetByClass(get_class($question_gui), 'editQuestion'));
             } else {
