@@ -77,6 +77,22 @@ abstract class assQuestionGUI
     private const CMD_SYNC_QUESTION = 'syncQuestion';
     public const CMD_SYNC_QUESTION_AND_RETURN = 'syncQuestionReturn';
 
+
+    /**
+     * There are functions that need an existing question. As we stop creating
+     * useless question stubs with ILIAS 10, we need to know when we absolutly
+     * need one. This is not the right solution, but it is a first step.
+     *
+     * @todo We should remove the need for any separate upload commands in questions.
+     */
+    protected const ADDITIONAL_CMDS_NEEDING_EXISTING_QST = [
+        'uploadchoice',
+        'uploadImage',
+        'uploadElementImage',
+        'uploadterms',
+        'uploaddefintions'
+    ];
+
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
@@ -1937,6 +1953,11 @@ abstract class assQuestionGUI
                 })
             }
         ");
+    }
+
+    public function cmdNeedsExistingQuestion(string $cmd): bool
+    {
+        return in_array($cmd, static::ADDITIONAL_CMDS_NEEDING_EXISTING_QST);
     }
 
     public function setShowQuestionSyncModal(): void
