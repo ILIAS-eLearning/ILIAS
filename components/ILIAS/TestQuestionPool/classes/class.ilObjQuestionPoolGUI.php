@@ -288,7 +288,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question_gui->getObject()->setObjId($this->object->getId());
                 $question_gui->setQuestionActionCmd('');
 
-                if ($this->object->getType() == 'qpl') {
+                if ($this->object->getType() === 'qpl') {
                     $question_gui->addHeaderAction();
                 }
 
@@ -624,17 +624,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->redirectAfterMissingWrite();
                 }
 
-                if ($cmd === 'assessment' &&
-                    $this->object->getType() === 'tst' &&
-                    !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-                    $this->redirectAfterMissingWrite();
-                }
+                $this->ctrl->setReturnByClass(self::class, self::DEFAULT_CMD);
 
-                $this->ctrl->setReturn($this, self::DEFAULT_CMD);
-
+                $qid = $this->fetchAuthoringQuestionIdParamater();
                 $question_gui = assQuestionGUI::_getQuestionGUI(
                     $q_type,
-                    $this->fetchAuthoringQuestionIdParamater()
+                    $qid
                 );
                 $question_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                 $question = $question_gui->getObject();
@@ -665,27 +660,32 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->help->setScreenIdComponent('qpl');
 
                 $question_gui->setQuestionTabs();
-                if (in_array($cmd, ['save', 'saveReturn'])) {
-                    if (!$question_gui->saveQuestion()) {
-                        return;
-                    }
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-                    if ($cmd === 'saveReturn') {
-                        $this->ctrl->setParameterByClass(
-                            ilAssQuestionPreviewGUI::class,
-                            'q_id',
-                            (string) $question_gui->getObject()->getId()
-                        );
-                        $this->ctrl->redirectToURL(
-                            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
-                        );
-                    }
 
-                    if ($cmd === 'save') {
-                        $question_gui->editQuestion();
-                    }
-                } else {
+                if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
+                    $question_gui->getObject()->createNewQuestion();
+                }
+
+                if (!in_array($cmd, ['save', 'saveReturn'])) {
                     $question_gui->$cmd();
+                }
+
+                if (!$question_gui->saveQuestion()) {
+                    return;
+                }
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+                if ($cmd === 'saveReturn') {
+                    $this->ctrl->setParameterByClass(
+                        ilAssQuestionPreviewGUI::class,
+                        'q_id',
+                        (string) $question_gui->getObject()->getId()
+                    );
+                    $this->ctrl->redirectToURL(
+                        $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
+                    );
+                }
+
+                if ($cmd === 'save') {
+                    $question_gui->editQuestion();
                 }
                 break;
         }

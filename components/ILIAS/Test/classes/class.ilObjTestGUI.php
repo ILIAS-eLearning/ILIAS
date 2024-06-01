@@ -1013,6 +1013,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 return;
             }
 
+            if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
+                $question_gui->getObject()->createNewQuestion();
+                $this->executeAfterQuestionCreationTasks($question_gui);
+            }
+
             if (!in_array($cmd, ['save', 'saveReturn'])) {
                 $this->ctrl->forwardCommand($question_gui);
                 return;
@@ -1023,6 +1028,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+            if ($qid === null) {
+                $this->executeAfterQuestionCreationTasks($question_gui);
+            }
             $this->executeAfterQuestionSaveTasks($question_gui);
             if ($question_gui->getObject()->hasWritableOriginalInQuestionPool()) {
                 $question_gui->setShowQuestionSyncModal();
@@ -1044,7 +1052,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 )
             );
         }
+    }
 
+    private function executeAfterQuestionCreationTasks(assQuestionGUI $question_gui): void
+    {
         if ($this->getTestObject()->getQuestionSetType() === ilObjTest::QUESTION_SET_TYPE_FIXED
             && !in_array($question_gui->getObject()->getId(), $this->getTestObject()->getQuestions())) {
             $this->getTestObject()->insertQuestion($question_gui->getObject()->getId(), true);
@@ -2808,7 +2819,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_gui->getObject()->getTitle()
         );
 
-        return $question_gui->getObject()->createNewOriginalFromThisDuplicate($target_parent_id, $new_title);
+        return $question_gui->getObject()->createNewOriginalFromThisDuplicate($target_pool->getId(), $new_title);
     }
 
     public function copyAndLinkQuestionsToPoolObject(
