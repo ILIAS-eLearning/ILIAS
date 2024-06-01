@@ -201,7 +201,7 @@ class ilAssQuestionPreviewGUI
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
 
         $modal = '';
-        if ($this->question_gui->getShowQuestionSyncModal()) {
+        if ($this->question_gui->isSaveCommand() && $this->question_gui->needsSyncQuery()) {
             $modal = $this->question_gui->getQuestionSyncModal(assQuestionGUI::CMD_SYNC_QUESTION_AND_RETURN);
         }
 

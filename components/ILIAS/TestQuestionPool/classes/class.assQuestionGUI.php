@@ -74,9 +74,16 @@ abstract class assQuestionGUI
     protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
     protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
 
+    private const CMD_SAVE = 'save';
+    private const CMD_SAVE_AND_RETURN = 'saveReturn';
+
     private const CMD_SYNC_QUESTION = 'syncQuestion';
     public const CMD_SYNC_QUESTION_AND_RETURN = 'syncQuestionReturn';
 
+    protected const QUESTION_SAVE_CMDS = [
+        self::CMD_SAVE,
+        self::CMD_SAVE_AND_RETURN
+    ];
 
     /**
      * There are functions that need an existing question. As we stop creating
@@ -149,7 +156,8 @@ abstract class assQuestionGUI
     private ?int $copy_to_existing_pool_on_save = null;
     private ?string $copy_to_new_pool_on_save = null;
     private ?int $move_after_question_with_id = null;
-    private bool $show_question_sync_modal = false;
+    private bool $context_allows_sync_to_pool = false;
+    private string $question_sync_modal = '';
 
     public function __construct()
     {
@@ -600,11 +608,8 @@ abstract class assQuestionGUI
     protected function renderEditForm(ilPropertyFormGUI $form, string $additional_content = ''): void
     {
         $this->addSaveOnEnterOnLoadCode();
-        if ($this->getShowQuestionSyncModal()) {
-            $additional_content .= $this->getQuestionSyncModal(self::CMD_SYNC_QUESTION);
-        }
         $this->getQuestionTemplate();
-        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $additional_content);
+        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $additional_content . $this->question_sync_modal);
     }
 
     /**
@@ -717,6 +722,14 @@ abstract class assQuestionGUI
             $this->object->createNewQuestion();
             $this->setQuestionTabs();
         }
+
+        if ($this->needsSyncQuery()) {
+            $cmd = strpos($this->ctrl->getCmd(), 'Return') === false
+                ? self::CMD_SYNC_QUESTION
+                : self::CMD_SYNC_QUESTION_AND_RETURN;
+            $this->question_sync_modal = $this->getQuestionSyncModal($cmd);
+        }
+
         $this->object->saveToDb();
         return true;
     }
@@ -1476,7 +1489,7 @@ abstract class assQuestionGUI
 
     public function isSaveCommand(): bool
     {
-        return in_array($this->ctrl->getCmd(), ['save', 'saveReturn']);
+        return in_array($this->ctrl->getCmd(), self::QUESTION_SAVE_CMDS);
     }
 
     public static function getCommandsFromClassConstants(
@@ -1960,32 +1973,15 @@ abstract class assQuestionGUI
         return in_array($cmd, static::ADDITIONAL_CMDS_NEEDING_EXISTING_QST);
     }
 
-    public function setShowQuestionSyncModal(): void
+    public function setContextAllowsSyncToPool(bool $sync_allowed): void
     {
-        $this->show_question_sync_modal = true;
+        $this->context_allows_sync_to_pool = $sync_allowed;
     }
 
-    public function getShowQuestionSyncModal(): bool
-    {
-        return $this->show_question_sync_modal;
-    }
-
-    /**
-     * @deprecated This is a transitionary function
-     *
-     * @todo sk 2024-05-31: This is wrong as we are checking for test specifically,
-     * but this would need a lot more refactoring to change this.
-     */
     public function needsSyncQuery(): bool
     {
-        $original_id = $this->object->getOriginalId();
-        $originalexists = $original_id === null
-            ? false
-            : $this->questionrepository->questionExistsInPool($original_id);
-
-        return ilObject::_lookupType($this->object->getObjId()) === 'tst'
-            && $originalexists
-            && assQuestion::instantiateQuestion($original_id)->isWriteable();
+        return $this->context_allows_sync_to_pool
+            && $this->object->hasWritableOriginalInQuestionPool();
     }
 
     public function getQuestionSyncModal(string $cmd, string $cmd_class = ''): string
