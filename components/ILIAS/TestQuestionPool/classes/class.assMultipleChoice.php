@@ -140,7 +140,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->is_singleline = ($data['allow_images']) ? false : true;
+            $this->is_singleline = $data['allow_images'] === '0';
             $this->lastChange = $data['tstamp'];
             $this->setSelectionLimit((int) $data['selection_limit'] > 0 ? (int) $data['selection_limit'] : null);
             if (isset($data['feedback_setting'])) {
@@ -764,11 +764,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function getMultilineAnswerSetting(): int
     {
-        $multiline_answer_setting = $this->current_user->getPref("tst_multiline_answers");
-        if ($multiline_answer_setting !== '1') {
-            $multiline_answer_setting = '0';
-        }
-        return (int) $multiline_answer_setting;
+        return $this->current_user->getPref('tst_multiline_answers') === '1' ? 1 : 0;
     }
 
     public function setMultilineAnswerSetting($setting = 0): void

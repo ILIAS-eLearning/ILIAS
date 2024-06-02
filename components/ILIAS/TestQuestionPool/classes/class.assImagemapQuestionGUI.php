@@ -160,11 +160,10 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
-    public function editQuestion(bool $checkonly = false): bool
-    {
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
         $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();

@@ -390,7 +390,7 @@ $.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
     {
         'fieldContainerSelector': '.ilWzdContainerImage',
         'reindexingRequiredElementsSelectors': [
-            'input:hidden[name*='[{$iterator_subfield_name}]"]',
+            'input:hidden[name*="[{$iterator_subfield_name}]"]',
             'input:file[id*="__{$image_upload_subfield_name}__"]',
             'input:submit[name*="[{$this->getImageUploadCommand()}]"]',
             'input:submit[name*="[{$this->getImageRemovalCommand()}]"]',

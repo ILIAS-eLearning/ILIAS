@@ -109,17 +109,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     * @param bool $checkonly
-     *
-     * @return bool
-     */
-    public function editQuestion($checkonly = false): bool
-    {
-        $this->tabs->setTabActive('edit_question');
-        $save = $this->isSaveCommand();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;

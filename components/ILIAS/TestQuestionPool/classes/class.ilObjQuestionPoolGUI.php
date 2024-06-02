@@ -673,7 +673,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
 
                 if ($cmd === 'save') {
-                    $question_gui->editQuestion();
+                    $question_gui->editQuestion(false, false);
                 }
                 break;
         }

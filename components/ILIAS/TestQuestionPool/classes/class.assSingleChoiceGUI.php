@@ -83,27 +83,23 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
         if ($checkonly) {
-            $types = $_POST['types'] ?? '0';
-            return $types === '0' ? true : false;
+            return $this->request->int('types') === 0;
         }
 
-        $lastChange = $this->object->getLastChange();
-        if (empty($lastChange) && !isset($_POST['types'])) {
+        if (empty($this->object->getLastChange())
+            && !$this->request->isset('types')) {
             // a new question is edited
-            return $this->object->getMultilineAnswerSetting() ? false : true;
-        } else {
-            // a saved question is edited
-            return $this->object->isSingleline();
+            return $this->object->getMultilineAnswerSetting() === 0;
         }
+        // a saved question is edited
+        return $this->object->isSingleline();
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     */
-    public function editQuestion(bool $checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -544,13 +540,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
             $types->setRequired(false);
-            $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions(
                 [
                                     0 => $this->lng->txt('answers_singleline'),
                                     1 => $this->lng->txt('answers_multiline'),
                                 ]
             );
+            $types->setValue($is_singleline ? 0 : 1);
             $form->addItem($types);
         }
 

@@ -48,7 +48,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     protected const FEEDBACK_MODE_SELECTED_ANSWERS = 2;
     protected const FEEDBACK_MODE_CORRECT_ANSWERS = 3;
 
-    private bool $isSingleline = true;
+    private bool $is_singleline = true;
 
     /**
     * @var array<ASS_AnswerBinaryStateImage>
@@ -120,7 +120,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->isSingleline = $data['allow_images'] === false;
+            $this->is_singleline = $data['allow_images'] === '0';
             $this->lastChange = $data['tstamp'];
             $this->feedback_setting = $data['feedback_setting'] ?? self::FEEDBACK_MODE_SELECTED_ANSWERS;
 
@@ -429,7 +429,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             [
                                 $this->getId(),
                                 $this->getShuffle(),
-                                ($this->isSingleline) ? "0" : "1",
+                                $this->is_singleline ? '0' : '1',
                                 $this->getThumbSize()
                             ]
         );
@@ -442,7 +442,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      */
     public function saveAnswerSpecificDataToDb()
     {
-        if (!$this->isSingleline) {
+        if (!$this->is_singleline) {
             ilFileUtils::delDir($this->getImagePath());
         }
         // Get all feedback entries
@@ -625,7 +625,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             return 1;
         }
 
-        if ($this->isSingleline && $this->getThumbSize()) {
+        if ($this->is_singleline && $this->getThumbSize()) {
             $this->generateThumbForFile(
                 $cleaned_image_filename,
                 $this->getImagePath(),
@@ -899,12 +899,12 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function isSingleline(): bool
     {
-        return $this->isSingleline;
+        return $this->is_singleline;
     }
 
-    public function setIsSingleline(bool $isSingleline): void
+    public function setIsSingleline(bool $is_singleline): void
     {
-        $this->isSingleline = $isSingleline;
+        $this->is_singleline = $is_singleline;
     }
 
     public function getFeedbackSetting(): int
