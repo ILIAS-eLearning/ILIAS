@@ -189,7 +189,7 @@ abstract class assQuestionGUI
 
     abstract public function editQuestion(
         bool $checkonly = false,
-        ?bool $is_save_cmd = nulle
+        ?bool $is_save_cmd = null
     ): bool;
 
     /**
