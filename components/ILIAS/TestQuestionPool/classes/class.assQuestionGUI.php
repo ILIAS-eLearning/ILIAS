@@ -95,6 +95,7 @@ abstract class assQuestionGUI
     protected const ADDITIONAL_CMDS_NEEDING_EXISTING_QST = [
         'uploadchoice',
         'uploadImage',
+        'changeToPictures',
         'uploadElementImage',
         'uploadterms',
         'uploaddefintions'

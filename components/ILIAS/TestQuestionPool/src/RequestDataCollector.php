@@ -133,7 +133,7 @@ class RequestDataCollector
         return $this->get($key, $no_transform);
     }
 
-    public function float(string $key): ?float
+    public function float(string $key): float
     {
         $t = $this->refinery->kindlyTo()->float();
         try {
