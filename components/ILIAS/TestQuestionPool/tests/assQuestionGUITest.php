@@ -58,8 +58,10 @@ class assQuestionGUITest extends assBaseTestCase
                 return '';
             }
 
-            public function editQuestion(bool $checkonly = false): bool
-            {
+            public function editQuestion(
+                bool $checkonly = false,
+                ?bool $is_save_cmd = null
+            ): bool {
             }
 
             public function getPreview(
