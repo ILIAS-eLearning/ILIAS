@@ -730,12 +730,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $selLim->setValue($this->object->getSelectionLimit());
         $form->addItem($selLim);
 
-        if ($this->object->getId()) {
-            $hidden = new ilHiddenInputGUI("ID");
-            $hidden->setValue($this->object->getId());
-            $form->addItem($hidden);
-        }
-
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");

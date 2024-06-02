@@ -321,7 +321,7 @@ abstract class assQuestionGUI
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
-                $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->raw('postvar'))));
+                $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->string('postvar'))));
                 $this->ctrl->forwardCommand($form_prop_dispatch);
                 break;
             default:

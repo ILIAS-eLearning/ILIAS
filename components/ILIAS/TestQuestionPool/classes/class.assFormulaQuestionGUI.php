@@ -557,12 +557,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->tpl->setOnScreenMessage('failure', $error_message);
         }
 
-        if ($this->object->getId()) {
-            $hidden = new ilHiddenInputGUI("", "ID");
-            $hidden->setValue($this->object->getId());
-            $form->addItem($hidden);
-        }
-
         $this->populateTaxonomyFormSection($form);
 
         $form->addCommandButton('parseQuestion', $this->lng->txt('parseQuestion'));
