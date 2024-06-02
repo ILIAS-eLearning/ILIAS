@@ -315,42 +315,44 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     ilLegacyFormElementsUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value))
                 );
                 $tpl->setVariable('STORED_IMAGE_FILENAME', $this->fetchContentImageTitleFromValue($value));
-                $tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
+                $tpl->setVariable('STORED_IMAGE_POST_VAR', $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
 
-                $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
-                $tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageRemovalCommand()));
+                $tpl->setVariable('TXT_DELETE_EXISTING', $lng->txt('delete_existing_file'));
+                $tpl->setVariable('IMAGE_CMD_REMOVE', $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageRemovalCommand()));
 
                 $tpl->parseCurrentBlock();
             }
 
             $tpl->setCurrentBlock('addimage');
 
-            $tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
-            $tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
-            $tpl->setVariable("UPLOAD_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
-            $tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::ITERATOR_SUBFIELD_NAME, $i));
+            $tpl->setVariable('IMAGE_BROWSE', $lng->txt('select_file'));
+            $tpl->setVariable('IMAGE_ID', $this->getMultiValuePosIndexedSubFieldId($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
+            $tpl->setVariable('TXT_IMAGE_SUBMIT', $lng->txt('upload'));
+            $tpl->setVariable('IMAGE_CMD_UPLOAD', $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageUploadCommand()));
+            $tpl->setVariable('UPLOAD_IMAGE_POST_VAR', $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
+            $tpl->setVariable('COUNT_POST_VAR', $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::ITERATOR_SUBFIELD_NAME, $i));
 
             $tpl->parseCurrentBlock();
 
             if ($this->isEditElementOrderEnabled()) {
-                $tpl->setCurrentBlock("move");
-                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                $tpl->setCurrentBlock('move');
+                $tpl->setVariable('UP_BUTTON', $this->renderer->render(
                     $this->glyph_factory->up()->withAction('#')
                 ));
-                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                $tpl->setVariable('DOWN_BUTTON', $this->renderer->render(
                     $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
 
             if ($this->isEditElementOccuranceEnabled()) {
-                $tpl->setCurrentBlock("row");
-                $tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
-                $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
-                $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $tpl->setCurrentBlock('row');
+                $tpl->setVariable('ID_ADD', $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
+                $tpl->setVariable('ID_REMOVE', $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
+                $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
                     $this->glyph_factory->add()->withAction('#')
                 ));
-                $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
                     $this->glyph_factory->remove()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
@@ -360,24 +362,24 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         }
 
         if (is_array($this->getSuffixes())) {
-            $suff_str = $delim = "";
+            $suff_str = $delim = '';
             foreach ($this->getSuffixes() as $suffix) {
-                $suff_str .= $delim . "." . $suffix;
-                $delim = ", ";
+                $suff_str .= $delim . '.' . $suffix;
+                $delim = ', ';
             }
             $tpl->setCurrentBlock('allowed_image_suffixes');
-            $tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes") . " " . $suff_str);
+            $tpl->setVariable('TXT_ALLOWED_SUFFIXES', $lng->txt('file_allowed_suffixes') . ' ' . $suff_str);
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
-        $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-        $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
-        $tpl->setVariable("TEXT_NO", $lng->txt('no'));
-        $tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
-        $tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
-        $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-        $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+        $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
+        $tpl->setVariable('ELEMENT_ID', $this->getPostVar());
+        $tpl->setVariable('TEXT_YES', $lng->txt('yes'));
+        $tpl->setVariable('TEXT_NO', $lng->txt('no'));
+        $tpl->setVariable('DELETE_IMAGE_HEADER', $lng->txt('delete_image_header'));
+        $tpl->setVariable('DELETE_IMAGE_QUESTION', $lng->txt('delete_image_question'));
+        $tpl->setVariable('ANSWER_TEXT', $lng->txt('answer_text'));
+        $tpl->setVariable('COMMANDS_TEXT', $lng->txt('actions'));
 
         if (!$this->getDisabled()) {
             $iterator_subfield_name = self::ITERATOR_SUBFIELD_NAME;
@@ -388,7 +390,7 @@ $.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
     {
         'fieldContainerSelector': '.ilWzdContainerImage',
         'reindexingRequiredElementsSelectors': [
-            'input:hidden[name*="[{$iterator_subfield_name}]"]',
+            'input:hidden[name*='[{$iterator_subfield_name}]"]',
             'input:file[id*="__{$image_upload_subfield_name}__"]',
             'input:submit[name*="[{$this->getImageUploadCommand()}]"]',
             'input:submit[name*="[{$this->getImageRemovalCommand()}]"]',
