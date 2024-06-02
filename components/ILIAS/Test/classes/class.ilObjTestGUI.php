@@ -1016,6 +1016,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
                 $question_gui->getObject()->createNewQuestion();
+                $question_gui->setQuestionTabs();
                 $this->executeAfterQuestionCreationTasks($question_gui);
             }
 

@@ -187,7 +187,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilias = $this->ilias;
         $randomGroup = $this->refinery->random();
 
-        $writeAccess = $ilAccess->checkAccess('write', '', $this->qplrequest->getRefId());
+        $write_access = $ilAccess->checkAccess('write', '', $this->qplrequest->getRefId());
 
         if ((!$ilAccess->checkAccess('read', '', $this->qplrequest->getRefId()))
             && (!$ilAccess->checkAccess('visible', '', $this->qplrequest->getRefId()))) {
@@ -381,7 +381,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ilHelp = $this->help;
                 $ilHelp->setScreenIdComponent('qpl');
 
-                if ($this->object->getType() == 'qpl' && $writeAccess) {
+                if ($this->object->getType() == 'qpl' && $write_access) {
                     $question_gui->addHeaderAction();
                 }
                 $gui = new ilAssQuestionHintsGUI($question_gui);
@@ -441,7 +441,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ilHelp = $this->help;
                 $ilHelp->setScreenIdComponent('qpl');
 
-                if ($this->object->getType() == 'qpl' && $writeAccess) {
+                if ($this->object->getType() == 'qpl' && $write_access) {
                     $question_gui->addHeaderAction();
                 }
                 $gui = new ilAssQuestionFeedbackEditingGUI(
@@ -636,23 +636,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
 
-                if (in_array(
-                    $cmd,
-                    ['editQuestion', 'save', 'suggestedsolution']
-                ) && $this->questionrepository->isInActiveTest($question_gui->getObject()->getObjId())
-                ) {
-                    $this->tpl->setOnScreenMessage(
-                        'failure',
-                        $this->lng->txt('question_is_part_of_running_test'),
-                        true
-                    );
-                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-                }
-
                 if ($this->object->getType() === 'qpl') {
                     $question_gui->setTaxonomyIds($this->object->getTaxonomyIds());
 
-                    if ($writeAccess) {
+                    if ($write_access) {
                         $question_gui->addHeaderAction();
                     }
                 }
@@ -663,6 +650,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
                     $question_gui->getObject()->createNewQuestion();
+                    $question_gui->setQuestionTabs();
                 }
 
                 if (!in_array($cmd, ['save', 'saveReturn'])) {
