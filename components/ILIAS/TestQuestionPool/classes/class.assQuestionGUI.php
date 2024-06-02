@@ -187,7 +187,10 @@ abstract class assQuestionGUI
         $this->notes_gui = $DIC->notes()->gui();
     }
 
-    abstract public function editQuestion(bool $checkonly = false): bool;
+    abstract public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = nulle
+    ): bool;
 
     /**
      * Returns the answer specific feedback for the question

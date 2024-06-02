@@ -205,17 +205,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $ilAssQuestionPreviewSession->setParticipantsSolution(array());
     }
 
-    public function isSaveCommand(): bool
-    {
-        return in_array($this->ctrl->getCmd(), ['save', 'saveEdit', 'saveReturn']);
-    }
-
-    /**
-     * @param bool $checkonly
-     */
-    public function editQuestion($checkonly = false, string $suggest_range_for_result = ''): bool
-    {
-        $save = $this->isSaveCommand();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;

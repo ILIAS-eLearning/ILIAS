@@ -1121,7 +1121,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     ilAssQuestionPreviewGUI::CMD_SHOW
                 )
             );
-            $question_gui->editQuestion();
+            $question_gui->editQuestion(false, false);
         }
     }
 

@@ -72,12 +72,11 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return 1;
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     */
-    public function editQuestion(bool $checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
