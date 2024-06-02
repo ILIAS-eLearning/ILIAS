@@ -1014,13 +1014,31 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 return;
             }
 
+            if ($this->testrequest->isset('move_after_question_with_id')) {
+                $question_gui->setMoveAfterQuestionId(
+                    $this->testrequest->int('move_after_question_with_id')
+                );
+            }
+
+            if ($this->testrequest->isset('pool_title')) {
+                $question_gui->setCopyToNewPoolOnSave(
+                    $this->testrequest->strVal('pool_title')
+                );
+            }
+
+            if ($this->testrequest->isset('pool_ref')) {
+                $question_gui->setCopyToExistingPoolOnSave(
+                    $this->testrequest->int('pool_ref')
+                );
+            }
+
             if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
                 $question_gui->getObject()->createNewQuestion();
                 $question_gui->setQuestionTabs();
                 $this->executeAfterQuestionCreationTasks($question_gui);
             }
 
-            if (!in_array($cmd, ['save', 'saveReturn'])) {
+            if (!$question_gui->isSaveCommand()) {
                 $this->ctrl->forwardCommand($question_gui);
                 return;
             }
@@ -1030,7 +1048,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            if ($qid === null) {
+            if ($qid === 0) {
                 $this->executeAfterQuestionCreationTasks($question_gui);
             }
             $this->executeAfterQuestionSaveTasks($question_gui);

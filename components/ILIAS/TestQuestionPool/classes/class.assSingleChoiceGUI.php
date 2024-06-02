@@ -540,12 +540,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
-        if ($this->object->getId()) {
-            $hidden = new ilHiddenInputGUI("", "ID");
-            $hidden->setValue($this->object->getId());
-            $form->addItem($hidden);
-        }
-
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
