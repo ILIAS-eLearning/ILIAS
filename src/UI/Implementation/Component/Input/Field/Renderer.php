@@ -350,7 +350,7 @@ class Renderer extends AbstractComponentRenderer
         if ($value) {
             $value = array_map(
                 function ($v) {
-                    return ['value' => urlencode($v), 'display' => $v];
+                    return ['value' => urlencode($this->convertSpecialCharacters($v)), 'display' => $v];
                 },
                 $value
             );
