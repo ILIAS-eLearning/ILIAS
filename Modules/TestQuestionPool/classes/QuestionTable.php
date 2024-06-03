@@ -86,7 +86,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 
         $taxs = $this->taxonomy->getUsageOfObject($this->parent_obj_id, true);
         $tax_filter_options = [
-            'null' => $this->lng->txt('tax_filter_notax')
+            'null' => '<b>' . $this->lng->txt('tax_filter_notax') . '</b>'
         ];
         foreach($taxs as $tax_entry) {
             $tax = new ilObjTaxonomy($tax_entry['tax_id']);
@@ -94,12 +94,12 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $nodes = implode('-', array_map(fn($node) => $node['obj_id'], $children));
 
             $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
-            $tax_title = $tax_entry['title'];
+            $tax_title = '<b>' . $tax_entry['title'] . '</b>';
             $tax_filter_options[$tax_id] = $tax_title;
 
             foreach($children as $subtax) {
                 $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
-                $stax_title = '---' . $subtax['title'];
+                $stax_title = ' &boxur;&HorizontalLine; ' . $subtax['title'];
                 $tax_filter_options[$stax_id] = $stax_title;
             }
         }
@@ -118,7 +118,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                     ilAssQuestionList::QUESTION_COMMENTED_EXCLUDED => $this->lng->txt('qpl_filter_commented_exclude')
                 ]
             ),
-            'taxonomies' => $field_factory->select($this->lng->txt("tax_filter"), $tax_filter_options),
+            'taxonomies' => $field_factory->multiSelect($this->lng->txt("tax_filter"), $tax_filter_options),
         ];
 
         $active = array_fill(0, count($filter_inputs), true);
@@ -169,7 +169,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
     ): \Generator {
         $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         foreach ($this->getData($order, $range) as $idx => $record) {
-            $row_id = (string)$record['question_id'];
+            $row_id = (string) $record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
             $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
             $lifecycle = ilAssQuestionLifecycle::getInstance($record['lifecycle']);

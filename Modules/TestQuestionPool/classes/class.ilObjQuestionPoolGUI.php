@@ -1909,6 +1909,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $filter = $table->getFilter($this->ui_service, $filter_action);
 
         $filter_params = $this->ui_service->filter()->getData($filter);
+
         if ($filter_params) {
             foreach (array_filter($filter_params) as $item => $value) {
 
@@ -1917,14 +1918,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         if($value === 'null') {
                             $table->addTaxonomyFilterNoTaxonomySet(true);
                         } else {
-                            $tax_nodes = explode('-', $value);
-                            $tax_id = array_shift($tax_nodes);
-                            $table->addTaxonomyFilter(
-                                $tax_id,
-                                $tax_nodes,
-                                $this->object->getId(),
-                                $this->object->getType()
-                            );
+                            foreach($value as $tax_value) {
+                                $tax_nodes = explode('-', $tax_value);
+                                $tax_id = array_shift($tax_nodes);
+                                $table->addTaxonomyFilter(
+                                    $tax_id,
+                                    $tax_nodes,
+                                    $this->object->getId(),
+                                    $this->object->getType()
+                                );
+                            }
                         }
                         break;
                     case 'commented':
