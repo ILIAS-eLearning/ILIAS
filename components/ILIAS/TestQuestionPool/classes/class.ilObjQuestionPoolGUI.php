@@ -1068,20 +1068,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
 
-        if ($this->qplrequest->isset('calling_consumer') && (int) $this->qplrequest->raw('calling_consumer')) {
-            $ref_id = (int) $this->qplrequest->raw('calling_consumer');
-            $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
-            if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                ilUtil::redirect(
-                    $consumer->getQuestionEditingFormBackTarget($this->qplrequest->raw('consumer_context'))
-                );
-            }
-            ilUtil::redirect(ilLink::_getLink($ref_id));
-        }
-
         $this->object->purgeQuestions();
-        // reset test_id SESSION variable
-        ilSession::set('test_id', '');
         $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         if ($qsa_import_fails->failedImportsRegistered()) {
             $button = $this->ui_factory->button()->standard(
@@ -1126,7 +1113,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
 
             $this->tpl->setContent(
-                $out[] = $this->ctrl->getHTML($toolbar)
+                $out[] = $toolbar->getHTML()
             );
         }
 

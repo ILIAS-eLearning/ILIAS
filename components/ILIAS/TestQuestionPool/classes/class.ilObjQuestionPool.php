@@ -289,11 +289,10 @@ class ilObjQuestionPool extends ilObject
             ['integer','text'],
             [$this->getId(), "{$title}%"]
         );
-
-        if ($this->db->numRows($result) === 0) {
+        $counter_object = $this->db->fetchObject($result);
+        if ($counter_object->cnt === 0) {
             return $title;
         }
-        $counter_object = $this->db->fetchObject($result);
         return "{$title} ({$counter_object->cnt})";
     }
 
