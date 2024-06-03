@@ -587,7 +587,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling
 assessment#:#conf_delete_pass#:#Deze poging echt verwijderen?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen
 assessment#:#confirm_delete_single_user_data#:#Weet je zeker dat je de toetsgegevens van de geselecteerde gebruiker wilt verwijderen
 assessment#:#confirm_sync_questions#:#De vraag die je hebt veranderd is een kopie die is gemaakt om te gebruiken in de actieve toets. Wil je de originele vraag ook aanpassen?

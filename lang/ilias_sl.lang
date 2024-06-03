@@ -585,7 +585,6 @@ assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
 assessment#:#conf_delete_pass#:#Ali ste prepričani, da želite izbrisati obdelavo?
-assessment#:#conf_delete_pass_ctm#:#Are you sure you want to delete your existing answers?
 assessment#:#confirm_delete_all_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke vseh uporabnikov testa?
 assessment#:#confirm_delete_single_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
 assessment#:#confirm_sync_questions#:#Vprašanje, ki ste ga spremenili, je bilo z vnosom v test ustvarjeno kot kopija izvirnika. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?

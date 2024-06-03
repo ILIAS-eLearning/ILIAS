@@ -587,7 +587,6 @@ assessment#:#code#:#Kood
 assessment#:#codebase#:#Koodibaas
 assessment#:#concatenation#:#Jätkamine
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Oled kindel, et soovi kustutada kõigi kasutajate testiandmed?
 assessment#:#confirm_delete_single_user_data#:#Oled kindel, et soovid kustutada valitud kasutaja(te) testiandmeid?
 assessment#:#confirm_sync_questions#:#Muudetud küsimus oli aktiivses testis kasutamiseks mõeldud koopia. Kas soovid muuta ka küsimuse originaali?

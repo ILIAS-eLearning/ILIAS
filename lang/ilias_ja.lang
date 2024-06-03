@@ -587,7 +587,6 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#conf_delete_pass_ctm#:#前回の回答を削除してもよろしいですか。
 assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?

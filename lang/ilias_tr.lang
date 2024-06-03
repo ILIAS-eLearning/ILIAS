@@ -587,7 +587,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Birleştirme
 assessment#:#conf_delete_pass#:#Geçenler gerçekten silinsin mi ?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Testin tüm kullanıcı verilerini silmek istediğinizden emin misiniz?
 assessment#:#confirm_delete_single_user_data#:#Seçili kullanıcıların test verileri silmek istediğinizden emin misiniz?
 assessment#:#confirm_sync_questions#:#Değiştirdiğiniz soru aktif test için oluşturulmuş bir sorunun kopyasıdır. Orjinali ile değiştirmek istiyor musunuz ?

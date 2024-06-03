@@ -587,7 +587,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concaténation
 assessment#:#conf_delete_pass#:#Voulez vous vraiment supprimer cette tentative ?
-assessment#:#conf_delete_pass_ctm#:#Voulez-vous vraiment supprimer les réponses que vous avez fournies jusqu’ici?
 assessment#:#confirm_delete_all_user_data#:#Êtes-vous sûr(e) de vouloir supprimer toutes les informations utilisateurs du test ?
 assessment#:#confirm_delete_single_user_data#:#Êtes-vous certain de vouloir supprimer les données de test de l'utilisateur sélectionné ?
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le questionnaire de l'enquête en cours. Voulez-vous modifier l'original de cette question également ?

@@ -587,7 +587,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Baza kodu
 assessment#:#concatenation#:#Złączenie
 assessment#:#conf_delete_pass#:#Czy naprawdę usunąć przebieg?
-assessment#:#conf_delete_pass_ctm#:#Czy naprawdę chcesz usunąć dotychczasowe odpowiedzi?
 assessment#:#confirm_delete_all_user_data#:#Czy chcesz usunąć wszystkie dane użytkownika testu?
 assessment#:#confirm_delete_single_user_data#:#Czy chcesz usunąć dane testu wybranych użytkowników?
 assessment#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią utworzoną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?

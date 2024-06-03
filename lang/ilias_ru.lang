@@ -587,7 +587,6 @@ assessment#:#code#:#Код
 assessment#:#codebase#:#Кодовая база
 assessment#:#concatenation#:#Конкатенация
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Вы действительно хотите удалить все данные пользователя из теста?
 assessment#:#confirm_delete_single_user_data#:#Вы действительно хотите удалить все данные выбранных пользователей?
 assessment#:#confirm_sync_questions#:#Вопрос, который вы изменили, является копией вопроса, используемого с активным тестом. Хотите ли Вы также изменить и оригинал вопроса?

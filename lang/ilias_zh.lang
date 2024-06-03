@@ -586,7 +586,6 @@ assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
 assessment#:#conf_delete_pass#:#真的要删除通过的(pass)？
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#您确信要删除所有用户的测试数据吗？
 assessment#:#confirm_delete_single_user_data#:#您确信要删除所选用户的测试数据吗？
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?

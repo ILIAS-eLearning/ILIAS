@@ -587,7 +587,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
 assessment#:#concatenation#:#Concatenation ### 2006-8-11 --- Add new translation here.
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Da li ste sigurni da želite da obrišete sve podatke o korisniku testa?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Pitanje koje ste promenili je kopija koja je kreirana za upotrebu sa aktivnim testom. Da li želite da izmenite i izvorno pitanje?

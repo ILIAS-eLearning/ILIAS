@@ -589,7 +589,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación
 assessment#:#conf_delete_pass#:#¿Desea borrar la contraseña?
-assessment#:#conf_delete_pass_ctm#:#¿Seguro que desea eliminar las respuestas anteriores?
 assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_delete_single_user_data#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también?

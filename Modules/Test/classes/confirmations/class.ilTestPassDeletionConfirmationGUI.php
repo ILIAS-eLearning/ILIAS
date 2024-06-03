@@ -28,7 +28,6 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
 {
     public const CONTEXT_PASS_OVERVIEW = 'contPassOverview';
     public const CONTEXT_INFO_SCREEN = 'contInfoScreen';
-    public const CONTEXT_DYN_TEST_PLAYER = 'contDynTestPlayer';
 
     protected ilCtrl $ctrl;
 
@@ -50,7 +49,6 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
         switch ($context) {
             case self::CONTEXT_PASS_OVERVIEW:
             case self::CONTEXT_INFO_SCREEN:
-            case self::CONTEXT_DYN_TEST_PLAYER:
 
                 $this->addHiddenItem('context', $context);
                 break;
@@ -60,11 +58,6 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
 
         $this->setCancel($this->lng->txt('cancel'), 'cancelDeletePass');
         $this->setConfirm($this->lng->txt('delete'), 'performDeletePass');
-
-        if ($context == self::CONTEXT_DYN_TEST_PLAYER) {
-            $this->setHeaderText($this->lng->txt('conf_delete_pass_ctm'));
-        } else {
-            $this->setHeaderText($this->lng->txt('conf_delete_pass'));
-        }
+        $this->setHeaderText($this->lng->txt('conf_delete_pass'));
     }
 }

@@ -587,7 +587,6 @@ assessment#:#code#:#Код###22 06 2022 new variable
 assessment#:#codebase#:#Програмен код
 assessment#:#concatenation#:#Свързване
 assessment#:#conf_delete_pass#:# Наистина ли изтривате пропуск?
-assessment#:#conf_delete_pass_ctm#:#Наистина ли искате да изтриете предишните си отговори?
 assessment#:#confirm_delete_all_user_data#:#Сигурни ли сте, че желаете да изтриете всички потребителски данни от теста?
 assessment#:#confirm_delete_single_user_data#:#Със сигурност ли искате да изтриете тестовите данни на избраните потребители?
 assessment#:#confirm_sync_questions#:#Въпросът, който сте променили, е копие, създадено за използване с активния тест. Желаете ли да промените и оригинала на въпроса?
