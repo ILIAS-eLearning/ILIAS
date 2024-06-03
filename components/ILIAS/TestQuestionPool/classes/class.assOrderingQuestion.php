@@ -101,7 +101,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function saveToDb(?int $original_id = null): void
     {
-        $this->saveQuestionDataToDb((int) $original_id);
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
         if ($this->element_list_for_deferred_saving !== null) {

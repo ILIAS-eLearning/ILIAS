@@ -1014,22 +1014,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 return;
             }
 
-            if ($this->testrequest->isset('move_after_question_with_id')) {
-                $question_gui->setMoveAfterQuestionId(
-                    $this->testrequest->int('move_after_question_with_id')
-                );
-            }
-
-            if ($this->testrequest->isset('pool_title')) {
-                $question_gui->setCopyToNewPoolOnSave(
-                    $this->testrequest->strVal('pool_title')
-                );
-            }
-
-            if ($this->testrequest->isset('pool_ref')) {
-                $question_gui->setCopyToExistingPoolOnSave(
-                    $this->testrequest->int('pool_ref')
-                );
+            if ($question_gui->isSaveCommand()
+                || $question_gui->cmdNeedsExistingQuestion($cmd)) {
+                $question_gui = $this->addPostCreationTasksToQuestionGUI($question_gui);
             }
 
             if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
@@ -1056,6 +1043,29 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         } catch (ilTestException $e) {
             $this->showQuestionsObject();
         }
+    }
+
+    private function addPostCreationTasksToQuestionGUI(
+        assQuestionGUI $question_gui
+    ): assQuestionGUI {
+        if ($this->testrequest->isset('move_after_question_with_id')) {
+            $question_gui->setMoveAfterQuestionId(
+                $this->testrequest->int('move_after_question_with_id')
+            );
+        }
+
+        if ($this->testrequest->isset('pool_title')) {
+            $question_gui->setCopyToNewPoolOnSave(
+                $this->testrequest->strVal('pool_title')
+            );
+        }
+
+        if ($this->testrequest->isset('pool_ref')) {
+            $question_gui->setCopyToExistingPoolOnSave(
+                $this->testrequest->int('pool_ref')
+            );
+        }
+        return $question_gui;
     }
 
     private function executeAfterQuestionSaveTasks(assQuestionGUI $question_gui): void
@@ -1085,7 +1095,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         if ($question_gui->getCopyToExistingPoolOnSave() !== null) {
             $original_id = $this->copyQuestionToPool(
-                $question_gui->getObject()->getId(),
+                $question_gui,
                 new ilObjQuestionPool($question_gui->getCopyToExistingPoolOnSave())
             );
             assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
@@ -1095,7 +1105,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($question_gui->getCopyToNewPoolOnSave() !== null) {
             $question_pool = $this->createQuestionPool($question_gui->getCopyToNewPoolOnSave());
             $original_id = $this->copyQuestionToPool(
-                $question_gui->getObject()->getId(),
+                $question_gui,
                 $question_pool
             );
             assQuestion::saveOriginalId($question_gui->getObject()->getId(), $original_id);
@@ -1604,7 +1614,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $question_gui->setObject($question);
         $question_gui->setQuestionTabs();
 
-        $question_gui->setMoveAfterQuestionId($data['position']);
+        if (array_key_exists('position', $data)) {
+            $question_gui->setMoveAfterQuestionId($data['position']);
+        }
 
         if ($qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL) {
             $question_gui->setCopyToNewPoolOnSave($data['pool_selection']['title']);
@@ -2817,7 +2829,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $target_pool = new ilObjQuestionPool($qpl_id, false);
         $new_ids = [];
         foreach ($question_ids as $q_id) {
-            $new_id = $this->copyQuestionToPool($q_id, $target_pool);
+            $new_id = $this->copyQuestionToPool(assQuestion::instantiateQuestionGUI($q_id), $target_pool);
             $new_ids[$q_id] = $new_id;
         }
 
@@ -2828,15 +2840,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         return $result;
     }
 
-    public function copyQuestionToPool(int $source_question_id, ilObjQuestionPool $target_pool): int
+    public function copyQuestionToPool(assQuestionGUI $source_question_gui, ilObjQuestionPool $target_pool): int
     {
-        $question_gui = assQuestion::instantiateQuestionGUI($source_question_id);
-
         $new_title = $target_pool->appendCounterToQuestionTitleIfNecessary(
-            $question_gui->getObject()->getTitle()
+            $source_question_gui->getObject()->getTitle()
         );
 
-        return $question_gui->getObject()->createNewOriginalFromThisDuplicate($target_pool->getId(), $new_title);
+        return $source_question_gui->getObject()->createNewOriginalFromThisDuplicate($target_pool->getId(), $new_title);
     }
 
     public function copyAndLinkQuestionsToPoolObject(
