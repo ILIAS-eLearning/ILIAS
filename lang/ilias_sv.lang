@@ -585,7 +585,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
-assessment#:#conf_delete_pass_ctm#:#Vill du verkligen radera dina tidigare svar?
 assessment#:#confirm_delete_all_user_data#:#Är du säker på att du vill radera alla poster från undersökningen?
 assessment#:#confirm_delete_single_user_data#:#Är du säker på att du vill ta bort alla testdata för de valda användarna?
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?

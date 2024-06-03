@@ -574,7 +574,6 @@ assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε όλα τα δεδομένα χρήστη του διαγωνίσματος;
 assessment#:#confirm_delete_single_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε τα δεδομένα διαγωνίσματος των επιλεγμένων χρηστών;
 assessment#:#confirm_sync_questions#:#Η ερώτηση που αλλάξατε είναι αντίγραφο το οποίο δημιουργήθηκε για χρήση από το ενεργό τεστ. Θέλετε να αλλάξετε και την πρωτότυπη ερώτηση;

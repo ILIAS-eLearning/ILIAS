@@ -573,7 +573,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
 assessment#:#conf_delete_pass#:#Skutečně smazat průchod?
-assessment#:#conf_delete_pass_ctm#:#Opravdu chcete smazat dosavadní odpovědi?
 assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data uživatelů tohoto testu?
 assessment#:#confirm_delete_single_user_data#:#Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?
 assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?

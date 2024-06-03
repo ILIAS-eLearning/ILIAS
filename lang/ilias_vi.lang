@@ -575,7 +575,6 @@ assessment#:#code#:#Mã
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#concatenation#:#Kết hợp
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Bạn có chắc chắn muốn xóa tất cả các thông tin người sử dụng của bài kiểm tra không?
 assessment#:#confirm_delete_single_user_data#:#Bạn có chắc chắn muốn xóa các thông tin về bài kiểm tra của (những) người sử dụng đã chọn không?
 assessment#:#confirm_sync_questions#:#Câu hỏi bạn đã thay đổi là một bản sao được tạo ra để sử dụng với bài kiểm tra đang hoạt động. Bạn có muốn thay đổi nguyên bản của câu hỏi không?

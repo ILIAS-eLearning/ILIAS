@@ -573,7 +573,6 @@ assessment#:#code#:#კოდი
 assessment#:#codebase#:#კოდების ბაზა
 assessment#:#concatenation#:#ურთიერთაკვშირი, დამთხვევა
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#დარწმუნებული ხართ რომ მომხმარებლის  ტესტის მთლიანი მონაცემების წაშლა გსურთ?
 assessment#:#confirm_delete_single_user_data#:#დარწმუნებული ხართ რომ ამ მომხმარებლის  ტესტის მონაცემების წაშლა გსურთ?
 assessment#:#confirm_sync_questions#:#კითხვა რომელიც თქვენ შეცვალეთ არის ასლი რომელიც შეიქმნა მიმდინარე ტესტში გამოსაყენებლად. გსურთ კითხვის ორიგინალის შეცვლა?

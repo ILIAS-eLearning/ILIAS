@@ -573,7 +573,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
 assessment#:#conf_delete_pass#:#Tem a certeza que quer remover as suas respostas existentes?
-assessment#:#conf_delete_pass_ctm#:#Tem a certeza que quer apagar as respostas anteriores?
 assessment#:#confirm_delete_all_user_data#:#Tem a certeza que quer apagar todos os dados do utilizador do teste?
 assessment#:#confirm_delete_single_user_data#:#Tem a certeza que quer remover os dados do teste dos utilizadores selecionados?
 assessment#:#confirm_sync_questions#:#A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?

@@ -573,7 +573,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
-assessment#:#conf_delete_pass_ctm#:#Biztos, hogy törli a már létező válaszait?
 assessment#:#confirm_delete_all_user_data#:#Biztos, hogy eltávolítja minden felhasználójának tesztadatát?
 assessment#:#confirm_delete_single_user_data#:#Biztos, hogy eltávolítja a kiválasztott felhasználók tesztadatait?
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
