@@ -249,6 +249,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($output_gui);
                 break;
             case "ilprgpageobjectgui":
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 if (!$this->object->hasContentPage()) {
                     $this->object->createContentPage();
                 }
