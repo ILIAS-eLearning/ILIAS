@@ -24,6 +24,7 @@ use ILIAS\MetaData\Structure\Dictionaries\DictionaryInitiator as BaseDictionaryI
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
@@ -34,23 +35,24 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     public function __construct(
         TagFactory $tag_factory,
         PathFactoryInterface $path_factory,
+        NavigatorFactoryInterface $navigator_factory,
         StructureSetInterface $structure
     ) {
         $this->tag_factory = $tag_factory;
-        parent::__construct($path_factory, $structure);
+        parent::__construct($path_factory, $navigator_factory, $structure);
     }
 
     public function get(): DictionaryInterface
     {
         $this->initDictionary();
-        return new LOMDictionary($this->path_factory, ...$this->getTagAssignments());
+        return new LOMDictionary($this->path_factory, $this->navigator_factory, ...$this->getTagAssignments());
     }
 
     protected function initDictionary(): void
     {
         $structure = $this->getStructure();
 
-        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE, 0);
+        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE);
 
         $this->setTagsForGeneral($structure);
         $this->setTagsForMetaMetadata($structure);
@@ -61,18 +63,15 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     ): void {
         $this->addTag(
             $general = $structure->getRoot()->getSubElement('general'),
-            Restriction::NOT_DELETABLE,
-            0
+            Restriction::NOT_DELETABLE
         );
         $this->addTag(
             $title = $general->getSubElement('title'),
-            Restriction::NOT_DELETABLE,
-            0
+            Restriction::NOT_DELETABLE
         );
         $this->addTag(
             $title->getSubElement('string'),
-            Restriction::NOT_DELETABLE,
-            0
+            Restriction::NOT_DELETABLE
         );
         $this->addTag(
             $identifier = $general->getSubElement('identifier'),
@@ -127,13 +126,20 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     protected function addTag(
         StructureElementInterface $element,
         Restriction $restriction,
-        int $index
+        int $index = null
     ): void {
-        $tag = $this->tag_factory->tag(
-            $restriction,
-            '',
-            $index
-        );
+        if (is_null($index)) {
+            $tag = $this->tag_factory->tag(
+                $restriction,
+                ''
+            );
+        } else {
+            $tag = $this->tag_factory->tag(
+                $restriction,
+                '',
+                $index
+            );
+        }
         $this->addTagToElement($tag, $element);
     }
 
