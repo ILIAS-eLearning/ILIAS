@@ -154,6 +154,24 @@ class Administration
             );
         }
 
+        if (!$ids) {
+            //Try reading from UI-Table "apply to all objects"
+            $ids = $this->http_wrapper->query()->retrieve(
+                'legal_document_id',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                    $this->refinery->always([]),
+                ])
+            );
+
+            if ($ids[array_key_first($ids)] === 'ALL_OBJECTS') {
+                $ids = [];
+                foreach ($this->config->legalDocuments()->document()->repository()->all() as $document) {
+                    $ids[] = $document->id();
+                }
+            }
+        }
+
         return $ids ?: [];
     }
 
