@@ -1039,7 +1039,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         array $solution_values
     ): array {
         $solution_ids = array_map(
-            static fn(string $v) => $v['value1'],
+            static fn(array $v): string => $v['value1'],
             $solution_values
         );
         $parsed_solutions = [];
