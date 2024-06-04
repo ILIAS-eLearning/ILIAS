@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,16 +14,23 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilPollAnswersRenderer
 {
     protected ilLanguage $lng;
+    protected Refinery $refinery;
 
-    public function __construct(ilLanguage $lng)
-    {
+    public function __construct(
+        ilLanguage $lng,
+        Refinery $refinery
+    ) {
         $this->lng = $lng;
+        $this->refinery = $refinery;
     }
 
     public function render(
@@ -98,7 +103,10 @@ class ilPollAnswersRenderer
             }
         }
         $tpl->setVariable("VALUE_ANSWER", $id);
-        $tpl->setVariable("TXT_ANSWER_VOTE", nl2br($answer));
+        $tpl->setVariable(
+            "TXT_ANSWER_VOTE",
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($answer))
+        );
         $tpl->parseCurrentBlock();
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,17 +14,23 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilPollResultsRenderer
 {
     protected int $ref_id;
+    protected Refinery $refinery;
 
     public function __construct(
-        int $ref_id
+        int $ref_id,
+        Refinery $refinery
     ) {
         $this->ref_id = $ref_id;
+        $this->refinery = $refinery;
     }
 
     public function render(
@@ -54,7 +58,7 @@ class ilPollResultsRenderer
         foreach ($results->getOrderedAnswerIds() as $id) {
             $chart_data->addPiePoint(
                 (int) round($results->getAnswerPercentage($id)),
-                nl2br($results->getAnswerText($id))
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($results->getAnswerText($id)))
             );
         }
 
@@ -79,7 +83,10 @@ class ilPollResultsRenderer
             $pbar->setCurrent(round($results->getAnswerPercentage($id)));
             $pbar->setCaption('(' . $results->getAnswerTotal($id) . ')');
             $tpl->setVariable("PERC_ANSWER_RESULT", $pbar->render());
-            $tpl->setVariable("TXT_ANSWER_RESULT", nl2br($results->getAnswerText($id)));
+            $tpl->setVariable(
+                "TXT_ANSWER_RESULT",
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($results->getAnswerText($id)))
+            );
             $tpl->parseCurrentBlock();
         }
     }
