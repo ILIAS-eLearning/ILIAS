@@ -403,8 +403,11 @@ class Data extends Table implements T\Data, JSBindable
         if ($request = $this->getRequest()) {
             $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
+
+            $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
+            $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
             $table = $table
-                ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
+                ->withRange($range)
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
                 ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
         }
@@ -428,7 +431,7 @@ class Data extends Table implements T\Data, JSBindable
         return $this->view_control_container_factory->standard($view_controls);
     }
 
-    protected function getViewControlPagination(?int $total_count = null): ViewControl\Pagination|ViewControl\NullControl
+    protected function getViewControlPagination(?int $total_count = null): ViewControl\Pagination|ViewControl\Group
     {
         $smallest_option = current(Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
@@ -441,7 +444,10 @@ class Data extends Table implements T\Data, JSBindable
                         Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
-        return $this->view_control_factory->nullControl();
+        return $this->view_control_factory->group([
+            $this->view_control_factory->nullControl(),
+            $this->view_control_factory->nullControl()
+        ]);
     }
 
     protected function getViewControlOrdering(): ?ViewControl\Sortation

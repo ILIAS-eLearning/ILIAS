@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\ViewControl as VCInterface;
+use ILIAS\Data\Result;
 
 class NullControl extends ViewControlInput implements VCInterface\NullControl
 {
