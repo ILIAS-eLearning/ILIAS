@@ -76,6 +76,12 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
             $settings->delete("account_assistance_duration");
         }
 
+        if (null !== $this->config->getRegistrationDurationInMs()) {
+            $settings->set("registration_duration", (string) $this->config->getRegistrationDurationInMs());
+        } else {
+            $settings->delete("registration_duration");
+        }
+
         return $environment;
     }
 
