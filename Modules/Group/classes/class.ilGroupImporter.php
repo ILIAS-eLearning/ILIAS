@@ -46,6 +46,10 @@ class ilGroupImporter extends ilXmlImporter
         try {
             $parser = new ilGroupXMLParser($this->group, $a_xml, 0);
             $parser->setMode(ilGroupXMLParser::$UPDATE);
+
+            // avoid duplicate MD sets
+            $this->group->deleteMetaData();
+
             $parser->startParsing();
             $a_mapping->addMapping('Modules/Group', 'grp', $a_id, (string) $this->group->getId());
         } catch (ilSaxParserException | ilWebLinkXmlParserException $e) {
