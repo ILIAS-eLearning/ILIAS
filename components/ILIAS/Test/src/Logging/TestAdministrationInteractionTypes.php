@@ -37,4 +37,5 @@ enum TestAdministrationInteractionTypes: string
     case EXTRA_TIME_ADDED = 'extra_time_added';
     case TEST_RUN_OF_PARTICIPANT_CLOSED = 'test_run_of_participant_closed';
     case PARTICIPANT_DATA_REMOVED = 'participant_data_removed';
+    case TEST_DELETED = 'test_deleted';
 }

@@ -157,7 +157,7 @@ class LogTable implements Table\DataRetrieval
 
         $columns = [
             self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->buildUserDateTimeFormat()),
-            self::COLUMN_CORRESPONDING_TEST => $f->link($this->lng->txt('test'))->withIsOptional(true, true),
+            self::COLUMN_CORRESPONDING_TEST => $f->text($this->lng->txt('test'))->withIsOptional(true, true),
             self::COLUMN_ADMIN => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true)
         ];

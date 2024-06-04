@@ -28,13 +28,13 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestParticipantInteraction implements TestUserInteraction
 {
     use CSVExportTrait;
+    use ColumnsHelperFunctionsTrait;
 
     public const IDENTIFIER = 'pi';
 
@@ -77,17 +77,6 @@ class TestParticipantInteraction implements TestUserInteraction
         array $environment
     ): DataRow {
         $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
-        $question = '';
-        if ($this->question_id !== null) {
-            $question = $ui_renderer->render($ui_factory->button()->shy(
-                $properties_repository->getForQuestionId($this->question_id)->getTitle(),
-                $static_url->builder()->build(
-                    'tst',
-                    new ReferenceId($this->test_ref_id),
-                    ['qst', $this->question_id]
-                )->__toString()
-            ));
-        }
 
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
@@ -96,9 +85,12 @@ class TestParticipantInteraction implements TestUserInteraction
                     "@{$this->modification_timestamp}",
                     $environment['timezone']
                 ),
-                'corresponding_test' => $ui_factory->link()->standard(
-                    \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
+                'corresponding_test' => $this->buildTestTitleColumnContent(
+                    $lng,
+                    $static_url,
+                    $ui_factory->link(),
+                    $ui_renderer,
+                    $this->test_ref_id
                 ),
                 'admin' => '',
                 'participant' => \ilUserUtil::getNamePresentation(
@@ -109,7 +101,15 @@ class TestParticipantInteraction implements TestUserInteraction
                     true
                 ),
                 'ip' => $this->source_ip,
-                'question' => $question,
+                'question' => $this->buildQuestionTitleColumnContent(
+                    $properties_repository,
+                    $lng,
+                    $static_url,
+                    $ui_factory->link(),
+                    $ui_renderer,
+                    $this->question_id,
+                    $this->test_ref_id
+                ),
                 'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                 'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
             ]
@@ -132,11 +132,6 @@ class TestParticipantInteraction implements TestUserInteraction
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): string {
-        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
-        $question = '';
-        if ($this->question_id !== null) {
-            $question = $properties_repository->getForQuestionId($this->question_id)->getTitle();
-        }
         return implode(
             ';',
             $this->processCSVRow(
@@ -145,7 +140,7 @@ class TestParticipantInteraction implements TestUserInteraction
                         "@{$this->modification_timestamp}",
                         $environment['timezone']
                     ))->format($environment['date_format']),
-                    \ilObject::_lookupTitle($test_obj_id),
+                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
                     '',
                     \ilUserUtil::getNamePresentation(
                         $this->pax_id,
@@ -155,7 +150,11 @@ class TestParticipantInteraction implements TestUserInteraction
                         true
                     ),
                     $this->source_ip,
-                    $question,
+                    $this->buildQuestionTitleCSVContent(
+                        $properties_repository,
+                        $lng,
+                        $this->question_id
+                    ),
                     $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                     $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
                     $additional_info->parseForCSV($this->additional_data)

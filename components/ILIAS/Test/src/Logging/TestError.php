@@ -28,13 +28,13 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestError implements TestUserInteraction
 {
     use CSVExportTrait;
+    use ColumnsHelperFunctionsTrait;
 
     public const IDENTIFIER = 'te';
 
@@ -76,19 +76,6 @@ class TestError implements TestUserInteraction
         $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
         $admin = $this->getUserForPresentation($this->admin_id);
         $pax = $this->getUserForPresentation($this->pax_id);
-        $question = '';
-        if ($this->question_id !== null) {
-            $question = $ui_renderer->render(
-                $ui_factory->link()->standard(
-                    $properties_repository->getForQuestionId($this->question_id)->getTitle(),
-                    $static_url->builder()->build(
-                        'tst',
-                        new ReferenceId($this->test_ref_id),
-                        ['qst', $this->question_id]
-                    )->__toString()
-                )
-            );
-        }
 
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
@@ -97,14 +84,25 @@ class TestError implements TestUserInteraction
                     "@{$this->modification_timestamp}",
                     $environment['timezone']
                 ),
-                'corresponding_test' => $ui_factory->link()->standard(
-                    \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
+                'corresponding_test' => $this->buildTestTitleColumnContent(
+                    $lng,
+                    $static_url,
+                    $ui_factory->link(),
+                    $ui_renderer,
+                    $this->test_ref_id
                 ),
                 'admin' => $admin,
                 'participant' => $pax,
                 'ip' => '',
-                'question' => $question,
+                'question' => $this->buildQuestionTitleColumnContent(
+                    $properties_repository,
+                    $lng,
+                    $static_url,
+                    $ui_factory->link(),
+                    $ui_renderer,
+                    $this->question_id,
+                    $this->test_ref_id
+                ),
                 'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                 'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
             ]
@@ -124,13 +122,8 @@ class TestError implements TestUserInteraction
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): string {
-        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
         $admin = $this->getUserForPresentation($this->admin_id);
         $pax = $this->getUserForPresentation($this->pax_id);
-        $question = '';
-        if ($this->question_id !== null) {
-            $question = $properties_repository->getForQuestionId($this->question_id)->getTitle();
-        }
 
         return implode(
             ';',
@@ -140,11 +133,15 @@ class TestError implements TestUserInteraction
                         "@{$this->modification_timestamp}",
                         $environment['timezone']
                     ))->format($environment['date_format']),
-                    \ilObject::_lookupTitle($test_obj_id),
+                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
                     $admin,
                     $pax,
                     '',
-                    $question,
+                    $this->buildQuestionTitleCSVContent(
+                        $properties_repository,
+                        $lng,
+                        $this->question_id
+                    ),
                     $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                     $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
                     $this->error_message
