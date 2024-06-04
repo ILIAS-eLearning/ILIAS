@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,13 +14,13 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
-use ILIAS\Notes\Note;
 
 /**
  * BlockGUI class for polls.
@@ -181,7 +179,7 @@ class ilPollBlockGUI extends ilBlockGUI
                     }
 
                     $this->tpl->setVariable("VALUE_ANSWER", $id);
-                    $this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($answer));
+                    $this->tpl->setVariable("TXT_ANSWER_VOTE", $this->specialCharsAsEntities(nl2br($answer)));
                     $this->tpl->parseCurrentBlock();
                 }
 
@@ -317,7 +315,7 @@ class ilPollBlockGUI extends ilBlockGUI
                 );
             }
         } else {
-            $this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_set->getQuestion())));
+            $this->tpl->setVariable("TXT_QUESTION", $this->specialCharsAsEntities(nl2br(trim($a_set->getQuestion()))));
 
             $img = $a_set->getImageFullPath();
             if ($img) {
@@ -327,11 +325,10 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
         $this->tpl->setVariable("ANCHOR_ID", $a_set->getID());
-        //$this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_poll->getQuestion())));
 
         $desc = trim($a_set->getDescription());
         if ($desc) {
-            $this->tpl->setVariable("TXT_DESC", nl2br($desc));
+            $this->tpl->setVariable("TXT_DESC", $this->specialCharsAsEntities(nl2br($desc)));
         }
 
 

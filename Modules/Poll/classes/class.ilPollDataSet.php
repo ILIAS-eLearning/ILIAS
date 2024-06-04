@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Poll Dataset class
@@ -181,6 +180,24 @@ class ilPollDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags(
+            $a_rec,
+            [
+                'Id',
+                'MaxAnswers',
+                'ResultSort',
+                'NonAnon',
+                'ShowResultsAs',
+                'ShowComments',
+                'ViewResults',
+                'Period',
+                'PeriodBegin',
+                'PeriodEnd',
+                'PollId',
+                'pos',
+            ]
+        );
+
         switch ($a_entity) {
             case "poll":
                 // container copy
@@ -191,6 +208,7 @@ class ilPollDataSet extends ilDataSet
                     $newObj->create();
                 }
 
+                /** @var ilObjPoll $newObj */
                 $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
                 $newObj->setDescription((string) ($a_rec["Description"]));
                 if ((int) $a_rec["MaxAnswers"]) {
