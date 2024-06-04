@@ -398,7 +398,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             function () use ($answer, $active_id, $pass, $authorized) {
                 $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-                if ($text !== '') {
+                if ($answer !== '') {
                     $this->saveCurrentSolution($active_id, $pass, $answer, null, $authorized);
                 }
             }

@@ -1753,7 +1753,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     ): array {
         $parsed_solution = [];
         foreach ($this->getGaps() as $gap_index => $gap) {
-            $gap[$gap_index] = [
+            $parsed_solution[$gap_index] = [
                 AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAP_TYPE => $gap->getType(),
             ];
             foreach ($solution_values as $solutionvalue) {
@@ -1762,13 +1762,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
 
                 if ($gap->getType() === assClozeGap::TYPE_SELECT) {
-                    $gap[] = $gap->getItem($solutionvalue['value2'])->getAnswertext();
+                    $parsed_solution[] = $gap->getItem($solutionvalue['value2'])->getAnswertext();
                     continue;
                 }
 
-                $gap[] = $solutionvalue['value2'];
+                $parsed_solution[$gap_index] = $solutionvalue['value2'];
             }
-            $parsed_solution[] = $gap;
         }
         return $parsed_solution;
     }
