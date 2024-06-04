@@ -31,23 +31,4 @@ class ViewControlNullTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->nullControl();
         $this->assertEquals('', $this->getDefaultRenderer()->render($vc));
     }
-
-    public function testViewControlFieldNullInGroup(): void
-    {
-        $f = $this->buildVCFactory();
-        $input = $this->createMock(InputData::class);
-        $namesource = new DefNamesource();
-
-        $group = $f->group(
-            [
-                $f->nullControl(),
-                $f->nullControl()
-            ]
-        )
-        ->withNameFrom($namesource)
-        ->withInput($input);
-
-        $expected = new Result\Ok([null, null]);
-        $this->assertEquals($expected, $group->getContent());
-    }
 }

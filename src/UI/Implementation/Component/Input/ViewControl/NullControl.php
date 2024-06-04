@@ -29,12 +29,4 @@ class NullControl extends ViewControlInput implements VCInterface\NullControl
     {
         return true;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getContent(): Result
-    {
-        return new Result\Ok(null);
-    }
 }
