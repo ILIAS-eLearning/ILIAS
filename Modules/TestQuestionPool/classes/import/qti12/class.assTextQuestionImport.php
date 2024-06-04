@@ -255,8 +255,11 @@ class assTextQuestionImport extends assQuestionImport
             return $termScoring;
         }
 
+        $allowed_classes = [
+            ASS_AnswerMultipleResponseImage::class
+        ];
         $termScoringString = base64_decode($termScoringString);
-        $termScoring = unserialize($termScoringString, ['allowed_classes' => false]);
+        $termScoring = unserialize($termScoringString, ['allowed_classes' => $allowed_classes]);
 
         if (is_array($termScoring)) {
             return $termScoring;
