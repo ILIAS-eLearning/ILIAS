@@ -54,7 +54,7 @@ class ilPollResultsRenderer
         foreach ($results->getOrderedAnswerIds() as $id) {
             $chart_data->addPiePoint(
                 (int) round($results->getAnswerPercentage($id)),
-                nl2br($results->getAnswerText($id))
+                $this->specialCharsAsEntities(nl2br($results->getAnswerText($id)))
             );
         }
 
@@ -79,7 +79,10 @@ class ilPollResultsRenderer
             $pbar->setCurrent(round($results->getAnswerPercentage($id)));
             $pbar->setCaption('(' . $results->getAnswerTotal($id) . ')');
             $tpl->setVariable("PERC_ANSWER_RESULT", $pbar->render());
-            $tpl->setVariable("TXT_ANSWER_RESULT", nl2br($results->getAnswerText($id)));
+            $tpl->setVariable(
+                "TXT_ANSWER_RESULT",
+                $this->specialCharsAsEntities(nl2br($results->getAnswerText($id)))
+            );
             $tpl->parseCurrentBlock();
         }
     }
@@ -100,5 +103,15 @@ class ilPollResultsRenderer
     protected function getProgressBar(): ilProgressBar
     {
         return ilProgressBar::getInstance();
+    }
+
+    protected function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
     }
 }

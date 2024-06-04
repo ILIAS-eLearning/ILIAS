@@ -98,7 +98,20 @@ class ilPollAnswersRenderer
             }
         }
         $tpl->setVariable("VALUE_ANSWER", $id);
-        $tpl->setVariable("TXT_ANSWER_VOTE", nl2br($answer));
+        $tpl->setVariable(
+            "TXT_ANSWER_VOTE",
+            $this->specialCharsAsEntities(nl2br($answer))
+        );
         $tpl->parseCurrentBlock();
+    }
+
+    protected function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
     }
 }
