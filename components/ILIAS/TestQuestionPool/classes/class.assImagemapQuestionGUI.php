@@ -650,7 +650,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
-            if ($show_feedback) {
+            if ($show_specific_inline_feedback) {
                 if (!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id) {
                     $feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
                         $this->object->getId(),

@@ -263,6 +263,16 @@ class ilTestRandomQuestionSetConfigGUI
 
                 $this->ctrl->setParameterByClass(self::class, 'modified', 'sync');
             });
+            if ($this->logger->isLoggingEnabled()) {
+                $this->logger->logTestAdministrationInteraction(
+                    $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                        $this->test_obj->getRefId(),
+                        $this->user->getId(),
+                        TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISED,
+                        []
+                    )
+                );
+            }
         }
 
         $this->ctrl->redirect($this, $this->fetchAfterRebuildQuestionStageCmdParameter());
