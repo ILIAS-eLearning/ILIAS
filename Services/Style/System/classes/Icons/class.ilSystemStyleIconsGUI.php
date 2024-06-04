@@ -428,7 +428,6 @@ class ilSystemStyleIconsGUI
             $icon->changeColors($color_changes);
 
             if ($this->upload->hasUploads()) {
-                $this->upload->process();
                 /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
                 $result = array_values($this->upload->getResults())[0];
 
