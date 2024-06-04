@@ -34,8 +34,7 @@ trait TableViewControlPagination
         $this->range = $this->data_factory->range(0, $this->number_of_rows);
     }
 
-    protected function getViewControlPagination(?int $total_count = null
-    ): ViewControl\Pagination|ViewControl\NullControl
+    protected function getViewControlPagination(?int $total_count = null): ViewControl\Pagination|ViewControl\Group
     {
         $smallest_option = current(Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
@@ -48,7 +47,10 @@ trait TableViewControlPagination
                         Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
-        return $this->view_control_factory->nullControl();
+        return $this->view_control_factory->group([
+            $this->view_control_factory->nullControl(),
+            $this->view_control_factory->nullControl()
+        ]);
     }
 
     public function withNumberOfRows(int $number_of_rows): self
