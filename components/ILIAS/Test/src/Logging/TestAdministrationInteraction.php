@@ -28,13 +28,13 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestAdministrationInteraction implements TestUserInteraction
 {
     use CSVExportTrait;
+    use ColumnsHelperFunctionsTrait;
 
     public const IDENTIFIER = 'tai';
 
@@ -83,9 +83,12 @@ class TestAdministrationInteraction implements TestUserInteraction
                     "@{$this->modification_timestamp}",
                     $environment['timezone']
                 ),
-                'corresponding_test' => $ui_factory->link()->standard(
-                    \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
+                'corresponding_test' => $this->buildTestTitleColumnContent(
+                    $lng,
+                    $static_url,
+                    $ui_factory->link(),
+                    $ui_renderer,
+                    $this->test_ref_id
                 ),
                 'admin' => \ilUserUtil::getNamePresentation(
                     $this->admin_id,
@@ -119,7 +122,6 @@ class TestAdministrationInteraction implements TestUserInteraction
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): string {
-        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
         return implode(
             ';',
             $this->processCSVRow(
@@ -128,7 +130,7 @@ class TestAdministrationInteraction implements TestUserInteraction
                         "@{$this->modification_timestamp}",
                         $environment['timezone']
                     ))->format($environment['date_format']),
-                    \ilObject::_lookupTitle($test_obj_id),
+                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
                     \ilUserUtil::getNamePresentation(
                         $this->admin_id,
                         false,

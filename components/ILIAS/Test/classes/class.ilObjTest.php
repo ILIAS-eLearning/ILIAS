@@ -285,6 +285,19 @@ class ilObjTest extends ilObject
         $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getId());
         $sltImportFails->deleteRegisteredImportFails();
 
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::TEST_DELETED,
+                    [
+                        AdditionalInformationGenerator::KEY_TEST_TITLE => $test_title = $this->title
+                    ]
+                )
+            );
+        }
+
         return true;
     }
 
@@ -1083,26 +1096,26 @@ class ilObjTest extends ilObject
         }
 
         $this->reindexFixedQuestionOrdering();
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::QUESTION_REMOVED,
-                    [
-                        AdditionalInformationGenerator::KEY_QUESTIONS => $remove_question_ids
-                    ]
-                )
-            );
-        }
     }
 
     public function removeQuestion(int $question_id): void
     {
         try {
             $question = self::_instanciateQuestion($question_id);
+            $question_title = $question->getTitle();
             $question->delete($question_id);
+            if ($this->logger->isLoggingEnabled()) {
+                $this->logger->logTestAdministrationInteraction(
+                    $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                        $this->getRefId(),
+                        $this->user->getId(),
+                        TestAdministrationInteractionTypes::QUESTION_REMOVED,
+                        [
+                            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question_title
+                        ]
+                    )
+                );
+            }
         } catch (InvalidArgumentException $e) {
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
