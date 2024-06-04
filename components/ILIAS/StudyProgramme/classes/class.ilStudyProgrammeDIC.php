@@ -43,7 +43,7 @@ class ilStudyProgrammeDIC
                 ilOrgUnitGlobalSettings::getInstance(),
                 $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
-                (int)$prg->getRefid()
+                (int) $prg->getRefid()
             );
         };
 
@@ -56,6 +56,30 @@ class ilStudyProgrammeDIC
                 $dic['permissionhelper']
             );
         };
+
+        $dic['ilStudyProgrammeAssignmentsTable'] = function ($dic) use ($DIC, $prg) {
+            $url_builder = new \ILIAS\UI\URLBuilder(
+                (new \ILIAS\Data\Factory())->uri(
+                    $DIC['http']->request()->getUri()->__toString()
+                )
+            );
+
+            return new ilStudyProgrammeAssignmentsTable(
+                $dic['ui.factory'],
+                $DIC->refinery(),
+                $dic['ilStudyProgrammeUserTable'],
+                $dic['filter.assignment'],
+                $DIC['http']->wrapper(),
+                $url_builder,
+                $dic['permissionhelper'],
+                $DIC['lng'],
+                (int) $DIC['ilUser']->getId(),
+                $prg->getId(),
+                $prg->hasLPChildren(),
+                $prg->isCertificateActive()
+            );
+        };
+
 
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeSettingsDBRepository(
@@ -228,6 +252,8 @@ class ilStudyProgrammeDIC
                 $DIC->http()->wrapper(),
                 $DIC->refinery(),
                 $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['http']->request(),
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(

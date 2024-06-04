@@ -141,7 +141,7 @@ class ilStudyProgrammeUserTable
     public function fetchData(
         int $prg_id,
         ?array $valid_user_ids,
-        Order $order,
+        ?Order $order,
         ilPRGAssignmentFilter $custom_filters = null,
         int $limit = null,
         int $offset = null
@@ -152,7 +152,9 @@ class ilStudyProgrammeUserTable
             $custom_filters
         );
         $rows = array_map(fn($ass) => $this->toRow($ass, $prg_id), $data);
-        $rows = $this->postOrder($rows, $order);
+        if ($order) {
+            $rows = $this->postOrder($rows, $order);
+        }
         if ($limit) {
             $offset = $offset ?? 0;
             $rows = array_slice($rows, $offset, $limit);

@@ -13308,6 +13308,7 @@ prg#:#prg_link#:#Link
 prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme
 prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
+prg#:#prg_mail_user#:#Send Mail
 prg#:#prg_manage#:#Manage
 prg#:#prg_manage_members#:#Manage Enrolments of Study Programme
 prg#:#prg_manage_members_short#:#Manage Assignments
@@ -13321,7 +13322,6 @@ prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 prg#:#prg_multi_change_deadline#:#Change deadline
 prg#:#prg_multi_change_expire_date#:#Change expire date
-prg#:#prg_multi_mail_user#:#Send Mail
 prg#:#prg_multi_mark_accredited#:#Accredited
 prg#:#prg_multi_mark_relevant#:#Mark Relevant
 prg#:#prg_multi_remove_certificate#:#Remove Certificates
