@@ -174,8 +174,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $hidden_text_files = $this->getAnswers();
         $correct_answers = $this->getCorrectAnswers();
-        $points = array();
-        if ($correct_answers === null || sizeof($correct_answers) == 0 || $hidden_text_files === null || sizeof($hidden_text_files) == 0) {
+        $points = [];
+        if ($correct_answers === null
+            || $correct_answers === []
+            || $hidden_text_files === null
+            || $hidden_text_files === []) {
             return false;
         }
         if (sizeof($correct_answers) != sizeof($hidden_text_files)) {
@@ -185,7 +188,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             if ($this->correctAnswerDoesNotExistInAnswerOptions($correct_answers_row, $hidden_text_files[$key])) {
                 return false;
             }
-            if (!is_array($correct_answers_row[0]) || sizeof($correct_answers_row[0]) == 0) {
+            if (!is_array($correct_answers_row[0]) || $correct_answers_row[0] === []) {
                 return false;
             }
             if ($correct_answers_row[1] > 0) {
@@ -792,5 +795,27 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS => $this->getAnswers(),
             AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => $this->getCorrectAnswers()
         ];
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $parsed_solution = [];
+        foreach ($this->getCorrectAnswers() as $gap_index => $gap) {
+            foreach ($solution_values as $solution) {
+                if ($gap_index != $solution['value1']) {
+                    continue;
+                }
+                $value = $solution['value2'];
+                if ($gap[2] === self::ANSWER_TYPE_SELECT_VAL
+                    && $value === '-1') {
+                    $value = '';
+                }
+                $parsed_solution[$gap_index] = $value;
+                break;
+            }
+        }
+        return $parsed_solution;
     }
 }

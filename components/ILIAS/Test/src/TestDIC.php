@@ -117,6 +117,7 @@ class TestDIC extends PimpleContainer
                     (new \ilMustacheFactory())->getBasicEngine(),
                     $DIC['lng'],
                     $DIC['ui.factory'],
+                    $DIC['refinery'],
                     $c['question.general_properties.repository']
                 ),
                 \ilLoggerFactory::getLogger('tst'),

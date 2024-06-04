@@ -566,4 +566,16 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             ]
         ];
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        if (!array_key_exists(0, $solution_values) ||
+            !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+
+        return str_replace("{::}", " ", $solution_values[0]['value1']);
+    }
 }

@@ -1442,4 +1442,34 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = array_values($matching_pairs);
         return $result;
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $reducer = static function (array $c, assAnswerMatchingTerm|assAnswerMatchingDefinition $v): array {
+            $c[$v->getIdentifier()] = $v->getText() !== ''
+                ? $v->getPicture()
+                : $v->getText();
+            return $c;
+        };
+
+        $terms_by_identifier = array_reduce(
+            $this->getTerms(),
+            $reducer,
+            []
+        );
+
+        $definitions_by_identifier = array_reduce(
+            $this->getDefinitions(),
+            $reducer,
+            []
+        );
+
+        return array_map(
+            static fn(array $v): string => $definitions_by_identifier['value2']
+                . ':' . $terms_by_identifier['value1'],
+            $solution_values
+        );
+    }
 }

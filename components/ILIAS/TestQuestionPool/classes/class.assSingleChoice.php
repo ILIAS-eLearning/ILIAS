@@ -241,7 +241,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $answers
     */
-    public function getAnswer($index = 0): ?object
+    public function getAnswer(int $index = 0): ?ASS_AnswerBinaryStateImage
     {
         if ($index < 0) {
             return null;
@@ -264,7 +264,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($index = 0): void
+    public function deleteAnswer(int $index = 0): void
     {
         if ($index < 0) {
             return;
@@ -342,8 +342,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session): float
-    {
+    public function calculateReachedPointsFromPreviewSession(
+        ilAssQuestionPreviewSession $preview_session
+    ): float {
         $participant_solution = $preview_session->getParticipantsSolution();
 
         $points = 0.0;
@@ -413,7 +414,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function saveAdditionalQuestionDataToDb()
+    public function saveAdditionalQuestionDataToDb(): void
     {
         // save additional data
         $this->db->manipulateF(
@@ -440,7 +441,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * Additionally, it updates the corresponding feedback.
      * @return void
      */
-    public function saveAnswerSpecificDataToDb()
+    public function saveAnswerSpecificDataToDb(): void
     {
         if (!$this->is_singleline) {
             ilFileUtils::delDir($this->getImagePath());
@@ -603,8 +604,10 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return integer An errorcode if the image upload fails, 0 otherwise
     * @access public
     */
-    public function setImageFile($image_filename, $image_tempfilename = ""): int
-    {
+    public function setImageFile(
+        string $image_filename,
+        string $image_tempfilename = ''
+    ): int {
         if (empty($image_tempfilename)) {
             return 0;
         }
@@ -664,11 +667,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->answers = $answers;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
+    public function setExportDetailsXLSX(
+        ilAssExcelFormatHelper $worksheet,
+        int $startrow,
+        int $col,
+        int $active_id,
+        int $pass
+    ): int {
         parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
 
         $solution = $this->getSolutionValues($active_id, $pass);
@@ -692,11 +697,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $startrow + $i + 1;
     }
 
-    /**
-     * @param ilAssSelfAssessmentMigrator $migrator
-     */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator): void
-    {
+    protected function lmMigrateQuestionTypeSpecificContent(
+        ilAssSelfAssessmentMigrator $migrator
+    ): void {
         foreach ($this->getAnswers() as $answer) {
             /* @var ASS_AnswerBinaryStateImage $answer */
             $answer->setAnswertext($migrator->migrateToLmContent($answer->getAnswertext()));
@@ -717,8 +720,12 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $result['shuffle'] = $this->getShuffle();
 
         $result['feedback'] = [
-            'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-            'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            'onenotcorrect' => $this->formatSAQuestion(
+                $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)
+            ),
+            'allcorrect' => $this->formatSAQuestion(
+                $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+            )
         ];
 
         $answers = [];
@@ -734,7 +741,11 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 "order" => (int) $answer_obj->getOrder(),
                 "image" => (string) $answer_obj->getImage(),
                 "feedback" => $this->formatSAQuestion(
-                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
+                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
+                        $this->getId(),
+                        0,
+                        $key
+                    )
                 )
             ]);
         }
@@ -750,7 +761,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return json_encode($result);
     }
 
-    public function removeAnswerImage($index): void
+    public function removeAnswerImage(int $index): void
     {
         $answer = $this->answers[$index];
         if (is_object($answer)) {
@@ -759,18 +770,18 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function getMultilineAnswerSetting()
+    public function getMultilineAnswerSetting(): string
     {
-        $multilineAnswerSetting = $this->current_user->getPref("tst_multiline_answers");
-        if ($multilineAnswerSetting != 1) {
-            $multilineAnswerSetting = 0;
+        $multilineAnswerSetting = $this->current_user->getPref('tst_multiline_answers');
+        if ($multilineAnswerSetting !== '1') {
+            $multilineAnswerSetting = '0';
         }
         return $multilineAnswerSetting;
     }
 
-    public function setMultilineAnswerSetting($a_setting = 0): void
+    public function setMultilineAnswerSetting(string $setting = '0'): void
     {
-        $this->current_user->writePref("tst_multiline_answers", (string) $a_setting);
+        $this->current_user->writePref('tst_multiline_answers', $setting);
     }
 
     /**
@@ -780,25 +791,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * 2 - Feedback is shown for all checked/selected options.
      * 3 - Feedback is shown for all correct options.
      */
-    public function setSpecificFeedbackSetting($feedback_setting): void
+    public function setSpecificFeedbackSetting(int $feedback_setting): void
     {
         $this->feedback_setting = $feedback_setting;
     }
 
-    /**
-     * Gets the current feedback settings in effect for the question.
-     * Values are:
-     * 1 - Feedback is shown for all answer options.
-     * 2 - Feedback is shown for all checked/selected options.
-     * 3 - Feedback is shown for all correct options.
-     */
     public function getSpecificFeedbackSetting(): int
     {
-        if ($this->feedback_setting) {
-            return $this->feedback_setting;
-        } else {
-            return 1;
-        }
+        return $this->feedback_setting;
     }
 
     public function getSpecificFeedbackAllCorrectOptionLabel(): string
@@ -945,5 +945,18 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         return $result;
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        if ($solution_values === []
+            || !array_key_exists(0, $solution_values)
+            || !is_array($solution_values[0])) {
+            return $additional_info->getNoneTag();
+        }
+
+        return $this->getAnswer((int) $solution_values[0]['value1'])->getAnswertext();
     }
 }

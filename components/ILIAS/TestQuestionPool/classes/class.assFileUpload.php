@@ -963,4 +963,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             ]
         ];
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        return array_map(
+            static fn(array $v): string => "{$solution['value1']} - {$solution['value2']}",
+            $solution_values
+        );
+    }
 }

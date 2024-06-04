@@ -611,7 +611,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
             $cellValue = 0;
             foreach ($solution as $solIndex => $sol) {
-                if ($sol['value1'] == $id) {
+                if ($sol['value1'] === $id) {
                     $cellValue = 1;
                     break;
                 }
@@ -885,5 +885,23 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $answers;
 
         return $result;
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $parsed_solution = [];
+        foreach ($this->getAnswers() as $id => $answer) {
+            $value = $additional_info->getTagForLangVar('unchecked');
+            foreach ($solution_values as $solution) {
+                if ($solution['value1'] == $id) {
+                    $value = $additional_info->getTagForLangVar('checked');
+                    break;
+                }
+            }
+            $parsed_solution["{$answer->getArea()}': '{$answer->getCoords()}"] = $value;
+        }
+        return $parsed_solution;
     }
 }

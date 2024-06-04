@@ -24,6 +24,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
+use ILIAS\Refinery\Factory as Refinery;
 
 class AdditionalInformationGenerator
 {
@@ -38,7 +39,7 @@ class AdditionalInformationGenerator
     public const KEY_FEEDBACK = 'tst_feedback';
     public const KEY_MANDATORY_QUESTIONS = 'mandatory_questions';
     public const KEY_QUESTION_TITLE = 'title';
-    public const KEY_QUESTION_TEXT = 'questiontext';
+    public const KEY_QUESTION_TEXT = 'question';
     public const KEY_QUESTION_TYPE = 'type';
     public const KEY_HOMOGENEOUS_SCORING = 'tst_inp_all_quest_points_equal_per_pool_desc';
     public const KEY_QUESTION_AMOUNT_TYPE = 'tst_inp_quest_amount_cfg_mode';
@@ -188,6 +189,8 @@ class AdditionalInformationGenerator
     private const TAG_FALSE = '{{ false }}';
     private const TAG_ENABLED = '{{ enabled }}';
     private const TAG_DISABLED = '{{ disabled }}';
+    private const TAG_CHECKED = '{{ checked }}';
+    private const TAG_UNCHECKED = '{{ unchecked }}';
 
     private const VALID_TAGS = [
         'none',
@@ -195,6 +198,8 @@ class AdditionalInformationGenerator
         'disabled',
         'true',
         'false',
+        'checked',
+        'unchecked',
         'redirect_always',
         'tst_finish_notification_simple',
         'tst_finish_notification_advanced',
@@ -240,7 +245,7 @@ class AdditionalInformationGenerator
         'qst_nested_nested_answers_off',
         'qst_nested_nested_answers_on',
         'oq_btn_use_order_pictures',
-        'oq_btn_use_order_terms'
+        'oq_btn_use_order_terms',
     ];
 
     private array $tags;
@@ -249,6 +254,7 @@ class AdditionalInformationGenerator
         private readonly \Mustache_Engine $mustache,
         private readonly \ilLanguage $lng,
         private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery,
         private readonly GeneralQuestionPropertiesRepository $questions_repo
     ) {
         $lng->loadLanguageModule('assessment');
@@ -292,6 +298,11 @@ class AdditionalInformationGenerator
         return $bool ? self::TAG_ENABLED : self::TAG_DISABLED;
     }
 
+    public function getCheckedUncheckedTagForBool(bool $bool): string
+    {
+        return $bool ? self::TAG_CHECKED : self::TAG_UNCHECKED;
+    }
+
     public function getNoneTag(): string
     {
         return self::TAG_NONE;
@@ -307,7 +318,7 @@ class AdditionalInformationGenerator
         return $key;
     }
 
-    private function parseValue(string $key, string|int|float|array $value): string
+    private function parseValue(int|string $key, string|int|float|array $value): string
     {
         switch ($key) {
             case self::KEY_USER:
@@ -342,17 +353,20 @@ class AdditionalInformationGenerator
                         $value
                     )
                 );
-            case self::KEY_QUESTION:
-                return $this->questions_repo->getForQuestionId($value)->getTitle();
             case self::KEY_QUESTIONS:
                 return implode(
                     ', ',
                     array_map(
                         fn(int $usr): string => $this->questions_repo
-                            ->getForQuestionId($usr)->getTitle(),
+                            ->getForQuestionId($usr)?->getTitle() ?? $this->lng->txt('deleted'),
                         $value
                     )
                 );
+            case self::KEY_QUESTION:
+                if (is_int($value)) {
+                    return $this->questions_repo->getForQuestionId($value)?->getTitle() ?? $this->lng->txt('deleted');
+                }
+                //no break
             default:
                 if (is_int($value)
                     || is_float($value)) {
@@ -361,11 +375,26 @@ class AdditionalInformationGenerator
                 if (is_array($value)) {
                     return array_reduce(
                         array_keys($value),
-                        fn($c, $k) => "{$c}, {$k}: {$this->parseValue($k, $value[$k])}",
+                        function ($c, $k) use ($value): string {
+                            $label = $k;
+                            if (is_string($k)) {
+                                $label = $this->lng->txt($k);
+                            }
+                            if ($c !== '') {
+                                $c .= ', ';
+                            }
+                            return "{$c}{$label}: {$this->parseValue($k, $value[$k])}";
+                        },
                         ''
                     );
                 }
-                return $this->mustache->render($value, $this->tags);
+                if ($value === '') {
+                    return $this->lng->txt('none');
+                }
+                return $this->mustache->render(
+                    $this->refinery->string()->stripTags()->transform($value),
+                    $this->tags
+                );
         }
     }
 
