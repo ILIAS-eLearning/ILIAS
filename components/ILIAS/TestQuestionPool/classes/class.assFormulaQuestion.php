@@ -62,7 +62,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return $this->variables;
     }
 
-    public function getVariable($variable)
+    public function getVariable(string $variable): ?assFormulaQuestionVariable
     {
         if (array_key_exists($variable, $this->variables)) {
             return $this->variables[$variable];
@@ -70,7 +70,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return null;
     }
 
-    public function addVariable($variable): void
+    public function addVariable(assFormulaQuestionVariable $variable): void
     {
         $this->variables[$variable->getVariable()] = $variable;
     }
@@ -85,7 +85,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return $this->results;
     }
 
-    public function getResult($result)
+    public function getResult(string $result): ?assFormulaQuestionResult
     {
         if (array_key_exists($result, $this->results)) {
             return $this->results[$result];
@@ -93,15 +93,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return null;
     }
 
-    public function addResult($result): void
+    public function addResult(assFormulaQuestionResult $result): void
     {
         $this->results[$result->getResult()] = $result;
     }
 
-    public function addResultUnits($result, $unit_ids): void
-    {
+    public function addResultUnits(
+        ?assFormulaQuestionResult $result,
+        ?array $unit_ids
+    ): void {
         $this->resultunits[$result->getResult()] = [];
-        if ((!is_object($result)) || (!is_array($unit_ids))) {
+        if ($result === null || $unit_ids === null) {
             return;
         }
         foreach ($unit_ids as $id) {
@@ -111,15 +113,19 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         }
     }
 
-    public function addResultUnit($result, $unit): void
-    {
-        if (is_object($result) && is_object($unit)) {
-            if (!array_key_exists($result->getResult(), $this->resultunits) ||
-                !is_array($this->resultunits[$result->getResult()])) {
-                $this->resultunits[$result->getResult()] = array();
-            }
-            $this->resultunits[$result->getResult()][$unit->getId()] = $unit;
+    public function addResultUnit(
+        ?assFormulaQuestionResult $result,
+        ?assFormulaQuestionUnit $unit
+    ): void {
+        if ($result === null || $unit === null) {
+            return;
         }
+
+        if (!array_key_exists($result->getResult(), $this->resultunits) ||
+            !is_array($this->resultunits[$result->getResult()])) {
+            $this->resultunits[$result->getResult()] = [];
+        }
+        $this->resultunits[$result->getResult()][$unit->getId()] = $unit;
     }
 
     public function getResultUnits(assFormulaQuestionResult $result): array
@@ -130,9 +136,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
         $result_units = $this->resultunits[$result->getResult()];
 
-        usort($result_units, static function (assFormulaQuestionUnit $a, assFormulaQuestionUnit $b) {
-            return $a->getSequence() <=> $b->getSequence();
-        });
+        usort(
+            $result_units,
+            static fn(assFormulaQuestionUnit $a, assFormulaQuestionUnit $b) =>
+                $a->getSequence() <=> $b->getSequence()
+        );
 
         return $result_units;
     }
@@ -142,12 +150,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return $this->resultunits;
     }
 
-    public function hasResultUnit($result, $unit_id): bool
-    {
-        if (array_key_exists($result->getResult(), $this->resultunits)) {
-            if (array_key_exists($unit_id, $this->resultunits[$result->getResult()])) {
-                return true;
-            }
+    public function hasResultUnit(
+        assFormulaQuestionResult $result,
+        int $unit_id
+    ): bool {
+        if (array_key_exists($result->getResult(), $this->resultunits)
+            && array_key_exists($unit_id, $this->resultunits[$result->getResult()])) {
+            return true;
         }
 
         return false;
@@ -1084,18 +1093,18 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
         $i = 1;
         foreach ($solution as $solutionvalue) {
-            $worksheet->setCell($startrow + $i, $col, $solutionvalue["value1"]);
+            $worksheet->setCell($startrow + $i, $col, $solutionvalue['value1']);
             $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            if (strpos($solutionvalue["value1"], "_unit")) {
-                $unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
+            if (strpos($solutionvalue['value1'], '_unit')) {
+                $unit = $this->getUnitrepository()->getUnit($solutionvalue['value2']);
                 if (is_object($unit)) {
                     $worksheet->setCell($startrow + $i, $col + 2, $unit->getUnit());
                 }
             } else {
-                $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue["value2"]);
+                $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue['value2']);
             }
-            if (preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches)) {
-                $var = $this->getVariable($solutionvalue["value1"]);
+            if (str_starts_with($solutionvalue['value1'], '$v')) {
+                $var = $this->getVariable($solutionvalue['value1']);
                 if (is_object($var) && (is_object($var->getUnit()))) {
                     $worksheet->setCell($startrow + $i, $col + 3, $var->getUnit()->getUnit());
                 }
@@ -1310,7 +1319,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog($this->getVariables()),
-            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => json_encode($this->getResults()),
+            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => $this->buildResultsForLog($this->getResults()),
             AdditionalInformationGenerator::KEY_FEEDBACK => [
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -1360,6 +1369,38 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 ],
                 $results
             )
+        );
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        return array_reduce(
+            $solution_values,
+            function (array $c, array $v) use ($additional_info): array {
+                if (str_starts_with($v['value1'], '$v')) {
+                    $var = $this->getVariable($v['value1']);
+                    if ($var === null) {
+                        $c[$v['value1']] = $additional_info->getNoneTag();
+                        return $c;
+                    }
+                    if ($var->getUnit() !== null) {
+                        $c[$v['value1']] = $v['value2'] . $var->getUnit()->getUnit();
+                        return $c;
+                    }
+                }
+
+                if (strpos($v['value1'], '_unit')) {
+                    $unit = $this->getUnitrepository()->getUnit($v['value2']);
+                    $c[$v['value1']] = $unit->getUnit() ?? $additional_info->getNoneTag();
+                    return $c;
+                }
+
+                $c[$v['value1']] = $v['value2'];
+                return $c;
+            },
+            []
         );
     }
 }

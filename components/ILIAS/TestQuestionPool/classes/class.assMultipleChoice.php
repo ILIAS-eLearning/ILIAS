@@ -1033,4 +1033,24 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
         return $result;
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $solution_ids = array_map(
+            static fn(string $v) => $v['value1'],
+            $solution_values
+        );
+        $parsed_solutions = [];
+        foreach ($this->getAnswers() as $id => $answer) {
+            $checked = false;
+            if (in_array($id, $solution_ids)) {
+                $checked = true;
+            }
+            $parsed_solutions[$answer->getAnswertext()] = $additional_info
+                ->getCheckedUncheckedTagForBool($checked);
+        }
+        return $parsed_solutions;
+    }
 }

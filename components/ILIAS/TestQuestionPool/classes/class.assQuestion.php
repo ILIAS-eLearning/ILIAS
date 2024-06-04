@@ -182,6 +182,11 @@ abstract class assQuestion implements Question
 
     abstract public function toLog(AdditionalInformationGenerator $additional_info): array;
 
+    abstract public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array|string;
+
     public static function setForcePassResultUpdateEnabled(bool $force_pass_results_update_enabled): void
     {
         self::$force_pass_results_update_enabled = $force_pass_results_update_enabled;
@@ -3020,6 +3025,7 @@ abstract class assQuestion implements Question
     }
 
     public function answerToParticipantInteraction(
+        AdditionalInformationGenerator $additional_info,
         int $test_ref_id,
         int $active_id,
         int $pass,
@@ -3033,7 +3039,7 @@ abstract class assQuestion implements Question
             $source_ip,
             $interaction_type,
             time(),
-            $this->answerToLog($active_id, $pass)
+            $this->answerToLog($additional_info, $active_id, $pass)
         );
     }
 
@@ -3053,13 +3059,17 @@ abstract class assQuestion implements Question
     }
 
     protected function answerToLog(
+        AdditionalInformationGenerator $additional_info,
         int $active_id,
         int $pass
     ): array {
         return [
             AdditionalInformationGenerator::KEY_PASS => $pass,
             AdditionalInformationGenerator::KEY_REACHED_POINTS => $this->getReachedPoints($active_id, $pass),
-            AdditionalInformationGenerator::KEY_PAX_ANSWER => $this->getSolutionValues($active_id)
+            AdditionalInformationGenerator::KEY_PAX_ANSWER => $this->solutionValuesToLog(
+                $additional_info,
+                $this->getSolutionValues($active_id)
+            )
         ];
     }
 }

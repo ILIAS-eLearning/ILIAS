@@ -1373,4 +1373,28 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return $answers_gui->getHTML();
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        $solution_values_by_id = array_reduce(
+            $solution_values,
+            static function (array $c, array $v): array {
+                $c[$v['value1']] = $v['value2'];
+                return $c;
+            },
+            []
+        );
+        asort($solution_values_by_id);
+        $solution_ids = array_keys($solution_values_by_id);
+
+        return array_map(
+            function (string $v) use ($solution_values_by_id): string {
+                $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($v);
+                return "{$solution_values_by_id[$v]}: {$element->getContent()}";
+            },
+            $solution_ids
+        );
+    }
 }

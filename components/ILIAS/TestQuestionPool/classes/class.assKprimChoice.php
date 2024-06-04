@@ -500,35 +500,59 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return in_array($option_label, $valid_labels);
     }
 
-    public function getTrueOptionLabelTranslation(ilLanguage $lng, $option_label)
+    public function getTrueOptionLabelTranslation(ilLanguage $lng, string $option_label): string
     {
         if ($option_label === self::OPTION_LABEL_CUSTOM) {
             return $this->getCustomTrueOptionLabel();
         }
 
         return $lng->txt(
-            $this->getLangVarForOptionLabel($option_label)
+            $this->getTrueOptionLabel($option_label)
         );
     }
 
-    public function getFalseOptionLabelTranslation(ilLanguage $lng, $option_label)
+    public function getTrueOptionLabel(string $option_label): string
     {
         switch ($option_label) {
             case self::OPTION_LABEL_RIGHT_WRONG:
-                return $lng->txt('option_label_wrong');
+                return 'option_label_right';
 
             case self::OPTION_LABEL_PLUS_MINUS:
-                return $lng->txt('option_label_minus');
+                return 'option_label_plus';
 
             case self::OPTION_LABEL_APPLICABLE_OR_NOT:
-                return $lng->txt('option_label_not_applicable');
+                return 'option_label_applicable';
 
             case self::OPTION_LABEL_ADEQUATE_OR_NOT:
-                return $lng->txt('option_label_not_adequate');
+                return 'option_label_adequate';
+        }
+    }
 
-            case self::OPTION_LABEL_CUSTOM:
-            default:
-                return $this->getCustomFalseOptionLabel();
+    public function getFalseOptionLabelTranslation(ilLanguage $lng, string $option_label): string
+    {
+        if ($option_label === self::OPTION_LABEL_CUSTOM) {
+            return $this->getCustomFalseOptionLabel();
+        }
+
+        return $lng->txt(
+            $this->getFalseOptionLabel($option_label)
+        );
+    }
+
+    private function getFalseOptionLabel(string $option_label): string
+    {
+        switch ($option_label) {
+            case self::OPTION_LABEL_RIGHT_WRONG:
+                return 'option_label_wrong';
+
+            case self::OPTION_LABEL_PLUS_MINUS:
+                return 'option_label_minus';
+
+            case self::OPTION_LABEL_APPLICABLE_OR_NOT:
+                return 'option_label_not_applicable';
+
+            case self::OPTION_LABEL_ADEQUATE_OR_NOT:
+                return 'option_label_not_adequate';
         }
     }
 
@@ -857,7 +881,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $key => $answer) {
             $answers[] = [
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer->getAnswertext()),
-                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => (bool) $answer->getCorrectness(),
+                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => $additional_info->getTrueFalseTagForBool($answer->getCorrectness()),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer->getPosition(),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_IMAGE => (string) $answer->getImageFile(),
                 AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
@@ -869,5 +893,31 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $answers;
 
         return $result;
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $parsed_solution = [];
+        $true_option_label = $this->getTrueOptionLabel($this->getOptionLabel());
+        $false_option_label = $this->getFalseOptionLabel($this->getOptionLabel());
+        foreach ($this->getAnswers() as $id => $answer) {
+            $value = $additional_info->getNoneTag();
+            foreach ($solution_values as $solution) {
+                if ($solution['value1'] != $id) {
+                    continue;
+                }
+
+                if ($solution['value2']) {
+                    $value = $true_option_label;
+                } else {
+                    $value = $false_option_label;
+                }
+                break;
+            }
+            $parsed_solution[$answer->getAnswertext()] = $value;
+        }
+        return $parsed_solution;
     }
 }

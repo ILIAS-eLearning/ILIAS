@@ -32,6 +32,7 @@ interface Question
     public function toLog(AdditionalInformationGenerator $additional_info): array;
 
     public function answerToParticipantInteraction(
+        AdditionalInformationGenerator $additional_info,
         int $test_id,
         int $active_id,
         int $pass,

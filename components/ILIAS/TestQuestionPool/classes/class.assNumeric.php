@@ -461,4 +461,15 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             ]
         ];
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        if (!array_key_exists(0, $solution_values) ||
+            !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+        return $solution_values[0]['value1'];
+    }
 }

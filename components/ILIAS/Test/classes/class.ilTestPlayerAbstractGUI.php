@@ -397,6 +397,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if ($this->logger->isLoggingEnabled()
             && !$this->getObject()->getAnonymity()
             && ($interaction = $question_obj->answerToParticipantInteraction(
+                $this->logger->getAdditionalInformationGenerator(),
                 $this->getObject()->getRefId(),
                 $active_id,
                 $pass,

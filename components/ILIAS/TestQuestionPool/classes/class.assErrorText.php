@@ -980,4 +980,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         return $result;
     }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        return $this->createErrorTextExport(
+            array_map(
+                static fn(string $v): string => $v['value1'],
+                $solution_values
+            )
+        );
+    }
 }

@@ -721,7 +721,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function toLog(AdditionalInformationGenerator $additional_info): array
     {
-        $result = [
+        return [
             AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
@@ -763,5 +763,15 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             default:
                 return '';
         }
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        return array_map(
+            static fn(array $v): string => $v['value1'],
+            $solution_values
+        );
     }
 }
