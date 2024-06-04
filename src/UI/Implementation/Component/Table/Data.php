@@ -415,10 +415,8 @@ class Data extends Table implements T\Data, JSBindable
             $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
 
-            $range = $data[self::VIEWCONTROL_KEY_PAGINATION] ?? null;
-            if($range) {
-                $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
-            }
+            $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
+            $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
             $table = $table
                 ->withRange($range)
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
@@ -457,7 +455,10 @@ class Data extends Table implements T\Data, JSBindable
                         Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
-        return $this->view_control_factory->nullControl();
+        return $this->view_control_factory->group([
+            $this->view_control_factory->nullControl(),
+            $this->view_control_factory->nullControl()
+        ]);
     }
 
     protected function getViewControlOrdering(): ?ViewControl\Sortation
