@@ -548,9 +548,13 @@ class LogTable implements Table\DataRetrieval
     {
         $user_format = $this->current_user->getDateFormat();
         if ($this->current_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            return $this->data_factory->dateFormat()->withTime24($user_format);
+            return $this->data_factory->dateFormat()->amend(
+                $this->data_factory->dateFormat()->withTime24($user_format)
+            )->colon()->seconds()->get();
         }
-        return $this->data_factory->dateFormat()->withTime12($user_format);
+        return $this->data_factory->dateFormat()->amend(
+            $this->data_factory->dateFormat()->withTime12($user_format)
+        )->colon()->seconds()->get();
     }
 
     /**
