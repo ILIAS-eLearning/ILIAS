@@ -149,7 +149,7 @@ class ilTestAccess
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setActiveIdsFilter(array($active_id));
         $participantData->setParticipantAccessFilter($access_filter);
-        $participantData->load($this->getTestId());
+        $participantData->load($test_id);
 
         return in_array($active_id, $participantData->getActiveIds());
     }
