@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 
 /**
  * Class ilForcedUserPasswordChangeStartUpStep
@@ -75,8 +76,12 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 
     public function execute(): void
     {
-        $this->ctrl->redirectByClass(
-            ['ildashboardgui', 'ilpersonalsettingsgui'],
+        $this->ctrl->getLinkTargetByClass(
+            [
+                ilDashboardGUI::class,
+                ilPersonalSettingsGUI::class,
+                LocalUserPasswordSettingsGUI::class
+            ],
             'showPassword'
         );
     }

@@ -60,7 +60,7 @@ class LocalUserPasswordSettingsGUI
         global $DIC;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
-        $this->error = $DIC->error();
+        $this->error = $DIC['ilErr'];
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
