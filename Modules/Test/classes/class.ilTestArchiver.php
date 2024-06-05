@@ -251,6 +251,45 @@ class ilTestArchiver
     }
 
     /**
+     * @param $active_fi
+     * @param $pass
+     * @return void
+     */
+    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj){
+        $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
+        foreach ($questions as $question) {
+            $question = $tst_obj->getQuestionDataset($question['question_fi']);
+            if ($question->type_tag === 'assFileUpload') {
+                $local_folder = CLIENT_WEB_DIR . '/assessment/tst_' . $tst_obj->test_id . self::DIR_SEP . $active_fi . self::DIR_SEP . $question->question_id . '/files/';
+                if (!file_exists($local_folder)) {
+                    continue; // no file submissions
+                }
+                $this->ensureTestArchiveIsAvailable();
+                $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
+                $folder_content = scandir($local_folder);
+                $folder_content = array_diff($folder_content, array('.', '..'));
+                $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
+                $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
+                $archive_folder = $pass_material_directory . self::DIR_SEP . $question->question_id . self::DIR_SEP;
+                if (!file_exists($archive_folder)) {
+                    mkdir($archive_folder, 0777, true);
+                }
+                foreach ($folder_content as $file_name) {
+                    if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)){
+                        if ($active_fi == intval($matches[1]) && $pass == $matches[2]){
+
+                            $local_file= $local_folder . $file_name;
+                            $target_destination = $archive_folder . $file_name;
+                            copy($local_file, $target_destination);
+                            $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Hands in a file related to a question in context of the best solution.
      *
      * @param $question_fi			integer QuestionFI of the question, material is to be stored for.
@@ -599,9 +638,9 @@ class ilTestArchiver
      * @param $active_fi	integer	ActiveFI of the participant.
      * @param $pass			integer Pass number of the test.
      *
-     * @return void
+     * @return string
      */
-    protected function createPassMaterialsDirectory($active_fi, $pass)
+    protected function createPassMaterialsDirectory($active_fi, $pass): string
     {
         // Data are taken from the current user as the implementation expects the first interaction of the pass
         // takes place from the usage/behaviour of the current user.
@@ -625,7 +664,9 @@ class ilTestArchiver
             $user->getLastname(),
             $user->getMatriculation()
         );
-        mkdir($this->getPassMaterialsDirectory($active_fi, $pass), 0777, true);
+        $material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
+        mkdir($material_directory, 0777, true);
+        return $material_directory;
     }
 
     /**
@@ -638,7 +679,7 @@ class ilTestArchiver
      */
     protected function getPassMaterialsDirectory($active_fi, $pass): string
     {
-        $pass_data_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
+        $pass_data_directory = $this->getPassDataDirectory($active_fi, $pass);
         return $pass_data_directory . self::DIR_SEP . self::PASS_MATERIALS_PATH_COMPONENT;
     }
 
