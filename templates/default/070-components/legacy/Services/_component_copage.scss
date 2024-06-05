@@ -402,17 +402,17 @@ li.ilc_page_toc_PageTOCItem {
 }
 
 a.ilc_page_toc_PageTOCLink {
-	color: #03a;
+	color: $il-link-color;
 	font-weight: normal;
 	text-decoration: none;
 }
 
 a.ilc_page_toc_PageTOCLink:hover {
-	color: black;
+	color: $il-link-hover-color;
 }
 
 a.ilc_page_toc_PageTOCLink:visited {
-	color: blue;
+	color: $il-extended-color-6;
 }
 
 /* --- content styles (will move to content.css) --- */

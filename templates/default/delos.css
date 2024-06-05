@@ -14906,17 +14906,17 @@ li.ilc_page_toc_PageTOCItem {
 }
 
 a.ilc_page_toc_PageTOCLink {
-  color: #03a;
+  color: #4c6586;
   font-weight: normal;
   text-decoration: none;
 }
 
 a.ilc_page_toc_PageTOCLink:hover {
-  color: black;
+  color: #3a4c65;
 }
 
 a.ilc_page_toc_PageTOCLink:visited {
-  color: blue;
+  color: #82639e;
 }
 
 /* --- content styles (will move to content.css) --- */
