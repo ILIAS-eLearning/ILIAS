@@ -249,14 +249,14 @@ class assTextQuestionImport extends assQuestionImport
             return [];
         }
 
-        $termScoring = @unserialize($termScoringString, ['allowed_classes' => false]);
+        $termScoring = @unserialize($termScoringString, ['allowed_classes' => [ASS_AnswerMultipleResponseImage::class]]);
 
         if (is_array($termScoring)) {
             return $termScoring;
         }
 
         $termScoringString = base64_decode($termScoringString);
-        $termScoring = unserialize($termScoringString, ['allowed_classes' => false]);
+        $termScoring = unserialize($termScoringString, ['allowed_classes' => [ASS_AnswerMultipleResponseImage::class]]);
 
         if (is_array($termScoring)) {
             return $termScoring;
