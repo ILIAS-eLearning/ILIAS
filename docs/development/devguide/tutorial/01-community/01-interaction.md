@@ -18,4 +18,4 @@ The ILIAS community is inherently collaborative. Its members value openness to w
 We highly encourage you to attend and participate in community meetings and events, such as the bi-weekly [Jour Fixe](https://docu.ilias.de/goto_docu_wiki_wpage_1_1357.html), [Feature Workshops](https://docu.ilias.de/goto_docu_grp_6768.html), or the [Development Conference](https://docu.ilias.de/goto_docu_grp_3721.html). This provides an opportunity to connect with other contributors and will strengthen your sense of community.
 
 ## Communication Channels
-Just like every open-source project the ILIAS community has its preferred communication channels. Find out more about those channel [here](02-resources.md).
+Just like every open-source project the ILIAS community has its preferred communication channels. Find out more about those channels [here](02-resources.md).
