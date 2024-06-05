@@ -212,7 +212,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
                 case UPLOAD_ERR_NO_FILE:
                     if ($this->getRequired()) {
-                        if (!strlen($this->getValue())) {
+                        if (!strlen($this->getValue()) || $this->getDeletionFlag()) {
                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                             return false;
                         }
