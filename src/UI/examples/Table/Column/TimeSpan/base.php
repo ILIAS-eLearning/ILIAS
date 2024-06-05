@@ -15,10 +15,12 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
+    $current_user = $DIC['ilUser'];
 
     $columns = [
         'd1' => $f->table()->column()->timeSpan("German Long", $df->dateFormat()->germanLong()),
-        'd2' => $f->table()->column()->timeSpan("German Short", $df->dateFormat()->germanShort())
+        'd2' => $f->table()->column()->timeSpan("Time Only", $df->dateFormat()->custom()->hours24()->colon()->minutes()->get()),
+        'd3' => $f->table()->column()->timeSpan("User Preference", $current_user->getDateFormat()),
     ];
 
     $data_retrieval = new class () implements I\DataRetrieval {
@@ -36,6 +38,7 @@ function base()
             $record = [
                 'd1' => [$dat, $dat2],
                 'd2' => [$dat, $dat2],
+                'd3' => [$dat, $dat2],
             ];
             yield $row_builder->buildDataRow($row_id, $record);
         }
