@@ -411,6 +411,7 @@ class ilTestArchiver
         if (!$this->hasTestArchive()) {
             $this->createArchiveForTest();
         }
+        return;
     }
 
     /**
@@ -438,6 +439,7 @@ class ilTestArchiver
 
         $gui = new ilParticipantsTestResultsGUI();
         $gui->setTestObj($test);
+
         $objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
         $gui->setObjectiveParent($objectiveOrientedContainer);
         $array_of_actives = array();
@@ -450,6 +452,8 @@ class ilTestArchiver
 
         $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.pdf';
         ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
+
+        return;
     }
 
     public function ensureZipExportDirectoryExists()
@@ -499,6 +503,7 @@ class ilTestArchiver
         $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '_.zip';
 
         ilFileUtils::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
+        return;
     }
 
     #endregion
@@ -533,6 +538,7 @@ class ilTestArchiver
     protected function createPassDataDirectory($active_fi, $pass)
     {
         mkdir($this->getPassDataDirectory($active_fi, $pass), 0777, true);
+        return;
     }
 
     private function buildPassDataDirectory($active_fi, $pass): ?string
@@ -543,6 +549,7 @@ class ilTestArchiver
                 return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
             }
         }
+
         return null;
     }
 
@@ -609,6 +616,7 @@ class ilTestArchiver
         if (!$this->hasPassDataDirectory($active_fi, $pass)) {
             $this->createPassDataDirectory($active_fi, $pass);
         }
+        return;
     }
 
     #endregion
@@ -767,6 +775,7 @@ class ilTestArchiver
 
         file_put_contents($this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME, $output_contents);
         $this->readArchiveDataIndex();
+        return;
     }
 
     /**
