@@ -1139,6 +1139,20 @@ class ilObjTest extends ilObject
         $participantData->load($this->getTestId());
 
         $this->removeTestActives($participantData->getActiveIds());
+
+
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
+                    [
+                        AdditionalInformationGenerator::KEY_USERS => $participantData->getUserIds()
+                    ]
+                )
+            );
+        }
     }
 
     public function removeTestResults(ilTestParticipantData $participant_data)
@@ -1188,19 +1202,6 @@ class ilObjTest extends ilObject
 
         if ($participantData->getActiveIds() !== []) {
             $this->removeTestResultsByActiveIds($participantData->getActiveIds());
-        }
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
-                    [
-                        AdditionalInformationGenerator::KEY_USERS => $participantData->getUserIds()
-                    ]
-                )
-            );
         }
     }
 

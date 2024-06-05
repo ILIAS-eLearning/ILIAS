@@ -58,7 +58,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_DESCRIPTION = 'description';
     public const KEY_TEST_ONLINE = 'online';
     public const KEY_TEST_VISIBILITY_PERIOD = 'crs_visibility_until';
-    public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'tst_activation_limited_visibility';
+    public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'rep_activation_limited_visibility';
     public const KEY_TEST_QUESTION_SET_TYPE = 'test_question_set_type';
     public const KEY_TEST_ANONYMITY = 'tst_anonymity';
     public const KEY_TEST_INTRODUCTION_ENABLED = 'tst_introduction';
@@ -71,7 +71,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_BLOCK_AFTER_PASSED = 'block_after_passed';
     public const KEY_TEST_PASSWAITING_ENABLED = 'tst_pass_waiting_enabled';
     public const KEY_TEST_PROCESSING_TIME_ENABLED = 'tst_processing_time_duration';
-    public const KEY_TEST_RESET_PROCESSING_TIME = 'reset_processing_time';
+    public const KEY_TEST_RESET_PROCESSING_TIME = 'tst_reset_processing_time';
     public const KEY_TEST_KIOSK_ENABLED = 'kiosk';
     public const KEY_TEST_KIOSK_SHOW_TITLE = 'kiosk_show_title';
     public const KEY_TEST_KIOSK_SHOW_PARTICIPANT_NAME = 'kiosk_show_participant';
@@ -88,7 +88,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_FEEDBACK_TRIGGER = 'tst_instant_feedback_trigger';
     public const KEY_TEST_LOCK_ANSWERS_MODE = 'tst_answer_fixation_handling';
     public const KEY_TEST_COMPULSORY_QUESTIONS_ENABLED = 'tst_setting_enable_obligations_label';
-    public const KEY_TEST_USE_PREVIOUS_ANSWERS_ENABELD = 'use_previous_answers';
+    public const KEY_TEST_USE_PREVIOUS_ANSWERS_ENABELD = 'tst_use_previous_answers';
     public const KEY_TEST_SUSPEND_ALLOWED = 'tst_show_cancel';
     public const KEY_TEST_POSTPONED_MOVE_TO_END = 'tst_postpone';
     public const KEY_TEST_OVERVIEW_ENABLED = 'tst_show_summary';
@@ -258,6 +258,7 @@ class AdditionalInformationGenerator
         private readonly GeneralQuestionPropertiesRepository $questions_repo
     ) {
         $lng->loadLanguageModule('assessment');
+        $lng->loadLanguageModule('crs');
         $this->tags = $this->buildTags();
     }
 
