@@ -22,7 +22,6 @@ namespace ILIAS\components\Logging;
 
 use ilLogger;
 use ilLogLevel;
-use Monolog\Logger;
 use Exception;
 
 class NullLogger extends ilLogger
@@ -74,12 +73,6 @@ class NullLogger extends ilLogger
 
     public function emergency(string $message, array $context = []): void
     {
-    }
-
-    /** @noinspection \PhpInconsistentReturnPointsInspection */
-    public function getLogger(): Logger
-    {
-        throw new Exception('Can not return monolog logger from a null logger.');
     }
 
     public function write(string $message, $level = ilLogLevel::INFO, array $context = []): void
