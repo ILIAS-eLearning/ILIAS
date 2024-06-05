@@ -3560,7 +3560,7 @@ class ilObjTest extends ilObject
     }
 
     private function addIntroductionToSettingsFromImport(
-        ilObjTestSettingsIntroduction $settings,
+        SettingsIntroduction $settings,
         array $material,
         string $importdir
     ): SettingsIntroduction {
@@ -3586,7 +3586,7 @@ class ilObjTest extends ilObject
     }
 
     private function addConcludingRemarksToSettingsFromImport(
-        ilObjTestSettingsFinishing $settings,
+        SettingsFinishing $settings,
         array $material,
         string $importdir
     ): SettingsFinishing {

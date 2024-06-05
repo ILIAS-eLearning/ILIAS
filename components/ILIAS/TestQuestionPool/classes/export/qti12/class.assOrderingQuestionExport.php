@@ -175,8 +175,8 @@ class assOrderingQuestionExport extends assQuestionExport
                     }
                 }
                 $a_xml_writer->xmlEndTag("material");
-            } elseif ($this->object->getOrderingType() == OQ_TERMS
-            || $this->object->getOrderingType() == OQ_NESTED_TERMS) {
+            } elseif ($this->object->getOrderingType() == assOrderingQuestion::OQ_TERMS
+            || $this->object->getOrderingType() == assOrderingQuestion::OQ_NESTED_TERMS) {
                 $a_xml_writer->xmlStartTag("material");
                 $this->addQTIMaterial($a_xml_writer, $element->getContent(), true, false);
                 $a_xml_writer->xmlEndTag("material");
