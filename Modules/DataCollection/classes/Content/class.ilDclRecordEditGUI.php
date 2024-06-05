@@ -500,6 +500,7 @@ class ilDclRecordEditGUI
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
         $this->initForm();
+        $this->setFormValues();
 
         // if save confirmation is enabled: Temporary file-uploads need to be handled
         $has_save_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
