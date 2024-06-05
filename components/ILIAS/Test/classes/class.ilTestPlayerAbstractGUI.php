@@ -2248,11 +2248,34 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function nextQuestionCmd()
     {
         $this->handleCheckTestPassValid();
-        $lastSequenceElement = $this->getCurrentSequenceElement();
-        $next_sequence_element = $this->test_sequence->getNextSequence($lastSequenceElement);
+        $last_sequence_element = $this->getCurrentSequenceElement();
+        $next_sequence_element = $this->test_sequence->getNextSequence($last_sequence_element);
 
-        if ($this->object->isPostponingEnabled()) {
-            $this->handleQuestionPostponing($lastSequenceElement);
+        $question_id = $this->test_sequence->getQuestionForSequence($last_sequence_element);
+        $is_worked_through = $this->questionrepository->lookupResultRecordExist(
+            $this->test_session->getActiveId(),
+            $question_id,
+            $this->test_session->getPass()
+        );
+
+        if (!$is_worked_through) {
+            if ($this->logger->isLoggingEnabled()
+                && !$this->getObject()->getAnonymity()) {
+                $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
+                $this->logger->logParticipantInteraction(
+                    $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                        $this->object->getRefId(),
+                        $question_id,
+                        $this->user->getId(),
+                        $source_addr,
+                        TestParticipantInteractionTypes::QUESTION_SKIPPED,
+                        []
+                    )
+                );
+            }
+            if ($this->object->isPostponingEnabled()) {
+                $this->handleQuestionPostponing($question_id);
+            }
         }
 
         if (!$this->isValidSequenceElement($next_sequence_element)) {
@@ -3174,20 +3197,11 @@ JS;
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    protected function handleQuestionPostponing(int $sequence_element): void
-    {
-        $question_id = $this->test_sequence->getQuestionForSequence($sequence_element);
-
-        $is_question_worked_through = $this->questionrepository->lookupResultRecordExist(
-            $this->test_session->getActiveId(),
-            $question_id,
-            $this->test_session->getPass()
-        );
-
-        if (!$is_question_worked_through) {
-            $this->test_sequence->postponeQuestion($question_id);
-            $this->test_sequence->saveToDb();
-        }
+    protected function handleQuestionPostponing(
+        int $question_id
+    ): void {
+        $this->test_sequence->postponeQuestion($question_id);
+        $this->test_sequence->saveToDb();
     }
 
     protected function handleCheckTestPassValid(): void
