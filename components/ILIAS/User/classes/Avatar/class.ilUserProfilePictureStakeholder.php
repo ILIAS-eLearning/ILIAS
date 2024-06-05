@@ -19,27 +19,13 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\DI\Container;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilUserProfilePictureStakeholder extends AbstractResourceStakeholder
 {
-    private int $default_owner;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->default_owner = $DIC->isDependencyAvailable('user')
-            ? $DIC->user()->getId()
-            : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
-    }
-
-    public function setOwner(int $user_id_of_owner): void
-    {
-        $this->default_owner = $user_id_of_owner;
-    }
-
     public function getId(): string
     {
         return 'usr_picture';

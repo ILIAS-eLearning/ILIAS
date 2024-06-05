@@ -18,18 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+
 class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder
 {
-    private int $owner;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->owner = $DIC->isDependencyAvailable('user')
-            ? $DIC->user()->getId()
-            : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
-    }
-
     public function getId(): string
     {
         return "dcl_uploads";
@@ -37,6 +29,6 @@ class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\Abs
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 }

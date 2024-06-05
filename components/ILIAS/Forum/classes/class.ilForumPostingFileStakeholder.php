@@ -25,15 +25,6 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilForumPostingFileStakeholder extends AbstractResourceStakeholder
 {
-    private int $default_owner;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->default_owner = $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 6;
-    }
-
-
     public function getId(): string
     {
         return 'frm_post';
