@@ -23,17 +23,6 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class assFileUploadStakeholder extends AbstractResourceStakeholder
 {
-    private int $current_user;
-
-    public function __construct()
-    {
-        global $DIC;
-        $anonymous = defined(
-            'ANONYMOUS_USER_ID'
-        ) ? ANONYMOUS_USER_ID : 13;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : $anonymous);
-    }
-
     public function getId(): string
     {
         return 'qpl_file_upload';
@@ -41,7 +30,7 @@ class assFileUploadStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->current_user;
+        return $this->default_owner;
     }
 
 }

@@ -27,10 +27,6 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
 {
     protected ?ilDBInterface $database = null;
 
-    public function __construct()
-    {
-    }
-
     /**
      * @inheritDoc
      */
@@ -39,12 +35,9 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
         return 'bibl';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOwnerOfNewResources(): int
     {
-        return 6;
+        return $this->default_owner;
     }
 
     public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string

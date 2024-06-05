@@ -29,13 +29,11 @@ class WOPIStakeholderWrapper extends AbstractResourceStakeholder
     private ?int $user_id = null;
     private ?ResourceStakeholder $stakeholder = null;
 
-    public function __construct()
-    {
-    }
 
     public function init(ResourceStakeholder $stakeholder, int $user_id): void
     {
         $this->user_id = $user_id;
+        $this->setOwner($user_id);
         $this->stakeholder = $stakeholder;
     }
 

@@ -25,10 +25,6 @@ class ilOrgUnitTypeStakeholder extends AbstractResourceStakeholder
 {
     private const ID = 'PRGType';
 
-    public function __construct(
-        protected int $owner = 6
-    ) {
-    }
 
     public function getId(): string
     {
@@ -37,7 +33,7 @@ class ilOrgUnitTypeStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 
     public function getPreprocessors(): array

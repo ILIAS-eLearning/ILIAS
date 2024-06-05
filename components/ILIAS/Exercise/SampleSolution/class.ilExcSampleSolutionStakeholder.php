@@ -24,18 +24,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
 {
-    protected int $owner = 6;
-    private int $current_user;
     protected ?ilDBInterface $database = null;
 
-    public function __construct(int $owner = 6)
-    {
-        global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user')
-            ? $DIC->user()->getId()
-            : (defined('ANONYMOUS_USER_ID') ? ANONYMOUS_USER_ID : 6));
-        $this->owner = $owner;
-    }
 
     public function getId(): string
     {
@@ -44,7 +34,7 @@ class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner;
     }
 
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
