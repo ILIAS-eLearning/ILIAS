@@ -5866,7 +5866,7 @@ common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das 
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Zusätzliche Felder
-common#:#user_defined_list#:#Übersicht zusätzliche Felder
+common#:#user_defined_list#:#Übersicht zusätzlicher Felder
 common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
