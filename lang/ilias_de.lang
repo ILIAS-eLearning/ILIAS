@@ -3712,7 +3712,6 @@ common#:#chta_write#:#Chatraum-Administration bearbeiten
 common#:#chtr_copy#:#Chatraum kopieren
 common#:#chtr_import#:#Chatraum importieren
 common#:#city#:#Ort
-common#:#cld_abandoned#:#Das Cloud-Objekt steht seit ILIAS 8 nicht mehr zur Verfügung. Es wurden keine Daten gelöscht. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
@@ -4888,7 +4887,6 @@ common#:#obj_chap#:#Kapitel
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
-common#:#obj_cld#:#Cloud Object###29 07 2022 new variable
 common#:#obj_cmis#:#LRS
 common#:#obj_cmis_desc#:#Typen von Learning Record Stores konfigurieren
 common#:#obj_cmix#:#xAPI/cmi5
@@ -5135,7 +5133,6 @@ common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
 common#:#objs_catr#:#Kategorielinks
 common#:#objs_chtr#:#Chaträume
-common#:#objs_cld#:#Cloud Objects###29 07 2022 new variable
 common#:#objs_cmix#:#Objekte xAPI/cmi5
 common#:#objs_copa#:#Inhaltsseiten
 common#:#objs_crs#:#Kurse
@@ -14318,7 +14315,6 @@ rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_cat#:#Kategorien anlegen
 rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
-rbac#:#rbac_create_cld#:#Create Cloud Object###29 07 2022 new variable
 rbac#:#rbac_create_cmix#:#xAPI/cmi5-Objekt anlegen
 rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen

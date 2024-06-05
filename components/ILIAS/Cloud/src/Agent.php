@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,21 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilObjCloudModuleProgressTableUpdateSteps implements ilDatabaseUpdateSteps
+declare(strict_types=1);
+
+namespace ILIAS\Cloud;
+
+use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Config;
+
+class Agent extends Setup\Agent\NullAgent
 {
-    protected ilDBInterface $db;
-
-    public function prepare(ilDBInterface $db): void
+    public function getUpdateObjective(Config $config = null): Objective
     {
-        $this->db = $db;
+        return new \ilDatabaseUpdateStepsExecutedObjective(
+            new RemoveCloudDBUpdate()
+        );
     }
 
-    //Remove the option to create new cloud modules in the repository
-    public function step_1(): void
-    {
-        $query =
-            'UPDATE il_object_def'
-            . ' SET repository = 0'
-            . " WHERE id = 'cld'";
-        $this->db->manipulate($query);
-    }
 }

@@ -3710,7 +3710,6 @@ common#:#chta_write#:#Edit Chat Room Administration
 common#:#chtr_copy#:#Copy Chat Room
 common#:#chtr_import#:#Import Chat Room
 common#:#city#:#City, State
-common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
@@ -4881,7 +4880,6 @@ common#:#obj_chap#:#Chapter
 common#:#obj_chta#:#Chat Room
 common#:#obj_chtr#:#Chat Room
 common#:#obj_chtr_duplicate#:#Copy Chat Room
-common#:#obj_cld#:#Cloud Object
 common#:#obj_cmis#:#LRS
 common#:#obj_cmis_desc#:#Configure the Types of Learning Record Stores
 common#:#obj_cmix#:#xAPI/cmi5
@@ -5128,7 +5126,6 @@ common#:#objs_book#:#Booking Pools
 common#:#objs_cat#:#Categories
 common#:#objs_catr#:#Category Link
 common#:#objs_chtr#:#Chat Room
-common#:#objs_cld#:#Cloud Objects
 common#:#objs_cmix#:#Objects xAPI/cmi5
 common#:#objs_copa#:#Content Pages
 common#:#objs_crs#:#Courses
@@ -14314,7 +14311,6 @@ rbac#:#rbac_create_book#:#Create Booking Pool
 rbac#:#rbac_create_cat#:#Create Categories
 rbac#:#rbac_create_catr#:#Create Category Link
 rbac#:#rbac_create_chtr#:#Create Chat Room
-rbac#:#rbac_create_cld#:#Create Cloud Object
 rbac#:#rbac_create_cmix#:#Create xAPI/cmi5 Object
 rbac#:#rbac_create_copa#:#Create Content Page
 rbac#:#rbac_create_crs#:#Create Course
