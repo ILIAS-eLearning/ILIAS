@@ -22,14 +22,15 @@ namespace ILIAS\Forum\Drafts;
 
 use Generator;
 use ilObjUser;
-use ilDateTime;
 use ilLanguage;
 use ilObjForum;
+use DateTimeZone;
 use ilObjForumGUI;
 use ilCtrlInterface;
 use ilForumPostDraft;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use DateTimeImmutable;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
@@ -97,7 +98,9 @@ class ForumDraftsTable implements DataRetrieval
                 } else {
                     $this->records[$draft_id]['draft'] = $draft['subject'];
                 }
-                $this->records[$draft_id]['edited_on'] = new ilDateTime($draft['post_update'], IL_CAL_DATETIME);
+                $this->records[$draft_id]['edited_on'] = new DateTimeImmutable(
+                    $draft['post_update']
+                );
             }
         }
     }
