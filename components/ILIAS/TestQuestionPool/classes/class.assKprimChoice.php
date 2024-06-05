@@ -50,7 +50,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public const DEFAULT_THUMB_SIZE = 150;
     public const THUMB_PREFIX = 'thumb.';
 
-    private $shuffleAnswersEnabled;
+    private bool $shuffle_answers_enabled;
 
     private $answerType;
 
@@ -64,7 +64,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     private $customFalseOptionLabel;
 
-    private $specificFeedbackSetting;
+    private int $specific_feedback_setting;
 
     private $answers;
 
@@ -72,7 +72,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         parent::__construct($title, $comment, $author, $owner, $question);
 
-        $this->shuffleAnswersEnabled = true;
+        $this->shuffle_answers_enabled = true;
         $this->answerType = self::ANSWER_TYPE_SINGLE_LINE;
         $this->thumbSize = self::DEFAULT_THUMB_SIZE;
         $this->scorePartialSolutionEnabled = true;
@@ -80,7 +80,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->customTrueOptionLabel = '';
         $this->customFalseOptionLabel = '';
 
-        $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
+        $this->specific_feedback_setting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 
         $this->answers = [];
     }
@@ -100,14 +100,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return "qpl_a_kprim";
     }
 
-    public function setShuffleAnswersEnabled($shuffleAnswersEnabled): void
+    public function setShuffleAnswersEnabled(bool $shuffle_answers_enabled): void
     {
-        $this->shuffleAnswersEnabled = $shuffleAnswersEnabled;
+        $this->shuffle_answers_enabled = $shuffle_answers_enabled;
     }
 
     public function isShuffleAnswersEnabled(): bool
     {
-        return $this->shuffleAnswersEnabled;
+        return $this->shuffle_answers_enabled;
     }
 
     public function setAnswerType($answerType): void
@@ -170,14 +170,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->customFalseOptionLabel;
     }
 
-    public function setSpecificFeedbackSetting($specificFeedbackSetting): void
+    public function setSpecificFeedbackSetting(int $specific_feedback_setting): void
     {
-        $this->specificFeedbackSetting = $specificFeedbackSetting;
+        $this->specific_feedback_setting = $specific_feedback_setting;
     }
 
     public function getSpecificFeedbackSetting(): int
     {
-        return $this->specificFeedbackSetting;
+        return $this->specific_feedback_setting;
     }
 
     public function setAnswers($answers): void
