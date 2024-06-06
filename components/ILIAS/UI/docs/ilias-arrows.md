@@ -149,13 +149,15 @@ The .ilc_Accordion - element is used when building content for ILIAS:
 
 For dropdowns, an arrow icon isn't always essential. When it comes to accordions, there are various symbol designs to consider. A frequently used alternative is the plus icon instead of the arrow. Using a different icon instead of an arrow, as currently used in the accordion, has the advantage of reducing the risk of it being mistaken for a clickable link. Arrows pointing directly at labels can sometimes lead to confusion.
 
+Implementing a plus icon for the .ilc-Accordion would be an intriguing option here. Not only would it introduce variety into the theme, moving away from using arrows exclusively, but it would also provide a meaningful representation of the functionality of the .ilc-Accordion.
+
 For the expanded view, the plus icon could be rotated to give it a tilted appearance resembling an "x" for "close":
 
 ![accordion-collapse](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/dcd9dee2-eb6c-43f0-beda-e5dfb1a02ffd)
 
 Source: https://uxmovement.com/navigation/where-to-place-your-accordion-menu-icons/
 
-Alternatively, if a plus icon is not desired, it is advisable to standardize the icons to one downward-pointing arrow version (such as the caret which is used for the dropdown in the calendar).
+For traditional dropdown menus, which can be visually separated from the .ilc-Accordion, the Viewcontrols dropdown caret can be recommended. This visually separates the dropdowns effectively from, for example, the hierarchy areas/trees.
 
 # Group 5: Action button
 ## Different variations
