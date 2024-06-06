@@ -537,6 +537,9 @@ class ilObjectActivation
             }
             // #7571: when node is removed from system, e.g. inactive trashcan, an empty array is returned
             $node = $tree->getNodeData($item_ref_id);
+            if (!isset($node["ref_id"])) {
+                continue;
+            }
             if ((int) $node["ref_id"] !== $item_ref_id) {
                 continue;
             }
