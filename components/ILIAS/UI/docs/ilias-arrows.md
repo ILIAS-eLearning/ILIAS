@@ -204,7 +204,7 @@ We examined the various arrow icons used in ILIAS and provided recommendations f
 
 **Link Icon:** The double arrow icon for links can be replaced with other symbols, such as bullet points, to reduce the variety of arrow icons and avoid confusion.
 
-Implementing these recommendations will achieve a more consistent, user-friendly, and easier-to-maintain user interface.
+We are focusing on establishing a uniform visual language within ILIAS. By implementing the above recommendations, we aim to create a cohesive overall appearance for the icons. The used icon combinations will provide a simple and minimalist look yet achieve clear recognition regarding their functionality. This uniformity will enhance the user experience by making the interface more intuitive, user-friendly and visually consistent while creating an easier-to-maintain user interface.
 
 ## Next Steps
 
