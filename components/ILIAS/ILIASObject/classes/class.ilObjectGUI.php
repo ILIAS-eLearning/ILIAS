@@ -1849,6 +1849,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         string $create_target_class = ilRepositoryGUI::class,
         ?int $redirect_target_ref_id = null,
     ): array {
+        if ($subtypes === []) {
+            return [];
+        }
         if ($redirect_target_ref_id !== null) {
             $this->ctrl->setParameterByClass(self::class, 'crtcb', (string) $redirect_target_ref_id);
         }
