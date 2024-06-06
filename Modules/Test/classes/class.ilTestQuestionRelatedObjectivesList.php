@@ -90,7 +90,7 @@ class ilTestQuestionRelatedObjectivesList
     {
         $titles = array();
         // avoid error if question is not assigned to any objective
-        if (isset((array) $this->objectivesByQuestion[$questionId])) {
+        if ($this->objectivesByQuestion[$questionId] != null) {
             foreach ((array) $this->objectivesByQuestion[$questionId] as $objectiveId) {
                 $titles[] = $this->objectivesTitles[$objectiveId];
             }
@@ -136,6 +136,9 @@ class ilTestQuestionRelatedObjectivesList
 
     public function isQuestionRelatedToObjective($questionId, $objectiveId): bool
     {
+        if ($this->objectivesByQuestion[$questionId] == null {
+                return false;
+            }
         foreach ($this->objectivesByQuestion[$questionId] as $relatedObjectiveId) {
             if ($relatedObjectiveId == $objectiveId) {
                 return true;
