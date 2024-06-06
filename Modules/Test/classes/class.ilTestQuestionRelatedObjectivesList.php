@@ -89,9 +89,14 @@ class ilTestQuestionRelatedObjectivesList
     public function getQuestionRelatedObjectiveTitles($questionId): string
     {
         $titles = array();
-
-        foreach ((array) $this->objectivesByQuestion[$questionId] as $objectiveId) {
-            $titles[] = $this->objectivesTitles[$objectiveId];
+        // avoid error if question is not assigned to any objective
+        if (isset((array) $this->objectivesByQuestion[$questionId])) {
+            foreach ((array) $this->objectivesByQuestion[$questionId] as $objectiveId) {
+                $titles[] = $this->objectivesTitles[$objectiveId];
+            }
+        } else {
+            // return an empty title if question is not assigned to any objective
+            $titles[]="";
         }
 
         return implode(', ', $titles);
