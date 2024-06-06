@@ -18,13 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 
-/**
- * Class ilForcedUserPasswordChangeStartUpStep
- */
 class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 {
     private ilObjUser $user;
@@ -50,15 +47,24 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
     {
         if (
             !isset($this->request->getQueryParams()['baseClass']) ||
-            strtolower($this->request->getQueryParams()['baseClass']) !== 'ildashboardgui'
+            strtolower($this->request->getQueryParams()['baseClass']) !== strtolower(ilDashboardGUI::class)
         ) {
             return false;
         }
 
-        return (
-            strtolower($this->ctrl->getCmdClass()) === 'ilpersonalsettingsgui' &&
-            in_array(strtolower($this->ctrl->getCmd()), ['showpassword', 'savepassword'])
-        );
+        return
+            (
+                strtolower($this->ctrl->getCmdClass()) === strtolower(LocalUserPasswordSettingsGUI::class)
+            ) &&
+            in_array(
+                $this->ctrl->getCmd(),
+                [
+                    LocalUserPasswordSettingsGUI::CMD_SAVE_PASSWORD,
+                    LocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
+                ],
+                true
+            )
+        ;
     }
 
     public function shouldInterceptRequest(): bool
@@ -67,7 +73,8 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
             return false;
         }
 
-        if (!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired())) {
+        if (!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired(
+        ))) {
             return true;
         }
 
@@ -76,13 +83,15 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 
     public function execute(): void
     {
-        $this->ctrl->getLinkTargetByClass(
-            [
-                ilDashboardGUI::class,
-                ilPersonalSettingsGUI::class,
-                LocalUserPasswordSettingsGUI::class
-            ],
-            'showPassword'
+        $this->ctrl->redirectToURL(
+            $this->ctrl->getLinkTargetByClass(
+                [
+                    ilDashboardGUI::class,
+                    ilPersonalSettingsGUI::class,
+                    LocalUserPasswordSettingsGUI::class
+                ],
+                LocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
+            )
         );
     }
 }

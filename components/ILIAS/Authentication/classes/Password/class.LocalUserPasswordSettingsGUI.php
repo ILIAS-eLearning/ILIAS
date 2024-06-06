@@ -43,6 +43,8 @@ class LocalUserPasswordSettingsGUI
 {
     private const NEW_PASSWORD = 'new_password';
     private const CURRENT_PASSWORD = 'current_password';
+    public const CMD_SHOW_PASSWORD = 'showPassword';
+    public const CMD_SAVE_PASSWORD = 'savePassword';
 
     private readonly ServerRequestInterface $request;
     private readonly ilErrorHandling $error;
