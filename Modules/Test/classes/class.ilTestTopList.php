@@ -129,7 +129,7 @@ class ilTestTopList
 				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY workingtime DESC
-			LIMIT 0,3
+			LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		)
 		UNION(
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
@@ -156,10 +156,10 @@ class ilTestTopList
 				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY workingtime DESC
-			LIMIT 0,3
+			LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		)
 		ORDER BY workingtime ASC
-		LIMIT 0, 7
+		LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		'
         );
 
@@ -168,7 +168,7 @@ class ilTestTopList
         $data = [];
 
         if ($i > 1) {
-            $item = ['Rank' => '...'];
+            $item = $this->buildEmptyItem();
             $data[] = $item;
         }
 
@@ -179,7 +179,7 @@ class ilTestTopList
         }
 
         if ($number_total > $i) {
-            $item = ['Rank' => '...'];
+            $item = $this->buildEmptyItem();
             $data[] = $item;
         }
 
@@ -345,7 +345,7 @@ class ilTestTopList
 				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY round(reached_points/max_points*100) ASC
-			LIMIT 0,3
+			LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		)
 		UNION(
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
@@ -372,19 +372,20 @@ class ilTestTopList
 				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY round(reached_points/max_points*100) ASC
-			LIMIT 0,3
+			LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		)
 		ORDER BY round(reached_points/max_points*100) DESC, tstamp ASC
-		LIMIT 0, 7
+		LIMIT 0, ' . $this->db->quote($this->object->getHighscoreTopNum(), 'integer') . '
 		'
         );
 
-        $i = $own_placement - (($better_participants >= 3) ? 3 : $better_participants);
+        $i = $own_placement - ($better_participants >= $this->object->getHighscoreTopNum()
+            ? $this->object->getHighscoreTopNum() : $better_participants);
 
         $data = [];
 
         if ($i > 1) {
-            $item = ['Rank' => '...'];
+            $item = $this->buildEmptyItem();
             $data[] = $item;
         }
 
@@ -395,7 +396,7 @@ class ilTestTopList
         }
 
         if ($number_total > $i) {
-            $item = ['Rank' => '...'];
+            $item = $this->buildEmptyItem();
             $data[] = $item;
         }
 
@@ -461,5 +462,19 @@ class ilTestTopList
         $retval .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
 
         return $retval;
+    }
+
+    private function buildEmptyItem(): array
+    {
+        return [
+            'rank' => '...' ,
+            'is_actor' => false,
+            'participant' => '',
+            'achieved' => '',
+            'score' => '',
+            'percentage' => '',
+            'hints' => '',
+            'time' => ''
+        ];
     }
 }
