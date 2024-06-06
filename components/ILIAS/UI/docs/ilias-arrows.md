@@ -155,6 +155,8 @@ For the expanded view, the plus icon could be rotated to give it a tilted appear
 
 Source: https://uxmovement.com/navigation/where-to-place-your-accordion-menu-icons/
 
+Alternatively, if a plus icon is not desired, it is advisable to standardize the icons to one downward-pointing arrow version (such as the caret which is used for the dropdown in the calendar).
+
 # Group 5: Action button
 ## Different variations
 
@@ -185,3 +187,25 @@ A double arrow is used to indicate a link:
 ![link](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/f2281cae-1e7b-4d0d-88ee-567a272d7e49)
 
 **Some thoughts:** For listing links, an arrow isn't strictly necessary. Lists can be represented using other symbols, such as a bullet point. So, this is another valid scenario where we can avoid using another version of the arrow icon.
+
+# Conclusion
+
+We examined the various arrow icons used in ILIAS and provided recommendations for optimizing their usage to create a more consistent user interface and simplify system design.
+
+**Navigation Arrows:** It is recommended to standardize all navigation elements with a sleek, minimalist arrow icon. The current bulky design of the test and survey navigation should be replaced with the simple and clear icon used in the lightbox and view control navigation.
+
+**Sortation Arrows:** Sorting arrows should maintain their functionality, but their styles should be harmonized. The bulky sorting arrow should be replaced with a slimmer design that aligns with the overall visual language of the system.
+
+**Hierarchy/Tree Arrows:** Both the breadcrumb and tree view arrows should be unified. A consistent, minimalist symbol should be used to enhance usability and visual consistency.
+
+**Dropdown Arrows:** For dropdowns, an arrow icon is not always necessary. Instead, a plus symbol can be used, which can be rotated to an "x" for "close" when needed. This reduces confusion and improves the user experience. If a plus icon is not desired, it is advisable to standardize the icons to one downward-pointing arrow version (such as the caret which is used for the dropdown in the calendar). 
+
+**Action Buttons:** Action buttons should be less prominent than default buttons. A reduced color scheme and a simpler design that matches the view controls are recommended. The currently used different versions should be reduced to a single, less conspicuous version.
+
+**Link Icon:** The double arrow icon for links can be replaced with other symbols, such as bullet points, to reduce the variety of arrow icons and avoid confusion.
+
+Implementing these recommendations will achieve a more consistent, user-friendly, and easier-to-maintain user interface.
+
+## Next Steps
+
+The next steps involve initiating the unification process through collaboration between a designer and a software developer. This process will include systematically addressing each section and group of icons identified in this study. For each group, we will clarify the tasks involved and replace the icons that need to be exchanged, one by one.
