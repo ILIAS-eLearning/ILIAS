@@ -242,7 +242,7 @@ class ilTestQuestionsTableGUI
             'question_id' => $f->table()->column()->text($this->lng->txt("question_id"))
                 ->withIsOptional(true, false),
             'title' => $f->table()->column()->link($this->lng->txt("tst_question_title")),
-            'desc' => $f->table()->column()->text($this->lng->txt("description"))
+            'description' => $f->table()->column()->text($this->lng->txt("description"))
                 ->withIsOptional(true, false),
             'complete' => $f->table()->column()->boolean(
                 $this->lng->txt("question_complete_title"),
