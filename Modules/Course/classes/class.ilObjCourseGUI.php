@@ -925,13 +925,11 @@ class ilObjCourseGUI extends ilContainerGUI
             )
         ) {
             $this->tpl->setOnScreenMessage(
-                'failure',
+                'info',
                 $this->lng->txt('crs_msg_no_self_registration_period_if_self_enrolment_disabled'),
                 true
             );
-            $form->setValuesByPost();
-            $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input'));
-            $this->editObject($form);
+            $this->editObject();
             return;
         }
 
