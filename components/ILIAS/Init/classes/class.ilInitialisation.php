@@ -75,17 +75,28 @@ class ilInitialisation
      */
     protected static function recursivelyRemoveUnsafeCharacters($var)
     {
+        $unsafe_characters = ["\x00", "\n", "\r", "'", '"', "\x1a"];
+
         if (is_array($var)) {
             $mod = [];
             foreach ($var as $k => $v) {
                 $k = self::recursivelyRemoveUnsafeCharacters($k);
-                $mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
+                if (!in_array($k, [ilCtrlInterface::PARAM_CMD_CLASS, ilCtrlInterface::PARAM_BASE_CLASS], true)) {
+                    $mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
+                } else {
+                    $mod[$k] = str_replace(
+                        $unsafe_characters,
+                        "",
+                        $v
+                    );
+                }
             }
             return $mod;
         }
+
         return strip_tags(
             str_replace(
-                array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"),
+                array_merge($unsafe_characters, ["\\"]),
                 "",
                 $var
             )
