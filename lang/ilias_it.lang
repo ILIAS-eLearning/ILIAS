@@ -13873,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Si prega di selezionare quello che dovrebbe essere eliminato:
 rep#:#rep_multiple_reference_deletion_intro#:#Per questo oggetto esistono ulteriori riferimenti.
 rep#:#rep_new_item_group_add#:#Add Group
-rep#:#rep_new_item_group_add_separator#:#Aggiungi separatore di colonna
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
 rep#:#rep_new_item_group_edit#:#Edit Group
 rep#:#rep_new_item_group_nr_subitems#:#Numero degli oggetti assegnati
 rep#:#rep_new_item_group_other#:#Altro
-rep#:#rep_new_item_group_separator#:#Separatore di colonna
 rep#:#rep_new_item_group_unassigned#:#Non assegnato
 rep#:#rep_new_item_group_unassigned_subitems#:#Numero degli oggetti non assegnati: %s
 rep#:#rep_new_item_groups#:#New Item Groups

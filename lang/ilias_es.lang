@@ -13875,12 +13875,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Por favor selecciona cuales deben ser borradas:
 rep#:#rep_multiple_reference_deletion_intro#:#Existen referencias adicionales para este objeto.
 rep#:#rep_new_item_group_add#:#Añadiendo grupo
-rep#:#rep_new_item_group_add_separator#:#Añadir separador de columna
 rep#:#rep_new_item_group_delete_sure#:#¿Está seguro que desea eliminar los siguientes grupos?
 rep#:#rep_new_item_group_edit#:#Editar grupos
 rep#:#rep_new_item_group_nr_subitems#:#Número de la Asignación de elementos
 rep#:#rep_new_item_group_other#:#Otros
-rep#:#rep_new_item_group_separator#:#Separador de columna
 rep#:#rep_new_item_group_unassigned#:#No asignado
 rep#:#rep_new_item_group_unassigned_subitems#:#Número de elementos sin asignar: %s
 rep#:#rep_new_item_groups#:#Nuevos grupos de artículos

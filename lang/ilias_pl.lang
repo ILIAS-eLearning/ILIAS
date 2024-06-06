@@ -13873,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Wybierz te, które również mają zostać usunięte:
 rep#:#rep_multiple_reference_deletion_intro#:#Dla tego obiektu istnieją dodatkowe rekomendacje.
 rep#:#rep_new_item_group_add#:#Dodaj grupę
-rep#:#rep_new_item_group_add_separator#:#Dodaj separator kolumny
 rep#:#rep_new_item_group_delete_sure#:#Czy naprawdę chcesz usunąć następujące grupy?
 rep#:#rep_new_item_group_edit#:#Edytuj grupę
 rep#:#rep_new_item_group_nr_subitems#:#Liczba przydzielonych obiektów
 rep#:#rep_new_item_group_other#:#Inne
-rep#:#rep_new_item_group_separator#:#Separatory kolumn
 rep#:#rep_new_item_group_unassigned#:#Nie przydzielono
 rep#:#rep_new_item_group_unassigned_subitems#:#Liczba nieprzydzielonych obiektów: %s
 rep#:#rep_new_item_groups#:#Grupy

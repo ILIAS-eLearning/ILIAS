@@ -13967,12 +13967,10 @@ rep#:#rep_mo_mem_dash#:#現在コース、グループのどちらもメンバ�
 rep#:#rep_multiple_reference_deletion_instruction#:#どれを削除するのか選択してください：
 rep#:#rep_multiple_reference_deletion_intro#:#このオブジェクトには追加情報が存在します。
 rep#:#rep_new_item_group_add#:#グループ追加
-rep#:#rep_new_item_group_add_separator#:#列区切りを追加
 rep#:#rep_new_item_group_delete_sure#:#本当に次のグループ化を削除しますか?
 rep#:#rep_new_item_group_edit#:#グループ編集
 rep#:#rep_new_item_group_nr_subitems#:#割当て済みオブジェクト数
 rep#:#rep_new_item_group_other#:#その他
-rep#:#rep_new_item_group_separator#:#列区切り
 rep#:#rep_new_item_group_unassigned#:#割当てなし
 rep#:#rep_new_item_group_unassigned_subitems#:#未割当てオブジェクト数: %s
 rep#:#rep_new_item_groups#:#グループ化
