@@ -37,4 +37,10 @@ class RepositoryDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->manipulateF('DELETE FROM desktop_item WHERE item_id = %s', ['integer'], [1]);
         $this->db->manipulateF('DELETE FROM rep_rec_content_role WHERE ref_id = %s', ['integer'], [1]);
     }
+
+    public function step_2(): void
+    {
+        $this->db->manipulateF('DELETE FROM il_new_item_grp WHERE type = %s', ['integer'], [2]);
+        $this->db->dropTableColumn('il_new_item_grp', 'type');
+    }
 }

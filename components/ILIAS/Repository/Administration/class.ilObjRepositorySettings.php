@@ -25,9 +25,6 @@ declare(strict_types=1);
  */
 class ilObjRepositorySettings extends ilObject
 {
-    public const NEW_ITEM_GROUP_TYPE_GROUP = 1;
-    public const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
-
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
         $this->type = "reps";
@@ -38,29 +35,6 @@ class ilObjRepositorySettings extends ilObject
     {
         // DISABLED
         return false;
-    }
-
-    public static function addNewItemGroupSeparator(): bool
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        // append
-        $pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
-        $pos = $ilDB->fetchAssoc($pos);
-        $pos = (int) $pos["mpos"];
-        $pos += 10;
-
-        $seq = $ilDB->nextID("il_new_item_grp");
-
-        $ilDB->manipulate("INSERT INTO il_new_item_grp" .
-            " (id, pos, type) VALUES (" .
-            $ilDB->quote($seq, "integer") .
-            ", " . $ilDB->quote($pos, "integer") .
-            ", " . $ilDB->quote(self::NEW_ITEM_GROUP_TYPE_SEPARATOR, "integer") .
-            ")");
-        return true;
     }
 
     public static function addNewItemGroup(array $a_titles): bool
@@ -78,11 +52,10 @@ class ilObjRepositorySettings extends ilObject
         $seq = $ilDB->nextID("il_new_item_grp");
 
         $ilDB->manipulate("INSERT INTO il_new_item_grp" .
-            " (id, titles, pos, type) VALUES (" .
+            " (id, titles, pos) VALUES (" .
             $ilDB->quote($seq, "integer") .
             ", " . $ilDB->quote(serialize($a_titles), "text") .
             ", " . $ilDB->quote($pos, "integer") .
-            ", " . $ilDB->quote(self::NEW_ITEM_GROUP_TYPE_GROUP, "integer") .
             ")");
         return true;
     }
@@ -140,20 +113,19 @@ class ilObjRepositorySettings extends ilObject
 
         $set = $ilDB->query("SELECT * FROM il_new_item_grp ORDER BY pos");
         while ($row = $ilDB->fetchAssoc($set)) {
-            if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
-                $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
-
-                $title = $row["titles"][$usr_lng] ?? false;
-                if (!$title) {
-                    $title = $row["titles"][$def_lng];
-                }
-                if (!$title) {
-                    $title = array_shift($row["titles"]);
-                }
-                $row["title"] = $title;
-            } else {
-                $row["title"] = $lng->txt("rep_new_item_group_separator");
+            if ($row['titles'] === null) {
+                continue;
             }
+            $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
+
+            $title = $row["titles"][$usr_lng] ?? false;
+            if (!$title) {
+                $title = $row["titles"][$def_lng];
+            }
+            if (!$title) {
+                $title = array_shift($row["titles"]);
+            }
+            $row["title"] = $title;
 
             $res[$row["id"]] = $row;
         }
@@ -248,8 +220,6 @@ class ilObjRepositorySettings extends ilObject
             "content" => ["file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"],
             "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"],
             "communication" => ["frm", "chtr"],
-            "breaker1" => null,
-            "breaker2" => null,
             "assessment" => ["exc", "tst", "qpl", "iass"],
             "feedback" => ["poll", "svy", "spl"],
             "templates" => ["prtt"]
@@ -260,32 +230,19 @@ class ilObjRepositorySettings extends ilObject
             $pos += 10;
             $grp_id = $pos / 10;
 
-            if (is_array($items)) {
-                $title = $lng->txt("rep_add_new_def_grp_" . $group);
+            $title = $lng->txt("rep_add_new_def_grp_" . $group);
 
-                $res["groups"][$grp_id] = [
-                    "id" => $grp_id,
-                    "titles" => [$lng->getUserLanguage() => $title],
-                    "pos" => $pos,
-                    "type" => self::NEW_ITEM_GROUP_TYPE_GROUP,
-                    "title" => $title
-                ];
+            $res["groups"][$grp_id] = [
+                "id" => $grp_id,
+                "titles" => [$lng->getUserLanguage() => $title],
+                "pos" => $pos,
+                "title" => $title
+            ];
 
-                foreach ($items as $idx => $item) {
-                    $res["items"][$item] = $grp_id;
-                    $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
-                        str_pad((string) ($idx + 1), 4, "0", STR_PAD_LEFT);
-                }
-            } else {
-                $title = "COL_SEP";
-
-                $res["groups"][$grp_id] = [
-                    "id" => $grp_id,
-                    "titles" => [$lng->getUserLanguage() => $title],
-                    "pos" => $pos,
-                    "type" => self::NEW_ITEM_GROUP_TYPE_SEPARATOR,
-                    "title" => $title
-                ];
+            foreach ($items as $idx => $item) {
+                $res["items"][$item] = $grp_id;
+                $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
+                    str_pad((string) ($idx + 1), 4, "0", STR_PAD_LEFT);
             }
         }
 
