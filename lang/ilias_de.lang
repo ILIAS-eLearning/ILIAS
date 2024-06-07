@@ -11783,6 +11783,7 @@ meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_aria_language_selection#:#Sprachauswahl
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
+meta#:#md_copyright_admin_tab#:#Copyright & OER
 meta#:#md_copyright_alt_text#:#Alternativtext
 meta#:#md_copyright_alt_text_info#:#Wird für das ‘alt’ Attribut des Bildes verwendet
 meta#:#md_copyright_default#:#Standard
@@ -11799,7 +11800,7 @@ meta#:#md_copyright_link#:#URL
 meta#:#md_copyright_link_info#:#Link zu der Lizenz
 meta#:#md_copyright_preview#:#Copyright (Vorschau)
 meta#:#md_copyright_selection#:#Copyright-Vorgaben
-meta#:#md_copyright_settings#:#Copyright-Einstellungen
+meta#:#md_copyright_settings#:#Einstellungen
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#md_days#:#Tage:
@@ -11808,6 +11809,13 @@ meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#md_fields#:#Felder
 meta#:#md_months#:#Monate:
+meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
+meta#:#md_oai_identifier_prefix#:#OAI Präfix
+meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER Datensätzen benutzt.
+meta#:#md_oai_pmh_enabled#:#Abfragen über OAI-PMH Schnittstelle erlauben
+meta#:#md_oai_pmh_enabled_info#:#Wenn aktiviert, können vom OER Harvester gefundene Resourcen von externen Parteien wie OER Referatorien abgefragt werden.
+meta#:#md_oai_repository_name#:#Name des Repositoriums
+meta#:#md_oai_repository_name_info#:#Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS Installation angegeben.
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
@@ -12369,9 +12377,10 @@ meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
 meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als OER (Open Educational Resource) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausgewählten Lizenzen veröffentlicht wurden, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_exposed_source#:#Kategorie für veröffentlichte OER
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
-meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
+meta#:#meta_oer_target#:#Kategorie für freigegebene OER
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#... oder zusammengesetzt ...

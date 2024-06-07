@@ -25,4 +25,6 @@ interface CopyrightHandlerInterface
     public function copyrightForExport(string $copyright): string;
 
     public function copyrightFromExport(string $copyright): string;
+
+    public function copyrightAsString(string $copyright): string;
 }

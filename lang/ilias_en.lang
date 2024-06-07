@@ -11771,6 +11771,7 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_admin_tab#:#Copyright & OER
 meta#:#md_copyright_alt_text#:#Text Representation
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_default#:#Default
@@ -11787,7 +11788,7 @@ meta#:#md_copyright_link#:#URL
 meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
-meta#:#md_copyright_settings#:#Copyright Settings
+meta#:#md_copyright_settings#:#Settings
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyrights_deleted#:#Copyright deleted.
 meta#:#md_days#:#Days:
@@ -11796,6 +11797,13 @@ meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
 meta#:#md_fields#:#Fields
 meta#:#md_months#:#Months:
+meta#:#md_oai_contact_mail#:#Contact E-Mail
+meta#:#md_oai_identifier_prefix#:#OAI Prefix
+meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
+meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
+meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories.
+meta#:#md_oai_repository_name#:#Repository Name
+meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
@@ -12357,9 +12365,10 @@ meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
 meta#:#meta_oer_copyright_selection#:#Copyright Selection
 meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
+meta#:#meta_oer_exposed_source#:#Category for Published OER Content
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
-meta#:#meta_oer_target#:#Category for Release OER Content
+meta#:#meta_oer_target#:#Category for Harvested OER Content
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite

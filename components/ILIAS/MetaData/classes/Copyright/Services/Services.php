@@ -21,23 +21,37 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright\Services;
 
 use ILIAS\DI\Container as GlobalContainer;
+use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
+use ILIAS\MetaData\Paths\Services\Services as PathsServices;
 use ILIAS\MetaData\Copyright\RepositoryInterface;
 use ILIAS\MetaData\Copyright\DatabaseRepository;
 use ILIAS\MetaData\Copyright\RendererInterface;
 use ILIAS\MetaData\Copyright\Renderer;
 use ILIAS\MetaData\Copyright\Database\Wrapper;
+use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface;
+use ILIAS\MetaData\Copyright\Identifiers\Handler;
+use ILIAS\MetaData\Copyright\Search\Factory;
+use ILIAS\MetaData\Copyright\Search\FactoryInterface;
 
 class Services
 {
     protected RepositoryInterface $repository;
     protected RendererInterface $renderer;
+    protected HandlerInterface $handler;
+    protected FactoryInterface $searcher_factory;
 
     protected GlobalContainer $dic;
+    protected RepositoryServices $repository_services;
+    protected PathsServices $paths_services;
 
     public function __construct(
         GlobalContainer $dic,
+        RepositoryServices $repository_services,
+        PathsServices $paths_services,
     ) {
         $this->dic = $dic;
+        $this->repository_services = $repository_services;
+        $this->paths_services = $paths_services;
     }
 
     public function repository(): RepositoryInterface
@@ -58,6 +72,28 @@ class Services
         return $this->renderer = new Renderer(
             $this->dic->ui()->factory(),
             $this->dic->resourceStorage()
+        );
+    }
+
+    public function identifiersHandler(): HandlerInterface
+    {
+        if (isset($this->handler)) {
+            return $this->handler;
+        }
+        return $this->handler = new Handler();
+    }
+
+    public function searcherFactory(): FactoryInterface
+    {
+        if (isset($this->searcher_factory)) {
+            return $this->searcher_factory;
+        }
+        return $this->searcher_factory = new Factory(
+            $this->repository_services->repository(),
+            $this->repository_services->SearchFilterFactory(),
+            $this->repository_services->SearchClauseFactory(),
+            $this->paths_services->pathFactory(),
+            $this->identifiersHandler()
         );
     }
 }

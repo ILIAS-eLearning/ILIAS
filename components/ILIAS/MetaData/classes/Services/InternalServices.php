@@ -31,6 +31,7 @@ use ILIAS\MetaData\Copyright\Services\Services as CopyrightServices;
 use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
 use ILIAS\MetaData\XML\Services\Services as XMLServices;
+use ILIAS\MetaData\OERHarvester\Services\Services as OERHarvesterServices;
 
 class InternalServices
 {
@@ -45,6 +46,7 @@ class InternalServices
     protected ManipulatorServices $manipulator_services;
     protected CopyrightServices $copyright_services;
     protected XMLServices $xml_services;
+    protected OERHarvesterServices $oer_harvester_services;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -83,12 +85,19 @@ class InternalServices
             $this->presentation_services
         );
         $this->copyright_services = new CopyrightServices(
-            $this->dic
+            $this->dic,
+            $this->repository_services,
+            $this->path_services
         );
         $this->xml_services = new XMLServices(
+            $this->dic,
             $this->path_services,
             $this->structure_services,
-            $this->manipulator_services
+            $this->manipulator_services,
+            $this->copyright_services
+        );
+        $this->oer_harvester_services = new OERHarvesterServices(
+            $this->dic
         );
     }
 
@@ -145,5 +154,10 @@ class InternalServices
     public function xml(): XMLServices
     {
         return $this->xml_services;
+    }
+
+    public function OERHarvester(): OERHarvesterServices
+    {
+        return $this->oer_harvester_services;
     }
 }

@@ -31,4 +31,9 @@ class NullCopyrightHandler implements CopyrightHandlerInterface
     {
         return '';
     }
+
+    public function copyrightAsString(string $copyright): string
+    {
+        return '';
+    }
 }

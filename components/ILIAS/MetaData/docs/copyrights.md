@@ -1,5 +1,9 @@
 # Copyright Administration
 
+> This documentation does not warrant completeness or correctness. Please report any
+missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
+
 ILIAS 10 comes pre-installed with seven Creative Commons licenses as well
 as 'All rights reserved'. Copyright can be selected for objects that support
 LOM when 'Enable Copyright Selection' is checked in the 'Copyright'-tab

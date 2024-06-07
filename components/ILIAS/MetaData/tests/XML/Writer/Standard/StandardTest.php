@@ -188,16 +188,16 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>val1.1</el1.1>
-                <el1.2>
-                    <el1.2.1>val1.2.1</el1.2.1>
-                    <el1.2.2>val1.2.2</el1.2.2>
-                </el1.2>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>val1.1</el1.1>
+    <el1.2>
+        <el1.2.1>val1.2.1</el1.2.1>
+        <el1.2.2>val1.2.2</el1.2.2>
+    </el1.2>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -222,12 +222,12 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>none</el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>none</el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -266,14 +266,14 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>
-                    <string language="br">some text</string>
-                </el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>
+        <string language="br">some text</string>
+    </el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -306,14 +306,14 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>
-                    <string>some text</string>
-                </el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>
+        <string>some text</string>
+    </el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -352,14 +352,14 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>
-                    <string language="none">some text</string>
-                </el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>
+        <string language="none">some text</string>
+    </el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -392,14 +392,14 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1>
-                    <string language="br"/>
-                </el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>
+        <string language="br"/>
+    </el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -425,12 +425,12 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <cp>~parsed:some license~</cp>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <cp>~parsed:some license~</cp>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -456,10 +456,10 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1/>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1/>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -498,10 +498,10 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1/>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1/>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -540,14 +540,14 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1 el1.1.1="val1.1.1">
-                    <el1.1.2>val1.1.2</el1.1.2>
-                </el1.1>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1 el1.1.1="val1.1.1">
+        <el1.1.2>val1.1.2</el1.1.2>
+    </el1.1>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
@@ -578,13 +578,13 @@ class StandardTest extends TestCase
             ]
         ];
 
-        $expected_xml = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <el1>
-                <el1.1/>
-                <el1.2/>
-            </el1>
-            XML;
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1/>
+    <el1.2/>
+</el1>
+XML;
 
         $writer = $this->getStandardWriter();
         $set = $this->getSet($set_array);
