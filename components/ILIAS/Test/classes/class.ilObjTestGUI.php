@@ -292,6 +292,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     exit();
 
                 case ilTestQuestionsTableGUI::ACTION_DELETE_CONFIRMED:
+                    $row_ids = $this->testrequest->getParsedBody()['interruptive_items'] ?? [];
                     if(array_filter($row_ids) == []) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_selection"), true);
                         $cmd = 'questions';
@@ -1776,7 +1777,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->object->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_removed"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_removed"), true);
 
         if ($this->testrequest->raw('test_express_mode')) {
             $prev = null;
