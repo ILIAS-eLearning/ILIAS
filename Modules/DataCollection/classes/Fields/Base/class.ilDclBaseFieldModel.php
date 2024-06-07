@@ -52,7 +52,7 @@ class ilDclBaseFieldModel
     public const PROP_FORMULA_EXPRESSION = "expression";
     public const PROP_DISPLAY_COPY_LINK_ACTION_MENU = "display_action_menu";
     public const PROP_LINK_DETAIL_PAGE_TEXT = "link_detail_page_text";
-    public const PROP_LINK_DETAIL_PAGE = "link_detail_page";
+    public const PROP_LINK_DETAIL_PAGE_MOB = "link_detail_page_mob";
     public const PROP_SUPPORTED_FILE_TYPES = "supported_file_types";
     public const PROP_PLUGIN_HOOK_NAME = "plugin_hook_name";
     // type of table il_dcl_view
