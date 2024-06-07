@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -118,11 +119,25 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         if (strlen($a_set['title_link'] ?? '')) {
             $this->tpl->setCurrentBlock('title_link');
             $this->tpl->setVariable('TITLE_LINK', $a_set['title_link'] ?? '');
-            $this->tpl->setVariable('TITLE_LINK_NAME', $a_set['title'] ?? '');
+            $this->tpl->setVariable(
+                'TITLE_LINK_NAME',
+                htmlspecialchars(
+                    $a_set['title'] ?? '',
+                    ENT_QUOTES | ENT_SUBSTITUTE,
+                    'utf-8'
+                )
+            );
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('title_plain');
-            $this->tpl->setVariable('TITLE', $a_set['title'] ?? '');
+            $this->tpl->setVariable(
+                'TITLE',
+                htmlspecialchars(
+                    $a_set['title'] ?? '',
+                    ENT_QUOTES | ENT_SUBSTITUTE,
+                    'utf-8'
+                )
+            );
             $this->tpl->parseCurrentBlock();
         }
         if (strlen($a_set['desc'] ?? '')) {
