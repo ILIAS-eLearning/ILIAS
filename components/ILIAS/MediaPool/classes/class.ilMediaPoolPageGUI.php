@@ -376,4 +376,9 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
             );
         return $tabs;
     }
+
+    public function getProfileBackUrl(): string
+    {
+        return "#";
+    }
 }
