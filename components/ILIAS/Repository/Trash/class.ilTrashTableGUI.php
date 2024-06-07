@@ -224,7 +224,12 @@ class ilTrashTableGUI extends ilTable2GUI
             if (!$this->obj_definition->isRBACObject($type)) {
                 continue;
             }
-            $options[$type] = $this->lng->txt('objs_' . $type);
+            if ($this->obj_definition->isPlugin($type)) {
+                $this->lng->loadLanguageModule('rep_robj_' . $type);
+                $options[$type] = $this->lng->txt('rep_robj_' . $type . '_objs_' . $type);
+            } else {
+                $options[$type] = $this->lng->txt('objs_' . $type);
+            }
         }
         asort($options, SORT_LOCALE_STRING);
         array_unshift($options, $this->lng->txt('select_one'));
