@@ -89,7 +89,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
 
         foreach ($this->values as $value) {
             if ($this->qstObject->isSingleline()) {
-                if (strlen($value->getImage())) {
+                if ($value->hasImage()) {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                     if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
                         if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
