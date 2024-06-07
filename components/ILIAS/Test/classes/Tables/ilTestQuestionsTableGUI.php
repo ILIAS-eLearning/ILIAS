@@ -94,6 +94,21 @@ class ilTestQuestionsTableGUI
 
     protected function getUrlBuilder(): URLBuilder
     {
+        /**
+         * getUri() may return http:// for servers behind a proxy; the request
+         * will be blocked due to insecure targets on an otherwise secure connection.
+         * getUriFromGlobals() includes the port (getUri does not) - but it's
+         * the port from the actual machine, not the proxy.
+         */
+        $url = $this->request->getUriFromGlobals();
+        $port = ':' . (string) $url->getPort();
+        $url = str_replace($port, ':', $url->__toString()) ?? $url->__toString();
+
+        return new URLBuilder(
+            $this->data_factory->uri(
+                $url
+            )
+        );
         return new URLBuilder(
             $this->data_factory->uri(
                 $this->request->getUri()->__toString()
