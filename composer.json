@@ -65,7 +65,8 @@
 		"symfony/yaml": "^6.4",
 		"symfony/console": "^6.4",
 		"simplesamlphp/simplesamlphp": "^2.2.0",
-		"phpunit/phpunit": "^10.5"
+		"phpunit/phpunit": "^10.5",
+		"monolog/monolog": "^2.9.3"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
