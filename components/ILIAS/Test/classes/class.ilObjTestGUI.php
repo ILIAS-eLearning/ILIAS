@@ -3506,7 +3506,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $items = [];
         foreach ($row_ids as $id) {
-            $items[] = [$id, $this->object->getQuestionDataset($id)->title];
+            $qdata = $this->object->getQuestionDataset($id);
+            $type = $this->lng->txt(
+                $this->questioninfo->getQuestionType($qdata->question_type_fi)
+            );
+            $items[] = [$id, $qdata->title, $type];
         }
         return $this->ui_renderer->renderAsync(
             $this->table->getDeleteConfirmation($items)
