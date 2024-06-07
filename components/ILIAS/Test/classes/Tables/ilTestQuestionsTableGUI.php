@@ -320,17 +320,17 @@ class ilTestQuestionsTableGUI
     }
 
     /**
-     * @param array<array> $items [id, title]
+     * @param array<array> $items [id, title, type]
      */
     public function getDeleteConfirmation(array $items): Interruptive
     {
         $affected = [];
         foreach ($items as $entry) {
-            list($id, $title) = $entry;
+            list($id, $title, $type) = $entry;
             $affected[] = $this->ui_factory->modal()->interruptiveItem()->keyvalue(
                 (string) $id,
                 $title,
-                (string) $id
+                $type
             );
         }
         return $this->ui_factory->modal()->interruptive(
