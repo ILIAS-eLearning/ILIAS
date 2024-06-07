@@ -1825,7 +1825,11 @@ s     */
                         $entry = $childs[$j]->get_attribute("Entry");
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
-                        $size = ilObjFileAccess::_lookupFileSize($id, false);
+                        $info_repo = new ilObjFileInfoRepository();
+                        $info = $info_repo->getByObjectId((int) $id);
+                        $size = $info->getFileSize()->inBytes();
+
+                        //$size = ilObjFileAccess::_lookupFileSize($id, false);
                     }
                 }
             }
