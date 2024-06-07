@@ -113,8 +113,20 @@ class ilDataCollectionDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        foreach ($a_rec as &$value) {
-            $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+        foreach ($a_rec as $key => &$value) {
+            $decode = json_decode($value);
+            if (is_array($decode)) {
+                foreach ($decode as &$entry) {
+                    $entry = htmlspecialchars($entry, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+                }
+                $value = json_encode($decode);
+            } else {
+                if ($key === 'title' || $key === 'description') {
+                    $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
+                } else {
+                    $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+                }
+            }
         }
         switch ($a_entity) {
             case 'dcl':
@@ -364,24 +376,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     }
 
                     $prop->setName($name);
-                    // For field references, we need to get the new field id of the referenced field
-                    // If the field_id does not yet exist (e.g. referenced table not yet created), store temp info and fix before finishing import
-                    $value = $a_rec['value'];
-                    $refs = [ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE];
-
-                    if (in_array($prop->getName(), $refs)) {
-                        $new_field_id = $a_mapping->getMapping(
-                            'Modules/DataCollection',
-                            'il_dcl_field',
-                            $a_rec['value']
-                        );
-                        if ($new_field_id === false) {
-                            $value = null;
-                        } else {
-                            $value = $new_field_id;
-                        }
-                    }
-                    $prop->setValue($value);
+                    $prop->setValue($a_rec['value']);
                     $prop->save();
                     $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_field_prop', $a_rec['id'], $prop->getId());
                     $this->import_temp_refs_props[$prop->getId()] = $a_rec['value'];
@@ -430,15 +425,15 @@ class ilDataCollectionDataSet extends ilDataSet
                                 break;
                             case ilDclDatatype::INPUTFORMAT_REFERENCE:
                             case ilDclDatatype::INPUTFORMAT_REFERENCELIST:
-                                // If we are referencing to a record from a table that is not yet created, return value is always false because the record does exist neither
-                                // Solution: Temporary store all references and fix them before finishing the import.
-                                $new_record_id = $a_mapping->getMapping(
-                                    'Modules/DataCollection',
-                                    'il_dcl_record',
-                                    $a_rec['value']
-                                );
-                                $this->import_temp_refs[$new_record_field_id] = $a_rec['value'];
-                                $value = ($new_record_id) ? (int) $new_record_id : null;
+                                $value = $a_rec['value'];
+                                $decode = json_decode($a_rec['value']);
+                                if (is_array($decode)) {
+                                    foreach ($decode as $id) {
+                                        $this->import_temp_refs[$new_record_field_id][] = $id;
+                                    }
+                                } else {
+                                    $this->import_temp_refs[$new_record_field_id] = $value;
+                                }
                                 break;
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
                                 $value = null;
@@ -498,8 +493,15 @@ class ilDataCollectionDataSet extends ilDataSet
             }
         }
         foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
-            $new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);
-            $value = ($new_record_id) ? (int) $new_record_id : null;
+            if (is_array($old_record_id)) {
+                $new_record_id = [];
+                foreach ($old_record_id as $id) {
+                    $new_record_id[] = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $id);
+                }
+                $value = $new_record_id;
+            } else {
+                $value = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);
+            }
             /** @var ilDclBaseRecordFieldModel $record_field */
             $record_field = $this->import_record_field_cache[$record_field_id];
             $record_field->setValue($value, true);
