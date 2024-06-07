@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBooleanFieldModel
@@ -29,7 +29,7 @@ class ilDclMobFieldModel extends ilDclFileuploadFieldModel
     {
         return array(ilDclBaseFieldModel::PROP_WIDTH,
                      ilDclBaseFieldModel::PROP_HEIGHT,
-                     ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
+                     ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         );
     }
 
