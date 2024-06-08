@@ -42,4 +42,10 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_2(): void
+    {
+        $db = $this->db;
+        $db->modifyTableColumn('map_area', 'coords', ['length' => 4000]);
+    }
 }
