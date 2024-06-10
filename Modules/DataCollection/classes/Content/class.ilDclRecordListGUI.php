@@ -375,7 +375,7 @@ class ilDclRecordListGUI
                     return;
                 }
                 $filepath = $file_obj->getFile();
-                $filetitle = $file_obj->getTitle();
+                $filetitle = $file_obj->appendSuffixToTitle($file_obj->getTitle(), $file_obj->getFileName());
             }
 
             ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
