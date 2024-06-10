@@ -3344,6 +3344,21 @@ class ilObjectListGUI
             ->standard($type, $this->lng->txt('obj_' . $type))
         ;
 
+
+
+        if ($this->obj_definition->isActivePluginType($type)) {
+            $class_name = 'il' . $this->obj_definition->getClassName($type) . 'Plugin';
+            if ($class_name !== 'ilPlugin'
+            && method_exists($class_name, '_getIcon')) {
+                $pl = ilObjectPlugin::getPluginObjectByType($type);
+                $icon = $this->ui
+                    ->factory()
+                    ->symbol()
+                    ->icon()
+                    ->custom(call_user_func([$class_name, '_getIcon'], $type, 'small', $obj_id), $pl->txt('obj_' . $type));
+            }
+        }
+
         // card title action
         $card_title_action = "";
         if ($def_cmd_link != "" && ($def_cmd_frame == "" || $modified_link != $def_cmd_link)) {    // #24256
