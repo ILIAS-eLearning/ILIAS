@@ -166,7 +166,7 @@ class ilMailingListsGUI
     }
 
     /**
-     * @return int[]
+     * @return int[]|string[]
      */
     private function getMailingListIdsFromRequest(): array
     {
@@ -185,7 +185,7 @@ class ilMailingListsGUI
             $ml_ids = $this->http->wrapper()->query()->retrieve(
                 'contact_mailinglist_list_ml_ids',
                 $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                     $this->refinery->always([])
                 ])
             );
@@ -203,6 +203,12 @@ class ilMailingListsGUI
             return true;
         }
 
+        if ((string) current($ml_ids) === 'ALL_OBJECTS') {
+            $entries = $this->mlists->getAll();
+        } else {
+            $entries = $this->mlists->getSelected($ml_ids);
+        }
+
         $c_gui = new ilConfirmationGUI();
 
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDelete'));
@@ -210,7 +216,6 @@ class ilMailingListsGUI
         $c_gui->setCancel($this->lng->txt('cancel'), 'showMailingLists');
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDelete');
 
-        $entries = $this->mlists->getSelected($ml_ids);
         foreach ($entries as $entry) {
             $c_gui->addItem('ml_id[]', (string) $entry->getId(), $entry->getTitle());
         }
@@ -279,10 +284,18 @@ class ilMailingListsGUI
             return true;
         }
 
+        if ((string) current($ml_ids) === 'ALL_OBJECTS') {
+            $entries = $this->mlists->getAll();
+            $ml_ids = [];
+            foreach ($entries as $entry) {
+                $ml_ids[] = $entry->getId();
+            }
+        }
+
         $mail_data = $this->umail->retrieveFromStage();
         $lists = [];
         foreach ($ml_ids as $id) {
-            if ($this->mlists->isOwner($id, $this->user->getId()) &&
+            if ($this->mlists->isOwner((int) $id, $this->user->getId()) &&
                 !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists['#il_ml_' . $id] = '#il_ml_' . $id;
             }
@@ -528,7 +541,7 @@ class ilMailingListsGUI
         $requested_record_ids = $this->http->wrapper()->query()->retrieve(
             'contact_mailinglist_members_entry_ids',
             $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
             ])
         );
@@ -538,6 +551,14 @@ class ilMailingListsGUI
             $this->showMembersList();
 
             return true;
+        }
+
+        if ((string) current($requested_record_ids) === 'ALL_OBJECTS') {
+            $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
+            $requested_record_ids = [];
+            foreach ($assigned_entries as $entry) {
+                $requested_record_ids[] = $entry['a_id'];
+            }
         }
 
         $c_gui = new ilConfirmationGUI();

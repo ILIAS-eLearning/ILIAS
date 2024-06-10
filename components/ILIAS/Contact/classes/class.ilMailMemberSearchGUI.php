@@ -256,10 +256,20 @@ class ilMailMemberSearchGUI
         $selected_user_ids = $this->http->wrapper()->query()->retrieve(
             'contact_search_members_user_ids',
             $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
             ])
         );
+
+        if ((string) current($selected_user_ids) === 'ALL_OBJECTS') {
+            $selected_user_ids = [];
+            $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
+            $entries = $provider->getData();
+
+            foreach ($entries as $entry) {
+                $selected_user_ids[] = (int) $entry['user_id'];
+            }
+        }
 
         $rcps = [];
         foreach ($selected_user_ids as $usr_id) {
