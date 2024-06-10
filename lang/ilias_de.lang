@@ -3150,22 +3150,22 @@ cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. 
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
-cmix#:#conf_privacy_ident#:#Identifikation der Person
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
-cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die Identifikation ist identisch bei jedem Aufruf. Mit maximal 80 Zeichen ist sie kürzer, als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse das ILIAS-Konto und die zugehörige Person.
-cmix#:#conf_privacy_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_privacy_ident#:#Schlüssel zur Identifikation einer Person
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option keine direkten Rückschlüsse auf ein ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusammen aus der numerischen ILIAS-Konto-ID und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
+cmix#:#conf_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
+cmix#:#conf_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 cmix#:#conf_privacy_name#:#Anmeldename
 cmix#:#conf_privacy_name_firstname#:#Vorname
 cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
@@ -3186,18 +3186,18 @@ cmix#:#conf_use_proxy#:#xAPI-Proxy
 cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
 cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
-cmix#:#conf_user_ident#:#Identifikation der Person
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.zulassen.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
-cmix#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die Identifikation ist identisch bei jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person.
+cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
+cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_login_info#:#Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
+cmix#:#conf_user_ident_real_email#:#Hinterlegte E-Mail-Adresse
+cmix#:#conf_user_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 cmix#:#conf_user_name#:#Anmeldename
 cmix#:#conf_user_name_firstname#:#Vorname
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
@@ -3209,7 +3209,7 @@ cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders
 cmix#:#conf_user_name_none#:#Keiner
 cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
-cmix#:#content_privacy_ident#:#Identifikation der Person
+cmix#:#content_privacy_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
@@ -10987,22 +10987,22 @@ lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
-lti#:#clti_privacy_ident#:#Identifikation der Person
-lti#:#clti_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-lti#:#clti_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#clti_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#clti_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Diese Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse aufs ILIAS-Konto und die zugehörige Person zu.
-lti#:#clti_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#clti_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
-lti#:#clti_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#clti_privacy_ident_il_uuid_sha256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#clti_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
-lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#Die Identifikation ist identisch bei jedem Aufruf. Mit maximal 80 Zeichen ist sie kürzer, als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse das ILIAS-Konto und die zugehörige Person.
-lti#:#clti_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
+lti#:#clti_privacy_ident#:#Schlüssel zur Identifikation einer Person
+lti#:#clti_privacy_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
+lti#:#clti_privacy_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.
+lti#:#clti_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias
+lti#:#clti_privacy_ident_il_uuid_login_info#:#Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
+lti#:#clti_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
+lti#:#clti_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+lti#:#clti_privacy_ident_il_uuid_sha256#:#Hash@ILIAS-Plattform-ID.ilias
+lti#:#clti_privacy_ident_il_uuid_sha256_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option keine direkten Rückschlüsse auf ein ILIAS-Konto.
+lti#:#clti_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain
+lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.
+lti#:#clti_privacy_ident_il_uuid_user_id#:#ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias
+lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusammen aus der numerischen ILIAS-Konto-ID und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
 lti#:#clti_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-lti#:#clti_privacy_ident_real_email#:#E-Mail-Adresse
-lti#:#clti_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
+lti#:#clti_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
+lti#:#clti_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 lti#:#clti_privacy_name#:#Anmeldename
 lti#:#clti_privacy_name_firstname#:#Vorname
 lti#:#clti_privacy_name_firstname_info#:#Sendet den Vornamen.
