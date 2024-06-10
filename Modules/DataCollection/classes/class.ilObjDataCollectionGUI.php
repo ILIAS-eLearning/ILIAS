@@ -399,9 +399,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // read permission
         if ($this->access->checkAccess('read', "", $ref_id) === true) {
             // list records
-            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "tableview_id", $this->getTableViewId());
-            $link = $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "show");
-            $this->addTab(self::TAB_CONTENT, $link);
+            $this->addTab(self::TAB_CONTENT, $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "show"));
         }
 
         // visible or read permission
