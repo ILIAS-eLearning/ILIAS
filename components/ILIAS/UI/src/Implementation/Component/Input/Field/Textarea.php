@@ -47,9 +47,6 @@ class Textarea extends FormInput implements C\Input\Field\Textarea
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation(
-            $refinery->string()->stripTags()
-        );
     }
 
     /**
