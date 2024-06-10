@@ -119,14 +119,10 @@ class ilStudyProgrammeAssignmentsTable
                     $order
                 );
                 foreach ($rows as $row) {
-
                     $row_data = $row->toArray();
                     $row_data['completion_by'] = $this->buildLinkListForCompletionBy($row);
-                    $row_data['status'] = print_r($row->getCompletionByObjIds(), true);
-
                     $data_row = $row_builder->buildDataRow((string) $row->getId(), $row_data);
                     $data_row = $this->disableSingleActions($data_row, $row);
-
                     yield $data_row ;
                 }
             }
@@ -135,6 +131,10 @@ class ilStudyProgrammeAssignmentsTable
             {
                 $completion_by = $row->getCompletionBy();
                 $out = [];
+                if(!$completion_by) {
+                    return $this->ui_factory->listing()->unordered($out);
+                }
+
                 if ($completion_by_obj_ids = $row->getCompletionByObjIds()) {
                     foreach ($completion_by_obj_ids as $completion_by_obj_id) {
                         $type = ilObject::_lookupType($completion_by_obj_id);
@@ -158,13 +158,13 @@ class ilStudyProgrammeAssignmentsTable
             protected function getCompletionLink(string $title, ?int $target_obj_id): Link\Standard
             {
                 $url = '#';
-                if(!$target_obj_id === null) {
-                    $ref_ids = ilObject::_getAllReferences($target_obj_id);
-                    foreach ($ref_ids as $ref_id) {
-                        if (!ilObject::_isInTrash($ref_id)) {
-                            $url = ilLink::_getStaticLink($ref_id, "crs");
-                            break;
-                        }
+                if($target_obj_id !== null) {
+                    $ref_ids = array_filter(
+                        array_values(ilObject::_getAllReferences($target_obj_id)),
+                        fn($ref_id) => !ilObject::_isInTrash($ref_id)
+                    );
+                    if($ref_ids) {
+                        $url = ilLink::_getStaticLink(current($ref_ids), "crs");
                     }
                 }
                 return $this->ui_factory->link()->standard($title, $url);//->withDisabled($url === '#');
