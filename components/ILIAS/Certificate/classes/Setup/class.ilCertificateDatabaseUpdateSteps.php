@@ -64,15 +64,15 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     public function step_5(): void
     {
         if (
-            $this->db->tableExists('il_cert_template')
-            && !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
+            $this->db->tableExists('il_cert_template') &&
+            !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_template', ['background_image_path', 'currently_active'], 'i5');
         }
 
         if (
-            $this->db->tableExists('il_cert_user_cert')
-            && !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
+            $this->db->tableExists('il_cert_user_cert') &&
+            !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
         }
@@ -81,8 +81,8 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     public function step_6(): void
     {
         if (
-            $this->db->tableExists('il_cert_user_cert')
-            && !$this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')
+            $this->db->tableExists('il_cert_user_cert') &&
+            !$this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')
         ) {
             $this->db->addTableColumn('il_cert_user_cert', 'certificate_id', [
                 'type' => 'text',
@@ -94,21 +94,36 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_7(): void
     {
-        // TODO: Certificate Image Migrations
-        $this->db->createTable('', [
-            'id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
-            'obj_id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
-            'obj_type' => ['type' => 'text', 'length' => 255, 'notnull' => true],
-            'certificate_content' => ['type' => 'clob', 'notnull' => true],
-            'certificate_hash' => ['type' => 'text', 'length' => 255, 'notnull' => true],
-            'template_values' => ['type' => 'clob', 'notnull' => true],
-            'version' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
-            'ilias_version' => ['type' => 'text', 'length' => 255, 'notnull' => true],
-            'created_timestamp' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
-            'currently_active' => ['type' => 'integer', 'length' => 1, 'notnull' => true],
-            'background_image_identification' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'thumbnail_image_identification' => ['type' => 'text', 'length' => 255, 'notnull' => false],
-            'deleted' => ['type' => 'integer', 'length' => 1, 'notnull' => true],
-        ]);
+        if (
+            $this->db->tableExists('il_cert_user_cert')
+        ) {
+            $this->db->renameTableColumn(
+                'il_cert_user_cert',
+                'background_image_path',
+                'background_image_identification'
+            );
+
+            $this->db->renameTableColumn(
+                'il_cert_user_cert',
+                'thumbnail_image_path',
+                'thumbnail_image_identification'
+            );
+        }
+
+        if (
+            $this->db->tableExists('il_cert_template')
+        ) {
+            $this->db->renameTableColumn(
+                'il_cert_template',
+                'background_image_path',
+                'background_image_identification'
+            );
+
+            $this->db->renameTableColumn(
+                'il_cert_template',
+                'thumbnail_image_path',
+                'thumbnail_image_identification'
+            );
+        }
     }
 }
