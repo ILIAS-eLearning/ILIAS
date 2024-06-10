@@ -43,7 +43,6 @@ class Text extends FormInput implements C\Input\Field\Text
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(fn($v) => strip_tags($v)));
     }
 
     /**
