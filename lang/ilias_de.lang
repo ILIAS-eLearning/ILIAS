@@ -3166,16 +3166,13 @@ cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich z
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
 cmix#:#conf_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
-cmix#:#conf_privacy_name#:#Anmeldename
+cmix#:#conf_privacy_name#:#Name
 cmix#:#conf_privacy_name_firstname#:#Vorname
-cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
-cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_info#:#Der Name wird an LRS und Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
-cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_privacy_name_none#:#Keiner
-cmix#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_privacy_name_none_info#:#Sendet „-“ anstelle eines Namens.
 cmix#:#conf_privacy_setting_conf#:#Konfigurationsoptionen
 cmix#:#conf_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
 cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
@@ -3198,19 +3195,16 @@ cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusa
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_user_ident_real_email#:#Hinterlegte E-Mail-Adresse
 cmix#:#conf_user_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
-cmix#:#conf_user_name#:#Anmeldename
+cmix#:#conf_user_name#:#Name
 cmix#:#conf_user_name_firstname#:#Vorname
-cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_user_name_fullname#:#Vollständiger Name
-cmix#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
+cmix#:#conf_user_name_info#:#Der Name wird an LRS und Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 cmix#:#conf_user_name_lastname#:#Titel und Nachname
-cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_user_name_none#:#Keiner
-cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_user_name_none_info#:#Sendet „-“ anstelle eines Namens.
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
 cmix#:#content_privacy_ident#:#Schlüssel zur Identifikation einer Person
-cmix#:#content_privacy_name#:#Anmeldename
+cmix#:#content_privacy_name#:#Name
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
 cmix#:#cron_xapi_del#:#xAPI/cmi5 Daten im Learning Record Store löschen
@@ -11003,16 +10997,13 @@ lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zu
 lti#:#clti_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#clti_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
 lti#:#clti_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
-lti#:#clti_privacy_name#:#Anmeldename
+lti#:#clti_privacy_name#:#Name
 lti#:#clti_privacy_name_firstname#:#Vorname
-lti#:#clti_privacy_name_firstname_info#:#Sendet den Vornamen.
 lti#:#clti_privacy_name_fullname#:#Vollständiger Name
-lti#:#clti_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#clti_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
+lti#:#clti_privacy_name_info#:#Der Name wird gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 lti#:#clti_privacy_name_lastname#:#Titel und Nachname
-lti#:#clti_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#clti_privacy_name_none#:#Keiner
-lti#:#clti_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+lti#:#clti_privacy_name_none_info#:#Sendet „-“ anstelle eines Namens.
 lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#field_provider_xml#:#XML-Datei

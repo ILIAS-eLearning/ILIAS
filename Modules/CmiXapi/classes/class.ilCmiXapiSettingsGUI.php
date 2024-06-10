@@ -475,19 +475,16 @@ class ilCmiXapiSettingsGUI
                 $this->language->txt('conf_privacy_name_firstname'),
                 (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
             );
-            $op->setInfo($this->language->txt('conf_privacy_name_firstname_info'));
             $userName->addOption($op);
             $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_name_lastname'),
                 (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
             );
-            $op->setInfo($this->language->txt('conf_privacy_name_lastname_info'));
             $userName->addOption($op);
             $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_name_fullname'),
                 (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
             );
-            $op->setInfo($this->language->txt('conf_privacy_name_fullname_info'));
             $userName->addOption($op);
             $userName->setValue((string) $this->object->getPrivacyName());
             $userName->setInfo($this->language->txt('conf_privacy_name_info'));
