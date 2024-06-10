@@ -95,9 +95,12 @@ class ilStudyProgrammeDIC
                 ilExportFieldsInfo::_getInstanceByType('prg')
             );
         };
+
         $dic['filter.assignment'] = function ($dic) use ($DIC): ilPRGAssignmentFilter {
             return new ilPRGAssignmentFilter(
-                $DIC['lng']
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC->uiService()->filter()
             );
         };
 
@@ -442,6 +445,14 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['current_user']->getId()
             );
+
+        $dic['filter.assignment'] = function ($dic) use ($DIC): ilPRGAssignmentFilter {
+            return new ilPRGAssignmentFilter(
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC->uiService()->filter()
+            );
+        };
 
         return $dic;
     }

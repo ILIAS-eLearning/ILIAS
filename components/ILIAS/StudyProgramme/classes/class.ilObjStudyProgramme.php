@@ -66,6 +66,7 @@ class ilObjStudyProgramme extends ilContainer
     protected ?ilObjectFactoryWrapper $object_factory = null;
     protected ilObjectCustomIconFactory $custom_icon_factory;
     protected ilLogger $logger;
+    protected ilPRGAssignmentFilter $ass_filter;
 
     /**
      * ATTENTION: After using the constructor the object won't be in the cache.
@@ -106,6 +107,7 @@ class ilObjStudyProgramme extends ilContainer
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
 
         self::initStudyProgrammeCache();
+        $this->ass_filter = $dic['filter.assignment'];
     }
 
     public static function initStudyProgrammeCache(): void
@@ -517,7 +519,7 @@ class ilObjStudyProgramme extends ilContainer
                 array_unique(
                     array_map(
                         static function ($data) {
-                            return (int)$data['child'];
+                            return (int) $data['child'];
                         },
                         array_filter($ref_child_ref_ids, static function ($data) {
                             return $data["deleted"] === null;
@@ -1122,11 +1124,10 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasAssignments(): bool
     {
-        $filter = new ilPRGAssignmentFilter($this->lng);
         $count = $this->assignment_repository->countAllForNodeIsContained(
             $this->getId(),
             null,
-            $filter
+            $this->ass_filter
         );
         return $count > 0;
 
@@ -1173,7 +1174,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasRelevantProgresses(): bool
     {
-        $filter = new ilPRGAssignmentFilter($this->lng);
+        $filter = $this->ass_filter;
         $filter = $filter->withValues([
             'prg_status_hide_irrelevant' => true
         ]);

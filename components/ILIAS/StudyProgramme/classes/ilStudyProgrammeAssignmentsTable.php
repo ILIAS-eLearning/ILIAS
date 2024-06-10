@@ -20,25 +20,36 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\WrapperFactory as RequestWrapper;
+//use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
+
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-//use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
-use ILIAS\HTTP\Wrapper\WrapperFactory as RequestWrapper;
-
-use ILIAS\UI\Component\Table;
-use ILIAS\UI\Component\Modal;
-use ILIAS\UI\Component\Link;
-use ILIAS\UI\Component\Listing;
-
-//use ILIAS\UI\Renderer  as UIRenderer;
-//use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\Data\DateFormat\DateFormat;
 
+use ILIAS\UI\Component\Table;
+use ILIAS\UI\Component\Modal;
+use ILIAS\UI\Component\Link;
+use ILIAS\UI\Component\Listing;
+use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+
+//use ILIAS\UI\Renderer  as UIRenderer;
+//use Psr\Http\Message\ServerRequestInterface;
+
 class ilStudyProgrammeAssignmentsTable
 {
+    public const ASYNC_ACTIONS = [
+        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER,
+        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN,
+        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE,
+        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE,
+        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE,
+        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE,
+    ];
+
     protected string $table_id;
     protected URLBuilderToken $action_token;
     protected URLBuilderToken $row_id_token;
@@ -304,18 +315,15 @@ class ilStudyProgrammeAssignmentsTable
             ]);
         }
 
-        $async_actions = [
-            ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER,
-            ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN,
-            ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE,
-            ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE,
-            ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE,
-            ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE,
+        $async_actions = self::ASYNC_ACTIONS;
+        $single_actions = [
+            ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN,
         ];
 
         $actions = [];
         foreach($cmds as $cmd) {
-            $actions[$cmd] = $this->ui_factory->table()->action()->standard(
+            $action_type = in_array($cmd, $single_actions) ? 'single' : 'standard';
+            $actions[$cmd] = $this->ui_factory->table()->action()->$action_type(
                 $this->lng->txt("prg_$cmd"),
                 $this->url_builder->withParameter($this->action_token, $cmd),
                 $this->row_id_token
@@ -520,4 +528,10 @@ class ilStudyProgrammeAssignmentsTable
             ->withParameter($this->row_id_token, ['ALL_OBJECTS'])
             ->buildURI();
     }
+
+    public function getFilter(): Filter
+    {
+        return $this->custom_filter->toForm();
+    }
+
 }

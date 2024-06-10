@@ -124,6 +124,17 @@ class ilObjStudyProgrammeMembersGUI
         if($tcmd = $this->table->getTableCommand()) {
             $cmd = $tcmd;
             $prgrs_ids = $this->table->getRowIds();
+            if($prgrs_ids === []) {
+                if (in_array($cmd, ilStudyProgrammeAssignmentsTable::ASYNC_ACTIONS)) {
+                    echo $this->ui_renderer->render(
+                        $this->ui_factory->messageBox()->info($this->lng->txt("prg_no_user_selected"))
+                    );
+                    exit();
+                } else {
+                    $this->showInfoMessage("no_user_selected");
+                    $this->ctrl->redirect($this, "view");
+                }
+            }
         };
 
         switch ($next_class) {
@@ -410,7 +421,10 @@ class ilObjStudyProgrammeMembersGUI
         $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
         $table = $dic['ilStudyProgrammeAssignmentsTable'];
         return $this->ui_renderer->render(
-            $table->getTable()->withRequest($this->request)
+            [
+                $table->getFilter(),
+                $table->getTable()->withRequest($this->request)
+            ]
         );
     }
 
