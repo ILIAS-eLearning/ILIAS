@@ -1450,9 +1450,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     );
                 }
                 $this->tpl->setTitle(
-                    strip_tags(
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
                         $title,
-                        self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
                     )
                 );
                 $this->tpl->setDescription(
@@ -1466,15 +1465,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
         } else {
             $this->tpl->setTitle(
-                strip_tags(
-                    $this->object->getTitle(),
-                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                    $this->object->getTitle()
                 )
             );
             $this->tpl->setDescription(
-                strip_tags(
-                    $this->object->getLongDescription(),
-                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                    $this->object->getLongDescription()
                 )
             );
             $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), 'big', $this->object->getType()));

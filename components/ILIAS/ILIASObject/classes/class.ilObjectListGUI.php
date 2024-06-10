@@ -570,9 +570,8 @@ class ilObjectListGUI
     }
     public function setTitle(string $title): void
     {
-        $this->title = strip_tags(
-            $title,
-            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+        $this->title = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+            $title
         );
     }
 
@@ -586,9 +585,8 @@ class ilObjectListGUI
 
     public function setDescription(string $description): void
     {
-        $this->description = strip_tags(
-            $description,
-            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+        $this->description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+            $description
         );
     }
 
@@ -1179,12 +1177,8 @@ class ilObjectListGUI
             }
         }
 
-        // see bug #16519
-        $d = $this->getDescription();
-        // even b tag produced bugs, see #32304
-        $d = strip_tags($d);
         $this->tpl->setCurrentBlock('item_description');
-        $this->tpl->setVariable('TXT_DESC', $d);
+        $this->tpl->setVariable('TXT_DESC', $this->getDescription());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -3076,7 +3070,9 @@ class ilObjectListGUI
         $ui = $this->ui;
 
         // even b tag produced bugs, see #32304
-        $description = strip_tags($description);
+        $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+            $description
+        );
 
         $this->initItem(
             $ref_id,
@@ -3151,7 +3147,9 @@ class ilObjectListGUI
         $ui = $this->ui;
 
         // even b tag produced bugs, see #32304
-        $description = strip_tags($description);
+        $description = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+            $description
+        );
 
         $this->initItem(
             $ref_id,

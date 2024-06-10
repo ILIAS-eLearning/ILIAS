@@ -2219,7 +2219,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", strip_tags($this->object->getTitle(), ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
+        $template->setVariable(
+            'TITLE',
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
+            )
+        );
         $template->setVariable("PRINT_TEST", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_print")));
         $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
         $template->setVariable(
@@ -2274,7 +2279,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", strip_tags($this->object->getTitle(), ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
+        $template->setVariable(
+            'TITLE',
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
+            )
+        );
         $template->setVariable(
             "PRINT_TEST",
             ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("review_view"))
@@ -2526,16 +2536,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info->addSection($this->lng->txt("tst_general_properties"));
         $info->addProperty(
             $this->lng->txt("author"),
-            strip_tags(
-                $this->object->getAuthor(),
-                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getAuthor()
             )
         );
         $info->addProperty(
             $this->lng->txt("title"),
-            strip_tags(
-                $this->object->getTitle(),
-                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
             )
         );
 

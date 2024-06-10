@@ -114,7 +114,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $icon = $this->ui_factory->symbol()->icon()->standard($set['type'], $set['title'], Standard::MEDIUM);
         $this->tpl->setVariable('ICON', $this->ui_renderer->render($icon));
 
-        $this->tpl->setVariable('TITLE', strip_tags($set['title'], ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
+        $this->tpl->setVariable(
+            'TITLE',
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $set['title']
+            )
+        );
         $this->tpl->setVariable('PATH', $set['path']);
 
         if ($set['readable'] && !$this->isParentReadOnly()) {

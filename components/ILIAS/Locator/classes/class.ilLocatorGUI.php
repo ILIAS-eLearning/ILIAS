@@ -258,7 +258,7 @@ class ilLocatorGUI
         int $a_ref_id = 0,
         ?string $type = null
     ): void {
-        // LTI
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ltiview = $DIC['lti'];
 
@@ -274,9 +274,8 @@ class ilLocatorGUI
             $a_frame = "_self";
         }
         $this->entries[] = array(
-            "title" => strip_tags(
-                $a_title,
-                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            "title" => $DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
+                $a_title
             ),
             "link" => $a_link,
             "frame" => $a_frame,

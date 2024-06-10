@@ -47,17 +47,6 @@ class ilObjectGUI implements ImplementsCreationCallback
 {
     use CreationCallbackTrait;
 
-    public const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
-        '<b>',
-        '<i>',
-        '<strong>',
-        '<em>',
-        '<sub>',
-        '<sup>',
-        '<pre>',
-        '<strike>',
-        '<bdo>'
-    ];
     public const ADMIN_MODE_NONE = "";
     public const ADMIN_MODE_SETTINGS = "settings";
     public const ADMIN_MODE_REPOSITORY = "repository";
@@ -358,9 +347,8 @@ class ilObjectGUI implements ImplementsCreationCallback
             if ($this->requested_crtptrefid > 0) {
                 $cr_obj_id = ilObject::_lookupObjId($this->requested_crtcb);
                 $this->tpl->setTitle(
-                    strip_tags(
-                        ilObject::_lookupTitle($cr_obj_id),
-                        self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                        ilObject::_lookupTitle($cr_obj_id)
                     )
                 );
                 $this->tpl->setTitleIcon(ilObject::_getIcon($cr_obj_id));
@@ -368,15 +356,13 @@ class ilObjectGUI implements ImplementsCreationCallback
             return;
         }
         $this->tpl->setTitle(
-            strip_tags(
-                $this->object->getPresentationTitle(),
-                self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getPresentationTitle()
             )
         );
         $this->tpl->setDescription(
-            strip_tags(
-                $this->object->getLongDescription(),
-                self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getLongDescription()
             )
         );
 

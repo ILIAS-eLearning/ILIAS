@@ -405,7 +405,7 @@ abstract class assQuestion
 
     public function getDescriptionForHTMLOutput(): string
     {
-        return $this->refinery->string()->stripTags()->transform($this->comment);
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($this->comment);
     }
 
     public function getThumbSize(): int
