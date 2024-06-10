@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -521,12 +520,11 @@ class ilDclTable
 
     /**
      * get id of first (for current user) available view
-     * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0)
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0, bool $with_detailed_view = false): ?int
     {
         $uid = $user_id;
-        $array = $this->getVisibleTableViews($ref_id, false, $uid);
+        $array = $this->getVisibleTableViews($ref_id, $with_detailed_view, $uid);
         $tableview = array_shift($array);
 
         return $tableview ? $tableview->getId() : false;

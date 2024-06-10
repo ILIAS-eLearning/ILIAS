@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclReferenceRecordRepresentation
@@ -36,7 +36,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             $value = [$value];
         }
 
-        $html = "";
+        $items = [];
 
         foreach ($value as $k => $v) {
             $ref_record = ilDclCache::getRecordCache($v);
@@ -50,50 +50,35 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             } else {
                 $field = $this->getRecordField()->getField();
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-                    $ref_record = ilDclCache::getRecordCache($v);
                     $ref_table = $ref_record->getTable();
-
                     $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-
-                    if ($ref_table->getVisibleTableViews($ref_id, true)) {
-                        $html .= $this->getLinkHTML(null, $v);
-                    } else {
-                        $html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+                    if ($v !== null && $v !== '' && $v !== '-') {
+                        $view = $ref_record->getTable()->getFirstTableViewId($ref_id, $this->user->getId(), true);
+                        if ($view) {
+                            $items[] = $this->getLinkHTML($ref_record, $view);
+                            continue;
+                        }
                     }
-                } else {
-                    $html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
                 }
+                $items[] = $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
             }
-            $html .= '<br>';
         }
 
-        $html = substr($html, 0, -4); // cut away last <br>
-
-        return $html;
+        return implode('<br>', $items);
     }
 
-    /**
-     * @param string|null|int $value
-     */
-    protected function getLinkHTML(?string $link_name = null, $value): string
+    protected function getLinkHTML(ilDclBaseRecordModel $record, int $view): string
     {
-        if (!$value || $value == "-") {
-            return "";
-        }
-        $record_field = $this;
-        $ref_record = ilDclCache::getRecordCache($value);
-        if (!$link_name) {
-            $link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-        }
-        $this->ctrl->clearParametersByClass(ilDclDetailedViewGUI::class);
-        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $ref_record->getId());
-        $table_obj = ilDclCache::getTableCache($ref_record->getTableId());
-        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $table_obj->getFirstTableViewId($ref_id));
-        $html = $this->factory->link()->standard($link_name, $this->ctrl->getLinkTargetByClass(
-            ilDclDetailedViewGUI::class,
-            "renderRecord"
-        ));
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "table_id", $record->getTableId());
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $record->getId());
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $view);
+        $html = $this->factory->link()->standard(
+            $record->getRecordFieldValue($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE)),
+            $this->ctrl->getLinkTargetByClass(
+                ilDclDetailedViewGUI::class,
+                "renderRecord"
+            )
+        );
 
         return $this->renderer->render($html);
     }

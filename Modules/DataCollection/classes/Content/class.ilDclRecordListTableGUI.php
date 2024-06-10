@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldModel
@@ -181,6 +181,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             $this->ctrl->setParameterByClass("ildclfieldeditgui", "record_id", $record->getId());
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "table_id", $record->getTableId());
             $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $record->getId());
             $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview->getId());
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
