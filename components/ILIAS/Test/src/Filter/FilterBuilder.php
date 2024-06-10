@@ -25,23 +25,20 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 
 class FilterBuilder
 {
-
     private array $filters = [];
     private bool $is_active = true;
     private bool $is_expanded = true;
 
     public function __construct(
         private readonly string $filterId
-    )
-    {
+    ) {
     }
 
     public function addFilter(
         string $name,
         FilterInput $filter_input,
         bool $render_per_default = true
-    ): self
-    {
+    ): self {
         $this->filters[$name] = [$filter_input, $render_per_default];
         return $this;
     }
@@ -83,8 +80,7 @@ class FilterBuilder
         array &$select_expressions,
         array &$join_expressions,
         array &$where_expressions
-    ): void
-    {
+    ): void {
 
     }
 
