@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * @author  Martin Studer <ms@studer-raimann.ch>
@@ -365,7 +365,7 @@ class ilDclRecordListGUI
                 ilDclPropertyFormGUI::rebuildTempFileByHash($filehash);
 
                 $filepath = $_FILES["field_" . $field_id]['tmp_name'];
-                $filetitle = $_FILES["field_" . $field_id]['name'];
+                $filename = $_FILES["field_" . $field_id]['name'];
             } else {
                 $rec_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
                 $record = ilDclCache::getRecordCache($rec_id);
@@ -375,10 +375,10 @@ class ilDclRecordListGUI
                     return;
                 }
                 $filepath = $file_obj->getFile();
-                $filetitle = $file_obj->getTitle();
+                $filename = $file_obj->getFileName();
             }
 
-            ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
+            ilFileDelivery::deliverFileAttached($filepath, $filename);
         }
     }
 
