@@ -22,6 +22,7 @@ function base()
     $current_user_date_format = $df->dateFormat()->withTime24(
         $DIC['ilUser']->getDateFormat()
     );
+    $current_user_pref_limit = (int) $DIC['ilUser']->getPref("hits_per_page");
 
     /**
      * This is what the table will look like:
@@ -230,6 +231,7 @@ function base()
             ->data('a data table', $columns, $data_retrieval)
             ->withId('example_base')
             ->withActions($actions)
+            ->withNumberOfRows($current_user_pref_limit)
             ->withRequest($request);
 
     /**
