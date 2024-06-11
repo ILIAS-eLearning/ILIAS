@@ -74,7 +74,9 @@ If a user has published a personal profile, the **first name** and **surname** a
 
 If a post has been written with a **pseudonym**, the pseudonym entered appears instead of the username and is recognizable as such.
 
-If **statistics** are activated in the forum, a table is available for all users with read access, in which at least the **username** and the **number of posts** are listed for users with posts. If the personal profile is enabled, the first name and surname are also displayed. If a **learning progress** is activated in the forum and you have the authorization to see the learning progress of other users, it will be displayed here.
+If **statistics** are activated in the forum, a table is available for all users with read access, in which at least the **username** and the **number of posts** are listed for users with posts. If the personal profile is enabled, the first name and surname are also displayed. 
+
+If a **learning progress** is activated in the forum and a user has the permission "View learning progress of other users", it will be displayed in the statistics table.
 
 If the **notification settings** of a forum allow the individal deactivation of an automatic notification, a list of all course or group members with username, first and last name, as well as the permission is displayed.
 
