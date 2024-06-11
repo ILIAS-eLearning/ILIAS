@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilObjDataCollectionGUI
@@ -449,7 +448,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // read permission
         if ($this->dclAccess->hasReadPermission($refId) === true) {
             // list records
-            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($this->getTableViewId()));
+            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink());
         }
 
         // visible permission
