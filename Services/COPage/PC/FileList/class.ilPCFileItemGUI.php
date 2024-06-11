@@ -245,7 +245,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
         if ($res) {
             $this->content_obj->newItemAfter(
                 $this->file_object->getId(),
-                $this->file_object->getTitle(),
+                $this->file_object->getFileName(),
                 $this->file_object->getFileType()
             );
             $this->updated = $this->pg_obj->update();

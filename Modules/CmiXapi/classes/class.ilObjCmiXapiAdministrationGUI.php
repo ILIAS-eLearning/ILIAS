@@ -395,19 +395,16 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
             $DIC->language()->txt('conf_privacy_name_firstname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_name_lastname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_name_fullname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $lrsType->getPrivacyName());
         $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));

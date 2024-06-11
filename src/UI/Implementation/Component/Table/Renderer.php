@@ -412,7 +412,7 @@ class Renderer extends AbstractComponentRenderer
             ),
             ""
         )->withRequired(true);
-        $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_buttonlabel'), '')
+        $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_apply'), '')
             ->withOnLoadCode(
                 static fn($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
             );

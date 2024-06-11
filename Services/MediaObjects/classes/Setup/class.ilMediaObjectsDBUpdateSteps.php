@@ -45,6 +45,11 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
+        // skipped, since added to ILIAS 8 later
+    }
+
+    public function step_3(): void
+    {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT * FROM settings " .
@@ -101,6 +106,12 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
                 "keyword" => ["text", "black_list_file_types"]
             ]
         );
+    }
+
+    public function step_4(): void
+    {
+        $db = $this->db;
+        $db->modifyTableColumn('map_area', 'coords', ['length' => 4000]);
     }
 
 }

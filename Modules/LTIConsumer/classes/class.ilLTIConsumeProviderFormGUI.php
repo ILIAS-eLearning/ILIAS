@@ -295,13 +295,10 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $op->setInfo($lng->txt('clti_privacy_name_none_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_firstname_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_lastname_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyName());
         $item->setInfo($lng->txt('clti_privacy_name_info'));
@@ -689,13 +686,10 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $op->setInfo($lng->txt('clti_privacy_name_none_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_firstname_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_lastname_info'));
         $item->addOption($op);
         $op = new ilRadioOption($lng->txt('clti_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
-        $op->setInfo($lng->txt('clti_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyName());
         $item->setInfo($lng->txt('clti_privacy_name_info'));

@@ -165,4 +165,14 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             $this->db->addIndex('il_dcl_tfield_set', array('table_id'), 'i4');
         }
     }
+
+    public function step_11(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE il_dcl_field_prop prop INNER JOIN il_dcl_field field ON field.id = prop.field_id ' .
+            'SET name = "link_detail_page_mob" WHERE field.datatype_id = %s AND name = "link_detail_page"',
+            [ilDBConstants::T_INTEGER],
+            [ilDclDatatype::INPUTFORMAT_MOB]
+        );
+    }
 }
