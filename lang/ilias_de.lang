@@ -17180,11 +17180,11 @@ ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
 ui#:#datatable_multiaction_label#:#Sammelaktionen
-ui#:#datatable_multiactionmodal_actionlabel#:#Aktion
-ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
-ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
-ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
-ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
+ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
+ui#:#datatable_multiactionmodal_apply#:#Ausführen
+ui#:#datatable_multiactionmodal_listentry#:#Aktionen für gesamte Tabelle
+ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in diser Tabelle aus.
+ui#:#datatable_multiactionmodal_title#:#Aktionen für gesamte Tabelle
 ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
