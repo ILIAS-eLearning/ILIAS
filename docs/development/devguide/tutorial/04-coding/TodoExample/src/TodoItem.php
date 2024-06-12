@@ -1,13 +1,27 @@
 <?php
 
-class ilTodoItem
-{
-    private int $todo_id;
-    private int $user_id;
-    private string $title;
-    private ?string $description;
-    private ?string $deadline;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\components\ToDoExample;
+
+class TodoItem
+{
     public function __construct(
         private int $todo_id,
         private int $user_id,
@@ -15,11 +29,6 @@ class ilTodoItem
         private ?string $description,
         private ?string $deadline
     ) {
-        $this->todo_id = $todo_id;
-        $this->user_id = $user_id;
-        $this->title = $title;
-        $this->description = $description;
-        $this->deadline = $deadline;
     }
 
     /**
@@ -29,7 +38,6 @@ class ilTodoItem
     {
         return $this->todo_id;
     }
-
 
     /**
      * Get the id of the usere to which the item belongs
@@ -63,11 +71,10 @@ class ilTodoItem
         return $this->deadline;
     }
 
-
     /**
      * Get a clone with a new id
      */
-    public function widthTodoId(int $todo_id): ilTodoItem
+    public function widthTodoId(int $todo_id): TodoItem
     {
         $clone = clone $this;
         $clone->todo_id = $todo_id;
