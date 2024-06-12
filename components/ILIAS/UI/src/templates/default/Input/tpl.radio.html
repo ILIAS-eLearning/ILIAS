@@ -1,12 +1,13 @@
-<fieldset id="{ID}" class="il-input-radio">
+<fieldset id="{ID}" class="c-field-radio">
 <!-- BEGIN optionblock -->
+	<div class="c-field-radio__item">
+		<input type="radio" id="{OPTIONID}"<!-- BEGIN name --> name="{NAME}"<!-- END name --> value="{VALUE}" {CHECKED} {DISABLED}/>
+		<label for="{OPTIONID}">{LABEL}</label>
 
-	<input type="radio" id="{OPTIONID}"<!-- BEGIN name --> name="{NAME}"<!-- END name --> value="{VALUE}" {CHECKED} {DISABLED}/>
-	<label for="{OPTIONID}">{LABEL}</label>
-
-	<!-- BEGIN byline -->
-	<div class="help-block">{BYLINE}</div>
-	<!-- END byline -->
+		<!-- BEGIN byline -->
+		<div class="c-input__help-byline">{BYLINE}</div>
+		<!-- END byline -->
+	</div>
 
 <!-- END optionblock -->
 </fieldset>

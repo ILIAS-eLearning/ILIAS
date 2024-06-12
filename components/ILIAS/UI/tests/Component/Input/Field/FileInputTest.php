@@ -455,9 +455,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                         <div class="ui-input-file-metadata" style="display: none;">
                             <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="name_0[input_1][]">
-                                <legend><label tabindex="0" for="id_1">text_input</label></legend>
+                                <label for="id_1">text_input</label>
                                 <div class="c-input__field">
-                                    <input id="id_1" type="text" name="name_0[input_1][]" class="form-control form-control-sm"/>
+                                    <input id="id_1" type="text" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
@@ -640,9 +640,9 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                         <div class="ui-input-file-metadata" style="display: none;">
                             <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="name_0[input_1][]">
-                                <legend><label tabindex="0" for="id_1">text_input</label></legend>
+                                <label for="id_1">text_input</label>
                                 <div class="c-input__field">
-                                    <input id="id_1" type="text" value="test" name="name_0[input_1][]" class="form-control form-control-sm"/>
+                                    <input id="id_1" type="text" value="test" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>

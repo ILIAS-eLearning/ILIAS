@@ -130,13 +130,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-type=\"MarkdownFieldInput\" data-il-ui-name=\"name_0\">
-                <legend><label tabindex=\"0\" for=\"id_1\">$label</label></legend>
+                <label for=\"id_1\">$label</label>
                 <div class=\"c-input__field\">
 
-                    <div class=\"c-input-markdown\">
-                        <div class=\"c-input-markdown__controls\">
+                    <div class=\"c-field-markdown\">
+                        <div class=\"c-field-markdown__controls\">
                             view_control_mode
-                            <div class=\"c-input-markdown__actions\">
+                            <div class=\"c-field-markdown__actions\">
                                 <span data-action=\"insert-heading\">
                                     <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
                                 </span>
@@ -157,10 +157,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
-                        <div class=\"ui-input-textarea\">
-                            <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                        </div>
-                        <div class=\"c-input-markdown__preview hidden\">
+                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
 
@@ -187,13 +185,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-type=\"MarkdownFieldInput\" data-il-ui-name=\"name_0\">
-                <legend><label tabindex=\"0\" for=\"id_1\">$label</label></legend>
+                <label for=\"id_1\">$label</label>
                 <div class=\"c-input__field\">
 
-                    <div class=\"c-input-markdown\">
-                        <div class=\"c-input-markdown__controls\">
+                    <div class=\"c-field-markdown\">
+                        <div class=\"c-field-markdown__controls\">
                             view_control_mode
-                            <div class=\"c-input-markdown__actions\">
+                            <div class=\"c-field-markdown__actions\">
                                 <span data-action=\"insert-heading\">
                                     <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
                                 </span>
@@ -215,11 +213,9 @@ class MarkdownTest extends ILIAS_UI_TestBase
                             </div>
                         </div>
 
-                        <div class=\"ui-input-textarea\">
-                            <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                        </div>
+                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
                         
-                        <div class=\"c-input-markdown__preview hidden\">
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
 
                     </div>
@@ -251,13 +247,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-type=\"MarkdownFieldInput\" data-il-ui-name=\"name_0\">
-                <legend><label tabindex=\"0\" for=\"id_1\">$label</label></legend>
+                <label for=\"id_1\">$label</label>
                 <div class=\"c-input__field\">
 
-                    <div class=\"c-input-markdown\">
-                        <div class=\"c-input-markdown__controls\">
+                    <div class=\"c-field-markdown\">
+                        <div class=\"c-field-markdown__controls\">
                             view_control_mode
-                            <div class=\"c-input-markdown__actions\">
+                            <div class=\"c-field-markdown__actions\">
                                 <span data-action=\"insert-heading\">
                                     <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
                                 </span>
@@ -278,11 +274,9 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
-                        <div class=\"ui-input-textarea\">
-                            <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
+                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
                             <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
-                        </div>
-                        <div class=\"c-input-markdown__preview hidden\">
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
                 
@@ -311,13 +305,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-type=\"MarkdownFieldInput\" data-il-ui-name=\"name_0\" disabled=\"disabled\">
-                <legend><label tabindex=\"0\" for=\"id_1\">$label</label></legend>
+                <label for=\"id_1\">$label</label>
                 <div class=\"c-input__field\">
 
-                    <div class=\"c-input-markdown\">
-                        <div class=\"c-input-markdown__controls\">
+                    <div class=\"c-field-markdown\">
+                        <div class=\"c-field-markdown__controls\">
                             view_control_mode
-                            <div class=\"c-input-markdown__actions\">
+                            <div class=\"c-field-markdown__actions\">
                                 <span data-action=\"insert-heading\">
                                     <button class=\"btn btn-default\" data-action=\"#\" disabled=\"disabled\">header</button>
                                 </span>
@@ -338,10 +332,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
-                        <div class=\"ui-input-textarea\">
-                            <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\" disabled=\"disabled\"></textarea>
-                        </div>
-                        <div class=\"c-input-markdown__preview hidden\">
+                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" disabled=\"disabled\"></textarea>
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
 
@@ -370,13 +362,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
             <fieldset class=\"c-input\" data-il-ui-type=\"MarkdownFieldInput\" data-il-ui-name=\"name_0\">
-                <legend><label tabindex=\"0\" for=\"id_1\">$label<span class=\"asterisk\">*</span></label></legend>
+                <label for=\"id_1\">$label<span class=\"asterisk\">*</span></label>
                 <div class=\"c-input__field\">
 
-                        <div class=\"c-input-markdown\">
-                            <div class=\"c-input-markdown__controls\">
+                        <div class=\"c-field-markdown\">
+                            <div class=\"c-field-markdown__controls\">
                                 view_control_mode
-                                <div class=\"c-input-markdown__actions\">
+                                <div class=\"c-field-markdown__actions\">
                                     <span data-action=\"insert-heading\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
                                     </span>
@@ -397,10 +389,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-textarea\">
-                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                            </div>
-                        <div class=\"c-input-markdown__preview hidden\">
+                                 <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
 
@@ -433,13 +423,13 @@ class MarkdownTest extends ILIAS_UI_TestBase
                 
                 <div class=\"c-input__error-msg\" aria-describedby=\"id_1\" role=\"alert\">$error</div>
 
-                <legend><label tabindex=\"0\" for=\"id_1\">$label</label></legend>
+                <label for=\"id_1\">$label</label>
                 <div class=\"c-input__field\">
 
-                        <div class=\"c-input-markdown\">
-                            <div class=\"c-input-markdown__controls\">
+                        <div class=\"c-field-markdown\">
+                            <div class=\"c-field-markdown__controls\">
                                 view_control_mode
-                                <div class=\"c-input-markdown__actions\">
+                                <div class=\"c-field-markdown__actions\">
                                     <span data-action=\"insert-heading\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
                                     </span>
@@ -460,10 +450,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                            <div class=\"ui-input-textarea\">
-                                <textarea id=\"id_1\" class=\"form-control form-control-sm\" name=\"name_0\"></textarea>
-                            </div>
-                        <div class=\"c-input-markdown__preview hidden\">
+                                 <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
 

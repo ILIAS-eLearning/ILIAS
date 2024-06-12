@@ -1,7 +1,120 @@
+@use "../../../010-settings" as s;
+@use "../../../050-layout/layout_form" as l-form;
+@use "../../../050-layout/basics" as l;
+@use "../../../050-layout/layout_breakpoints" as brk;
 
-.c-input[data-il-ui-type="OptionalGroupFieldInput"]:not(:has(>legend label input:checked)),
-.c-input[data-il-ui-type="SwitchableGroupFieldInput"] > .c-input__field >fieldset.c-input:not(:has(>legend label input:checked))
-{
+@mixin c-input_switch-bg-hover($outline-shadow, $color) {
+	&:hover,
+	&:has(:focus-visible) {
+			box-shadow: $outline-shadow;
+			background-color: $color;
+		}
+		.c-input:hover,
+		.c-input:has(:focus-visible) {
+			box-shadow: none;
+			background-color: transparent;
+		}
+}
+
+
+.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"],
+.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"] > .c-input__field > .c-input {
+	display: grid;
+	grid-template-columns: l-form.$form__label-column__width l-form.$form__field-column__width;
+
+	> .c-input__field {
+		grid-area: group;
+		display: block; // will be display: none when collapsed
+		overflow: hidden; // row can collapse to hide content
+		> .c-input {
+			margin: 0; // usually margin spaces inputs, but colored bg padding is doing this in groups
+			&:first-child {
+				margin-top: l.$il-margin-large-vertical;
+			}
+			padding: l.$il-padding-xxlarge-vertical l.$il-padding-xxlarge-horizontal;
+			background-color: s.$il-main-dark-bg;
+			@include c-input_switch-bg-hover(none, s.$il-main-darker-bg);
+		}
+	}
+							
+	> .c-input__help-byline {
+		grid-area: group-help;
+	}
+
+	> .c-input__error-msg {
+		grid-area: error;
+	}
+	// animate expanding of group by animating grid rows - base/expanded state
+	grid-template-rows: repeat(3, max-content) 1fr; // 1fr must target the group content row
+	transition-property: grid-template-rows;
+	transition-duration: .3s;
+	transition-timing-function: ease-in-out;
+	> .c-input__field {
+		transition-property: display;
+		transition-duration: .3s;
+		transition-behavior: allow-discrete; // jumps to display: none; after all other animations are done
+	}
+
+}
+
+.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"] {
+	> .c-input__field > .c-input {
+		grid-template-areas: 	"group-head group-head"
+								"error error"
+								"group-help group-help"
+								"group group";
+		> label {
+			grid-area: group-head;
+		}
+		@include c-input_switch-bg-hover(none, transparent);
+	}
+}
+
+.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"] {
+	grid-template-areas: 	"group-head group-head"
+							"error error"
+							"blank group-help"
+							"group group";
+	// group header with the checkbox that toggles the group
+	> label {
+		grid-area: group-head;
+		display: grid;
+		grid-template-columns: l-form.$form__label-column__width l-form.$form__field-column__width;
+		grid-template-areas: "group-label group-field";
+		padding-right: 0; // labels are usually on the left and have a padding gap, but group head is full width = no gap
+
+		input[type=checkbox] {
+			grid-area: group-field;
+			justify-self: start; // otherwise checkbox would be centered
+		}
+
+		label {
+			display: block;
+			grid-area: group-label;
+		}
+	}
+}
+
+@include brk.on-screen-size(small) {
+	.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"],
+	.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"] {
+		grid-template-columns: 100%;
+		grid-template-areas:  "group-head"
+							"error"
+							"group-help"
+							"group";
+		> label {
+			grid-template-columns: 100%;
+			grid-template-areas: "group-label"
+								"group-field";
+		}
+	}
+}
+
+// animate expanding of group by animating grid rows - collapsed state
+.c-input[data-il-ui-type="OptionalGroupFieldInput"]:not(:has(> label input:checked)),
+.c-input[data-il-ui-type="SwitchableGroupFieldInput"]> .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
+	grid-template-rows: repeat(3, max-content) 0fr; // 0fr must target the group content row
 	> .c-input__field {
 		display: none;
 	}

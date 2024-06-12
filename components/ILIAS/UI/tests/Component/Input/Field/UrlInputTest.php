@@ -59,7 +59,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'UrlFieldInput',
             $label,
-            '<input id="id_1" type="url" name="name_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="url" name="name_0" class="c-field-url" />',
             $byline
         );
         $this->assertEquals($expected, $this->render($url));
@@ -75,7 +75,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'UrlFieldInput',
             $label,
-            '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="c-field-url" />',
         );
         $this->assertEquals($expected, $this->render($url));
     }

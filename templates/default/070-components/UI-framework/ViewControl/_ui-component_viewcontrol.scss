@@ -116,26 +116,12 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // strip normal form column layout from apply offest viewcontrol
-.il-viewcontrol-pagination__sectioncontrol .form-group.row {
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    gap: 9px;
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-type="NumericFieldInput"] {
+	border-radius: $il-border-radius-secondary-large;
 	label {
-		width: fit-content;
-		margin-left: 9px;
-		margin-bottom: 0;
-		// adding colon to label, so a cleanly defined translation string could be used
-		&:after {
-			content: ":"
-		}
+		text-align: right;
 	}
-	[class*="col-"] {
-		width: auto;
-		flex-grow: 1;
-		padding: 0;
-	}
-	input[type="number"] {
-		width: 5rem;
+	.c-field-number {
+		width: 100%;
 	}
 }

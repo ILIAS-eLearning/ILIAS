@@ -59,7 +59,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'TextFieldInput',
             $label,
-            '<input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text" name="name_0" class="c-field-text" />',
             $byline
         );
         $this->assertEquals($expected, $this->render($text));
@@ -86,7 +86,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'TextFieldInput',
             $label,
-            '<input id="id_1" type="text" value="value" name="name_0" class="form-control form-control-sm" />'
+            '<input id="id_1" type="text" value="value" name="name_0" class="c-field-text" />'
         );
         $this->assertEquals($expected, $this->render($text));
     }
@@ -116,7 +116,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'TextFieldInput',
             $label,
-            '<input id="id_1" type="text" name="name_0" maxlength="8" class="form-control form-control-sm" />'
+            '<input id="id_1" type="text" name="name_0" maxlength="8" class="c-field-text" />'
         );
         $this->assertEquals($expected, $this->render($text));
     }

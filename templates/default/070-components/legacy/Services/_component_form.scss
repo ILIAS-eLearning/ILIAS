@@ -34,8 +34,13 @@ label {
 	cursor: pointer;
 	display: inline-block;
 	max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
-	margin-bottom: 5px;
 	font-weight: $il-font-weight-base;
+}
+
+.form-horizontal {
+	label {
+		margin-bottom: 5px;
+	}
 }
 
 
@@ -52,21 +57,12 @@ input[type="search"] {
 	appearance: none;
 }
 
-// Position radios and checkboxes better
-input[type="radio"],
-input[type="checkbox"] {
-	margin: 4px 0 0;
-	margin-top: 1px \9; // IE8-9
-	line-height: normal;
 
-	// Apply same disabled cursor tweak as for inputs
-	// Some special care is needed because <label>s don't inherit their parent's `cursor`.
-	//
-	// Note: Neither radios nor checkboxes can be readonly.
-	&[disabled],
-	&.disabled,
-	fieldset[disabled] & {
-		cursor: $cursor-disabled;
+
+.form-horizontal {
+	input[type="radio"],
+	input[type="checkbox"] {
+		margin: 4px 0 0;
 	}
 }
 
@@ -85,14 +81,6 @@ select[multiple],
 select[size] {
 	height: auto;
 }
-
-// Focus for file, radio, and checkbox
-input[type="file"],
-input[type="radio"],
-input[type="checkbox"] {
-	@include il-focus();
-}
-
 
 // Common form controls
 //
@@ -136,7 +124,7 @@ input[type="checkbox"] {
 
 	// Placeholder
 	@include placeholder;
-	
+
 	&[required] {
 		@include placeholder($il-input-color);
 	}

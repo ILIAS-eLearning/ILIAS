@@ -107,7 +107,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             '<fieldset class="c-input" data-il-ui-type="RatingFieldInput" data-il-ui-name="name_0" disabled="disabled">
-            <legend><label tabindex="0">label</label></legend>
+            <label>label</label>
             <div class="c-input__field">
 
                 <fieldset class="input-group il-input-rating disabled" id="id_1">

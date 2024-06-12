@@ -123,7 +123,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             'MultiSelectFieldInput',
             $label,
             '
-            <fieldset class="il-input-multiselect" id="id_1">
+            <fieldset class="c-field-multiselect" id="id_1">
                 <ul>'
                 . $expected_options .
                 '</ul>
@@ -171,7 +171,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             'MultiSelectFieldInput',
             $label,
             '
-            <fieldset class="il-input-multiselect" id="id_1">
+            <fieldset class="c-field-multiselect" id="id_1">
                 <ul>'
                 . $expected_options .
                 '</ul>
@@ -208,9 +208,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = '
         <fieldset class="c-input" data-il-ui-type="MultiSelectFieldInput" data-il-ui-name="name_0" disabled="disabled">
-            <legend><label tabindex="0">label</label></legend>
+            <label>label</label>
             <div class="c-input__field">
-                <fieldset class="il-input-multiselect" id="id_1">
+                <fieldset class="c-field-multiselect" id="id_1">
                     <ul>
                         <li>-</li>
                     </ul>

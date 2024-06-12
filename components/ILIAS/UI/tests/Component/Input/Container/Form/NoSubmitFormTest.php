@@ -89,7 +89,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         );
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
             $dummy_input->getCanonicalName() .
             "</form>";
 
@@ -117,9 +117,9 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         );
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
             $dummy_input->getCanonicalName() .
-            "<div class=\"il-standard-form-footer clearfix\"><span class=\"asterisk\">*</span><span class=\"small\"> $required_lang_var</span></div>" .
+            "<div class=\"c-form__footer\"><span class=\"asterisk\">*</span><span class=\"small\"> $required_lang_var</span></div>" .
             "</form>";
 
         $renderer = $this->getDefaultRenderer(null, [$dummy_input]);
@@ -161,8 +161,8 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         $data = $form->getData();
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
-            "<div class=\"help-block alert alert-danger\" role=\"alert\">$error_lang_var</div>" .
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<div class=\"c-form__error-msg alert alert-danger\" role=\"alert\">$error_lang_var</div>" .
             $dummy_input->getCanonicalName() .
             "</form>";
 

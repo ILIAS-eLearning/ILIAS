@@ -383,16 +383,16 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
         <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
-            <legend><label tabindex="0" for="id_1">input1</label></legend>
+            <label for="id_1">input1</label>
             <div class="c-input__field">
-                <input id="id_1" type="text" class="form-control form-control-sm" />
+                <input id="id_1" type="text" class="c-field-text" />
             </div>
             <div class="c-input__help-byline">in 1</div>
         </fieldset>
         <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
-            <legend><label tabindex="0" for="id_2">input2</label></legend>
+            <label for="id_2">input2</label>
             <div class="c-input__field">
-                <input id="id_2" type="text" class="form-control form-control-sm" />
+                <input id="id_2" type="text" class="c-field-text" />
             </div>
             <div class="c-input__help-byline">in 2</div>
         </fieldset>

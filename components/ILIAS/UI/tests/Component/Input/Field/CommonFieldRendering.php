@@ -50,7 +50,7 @@ trait CommonFieldRendering
     protected function testWithError(FormInput $component): void
     {
         $error = "an_error";
-        $expected = '<div class="c-input__error-msg" aria-describedby="';
+        $expected = '<div class="c-input__error-msg alert alert-danger" aria-describedby="';
         $expected2 = '" role="alert">' . $error . '</div>';
         $html = $this->render($component->withError($error));
         $this->assertStringContainsString($expected, $html);
@@ -87,7 +87,7 @@ trait CommonFieldRendering
         $id = $id ? " for=\"$id\"" : '';
         $html = '
         <fieldset class="c-input" data-il-ui-type="' . $type . '" data-il-ui-name="' . $name . '">
-            <legend><label tabindex="0"' . $id . '>' . $label . '</label></legend>
+            <label' . $id . '>' . $label . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;
         $html .= '

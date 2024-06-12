@@ -1,0 +1,32 @@
+@use "../../../010-settings" as s;
+@use "../../../050-layout/basics" as l;
+
+.c-form .c-input[data-il-ui-type="SectionFieldInput"].c-input {
+  margin-bottom: l.$il-margin-xxxlarge-vertical * 2;
+  display: flex;
+  flex-direction: column;
+
+  > label {
+    order: 1;
+    width: 100%;
+    margin-bottom: l.$il-margin-xlarge-vertical;
+    font-size: s.$il-font-size-xxlarge;
+  }
+
+  > .c-input__help-byline {
+    width: 100%;
+    order: 2;
+  }
+
+  > .c-input__error-msg {
+    //margin-top: l.$il-margin-base-horizontal;
+    order: 3;
+  }
+
+  > .c-input__field {
+    margin-top: l.$il-margin-large-horizontal;
+    width: 100%;
+    order: 4;
+  }
+}
+

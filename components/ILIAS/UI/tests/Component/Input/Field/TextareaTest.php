@@ -124,9 +124,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             'TextareaFieldInput',
             $label,
             '
-            <div class="ui-input-textarea">
-                <textarea id="id_1" class="form-control form-control-sm" name="name_0"></textarea>
-            </div>
+            <textarea id="id_1" class="c-field-textarea" name="name_0"></textarea>
             ',
             $byline
         );
@@ -156,9 +154,7 @@ class TextareaTest extends ILIAS_UI_TestBase
             'TextareaFieldInput',
             $label,
             '
-            <div class="ui-input-textarea">
-                <textarea id="id_1" class="form-control form-control-sm" name="name_0" minlength="5"></textarea>
-            </div>
+            <textarea id="id_1" class="c-field-textarea" name="name_0" minlength="5"></textarea>
             ',
             $byline
         );
@@ -176,12 +172,8 @@ class TextareaTest extends ILIAS_UI_TestBase
             'TextareaFieldInput',
             $label,
             '
-            <div class="ui-input-textarea">
-                <textarea id="id_1" class="form-control form-control-sm" name="name_0" maxlength="20"></textarea>
-                <div class="ui-input-textarea-remainder">
-                    ui_chars_remaining <span data-action="remainder">20</span>
-                </div>
-            </div>
+                <textarea id="id_1" class="c-field-textarea" name="name_0" maxlength="20"></textarea>
+                <div class="ui-input-textarea-remainder"> ui_chars_remaining<span data-action="remainder">20</span></div>
             ',
             $byline
         );
@@ -203,7 +195,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->brutallyTrimHTML("
-            <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
+            <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
             <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
         ");
         $this->assertStringContainsString($expected, $this->render($textarea));
@@ -220,8 +212,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
         $expected = $this->brutallyTrimHTML("
-            <div class=\"ui-input-textarea\">
-                <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\">$value</textarea>
+            <div class=\"c-input__field\">
+                <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\">$value</textarea>
             </div>
         ");
         $this->assertStringContainsString($expected, $this->render($textarea));

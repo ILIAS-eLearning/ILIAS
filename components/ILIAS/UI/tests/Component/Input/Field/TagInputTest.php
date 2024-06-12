@@ -69,8 +69,8 @@ class TagInputTest extends ILIAS_UI_TestBase
             'TagFieldInput',
             $label,
             '
-            <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
-                <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/>
+            <div id="container-id_1" class="c-field-tag__wrapper">
+                <input id="id_1" name="name_0" class="c-field-tag" value=""/>
             </div>
             ',
             $byline

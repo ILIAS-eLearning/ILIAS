@@ -1,0 +1,6 @@
+.c-form .c-input[data-il-ui-type="CheckboxFieldInput"] > .c-input__field,
+.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"] > label {
+    > input[type="checkbox"] {
+        display: block;
+    }
+}

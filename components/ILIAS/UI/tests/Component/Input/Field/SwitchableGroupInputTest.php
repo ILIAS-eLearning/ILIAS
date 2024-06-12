@@ -428,46 +428,36 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         );
 
         $expected = <<<EOT
-<fieldset class="c-input" data-il-ui-type="SwitchableGroupFieldInput" data-il-ui-name="">
-    <legend><label tabindex="0" for="id_1">label</label></legend>
-    <div class="c-input__field">
-        <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name="">
-            <legend>
-                <label tabindex="0">
-                    <input type="radio" id="id_1_g1_opt" value="g1" />
-                    <label for="id_1_g1_opt"></label>
-                </label>
-            </legend>
-            <div class="c-input__field">
-                <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
-                    <legend><label tabindex="0" for="id_2">f</label></legend>
-                    <div class="c-input__field">
-                        <input id="id_2" type="text" class="form-control form-control-sm" />
-                    </div>
-                    <div class="c-input__help-byline">some field</div>
-                </fieldset>
-            </div>
-        </fieldset>
-        <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name="">
-            <legend>
-                <label tabindex="0">
-                    <input type="radio" id="id_1_g2_opt" value="g2" />
-                    <label for="id_1_g2_opt"></label>
-                </label>
-            </legend>
-            <div class="c-input__field">
-                <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="">
-                    <legend><label tabindex="0" for="id_3">f2</label></legend>
-                    <div class="c-input__field">
-                        <input id="id_3" type="text" class="form-control form-control-sm" />
-                    </div>
-                    <div class="c-input__help-byline">some other field</div>
-                </fieldset>
-            </div>
-        </fieldset>
-    </div>
-    <div class="c-input__help-byline">byline</div>
-</fieldset>
+<fieldset class="c-input" data-il-ui-type="SwitchableGroupFieldInput" data-il-ui-name=""><label
+            for="id_1">label</label>
+        <div class="c-input__field">
+            <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name=""><label><input type="radio"
+                                                                                                         id="id_1_g1_opt"
+                                                                                                         value="g1"/><label
+                    for="id_1_g1_opt"></label></label>
+                <div class="c-input__field">
+                    <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name=""><label
+                            for="id_2">f</label>
+                        <div class="c-input__field"><input id="id_2" type="text" class="c-field-text"/></div>
+                        <div class="c-input__help-byline">some field</div>
+                    </fieldset>
+                </div>
+            </fieldset>
+            <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name=""><label><input type="radio"
+                                                                                                         id="id_1_g2_opt"
+                                                                                                         value="g2"/><label
+                    for="id_1_g2_opt"></label></label>
+                <div class="c-input__field">
+                    <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name=""><label
+                            for="id_3">f2</label>
+                        <div class="c-input__field"><input id="id_3" type="text" class="c-field-text"/></div>
+                        <div class="c-input__help-byline">some other field</div>
+                    </fieldset>
+                </div>
+            </fieldset>
+        </div>
+        <div class="c-input__help-byline">byline</div>
+    </fieldset>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -483,7 +473,7 @@ EOT;
     {
         $r = $this->getDefaultRenderer();
         $html = $this->render($sg->withValue('g2'));
-        $expected = '<legend><label tabindex="0"><input type="radio" id="id_1_g2_opt" value="g2" checked="checked" />';
+        $expected = '<label><input type="radio" id="id_1_g2_opt" value="g2" checked="checked" />';
         $this->assertStringContainsString($expected, $this->render($sg->withValue('g2')));
     }
 
@@ -505,7 +495,7 @@ EOT;
 
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
 
-        $expected = '<legend><label tabindex="0"><input type="radio" id="id_1_1_opt" value="1" checked="checked" />';
+        $expected = '<label><input type="radio" id="id_1_1_opt" value="1" checked="checked" />';
         $this->assertStringContainsString($expected, $this->render($sg->withValue('1')));
     }
 }

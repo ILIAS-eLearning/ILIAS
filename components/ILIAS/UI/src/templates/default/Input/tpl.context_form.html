@@ -1,19 +1,14 @@
-<fieldset class="c-input" 
-	data-il-ui-type="{TYPE}" 
-	data-il-ui-name="{NAME}" 
-	{DISABLED}>
+<fieldset class="c-input" data-il-ui-type="{TYPE}" data-il-ui-name="{NAME}" {DISABLED}>
 
-	<!-- BEGIN error -->
-	<div class="c-input__error-msg" aria-describedby="{ERROR_FOR_ID}" role="alert">{ERROR}</div>
-	<!-- END error -->
-
-	<legend>
-		<label tabindex="0" <!-- BEGIN for -->for="{ID}" <!-- END for -->>{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
-	</legend>
+	<label <!-- BEGIN for -->for="{ID}" <!-- END for -->>{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
 
 	<div class="c-input__field">
 		{INPUT}
 	</div>
+
+	<!-- BEGIN error -->
+	<div class="c-input__error-msg alert alert-danger" aria-describedby="{ERROR_FOR_ID}" role="alert">{ERROR}</div>
+	<!-- END error -->
 
 	<!-- BEGIN byline -->
 	<div class="c-input__help-byline">{BYLINE}</div>

@@ -49,7 +49,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $f1 = $this->getFormWrappedHtml(
             'TextFieldInput',
             'input1',
-            '<input id="id_1" type="text"  name="name_0/name_1" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text"  name="name_0/name_1" class="c-field-text" />',
             'in 1',
             'id_1',
             'name_0/name_1'
@@ -57,7 +57,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $f2 = $this->getFormWrappedHtml(
             'TextFieldInput',
             'input2',
-            '<input id="id_2" type="text"  name="name_0/name_2" class="form-control form-control-sm" />',
+            '<input id="id_2" type="text"  name="name_0/name_2" class="c-field-text" />',
             'in 2',
             'id_2',
             'name_0/name_2'

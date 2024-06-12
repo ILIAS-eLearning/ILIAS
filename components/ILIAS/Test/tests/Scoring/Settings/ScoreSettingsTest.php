@@ -148,7 +148,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_text_count_system',
             '
-            <fieldset id="id_1" class="il-input-radio">
+            <fieldset id="id_1" class="c-field-radio">
                 <input type="radio" id="id_1_0_opt" value="0" checked="checked" />
                 <label for="id_1_0_opt">tst_count_partial_solutions</label>
                 <div class="help-block">tst_count_partial_solutions_desc</div>
@@ -166,7 +166,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_score_cutting',
             '
-            <fieldset id="id_2" class="il-input-radio">
+            <fieldset id="id_2" class="c-field-radio">
                 <input type="radio" id="id_2_0_opt" value="0" checked="checked" />
                 <label for="id_2_0_opt">tst_score_cut_question</label>
                 <div class="help-block">tst_score_cut_question_desc</div>
@@ -184,7 +184,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_pass_scoring',
             '
-            <fieldset id="id_3" class="il-input-radio">
+            <fieldset id="id_3" class="c-field-radio">
                 <input type="radio" id="id_3_0_opt" value="0" checked="checked" />
                 <label for="id_3_0_opt">tst_pass_last_pass</label>
                 <div class="help-block">tst_pass_last_pass_desc</div>
@@ -282,7 +282,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'DateTimeFieldInput',
             'tst_reporting_date<span class="asterisk">*</span>',
             '<div class="input-group date il-input-datetime">
-                <input id="id_3" type="datetime-local" class="form-control form-control-sm" />
+                <input id="id_3" type="datetime-local" class="c-field-datetime" />
             </div>',
             null,
             'id_3',
@@ -311,7 +311,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $i1_2 = $this->getFormWrappedHtml(
             'CheckboxFieldInput',
             'tst_results_grading_opt_show_status',
-            '<input type="checkbox" id="id_4" value="checked" class="form-control form-control-sm" />',
+            '<input type="checkbox" id="id_4" value="checked" class="c-field-checkbox" />',
             'tst_results_grading_opt_show_status_desc',
             'id_4',
             ''
@@ -319,7 +319,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $i1_3 = $this->getFormWrappedHtml(
             'CheckboxFieldInput',
             'tst_results_grading_opt_show_mark',
-            '<input type="checkbox" id="id_5" value="checked" class="form-control form-control-sm" />',
+            '<input type="checkbox" id="id_5" value="checked" class="c-field-checkbox" />',
             'tst_results_grading_opt_show_mark_desc',
             'id_5',
             ''
@@ -327,7 +327,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $i1_4 = $this->getFormWrappedHtml(
             'CheckboxFieldInput',
             'tst_results_grading_opt_show_details',
-            '<input type="checkbox" id="id_6" value="checked" class="form-control form-control-sm" />',
+            '<input type="checkbox" id="id_6" value="checked" class="c-field-checkbox" />',
             'tst_results_grading_opt_show_details_desc',
             'id_6',
             ''
@@ -335,7 +335,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $i1_5 = $this->getFormWrappedHtml(
             'CheckboxFieldInput',
             'tst_pass_deletion',
-            '<input type="checkbox" id="id_7" value="checked" class="form-control form-control-sm" />',
+            '<input type="checkbox" id="id_7" value="checked" class="c-field-checkbox" />',
             'tst_pass_deletion_allowed',
             'id_7',
             ''
@@ -343,7 +343,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1 = $this->getFormWrappedHtml(
             'OptionalGroupFieldInput',
-            '<input type="checkbox" id="id_1" value="checked" /><label for="id_1">tst_results_access_enabled</label>',
+            '<label for="id_1">tst_results_access_enabled</label><input type="checkbox" id="id_1" value="checked" />',
             $i1_1 . $i1_2 . $i1_3 . $i1_4 . $i1_5,
             'tst_results_access_enabled_desc',
             'id_1',
@@ -388,7 +388,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             list($label, $byline) = $entry;
             $nr = (string) ($index + 1);
             $checked = $index === 6 ? ' checked="checked"' : '';
-            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked"' . $checked . ' class="form-control form-control-sm" />';
+            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked"' . $checked . ' class="c-field-checkbox" />';
             $options .= $this->getFormWrappedHtml(
                 'CheckboxFieldInput',
                 $label,
@@ -421,7 +421,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $fields = $this->getFormWrappedHtml(
             'RadioFieldInput',
             'tst_highscore_mode<span class="asterisk">*</span>',
-            '<fieldset id="id_2" class="il-input-radio">
+            '<fieldset id="id_2" class="c-field-radio">
                 <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="help-block">tst_highscore_own_table_description</div>
                 <input type="radio" id="id_2_2_opt" value="2" /><label for="id_2_2_opt">tst_highscore_top_table</label><div class="help-block">tst_highscore_top_table_description</div>
                 <input type="radio" id="id_2_3_opt" value="3" checked="checked" /><label for="id_2_3_opt">tst_highscore_all_tables</label><div class="help-block">tst_highscore_all_tables_description</div>
@@ -433,7 +433,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $fields .= $this->getFormWrappedHtml(
             'NumericFieldInput',
             'tst_highscore_top_num<span class="asterisk">*</span>',
-            '<input id="id_3" type="number" value="10" class="form-control form-control-sm" />',
+            '<input id="id_3" type="number" value="10" class="c-field-number" />',
             'tst_highscore_top_num_description',
             'id_3',
             ''
@@ -451,7 +451,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         foreach($opts as $index => $entry) {
             list($label, $byline) = $entry;
             $nr = (string) ($index + 4);
-            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="form-control form-control-sm" />';
+            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="c-field-checkbox" />';
             $fields .= $this->getFormWrappedHtml(
                 'CheckboxFieldInput',
                 $label,

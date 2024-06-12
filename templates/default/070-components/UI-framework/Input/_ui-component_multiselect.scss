@@ -1,4 +1,24 @@
-.il-input-multiselect {
+@use "../../../050-layout/basics/" as l;
+
+.c-form .c-field-multiselect > ul {
 	list-style: none;
-	padding-left: 0px;
+	padding: 0;
+	margin: 0;
+	> li {
+		margin-top: l.$il-margin-base-vertical;
+		&:first-child {
+			margin-top: 0;
+		}
+		label {
+			display: flex;
+			flex-wrap: wrap;
+			> input[type="checkbox"] {
+				margin-right: l.$il-margin-base-horizontal;
+				width: auto;
+			}
+			> .c-input__multiselect__label-text {
+				flex-grow: 1;
+			}
+		}
+	}
 }

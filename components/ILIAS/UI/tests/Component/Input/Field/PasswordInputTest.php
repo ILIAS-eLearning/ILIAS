@@ -88,8 +88,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
             'PasswordFieldInput',
             $label,
             '
-            <div class="il-input-password" id="id_1_container">
-                <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" autocomplete="off" />
+            <div class="c-field-password" id="id_1_container">
+                <input id="id_1" type="password" name="' . $name . '" autocomplete="off" />
             </div>
             ',
             $byline
@@ -120,8 +120,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
             'PasswordFieldInput',
             $label,
             '
-            <div class="il-input-password" id="id_1_container">
-                <input id="id_1" type="password" name="' . $name . '" value="' . $value . '" class="form-control form-control-sm" autocomplete="off" />
+            <div class="c-field-password" id="id_1_container">
+                <input id="id_1" type="password" name="' . $name . '" value="' . $value . '" autocomplete="off" />
             </div>
             ',
             null

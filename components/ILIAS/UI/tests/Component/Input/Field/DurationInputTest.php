@@ -170,8 +170,8 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $f1 = $this->getFormWrappedHtml(
             'DateTimeFieldInput',
             $label_start,
-            '<div class="input-group date il-input-datetime">
-                <input id="id_1" type="date" name="name_0/start_1" class="form-control form-control-sm" />
+            '<div class="c-input-group">
+                <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
             </div>
             ',
             null,
@@ -181,8 +181,8 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $f2 = $this->getFormWrappedHtml(
             'DateTimeFieldInput',
             $label_end,
-            '<div class="input-group date il-input-datetime">
-                <input id="id_2" type="date" name="name_0/end_2" class="form-control form-control-sm" />
+            '<div class="c-input-group">
+                <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
             </div>
             ',
             null,
@@ -193,7 +193,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'DurationFieldInput',
             'label',
-            '<div class="il-input-duration" id="id_3">' . $f1 . $f2 . '</div>',
+            '<div class="c-field-duration" id="id_3">' . $f1 . $f2 . '</div>',
             'byline',
             'id_2'
         );
@@ -214,8 +214,8 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $f1 = $this->getFormWrappedHtml(
             'DateTimeFieldInput',
             $other_start_label,
-            '<div class="input-group date il-input-datetime">
-                <input id="id_1" type="date" name="name_0/start_1" class="form-control form-control-sm" />
+            '<div class="c-input-group">
+                <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
             </div>
             ',
             null,
@@ -225,8 +225,8 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $f2 = $this->getFormWrappedHtml(
             'DateTimeFieldInput',
             $other_end_label,
-            '<div class="input-group date il-input-datetime">
-                <input id="id_2" type="date" name="name_0/end_2" class="form-control form-control-sm" />
+            '<div class="c-input-group">
+                <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
             </div>
             ',
             null,
@@ -237,7 +237,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'DurationFieldInput',
             'label',
-            '<div class="il-input-duration" id="id_3">' . $f1 . $f2 . '</div>',
+            '<div class="c-field-duration" id="id_3">' . $f1 . $f2 . '</div>',
             'byline',
             'id_2',
         );

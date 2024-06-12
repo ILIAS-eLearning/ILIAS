@@ -58,7 +58,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'ColorPickerFieldInput',
             $label,
-            '<input id="id_1" type="color" name="name_0" value=""/>',
+            '<input id="id_1" type="color" name="name_0" value="" class="c-field-color-picker"/>',
             $byline,
             null
         );

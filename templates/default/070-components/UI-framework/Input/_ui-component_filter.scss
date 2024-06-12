@@ -6,6 +6,7 @@
 //
 //## Variables used to style the ILIAS Standard Filter
 
+
 //** Filter Bar
 $il-standard-filter-bar-btn-font-size: $il-font-size-base;
 $il-standard-filter-bar-glyph-padding-right: 0.3em;
@@ -33,7 +34,7 @@ $il-standard-filter-active-inputs-font-size: $il-font-size-small;
 
 //** Popovers
 $il-standard-filter-add-input-popover-list-margin: 0;
-$il-standard-filter-add-input-popover-list-padding: 0;
+$il-standard-filter-add-input-popover-list-padding: $il-margin-base-vertical $il-margin-base-horizontal;
 $il-standard-filter-add-input-popover-list-button-width: 100%;
 
 .il-filter {
@@ -71,6 +72,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		}
 
 		input {
+          	width: 100%;
 			height: $il-standard-filter-input-group-height;
 		}
 
@@ -80,6 +82,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		}
 
 		.btn-bulky {
+			border: none;
 			background-color: $il-main-darker-bg;
 		}
 	}
@@ -110,6 +113,27 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	.il-popover-container {
 		padding-left: $il-standard-filter-controls-padding-left;
 	}
+
+	.c-field-multiselect ul,
+	.il-filter-add-list ul {
+		list-style: none;
+		margin: $il-standard-filter-add-input-popover-list-margin;
+		padding: $il-standard-filter-add-input-popover-list-padding;
+	}
+
+	.c-field-multiselect ul {
+		> li > label {
+			input[type="checkbox"] {
+				margin-top: 0; // style back legacy use UI multiselect padding
+			}
+		}
+
+		li > button {
+			padding: $il-padding-large-vertical $il-standard-filter-controls-padding-left;
+			display: block;
+			width: $il-standard-filter-add-input-popover-list-button-width;
+		}
+	}
 }
 
 .il-filter-bar {
@@ -127,6 +151,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		.btn-bulky {
 			min-height: 0px;
 			width: $il-standard-filter-input-group-width;
+			border: none;
 			background-color: initial;
 			font-size: $il-standard-filter-bar-btn-font-size;
 			justify-content: left;
@@ -150,9 +175,11 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	.btn-bulky {
 		width: auto;
 		background-color: initial;
+		border: none;
 		font-size: $il-font-size-base;
 
 		&:hover {
+			border: none;
 			background-color: $il-main-darker-bg;
 		}
 	}
@@ -216,14 +243,15 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	}
 }
 
-.il-filter-add-list ul {
-	list-style: none;
-	margin: $il-standard-filter-add-input-popover-list-margin;
-	padding: $il-standard-filter-add-input-popover-list-padding;
-
-	li > button {
-		padding: $il-padding-large-vertical $il-standard-filter-controls-padding-left;
-		display: block;
-		width: $il-standard-filter-add-input-popover-list-button-width;
-	}
+.input-group-addon {
+  padding: 3px 8px;
+  font-size: $il-font-size-base;
+  font-weight: $il-font-weight-base;
+  line-height: 1;
+  color: $il-text-color;
+  text-align: center;
+  background-color: $il-main-dark-bg;
+  border: 1px solid lighten($il-neutral-light-color, 20%);
+  border-radius: 0;
 }
+

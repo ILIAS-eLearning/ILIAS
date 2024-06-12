@@ -103,7 +103,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         return $this->getFormWrappedHtml(
             'TextFieldInput',
             'label',
-            '<input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
             'form/input_0'
@@ -124,13 +124,13 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($form);
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-           <div class="il-standard-form-header clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+           <div class="c-form__header">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
            </div>'
            . $this->getTextFieldHtml() .
           '<div class="il-standard-form-footer clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
            </div>
         </form>
         ');
@@ -169,13 +169,13 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-           <div class="il-standard-form-header clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
+        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+           <div class="c-form__header">
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
            </div>'
             . $this->getTextFieldHtml() .
            '<div class="il-standard-form-footer clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
+              <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
            </div>
         </form>
         ');
@@ -196,14 +196,18 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-           <div class="il-standard-form-header clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-           </div>'
+        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+            <div class="c-form__header">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
+                </div>
+            </div>'
            . $this->getTextFieldHtml() .
-           '<div class="il-standard-form-footer clearfix">
-              <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-           </div>
+           '<div class="c-form__footer">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
+                </div>
+            </div>
         </form>
         ');
         $this->assertHTMLEquals($expected, $html);
@@ -252,24 +256,25 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-                <div class="il-standard-form-header clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+            <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+            <div class="c-form__header">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
                 </div>
-
-                <div class="help-block alert alert-danger" role="alert">testing error message</div>
-
-                <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="form_0/input_1">
-                    <div class="c-input__error-msg" aria-describedby="id_1" role="alert">This is invalid...</div>
-                    <legend><label tabindex="0" for="id_1">label</label></legend>
-                    <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" /></div>
-                    <div class="c-input__help-byline">byline</div>
-                </fieldset>
-
-                <div class="il-standard-form-footer clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+            </div>
+            <div class="c-form__error-msg alert alert-danger" role="alert">testing error message</div>
+            <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="form_0/input_1"><label
+                    for="id_1">label</label>
+                <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text"/></div>
+                <div class="c-input__error-msg alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
+                <div class="c-input__help-byline">byline</div>
+            </fieldset>
+            <div class="c-form__footer">
+                <div class="c-form__actions">
+                    <button class="btn btn-default" data-action="">save</button>
                 </div>
-            </form>
+            </div>
+        </form>
         ');
         $this->assertEquals($expected, $html);
         $this->assertHTMLEquals($expected, $html);
@@ -314,7 +319,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $field_html = $this->getFormWrappedHtml(
             'TextFieldInput',
             'label',
-            '<input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text" />',
             'byline',
             'id_1',
             'form_0/input_1'
@@ -322,14 +327,14 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
-                <div class="il-standard-form-header clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+            <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+                <div class="c-form__header">
+                    <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
-                <div class="help-block alert alert-danger" role="alert">This is a fail on form.</div>
+                <div class="c-form__error-msg alert alert-danger" role="alert">This is a fail on form.</div>
                 ' . $field_html . '
                 <div class="il-standard-form-footer clearfix">
-                    <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+                    <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
             </form>
         ');
@@ -350,16 +355,16 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $field_html = $this->getFormWrappedHtml(
             'TextFieldInput',
             'label<span class="asterisk">*</span>',
-            '<input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
             'form/input_0'
         );
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
-    <div class="il-standard-form-header clearfix">
-        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+<form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+    <div class="c-form__header">
+        <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
         <div class="il-standard-form-required">
             <span class="asterisk">*</span><span class="small"> required_field</span>
         </div>
@@ -369,7 +374,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         <span class="asterisk">*</span><span class="small"> required_field</span>
     </div>
    <div class="il-standard-form-footer clearfix">
-      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+      <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
    </div>
 </form>
         ');

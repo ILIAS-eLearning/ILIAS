@@ -59,7 +59,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $f1 = $this->getFormWrappedHtml(
             'TextFieldInput',
             '',
-            '<input id="id_1" type="text" name="name_0/label_1" class="form-control form-control-sm" />',
+            '<input id="id_1" type="text" name="name_0/label_1" class="c-field-text" />',
             null,
             'id_1',
             'name_0/label_1'
@@ -67,7 +67,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $f2 = $this->getFormWrappedHtml(
             'UrlFieldInput',
             '',
-            '<input id="id_2" type="url" name="name_0/url_2" class="form-control form-control-sm" />',
+            '<input id="id_2" type="url" name="name_0/url_2" class="c-field-url" />',
             null,
             'id_2',
             'name_0/url_2'

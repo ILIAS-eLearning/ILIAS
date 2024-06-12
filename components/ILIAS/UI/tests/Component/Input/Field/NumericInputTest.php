@@ -61,7 +61,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'NumericFieldInput',
             $label,
-            '<input id="id_1" type="number" name="name_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="number" name="name_0" class="c-field-number" />',
             $byline
         );
         $this->assertEquals($expected, $this->render($numeric));
@@ -89,7 +89,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'NumericFieldInput',
             $label,
-            '<input id="id_1" type="number" value="10" name="name_0" class="form-control form-control-sm" />',
+            '<input id="id_1" type="number" value="10" name="name_0" class="c-field-number" />',
             null
         );
         $this->assertEquals($expected, $this->render($numeric));

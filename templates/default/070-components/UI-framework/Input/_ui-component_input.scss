@@ -1,9 +1,27 @@
-@use "../../../010-settings/"as *;
+////
+/// # ILIAS UI: Forms & Input fields
+/// General layout & design shared by all UI Framework forms and input fields.
+/// Forms can repeatedly nest elements. You SHOULD use children selectors (>) to target very specific structures.
+////
+
+/// ## Imports
+/// ### Modules included in SASS
+/// for managing lists with allowed layout locations
+@use 'sass:list';
+
+/// ### ILIAS modules
+@use "../../../010-settings" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
+
 @use "../../../030-tools/tool_focus-outline" as *;
 @use "../../../030-tools/tool_rem-conversion" as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
-@use "../../../050-layout/basics"as *;
+
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_form" as l-form;
+@use "../../../050-layout/layout_breakpoints" as brk;
+@use "../../../050-layout/basics" as l;
+
 //== Specific Inputs
 //
 //
@@ -40,106 +58,147 @@
       @media (max-width: $il-grid-float-breakpoint-max){
         min-width: 0;
       }
+
+/// ### All input UI components
+/// This file is an entry point for all input fields of the UI framework.
+/// CSS generation only. You MUST NOT use any of their variables, functions, mixins outside local scope.
+@use "ui-component_tag";
+@use "ui-component_checkbox";
+@use "ui-component_password";
+@use "ui-component_radio";
+@use "ui-component_multiselect";
+@use "ui-component_textarea";
+@use "ui-component_filter";
+@use "ui-component_duration";
+@use "ui-component_file";
+@use "ui-component_link";
+@use "ui-component_markdown";
+@use "ui-component_rating";
+@use "ui-component_section";
+@use "ui-component_optionalgroups";
+
+/// general form container styling
+.c-form {
+  .c-form__header,
+  .c-form__footer {
+    display: grid;
+    grid-template-areas: "required actions";
+    grid-template-columns: 1fr auto;
+
+    .c-form__actions {
+      grid-area: actions;
     }
 
+    .c-form__required {
+      grid-area: required;
+    }
+  }
+  .c-form__footer {
+    margin-top: l.$il-margin-xxlarge-vertical;
+  }
+}
+
+/// standard grid layout
+.c-input[data-il-ui-type] {
+  display: grid;
+  grid-template-columns: l-form.$form__label-column__width l-form.$form__field-column__width;
+  grid-template-areas:  "label field"
+                        "label error"
+                        "label help";
+
+  margin-top: l.$il-margin-xxlarge-vertical;
+  &:first-child {
+    margin-top: 0;
   }
 
-  .il-standard-form-footer, .il-standard-form-header, .il-section-input-header{
-    background-color: $il-standard-form-header-bg;
-    color: $il-standard-form-header-color;
+  > label {
+    display: block;
+    grid-area: label;
+    padding-right: l.$il-margin-large-horizontal;
   }
 
-  .il-standard-form-header, .il-standard-form-footer {
-    padding-right: $il-padding-xlarge-horizontal;
+  > .c-input__field {
+    grid-area: field;
   }
 
-  .il-standard-form-header {
-    margin-bottom: $il-padding-large-vertical;
+  > .c-input__help-byline {
+    grid-area: help;
   }
 
-  .il-standard-form-header + .il-section-input > .il-section-input-header {
-    border-top: none;
+  > .c-input__error-msg {
+    grid-area: error;
   }
 
-  .il-section-input-header {
-    padding: $il-standard-form-header-padding;
-
-    margin: $il-standard-form-header-margin;
-    border-top: $il-standard-form-header-border;
+  @include brk.on-screen-size(small) {
+    grid-template-columns: 100%;
+    grid-template-areas:  "label"
+                          "field"
+                          "error"
+                          "help";
+    > .c-input__field {
+      margin-top: l.$il-margin-base-vertical;
+    }
   }
+}
 
-  .il-standard-form-header h2, .il-section-input-header h2{
-    font-size: $il-standard-form-header-font-size;
-    font-weight: $il-font-weight-bold;
-    padding-top: 2*$il-padding-large-vertical;
-    padding-bottom: $il-padding-small-vertical;
+/// styling shared by multiple input elements
 
+// hover/focus extends beyond box without pushing it
+.c-input:not([data-il-ui-type="SectionFieldInput"]) {
+  &:hover {
+    box-shadow: 0px 0px 0px l.$il-margin-base-horizontal $il-main-dark-bg;
+    background-color: $il-main-dark-bg;
   }
-
-  .il-standar-form-header-byline, .il-section-input-header-byline{
-    font-size: $il-standard-form-header-byline-font-size;
+  &:has(:focus-visible) {
+    box-shadow: 0px 0px 0px l.$il-margin-base-horizontal $il-highlight-bg;
+    background-color: $il-highlight-bg;
   }
+}
 
-  // Add padding if a required field is declared to avoid overlapping with the first section header title
-  .il-standard-form-required {
-    padding-bottom: 2 * $il-padding-xxlarge-horizontal;
+.c-form {
+  .c-form__error-msg {
+    margin-top: l.$il-margin-large-vertical;
+    margin-bottom: 0; // overrides alert default
   }
-
-  //Move the first section header up, to be displayed next to the forms top button if no required field is declared
-  .il-standard-form-header + .il-section-input{
-    $button-height: $il-line-height-computed + $il-padding-small-vertical;
-    margin-top: -1 * ($button-height + $il-margin-xxxlarge-vertical + $il-padding-xxlarge-vertical);
-    padding: 0;
-
-    .il-section-input-header h2{
+  .c-input[data-il-ui-type] input:invalid {
+    background-color: $il-alert-danger-bg;
+    border: 1px solid $il-alert-danger-border;
+  }
+  .c-input__help-byline {
+    margin-top: l.$il-margin-small-vertical;
+    font-size: $il-font-size-small;
+  }
+  .c-input__error-msg {
+    margin-top: l.$il-margin-small-vertical;
+    &:first-child {
       margin-top: 0;
-      padding-top: 0;
     }
+    margin-bottom: 0; // overrides alert default
   }
-
-  .il-dependant-group{
-    background-color: $il-standard-form-dependant-group-bg;
-    padding: $il-padding-small-vertical 0;
-    .form-group {
-      margin: 0;
-    }
+  .c-input[data-il-ui-type]:not([data-il-ui-type="SectionFieldInput"]):has(> .c-input__error-msg) {
+    border-inline-start: 6px solid $il-alert-danger-border;
+    padding-left: l.$il-padding-base-horizontal;
   }
-
-  input[type="radio"], input[type="checkbox"] {
-    height: unset;
-    width: unset;
+  [data-il-ui-type="TextareaFieldInput"] .c-input__field textarea,
+  [data-il-ui-type="MarkdownFieldInput"] .c-input__field .c-field-markdown textarea {
+		height: l-form.$il-textarea-height;
+		max-width: 100%; // otherwise textarea size can be dragged beyond mainspacekeeper in many browers
   }
-
-}
-
-.input-group-addon {
-	padding: 3px 8px;
-	font-size: $il-font-size-base;
-	font-weight: $il-font-weight-base;
-	line-height: 1;
-	color: $il-text-color;
-	text-align: center;
-	background-color: $il-main-dark-bg;
-	border: 1px solid lighten($il-neutral-light-color,20%);
-	border-radius: 0;
-}
-
-textarea.form-control {
-  max-width: 100%;
-}
-
-select.form-control {
-  width: auto;
-  max-width:100%;
-}
-
-
-
-.radio .help-block {
-  padding-left: $il-padding-xxlarge-horizontal;
-}
-
-td.form-inline > div.form-group {
-  display: block;
-  padding: 4px 0;
+  [data-il-ui-type="TextFieldInput"] .c-input__field input,
+  [data-il-ui-type="PasswordFieldInput"] .c-input__field .c-field-password input,
+  [data-il-ui-type="TextareaFieldInput"] .c-input__field textarea,
+  [data-il-ui-type="MarkdownFieldInput"] > .c-input__field .c-field-markdown textarea,
+  [data-il-ui-type="UrlFieldInput"] .c-input__field input {
+    width: 100%;
+    padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
+    font-size: $il-standard-form-font-size;
+  }
+  [data-il-ui-type="DateTimeFieldInput"] .c-input__field input,
+  [data-il-ui-type="NumericFieldInput"] .c-input__field input {
+    padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
+    font-size: $il-standard-form-font-size;
+  }
+  [data-il-ui-type="SelectFieldInput"] .c-input__field select {
+    padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
+  }
 }

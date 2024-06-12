@@ -1,0 +1,9 @@
+ .c-form .c-input[data-il-ui-type="LinkFieldInput"] {
+    > .c-input__field .c-input {
+        &:hover,
+		&:has(:focus-visible) {
+			box-shadow: none;
+			background-color: transparent;
+		}
+    }
+ }

@@ -60,7 +60,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'CheckboxFieldInput',
             $label,
-            '<input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />',
+            '<input type="checkbox" id="id_1" value="checked" name="name_0" class="c-field-checkbox" />',
             $byline
         );
         $this->assertEquals($expected, $this->render($checkbox));
@@ -73,7 +73,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $value = true;
         $checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($this->name_source);
 
-        $expected = '<input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />';
+        $expected = '<input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="c-field-checkbox" />';
         $this->assertStringContainsString($expected, $this->render($checkbox));
     }
 

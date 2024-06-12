@@ -70,7 +70,7 @@ $il-alert-warning-border: $il-alert-warning-bg !default;
 $il-alert-warning-text: $il-text-color !default;
 
 $il-alert-danger-bg: color.scale($il-danger-color, $lightness: 86%) !default;
-$il-alert-danger-border: $il-alert-danger-bg !default;
+$il-alert-danger-border: $il-danger-color !default;
 $il-alert-danger-text: $il-text-color !default;
 
 //== Extended Colors
