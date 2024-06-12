@@ -12,7 +12,7 @@ As an example, we will use a to-do list that can be displayed and edited on the 
 * **description**, description of the task (text, any length)
 * **deadline**, deadline by which the task must be completed (date)
 
-## Why do I need This in ILIAS?
+## Why do I need this in ILIAS?
 
 Database tables are used to store small pieces of information that are entered directly or generated automatically when using ILIAS and that should be retained even after the ILIAS session has ended. Tables are suitable for quick access, good searchability and frequent changes.
 
@@ -22,12 +22,12 @@ ILIAS is designed for the use of MySQL or MariaDB as database systems, but also 
 
 The interface provides functions for creating and changing database tables as well as for the typical CRUD operations (Create, Read, Update, Delete). Changes to the data schema must be made in the ILIAS setup or when updating a plugin. Do not use such functions in the normal application!
 
-### Create a database table for an ILIAS component
+### Create a Database Table for an ILIAS Component
 
-Each ILIAS component that needs database changes via the setup must provide two classes in its subfolder `classes/Setup` that implement the interfaces `ILIAS\Setup\Agent` and `ilDatabaseUpdateSteps`. A minimal implementation for our example can be found in the following files:
+Each ILIAS component that needs database changes via the setup must provide two classes in its subfolder `src/Setup` that implement the interfaces `ILIAS\Setup\Agent` and `ilDatabaseUpdateSteps`. A minimal implementation for our example can be found in the following files:
 
-* [ilTodoSetupAgent](TodoExample/classes/Setup/class.ilTodoSetupAgent.php)
-* [ilTodoDBUpdateSteps](TodoExample/classes/Setup/class.ilTodoDBUpdateSteps.php)
+* [Agent](TodoExample/src/Setup/Agent.php)
+* [TodoDBUpdateSteps](TodoExample/src/Setup/TodoDBUpdateSteps.php)
 
 The setup agent integrates the class of the update steps into the setup. The individual update steps are numbered `step_x` functions:
 
@@ -94,8 +94,8 @@ To access the ILIAS database, the classes of your component also require an inst
 The following examples follow the [repository pattern](../../../repository-pattern.md), which is recommended for data processing in ILIAS. According to this pattern, all functions for reading and saving data from an application domain should be implemented in a central class, the repository. Composite data is passed between the repository and the application classes as data objects.
 
 You can find the example files for the data class and the repository here:
-* [ilTodoItem](TodoExample/classes/class.ilTodoItem.php)
-* [ilTodoRepository](TodoExample/classes/class.ilTodoRepository.php)
+* [TodoItem](TodoExample/src/TodoItem.php)
+* [TodoRepository](TodoExample/src/TodoRepository.php)
 
 ### Reading Data
 
@@ -127,7 +127,7 @@ If you want to display the entries of a to-do list on the dashboard, you must re
 2. the data is queried with `query()` and a result object is created.
 3. with `fetchAssoc()` the individual data records are read from the result object one after the other as associative arrays.
 
-As an alternative to `query()`, you can use the `queryF()` function, in which the query is passed with placeholders `%s` and the parameters are passed as arrays of data types and values. This can be clearer with many parameters, but makes it more difficult to output the specific query before it is executed when debugging. The example in [ilTodoRepository](TodoExample/classes/class.ilTodoRepository.php) is written this way.
+As an alternative to `query()`, you can use the `queryF()` function, in which the query is passed with placeholders `%s` and the parameters are passed as arrays of data types and values. This can be clearer with many parameters, but makes it more difficult to output the specific query before it is executed when debugging. The example in [TodoRepository](TodoExample/src/TodoRepository.php) is written this way.
 
 ### Saving Data
 
@@ -150,7 +150,7 @@ New entries on the to-do list must be saved in the table. The following example 
     }
 ````
 
-1. a new sequence value for the primary key field todo_id is generated with `nextId()`.
+1. a new sequence value for the primary key field todo_id is generated with `nextId()`. This requires that a `createSequence()` has been done when the table is created. See 'Create a Database Table for an ILIAS Component' above. 
 2. the `insert()` function receives the table name and an associative array with the column names as keys and arrays with data types and contents as values.
 
 ### Updating Data
@@ -190,7 +190,7 @@ Finally, when deleting an entry from the to-do list, its data record must be del
 1. when writing the query, again make sure to quote all parameters with `quote()`.
 2. instead of `query()` the function `manipulate()` must be used for data manipulations.
 
-As an alternative to `manipulate()`, you can use the `manipulateF()` function, in which the query is passed with placeholders `%s` and the parameters are passed as arrays of data types and values. This can be clearer with many parameters, but makes it more difficult to output the specific statement before it is executed when debugging. The example in [ilTodoRepository](TodoExample/classes/class.ilTodoRepository.php) is written this way.
+As an alternative to `manipulate()`, you can use the `manipulateF()` function, in which the query is passed with placeholders `%s` and the parameters are passed as arrays of data types and values. This can be clearer with many parameters, but makes it more difficult to output the specific statement before it is executed when debugging. The example in [TodoRepository](TodoExample/src/TodoRepository.php) is written this way.
 
 The `manipulate()` function can also be used to execute queries for inserting or updating data records. In most cases, however, the use of `insert()` and `update()` is preferable. When using `clob` columns, these functions must be used.
 
