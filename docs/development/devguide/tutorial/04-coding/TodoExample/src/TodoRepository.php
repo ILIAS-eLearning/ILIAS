@@ -1,6 +1,28 @@
 <?php
 
-class ilTodoRepository
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\components\ToDoExample;
+
+use ilDBInterface;
+
+class TodoRepository
 {
     protected ilDBInterface $db;
 
@@ -11,7 +33,7 @@ class ilTodoRepository
 
     /**
      * Get the items of a user
-     * @return ilToDoItem[]
+     * @return ToDoItem[]
      */
     public function getItemsOfUser(int $user_id): array
     {
@@ -22,7 +44,7 @@ class ilTodoRepository
         $result = $this->db->queryF($query, ['integer'], [$user_id]);
 
         while ($row = $this->db->fetchAssoc($result)) {
-            $items[] = new ilTodoItem(
+            $items[] = new TodoItem(
                 $row['item_id'],
                 $row['user_id'],
                 $row['title'],
@@ -37,7 +59,7 @@ class ilTodoRepository
      * Create an item in the database
      * The returned item has an automatically created id
      */
-    public function createItem(ilTodoItem $item): ilTodoItem
+    public function createItem(TodoItem $item): TodoItem
     {
         $todo_id = $this->db->nextId('todo_items');
 
@@ -55,7 +77,7 @@ class ilTodoRepository
     /**
      * Update an item in the database
      */
-    public function updateItem(ilTodoItem $item): void
+    public function updateItem(TodoItem $item): void
     {
         $this->db->update('todo_items', [
             'user_id' => ['integer', $item->getUserId()],
@@ -69,7 +91,7 @@ class ilTodoRepository
     }
 
 
-    public function deleteItem(ilToDoItem $item): void
+    public function deleteItem(ToDoItem $item): void
     {
         $query = "DELETE FROM todo_items WHERE todo_id = %s";
 
