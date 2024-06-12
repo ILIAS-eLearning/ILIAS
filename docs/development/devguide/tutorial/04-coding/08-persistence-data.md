@@ -1,4 +1,4 @@
-# Database Usage In ILIAS
+# Database usage in ILIAS
 
 ## What is this about?
 
