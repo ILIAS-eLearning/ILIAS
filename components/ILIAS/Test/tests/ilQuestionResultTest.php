@@ -17,6 +17,7 @@
  *********************************************************************/
 
 namespace Test\tests;
+
 use ilQuestionResult;
 use ilTestBaseTestCase;
 
@@ -34,12 +35,13 @@ class ilQuestionResultTest extends ilTestBaseTestCase
             '',
             0.0,
             0.0,
-           '',
-           '',
-           '',
-           true,
-           true,
-           ''
+            '',
+            '',
+            '',
+            true,
+            true,
+            0,
+            ''
         );
     }
 
