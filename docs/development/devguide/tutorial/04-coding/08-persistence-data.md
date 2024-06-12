@@ -16,7 +16,7 @@ As an example, we will use a to-do list that can be displayed and edited on the 
 
 Database tables are used to store small pieces of information that are entered directly or generated automatically when using ILIAS and that should be retained even after the ILIAS session has ended. Tables are suitable for quick access, good searchability and frequent changes.
 
-## How to Proceed?
+## How to proceed?
 
 ILIAS is designed for the use of MysQL or MariaDB as database systems, but also supported Oracle and PostgreSQL in former versions. To keep this flexibility, database calls must use the interface [ilDBInterface](../../../../../components/ILIAS/Database/interfaces/interface.ilDBInterface.php), whose functions largely abstract the peculiarities of certain SQL dialects.
 
