@@ -18,7 +18,7 @@ Database tables are used to store small pieces of information that are entered d
 
 ## How to proceed?
 
-ILIAS is designed for the use of MysQL or MariaDB as database systems, but also supported Oracle and PostgreSQL in former versions. To keep this flexibility, database calls must use the interface [ilDBInterface](../../../../../components/ILIAS/Database/interfaces/interface.ilDBInterface.php), whose functions largely abstract the peculiarities of certain SQL dialects.
+ILIAS is designed for the use of MySQL or MariaDB as database systems, but also supported Oracle and PostgreSQL in former versions. To keep this flexibility, database calls must use the interface [ilDBInterface](../../../../../components/ILIAS/Database/interfaces/interface.ilDBInterface.php), whose functions largely abstract the peculiarities of certain SQL dialects.
 
 The interface provides functions for creating and changing database tables as well as for the typical CRUD operations (Create, Read, Update, Delete). Changes to the data schema must be made in the ILIAS setup or when updating a plugin. Do not use such functions in the normal application!
 
