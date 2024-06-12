@@ -2338,6 +2338,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilnewstimelinegui":
+                if (!$this->__checkStartObjects()) {    // see #37236
+                    $this->ctrl->redirectByClass(self::class, "view");
+                }
                 $this->tabs_gui->setTabActive('news_timeline');
                 $t = ilNewsTimelineGUI::getInstance(
                     $this->object->getRefId(),
