@@ -36,5 +36,9 @@ class Course implements Component\Component
             new \ilCourseObjectiveSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilCourseSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }
