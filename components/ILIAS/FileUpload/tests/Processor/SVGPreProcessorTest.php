@@ -100,7 +100,7 @@ aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
 
         $this->assertFalse($result->getCode() === ProcessingStatus::OK);
         $this->assertTrue($result->getCode() === ProcessingStatus::DENIED);
-        $this->assertSame('The SVG file contains malicious code. (' . $type . ').', $result->getMessage());
+        $this->assertSame('The SVG file contains malicious code. (' . $type . ')', $result->getMessage());
     }
 
     public function testSaneSVG(): void
