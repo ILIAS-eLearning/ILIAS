@@ -1,6 +1,6 @@
 # Database Usage In ILIAS
 
-## What is This About?
+## What is this about?
 
 In this tutorial you will learn how to create and use a database table in ILIAS.
 
