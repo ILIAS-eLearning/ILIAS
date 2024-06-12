@@ -194,7 +194,7 @@ As an alternative to `manipulate()`, you can use the `manipulateF()` function, i
 
 The `manipulate()` function can also be used to execute queries for inserting or updating data records. In most cases, however, the use of `insert()` and `update()` is preferable. When using `clob` columns, these functions must be used.
 
-## What do I Need to Watch Out For? (Dos & Dont's)
+## What do I need to watch out for? (Dos & Dont's)
 
 ### Security
 
