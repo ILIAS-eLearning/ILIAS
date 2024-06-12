@@ -1070,7 +1070,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     continue;
                 }
 
-                if (!$rbacsystem->checkAccess('visible,read,copy', $node["ref_id"])) {
+                if (!$rbacsystem->checkAccess('visible,read', $node["ref_id"])) {
                     $no_copy[] = $node["ref_id"];
                 }
             }
