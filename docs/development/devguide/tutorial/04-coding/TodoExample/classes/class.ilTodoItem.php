@@ -9,11 +9,11 @@ class ilTodoItem
     private ?string $deadline;
 
     public function __construct(
-        int $todo_id,
-        int $user_id,
-        string $title,
-        ?string $description,
-        ?string $deadline
+        private int $todo_id,
+        private int $user_id,
+        private string $title,
+        private ?string $description,
+        private ?string $deadline
     ) {
         $this->todo_id = $todo_id;
         $this->user_id = $user_id;
