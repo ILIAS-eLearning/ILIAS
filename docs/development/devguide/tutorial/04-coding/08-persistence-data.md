@@ -12,7 +12,7 @@ As an example, we will use a to-do list that can be displayed and edited on the 
 * **description**, description of the task (text, any length)
 * **deadline**, deadline by which the task must be completed (date)
 
-## Why do I Need This in ILIAS?
+## Why do I need This in ILIAS?
 
 Database tables are used to store small pieces of information that are entered directly or generated automatically when using ILIAS and that should be retained even after the ILIAS session has ended. Tables are suitable for quick access, good searchability and frequent changes.
 
