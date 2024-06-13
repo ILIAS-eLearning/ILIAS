@@ -25,6 +25,7 @@ use DateTimeImmutable;
 use Exception;
 use Generator;
 use ilAccessHandler;
+use ilCalendarSettings;
 use ilCtrl;
 use ilCtrlInterface;
 use ILIAS\Data\Order;
@@ -174,14 +175,18 @@ class CertificateOverviewTable implements DataRetrieval
     private function buildTable(): Data
     {
         $uiTable = $this->ui_factory->table();
+
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
         return $uiTable->data(
             $this->lng->txt('certificates'),
             [
                 'certificate_id' => $uiTable->column()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $uiTable->column()->date(
-                    $this->lng->txt('certificate_issue_date'),
-                    $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard())
-                ),
+                'issue_date' => $uiTable->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
                 'object' => $uiTable->column()->text($this->lng->txt('obj')),
                 'obj_id' => $uiTable->column()->text($this->lng->txt('object_id')),
                 'owner' => $uiTable->column()->text($this->lng->txt('owner')),
