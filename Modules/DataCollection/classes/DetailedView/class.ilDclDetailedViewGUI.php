@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI
  */
@@ -221,7 +222,7 @@ class ilDclDetailedViewGUI
         $tpl->setPermanentLink(
             'dcl',
             filter_input(INPUT_GET, 'ref_id', FILTER_VALIDATE_INT),
-            '_' . $this->tableview_id . '_' . $this->record_obj->getId()
+            $this->table->getId() . '_' . $this->tableview_id . '_' . $this->record_obj->getId()
         );
 
         // Buttons for previous/next records

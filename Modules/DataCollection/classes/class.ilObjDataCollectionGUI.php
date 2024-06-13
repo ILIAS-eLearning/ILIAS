@@ -32,7 +32,9 @@ declare(strict_types=1);
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
     public const GET_REF_ID = "ref_id";
+    public const GET_TABLE_ID = "table_id";
     public const GET_VIEW_ID = "tableview_id";
+    public const GET_RECORD_ID = "record_id";
 
     public const TAB_EDIT_DCL = 'settings';
     public const TAB_LIST_TABLES = 'dcl_tables';
@@ -348,25 +350,28 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $access = $DIC->access();
         $tpl = $DIC->ui()->mainTemplate();
 
-        $target_parts = explode("_", $a_target);
-        if (count($target_parts) === 1) {
-            [$ref_id] = $target_parts;
-        } elseif (count($target_parts) === 2) {
-            [$ref_id, $viewId] = $target_parts;
-        } else {
-            [$ref_id, $viewId, $recordId] = $target_parts;
-        }
+        $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
+        $values = array_combine($values, array_pad(explode("_", $a_target), count($values), null));
+
+        $ref_id = (int) $values[self::GET_REF_ID];
 
         //load record list
-        if ($access->checkAccess('read', "", (int)$ref_id)) {
+        if ($access->checkAccess('read', "", $ref_id)) {
             $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
-            if (isset($viewId)) {
-                $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_VIEW_ID, $viewId);
+            if ($values['table_id'] !== null) {
+                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $values['table_id']);
+                if ($values['tableview_id'] !== null) {
+                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $values['tableview_id']);
+                }
+                if ($values['record_id'] !== null) {
+                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $values['record_id']);
+                    $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], "renderRecord");
+                }
             }
-            $ilCtrl->redirectByClass(ilRepositoryGUI::class, "listRecords");
+            $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclRecordListGUI::class], "listRecords");
         }
         //redirect to info screen
-        elseif ($access->checkAccess('visbile', "", (int)$ref_id)) {
+        elseif ($access->checkAccess('visbile', "", $ref_id)) {
             ilObjectGUI::_gotoRepositoryNode((int)$a_target, "infoScreen");
         }
         //redirect if no permission given
@@ -507,7 +512,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords(): void
     {
-        $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "tableview_id", $this->getTableViewId());
         $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
     }
 
