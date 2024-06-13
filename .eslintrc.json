@@ -54,6 +54,14 @@
       {
         "devDependencies": true
       }
+    ],
+    // allow to reassign argument properties for e.g. altering
+    // HTMLElement styles and state.
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
     ]
   }
 }
