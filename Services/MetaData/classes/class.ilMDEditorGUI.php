@@ -492,7 +492,7 @@ class ilMDEditorGUI
         // language(s)
         $first = true;
         $options = ilMDLanguageItem::_getLanguages();
-        $first_lang = '';
+        $first_lang = 'en';
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
             $md_lan = $this->md_section->getLanguage($id);
             $first_lang = $md_lan->getLanguageCode();
@@ -767,6 +767,8 @@ class ilMDEditorGUI
         }
         $keyword_values = $keywords['value'] ?? null;
         if (is_array($keyword_values)) {
+            global $DIC;
+            $DIC->logger()->root()->dump($keyword_values);
             ilMDKeyword::updateKeywords($this->md_section, $keyword_values);
         }
         $this->callListeners('General');
