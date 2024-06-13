@@ -66,8 +66,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->addColumn("", "f", "1");
-        $this->addColumn($this->lng->txt("crs_materials"), "object", "90%");
-        $this->addColumn($this->lng->txt("sess_is_assigned"), "active", "5");
+        $this->addColumn($this->lng->txt("crs_materials"), "title", "90%");
+        $this->addColumn($this->lng->txt("sess_is_assigned"), "sorthash", "5");
         //todo can I remove this?
         $this->setSelectAllCheckbox('items');
 
@@ -103,10 +103,21 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $tree = $this->tree;
         $objDefinition = $this->objDefinition;
 
-        $nodes = $tree->getSubTree($tree->getNodeData($this->parent_ref_id));
         $materials = [];
 
-        foreach ($nodes as $node) {
+        $already_assigned_ref_ids = [];
+        foreach ($this->getMaterialItems() as $ref_id) {
+            $already_assigned_ref_ids[] = $ref_id;
+            $node = $tree->getNodeData($ref_id);
+            $node["sorthash"] = '0' . $node["title"];
+            $materials[] = $tree->getNodeData($ref_id);
+        }
+
+        foreach ($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $node) {
+            if (in_array($node['ref_id'], $already_assigned_ref_ids)) {
+                continue;
+            }
+
             // No side blocks here
             if ($node['child'] == $this->parent_ref_id ||
                 $objDefinition->isSideBlock($node['type']) ||
@@ -114,13 +125,10 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
                 continue;
             }
 
-            if ($node['type'] == 'rolf') {
-                continue;
+            if (!empty($already_assigned_ref_ids)) {
+                $node["sorthash"] = '0' . $node["title"];
             }
 
-            if (!empty($this->getMaterialItems())) {
-                $node["sorthash"] = (int) (!in_array($node['ref_id'], $this->getMaterialItems())) . $node["title"];
-            }
             $materials[] = $node;
         }
 
@@ -208,8 +216,9 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         $path = new ilPathGUI();
-        $path->enableDisplayCut(true);
+        $path->enableDisplayCut(false);
         $path->enableTextOnly(false);
+        $path->enableHideLeaf(false);
         $this->tpl->setVariable("COLL_PATH", $path->getPath($this->getContainerRefId(), (int) $a_set['ref_id']));
     }
 
