@@ -188,7 +188,15 @@ class ilDclRecordListGUI
             $this->tpl->setOnScreenMessage('info', $message, true);
         }
 
-        $this->tpl->setPermanentLink("dcl", $this->parent_obj->getRefId(), "_" . $this->tableview_id);
+        $target = '';
+        if ($this->http->wrapper()->query()->has('table_id')) {
+            $target .= $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->to()->string());
+        }
+        if ($this->http->wrapper()->query()->has('tableview_id')) {
+            $target .= '_' . $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->to()->string());
+        }
+
+        $this->tpl->setPermanentLink("dcl", $this->parent_obj->getRefId(), $target);
 
         if ($desc = $this->table_obj->getDescription()) {
             $ilSetting = new ilSetting('advanced_editing');
