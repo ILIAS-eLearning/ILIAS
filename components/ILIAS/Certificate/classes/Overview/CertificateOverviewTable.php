@@ -174,7 +174,7 @@ class CertificateOverviewTable implements DataRetrieval
 
     private function buildTable(): Data
     {
-        $uiTable = $this->ui_factory->table();
+        $ui_table = $this->ui_factory->table();
 
         if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
             $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
@@ -182,21 +182,22 @@ class CertificateOverviewTable implements DataRetrieval
             $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
         }
 
-        return $uiTable->data(
+        return $ui_table->data(
             $this->lng->txt('certificates'),
             [
-                'certificate_id' => $uiTable->column()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $uiTable->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
-                'object' => $uiTable->column()->text($this->lng->txt('obj')),
-                'obj_id' => $uiTable->column()->text($this->lng->txt('object_id')),
-                'owner' => $uiTable->column()->text($this->lng->txt('owner')),
+                'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
+                'issue_date' => $ui_table->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
+                'object' => $ui_table->column()->text($this->lng->txt('obj')),
+                'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
+                'owner' => $ui_table->column()->text($this->lng->txt('owner'))
             ],
             $this
         )
             ->withOrder(new Order('issue_date', Order::DESC))
             ->withId('certificateOverviewTable')
             ->withRequest($this->request)
-            ->withActions($this->buildTableActions());
+            ->withActions($this->buildTableActions())
+            ->withNumberOfRows((int) ($this->user->getPref('hits_per_page') ?: '50'));
     }
 
     private function buildTableActions(): array
