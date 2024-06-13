@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 
 /**
  * Class for file upload questions
@@ -675,7 +676,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
-        $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
+        try {
+            $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
+        } catch (IllegalStateException $e) {
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            return false;
+        }
+
         $rid = null;
 
         if ($upload_handling_required) {
@@ -872,7 +879,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
         } else {
             // hey: prevPassSolutions - readability spree - get a chance to understand the code
-            if ($this->isFileUploadAvailable()) {
+            try {
+                $fileUploadAvailable = $this->isFileUploadAvailable();
+            } catch (IllegalStateException $e) {
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                return;
+            }
+            if ($fileUploadAvailable) {
                 // hey.
                 if ($this->checkUpload()) {
                     if (!@file_exists($this->getPreviewFileUploadPath($previewSession->getUserId()))) {
@@ -1098,6 +1111,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return true;
     }
 
+    /**
+     * @throws IllegalStateException
+     */
     protected function isFileUploadAvailable(): bool
     {
         if (!$this->file_upload->hasBeenProcessed()) {
