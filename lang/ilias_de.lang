@@ -14363,7 +14363,8 @@ rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Die Rechtevorgaben der ausgewäh
 rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
 rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Es werden nur die Rechtevorgaben der Rollen verändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
 rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Ausgewählte Rechte in vorhandenen Objekten entfernen
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die Rechte werden aus den Rechtevorgaben der ausgewählten Rollen UND aus den Rechteeinstellungen bereits vorhandener Objekte entfernt.rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die Rechte werden aus den Rechtevorgaben der ausgewählten Rollen UND aus den Rechteeinstellungen bereits vorhandener Objekte entfernt.
+rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
 rbac#:#rbac_keep_local_policies#:#Lokale Zugriffsregelungen beibehalten
