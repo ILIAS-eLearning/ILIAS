@@ -22,6 +22,7 @@ namespace ILIAS\LegalDocuments;
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\LegalDocuments\Value\Criterion;
@@ -133,38 +134,31 @@ class Administration
 
     public function retrieveIds(): array
     {
-        $ids = $this->container->http()->wrapper()->post()->retrieve(
+        $ids = $this->retrieveValueOrDefaultFromPost(
             'ids',
-            $this->container->refinery()->byTrying([
-                $this->container->refinery()->to()->listOf(
-                    $this->container->refinery()->kindlyTo()->int()
-                ),
-                $this->container->refinery()->always(null)
-            ])
+            $this->container->refinery()->to()->listOf(
+                $this->container->refinery()->kindlyTo()->int()
+            )
         );
 
         if (!$ids) {
             //Try reading from UI-Table action
-            $ids = $this->http_wrapper->query()->retrieve(
+            $ids = $this->retrieveValueOrDefaultFromQuery(
                 'legal_document_id',
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([]),
-                ])
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                []
             );
         }
 
         if (!$ids) {
             //Try reading from UI-Table "apply to all objects"
-            $ids = $this->http_wrapper->query()->retrieve(
+            $ids = $this->retrieveValueOrDefaultFromQuery(
                 'legal_document_id',
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                    $this->refinery->always([]),
-                ])
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                []
             );
 
-            if ($ids[array_key_first($ids)] === 'ALL_OBJECTS') {
+            if (current($ids) === 'ALL_OBJECTS') {
                 $ids = [];
                 foreach ($this->config->legalDocuments()->document()->repository()->all() as $document) {
                     $ids[] = $document->id();
@@ -173,6 +167,28 @@ class Administration
         }
 
         return $ids ?: [];
+    }
+
+    private function retrieveValueOrDefaultFromPost(string $key, Transformation $transformation, mixed $default = null): mixed
+    {
+        return $this->container->http()->wrapper()->post()->retrieve(
+            $key,
+            $this->container->refinery()->byTrying([
+                $transformation,
+                $this->container->refinery()->always($default)
+            ])
+        );
+    }
+
+    private function retrieveValueOrDefaultFromQuery(string $key, Transformation $transformation, mixed $default = null): mixed
+    {
+        return $this->container->http()->wrapper()->query()->retrieve(
+            $key,
+            $this->container->refinery()->byTrying([
+                $transformation,
+                $this->container->refinery()->always($default)
+            ])
+        );
     }
 
     /**
@@ -269,23 +285,19 @@ class Administration
      */
     public function currentDocument(): Result
     {
-        $doc_id = $this->http_wrapper->query()->retrieve(
+        $doc_id = $this->retrieveValueOrDefaultFromQuery(
             'doc_id',
-            $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->int(),
-                $this->refinery->always(null),
-            ])
+            $this->refinery->kindlyTo()->int(),
         );
+
         if (!$doc_id) {
             //Try reading from UI-Table action
-            $doc_id = $this->http_wrapper->query()->retrieve(
+            $doc_id = $this->retrieveValueOrDefaultFromQuery(
                 'legal_document_id',
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([]),
-                ])
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                []
             );
-            $doc_id = $doc_id === [] ? null : $doc_id[array_key_first($doc_id)];
+            $doc_id = current($doc_id) ?: null;
         }
 
         $repo = $this->config->legalDocuments()->document()->repository();

@@ -54,12 +54,11 @@ class DocumentTable implements OrderingBinding
     public const CMD_DELETE_DOCUMENTS = 'deleteDocuments';
     public const CMD_ADD_CRITERION = 'addCriterion';
 
-    private ServerRequestInterface|RequestInterface $request;
-    private Factory $data_factory;
-    private ilCtrl|ilCtrlInterface $ctrl;
-    private Ordering $table;
-    private Renderer $ui_renderer;
-    private array $order;
+    private readonly ServerRequestInterface|RequestInterface $request;
+    private readonly Factory $data_factory;
+    private readonly ilCtrl|ilCtrlInterface $ctrl;
+    private readonly Ordering $table;
+    private readonly Renderer $ui_renderer;
     /**
      * @var Document[]
      */
