@@ -4698,8 +4698,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
     * Returns the text answer of a given user for a given question
     *
-    * @param integer $user_id The user id
-    * @param integer $question_id The question id
+    * @param integer $active_id
+    * @param integer $question_id
     * @return string The answer text
     * @access public
     */
@@ -4712,13 +4712,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             if ($pass === null) {
                 return '';
             }
-            $result = $this->db->queryF(
+            $query = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                 ['integer', 'integer', 'integer'],
                 [$active_id, $question_id, $pass]
             );
-            if ($result->numRows() == 1) {
-                return $row["value1"];
+            $result = $this->db->fetchAll($query);
+            if (count($result) == 1) {
+                return $result[0]["value1"];
             }
         }
         return '';
