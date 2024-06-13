@@ -767,8 +767,6 @@ class ilMDEditorGUI
         }
         $keyword_values = $keywords['value'] ?? null;
         if (is_array($keyword_values)) {
-            global $DIC;
-            $DIC->logger()->root()->dump($keyword_values);
             ilMDKeyword::updateKeywords($this->md_section, $keyword_values);
         }
         $this->callListeners('General');
