@@ -187,10 +187,14 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $irss = $DIC->resourceStorage();
         $fileService = $DIC->filesystem()->web();
 
-        $rid = $irss->manage()->stream(
-            $fileService->readStream('certificates/default/' . $defaultImageFileName),
-            new ilCertificateTemplateStakeholder()
-        );
+        try {
+            $rid = $irss->manage()->stream(
+                $fileService->readStream('certificates/default/' . $defaultImageFileName),
+                new ilCertificateTemplateStakeholder()
+            );
+        } catch (Exception $e) {
+            $rid = '-';
+        }
 
         $this->db->manipulate("DELETE FROM settings WHERE keyword = 'defaultImageFileName'");
         $this->db->insert('settings', [
