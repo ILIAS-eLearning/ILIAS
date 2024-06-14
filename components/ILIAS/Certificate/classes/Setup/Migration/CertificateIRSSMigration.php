@@ -32,7 +32,8 @@ use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
 
 class CertificateIRSSMigration implements Migration
 {
-    public const NUMBER_OF_STEPS = 1;
+    public const NUMBER_OF_STEPS = 10;
+    public const NUMBER_OF_PATHS_PER_STEP = 10;
     private ilDBInterface $db;
     private IRSS $irss;
     private Filesystems $filesystem;
@@ -69,34 +70,41 @@ class CertificateIRSSMigration implements Migration
      */
     public function step(Environment $environment): void
     {
+        $this->db->setLimit(self::NUMBER_OF_PATHS_PER_STEP);
         $query = '
-            SELECT path, GROUP_CONCAT(id ORDER BY id) AS ids
+            SELECT path
             FROM (
-                SELECT id, background_image_identification AS path FROM il_cert_user_cert
+                SELECT id, background_image_path AS path FROM il_cert_user_cert
                 UNION ALL
-                SELECT id, thumbnail_image_identification AS path FROM il_cert_user_cert
+                SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
             ) AS t
-            WHERE path LIKE "%/%"
+            WHERE path IS NOT NULL
             GROUP BY path;
         ';
         $result = $this->db->query($query);
-        while ($row = $this->db->fetchAssoc($result)) {
-            $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_user_cert');
-        }
-
-        $query = '
-            SELECT path, GROUP_CONCAT(id ORDER BY id) AS ids
+        if ($result->numRows() > 0) {
+            while ($row = $this->db->fetchAssoc($result)) {
+                $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_user_cert');
+            }
+        } else {
+            $query = '
+            SELECT path
             FROM (
-                SELECT id, background_image_identification AS path FROM il_cert_template
+                SELECT id, background_image_path AS path FROM il_cert_template
                 UNION ALL
-                SELECT id, thumbnail_image_identification AS path FROM il_cert_template
+                SELECT id, thumbnail_image_path AS path FROM il_cert_template
             ) AS t
-            WHERE path LIKE "%/%"
+            WHERE path IS NOT NULL
             GROUP BY path;
         ';
-        $result = $this->db->query($query);
-        while ($row = $this->db->fetchAssoc($result)) {
-            $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_template');
+            $result = $this->db->query($query);
+            if ($result->numRows() > 0) {
+                while ($row = $this->db->fetchAssoc($result)) {
+                    $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_template');
+                }
+            } else {
+                $this->lastStep();
+            }
         }
     }
 
@@ -105,17 +113,29 @@ class CertificateIRSSMigration implements Migration
         if ($this->filesystem->web()->has($filepath)) {
             $rid = $this->irss->manage()->stream($this->filesystem->web()->readStream($filepath), $this->stakeholder);
 
+            if ($rid === null) {
+                $rid = '-';
+            }
+
             $query = "
                 UPDATE $table
                 SET background_image_identification = CASE
-                               WHEN background_image_identification = $filepath THEN $rid
-                               ELSE background_image_identification
+                               WHEN background_image_path = $filepath THEN $rid
+                               ELSE background_image_path
                             END,
                     thumbnail_image_identification = CASE
-                               WHEN thumbnail_image_identification = $filepath THEN $rid
-                               ELSE thumbnail_image_identification
+                               WHEN thumbnail_image_path = $filepath THEN $rid
+                               ELSE thumbnail_image_path
                             END
-                WHERE background_image_identification = $filepath OR thumbnail_image_identification = $filepath
+                    background_image_path = CASE
+                               WHEN background_image_path = $filepath THEN NULL
+                               ELSE background_image_path
+                            END,
+                    thumbnail_image_path = CASE
+                               WHEN thumbnail_image_path = $filepath THEN NULL
+                               ELSE thumbnail_image_path
+                            END
+                WHERE background_image_path = $filepath OR thumbnail_image_path = $filepath
                 ";
             $this->db->manipulate($query);
         }
@@ -125,36 +145,61 @@ class CertificateIRSSMigration implements Migration
     {
         $result = $this->db->query(
             '
-                    SELECT COUNT(id) AS count
+                    SELECT COUNT(path) AS count
                     FROM (
-                        SELECT id, background_image_identification AS path FROM il_cert_user_cert
+                        SELECT id, background_image_path AS path FROM il_cert_user_cert
                         UNION ALL
-                        SELECT id, thumbnail_image_identification AS path FROM il_cert_user_cert
+                        SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
                     ) AS t
-                    WHERE path LIKE "%/%"
                     GROUP BY path;
             '
         );
         $row = $this->db->fetchAssoc($result);
 
-        $certs = (int) $row['count'];
+        $paths = (int) $row['count'];
 
         $result = $this->db->query(
             '
-                    SELECT COUNT(id) AS count
+                    SELECT COUNT(path) AS count
                     FROM (
-                        SELECT id, background_image_identification AS path FROM il_cert_template
+                        SELECT id, background_image_path AS path FROM il_cert_template
                         UNION ALL
-                        SELECT id, thumbnail_image_identification AS path FROM il_cert_template
+                        SELECT id, thumbnail_image_path AS path FROM il_cert_template
                     ) AS t
-                    WHERE path LIKE "%/%"
                     GROUP BY path;
             '
         );
         $row = $this->db->fetchAssoc($result);
 
-        $certs += (int) $row['count'];
+        $paths += (int) $row['count'];
 
-        return (int) ceil($certs / self::NUMBER_OF_STEPS);
+        $last_step = 1;
+        if (
+            $paths === 0 &&
+            !$this->db->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
+            !$this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path') &&
+            !$this->db->tableColumnExists('il_cert_template', 'background_image_path') &&
+            !$this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')
+        ) {
+            $last_step = 0;
+        }
+
+        return (int) ceil($paths / self::NUMBER_OF_STEPS) + $last_step;
+    }
+
+    public function lastStep(): void
+    {
+        if ($this->db->tableColumnExists('il_cert_user_cert', 'background_image_path')) {
+            $this->db->dropTableColumn('il_cert_user_cert', 'background_image_path');
+        }
+        if ($this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
+            $this->db->dropTableColumn('il_cert_user_cert', 'thumbnail_image_path');
+        }
+        if ($this->db->tableColumnExists('il_cert_template', 'background_image_path')) {
+            $this->db->dropTableColumn('il_cert_template', 'background_image_path');
+        }
+        if ($this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')) {
+            $this->db->dropTableColumn('il_cert_template', 'thumbnail_image_path');
+        }
     }
 }

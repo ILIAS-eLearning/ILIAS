@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
+
 class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -97,33 +99,68 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         if (
             $this->db->tableExists('il_cert_user_cert')
         ) {
-            $this->db->renameTableColumn(
+            $this->db->addTableColumn(
                 'il_cert_user_cert',
-                'background_image_path',
-                'background_image_identification'
+                'background_image_identification',
+                [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => false,
+                ]
             );
 
-            $this->db->renameTableColumn(
+            $this->db->addTableColumn(
                 'il_cert_user_cert',
-                'thumbnail_image_path',
-                'thumbnail_image_identification'
+                'thumbnail_image_identification',
+                [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => false,
+                ]
             );
         }
 
         if (
             $this->db->tableExists('il_cert_template')
         ) {
-            $this->db->renameTableColumn(
+            $this->db->addTableColumn(
                 'il_cert_template',
-                'background_image_path',
-                'background_image_identification'
+                'background_image_identification',
+                [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => false,
+                ]
             );
 
-            $this->db->renameTableColumn(
+            $this->db->addTableColumn(
                 'il_cert_template',
-                'thumbnail_image_path',
-                'thumbnail_image_identification'
+                'thumbnail_image_identification',
+                [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => false,
+                ]
             );
         }
+
+        $res = $this->db->query("SELECT value FROM settings WHERE keyword = 'defaultImageFileName'");
+        $row = $this->db->fetchAssoc($res);
+        $defaultImageFileName = $row['value'] ?? '';
+
+        global $DIC;
+        $irss = $DIC->resourceStorage();
+        $fileService = $DIC->filesystem()->web();
+
+        $rid = $irss->manage()->stream(
+            $fileService->readStream('certificates/default/' . $defaultImageFileName),
+            new ilCertificateTemplateStakeholder()
+        );
+
+        $this->db->manipulate("DELETE FROM settings WHERE keyword = 'defaultImageFileName'");
+        $this->db->insert('settings', [
+            'keyword' => ['text', 'cert_bg_image'],
+            'value' => ['text', $rid],
+        ]);
     }
 }
