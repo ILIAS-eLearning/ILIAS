@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -174,7 +173,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $GLOBALS['DIC']['ilNavigationHistory']->addItem(
                 $this->requested_ref_id,
                 ilLink::_getLink($this->requested_ref_id, 'sess'),
-                'sess'
+                'sess',
+                $this->object->getPresentationTitle()
             );
         }
 
