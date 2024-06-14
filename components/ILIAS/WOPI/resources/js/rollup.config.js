@@ -1,5 +1,5 @@
 import terser from '@rollup/plugin-terser';
-import copyright from '../../../CI/Copyright-Checker/copyright';
+import copyright from '../../../scripts/Copyright-Checker/copyright';
 
 export default {
   input: './src/index.js',
