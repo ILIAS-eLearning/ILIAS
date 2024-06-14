@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Modal\Dialog;
+namespace ILIAS\UI\examples\Dialog\Standard;
 
-use ILIAS\UI\Component\Modal\DialogContent;
-
+use ILIAS\UI\Component\Dialog\DialogContent;
 use ILIAS\UI\URLBuilder;
 
 function base()
@@ -21,7 +20,8 @@ function base()
     $url_builder = new URLBuilder($here_uri);
 
     //The messagebox we are going to wrap into the dialog
-    $message = $factory->messageBox()->success('some message box');
+    $message = $factory->messageBox()->success('some message box')
+        ->withButtons([$factory->button()->standard('some Action', '#')]);
 
     //when expecting a response, we do not want to render other examples
     $example_namespace = ['dialog', 'endpoints'];
@@ -32,12 +32,12 @@ function base()
     $query_namespace = ['dialog', 'example0'];
     list($url_builder, $token) = $url_builder->acquireParameters($query_namespace, "show");
     $url_builder = $url_builder->withParameter($token, "true");
-    $dialog = $factory->modal()->dialog($url_builder->buildURI());
+    $dialog = $factory->dialog()->standard($url_builder->buildURI());
 
     //build the endpoint returning the wrapped message
     $query = $DIC->http()->wrapper()->query();
     if($query->has($token->getName())) {
-        $response = $factory->modal()->dialogResponse($message);
+        $response = $factory->dialog()->response($message);
         echo($renderer->renderAsync($response));
         exit();
     }

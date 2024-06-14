@@ -18,20 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Modal;
+namespace ILIAS\UI\Implementation\Component\Dialog;
 
-use ILIAS\UI\Component\Modal as M;
+use ILIAS\UI\Component\Dialog as I;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 use ILIAS\Data\URI;
 
 /**
  *
  */
-class Dialog implements M\Dialog
+abstract class Dialog implements I\Dialog
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -40,7 +40,7 @@ class Dialog implements M\Dialog
     protected Signal $close_signal;
 
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
+        SignalGenerator $signal_generator,
         protected URI $async_url
     ) {
         $this->show_signal = $signal_generator->create();

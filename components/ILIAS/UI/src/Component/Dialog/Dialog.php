@@ -18,13 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Component\Dialog;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Data\URI;
 
 /**
- *
+ * This describes a Dialog.
  */
-interface DialogResponse extends Component
+interface Dialog extends Component, JavaScriptBindable
 {
+    /**
+     * Get the signal to load and show this Dialog.
+     */
+    public function getShowSignal(?URI $uri = null): Signal;
+
+    /**
+     * Get the signal to close this Dialog.
+     */
+    public function getCloseSignal(): Signal;
 }

@@ -54,7 +54,8 @@ class InitUIFramework
                 $c["ui.factory.toast"],
                 $c["ui.factory.legacy"],
                 $c["ui.factory.launcher"],
-                $c["ui.factory.entity"]
+                $c["ui.factory.entity"],
+                $c["ui.factory.dialog"],
             );
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
@@ -310,7 +311,29 @@ class InitUIFramework
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
                             $c["ui.upload_limit_resolver"]
-                        )
+                        ),
+                        new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
+                        ),
                     )
                 )
             );
@@ -345,6 +368,10 @@ class InitUIFramework
 
         $c["ui.factory.entity"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
+        };
+
+        $c["ui.factory.dialog"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Dialog\Factory($c["ui.signal_generator"]);
         };
 
         // currently this is will be a session storage because we cannot store

@@ -1047,4 +1047,37 @@ interface Factory
      * @return \ILIAS\UI\Component\Entity\Factory
      */
     public function entity(): C\Entity\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A Dialog is used to force interaction with the user without
+     *     losing context. The interaction may consist of acknowledging an
+     *     important information or requesting input via one or many
+     *     (sequential) forms.
+     *
+     *   composition:
+     *     The Dialog provides a wrapper for Dialog Content; the content is
+     *     transmitted asynchrounously via a Dialog Response.
+     *     The Response consists of a Title, contents, (additional) buttons
+     *     and a command.
+     *     The Dialog will allways hold a button for closing it.
+     *
+     *   effect:
+     *     All controls of the original context are inaccessible until
+     *     the Dialog is closed.
+     *
+     *   rivals:
+     *     Modal: >
+     *       XXX
+     * rules:
+     *   usage:
+     *     1: >
+     *       XXX
+     * ---
+     * @return \ILIAS\UI\Component\Dialog\Factory
+     */
+    public function dialog(): C\Dialog\Factory;
 }

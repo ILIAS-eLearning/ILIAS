@@ -18,25 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Component\Dialog;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Button\Button;
 
 /**
- * Defines the allowed content of a DialogModal
+ *
  */
-interface DialogContent
+interface Response extends Component
 {
-    public function getDialogTitle(): string;
-
-    /**
-     * @return Button[]
-     */
-    public function getDialogButtons(): array;
-
-    /**
-     * @return Component[]
-     */
-    public function getDialogContent(): array;
 }

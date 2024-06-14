@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Modal\Dialog;
+namespace ILIAS\UI\examples\Dialog\Standard;
 
 use ILIAS\UI\URLBuilder;
 
@@ -24,10 +24,10 @@ function form()
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
 
     //build the dialog
-    $query_namespace = ['modal', 'example2'];
+    $query_namespace = ['dialog', 'example2'];
     list($url_builder, $action_token) = $url_builder->acquireParameters($query_namespace, "action");
     $url_builder = $url_builder->withParameter($action_token, "form");
-    $dialog = $factory->modal()->dialog($url_builder->buildURI());
+    $dialog = $factory->dialog()->standard($url_builder->buildURI());
 
     //fill the response according to (query-)paramters
     $query = $DIC->http()->wrapper()->query();
@@ -38,30 +38,31 @@ function form()
 
         //setup a form.
         $uri = $url_builder->buildURI()->__toString();
-        $form = $factory->input()->container()->form()->dialog(
+        $form = $factory->input()->container()->form()->standard(
             $uri,
             [
                 $factory->input()->field()->text(
                     "Text Input",
-                    "write 'close' to close the modal."
+                    "write 'close' to close the dialog."
                 )->withRequired(true)
             ]
         );
-        $form = $form->withAdditionalSubmitButton(
-            $factory->button()->primary('submit', $form->getSubmitSignal())
-        );
 
         //set response
-        $response = $factory->modal()->dialogResponse($form);
+        $response = $factory->dialog()->response($form);
 
         $request = $DIC->http()->request();
         if ($request->getMethod() === 'POST') {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if($data !== null && reset($data) === 'close') {
-                $response = $response->withCloseModal(true);
+                /**
+                 * alternatively:
+                 * $response = $response->withCloseModal(true);
+                 */
+                $response = $factory->dialog()->close();
             } else {
-                $response = $factory->modal()->dialogResponse($form);
+                $response = $factory->dialog()->response($form);
             }
         }
 

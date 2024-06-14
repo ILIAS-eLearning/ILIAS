@@ -38,12 +38,7 @@ class Factory implements F\Factory
      */
     public function standard(string $post_url, array $inputs): F\Standard
     {
-        return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs);
-    }
-
-    public function withoutButtons(string $post_url, array $inputs): F\Form
-    {
-        return new FormWithoutSubmitButton(
+        return new Standard(
             $this->signal_generator,
             $this->field_factory,
             new Input\FormInputNameSource(),
@@ -51,15 +46,4 @@ class Factory implements F\Factory
             $inputs
         );
     }
-    public function dialog(string $post_url, array $inputs): F\Form
-    {
-        return new Dialog(
-            $this->signal_generator,
-            $this->field_factory,
-            new Input\FormInputNameSource(),
-            $post_url,
-            $inputs
-        );
-    }
-
 }

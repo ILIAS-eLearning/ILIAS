@@ -241,7 +241,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $input = $input->withAdditionalTransformation($fail);
 
-        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
+        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request
@@ -301,7 +301,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         }, "This is a fail on form.");
         $input = $if->text("label", "byline");
 
-        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
+        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
         $form = $form->withAdditionalTransformation($fail);
 
         $request = $this->createMock(ServerRequestInterface::class);

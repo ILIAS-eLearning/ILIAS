@@ -38,7 +38,7 @@ export default class Dialog {
     this.#DOMParser = DOMParser;
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
-      throw new Error(`Could not find a Modal for id '${componentId}'.`);
+      throw new Error(`Could not find a Dialog for id '${componentId}'.`);
     }
     this.#dialog = this.#component.getElementsByTagName('dialog').item(0);
   }
@@ -65,31 +65,49 @@ export default class Dialog {
       .then((html) => {
         const parser = new this.#DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const title = doc.querySelector('section[data-section="il-modal-response__title"]');
-        const contents = doc.querySelector('section[data-section="il-modal-response__contents"]');
-        const buttons = doc.querySelector('section[data-section="il-modal-response__buttons"]');
-        const command = doc.querySelector('template[data-section="il-modal-response__command"]');
+        const title = doc.querySelector('section[data-section="il-dialog-response__title"]');
+        const contents = doc.querySelector('section[data-section="il-dialog-response__contents"]');
+        const buttons = doc.querySelector('section[data-section="il-dialog-response__buttons"]');
+        const command = doc.querySelector('section[data-section="il-dialog-response__command"]');
+        const parameters = doc.querySelector('section[data-section="il-dialog-response__parameters"]');
         const scripts = doc.querySelector('script');
-        const dialogTitle = this.#dialog.querySelector('span.il-modal-dialog__title');
-        const dialogContents = this.#dialog.querySelector('div.il-modal-dialog__contents');
-        const dialogButtons = this.#dialog.querySelector('div.il-modal-dialog__buttons');
+        const dialogTitle = this.#dialog.querySelector('span.il-dialog__title');
+        const dialogContents = this.#dialog.querySelector('div.il-dialog__contents');
+        const dialogButtons = this.#dialog.querySelector('div.il-dialog__buttons');
         dialogTitle.innerHTML = title.innerHTML;
         dialogContents.innerHTML = contents.innerHTML;
         dialogButtons.innerHTML = buttons.innerHTML;
-        //eval(dialogButtons.innerHTML);
 
         this.#captureForms(dialogContents);
         this.#captureLinks(dialogContents);
         if (scripts) {
           this.#appendScript(scripts.text);
         }
-        return command.innerHTML.trim();
+
+        const params = [];
+        parameters.querySelectorAll('data').forEach(
+          (data) => {
+            params[data.innerHTML.trim()] = data.getAttribute('value');
+          },
+        );
+
+        return {
+          cmd: command.innerHTML.trim(),
+          params,
+        };
       })
-      .then((command) => {
-        if (command === 'close') {
-          this.close();
-        }
-      });
+      .then(
+        (script) => {
+          const command = script.cmd;
+          const { params } = script;
+          if (command === 'close') {
+            this.close();
+          }
+          if (command === 'redirect') {
+            window.location.replace(params.redirect);
+          }
+        },
+      );
   }
 
   /**
@@ -97,7 +115,7 @@ export default class Dialog {
    * @return {void}
    */
   #appendScript(js) {
-    const dialogScript = this.#component.querySelector('section.il-modal-dialog__scripts');
+    const dialogScript = this.#component.querySelector('section.il-dialog__scripts');
     const script = document.createElement('script');
     script.text = js;
     dialogScript.innerHTML = '';
@@ -131,9 +149,12 @@ export default class Dialog {
     const links = doc.getElementsByTagName('a');
     links.forEach(
       (lnk) => {
-        const target = lnk.href;
-        lnk.addEventListener('click', () => this.load(target));
-        lnk.removeAttribute('href');
+        const target = lnk.target;
+        if(target !== '_blank') {
+          const url = lnk.href;
+          lnk.addEventListener('click', () => this.load(url));
+          lnk.removeAttribute('href');
+        }
       },
     );
   }

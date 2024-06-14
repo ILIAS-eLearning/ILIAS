@@ -18,25 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Component\Dialog;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Signal;
-use ILIAS\Data\URI;
+use ILIAS\UI\Component\Button\Button;
 
 /**
- * This describes commonalities between the different modals
+ * Defines the allowed content of a Dialog
  */
-interface Dialog extends Component, JavaScriptBindable
+interface DialogContent extends Component
 {
-    /**
-     * Get the signal to load and show this Dialog Modal
-     */
-    public function getShowSignal(?URI $uri = null): Signal;
+    public function getDialogTitle(): string;
 
     /**
-     * Get the signal to close this Dialog Modal
+     * @return Button[]
      */
-    public function getCloseSignal(): Signal;
+    public function getDialogButtons(): array;
+
 }

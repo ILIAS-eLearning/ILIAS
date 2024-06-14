@@ -28,7 +28,6 @@ use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Card\Card;
-use ILIAS\Data\URI;
 
 /**
  * Implementation of factory for modals
@@ -38,7 +37,7 @@ class Factory implements M\Factory
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
         protected ItemFactory $item_factory,
-        protected FieldFactory $field_factory
+        protected FieldFactory $field_factory,
     ) {
     }
 
@@ -101,18 +100,5 @@ class Factory implements M\Factory
     public function lightboxCardPage(Card $card): M\LightboxCardPage
     {
         return new LightboxCardPage($card);
-    }
-
-    public function dialog(URI $async_url): M\Dialog
-    {
-        return new Dialog($this->signal_generator, $async_url);
-    }
-
-    public function dialogResponse(
-        \ILIAS\UI\Component\Modal\DialogContent $content
-    ): DialogResponse {
-        return new DialogResponse(
-            $content
-        );
     }
 }

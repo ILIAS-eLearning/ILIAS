@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\MessageBox;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Modal\DialogContent;
+use ILIAS\UI\Component\Dialog\DialogContent;
 
 /**
  * Interface Message Box

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Modal\Dialog;
+namespace ILIAS\UI\examples\Dialog\Standard;
 
-use ILIAS\UI\Component\Modal\DialogContent;
-
+use ILIAS\UI\Component\Dialog\DialogContent;
 use ILIAS\UI\URLBuilder;
 
 function parameters()
@@ -29,10 +28,10 @@ function parameters()
     //build a dialog
     $query_namespace = ['dialog', 'example1'];
     list($url_builder, $action_token, $amount_token) = $url_builder->acquireParameters($query_namespace, "action", "amount");
-    $url_builder = $url_builder->withParameter($action_token, "showmodal");
+    $url_builder = $url_builder->withParameter($action_token, "showdialog");
 
     $default_uri = $url_builder->withParameter($amount_token, "1")->buildURI();
-    $dialog = $factory->modal()->dialog($default_uri);
+    $dialog = $factory->dialog()->standard($default_uri);
 
     //build some endpoint
     $query = $DIC->http()->wrapper()->query();
@@ -44,13 +43,13 @@ function parameters()
         $action = $query->retrieve($action_token->getName(), $refinery->kindlyTo()->string());
         $amount = $query->retrieve($amount_token->getName(), $refinery->kindlyTo()->int()) ;
         switch ($action) {
-            case 'showmodal':
+            case 'showdialog':
                 foreach (range(1, $amount) as $idx) {
                     $link_uri = $url_builder
                         ->withParameter($action_token, "dialoglink")
-                        ->withParameter($amount_token, (string)$idx)
+                        ->withParameter($amount_token, (string) $idx)
                         ->buildURI()->__toString();
-                    $links[] = $factory->link()->standard((string)$idx, $link_uri);
+                    $links[] = $factory->link()->standard((string) $idx, $link_uri);
                 }
                 $buttons = [
                     $factory->button()->standard('OK', '#')->withOnLoadCode(
@@ -64,16 +63,16 @@ function parameters()
 
             case 'dialoglink':
                 $back_uri = $url_builder
-                        ->withParameter($action_token, "showmodal")
-                        ->withParameter($amount_token, (string)$amount)
+                        ->withParameter($action_token, "showdialog")
+                        ->withParameter($amount_token, (string) $amount)
                         ->buildURI()->__toString();
                 $back = $factory->button()->standard('back', '#')->withOnLoadCode(
                     fn($id) => "$('#$id').on('click', (e)=> {
                         let dialogId = e.target.closest('dialog').parentNode.id;
-                        il.UI.modal.dialog.get(dialogId).show('$back_uri');
+                        il.UI.dialog.get(dialogId).show('$back_uri');
                     });"
                 );
-                $dialog_content = $factory->messageBox()->info((string)$amount)
+                $dialog_content = $factory->messageBox()->info((string) $amount)
                     ->withButtons([$back]);
                 break;
 
@@ -81,7 +80,7 @@ function parameters()
                 throw new \Exception('?' . $action . $amount);
         }
 
-        $response = $factory->modal()->dialogResponse($dialog_content);
+        $response = $factory->dialog()->response($dialog_content);
         echo($renderer->renderAsync($response));
         exit();
     }

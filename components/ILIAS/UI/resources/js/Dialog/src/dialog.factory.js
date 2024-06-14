@@ -22,7 +22,7 @@ export default class DialogFactory {
   #DOMParser;
 
   /**
-   * @type {Array<string, Modal>}
+   * @type {Array<string, Dialog>}
    */
   #instances = [];
 
@@ -36,11 +36,11 @@ export default class DialogFactory {
   /**
    * @param {string} id
    * @return {void}
-   * @throws {Error} if the modal was already initialized.
+   * @throws {Error} if the dialog was already initialized.
    */
   init(id) {
     if (this.#instances[id] !== undefined) {
-      throw new Error(`Modal with id '${id}' has already been initialized.`);
+      throw new Error(`Dialog with id '${id}' has already been initialized.`);
     }
 
     this.#instances[id] = new Dialog(this.#DOMParser, id);
@@ -48,7 +48,7 @@ export default class DialogFactory {
 
   /**
    * @param {string} id
-   * @return {Modal|null}
+   * @return {Dialog|null}
    */
   get(id) {
     return this.#instances[id] ?? null;

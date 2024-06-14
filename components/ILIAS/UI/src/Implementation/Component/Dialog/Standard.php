@@ -1,3 +1,5 @@
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -11,11 +13,16 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\UI\Implementation\Component\Dialog;
+
+/**
+ *
  */
-
-import il from 'il';
-import DOMParser from 'DOMParser';
-import DialogFactory from './dialog.factory';
-
-il.UI = il.UI || {};
-il.UI.dialog = new DialogFactory(DOMParser);
+class Standard extends Dialog
+{
+}
