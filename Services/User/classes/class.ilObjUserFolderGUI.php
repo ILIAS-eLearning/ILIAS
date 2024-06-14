@@ -516,6 +516,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 false
             );
             if ($obj instanceof \ilObjUser) {
+                if (!$obj->getActive()) {
+                    $obj->setLoginAttempts(0);
+                }
                 $obj->setActive(
                     true,
                     $ilUser->getId()

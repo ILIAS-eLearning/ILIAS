@@ -479,6 +479,7 @@ class ilObjUser extends ilObject
             "latitude" => ["text", $this->latitude],
             "longitude" => ["text", $this->longitude],
             "loc_zoom" => ["integer", (int) $this->loc_zoom],
+            'login_attempts' => ['integer', $this->login_attempts],
             "last_password_change" => ["integer", $this->last_password_change_ts],
             "passwd_policy_reset" => ["integer", $this->passwd_policy_reset],
             "last_update" => ["timestamp", ilUtil::now()],
@@ -3491,24 +3492,6 @@ class ilObjUser extends ilObject
             $users[] = $rec["usr_id"];
         }
         return $users;
-    }
-
-
-    public static function _resetLoginAttempts(
-        int $a_usr_id
-    ): bool {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = "UPDATE usr_data SET login_attempts = 0 WHERE usr_id = %s";
-        $affected = $ilDB->manipulateF($query, array('integer'), array($a_usr_id));
-
-        if ($affected) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static function _getLoginAttempts(
