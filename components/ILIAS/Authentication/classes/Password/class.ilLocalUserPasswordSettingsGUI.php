@@ -18,32 +18,32 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\Password;
-
 use Closure;
+use ilObjUser;
+use ilSession;
+use ilLanguage;
 use ilAuthUtils;
 use ilCtrlInterface;
-use ilDAVActivationChecker;
 use ilErrorHandling;
-use ilGlobalTemplateInterface;
 use ILIAS\Data\Password;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
-use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
-use ILIAS\UI\Component\MessageBox\MessageBox;
+use ilDAVActivationChecker;
+use ilGlobalTemplateInterface;
+use ilSecuritySettingsChecker;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ilLanguage;
-use ilObjUser;
-use ilSecuritySettingsChecker;
-use ilSession;
+use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
 
-class LocalUserPasswordSettingsGUI
+class ilLocalUserPasswordSettingsGUI
 {
     private const NEW_PASSWORD = 'new_password';
     private const CURRENT_PASSWORD = 'current_password';
-
+    public const CMD_SHOW_PASSWORD = 'showPassword';
+    public const CMD_SAVE_PASSWORD = 'savePassword';
     private readonly ServerRequestInterface $request;
     private readonly ilErrorHandling $error;
     private readonly Refinery $refinery;
@@ -60,7 +60,7 @@ class LocalUserPasswordSettingsGUI
         global $DIC;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
-        $this->error = $DIC->error();
+        $this->error = $DIC['ilErr'];
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
