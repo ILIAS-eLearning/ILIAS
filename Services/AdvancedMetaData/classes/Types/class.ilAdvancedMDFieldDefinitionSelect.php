@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * AMD field type select
@@ -687,8 +687,17 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     protected function saveOptionTranslations(): void
     {
-        foreach ($this->getOptionTranslations() as $lang_key => $options) {
-            foreach ($options as $idx => $option) {
+        $options = $this->getOptionTranslations();
+        /*
+         * e.g. on import from <7 no translations are set, so one has to save
+         * the default options for the default language (32410).
+         */
+        if (empty($options)) {
+            $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id);
+            $options = [$record->getDefaultLanguage() => $this->getOptions()];
+        }
+        foreach ($options as $lang_key => $options_in_lang) {
+            foreach ($options_in_lang as $idx => $option) {
                 $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value )' .
                     'values (  ' .
                     $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ', ' .
@@ -816,7 +825,28 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function importValueFromXML(string $a_cdata): void
     {
+        $a_cdata = $this->translateLegacyImportValueFromXML($a_cdata);
         $this->getADT()->setSelection($a_cdata);
+    }
+
+    /**
+     * On import from <7 options are not given by index but by
+     * their label. There is nothing in the XML by which one could
+     * tell apart legacy and standard imports, so we have to
+     * make a best guess here (32410).
+     *
+     * Might fail for enums where the labels are integers.
+     * See also ilAdvancedMDFieldDefinitionGroupBased::importValueFromXML.
+     */
+    protected function translateLegacyImportValueFromXML(string $value): string
+    {
+        if (
+            !in_array($value, array_keys($this->options)) &&
+            in_array($value, $this->options)
+        ) {
+            $value = (string) array_search($value, $this->options);
+        }
+        return $value;
     }
 
     public function prepareElementForEditor(ilADTFormBridge $a_bridge): void
