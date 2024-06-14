@@ -86,13 +86,19 @@
   return pub;
 }));
 
-$(document).ready(() => {
-  if ($('.found_threat_history_to_restore').length > 0) {
-    const $modal = $('#frm_autosave_restore');
-    il.ForumDraftsAutosave.disableAutosave();
-    $modal.modal('show');
-    $modal.on('hidden.bs.modal', () => {
-      il.ForumDraftsAutosave.enableAutosave();
-    });
-  }
+il.Util.addOnLoad(function() {
+  il.Util.addOnLoad(function() {
+    const thread_history = document.querySelectorAll('.found_threat_history_to_restore');
+    if (thread_history.length > 0) {
+      const $modal = $('[data-modal-id="frm_autosave_restore"]');
+      if ($modal) {
+        il.ForumDraftsAutosave.disableAutosave();
+        $modal.get(0).querySelectorAll('.modal-footer .btn-primary').forEach((primary_btn) => primary_btn.parentNode.removeChild(primary_btn));
+        $modal.modal('show');
+        $modal.on('hidden.bs.modal', () => {
+          il.ForumDraftsAutosave.enableAutosave();
+        });
+      }
+    }
+  });
 });
