@@ -102,13 +102,5 @@ interface isStandardItem extends isItem
      */
     public function hasVanishedAction(): bool;
 
-    public function withVanishTime(int $miliseconds): isStandardItem;
-
-    public function getVanishTime(): ?int;
-
-    public function withDelayTime(int $miliseconds): isStandardItem;
-
-    public function getDelayTime(): ?int;
-
     public function getRenderer(): ToastRenderer;
 }

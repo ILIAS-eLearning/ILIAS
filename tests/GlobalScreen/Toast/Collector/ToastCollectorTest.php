@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\GlobalScreen\Scope\Toast\Collector\ToastCollector;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\UI\Implementation\Component\Toast\Container;
 
 require_once(__DIR__ . "/../BaseToastSetUp.php");
 
@@ -29,14 +30,14 @@ class ToastCollectorTest extends BaseToastSetUp
     public function testConstruct(): void
     {
         $provider = $this->getDummyToastProviderWithToasts([]);
-        $collector = new ToastCollector([$provider]);
+        $collector = new ToastCollector([$provider], new Container());
         $this->assertInstanceOf(ToastCollector::class, $collector);
     }
 
     public function testGetToasts(): void
     {
         $provider = $this->getDummyToastProviderWithToasts([]);
-        $collector = new ToastCollector([$provider]);
+        $collector = new ToastCollector([$provider], new Container());
         $this->assertEquals([], $collector->getToasts());
 
         $id_one = $this->createMock(IdentificationInterface::class);
@@ -53,7 +54,7 @@ class ToastCollectorTest extends BaseToastSetUp
         );
 
         $provider = $this->getDummyToastProviderWithToasts([$toast1, $toast2]);
-        $collector = new ToastCollector([$provider]);
+        $collector = new ToastCollector([$provider], new Container());
         $this->assertEquals([$toast1, $toast2], $collector->getToasts());
     }
 }

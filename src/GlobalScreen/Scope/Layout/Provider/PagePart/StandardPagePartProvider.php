@@ -276,7 +276,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getToastContainer(): TContainer
     {
-        $toast_container = $this->ui->factory()->toast()->container();
+        $toast_container = $this->gs->collector()->toasts()->getContainer();
 
         foreach ($this->gs->collector()->toasts()->getToasts() as $toast) {
             $renderer = $toast->getRenderer();

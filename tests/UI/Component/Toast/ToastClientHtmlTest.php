@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -59,16 +62,14 @@ class ToastClientHtmlTest extends ILIAS_UI_TestBase
           {CONTAINER}
         </body>';
 
-        $container = $this->getToastFactory()->container()->withAdditionalToast(
-            $this->getToastFactory()->standard(
-                'Title',
-                $this->getIconFactory()->standard('mail', 'Test')
-            )
-                                    ->withVanishTime(5000)
-                                    ->withDelayTime(500)
-                                    ->withDescription('Description')
-                                    ->withAction('https://www.ilias.de')
-        );
+        $container = $this->getToastFactory()->container()
+            ->withVanishTime(5000)
+            ->withDelayTime(500)
+            ->withAdditionalToast(
+                $this->getToastFactory()->standard('Title', $this->getIconFactory()->standard('mail', 'Test'))
+                ->withDescription('Description')
+                ->withAction('https://www.ilias.de')
+            );
 
         $rendered_html = str_replace('{CONTAINER}', $this->getDefaultRenderer()->render($container), $rendered_html);
         $rendered_html = preg_replace('/id=".*?"/', '', $rendered_html);

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Provider;
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -24,7 +25,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\UI\Component\Toast\Container;
 
 /**
  * Interface ProviderFactory
@@ -61,6 +64,13 @@ interface ProviderFactory
      * @return NotificationProvider[]
      */
     public function getNotificationsProvider(): array;
+
+    /**
+     * @return ToastProvider[]
+     */
+    public function getToastsProvider(): array;
+
+    public function getToastContainer(): Container;
 
     /**
      * @param string $class_name
