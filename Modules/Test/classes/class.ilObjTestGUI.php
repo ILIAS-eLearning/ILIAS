@@ -2478,12 +2478,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function applyDefaultsObject($confirmed = false)
     {
-        if (!isset($_POST['chb_defaults']) || !is_array($_POST["chb_defaults"]) || 1 !== count($_POST["chb_defaults"])) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_defaults_apply_select_one"));
+        if(!$confirmed) {
+            if (!isset($_POST['chb_defaults']) || !is_array($_POST["chb_defaults"]) || 1 !== count($_POST["chb_defaults"])) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_defaults_apply_select_one"));
 
-            $this->defaultsObject();
-            return;
+                $this->defaultsObject();
+                return;
+            }
         }
+
 
         // do not apply if user datasets exist
         if ($this->object->evalTotalPersons() > 0) {
@@ -2493,7 +2496,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $defaults = $this->object->getTestDefaults($_POST["chb_defaults"][0]);
+        if(!$confirmed) {
+            $defaults = $this->object->getTestDefaults($_POST["chb_defaults"][0]);
+        } else {
+            $defaults = $this->object->getTestDefaults($_POST["confirmed_defaults_id"][0]);
+        }
+
         $defaultSettings = unserialize($defaults["defaults"]);
 
         if (isset($defaultSettings['isRandomTest'])) {
@@ -2532,7 +2540,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $confirmation->setQuestionLossInfoEnabled(false);
                 $confirmation->build();
 
-                $confirmation->populateParametersFromPost();
+                $confirmation->addHiddenItem("confirmed_defaults_id", $_POST["chb_defaults"][0]);
 
                 $this->tpl->setContent($this->ctrl->getHTML($confirmation));
 
