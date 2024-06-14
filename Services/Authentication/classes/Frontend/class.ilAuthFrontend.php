@@ -332,8 +332,10 @@ class ilAuthFrontend
         }
         $user->refreshLogin();
 
-        // reset counter for failed logins
-        ilObjUser::_resetLoginAttempts($user->getId());
+        if ($user->getLoginAttempts() > 0) {
+            $user->setLoginAttempts(0);
+            $user->update();
+        }
 
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
@@ -346,7 +348,7 @@ class ilAuthFrontend
 
 
         // --- anonymous/registered user
-        if (PHP_SAPI !=="cli") {
+        if (PHP_SAPI !== "cli") {
             $this->logger->info(
                 'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .

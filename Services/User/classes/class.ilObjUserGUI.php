@@ -775,7 +775,7 @@ class ilObjUserGUI extends ilObjectGUI
              * reset counter for failed logins
              */
             if ((int) $this->form_gui->getInput("active") == 1) {
-                ilObjUser::_resetLoginAttempts($this->object->getId());
+                $this->object->setLoginAttempts(0);
             }
 
             #$this->object->assignData($_POST);
