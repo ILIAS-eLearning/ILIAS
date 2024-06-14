@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 *
@@ -175,7 +174,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $GLOBALS['DIC']['ilNavigationHistory']->addItem(
                 $this->requested_ref_id,
                 ilLink::_getLink($this->requested_ref_id, 'sess'),
-                'sess'
+                'sess',
+                $this->object->getPresentationTitle()
             );
         }
 
@@ -212,12 +212,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 break;
 
             case "ilexportgui":
-//				$this->prepareOutput();
+                //				$this->prepareOutput();
                 $this->tabs_gui->setTabActive("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
+                //				$this->tpl->show();
                 break;
 
             case "ilcommonactiondispatchergui":
@@ -275,7 +275,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $cmd .= "Object";
                 $this->$cmd();
 
-            break;
+                break;
         }
 
         $this->addHeaderAction();

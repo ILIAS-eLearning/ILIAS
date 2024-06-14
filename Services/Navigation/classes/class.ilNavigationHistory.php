@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 /**
  * Navigation History of Repository Items
  *
@@ -164,6 +166,9 @@ class ilNavigationHistory
                                 : ilLink::_getLink((int) $rec["ref_id"]);
                         if ($rec["sub_obj_id"] != "") {
                             $title = $rec["title"];
+                        } elseif ($rec["type"] === "sess") {
+                            $sess = new ilObjSession($rec["ref_id"]);
+                            $title = $sess->getPresentationTitle();
                         } else {
                             $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
                         }
