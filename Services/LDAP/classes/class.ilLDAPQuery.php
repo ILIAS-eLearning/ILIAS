@@ -43,10 +43,9 @@ class ilLDAPQuery
     private array $users = [];
 
     /**
-     * LDAP Handle
-     * @var resource
+     * @var false|resource|\LDAP\Connection
      */
-    private $lh;
+    private $lh = false;
 
     /**
      * @throws ilLDAPQueryException
@@ -541,29 +540,53 @@ class ilLDAPQuery
      * IL_SCOPE_SUB => ldap_search
      * IL_SCOPE_ONE => ldap_list
      * @param array|null $controls LDAP Control to be passed on the the ldap functions
-     * @return resource|null
+     * @return null|false|resource|list<\LDAP\Result>|\LDAP\Result
      */
-    private function queryByScope(int $a_scope, string $a_base_dn, string $a_filter, array $a_attributes, array $controls = [])
-    {
+    private function queryByScope(
+        int $a_scope,
+        string $a_base_dn,
+        string $a_filter,
+        array $a_attributes,
+        array $controls = []
+    ) {
         $a_filter = $a_filter ?: "(objectclass=*)";
 
-        switch ($a_scope) {
-            case ilLDAPServer::LDAP_SCOPE_SUB:
-                $res = ldap_search($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-                break;
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
+            throw new ErrorException($message, $severity, $severity, $file, $line);
+        });
 
-            case ilLDAPServer::LDAP_SCOPE_ONE:
-                $res = ldap_list($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-                break;
+        $result = null; // We should ensure the similar behaviour of using the @ operator in PHP < 8.x
 
-            case ilLDAPServer::LDAP_SCOPE_BASE:
-                $res = ldap_read($this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-                break;
+        try {
+            switch ($a_scope) {
+                case ilLDAPServer::LDAP_SCOPE_SUB:
+                    $result = ldap_search(
+                        $this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls
+                    );
+                    break;
 
-            default:
-                throw new ilLDAPUndefinedScopeException(
-                    "Undefined LDAP Search Scope: " . $a_scope
-                );
+                case ilLDAPServer::LDAP_SCOPE_ONE:
+                    $result = ldap_list(
+                        $this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls
+                    );
+                    break;
+
+                case ilLDAPServer::LDAP_SCOPE_BASE:
+                    $result = ldap_read(
+                        $this->lh, $a_base_dn, $a_filter, $a_attributes, 0, 0, 0, LDAP_DEREF_NEVER, $controls
+                    );
+                    break;
+
+                default:
+                    throw new ilLDAPUndefinedScopeException(
+                        "Undefined LDAP Search Scope: " . $a_scope
+                    );
+            }
+        } catch (ErrorException $e) {
+            $this->logger->warning($e->getMessage());
+            $this->logger->warning($e->getTraceAsString());
+        } finally {
+            restore_error_handler();
         }
 
         $error = ldap_errno($this->lh);
@@ -573,7 +596,7 @@ class ilLDAPQuery
             $this->logger->warning('Filter: ' . $a_filter);
         }
 
-        return $res ?? null;
+        return $result;
     }
 
     /**
