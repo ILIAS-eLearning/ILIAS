@@ -15,7 +15,7 @@
 #
 # This script gather all style depending files and add them to a folder.
 
-BUILD_BASE_FOLDER="./CI/Style-To-Repo/style"
+BUILD_BASE_FOLDER="./scripts/Style-To-Repo/style"
 
 function build() {
   if [ -d ${BUILD_BASE_FOLDER} ]

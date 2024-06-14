@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # get the dependencies
-source CI/Import/Functions.sh
-source CI/Import/Variables.sh
+source scripts/Import/Functions.sh
+source scripts/Import/Variables.sh
 
 PHP_UNIT_EXIT_CODE=$(<"$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp")
 if [[ $PHP_UNIT_EXIT_CODE != "0" ]];
