@@ -111,12 +111,9 @@ class ilDataCollectionDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         foreach ($a_rec as $key => &$value) {
-            $decode = json_decode($value);
+            $decode = json_decode($value, true);
             if (is_array($decode)) {
-                foreach ($decode as &$entry) {
-                    $entry = htmlspecialchars($entry, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
-                }
-                $value = json_encode($decode);
+                $value = htmlspecialchars(json_encode($decode, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_SUBSTITUTE, 'utf-8');
             } else {
                 if ($key === 'title' || $key === 'description') {
                     $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
