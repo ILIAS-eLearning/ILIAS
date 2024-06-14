@@ -1106,7 +1106,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-login-form]',
                 '[list-cas-login-form]',
                 '[list-saml-login]',
-                '[list-shibboleth-login-form]'
+                '[list-shibboleth-login-form]',
+                '[list-openid-connect-login]'
             ),
             array('', '', '', '', '', '', ''),
             $page_editor_html
