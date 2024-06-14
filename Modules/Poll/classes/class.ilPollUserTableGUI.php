@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+declare(strict_types=1); 
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
