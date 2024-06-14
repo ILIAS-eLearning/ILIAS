@@ -26,53 +26,42 @@ declare(strict_types=1);
 class ilLDAPResult
 {
     /**
-     * @var resource
+     * @var resource|\Ldap\Connection
      */
     private $handle;
 
     /**
-     * @var resource
+     * @var null|resource|list<\Ldap\Result>|\Ldap\Result
      */
-    private $result;
+    private $result = null;
 
     private array $rows = [];
     private ?array $last_row;
 
     /**
-     * ilLDAPPagedResult constructor.
-     * @param resource $a_ldap_handle from ldap_connect()
-     * @param resource $a_result from ldap_search()
+     * @param resource|\Ldap\Connection                           $a_ldap_handle from ldap_connect()
+     * @param null|false|resource|list<\Ldap\Result>|\Ldap\Result $a_result      from ldap_search(), ldap_list() or ldap_read()
      */
     public function __construct($a_ldap_handle, $a_result = null)
     {
         $this->handle = $a_ldap_handle;
 
-        if ($a_result !== null) {
+        if ($a_result !== null && $a_result !== false) {
             $this->result = $a_result;
         }
     }
 
     /**
      * Total count of resulted rows
-     * @return int
      */
     public function numRows(): int
     {
-        return is_array($this->rows) ? count($this->rows) : 0;
+        return count($this->rows);
     }
 
     /**
      * Resource from ldap_search()
-     * @return resource
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * Resource from ldap_search()
-     * @param resource $result
+     * @param false|resource|list<\Ldap\Result>|\Ldap\Result $result
      */
     public function setResult($result): void
     {
@@ -93,7 +82,7 @@ class ilLDAPResult
      */
     public function getRows(): array
     {
-        return is_array($this->rows) ? $this->rows : [];
+        return $this->rows;
     }
 
     /**
@@ -102,8 +91,10 @@ class ilLDAPResult
      */
     public function run(): self
     {
-        $entries = ldap_get_entries($this->handle, $this->result);
-        $this->addEntriesToRows($entries);
+        if ($this->result) {
+            $entries = ldap_get_entries($this->handle, $this->result);
+            $this->addEntriesToRows($entries);
+        }
 
         return $this;
     }
@@ -118,8 +109,7 @@ class ilLDAPResult
             return;
         }
 
-
-        for ($row_counter = 0; $row_counter < $num;$row_counter++) {
+        for ($row_counter = 0; $row_counter < $num; $row_counter++) {
             $data = $this->toSimpleArray($entries[$row_counter]);
             $this->rows[] = $data;
             $this->last_row = $data;
@@ -129,10 +119,9 @@ class ilLDAPResult
     /**
      * Transforms results from ldap_get_entries() to a simple format
      */
-
     private function toSimpleArray(array $entry): array
     {
-        $data = array();
+        $data = [];
         foreach ($entry as $key => $value) {
             if (is_int($key)) {
                 continue;
@@ -159,9 +148,6 @@ class ilLDAPResult
         return $data;
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         if ($this->result) {
