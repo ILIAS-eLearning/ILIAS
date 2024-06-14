@@ -32,16 +32,31 @@ class ilMembershipRegistrationCodeUtils
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-
+        $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-
+        $rbac = $DIC->rbac();
         $lng->loadLanguageModule($a_type);
         try {
-            self::useCode($a_code, $a_ref_id);
             $title = ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
-            $main_tpl->setOnScreenMessage('success', sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title), true);
-            ilUtil::redirect(ilLink::_getLink($a_ref_id));
+            # 0015872
+            $link_target = ilLink::_getLink($a_ref_id);
+            $message = sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title);
+            $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS;
+            if ($a_type === 'crs' &&  !(new ilObjCourse($a_ref_id, true))->isActivated()) {
+                $parent_id = $tree->getParentId($a_ref_id);
+                $link_target = (
+                    $rbac->system()->checkAccess("read", $parent_id) &&
+                    $rbac->system()->checkAccess("visible", $parent_id)
+                )
+                    ? ilLink::_getLink($parent_id)
+                    : "";
+                $message .= " " . $lng->txt("crs_access_not_possible");
+                $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_INFO;
+            }
+            self::useCode($a_code, $a_ref_id);
+            $main_tpl->setOnScreenMessage($message_type, $message, true);
+            $ctrl->redirectToURL($link_target);
         } catch (ilMembershipRegistrationException $e) {
             switch ($e->getCode()) {
                 case ilMembershipRegistrationException::ADDED_TO_WAITINGLIST://added to waiting list
