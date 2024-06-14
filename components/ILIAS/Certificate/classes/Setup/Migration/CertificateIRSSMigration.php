@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\Setup\Migration;
 
+use Exception;
 use ilDBInterface;
 use ReflectionClass;
 use ilDatabaseException;
@@ -34,8 +35,8 @@ class CertificateIRSSMigration implements Migration
 {
     public const NUMBER_OF_STEPS = 10;
     public const NUMBER_OF_PATHS_PER_STEP = 10;
-    private ilDBInterface $db;
     private IRSS $irss;
+    private ilDBInterface $db;
     private Filesystems $filesystem;
     private ilCertificateTemplateStakeholder $stakeholder;
 
@@ -111,7 +112,11 @@ class CertificateIRSSMigration implements Migration
     public function updateCertificateTemplate(string $filepath, string $table): void
     {
         if ($this->filesystem->web()->has($filepath)) {
-            $rid = $this->irss->manage()->stream($this->filesystem->web()->readStream($filepath), $this->stakeholder);
+            try {
+                $rid = $this->irss->manage()->stream($this->filesystem->web()->readStream($filepath), $this->stakeholder);
+            } catch (Exception $e) {
+                $rid = null;
+            }
 
             if ($rid === null) {
                 $rid = '-';
