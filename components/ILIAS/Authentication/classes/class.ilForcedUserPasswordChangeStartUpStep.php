@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
-use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 
 class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 {
@@ -54,13 +53,13 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 
         return
             (
-                strtolower($this->ctrl->getCmdClass()) === strtolower(LocalUserPasswordSettingsGUI::class)
+                strtolower($this->ctrl->getCmdClass()) === strtolower(ilLocalUserPasswordSettingsGUI::class)
             ) &&
             in_array(
                 $this->ctrl->getCmd(),
                 [
-                    LocalUserPasswordSettingsGUI::CMD_SAVE_PASSWORD,
-                    LocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
+                    ilLocalUserPasswordSettingsGUI::CMD_SAVE_PASSWORD,
+                    ilLocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
                 ],
                 true
             )
@@ -88,9 +87,9 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
                 [
                     ilDashboardGUI::class,
                     ilPersonalSettingsGUI::class,
-                    LocalUserPasswordSettingsGUI::class
+                    ilLocalUserPasswordSettingsGUI::class
                 ],
-                LocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
+                ilLocalUserPasswordSettingsGUI::CMD_SHOW_PASSWORD
             )
         );
     }

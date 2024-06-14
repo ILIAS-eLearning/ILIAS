@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
-use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 use ILIAS\DI\LoggingServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
@@ -27,7 +26,7 @@ use ILIAS\UI\Renderer;
 /**
  * GUI class for personal profile
  * @author       Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI, ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI, ilLocalUserPasswordSettingsGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -107,11 +106,11 @@ class ilPersonalSettingsGUI
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
 
                 break;
-            case strtolower(LocalUserPasswordSettingsGUI::class):
+            case strtolower(ilLocalUserPasswordSettingsGUI::class):
                 $this->initSubTabs('showPersonalData');
                 $this->tabs->activateTab('password');
                 $this->setHeader();
-                $this->ctrl->forwardCommand(new LocalUserPasswordSettingsGUI());
+                $this->ctrl->forwardCommand(new ilLocalUserPasswordSettingsGUI());
 
                 break;
             default:
@@ -145,7 +144,7 @@ class ilPersonalSettingsGUI
                     [
                         ilDashboardGUI::class,
                         self::class,
-                        LocalUserPasswordSettingsGUI::class
+                        ilLocalUserPasswordSettingsGUI::class
                     ],
                     'showPassword'
                 ),
