@@ -7411,7 +7411,7 @@ cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
-cron#:#cron_action_run#:#Ausführen
+cron#:#cron_action_run#:#Cron-Job Ausführen
 cron#:#cron_action_run_fail#:#Ausführung gescheitert.
 cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
