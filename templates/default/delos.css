@@ -10763,19 +10763,10 @@ footer {
   border-right: 3px solid #B54F00;
   text-align: center;
   z-index: 1010;
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   pointer-events: none;
-}
-.il-mode-info + div {
-  border: 3px solid #B54F00;
-  border-top: 0 none;
-}
-@media only screen and (max-width: 768px) {
-  .il-mode-info + div {
-    padding-top: 30px;
-  }
 }
 .il-mode-info span.il-mode-info-content {
   margin: auto;
@@ -11448,7 +11439,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
