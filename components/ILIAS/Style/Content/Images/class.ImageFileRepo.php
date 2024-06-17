@@ -111,13 +111,14 @@ class ImageFileRepo
     public function uploadImage(int $style_id): void
     {
         $upload = $this->upload;
-
         $dir = $this->dir($style_id);
         if (!$this->web_files->hasDir($dir)) {
             $this->web_files->createDir($dir);
         }
-        if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
-            $upload->process();
+        if ($upload->hasUploads()) {
+            if  (!$upload->hasBeenProcessed()) {
+                $upload->process();
+            }
             $result = array_values($upload->getResults())[0];
             if ($result->getStatus()->getCode() === ProcessingStatus::OK) {
                 $upload->moveFilesTo($dir, Location::WEB);

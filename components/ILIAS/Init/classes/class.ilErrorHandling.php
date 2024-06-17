@@ -114,10 +114,12 @@ class ilErrorHandling
      */
     public function getHandler(): HandlerInterface
     {
-        // TODO: * Use Whoops in production mode? This would require an appropriate
-        //		   error-handler.
-        //		 * Check for context? The current implementation e.g. would output HTML for
-        //		   for SOAP.
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
+            return new ilSoapExceptionHandler();
+        }
+
+        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling. 
+
         if ($this->isDevmodeActive()) {
             return $this->devmodeHandler();
         }
@@ -269,8 +271,8 @@ class ilErrorHandling
             global $DIC;
 
             $session_id = substr(session_id(), 0, 5);
-            $random = new ilRandom();
-            $err_num = $random->int(1, 9999);
+            $r = new \Random\Randomizer();
+            $err_num = $r->getInt(1, 9999);
             $file_name = $session_id . '_' . $err_num;
 
             $logger = ilLoggingErrorSettings::getInstance();
@@ -300,7 +302,7 @@ class ilErrorHandling
                     $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
                 }
             }
-            if ($DIC->isDependencyAvailable('ui') && $DIC->isDependencyAvailable('ctrl')) {
+            if ($DIC->isDependencyAvailable('ui') && isset($DIC['tpl']) && $DIC->isDependencyAvailable('ctrl')) {
                 $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
                 $DIC->ctrl()->redirectToURL('error.php');
             } else {
@@ -314,10 +316,6 @@ class ilErrorHandling
     protected function devmodeHandler(): HandlerInterface
     {
         global $ilLog;
-
-        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
-            return new ilSoapExceptionHandler();
-        }
 
         switch (ERROR_HANDLER) {
             case 'TESTING':

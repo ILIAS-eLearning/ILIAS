@@ -576,7 +576,6 @@ assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
 assessment#:#conf_delete_pass#:#Ali ste prepričani, da želite izbrisati obdelavo?
-assessment#:#conf_delete_pass_ctm#:#Are you sure you want to delete your existing answers?
 assessment#:#confirm_delete_all_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke vseh uporabnikov testa?
 assessment#:#confirm_delete_single_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
 assessment#:#confirm_sync_questions#:#Vprašanje, ki ste ga spremenili, je bilo z vnosom v test ustvarjeno kot kopija izvirnika. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?
@@ -4185,7 +4184,7 @@ common#:#import_cat_table#:#Naslednjo tabelo upoštevajte samo, če je aktiviran
 common#:#import_categories#:#Uvozi kategorije
 common#:#import_failure_log#:#Dnevnik napak pri uvozu
 common#:#import_file#:#Uvozi datoteko
-common#:#import_file_not_valid#:#Datoteka za uvoz ni veljavna.
+common#:#import_file_not_valid_here#:#Datoteka za uvoz ni veljavna.
 common#:#import_finished#:#Število uvožene e-pošte:
 common#:#import_lm#:#Uvozi učni modul ILIAS
 common#:#import_qpl#:#Uvozi skupino vprašanj za teste
@@ -13965,12 +13964,10 @@ rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Add Grouping
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groupings?
 rep#:#rep_new_item_group_edit#:#Edit Grouping
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
 rep#:#rep_new_item_group_other#:#Other
-rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects
 rep#:#rep_new_item_groups#:#Grouping

@@ -26,7 +26,9 @@ class ilServicesAuthenticationSuite extends TestSuite
     {
         $suite = new ilServicesAuthenticationSuite();
         require_once __DIR__ . '/ilSessionTest.php';
+        require_once __DIR__ . '/LocalUserPasswordTest.php';
         $suite->addTestSuite(ilSessionTest::class);
+        $suite->addTestSuite(LocalUserPasswordTest::class);
 
         return $suite;
     }

@@ -576,7 +576,6 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#conf_delete_pass_ctm#:#前回の回答を削除してもよろしいですか。
 assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
@@ -4188,7 +4187,7 @@ common#:#import_cat_table#:#チェックボックスがオンの場合のみ次�
 common#:#import_categories#:#インポートカテゴリ
 common#:#import_failure_log#:#失敗ログのインポート
 common#:#import_file#:#インポートファイル
-common#:#import_file_not_valid#:#インポートファイルは無効です。
+common#:#import_file_not_valid_here#:#インポートファイルは無効です。
 common#:#import_finished#:#インポートしたメッセージの数です。
 common#:#import_lm#:#ILIAS ラーニングモジュールをインポート
 common#:#import_qpl#:#テスト問題集をインポート
@@ -13968,12 +13967,10 @@ rep#:#rep_mo_mem_dash#:#現在コース、グループのどちらもメンバ�
 rep#:#rep_multiple_reference_deletion_instruction#:#どれを削除するのか選択してください：
 rep#:#rep_multiple_reference_deletion_intro#:#このオブジェクトには追加情報が存在します。
 rep#:#rep_new_item_group_add#:#グループ追加
-rep#:#rep_new_item_group_add_separator#:#列区切りを追加
 rep#:#rep_new_item_group_delete_sure#:#本当に次のグループ化を削除しますか?
 rep#:#rep_new_item_group_edit#:#グループ編集
 rep#:#rep_new_item_group_nr_subitems#:#割当て済みオブジェクト数
 rep#:#rep_new_item_group_other#:#その他
-rep#:#rep_new_item_group_separator#:#列区切り
 rep#:#rep_new_item_group_unassigned#:#割当てなし
 rep#:#rep_new_item_group_unassigned_subitems#:#未割当てオブジェクト数: %s
 rep#:#rep_new_item_groups#:#グループ化

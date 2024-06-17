@@ -300,7 +300,7 @@ class ItemSetManager
                                 true
                             );
                         }
-                        $this->raw[$key]["description"] = $long_desc[$object["obj_id"]];
+                        $this->raw[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
                     }
                 }
             }

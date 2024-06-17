@@ -37,6 +37,8 @@ Depending on development ressources, funding and approval, some new features are
 * Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
 * Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
 * Auto-save messages should use UI components (e.g. toast), so a consistent UI/UX is used and easier to maintain throughout the entire system.
+* Avoid creating question-fragments on incomplete question creation, remove questions fully  on deletion of tests and questionpools
+and provide update/objective to clean database of disjunct leftover of questions
 
 
 ## Open Warnings / Issues without Tickets

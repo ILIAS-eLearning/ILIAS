@@ -2,7 +2,7 @@
 
 if [[ -z ${GHRUN} ]]
 then
-  RUNCSFIXER=$(vendor/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run -vvv --config=./CI/PHP-CS-Fixer/code-format.php_cs $@)
+  RUNCSFIXER=$(vendor/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run -vvv --config=./scripts/PHP-CS-Fixer/code-format.php_cs $@)
   RESULT=$?
   if [[ ${RESULT} -ne 0 ]]
   then
@@ -11,7 +11,7 @@ then
   exit 0
 else
   # run at github actions
-  source CI/Import/Functions.sh
+  source scripts/Import/Functions.sh
 
   CHANGED_FILES=$(get_changed_files)
   for FILE in ${CHANGED_FILES}
@@ -19,7 +19,7 @@ else
   	if [ -f ${FILE} ]
   	then
 	  	echo "Check file: ${FILE}"
-	  	RUNCSFIXER=$(vendor/composer/vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs ${FILE})
+	  	RUNCSFIXER=$(vendor/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run --config=./scripts/PHP-CS-Fixer/code-format.php_cs ${FILE})
 	  	RESULT=$?
 	  	if [[ ${RESULT} -ne 0 ]]
 	  	then

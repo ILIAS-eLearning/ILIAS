@@ -25,6 +25,7 @@ use DateTimeImmutable;
 use Exception;
 use Generator;
 use ilAccessHandler;
+use ilCalendarSettings;
 use ilCtrl;
 use ilCtrlInterface;
 use ILIAS\Data\Order;
@@ -115,9 +116,13 @@ class CertificateOverviewTable implements DataRetrieval
             $filter_data['issue_date'] = null;
         }
 
-        $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview($this->user->getLanguage(), $filter_data, $range));
-        $colum_to_order = array_column($table_rows, $order_field);
-        array_multisort($colum_to_order, $order_direction === 'ASC' ? SORT_ASC : SORT_DESC, $table_rows);
+        $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
+            $this->user->getLanguage(),
+            $filter_data,
+            $range,
+            $order_field,
+            $order_direction
+        ));
 
         foreach ($table_rows as $row) {
             $row['issue_date'] = DateTimeImmutable::createFromMutable((new DateTime())->setTimestamp($row['issue_date']));
@@ -169,25 +174,30 @@ class CertificateOverviewTable implements DataRetrieval
 
     private function buildTable(): Data
     {
-        $uiTable = $this->ui_factory->table();
-        return $uiTable->data(
+        $ui_table = $this->ui_factory->table();
+
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
+        return $ui_table->data(
             $this->lng->txt('certificates'),
             [
-                'certificate_id' => $uiTable->column()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $uiTable->column()->date(
-                    $this->lng->txt('certificate_issue_date'),
-                    $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard())
-                ),
-                'object' => $uiTable->column()->text($this->lng->txt('obj')),
-                'obj_id' => $uiTable->column()->text($this->lng->txt('object_id')),
-                'owner' => $uiTable->column()->text($this->lng->txt('owner')),
+                'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
+                'issue_date' => $ui_table->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
+                'object' => $ui_table->column()->text($this->lng->txt('obj')),
+                'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
+                'owner' => $ui_table->column()->text($this->lng->txt('owner'))
             ],
             $this
         )
             ->withOrder(new Order('issue_date', Order::DESC))
             ->withId('certificateOverviewTable')
             ->withRequest($this->request)
-            ->withActions($this->buildTableActions());
+            ->withActions($this->buildTableActions())
+            ->withNumberOfRows((int) ($this->user->getPref('hits_per_page') ?: '50'));
     }
 
     private function buildTableActions(): array

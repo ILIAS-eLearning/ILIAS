@@ -5964,12 +5964,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         iljQueryUtil::initjQuery();
         $draftsFromHistory = ilForumDraftsHistory::getInstancesByDraftId($draftId);
         if ($draftsFromHistory !== []) {
-            $modal = ilModalGUI::getInstance();
-            $modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
-            $modal->setId('frm_autosave_restore');
             $form_tpl = new ilTemplate('tpl.restore_thread_draft.html', true, true, 'components/ILIAS/Forum');
-            $first_open = null;
 
+            $first_open = null;
             foreach ($draftsFromHistory as $history_instance) {
                 $accordion = new ilAccordionGUI();
                 $accordion->setId('acc_' . $history_instance->getHistoryId());
@@ -6012,9 +6009,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $form_tpl->setVariable('RESTORE_DATA_EXISTS', 'found_threat_history_to_restore');
-            $modal->setBody($form_tpl->get());
-            ilModalGUI::initJS();
-            $this->modal_history = $modal->getHTML();
+
+            $modal = $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('restore_draft_from_autosave'),
+                $form_tpl->get(),
+                '#'
+            )->withAdditionalOnLoadCode(function (string $id): string {
+                return "document.getElementById('$id').dataset.modalId = 'frm_autosave_restore';";
+            });
+
+            $this->modal_history = $this->ui_renderer->render($modal);
         } else {
             ilForumPostDraft::createDraftBackup($draftId);
         }

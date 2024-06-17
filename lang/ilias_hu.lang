@@ -573,7 +573,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
-assessment#:#conf_delete_pass_ctm#:#Biztos, hogy törli a már létező válaszait?
 assessment#:#confirm_delete_all_user_data#:#Biztos, hogy eltávolítja minden felhasználójának tesztadatát?
 assessment#:#confirm_delete_single_user_data#:#Biztos, hogy eltávolítja a kiválasztott felhasználók tesztadatait?
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
@@ -4150,7 +4149,7 @@ common#:#import_cat_table#:#Az alábbi táblázat csak akkor nyújt érdemleges 
 common#:#import_categories#:#Kategóriák importja
 common#:#import_failure_log#:#Hibanapló importálása
 common#:#import_file#:#Importfájl
-common#:#import_file_not_valid#:#Az importfájl nem érvényes.
+common#:#import_file_not_valid_here#:#Az importfájl nem érvényes.
 common#:#import_finished#:#Importált üzenetek száma.
 common#:#import_lm#:#ILIAS-tananyag importja
 common#:#import_qpl#:#Tesztkérdésgyűjtemény importálása
@@ -13876,12 +13875,10 @@ rep#:#rep_mo_mem_dash#:#Jelenleg egy kurzusnak, illetve csoportnak sem tagja.
 rep#:#rep_multiple_reference_deletion_instruction#:#Válassza ki azokat, amelyeket szintén törölni szeretne:
 rep#:#rep_multiple_reference_deletion_intro#:#További hivatkozások vannak ehhez az objektumhoz.
 rep#:#rep_new_item_group_add#:#Csoportosítás hozzáadása
-rep#:#rep_new_item_group_add_separator#:#Oszlop elválasztó hozzáadása
 rep#:#rep_new_item_group_delete_sure#:#Biztos, hogy törli az alábbi csoportosításokat?
 rep#:#rep_new_item_group_edit#:#Csoportosítás módosítása
 rep#:#rep_new_item_group_nr_subitems#:#Hozzárendelt objektumok száma
 rep#:#rep_new_item_group_other#:#Egyebek
-rep#:#rep_new_item_group_separator#:#Oszlop elválasztó
 rep#:#rep_new_item_group_unassigned#:#Nincs hozzárendelve
 rep#:#rep_new_item_group_unassigned_subitems#:#Hozzá nem rendelt objektumok száma: %s
 rep#:#rep_new_item_groups#:#Csoportosítás

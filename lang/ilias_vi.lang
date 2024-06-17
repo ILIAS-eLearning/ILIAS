@@ -575,7 +575,6 @@ assessment#:#code#:#Mã
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#concatenation#:#Kết hợp
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Bạn có chắc chắn muốn xóa tất cả các thông tin người sử dụng của bài kiểm tra không?
 assessment#:#confirm_delete_single_user_data#:#Bạn có chắc chắn muốn xóa các thông tin về bài kiểm tra của (những) người sử dụng đã chọn không?
 assessment#:#confirm_sync_questions#:#Câu hỏi bạn đã thay đổi là một bản sao được tạo ra để sử dụng với bài kiểm tra đang hoạt động. Bạn có muốn thay đổi nguyên bản của câu hỏi không?
@@ -4154,7 +4153,7 @@ common#:#import_cat_table#:#Bảng sau chỉ có nghĩa nếu hộp đánh dấu
 common#:#import_categories#:#Nhập chuyên mục
 common#:#import_failure_log#:#Nhật ký nhập thất bại
 common#:#import_file#:#Nhập file
-common#:#import_file_not_valid#:#File nhập không hợp lệ.
+common#:#import_file_not_valid_here#:#File nhập không hợp lệ.
 common#:#import_finished#:#Số thư đã nhập.
 common#:#import_lm#:#Nhập học phần ILIAS
 common#:#import_qpl#:#Nhập thư viện câu hỏi kiểm tra
@@ -13878,12 +13877,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

@@ -48,6 +48,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $this->type = 'tala';
 
         $language->loadLanguageModule("tala");
+        $language->loadLanguageModule('etal');
     }
 
     protected function supportsPageEditor(): bool
@@ -118,11 +119,32 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     protected function showPossibleSubObjects(): void
     {
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
-        $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-        $gui->setCreationUrl($this->ctrl->getLinkTargetByClass(strtolower(ilObjTalkTemplateGUI::class), 'create'));
-        $gui->setDisabledObjectTypes([ilObjEmployeeTalkSeries::TYPE]);
+        $subtypes = $this->getCreatableObjectTypes();
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            [$this->buildGroup(
+                self::class,
+                array_keys($subtypes),
+                $this->lng->txt('other'),
+                $subtypes
+            )]
+        );
         $gui->render();
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $subtypes = $this->obj_definition->getCreatableSubObjects(
+            $this->object->getType(),
+            ilObjectDefinition::MODE_ADMINISTRATION,
+            $this->object->getRefId()
+        );
+        unset($subtypes[ilObjEmployeeTalkSeries::TYPE]);
+
+        return array_filter(
+            $subtypes,
+            fn($key) => $this->access->checkAccess('create_' . $key, '', $this->ref_id, $this->type),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     public function viewObject(): void

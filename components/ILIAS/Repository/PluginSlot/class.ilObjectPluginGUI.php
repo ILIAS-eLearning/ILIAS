@@ -213,19 +213,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Use custom creation form titles
      */
-    protected function getCreationFormTitle(int $a_form_type): string
+    protected function getCreationFormTitle(): string
     {
-        switch ($a_form_type) {
-            case self::CFORM_NEW:
-                return $this->txt($this->getType() . "_new");
-
-            case self::CFORM_IMPORT:
-                return $this->lng->txt("import");
-
-            case self::CFORM_CLONE:
-                return $this->txt("objs_" . $this->getType() . "_duplicate");
-        }
-        return "";
+        return $this->txt($this->getType() . "_new");
     }
 
     /**
@@ -309,29 +299,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
         $form->addCommandButton("update", $lng->txt("save"));
         // $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-
-        return $form;
-    }
-
-    /**
-     * Init object import form
-     * @param string    new type
-     * @return    ilPropertyFormGUI
-     */
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
-        $form->setTitle($this->lng->txt("import"));
-
-        $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
-        $fi->setSuffixes(["zip"]);
-        $fi->setRequired(true);
-        $form->addItem($fi);
-
-        $form->addCommandButton("importFile", $this->lng->txt("import"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
     }

@@ -84,9 +84,15 @@ class ilUserDefinedData
         return $this->user_data[$a_field] ?? '';
     }
 
-    public function getAll(): array // Missing array type.
+    /**
+     * @return array<string, string>
+     */
+    public function getAll(): array
     {
-        return $this->user_data;
+        return array_map(
+            static fn ($value): string => $value ?? '',
+            $this->user_data
+        );
     }
 
     public function update(): void

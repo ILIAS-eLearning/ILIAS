@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * language handling for setup
@@ -195,17 +195,17 @@ class ilSetupLanguage extends ilLanguage
     {
         global $ilDB;
 
-        $arr = array();
-
-        $query = "SELECT * FROM object_data " .
+        $arr = [];
+        if ($ilDB instanceof ilDBInterface) {
+            $query = "SELECT * FROM object_data " .
                 "WHERE type = " . $ilDB->quote("lng", "text") . " " .
                 "AND " . $ilDB->like("description", "text", "installed%");
-        $r = $ilDB->query($query);
+            $r = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchObject($r)) {
-            $arr[] = $row->title;
+            while ($row = $ilDB->fetchObject($r)) {
+                $arr[] = $row->title;
+            }
         }
-
         return $arr;
     }
 
@@ -441,7 +441,7 @@ class ilSetupLanguage extends ilLanguage
             // initialize the array for updating lng_modules below
             $lang_array = [];
             $lang_array["common"] = [];
-    
+
             // remove header first
             if ($content = $this->cut_header(file($lang_file))) {
                 // get the local changes from the database
@@ -465,22 +465,22 @@ class ilSetupLanguage extends ilLanguage
                     // [2]: value
                     // [3]: comment (optional)
                     $separated = explode($this->separator, trim($val));
-            
+
                     //get position of the comment_separator
                     $pos = strpos($separated[2], $this->comment_separator);
-            
+
                     if ($pos !== false) {
                         //cut comment of
                         $separated[2] = substr($separated[2], 0, $pos);
                     }
-            
+
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
                         $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
                     } else {
                         $local_value = "";
                     }
-            
+
                     if (empty($scope)) {
                         if ($local_value !== "" && $local_value !== $separated[2]) {
                             // keep the locally changed value
@@ -494,7 +494,7 @@ class ilSetupLanguage extends ilLanguage
                             continue;
                         }
                     }
-            
+
                     $query .= sprintf(
                         "(%s,%s,%s,%s,%s,%s),",
                         $ilDB->quote($separated[0], "text"),
@@ -512,7 +512,7 @@ class ilSetupLanguage extends ilLanguage
                     $ilDB->manipulate($query);
                 }
             }
-    
+
             $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
             $modules_to_delete = [];
             foreach ($lang_array as $module => $lang_arr) {
@@ -537,7 +537,8 @@ class ilSetupLanguage extends ilLanguage
             }
 
             $inModulesToDelete = $ilDB->in('module', $modules_to_delete, false, 'text');
-            $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+            $ilDB->manipulate(sprintf(
+                "DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
                 $ilDB->quote($lang_key, "text")
             ));
 

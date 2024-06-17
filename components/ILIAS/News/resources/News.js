@@ -12,26 +12,17 @@ il.News = {
 
 	init: function () {
 		var t = il.News;
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('.modal-footer').hide();
 		$("#news_btn_cancel_update").on("click", function (e) {
 			e.preventDefault();
 			$(".ilAdminRow .alert").remove();
-			$('#ilNewsEditModal').modal('hide');
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('hide');
 		});
 		$("#news_btn_update").on("click", function (e) {
 			var t = il.News;
 			//e.preventDefault();
 			t.save();
-			$('#ilNewsCreateModal').modal('hide');
-		});
-		$("#news_btn_cancel_delete").on("click", function (e) {
-			e.preventDefault();
-			$('#ilNewsDeleteModal').modal('hide');
-		});
-		$("#news_btn_delete").on("click", function (e) {
-			var t = il.News;
-			e.preventDefault();
-			t.remove();
-			$('#ilNewsDeleteModal').modal('hide');
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('hide');
 		});
 		t.moreOnScroll();
 	},
@@ -151,7 +142,7 @@ il.News = {
 
 		t.current_id = 0;
 
-		$('#ilNewsEditModal .modal-title').html(il.Language.txt("create"));
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('.modal-title').html(il.Language.txt("create"));
 		$('#news_btn_update').attr("value", il.Language.txt("save"));
 		if (!keep_values) {
 			$("#news_title").val("");
@@ -162,9 +153,9 @@ il.News = {
 		if (typeof tinyMCE != "undefined" && tinyMCE.get('news_content')) {
 			tinyMCE.get('news_content').setContent("");
 		}
-		$('#ilNewsEditModal input[name="media_delete"]').css("display", "none");
-		$('#ilNewsEditModal label[for="media_delete"]').css("display", "none");
-		$('#ilNewsEditModal').modal('show');
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('input[name="media_delete"]').css("display", "none");
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('label[for="media_delete"]').css("display", "none");
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('show');
 
 		return false;
 	},
@@ -173,7 +164,7 @@ il.News = {
 		var t = il.News;
 		t.current_id = id;
 
-		$('#ilNewsEditModal .modal-title').html(il.Language.txt("edit"));
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('.modal-title').html(il.Language.txt("edit"));
 		$('#news_btn_update').attr("value", il.Language.txt("save"));
 		if (!keep_values) {
 			$("#news_title").val(t.items[id].title);
@@ -187,16 +178,16 @@ il.News = {
 		}
 
 		if (t.items[id].mob_id > 0) {
-			$('#ilNewsEditModal input[name="media_delete"]').css("display", "");
-			$('#ilNewsEditModal label[for="media_delete"]').css("display", "");
-			$('#ilNewsEditModal input[name="media_delete"]').prop( "checked", false );
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').find('input[name="media_delete"]').css("display", "");
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').find('label[for="media_delete"]').css("display", "");
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').find('input[name="media_delete"]').prop("checked", false);
 		} else {
-			$('#ilNewsEditModal input[name="media_delete"]').css("display", "none");
-			$('#ilNewsEditModal label[for="media_delete"]').css("display", "none");
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').find('input[name="media_delete"]').css("display", "none");
+			$('#form_news_edit_form').closest('.il-modal-roundtrip').find('label[for="media_delete"]').css("display", "none");
 		}
 
 
-		$('#ilNewsEditModal').modal('show');
+		$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('show');
 
 		return false;
 	},
@@ -253,14 +244,11 @@ il.News = {
 		var t = il.News;
 		t.current_id = id;
 
-		console.log("DELETE");
-		//$('#news_btn_delete').attr("value", il.Language.txt("update"));
 		$("#news_delete_news_title").html(t.items[id].title);
 
 		const newsData = document.querySelector("[data-news-type='init']");
 		if (newsData) {
 			const signalId = newsData.dataset.newsDeleteModalSignal;
-			console.log(signalId);
 			$(document).trigger(
 				signalId,
 				{
@@ -270,7 +258,6 @@ il.News = {
 				},
 			);
 		}
-		//$('#ilNewsDeleteModal').modal('show');
 
 		return false;
 	},

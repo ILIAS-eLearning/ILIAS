@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -682,9 +679,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -892,6 +888,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2014,9 +2013,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2378,9 +2374,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -5562,6 +5557,14 @@ footer {
   color: #161616;
 }
 
+a[aria-disabled],
+a[aria-disabled].il-link.link-bulky:hover {
+  text-decoration: none;
+  cursor: initial;
+  color: inherit;
+  background-color: unset;
+}
+
 .c-listing-property__propertylabel:after {
   content: ":";
 }
@@ -7431,6 +7434,9 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menu hr {
   display: none;
 }
+.c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
+  display: none;
+}
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__branch,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .btn-bulky,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__menulevel--trigger,
@@ -7537,8 +7543,10 @@ button .minimize, button .close {
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .c-drilldown__menulevel--trigger,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .btn-bulky,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .link-bulky {
-    background-color: #f9f9f9;
     display: flex;
+    background-color: #f9f9f9;
+    position: relative;
+    z-index: 40;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch ~ .c-drilldown__branch > .c-drilldown__menulevel--trigger {
     background-color: transparent;
@@ -7569,6 +7577,7 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menulevel--trigger .icon {
   filter: invert(50%);
 }
+.c-drilldown .c-drilldown__menu--no-items,
 .c-drilldown .c-drilldown__menulevel--trigger {
   justify-content: space-between;
   text-align: left;
@@ -7581,6 +7590,10 @@ button .minimize, button .close {
   text-align: left;
   padding-left: 38px;
   margin-bottom: 2px;
+}
+.c-drilldown .c-drilldown__menu--no-items {
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 div.alert div {
@@ -10024,6 +10037,13 @@ th.c-table-data__cell {
   z-index: 2;
 }
 
+.c-table-data__positioninput label {
+  display: none;
+}
+.c-table-data__positioninput input {
+  width: 65px;
+}
+
 .c-table-data__multiaction-triggerer {
   width: fit-content;
 }
@@ -10503,7 +10523,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -11196,7 +11215,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11829,7 +11847,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -15574,17 +15591,17 @@ li.ilc_page_toc_PageTOCItem {
 }
 
 a.ilc_page_toc_PageTOCLink {
-  color: #03a;
+  color: #4c6586;
   font-weight: normal;
   text-decoration: none;
 }
 
 a.ilc_page_toc_PageTOCLink:hover {
-  color: black;
+  color: #3a4c65;
 }
 
 a.ilc_page_toc_PageTOCLink:visited {
-  color: blue;
+  color: #82639e;
 }
 
 /* --- content styles (will move to content.css) --- */
@@ -19176,6 +19193,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10

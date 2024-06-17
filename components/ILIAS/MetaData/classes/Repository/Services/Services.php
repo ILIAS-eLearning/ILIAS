@@ -82,6 +82,7 @@ class Services
         return $this->validation_dictionary = (new ValidationDictionaryInitiator(
             new ValidationTagFactory(),
             $this->path_services->pathFactory(),
+            $this->path_services->navigatorFactory(),
             $this->structure_services->structure()
         ))->get();
     }
@@ -94,6 +95,7 @@ class Services
         return $this->repository_dictionary = (new RepositoryDictionaryInitiator(
             new RepositoryTagFactory(),
             $this->path_services->pathFactory(),
+            $this->path_services->navigatorFactory(),
             $this->structure_services->structure()
         ))->get();
     }

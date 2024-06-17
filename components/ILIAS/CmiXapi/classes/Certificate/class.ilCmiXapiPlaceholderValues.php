@@ -50,7 +50,6 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
      * @param ilLanguage|null $language
      * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateTestObjectHelper|null $testObjectHelper
      * @param ilCertificateUserObjectHelper|null $userObjectHelper
      * @param ilCertificateLPStatusHelper|null $lpStatusHelper
      * @param ilCertificateUtilHelper|null $utilHelper

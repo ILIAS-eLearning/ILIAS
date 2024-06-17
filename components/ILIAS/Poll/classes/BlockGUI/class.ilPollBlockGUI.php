@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,8 +17,11 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * BlockGUI class for polls.
@@ -36,6 +37,7 @@ class ilPollBlockGUI extends ilBlockGUI
     protected bool $new_rendering = true;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected Refinery $refinery;
     protected ilPollStateInfo $state;
     protected ilPollCommentsHandler $comments;
 
@@ -49,6 +51,7 @@ class ilPollBlockGUI extends ilBlockGUI
         $this->access = $DIC->access();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
 
         parent::__construct();
 
@@ -196,12 +199,19 @@ class ilPollBlockGUI extends ilBlockGUI
             $this->lng,
             $this->ui_factory,
             $this->ui_renderer,
+            $this->refinery,
             $this->state,
             $this->comments,
             $answers,
-            new ilPollAnswersRenderer($this->lng),
+            new ilPollAnswersRenderer(
+                $this->lng,
+                $this->refinery
+            ),
             $results,
-            new ilPollResultsRenderer($this->getRefId())
+            new ilPollResultsRenderer(
+                $this->getRefId(),
+                $this->refinery
+            )
         );
     }
 

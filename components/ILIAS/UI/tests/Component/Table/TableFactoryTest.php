@@ -29,6 +29,9 @@ class TableFactoryTest extends AbstractFactoryTest
         ],
         "data" => [
             "context" => false
+        ],
+        "ordering" => [
+            "context" => false
         ]
     ];
 

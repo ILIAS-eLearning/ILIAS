@@ -98,6 +98,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
+        $this->request = $DIC->http()->request();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
@@ -105,6 +106,10 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->rbac_admin = $DIC->rbac()->admin();
         $this->rbac_system = $DIC->rbac()->system();
         $this->rbac_review = $DIC->rbac()->review();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->settings = $DIC['ilSetting'];
+        $this->temp_file_system = $DIC->filesystem()->temp();
 
         $tree = $DIC["tree"];
 
@@ -641,11 +646,6 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
 
         return $forms;
-    }
-
-    public function importFile(): void
-    {
-        parent::importFileObject($this->parent_id);
     }
 
     /**

@@ -573,7 +573,6 @@ assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
 assessment#:#conf_delete_pass#:#Vuoi davvero cancellare il passaggio?
-assessment#:#conf_delete_pass_ctm#:#Vuoi davvero eliminare le tue risposte precedenti?
 assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
 assessment#:#confirm_delete_single_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti selezionati?
 assessment#:#confirm_sync_questions#:#La domanda, che &
@@ -4150,7 +4149,7 @@ common#:#import_cat_table#:#La seguente tabella &
 common#:#import_categories#:#Importa contesto
 common#:#import_failure_log#:#Log di importazione: fallimenti
 common#:#import_file#:#Scegli il file
-common#:#import_file_not_valid#:#Il file di import non &
+common#:#import_file_not_valid_here#:#Il file di import non &
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test
@@ -13874,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Si prega di selezionare quello che dovrebbe essere eliminato:
 rep#:#rep_multiple_reference_deletion_intro#:#Per questo oggetto esistono ulteriori riferimenti.
 rep#:#rep_new_item_group_add#:#Add Group
-rep#:#rep_new_item_group_add_separator#:#Aggiungi separatore di colonna
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
 rep#:#rep_new_item_group_edit#:#Edit Group
 rep#:#rep_new_item_group_nr_subitems#:#Numero degli oggetti assegnati
 rep#:#rep_new_item_group_other#:#Altro
-rep#:#rep_new_item_group_separator#:#Separatore di colonna
 rep#:#rep_new_item_group_unassigned#:#Non assegnato
 rep#:#rep_new_item_group_unassigned_subitems#:#Numero degli oggetti non assegnati: %s
 rep#:#rep_new_item_groups#:#New Item Groups

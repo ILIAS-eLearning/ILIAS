@@ -30,6 +30,18 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends TableTestBase
 {
+    private function getFactory(): I\Component\Table\Factory
+    {
+        return new I\Component\Table\Factory(
+            new I\Component\SignalGenerator(),
+            new \ILIAS\Data\Factory(),
+            new I\Component\Table\Column\Factory(),
+            new I\Component\Table\Action\Factory(),
+            new I\Component\Table\DataRowBuilder(),
+            new I\Component\Table\OrderingRowBuilder()
+        );
+    }
+
     public function testTableConstruction(): void
     {
         $f = $this->getTableFactory();

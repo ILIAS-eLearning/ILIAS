@@ -1127,14 +1127,6 @@ class ilObjectCopyGUI
         return $this->form;
     }
 
-    /**
-     * Check if there is any source object
-     */
-    protected function sourceExists(): bool
-    {
-        return (bool) ilUtil::_getObjectsByOperations($this->getType(), 'copy', $this->user->getId(), 1);
-    }
-
     protected function initFormSearch(): void
     {
         $this->form = new ilPropertyFormGUI();

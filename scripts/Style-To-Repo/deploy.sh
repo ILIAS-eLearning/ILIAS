@@ -16,7 +16,7 @@
 # This script compares the actual style repo with the built style folder and pushes the possible changes to repo.
 
 NOW=$(date +'%d.%m.%Y %I:%M:%S')
-DEPLOY_BASE_FOLDER="./CI/Style-To-Repo/repo"
+DEPLOY_BASE_FOLDER="./scripts/Style-To-Repo/repo"
 STYLE_REPO="https://github.com/ILIAS-eLearning/delos.git"
 STYLE_REPO_NAME_SHORT="ILIAS-eLearning/delos.git"
 
@@ -48,7 +48,7 @@ function deploy() {
 
   rm -rf ${DEPLOY_BASE_FOLDER}/*
 
-  cp -r CI/Style-To-Repo/style/* ${DEPLOY_BASE_FOLDER}
+  cp -r scripts/Style-To-Repo/style/* ${DEPLOY_BASE_FOLDER}
 
   git -C ${DEPLOY_BASE_FOLDER} remote set-url origin ${REPO_TOKEN}
   git -C ${DEPLOY_BASE_FOLDER} config user.name ${USER_NAME}

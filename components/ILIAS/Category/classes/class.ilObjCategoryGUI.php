@@ -548,7 +548,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'export',
-                $this->ctrl->getLinkTargetByClass('ilexportgui', ''),
+                $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, self::class, 'ilexportgui'], ''),
                 'export',
                 'ilexportgui'
             );

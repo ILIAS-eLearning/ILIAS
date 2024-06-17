@@ -26,10 +26,18 @@ use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagAssignmentInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagAssignment;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 abstract class DictionaryInitiator
 {
     protected PathFactoryInterface $path_factory;
+
+    /**
+     * only needed to instantiate dictionaries,
+     * which is done in inheritors
+     */
+    protected NavigatorFactoryInterface $navigator_factory;
+
     private StructureSetInterface $structure;
 
     /**
@@ -39,9 +47,11 @@ abstract class DictionaryInitiator
 
     public function __construct(
         PathFactoryInterface $path_factory,
+        NavigatorFactoryInterface $navigator_factory,
         StructureSetInterface $structure
     ) {
         $this->path_factory = $path_factory;
+        $this->navigator_factory = $navigator_factory;
         $this->structure = $structure;
     }
 

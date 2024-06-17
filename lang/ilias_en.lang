@@ -347,6 +347,8 @@ administration#:#vc_information#:#Show Version Control Information
 administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
+adn#:#action_confirm_delete#:#Delete Notifications
+adn#:#action_confirm_delete_msg#:#Would you like to delete the following notification(s)?
 adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 adn#:#btn_cancel#:#Cancel
@@ -384,7 +386,7 @@ adn#:#msg_show_to_all_languages#:#Show to all languages
 adn#:#msg_show_to_all_roles#:#Show to all roles
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
 adn#:#msg_success_created#:#Notification created
-adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_deleted#:#Notification(s) sucessfully deleted
 adn#:#msg_success_duplicated#:#Notification sucessfully duplicated
 adn#:#msg_success_reset#:#Notification reset
 adn#:#msg_success_updated#:#Notification updated
@@ -586,7 +588,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
@@ -4060,7 +4061,7 @@ common#:#exc_time_over_short#:#Time is up.
 common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#excs#:#Exercises
-common#:#execute#:#Execute
+common#:#execute#:#Apply
 common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
 common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
@@ -4347,7 +4348,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Import Categories
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Import File
-common#:#import_file_not_valid#:#The import file is not valid.
+common#:#import_file_not_valid_here#:#The import file is not valid or the contained object type cannot be imported here.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
@@ -4393,7 +4394,7 @@ common#:#info_remark_interrupted#:#Role is interrupted at this position. The rol
 common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
-common#:#info_view_of_user#:#User
+common#:#info_view_of_user#:#User Menu
 common#:#inform_user_mail#:#Send mail to inform user about changes
 common#:#inline_file_extensions#:#Web-Enabled Files
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for download.
@@ -5474,6 +5475,7 @@ common#:#sahs_export_file_info#:#Use this option for a ZIP file that was exporte
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
+common#:#sahs_new#:#Create New Learning Module
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms
 common#:#salutation_m#:#Mr
@@ -5551,6 +5553,7 @@ common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
 common#:#sess_mode#:#Session Mode
+common#:#sess_new#:#New Session
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
@@ -7388,28 +7391,28 @@ cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated becaus
 cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
 cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
 cron#:#cron_action_activate#:#Activate
-cron#:#cron_action_activate_success#:#Cron-Job activated.
-cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?
-cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
+cron#:#cron_action_activate_success#:#Cron job activated.
+cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron job "%s"?
+cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron jobs?
 cron#:#cron_action_deactivate#:#Deactivate
-cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
-cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
+cron#:#cron_action_deactivate_success#:#Cron job deactivated.
+cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron job "%s"?
+cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron jobs?
 cron#:#cron_action_edit#:#Edit
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_action_reset#:#Reset
-cron#:#cron_action_reset_success#:#Cron-Job reset.
-cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?
-cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
-cron#:#cron_action_run#:#Execute
-cron#:#cron_action_run_fail#:#Cron-Job failed.
-cron#:#cron_action_run_success#:#Cron-Job run successfully.
-cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
+cron#:#cron_action_reset_success#:#Cron job reset.
+cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron job "%s"?
+cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron jobs?
+cron#:#cron_action_run#:#Run Cron Job
+cron#:#cron_action_run_fail#:#Cron Job failed.
+cron#:#cron_action_run_success#:#Cron Job run successfully.
+cron#:#cron_action_run_sure#:#Are you sure you want to run the cron job "%s"?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Component
 cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Last Run
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron job.
 cron#:#cron_result#:#Result
 cron#:#cron_result_info#:#Result Info
 cron#:#cron_result_status_crashed#:#Crashed
@@ -7509,6 +7512,7 @@ crs#:#crs_course_status_of_users#:#Passing the Course
 crs#:#crs_create_date#:#Create date
 crs#:#crs_custom_user_fields#:#Course-Specific User Data
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course
 crs#:#crs_dates#:#Dates
 crs#:#crs_deactivate_notification#:#Deactivate Notification
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
@@ -8497,7 +8501,7 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#execute#:#Execute choices
+dateplaner#:#execute#:#Apply
 dateplaner#:#free#:#Free
 dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
@@ -8863,6 +8867,8 @@ didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
 didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.
 dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on
 dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
@@ -9700,6 +9706,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
+exp#:#export_files_deleted#:#The selected export files have been deleted.
 export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
@@ -10219,6 +10226,7 @@ grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing gr
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
 grp#:#grp_deactivate_notification#:#Deactivate Notification
 grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
@@ -10432,7 +10440,6 @@ iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
 iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
@@ -10710,7 +10717,7 @@ ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol,
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server Settings
-ldap#:#ldap_sync_cron#:#Per Cron-Job
+ldap#:#ldap_sync_cron#:#Per Cron Job
 ldap#:#ldap_sync_login#:#On Login
 ldap#:#ldap_tbl_role_ass#:#Active Rules
 ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version ‘3’ or disable TLS support.
@@ -10724,7 +10731,7 @@ ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose ‘Sub�
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
+ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per cron job.
 ldap#:#ldap_username_filter#:#Username Filter
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.
 ldoc#:#deleteDocument#:#Delete
@@ -11467,7 +11474,7 @@ mail#:#mail_select_grp#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
-mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html'.
+mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html'.
 mail#:#mail_serial_letter_placeholders#:#Mail Merge Placeholders
 mail#:#mail_settings_external_frm_head#:#External E-Mails
 mail#:#mail_settings_external_tab#:#External
@@ -12591,6 +12598,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_external_url#:#External URL
 mob#:#mob_extract_preview_image#:#Extract Preview Image
@@ -13132,7 +13140,7 @@ prg#:#add_category#:#Add Category
 prg#:#assignment_date#:#Assignment Date
 prg#:#assignments#:#Assignments
 prg#:#auto_add_success#:#Add automatism successfully.
-prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.
+prg#:#auto_membership_description#:#Rules are only implemented when a criterion is fulfilled after a rule has been activated. Deleting rules will not remove allocations if any other active criterion has been fulfilled by that time.
 prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
@@ -14568,7 +14576,7 @@ rbac#:#svyf_write#:#Edit settings in Survey administration
 rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
 rbac#:#sysc_read#:#User has read access to System Check.
 rbac#:#sysc_visible#:#System Check is visible.
-rbac#:#sysc_write#:#User can execute System Check.
+rbac#:#sysc_write#:#User can run System Check.
 rbac#:#tags_edit_permission#:#User can change permission settings in Tagging administration
 rbac#:#tags_read#:#User has read access to Tagging administration
 rbac#:#tags_visible#:#Tagging administration is visible
@@ -14803,12 +14811,10 @@ rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Add Grouping
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groupings?
 rep#:#rep_new_item_group_edit#:#Edit Grouping
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
 rep#:#rep_new_item_group_other#:#Other
-rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_groups#:#Grouping
@@ -15648,7 +15654,7 @@ style#:#icons_gallery#:#Icons Gallery
 style#:#image_dir#:#Image Directory
 style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
 style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:
-style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
+style#:#invalid_scss_path#:#The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
 style#:#main_scss_created#:#Main SCSS has been created:
@@ -16798,7 +16804,7 @@ sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tr
 sysc#:#sysc_overview#:#Overview
 sysc#:#sysc_status_completed#:#Completed
 sysc#:#sysc_status_failed#:#Failed
-sysc#:#sysc_status_na#:#Not Executed
+sysc#:#sysc_status_na#:#Not yet run
 sysc#:#sysc_status_running#:#Running
 sysc#:#sysc_tab_trash#:#Deleted Objects
 sysc#:#sysc_task_overview#:#Tasks
@@ -16887,6 +16893,8 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_agree_date#:#ToS agreed on
 tos#:#tos_agreement#:#Terms of Service
@@ -17172,11 +17180,12 @@ ui#:#3stars#:#three of five stars
 ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
 ui#:#datatable_multiaction_label#:#Bulk Actions
-ui#:#datatable_multiactionmodal_actionlabel#:#operation
-ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
-ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
-ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.
-ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
+ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries
+ui#:#datatable_multiactionmodal_apply#:#Apply
+ui#:#datatable_multiactionmodal_listentry#:#Actions for Entire Table
+ui#:#datatable_multiactionmodal_msg#:#Selected action will affect all entries in this table.
+ui#:#datatable_multiactionmodal_title#:#Actions for Entire Table
+ui#:#drilldown_no_items#:#No Matching Elements
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
@@ -17199,6 +17208,7 @@ ui#:#presentation_table_collapse#:#collapse all
 ui#:#presentation_table_expand#:#expand all
 ui#:#rating_average#:#others rated %s of 5
 ui#:#reset_stars#:#neutral
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

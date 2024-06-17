@@ -103,10 +103,21 @@ class DataViewControlsTest extends TableTestBase
 
         $this->assertEquals(
             [
+                C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
                 C\Table\Data::VIEWCONTROL_KEY_ORDERING,
                 C\Table\Data::VIEWCONTROL_KEY_FIELDSELECTION,
             ],
             array_keys($view_controls->getInputs())
+        );
+        $this->assertInstanceOf(
+            I\Input\ViewControl\Group::class,
+            $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]
+        );
+
+        $group_contents = $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]->getInputs();
+        array_walk(
+            $group_contents,
+            fn($vc) => $this->assertInstanceOf(I\Input\ViewControl\NullControl::class, $vc)
         );
     }
 

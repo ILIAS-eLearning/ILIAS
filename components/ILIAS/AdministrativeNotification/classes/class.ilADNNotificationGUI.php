@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\AdministrativeNotification\Table;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * Class ilADNNotificationGUI
  * @ilCtrl_IsCalledBy ilADNNotificationGUI: ilObjAdministrativeNotificationGUI
@@ -34,6 +38,19 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     public const CMD_CANCEL = 'cancel';
     public const CMD_DELETE = 'delete';
     public const CMD_RESET = 'reset';
+    public const CMD_CONFIRM_DELETE = 'confirmDelete';
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+    protected Table $table;
+
+    public function __construct(ilADNTabHandling $tab_handling)
+    {
+        global $DIC;
+        parent::__construct($tab_handling);
+        $this->table = new Table($this);
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+    }
 
     protected function dispatchCommand($cmd): string
     {
@@ -60,6 +77,9 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             case self::CMD_RESET:
                 $this->reset();
                 break;
+            case self::CMD_CONFIRM_DELETE:
+                $this->confirmDelete();
+                break;
             case self::CMD_DEFAULT:
             default:
                 return $this->index();
@@ -70,6 +90,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function index(): string
     {
+        $this->table = new Table($this);
         if ($this->access->hasUserPermissionTo('write')) {
             $btn_add_msg = $this->ui->factory()->button()->standard(
                 $this->lng->txt('common_add_msg'),
@@ -77,8 +98,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             );
             $this->toolbar->addComponent($btn_add_msg);
         }
-
-        return (new ilADNNotificationTableGUI($this, self::CMD_DEFAULT))->getHTML();
+        return $this->table->getHTML();
     }
 
     protected function add(): string
@@ -142,32 +162,82 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function delete(): void
     {
-        $notification = $this->getNotificationFromRequest();
-        $notification->delete();
+        foreach ($this->getNotificationsFromRequest() as $notification) {
+            $notification->delete();
+        }
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_deleted'), true);
         $this->cancel();
     }
 
     protected function reset(): void
     {
-        $notification = $this->getNotificationFromRequest();
+        foreach ($this->getNotificationsFromRequest() as $notification) {
+            $notification->resetForAllUsers();
+        }
 
-        $notification->resetForAllUsers();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_reset'), true);
         $this->cancel();
+    }
+
+    protected function confirmDelete(): void
+    {
+        $adns = $this->getNotificationsFromRequest();
+
+        $stream = Streams::ofString(
+            $this->ui_renderer->render(
+                $this->ui_factory->modal()->interruptive(
+                    $this->lng->txt('action_confirm_delete'),
+                    $this->lng->txt('action_confirm_delete_msg'),
+                    $this->ctrl->getLinkTarget($this, self::CMD_DELETE)
+                )->withAffectedItems(
+                    array_map(function (ilADNNotification $adn) {
+                        return $this->ui_factory->modal()->interruptiveItem()->standard(
+                            $adn->getId(),
+                            $adn->getTitle()
+                        );
+                    }, $adns)
+                )
+            )
+        );
+        $this->http->saveResponse($this->http->response()->withBody($stream));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /** @noinspection PhpIncompatibleReturnTypeInspection */
     protected function getNotificationFromRequest(): ilADNNotification
     {
-        if (isset($this->http->request()->getParsedBody()[self::IDENTIFIER])) {
-            $identifier = $this->http->request()->getParsedBody()[self::IDENTIFIER];
-        } elseif (isset($this->http->request()->getParsedBody()['interruptive_items'][0])) {
-            $identifier = $this->http->request()->getParsedBody()['interruptive_items'][0];
-        } else {
-            $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER] ?? null;
+        return $this->getNotificationsFromRequest()[0];
+    }
+
+    /**
+     * @return ilADNNotification[]
+     */
+    protected function getNotificationsFromRequest(): array
+    {
+        $query_params = $this->http->request()->getQueryParams(); // aka $_GET
+        $name = $this->table->getIdToken()->getName(); // name of the query parameter from the table
+        $field_ids = $query_params[$name] ?? []; // array of field ids
+
+        // all objects
+        if ($field_ids[0] ?? null === 'ALL_OBJECTS') {
+            return ilADNNotification::get();
         }
 
-        return ilADNNotification::findOrFail($identifier);
+        $return = [];
+        foreach ($field_ids as $field_id) {
+            $return[] = ilADNNotification::findOrFail((int) $field_id);
+        }
+
+        // check interruptive items
+        if (($interruptive_items = $this->http->request()->getParsedBody()['interruptive_items'] ?? false)) {
+            foreach ($interruptive_items as $interruptive_item) {
+                $return[] = ilADNNotification::findOrFail((int) $interruptive_item);
+            }
+        }
+
+        return $return;
     }
+
 }

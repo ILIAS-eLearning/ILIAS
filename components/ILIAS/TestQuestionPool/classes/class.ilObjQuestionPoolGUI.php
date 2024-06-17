@@ -24,7 +24,11 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\FileUpload\MimeType;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -51,9 +55,11 @@ use ILIAS\Test\QuestionIdentifiers;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    use TestQuestionsImportTrait;
+    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
+    private ilObjectCommonSettings $common_settings;
     private HttpRequest $http_request;
     private QuestionInfoService $questioninfo;
-    private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;
     protected Service $taxonomy;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
@@ -70,6 +76,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected URLBuilder $url_builder;
     protected URLBuilderToken $action_parameter_token;
     protected URLBuilderToken $row_id_token;
+    private Archives $archives;
 
     public function __construct()
     {
@@ -91,7 +98,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->taxonomy = $DIC->taxonomy();
         $this->http_request = $DIC->http()->request();
         $this->data_factory = new DataFactory();
-        $this->archives = $DIC->legacyArchives();
+        $this->archives = $DIC->archives();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
 
         $this->ctrl->saveParameter($this, [
@@ -677,358 +684,195 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         exit;
     }
 
-    /**
-     * imports question(s) into the questionpool
-     */
-    public function uploadQplObject($questions_only = false)
-    {
-        $this->ctrl->setParameter($this, 'new_type', $this->qplrequest->raw('new_type'));
-        if (!isset($_FILES['xmldoc']) || !isset($_FILES['xmldoc']['error']) || $_FILES['xmldoc']['error'] > UPLOAD_ERR_OK) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_upload'), true);
-            if (!$questions_only) {
-                $this->ctrl->redirect($this, 'create');
-            }
-            return false;
-        }
-
-        $basedir = $this->createImportDirectory();
-
-        $xml_file = '';
-        $qti_file = '';
-        $subdir = '';
-
-        $file = pathinfo($_FILES['xmldoc']['name']);
-        $full_path = $basedir . '/' . $_FILES['xmldoc']['name'];
-
-        if (strpos($file['filename'], 'qpl') === false
-            && strpos($file['filename'], 'qti') === false) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
-            $this->ctrl->redirect($this, $cmd);
-            return;
-        }
-
-        $this->log->write(__METHOD__ . ': full path ' . $full_path);
-        try {
-            ilFileUtils::moveUploadedFile($_FILES['xmldoc']['tmp_name'], $_FILES['xmldoc']['name'], $full_path);
-        } catch (Error $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
-            $this->ctrl->redirect($this, $cmd);
-            return;
-        }
-        $this->log->write(__METHOD__ . ': full path ' . $full_path);
-        if (strcmp($_FILES['xmldoc']['type'], 'text/xml') == 0) {
-            $qti_file = $full_path;
-            ilObjTest::_setImportDirectory($basedir);
-        } else {
-            $this->archives->unzip($full_path);
-
-            $subdir = basename($file['basename'], '.' . $file['extension']);
-            ilObjQuestionPool::_setImportDirectory($basedir);
-            $xml_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . $subdir . '.xml';
-            $qti_file = ilObjQuestionPool::_getImportDirectory() . '/' . $subdir . '/' . str_replace(
-                'qpl',
-                'qti',
-                $subdir
-            ) . '.xml';
-        }
-        if (!file_exists($qti_file)) {
-            ilFileUtils::delDir($basedir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
-            $cmd = $this->ctrl->getCmd() === 'upload' ? 'importQuestions' : 'create';
-            $this->ctrl->redirect($this, $cmd);
-            return false;
-        }
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, '');
-        $qtiParser->startParsing();
-        $founditems = &$qtiParser->getFoundItems();
-        if (count($founditems) == 0) {
-            ilFileUtils::delDir($basedir);
-
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('qpl_import_no_items'), true);
-            if (!$questions_only) {
-                $this->ctrl->redirect($this, 'create');
-            }
-            return false;
-        }
-
-        $complete = 0;
-        $incomplete = 0;
-        foreach ($founditems as $item) {
-            if (strlen($item['type'])) {
-                $complete++;
-            } else {
-                $incomplete++;
-            }
-        }
-
-        if ($complete == 0) {
-            ilFileUtils::delDir($basedir);
-
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('qpl_import_non_ilias_files'), true);
-            if (!$questions_only) {
-                $this->ctrl->redirect($this, 'create');
-            }
-            return false;
-        }
-
-        ilSession::set('qpl_import_xml_file', $xml_file);
-        ilSession::set('qpl_import_qti_file', $qti_file);
-        ilSession::set('qpl_import_subdir', $subdir);
-
-        $this->tpl->addBlockFile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.qpl_import_verification.html',
-            'components/ILIAS/TestQuestionPool'
-        );
-        $table = new ilQuestionPoolImportVerificationTableGUI($this, 'uploadQpl');
-        $rows = [];
-
-        foreach ($founditems as $item) {
-            $row = [
-                'title' => $item['title'],
-                'ident' => $item['ident'],
-            ];
-            switch ($item['type']) {
-                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
-                    $type = $this->lng->txt('assClozeTest');
-                    break;
-                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assImagemapQuestion');
-                    break;
-                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assMatchingQuestion');
-                    break;
-                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assMultipleChoice');
-                    break;
-                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assKprimChoice');
-                    break;
-                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assLongMenu');
-                    break;
-                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assSingleChoice');
-                    break;
-                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assOrderingQuestion');
-                    break;
-                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assTextQuestion');
-                    break;
-                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assNumeric');
-                    break;
-                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assTextSubset');
-                    break;
-                default:
-                    $type = $this->lng->txt($item['type']);
-                    break;
-            }
-
-            if (strcmp($type, '-' . $item['type'] . '-') == 0) {
-                $component_factory = $this->component_factory;
-                $component_repository = $this->component_repository;
-                foreach ($component_factory->getActivePluginsInSlot('qst') as $pl) {
-                    if (strcmp($pl->getQuestionType(), $item['type']) == 0) {
-                        $type = $pl->getQuestionTypeTranslation();
-                    }
-                }
-            }
-
-            $row['type'] = $type;
-
-            $rows[] = $row;
-        }
-        $table->setData($rows);
-
-        $this->tpl->setCurrentBlock('import_qpl');
-        if (is_file($xml_file)) {
-            try {
-                $fh = fopen($xml_file, 'r');
-                $xml = fread($fh, filesize($xml_file));
-                fclose($fh);
-            } catch (Exception $e) {
-                return false;
-            }
-            if (preg_match('/<ContentObject.*?MetaData.*?General.*?Title[^>]*?>([^<]*?)</', $xml, $matches)) {
-                $this->tpl->setVariable('VALUE_NEW_QUESTIONPOOL', $matches[1]);
-            }
-        }
-        $this->tpl->setVariable('TEXT_CREATE_NEW_QUESTIONPOOL', $this->lng->txt('qpl_import_create_new_qpl'));
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock('adm_content');
-        $this->tpl->setVariable('FOUND_QUESTIONS_INTRODUCTION', $this->lng->txt('qpl_import_verify_found_questions'));
-        if ($questions_only) {
-            $this->tpl->setVariable('VERIFICATION_HEADING', $this->lng->txt('import_questions_into_qpl'));
-            $this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
-        } else {
-            $this->tpl->setVariable('VERIFICATION_HEADING', $this->lng->txt('import_qpl'));
-
-            $this->ctrl->setParameter($this, 'new_type', $this->type);
-            $this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
-        }
-
-        $value_questions_only = 0;
-        if ($questions_only) {
-            $value_questions_only = 1;
-        }
-        $this->tpl->setVariable('VALUE_QUESTIONS_ONLY', $value_questions_only);
-        $this->tpl->setVariable('VERIFICATION_TABLE', $table->getHtml());
-        $this->tpl->setVariable('VERIFICATION_FORM_NAME', $table->getFormName());
-
-        $this->tpl->parseCurrentBlock();
-
-        return true;
-    }
-
-    private function createImportDirectory(): string
-    {
-        $qpl_data_dir = ilFileUtils::getDataDir() . '/qpl_data';
-        ilFileUtils::makeDir($qpl_data_dir);
-
-        if (!is_writable($qpl_data_dir)) {
-            $this->error->raiseError(
-                'Questionpool Data Directory (' . $qpl_data_dir
-                . ') not writeable.',
-                $this->error->FATAL
-            );
-        }
-
-        $qpl_dir = $qpl_data_dir . '/qpl_import';
-        ilFileUtils::makeDir($qpl_dir);
-        if (!@is_dir($qpl_dir)) {
-            $this->error->raiseError('Creation of Questionpool Directory failed.', $this->error->FATAL);
-        }
-        return $qpl_dir;
-    }
-
     public function importVerifiedFileObject(): void
     {
-        if ($_POST['questions_only'] == 1) {
-            $newObj = &$this->object;
-        } else {
-            $newObj = new ilObjQuestionPool(0, true);
-            $newObj->setType($this->qplrequest->raw('new_type'));
-            $newObj->setTitle('dummy');
-            $newObj->setDescription('questionpool import');
-            $newObj->create(true);
-            $newObj->createReference();
-            $newObj->putInTree($this->qplrequest->getRefId());
-            $newObj->setPermissions($this->qplrequest->getRefId());
-        }
+        $file_to_import = ilSession::get('path_to_import_file');
+        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
 
-        if (is_string(ilSession::get("qpl_import_dir")) && is_string(ilSession::get("qpl_import_subdir")) && is_file(
-            ilSession::get("qpl_import_dir") . '/' . ilSession::get("qpl_import_subdir") . "/manifest.xml"
-        )) {
-            ilSession::set("qpl_import_idents", $this->qplrequest->raw("ident"));
+        $new_obj = new ilObjQuestionPool(0, true);
+        $new_obj->setType($this->qplrequest->raw('new_type'));
+        $new_obj->setTitle('dummy');
+        $new_obj->setDescription('questionpool import');
+        $new_obj->create(true);
+        $new_obj->createReference();
+        $new_obj->putInTree($this->qplrequest->getRefId());
+        $new_obj->setPermissions($this->qplrequest->getRefId());
 
-            $fileName = ilSession::get('qpl_import_subdir') . '.zip';
-            $fullPath = ilSession::get('qpl_import_dir') . '/' . $fileName;
-            $imp = new ilImport($this->qplrequest->getRefId());
-            $map = $imp->getMapping();
-            $map->addMapping('components/ILIAS/TestQuestionPool', 'qpl', 'new_id', $newObj->getId());
-            $imp->importObject($newObj, $fullPath, $fileName, 'qpl', 'components/ILIAS/TestQuestionPool', true);
-        } else {
-            $qtiParser = new ilQTIParser(
-                ilSession::get('qpl_import_qti_file'),
-                ilQTIParser::IL_MO_PARSE_QTI,
-                $newObj->getId(),
-                $this->qplrequest->raw('ident')
+        $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile
+        );
+
+        if (is_file($importdir . DIRECTORY_SEPARATOR . 'manifest.xml')) {
+            $this->importQuestionPoolWithValidManifest(
+                $new_obj,
+                $selected_questions,
+                'importVerifiedFile',
+                $importdir,
+                $qtifile,
+                $file_to_import
             );
-            $qtiParser->startParsing();
-            // import page data
-            if (strlen(ilSession::get('qpl_import_xml_file'))) {
-                $contParser = new ilQuestionPageParser(
-                    $newObj,
-                    ilSession::get('qpl_import_xml_file'),
-                    ilSession::get('qpl_import_subdir')
+        } else {
+            $this->importQuestionsFromQtiFile(
+                $new_obj,
+                $selected_questions,
+                $qtifile,
+                $importdir,
+                $xmlfile
+            );
+
+            $new_obj->fromXML($xmlfile);
+
+            $new_obj->update();
+            $new_obj->saveToDb();
+        }
+        $this->cleanupAfterImport($importdir);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('questions_imported'), true);
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(self::class);
+    }
+
+    public function importVerifiedQuestionsFileObject(): void
+    {
+        $file_to_import = ilSession::get('path_to_import_file');
+
+        if (mb_substr($file_to_import, -3) === 'xml') {
+            $importdir = dirname($file_to_import);
+            $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+                'importVerifiedQuestionsFile',
+                $importdir,
+                $file_to_import
+            );
+            $this->importQuestionsFromQtiFile(
+                $this->getObject(),
+                $selected_questions,
+                $file_to_import,
+                $importdir
+            );
+        } else {
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+            $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+                'importVerifiedQuestionsFile',
+                $importdir,
+                $qtifile
+            );
+            if (is_file($importdir . DIRECTORY_SEPARATOR . 'manifest.xml')) {
+                $this->importQuestionPoolWithValidManifest(
+                    $this->getObject(),
+                    $selected_questions,
+                    $file_to_import
                 );
-                $contParser->setQuestionMapping($qtiParser->getImportMapping());
-                $contParser->startParsing();
-                // #20494
-                $newObj->fromXML(ilSession::get('qpl_import_xml_file'));
+            } else {
+                $this->importQuestionsFromQtiFile(
+                    $this->getObject(),
+                    $selected_questions,
+                    $qtifile,
+                    $importdir,
+                    $xmlfile
+                );
             }
-
-            // set another question pool name (if possible)
-            if (isset($_POST['qpl_new']) && strlen($_POST['qpl_new'])) {
-                $newObj->setTitle($_POST['qpl_new']);
-            }
-
-            $newObj->update();
-            $newObj->saveToDb();
         }
-        ilFileUtils::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
 
-        if ($_POST['questions_only'] == 1) {
-            $this->ctrl->redirect($this, 'questions');
-        } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
-            ilUtil::redirect(
-                'ilias.php?ref_id=' . $newObj->getRefId() .
-                '&baseClass=ilObjQuestionPoolGUI'
+        $this->cleanupAfterImport($importdir);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
+        $this->questionsObject();
+    }
+
+    public function uploadQuestionsImportObject(): void
+    {
+        $import_questions_modal = $this->buildImportQuestionsModal()->withRequest($this->request);
+        $data = $import_questions_modal->getData();
+        if ($data === null) {
+            $this->questionsObject(
+                $import_questions_modal->withOnLoad(
+                    $import_questions_modal->getShowSignal()
+                )
             );
+            return;
         }
+        $path_to_imported_file_in_temp_dir = $data['import_file'][0];
+        $this->importQuestionsFile($path_to_imported_file_in_temp_dir);
     }
 
-    public function cancelImportObject(): void
+    private function buildImportQuestionsModal(): RoundTripModal
     {
-        if ($_POST['questions_only'] == 1) {
-            $this->ctrl->redirect($this, 'questions');
-        } else {
-            $this->ctrl->redirect($this, 'cancel');
-        }
+        $constraint = $this->refinery->custom()->constraint(
+            function ($vs): bool {
+                if ($vs === []) {
+                    return false;
+                }
+                return true;
+            },
+            $this->lng->txt('msg_no_files_selected')
+        );
+
+        $file_upload_input = $this->ui_factory->input()->field()
+            ->file(new \QuestionPoolImportUploadHandlerGUI(), $this->lng->txt('import_file'))
+                ->withAcceptedMimeTypes(self::SUPPORTED_IMPORT_MIME_TYPES)
+                ->withMaxFiles(1)
+                ->withAdditionalTransformation($constraint);
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('import'),
+            [],
+            ['import_file' => $file_upload_input],
+            $this->ctrl->getFormActionByClass(self::class, 'uploadQuestionsImport')
+        )->withSubmitLabel($this->lng->txt('import'));
     }
 
-    /**
-     * imports question(s) into the questionpool
-     */
-    public function uploadObject(): void
-    {
-        $upload_valid = true;
-        $form = $this->getImportQuestionsForm();
-        if ($form->checkInput()) {
-            if (!$this->uploadQplObject(true)) {
-                $form->setValuesByPost();
-                $this->importQuestionsObject($form);
-            }
-        } else {
-            $form->setValuesByPost();
-            $this->importQuestionsObject($form);
-        }
+    private function importQuestionPoolWithValidManifest(
+        ilObjQuestionPool $obj,
+        array $selected_questions,
+        string $import_cmd,
+        string $importdir,
+        string $qtifile,
+        string $file_to_import
+    ): void {
+
+        ilSession::set('qpl_import_selected_questions', $selected_questions);
+        $imp = new ilImport($this->qplrequest->getRefId());
+        $map = $imp->getMapping();
+        $map->addMapping('components/ILIAS/TestQuestionPool', 'qpl', 'new_id', $obj->getId());
+        $imp->importObject($obj, $file_to_import, basename($file_to_import), 'qpl', 'components/ILIAS/TestQuestionPool', true);
     }
 
-    /**
-     * display the import form to import questions into the questionpool
-     */
-    public function importQuestionsObject(ilPropertyFormGUI $form = null): void
-    {
-        if (!$form instanceof ilPropertyFormGUI) {
-            $form = $this->getImportQuestionsForm();
+    private function importQuestionsFromQtiFile(
+        ilObjQuestionPool $obj,
+        array $selected_questions,
+        string $qtifile,
+        string $importdir,
+        string $xmlfile = ''
+    ): void {
+        $qti_parser = new ilQTIParser(
+            $importdir,
+            $qtifile,
+            ilQTIParser::IL_MO_PARSE_QTI,
+            $obj->getId(),
+            $selected_questions
+        );
+        $qti_parser->startParsing();
+
+        if ($xmlfile === '') {
+            return;
         }
 
-        $this->tpl->setContent($form->getHtml());
+        $cont_parser = new ilQuestionPageParser(
+            $obj,
+            $xmlfile,
+            $importdir
+        );
+        $cont_parser->setQuestionMapping($qti_parser->getImportMapping());
+        $cont_parser->startParsing();
     }
 
-    protected function getImportQuestionsForm(): ilPropertyFormGUI
+    private function cleanupAfterImport(string $importdir): void
     {
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('import_question'));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'upload'));
-
-        $file = new ilFileInputGUI($this->lng->txt('select_file'), 'xmldoc');
-        $file->setRequired(true);
-        $form->addItem($file);
-
-        $form->addCommandButton('upload', $this->lng->txt('upload'));
-        $form->addCommandButton('questions', $this->lng->txt('cancel'));
-
-        return $form;
+        ilFileUtils::delDir($importdir);
+        $this->deleteUploadedImportFile(ilSession::get('path_to_uploaded_file_in_temp_dir'));
+        ilSession::clear('path_to_import_file');
+        ilSession::clear('path_to_uploaded_file_in_temp_dir');
     }
 
     public function createQuestionObject(): void
@@ -1199,7 +1043,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
      * list questions of question pool
      */
-    public function questionsObject(): void
+    public function questionsObject(RoundTripModal $import_questions_modal = null): void
     {
         if (!$this->access->checkAccess("read", "", $this->qplrequest->getRefId())) {
             $this->infoScreenForward();
@@ -1254,11 +1098,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             );
             $toolbar->addComponent($btn);
 
+            if ($import_questions_modal === null) {
+                $import_questions_modal = $this->buildImportQuestionsModal();
+            }
+
             $btn_import = $this->ui_factory->button()->standard(
                 $this->lng->txt('import'),
-                $this->ctrl->getLinkTarget($this, 'importQuestions')
+                $import_questions_modal->getShowSignal()
             );
             $toolbar->addComponent($btn_import);
+            $out[] = $this->ui_renderer->render($import_questions_modal);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
                 $btn_paste = $this->ui_factory->button()->standard(
@@ -1444,47 +1293,99 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, 'show');
     }
 
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
+    protected function importQuestionsFile(string $path_to_uploaded_file_in_temp_dir): void
     {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget('_top');
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt('import_qpl'));
+        if (!$this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)
+            || ($files = $this->temp_file_system->listContents($path_to_uploaded_file_in_temp_dir)) === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_import_file_error'));
+        }
 
-        $fi = new ilFileInputGUI($this->lng->txt('import_file'), 'xmldoc');
-        $fi->setSuffixes(['zip']);
-        $fi->setRequired(true);
-        $form->addItem($fi);
+        $file_to_import = $this->import_temp_directory . DIRECTORY_SEPARATOR . $files[0]->getPath();
+        $qtifile = $file_to_import;
+        $importdir = dirname($file_to_import);
 
-        $form->addCommandButton('importFile', $this->lng->txt('import'));
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
-        return $form;
+        if ($this->temp_file_system->getMimeType($files[0]->getPath()) === MimeType::APPLICATION__ZIP) {
+            $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
+                ->withZipOutputPath($this->getImportTempDirectory());
+            $unzip = $this->archives->unzip($this->temp_file_system->readStream($files[0]->getPath()), $options);
+            $unzip->extract();
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+        }
+        if (!file_exists($qtifile)) {
+            ilFileUtils::delDir($importdir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
+            $this->questionsObject();
+            return;
+        }
+
+        ilSession::set('path_to_import_file', $file_to_import);
+        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
+
+        $form = $this->buildImportQuestionsSelectionForm(
+            'importVerifiedQuestionsFile',
+            $importdir,
+            $qtifile,
+            $path_to_uploaded_file_in_temp_dir
+        );
+
+        if ($form === null) {
+            return;
+        }
+
+        $panel = $this->ui_factory->panel()->standard(
+            $this->lng->txt('import_question'),
+            [
+                $this->ui_factory->legacy($this->lng->txt('qpl_import_verify_found_questions')),
+                $form
+            ]
+        );
+        $this->tpl->setContent($this->ui_renderer->render($panel));
+        $this->tpl->printToStdout();
+        exit;
     }
 
-    /**
-     * form for new questionpool object import
-     */
-    protected function importFileObject(int $parent_id = null): void
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
-        if ($_REQUEST['new_type'] === null) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-            return;
-        }
-        if (!$this->checkPermissionBool('create', '', $_REQUEST['new_type'])) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'), true);
-            $this->ctrl->redirect($this, 'create');
+        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+
+        $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
+            ->withZipOutputPath($this->getImportTempDirectory());
+
+        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
+        $unzip->extract();
+
+        if (!file_exists($qtifile)) {
+            ilFileUtils::delDir($importdir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cannot_find_xml'), true);
             return;
         }
 
-        $form = $this->initImportForm($this->qplrequest->raw('new_type'));
-        if ($form->checkInput()) {
-            $this->uploadQplObject();
+        ilSession::set('path_to_import_file', $file_to_import);
+        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
+
+        $this->ctrl->setParameterByClass(self::class, 'new_type', $this->type);
+        $form = $this->buildImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile,
+            $path_to_uploaded_file_in_temp_dir
+        );
+
+        if ($form === null) {
+            return;
         }
 
-        // display form to correct errors
-        $this->tpl->setContent($form->getHTML());
+        $panel = $this->ui_factory->panel()->standard(
+            $this->lng->txt('import_qpl'),
+            [
+                $this->ui_factory->legacy($this->lng->txt('qpl_import_verify_found_questions')),
+                $form
+            ]
+        );
+        $this->tpl->setContent($this->ui_renderer->render($panel));
+        $this->tpl->printToStdout();
+        exit;
     }
 
     public function addLocatorItems(): void
@@ -1542,16 +1443,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $q_gui = assQuestionGUI::_getQuestionGUI('', $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
-                $title = $q_gui->object->getTitle();
+                $title = $this->object->getTitle() . ': ' . $q_gui->object->getTitle();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName(
                         $q_gui->object->getId()
                     );
                 }
                 $this->tpl->setTitle(
-                    strip_tags(
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
                         $title,
-                        self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
                     )
                 );
                 $this->tpl->setDescription(
@@ -1565,15 +1465,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
         } else {
             $this->tpl->setTitle(
-                strip_tags(
-                    $this->object->getTitle(),
-                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                    $this->object->getTitle()
                 )
             );
             $this->tpl->setDescription(
-                strip_tags(
-                    $this->object->getLongDescription(),
-                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                    $this->object->getLongDescription()
                 )
             );
             $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), 'big', $this->object->getType()));
@@ -1885,7 +1783,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->taxonomy->domain(),
             $this->notes_service,
             $this->object->getId(),
-            (int)$this->qplrequest->getRefId()
+            (int) $this->qplrequest->getRefId()
         );
 
         /**

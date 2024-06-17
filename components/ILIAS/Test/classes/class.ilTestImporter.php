@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+
 /**
  * Importer class for files
  *
@@ -27,6 +29,7 @@ declare(strict_types=1);
  */
 class ilTestImporter extends ilXmlImporter
 {
+    use TestQuestionsImportTrait;
     /**
      * @var array
      */
@@ -57,32 +60,38 @@ class ilTestImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        ilObjTest::_setImportDirectory($this->getImportDirectoryContainer());
-
         if ($new_id = (int) $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             // container content
-            $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            ilSession::set('tst_import_subdir', $this->getImportPackageName());
+            $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $new_obj->saveToDb(); // this generates test id first time
             $question_parent_obj_id = $new_obj->getId();
+
+            ilSession::set('path_to_container_import_file', $this->getImportDirectory());
+            list($importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromContainerImport(
+                $this->getImportDirectory()
+            );
+            $selected_questions = [];
         } else {
             // single object
             $new_id = (int) $a_mapping->getMapping('components/ILIAS/Test', 'tst', 'new_id');
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
-
             $question_parent_obj_id = (int) (ilSession::get('tst_import_qst_parent') ?? $new_obj->getId());
+
+            $selected_questions = ilSession::get('tst_import_selected_questions');
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(
+                ilSession::get('path_to_import_file')
+            );
+            ilSession::clear('tst_import_selected_questions');
         }
 
         $new_obj->loadFromDb();
 
-        list($xml_file, $qti_file) = $this->parseXmlFileNames();
-
-        if (!@file_exists($xml_file)) {
-            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+        if (!file_exists($xmlfile)) {
+            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
             return;
         }
-        if (!@file_exists($qti_file)) {
-            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $qti_file);
+        if (!file_exists($qtifile)) {
+            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $qtifile);
             return;
         }
 
@@ -93,20 +102,28 @@ class ilTestImporter extends ilXmlImporter
         // this method from ilObjTestGUI and ilTestImporter
         $new_obj->getMarkSchema()->flush();
 
-        $idents = ilSession::get('tst_import_idents');
-
         // start parsing of QTI files
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $question_parent_obj_id, $idents);
-        $qtiParser->setTestObject($new_obj);
-        $qtiParser->startParsing();
-        $new_obj = $qtiParser->getTestObject();
+        $qti_parser = new ilQTIParser(
+            $importdir,
+            $qtifile,
+            ilQTIParser::IL_MO_PARSE_QTI,
+            $question_parent_obj_id,
+            $selected_questions
+        );
+        $qti_parser->setTestObject($new_obj);
+        $qti_parser->startParsing();
+        $new_obj = $qti_parser->getTestObject();
 
         // import page data
-        $questionPageParser = new ilQuestionPageParser($new_obj, $xml_file, basename($this->getImportDirectory()));
-        $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-        $questionPageParser->startParsing();
+        $question_page_parser = new ilQuestionPageParser(
+            $new_obj,
+            $xmlfile,
+            $importdir
+        );
+        $question_page_parser->setQuestionMapping($qti_parser->getImportMapping());
+        $question_page_parser->startParsing();
 
-        foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
+        foreach ($qti_parser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
             $a_mapping->addMapping(
                 "components/ILIAS/Taxonomy",
                 "tax_item",
@@ -131,7 +148,7 @@ class ilTestImporter extends ilXmlImporter
 
         if ($new_obj->isRandomTest()) {
             $new_obj->questions = [];
-            $this->importRandomQuestionSetConfig($new_obj, $xml_file, $a_mapping);
+            $this->importRandomQuestionSetConfig($new_obj, $xmlfile, $a_mapping);
         }
 
 
@@ -148,8 +165,8 @@ class ilTestImporter extends ilXmlImporter
         $new_obj->update(); // this saves ilObject data
 
         // import skill assignments
-        $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xml_file);
-        $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $new_obj, $xml_file);
+        $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile);
+        $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $new_obj, $xmlfile);
 
         $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $new_obj->getId());
     }
@@ -268,36 +285,6 @@ class ilTestImporter extends ilXmlImporter
         }
 
         return $newMappedFilter;
-    }
-
-    /**
-     * Create qti and xml file name
-     * @return array
-     */
-    protected function parseXmlFileNames(): array
-    {
-        $this->log->write(__METHOD__ . ': ' . $this->getImportDirectory());
-
-        $basename = basename($this->getImportDirectory());
-
-        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        $qti = $this->getImportDirectory() . '/' . preg_replace('/test|tst/', 'qti', $basename) . '.xml';
-
-        return [$xml,$qti];
-    }
-
-    private function getImportDirectoryContainer(): string
-    {
-        $dir = $this->getImportDirectory();
-        $dir = dirname($dir);
-        return $dir;
-    }
-
-    private function getImportPackageName(): string
-    {
-        $dir = $this->getImportDirectory();
-        $name = basename($dir);
-        return $name;
     }
 
     protected function importRandomQuestionSetConfig(ilObjTest $test_obj, $xmlFile, $a_mapping)

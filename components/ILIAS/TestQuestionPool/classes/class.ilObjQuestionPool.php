@@ -557,29 +557,6 @@ class ilObjQuestionPool extends ilObject
         return $export_dir;
     }
 
-    public static function _setImportDirectory($a_import_dir = null): void
-    {
-        if ($a_import_dir !== null) {
-            ilSession::set('qpl_import_dir', $a_import_dir);
-            return;
-        }
-
-        ilSession::clear('qpl_import_dir');
-    }
-
-    /**
-     * get import directory of lm
-     */
-    public static function _getImportDirectory(): string
-    {
-        return ilSession::get('qpl_import_dir') ?? '';
-    }
-
-    public function getImportDirectory()
-    {
-        return ilObjQuestionPool::_getImportDirectory();
-    }
-
     /**
      * Retrieve an array containing all question ids of the questionpool
      *
@@ -1057,14 +1034,6 @@ class ilObjQuestionPool extends ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
-        if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->getObjectProperties()->storePropertyIsOnline(
-                $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()
-            );
-        }
-
         $new_obj->update();
 
         $new_obj->setSkillServiceEnabled($this->isSkillServiceEnabled());
@@ -1297,9 +1266,9 @@ class ilObjQuestionPool extends ilObject
         return self::$isSkillManagementGloballyActivated;
     }
 
-    public function fromXML($xmlFile): void
+    public function fromXML(?string $xml_file): void
     {
-        $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);
+        $parser = new ilObjQuestionPoolXMLParser($this, $xml_file);
         $parser->startParsing();
     }
 }

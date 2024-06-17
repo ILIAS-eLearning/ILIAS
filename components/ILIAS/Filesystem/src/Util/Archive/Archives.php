@@ -45,6 +45,10 @@ final class Archives
 
     public function zip(array $file_streams, ?ZipOptions $zip_options = null): Zip
     {
+        if (empty($file_streams)) {
+            $file_streams = [Zip::DOT_EMPTY => Streams::ofString('')];
+        }
+
         return new Zip(
             $this->mergeZipOptions($zip_options),
             ...$file_streams

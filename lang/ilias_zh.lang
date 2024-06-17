@@ -572,7 +572,6 @@ assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
 assessment#:#conf_delete_pass#:#真的要删除通过的(pass)？
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#您确信要删除所有用户的测试数据吗？
 assessment#:#confirm_delete_single_user_data#:#您确信要删除所选用户的测试数据吗？
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
@@ -4149,7 +4148,7 @@ common#:#import_cat_table#:#如果设置了复选框，下面的表才有意义�
 common#:#import_categories#:#导入类目
 common#:#import_failure_log#:#导入失败日志
 common#:#import_file#:#导入文件
-common#:#import_file_not_valid#:#导入文件无效。
+common#:#import_file_not_valid_here#:#导入文件无效。
 common#:#import_finished#:#已导入的消息数。
 common#:#import_lm#:#导入学习模块
 common#:#import_qpl#:#导入题目池测试
@@ -13873,12 +13872,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#请选择应该也被删除的一项：
 rep#:#rep_multiple_reference_deletion_intro#:#这个对象的进一步参考已存在。
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

@@ -573,7 +573,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
 assessment#:#conf_delete_pass#:#Tem a certeza que quer remover as suas respostas existentes?
-assessment#:#conf_delete_pass_ctm#:#Tem a certeza que quer apagar as respostas anteriores?
 assessment#:#confirm_delete_all_user_data#:#Tem a certeza que quer apagar todos os dados do utilizador do teste?
 assessment#:#confirm_delete_single_user_data#:#Tem a certeza que quer remover os dados do teste dos utilizadores selecionados?
 assessment#:#confirm_sync_questions#:#A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?
@@ -4150,7 +4149,7 @@ common#:#import_cat_table#:#A seguinte tabela só faz sentido se o quadrado esti
 common#:#import_categories#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
 common#:#import_failure_log#:#Importar registo de falha
 common#:#import_file#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Continuar’.
-common#:#import_file_not_valid#:#Agora selecione o curso ou grupo pretendido, cujo conteúdo deve ser copiado e clique no botão ‘Continuar’.
+common#:#import_file_not_valid_here#:#Agora selecione o curso ou grupo pretendido, cujo conteúdo deve ser copiado e clique no botão ‘Continuar’.
 common#:#import_finished#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
 common#:#import_lm#:#Objeto(s) selecionados movido(s)
 common#:#import_qpl#:#Função apagada
@@ -13874,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Selecione aqueles que também devem ser apagados:
 rep#:#rep_multiple_reference_deletion_intro#:#Há mais referências para este objeto.
 rep#:#rep_new_item_group_add#:#Add Group
-rep#:#rep_new_item_group_add_separator#:#Adicionar separador de coluna
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
 rep#:#rep_new_item_group_edit#:#Edit Group
 rep#:#rep_new_item_group_nr_subitems#:#Número de objetos atribuídos
 rep#:#rep_new_item_group_other#:#Outros
-rep#:#rep_new_item_group_separator#:#Separador de coluna
 rep#:#rep_new_item_group_unassigned#:#Não atribuído
 rep#:#rep_new_item_group_unassigned_subitems#:#Número de objetos não atribuídos: %s
 rep#:#rep_new_item_groups#:#New Item Groups

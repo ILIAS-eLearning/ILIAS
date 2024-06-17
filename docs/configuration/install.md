@@ -434,10 +434,6 @@ configuration might look like this afterwards:
 	"http" : {
 		"path" : "http://demo1.cat06.de"
 	},
-    "language" : {
-        "default_language" : "de",
-        "install_languages" : ["de"]
-    },
     "logging" : {
         "enable" : true,
         "path_to_logfile" : "/var/www/logs/ilias.log",
@@ -755,6 +751,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 
 | ILIAS Version | MySQL Version                       | MariaDB Version        |
 |---------------|-------------------------------------|------------------------|
+| 10.0 - 10.x   | 8.0.x                               | 10.5 - 10.11           |
 | 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |

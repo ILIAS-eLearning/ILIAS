@@ -33,7 +33,7 @@ interface Data extends Table
     /**
      * @param array<string, Action\Action>    $actions
      */
-    public function withActions(array $actions): self;
+    public function withActions(array $actions): static;
 
     /**
      * Rendering the Table must be done using the current Request:
@@ -41,7 +41,7 @@ interface Data extends Table
      * and parameters will already influence e.g. the presentation of
      * column-titles (think of ordering...).
      */
-    public function withRequest(ServerRequestInterface $request): self;
+    public function withRequest(ServerRequestInterface $request): static;
 
     /**
      * Number of Rows is the amount of rows shown per page
@@ -54,7 +54,7 @@ interface Data extends Table
      * and are not included here)
      * @param string[]  $selected_optional_column_ids
      */
-    public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
+    public function withSelectedOptionalColumns(array $selected_optional_column_ids): static;
 
     public function withOrder(?Order $order): self;
     public function withRange(?Range $range): self;
@@ -65,5 +65,5 @@ interface Data extends Table
      * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.
      * Set an Id to enable the storage and identify the distinct table.
      */
-    public function withId(string $id): self;
+    public function withId(string $id): static;
 }

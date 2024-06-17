@@ -575,7 +575,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación
 assessment#:#conf_delete_pass#:#¿Desea borrar la contraseña?
-assessment#:#conf_delete_pass_ctm#:#¿Seguro que desea eliminar las respuestas anteriores?
 assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_delete_single_user_data#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también?
@@ -4152,7 +4151,7 @@ common#:#import_cat_table#:#La siguiente tabla sólo tiene sentido si se marca e
 common#:#import_categories#:#Importar Categorías
 common#:#import_failure_log#:#Archivo de registro de fallos en la importación
 common#:#import_file#:#Importar archivo
-common#:#import_file_not_valid#:#La importación del archivo no es válida
+common#:#import_file_not_valid_here#:#La importación del archivo no es válida
 common#:#import_finished#:#Número de mensajes importados
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_qpl#:#Importar Banco de preguntas de Test
@@ -13876,12 +13875,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Por favor selecciona cuales deben ser borradas:
 rep#:#rep_multiple_reference_deletion_intro#:#Existen referencias adicionales para este objeto.
 rep#:#rep_new_item_group_add#:#Añadiendo grupo
-rep#:#rep_new_item_group_add_separator#:#Añadir separador de columna
 rep#:#rep_new_item_group_delete_sure#:#¿Está seguro que desea eliminar los siguientes grupos?
 rep#:#rep_new_item_group_edit#:#Editar grupos
 rep#:#rep_new_item_group_nr_subitems#:#Número de la Asignación de elementos
 rep#:#rep_new_item_group_other#:#Otros
-rep#:#rep_new_item_group_separator#:#Separador de columna
 rep#:#rep_new_item_group_unassigned#:#No asignado
 rep#:#rep_new_item_group_unassigned_subitems#:#Número de elementos sin asignar: %s
 rep#:#rep_new_item_groups#:#Nuevos grupos de artículos

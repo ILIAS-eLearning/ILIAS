@@ -191,10 +191,10 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v2.6.0",
+			"used_version" : "v2.9.3",
 			"wrapped_by" : "components/ILIAS/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2022-05-11",
+			"last_update" : "2024-06-07",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2015-09-07"

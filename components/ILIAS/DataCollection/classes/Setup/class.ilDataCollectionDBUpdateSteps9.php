@@ -140,4 +140,39 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
 	                AND il_dcl_field.datatype_id=2"
         );
     }
+
+    public function step_10(): void
+    {
+        if (!$this->db->indexExistsByFields('il_dcl_field_prop', array('field_id'))) {
+            $this->db->addIndex('il_dcl_field_prop', array('field_id'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_sel_opts', array('field_id'))) {
+            $this->db->addIndex('il_dcl_sel_opts', array('field_id'), 'i1');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_sel_opts', array('opt_id'))) {
+            $this->db->addIndex('il_dcl_sel_opts', array('opt_id'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tview_set', array('field'))) {
+            $this->db->addIndex('il_dcl_tview_set', array('field'), 'i2');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tview_set', array('in_filter'))) {
+            $this->db->addIndex('il_dcl_tview_set', array('in_filter'), 'i3');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tfield_set', array('field'))) {
+            $this->db->addIndex('il_dcl_tfield_set', array('field'), 'i3');
+        }
+        if (!$this->db->indexExistsByFields('il_dcl_tfield_set', array('table_id'))) {
+            $this->db->addIndex('il_dcl_tfield_set', array('table_id'), 'i4');
+        }
+    }
+
+    public function step_11(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE il_dcl_field_prop prop INNER JOIN il_dcl_field field ON field.id = prop.field_id ' .
+            'SET name = "link_detail_page_mob" WHERE field.datatype_id = %s AND name = "link_detail_page"',
+            [ilDBConstants::T_INTEGER],
+            [ilDclDatatype::INPUTFORMAT_MOB]
+        );
+    }
 }

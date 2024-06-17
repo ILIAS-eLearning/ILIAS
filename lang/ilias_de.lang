@@ -346,6 +346,8 @@ administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+adn#:#action_confirm_delete#:#Ankündigung(en) löschen
+adn#:#action_confirm_delete_msg#:#Möchten Sie die folgende(n) Ankündigung(en) löschen?
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 adn#:#btn_cancel#:#Abbrechen
@@ -383,7 +385,7 @@ adn#:#msg_show_to_all_languages#:#Allen Sprachen anzeigen
 adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
 adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
 adn#:#msg_success_created#:#Ankündigung erstellt
-adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_deleted#:#Ankündigung(en) erfolgreich gelöscht
 adn#:#msg_success_duplicated#:#Ankündigung erfolgreich dupliziert
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
 adn#:#msg_success_updated#:#Ankündigung aktualisiert
@@ -585,7 +587,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
 assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
@@ -4354,7 +4355,7 @@ common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Chec
 common#:#import_categories#:#Kategorien importieren
 common#:#import_failure_log#:#Import-Fehler-Log
 common#:#import_file#:#Datei importieren
-common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
+common#:#import_file_not_valid_here#:#Die Importdatei ist nicht gültig oder der enthaltene Objekttyp ist an dieser Stelle nicht erlaubt.
 common#:#import_finished#:#Anzahl der importierten Mails:
 common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
@@ -4400,7 +4401,7 @@ common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. 
 common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
-common#:#info_view_of_user#:#Benutzer
+common#:#info_view_of_user#:#Benutzermenü
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
 common#:#inline_file_extensions#:#Im Browser anzeigen
 common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
@@ -5481,6 +5482,7 @@ common#:#sahs_export_file_info#:#Nutzen Sie diese Option für eine ZIP-Datei, di
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
+common#:#sahs_new#:#Neues Lernmodul anlegen
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -5558,6 +5560,7 @@ common#:#sess#:#Sitzung
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
 common#:#sess_mode#:#Session-Modus
+common#:#sess_new#:#Neue Sitzung anlegen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“
@@ -5859,7 +5862,7 @@ common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das 
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Zusätzliche Felder
-common#:#user_defined_list#:#Übersicht zusätzliche Felder
+common#:#user_defined_list#:#Übersicht zusätzlicher Felder
 common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
@@ -7408,7 +7411,7 @@ cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
-cron#:#cron_action_run#:#Ausführen
+cron#:#cron_action_run#:#Cron-Job Ausführen
 cron#:#cron_action_run_fail#:#Ausführung gescheitert.
 cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
@@ -7516,6 +7519,7 @@ crs#:#crs_course_status_of_users#:#Bestehen des Kurses
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_custom_user_fields#:#Personenbezogene Angaben
 crs#:#crs_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Kursmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter „Mitglieder“ als zusätzliche Spalte einblenden.
+crs#:#crs_custom_user_fields_table_title#:#Personenbezogene Angaben zu diesem Kurs
 crs#:#crs_dates#:#Termine
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
@@ -8869,6 +8873,8 @@ didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#sess_closed#:#Geschlossene Sitzung
 didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Datenschutzerklärung
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgende Datenschutzerklärung.
 dpro#:#dpro_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Datenschutzerklärung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 dpro#:#dpro_agree_date#:#Datenschutzerklärung zugestimmt am
 dpro#:#dpro_last_reset_date#:#Die Datenschutzerklärung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Datenschutzerklärung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
@@ -9706,6 +9712,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
+exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
 export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
@@ -10225,6 +10232,7 @@ grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden 
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 grp#:#grp_custom_user_fields#:#Personenbezogene Angaben
 grp#:#grp_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Gruppenmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter "Mitglieder" als zusätzliche Spalte einblenden.
+grp#:#grp_custom_user_fields_table_title#:#Personenbezogene Angaben zu dieser Gruppe
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
 grp#:#grp_enable_map#:#Gruppenkarte aktivieren
@@ -10438,7 +10446,6 @@ iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
-iass#:#iass_no_entries#:#Keine Einträge gefunden
 iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
 iass#:#iass_phone#:#Telefon
@@ -11473,7 +11480,7 @@ mail#:#mail_select_grp#:#Bitte mindestens eine Gruppe auswählen.
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_send_html#:#HTML-Rahmen
-mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
+mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
@@ -12597,6 +12604,7 @@ mme#:#type_separator#:#Trenner
 mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
@@ -14360,23 +14368,23 @@ rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten
 rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
 rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt die MARKIERTEN Rechte der zuerst ausgewählten Rolle bzw. Rollenvorlage den Rechtevorgaben der Rollen hinzu, die im zweiten Schritt ausgewählt wurden.
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Die Rechteeinstellungen der zuerst ausgewählten Rolle bzw. Rollenvorlage werden VOLLSTÄNDIG in die Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n übernommen. Dies gilt für ausgewählte und nicht ausgewählte Rechte.
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Die in der zuerst ausgewählten Rolle bzw. Rollenvorlage MARKIERTEN Rechte werden aus den Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n entfernt.
 rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Nur die Rechtevorgaben der ausgewählten Rollen werden ergänzt. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend ergänzt.
 rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Nur die Rechtevorgaben der ausgewählten Rollen werden geändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
 rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend geändert.
 rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Es werden nur die Rechtevorgaben der Rollen verändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Ausgewählte Rechte in vorhandenen Objekten entfernen
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die Rechte werden aus den Rechtevorgaben der ausgewählten Rollen UND aus den Rechteeinstellungen bereits vorhandener Objekte entfernt.
 rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
@@ -14804,12 +14812,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
 rep#:#rep_new_item_group_add#:#Gruppierung hinzufügen
-rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppierungen löschen?
 rep#:#rep_new_item_group_edit#:#Gruppierung bearbeiten
 rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_other#:#Weitere
-rep#:#rep_new_item_group_separator#:#Spaltentrenner
 rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_groups#:#Gruppierungen
@@ -16887,6 +16893,8 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
+tos#:#tos_accept_usr_agreement_anonymous#:#Nutzungsvereinbarung
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgenden Nutzungsvereinbarungen.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie Ihre <a href="%1$s">ILIAS-Administration</a> für weitere Informationen.
 tos#:#tos_agree_date#:#Nutzungsvereinbarungen zugestimmt am
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
@@ -17172,11 +17180,12 @@ ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
 ui#:#datatable_multiaction_label#:#Sammelaktionen
-ui#:#datatable_multiactionmodal_actionlabel#:#Aktion
-ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
-ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
-ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
-ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
+ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
+ui#:#datatable_multiactionmodal_apply#:#Ausführen
+ui#:#datatable_multiactionmodal_listentry#:#Aktionen für gesamte Tabelle
+ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in diser Tabelle aus.
+ui#:#datatable_multiactionmodal_title#:#Aktionen für gesamte Tabelle
+ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
@@ -17199,6 +17208,7 @@ ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

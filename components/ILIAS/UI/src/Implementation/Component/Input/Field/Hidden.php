@@ -46,7 +46,7 @@ class Hidden extends FormInput implements \ILIAS\UI\Component\Input\Field\Hidden
         return null;
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }

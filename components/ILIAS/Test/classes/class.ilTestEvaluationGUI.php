@@ -936,12 +936,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->parseCurrentBlock();
         }
 
-        $title = sprintf(
-            $this->lng->txt("tst_result_user_name_pass"),
-            $pass + 1,
-            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-        );
-
         $pass_results = $this->results_factory->getPassResultsFor(
             $this->object,
             $active_id,
@@ -951,7 +945,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $title
+            $this->buildResultsTitle($active_id, $pass)
         );
 
         $this->setCss();
@@ -997,18 +991,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $anchors = [];
 
         foreach($show_user_results as $selected_user) {
-            $active_id = (int)$selected_user;
+            $active_id = (int) $selected_user;
             $pass = ilObjTest::_getResultPass($active_id);
 
             $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
             $this->populateExamId($template, $active_id, (int) $pass);
             $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
-
-            $title = sprintf(
-                $this->lng->txt("tst_result_user_name_pass"),
-                $pass + 1,
-                ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-            );
 
             $pass_results = $this->results_factory->getPassResultsFor(
                 $this->object,
@@ -1019,7 +1007,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $table = $this->results_presentation_factory->getPassResultsPresentationTable(
                 $pass_results,
-                $title
+                $this->buildResultsTitle($active_id, $pass)
             );
 
             $anchor = '<a name="participant_active_' . $active_id . '"></a>';
@@ -1220,7 +1208,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $data = $this->object->getCompleteEvaluationData();
-        $percent = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() / $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() * 100;
+        $reached = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints();
+        $max = $data->getParticipant($active_id)->getPass($pass)->getMaxPoints();
+        $percent = $max ? $reached / $max * 100.0 : 0;
         $result = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() . " (" . sprintf("%2.2f", $percent) . " %" . ")";
         $tpl->setCurrentBlock('total_score');
         $tpl->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
@@ -1235,12 +1225,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->setCss();
 
-        $title = sprintf(
-            $this->lng->txt("tst_result_user_name_pass"),
-            $pass + 1,
-            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
-        );
-
         $pass_results = $this->results_factory->getPassResultsFor(
             $this->object,
             $active_id,
@@ -1250,7 +1234,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table = $this->results_presentation_factory->getPassResultsPresentationTable(
             $pass_results,
-            $title
+            $this->buildResultsTitle($active_id, $pass)
         );
 
         $tpl->setVariable("LIST_OF_ANSWERS", $table->render());
@@ -2074,5 +2058,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         ));
         $this->http->sendResponse();
         $this->http->close();
+    }
+
+    protected function buildResultsTitle(int $active_id, int $pass): string
+    {
+        if ($this->object->getAnonymity()) {
+            return sprintf(
+                $this->lng->txt("tst_eval_results_by_pass_lo"),
+                $pass + 1
+            );
+        }
+        return sprintf(
+            $this->lng->txt("tst_result_user_name_pass"),
+            $pass + 1,
+            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
+        );
     }
 }

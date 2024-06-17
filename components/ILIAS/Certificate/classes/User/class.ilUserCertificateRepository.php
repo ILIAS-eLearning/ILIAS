@@ -642,33 +642,44 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
         $this->logger->debug(sprintf('END - Successfully deleted certificate for user("%s") in object (obj_id: %s)"', $userId, $obj_id));
     }
 
+    private function overviewTableColumnToDbColumn(string $table_column): string
+    {
+        $result = match ($table_column) {
+            'certificate_id' => $table_column,
+            'issue_date' => 'acquired_timestamp',
+            'object' => 'object_data.title',
+            'owner' => 'usr_data.login',
+            'obj_id' => 'cert.obj_id',
+            default => null,
+        };
+
+        if (!$result) {
+            throw new InvalidArgumentException('Invalid table column passed');
+        }
+
+        return $result;
+    }
+
     /**
      * @return ilUserCertificate[]
      * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter
      */
-    public function fetchCertificatesForOverview(string $user_language, array $filter, ?Range $range = null): array
-    {
+    public function fetchCertificatesForOverview(
+        string $user_language,
+        array $filter,
+        ?Range $range = null,
+        string $order_field = 'issue_date',
+        string $order_direction = 'ASC'
+    ): array {
+        $order_field = $this->overviewTableColumnToDbColumn($order_field);
+
         $sql_filters = [];
         foreach ($filter as $key => $value) {
             if ($value === null) {
                 continue;
             }
 
-            $column_name = $key;
-            switch ($key) {
-                case 'issue_date':
-                    $column_name = 'acquired_timestamp';
-                    break;
-                case 'object':
-                    $column_name = 'object_data.title';
-                    break;
-                case 'owner':
-                    $column_name = 'usr_data.login';
-                    break;
-                case 'obj_id':
-                    $column_name = 'cert.obj_id';
-                    break;
-            }
+            $column_name = $this->overviewTableColumnToDbColumn($key);
 
             if ($key === 'issue_date') {
                 /** @var null|DateTime $value */
@@ -701,6 +712,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             . 'LEFT JOIN object_data_del ON object_data_del.obj_id = cert.obj_id '
             . 'LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id AND trans.lang_code = ' . $this->database->quote($user_language, 'text')
             . ($sql_filters !== [] ? " WHERE " . implode(" AND ", $sql_filters) : "")
+            . ' ORDER BY ' . $order_field . ' ' . $order_direction
         );
 
         $certificates = [];

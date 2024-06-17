@@ -569,7 +569,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concaténation
 assessment#:#conf_delete_pass#:#Voulez vous vraiment supprimer cette tentative ?
-assessment#:#conf_delete_pass_ctm#:#Voulez-vous vraiment supprimer les réponses que vous avez fournies jusqu’ici?
 assessment#:#confirm_delete_all_user_data#:#Êtes-vous sûr(e) de vouloir supprimer toutes les informations utilisateurs du test ?
 assessment#:#confirm_delete_single_user_data#:#Êtes-vous certain de vouloir supprimer les données de test de l'utilisateur sélectionné ?
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le questionnaire de l'enquête en cours. Voulez-vous modifier l'original de cette question également ?
@@ -4306,7 +4305,7 @@ common#:#import_cat_table#:#Le tableau suivant n'a de sens que si la case est co
 common#:#import_categories#:#Importer Catégories
 common#:#import_failure_log#:#Importer journal des échecs
 common#:#import_file#:#Importer Fichier
-common#:#import_file_not_valid#:#Le fichier importé n'est pas valide.
+common#:#import_file_not_valid_here#:#Le fichier importé n'est pas valide.
 common#:#import_finished#:#Nombre de messages importés.
 common#:#import_lm#:#Importer Module ILIAS
 common#:#import_qpl#:#Importer Banque de Questions (Test)
@@ -14614,12 +14613,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Veuillez sélectionner celles que vous souhaitez aussi supprimer :
 rep#:#rep_multiple_reference_deletion_intro#:#D'autres références existent pour cet objet.
 rep#:#rep_new_item_group_add#:#Ajouter Groupe
-rep#:#rep_new_item_group_add_separator#:#Ajouter Séparateur de Colonnes
 rep#:#rep_new_item_group_delete_sure#:#Etes-vous sûr de vouloir supprimer les groupes suivants ?
 rep#:#rep_new_item_group_edit#:#Editer Groupe
 rep#:#rep_new_item_group_nr_subitems#:#Nombre d'Objets Assignés
 rep#:#rep_new_item_group_other#:#Autre
-rep#:#rep_new_item_group_separator#:#Séparateur de Colonnes
 rep#:#rep_new_item_group_unassigned#:#Non Assigné
 rep#:#rep_new_item_group_unassigned_subitems#:#Nombre d'Objets Non Assignés : %s
 rep#:#rep_new_item_groups#:#Nouveau Groupe d'Objets

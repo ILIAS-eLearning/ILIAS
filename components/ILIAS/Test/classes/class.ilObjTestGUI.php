@@ -27,7 +27,9 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 /**
  * Class ilObjTestGUI
@@ -72,6 +74,7 @@ use ILIAS\Test\QuestionIdentifiers;
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
+    use TestQuestionsImportTrait;
     private static $infoScreenChildClasses = [
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     ];
@@ -80,8 +83,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
     private QuestionInfoService $questioninfo;
-    private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;
-    protected ilTestTabsManager $tabs_manager;
+    protected ?ilTestTabsManager $tabs_manager = null;
     private ilTestObjectiveOrientedContainer $objective_oriented_container;
     protected ilTestAccess $test_access;
     protected ilNavigationHistory $navigation_history;
@@ -96,6 +98,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
     protected SkillService $skills_service;
+    private Archives $archives;
     protected InternalRequestService $testrequest;
 
     protected bool $create_question_mode;
@@ -124,8 +127,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
+        $this->archives = $DIC->archives();
         $this->testrequest = $DIC->test()->internal()->request();
-        $this->archives = $DIC->legacyArchives();
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -923,7 +926,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->questionsObject();
                     return;
                 }
-                $ret = $cmd === 'testScreen' ? ($this->getTestScreenGUIInstance())->$cmd() : $this->{$cmd . "Object"}();
+                $ret = $cmd === 'testScreen' ? $this->ctrl->forwardCommand($this->getTestScreenGUIInstance()) : $this->{$cmd . "Object"}();
                 break;
             default:
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
@@ -1050,18 +1053,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
     }
 
-    public function prepareOutput(bool $show_subobjects = true): bool
-    {
-        if (!$this->getCreationMode()) {
-            $settings = ilMemberViewSettings::getInstance();
-            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
-                $settings->setContainer($this->object->getRefId());
-                $this->rbac_system->initMemberView();
-            }
-        }
-        return parent::prepareOutput($show_subobjects);
-    }
-
     private function userResultsGatewayObject()
     {
         // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
@@ -1172,34 +1163,88 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     /**
     * form for new test object import
     */
-    protected function importFileObject(int $parent_id = null): void
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
-        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
-            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
+
+        $options = (new ILIAS\Filesystem\Util\Archive\UnzipOptions())
+            ->withZipOutputPath($this->getImportTempDirectory());
+
+        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')), $options);
+        $unzip->extract();
+
+        if (!is_file($qtifile)) {
+            ilFileUtils::delDir($importdir);
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_import_non_ilias_zip'), true);
+        }
+        $qtiParser = new ilQTIParser($importdir, $qtifile, ilQTIParser::IL_MO_VERIFY_QTI, 0, []);
+        $qtiParser->startParsing();
+        $founditems = $qtiParser->getFoundItems();
+
+        $complete = 0;
+        $incomplete = 0;
+        foreach ($founditems as $item) {
+            if ($item["type"] !== '') {
+                $complete++;
+            } else {
+                $incomplete++;
+            }
         }
 
-        $form = $this->initImportForm($this->testrequest->raw("new_type"));
-        if ($form->checkInput()) {
-            $this->ctrl->setParameter($this, "new_type", $this->type);
-            $this->uploadTstObject();
+        if (count($founditems) && $complete == 0) {
+            ilFileUtils::delDir($importdir);
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_import_non_ilias_files'));
             return;
         }
 
-        // display form to correct errors
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
+        if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED) {
+            $this->importVerifiedFileObject();
+            return;
+        }
+
+        ilSession::set('path_to_import_file', $file_to_import);
+        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
+
+        $form = $this->buildImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile,
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        );
+
+        if ($form === null) {
+            return;
+        }
+
+        $panel = $this->ui_factory->panel()->standard(
+            $this->lng->txt('import_tst'),
+            [
+                $this->ui_factory->legacy($this->lng->txt('qpl_import_verify_found_questions')),
+                $form
+            ]
+        );
+        $this->tpl->setContent($this->ui_renderer->render($panel));
+        $this->tpl->printToStdout();
+        exit;
     }
 
-    public function addDidacticTemplateOptions(array &$options): void
+    public function retrieveAdditionalDidacticTemplateOptions(): array
     {
         $tst = new ilObjTest();
         $defaults = $tst->getAvailableDefaults();
-        if (count($defaults)) {
-            foreach ($defaults as $row) {
-                $options["tstdef_" . $row["test_defaults_id"]] = [$row["name"],
-                    $this->lng->txt("tst_default_settings")];
-            }
+        if ($defaults === []) {
+            return [];
         }
+
+        $additional_options = [];
+        foreach ($defaults as $row) {
+            $additional_options["tstdef_" . $row["test_defaults_id"]] = [$row["name"],
+                $this->lng->txt("tst_default_settings")];
+        }
+        return $additional_options;
     }
 
     /**
@@ -1235,174 +1280,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         ilUtil::redirect($this->getReturnLocation("cancel", "./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
     }
 
-    /**
-    * imports test and question(s)
-    */
-    public function uploadTstObject()
-    {
-        if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK) {
-            $this->lng->loadLanguageModule('file');
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('general_upload_error_occured'));
-            $this->ctrl->redirect($this, 'create');
-            return false;
-        }
-
-        $file = pathinfo($_FILES["xmldoc"]["name"]);
-        $subdir = basename($file["basename"], "." . $file["extension"]);
-
-        if (strpos($subdir, 'tst') === false) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-            return false;
-        }
-
-        $basedir = ilObjTest::_createImportDirectory();
-        $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
-        try {
-            ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
-        } catch (Error $e) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
-            $this->ctrl->redirect($this, 'create');
-            return false;
-        }
-
-        $this->archives->unzip($full_path);
-
-        ilObjTest::_setImportDirectory($basedir);
-        $xml_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . $subdir . ".xml";
-        $qti_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . preg_replace("/test|tst/", "qti", $subdir) . ".xml";
-        $results_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . preg_replace("/test|tst/", "results", $subdir) . ".xml";
-
-        if (!is_file($qti_file)) {
-            ilFileUtils::delDir($basedir);
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_import_non_ilias_zip"), true);
-            $this->ctrl->redirect($this, 'create');
-            return false;
-        }
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
-        $qtiParser->startParsing();
-        $founditems = $qtiParser->getFoundItems();
-
-        $complete = 0;
-        $incomplete = 0;
-        foreach ($founditems as $item) {
-            if (strlen($item["type"])) {
-                $complete++;
-            } else {
-                $incomplete++;
-            }
-        }
-
-        if (count($founditems) && $complete == 0) {
-            ilFileUtils::delDir($basedir);
-
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_import_non_ilias_files"));
-            $this->createObject();
-            return;
-        }
-
-        ilSession::set("tst_import_results_file", $results_file);
-        ilSession::set("tst_import_xml_file", $xml_file);
-        ilSession::set("tst_import_qti_file", $qti_file);
-        ilSession::set("tst_import_subdir", $subdir);
-
-        if ($qtiParser->getQuestionSetType() != ilObjTest::QUESTION_SET_TYPE_FIXED) {
-            $this->importVerifiedFileObject();
-            return;
-        }
-
-        $importVerificationTpl = new ilTemplate('tpl.tst_import_verification.html', true, true, 'components/ILIAS/Test');
-
-        // on import creation screen the pool was chosen (-1 for no pool)
-        // BUT when no pool is available the input on creation screen is missing, so the field value -1 for no pool is not submitted.
-        $QplOrTstID = isset($_POST["qpl"]) && (int) $_POST["qpl"] != 0 ? $_POST["qpl"] : -1;
-
-        $importVerificationTpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-        $importVerificationTpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
-        $importVerificationTpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
-        $importVerificationTpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
-        $importVerificationTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
-        $importVerificationTpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
-        $importVerificationTpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
-        $importVerificationTpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
-
-        $row_class = ["tblrow1", "tblrow2"];
-        $counter = 0;
-        foreach ($founditems as $item) {
-            $importVerificationTpl->setCurrentBlock("verification_row");
-            $importVerificationTpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
-            $importVerificationTpl->setVariable("QUESTION_TITLE", $item["title"]);
-            $importVerificationTpl->setVariable("QUESTION_IDENT", $item["ident"]);
-
-            switch ($item["type"]) {
-                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MULTIPLE_CHOICE_MR:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
-                    break;
-                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MULTIPLE_CHOICE_SR:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
-                    break;
-                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_KPRIM_CHOICE:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
-                    break;
-                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_LONG_MENU:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
-                    break;
-                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_NUMERIC:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
-                    break;
-                case QuestionIdentifiers::FORMULA_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_FORMULA:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
-                    break;
-                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_TEXTSUBSET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
-                    break;
-                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
-                case ilQTIItem::QT_CLOZE:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
-                    break;
-                case QuestionIdentifiers::ERROR_TEXT_IDENTIFIER:
-                case ilQTIItem::QT_ERRORTEXT:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
-                    break;
-                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_IMAGEMAP:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
-                    break;
-                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MATCHING:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
-                    break;
-                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_ORDERING:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
-                    break;
-                case OQuestionIdentifiers::RDERING_HORIZONTAL_IDENTIFIER:
-                case ilQTIItem::QT_ORDERING_HORIZONTAL:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
-                    break;
-                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_TEXT:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
-                    break;
-                case QuestionIdentifiers::FILE_UPLOAD_IDENTIFIER:
-                case ilQTIItem::QT_FILEUPLOAD:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
-                    break;
-            }
-            $importVerificationTpl->parseCurrentBlock();
-        }
-
-        $this->tpl->setContent($importVerificationTpl->get());
-    }
-
     public function getTestObject(): ?ilObjTest
     {
         /** @var null|ilObjTest $test */
@@ -1415,63 +1292,63 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function importVerifiedFileObject()
     {
-        // create new questionpool object
-        $newObj = new ilObjTest(0, true);
-        // set type of questionpool object
-        $newObj->setType($this->testrequest->raw("new_type"));
-        // set title of questionpool object to "dummy"
-        $newObj->setTitle("dummy");
-        // set description of questionpool object
-        $newObj->setDescription("test import");
-        // create the questionpool class in the ILIAS database (object_data table)
-        $newObj->create(true);
-        // create a reference for the questionpool object in the ILIAS database (object_reference table)
-        $newObj->createReference();
-        // put the questionpool object in the administration tree
-        $newObj->putInTree($this->testrequest->getRefId());
-        // get default permissions and set the permissions for the questionpool object
-        $newObj->setPermissions($this->testrequest->getRefId());
-        // empty mark schema
-        $newObj->resetMarkSchema();
+        $file_to_import = ilSession::get('path_to_import_file');
+        $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
+        list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
 
-        // Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
-        // possible hint: chek if empty strings in $_POST["qpl_id"] relates to a bug or not
-        if (!isset($_POST["qpl"]) || "-1" === (string) $_POST["qpl"]) {
-            $questionParentObjId = $newObj->getId();
-        } else {
-            $questionParentObjId = $_POST["qpl"];
-        }
+        $new_obj = new ilObjTest(0, true);
+        $new_obj->setTitle("dummy");
+        $new_obj->setDescription("test import");
+        $new_obj->create(true);
+        $new_obj->createReference();
+        $new_obj->putInTree($this->testrequest->getRefId());
+        $new_obj->setPermissions($this->testrequest->getRefId());
+        $new_obj->resetMarkSchema();
 
-        if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
-            $newObj->saveToDb();
+        $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile
+        );
 
-            ilSession::set('tst_import_idents', $_POST['ident'] ?? '');
-            ilSession::set('tst_import_qst_parent', $questionParentObjId);
+        if (is_file($importdir . DIRECTORY_SEPARATOR . "/manifest.xml")) {
+            $new_obj->saveToDb();
 
-            $fileName = ilSession::get('tst_import_subdir') . '.zip';
-            $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
+            ilSession::set('tst_import_selected_questions', $selected_questions);
+            ilSession::set('tst_import_qst_parent', $new_obj->getId());
+
             $imp = new ilImport($this->testrequest->getRefId());
             $map = $imp->getMapping();
-            $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $newObj->getId());
-            $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'components/ILIAS/Test', true);
+            $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
+            $imp->importObject($new_obj, $file_to_import, basename($file_to_import), 'tst', 'components/ILIAS/Test', true);
         } else {
-            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
-            if (!isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"])) {
+            $qtiParser = new ilQTIParser(
+                $importdir,
+                $qtifile,
+                ilQTIParser::IL_MO_PARSE_QTI,
+                $new_obj->getId(),
+                $selected_questions
+            );
+            if ($idents === '') {
                 $qtiParser->setIgnoreItemsEnabled(true);
             }
-            $qtiParser->setTestObject($newObj);
+            $qtiParser->setTestObject($new_obj);
             $qtiParser->startParsing();
-            $newObj->saveToDb();
-            $questionPageParser = new ilQuestionPageParser($newObj, ilSession::get("tst_import_xml_file"), ilSession::get("tst_import_subdir"));
+            $new_obj->saveToDb();
+            $questionPageParser = new ilQuestionPageParser(
+                $new_obj,
+                $xmlfile,
+                $importdir
+            );
             $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
             $questionPageParser->startParsing();
 
-            if (isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getNumImportedItems()) {
+            if (count($idents) == $qtiParser->getNumImportedItems()) {
                 // import test results
-                if (@file_exists(ilSession::get("tst_import_results_file"))) {
+                if (file_exists(ilSession::get("tst_import_results_file"))) {
                     $results = new ilTestResultsImportParser(
                         ilSession::get("tst_import_results_file"),
-                        $newObj,
+                        $new_obj,
                         $this->db,
                         $this->logging_services->root()
                     );
@@ -1479,18 +1356,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $results->startParsing();
                 }
             }
-            $newObj->update();
+            $new_obj->update();
         }
 
 
         // delete import directory
-        ilFileUtils::delDir(ilObjTest::_getImportDirectory());
-        //Note, has been in ilTestImporter, however resetting this there, lead to problem in delDir.
-        // See: https://github.com/ILIAS-eLearning/ILIAS/pull/5097
-        ilObjTest::_setImportDirectory();
+        ilFileUtils::delDir($importdir);
+        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+        ilSession::clear('path_to_import_file');
+        ilSession::clear('path_to_uploaded_file_in_temp_dir');
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
-        ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() . "&baseClass=ilObjTestGUI");
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(self::class);
     }
 
     /**
@@ -1499,9 +1377,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     *
     * @access	public
     */
-    public function uploadObject($redirect = true)
+    public function uploadObject()
     {
-        $this->uploadTstObject();
+        $this->importFile();
     }
 
     /**
@@ -2262,38 +2140,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
 
-    public function initImportForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $n_type = $this->testrequest->raw("new_type");
-        $this->ctrl->setParameter($this, "new_type", $n_type);
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("import_tst"));
-        $fi = new ilFileInputGUI($this->lng->txt("import_file"), "xmldoc");
-        $fi->setSuffixes(["zip"]);
-        $fi->setRequired(true);
-        $form->addItem($fi);
-        $tst = new ilObjTest();
-        $questionpools = $tst->getAvailableQuestionpools(true, false, true, true);
-        if (count($questionpools)) {
-            $options = ["-1" => $this->lng->txt("dont_use_questionpool")];
-            foreach ($questionpools as $key => $value) {
-                $options[$key] = $value["title"];
-            }
-
-            $pool = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "qpl");
-            $pool->setInfo($this->lng->txt('select_question_pool_info'));
-            $pool->setOptions($options);
-            $form->addItem($pool);
-        }
-
-        $form->addCommandButton("importFile", $this->lng->txt("import"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
     /**
        * Evaluates the actions on the participants page
        *
@@ -2361,7 +2207,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle()));
+        $template->setVariable(
+            'TITLE',
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
+            )
+        );
         $template->setVariable("PRINT_TEST", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_print")));
         $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
         $template->setVariable(
@@ -2416,7 +2267,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle()));
+        $template->setVariable(
+            'TITLE',
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
+            )
+        );
         $template->setVariable(
             "PRINT_TEST",
             ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("review_view"))
@@ -2668,16 +2524,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info->addSection($this->lng->txt("tst_general_properties"));
         $info->addProperty(
             $this->lng->txt("author"),
-            strip_tags(
-                $this->object->getAuthor(),
-                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getAuthor()
             )
         );
         $info->addProperty(
             $this->lng->txt("title"),
-            strip_tags(
-                $this->object->getTitle(),
-                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->object->getTitle()
             )
         );
 
@@ -2851,6 +2705,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function getTabs(): void
     {
         $this->help->setScreenIdComponent("tst");
+
+        if ($this->tabs_manager === null) {
+            return;
+        }
 
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             $courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());

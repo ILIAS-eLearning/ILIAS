@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Attachments;
 
+use ilStr;
+use ilDatePresentation;
+use ilUtil;
+use ilDateTime;
+
 class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
     private AttachmentManagement $mode;
@@ -75,7 +80,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return list<\ILIAS\UI\Component\Table\Column\Column>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
      */
     private function getColumnDefinition(): array
     {
@@ -129,27 +134,23 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     {
         $records = $this->records;
 
-        if ($order) {
-            [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
-                return [$key, $value];
-            });
+        [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
+            return [$key, $value];
+        });
 
-            usort($records, static function (array $left, array $right) use ($order_field): int {
-                if ($order_field === 'filename') {
-                    return \ilStr::strCmp($left[$order_field], $right[$order_field]);
-                }
-
-                return $left[$order_field] <=> $right[$order_field];
-            });
-
-            if ($order_direction === 'DESC') {
-                $records = array_reverse($records);
+        usort($records, static function (array $left, array $right) use ($order_field): int {
+            if ($order_field === 'filename') {
+                return ilStr::strCmp($left[$order_field], $right[$order_field]);
             }
+
+            return $left[$order_field] <=> $right[$order_field];
+        });
+
+        if ($order_direction === 'DESC') {
+            $records = array_reverse($records);
         }
 
-        if ($range) {
-            $records = array_slice($records, $range->getStart(), $range->getLength());
-        }
+        $records = array_slice($records, $range->getStart(), $range->getLength());
 
         return $records;
     }
@@ -165,8 +166,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         foreach ($this->getRecords($range, $order) as $item) {
             $record = [
                 'filename' => $item['filename'],
-                'filesize' => \ilUtil::formatSize($item['filesize'], 'long'),
-                'filecreatedate' => \ilDatePresentation::formatDate(new \ilDateTime($item['filecreatedate'], IL_CAL_UNIX))
+                'filesize' => ilUtil::formatSize($item['filesize'], 'long'),
+                'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($item['filecreatedate'], IL_CAL_UNIX))
             ];
 
             yield $row_builder

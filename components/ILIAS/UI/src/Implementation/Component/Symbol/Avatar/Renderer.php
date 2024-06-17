@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component;
@@ -31,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = null;
 
-        $label = $component->getLabel();
+        $label = $this->convertSpecialCharacters($component->getLabel());
         if ($label == "") {
             $label = $this->txt("user_avatar");
         }
@@ -49,7 +49,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
             $tpl->setVariable('ARIA_LABEL', $label);
             $tpl->setVariable('MODE', 'picture');
-            $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
+            $tpl->setVariable('CUSTOMIMAGE', $this->convertSpecialCharacters($component->getPicturePath()));
         }
 
         return $tpl->get();

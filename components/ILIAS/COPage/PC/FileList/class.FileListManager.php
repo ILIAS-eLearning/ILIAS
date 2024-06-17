@@ -60,7 +60,9 @@ class FileListManager
                         $entry = $child->getAttribute("Entry");
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
-                        $size = \ilObjFileAccess::_lookupFileSize((int) $id, false);
+                        $info_repo = new \ilObjFileInfoRepository();
+                        $info = $info_repo->getByObjectId((int) $id);
+                        $size = $info->getFileSize()->inBytes();
                     }
                 }
             }

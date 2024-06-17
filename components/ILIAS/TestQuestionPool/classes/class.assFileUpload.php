@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 
 /**
  * Class for file upload questions
@@ -349,10 +350,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     }
 
     /**
-    * Check file upload
-    *
-    * @return	boolean Input ok, true/false
-    */
+     * Check file upload
+     *
+     * @return boolean Input ok, true/false
+     */
     public function checkUpload(): bool
     {
         $this->lng->loadLanguageModule('form');
@@ -361,6 +362,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->file_upload->getResults() as $upload_result
         ) { // only one supported at the moment, but we check all
             if (!$upload_result->isOK()) {
+                $this->tpl->setOnScreenMessage('failure', $upload_result->getStatus()->getMessage(), true);
                 return false;
             }
 
@@ -674,7 +676,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
-        $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
+        try {
+            $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
+        } catch (IllegalStateException $e) {
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            return false;
+        }
+
         $rid = null;
 
         if ($upload_handling_required) {
@@ -871,7 +879,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
         } else {
             // hey: prevPassSolutions - readability spree - get a chance to understand the code
-            if ($this->isFileUploadAvailable()) {
+            try {
+                $fileUploadAvailable = $this->isFileUploadAvailable();
+            } catch (IllegalStateException $e) {
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                return;
+            }
+            if ($fileUploadAvailable) {
                 // hey.
                 if ($this->checkUpload()) {
                     if (!@file_exists($this->getPreviewFileUploadPath($previewSession->getUserId()))) {
@@ -974,30 +988,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
 
         return $startrow + $i + 1;
-    }
-
-    /**
-    * Creates a question from a QTI file
-    *
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param ilQTIItem $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    */
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
-    {
-        $import = new assFileUploadImport($this);
-        return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
-    }
-
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
-    {
-        $export = new assFileUploadExport($this);
-        return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
     }
 
     public function getBestSolution($active_id, $pass): array
@@ -1121,6 +1111,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return true;
     }
 
+    /**
+     * @throws IllegalStateException
+     */
     protected function isFileUploadAvailable(): bool
     {
         if (!$this->file_upload->hasBeenProcessed()) {

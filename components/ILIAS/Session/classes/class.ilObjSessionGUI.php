@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -174,7 +173,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $GLOBALS['DIC']['ilNavigationHistory']->addItem(
                 $this->requested_ref_id,
                 ilLink::_getLink($this->requested_ref_id, 'sess'),
-                'sess'
+                'sess',
+                $this->object->getPresentationTitle()
             );
         }
 
@@ -1111,24 +1111,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function materialsObject(): void
     {
-        $tree = $this->tree;
-        $objDefinition = $this->objDefinition;
-
         $this->tabs_gui->activateTab('materials');
 
-        // #11337 - support ANY parent container (crs, grp, fld)
-        $parent_ref_id = $tree->getParentId($this->object->getRefId());
-
-        $gui = new ilObjectAddNewItemGUI($parent_ref_id);
-        $gui->setDisabledObjectTypes(
-            array_merge(
-                [
-                    'itgr', 'sess'
-                ],
-                $objDefinition->getSideBlockTypes()
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes(),
+                $parent_gui_class,
+                $this->object->getRefId()
             )
         );
-        $gui->setAfterCreationCallback($this->ref_id);
         $gui->render();
 
         $this->event_items = new ilEventItems($this->object->getId());
@@ -1149,6 +1143,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setMaterials($data);
 
         $this->tpl->setContent($tbl->getHTML());
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $parent_gui = new $parent_gui_class('', $parent_ref_id, true, false);
+        $types = $parent_gui->getCreatableObjectTypes();
+        foreach (array_merge(['itgr', 'sess' ], $this->objDefinition->getSideBlockTypes()) as $type_to_remove) {
+            unset($types[$type_to_remove]);
+        }
+        return $types;
     }
 
     public function applyFilter(): void

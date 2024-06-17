@@ -814,12 +814,15 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     public function importXMLProperty(string $a_key, string $a_value): void
     {
         $language = $a_key;
+        if ($language === '') {
+            $language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
+        }
 
         $associated_option = null;
         $max_position = -1;
         foreach ($this->options()->getOptions() as $option) {
             if (
-                !$option->hasTranslationInLanguage($a_key) &&
+                !$option->hasTranslationInLanguage($language) &&
                 !isset($associated_option)
             ) {
                 $associated_option = $option;
@@ -842,7 +845,33 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function importValueFromXML(string $a_cdata): void
     {
+        $a_cdata = $this->translateLegacyImportValueFromXML($a_cdata);
         $this->getADT()->setSelection($a_cdata);
+    }
+
+    /**
+     * On import from <7 options are not given by index but by
+     * their label. There is nothing in the XML by which one could
+     * tell apart legacy and standard imports, so we have to
+     * make a best guess here (32410).
+     *
+     * Might fail for enums where the labels are integers.
+     * See also ilAdvancedMDFieldDefinitionGroupBased::importValueFromXML.
+     */
+    protected function translateLegacyImportValueFromXML(string $value): string
+    {
+        if (is_numeric($value) && !is_null($this->options()->getOption((int) $value))) {
+            return $value;
+        }
+
+        $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
+        foreach ($this->options()->getOptions() as $option) {
+            if ($value = $option->getTranslationInLanguage($default_language)) {
+                return (string) $option->optionID();
+            }
+        }
+
+        return $value;
     }
 
     public function prepareElementForEditor(ilADTFormBridge $a_bridge): void

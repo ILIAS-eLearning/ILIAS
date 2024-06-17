@@ -19,6 +19,13 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderDescription;
+use ILIAS\StudyProgramme\Certificate\ilCertificateSettingsStudyProgrammeFormRepository;
+use ILIAS\Test\Certificate\TestPlaceholderValues;
+use ILIAS\Test\Certificate\TestPlaceholderDescription;
+use ILIAS\Course\Certificate\CertificateTestTemplateDeleteAction;
+use ILIAS\Test\Certificate\CertificateSettingsTestFormRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -56,10 +63,10 @@ class ilCertificateGUIFactory
 
         switch ($type) {
             case 'tst':
-                $placeholderDescriptionObject = new ilTestPlaceholderDescription();
-                $placeholderValuesObject = new ilTestPlaceholderValues();
+                $placeholderDescriptionObject = new TestPlaceholderDescription();
+                $placeholderValuesObject = new TestPlaceholderValues();
 
-                $formFactory = new ilCertificateSettingsTestFormRepository(
+                $formFactory = new CertificateSettingsTestFormRepository(
                     $objectId,
                     $certificatePath,
                     false,
@@ -70,7 +77,7 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $deleteAction = new ilCertificateTestTemplateDeleteAction(
+                $deleteAction = new CertificateTestTemplateDeleteAction(
                     $deleteAction
                 );
 
@@ -121,6 +128,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'lti':
                 $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
@@ -136,6 +144,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'cmix':
                 $placeholderDescriptionObject = new ilCmiXapiPlaceholderDescription();
@@ -151,6 +160,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             case 'prg':
                 $placeholderDescriptionObject = new ilStudyProgrammePlaceholderDescription();
@@ -165,6 +175,7 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

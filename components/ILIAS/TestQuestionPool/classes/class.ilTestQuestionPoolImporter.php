@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+
 /**
  * Importer class for question pools
  *
@@ -26,10 +30,12 @@
 
 class ilTestQuestionPoolImporter extends ilXmlImporter
 {
+    use TestQuestionsImportTrait;
     /**
      * @var ilObjQuestionPool
      */
-    private $poolOBJ;
+    private $pool_obj;
+    private ilObjUser $user;
 
     /**
      * Import XML
@@ -38,16 +44,23 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
-
         // Container import => pool object already created
         if (($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) !== null) {
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $newObj->getObjectProperties()->storePropertyIsOnline($newObj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
+            $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+            $new_obj->getObjectProperties()->storePropertyIsOnline($new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline()); // sets Question pools to always online
 
-            ilSession::set('qpl_import_subdir', $this->getImportPackageName());
+            $selected_questions = [];
+            list($importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromContainerImport(
+                $this->getImportDirectory()
+            );
         } elseif (($new_id = $a_mapping->getMapping('components/ILIAS/TestQuestionPool', 'qpl', "new_id")) !== null) {
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+
+            $selected_questions = ilSession::get('qpl_import_selected_questions');
+            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(
+                ilSession::get('path_to_import_file')
+            );
+            ilSession::clear('qpl_import_selected_questions');
         } else {
             // Shouldn't happen
             global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -55,86 +68,83 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             return;
         }
 
-        list($xml_file, $qti_file) = $this->parseXmlFileNames();
-
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if (!@file_exists($xml_file)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+        if (!file_exists($xmlfile)) {
+            $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
             return;
         }
-        if (!@file_exists($qti_file)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find qti definition: ' . $qti_file);
+        if (!file_exists($qtifile)) {
+            $DIC['ilLog']->write(__METHOD__ . ': Cannot find qti definition: ' . $qtifile);
             return;
         }
 
-        $this->poolOBJ = $newObj;
+        $this->pool_obj = $new_obj;
 
-        $newObj->fromXML($xml_file);
+        $new_obj->fromXML($xmlfile);
 
         // set another question pool name (if possible)
         if (isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"])) {
-            $newObj->setTitle($_POST["qpl_new"]);
+            $new_obj->setTitle($_POST["qpl_new"]);
         }
 
-        $newObj->update();
-        $newObj->saveToDb();
+        $new_obj->update();
+        $new_obj->saveToDb();
 
         // FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject
         // TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call
         // this method from ilObjQuestionPoolGUI and ilTestImporter
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xml_file . ", qti file:" . $qti_file);
+        $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xmlfile . ", qti file:" . $qtifile);
 
-        if (ilSession::get("qpl_import_idents") !== null) {
-            $idents = ilSession::get("qpl_import_idents");
-            ilSession::clear("qpl_import_idents");
-        } else {
-            $idents = null;
-        }
-
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $idents);
+        $qtiParser = new ilQTIParser(
+            $importdir,
+            $qtifile,
+            ilQTIParser::IL_MO_PARSE_QTI,
+            $new_obj->getId(),
+            $selected_questions
+        );
         $qtiParser->startParsing();
 
-        if (strlen($xml_file)) {
-            $questionPageParser = new ilQuestionPageParser($newObj, $xml_file, basename($this->getImportDirectory()));
-            $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-            $questionPageParser->startParsing();
+        $questionPageParser = new ilQuestionPageParser(
+            $new_obj,
+            $xmlfile,
+            $importdir
+        );
+        $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
+        $questionPageParser->startParsing();
 
-            foreach ($qtiParser->getImportMapping() as $k => $v) {
-                $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
-                $newQuestionId = $v['pool']; // yes, this is the new question id ^^
+        foreach ($qtiParser->getImportMapping() as $k => $v) {
+            $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
+            $newQuestionId = (string) $v['pool']; // yes, this is the new question id ^^
 
-                $a_mapping->addMapping(
-                    "components/ILIAS/Taxonomy",
-                    "tax_item",
-                    "qpl:quest:$oldQuestionId",
-                    $newQuestionId
-                );
+            $a_mapping->addMapping(
+                "components/ILIAS/Taxonomy",
+                "tax_item",
+                "qpl:quest:$oldQuestionId",
+                $newQuestionId
+            );
 
-                $a_mapping->addMapping(
-                    "components/ILIAS/Taxonomy",
-                    "tax_item_obj_id",
-                    "qpl:quest:$oldQuestionId",
-                    $newObj->getId()
-                );
+            $a_mapping->addMapping(
+                "components/ILIAS/Taxonomy",
+                "tax_item_obj_id",
+                "qpl:quest:$oldQuestionId",
+                (string) $new_obj->getId()
+            );
 
-                $a_mapping->addMapping(
-                    "components/ILIAS/TestQuestionPool",
-                    "quest",
-                    $oldQuestionId,
-                    $newQuestionId
-                );
-            }
+            $a_mapping->addMapping(
+                "components/ILIAS/TestQuestionPool",
+                "quest",
+                $oldQuestionId,
+                $newQuestionId
+            );
         }
 
-        $this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
+        $this->importQuestionSkillAssignments($xmlfile, $a_mapping, $new_obj->getId());
 
-        $a_mapping->addMapping("components/ILIAS/TestQuestionPool", "qpl", $a_id, $newObj->getId());
+        $a_mapping->addMapping("components/ILIAS/TestQuestionPool", "qpl", $a_id, (string) $new_obj->getId());
 
-        ilObjQuestionPool::_setImportDirectory(null);
-
-        $newObj->saveToDb();
+        $new_obj->saveToDb();
     }
 
     /**
@@ -148,46 +158,15 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", $old);
+                $new_tax_ids = $a_mapping->getMapping("components/ILIAS/Taxonomy", "tax_usage_of_obj", (string) $old);
                 if ($new_tax_ids !== null) {
                     $tax_ids = explode(":", $new_tax_ids);
                     foreach ($tax_ids as $tid) {
-                        ilObjTaxonomy::saveUsage((int) $tid, $new);
+                        ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Create qti and xml file name
-     * @return array
-     */
-    protected function parseXmlFileNames(): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-
-        $basename = basename($this->getImportDirectory());
-
-        $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        $qti = $this->getImportDirectory() . '/' . preg_replace('/qpl/', 'qti', $basename) . '.xml';
-
-        return array($xml,$qti);
-    }
-
-    private function getImportDirectoryContainer(): string
-    {
-        $dir = $this->getImportDirectory();
-        $dir = dirname($dir);
-        return $dir;
-    }
-
-    private function getImportPackageName(): string
-    {
-        $dir = $this->getImportDirectory();
-        $name = basename($dir);
-        return $name;
     }
 
     protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId): void
@@ -208,7 +187,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
             $qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
 
-            $this->poolOBJ->getObjectProperties()->storePropertyIsOnline($this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline());
+            $this->pool_obj->getObjectProperties()->storePropertyIsOnline($this->pool_obj->getObjectProperties()->getPropertyIsOnline()->withOffline());
         }
     }
 }

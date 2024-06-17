@@ -34,6 +34,8 @@ class ilQTIParser extends ilSaxParser
 
     public bool $hasRootElement = false;
 
+    private readonly int $user_id;
+
     /**
      * @var array<int, string>
      */
@@ -187,9 +189,16 @@ class ilQTIParser extends ilSaxParser
 
     protected \ILIAS\TestQuestionPool\QuestionFilesService $questionfiles;
 
-    public function __construct(?string $a_xml_file, int $a_mode = self::IL_MO_PARSE_QTI, int $a_qpl_id = 0, $a_import_idents = "")
-    {
+    public function __construct(
+        private readonly string $importdir,
+        ?string $a_xml_file,
+        int $a_mode = self::IL_MO_PARSE_QTI,
+        int $a_qpl_id = 0,
+        array $import_idents = []
+    ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
+        $this->user_id = $DIC['ilUser']->getId();
 
         $this->parser_mode = $a_mode;
         $this->questionfiles = $DIC->testQuestionPool()->questionFiles();
@@ -197,8 +206,8 @@ class ilQTIParser extends ilSaxParser
 
         $this->qpl_id = $a_qpl_id;
         $this->lng = $DIC->language();
-        if (is_array($a_import_idents)) {
-            $this->import_idents = &$a_import_idents;
+        if ($import_idents !== []) {
+            $this->import_idents = $import_idents;
         }
 
         $this->depth = $this->createParserStorage();
@@ -219,14 +228,14 @@ class ilQTIParser extends ilSaxParser
         return $this->questionSetType;
     }
 
-    public function setQuestionSetType(string $questionSetType): void
+    protected function setQuestionSetType(string $questionSetType): void
     {
         $this->questionSetType = $questionSetType;
     }
 
-    public function setTestObject(ilObjTest $a_tst_object): void
+    public function setTestObject(ilObjTest $tst_object): void
     {
-        $this->tst_object = $a_tst_object;
+        $this->tst_object = $tst_object;
         $this->tst_id = $this->tst_object->getId();
     }
 
@@ -768,6 +777,8 @@ class ilQTIParser extends ilSaxParser
                     $GLOBALS['lng']
                 );
                 $this->import_mapping = $question->fromXML(
+                    $this->importdir,
+                    $this->user_id,
                     $this->item,
                     $this->qpl_id,
                     $this->tst_id,
@@ -1043,7 +1054,7 @@ class ilQTIParser extends ilSaxParser
                 $this->founditems[] = ["title" => "$title", "type" => "", "ident" => $a_attribs["ident"]];
                 break;
             case "response_lid":
-                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
+                if ($this->founditems[count($this->founditems) - 1]['type'] === '') {
                     // test for non ILIAS generated question types
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -1479,10 +1490,9 @@ class ilQTIParser extends ilSaxParser
                     );
                     if ($this->isIgnoreItemsEnabled()) {
                         $this->do_nothing = true;
-                    } elseif (count($this->import_idents) > 0) {
-                        if (!in_array($value, $this->import_idents)) {
-                            $this->do_nothing = true;
-                        }
+                    } elseif ($this->import_idents !== []
+                        && !in_array($value, $this->import_idents)) {
+                        $this->do_nothing = true;
                     }
                     break;
                 case "title":

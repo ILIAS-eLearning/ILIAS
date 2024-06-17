@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class DataRow implements T\DataRow
 {
@@ -56,7 +56,7 @@ class DataRow implements T\DataRow
         return $this->id;
     }
 
-    public function withDisabledAction(string $action_id, bool $disable = true): T\DataRow
+    public function withDisabledAction(string $action_id, bool $disable = true): static
     {
         if (!$disable) {
             return $this;

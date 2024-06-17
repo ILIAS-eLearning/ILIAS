@@ -76,7 +76,7 @@ class CacheTest extends TestCase
         );
     }
 
-    public function testActivatedComponents()
+    public function testActivatedComponents(): void
     {
         $config = new Config(
             Config::PHPSTATIC,
@@ -296,7 +296,11 @@ class CacheTest extends TestCase
         $this->assertFalse($container->has('test3'));
     }
 
-    public function testMemcachedAdapter(): void
+    /**
+     * @description this test cannot be executed in the CI on github sincewe do not
+     * have a memcached server there. I leave it here for local testing if needed.
+     */
+    private function deactivatedTestMemcachedAdapter(): void
     {
         $config = $this->getConfig(Config::MEMCACHED);
         $services = new Services($config);
@@ -433,18 +437,30 @@ class CacheTest extends TestCase
     public function testIncomatibleType(): void
     {
         $services = new Services($this->getConfig());
-        $container = $services->get($this->getDummyRequest(self::TEST_CONTAINER));
+        $container = $services->get(
+            $this->getDummyRequest(self::TEST_CONTAINER)
+        );
 
         $this->expectException(\TypeError::class);
         $container->set('test', new \stdClass());
+    }
 
+    public function testIncomatibleNestedType(): void
+    {
+        $services = new Services($this->getConfig());
+        $container = $services->get(
+            $this->getDummyRequest(self::TEST_CONTAINER)
+        );
         $array_with_incompatible_type_in_it = [
             'test' => 'test',
             'test2' => 'test2',
             'test3' => ['test' => new \stdClass()]
         ];
-        $this->expectException(\TypeError::class);
-        $container->set('array_with_incompatible_type_in_it', $array_with_incompatible_type_in_it);
+        $this->expectException(\InvalidArgumentException::class);
+        $container->set(
+            'array_with_incompatible_type_in_it',
+            $array_with_incompatible_type_in_it
+        );
     }
 
     public function testIncomatibleTypeNested(): void

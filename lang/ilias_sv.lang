@@ -585,7 +585,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
-assessment#:#conf_delete_pass_ctm#:#Vill du verkligen radera dina tidigare svar?
 assessment#:#confirm_delete_all_user_data#:#Är du säker på att du vill radera alla poster från undersökningen?
 assessment#:#confirm_delete_single_user_data#:#Är du säker på att du vill ta bort alla testdata för de valda användarna?
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?
@@ -4325,7 +4324,7 @@ common#:#import_cat_table#:#Var god notera att följande tabell endast visas om 
 common#:#import_categories#:#Importkategorier
 common#:#import_failure_log#:#Import av fellogg
 common#:#import_file#:#Importera fil
-common#:#import_file_not_valid#:#Importfilen är inte giltig.
+common#:#import_file_not_valid_here#:#Importfilen är inte giltig.
 common#:#import_finished#:#Antal importerade e-postmeddelanden
 common#:#import_lm#:#Import ILIAS utbildningsmodul
 common#:#import_qpl#:#Importera frågepool för tester
@@ -14652,12 +14651,10 @@ rep#:#rep_mo_mem_dash#:#Du är för närvarande inte medlem i en kurs eller grup
 rep#:#rep_multiple_reference_deletion_instruction#:#Välj ut de som också bör raderas
 rep#:#rep_multiple_reference_deletion_intro#:#Det finns ytterligare referenser för detta objekt.
 rep#:#rep_new_item_group_add#:#Lägg till gruppering
-rep#:#rep_new_item_group_add_separator#:#Lägg till kolumnavgränsare
 rep#:#rep_new_item_group_delete_sure#:#Vill du verkligen ta bort följande grupperingar?
 rep#:#rep_new_item_group_edit#:#Redovisa gruppering
 rep#:#rep_new_item_group_nr_subitems#:#Antal tilldelade objekt
 rep#:#rep_new_item_group_other#:#Mer
-rep#:#rep_new_item_group_separator#:#Kolumnavgränsare
 rep#:#rep_new_item_group_unassigned#:#Inte tilldelad
 rep#:#rep_new_item_group_unassigned_subitems#:#Antal ej tilldelade objekt
 rep#:#rep_new_item_groups#:#Grupperingar

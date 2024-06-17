@@ -86,11 +86,8 @@ class ilModulesTableGUI extends ilTable2GUI
         $pos_group_map[0] = "9999";
 
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
-            // #12807
-            if ((int) $item["type"] === ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
-                $this->pos_group_options[$item["id"]] = $item["title"];
-                $pos_group_map[$item["id"]] = $item["pos"];
-            }
+            $this->pos_group_options[$item["id"]] = $item["title"];
+            $pos_group_map[$item["id"]] = $item["pos"];
         }
 
         $obj_types = [];

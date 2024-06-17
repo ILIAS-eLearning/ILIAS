@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Input\ViewControl\Factory as ViewControlFactory;
 use ILIAS\UI\Component\Input\Container\ViewControl\Factory as ViewControlContainerFactory;
 use ILIAS\Data\Factory as DataFactory;
 use Closure;
+use ILIAS\Data\URI;
 
 /**
  * Implementation of factory for tables
@@ -39,8 +40,9 @@ class Factory implements T\Factory
         protected DataFactory $data_factory,
         protected T\Column\Factory $column_factory,
         protected T\Action\Factory $action_factory,
-        protected DataRowBuilder $data_row_builder,
         protected \ArrayAccess $storage,
+        protected DataRowBuilder $data_row_builder,
+        protected OrderingRowBuilder $ordering_row_builder
     ) {
     }
 
@@ -87,5 +89,27 @@ class Factory implements T\Factory
     public function action(): T\Action\Factory
     {
         return $this->action_factory;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function ordering(
+        string $title,
+        array $columns,
+        T\OrderingBinding $binding,
+        URI $target_url
+    ): T\Ordering {
+        return new Ordering(
+            $this->signal_generator,
+            $this->view_control_factory,
+            $this->view_control_container_factory,
+            $this->ordering_row_builder,
+            $title,
+            $columns,
+            $binding,
+            $target_url,
+            $this->storage
+        );
     }
 }

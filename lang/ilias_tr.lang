@@ -573,7 +573,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Birleştirme
 assessment#:#conf_delete_pass#:#Geçenler gerçekten silinsin mi ?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Testin tüm kullanıcı verilerini silmek istediğinizden emin misiniz?
 assessment#:#confirm_delete_single_user_data#:#Seçili kullanıcıların test verileri silmek istediğinizden emin misiniz?
 assessment#:#confirm_sync_questions#:#Değiştirdiğiniz soru aktif test için oluşturulmuş bir sorunun kopyasıdır. Orjinali ile değiştirmek istiyor musunuz ?
@@ -4150,7 +4149,7 @@ common#:#import_cat_table#:#Onay kutusu ayarlanmışsa Aşağıdaki tablo sadece
 common#:#import_categories#:#Kategorileri İçe Aktar
 common#:#import_failure_log#:#Başarısız olan işlemlerin listesini içeri aktar
 common#:#import_file#:#Dosya İçe Aktar
-common#:#import_file_not_valid#:#İçe aktarma dosyası geçersiz.
+common#:#import_file_not_valid_here#:#İçe aktarma dosyası geçersiz.
 common#:#import_finished#:#Alınan iletilerin sayısı.
 common#:#import_lm#:#ILIAS Öğrenme Modülü İçe Aktar
 common#:#import_qpl#:#Test Soru Havuzu İçe Aktar
@@ -13874,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#da silinmesi gerektiğini olanları seçiniz:
 rep#:#rep_multiple_reference_deletion_intro#:#Ayrıntılı atıflar bu nesne için yapılmamış.
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

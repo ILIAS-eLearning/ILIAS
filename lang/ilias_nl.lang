@@ -573,7 +573,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling
 assessment#:#conf_delete_pass#:#Deze poging echt verwijderen?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen
 assessment#:#confirm_delete_single_user_data#:#Weet je zeker dat je de toetsgegevens van de geselecteerde gebruiker wilt verwijderen
 assessment#:#confirm_sync_questions#:#De vraag die je hebt veranderd is een kopie die is gemaakt om te gebruiken in de actieve toets. Wil je de originele vraag ook aanpassen?
@@ -4150,7 +4149,7 @@ common#:#import_cat_table#:#De volgende tabel is alleen zinvol als de checkbox i
 common#:#import_categories#:#Importeer categorieën
 common#:#import_failure_log#:#Import log mislukt
 common#:#import_file#:#Importeren Bestand
-common#:#import_file_not_valid#:#Het te importeren bestand is niet geldig.
+common#:#import_file_not_valid_here#:#Het te importeren bestand is niet geldig.
 common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_lm#:#Importeren Lesmodule
 common#:#import_qpl#:#Importeer vragenpool (toets)
@@ -13874,12 +13873,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Toevoegen groep
-rep#:#rep_new_item_group_add_separator#:#Toevoegen kolom-scheidingsteken
 rep#:#rep_new_item_group_delete_sure#:#Weet je zeker dat je de volgende groepen wilt verwijderen?
 rep#:#rep_new_item_group_edit#:#Groep wijzigen
 rep#:#rep_new_item_group_nr_subitems#:#Aantal toegewezen objecten:
 rep#:#rep_new_item_group_other#:#Ander
-rep#:#rep_new_item_group_separator#:#Kolom-scheidingsteken
 rep#:#rep_new_item_group_unassigned#:#Niet toegewezen
 rep#:#rep_new_item_group_unassigned_subitems#:#Aantal niet toegewezen objecten: %s
 rep#:#rep_new_item_groups#:#Nieuwe itemgroepen

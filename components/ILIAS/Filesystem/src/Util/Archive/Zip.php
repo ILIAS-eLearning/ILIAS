@@ -36,6 +36,7 @@ class Zip
 {
     use PathHelper;
 
+    public const DOT_EMPTY = '.empty';
     private string $zip_output_file = '';
     protected \ZipArchive $zip;
     private int $iteration_limit;
@@ -140,6 +141,11 @@ class Zip
 
     public function get(): \ILIAS\Filesystem\Stream\Stream
     {
+        // we can remove the .empty file if there are more than one files in the ZIP
+        if (count($this->streams) > 1 && isset($this->streams[self::DOT_EMPTY])) {
+            unset($this->streams[self::DOT_EMPTY]);
+        }
+
         $this->storeZIPtoFilesystem();
 
         $this->zip->close();

@@ -58,6 +58,7 @@ const parsedHtml = `<section class="c-drilldown" id="id_2">
                 </button>
                 <ul data-ddindex="4"></ul>
             </li>
+            <li class="c-drilldown__menu--no-items"> drilldown_no_items</li>
         </ul>
     </div>
 </section>

@@ -69,7 +69,7 @@ class Text extends FormInput implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_string($value)) {
             return false;
