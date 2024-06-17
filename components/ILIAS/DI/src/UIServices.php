@@ -54,9 +54,4 @@ class UIServices
     {
         return $this->container["tpl"];
     }
-
-    public function refinery(): \ILIAS\Refinery\Factory
-    {
-        return $this->container["refinery"];
-    }
 }

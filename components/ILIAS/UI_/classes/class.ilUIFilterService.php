@@ -20,10 +20,6 @@
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Container\Filter;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
-use ILIAS\UI\Component\Input\Field\DateTime;
-use ILIAS\UI\Component\Input\Field\Duration;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Data\Result;
 
 /**
  * Filter service. Wraps around KS filter container.
@@ -139,48 +135,11 @@ class ilUIFilterService
         $filter_data = null;
         if ($filter->isActivated()) {
             foreach ($filter->getInputs() as $k => $i) {
-                if ($i instanceof DateTime) {
-                    $datetime_trafo = $this->getTransformationForDateTime();
-                    $filter_data[$k] = $datetime_trafo->applyTo(new Result\Ok($i->getValue()))->value();
-                } elseif ($i instanceof Duration) {
-                    $duration_trafo = $this->getTransformationForDuration();
-                    $filter_data[$k] = $duration_trafo->applyTo(new Result\Ok($i->getValue()))->value();
-                } else {
-                    $filter_data[$k] = $i->getValue();
-                }
+                $filter_data[$k] = $i->getValue();
             }
         }
 
         return $filter_data;
-    }
-
-    protected function getTransformationForDateTime(): Transformation
-    {
-        $datetime_trafo = $this->ui->refinery()->to()->dateTime();
-        return $this->ui->refinery()->custom()->transformation(
-            function ($v) use ($datetime_trafo) {
-                if (!$v) {
-                    return null;
-                }
-                return $datetime_trafo->transform($v);
-            }
-        );
-    }
-
-    protected function getTransformationForDuration(): Transformation
-    {
-        $duration = $this->ui->refinery()->custom()->transformation(function ($v): ?array {
-            list($from, $until) = $v;
-            if ($from && $until) {
-                $datetime_trafo = $this->getTransformationForDateTime();
-                $from = $datetime_trafo->applyTo(new Result\Ok($from))->value();
-                $until = $datetime_trafo->applyTo(new Result\Ok($until))->value();
-                return ['start' => $from, 'end' => $until, 'interval' => $from->diff($until)];
-            }
-            return null;
-        });
-
-        return $duration;
     }
 
     /**
