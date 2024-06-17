@@ -322,8 +322,12 @@ class ilSearchResult
      * Do RBAC checks.
      * Allows paging of results for referenced objects
      */
-    public function filter(int $a_root_node, bool $check_and): bool
-    {
+    public function filter(
+        int $a_root_node,
+        bool $check_and,
+        ilDate $creation_filter_date = null,
+        int $creation_filter_operator = null
+    ): bool {
 
         // get ref_ids and check access
         $counter = 0;
@@ -349,6 +353,44 @@ class ilSearchResult
                 }
                 continue;
             }
+
+            /*
+             * (Re-)check creation date, needed for searches on other tables than obj_data (35275)
+             * Before- and after-operators also allow matching datetimes, see ilObjectSearch::performSearch.
+             */
+            if (!is_null($creation_filter_date) && !is_null($creation_filter_operator)) {
+                if (
+                    !ilObject::_exists($entry['obj_id']) ||
+                    ($creation_date_string = ilObject::_lookupCreationDate($entry['obj_id'])) === ''
+                ) {
+                    continue;
+                }
+                $creation_date = new ilDate(
+                    date('Y-m-d', strtotime($creation_date_string)),
+                    IL_CAL_DATE
+                );
+
+                switch ($creation_filter_operator) {
+                    case ilObjectSearch::CDATE_OPERATOR_AFTER:
+                        if (ilDate::_before($creation_date, $creation_filter_date)) {
+                            continue 2;
+                        }
+                        break;
+
+                    case ilObjectSearch::CDATE_OPERATOR_BEFORE:
+                        if (ilDate::_after($creation_date, $creation_filter_date)) {
+                            continue 2;
+                        }
+                        break;
+
+                    case ilObjectSearch::CDATE_OPERATOR_ON:
+                        if (!ilDate::_equals($creation_date, $creation_filter_date)) {
+                            continue 2;
+                        }
+                        break;
+                }
+            }
+
             // Check referenced objects
             foreach (ilObject::_getAllReferences((int) $entry['obj_id']) as $ref_id) {
                 // Failed check: if ref id check is failed by previous search

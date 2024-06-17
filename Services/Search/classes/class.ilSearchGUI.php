@@ -463,7 +463,9 @@ class ilSearchGUI extends ilSearchBaseGUI
         // Step 4: merge and validate results
         $result->filter(
             $this->getRootNode(),
-            ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND
+            ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND,
+            $this->parseDateFromCreationFilter(),
+            $this->parseOperatorFromCreationFilter()
         );
         $result->save();
         $this->showSearch();
@@ -633,27 +635,47 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     public function parseCreationFilter(ilObjectSearch $search): bool
     {
-        $options = $this->getSearchCache()->getCreationFilter();
-        if (!($options['enabled'] ?? false)) {
+        $date = $this->parseDateFromCreationFilter();
+        $operator = $this->parseOperatorFromCreationFilter();
+
+        if (is_null($date) || is_null($operator)) {
             return true;
         }
-        $limit = new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
-        $search->setCreationDateFilterDate($limit);
+
+        $search->setCreationDateFilterDate($date);
+        $search->setCreationDateFilterOperator($operator);
+        return true;
+    }
+
+    protected function parseDateFromCreationFilter(): ?ilDate
+    {
+        $options = $this->getSearchCache()->getCreationFilter();
+        if (!($options['enabled'] ?? false)) {
+            return null;
+        }
+        return new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
+    }
+
+    protected function parseOperatorFromCreationFilter(): ?int
+    {
+        $options = $this->getSearchCache()->getCreationFilter();
+        if (!($options['enabled'] ?? false)) {
+            return null;
+        }
 
         switch ($options['ontype'] ?? 0) {
             case 1:
-                $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_AFTER);
-                break;
+                return ilObjectSearch::CDATE_OPERATOR_AFTER;
 
             case 2:
-                $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_BEFORE);
-                break;
+                return ilObjectSearch::CDATE_OPERATOR_BEFORE;
 
             case 3:
-                $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_ON);
-                break;
+                return ilObjectSearch::CDATE_OPERATOR_ON;
+
+            default:
+                return null;
         }
-        return true;
     }
 
 
