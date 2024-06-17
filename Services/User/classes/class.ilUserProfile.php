@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-// mjansen@databay.de essential for mail constants, do not remove this include
-
 use ILIAS\Services\Mail\ilMailUserFieldChangeListener;
 
 /**
@@ -510,7 +508,7 @@ class ilUserProfile
             // next group? -> diplay subheader
             if (($p["group"] != $current_group) &&
                 self::userSettingVisible($f)) {
-                if (is_array($custom_fields) && !$custom_fields_done) {
+                if (is_array($custom_fields) && $custom_fields !== [] && !$custom_fields_done) {
                     // should be appended to "other" or at least before "settings"
                     if ($current_group == "other" || $p["group"] == "settings") {
                         // add "other" subheader
@@ -799,7 +797,7 @@ class ilUserProfile
         }
 
         // append custom fields as "other"
-        if (is_array($custom_fields) && !$custom_fields_done) {
+        if (is_array($custom_fields) && $custom_fields !== [] && !$custom_fields_done) {
             // add "other" subheader
             if ($current_group != "other") {
                 $sh = new ilFormSectionHeaderGUI();
