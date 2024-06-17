@@ -126,6 +126,7 @@ class ilAdministrationCommandGUI
         $ref_id = $tree->getParentId($this->request->getItemRefId());
 
         $container = new ilContainerGUI(array(), $ref_id, true, false);
+        $this->ctrl->setParameter($container, 'ref_id', $ref_id);
         $container->cutObject();
     }
 
@@ -173,7 +174,20 @@ class ilAdministrationCommandGUI
         $ref_id = $tree->getParentId($this->request->getItemRefId());
 
         $container = new ilContainerGUI(array(), $ref_id, true, false);
+        $this->ctrl->setParameter($container, 'ref_id', $ref_id);
         $container->linkObject();
+    }
+
+    public function showPasteTree(): void
+    {
+        $tree = $this->tree;
+
+        $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+        $ref_id = $tree->getParentId($this->request->getRefId());
+
+        $container = new ilContainerGUI(array(), $ref_id, true, false);
+        $container->showPasteTreeObject();
     }
 
     // Paste object
