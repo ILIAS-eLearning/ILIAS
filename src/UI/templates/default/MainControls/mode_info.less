@@ -6,21 +6,11 @@
   text-align: center;
 
   z-index: @il-mode-info-zindex;
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   pointer-events: none;
 }
-
-.il-mode-info + div {
-  border: @il-mode-info-border;
-  border-top: 0 none;
-  
-  @media only screen and (max-width: @grid-float-breakpoint-max) {
-    padding-top: @il-mode-info-height;
-  }
-}
-
 
 .il-mode-info span.il-mode-info-content {
   margin: auto;
