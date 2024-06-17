@@ -43,6 +43,8 @@ interface ilAdministrationCommandHandling
 
     public function showMoveIntoObjectTree(): void;
 
+    public function showPasteTree(): void;
+
     public function performPasteIntoMultipleObjects(): void;
 
     public function paste(): void;
