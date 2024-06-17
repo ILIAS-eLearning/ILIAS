@@ -71,9 +71,11 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $expected_options = "";
         foreach ($options as $opt_value => $opt_label) {
             $expected_options .= ""
+                . '<div class="c-field-radio__item">'
                 . "<input type=\"radio\" id=\"id_1_" . $opt_value . "_opt\" name=\"$name\" value=\"$opt_value\" />"
                 . "<label for=\"id_1_" . $opt_value . "_opt\">$opt_label</label>"
-                . "<div class=\"c-input__help-byline\">{$radio->getBylineFor((string) $opt_value)}</div>";
+                . "<div class=\"c-input__help-byline\">{$radio->getBylineFor((string) $opt_value)}</div>"
+                . '</div>';
         }
         $expected = $this->getFormWrappedHtml(
             'RadioFieldInput',
@@ -97,6 +99,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $radio = $radio->withValue($value);
         $expected_options = "";
         foreach ($options as $opt_value => $opt_label) {
+            $expected_options .= '<div class="c-field-radio__item">';
             if ($opt_value == $value) {
                 $expected_options .= "<input type=\"radio\" id=\"id_1_" . $opt_value . "_opt\" name=\"$name\" value=\"$opt_value\" checked=\"checked\" />";
             } else {
@@ -104,7 +107,8 @@ class RadioInputTest extends ILIAS_UI_TestBase
             }
             $expected_options .= ""
                 . "<label for=\"id_1_" . $opt_value . "_opt\">$opt_label</label>"
-                . "<div class=\"c-input__help-byline\">{$radio->getBylineFor((string) $opt_value)}</div>";
+                . "<div class=\"c-input__help-byline\">{$radio->getBylineFor((string) $opt_value)}</div>"
+                . '</div>';
         }
         $expected = $this->getFormWrappedHtml(
             'RadioFieldInput',

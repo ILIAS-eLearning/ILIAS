@@ -116,8 +116,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             $expected_options .= ""
                     . "<li><label>"
                     . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
-                    . " $opt_label"
-                    . "</label></li>";
+                    . ' <span class="c-field-multiselect__label-text">'
+                    . $opt_label
+                    . "</span></label></li>";
         }
         $expected = $this->getFormWrappedHtml(
             'MultiSelectFieldInput',
@@ -157,14 +158,16 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 $expected_options .= ""
                     . "<li><label>"
                     . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" checked=\"checked\" />"
-                    . " $opt_label"
-                    . "</label></li>";
+                    . '<span class="c-field-multiselect__label-text">'
+                    . $opt_label
+                    . "</span></label></li>";
             } else {
                 $expected_options .= ""
                         . "<li><label>"
                         . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
-                        . " $opt_label"
-                        . "</label></li>";
+                        . '<span class="c-field-multiselect__label-text">'
+                        . $opt_label
+                        . "</span></label></li>";
             }
         }
         $expected = $this->getFormWrappedHtml(
