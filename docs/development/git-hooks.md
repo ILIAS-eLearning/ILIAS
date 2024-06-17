@@ -94,7 +94,7 @@ e.g a file `captainhook.local.json` (which will be ignored in the repo):
     "enabled": true,
     "actions": [
       {
-        "action": "./CI/PHPUnit/run_tests.sh"
+        "action": "./scripts/PHPUnit/run_tests.sh"
       }
     ]
   }
