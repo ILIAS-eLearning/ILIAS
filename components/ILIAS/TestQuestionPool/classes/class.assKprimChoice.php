@@ -880,7 +880,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $key => $answer) {
             $answers[] = [
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer->getAnswertext()),
-                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => $additional_info->getTrueFalseTagForBool($answer->getCorrectness()),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => $additional_info->getTrueFalseTagForBool((bool) $answer->getCorrectness()),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer->getPosition(),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_IMAGE => (string) $answer->getImageFile(),
                 AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
