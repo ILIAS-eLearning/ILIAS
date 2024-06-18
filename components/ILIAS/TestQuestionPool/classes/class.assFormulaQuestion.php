@@ -1355,7 +1355,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     {
         return json_encode(
             array_reduce(
-                fn(assFormulaQuestionResult $r) => [
+                $results,
+                fn(array $c, assFormulaQuestionResult $r) => [
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT => $r->getResult(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT_TYPE => $r->getResultType(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_FORMULA => $r->getFormula(),
@@ -1366,7 +1367,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_PRECISION => $r->getPrecision(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $r->getUnit()
                 ],
-                $results
+                []
             )
         );
     }
