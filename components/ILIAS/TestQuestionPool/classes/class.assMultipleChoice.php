@@ -1005,7 +1005,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public function toLog(AdditionalInformationGenerator $additional_info): array
     {
         $result = [
-            AdditionalInformationGenerator::KEY_QUESTION => $this->getId(),
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
