@@ -1918,7 +1918,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'createQuestion'),
             $section
-        )->withSubmitLabel('create');
+        )->withSubmitLabel($this->lng->txt('create'));
 
         return $form;
     }
