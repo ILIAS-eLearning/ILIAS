@@ -881,6 +881,7 @@ assessment#:#logs_scoring_settings_modified#:#Scoring Settings Modified
 assessment#:#logs_si#:#Scoring Interaction
 assessment#:#logs_tai#:#Test Administration Interaction
 assessment#:#logs_te#:#Error
+assessment#:#logs_test_deleted#:#Test Deleted
 assessment#:#logs_test_run_finished#:#Test Run Finished
 assessment#:#logs_test_run_of_participant_closed#:#Run of Participant Closed
 assessment#:#logs_test_run_started#:#Test Run Started
