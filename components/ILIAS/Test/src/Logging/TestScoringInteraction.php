@@ -127,9 +127,10 @@ class TestScoringInteraction implements TestUserInteraction
 
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
-        UIFactory $ui_factory
+        UIFactory $ui_factory,
+        array $environment
     ): DescriptiveListing {
-        return $additional_info->parseForTable($this->additional_data);
+        return $additional_info->parseForTable($this->additional_data, $environment);
     }
 
     public function getLogEntryAsCsvRow(
@@ -169,7 +170,7 @@ class TestScoringInteraction implements TestUserInteraction
                     ),
                     $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                     $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
-                    $additional_info->parseForCSV($this->additional_data)
+                    $additional_info->parseForCSV($this->additional_data, $environment)
                 ]
             )
         ) . "\n";

@@ -118,7 +118,7 @@ class LogTable implements Table\DataRetrieval
             self::FILTER_FIELD_TIME_TO => $field_factory->text($this->lng->txt('to'))
         ];
         if ($this->ref_id === null) {
-            $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('title'));
+            $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('test'));
         }
 
         $filter_inputs += [
@@ -283,7 +283,8 @@ class LogTable implements Table\DataRetrieval
                 $this->lng->txt('additional_info'),
                 $log->getParsedAdditionalInformation(
                     $this->logger->getAdditionalInformationGenerator(),
-                    $this->ui_factory
+                    $this->ui_factory,
+                    $environment
                 )
             )
         );
