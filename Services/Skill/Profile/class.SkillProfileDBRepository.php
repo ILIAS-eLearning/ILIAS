@@ -52,8 +52,11 @@ class SkillProfileDBRepository
     protected function getProfileFromRecord(array $rec): SkillProfile
     {
         $rec["id"] = (int) $rec["id"];
-        $rec["ref_id"] = (int) $rec["ref_id"];
+        $rec["title"] = (string) $rec["title"];
+        $rec["description"] = (string) $rec["description"];
         $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
+        $rec["image_id"] = (string) $rec["image_id"];
+        $rec["ref_id"] = (int) $rec["ref_id"];
 
         return $this->factory_service->profile(
             $rec["id"],
