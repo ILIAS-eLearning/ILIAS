@@ -365,67 +365,6 @@ JS;
         return false;
     }
 
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
-    {
-        // title
-        $title = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $title->setMaxLength(100);
-        $title->setValue($this->object->getTitle());
-        $title->setRequired(true);
-        $form->addItem($title);
-
-        if (!$this->object->getSelfAssessmentEditingMode()) {
-            // author
-            $author = new ilTextInputGUI($this->lng->txt("author"), "author");
-            $author->setValue($this->object->getAuthor());
-            $author->setRequired(true);
-            $form->addItem($author);
-
-            // description
-            $description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-            $description->setValue($this->object->getComment());
-            $description->setRequired(false);
-            $form->addItem($description);
-        } else {
-            // author as hidden field
-            $hi = new ilHiddenInputGUI("author");
-            $author = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getAuthor());
-            if (trim($author) == "") {
-                $author = "-";
-            }
-            $hi->setValue($author);
-            $form->addItem($hi);
-        }
-
-        // lifecycle
-        $lifecycle = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
-        $lifecycle->setOptions($this->object->getLifecycle()->getSelectOptions($this->lng));
-        $lifecycle->setValue($this->object->getLifecycle()->getIdentifier());
-        $form->addItem($lifecycle);
-
-        // questiontext
-        $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-        $question->setValue($this->object->getQuestion());
-        $question->setRequired(true);
-        $question->setRows(10);
-        $question->setCols(80);
-        if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
-                $question->setUseRte(true);
-                $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-                $question->addPlugin("latex");
-                $question->addButton("latex");
-                $question->addButton("pastelatex");
-                $question->setRTESupport($this->object->getId(), "qpl", "assessment");
-            }
-        } else {
-            $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
-            $question->setUseTagsForRteOnly(false);
-        }
-        $form->addItem($question);
-        $this->addNumberOfTriesToFormIfNecessary($form);
-    }
-
     public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         // cloze text
@@ -436,7 +375,7 @@ JS;
         $cloze_text->setRows(10);
         $cloze_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
+            if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $cloze_text->addPlugin("latex");
