@@ -105,7 +105,7 @@ class SettingsGeneral extends TestSettings
                 break;
             case \ilObjTest::QUESTION_SET_TYPE_RANDOM:
                 $log_array[AdditionalInformationGenerator::KEY_TEST_QUESTION_SET_TYPE] = $additional_info
-                    ->getTagForLangVar('test_question_set_type_fixed') ;
+                    ->getTagForLangVar('test_question_set_type_random') ;
                 break;
         }
 
