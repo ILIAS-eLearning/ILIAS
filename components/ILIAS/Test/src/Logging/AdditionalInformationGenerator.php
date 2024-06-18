@@ -267,7 +267,7 @@ class AdditionalInformationGenerator
         return $this->ui_factory->listing()->descriptive(
             array_combine(
                 array_map(
-                    fn(string $k): string => $this->lng->txt($k),
+                    fn(string $k): string => $this->lng->exists($k) ? $this->lng->txt($k) : $k,
                     array_keys($additional_info)
                 ),
                 array_map(
