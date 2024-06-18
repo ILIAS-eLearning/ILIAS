@@ -65,7 +65,6 @@ use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
-
     use TestQuestionsImportTrait;
 
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
@@ -879,7 +878,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         ilSession::set('qpl_import_selected_questions', $selected_questions);
         $imp = new ilImport($this->qplrequest->getRefId());
         $map = $imp->getMapping();
-        $map->addMapping('components/ILIAS/TestQuestionPool', 'qpl', 'new_id', $obj->getId());
+        $map->addMapping('components/ILIAS/TestQuestionPool', 'qpl', 'new_id', (string) $obj->getId());
         $imp->importObject($obj, $file_to_import, basename($file_to_import), 'qpl', 'components/ILIAS/TestQuestionPool', true);
     }
 
