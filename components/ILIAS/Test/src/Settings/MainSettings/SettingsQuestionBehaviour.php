@@ -407,7 +407,7 @@ class SettingsQuestionBehaviour extends TestSettings
                 break;
         }
         $log_array[AdditionalInformationGenerator::KEY_TEST_AUTOSAVE_ENABLED] = $this->getAutosaveEnabled()
-            ? $this->getAutosaveInterval() / 1000 . $additional_info->getTagForLangVar('seconds') : $additional_info->getEnabledDisabledTagForBool(false);
+            ? $this->getAutosaveInterval() / 1000 . ' ' . $additional_info->getTagForLangVar('seconds') : $additional_info->getEnabledDisabledTagForBool(false);
         $log_array[AdditionalInformationGenerator::KEY_TEST_SHUFFLE_QUESTIONS] = $additional_info
             ->getEnabledDisabledTagForBool($this->getShuffleQuestions());
         $log_array[AdditionalInformationGenerator::KEY_TEST_HINTS_ENABLED] = $additional_info

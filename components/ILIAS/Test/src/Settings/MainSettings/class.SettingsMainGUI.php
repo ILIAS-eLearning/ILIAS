@@ -304,7 +304,10 @@ class SettingsMainGUI extends TestSettingsGUI
             : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
                 ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
 
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $from . ' - ' . $until;
+        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = [
+            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_FROM => $from,
+            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_UNTIL => $until
+        ];
         $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger
             ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(
                 $this->test_object->getActivationVisibility()
