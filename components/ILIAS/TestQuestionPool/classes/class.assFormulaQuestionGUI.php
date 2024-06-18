@@ -66,7 +66,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if ($this->writePostData()) {
             $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
         }
-        $this->editQuestion(false, $suggest_range_for_result);
+        $this->editQuestion(false, null, $suggest_range_for_result);
     }
 
     /**
@@ -207,7 +207,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
     public function editQuestion(
         bool $checkonly = false,
-        ?bool $is_save_cmd = null
+        ?bool $is_save_cmd = null,
+        ?string $suggest_range_for_result = null
     ): bool {
         $save = $is_save_cmd ?? $this->isSaveCommand();
 
@@ -338,8 +339,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $formula->setSuffix(' = ' . $result->getResult());
 
                 if (
-                    $suggest_range_for_result !== '' &&
-                    strcmp($suggest_range_for_result, $result->getResult()) == 0 &&
+                    $suggest_range_for_result !== null &&
+                    $suggest_range_for_result === $result->getResult() &&
                     strlen($result->substituteFormula($variables, $results))
                 ) {
                     $result->suggestRange($variables, $results);
