@@ -1160,7 +1160,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'createQuestion'),
             $section
-        )->withSubmitLabel('create');
+        )->withSubmitLabel($this->lng->txt('create'));
 
         return $form;
     }
