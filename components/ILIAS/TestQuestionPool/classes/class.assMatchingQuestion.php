@@ -350,7 +350,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
 
             $filename = $term->getPicture();
-            if (!file_exists($image_source_path . $filename, $image_target_path . $filename)
+            if (!file_exists($image_source_path . $filename)
                 || !copy($image_source_path . $filename, $image_target_path . $filename)) {
                 $this->log->root()->warning('matching question image could not be copied: '
                     . $image_source_path . $filename);
