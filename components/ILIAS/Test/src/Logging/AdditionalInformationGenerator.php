@@ -68,7 +68,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_PASSWORD = 'tst_password';
     public const KEY_TEST_FIXED_PARTICIPANTS = 'participants_invitation';
     public const KEY_TEST_LIMIT_NR_OF_TRIES = 'tst_limit_nr_of_tries';
-    public const KEY_TEST_BLOCK_AFTER_PASSED = 'block_after_passed';
+    public const KEY_TEST_BLOCK_AFTER_PASSED = 'tst_block_passes_after_passed';
     public const KEY_TEST_PASSWAITING_ENABLED = 'tst_pass_waiting_enabled';
     public const KEY_TEST_PROCESSING_TIME_ENABLED = 'tst_processing_time_duration';
     public const KEY_TEST_RESET_PROCESSING_TIME = 'tst_reset_processing_time';
