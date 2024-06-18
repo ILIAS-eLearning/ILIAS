@@ -881,6 +881,7 @@ assessment#:#logs_scoring_settings_modified#:#Auswertungseinstellungen geändert
 assessment#:#logs_si#:#Bewertungsinteraktion
 assessment#:#logs_tai#:#Testadministrationsinteraktion
 assessment#:#logs_te#:#Fehler
+assessment#:#logs_test_deleted#:#Test gelöscht
 assessment#:#logs_test_run_finished#:#Testdurchlauf beendet
 assessment#:#logs_test_run_of_participant_closed#:#Testdurchlauf beendet
 assessment#:#logs_test_run_started#:#Testdurchlauf gestartet
