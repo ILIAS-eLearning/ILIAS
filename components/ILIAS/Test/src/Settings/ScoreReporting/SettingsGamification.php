@@ -153,7 +153,7 @@ class SettingsGamification extends TestSettings
 
     public function toLog(AdditionalInformationGenerator $additional_info): array
     {
-        if ($this->getHighscoreEnabled()) {
+        if (!$this->getHighscoreEnabled()) {
             return [
                 AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_ENABLED => $additional_info
                     ->getEnabledDisabledTagForBool(false)
