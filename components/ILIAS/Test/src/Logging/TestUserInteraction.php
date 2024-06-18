@@ -45,7 +45,8 @@ interface TestUserInteraction
     ): DataRow;
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
-        UIFactory $ui_factory
+        UIFactory $ui_factory,
+        array $environment
     ): DescriptiveListing|Legacy;
     public function getLogEntryAsCsvRow(
         \ilLanguage $lng,

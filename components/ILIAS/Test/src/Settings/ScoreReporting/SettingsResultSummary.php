@@ -82,7 +82,7 @@ class SettingsResultSummary extends TestSettings
                         ->withUseTime(true)
                         ->withValue(
                             $this->getReportingDate()?->setTimezone(
-                                new DateTimeZone($environment['user_time_zone'])
+                                new \DateTimeZone($environment['user_time_zone'])
                             )
                         )
                         ->withRequired(true)
@@ -169,8 +169,8 @@ class SettingsResultSummary extends TestSettings
     {
         $dat = $this->getReportingDate();
         if ($dat) {
-            $dat = $dat->setTimezone(new DateTimeZone('UTC'))
-                ->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
+            $dat = $dat->setTimezone(new \DateTimeZone('UTC'))
+                ->format(ScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
         }
         return [
             'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],
@@ -186,34 +186,33 @@ class SettingsResultSummary extends TestSettings
         switch ($this->getScoreReporting()) {
             case self::SCORE_REPORTING_DISABLED:
                 $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
-                    ->getTagForLangVar('tst_results_access_setting');
+                    ->getEnabledDisabledTagForBool(false);
                 break;
             case self::SCORE_REPORTING_FINISHED:
                 $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
                     ->getTagForLangVar('tst_results_access_finished');
-                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
+                $log_array += $this->getLogEntriesForScoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_IMMIDIATLY:
                 $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
                     ->getTagForLangVar('tst_results_access_always');
-                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
+                $log_array += $this->getLogEntriesForScoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_DATE:
-                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
-                    ->getTagForLangVar('tst_results_access_date');
-                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING_DATE] = $this->getReportingDate();
-                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
+                $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $this->getReportingDate()
+                    ->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i e');
+                $log_array += $this->getLogEntriesForScoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_AFTER_PASSED:
                 $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $additional_info
                     ->getTagForLangVar('tst_results_access_passed');
-                $log_array += $this->getLogEntriesForSoreReportingEnabled($additional_info);
+                $log_array += $this->getLogEntriesForScoreReportingEnabled($additional_info);
                 break;
         }
         return $log_array;
     }
 
-    private function getLogEntriesForSoreReportingEnabled(
+    private function getLogEntriesForScoreReportingEnabled(
         AdditionalInformationGenerator $additional_info
     ): array {
         return [

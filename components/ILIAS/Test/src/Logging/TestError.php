@@ -111,7 +111,8 @@ class TestError implements TestUserInteraction
 
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
-        UIFactory $ui_factory
+        UIFactory $ui_factory,
+        array $environment
     ): Legacy {
         return $ui_factory->legacy($this->error_message);
     }

@@ -74,7 +74,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
             $reporting_date = \DateTimeImmutable::createFromFormat(
                 self::STORAGE_DATE_FORMAT,
                 $reporting_date,
-                new DateTimeZone('UTC')
+                new \DateTimeZone('UTC')
             );
         } else {
             $reporting_date = null;

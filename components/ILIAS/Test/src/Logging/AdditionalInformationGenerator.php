@@ -110,7 +110,6 @@ class AdditionalInformationGenerator
     public const KEY_SCORING_SCORE_CUTTING = 'tst_score_cutting';
     public const KEY_SCORING_PASS_SCORING = 'tst_pass_scoring';
     public const KEY_SCORING_REPORTING = 'tst_results_access_setting';
-    public const KEY_SCORING_REPORTING_DATE = 'tst_reporting_date';
     public const KEY_SCORING_REPORTING_SHOW_STATUS = 'tst_results_grading_opt_show_status';
     public const KEY_SCORING_REPORTING_SHOW_MARK = 'tst_results_grading_opt_show_mark';
     public const KEY_SCORING_REPORTING_SHOW_DETAILS = 'tst_results_grading_opt_show_details';
@@ -262,8 +261,10 @@ class AdditionalInformationGenerator
         $this->tags = $this->buildTags();
     }
 
-    public function parseForTable(array $additional_info): DescriptiveListing
-    {
+    public function parseForTable(
+        array $additional_info,
+        array $environment
+    ): DescriptiveListing {
         return $this->ui_factory->listing()->descriptive(
             array_combine(
                 array_map(
@@ -271,19 +272,21 @@ class AdditionalInformationGenerator
                     array_keys($additional_info)
                 ),
                 array_map(
-                    fn(string $k): string => $this->parseValue($k, $additional_info[$k]),
+                    fn(string $k): string => $this->parseValue($k, $additional_info[$k], $environment),
                     array_keys($additional_info)
                 )
             )
         );
     }
 
-    public function parseForCSV(array $additional_info): string
-    {
+    public function parseForCSV(
+        array $additional_info,
+        array $environment
+    ): string {
         return implode(
             '; ',
             array_map(
-                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k])}",
+                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k], $environment)}",
                 array_keys($additional_info)
             )
         );
@@ -319,8 +322,11 @@ class AdditionalInformationGenerator
         return $key;
     }
 
-    private function parseValue(int|string $key, string|int|float|array $value): string
-    {
+    private function parseValue(
+        int|string $key,
+        string|int|float|array $value,
+        array $environment
+    ): string {
         switch ($key) {
             case self::KEY_USER:
                 return \ilUserUtil::getNamePresentation(
@@ -391,6 +397,10 @@ class AdditionalInformationGenerator
                 }
                 if ($value === '') {
                     return $this->lng->txt('none');
+                }
+                if (strpos($value, 'UTC') !== false) {
+                    return (new \DateTimeImmutable($value, $environment['timezone']))
+                        ->format($environment['date_format']);
                 }
                 return $this->mustache->render(
                     $this->refinery->string()->stripTags()->transform($value),
