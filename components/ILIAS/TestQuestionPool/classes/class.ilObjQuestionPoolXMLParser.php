@@ -29,7 +29,8 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
     private $inMetaDataTag;
     private $inMdGeneralTag;
-    private bool $descriptionProcessed = false;
+    private bool $title_processed = false;
+    private bool $description_processed = false;
     private string $cdata = "";
 
     /**
@@ -67,6 +68,12 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 }
                 break;
 
+            case 'Title':
+                if ($this->inMetaDataTag && $this->inMdGeneralTag) {
+                    $this->cdata = '';
+                }
+                break;
+
             case 'Description':
                 if ($this->inMetaDataTag && $this->inMdGeneralTag) {
                     $this->cdata = '';
@@ -100,10 +107,18 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 }
                 break;
 
+            case 'Title':
+                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
+                    $this->poolOBJ->setTitle($this->cdata);
+                    $this->title_processed = true;
+                    $this->cdata = '';
+                }
+                break;
+
             case 'Description':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->descriptionProcessed) {
+                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
                     $this->poolOBJ->setDescription($this->cdata);
-                    $this->descriptionProcessed = true;
+                    $this->description_processed = true;
                     $this->cdata = '';
                 }
                 break;
