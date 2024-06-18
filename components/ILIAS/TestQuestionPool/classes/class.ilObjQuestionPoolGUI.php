@@ -773,7 +773,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->cleanupAfterImport($importdir);
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('questions_imported'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_imported'), true);
         $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
         $this->ctrl->redirectByClass(self::class);
     }
