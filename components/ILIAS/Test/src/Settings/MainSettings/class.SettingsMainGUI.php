@@ -605,11 +605,11 @@ class SettingsMainGUI extends TestSettingsGUI
                     \DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
+                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
                     \DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
+                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
                 ],
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
