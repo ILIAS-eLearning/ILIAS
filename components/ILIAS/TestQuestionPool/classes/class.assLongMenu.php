@@ -319,10 +319,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $files = glob($this->buildFolderName() . '*.txt');
 
         if ($files === false) {
-            $files = array();
+            $files = [];
         }
 
-        $answers = array();
+        $answers = [];
 
         foreach ($files as $file) {
             $gap = str_replace('.txt', '', basename($file));
@@ -791,9 +791,42 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
             ],
-            AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS => $this->getAnswers(),
-            AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => $this->getCorrectAnswers()
+            AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS => $this->getAnswersForLog($additional_info),
+            AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => $this->getCorrectAnswersForLog($additional_info)
         ];
+    }
+
+    private function getAnswersForLog(AdditionalInformationGenerator $additional_info): string
+    {
+        $i = 1;
+        return array_reduce(
+            $this->getAnswers(),
+            static function (string $c, array $v) use ($additional_info, $i): string {
+                return $c . $additional_info->getTagForLangVar('gap')
+                    . ' ' . $i++ . ': ' . implode(',', $v) . '; ';
+            },
+            ''
+        );
+    }
+
+    private function getCorrectAnswersForLog(AdditionalInformationGenerator $additional_info): string
+    {
+        $answer_types = [
+            self::ANSWER_TYPE_SELECT_VAL => $additional_info->getTagForLangVar('answers_select'),
+            self::ANSWER_TYPE_TEXT_VAL => $additional_info->getTagForLangVar('answers_text_box')
+        ];
+
+        $i = 1;
+        return array_reduce(
+            $this->getCorrectAnswers(),
+            static function (string $c, array $v) use ($additional_info, $answer_types, $i): string {
+                return $c . $additional_info->getTagForLangVar('gap')
+                    . ' ' . $i++ . ': ' . implode(',', $v[0]) . ', '
+                    . $additional_info->getTagForLangVar('points') . ': ' . $v[1] . ', '
+                    . $additional_info->getTagForLangVar('type') . ': ' . $answer_types[$v[2]] . '; ';
+            },
+            ''
+        );
     }
 
     public function solutionValuesToLog(

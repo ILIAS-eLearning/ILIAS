@@ -280,7 +280,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         ];
 
         $question_parts = [
-            'list' => json_decode($this->object->getJsonStructure()),
+            'list' => json_decode($this->object->getJsonStructure()) ?? [],
             'gap_placeholder' => assLongMenu::GAP_PLACEHOLDER,
             'last_updated_element' => 0,
             'replacement_word' => '',
