@@ -81,10 +81,8 @@ class TestScoringInteraction implements TestUserInteraction
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
-                'date_and_time' => new \DateTimeImmutable(
-                    "@{$this->modification_timestamp}",
-                    $environment['timezone']
-                ),
+                'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                    ->setTimezone($environment['timezone']),
                 'corresponding_test' => $this->buildTestTitleColumnContent(
                     $lng,
                     $static_url,
@@ -143,10 +141,9 @@ class TestScoringInteraction implements TestUserInteraction
             ';',
             $this->processCSVRow(
                 [
-                    (new \DateTimeImmutable(
-                        "@{$this->modification_timestamp}",
-                        $environment['timezone']
-                    ))->format($environment['date_format']),
+                    \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                        ->setTimezone($environment['timezone'])
+                        ->format($environment['date_format']),
                     $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
                     \ilUserUtil::getNamePresentation(
                         $this->admin_id,

@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class AdditionalInformationGenerator
 {
-    public const DATE_STORAGE_FORMAT = 'Y-m-d H:i e';
+    public const DATE_STORAGE_FORMAT = \DateTimeInterface::ISO8601;
     public const KEY_USER = 'user';
     public const KEY_USERS = 'users';
     public const KEY_QUESTION = 'question';
@@ -60,6 +60,8 @@ class AdditionalInformationGenerator
     public const KEY_TEST_DESCRIPTION = 'description';
     public const KEY_TEST_ONLINE = 'online';
     public const KEY_TEST_VISIBILITY_PERIOD = 'crs_visibility_until';
+    public const KEY_TEST_VISIBILITY_PERIOD_FROM = 'from';
+    public const KEY_TEST_VISIBILITY_PERIOD_UNTIL = 'to';
     public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'activation_visible_when_disabled';
     public const KEY_TEST_QUESTION_SET_TYPE = 'test_question_set_type';
     public const KEY_TEST_ANONYMITY = 'tst_anonymity';
@@ -407,8 +409,10 @@ class AdditionalInformationGenerator
                 if ($value === '') {
                     return $this->lng->txt('none');
                 }
-                if (strpos($value, 'UTC') !== false) {
-                    return (new \DateTimeImmutable($value, $environment['timezone']))
+                if (strpos($value, '+0000') !== false
+                    && ($date = \DateTimeImmutable::createFromFormat(self::DATE_STORAGE_FORMAT, $value)) !== false) {
+                    return $date
+                        ->setTimezone($environment['timezone'])
                         ->format($environment['date_format']);
                 }
                 return $this->mustache->render(
