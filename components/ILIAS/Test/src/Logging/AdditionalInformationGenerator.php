@@ -50,6 +50,7 @@ class AdditionalInformationGenerator
     public const KEY_SOURCE_TYPE_FILTER = 'tst_filter_question_type';
     public const KEY_SOURCE_LIFECYCLE_FILTER = 'qst_lifecycle';
     public const KEY_REACHED_POINTS = 'points';
+    public const KEY_MARK_SHORT_NAME = 'tst_mark_short_form';
     public const KEY_MARK_OFFICIAL_NAME = 'tst_mark_official_form';
     public const KEY_MARK_MINIMUM_LEVEL = 'tst_mark_minimum_level';
     public const KEY_MARK_IS_PASSING = 'tst_mark_passed';
