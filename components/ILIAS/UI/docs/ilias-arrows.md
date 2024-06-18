@@ -11,7 +11,7 @@ By pinpointing and organizing these specific uses of arrows and taking usability
 
 In the test area of ILIAS where you can navigate between the test content and questions you can find these navigation buttons with the following arrow type:
 
-![test-nav](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/75186f3e-ede7-4816-98e5-f150cdbaf7bc)
+![test-nav](https://files.ilias.de/images/arrows/test-navigation.png)
 
 **Some thoughts:** The arrow icon currently used is quite bulky, taking up a significant amount of space within the button area. This disrupts the balance between the label and the icon, creating a visual imbalance. Overall, it attracts undue attention to the button, potentially diverting the user's focus away from the test content.
 
@@ -21,7 +21,7 @@ In the test area of ILIAS where you can navigate between the test content and qu
 
 In the survey area of ILIAS where you can navigate between questions you can find these navigation buttons with the following arrow type:
 
-![survey](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/ff17ef89-841b-45de-928d-9ef874c326d1)
+![survey](https://files.ilias.de/images/arrows/survey-navigation.png)
 
 **Some thoughts:** The arrow icon appears rather static and outdated in terms of its look and feel, likely because it's embedded in the HTML as a value-text. While both icons aim to assist navigation between questions, they are displayed quite differently from the test navigation icon.
 
@@ -31,7 +31,7 @@ In the survey area of ILIAS where you can navigate between questions you can fin
 
 When you open up a lightbox to navigate between pictures you can find these navigation arrows:
 
-![lightbox](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/ba89b5b2-fb2e-4e3f-b575-fee2caba5681)
+![lightbox](https://files.ilias.de/images/arrows/lightbox-navigation.png)
 
 **Some thoughts:** This arrow type is simple and easily recognizable by the user when it comes to its simple purpose which the icon needs to fulfill. The icon is minimalist yet easy to understand, without using embellishments such as duplicating itself or giving it an extra line in the middle.
 
@@ -41,7 +41,7 @@ When you open up a lightbox to navigate between pictures you can find these navi
 
 To navigate between certain informations such as the dates in a calendar you can find the following arrow which is very similar to the arrow in the lightbox navigation:
 
-![viewcontrol](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/d640a28e-3256-4c21-a829-bff586b915a9)
+![viewcontrol](https://files.ilias.de/images/arrows/viewcontrol-navigation-calendar.png)
 
 **Some thoughts:** Using a minimalistic and straightforward arrow icon for the view controls is a smart choice, ensuring it aligns seamlessly with other arrow types in the view controls area, like the dropdown icon.
 
@@ -56,7 +56,7 @@ This group can easily use a single arrow icon since all arrows are for navigatio
 
 In tables you have the opportunity to sort your results. The arrows direction — pointing up for ascending and down for descending — clearly indicates the sorting order. The following icon is being discussed:
 
-![sortation1](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/2a7ac378-ece6-4215-8095-770a8583b478)
+![sortation1](https://files.ilias.de/images/arrows/sortation-descending-ascending.png)
 
 **Some thoughts:** Clearly indicating to the user the sorting direction is a crucial and intuitive feature and also an important information that should be retained. The arrow effectively represents its intended function.
 
@@ -66,7 +66,7 @@ In tables you have the opportunity to sort your results. The arrows direction �
 
 In tables and menues you also have the opportunity to sort your results by alphabet or by location. The following icon is being discussed:
 
-![sortation2](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/9fa5bd95-3d51-4bc1-8876-74e932546518)
+![sortation2](https://files.ilias.de/images/arrows/sortation-alphabetically.png)
 
 **Some thoughts:** This type of arrow doesn't require a specific direction, so the icon should be more adaptable, as it currently is. The arrow effectively represents its intended function.
 
@@ -81,7 +81,7 @@ Both icons should maintain their functionalities, whether indicating sorting dir
 
 When the goal is to display a clickable path and indicate the user's navigation history, breadcrumbs are used. The following arrow icon displays the direction for it:
 
-![breadcrumb](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/3a9719ae-e952-4d3b-a9e1-842a13028ae5)
+![breadcrumb](https://files.ilias.de/images/arrows/breadcrumb.png)
 
 **Integration:** This arrow is embedded via font means as a glyphicon.
 Stylings used: font-family: "il-icons"; content: "\e606";
@@ -90,7 +90,7 @@ Stylings used: font-family: "il-icons"; content: "\e606";
 
 Tree views also present a clickable path and illustrate hierarchy, but here the direction is downward rather than to the right.
 
-![tree](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/1cdae5a7-a0f9-46a2-862b-d32e46900e8b)
+![tree](https://files.ilias.de/images/arrows/tree-view.png)
 
 **Integration:** This arrow is embedded via font means as a glyphicon 
 Stylings used: font-family: "il-icons"; content: "\e604";
@@ -99,9 +99,9 @@ Stylings used: font-family: "il-icons"; content: "\e604";
 
 Here you can see that there are some other cases where a hierarchy or a clickable path with a direction is displayed:
 
-![hierarchy2](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/1ade0ec2-6ee4-4866-8c2d-886f7feae034)
+![hierarchy2](https://files.ilias.de/images/arrows/double-arrow.png)
 
-![hierarchy3](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/26721056-4ef6-4fe3-b124-d15c215df87c)
+![hierarchy3](https://files.ilias.de/images/arrows/double-arrow2.png)
 
 ## Results and recommendation for hierarchy/tree arrows
 
@@ -112,7 +112,7 @@ Both breadcrumbs and the arrows in the hierarchy and tree view serve the same fu
 
 Wherever filtering options are available, you'll find the filter symbol accompanied by an arrow preceding the label.:
 
-![filter](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/d6ad2da3-fe8b-43bd-8fa2-076f5b44641e)
+![filter](https://files.ilias.de/images/arrows/filter-dropdown.png)
 
 **Integration:** This arrow is embedded via font means as a glyphicon 
 Stylings used: font-family: "il-icons"; content: "\e604";
@@ -121,7 +121,7 @@ Stylings used: font-family: "il-icons"; content: "\e604";
 
 Expandable information is displayed as a dropdown with a caret:
 
-![caret dropdown](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/8cf35fcd-7515-4ea2-b9c6-93ca02c1463f)
+![caret dropdown](https://files.ilias.de/images/arrows/viewcontrol-dropdown-caret.png)
 
 **Integration:** This arrow is created with HTML and CSS stylings.
 
@@ -129,11 +129,11 @@ Expandable information is displayed as a dropdown with a caret:
 
 Also ILIAS uses browser generated dropdowns with arrows that are not easily adjustable:
 
-![browser arrows](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/c2617015-e16b-4702-93ad-d30f650d4853)
+![browser arrows](https://files.ilias.de/images/arrows/select-dropdown.png)
 
 For example in "Administration" > "Layout and Styles":
 
-![browser arrows2](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/71ec017a-fc85-4cd9-9523-16abf6b7f20f)
+![browser arrows2](https://files.ilias.de/images/arrows/select-dropdown-example.png)
 
 **Integration:** This arrow is embedded automatically with the select-element in HTML.
 
@@ -141,7 +141,7 @@ For example in "Administration" > "Layout and Styles":
 
 The .ilc_Accordion - element is used when building content for ILIAS:
 
-![accordion](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/1fd0796c-a08c-4be4-81ec-a4170f1bed57)
+![accordion](https://files.ilias.de/images/arrows/accordion.png)
 
 **Integration:** This arrow is an SVG-file (image) which is used as an background-image (background-image: tree_col.svg).
 
@@ -153,7 +153,7 @@ Implementing a plus icon for the .ilc-Accordion would be an intriguing option he
 
 For the expanded view, the plus icon could be rotated to give it a tilted appearance resembling an "x" for "close":
 
-![accordion-collapse](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/dcd9dee2-eb6c-43f0-beda-e5dfb1a02ffd)
+![accordion-collapse](https://files.ilias.de/images/arrows/recommendation.png)
 
 Source: https://uxmovement.com/navigation/where-to-place-your-accordion-menu-icons/
 
@@ -166,17 +166,17 @@ There are some different versions of the action button.
 
 Often an action button consists of a label and the caret symbol:
 
-![action](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/4af58d9f-9751-4e86-9fd0-23e3f29a6691)
+![action](https://files.ilias.de/images/arrows/action-button.png)
 
 In addition to that the action button is often seen without the label in two different versions.
 
 **Version 1: filled with a white caret:**
 
-![filled](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/27c6a088-518b-4bc8-8520-81b0edee76e8)
+![filled](https://files.ilias.de/images/arrows/calendar-action-button.png)
 
 **Version 2 - reversed: white with a blue caret:**
 
-![not filled](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/b9e57b7c-efac-4f1e-ab25-86d21b7ea1e1)
+![not filled](https://files.ilias.de/images/arrows/course-action-button.png)
 
 **Some thoughts:** Currently, the default button and the action button look quite similar. The default button should receive more focus and attention than the action button. This is because the action button typically includes menu settings, whereas the default button executes a specific action or task upon clicking, which should be more prominent than the action button that expands a menu. To reduce the focus on the action button, it's advisable to style it differently. For instance, using a less vibrant color scheme and aligning its design more closely with the view controls, where it primarily appears, would be beneficial.
 
@@ -186,7 +186,7 @@ Reducing the styling to only the reversed version of the button, arguing that it
 
 A double arrow is used to indicate a link:
 
-![link](https://github.com/alinaappel/ILIAS-Dokumentation/assets/167314349/f2281cae-1e7b-4d0d-88ee-567a272d7e49)
+![link](https://files.ilias.de/images/arrows/link-icon.png)
 
 **Some thoughts:** For listing links, an arrow isn't strictly necessary. Lists can be represented using other symbols, such as a bullet point. So, this is another valid scenario where we can avoid using another version of the arrow icon.
 
