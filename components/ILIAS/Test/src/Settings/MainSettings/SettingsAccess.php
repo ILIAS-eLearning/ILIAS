@@ -124,7 +124,7 @@ class SettingsAccess extends TestSettings
             ->withUseTime(true);
         if ($this->getStartTime() !== null) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']
-                ->withValue($this->getStartTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
+                ->withValue($this->getStartTime()->setTimezone(new \DateTimeZone($environment['user_time_zone'])));
         }
         if ($environment['participant_data_exists']) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']->withDisabled(true);
@@ -138,7 +138,7 @@ class SettingsAccess extends TestSettings
             ->withUseTime(true);
         if ($this->getEndTime() !== null) {
             $sub_inputs_access_window['end_time'] = $sub_inputs_access_window['end_time']
-                ->withValue($this->getEndTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
+                ->withValue($this->getEndTime()->setTimezone(new \DateTimeZone($environment['user_time_zone'])));
         }
 
         return $sub_inputs_access_window;
@@ -278,18 +278,21 @@ class SettingsAccess extends TestSettings
     {
         $starting_time = $additional_info->getNoneTag();
         if (($st_immutable = $this->getStartTime()) instanceof \DateTimeImmutable) {
-            $starting_time = $st_immutable->getTimestamp();
+            $starting_time = $st_immutable->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
         }
 
         $end_time = $additional_info->getNoneTag();
         if (($et_immutable = $this->getEndTime()) instanceof \DateTimeImmutable) {
-            $end_time = $et_immutable->getTimestamp();
+            $end_time = $et_immutable->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
         }
 
         return [
             AdditionalInformationGenerator::KEY_TEST_END_TIME => $starting_time,
             AdditionalInformationGenerator::KEY_TEST_START_TIME => $end_time,
             AdditionalInformationGenerator::KEY_TEST_PASSWORD => $this->getPassword() ?? $additional_info->getNoneTag(),
+            AdditionalInformationGenerator::KEY_TEST_IP_RANGE => $this->isIpRangeEnabled()
+                ? $this->getIpRangeFrom() . ' - ' . $this->getIpRangeTo()
+                : $additional_info->getEnabledDisabledTagForBool(false),
             AdditionalInformationGenerator::KEY_TEST_FIXED_PARTICIPANTS => $additional_info
                 ->getEnabledDisabledTagForBool($this->getFixedParticipants())
         ];

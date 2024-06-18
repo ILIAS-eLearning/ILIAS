@@ -288,15 +288,21 @@ class SettingsMainGUI extends TestSettingsGUI
                 )
         ];
 
-        if ($this->test_object->isActivationLimited()) {
+        if (!$this->test_object->isActivationLimited()) {
             $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $this->logger
                 ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(false);
             return $log_array;
         }
 
         $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
-        $from = $this->test_object->getActivationStartingTime() ?? $none_tag;
-        $until = $this->test_object->getActivationEndingTime() ?? $none_tag;
+        $from = $this->test_object->getActivationStartingTime() === null
+            ? $none_tag
+            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
+                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
+        $until = $this->test_object->getActivationEndingTime() === null
+            ? $none_tag
+            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
+                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
 
         $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $from . ' - ' . $until;
         $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger

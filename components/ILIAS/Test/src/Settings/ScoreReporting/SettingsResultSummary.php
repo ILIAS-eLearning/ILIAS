@@ -200,7 +200,7 @@ class SettingsResultSummary extends TestSettings
                 break;
             case self::SCORE_REPORTING_DATE:
                 $log_array[AdditionalInformationGenerator::KEY_SCORING_REPORTING] = $this->getReportingDate()
-                    ->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i e');
+                    ->setTimezone(new \DateTimeZone('UTC'))->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
                 $log_array += $this->getLogEntriesForScoreReportingEnabled($additional_info);
                 break;
             case self::SCORE_REPORTING_AFTER_PASSED:

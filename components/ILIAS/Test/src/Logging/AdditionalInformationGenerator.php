@@ -28,6 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class AdditionalInformationGenerator
 {
+    public const DATE_STORAGE_FORMAT = 'Y-m-d H:i e';
     public const KEY_USER = 'user';
     public const KEY_USERS = 'users';
     public const KEY_QUESTION = 'question';
@@ -59,7 +60,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_DESCRIPTION = 'description';
     public const KEY_TEST_ONLINE = 'online';
     public const KEY_TEST_VISIBILITY_PERIOD = 'crs_visibility_until';
-    public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'rep_activation_limited_visibility';
+    public const KEY_TEST_VISIBLE_OUTSIDE_PERIOD = 'activation_visible_when_disabled';
     public const KEY_TEST_QUESTION_SET_TYPE = 'test_question_set_type';
     public const KEY_TEST_ANONYMITY = 'tst_anonymity';
     public const KEY_TEST_INTRODUCTION_ENABLED = 'tst_introduction';
@@ -67,6 +68,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_START_TIME = 'tst_starting_time';
     public const KEY_TEST_END_TIME = 'tst_ending_time';
     public const KEY_TEST_PASSWORD = 'tst_password';
+    public const KEY_TEST_IP_RANGE = 'ip_range_label';
     public const KEY_TEST_FIXED_PARTICIPANTS = 'participants_invitation';
     public const KEY_TEST_LIMIT_NR_OF_TRIES = 'tst_limit_nr_of_tries';
     public const KEY_TEST_BLOCK_AFTER_PASSED = 'tst_block_passes_after_passed';
@@ -200,6 +202,7 @@ class AdditionalInformationGenerator
         'false',
         'checked',
         'unchecked',
+        'seconds',
         'redirect_always',
         'tst_finish_notification_simple',
         'tst_finish_notification_advanced',
