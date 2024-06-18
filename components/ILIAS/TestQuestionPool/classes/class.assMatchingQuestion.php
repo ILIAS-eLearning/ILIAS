@@ -1430,15 +1430,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         // #10353
         $matching_pairs = [];
+        $i = 1;
         foreach ($this->getMatchingPairs() as $pair) {
-            $matching_pairs[] = [
+            $matching_pairs[$i++] = [
                 AdditionalInformationGenerator::KEY_QUESTION_MATCHING_TERM => $pair->getTerm()->getText(),
-                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITION => $this->formatSAQuestion((string) $definition->getText()),
+                AdditionalInformationGenerator::KEY_QUESTION_MATCHING_DEFINITION => $this->formatSAQuestion((string) $pair->getDefinition()->getText()),
                 AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => (int) $pair->getPoints()
             ];
         }
 
-        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = array_values($matching_pairs);
+        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = $matching_pairs;
         return $result;
     }
 
