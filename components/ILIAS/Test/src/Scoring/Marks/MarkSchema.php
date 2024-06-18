@@ -165,6 +165,7 @@ class MarkSchema
         $log_array = [];
         foreach ($this->getMarkSteps() as $mark) {
             $log_array[$mark->getShortName()] = [
+                AdditionalInformationGenerator::KEY_MARK_SHORT_NAME => $mark->getShortName(),
                 AdditionalInformationGenerator::KEY_MARK_OFFICIAL_NAME => $mark->getOfficialName(),
                 AdditionalInformationGenerator::KEY_MARK_MINIMUM_LEVEL => $mark->getMinimumLevel(),
                 AdditionalInformationGenerator::KEY_MARK_IS_PASSING => $additional_info
