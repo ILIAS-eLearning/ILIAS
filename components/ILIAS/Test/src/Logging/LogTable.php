@@ -484,11 +484,17 @@ class LogTable implements Table\DataRetrieval
         $question_filter = null;
 
         if (!empty($filter_array[self::FILTER_FIELD_TIME_FROM])) {
-            $from_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_FROM]))->getTimestamp();
+            try {
+                $from_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_FROM]))->getTimestamp();
+            } catch (\Exception $e) {
+            }
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_TIME_TO])) {
-            $to_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
+            try {
+                $to_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
+            } catch (\Exception $e) {
+            }
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_TEST_TITLE])) {
