@@ -382,7 +382,7 @@ class AdditionalInformationGenerator
                 if (is_array($value)) {
                     return array_reduce(
                         array_keys($value),
-                        function ($c, $k) use ($value): string {
+                        function ($c, $k) use ($value, $environment): string {
                             $label = $k;
                             if (is_string($k)) {
                                 $label = $this->lng->txt($k);
@@ -390,7 +390,7 @@ class AdditionalInformationGenerator
                             if ($c !== '') {
                                 $c .= ', ';
                             }
-                            return "{$c}{$label}: {$this->parseValue($k, $value[$k])}";
+                            return "{$c}{$label}: {$this->parseValue($k, $value[$k], $environment)}";
                         },
                         ''
                     );
