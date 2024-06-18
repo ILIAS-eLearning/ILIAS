@@ -929,7 +929,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->lng->txt('crs_msg_no_self_registration_period_if_self_enrolment_disabled'),
                 true
             );
-            $this->editObject();
+            $this->ctrl->redirect($this, "edit");
             return;
         }
 
