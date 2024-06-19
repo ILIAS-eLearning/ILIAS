@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+/**
+ * @deprecated 10 This component will be removed with ILIAS 10
+ */
 class ilCSVReader
 {
     /**
