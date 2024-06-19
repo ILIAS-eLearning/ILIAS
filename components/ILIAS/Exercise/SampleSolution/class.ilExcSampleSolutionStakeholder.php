@@ -31,7 +31,7 @@ class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
     public function __construct(int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user')
+        $this->current_user = (int) (!is_array($DIC) && $DIC->isDependencyAvailable('user')
             ? $DIC->user()->getId()
             : (defined('ANONYMOUS_USER_ID') ? ANONYMOUS_USER_ID : 6));
         $this->owner = $owner;
