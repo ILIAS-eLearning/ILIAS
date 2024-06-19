@@ -20,6 +20,7 @@
  * Lists History entrys in chronological order
  *
  * @author Fabian Wolf <wolf@leifos.com>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 class ilHistoryTableGUI extends ilTable2GUI
 {
