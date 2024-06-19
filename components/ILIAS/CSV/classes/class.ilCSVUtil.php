@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+/**
+ * @deprecated 10 This component will be removed with ILIAS 10
+ */
 class ilCSVUtil
 {
     /**
@@ -58,7 +61,7 @@ class ilCSVUtil
                 if ($outUTF8) {
                     $resultarray[$rowindex] = '"' . $entry . '"';
                 } else {
-                    
+
                     $resultarray[$rowindex] = iconv('UTF-8', 'ISO-8859-1', '"' . $entry . '"');
                 }
             } elseif ($outUTF8) {
