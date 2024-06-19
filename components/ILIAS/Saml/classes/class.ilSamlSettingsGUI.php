@@ -118,6 +118,7 @@ final class ilSamlSettingsGUI
     private ?ilSamlAuth $samlAuth = null;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
+    private readonly ilObjUser $user;
 
     public function __construct(private readonly int $ref_id)
     {
@@ -136,6 +137,7 @@ final class ilSamlSettingsGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->user = $DIC->user();
 
         $this->lng->loadLanguageModule('auth');
     }
@@ -288,7 +290,8 @@ final class ilSamlSettingsGUI
             $this->httpState->request(),
             new Factory(),
             'handleTableActions',
-            $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)
+            $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id),
+            $this->user
         );
         $this->tpl->setContent($this->ui_renderer->render([$info, $table->get()]));
     }

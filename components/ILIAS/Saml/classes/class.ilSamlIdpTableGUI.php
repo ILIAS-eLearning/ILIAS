@@ -37,7 +37,8 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
         private readonly \ILIAS\Data\Factory $df,
         private readonly string $parent_cmd,
-        private readonly bool $hasWriteAccess
+        private readonly bool $hasWriteAccess,
+        private readonly ilObjUser $user
     ) {
         $this->idps = ilSamlIdp::getAllIdps();
 
@@ -68,7 +69,8 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             )
             ->withId(self::class)
             ->withActions($this->getActions())
-            ->withRequest($this->http_request);
+            ->withRequest($this->http_request)
+            ->withNumberOfRows((int) $this->user->getPref('hits_per_page'));
     }
 
     /**
