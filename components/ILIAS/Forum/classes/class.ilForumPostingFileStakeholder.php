@@ -30,7 +30,7 @@ class ilForumPostingFileStakeholder extends AbstractResourceStakeholder
     public function __construct()
     {
         global $DIC;
-        $this->default_owner = $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 6;
+        $this->default_owner = !is_array($DIC) && $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 6;
     }
 
 
