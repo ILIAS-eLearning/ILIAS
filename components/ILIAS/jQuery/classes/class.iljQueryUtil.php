@@ -20,6 +20,7 @@
  * jQuery utilities
  *
  * @author  Alex Killing <alex.killing@gmx.de>
+ * @deprecated 11 This component will be removed with ILIAS 11
  */
 class iljQueryUtil
 {
