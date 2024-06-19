@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+/**
+ * @deprecated 12 This component will be removed with ILIAS 12
+ */
 class Form implements Component\Component
 {
     public function init(

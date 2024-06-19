@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents an option in a checkbox group
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilCheckboxOption extends ilRadioOption
 {

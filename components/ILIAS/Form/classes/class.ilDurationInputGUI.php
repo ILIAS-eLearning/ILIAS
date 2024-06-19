@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a duration (typical hh:mm:ss) property in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilDurationInputGUI extends ilFormPropertyGUI
 {
@@ -150,7 +151,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
     public function setValueByArray(array $a_values): void
     {
         $values = ($a_values[$this->getPostVar()] ?? []);
-        $value_or_zero = fn ($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
+        $value_or_zero = fn($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
         $this->setMonths($value_or_zero("MM"));
         $this->setDays($value_or_zero("dd"));
         $this->setHours($value_or_zero("hh"));
@@ -354,7 +355,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
     public function getPostValueForComparison(): int
     {
         $values = $this->getInput();
-        $value_or_zero = fn ($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
+        $value_or_zero = fn($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
         $value = 0;
         if ($this->getShowMonths()) {
             $value += $value_or_zero("MM") * 30 * 24 * 60 * 60;

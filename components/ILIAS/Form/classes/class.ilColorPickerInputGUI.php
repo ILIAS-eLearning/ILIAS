@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Color picker form for selecting color hexcodes using yui library
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilColorPickerInputGUI extends ilTextInputGUI
 {

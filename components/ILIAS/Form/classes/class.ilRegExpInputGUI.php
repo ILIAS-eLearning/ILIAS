@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a regular expression input property in a property form.
  *
  * @author Roland Küstermann <roland.kuestermann@kit.edu>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilRegExpInputGUI extends ilTextInputGUI
 {

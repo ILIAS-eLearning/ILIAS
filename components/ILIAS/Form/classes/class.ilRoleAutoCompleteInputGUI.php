@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a role + autocomplete feature form input
  *
  * @author Stefan Meyer <meyer@leifos.com>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 {

@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a non editable value in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {

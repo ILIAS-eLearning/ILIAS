@@ -24,6 +24,7 @@ use ILIAS\Filesystem\Util;
  * This class represents a file wizard property in a property form.
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
