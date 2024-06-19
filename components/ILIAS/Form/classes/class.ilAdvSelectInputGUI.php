@@ -24,6 +24,7 @@ declare(strict_types=1);
  * to a normal selection list, when javascript is disabled.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {

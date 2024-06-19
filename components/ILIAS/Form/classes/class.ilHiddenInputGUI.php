@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a hidden form property in a property form.
  *
  * @author Roland Küstermann (rkuestermann@mps.de)
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {

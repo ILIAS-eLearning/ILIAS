@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a formula text property in a property form.
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilFormulaInputGUI extends ilTextInputGUI
 {
