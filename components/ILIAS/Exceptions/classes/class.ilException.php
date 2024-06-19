@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * Base class for ILIAS Exception handling. Any Exception class should inherit from it
  * @author Stefan Meyer <meyer@leifos.com>
+ * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilException extends Exception
 {
