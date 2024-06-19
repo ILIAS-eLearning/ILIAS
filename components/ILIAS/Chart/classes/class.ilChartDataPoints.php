@@ -19,6 +19,7 @@
 /**
  * Chart data points series
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 class ilChartDataPoints extends ilChartData
 {

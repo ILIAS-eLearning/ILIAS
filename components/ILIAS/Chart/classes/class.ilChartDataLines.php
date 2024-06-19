@@ -20,6 +20,7 @@
  * Chart data lines series
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 class ilChartDataLines extends ilChartData
 {
