@@ -33,6 +33,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public const PRESENTATION_MODE_VIEW = 'view';
     public const PRESENTATION_MODE_EDIT = 'edit';
 
+    protected const FINISH_TEST_CMD = 'finishTest';
+
     public const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
 
     public bool $max_processing_time_reached;
@@ -1449,7 +1451,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 // fau.
                 $this->showQuestionEditable($question_gui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 
-                if ($this->logger->isLoggingEnabled()
+                if ($this->ctrl->getCmd() !== self::FINISH_TEST_CMD
+                    && $this->logger->isLoggingEnabled()
                     && !$this->getObject()->getAnonymity()) {
                     $this->logger->logParticipantInteraction(
                         $this->logger->getInteractionFactory()->buildParticipantInteraction(
