@@ -1,9 +1,8 @@
-/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "^net|tls$" }] */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "^Duplex" }] */
 
 'use strict';
 
-const net = require('net');
-const tls = require('tls');
+const { Duplex } = require('stream');
 const { randomFillSync } = require('crypto');
 
 const PerMessageDeflate = require('./permessage-deflate');
@@ -13,6 +12,9 @@ const { mask: applyMask, toBuffer } = require('./buffer-util');
 
 const kByteLength = Symbol('kByteLength');
 const maskBuffer = Buffer.alloc(4);
+const RANDOM_POOL_SIZE = 8 * 1024;
+let randomPool;
+let randomPoolPointer = RANDOM_POOL_SIZE;
 
 /**
  * HyBi Sender implementation.
@@ -21,7 +23,7 @@ class Sender {
   /**
    * Creates a Sender instance.
    *
-   * @param {(net.Socket|tls.Socket)} socket The connection socket
+   * @param {Duplex} socket The connection socket
    * @param {Object} [extensions] An object containing the negotiated extensions
    * @param {Function} [generateMask] The function used to generate the masking
    *     key
@@ -77,7 +79,24 @@ class Sender {
       if (options.generateMask) {
         options.generateMask(mask);
       } else {
-        randomFillSync(mask, 0, 4);
+        if (randomPoolPointer === RANDOM_POOL_SIZE) {
+          /* istanbul ignore else  */
+          if (randomPool === undefined) {
+            //
+            // This is lazily initialized because server-sent frames must not
+            // be masked so it may never be used.
+            //
+            randomPool = Buffer.alloc(RANDOM_POOL_SIZE);
+          }
+
+          randomFillSync(randomPool, 0, RANDOM_POOL_SIZE);
+          randomPoolPointer = 0;
+        }
+
+        mask[0] = randomPool[randomPoolPointer++];
+        mask[1] = randomPool[randomPoolPointer++];
+        mask[2] = randomPool[randomPoolPointer++];
+        mask[3] = randomPool[randomPoolPointer++];
       }
 
       skipMasking = (mask[0] | mask[1] | mask[2] | mask[3]) === 0;
