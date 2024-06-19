@@ -47,7 +47,8 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
-        private readonly \ILIAS\UI\Factory $ui_factory
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly ilObjUser $user
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -64,7 +65,8 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
             ->data($this->lng->txt('frm_moderators'), $columns, $this)
             ->withId(self::class . '_' . $this->forum_moderators->getRefId())
             ->withActions($actions)
-            ->withRequest($this->request);
+            ->withRequest($this->request)
+            ->withNumberOfRows((int) $this->user->getPref('hits_per_page'));
     }
 
     /**

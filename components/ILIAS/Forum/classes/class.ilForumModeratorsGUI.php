@@ -194,7 +194,8 @@ class ilForumModeratorsGUI
             $this->ctrl,
             $this->lng,
             $this->http,
-            $this->ui_factory
+            $this->ui_factory,
+            $this->user
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));

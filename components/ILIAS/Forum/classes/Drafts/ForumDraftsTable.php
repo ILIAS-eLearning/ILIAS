@@ -141,7 +141,8 @@ class ForumDraftsTable implements DataRetrieval
                         $row_id_token
                     )
                 ]
-            );
+            )
+            ->withNumberOfRows((int) $this->user->getPref('hits_per_page'));
     }
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int

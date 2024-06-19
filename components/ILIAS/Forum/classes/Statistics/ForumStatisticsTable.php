@@ -86,7 +86,8 @@ class ForumStatisticsTable implements DataRetrieval
                 $this
             )
             ->withId(self::class . '_' . $this->forum->getId())
-            ->withRequest($this->request);
+            ->withRequest($this->request)
+            ->withNumberOfRows((int) $this->actor->getPref('hits_per_page'));
     }
 
     /**
