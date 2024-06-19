@@ -32,7 +32,7 @@ class ilObjectTileImageStakeholder extends AbstractResourceStakeholder
     public function __construct()
     {
         global $DIC;
-        $this->default_owner = $DIC->isDependencyAvailable('user')
+        $this->default_owner = !is_array($DIC) && $DIC->isDependencyAvailable('user')
             ? $DIC->user()->getId()
             : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
     }
