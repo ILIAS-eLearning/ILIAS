@@ -19,6 +19,7 @@
 /**
  * Abstract chart data series base class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 abstract class ilChartData
 {
