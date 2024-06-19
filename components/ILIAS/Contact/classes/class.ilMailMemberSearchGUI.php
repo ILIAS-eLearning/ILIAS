@@ -38,6 +38,7 @@ class ilMailMemberSearchGUI
     private Services $http;
     private Renderer $ui_renderer;
     private Factory $refinery;
+    private ilObjUser $user;
 
     /**
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
@@ -55,6 +56,8 @@ class ilMailMemberSearchGUI
         $this->lng = $DIC['lng'];
         $this->access = $DIC['ilAccess'];
         $this->httpRequest = $DIC->http()->request();
+
+        $this->user = $DIC->user();
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
@@ -246,7 +249,15 @@ class ilMailMemberSearchGUI
     {
         $this->tpl->loadStandardTemplate();
         $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
-        $tbl = new MailMemberSearchTable($this->ref_id, $provider, $this->ctrl, $this->lng, $this->ui_factory, $this->http);
+        $tbl = new MailMemberSearchTable(
+            $this->ref_id,
+            $provider,
+            $this->ctrl,
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user
+        );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }

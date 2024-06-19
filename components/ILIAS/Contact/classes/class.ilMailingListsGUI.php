@@ -334,7 +334,8 @@ class ilMailingListsGUI
             $this->ctrl,
             $this->lng,
             $this->ui_factory,
-            $this->http
+            $this->http,
+            $this->user
         );
         $tbl->setMailingAllowed($this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()));
         $this->tpl->setVariable('MAILING_LISTS', $this->ui_renderer->render($tbl->getComponent()));
@@ -515,7 +516,8 @@ class ilMailingListsGUI
             $this->ctrl,
             $this->lng,
             $this->ui_factory,
-            $this->http
+            $this->http,
+            $this->user
         );
         $this->tpl->setVariable('MEMBERS_LIST', $this->ui_renderer->render($tbl->getComponent()));
         $this->tpl->printToStdout();

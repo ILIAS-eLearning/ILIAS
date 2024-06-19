@@ -29,6 +29,7 @@ use ilMailingListsGUI;
 use ilLanguage;
 use ilCtrl;
 use ilMailingLists;
+use ilObjUser;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
@@ -43,7 +44,8 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
         private readonly \ILIAS\UI\Factory $ui_factory,
-        \ILIAS\HTTP\GlobalHttpState $http
+        \ILIAS\HTTP\GlobalHttpState $http,
+        private readonly ilObjUser $user
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -73,7 +75,8 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
             )
             ->withId(self::class)
             ->withActions($actions)
-            ->withRequest($this->request);
+            ->withRequest($this->request)
+            ->withNumberOfRows((int) $this->user->getPref('hits_per_page'));
     }
 
     /**
