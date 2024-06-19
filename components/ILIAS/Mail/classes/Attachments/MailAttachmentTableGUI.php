@@ -24,6 +24,10 @@ use ilStr;
 use ilDatePresentation;
 use ilUtil;
 use ilDateTime;
+use ilObjUser;
+use DateTimeImmutable;
+use ilCalendarSettings;
+use DateTimeZone;
 
 class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
@@ -45,7 +49,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
         private readonly \ILIAS\Data\Factory $df,
         private readonly string $parent_cmd,
-        AttachmentManagement $mode
+        AttachmentManagement $mode,
+        private readonly ilObjUser $user
     ) {
         $this->mode = $mode;
 
@@ -67,6 +72,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
     public function get(): \ILIAS\UI\Component\Table\Data
     {
+        $current_user_pref_limit = (int) $this->user->getPref('hits_per_page');
+
         return $this->ui_factory
             ->table()
             ->data(
@@ -76,6 +83,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             )
             ->withId(self::class . '_' . $this->mode->name)
             ->withActions($this->getActions())
+            ->withNumberOfRows($current_user_pref_limit)
             ->withRequest($this->http_request);
     }
 
@@ -84,6 +92,12 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
      */
     private function getColumnDefinition(): array
     {
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $format = $this->df->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $format = $this->df->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
         return [
             'filename' => $this->ui_factory
                 ->table()
@@ -98,7 +112,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'filecreatedate' => $this->ui_factory
                 ->table()
                 ->column()
-                ->text($this->lng->txt('create_date'))
+                ->date($this->lng->txt('create_date'), $format)
                 ->withIsSortable(true),
         ];
     }
@@ -164,10 +178,14 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         ?array $additional_parameters
     ): \Generator {
         foreach ($this->getRecords($range, $order) as $item) {
+            $date = new DateTimeImmutable();
+            $date = $date->setTimestamp($item['filecreatedate']);
+            $date = $date->setTimezone(new DateTimeZone($this->user->getTimeZone()));
+
             $record = [
                 'filename' => $item['filename'],
                 'filesize' => ilUtil::formatSize($item['filesize'], 'long'),
-                'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($item['filecreatedate'], IL_CAL_UNIX))
+                'filecreatedate' => $date,
             ];
 
             yield $row_builder
