@@ -19,6 +19,7 @@
 /**
  * Saves (mostly asynchronously) user properties of accordions
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
