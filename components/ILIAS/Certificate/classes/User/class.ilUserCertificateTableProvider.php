@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilUserCertificateTableProvider
 {
-    public const TABLE_NAME = 'il_cert_user_cert_new';
+    public const TABLE_NAME = 'il_cert_user_cert';
 
     public function __construct(
         private readonly ilDBInterface $database,
@@ -44,7 +44,7 @@ class ilUserCertificateTableProvider
         $sql = 'SELECT 
   ' . self::TABLE_NAME . '.id,
   ' . self::TABLE_NAME . '.obj_type,
-  ' . self::TABLE_NAME . '.thumbnail_image_identification,
+  ' . self::TABLE_NAME . '.thumbnail_image_ident,
   ' . self::TABLE_NAME . '.acquired_timestamp,
   usr_data.firstname,
   usr_data.lastname,
@@ -104,7 +104,7 @@ WHERE ' . self::TABLE_NAME . '.usr_id = ' . $this->database->quote($userId, 'int
                 'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
                 'date' => (int) $row['acquired_timestamp'],
-                'thumbnail_image_identification' => $row['thumbnail_image_identification'],
+                'thumbnail_image_ident' => $row['thumbnail_image_ident'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],

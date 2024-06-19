@@ -27,7 +27,7 @@ use ILIAS\Data\UUID\Factory;
  */
 class ilUserCertificateRepository
 {
-    public const TABLE_NAME = 'il_cert_user_cert_new';
+    public const TABLE_NAME = 'il_cert_user_cert';
 
     private readonly ilDBInterface $database;
     private readonly ilLogger $logger;
@@ -97,8 +97,8 @@ class ilUserCertificateRepository
             'version' => ['integer', $version],
             'ilias_version' => ['text', $userCertificate->getIliasVersion()],
             'currently_active' => ['integer', (int) $userCertificate->isCurrentlyActive()],
-            'background_image_identification' => ['text', $userCertificate->getBackgroundImageIdentification()],
-            'thumbnail_image_identification' => ['text', $userCertificate->getThumbnailImageIdentification()],
+            'background_image_ident' => ['text', $userCertificate->getBackgroundImageIdentification()],
+            'thumbnail_image_ident' => ['text', $userCertificate->getThumbnailImageIdentification()],
             'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
         ];
 
@@ -563,7 +563,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
 
         $result = $this->database->queryF(
             'SELECT EXISTS(SELECT 1 FROM ' . self::TABLE_NAME . ' WHERE 
-            (background_image_identification = %s OR thumbnail_image_identification = %s)
+            (background_image_ident = %s OR thumbnail_image_ident = %s)
              AND currently_active = 1) AS does_exist',
             ['text', 'text'],
             [$relative_image_identification, $relative_image_identification]
@@ -600,8 +600,8 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             $row['ilias_version'],
             (bool) $row['currently_active'],
             new CertificateId($row['certificate_id']),
-            (string) $row['background_image_identification'],
-            (string) $row['thumbnail_image_identification'],
+            (string) $row['background_image_ident'],
+            (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null
         );
     }
