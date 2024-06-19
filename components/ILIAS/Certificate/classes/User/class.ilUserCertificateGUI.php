@@ -164,7 +164,7 @@ class ilUserCertificateGUI
             $uiComponents[] = $sortViewControl;
 
             foreach ($data['items'] as $certificateData) {
-                $thumbnail_image_identification = $certificateData['thumbnail_image_identification'];
+                $thumbnail_image_identification = $certificateData['thumbnail_image_ident'];
                 $thumb_rid = $this->irss->manage()->find($thumbnail_image_identification);
                 $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 if ($thumb_rid instanceof ResourceIdentification) {

@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRepository
 {
-    public const TABLE_NAME = 'il_cert_template_new';
+    public const TABLE_NAME = 'il_cert_template';
 
     private readonly ilLogger $logger;
     private readonly ilObjectDataCache $objectDataCache;
@@ -69,9 +69,9 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'ilias_version' => ['text', $certificateTemplate->getIliasVersion()],
             'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
-            'background_image_identification' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
+            'background_image_ident' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
-            'thumbnail_image_identification' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
+            'thumbnail_image_ident' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
         ];
 
         $this->database->insert(self::TABLE_NAME, $columns);
@@ -409,7 +409,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         );
 
         $affected_rows = $this->database->manipulateF(
-            'UPDATE ' . self::TABLE_NAME . ' SET background_image_identification = %s WHERE currently_active = 1 AND (background_image_identification = %s OR background_image_identification = %s )',
+            'UPDATE ' . self::TABLE_NAME . ' SET background_image_ident = %s WHERE currently_active = 1 AND (background_image_ident = %s OR background_image_ident = %s )',
             [
                 'text',
                 'text',
@@ -441,7 +441,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $result = $this->database->queryF(
             'SELECT EXISTS(SELECT 1 FROM ' . self::TABLE_NAME . ' WHERE 
-            (background_image_identification = %s OR thumbnail_image_identification = %s)
+            (background_image_ident = %s OR thumbnail_image_ident = %s)
              AND currently_active = 1) AS does_exist',
             ['text', 'text'],
             [$relative_image_identification, $relative_image_identification]
@@ -474,8 +474,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
-            (string) $row['background_image_identification'],
-            (string) $row['thumbnail_image_identification'],
+            (string) $row['background_image_ident'],
+            (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null
         );
     }
