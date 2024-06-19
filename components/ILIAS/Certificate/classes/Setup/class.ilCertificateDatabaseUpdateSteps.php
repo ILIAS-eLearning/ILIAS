@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
-
 class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -136,7 +134,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         ) {
             $this->db->addTableColumn(
                 'il_cert_user_cert',
-                'background_image_identification',
+                'background_image_ident',
                 [
                     'type' => 'text',
                     'length' => 64,
@@ -146,7 +144,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
             $this->db->addTableColumn(
                 'il_cert_user_cert',
-                'thumbnail_image_identification',
+                'thumbnail_image_ident',
                 [
                     'type' => 'text',
                     'length' => 64,
@@ -160,7 +158,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         ) {
             $this->db->addTableColumn(
                 'il_cert_template',
-                'background_image_identification',
+                'background_image_ident',
                 [
                     'type' => 'text',
                     'length' => 64,
@@ -170,7 +168,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
             $this->db->addTableColumn(
                 'il_cert_template',
-                'thumbnail_image_identification',
+                'thumbnail_image_ident',
                 [
                     'type' => 'text',
                     'length' => 64,
@@ -183,15 +181,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $row = $this->db->fetchAssoc($res);
         $defaultImageFileName = $row['value'] ?? '';
 
-        global $DIC;
-        $irss = $DIC->resourceStorage();
-        $fileService = $DIC->filesystem()->web();
-
         try {
-            $rid = $irss->manage()->stream(
-                $fileService->readStream('certificates/default/' . $defaultImageFileName),
-                new ilCertificateTemplateStakeholder()
-            );
         } catch (Exception $e) {
             $rid = '-';
         }

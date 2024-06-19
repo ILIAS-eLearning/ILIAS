@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\Setup\Migration;
 
-use Exception;
 use ilDBInterface;
 use ReflectionClass;
 use ilDatabaseException;
@@ -28,14 +27,14 @@ use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
 use ilDatabaseUpdatedObjective;
 use ILIAS\Filesystem\Filesystems;
-use ILIAS\ResourceStorage\Services as IRSS;
+use ilResourceStorageMigrationHelper;
 use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
 
 class CertificateIRSSMigration implements Migration
 {
     public const NUMBER_OF_STEPS = 10;
     public const NUMBER_OF_PATHS_PER_STEP = 10;
-    private IRSS $irss;
+    private ilResourceStorageMigrationHelper $helper;
     private ilDBInterface $db;
     private Filesystems $filesystem;
     private ilCertificateTemplateStakeholder $stakeholder;
@@ -61,8 +60,7 @@ class CertificateIRSSMigration implements Migration
     {
         global $DIC;
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);
-        $this->irss = $DIC->resourceStorage();
-        $this->filesystem = $DIC->filesystem();
+        $this->helper = new ilResourceStorageMigrationHelper(new ilCertificateTemplateStakeholder(), $environment);
         $this->stakeholder = new ilCertificateTemplateStakeholder();
     }
 
@@ -71,92 +69,132 @@ class CertificateIRSSMigration implements Migration
      */
     public function step(Environment $environment): void
     {
-        $this->db->setLimit(self::NUMBER_OF_PATHS_PER_STEP);
-        $query = '
-            SELECT path
-            FROM (
-                SELECT id, background_image_path AS path FROM il_cert_user_cert
-                UNION ALL
-                SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
-            ) AS t
-            WHERE path IS NOT NULL
-            GROUP BY path;
-        ';
-        $result = $this->db->query($query);
-        if ($result->numRows() > 0) {
-            while ($row = $this->db->fetchAssoc($result)) {
-                $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_user_cert');
-            }
-        } else {
-            $query = '
-            SELECT path
-            FROM (
-                SELECT id, background_image_path AS path FROM il_cert_template
-                UNION ALL
-                SELECT id, thumbnail_image_path AS path FROM il_cert_template
-            ) AS t
-            WHERE path IS NOT NULL
-            GROUP BY path;
-        ';
-            $result = $this->db->query($query);
-            if ($result->numRows() > 0) {
-                while ($row = $this->db->fetchAssoc($result)) {
-                    $this->updateCertificateTemplate($row['path'] ?? '', 'il_cert_template');
-                }
-            } else {
-                $this->lastStep();
-            }
+        $remaining_paths = $this->stepUserCertificates(self::NUMBER_OF_PATHS_PER_STEP);
+        if ($remaining_paths > 0) {
+            $remaining_paths = $this->stepTemplateCertificates($remaining_paths);
+        }
+        if ($remaining_paths > 0) {
+            $this->lastStep();
         }
     }
 
-    public function updateCertificateTemplate(string $filepath, string $table): void
+    public function stepUserCertificates(int $remaining_paths): int
     {
-        if ($this->filesystem->web()->has($filepath)) {
-            try {
-                $rid = $this->irss->manage()->stream($this->filesystem->web()->readStream($filepath), $this->stakeholder);
-            } catch (Exception $e) {
-                $rid = null;
+        $this->db->setLimit($remaining_paths);
+        $query = '
+            SELECT path
+            FROM (
+                     SELECT id, background_image_path AS path FROM il_cert_user_cert
+                     UNION ALL
+                     SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
+                 ) AS t
+            GROUP BY path
+            HAVING path IS NOT NULL AND path != \'\'
+        ';
+        $result = $this->db->query($query);
+        $paths = $this->db->numRows($result);
+        if ($paths > 0) {
+            while ($row = $this->db->fetchAssoc($result)) {
+                $this->updateCertificatePathFromTable($row['path'] ?? '', 'il_cert_user_cert');
             }
+            $remaining_paths -= self::NUMBER_OF_PATHS_PER_STEP - $paths;
+        }
+        return $remaining_paths;
+    }
 
-            if ($rid === null) {
-                $rid = '-';
+    public function stepTemplateCertificates(int $remaining_paths): int
+    {
+        $this->db->setLimit($remaining_paths);
+        $query = '
+            SELECT path
+            FROM (
+                     SELECT id, background_image_path AS path FROM il_cert_template
+                     UNION ALL
+                     SELECT id, thumbnail_image_path AS path FROM il_cert_template
+                 ) AS t
+            GROUP BY path
+            HAVING path IS NOT NULL AND path != \'\'
+        ';
+        $result = $this->db->query($query);
+        $paths = $this->db->numRows($result);
+        if ($paths > 0) {
+            while ($row = $this->db->fetchAssoc($result)) {
+                $this->updateCertificatePathFromTable($row['path'] ?? '', 'il_cert_template');
             }
+            $remaining_paths -= self::NUMBER_OF_PATHS_PER_STEP - $paths;
+        }
+        return $remaining_paths;
+    }
 
-            $query = "
-                UPDATE $table
-                SET background_image_identification = CASE
-                               WHEN background_image_path = $filepath THEN $rid
+    public function updateCertificatePathFromTable(string $filepath, string $table): void
+    {
+        if (!$filepath) {
+            return;
+        }
+
+        $rid = $this->helper->movePathToStorage(
+            ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $filepath,
+            $this->stakeholder->getOwnerOfNewResources(),
+            null,
+            null,
+            true
+        );
+
+        if (!isset($rid) || $rid === null) {
+            $rid = '-';
+        }
+
+        $query = "
+                UPDATE {$this->db->quoteIdentifier($table)}
+                SET background_image_ident = CASE
+                               WHEN background_image_path = %s THEN %s
                                ELSE background_image_path
                             END,
-                    thumbnail_image_identification = CASE
-                               WHEN thumbnail_image_path = $filepath THEN $rid
+                    thumbnail_image_ident = CASE
+                               WHEN thumbnail_image_path = %s THEN %s
                                ELSE thumbnail_image_path
-                            END
+                            END,
                     background_image_path = CASE
-                               WHEN background_image_path = $filepath THEN NULL
+                               WHEN background_image_path = %s THEN NULL
                                ELSE background_image_path
                             END,
                     thumbnail_image_path = CASE
-                               WHEN thumbnail_image_path = $filepath THEN NULL
+                               WHEN thumbnail_image_path = %s THEN NULL
                                ELSE thumbnail_image_path
                             END
-                WHERE background_image_path = $filepath OR thumbnail_image_path = $filepath
+                WHERE background_image_path = %s OR thumbnail_image_path = %s
                 ";
-            $this->db->manipulate($query);
-        }
+        $this->db->manipulateF(
+            $query,
+            ['text', 'text', 'text', 'text', 'text', 'text', 'text', 'text'],
+            [$filepath, $rid, $filepath, $rid, $filepath, $filepath, $filepath, $filepath]
+        );
     }
 
     public function getRemainingAmountOfSteps(): int
     {
+        $last_step = 1;
+        if (
+            !$this->db->tableColumnExists('il_cert_user_cert', 'background_image_path') ||
+            !$this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path') ||
+            !$this->db->tableColumnExists('il_cert_template', 'background_image_path') ||
+            !$this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')
+        ) {
+            $last_step = 0;
+            return 0;
+        }
+
         $result = $this->db->query(
             '
-                    SELECT COUNT(path) AS count
+                    SELECT COUNT(*) AS count FROM (
+                    SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_user_cert
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
                     ) AS t
-                    GROUP BY path;
+                    GROUP BY path
+                    HAVING path IS NOT NULL AND path != \'\') AS t;
             '
         );
         $row = $this->db->fetchAssoc($result);
@@ -165,31 +203,24 @@ class CertificateIRSSMigration implements Migration
 
         $result = $this->db->query(
             '
-                    SELECT COUNT(path) AS count
+                    SELECT COUNT(*) AS count FROM (
+                    SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_template
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_template
                     ) AS t
-                    GROUP BY path;
+                    GROUP BY path
+                    HAVING path IS NOT NULL AND path != \'\') AS t;
             '
         );
         $row = $this->db->fetchAssoc($result);
 
         $paths += (int) $row['count'];
 
-        $last_step = 1;
-        if (
-            $paths === 0 &&
-            !$this->db->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            !$this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path') &&
-            !$this->db->tableColumnExists('il_cert_template', 'background_image_path') &&
-            !$this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')
-        ) {
-            $last_step = 0;
-        }
+        $paths += $last_step;
 
-        return (int) ceil($paths / self::NUMBER_OF_STEPS) + $last_step;
+        return (int) ceil($paths / self::NUMBER_OF_STEPS);
     }
 
     public function lastStep(): void
