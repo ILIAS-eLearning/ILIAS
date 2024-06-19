@@ -31,7 +31,7 @@ class assFileUploadStakeholder extends AbstractResourceStakeholder
         $anonymous = defined(
             'ANONYMOUS_USER_ID'
         ) ? ANONYMOUS_USER_ID : 13;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : $anonymous);
+        $this->current_user = (int) (!is_array($DIC) && $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : $anonymous);
     }
 
     public function getId(): string
