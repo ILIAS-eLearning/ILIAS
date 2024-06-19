@@ -30,6 +30,10 @@ use ilObjChatroomGUI;
 use ilLanguage;
 use ilCtrlInterface;
 use ILIAS\HTTP\GlobalHttpState;
+use ilObjUser;
+use ilCalendarSettings;
+use DateTimeImmutable;
+use DateTimeZone;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
@@ -47,7 +51,8 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         GlobalHttpState $http,
-        private readonly \ILIAS\UI\Factory $ui_factory
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly ilObjUser $user
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -63,7 +68,8 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
             ->data($this->lng->txt('ban_table_title'), $columns, $this)
             ->withId(self::class . '_' . $this->room_id)
             ->withActions($actions)
-            ->withRequest($this->request);
+            ->withRequest($this->request)
+            ->withNumberOfRows((int) $this->user->getPref('hits_per_page'));
     }
 
     /**
@@ -71,6 +77,12 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
      */
     private function getColumns(): array
     {
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
         return [
             'login' => $this->ui_factory
                 ->table()->column()->text($this->lng->txt('login'))
@@ -82,7 +94,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
                 ->table()->column()->text($this->lng->txt('lastname'))
                 ->withIsSortable(true),
             'timestamp' => $this->ui_factory
-                ->table()->column()->text($this->lng->txt('chtr_ban_ts_tbl_head'))
+                ->table()->column()->date($this->lng->txt('chtr_ban_ts_tbl_head'), $format)
                 ->withIsSortable(true),
             'actor' => $this->ui_factory
                 ->table()->column()->text($this->lng->txt('chtr_ban_actor_tbl_head'))
@@ -134,9 +146,10 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
                 $this->records[$i]['firstname'] = $entry['firstname'];
                 $this->records[$i]['lastname'] = $entry['lastname'];
                 if (is_numeric($entry['timestamp']) && $entry['timestamp'] > 0) {
-                    $this->records[$i]['timestamp'] = ilDatePresentation::formatDate(
-                        new ilDateTime($entry['timestamp'], IL_CAL_UNIX)
-                    );
+                    $timestamp = new DateTimeImmutable();
+                    $timestamp = $timestamp->setTimestamp($entry['timestamp']);
+                    $timestamp = $timestamp->setTimezone(new DateTimeZone($this->user->getTimeZone()));
+                    $this->records[$i]['timestamp'] = $timestamp;
                 }
 
                 $this->records[$i]['actor'] = $entry['actor'];
