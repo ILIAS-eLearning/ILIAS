@@ -997,6 +997,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->performTestPassFinishedTasks();
 
+        if ($this->logger->isLoggingEnabled()
+            && !$this->getObject()->getAnonymity()
+            && ($interaction = $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                $this->ref_id,
+                null,
+                $this->user->getId(),
+                $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                TestParticipantInteractionTypes::TEST_RUN_FINISHED,
+                []
+            )) !== null) {
+            $this->logger->logParticipantInteraction($interaction);
+        }
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
     }
 
@@ -1438,13 +1451,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                 if ($this->logger->isLoggingEnabled()
                     && !$this->getObject()->getAnonymity()) {
-                    $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
                     $this->logger->logParticipantInteraction(
                         $this->logger->getInteractionFactory()->buildParticipantInteraction(
                             $this->object->getRefId(),
                             $question_id,
                             $this->user->getId(),
-                            $source_addr,
+                            $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                             TestParticipantInteractionTypes::QUESTION_SHOWN,
                             []
                         )
@@ -1566,13 +1578,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()
             && !$this->getObject()->getAnonymity()) {
-            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
-                    $source_addr,
+                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                     TestParticipantInteractionTypes::ANSWER_DELETED,
                     []
                 )
@@ -1602,13 +1613,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()
             && !$this->getObject()->getAnonymity()) {
-            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
-                    $source_addr,
+                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                     TestParticipantInteractionTypes::QUESTION_SKIPPED,
                     []
                 )
@@ -1698,13 +1708,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()
             && !$this->getObject()->getAnonymity()) {
-            $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     null,
                     $this->user->getId(),
-                    $source_addr,
+                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                     TestParticipantInteractionTypes::TEST_RUN_STARTED,
                     []
                 )
@@ -2261,13 +2270,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         if (!$is_worked_through) {
             if ($this->logger->isLoggingEnabled()
                 && !$this->getObject()->getAnonymity()) {
-                $source_addr = $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '';
                 $this->logger->logParticipantInteraction(
                     $this->logger->getInteractionFactory()->buildParticipantInteraction(
                         $this->object->getRefId(),
                         $question_id,
                         $this->user->getId(),
-                        $source_addr,
+                        $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
                         TestParticipantInteractionTypes::QUESTION_SKIPPED,
                         []
                     )
