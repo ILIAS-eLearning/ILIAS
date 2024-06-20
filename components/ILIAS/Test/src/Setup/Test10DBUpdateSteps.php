@@ -33,6 +33,39 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
+        if (!$this->db->tableColumnExists('tst_tests', 'ip_range_from')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'ip_range_from',
+                [
+                    'type' => 'text',
+                    'length' => 39
+                ]
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_tests', 'ip_range_to')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'ip_range_to',
+                [
+                    'type' => 'text',
+                    'length' => 39
+                ]
+            );
+        }
+    }
+
+    public function step_2(): void
+    {
+        $this->db->update(
+            'il_cert_cron_queue',
+            ['adapter_class' => [ilDBConstants::T_TEXT, TestPlaceholderValues::class]],
+            ['adapter_class' => [ilDBConstants::T_TEXT, 'ilTestPlaceholderValues']]
+        );
+    }
+
+    public function step_3(): void
+    {
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, [
                 'id' => [
