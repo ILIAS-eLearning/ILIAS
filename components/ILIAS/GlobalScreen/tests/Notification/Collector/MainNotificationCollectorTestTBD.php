@@ -2,8 +2,6 @@
 
 use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
 
-require_once(__DIR__ . "/../BaseNotificationSetUp.php");
-
 /**
  * Class MainNotificationCollectorTest
  */
