@@ -80,11 +80,11 @@ class EmbeddedApplication
             . '?'
             . self::WOPI_SRC
             . '='
-            . rtrim((string) $this->ilias_base_url, '/')
-            . RequestHandler::WOPI_BASE_URL
-            . RequestHandler::NAMESPACE_FILES
-            . '/'
-            . $this->identification->serialize();
+            . urlencode(rtrim((string) $this->ilias_base_url, '/')
+                        . RequestHandler::WOPI_BASE_URL
+                        . RequestHandler::NAMESPACE_FILES
+                        . '/'
+                        . $this->identification->serialize());
 
         if ($appendices !== []) {
             $url .= '&' . implode('&', $appendices);
