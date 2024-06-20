@@ -8824,6 +8824,7 @@ dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Fel
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
