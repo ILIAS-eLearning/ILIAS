@@ -30,7 +30,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     public const CAL_COURSE_END = 6;
     public const CAL_COURSE_TIMING_START = 7;
     public const CAL_COURSE_TIMING_END = 8;
-
     public const STATUS_DETERMINATION_LP = 1;
     public const STATUS_DETERMINATION_MANUAL = 2;
 
