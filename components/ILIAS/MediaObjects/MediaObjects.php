@@ -45,13 +45,17 @@ class MediaObjects implements Component\Component
             new Component\Resource\ComponentJS($this, "MediaObjectsCompletion.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ServiceMediaObjectPropWidthHeight.js");
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("mediaelement/build/mediaelement-and-player.min.js");
+        */
         /* This is missing in the node-modules-build, but added in PHP code.
                 $contribute[Component\Resource\PublicAsset::class] = fn() =>
                     new Component\Resource\NodeModule("mediaelement/build/vimeo.min.js");
         */
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("mediaelement/build/mediaelementplayer.min.css");
+        */
     }
 }

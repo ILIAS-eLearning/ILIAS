@@ -47,7 +47,9 @@ class Calendar implements Component\Component
             new Component\Resource\ComponentJS($this, "calendar_appointment.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("moment/min/moment-with-locales.min.js");
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
+        */
     }
 }

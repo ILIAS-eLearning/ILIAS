@@ -105,11 +105,14 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("./node_modules/mediaelement/build/mediaelementplayer.min.css");
         */
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("mediaelement/build/renderers/vimeo.min.js");
-
+        */
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
+        */
 
 
         // This is included via anonymous classes as a testament to the fact, that
