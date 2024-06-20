@@ -16,30 +16,18 @@
  *
  *********************************************************************/
 
-/**
-* Unit tests
-*
-* @author Matheus Zych <mzych@databay.de>
-*
-* @ingroup components\ILIASTestQuestionPool
-*
-* This test was automatically generated.
-*/
-class ilAssExcelFormatHelperTest extends assBaseTestCase
+class ilExcelTestExportTest extends ilTestBaseTestCase
 {
-    protected $backupGlobals = false;
-
-    private ilAssExcelFormatHelper $object;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        
-        $this->object = new ilAssExcelFormatHelper();
-    }
-
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilAssExcelFormatHelper::class, $this->object);
+        $ilExcelTestExport = new ilExcelTestExport(
+            $this->createMock(ilObjTest::class),
+            '',
+            '',
+            false,
+            true,
+            null
+        );
+        $this->assertInstanceOf(ilExcelTestExport::class, $ilExcelTestExport);
     }
 }
