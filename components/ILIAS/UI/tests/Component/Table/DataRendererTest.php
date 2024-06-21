@@ -112,13 +112,7 @@ class DataRendererTest extends TableTestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->method("getUri")
-            ->willReturn(new class () {
-                public function __toString()
-                {
-                    return 'http://localhost:80';
-                }
-            });
-
+            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
         $request
             ->method("getQueryParams")
             ->willReturn([]);
