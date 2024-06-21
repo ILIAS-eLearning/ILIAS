@@ -1066,6 +1066,7 @@ class ilCalendarCategories
             }
         }
         
+        // banderson - (2024-06-21) Edit Query to get all the children of children for CAT_ID 
         
         $query = "WITH RECURSIVE family_tree AS ( " .
                 "      SELECT child, parent " .
