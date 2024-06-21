@@ -1066,16 +1066,34 @@ class ilCalendarCategories
             }
         }
         
-        $query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id FROM object_data od1 " .
+        
+        $query = "WITH RECURSIVE family_tree AS ( " .
+                "      SELECT child, parent " .
+                "      FROM tree " .
+                "      WHERE parent IN   ( " .
+                "      SELECT tree.child FROM object_data od " .
+                "          inner JOIN object_reference obr ON obr.obj_id = od.obj_id " .
+                "          INNER JOIN tree ON tree.child = obr.ref_id " .
+                "          WHERE " . $ilDB->in('od.obj_id', $course_ids, false, 'integer') . ' ' .
+                "              ) " .
+                "      UNION ALL " .
+                "      SELECT f.child, f.parent" .
+                "      FROM tree  f " .
+                "      INNER JOIN family_tree ft ON f.parent = ft.child " .
+                "      ), " .
+        " object_table as ( " .
+        "   SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id FROM object_data od1 " .
             "JOIN object_reference or1 ON od1.obj_id = or1.obj_id " .
             "JOIN tree t ON or1.ref_id = t.parent " .
-            "JOIN object_reference or2 ON t.child = or2.ref_id " .
+            "JOIN object_reference or2 ON or2.ref_id in (SELECT distinct ft.child FROM family_tree ft) " .
             "JOIN object_data od2 ON or2.obj_id = od2.obj_id " .
             "JOIN cal_categories cc ON od2.obj_id = cc.obj_id " .
             "WHERE " . $ilDB->in('od2.type', array('sess','exc'), false, 'text') .
             "AND (od1.type = 'crs' OR od1.type = 'grp') " .
-            "AND " . $ilDB->in('od1.obj_id', $course_ids, false, 'integer') . ' ' .
-            "AND or2.deleted IS NULL";
+            "AND or2.deleted IS NULL ) " .
+            "SELECT * FROM object_table ";
+
+
         
         $res = $ilDB->query($query);
         $cat_ids = array();
