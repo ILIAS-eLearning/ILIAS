@@ -225,9 +225,6 @@ class ilObjMediaCast extends ilObject
             ", def_access" .
             ", sortmode" .
             ", viewmode" .
-            ", autoplaymode" .
-            ", nr_initial_videos" .
-            ", new_items_in_lp" .
             " ) VALUES (" .
             $ilDB->quote($this->getId(), "integer")
             . "," . $ilDB->quote((int) $this->getOnline(), "integer")
@@ -236,9 +233,6 @@ class ilObjMediaCast extends ilObject
             . "," . $ilDB->quote((int) $this->getDefaultAccess(), "integer")
             . "," . $ilDB->quote((int) $this->getOrder(), "integer")
             . "," . $ilDB->quote($this->getViewMode(), "text")
-            . "," . $ilDB->quote((int) $this->getAutoplayMode(), "integer")
-            . "," . $ilDB->quote((int) $this->getNumberInitialVideos(), "integer")
-            . "," . $ilDB->quote((int) $this->getNewItemsInLearningProgress(), "integer")
             . ")";
         $ilDB->manipulate($query);
         return $id;
@@ -260,9 +254,6 @@ class ilObjMediaCast extends ilObject
             ", def_access = " . $ilDB->quote($this->getDefaultAccess(), "integer") .
             ", sortmode = " . $ilDB->quote($this->getOrder(), "integer") .
             ", viewmode = " . $ilDB->quote($this->getViewMode(), "text") .
-            ", autoplaymode = " . $ilDB->quote($this->getAutoplayMode(), "integer") .
-            ", nr_initial_videos = " . $ilDB->quote($this->getNumberInitialVideos(), "integer") .
-            ", new_items_in_lp = " . $ilDB->quote($this->getNewItemsInLearningProgress(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
 
         $ilDB->manipulate($query);
@@ -288,9 +279,6 @@ class ilObjMediaCast extends ilObject
         $this->setDefaultAccess((int) $rec["def_access"]);
         $this->setOrder((int) $rec["sortmode"]);
         $this->setViewMode((string) $rec["viewmode"]);
-        $this->setAutoplayMode((int) $rec["autoplaymode"]);
-        $this->setNumberInitialVideos((int) $rec["nr_initial_videos"]);
-        $this->setNewItemsInLearningProgress((bool) $rec["new_items_in_lp"]);
     }
 
 
