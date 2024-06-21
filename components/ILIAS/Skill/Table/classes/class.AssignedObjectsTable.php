@@ -143,6 +143,13 @@ class AssignedObjectsTable
                 $records = [];
                 $i = 0;
                 foreach ($this->objects as $obj_id) {
+                    $obj_ref_id = \ilObject::_getAllReferences($obj_id);
+                    $obj_ref_id = end($obj_ref_id);
+
+                    if (!$obj_ref_id) {
+                        continue;
+                    }
+
                     $records[$i]["obj_id"] = $obj_id;
                     $records[$i]["title"] = \ilObject::_lookupTitle($obj_id);
 
@@ -154,11 +161,9 @@ class AssignedObjectsTable
                     );
                     $records[$i]["type"] = $icon;
 
-                    $obj_ref_id = \ilObject::_getAllReferences($obj_id);
-                    $obj_ref_id = end($obj_ref_id);
                     $obj_ref_id_parent = $this->tree->getParentId($obj_ref_id);
                     $path = new \ilPathGUI();
-                    $records[$i]["path"] = $path->getPath($this->tree->getParentId($obj_ref_id_parent), (int) $obj_ref_id);
+                    $records[$i]["path"] = $path->getPath($this->tree->getParentId($obj_ref_id_parent), $obj_ref_id);
 
                     $i++;
                 }
