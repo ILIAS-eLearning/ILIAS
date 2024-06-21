@@ -136,7 +136,10 @@ class ilGlossaryForeignTermCollectorGUI
 
     public function showTerms(): void
     {
-        $table = $this->table_manager->getGlossaryForeignTermTable($this->foreign_glossary)->getComponent();
+        $table = $this->table_manager->getGlossaryForeignTermTable(
+            $this->glossary,
+            $this->foreign_glossary
+        )->getComponent();
 
         $this->tpl->setContent($this->ui_ren->render($table));
     }

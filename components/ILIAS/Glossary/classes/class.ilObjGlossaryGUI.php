@@ -775,7 +775,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             $modals = $this->ui_ren->render($this->getModalsToRender());
         } else {
             $this->showToolbarForStandard();
-            $table = $this->domain->table()->getTermListTable($this->object, $this->tax_node)->getComponent();
+            $table = $this->domain->table()->getTermListTable($this->getGlossary(), $this->tax_node)->getComponent();
             $tab_html = $this->ui_ren->render($table);
         }
 

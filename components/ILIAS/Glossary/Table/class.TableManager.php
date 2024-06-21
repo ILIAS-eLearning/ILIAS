@@ -37,9 +37,10 @@ class TableManager
     }
 
     public function getGlossaryForeignTermTable(
-        \ilObjGlossary $glossary
+        \ilObjGlossary $glossary,
+        \ilObjGlossary $foreign_glossary
     ): GlossaryForeignTermTable {
-        return new GlossaryForeignTermTable($glossary);
+        return new GlossaryForeignTermTable($glossary, $foreign_glossary);
     }
 
     public function getTermUsagesTable(
