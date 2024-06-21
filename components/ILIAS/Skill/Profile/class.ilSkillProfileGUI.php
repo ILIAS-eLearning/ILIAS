@@ -956,8 +956,13 @@ class ilSkillProfileGUI
 
         $objects = $this->usage_manager->getAssignedObjectsForSkillProfile($this->profile->getId());
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)
-                                     ->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            0,
+            0,
+            $this->profile->getId()
+        )->getComponent();
         $tpl->setContent($this->ui_ren->render($table));
     }
 

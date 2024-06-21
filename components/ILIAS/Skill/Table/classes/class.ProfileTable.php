@@ -111,6 +111,10 @@ class ProfileTable
 
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("skmg_skill_profiles"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->skill_tree_id
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 

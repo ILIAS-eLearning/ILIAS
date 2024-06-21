@@ -340,7 +340,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $objects = $this->usage_manager->getAssignedObjectsForSkillTemplate($this->base_skill_id);
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            $this->base_skill_id
+        )->getComponent();
 
         $tpl->setContent($this->ui_ren->render($table));
     }

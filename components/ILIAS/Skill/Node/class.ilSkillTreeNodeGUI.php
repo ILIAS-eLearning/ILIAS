@@ -601,7 +601,12 @@ class ilSkillTreeNodeGUI
             : $this->node_object->getId();
         $objects = $this->usage_manager->getAssignedObjectsForSkill($base_skill_id, $this->tref_id);
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            $base_skill_id,
+            $this->tref_id
+        )->getComponent();
 
         $tpl->setContent($this->ui_ren->render($table));
     }
