@@ -183,7 +183,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         ilPDFGeneratorUtils::removeRendererConfig($service, $purpose, $renderer);
         $this->ctrl->redirect($this, "view");
     }
-    
+
     private function buildConfigForm(string $command, bool $populate = true): ilPropertyFormGUI
     {
         $parts = explode('::', $command);

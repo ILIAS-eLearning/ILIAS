@@ -131,7 +131,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * Without a fixed width the icons would be distorted and corrupt the hole PDF
      * @see https://mantis.ilias.de/view.php?id=36506
      */
-    protected function fixIconSizeForPatchedQt(string $a_path_to_file) : void
+    protected function fixIconSizeForPatchedQt(string $a_path_to_file): void
     {
         $style = '<style>div.questionPrintview img.small {height: 20px; width: 20px;}</style>';
         $originalFile = file_get_contents($a_path_to_file) . $style;
