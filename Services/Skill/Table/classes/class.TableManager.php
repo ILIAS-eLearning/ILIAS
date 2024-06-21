@@ -57,9 +57,13 @@ class TableManager
     }
 
     public function getAssignedObjectsTable(
-        array $objects
+        object $parent_obj,
+        array $objects,
+        int $skill_id = 0,
+        int $tref_id = 0,
+        int $profile_id = 0
     ): AssignedObjectsTable {
-        return new AssignedObjectsTable($objects);
+        return new AssignedObjectsTable($parent_obj, $objects, $skill_id, $tref_id, $profile_id);
     }
 
     public function getProfileTable(

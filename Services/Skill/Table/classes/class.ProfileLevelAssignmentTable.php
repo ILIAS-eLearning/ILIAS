@@ -35,6 +35,7 @@ class ProfileLevelAssignmentTable
     protected UI\Factory $ui_fac;
     protected ServerRequestInterface $request;
     protected Data\Factory $df;
+    protected string $cskill_id = "";
     protected int $skill_id = 0;
     protected bool $update = false;
     protected \ilBasicSkill $skill;
@@ -49,7 +50,8 @@ class ProfileLevelAssignmentTable
         $this->request = $DIC->http()->request();
         $this->df = new Data\Factory();
 
-        $id_parts = explode(":", $cskill_id);
+        $this->cskill_id = $cskill_id;
+        $id_parts = explode(":", $this->cskill_id);
         $this->skill_id = (int) $id_parts[0];
         $this->skill = new \ilBasicSkill($this->skill_id);
         $this->update = $update;
@@ -64,6 +66,10 @@ class ProfileLevelAssignmentTable
         $title = $this->skill->getTitle() . ", " . $this->lng->txt("skmg_skill_levels");
         $table = $this->ui_fac->table()
                               ->data($title, $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->cskill_id
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 

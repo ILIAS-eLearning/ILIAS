@@ -82,6 +82,12 @@ class AssignMaterialsTable
         $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
         $table = $this->ui_fac->table()
                               ->data($title, $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->top_skill_id . "_" .
+                                  $this->tref_id . "_" .
+                                  $this->basic_skill_id
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 
