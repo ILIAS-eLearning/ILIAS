@@ -53,7 +53,7 @@ trait Helper
         $goal = $this
             ->getMockBuilder(Setup\Objective::class)
             ->onlyMethods(["getHash", "getLabel", "isNotable", "getPreconditions", "achieve", "isApplicable"])
-            ->setMockClassName("Mock_ObjectiveNo" . ($no++))
+            ->setMockClassName("Mock_" . md5(get_class($this)) . "_ObjectiveNo" . ($no++))
             ->getMock();
 
         $goal
@@ -83,7 +83,7 @@ trait Helper
         $config = $this
             ->getMockBuilder(Setup\Config::class)
             ->onlyMethods([])
-            ->setMockClassName("Mock_ConfigNo" . ($no++))
+            ->setMockClassName("Mock_" . md5(get_class($this)) . "_ConfigNo" . ($no++))
             ->getMock();
 
         return $config;
