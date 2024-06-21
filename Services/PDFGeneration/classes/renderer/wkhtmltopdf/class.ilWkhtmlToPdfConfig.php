@@ -662,7 +662,7 @@ class ilWkhtmlToPdfConfig
     protected function getPageSizeArgument() : void
     {
         if ($this->getPageSize() !== '') {
-            $this->config[] = 'page-size ' . $this->getPageSize();
+            $this->config[] = 'page-size ' . ilShellUtil::escapeShellArg($this->getPageSize());
         }
     }
 
@@ -677,7 +677,7 @@ class ilWkhtmlToPdfConfig
     {
         $checkbox_svg = $this->getCheckboxSvg();
         if ($checkbox_svg !== '') {
-            $this->config[] = 'checkbox-svg "' . $checkbox_svg . '"';
+            $this->config[] = 'checkbox-svg ' . ilShellUtil::escapeShellArg($checkbox_svg);
         }
     }
 
@@ -685,7 +685,7 @@ class ilWkhtmlToPdfConfig
     {
         $checkbox_svg = $this->getCheckboxCheckedSvg();
         if ($checkbox_svg !== '') {
-            $this->config[] = 'checkbox-checked-svg "' . $checkbox_svg . '"';
+            $this->config[] = 'checkbox-checked-svg ' . ilShellUtil::escapeShellArg($checkbox_svg);
         }
     }
 
@@ -693,7 +693,7 @@ class ilWkhtmlToPdfConfig
     {
         $radio_button_svg = $this->getRadioButtonSvg();
         if ($radio_button_svg !== '') {
-            $this->config[] = 'radiobutton-svg "' . $radio_button_svg . '"';
+            $this->config[] = 'radiobutton-svg ' . ilShellUtil::escapeShellArg($radio_button_svg);
         }
     }
 
@@ -701,23 +701,23 @@ class ilWkhtmlToPdfConfig
     {
         $radio_button_svg = $this->getRadioButtonCheckedSvg();
         if ($radio_button_svg !== '') {
-            $this->config[] = 'radiobutton-checked-svg "' . $radio_button_svg . '"';
+            $this->config[] = 'radiobutton-checked-svg ' . ilShellUtil::escapeShellArg($radio_button_svg);
         }
     }
 
     protected function getMarginArgument() : void
     {
         if ($this->getMarginBottom() !== '') {
-            $this->config[] = 'margin-bottom ' . $this->getMarginBottom();
+            $this->config[] = 'margin-bottom ' . ilShellUtil::escapeShellArg($this->getMarginBottom());
         }
         if ($this->getMarginLeft() !== '') {
-            $this->config[] = 'margin-left ' . $this->getMarginLeft();
+            $this->config[] = 'margin-left ' . ilShellUtil::escapeShellArg($this->getMarginLeft());
         }
         if ($this->getMarginRight() !== '') {
-            $this->config[] = 'margin-right ' . $this->getMarginRight();
+            $this->config[] = 'margin-right ' . ilShellUtil::escapeShellArg($this->getMarginRight());
         }
         if ($this->getMarginTop() !== '') {
-            $this->config[] = 'margin-top ' . $this->getMarginTop();
+            $this->config[] = 'margin-top ' . ilShellUtil::escapeShellArg($this->getMarginTop());
         }
     }
 
@@ -725,9 +725,9 @@ class ilWkhtmlToPdfConfig
     {
         $header_value = $this->getHeaderType();
         if ($header_value === ilPDFGenerationConstants::HEADER_TEXT) {
-            $this->config[] = 'header-left "' . $this->getHeaderTextLeft() . '"';
-            $this->config[] = 'header-center "' . $this->getHeaderTextCenter() . '"';
-            $this->config[] = 'header-right "' . $this->getHeaderTextRight() . '"';
+            $this->config[] = 'header-left ' . ilShellUtil::escapeShellArg($this->getHeaderTextLeft());
+            $this->config[] = 'header-center ' . ilShellUtil::escapeShellArg($this->getHeaderTextCenter());
+            $this->config[] = 'header-right ' . ilShellUtil::escapeShellArg($this->getHeaderTextRight());
             if ($this->getHeaderTextSpacing() > 0) {
                 $this->config[] = 'header-spacing ' . $this->getHeaderTextSpacing();
             }
@@ -736,7 +736,7 @@ class ilWkhtmlToPdfConfig
                 $this->config[] = 'header-line';
             }
         } elseif ($header_value === ilPDFGenerationConstants::HEADER_HTML) {
-            $this->config[] = 'header-html "' . $this->getHeaderHtml() . '"';
+            $this->config[] = 'header-html ' . ilShellUtil::escapeShellArg($this->getHeaderHtml());
 
             if ($this->getHeaderHtmlSpacing() > 0) {
                 $this->config[] = 'header-spacing ' . $this->getHeaderHtmlSpacing();
@@ -781,9 +781,9 @@ class ilWkhtmlToPdfConfig
     {
         $footer_value = $this->getFooterType();
         if ($footer_value === ilPDFGenerationConstants::FOOTER_TEXT) {
-            $this->config[] = 'footer-left "' . $this->getFooterTextLeft() . '"';
-            $this->config[] = 'footer-center "' . $this->getFooterTextCenter() . '"';
-            $this->config[] = 'footer-right "' . $this->getFooterTextRight() . '"';
+            $this->config[] = 'footer-left ' . ilShellUtil::escapeShellArg($this->getFooterTextLeft());
+            $this->config[] = 'footer-center ' . ilShellUtil::escapeShellArg($this->getFooterTextCenter());
+            $this->config[] = 'footer-right ' . ilShellUtil::escapeShellArg($this->getFooterTextRight());
             if ($this->getFooterTextSpacing() > 0) {
                 $this->config[] = 'footer-spacing ' . $this->getFooterTextSpacing();
             }
@@ -792,7 +792,7 @@ class ilWkhtmlToPdfConfig
                 $this->config[] = 'footer-line';
             }
         } elseif ($footer_value === ilPDFGenerationConstants::FOOTER_HTML) {
-            $this->config[] = 'footer-html "' . $this->getFooterHtml() . '"';
+            $this->config[] = 'footer-html ' . ilShellUtil::escapeShellArg($this->getFooterHtml());
 
             if ($this->getFooterHtmlSpacing() > 0) {
                 $this->config[] = 'footer-spacing ' . $this->getFooterHtmlSpacing();

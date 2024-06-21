@@ -318,7 +318,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $footer_html_option;
     }
 
-    public function validateForm() : bool
+    public function validateForm(ilPropertyFormGUI $form) : bool
     {
         $everything_ok = true;
         $config = new ilWkhtmlToPdfConfig();
@@ -373,7 +373,6 @@ class ilWkhtmlToPdfConfigFormGUI
         }
 
         if ($path === false) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
             $everything_ok = false;
             $path = '';
         }
@@ -386,7 +385,9 @@ class ilWkhtmlToPdfConfigFormGUI
         }
 
         if (mb_stripos($config->getPath(), 'wkhtmlto') === false) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
+            $form->getItemByPostVar('path')->setAlert(
+                $this->lng->txt("file_not_found")
+            );
             $everything_ok = false;
         } elseif (!in_array($page_size, ilPDFGenerationConstants::getPageSizesNames())) {
             $everything_ok = false;
@@ -452,42 +453,42 @@ class ilWkhtmlToPdfConfigFormGUI
     public function getConfigFromForm(ilPropertyFormGUI $form) : array
     {
         return [
-            'path' => $form->getItemByPostVar('path')->getValue(),
-            'zoom' => $form->getItemByPostVar('zoom')->getValue(),
-            'external_links' => $form->getItemByPostVar('external_links')->getChecked(),
-            'enable_forms' => $form->getItemByPostVar('enable_forms')->getChecked(),
-            'low_quality' => $form->getItemByPostVar('low_quality')->getChecked(),
-            'greyscale' => $form->getItemByPostVar('greyscale')->getChecked(),
-            'orientation' => $form->getItemByPostVar('orientation')->getValue(),
-            'page_size' => $form->getItemByPostVar('page_size')->getValue(),
-            'margin_left' => $form->getItemByPostVar('margin_left')->getValue(),
-            'margin_right' => $form->getItemByPostVar('margin_right')->getValue(),
-            'margin_top' => $form->getItemByPostVar('margin_top')->getValue(),
-            'margin_bottom' => $form->getItemByPostVar('margin_bottom')->getValue(),
-            'print_media_type' => $form->getItemByPostVar('print_media_type')->getChecked(),
-            'javascript_delay' => $form->getItemByPostVar('javascript_delay')->getValue(),
-            'checkbox_svg' => $form->getItemByPostVar('checkbox_svg')->getValue(),
-            'checkbox_checked_svg' => $form->getItemByPostVar('checkbox_checked_svg')->getValue(),
-            'radio_button_svg' => $form->getItemByPostVar('radio_button_svg')->getValue(),
-            'radio_button_checked_svg' => $form->getItemByPostVar('radio_button_checked_svg')->getValue(),
-            'header_select' => $form->getItemByPostVar('header_select')->getValue(),
-            'head_text_left' => $form->getItemByPostVar('head_text_left')->getValue(),
-            'head_text_center' => $form->getItemByPostVar('head_text_center')->getValue(),
-            'head_text_right' => $form->getItemByPostVar('head_text_right')->getValue(),
-            'head_text_spacing' => $form->getItemByPostVar('head_text_spacing')->getValue(),
-            'head_text_line' => $form->getItemByPostVar('head_text_line')->getValue(),
-            'head_html_line' => $form->getItemByPostVar('head_html_line')->getValue(),
-            'head_html_spacing' => $form->getItemByPostVar('head_html_spacing')->getValue(),
-            'head_html' => $form->getItemByPostVar('head_html')->getValue(),
-            'footer_select' => $form->getItemByPostVar('footer_select')->getValue(),
-            'footer_text_left' => $form->getItemByPostVar('footer_text_left')->getValue(),
-            'footer_text_right' => $form->getItemByPostVar('footer_text_right')->getValue(),
-            'footer_text_spacing' => $form->getItemByPostVar('footer_text_spacing')->getValue(),
-            'footer_text_center' => $form->getItemByPostVar('footer_text_center')->getValue(),
-            'footer_text_line' => $form->getItemByPostVar('footer_text_line')->getValue(),
-            'footer_html' => $form->getItemByPostVar('footer_html')->getValue(),
-            'footer_html_spacing' => $form->getItemByPostVar('footer_html_spacing')->getValue(),
-            'overwrite_font' => $form->getItemByPostVar('overwrite_font')->getValue()
+            'path' => $form->getInput('path'),
+            'zoom' => $form->getInput('zoom'),
+            'external_links' => (bool) $form->getInput('external_links'),
+            'enable_forms' => (bool) $form->getInput('enable_forms'),
+            'low_quality' => (bool) $form->getInput('low_quality'),
+            'greyscale' => (bool) $form->getInput('greyscale'),
+            'orientation' => $form->getInput('orientation'),
+            'page_size' => $form->getInput('page_size'),
+            'margin_left' => $form->getInput('margin_left'),
+            'margin_right' => $form->getInput('margin_right'),
+            'margin_top' => $form->getInput('margin_top'),
+            'margin_bottom' => $form->getInput('margin_bottom'),
+            'print_media_type' => (bool) $form->getInput('print_media_type'),
+            'javascript_delay' => $form->getInput('javascript_delay'),
+            'checkbox_svg' => $form->getInput('checkbox_svg'),
+            'checkbox_checked_svg' => $form->getInput('checkbox_checked_svg'),
+            'radio_button_svg' => $form->getInput('radio_button_svg'),
+            'radio_button_checked_svg' => $form->getInput('radio_button_checked_svg'),
+            'header_select' => $form->getInput('header_select'),
+            'head_text_left' => $form->getInput('head_text_left'),
+            'head_text_center' => $form->getInput('head_text_center'),
+            'head_text_right' => $form->getInput('head_text_right'),
+            'head_text_spacing' => $form->getInput('head_text_spacing'),
+            'head_text_line' => $form->getInput('head_text_line'),
+            'head_html_line' => $form->getInput('head_html_line'),
+            'head_html_spacing' => $form->getInput('head_html_spacing'),
+            'head_html' => $form->getInput('head_html'),
+            'footer_select' => $form->getInput('footer_select'),
+            'footer_text_left' => $form->getInput('footer_text_left'),
+            'footer_text_right' => $form->getInput('footer_text_right'),
+            'footer_text_spacing' => $form->getInput('footer_text_spacing'),
+            'footer_text_center' => $form->getInput('footer_text_center'),
+            'footer_text_line' => $form->getInput('footer_text_line'),
+            'footer_html' => $form->getInput('footer_html'),
+            'footer_html_spacing' => $form->getInput('footer_html_spacing'),
+            'overwrite_font' => $form->getInput('overwrite_font')
         ];
     }
 
