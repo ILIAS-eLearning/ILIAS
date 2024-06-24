@@ -32,13 +32,13 @@ class ilPDFGenerationRequest
         $this->http = $http;
     }
 
-    public function securedString(string $parameter, bool $cast_null_to_string = true) : string
+    public function securedString(string $parameter, bool $cast_null_to_string = true): string
     {
-        $as_sanizited_string = $this->refinery->custom()->transformation(static function (string $value) : string {
+        $as_sanizited_string = $this->refinery->custom()->transformation(static function (string $value): string {
             return ilUtil::stripSlashes($value);
         });
 
-        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value) : string {
+        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === null) {
                 return '';
             }
@@ -69,7 +69,7 @@ class ilPDFGenerationRequest
         return $string;
     }
 
-    protected function isPathOrUrlValid(string $url) : bool
+    protected function isPathOrUrlValid(string $url): bool
     {
         $is_valid = false;
         $is_url = filter_var($url, FILTER_VALIDATE_URL);
@@ -101,7 +101,7 @@ class ilPDFGenerationRequest
         return $is_valid;
     }
 
-    public function isNotValidSize(array $sizes) : bool
+    public function isNotValidSize(array $sizes): bool
     {
         foreach ($sizes as $size) {
             if (is_int($size)) {
@@ -117,7 +117,7 @@ class ilPDFGenerationRequest
         return false;
     }
 
-    public function isNotValidText(array $texts) : bool
+    public function isNotValidText(array $texts): bool
     {
         foreach ($texts as $text) {
             if (!preg_match('/[a-zA-Z\d ]+$/', $text)) {
@@ -134,7 +134,7 @@ class ilPDFGenerationRequest
      * @param array $parameters
      * @return bool
      */
-    public function validatePathOrUrl(array $parameters) : bool
+    public function validatePathOrUrl(array $parameters): bool
     {
         $valid = false;
         foreach ($parameters as $parameter) {
@@ -151,9 +151,9 @@ class ilPDFGenerationRequest
         return true;
     }
 
-    public function int(string $parameter, bool $cast_null_to_int = true) : int
+    public function int(string $parameter, bool $cast_null_to_int = true): int
     {
-        $null_to_zero = $this->refinery->custom()->transformation(static function ($value) : int {
+        $null_to_zero = $this->refinery->custom()->transformation(static function ($value): int {
             if ($value === null) {
                 return 0;
             }
@@ -181,9 +181,9 @@ class ilPDFGenerationRequest
         return $int;
     }
 
-    public function bool(string $parameter, bool $cast_null_to_false = true) : bool
+    public function bool(string $parameter, bool $cast_null_to_false = true): bool
     {
-        $null_to_false = $this->refinery->custom()->transformation(static function ($value) : bool {
+        $null_to_false = $this->refinery->custom()->transformation(static function ($value): bool {
             if ($value === null) {
                 return false;
             }
@@ -211,9 +211,9 @@ class ilPDFGenerationRequest
         return $bool;
     }
 
-    public function float(string $parameter, bool $cast_null_to_zero = true) : float
+    public function float(string $parameter, bool $cast_null_to_zero = true): float
     {
-        $null_to_zero = $this->refinery->custom()->transformation(static function ($value) : float {
+        $null_to_zero = $this->refinery->custom()->transformation(static function ($value): float {
             if ($value === null) {
                 return 0.0;
             }
