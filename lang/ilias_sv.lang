@@ -11140,9 +11140,8 @@ mathjax#:#mathjax_polyfill_url#:#Url för en polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Behövs inte för MathJax 2
 mathjax#:#mathjax_polyfill_url_desc_line2#:#För MathJax 3 i äldre webbläsare, t.ex. https
 mathjax#:#mathjax_script_url#:#URL för MathJax-skriptet
-mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. https
-mathjax#:#mathjax_script_url_desc_line2#:#För MathJax 3 t.ex. https
-mathjax#:#mathjax_script_url_desc_line3#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd
+mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd %s
 mathjax#:#mathjax_server_address#:#Serverns adress
 mathjax#:#mathjax_server_address_info#:#T.ex. http
 mathjax#:#mathjax_server_cache_cleared#:# MathJax-cachen har rensats.

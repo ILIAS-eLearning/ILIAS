@@ -113,9 +113,9 @@ class ilMathJaxSettingsGUI
             'client_script_url' => $factory->url(
                 $this->lng->txt('mathjax_script_url'),
                 implode('<br />', [
-                    $this->lng->txt('mathjax_script_url_desc_line1'),
-                    $this->lng->txt('mathjax_script_url_desc_line2'),
-                    $this->lng->txt('mathjax_script_url_desc_line3'),
+                    // Mantis #41564
+                    sprintf($this->lng->txt('mathjax_script_url_desc_line1'), $config->getMathJax2DefaultUrl()),
+                    sprintf($this->lng->txt('mathjax_script_url_desc_line2'), $config->getMathJax3DefaultUrl()),
                 ])
             )->withRequired(true) // mantis #31645
                                            ->withValue($config->getClientScriptUrl()),
