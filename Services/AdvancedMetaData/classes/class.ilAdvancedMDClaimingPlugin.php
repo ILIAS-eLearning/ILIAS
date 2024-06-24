@@ -217,6 +217,10 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             return null;
         }
 
+        $options_in_different_table = $a_definition &&
+            ($a_type === ilAdvancedMDFieldDefinition::TYPE_SELECT ||
+            $a_type === ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI);
+
         $pos = self::getDBFieldLastPosition($a_record_id) + 1;
 
         $fields = array(
@@ -229,10 +233,43 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             "description" => array("text", trim((string) $a_description)),
             "searchable" => array("integer", (int) $a_searchable)
         );
-        if ($a_definition) {
+        if ($a_definition && !$options_in_different_table) {
             $fields["field_values"] = array("text", serialize($a_definition));
         }
         $ilDB->insert("adv_mdf_definition", $fields);
+
+        if ($options_in_different_table) {
+            $ilDB->manipulate(
+                'DELETE FROM adv_mdf_enum WHERE field_id = ' .
+                $ilDB->quote($field_id, ilDBConstants::T_INTEGER)
+            );
+
+            $default_language = '';
+            $res = $ilDB->query(
+                'SELECT lang_default FROM adv_md_record WHERE record_id = ' .
+                $ilDB->quote($a_record_id, 'integer')
+            );
+            if ($row = $res->fetchAssoc()) {
+                $default_language = (string) $row['lang_default'];
+            }
+
+            $idx = 0;
+            foreach ($a_definition as $option) {
+                if (!is_string($option)) {
+                    continue;
+                }
+                $ilDB->insert(
+                    'adv_mdf_enum',
+                    [
+                        'field_id' => [ilDBConstants::T_INTEGER, $field_id],
+                        'lang_code' => [ilDBConstants::T_TEXT, $default_language],
+                        'idx' => [ilDBConstants::T_INTEGER, $idx],
+                        'value' => [ilDBConstants::T_TEXT, $option],
+                    ]
+                );
+                $idx++;
+            }
+        }
 
         return $field_id;
     }
