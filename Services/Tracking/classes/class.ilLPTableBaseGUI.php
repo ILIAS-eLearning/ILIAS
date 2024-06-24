@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpService;
 
@@ -1132,19 +1134,19 @@ class ilLPTableBaseGUI extends ilTable2GUI
             ($a_in_course || $a_in_group)) {
             // only show if export permission is granted
             if (ilPrivacySettings::getInstance()->checkExportAccess(
-                $this->ref_id
+                $a_in_group === 0 ? $a_in_course : $a_in_group
             )) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
                     if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
                         if ($a_in_course &&
-                            !(!($fd["course_export_fix_value"] ?? false) || $this->setting->get(
+                            !(($fd["course_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_course_export_" . $f
                             ))) {
                             continue;
                         }
                         if ($a_in_group &&
-                            !(!($fd["group_export_fix_value"] ?? false) || $this->setting->get(
+                            !(($fd["group_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_group_export_" . $f
                             ))) {
                             continue;

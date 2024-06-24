@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Learning progress table: One object, rows: users, columns: properties
@@ -21,6 +37,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     protected array $user_fields;
     protected int $in_course = 0;
     protected int $in_group = 0;
+    protected int $in_course_ref_id = 0;
+    protected int $in_group_ref_id = 0;
     protected bool $has_edit = false;
     protected bool $has_collection = false;
     protected bool $has_multi = false;
@@ -56,16 +74,16 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $this->ref_id = $a_ref_id;
         $this->type = ilObject::_lookupType($a_obj_id);
 
-        $this->in_group = $this->tree->checkForParentType($this->ref_id, "grp");
-        if ($this->in_group) {
-            $this->in_group = ilObject::_lookupObjId($this->in_group);
+        $this->in_group_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
+        if ($this->in_group_ref_id) {
+            $this->in_group = ilObject::_lookupObjId($this->in_group_ref_id);
         } else {
-            $this->in_course = $this->tree->checkForParentType(
+            $this->in_course_ref_id = $this->tree->checkForParentType(
                 $this->ref_id,
                 "crs"
             );
-            if ($this->in_course) {
-                $this->in_course = ilObject::_lookupObjId($this->in_course);
+            if ($this->in_course_ref_id) {
+                $this->in_course = ilObject::_lookupObjId($this->in_course_ref_id);
             }
         }
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -149,8 +167,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $cols = $this->getSelectableUserColumns(
-            $this->in_course,
-            $this->in_group
+            $this->in_course_ref_id,
+            $this->in_group_ref_id
         );
         $this->user_fields = $cols[1];
         $this->selectable_columns = $cols[0];
