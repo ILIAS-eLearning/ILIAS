@@ -130,81 +130,48 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 
     public function saveSettings(bool $redirect_after = true): void
     {
-        if ($this->hasWritePermission()) {
-            $form = new ilPropertyFormGUI();
-            $purpose_map = ilPDFGeneratorUtils::getPurposeMap();
-            $selection_map = ilPDFGeneratorUtils::getSelectionMap();
-            $renderers = ilPDFGeneratorUtils::getRenderers();
+        if (!$this->hasWritePermission()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->ctrl->redirect($this, "view");
+        }
 
-            foreach ($purpose_map as $service => $purposes) {
-                foreach ($purposes as $purpose) {
-                    $selected = $this->pdfRequest->securedString('selected_' . $service . '::' . $purpose);
-                    $posted_renderer = $renderers[$service][$purpose][$selected];
-                    $selected_renderer = $selection_map[$service][$purpose]['selected'];
-                    if ($posted_renderer !== $selected_renderer) {
-                        ilPDFGeneratorUtils::updateRendererSelection($service, $purpose, $posted_renderer);
-                    }
+        $purpose_map = ilPDFGeneratorUtils::getPurposeMap();
+        $selection_map = ilPDFGeneratorUtils::getSelectionMap();
+        $renderers = ilPDFGeneratorUtils::getRenderers();
+
+        foreach ($purpose_map as $service => $purposes) {
+            foreach ($purposes as $purpose) {
+                $selected = $this->pdfRequest->securedString('selected_' . $service . '::' . $purpose);
+                $posted_renderer = $renderers[$service][$purpose][$selected] ?? null;
+                if ($posted_renderer === null) {
+                    continue;
+                }
+
+                $selected_renderer = $selection_map[$service][$purpose]['selected'];
+                if ($posted_renderer !== $selected_renderer) {
+                    ilPDFGeneratorUtils::updateRendererSelection($service, $purpose, $posted_renderer);
                 }
             }
-            $form->setTitle($this->lng->txt('pdf_config'));
+        }
 
-            if ($redirect_after) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
-                $this->ctrl->redirect($this, "view");
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+        if ($redirect_after) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
             $this->ctrl->redirect($this, "view");
         }
     }
 
     protected function handleSaveAndConf(string $command): void
     {
-        if ($this->checkPermissionBool('edit')) {
-            $this->saveSettings(false);
-
-            $parts = explode('::', $command);
-            $service = $parts[0];
-            $purpose = $parts[1];
-
-            $renderers = ilPDFGeneratorUtils::getRenderers();
-
-            $selected = $this->pdfRequest->securedString('selected_' . $service . '::' . $purpose);
-            $posted_renderer = $renderers[$service][$purpose][$selected];
-
-
-            $form = new ilPropertyFormGUI();
-            $form->setFormAction($this->ctrl->getFormAction($this, 'view'));
-
-            $form->setTitle($this->lng->txt('settings') . ' ' . $posted_renderer . ' / ' . $service . ' / ' . $purpose);
-            $service_hidden = new ilHiddenInputGUI('service');
-            $service_hidden->setValue($service);
-            $form->addItem($service_hidden);
-
-            $purpose_hidden = new ilHiddenInputGUI('purpose');
-            $purpose_hidden->setValue($purpose);
-            $form->addItem($purpose_hidden);
-
-            $renderer_hidden = new ilHiddenInputGUI('renderer');
-            $renderer_hidden->setValue($posted_renderer);
-            $form->addItem($renderer_hidden);
-
-            // Add In RendererConfig
-            $renderer = ilPDFGeneratorUtils::getRendererInstance($posted_renderer);
-            $config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $posted_renderer);
-
-            $renderer->addConfigElementsToForm($form, $service, $purpose);
-            $renderer->populateConfigElementsInForm($form, $service, $purpose, $config);
-
-            $form->addCommandButton("saveConfig", $this->lng->txt("save"));
-            $form->addCommandButton("view", $this->lng->txt("cancel"));
-            $form->addCommandButton("resetSettings", $this->lng->txt("reset_to_default"));
-            $this->tpl->setContent($form->getHTML());
-            $this->setActiveTab('settings');
-        } else {
+        if (!$this->checkPermissionBool('edit')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, "view");
         }
+
+        $this->saveSettings(false);
+
+        $form = $this->buildConfigForm($command);
+        $this->tpl->setContent($form->getHTML());
+        $this->setActiveTab('settings');
     }
 
     public function resetSettings(): void
@@ -217,26 +184,82 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
+    private function buildConfigForm(string $command, bool $populate = true): ilPropertyFormGUI
+    {
+        $parts = explode('::', $command);
+        $service = $parts[0];
+        $purpose = $parts[1];
+
+        $renderers = ilPDFGeneratorUtils::getRenderers();
+
+        $selected = $this->pdfRequest->securedString('selected_' . $service . '::' . $purpose);
+        $posted_renderer = $renderers[$service][$purpose][$selected];
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, 'view'));
+
+        $form->setTitle($this->lng->txt('settings') . ' ' . $posted_renderer . ' / ' . $service . ' / ' . $purpose);
+        $service_hidden = new ilHiddenInputGUI('service');
+        $service_hidden->setValue($service);
+        $form->addItem($service_hidden);
+
+        $purpose_hidden = new ilHiddenInputGUI('purpose');
+        $purpose_hidden->setValue($purpose);
+        $form->addItem($purpose_hidden);
+
+        $renderer_hidden = new ilHiddenInputGUI('renderer');
+        $renderer_hidden->setValue($posted_renderer);
+        $form->addItem($renderer_hidden);
+
+        $renderer_hidden = new ilHiddenInputGUI(
+            ilLegacyFormElementsUtil::prepareFormOutput('selected_' . $service . '::' . $purpose)
+        );
+        $renderer_hidden->setValue($selected);
+        $form->addItem($renderer_hidden);
+
+        // Add In RendererConfig
+        $renderer = ilPDFGeneratorUtils::getRendererInstance($posted_renderer);
+        $renderer->addConfigElementsToForm($form, $service, $purpose);
+
+        if ($populate) {
+            $config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $posted_renderer);
+            $renderer->populateConfigElementsInForm($form, $service, $purpose, $config);
+        }
+
+        $form->addCommandButton('saveConfig', $this->lng->txt('save'));
+        $form->addCommandButton('view', $this->lng->txt('cancel'));
+        $form->addCommandButton('resetSettings', $this->lng->txt('reset_to_default'));
+
+        return $form;
+    }
+
     protected function saveConfig(): void
     {
-        $form = new ilPropertyFormGUI();
-
         $renderer = $this->pdfRequest->securedString('renderer');
         $service = $this->pdfRequest->securedString('service');
         $purpose = $this->pdfRequest->securedString('purpose');
 
-        $renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);
-        $renderer_obj->addConfigElementsToForm($form, $service, $purpose);
+        $form = $this->buildConfigForm($service . '::' . $purpose, false);
 
-        $form->setValuesByPost();
-        if ($renderer_obj->validateConfigInForm($form, $service, $purpose)) {
+        $renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);
+
+        $valid_renderer_config = false;
+        if ($form->checkInput() &&
+            ($valid_renderer_config = $renderer_obj->validateConfigInForm($form, $service, $purpose))) {
             $config = $renderer_obj->getConfigFromForm($form, $service, $purpose);
             ilPDFGeneratorUtils::saveRendererPurposeConfig($service, $purpose, $renderer, $config);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('config_not_saved'), true); // TODO: Needs better handling.
+            $this->ctrl->redirect($this, 'view');
         }
-        $this->ctrl->redirect($this, "view");
+
+        if (!$valid_renderer_config) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+        }
+
+        $form->setValuesByPost();
+
+        $this->tpl->setContent($form->getHTML());
+        $this->setActiveTab('settings');
     }
 
     protected function doCleanUp(): void

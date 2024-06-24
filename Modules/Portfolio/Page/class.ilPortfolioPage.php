@@ -202,7 +202,7 @@ class ilPortfolioPage extends ilPageObject
             " FROM usr_portfolio_page" .
             " WHERE id = " . $ilDB->quote($a_id, "integer"));
         $rec = $ilDB->fetchAssoc($set);
-        return (string) $rec[$a_prop];
+        return (string) ($rec[$a_prop] ?? "");
     }
 
     public static function lookupTitle(int $a_page_id): string

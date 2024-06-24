@@ -1970,7 +1970,7 @@ s     */
         $changed = false;
         for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $old_id = $res->nodeset[$i]->get_attribute("OriginId");
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $a_mapping[$old_id]);
                 $changed = true;
             }
@@ -1996,7 +1996,7 @@ s     */
             $old_id = $res->nodeset[$i]->get_attribute("Entry");
             $old_id = explode("_", $old_id);
             $old_id = $old_id[count($old_id) - 1];
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $res->nodeset[$i]->set_attribute("Entry", "il__file_" . $a_mapping[$old_id]);
                 $changed = true;
             }
