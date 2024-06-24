@@ -65,13 +65,6 @@ class TableManager
         return new ProfileTable($ref_id, $skill_tree_id);
     }
 
-    public function getProfileLevelAssignmentTable(
-        string $cskill_id,
-        bool $update = false
-    ): ProfileLevelAssignmentTable {
-        return new ProfileLevelAssignmentTable($cskill_id, $update);
-    }
-
     public function getProfileUserAssignmentTable(
         Profile\SkillProfile $profile,
         Access\SkillTreeAccess $tree_access_manager
