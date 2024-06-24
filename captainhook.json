@@ -28,7 +28,7 @@
     "actions": []
   },
   "pre-commit": {
-    "enabled": true,
+    "enabled": false,
     "actions": [
       {
         "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
