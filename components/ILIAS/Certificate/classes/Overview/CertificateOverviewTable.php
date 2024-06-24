@@ -34,7 +34,6 @@ use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory;
-use ILIAS\UI\Implementation\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
@@ -104,22 +103,22 @@ class CertificateOverviewTable implements DataRetrieval
         /**
          * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter_data
          */
-        $filter_data = $this->ui_service->filter()->getData($this->filter);
+        $ui_filter_data = $this->ui_service->filter()->getData($this->filter);
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        if (isset($filter_data['issue_date']) && $filter_data['issue_date'] !== '') {
+        if (isset($ui_filter_data['issue_date']) && $ui_filter_data['issue_date'] !== '') {
             try {
-                $filter_data['issue_date'] = new DateTime($filter_data['issue_date']);
-            } catch (Exception $e) {
-                $filter_data['issue_date'] = null;
+                $ui_filter_data['issue_date'] = new DateTime($ui_filter_data['issue_date']);
+            } catch (Exception) {
+                $ui_filter_data['issue_date'] = null;
             }
         } else {
-            $filter_data['issue_date'] = null;
+            $ui_filter_data['issue_date'] = null;
         }
 
         $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
             $this->user->getLanguage(),
-            $filter_data,
+            $ui_filter_data,
             $range,
             $order_field,
             $order_direction
