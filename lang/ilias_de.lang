@@ -3168,9 +3168,12 @@ cmix#:#conf_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
 cmix#:#conf_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 cmix#:#conf_privacy_name#:#Name
 cmix#:#conf_privacy_name_firstname#:#Vorname
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 06 2024 new variable
 cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###18 06 2024 new variable
 cmix#:#conf_privacy_name_info#:#Der Name wird an LRS und Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 06 2024 new variable
 cmix#:#conf_privacy_name_none#:#Keiner
 cmix#:#conf_privacy_name_none_info#:#Sendet „-“ anstelle eines Namens.
 cmix#:#conf_privacy_setting_conf#:#Konfigurationsoptionen
@@ -3197,9 +3200,12 @@ cmix#:#conf_user_ident_real_email#:#Hinterlegte E-Mail-Adresse
 cmix#:#conf_user_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 cmix#:#conf_user_name#:#Name
 cmix#:#conf_user_name_firstname#:#Vorname
+cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 06 2024 new variable
 cmix#:#conf_user_name_fullname#:#Vollständiger Name
+cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###18 06 2024 new variable
 cmix#:#conf_user_name_info#:#Der Name wird an LRS und Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 cmix#:#conf_user_name_lastname#:#Titel und Nachname
+cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 06 2024 new variable
 cmix#:#conf_user_name_none#:#Keiner
 cmix#:#conf_user_name_none_info#:#Sendet „-“ anstelle eines Namens.
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
@@ -10999,9 +11005,12 @@ lti#:#clti_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
 lti#:#clti_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 lti#:#clti_privacy_name#:#Name
 lti#:#clti_privacy_name_firstname#:#Vorname
+lti#:#clti_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 06 2024 new variable
 lti#:#clti_privacy_name_fullname#:#Vollständiger Name
+lti#:#clti_privacy_name_fullname_info#:#Sends title, first name and last name###18 06 2024 new variable
 lti#:#clti_privacy_name_info#:#Der Name wird gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 lti#:#clti_privacy_name_lastname#:#Titel und Nachname
+lti#:#clti_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 06 2024 new variable
 lti#:#clti_privacy_name_none#:#Keiner
 lti#:#clti_privacy_name_none_info#:#Sendet „-“ anstelle eines Namens.
 lti#:#consumers#:#Konsumenten
@@ -11574,9 +11583,8 @@ mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. https://ihre-domain/ihr-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.

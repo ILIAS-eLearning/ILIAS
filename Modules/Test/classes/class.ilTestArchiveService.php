@@ -64,6 +64,7 @@ class ilTestArchiveService
         $archiver = new ilTestArchiver($this->test_obj->getId());
         $archiver->setParticipantData($this->getParticipantData());
         $archiver->handInTestResult($active_id, $pass, $filename);
+        $archiver->handInParticipantUploadedResults($active_id, $pass, $this->test_obj);
         unlink($filename);
     }
 

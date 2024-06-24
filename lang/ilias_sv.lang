@@ -7525,6 +7525,7 @@ crs#:#crs_course_status_of_users#:#Att klara kursen
 crs#:#crs_create_date#:#Datum för skapande
 crs#:#crs_custom_user_fields#:#Personuppgifter
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###18 06 2024 new variable
 crs#:#crs_dates#:#Datum
 crs#:#crs_deactivate_notification#:#Avaktivera avisering
 crs#:#crs_delete_objectve_sure#:#Är du säker på att de utvalda lärandemålen ska tas bort?
@@ -8878,6 +8879,8 @@ didactic#:#grp_closed_info#:#Gruppen är osynlig för icke-medlemmar.
 didactic#:#more_translations#:#Andra översättningar
 didactic#:#sess_closed#:#Avslutad session
 didactic#:#sess_closed_info#:#Sessionen är osynlig för icke-deltagare.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###18 06 2024 new variable
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###18 06 2024 new variable
 dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###30 04 2024 new variable
 dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on###30 04 2024 new variable
 dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###30 04 2024 new variable
@@ -9715,6 +9718,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Visa utskriftsvy
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#En ny exportfil har skapats.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
 export#:#export_create#:#Skapa ny
 export#:#export_create_new_file#:#Skapa ny exportfil
 export#:#export_existing#:#Återanvändning
@@ -10234,6 +10238,7 @@ grp#:#grp_create_or_use_existing#:#Vill du lägga till användaren i en befintli
 grp#:#grp_created_and_user_been_added#:#Gruppen har skapats och användaren har lagts till.
 grp#:#grp_custom_user_fields#:#Personuppgifter
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###18 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Avaktivera avisering
 grp#:#grp_edit_members#:#Deltagarstyrning
 grp#:#grp_enable_map#:#Aktivera gruppkort
@@ -11578,9 +11583,8 @@ mathjax#:#mathjax_polyfill_url#:#Url för en polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Behövs inte för MathJax 2
 mathjax#:#mathjax_polyfill_url_desc_line2#:#För MathJax 3 i äldre webbläsare, t.ex. https
 mathjax#:#mathjax_script_url#:#URL för MathJax-skriptet
-mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. https
-mathjax#:#mathjax_script_url_desc_line2#:#För MathJax 3 t.ex. https
-mathjax#:#mathjax_script_url_desc_line3#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd
+mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd %s
 mathjax#:#mathjax_server_address#:#Serverns adress
 mathjax#:#mathjax_server_address_info#:#T.ex. http
 mathjax#:#mathjax_server_cache_cleared#:# MathJax-cachen har rensats.
@@ -12585,6 +12589,7 @@ mme#:#type_separator#:#Separatorer
 mme#:#type_separator_info#:#Separatorns titel visas i ett grått område. Du får en separatorrad om du lämnar titeln tom.
 mme#:#type_top_link_item#:#Länk
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
 mob#:#mob_choose_from_pool#:#Från mediapoolen
 mob#:#mob_external_url#:#Extern URL
 mob#:#mob_extract_preview_image#:#Extract Preview Image###30 04 2024 new variable
@@ -16880,6 +16885,8 @@ tbl#:#tbl_template_created#:#Den aktuella vyn har sparats.
 tbl#:#tbl_template_delete#:#Ta bort sparad vy
 tbl#:#tbl_template_deleted#:#Den sparade vyn har tagits bort.
 tbl#:#tbl_templates#:#Visa
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
 tos#:#tos_account_reg_not_possible#:#Självregistrering är för närvarande inte möjlig eftersom inget användaravtal erbjuds i denna installation. Kontakta din <a href="%1$s">systemadministratör för</a> mer information.
 tos#:#tos_agree_date#:#ToS agreed on###30 04 2024 new variable
 tos#:#tos_agreement#:#Använda avtal
@@ -17161,7 +17168,7 @@ tstv#:#tstv_create#:#Skapa testcertifikat
 tstv#:#tstv_create_info#:#Välj ett test för vilket du behöver ett intyg.
 ui#:#datatable_multiaction_label#:#Bulk Actions###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#operation###30 04 2024 new variable
-ui#:#datatable_multiactionmodal_buttonlabel#:#Execute###30 04 2024 new variable
+ui#:#datatable_multiactionmodal_apply#:#Apply###18 06 2024 new variable
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects###30 04 2024 new variable

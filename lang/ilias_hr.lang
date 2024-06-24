@@ -7525,6 +7525,7 @@ crs#:#crs_course_status_of_users#:#Položen tečaj
 crs#:#crs_create_date#:#Stvori datum
 crs#:#crs_custom_user_fields#:#Podaci o korisničkom tečaju
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###18 06 2024 new variable
 crs#:#crs_dates#:#Datumi
 crs#:#crs_deactivate_notification#:#Deaktiviraj obavijest
 crs#:#crs_delete_objectve_sure#:#Jeste li sigurni da želite izbrisati odabrane ciljeve?
@@ -8878,6 +8879,8 @@ didactic#:#grp_closed_info#:#Grupa nije vidljiva za nečlanove.
 didactic#:#more_translations#:#Još prijevoda
 didactic#:#sess_closed#:#Zatvorena sesija
 didactic#:#sess_closed_info#:#Sesija nije vidljiva za one koji nisu sudionici.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###18 06 2024 new variable
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###18 06 2024 new variable
 dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###30 04 2024 new variable
 dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on###30 04 2024 new variable
 dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###30 04 2024 new variable
@@ -9715,6 +9718,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Kreirana je nova datoteka za izvoz.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
 export#:#export_create#:#Kreiraj
 export#:#export_create_new_file#:#Kreiraj novu datoteku za izvoz
 export#:#export_existing#:#Ponovna upotreba
@@ -10234,6 +10238,7 @@ grp#:#grp_create_or_use_existing#:#Želite li dodati korisnika u postojeću grup
 grp#:#grp_created_and_user_been_added#:#Grupa je stvorena i korisnik dodan.
 grp#:#grp_custom_user_fields#:#Grupiraj relevantne korisničke podatke
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###18 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Deaktiviraj obavijest
 grp#:#grp_edit_members#:#Uredi sudionike
 grp#:#grp_enable_map#:#Omogući kartu grupe
@@ -11578,9 +11583,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -12585,6 +12589,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#Naslov ove stavke bit će prikazan u sivom natpisu. Ako ne unesete nijedan naslov, prikazat će se jednostavan redak.
 mme#:#type_top_link_item#:#Poveznica
 mme#:#type_top_parent_item#:#Spremnik
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
 mob#:#mob_choose_from_pool#:#Choose from Media Pool###04 06 2021 new variable
 mob#:#mob_external_url#:#External URL###04 06 2021 new variable
 mob#:#mob_extract_preview_image#:#Extract Preview Image###30 04 2024 new variable
@@ -16880,6 +16885,8 @@ tbl#:#tbl_template_created#:#Trenutni prikaz je spremljen.
 tbl#:#tbl_template_delete#:#Izbriši spremljeni prikaz
 tbl#:#tbl_template_deleted#:#Spremljeni prikaz je izbrisan.
 tbl#:#tbl_templates#:#Prikaz
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
 tos#:#tos_account_reg_not_possible#:#Samoregistracija nije moguća zbog nedostatka korisničkog sporazuma. Za dodatne informacije obratite se svom <a href="%1$s"> administratoru sustava</a>.
 tos#:#tos_agree_date#:#ToS agreed on###30 04 2024 new variable
 tos#:#tos_agreement#:#Uvjeti pružanja usluge
@@ -17161,7 +17168,7 @@ tstv#:#tstv_create#:#Izradi certifikat za test
 tstv#:#tstv_create_info#:#Odaberite dovršeni test da biste generirali certifikat za njega.
 ui#:#datatable_multiaction_label#:#Bulk Actions###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#operation###30 04 2024 new variable
-ui#:#datatable_multiactionmodal_buttonlabel#:#Execute###30 04 2024 new variable
+ui#:#datatable_multiactionmodal_apply#:#Apply###18 06 2024 new variable
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.###30 04 2024 new variable
 ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects###30 04 2024 new variable

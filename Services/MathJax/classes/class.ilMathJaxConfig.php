@@ -23,6 +23,9 @@ declare(strict_types=1);
  */
 class ilMathJaxConfig
 {
+    private const MATHJAX2_DEFAULT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
+    private const MATHJAX3_RELATIVE_URL = 'Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js';
+
     private const LIMITER_MATHJAX = 0;
     private const LIMITER_TEX = 1;
     private const LIMITER_SPAN = 2;
@@ -67,6 +70,23 @@ class ilMathJaxConfig
         $this->server_for_export = $server_for_export;
         $this->server_for_pdf = $server_for_pdf;
     }
+
+    /**
+     * Get the default URL for including MathJax 2
+     */
+    public function getMathJax2DefaultUrl(): string
+    {
+        return self::MATHJAX2_DEFAULT_URL;
+    }
+
+    /**
+     * Get the default URL for including MathJax 3
+     */
+    public function getMathJax3DefaultUrl(): string
+    {
+        return ILIAS_HTTP_PATH . '/' . self::MATHJAX3_RELATIVE_URL;
+    }
+
 
     /**
      * Should latex code be rendered in the browser

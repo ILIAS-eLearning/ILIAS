@@ -229,7 +229,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
             if ($item["sub_txt"] != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
-                if ($item["sub_title"] != "") {
+                if (($item["sub_title"] ?? "") != "") {
                     $this->tpl->setVariable("SEP2", ": ");
                     $this->tpl->setVariable("SUB_TITLE", $item["sub_title"]);
                 }

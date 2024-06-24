@@ -7525,6 +7525,7 @@ crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_create_date#:#Dátum létrehozása
 crs#:#crs_custom_user_fields#:#Kurzushoz tartozó felhasználói adatok
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###18 06 2024 new variable
 crs#:#crs_dates#:#Dátumok
 crs#:#crs_deactivate_notification#:#Értesítés kikapcsolása
 crs#:#crs_delete_objectve_sure#:#Biztos, hogy törli a kiválasztott célokat?
@@ -8878,6 +8879,8 @@ didactic#:#grp_closed_info#:#A csoportot csak tagjaik láthatják.
 didactic#:#more_translations#:#További fordítások
 didactic#:#sess_closed#:#Zárt esemény
 didactic#:#sess_closed_info#:#Az eseményt csak a résztvevőik láthatják.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###18 06 2024 new variable
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###18 06 2024 new variable
 dpro#:#dpro_account_reg_not_possible#:#A regisztráció jelenleg nem lehetséges, mert nincs Adatvédelmi Nyilatkozat. Kérem, további információért keresse a <a href="%1$s">rendszer üzemeltetőjét</a>.
 dpro#:#dpro_agree_date#:#Adatvédelmi Nyilatkozat elfogadása
 dpro#:#dpro_last_reset_date#:#Az Adatvédelmi Nyilatkozatot elfogadásait törölték (%s). Csak akkor tegye ezt meg újra, ha módosult az Adatvédelmi Nyilatkozat tartalma és ezért azt újra el kell fogadtatni a felhasználókkal.
@@ -9715,6 +9718,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Nyomtatási nézet megjelenítése
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Új exportfájl jött létre.
+exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
 export#:#export_create#:#Létrehozás
 export#:#export_create_new_file#:#Új exportfájl létrehozása
 export#:#export_existing#:#Újrafelhasználás
@@ -10234,6 +10238,7 @@ grp#:#grp_create_or_use_existing#:#Meglévő vagy új csoporthoz hozzáadja a fe
 grp#:#grp_created_and_user_been_added#:#A csoportot sikeresen létrehozta és a felhasználót sikeresen hozzáadta.
 grp#:#grp_custom_user_fields#:#Csoporthoz tartozó felhasználói adatok
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###18 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Értesítés kikapcsolása
 grp#:#grp_edit_members#:#Résztvevők módosítása
 grp#:#grp_enable_map#:#Csoporttérkép engedélyezése
@@ -11578,9 +11583,8 @@ mathjax#:#mathjax_polyfill_url#:#Polyfill URJ-je
 mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz nem szükséges
 mathjax#:#mathjax_polyfill_url_desc_line2#:#MathJax 3-hoz például https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
-mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-hoz például https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: https://domain/ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például %s
+mathjax#:#mathjax_script_url_desc_line2#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: %s
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
@@ -12585,6 +12589,7 @@ mme#:#type_separator#:#Elválasztó
 mme#:#type_separator_info#:#Ennek az elemnek a címe egy szürke sávban fog megjelenni. Amennyiben nem ad meg címet, egy egyszerű vonal fog ott megjelenni.
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_top_parent_item#:#Tartalmazza
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
 mob#:#mob_choose_from_pool#:#Választás médiagyűjteményből
 mob#:#mob_external_url#:#Külső URL
 mob#:#mob_extract_preview_image#:#Előnézeti kép kicsomagolása
@@ -16880,6 +16885,8 @@ tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése
 tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
 tbl#:#tbl_templates#:#Nézet
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
 tos#:#tos_account_reg_not_possible#:#Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href="%1$s">rendszerüzemeltetőkkel</a>.
 tos#:#tos_agree_date#:#Elfogadás időpontja
 tos#:#tos_agreement#:#Szolgáltatási feltételek
@@ -17161,7 +17168,7 @@ tstv#:#tstv_create#:#Tesztigazolás létrehozása
 tstv#:#tstv_create_info#:#Válasszon ki egy befejezett tesztet, hogy igazolást generáljon hozzá.
 ui#:#datatable_multiaction_label#:#Tömeges művelet
 ui#:#datatable_multiactionmodal_actionlabel#:#művelet
-ui#:#datatable_multiactionmodal_buttonlabel#:#Futtatás
+ui#:#datatable_multiactionmodal_apply#:#Apply###18 06 2024 new variable
 ui#:#datatable_multiactionmodal_listentry#:#alakmazás az összes objektumra
 ui#:#datatable_multiactionmodal_msg#:#<b>Vigyázat!</b> Több objektumra van hatással.
 ui#:#datatable_multiactionmodal_title#:#Művelet több objektumon.

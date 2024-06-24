@@ -333,8 +333,10 @@ class ilAuthFrontend
         }
         $user->refreshLogin();
 
-        // reset counter for failed logins
-        ilObjUser::_resetLoginAttempts($user->getId());
+        if ($user->getLoginAttempts() > 0) {
+            $user->setLoginAttempts(0);
+            $user->update();
+        }
 
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));

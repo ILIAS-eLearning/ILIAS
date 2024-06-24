@@ -21,6 +21,11 @@ use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\Notes\Service as NotesService;
+use ILIAS\Notes\InternalDataService as NotesInternalDataService;
+use ILIAS\Notes\NoteDBRepository as NotesRepo;
+use ILIAS\Notes\NotesManager;
+use ILIAS\Notes\Note;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -1056,6 +1061,7 @@ abstract class assQuestion
         }
 
         $this->deleteTaxonomyAssignments();
+        $this->deleteComments();
 
         try {
             ilObjQuestionPool::_updateQuestionCount($this->getObjId());
@@ -1394,6 +1400,7 @@ abstract class assQuestion
         $this->feedbackOBJ->duplicateFeedback($originalQuestionId, $duplicateQuestionId);
         $this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
         $this->duplicateSkillAssignments($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId);
+        $this->duplicateComments($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId);
     }
 
     protected function beforeSyncWithOriginal(int $origQuestionId, int $dupQuestionId, int $origParentObjId, int $dupParentObjId): void
@@ -1408,15 +1415,77 @@ abstract class assQuestion
     protected function onCopy(int $sourceParentId, int $sourceQuestionId, int $targetParentId, int $targetQuestionId): void
     {
         $this->copySuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
-
-        // duplicate question feeback
         $this->feedbackOBJ->duplicateFeedback($sourceQuestionId, $targetQuestionId);
-
-        // duplicate question hints
         $this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
-
-        // duplicate skill assignments
         $this->duplicateSkillAssignments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
+        $this->duplicateComments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
+    }
+
+    protected function duplicateComments(
+        int $parent_source_id,
+        int $source_id,
+        int $parent_target_id,
+        int $target_id
+    ): void {
+        $manager = $this->getNotesManager();
+        $data_service = $this->getNotesDataService();
+        $notes = $manager->getNotesForRepositoryObjIds([$parent_source_id], Note::PUBLIC);
+        $notes = array_filter(
+            $notes,
+            fn($n) => $n->getContext()->getSubObjId() === $source_id
+        );
+
+        foreach($notes as $note) {
+            $new_context = $data_service->context(
+                $parent_target_id,
+                $target_id,
+                $note->getContext()->getType()
+            );
+            $new_note = $data_service->note(
+                -1,
+                $new_context,
+                $note->getText(),
+                $note->getAuthor(),
+                $note->getType(),
+                $note->getCreationDate(),
+                $note->getUpdateDate(),
+                $note->getRecipient()
+            );
+            $manager->createNote($new_note, [], true);
+        }
+    }
+
+    protected function deleteComments(): void
+    {
+        $repo = $this->getNotesRepo();
+        $manager = $this->getNotesManager();
+        $source_id = $this->getId();
+        $notes = $manager->getNotesForRepositoryObjIds([$this->getObjId()], Note::PUBLIC);
+        $notes = array_filter(
+            $notes,
+            fn($n) => $n->getContext()->getSubObjId() === $source_id
+        );
+        foreach($notes as $note) {
+            $repo->deleteNote($note->getId());
+        }
+    }
+
+    protected function getNotesManager(): NotesManager
+    {
+        $service = new NotesService($this->dic);
+        return $service->internal()->domain()->notes();
+    }
+
+    protected function getNotesDataService(): NotesInternalDataService
+    {
+        $service = new NotesService($this->dic);
+        return $service->internal()->data();
+    }
+
+    protected function getNotesRepo(): NotesRepo
+    {
+        $service = new NotesService($this->dic);
+        return $service->internal()->repo()->note();
     }
 
     public function deleteSuggestedSolutions(): void
@@ -2583,7 +2652,7 @@ abstract class assQuestion
             "value1" => array("clob", $value1),
             "value2" => array("clob", $value2),
             "pass" => array("integer", $pass),
-            "tstamp" => array("integer", ((int)$tstamp > 0) ? (int)$tstamp : time()),
+            "tstamp" => array("integer", ((int) $tstamp > 0) ? (int) $tstamp : time()),
             'authorized' => array('integer', (int) $authorized)
         );
 

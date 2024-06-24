@@ -35,10 +35,19 @@ class AssignedObjectsTable
     protected UI\Factory $ui_fac;
     protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
+    protected object $parent_obj;
     protected array $objects = [];
+    protected int $skill_id = 0;
+    protected int $tref_id = 0;
+    protected int $profile_id = 0;
 
-    public function __construct(array $objects)
-    {
+    public function __construct(
+        object $parent_obj,
+        array $objects,
+        int $skill_id = 0,
+        int $tref_id = 0,
+        int $profile_id = 0
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -47,7 +56,11 @@ class AssignedObjectsTable
         $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
 
+        $this->parent_obj = $parent_obj;
         $this->objects = $objects;
+        $this->skill_id = $skill_id;
+        $this->tref_id = $tref_id;
+        $this->profile_id = $profile_id;
     }
 
     public function getComponent(): UI\Component\Table\Data
@@ -57,6 +70,13 @@ class AssignedObjectsTable
 
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("skmg_assigned_objects"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->parent_obj::class . "_" .
+                                  $this->skill_id . "_" .
+                                  $this->tref_id . "_" .
+                                  $this->profile_id
+                              )
                               ->withRequest($this->request);
 
         return $table;
@@ -123,6 +143,13 @@ class AssignedObjectsTable
                 $records = [];
                 $i = 0;
                 foreach ($this->objects as $obj_id) {
+                    $obj_ref_id = \ilObject::_getAllReferences($obj_id);
+                    $obj_ref_id = end($obj_ref_id);
+
+                    if (!$obj_ref_id) {
+                        continue;
+                    }
+
                     $records[$i]["obj_id"] = $obj_id;
                     $records[$i]["title"] = \ilObject::_lookupTitle($obj_id);
 
@@ -134,11 +161,9 @@ class AssignedObjectsTable
                     );
                     $records[$i]["type"] = $icon;
 
-                    $obj_ref_id = \ilObject::_getAllReferences($obj_id);
-                    $obj_ref_id = end($obj_ref_id);
                     $obj_ref_id_parent = $this->tree->getParentId($obj_ref_id);
                     $path = new \ilPathGUI();
-                    $records[$i]["path"] = $path->getPath($this->tree->getParentId($obj_ref_id_parent), (int) $obj_ref_id);
+                    $records[$i]["path"] = $path->getPath($this->tree->getParentId($obj_ref_id_parent), $obj_ref_id);
 
                     $i++;
                 }
