@@ -118,13 +118,19 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
         }
     }
 
-    public function getResultUnits($result)
+    public function getResultUnits(assFormulaQuestionResult $result): array
     {
-        if (array_key_exists($result->getResult(), $this->resultunits)) {
-            return $this->resultunits[$result->getResult()];
-        } else {
-            return array();
+        if (!isset($this->resultunits[$result->getResult()])) {
+            return [];
         }
+
+        $result_units = $this->resultunits[$result->getResult()];
+
+        usort($result_units, static function (assFormulaQuestionUnit $a, assFormulaQuestionUnit $b) {
+            return $a->getSequence() <=> $b->getSequence();
+        });
+
+        return $result_units;
     }
 
     public function getAllResultUnits(): array
@@ -357,10 +363,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 }
 
                 $units = "";
-                if (count($this->getResultUnits($resObj)) > 0) {
+                $result_units = $this->getResultUnits($resObj);
+                if (count($result_units) > 0) {
                     if ($forsolution) {
                         if (is_array($userdata)) {
-                            foreach ($this->getResultUnits($resObj) as $unit) {
+                            foreach ($result_units as $unit) {
                                 if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] == $unit->getId()) {
                                     $units = $unit->getUnit();
                                 }
@@ -373,7 +380,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                     } else {
                         $units = '<select name="result_' . $result . '_unit">';
                         $units .= '<option value="-1">' . $this->lng->txt("select_unit") . '</option>';
-                        foreach ($this->getResultUnits($resObj) as $unit) {
+                        foreach ($result_units as $unit) {
                             $units .= '<option value="' . $unit->getId() . '"';
                             if (array_key_exists($result, $userdata) &&
                                 is_array($userdata[$result]) &&
