@@ -48,14 +48,6 @@ class TableManager
         return new LevelResourcesTable($ref_id, $base_skill_id, $tref_id, $requested_level_id);
     }
 
-    public function getUsageTable(
-        string $cskill_id,
-        array $usage,
-        string $mode = ""
-    ): UsageTable {
-        return new UsageTable($cskill_id, $usage, $mode);
-    }
-
     public function getAssignedObjectsTable(
         object $parent_obj,
         array $objects,
