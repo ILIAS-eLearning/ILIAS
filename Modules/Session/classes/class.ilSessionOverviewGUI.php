@@ -150,7 +150,7 @@ class ilSessionOverviewGUI
         }
 
         $this->csv->addRow();
-      
+
         foreach ($sortedMembers as $member) {
             $this->csv->addColumn($member['lastname']);
             $this->csv->addColumn($member['firstname']);
@@ -159,7 +159,7 @@ class ilSessionOverviewGUI
             foreach ($events as $event_obj) {
                 $event_part = new ilEventParticipants($event_obj->getId());
 
-                $this->csv->addColumn($event_part->hasParticipated($user_id) ?
+                $this->csv->addColumn($event_part->hasParticipated($member['userid']) ?
                                         $this->lng->txt('event_participated') :
                                         $this->lng->txt('event_not_participated'));
             }
