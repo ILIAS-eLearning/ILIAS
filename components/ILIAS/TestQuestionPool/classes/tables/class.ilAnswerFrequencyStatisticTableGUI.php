@@ -172,7 +172,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $data['question_index'] = $this->getQuestionIndex();
 
         $form = $answer_form_builder->buildAddAnswerForm($data);
-        $modal = $ui_factory->modal()->roundtrip('titel', $form);
+        $modal = $ui_factory->modal()->roundtrip($this->question->getTitle(), $form);
 
         $show_modal_button = $ui_factory->button()->standard(
             $this->language->txt('tst_corr_add_as_answer_btn'),
