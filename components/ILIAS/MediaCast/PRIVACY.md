@@ -22,7 +22,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 ## Configuration
 
 - **Global**
-    - The global mediacast administration allows to set the default access for mediacast entries. If set to **public**, the **RSS** representation will be accessible **without authentication**, see [News Service](../../SILIAS/News/PRIVACY.md) service.
+    - The global mediacast administration allows to set the default access for mediacast entries. If set to **public**, the **RSS** representation will be accessible **without authentication**, see [News Service](../../ILIAS/News/PRIVACY.md) service.
 - **Mediacast**
     - The mediacast settings allow to (de-)activate the RSS feed and to overwrite the default access (**public RSS** on/off).
 - **Mediacast Entry**
