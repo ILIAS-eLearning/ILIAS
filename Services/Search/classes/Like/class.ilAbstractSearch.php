@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +15,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
-* Class ilSearchGUI
-*
-* Base class for all search classes
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @package ilias-search
-*
-*/
+declare(strict_types=1);
 
 abstract class ilAbstractSearch
 {
@@ -39,7 +27,8 @@ abstract class ilAbstractSearch
      * @var string[]
      */
     protected array $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-                         'chat','webr','mcst','sess','pg','st','wiki','book', 'copa');
+                                          'chat','webr','mcst','sess','pg','st','wiki','book', 'copa', 'lso',
+                                          'rcat', 'rcrs', 'rfil', 'rglo', 'rgrp', 'rlm', 'rtst', 'rwik');
 
     /**
      * @var int[]
