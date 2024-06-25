@@ -1065,6 +1065,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
 assessment#:#qpl_tab_competences#:#Kompetenzen
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomien in Fragenpools klassifizieren und filtern die Fragen. Sie werden nach Aktivierung der Funktion im Reiter „Einstellungen“ im Filter im Reiter „Fragen“ angezeigt.
 assessment#:#qst_error_text_too_long#:#Einer oder mehrere der als fehlerhaft markierten Textelemente ist zu lang. Die maximale Länge für ein als fehlerhaft markiertes Textelement ist 150 Zeichen.
 assessment#:#qst_essay_allready_written_words#:#Bereits geschriebene Wörter:
 assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
@@ -3397,7 +3398,6 @@ cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
-cntr#:#cntr_tax_list_info#:#Nachfolgend sind alle Taxonomien gelistet, die für dieses Objekt definiert wurden.
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
 cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition

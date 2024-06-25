@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#Řazení uloženo.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Přepnout zobrazení na tuto stránku
 cntr#:#cntr_switch_to_new_editor_message#:#To je podporovaný standardní editor. Použijte jej prosím k nastavení obsahu stránky. Pokud klepnete na následující odkaz, obsah zobrazení úložiště bude přepnut ze starého editoru obsahu na tuto stránku.
 cntr#:#cntr_switched_editor#:#Přepnuto na nový obsah.
-cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.###27 01 2015 new variable
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.###26 09 2014 new variable
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###27 01 2015 new variable

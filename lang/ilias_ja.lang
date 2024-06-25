@@ -3197,7 +3197,7 @@ cmix#:#conf_user_ident_il_uuid_user_id#:#E-Mailアドレスで書式化された
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎にユニークですが、ユーザに関して直接結論つけされる事を許容願います。
 cmix#:#conf_user_ident_info#:#標準はemailアドレスに準じます。ユニークなILIASプラットフォームIDは:
 cmix#:#conf_user_ident_real_email#:#E-Mail Address
-cmix#:#conf_user_ident_real_email_info#:#IDとしてユーザのメールアドレスを送信 (Warning: E-Mailアドレスは複数のユーザで使用されている可能性があります) 
+cmix#:#conf_user_ident_real_email_info#:#IDとしてユーザのメールアドレスを送信 (Warning: E-Mailアドレスは複数のユーザで使用されている可能性があります)
 cmix#:#conf_user_name#:#ユーザ名
 cmix#:#conf_user_name_firstname#:#氏名
 cmix#:#conf_user_name_firstname_info#:#ILIASからユーザ名の氏名を送信
@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#並び替えを保存
 cntr#:#cntr_switch_to_new_editor_cmd#:#新しいコンテンツのページに切り替える。古いコンテンツを削除。
 cntr#:#cntr_switch_to_new_editor_message#:#サポートされている標準的なエディターです。古いエディターからコンテンツは引き継がれません。以下の新しいページコンテンツへ追加を開始してください。次のリンクをクリックすると新しいコンテンツが使用されます。
 cntr#:#cntr_switched_editor#:#新しいコンテンツへ切り替えられました。
-cntr#:#cntr_tax_list_info#:#以下はこのオブジェスト用として定義されている分類です。
 cntr#:#cntr_tax_none_available#:#分類は利用できません。
 cntr#:#cntr_tax_settings_info#:#カテゴリーの分類学はカテゴリーに含まれるオブジェクトを分類しフィルターします。分類学を追加すると、それぞれのオブジェクトの"メタデータ" タブと"分類学割り当て" サブタブを通して分類されます。 分類学は、 割り当てられたオブジェクトの直接フィルタを有効にするカテゴリのサイドブロック"コンテンツ" タブ 内に表示できます。
 cntr#:#cntr_taxonomy_definitions#:#分類定義
@@ -8893,7 +8892,7 @@ dpro#:#dpro_once#:#一度承諾
 dpro#:#dpro_reset_for_all_users#:#データ保護宣言をリセットする。
 dpro#:#dpro_status_enable#:#データ保護宣言を有効化
 dpro#:#dpro_status_enable_desc#:#可能であれば、ユーザの初回ログインの際に新規ユーザ用の登録フォームの最後に個別言語単位でデータ保護宣言ドキュメントを表示します。 ILIASへ入る前にデータ保護宣言への承諾が必須です。
-dpro#:#dpro_sure_reset_tos#:#システムの全ユーザ用のデータ保護宣言を本当にリセットしますか？例として、SOAPwebサービスお使ってるアカウントに対しても適用されます。 
+dpro#:#dpro_sure_reset_tos#:#システムの全ユーザ用のデータ保護宣言を本当にリセットしますか？例として、SOAPwebサービスお使ってるアカウントに対しても適用されます。
 dpro#:#dpro_withdrawal_usr_deletion#:#データ保護宣言撤回に対するアカウント削除
 dpro#:#dpro_withdrawal_usr_deletion_desc#:#以前承諾したデータ保護宣言ドキュメントの承諾をユーザが撤回するとユーザのアカウント削除につながることになります。
 ecs#:#cert_serial#:#証明書シリアル番号
@@ -9496,7 +9495,7 @@ exc#:#exc_received_feedback#:#受信済のフィードバック
 exc#:#exc_rel_last_submission#:#最終可能性の提出物
 exc#:#exc_rel_last_submission_info#:#このオプションdateを設定すると全てのユーザはこの期限が来るまでに提出する必要があります。
 exc#:#exc_rel_start_latest_lead_text#:# %s が最終
-exc#:#exc_rel_start_lead_text#:#開始後の提出日にち %s 
+exc#:#exc_rel_start_lead_text#:#開始後の提出日にち %s
 exc#:#exc_relative_date#:#相対日数
 exc#:#exc_relative_date_info#:#期限はユーザが課題を開始する時間に応じて個別に設定されます。
 exc#:#exc_rem_time_after_start#:#開始後の残り時間
@@ -11010,7 +11009,7 @@ lti#:#clti_privacy_name_fullname#:#フルネーム
 lti#:#clti_privacy_name_fullname_info#:#タイトル, first name, last nameを送信
 lti#:#clti_privacy_name_info#:#ユーザ名の送信は通常必須ではありません。
 lti#:#clti_privacy_name_lastname#:#タイトルとlast name
-lti#:#clti_privacy_name_lastname_info#:#Mister または Ms/Mrs(特に指示がない限り) と last nameを送信 
+lti#:#clti_privacy_name_lastname_info#:#Mister または Ms/Mrs(特に指示がない限り) と last nameを送信
 lti#:#clti_privacy_name_none#:#なし
 lti#:#clti_privacy_name_none_info#:#名前に代えて '-' を送信
 lti#:#consumers#:#Consumer
@@ -15217,7 +15216,7 @@ search#:#search_choose_object_type#:#オブジェクトタイプを一つ選ん�
 search#:#search_content#:#ページコンテンツ
 search#:#search_created_after#:#後に作成されたオブジェクト
 search#:#search_created_before#:#. . .以前に作成されたオブジェクト
-search#:#search_created_on#:#. . .に作成されたオブジェクト. . . 
+search#:#search_created_on#:#. . .に作成されたオブジェクト. . .
 search#:#search_crs_title#:#コース名
 search#:#search_details_info#:#詳細検索。1つまたは複数のリソースの種類を選択してください。
 search#:#search_direct#:#ダイレクト検索
@@ -15680,7 +15679,7 @@ style#:#scss_folder_reset#:#Scss フォルダをリセット
 style#:#scss_folder_updated#:#Scss フォルダが更新されました
 style#:#scss_scss_installation_detected#:#Scss/sass インストールが検出されました:
 style#:#scss_variable_empty#:#この変数は空です。設定ファイルからデフォルトが設定されました。コンパイル前にこれが正しい事を確認してください。
-style#:#scss_variables_empty_might_have_changed#:#フォームには空の変数があります。このフォームをロードされてから設定ファイルを変更した可能性があります。設定ファイルのデフォルトは空フィールドが設定されます。コンパイル前にそれらの空フィールドにマークを確認して設定ファイルへ値を保存してください。 
+style#:#scss_variables_empty_might_have_changed#:#フォームには空の変数があります。このフォームをロードされてから設定ファイルを変更した可能性があります。設定ファイルのデフォルトは空フィールドが設定されます。コンパイル前にそれらの空フィールドにマークを確認して設定ファイルへ値を保存してください。
 style#:#scss_variables_file_not_included#:#scss 変数ファイル:
 style#:#select_icon#:#アイコンを選択
 style#:#settings_of_style#:#スタイルを管理
@@ -15703,7 +15702,7 @@ style#:#sty_add_color#:#カラーを追加
 style#:#sty_add_content_style#:#コンテンツスタイルを追加
 style#:#sty_add_image#:#イメージを追加
 style#:#sty_add_media_query#:#メディアクエリーを追加
-style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)" 
+style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)"
 style#:#sty_add_pgl#:#ページレイアウトを追加
 style#:#sty_add_template#:#テンプレートを追加
 style#:#sty_added_characteristic#:#スタイルクラスを追加しました。

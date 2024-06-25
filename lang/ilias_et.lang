@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#Sorteerimine salvestatud.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Lülita sellele lehele esitluse jaoks
 cntr#:#cntr_switch_to_new_editor_message#:#See on toetatud standardiga redaktor. Palun kasuta seda sisulehe häälestamisel. Kui klikkad järgmisel lingil, lülitub sisu esitus vanalt redaktorilt ümber siia lehele.
 cntr#:#cntr_switched_editor#:#Lülitatud uude sisusse.
-cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition

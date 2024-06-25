@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#Rendezés mentése sikerült
 cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
 cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra.
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
-cntr#:#cntr_tax_list_info#:#Ehhez az objektumhoz definiált összes taxonómia felsorolása.
 cntr#:#cntr_tax_none_available#:#Nincsenek elérhető taxonómiák.
 cntr#:#cntr_tax_settings_info#:#A kategóriákban lévő taxonómiák osztályozzák és szűrik a kategóriában lévő objektumokat. A taxonómiák hozzáadása után a besorolásokat a megfelelő objektumok 'Metaadatok' és 'Taxonómia hozzárendelése' allapjain lehet elvégezni. A taxonómiák emellett a kategória 'Tartalom' lapjának oldalsó blokkjában is megjeleníthetők, így lehetővé válik a hozzárendelt objektumok közvetlen szűrése is.
 cntr#:#cntr_taxonomy_definitions#:#Taxonómia meghatározása
@@ -6517,7 +6516,7 @@ content#:#cont_file_renamed#:#A fájl neve megváltozott.
 content#:#cont_file_unzipped#:#A fájlt kicsomagoltuk.
 content#:#cont_files#:#Fájlok
 content#:#cont_finish_editing#:#Szerkesztés befejezése
-content#:#cont_finish_table_editing#:#Adattábla szerkesztésének befejezése 
+content#:#cont_finish_table_editing#:#Adattábla szerkesztésének befejezése
 content#:#cont_first_open#:#Első panel kinyitva
 content#:#cont_first_page#:#Első oldal
 content#:#cont_first_row_style#:#Első sor stílusosztálya
@@ -9371,9 +9370,9 @@ exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszaj
 exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_new_feedback_text_uploaded#:#'%s' beadandó feladathoz új megjegyzés jött létre
 exc#:#exc_msg_new_feedback_text_uploaded2#:#ezúton tájékoztatjuk, hogy egy tutor megjegyzést írt Önnek.
-exc#:#exc_msg_new_message_from_pf_giver#:#'%s' feladathoz egy visszajelző üzenetet küldött. 
+exc#:#exc_msg_new_message_from_pf_giver#:#'%s' feladathoz egy visszajelző üzenetet küldött.
 exc#:#exc_msg_new_message_from_pf_giver2#:#Egy visszajelző üzenetet küldött Önnek:
-exc#:#exc_msg_new_message_from_pf_recipient#:#'%s' feladathoz egy visszajelzett üzenetet küldött. 
+exc#:#exc_msg_new_message_from_pf_recipient#:#'%s' feladathoz egy visszajelzett üzenetet küldött.
 exc#:#exc_msg_new_message_from_pf_recipient2#:#egy visszajelzett üzenetet küldött Önnek:
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
@@ -13636,7 +13635,7 @@ ps#:#ps_export_excel#:#Excel-export indítása
 ps#:#ps_export_files#:#Exportfájlok
 ps#:#ps_export_groups#:#Felhasználó profiladatainak exportálásának engedélyezése csoportokban
 ps#:#ps_export_member#:#Tagok
-ps#:#ps_export_prgs#:#A Képzési programban a felhasználó profiladatok exportálásának engedélyezése 
+ps#:#ps_export_prgs#:#A Képzési programban a felhasználó profiladatok exportálásának engedélyezése
 ps#:#ps_export_settings#:#Exportbeállítások
 ps#:#ps_export_sub#:#Feliratkozottak
 ps#:#ps_export_tutor#:#Tutorok
@@ -13907,7 +13906,7 @@ rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
 rbac#:#crsr_delete#:#A felhasználó áthelyezhet vagy törölhet kurzuslinket
 rbac#:#crsr_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#crsr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#crsr_read_learning_progress#:#A felhasználó megtekintheti a többi felhasználó tanulási haladását 
+rbac#:#crsr_read_learning_progress#:#A felhasználó megtekintheti a többi felhasználó tanulási haladását
 rbac#:#crsr_visible#:#A kurzuslink látható
 rbac#:#crsr_write#:#A felhasználó szerkesztheti kurzuslinket
 rbac#:#crss_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Kurzus jogosultsági beállításait

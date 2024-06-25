@@ -3399,7 +3399,6 @@ cntr#:#cntr_saved_sorting#:#Guardar ordenación
 cntr#:#cntr_switch_to_new_editor_cmd#:#Cambie a esta página para presentación
 cntr#:#cntr_switch_to_new_editor_message#:#Este es el editor estándar. Por favor, úselo para configurar el contenido de la página. Si hace click en el siguiente enlace, el contenido de la presentación será copiado del antiguo editor de contenidos de esta pagina.
 cntr#:#cntr_switched_editor#:#Cambiar a los contenidos nuevos.
-cntr#:#cntr_tax_list_info#:#A continuación todas las taxonomías que se han definido para este elemento.
 cntr#:#cntr_tax_none_available#:#No hay taxonomías disponibles.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Definición de Taxonomía

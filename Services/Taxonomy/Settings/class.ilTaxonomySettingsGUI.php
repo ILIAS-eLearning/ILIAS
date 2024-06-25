@@ -90,6 +90,8 @@ class ilTaxonomySettingsGUI
 
         $this->tabs->activateSubTab("tax_settings");
 
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_taxonomy_tab_info_message'));
+
         switch ($next_class) {
 
             case strtolower(ilObjTaxonomyGUI::class):

@@ -3395,7 +3395,6 @@ cntr#:#cntr_saved_sorting#:#Razvrstitev je shranjena
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zamenjaj na spodnjo vsebino. Stara vsebina bo izbrisana.
 cntr#:#cntr_switch_to_new_editor_message#:#To je privzet urejevalnik strani. Če ga želite uporabiti, morate vsebino s klikom dodati na rezervirana mesta spodaj. Če kliknete na naslednjo povezavo, bo spodnja vsebina uporabljena za prikaz strani.
 cntr#:#cntr_switched_editor#:#Preklopljeno na nov prikaz
-cntr#:#cntr_tax_list_info#:#V nadaljevanju so navedene vse taksonomije, ki so bile definirane za ta objekt.
 cntr#:#cntr_tax_none_available#:#Ni razpoložljivih taksonomij.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Definicija taksonomije

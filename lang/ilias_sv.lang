@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#Sortering sparad
 cntr#:#cntr_switch_to_new_editor_cmd#:#Byt till innehållet nedan. Gammalt innehåll kommer att raderas.
 cntr#:#cntr_switch_to_new_editor_message#:#Detta är standardredigeraren för sidor. Om du vill använda den måste du lägga till innehållet genom att klicka på platshållarna nedan. Om du klickar på länken nedan kommer innehållet nedan att användas för att visa sidan.
 cntr#:#cntr_switched_editor#:#Konverterad till ny representation
-cntr#:#cntr_tax_list_info#:#Alla taxonomier som har definierats för detta objekt listas nedan.
 cntr#:#cntr_tax_none_available#:#Det finns inga tillgängliga taxonomier.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Definition av taxonomi

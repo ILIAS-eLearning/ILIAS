@@ -3397,7 +3397,6 @@ cntr#:#cntr_saved_sorting#:#Спазено сортиране.
 cntr#:#cntr_switch_to_new_editor_cmd#:# Превключване към тази страница за представяне
 cntr#:#cntr_switch_to_new_editor_message#:#Това е поддържаният стандартен редактор. Използвайте го, за да настроите страницата със съдържание. Ако щракнете върху следната връзка, представянето на съдържанието в хранилището ще премине от съдържанието на стария редактор към тази страница.
 cntr#:#cntr_switched_editor#:#Преминаване към ново съдържание.
-cntr#:#cntr_tax_list_info#:#Следващите таксономии са дефинирани за този обект.
 cntr#:#cntr_tax_none_available#:#Няма налични таксономии.
 cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.###30 04 2024 new variable
 cntr#:#cntr_taxonomy_definitions#:#Определение на таксономия
