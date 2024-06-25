@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -10,7 +10,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
   - The **Object** service stores the account which created the
     object as it's owner and creation and update timestamps for the
     object.
-  - [AccessControl](../../Services/AccessControl/PRIVACY.md)
+  - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
 
 
 ## Data being stored

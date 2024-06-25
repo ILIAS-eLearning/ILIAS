@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -11,9 +11,9 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
       object as it's owner and creation and update timestamps for the
       object.
     - The **Metadata** service contains two branches: LOM and custom metdata. The LOM offers storing person dates like author. Custom metadata do contain user-created metadata sets which may contain personal data, which must be individually checked in the global administration.)
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
-    - [COPage](../../Services/COPage/PRIVACY.md)
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
+    - [Info Screen Service](../../ILIAS/InfoScreen/PRIVACY.md)
+    - [COPage](../../ILIAS/COPage/PRIVACY.md)
 
 
 ## Configuration

@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 
 ## General Information
@@ -12,7 +12,7 @@ The repository manages learning resources (aka objects) in a tree structure. Ple
 ## Integrated Services
 
 - In general the specific object components decide which sub-services they are using, you will find this information in the respective privacy.md files of these components. All object types are using the access control service:
-  - [AccessControl](../../Services/AccessControl/PRIVACY.md)
+  - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
 
 ## Configuration
 
@@ -27,7 +27,7 @@ The following configurations configure privacy related features:
 ## Data being stored
 
 - If a user selects a repository object as a "favourite" object, the user ID and the object ID are being stored together in table desktop_items. _Reason_: This data is essential to provide the Favourits feature at all.
-- Recommended content is managed by storing the object ID and the role ID. Content is currently only recommended to roles. User IDs are assigned to roles in the [AccessControl](../../Services/AccessControl/PRIVACY.md) service. 
+- Recommended content is managed by storing the object ID and the role ID. Content is currently only recommended to roles. User IDs are assigned to roles in the [AccessControl](../../ILIAS/AccessControl/PRIVACY.md) service. 
 - The service holds an implementation that to store user IDs to object IDs directly, however this is currently unused (and may never be used), see discussion at https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
 
 ## Data presentation

@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -11,18 +11,18 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
-    - [News Service](../../Services/News/Privacy.md)
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
+    - [Info Screen Service](../../ILIAS/InfoScreen/PRIVACY.md)
+    - [News Service](../../ILIAS/News/PRIVACY.md)
 
 ## General Information
 
-- The **[News Service](../../Services/News/Privacy.md)** service is the foundation of the mediacast. A mediacast entry is a news item with an attached media object.
+- The **[News Service](../../ILIAS/News/PRIVACY.md)** service is the foundation of the mediacast. A mediacast entry is a news item with an attached media object.
 
 ## Configuration
 
 - **Global**
-    - The global mediacast administration allows to set the default access for mediacast entries. If set to **public**, the **RSS** representation will be accessible **without authentication**, see [News Service](../../Services/News/Privacy.md) service.
+    - The global mediacast administration allows to set the default access for mediacast entries. If set to **public**, the **RSS** representation will be accessible **without authentication**, see [News Service](../../ILIAS/News/PRIVACY.md) service.
 - **Mediacast**
     - The mediacast settings allow to (de-)activate the RSS feed and to overwrite the default access (**public RSS** on/off).
 - **Mediacast Entry**
