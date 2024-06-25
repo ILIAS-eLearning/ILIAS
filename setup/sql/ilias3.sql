@@ -1,8 +1,9 @@
--- MariaDB dump 10.19  Distrib 10.6.16-MariaDB, for debian-linux-gnu (x86_64)
+/*!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.6.18-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.6.16-MariaDB-0ubuntu0.22.04.1
+-- Server version	10.6.18-MariaDB-0ubuntu0.22.04.1
 
 --
 -- Table structure for table `acc_access_key`
@@ -7084,6 +7085,7 @@ INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',4,'2023-03-31 
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',5,'2023-03-31 13:10:08.519867','2023-03-31 13:10:08.530435');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',6,'2023-04-26 17:22:12.960988','2023-04-26 17:22:12.965617');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',7,'2024-05-28 13:24:16.546038','2024-05-28 13:24:16.558934');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',8,'2024-06-25 14:05:10.427670','2024-06-25 14:05:10.428311');
 INSERT INTO `il_db_steps` VALUES ('ilECSDBUpdateSteps',1,'2023-03-31 13:10:08.531142','2023-03-31 13:10:08.536140');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',1,'2023-03-31 13:10:08.954044','2023-03-31 13:10:08.962950');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',2,'2023-03-31 13:10:08.963397','2023-03-31 13:10:08.967878');
@@ -7131,6 +7133,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateS
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',3,'2023-03-31 13:10:08.196895','2023-03-31 13:10:08.201357');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',4,'2023-03-31 13:10:08.201957','2023-03-31 13:10:08.204232');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaObjects\\Setup\\ilMediaObjectsDBUpdateSteps',1,'2023-03-31 13:10:08.204911','2023-03-31 13:10:08.205612');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaObjects\\Setup\\ilMediaObjectsDBUpdateSteps',2,'2024-06-25 14:05:10.424167','2024-06-25 14:05:10.426336');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',1,'2023-03-31 13:10:08.206242','2023-03-31 13:10:08.210401');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',1,'2023-03-31 13:10:08.211038','2023-03-31 13:10:08.220143');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',1,'2023-03-31 13:10:08.220799','2023-03-31 13:10:08.221420');
@@ -12380,7 +12383,7 @@ CREATE TABLE `map_area` (
   `item_id` int(11) NOT NULL DEFAULT 0,
   `nr` int(11) NOT NULL DEFAULT 0,
   `shape` varchar(20) DEFAULT NULL,
-  `coords` varchar(200) DEFAULT NULL,
+  `coords` varchar(4000) DEFAULT NULL,
   `link_type` char(3) DEFAULT NULL,
   `title` varchar(200) DEFAULT NULL,
   `href` varchar(800) DEFAULT NULL,
@@ -13129,7 +13132,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-05-28 13:24:16','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-06-25 14:05:10','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20122,7 +20125,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.12.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.13.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25106,4 +25109,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-05-28 13:24:17
+-- Dump completed on 2024-06-25 14:05:11
