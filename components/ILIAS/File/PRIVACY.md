@@ -19,7 +19,7 @@ File Object itself.
     - [Metadata](../../ILIAS/MetaData/Privacy.md)
     - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
     - ECS
-    - IRSS
+    - [IRSS](../../ILIAS/ResourceStorage/docs/PRIVACY.md)
     - Learning Progress
     - [News](../../ILIAS/News/PRIVACY.md)
     - Object Service
