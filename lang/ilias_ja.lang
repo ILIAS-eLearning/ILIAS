@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#ユーザの合格状況
 crs#:#crs_create_date#:#作成日
 crs#:#crs_custom_user_fields#:#関連ユーザデータのコース
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###08 04 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#日付
 crs#:#crs_deactivate_notification#:#通知をオフ
 crs#:#crs_delete_objectve_sure#:#本当に選択した学習目標を削除しますか?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#既存のグループへユーザを追加す
 grp#:#grp_created_and_user_been_added#:#グループの作成とユーザーを追加しました。
 grp#:#grp_custom_user_fields#:#関連ユーザデータのグループ
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###08 04 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#通知をオフ
 grp#:#grp_edit_members#:#受講者を編集
 grp#:#grp_enable_map#:#グループmapを有効
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
 tbl#:#tbl_templates#:#表示
 tos#:#deleteDocument#:#削除
 tos#:#detachCriterionAssignment#:#削除
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#承諾履歴
 tos#:#tos_account_reg_not_possible#:#ユーザ許諾が無いので自己登録はできません。詳細に関しては<a href="%1$s">システム管理者</a>へコンタクトしてください。
 tos#:#tos_add_document_btn_label#:#ドキュメントを追加

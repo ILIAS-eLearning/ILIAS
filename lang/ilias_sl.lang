@@ -7414,6 +7414,7 @@ crs#:#crs_course_status_of_users#:#Opravljen tečaj
 crs#:#crs_create_date#:#Datum nastanka
 crs#:#crs_custom_user_fields#:#Uporabniški podatki, ki so specifični za tečaj
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Termini
 crs#:#crs_deactivate_notification#:#Onemogoči obveščanje
 crs#:#crs_delete_objectve_sure#:#Ali ste prepričani, da želite odstraniti izbrane učne cilje?
@@ -9904,6 +9905,7 @@ grp#:#grp_create_or_use_existing#:#Ali želite dodati uporabnika v obstoječo sk
 grp#:#grp_created_and_user_been_added#:#Skupina je bila ustvarjena in dodani uporabniki.
 grp#:#grp_custom_user_fields#:#Uporabniški podatki, specifični za skupino
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Onemogoči obveščanje
 grp#:#grp_edit_members#:#Upravljanje udeleženca
 grp#:#grp_enable_map#:#Aktiviraj skupinski zemljevid
@@ -16351,6 +16353,8 @@ tbl#:#tbl_template_deleted#:#Shranjeni pogled je bil izbrisan.
 tbl#:#tbl_templates#:#Pogled
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Zgodovina soglasij
 tos#:#tos_account_reg_not_possible#:#Samoregistracija trenutno ni mogoča zaradi pomanjkanja uporabniške pogodbe. Za nadaljnje informacije se obrnite na svojega <a href="%1$s">Sistemskega administratorja>.
 tos#:#tos_add_document_btn_label#:#Dodaj dokument

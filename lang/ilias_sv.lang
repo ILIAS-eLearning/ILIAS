@@ -7415,6 +7415,7 @@ crs#:#crs_course_status_of_users#:#Att klara kursen
 crs#:#crs_create_date#:#Datum för skapande
 crs#:#crs_custom_user_fields#:#Personuppgifter
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Datum
 crs#:#crs_deactivate_notification#:#Avaktivera avisering
 crs#:#crs_delete_objectve_sure#:#Är du säker på att de utvalda lärandemålen ska tas bort?
@@ -9905,6 +9906,7 @@ grp#:#grp_create_or_use_existing#:#Vill du lägga till användaren i en befintli
 grp#:#grp_created_and_user_been_added#:#Gruppen har skapats och användaren har lagts till.
 grp#:#grp_custom_user_fields#:#Personuppgifter
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Avaktivera avisering
 grp#:#grp_edit_members#:#Deltagarstyrning
 grp#:#grp_enable_map#:#Aktivera gruppkort
@@ -16352,6 +16354,8 @@ tbl#:#tbl_template_deleted#:#Den sparade vyn har tagits bort.
 tbl#:#tbl_templates#:#Visa
 tos#:#deleteDocument#:#Radera
 tos#:#detachCriterionAssignment#:#Radera
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Historia om samtycke
 tos#:#tos_account_reg_not_possible#:#Självregistrering är för närvarande inte möjlig eftersom inget användaravtal erbjuds i denna installation. Kontakta din <a href="%1$s">systemadministratör för</a> mer information.
 tos#:#tos_add_document_btn_label#:#Lägg till dokument

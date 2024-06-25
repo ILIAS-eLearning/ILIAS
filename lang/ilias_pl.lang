@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#Kurs zaliczony
 crs#:#crs_create_date#:#Twórz termin
 crs#:#crs_custom_user_fields#:#Pola użytkownika właściwe dla kursu
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Terminy
 crs#:#crs_deactivate_notification#:#Wyłącz powiadamianie
 crs#:#crs_delete_objectve_sure#:#Czy chcesz usunąć wybrane cele?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Czy chcesz dodać użytkownika do istniejące
 grp#:#grp_created_and_user_been_added#:#Grupa została utworzono a użytkownik dodany.
 grp#:#grp_custom_user_fields#:#Dane użytkownika właściwe dla grupy
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Deaktywowanie powiadamiania
 grp#:#grp_edit_members#:#Edytuj uczestników
 grp#:#grp_enable_map#:#Włącz mapy dla grup
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#Usunięto zapisany widok.
 tbl#:#tbl_templates#:#Podgląd
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Historia głosowania
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document

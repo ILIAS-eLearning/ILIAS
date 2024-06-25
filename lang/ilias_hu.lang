@@ -7415,6 +7415,7 @@ crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_create_date#:#Dátum létrehozása
 crs#:#crs_custom_user_fields#:#Kurzushoz tartozó felhasználói adatok
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Dátumok
 crs#:#crs_deactivate_notification#:#Értesítés kikapcsolása
 crs#:#crs_delete_objectve_sure#:#Biztos, hogy törli a kiválasztott célokat?
@@ -9905,6 +9906,7 @@ grp#:#grp_create_or_use_existing#:#Meglévő vagy új csoporthoz hozzáadja a fe
 grp#:#grp_created_and_user_been_added#:#A csoportot sikeresen létrehozta és a felhasználót sikeresen hozzáadta.
 grp#:#grp_custom_user_fields#:#Csoporthoz tartozó felhasználói adatok
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Értesítés kikapcsolása
 grp#:#grp_edit_members#:#Résztvevők módosítása
 grp#:#grp_enable_map#:#Csoporttérkép engedélyezése
@@ -16352,6 +16354,8 @@ tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
 tbl#:#tbl_templates#:#Nézet
 tos#:#deleteDocument#:#Törlés
 tos#:#detachCriterionAssignment#:#Törlés
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Elfogadás-előzmények
 tos#:#tos_account_reg_not_possible#:#Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href="%1$s">rendszerüzemeltetőkkel</a>.
 tos#:#tos_add_document_btn_label#:#Dokumentum hozzáadása

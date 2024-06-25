@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#A lista de destinatários de notificação n�
 crs#:#crs_create_date#:#Data/Hora
 crs#:#crs_custom_user_fields#:#Dados do utilizador relevantes para o curso
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Datas
 crs#:#crs_deactivate_notification#:#Evento todo o dia
 crs#:#crs_delete_objectve_sure#:#Tem a certeza que quer apagar os objetivos selecionados?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Quer adicionar o utilizador a um grupo existe
 grp#:#grp_created_and_user_been_added#:#O grupo foi criado e o utilizador foi adicionado.
 grp#:#grp_custom_user_fields#:#Dados do utilizador relevantes para o grupo
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Coreia do Sul (República da Coreia)
 grp#:#grp_edit_members#:#Editar participantes
 grp#:#grp_enable_map#:#Ativar mapa do grupo
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#A vista atual foi apagada.
 tbl#:#tbl_templates#:#Visão
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Aceitação histórico
 tos#:#tos_account_reg_not_possible#:#Não é possível registar-se a si próprio porque falta um acordo do utilizador. Entre em contacto com o administrador <a href="%1$s">do seu sistema</a> para mais informação.
 tos#:#tos_add_document_btn_label#:#Adicionar documento

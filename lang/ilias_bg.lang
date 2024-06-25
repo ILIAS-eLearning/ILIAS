@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#Преминат статус на потре
 crs#:#crs_create_date#:#Създаване на дата
 crs#:#crs_custom_user_fields#:#Данни за потребителя, свързани с курса
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Дати
 crs#:#crs_deactivate_notification#:#Деактивиране на известие
 crs#:#crs_delete_objectve_sure#:#Със сигурност ли искате да изтриете избраните цели?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Искате ли да добавите по�
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 grp#:#grp_custom_user_fields#:#Групиране на съответните данни за потребителя
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Деактивиране на известие
 grp#:#grp_edit_members#:#Редактиране на участници
 grp#:#grp_enable_map#:#Активиране на групова карта
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#Запазеният изглед е изтрит.
 tbl#:#tbl_templates#:#View
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#История на приемането
 tos#:#tos_account_reg_not_possible#:#Самостоятелната регистрация не е възможна поради липсващо споразумение с потребителя. Моля, свържете се с Вашия <a href=&quot;%1$s&quot;>системен администратор</a> за допълнителна информация.
 tos#:#tos_add_document_btn_label#:#Add Document

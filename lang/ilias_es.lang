@@ -7402,6 +7402,7 @@ crs#:#crs_course_status_of_users#:#Estado final de los usuarios
 crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_custom_user_fields#:#Datos de usuario personalizados
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Fechas
 crs#:#crs_deactivate_notification#:#Desactivar notificaciones
 crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?
@@ -9892,6 +9893,7 @@ grp#:#grp_create_or_use_existing#:#¿Desea añadir el usuario a un grupo existen
 grp#:#grp_created_and_user_been_added#:#Se ha creado el grupo y se ha añadido el usuario.
 grp#:#grp_custom_user_fields#:#Grupo de datos relevantes al usuario
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Desactivar notificación
 grp#:#grp_edit_members#:#Editar participantes
 grp#:#grp_enable_map#:#Habilitar Mapa de Grupo
@@ -16339,6 +16341,8 @@ tbl#:#tbl_template_deleted#:#La vista almacenada ha sido eliminada.
 tbl#:#tbl_templates#:#Vista
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Historial de aceptación
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document

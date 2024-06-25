@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#Status uživatelů prošlí
 crs#:#crs_create_date#:#Vytvořit datum
 crs#:#crs_custom_user_fields#:#Uživatelská data relevantní kurzu
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Data
 crs#:#crs_deactivate_notification#:#Deaktivovat vyrozumění
 crs#:#crs_delete_objectve_sure#:#Určitě chcete smazat vybrané cíle?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Chcete přidat uživatele do existující sku
 grp#:#grp_created_and_user_been_added#:#Skupina byla vytvořena a uživatel přidán.
 grp#:#grp_custom_user_fields#:#Uživatelská data odpovídající skupině
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Deaktivovat vyrozumění
 grp#:#grp_edit_members#:#Upravit účastníka
 grp#:#grp_enable_map#:#Zapnout mapu skupiny
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#Uložené zobrazení bylo smazáno.
 tbl#:#tbl_templates#:#Zobrazení
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Historie schvalování
 tos#:#tos_account_reg_not_possible#:#Vlastní registrace není možná kvůli chybějící uživatelské smlouvě. Další informace vám poskytne <a href="%1$s"> správce systému </a>.
 tos#:#tos_add_document_btn_label#:#Přidat dokument

@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#Passed Status of Users###28 08 2012 new varia
 crs#:#crs_create_date#:#Sukurti datą
 crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Datos
 crs#:#crs_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
 crs#:#crs_delete_objectve_sure#:#Ar tikrai norite ištrinti pasirinktus tikslus?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing gr
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.###31 08 2017 new variable
 grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
 grp#:#grp_edit_members#:#Edit Participants###02 06 2008 new variable
 grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
@@ -16337,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#The saved view has been deleted.###16 07 2010 new v
 tbl#:#tbl_templates#:#View###16 07 2010 new variable
 tos#:#deleteDocument#:#Delete###31 03 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 03 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Acceptance History###24 10 2013 new variable
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.###10 11 2018 new variable
 tos#:#tos_add_document_btn_label#:#Add Document###10 11 2018 new variable
