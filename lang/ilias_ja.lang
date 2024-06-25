@@ -3228,7 +3228,6 @@ cntr#:#cntr_saved_sorting#:#並び替えを保存
 cntr#:#cntr_switch_to_new_editor_cmd#:#新しいコンテンツのページに切り替える。古いコンテンツを削除。
 cntr#:#cntr_switch_to_new_editor_message#:#サポートされている標準的なエディターです。古いエディターからコンテンツは引き継がれません。以下の新しいページコンテンツへ追加を開始してください。次のリンクをクリックすると新しいコンテンツが使用されます。
 cntr#:#cntr_switched_editor#:#新しいコンテンツへ切り替えられました。
-cntr#:#cntr_tax_list_info#:#以下はこのオブジェスト用として定義されている分類です。
 cntr#:#cntr_tax_none_available#:#分類は利用できません。
 cntr#:#cntr_taxonomy_definitions#:#分類定義
 cntr#:#cntr_taxonomy_show_sideblock#:#サイドブロック中に分類を表示

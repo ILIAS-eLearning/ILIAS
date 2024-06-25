@@ -3191,7 +3191,6 @@ cntr#:#cntr_saved_sorting#:#Rendezés mentése sikerült
 cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
 cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra.
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
-cntr#:#cntr_tax_list_info#:#Ehhez az objektumhoz definiált összes taxonómia felsorolása.
 cntr#:#cntr_tax_none_available#:#Nincsenek elérhető taxonómiák.
 cntr#:#cntr_taxonomy_definitions#:#Taxonómia meghatározása
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonómiát mutassa az oldalblokkban
