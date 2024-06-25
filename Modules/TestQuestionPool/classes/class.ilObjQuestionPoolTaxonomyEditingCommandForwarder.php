@@ -73,7 +73,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 
         $tax_gui = $this->taxonomy->gui()->getSettingsGUI(
             $this->poolOBJ->getId(),
-            "",
+            $this->lng->txt('qpl_taxonomy_tab_info_message'),
             true
         )->withAssignedItemSorting(
             $questionList,
