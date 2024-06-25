@@ -697,6 +697,11 @@ abstract class ilAssQuestionFeedback
     final protected function getGenericFeedbackPageObjectId(int $question_id, bool $solution_completed): int
     {
         $page_object_id = $this->getGenericFeedbackId($question_id, $solution_completed);
+
+        if ($page_object_id === -1) {
+            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
+        }
+
         return $page_object_id;
     }
 
