@@ -6,7 +6,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 
 ## General Information
 
-The forum is an ILIAS repository object in which users can hold discussions. A forum is organized in different topics (threads), to which contributions (posts) are written. As long as a forum is not deleted, posts can be viewed for years after they have been published.
+The forum is an ILIAS repository object where users can hold discussions. A forum is organized into different topics (threads), to which contributions (posts) are written. As long as a forum is not deleted, posts can be viewed for years after they have been published.
 
 At least one person is responsible for moderation in all forums: They can censor and overwrite posts and close topics. Moderators can be added and removed by a person with the “Edit Settings” permission on the “Moderators” tab.
 
@@ -14,7 +14,7 @@ At least one person is responsible for moderation in all forums: They can censor
 
 Various privacy-related settings are made under “Administration > Repository and Objects > Forum”:
 
-**Enable Statistics in Forum** (default: off) sets for the installation whether a statistics function can be activated in the settings of individual forums.
+**Enable Statistics in Forum** (default: off) sets whether a statistics function can be activated in the settings of individual forums for the installation.
 
 **Allow posting with pseudonym** (default setting: off) sets whether pseudonymization can be activated in individual forums. Registered users can then post in this forum using an alias without stating their name. 
 
@@ -30,15 +30,15 @@ The following privacy-related settings can be made in an individual forum under 
 
 **User Functions / Thread Rating** (default: off) enables users to assign a 5-star rating to threads. The average rating and number of ratings is displayed to all users.
 
-**Moderator Functions / Approve Postings** (default: off) enables posts in the forum to be published only after they have been read and approved by moderators.
+**Moderator Functions / Approve Posts** (default: off) enables posts in the forum to be published only after they have been read and approved by moderators.
 
 **Privacy / Enable Statistics** (default: off) enables all forum users to see who has published how many posts.
 
-**Privacy / Posting with pseudonym** (default setting: off) allows users to publish posts in the forum anonymously or using a pseudonym. Forum posts that have already been anonymized remain anonymous even after a changeover.
+**Privacy / Post with pseudonym** (default setting: off) allows users to publish posts in the forum anonymously or using a pseudonym. Forum posts that have already been anonymized remain anonymous even after a changeover.
 
 ### Notifications
 
-For forums within courses and groups, you can set here whether users of the forum automatically receive notifications by e-mail, whether they have to activate it manually or whether they can deactivate it individually (default setting: manual activation).
+For forums within courses and groups, you can set whether users automatically receive notifications by e-mail, need to activate them manually, or can deactivate them individually (default setting: manual activation).
 
 ### News settings
 
@@ -56,9 +56,9 @@ With every post or draft of a post, the **ID** of the user who created it and th
 
 If anonymization is set in the forum, the ID of the user and the **pseudonym** entered are saved internally with a post.
 
-The **moderator** function of a user is saved via the ILIAS access control system by the moderator role they belong to. For **censored posts**, the time and comment are saved and are linked to the ID of the censor.
+The **moderator** function of a user is saved via the ILIAS access control system through the moderator role they belong to. For **censored posts**, the time and comment are saved and linked to the ID of the censor.
 
-**Notification settings** for the forum or individual topics are saved for users (notification of new topics, modification or censorship of posts, deletion of posts or topics). The settings are linked to the **IDs** of the user who made them and to whom they apply.
+**Notification settings** for the forum or individual topics are saved for users, including notifications of new topics, modifications or censorship of posts, and deletion of posts or topics. These settings are linked to the **IDs** of the users who made them and to whom they apply.
 
 The **read status** of posts and the **sorting** of topics is saved for individual users and used to customize the display.
 
@@ -66,15 +66,15 @@ If forum topics can be given a 5-star rating, **individual ratings** are saved b
 
 ## Data being presented
 
-The title, description, start page of the forum as well as the titles of the topics and the posts may contain **manually created personal information**.
+The title, description, and start page of the forum, as well as, the titles of the topics and the posts may contain **manually created personal information**.
 
-If a post was written without pseudonymization, the **ILIAS username** and the **date of creation** are visible to other users with read access to the forum. In the case of highlighted posts by moderators, a **Moderation** appears. In the case of subsequent changes, the user name and the date of the **change** are visible.
+If a post was written without pseudonymization, the **ILIAS username** and the **date of creation** are visible to other users with read access to the forum. When a post was written by a moderator, a **"Moderation"** label appears beneath the ILIAS username. In the case of subsequent changes, the user name and the date of the **change** are visible.
 
-If a user has published a personal profile, the **first name** and **surname** are also displayed. Depending on the profile settings, a **portrait** or **letter avatar** is displayed. If a forum is enabled for anonymous access via the access control system, this data is only displayed for anonymous users if the profile has been made publicly visible.
+If a user has published a personal profile, the **first name** and **surname** are also displayed. Depending on the profile settings, a **portrait** or **letter avatar** is shown. If a forum is enabled for anonymous access via the access control system, this data is only displayed to anonymous users if the profile has been made publicly visible.
 
 If a post has been written with a **pseudonym**, the pseudonym entered appears instead of the username and is recognizable as such.
 
-If **statistics** are activated in the forum, a table is available for all users with read access, in which at least the **username** and the **number of posts** are listed for users with posts. If the personal profile is enabled, the first name and surname are also displayed. 
+If **statistics** are activated in the forum, a table is available for all users with read access, listing at least the **username** and the **number of posts** for users with posts. If the personal profile is enabled, the first name and surname are also displayed. 
 
 If a **learning progress** is activated in the forum and a user has the permission "View learning progress of other users", it will be displayed in the statistics table.
 
