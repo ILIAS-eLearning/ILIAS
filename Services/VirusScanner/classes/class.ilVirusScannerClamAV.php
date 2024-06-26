@@ -108,7 +108,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
         // Make group readable for clamdscan
-        $currentPermission = fileperms($a_filepath);
+        $currentPermission = fileperms($file_path);
         $perm = $currentPermission | 0640;
         chmod($file_path, $perm);
 
@@ -123,7 +123,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
             if ($perm != $currentPermission) {
                 chmod($a_filepath, $currentPermission);
             }
-            
+
             if ($this->hasDetections($this->scanResult)) {
                 $this->scanFileIsInfected = true;
                 $this->logScanResult();
