@@ -32,8 +32,8 @@ class ilBookingSchedule
     protected int $auto_break = 0;
     protected int $deadline = 0;
     protected array $definition;
-    protected ?ilDateTime $av_from;
-    protected ?ilDateTime $av_to;
+    protected ?ilDateTime $av_from = null;
+    protected ?ilDateTime $av_to = null;
 
     public function __construct(
         int $a_id = null
