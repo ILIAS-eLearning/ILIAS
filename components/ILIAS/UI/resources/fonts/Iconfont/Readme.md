@@ -7,6 +7,9 @@ Changes (adding/removing/changing Glyphs) can be done by importing the json of t
 contained in this folder and re-generating to font with This font-set has 
 been generated [icomoon](https://icomoon.io/app).
 
+**Important** Final Check: Always provide a final check, making sure, that the previous glyphs still in the same place?
+
+
 ### Find entity
 
 1. download JSON with il-icons font 
@@ -35,7 +38,7 @@ Now all il-icons entities are visible with their numbers.
 12. close modal via X (top right corner), no saving necessary
 
 The new SVG file must not have contours, but must have areas. It may be necessary to convert the file from contours 
-to surfaces in Illustrator (see below).
+to surfaces in Illustrator [see below](#convert-glyph).
 
 ### Add entity
 1. download JSON with il-icons font
@@ -65,10 +68,9 @@ to the font (without having to register with Icomoon). The ILIAS repo should onl
 The eot is an old file for IE, the ttf does not always render the glyphs correctly as a font. 
 Woff or Woff2 (but icomoon does not offer this) would be the required files for the font.
 
-Final check: Are the previous glyphs still in the same place?
+### Convert Glyph
 
-### Convert outline glyph to area glyph in Illustrator
-
+How to convert an outline glyph to area glyph in Illustrator:
 1. convert object into a path.
 2. menu "Object" > Convert...
 3. select "Outline". Ok.
