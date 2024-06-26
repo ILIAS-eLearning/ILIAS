@@ -44,7 +44,7 @@ class ilBookingInfoScreenAdapter
     {
         return array_map(static function ($ref_id) {
             return ilObject::_lookupObjId($ref_id);
-        }, $this->use_book_repo->getUsedBookingPools($this->context_obj_id));
+        }, $this->use_book_repo->getUsedBookingPools($this->context_obj_id, false));
     }
 
     /**

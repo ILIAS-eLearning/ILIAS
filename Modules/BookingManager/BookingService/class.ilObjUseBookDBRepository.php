@@ -24,11 +24,14 @@
 class ilObjUseBookDBRepository
 {
     protected const TABLE_NAME = 'book_obj_use_book';
+    protected ilTree $tree;
 
     protected ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
+        global $DIC;
+        $this->tree = $DIC->repositoryTree();
         $this->db = $db;
     }
 
@@ -59,7 +62,7 @@ class ilObjUseBookDBRepository
     /**
      * @return int[] ref ids
      */
-    public function getUsedBookingPools(int $obj_id): array
+    public function getUsedBookingPools(int $obj_id, bool $include_deleted = true): array
     {
         $db = $this->db;
 
@@ -71,8 +74,19 @@ class ilObjUseBookDBRepository
         );
         $book_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $book_ids[] = $rec["book_ref_id"];
+            if ($include_deleted || $this->tree->isInTree((int) $rec["book_ref_id"])) {
+                $book_ids[] = $rec["book_ref_id"];
+            }
         }
         return $book_ids;
+    }
+
+    public function deleteEntriesOfBookRefId(int $ref_id) : void
+    {
+        $this->db->manipulateF("DELETE FROM " . self::TABLE_NAME . "  WHERE " .
+            " book_ref_id = %s",
+            ["integer"],
+            [$ref_id]
+        );
     }
 }

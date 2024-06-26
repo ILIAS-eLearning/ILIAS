@@ -37,7 +37,7 @@ class ilBookingService
         int $target_obj_id
     ): void {
         $use_book_repo = new ilObjUseBookDBRepository($this->db);
-        $book_ref_ids = $use_book_repo->getUsedBookingPools($source_obj_id);
+        $book_ref_ids = $use_book_repo->getUsedBookingPools($source_obj_id, false);
         $use_book_repo->updateUsedBookingPools($target_obj_id, $book_ref_ids);
     }
 }

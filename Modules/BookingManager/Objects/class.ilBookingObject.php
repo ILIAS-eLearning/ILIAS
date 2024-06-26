@@ -464,7 +464,7 @@ class ilBookingObject
         if ($a_schedule_map) {
             $schedule_id = $this->getScheduleId();
             if ($schedule_id) {
-                $new_obj->setScheduleId($a_schedule_map[$schedule_id]);
+                $new_obj->setScheduleId($a_schedule_map[$schedule_id] ?? null);
             }
         }
 

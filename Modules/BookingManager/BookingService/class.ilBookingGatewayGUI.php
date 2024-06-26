@@ -116,7 +116,7 @@ class ilBookingGatewayGUI
         $ctrl->saveParameter($this, "pool_ref_id");
         $pool_ref_id = $this->book_request->getPoolRefId();
 
-        $book_ref_ids = $this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjId($this->main_host_ref_id));
+        $book_ref_ids = $this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjId($this->main_host_ref_id), false);
 
         $this->pools_selected = (count($book_ref_ids) > 0);
 
@@ -186,7 +186,7 @@ class ilBookingGatewayGUI
     ): void {
         //
         $options = [];
-        foreach ($this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjectId($this->main_host_ref_id)) as $ref_id) {
+        foreach ($this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjectId($this->main_host_ref_id), false) as $ref_id) {
             $options[$ref_id] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
         }
 

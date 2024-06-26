@@ -171,6 +171,11 @@ class ilObjBookingPool extends ilObject
 
         $id = $this->getId();
 
+        if ($this->referenced) {
+            $use_repo = new ilObjUseBookDBRepository($ilDB);
+            $use_repo->deleteEntriesOfBookRefId($this->getRefId());
+        }
+
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
