@@ -33,7 +33,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
-    private bool $isSingleline = true;
+    use ChoiceQuestionAnswerTypeAwareTrait;
 
     /**
     * The given answers of the single choice question
@@ -130,7 +130,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         // kann das weg?
         $oldthumbsize = 0;
-        if ($this->isSingleline && ($this->getThumbSize())) {
+        if ($this->isSingleLineAnswerType() && ($this->getThumbSize())) {
             // get old thumbnail size
             $result = $ilDB->queryF(
                 "SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -156,7 +156,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     protected function rebuildThumbnails(): void
     {
-        if ($this->isSingleline && ($this->getThumbSize())) {
+        if ($this->isSingleLineAnswerType() && ($this->getThumbSize())) {
             foreach ($this->getAnswers() as $answer) {
                 if (strlen($answer->getImage())) {
                     $this->generateThumbForFile($this->getImagePath(), $answer->getImage());
@@ -188,7 +188,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string) $this->getThumbSize());
         }
     }
 
@@ -226,7 +226,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->isSingleline = ($data['allow_images']) ? false : true;
+            $this->setIsSingleline(($data['allow_images'] === '0') ? false : true);
             $this->lastChange = $data['tstamp'];
             $this->feedback_setting = $data['feedback_setting'];
 
@@ -714,7 +714,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             array(
                                 $this->getId(),
                                 $this->getShuffle(),
-                                ($this->isSingleline) ? "0" : "1",
+                                ($this->isSingleline) ? "1" : "0",
                                 (strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
                             )
         );
@@ -1167,6 +1167,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
+    /**
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLineAnswerType() instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function getMultilineAnswerSetting()
     {
         global $DIC;
@@ -1179,6 +1186,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $multilineAnswerSetting;
     }
 
+    /**
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use setAnswerType() instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function setMultilineAnswerSetting($a_setting = 0): void
     {
         global $DIC;
@@ -1359,14 +1373,33 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
+    /**
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLineAnswerType() instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function isSingleline(): bool
     {
-        return $this->isSingleline;
+        return $this->isSingleLineAnswerType();
     }
 
+    /**
+     * @param bool $isSingleline
+     *
+     * @return void
+     *
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0.
+     *             Use isSingleLineAnswerType(ChoiceQuestionAnswerType::SINGLE_LINE) instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function setIsSingleline(bool $isSingleline): void
     {
-        $this->isSingleline = $isSingleline;
+        $this->setAnswerType($isSingleline ? ChoiceQuestionAnswerType::SINGLE_LINE : ChoiceQuestionAnswerType::MULTI_LINE);
     }
 
     public function getFeedbackSetting(): int
