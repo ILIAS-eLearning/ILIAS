@@ -206,9 +206,9 @@ class ilBookingProcessGUI
             $evening_aggr = $user_settings->getDayEnd();
             $hours = array();
             for ($i = $morning_aggr;$i <= $evening_aggr;$i++) {
+                $hours[$i] = "";
                 switch ($user_settings->getTimeFormat()) {
                     case ilCalendarSettings::TIME_FORMAT_24:
-                        $hours[$i] = "";
                         if ($morning_aggr > 0 && $i === $morning_aggr) {
                             $hours[$i] = sprintf('%02d:00', 0) . "-";
                         }
