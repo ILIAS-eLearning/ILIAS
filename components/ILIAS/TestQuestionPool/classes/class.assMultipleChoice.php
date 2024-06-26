@@ -42,20 +42,45 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
     use ManipulateImagesInChoiceQuestionsTrait;
+    use ChoiceQuestionAnswerTypeAwareTrait;
 
     public const OUTPUT_ORDER = 0;
     public const OUTPUT_RANDOM = 1;
 
     public array $answers = [];
+    /**
+     * @var bool
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLineAnswerType() instead.
+     */
     public bool $is_singleline = false;
     public int $feedback_setting = 0;
     protected ?int $selection_limit = null;
 
-    public function setIsSingleline(bool $is_singleline): void
+    /**
+     * @param mixed $isSingleline
+     *
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0.
+     *             Use setAnswerType(ChoiceQuestionAnswerType::SINGLE_LINE) instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
+    public function setIsSingleline($is_singleline): void
     {
         $this->is_singleline = $is_singleline;
+        $this->setAnswerType($is_singleline ? ChoiceQuestionAnswerType::SINGLE_LINE : ChoiceQuestionAnswerType::MULTI_LINE);
     }
 
+    /**
+     * @return mixed
+     *
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLineAnswerType() instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function getIsSingleline(): bool
     {
         return $this->is_singleline;
@@ -140,7 +165,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->is_singleline = $data['allow_images'] === '0';
+            $this->setIsSingleline(($data['allow_images'] === '0') ? false : true);
             $this->lastChange = $data['tstamp'];
             $this->setSelectionLimit((int) $data['selection_limit'] > 0 ? (int) $data['selection_limit'] : null);
             if (isset($data['feedback_setting'])) {
@@ -434,7 +459,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function saveAdditionalQuestionDataToDb()
     {
-        if (!$this->is_singleline) {
+        if (!$this->isSingleLineAnswerType()) {
             ilFileUtils::delDir($this->getImagePath());
         }
 
@@ -443,7 +468,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $this->getAdditionalTableName(),
             [
                 'shuffle' => ['text', $this->getShuffle()],
-                'allow_images' => ['text', $this->is_singleline ? 0 : 1],
+                'allow_images' => ['text', $this->isSingleLineAnswerType() ? "1" : "0"],
                 'thumb_size' => ['integer', $this->getThumbSize()],
                 'selection_limit' => ['integer', $this->getSelectionLimit()],
                 'feedback_setting' => ['integer', $this->getSpecificFeedbackSetting()]
@@ -627,7 +652,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $result = 1;
                 } else {
                     // create thumbnail file
-                    if ($this->is_singleline && ($this->getThumbSize())) {
+                    if ($this->isSingleLineAnswerType() && ($this->getThumbSize())) {
                         $this->generateThumbForFile(
                             $image_filename,
                             $this->getImagePath(),
@@ -762,11 +787,27 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
 
+    /**
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLine() instead.
+     *             The new method name may be subject to change.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function getMultilineAnswerSetting(): int
     {
         return $this->current_user->getPref('tst_multiline_answers') === '1' ? 1 : 0;
     }
 
+    /**
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use setIsSingleLine() instead.
+     *             The new method name may be subject to change.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function setMultilineAnswerSetting($setting = 0): void
     {
         $this->current_user->writePref('tst_multiline_answers', (string) $setting);
@@ -997,6 +1038,15 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $config;
     }
 
+    /**
+     * @return bool
+     *
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use isSingleLineAnswerType() instead.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
+     */
     public function isSingleline()
     {
         return (bool) $this->is_singleline;
