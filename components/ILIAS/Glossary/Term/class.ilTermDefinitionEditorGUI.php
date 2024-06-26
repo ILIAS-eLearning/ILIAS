@@ -140,17 +140,6 @@ class ilTermDefinitionEditorGUI
                 $page->addUpdateListener($this, "saveShortText");
                 $page_gui->setEditPreview(true);
 
-                // metadata
-                // ... set title to term, if no title is given
-                $md = new ilMD($this->term_glossary->getId(), $this->term->getId(), "term");
-                $md_gen = $md->getGeneral();
-                //if ($md_gen->getTitle() == "") {
-                //    $md_gen->setTitle($this->term->getTerm());
-                //    $md_gen->update();
-                //}
-
-                $page_gui->activateMetaDataEditor($this->term_glossary, "term", $this->term->getId());
-
                 $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setTemplateTargetVar("ADM_CONTENT");
