@@ -299,9 +299,11 @@ class ilNoteGUI
             if (!is_array($this->rep_obj_id) && $this->news_id === 0) {
 
                 // if common object settings are used, we check for activation
-                if ($this->comments_settings) {
-                    $active = $this->manager->commentsActive($this->rep_obj_id);
-                }
+                // 37713, 37701
+                // removed setting check due to 41511
+                //if ($this->comments_settings) {
+                $active = $this->manager->commentsActive($this->rep_obj_id);
+                //}
             }
             if ($active) {
                 $content = $this->getNoteListHTML(Note::PUBLIC, $a_init_form);
