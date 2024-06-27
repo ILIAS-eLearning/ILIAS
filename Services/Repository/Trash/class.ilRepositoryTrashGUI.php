@@ -216,12 +216,11 @@ class ilRepositoryTrashGUI
                 ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
                 : $lng->txt("icon") . " " . $lng->txt("obj_" . $type);
 
-            $title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);
-
             $cgui->addItem(
                 "id[]",
                 $ref_id,
-                ilUtil::stripSlashes($title),
+                ilUtil::stripSlashes($title) .
+                $this->handleMultiReferences($obj_id, $ref_id, $form_name),
                 ilObject::_getIcon($obj_id, "small", $type),
                 $alt
             );
@@ -333,7 +332,6 @@ class ilRepositoryTrashGUI
                 );
                 $tpl->parseCurrentBlock();
             }
-
             return $tpl->get();
         }
         return "";
@@ -471,11 +469,11 @@ class ilRepositoryTrashGUI
                     $path .= " &raquo; ";
                 }
                 if ((int) $ref_id !== (int) $data['ref_id']) {
-                    $path .= $data['title'];
+                    $path .= ilUtil::stripSlashes($data['title']);
                 } else {
                     $path .= ('<a target="_top" href="' .
                               ilLink::_getLink($data['ref_id'], $data['type']) . '">' .
-                              $data['title'] . '</a>');
+                              ilUtil::stripSlashes($data['title']) . '</a>');
                 }
             }
 
