@@ -59,10 +59,10 @@ class ProfileGUI
         return $avatar->getUrl();
     }
 
-    public function getNamePresentation(int $user_id, bool $link_profile = false, string $back = ""): string
+    public function getNamePresentation(int $user_id, bool $link_profile = false, string $back = "", $force_first_last = false): string
     {
         if ($this->profile->exists($user_id)) {
-            $name = \ilUserUtil::getNamePresentation($user_id, false, $link_profile, $back);
+            $name = \ilUserUtil::getNamePresentation($user_id, false, $link_profile, $back, $force_first_last);
         } else {
             $name = $this->profile->getDeletedUserNamePresentation();
         }
