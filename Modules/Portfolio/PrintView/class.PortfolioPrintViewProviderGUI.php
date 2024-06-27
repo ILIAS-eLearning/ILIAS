@@ -41,7 +41,8 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         \ilCtrl $ctrl,
         \ilObjPortfolio $portfolio,
         bool $include_signature = false,
-        array $selected_pages = null
+        array $selected_pages = null,
+        bool $include_declaration = false
     ) {
         global $DIC;
 
@@ -50,6 +51,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $this->portfolio = $portfolio;
         $this->selected_pages = $selected_pages;
         $this->include_signature = $include_signature;
+        $this->include_declaration = $include_declaration;
         $this->port_request = $DIC->portfolio()
             ->internal()
             ->gui()
@@ -206,7 +208,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             $cover_tpl->parseCurrentBlock();
         }
 
-        if (!is_null($this->declaration_of_authorship)) {
+        if (!is_null($this->declaration_of_authorship) && $this->include_declaration) {
             $cover_tpl->setCurrentBlock("decl_author");
             $cover_tpl->setVariable(
                 "TXT_DECL_AUTHOR",

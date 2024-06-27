@@ -384,6 +384,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     public function getPrintView(): \ILIAS\Export\PrintProcessGUI
     {
         $obj_ids = $this->port_request->getObjIds();
+        $signature = $this->port_request->getSignature();
+        $declaration = $this->port_request->getIncludeDeclaration();
         if (count($obj_ids) === 0) {
             $obj_ids = null;
         }
@@ -393,8 +395,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->lng,
             $this->ctrl,
             $port,
-            false,
-            $obj_ids
+            $signature,
+            $obj_ids,
+            $declaration
         );
         $provider = $provider->withDeclarationOfAuthorship(
             new ilPortfolioDeclarationOfAuthorship(),
