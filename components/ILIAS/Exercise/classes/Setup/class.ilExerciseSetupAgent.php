@@ -32,7 +32,7 @@ class ilExerciseSetupAgent extends Setup\Agent\NullAgent
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ObjectiveCollection(
-            'Database is updated for component/ILIAS/Course',
+            'Database is updated for component/ILIAS/Exercise',
             false,
             new ilDatabaseUpdateStepsExecutedObjective(new ilExerciseDBUpdateSteps()),
         );
