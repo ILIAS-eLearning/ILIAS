@@ -74,7 +74,28 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_objectService();
         $this->addGlobal_GlobalScreenService();
 
-        $this->testObj = new ilObjTestGUI();
+        $table_query_mock = new class () extends QuestionsTableQuery {
+            private function getHereURL(): string
+            {
+                return 'http://www.ilias.de';
+            }
+        };
+
+        $table_query = $this->getMockBuilder($table_query_mock)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->testObj = new class ($table_query) extends ilObjTestGUI {
+            public function __construct(
+                protected QuestionsTableQuery $mock_table_query
+            ) {
+                parent::__construct();
+            }
+            protected function getQuestionsTableQuery(): QuestionsTableQuery
+            {
+                return $this->mock_table_query;
+            }
+        };
     }
 
     protected function tearDown(): void
