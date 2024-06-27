@@ -26,6 +26,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\LatexAwareComponentTrait;
+use ILIAS\UI\Component\LatexAwareComponent;
 
 /**
  * Class Legacy
@@ -35,6 +37,7 @@ class Legacy implements C\Legacy\Legacy
 {
     use ComponentHelper;
     use JavaScriptBindable;
+    use LatexAwareComponentTrait;
 
     private string $content;
     private SignalGeneratorInterface $signal_generator;

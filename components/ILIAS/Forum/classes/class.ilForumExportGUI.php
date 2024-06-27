@@ -87,8 +87,7 @@ class ilForumExportGUI
     private function prepare(): void
     {
         ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_EXPORT)
-            ->setZoomFactor(10);
+            ->init(ilMathJax::PURPOSE_EXPORT);
     }
 
     private function ensureThreadBelongsToForum(int $objId, ilForumTopic $thread): void

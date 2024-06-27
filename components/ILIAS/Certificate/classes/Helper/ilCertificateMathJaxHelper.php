@@ -23,11 +23,11 @@ declare(strict_types=1);
  */
 class ilCertificateMathJaxHelper
 {
+    /**
+     * @deprecated
+     */
     public function fillXlsFoContent(string $xslfo): string
     {
-        return ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_PDF)
-            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-            ->insertLatexImages($xslfo);
+        return $xslfo;
     }
 }

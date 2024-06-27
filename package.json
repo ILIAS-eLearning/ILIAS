@@ -24,6 +24,7 @@
     "jstree": "^3.3.16",
     "linkifyjs": "^2.1.9",
     "maphilight": "^1.4.2",
+    "mathjax": "^3.2.2",
     "mediaelement": "4.2.16",
     "moment": "^2.29.4",
     "nestable2": "^1.6.0",

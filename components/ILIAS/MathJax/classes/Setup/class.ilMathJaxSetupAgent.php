@@ -69,10 +69,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
                 'MathJax configuration and database update',
                 false,
                 new ilMathJaxConfigStoredObjective($config),
-                new ilMathJaxConfigCheckedObjective($config)
             );
-        } else {
-            return new ilMathJaxConfigCheckedObjective();
         }
     }
 

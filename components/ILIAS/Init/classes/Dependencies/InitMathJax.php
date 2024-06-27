@@ -16,8 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
 
-class ilMathJaxException extends ilException
+use ILIAS\MathJax\MathJaxFactory;
+
+class InitMathJax
 {
+    public function init(\ILIAS\DI\Container $c): void
+    {
+        $c["mathjax.factory"] = function ($c) {
+            return new MathJaxFactory(
+                new ilMathJaxConfigSettingsRepository(
+                    new ilSetting('MathJax')
+                )
+            );
+        };
+    }
 }

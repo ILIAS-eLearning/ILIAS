@@ -27,6 +27,9 @@ use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ilLanguage;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Component\LatexAwareComponent;
+use ILIAS\UI\Implementation\Render\LatexAwareRenderer;
+use ILIAS\MathJax\MathJaxFactory;
 
 class DefaultRendererFactory implements RendererFactory
 {
@@ -40,6 +43,7 @@ class DefaultRendererFactory implements RendererFactory
         protected DataFactory $data_factory,
         protected HelpTextRetriever $help_text_retriever,
         protected UploadLimitResolver $upload_limit_resolver,
+        protected MathJaxFactory $mathjax_factory
     ) {
     }
 
@@ -49,7 +53,7 @@ class DefaultRendererFactory implements RendererFactory
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
         $name = $this->getRendererNameFor($component);
-        return new $name(
+        $renderer = new $name(
             $this->ui_factory,
             $this->tpl_factory,
             $this->lng,
@@ -60,6 +64,11 @@ class DefaultRendererFactory implements RendererFactory
             $this->help_text_retriever,
             $this->upload_limit_resolver,
         );
+
+        if ($renderer instanceof LatexAwareRenderer) {
+            $renderer = $renderer->withMathJaxConfig($this->mathjax_factory->uiConfig());
+        }
+        return $renderer;
     }
 
     /**

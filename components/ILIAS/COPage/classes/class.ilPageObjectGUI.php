@@ -1575,7 +1575,8 @@ class ilPageObjectGUI
             }
             $output = str_replace("&amp;", "&", $output);
 
-            $output = ilMathJax::getInstance()->insertLatexImages($output);
+            // enable latex in the content
+            $output = $this->ui->renderer()->render($this->ui->factory()->legacy($output)->withLatexEnabled());
 
             // insert page snippets
             //$output = $this->insertContentIncludes($output);

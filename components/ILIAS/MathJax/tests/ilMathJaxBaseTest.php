@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\MathJax\MathJaxFactory;
 
 /**
  * Base class for al tests
@@ -31,15 +32,6 @@ abstract class ilMathJaxBaseTest extends TestCase
     protected function getEmptyConfig(): ilMathJaxConfig
     {
         return new ilMathJaxConfig(
-            false,
-            '',
-            '',
-            0,
-            false,
-            '',
-            0,
-            false,
-            false,
             false
         );
     }
@@ -47,63 +39,26 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a factory mockup that will deliver other mockups
      */
-    protected function getFactoryMock(?string $imagefile = null): ilMathJaxFactory
+    protected function getFactoryMock(?string $imagefile = null): MathJaxFactory
     {
         $factory = $this
-            ->getMockBuilder(ilMathJaxFactory::class)
+            ->getMockBuilder(MathJaxFactory::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['template', 'image', 'server'])
+            ->onlyMethods(['uiConfig'])
             ->getMock();
-        $factory->method('template')->willReturn($this->getTemplateMock());
-        $factory->method('server')->willReturn($this->getServerMock());
-        if (isset($imagefile)) {
-            $factory->method('image')->willReturn($this->getImageMock($imagefile));
-        }
+        $factory->method('uiConfig')->willReturn(
+            new \ILIAS\MathJax\MathJaxUIConfig(
+                true,
+                'tex2jax_ignore_global',
+                'tex2jax_ignore',
+                'tex2jax_process',
+                [
+                    'components/ILIAS/MathJax/config.js',
+                    'components/ILIAS/MathJax/script.js'
+                ]
+            )
+        );
         return $factory;
     }
 
-    /**
-     * Get a global template mockup
-     */
-    protected function getTemplateMock(): ilGlobalTemplate
-    {
-        $template = $this
-            ->getMockBuilder(ilGlobalTemplate::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['addJavaScript'])
-            ->getMock();
-        return $template;
-    }
-
-    /**
-     * Get a cached image mockup from an example file
-     * @param string $imagefile name of the example file in the test directory
-     */
-    protected function getImageMock(string $imagefile): ilMathJaxImage
-    {
-        $image = $this
-            ->getMockBuilder(ilMathJaxImage::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['exists', 'read', 'write', 'absolutePath', 'getCacheSize'])
-            ->getMock();
-        $image->method('exists')->willReturn(false);
-        $image->method('read')->willReturn(file_get_contents(__DIR__ . '/' . $imagefile));
-        $image->method('absolutePath')->willReturn(__DIR__ . '/' . $imagefile);
-        $image->method('getCacheSize')->willReturn('10 KB');
-        return $image;
-    }
-
-    /**
-     * Get a mockup of the class for server calls
-     */
-    protected function getServerMock(): ilMathJaxServer
-    {
-        $server = $this
-            ->getMockBuilder(ilMathJaxServer::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['call'])
-            ->getMock();
-        $server->method('call')->willReturn('server call result');
-        return $server;
-    }
 }
