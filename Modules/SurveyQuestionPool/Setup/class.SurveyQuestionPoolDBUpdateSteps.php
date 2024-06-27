@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\SurveyQuesionPool\Setup;
+namespace ILIAS\SurveyQuestionPool\Setup;
 
-class SurveyQuesionPoolDBUpdateSteps implements \ilDatabaseUpdateSteps
+class SurveyQuestionPoolDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
