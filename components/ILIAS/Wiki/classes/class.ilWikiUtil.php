@@ -335,7 +335,7 @@ class ilWikiUtil
                 if (substr($text, strlen($text) - strlen("#" . $nt->mFragment)) === "#" . $nt->mFragment) {
                     $text = substr($text, 0, strlen($text) - strlen("#" . $nt->mFragment));
                 }
-                $anc = "#" . $nt->mFragment;
+                $anc = "#copganc_" . $nt->mFragment;
             }
 
             # Separate the link trail from the rest of the link
