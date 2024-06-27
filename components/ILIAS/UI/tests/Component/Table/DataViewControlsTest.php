@@ -134,12 +134,47 @@ class DataViewControlsTest extends TableTestBase
         $total_count = 200;
         list($table, $view_controls) = $this->getTable($total_count, $columns);
 
+
+        $inputs = $view_controls->getInputs();
         $this->assertEquals(
             [
                 C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
+                C\Table\Data::VIEWCONTROL_KEY_ORDERING,
                 C\Table\Data::VIEWCONTROL_KEY_FIELDSELECTION,
             ],
-            array_keys($view_controls->getInputs())
+            array_keys($inputs)
+        );
+        $this->assertInstanceOf(
+            I\Input\ViewControl\NullControl::class,
+            $inputs[C\Table\Data::VIEWCONTROL_KEY_ORDERING]
+        );
+    }
+
+    public function testDataTableHasNoOrderingViewControlDueToRecordCount(): void
+    {
+        $factory = $this->getTableFactory();
+        $columns = [
+            'f1' => $factory->column()->text('f1')
+                ->withIsSortable(true),
+            'f2' => $factory->column()->text('f2')
+                ->withIsSortable(true)
+                ->withIsOptional(true),
+        ];
+        $total_count = 1;
+        list($table, $view_controls) = $this->getTable($total_count, $columns);
+
+        $inputs = $view_controls->getInputs();
+        $this->assertEquals(
+            [
+                C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
+                C\Table\Data::VIEWCONTROL_KEY_ORDERING,
+                C\Table\Data::VIEWCONTROL_KEY_FIELDSELECTION,
+            ],
+            array_keys($inputs)
+        );
+        $this->assertInstanceOf(
+            I\Input\ViewControl\NullControl::class,
+            $inputs[C\Table\Data::VIEWCONTROL_KEY_ORDERING]
         );
     }
 

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Input\ViewControl\Sortation;
+use ILIAS\UI\Component\Input\ViewControl\NullControl;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\Data\Order;
 
@@ -46,15 +47,18 @@ trait TableViewControlOrdering
         return array_key_first($sortable_visible_cols);
     }
 
-    protected function getViewControlOrdering(): ?Sortation
+    protected function getViewControlOrdering(?int $total_count = null): Sortation|NullControl
     {
+
         $sortable_visible_cols = array_filter(
             $this->getVisibleColumns(),
             static fn($c): bool => $c->isSortable()
         );
 
-        if ($sortable_visible_cols === []) {
-            return null;
+        if ($sortable_visible_cols === [] ||
+            ($total_count !== null && $total_count < 2)
+        ) {
+            return $this->view_control_factory->nullControl();
         }
 
         $sort_options = [];

@@ -35,8 +35,8 @@ function base()
         'achieve' => $f->table()->column()->statusIcon("progress")
             ->withIsOptional(true),
         'achieve_txt' => $f->table()->column()->status("success")
-            ->withIsSortable(false)
-            ->withIsOptional(true),
+            ->withIsSortable(true)
+            ->withIsOptional(true, false),
         'repeat' => $f->table()->column()->boolean("repeat", 'yes', 'no')
             ->withIsSortable(false),
         'fee' => $f->table()->column()->number("Fee")

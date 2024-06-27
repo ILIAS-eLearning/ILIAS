@@ -146,7 +146,7 @@ class Data extends AbstractTable implements T\Data
     {
         $view_controls = [
             self::VIEWCONTROL_KEY_PAGINATION => $this->getViewControlPagination($total_count),
-            self::VIEWCONTROL_KEY_ORDERING => $this->getViewControlOrdering(),
+            self::VIEWCONTROL_KEY_ORDERING => $this->getViewControlOrdering($total_count),
             self::VIEWCONTROL_KEY_FIELDSELECTION => $this->getViewControlFieldSelection(),
         ];
         $view_controls = array_filter($view_controls);
