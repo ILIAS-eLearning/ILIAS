@@ -44,7 +44,8 @@ class ilRepUtil
      */
     public static function deleteObjects(
         int $a_cur_ref_id,
-        array $a_ids
+        array $a_ids,
+        bool $throw_error_on_already_deleted = true
     ): void {
         global $DIC;
 
@@ -71,6 +72,9 @@ class ilRepUtil
         $all_node_data = [];
         foreach ($a_ids as $id) {
             if ($tree->isDeleted($id)) {
+                if (!$throw_error_on_already_deleted) {
+                    continue;
+                }
                 $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
                 throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
             }
@@ -120,6 +124,9 @@ class ilRepUtil
         $affected_parents = [];
         foreach ($a_ids as $id) {
             if ($tree->isDeleted($id)) {
+                if (!$throw_error_on_already_deleted) {
+                    continue;
+                }
                 $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
                 throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
             }

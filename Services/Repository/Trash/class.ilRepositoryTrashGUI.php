@@ -411,7 +411,7 @@ class ilRepositoryTrashGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
             try {
-                ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids);
+                ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids, false);
                 if ($ilSetting->get('enable_trash')) {
                     $this->tpl->setOnScreenMessage('success', $lng->txt("info_deleted"), true);
                 } else {
