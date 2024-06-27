@@ -79,6 +79,9 @@ abstract class assBaseTestCase extends TestCase
         if (!defined("ILIAS_LOG_FILE")) {
             define("ILIAS_LOG_FILE", '/var/log/ilias.log');
         }
+        if (!defined("IL_INST_ID")) {
+            define("IL_INST_ID", 0);
+        }
         parent::setUp();
     }
 
