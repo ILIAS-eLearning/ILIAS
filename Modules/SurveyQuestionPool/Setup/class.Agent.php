@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\SurveyQuesionPool\Setup;
+namespace ILIAS\SurveyQuestionPool\Setup;
 
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
@@ -28,11 +28,11 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new SurveyQuesionPoolDBUpdateSteps());
+        return new \ilDatabaseUpdateStepsExecutedObjective(new SurveyQuestionPoolDBUpdateSteps());
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new SurveyQuesionPoolDBUpdateSteps());
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new SurveyQuestionPoolDBUpdateSteps());
     }
 }
