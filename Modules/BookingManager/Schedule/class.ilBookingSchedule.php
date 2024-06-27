@@ -179,8 +179,8 @@ class ilBookingSchedule
                 ' FROM booking_schedule' .
                 ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
             $row = $ilDB->fetchAssoc($set);
-            $this->setTitle($row['title']);
-            $this->setDeadline($row['deadline']);
+            $this->setTitle($row['title'] ?? "");
+            $this->setDeadline($row['deadline'] ?? 0);
             $this->setAvailabilityFrom($row['av_from'] ? new ilDateTime($row['av_from'], IL_CAL_UNIX) : null);
             $this->setAvailabilityTo($row['av_to'] ? new ilDateTime($row['av_to'], IL_CAL_UNIX) : null);
             if ($row['raster']) {
