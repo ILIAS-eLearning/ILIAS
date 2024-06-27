@@ -57,7 +57,7 @@ class ilTestCorrectionsGUI
         private InternalRequestService $testrequest,
         protected ilObjTest $testOBJ,
         protected QuestionInfoService $questioninfo,
-        protected ilTestQuestionsTableGUI $table
+        protected QuestionsTable $table
     ) {
         $this->testAccess = new ilTestAccess($testOBJ->getRefId());
     }
@@ -101,7 +101,7 @@ class ilTestCorrectionsGUI
         if ($this->testOBJ->isFixedTest()) {
             $rendered_gui_component = $this->ui_renderer->render(
                 $this->table
-                    ->getTable($this->getQuestions())
+                    ->getTableComponent($this->getQuestions())
                     ->withOrderingDisabled(true)
             );
         } else {

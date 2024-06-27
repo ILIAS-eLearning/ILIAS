@@ -59,7 +59,7 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\Test\InternalRequestService::class),
             $this->createMock(ilObjTest::class),
             $this->createMock(QuestionInfoService::class),
-            $this->createMock(ilTestQuestionsTableGUI::class)
+            $this->createMock(QuestionsTable::class)
         );
     }
 

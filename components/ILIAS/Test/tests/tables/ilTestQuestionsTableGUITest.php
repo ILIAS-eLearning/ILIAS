@@ -23,11 +23,11 @@ use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component as C;
 
 /**
- * Class ilTestQuestionsTableGUITest
+ * Class QuestionsTableTest
  */
-class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
+class QuestionsTableTest extends ilTestBaseTestCase
 {
-    private ilTestQuestionsTableGUI $table_gui;
+    private QuestionsTable $table_gui;
 
     protected function setUp(): void
     {
@@ -40,7 +40,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
 
 
         $records = $this->getSomeRecords();
-        $this->table_gui = new class ($records, $DIC) extends ilTestQuestionsTableGUI {
+        $this->table_gui = new class ($records, $DIC) extends QuestionsTable {
             public function __construct(
                 protected $data,
                 $DIC
@@ -79,9 +79,9 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui);
-        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui->withContextCorrections());
-        $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->table_gui->withQuestionEditing());
+        $this->assertInstanceOf(QuestionsTable::class, $this->table_gui);
+        $this->assertInstanceOf(QuestionsTable::class, $this->table_gui->withContextCorrections());
+        $this->assertInstanceOf(QuestionsTable::class, $this->table_gui->withQuestionEditing());
     }
 
     public function testQuestionsTableGUIwillReturnProperTypes(): void
