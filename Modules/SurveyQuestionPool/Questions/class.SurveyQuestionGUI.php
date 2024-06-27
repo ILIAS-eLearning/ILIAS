@@ -235,23 +235,27 @@ abstract class SurveyQuestionGUI
 
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $title->setMaxLength(200);
         $title->setRequired(true);
         $form->addItem($title);
 
         // label
         $label = new ilTextInputGUI($this->lng->txt("label"), "label");
         $label->setInfo($this->lng->txt("label_info"));
+        $title->setMaxLength(255);
         $label->setRequired(false);
         $form->addItem($label);
 
         // author
         $author = new ilTextInputGUI($this->lng->txt("author"), "author");
         $author->setRequired(true);
+        $title->setMaxLength(100);
         $form->addItem($author);
 
         // description
         $description = new ilTextInputGUI($this->lng->txt("description"), "description");
         $description->setRequired(false);
+        $title->setMaxLength(200);
         $form->addItem($description);
 
         // questiontext
@@ -554,10 +558,10 @@ abstract class SurveyQuestionGUI
                 $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 break;
 
-            #19448  get rid of showing only the label without title
-            //case 2:
-            //	$title = ilUtil::prepareFormOutput($this->object->getLabel());
-            //	break;
+                #19448  get rid of showing only the label without title
+                //case 2:
+                //	$title = ilUtil::prepareFormOutput($this->object->getLabel());
+                //	break;
 
             case ilObjSurvey::PRINT_SHOW_LABELS:
                 $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
