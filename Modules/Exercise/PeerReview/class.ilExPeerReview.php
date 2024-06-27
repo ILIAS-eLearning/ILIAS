@@ -248,7 +248,6 @@ class ilExPeerReview
     protected function validatePeerReview(array $a_data): bool
     {
         $all_empty = true;
-
         // see getPeerReviewValues()
         $values = null;
         $data = $a_data["pcomment"];
@@ -261,11 +260,6 @@ class ilExPeerReview
                 // v1 - pcomment == text
                 $values = array("text" => $data);
             }
-        }
-
-        /* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria) */
-        if (!$values) {
-            return false;
         }
 
         foreach ($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit) {
@@ -445,10 +439,8 @@ class ilExPeerReview
         } else {
             $needed = 1;
         }
-
         // there could be less participants than stated in the min required setting
         $min = min($max, $needed);
-
         return max(0, $min - $this->countGivenFeedback());
     }
 
