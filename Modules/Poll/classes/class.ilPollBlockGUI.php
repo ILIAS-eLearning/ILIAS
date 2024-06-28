@@ -392,6 +392,12 @@ class ilPollBlockGUI extends ilBlockGUI
             !$this->poll_block->getMessage($this->user->getId()) &&
             !$this->user->isAnonymous()
         ) {
+
+            // delete poll notifications subscribtions if poll IS NOT anonym, see https://mantis.ilias.de/view.php?id=41607
+            if ($this->poll_block->getPoll()->getNonAnonymous()) {
+                ilNotification::removeForObject(ilNotification::TYPE_POLL, $this->poll_block->getPoll()->getId());
+            }
+
             // notification
             if (ilNotification::hasNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->poll_block->getPoll()->getId())) {
                 $this->addBlockCommand(
@@ -401,7 +407,7 @@ class ilPollBlockGUI extends ilBlockGUI
                     ),
                     $this->lng->txt("poll_notification_unsubscribe")
                 );
-            } else {
+            } elseif (!$this->poll_block->getPoll()->getNonAnonymous()) {
                 $this->addBlockCommand(
                     $this->ctrl->getLinkTargetByClass(
                         array("ilrepositorygui", $this->getRepositoryObjectGUIName()),

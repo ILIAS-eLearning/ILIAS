@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -556,6 +556,11 @@ class ilObjPollGUI extends ilObject2GUI
 
     protected function sendNotifications(): void
     {
+        // Do not send notifications for non anonymous polls, see https://mantis.ilias.de/view.php?id=41607
+        if ($this->object->getNonAnonymous()) {
+            return;
+        }
+
         // recipients
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_POLL,
