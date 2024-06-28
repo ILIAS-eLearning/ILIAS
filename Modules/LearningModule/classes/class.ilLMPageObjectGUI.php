@@ -121,7 +121,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     ilLMPageObject::_getPresentationTitle(
                         $this->obj->getId(),
                         $this->content_object->getPageHeader(),
-                        $this->content_object->isActiveNumbering()
+                        $this->content_object->isActiveNumbering(),
+                        false,
+                        false,
+                        0,
+                        $page_gui->getLanguage()
                     )
                 );
                 //$page_gui->setLocator($contObjLocator);
