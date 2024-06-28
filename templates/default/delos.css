@@ -10733,6 +10733,10 @@ footer {
 .il-maincontrols-footer .il-footer-links li button {
   color: #4c6586;
 }
+.il-maincontrols-footer .il-footer-links li a:hover,
+.il-maincontrols-footer .il-footer-links li button:hover {
+  color: #3a4c65;
+}
 .il-maincontrols-footer .il-footer-links li button {
   vertical-align: baseline;
 }
