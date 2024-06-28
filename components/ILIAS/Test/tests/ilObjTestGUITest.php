@@ -20,6 +20,17 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 
+class QuestionsTableQueryMock extends QuestionsTableQuery
+{
+    public function __construct()
+    {
+    }
+    private function getHereURL(): string
+    {
+        return 'http://www.ilias.de';
+    }
+}
+
 /**
  * Class ilObjTestGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -32,6 +43,9 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         if (!defined('ANONYMOUS_USER_ID')) {
             define('ANONYMOUS_USER_ID', 13);
+        }
+        if (!defined('CLIENT_DATA_DIR')) {
+            define('CLIENT_DATA_DIR', 'data/');
         }
 
         global $DIC;
@@ -74,18 +88,13 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_objectService();
         $this->addGlobal_GlobalScreenService();
 
-        $table_query_mock = new class () extends QuestionsTableQuery {
-            private function getHereURL(): string
-            {
-                return 'http://www.ilias.de';
-            }
-        };
+        $this->testObj = $this->getNewTestGUI();
+    }
 
-        $table_query = $this->getMockBuilder($table_query_mock)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->testObj = new class ($table_query) extends ilObjTestGUI {
+    protected function getNewTestGUI(): ilObjTestGUI
+    {
+        $table_query = $this->getMockBuilder(QuestionsTableQueryMock::class)->getMock();
+        return new class ($table_query) extends ilObjTestGUI {
             public function __construct(
                 protected QuestionsTableQuery $mock_table_query
             ) {
@@ -97,6 +106,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
             }
         };
     }
+
 
     protected function tearDown(): void
     {
@@ -132,7 +142,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
@@ -151,7 +161,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         ;
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
 
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
 
         $testObj->outEvaluationObject();
     }
@@ -160,7 +170,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
@@ -173,7 +183,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
@@ -186,7 +196,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
@@ -199,7 +209,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-        $testObj = new ilObjTestGUI();
+        $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')

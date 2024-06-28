@@ -104,7 +104,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected SkillService $skills_service;
     private Archives $archives;
     protected InternalRequestService $testrequest;
-    protected QuestionsTableQuery $table_query;
+    protected ?QuestionsTableQuery $table_query = null;
 
     protected bool $create_question_mode;
 
@@ -195,8 +195,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $tabs_manager->setTestQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
             $this->setTabsManager($tabs_manager);
         }
-
-        $this->table_query = $this->getQuestionsTableQuery();
     }
 
     /**
@@ -206,8 +204,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $cmd = $this->ctrl->getCmd('testScreen');
 
-        if ($table_cmd = $this->table_query->getQueryCommand()) {
-            $row_ids = $this->table_query->getRowIds($this->object);
+        $table_query = $this->getQuestionsTableQuery();
+        if ($table_cmd = $table_query->getQueryCommand()) {
+            $row_ids = $table_query->getRowIds($this->object);
             $this->getTable()->handleCommand(
                 $table_cmd,
                 $row_ids,
@@ -3123,8 +3122,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $form->addItem($select);
         }
 
-        if ($this->table_query->getQueryCommand()) {
-            $question_ids = $this->table_query->getRowIds($this->object);
+        $table_query = $this->getQuestionsTableQuery();
+        if ($table_query->getQueryCommand()) {
+            $question_ids = $table_query->getRowIds($this->object);
         } elseif ($this->testrequest->isset('q_id') && is_array($this->testrequest->raw('q_id'))) {
             $question_ids = $this->testrequest->raw('q_id');
         }
@@ -3353,12 +3353,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected function getQuestionsTableQuery(): QuestionsTableQuery
     {
-        return new QuestionsTableQuery(
-            $this->http,
-            $this->refinery,
-            new \ILIAS\Data\Factory(),
-            ['qlist', $this->object->getId()]
-        );
+        if ($this->table_query === null) {
+            $id = $this->object ? $this->object->getId() : '';
+            $this->table_query = new QuestionsTableQuery(
+                $this->http,
+                $this->refinery,
+                new \ILIAS\Data\Factory(),
+                ['qlist', $id]
+            );
+        }
+        return $this->table_query;
     }
 
     protected function getTable(): QuestionsTable
@@ -3367,7 +3371,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ui_factory,
             $this->ui_renderer,
             $this->http->request(),
-            $this->table_query,
+            $this->getQuestionsTableQuery(),
             $this->lng,
             $this->ctrl,
             $this->object,

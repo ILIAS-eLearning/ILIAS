@@ -26,6 +26,7 @@ use ILIAS\HTTP\Services;
 use ILIAS\UI\Implementation\Factory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use GuzzleHttp\Psr7\Uri as GuzzleURI;
 
 trait ilTestBaseTestCaseTrait
 {
@@ -218,7 +219,7 @@ trait ilTestBaseTestCaseTrait
             ->disableOriginalConstructor()
             ->getMock();
         $request_mock->method('getUri')
-            ->willReturn(new ILIAS\Data\URI('http://wwww.ilias.de'));
+            ->willReturn(new GuzzleURI('http://wwww.ilias.de'));
         $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()
             ->getMock();
         $http_mock->method('request')

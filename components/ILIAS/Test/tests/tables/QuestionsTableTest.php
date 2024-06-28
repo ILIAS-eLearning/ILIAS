@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component as C;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * Class QuestionsTableTest
@@ -37,21 +38,61 @@ class QuestionsTableTest extends ilTestBaseTestCase
         $this->addGlobal_refinery();
         $this->addGlobal_http();
         $this->addGlobal_lng();
+        $this->addGlobal_ilCtrl();
 
 
         $records = $this->getSomeRecords();
-        $this->table_gui = new class ($records, $DIC) extends QuestionsTable {
+        $obj_test = $this->getMockBuilder(ilObjTest::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $obj_test->method('getId')->willReturn(666);
+
+
+        $commands = $this->getMockBuilder(QuestionsTableQuery::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $commands->method('getRowBoundURLBuilder')
+            ->willReturn(
+                [
+                    $this->getMockBuilder(ILIAS\UI\URLBuilder::class)
+                        ->disableOriginalConstructor()
+                        ->getMock(),
+                    $this->getMockBuilder(ILIAS\UI\URLBuilderToken::class)
+                        ->disableOriginalConstructor()
+                        ->getMock(),
+
+                ]
+            );
+
+        $questioninfo = new class () extends QuestionInfoService {
+            public function __construct()
+            {
+            }
+        };
+
+        $this->table_gui = new class (
+            $records,
+            $DIC,
+            $obj_test,
+            $commands,
+            $questioninfo
+        ) extends QuestionsTable {
             public function __construct(
                 protected $data,
-                $DIC
+                $DIC,
+                $obj_test,
+                $commands,
+                $questioninfo
             ) {
                 parent::__construct(
                     $DIC['ui.factory'],
-                    new ILIAS\Data\Factory(),
-                    $DIC['refinery'],
-                    $DIC['http'],
+                    $DIC['ui.renderer'],
+                    $DIC['http']->request(),
+                    $commands,
                     $DIC['lng'],
-                    'some_table_id',
+                    $DIC['ilCtrl'],
+                    $obj_test,
+                    $questioninfo,
                     fn() => ''
                 );
             }
@@ -86,9 +127,8 @@ class QuestionsTableTest extends ilTestBaseTestCase
 
     public function testQuestionsTableGUIwillReturnProperTypes(): void
     {
-        $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTable([]));
+        $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTableComponent([]));
         $this->assertInstanceOf(Modal\Interruptive::class, $this->table_gui->getDeleteConfirmation([]));
-        $this->assertIsArray($this->table_gui->getOrderData());
     }
 
     public function testQuestionsTableDefinesActions(): void
