@@ -188,7 +188,7 @@ abstract class AbstractTable extends Table implements JSBindable
      */
     public function getAllActions(): array
     {
-        return array_replace($this->actions_single, $this->actions_multi, $this->actions_std);
+        return array_merge($this->actions_single, $this->actions_multi, $this->actions_std);
     }
 
     public function getColumnCount(): int
