@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjStudyProgrammeIndividualPlanGUI
 {
@@ -64,7 +64,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
         $lng->loadLanguageModule("prg");
 
-        $this->tpl->addCss("components/ILIAS/StudyProgramme/templates/css/ilStudyProgramme.css");
+        $this->tpl->addCss("assets/css/ilStudyProgramme.css");
     }
 
     public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui): void
@@ -182,7 +182,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function updateFromInput(): void
     {
-        $retrieve =  $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string());
+        $retrieve = $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string());
 
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
         if ($this->http_wrapper->post()->has(self::POST_VAR_DEADLINE)) {

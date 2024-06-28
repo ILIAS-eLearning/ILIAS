@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -339,8 +340,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function initCSSandJS()
     {
-        global $tpl;
-        $tpl->addJavascript('assets/js/generic_multi_line_input.js');
+        $this->global_tpl->addJavascript('assets/js/generic_multi_line_input.js');
     }
 
     /**

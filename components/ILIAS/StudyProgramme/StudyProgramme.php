@@ -36,5 +36,13 @@ class StudyProgramme implements Component\Component
         new \ilStudyProgrammeSetupAgent(
             $pull[\ILIAS\Refinery\Factory::class]
         );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/ilStudyProgramme.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/ilAsyncPropertyFormGUI.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "css/ilStudyProgramme.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "css/ilStudyProgrammeTree.css");
     }
 }
