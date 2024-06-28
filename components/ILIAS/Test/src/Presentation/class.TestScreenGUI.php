@@ -35,6 +35,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 
 /**
  * Class TestScreenGUI
@@ -420,6 +421,20 @@ class TestScreenGUI
                         if (!$exam_password_valid) {
                             $conditions_met = false;
                             $message .= $this->lng->txt('tst_exam_password_invalid_message') . '<br>';
+                            if ($this->object->getTestLogger()->isLoggingEnabled()
+                                && !$this->object->getAnonymity()) {
+                                $logger = $this->object->getTestLogger();
+                                $logger->logParticipantInteraction(
+                                    $logger->getInteractionFactory()->buildParticipantInteraction(
+                                        $this->ref_id,
+                                        null,
+                                        $this->user->getId(),
+                                        $_SERVER['REMOTE_ADDR'],
+                                        TestParticipantInteractionTypes::WRONG_TEST_PASSWORD_PROVIDED,
+                                        []
+                                    )
+                                );
+                            }
                         }
                         $this->password_checker->setUserEnteredPassword($password);
                         break;
