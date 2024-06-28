@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
@@ -31,7 +31,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @var string Path to the async-form js
      */
-    protected static string $js_path = "./components/ILIAS/StudyProgramme/templates/js/";
+    private const JS_PATH = "./assets/js/";
 
     /**
      * @var string Default form name (used for jquery-selection)
@@ -80,10 +80,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-
-        $js_path = $js_base_path ?? self::$js_path;
-
-        $tpl->addJavaScript($js_path . 'ilAsyncPropertyFormGUI.js');
+        $tpl->addJavaScript(self::JS_PATH . 'ilAsyncPropertyFormGUI.js');
 
         $global_config =
             "$.ilAsyncPropertyForm.global_config.error_message_template = '" .
@@ -236,12 +233,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
 
     public function getJsPath(): ?string
     {
-        return self::$js_path;
-    }
-
-    public function setJsPath(string $js_path): void
-    {
-        self::$js_path = $js_path;
+        return self::JS_PATH;
     }
 
     public function getDefaultFormName(): string
