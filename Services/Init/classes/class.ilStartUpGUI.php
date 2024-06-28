@@ -1667,18 +1667,23 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             global $tree, $rbacsystem, $ilAccess;
 
             // original type "pg" => pg_<page_id>[_<ref_id>]
+            $ref_id = 0;
             if ($t_arr[0] == "pg") {
                 if (isset($t_arr[2])) {
                     $ref_id = (int) $t_arr[2];
                 } else {
                     $lm_id = ilLMObject::_lookupContObjID($t_arr[1]);
-                    $ref_id = ilObject::_getAllReferences($lm_id);
-                    if ($ref_id) {
-                        $ref_id = array_shift($ref_id);
+                    $ref_ids = ilObject::_getAllReferences($lm_id);
+                    if ($ref_ids) {
+                        $ref_id = array_shift($ref_ids);
                     }
                 }
             } else {
                 $ref_id = (int) $t_arr[1];
+            }
+
+            if ($ref_id < 1) {
+                return false;
             }
 
             include_once "Services/Membership/classes/class.ilParticipants.php";
