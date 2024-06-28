@@ -779,6 +779,8 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             $tab_html = $this->ui_ren->render($table);
         }
 
+        $this->tabs->activateTab("content");
+
         $this->tpl->setContent($panel_html . $modals . $tab_html);
     }
 
