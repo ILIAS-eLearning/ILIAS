@@ -501,16 +501,16 @@ class ilWikiUtil
                 $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
-            ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
+            $log->debug("--->" . print_r($users));
             if (!count($users)) {
                 $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
         }
-
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
+        ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users, null, false);
 
         // #15192 - should always be present
         if ($a_page_id) {
