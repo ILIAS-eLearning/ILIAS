@@ -316,12 +316,6 @@ class ilGlossaryDataSet extends ilDataSet
                         "gdf:" . $a_rec["Id"],
                         "term:" . $term_id
                     );
-                    $a_mapping->addMapping(
-                        "Services/MetaData",
-                        "md",
-                        $this->old_glo_id . ":" . $a_rec["Id"] . ":gdf",
-                        $this->current_obj->getId() . ":" . $term_id . ":term"
-                    );
                 }
                 break;
 
