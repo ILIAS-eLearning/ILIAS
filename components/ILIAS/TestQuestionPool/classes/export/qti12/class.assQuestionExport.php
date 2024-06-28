@@ -15,7 +15,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 
 /**

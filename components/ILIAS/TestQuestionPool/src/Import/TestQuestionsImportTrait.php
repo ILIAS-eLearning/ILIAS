@@ -27,6 +27,20 @@ trait TestQuestionsImportTrait
 {
     private string $import_temp_directory = CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'temp';
 
+    private array $old_export_question_types = [
+        'ORDERING QUESTION' => \ilQTIItem::QT_ORDERING,
+        'KPRIM CHOICE QUESTION' => \ilQTIItem::QT_KPRIM_CHOICE,
+        'LONG MENU QUESTION' => \ilQTIItem::QT_LONG_MENU,
+        'SINGLE CHOICE QUESTION' => \ilQTIItem::QT_MULTIPLE_CHOICE_SR,
+        'MULTIPLE CHOICE QUESTION' => \ilQTIItem::QT_MULTIPLE_CHOICE_MR,
+        'MATCHING QUESTION' => \ilQTIItem::QT_MATCHING,
+        'CLOZE QUESTION' => \ilQTIItem::QT_CLOZE,
+        'IMAGE MAP QUESTION' => \ilQTIItem::QT_IMAGEMAP,
+        'TEXT QUESTION' => \ilQTIItem::QT_TEXT,
+        'NUMERIC QUESTION' => \ilQTIItem::QT_NUMERIC,
+        'TEXTSUBSET QUESTION' => \ilQTIItem::QT_TEXTSUBSET
+    ];
+
     private function buildImportDirectoriesFromImportFile(string $file_to_import): array
     {
         $subdir = basename($file_to_import, '.zip');
@@ -120,46 +134,7 @@ trait TestQuestionsImportTrait
         $options = [];
         $values = [];
         foreach ($founditems as $item) {
-            switch ($item['type']) {
-                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
-                    $type = $this->lng->txt('assClozeTest');
-                    break;
-                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assImagemapQuestion');
-                    break;
-                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assMatchingQuestion');
-                    break;
-                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assMultipleChoice');
-                    break;
-                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assKprimChoice');
-                    break;
-                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assLongMenu');
-                    break;
-                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assSingleChoice');
-                    break;
-                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assOrderingQuestion');
-                    break;
-                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assTextQuestion');
-                    break;
-                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assNumeric');
-                    break;
-                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt('assTextSubset');
-                    break;
-                default:
-                    $type = $this->getLabelForPluginQuestionTypes($item['type']);
-                    break;
-            }
-
-            $options[$item['ident']] = "{$item['title']} ({$type})";
+            $options[$item['ident']] = "{$item['title']} ({$this->getLabelForQuestionType($item['type'])})";
             $values[] = $item['ident'];
         }
         $select_questions = $this->ui_factory->input()->field()->multiSelect(
@@ -171,6 +146,18 @@ trait TestQuestionsImportTrait
             $this->ctrl->getFormActionByClass(self::class, $form_cmd),
             ['selected_questions' => $select_questions]
         )->withSubmitLabel($this->lng->txt('import'));
+    }
+
+    private function getLabelForQuestionType(string $type): string
+    {
+        if ($this->lng->exists($type)) {
+            return $this->lng->txt($type);
+        }
+
+        if (array_key_exists($type, $this->old_export_question_types)) {
+            return $this->lng->txt($this->old_export_question_types[$type]);
+        }
+        return $this->getLabelForPluginQuestionTypes($item['type']);
     }
 
     private function getLabelForPluginQuestionTypes(string $type): string

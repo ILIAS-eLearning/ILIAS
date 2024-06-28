@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 use ILIAS\TA\Questions\assSuggestedSolutionLink;
 
 /**
@@ -75,7 +74,7 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::CLOZE_TEST_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
