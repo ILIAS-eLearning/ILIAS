@@ -512,13 +512,17 @@ class LogTable implements Table\DataRetrieval
         if (!empty($filter_array[self::FILTER_FIELD_ADMIN])) {
             $admin_query = new \ilUserQuery();
             $admin_query->setTextFilter($filter_array[self::FILTER_FIELD_ADMIN]);
-            $admin_filter = $admin_query->query();
+            $admin_filter = $this->extractIdsFromUserQuery(
+                $admin_query->query()
+            );
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_PARTICIPANT])) {
             $pax_query = new \ilUserQuery();
             $pax_query->setTextFilter($filter_array[self::FILTER_FIELD_PARTICIPANT]);
-            $pax_filter = $pax_query->query();
+            $pax_filter = $this->extractIdsFromUserQuery(
+                $pax_query->query()
+            );
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_QUESTION_TITLE])) {
@@ -531,8 +535,8 @@ class LogTable implements Table\DataRetrieval
             $from_filter,
             $to_filter,
             $test_filter,
-            $admin_filter['set']['usr_id'] ?? null,
-            $pax_filter['set']['usr_id'] ?? null,
+            $admin_filter,
+            $pax_filter,
             $question_filter,
             !empty($filter_array[self::FILTER_FIELD_IP]) ? $filter_array[self::FILTER_FIELD_IP] : null,
             $filter_array[self::FILTER_FIELD_LOG_ENTRY_TYPE] ?? null,
@@ -562,6 +566,18 @@ class LogTable implements Table\DataRetrieval
         return $this->data_factory->dateFormat()->amend(
             $this->data_factory->dateFormat()->withTime12($user_format)
         )->colon()->seconds()->get();
+    }
+
+    private function extractIdsFromUserQuery(array $response): array
+    {
+        if (!isset($response['set'])) {
+            return [];
+        }
+
+        return array_map(
+            static fn(array $v): int => $v['usr_id'],
+            $response['set']
+        );
     }
 
     /**
