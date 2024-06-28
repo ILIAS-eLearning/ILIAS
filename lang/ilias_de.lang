@@ -1515,7 +1515,7 @@ assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer
 assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
 assessment#:#tst_introduction#:#Einleitung
-assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem 'Info'-Reiter des Tests an. Der Text ist bereits vor Beginn des Tests zugänglich.
+assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem 'Test'-Reiter an. Der Text ist bereits vor Beginn des Tests zugänglich.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt

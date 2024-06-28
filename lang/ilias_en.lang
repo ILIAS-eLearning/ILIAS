@@ -1515,7 +1515,7 @@ assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feed
 assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message on the ‘Test’ tab. This text is accessible already before the test can be started.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
