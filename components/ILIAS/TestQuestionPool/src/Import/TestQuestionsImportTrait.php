@@ -154,6 +154,11 @@ trait TestQuestionsImportTrait
             return $this->lng->txt($type);
         }
 
+        /**
+         * @todo Remove with ILIAS 12: This is here for backward compatibility.
+         * As we support the import of a previous version this should go with
+         * ILIAS 11, but being generous: ILIAS 12 it is.
+         */
         if (array_key_exists($type, $this->old_export_question_types)) {
             return $this->lng->txt($this->old_export_question_types[$type]);
         }
