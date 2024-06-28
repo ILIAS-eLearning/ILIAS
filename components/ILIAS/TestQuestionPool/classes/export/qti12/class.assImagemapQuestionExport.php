@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
-
 /**
 * Class for imagemap question exports
 *
@@ -60,7 +58,7 @@ class assImagemapQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "IS_MULTIPLE_CHOICE");

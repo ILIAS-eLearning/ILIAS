@@ -22,7 +22,6 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\QuestionIdentifiers;
 
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;

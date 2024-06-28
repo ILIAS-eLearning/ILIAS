@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
-
 /**
 * Class for essay question exports
 *
@@ -63,7 +61,7 @@ class assTextQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "QUESTIONTYPE");
-        $a_xml_writer->xmlElement("fieldentry", null, QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getQuestionType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
