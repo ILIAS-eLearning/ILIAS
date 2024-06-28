@@ -613,7 +613,7 @@ class ilObjPollGUI extends ilObject2GUI
 
             // #11810
             ilUtil::redirect(ilLink::_getLink($container_id) .
-                "#poll" . ilObject::_lookupObjId($id[0]));
+                "#poll" . ilObject::_lookupObjId($ref_id));
         }
     }
 }
