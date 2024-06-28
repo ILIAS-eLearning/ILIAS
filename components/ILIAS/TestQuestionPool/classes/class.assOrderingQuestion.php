@@ -702,7 +702,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
 
         if (!count($solutionValuePairs)) {
-            return (float)0;
+            return (float) 0;
         }
 
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
@@ -845,7 +845,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $target_filepath = $this->getImagePath() . $target_filename;
         if (ilFileUtils::moveUploadedFile($upload_file, $target_filename, $target_filepath)) {
             $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
-            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbSize());
+            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string) $this->getThumbSize());
 
             return $target_filename;
         }
@@ -861,7 +861,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (ilFileUtils::rename($existing_image_path, $target_filepath)) {
             unlink($this->getImagePath() . $this->getThumbPrefix() . $existing_image_name);
             $thumb_path = $this->getImagePath() . $this->getThumbPrefix() . $target_filename;
-            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string)$this->getThumbSize());
+            ilShellUtil::convertImage($target_filepath, $thumb_path, "JPEG", (string) $this->getThumbSize());
 
             return $target_filename;
         }
@@ -1104,7 +1104,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string) $this->getThumbSize());
         }
     }
 
