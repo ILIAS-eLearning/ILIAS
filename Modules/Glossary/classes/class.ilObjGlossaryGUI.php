@@ -727,6 +727,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
             );
         }
 
+        $this->tabs->activateTab("cont_terms");
+
         $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
         $this->tpl->setContent($tab->getHTML());
     }
