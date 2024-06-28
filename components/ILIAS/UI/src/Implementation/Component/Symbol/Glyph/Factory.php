@@ -439,7 +439,7 @@ class Factory implements G\Factory
      */
     public function check(): G\Glyph
     {
-        throw new NotImplementedException();
+        return new Glyph(G\Glyph::CHECK, G\Glyph::CHECK);
     }
 
     /**
@@ -447,6 +447,6 @@ class Factory implements G\Factory
      */
     public function uncheck(): G\Glyph
     {
-        throw new NotImplementedException();
+        return new Glyph(G\Glyph::UNCHECK, G\Glyph::UNCHECK);
     }
 }
