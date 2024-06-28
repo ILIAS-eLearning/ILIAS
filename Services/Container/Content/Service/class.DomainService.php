@@ -218,7 +218,8 @@ class DomainService
             self::$mode_managers[$container->getId()] = new ModeManager(
                 $container,
                 $this->mode_repo,
-                $this->repo_clipboard
+                $this->repo_clipboard,
+                $this->domain_service->user()->getId()
             );
         }
         return self::$mode_managers[$container->getId()];
