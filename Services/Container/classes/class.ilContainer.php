@@ -400,10 +400,21 @@ class ilContainer extends ilObject
         /** @var ilObjCourse $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
+        $log = ilLoggerFactory::getLogger("cont");
+
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
         $ot->copy($new_obj->getId());
+        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
+        $ot2->read();
+        $new_obj->setObjectTranslation($ot2);
+        if ($ot2->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot2->getDefaultDescription());
+        }
+        $log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
+        $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
+            $new_obj->getId());
 
         #18624 - copy all sorting settings
         ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
@@ -848,10 +859,17 @@ class ilContainer extends ilObject
     {
         $ret = parent::update();
 
+        $log = ilLoggerFactory::getLogger("cont");
+        $log->debug("**5**" . count($this->getObjectTranslation()->getLanguages()));
+
         $trans = $this->getObjectTranslation();
         $trans->setDefaultTitle($this->getTitle());
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
+
+        $log = ilLoggerFactory::getLogger("cont");
+        $log->debug(":::::::::::::::::::::::::::");
+        $log->logStack(10);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 

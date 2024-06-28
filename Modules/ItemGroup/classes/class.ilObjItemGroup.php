@@ -157,11 +157,21 @@ class ilObjItemGroup extends ilObject2
         $new_obj->setBehaviour($this->getBehaviour());
         $new_obj->setListPresentation($this->getListPresentation());
         $new_obj->setTileSize($this->getTileSize());
-        $new_obj->update();
+
 
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->copy($new_obj->getId());
+        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
+        $ot2->read();
+        if ($ot2->getDefaultTitle() !== "") {
+            $new_obj->setTitle($ot2->getDefaultTitle());
+        }
+        if ($ot2->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot2->getDefaultDescription());
+        }
+
+        $new_obj->update();
     }
 
     public function cloneDependencies(int $a_target_id, int $a_copy_id): bool
