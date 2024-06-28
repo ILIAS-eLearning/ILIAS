@@ -409,10 +409,15 @@ class ilContainer extends ilObject
         /** @var ilObjCourse $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
+        $log = ilLoggerFactory::getLogger("cont");
+
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
         $ot->copy($new_obj->getId());
+        $log->debug("*******************************");
+        $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
+            $new_obj->getId());
 
         #18624 - copy all sorting settings
         ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
