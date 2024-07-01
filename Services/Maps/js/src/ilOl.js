@@ -19,6 +19,10 @@ import ServiceOpenLayers from './ServiceOpenLayers';
 
 il.OLMaps = il.OLMaps || {};
 
-il.OLMaps.init = function (jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers) {
-  return new ServiceOpenLayers(jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
+il.OLMaps.registry = {};
+
+il.OLMaps.init = function (id, jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers) {
+  const ol = new ServiceOpenLayers(jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
+  il.OLMaps.registry[id] = ol;  
+  return ol;
 };

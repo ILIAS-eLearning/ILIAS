@@ -38,7 +38,7 @@ ilOLUserMarkers['{UMAP_ID}'][{CNT}] = new Array(
 );
 // <!-- END user_marker -->
 
-const openLayer = il.OLMaps.init(jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
+const openLayer = il.OLMaps.init('{MAP_ID}', jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
 openLayer.forceResize(jQuery);
 openLayer.init(ilOLMapData);
 
@@ -51,3 +51,18 @@ ilUpdateMap = function (id) {
 ilShowUserMarker = function (id, counter) {
   return openLayer.moveToUserMarkerAndOpen(id, counter);
 };
+
+checkOLMapRendered = function(id) {
+  window.clearTimeout();
+  if(! il.OLMaps.registry[id].map.isRendered()) {
+    window.setTimeout(
+      function() {
+        il.OLMaps.registry[id].map.updateSize();
+        checkOLMapRendered(id);
+      },
+      1000
+    );
+  }
+}
+
+checkOLMapRendered('{MAP_ID}');
