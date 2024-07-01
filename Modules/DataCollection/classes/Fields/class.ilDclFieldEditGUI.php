@@ -189,7 +189,7 @@ class ilDclFieldEditGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->table->deleteField((int)$this->field_obj->getId());
+        $this->table->deleteField((int) $this->field_obj->getId());
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
@@ -226,7 +226,7 @@ class ilDclFieldEditGUI
         } else {
             $this->form->setTitle($lng->txt('dcl_new_field'));
             $hidden_prop = new ilHiddenInputGUI("table_id");
-            $hidden_prop->setValue((string)$this->field_obj->getTableId());
+            $hidden_prop->setValue((string) $this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
             $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -305,8 +305,8 @@ class ilDclFieldEditGUI
 
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
-            $this->field_obj->setDatatypeId((int)$this->form->getInput("datatype"));
-            $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
+            $this->field_obj->setDatatypeId((int) $this->form->getInput("datatype"));
+            $this->field_obj->setUnique((bool) $this->form->getInput("unique"));
 
             if ($a_mode == "update") {
                 $this->field_obj->doUpdate();
@@ -349,7 +349,7 @@ class ilDclFieldEditGUI
         $datatype_id = $this->form->getInput('datatype');
         if ($datatype_id != null && is_numeric($datatype_id)) {
             $base_model = new ilDclBaseFieldModel();
-            $base_model->setDatatypeId((int)$datatype_id);
+            $base_model->setDatatypeId((int) $datatype_id);
             $field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
 
             if (!$field_validation_class->checkFieldCreationInput($this->form)) {
@@ -384,7 +384,7 @@ class ilDclFieldEditGUI
             return ilObjDataCollectionAccess::hasAccessToField(
                 $this->getDataCollectionObject()->getRefId(),
                 $this->table_id,
-                (int)$field_id
+                (int) $field_id
             );
         } else {
             return ilObjDataCollectionAccess::hasAccessToFields(

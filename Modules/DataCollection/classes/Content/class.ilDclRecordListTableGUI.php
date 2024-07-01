@@ -108,7 +108,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     }
                 }
             } else {
-                $default_sort_title = ilDclCache::getFieldCache((int)$fieldId)->getTitle();
+                $default_sort_title = ilDclCache::getFieldCache((int) $fieldId)->getTitle();
             }
             $this->setDefaultOrderField($default_sort_title);
         }

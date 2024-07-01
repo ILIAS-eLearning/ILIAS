@@ -42,11 +42,11 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             return $value;
         }
 
-        if (!ilObject2::_exists((int)$value) || ilObject2::_lookupType((int) $value) != "file") {
+        if (!ilObject2::_exists((int) $value) || ilObject2::_lookupType((int) $value) != "file") {
             return "";
         }
 
-        $file_obj = new ilObjFile((int)$value, false);
+        $file_obj = new ilObjFile((int) $value, false);
 
         //$input = ilObjFile::_lookupAbsolutePath($value);
         return $file_obj->getFileName();

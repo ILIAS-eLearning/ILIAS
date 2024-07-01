@@ -140,7 +140,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (string)$this->tableview_id, $this->lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', (string) $this->tableview_id, $this->lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteView');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
