@@ -368,7 +368,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     public function getFieldObject()
     {
         if (is_numeric($this->field)) {   //normal field
-            return ilDclCache::getFieldCache((int)$this->field);
+            return ilDclCache::getFieldCache((int) $this->field);
         } else {   //standard field
             global $DIC;
             $lng = $DIC['lng'];

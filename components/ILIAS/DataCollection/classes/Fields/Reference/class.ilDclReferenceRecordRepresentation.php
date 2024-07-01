@@ -36,7 +36,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $items = [];
 
         foreach ($value as $k => $v) {
-            $ref_record = ilDclCache::getRecordCache((int)$v);
+            $ref_record = ilDclCache::getRecordCache((int) $v);
             if (!$ref_record->getId() || !$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 unset($value[$k]);

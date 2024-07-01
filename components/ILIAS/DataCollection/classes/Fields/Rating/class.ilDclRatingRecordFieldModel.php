@@ -71,7 +71,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $val = ilRating::getOverallRatingForObject(
             $this->getRecord()->getId(),
             "dcl_record",
-            (int)$this->getField()->getId(),
+            (int) $this->getField()->getId(),
             "dcl_field"
         );
 
@@ -86,7 +86,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         return ilRating::getOverallRatingForObject(
             $this->getRecord()->getId(),
             "dcl_record",
-            (int)$this->getField()->getId(),
+            (int) $this->getField()->getId(),
             "dcl_field"
         );
     }

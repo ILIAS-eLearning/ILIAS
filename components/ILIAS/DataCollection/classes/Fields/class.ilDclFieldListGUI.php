@@ -125,7 +125,7 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             /** @var ilDclBaseFieldModel $field */
             $field = ilDclCache::getFieldCache($field_id);
-            $conf->addItem('dcl_field_ids[]', (string)$field_id, $field->getTitle());
+            $conf->addItem('dcl_field_ids[]', (string) $field_id, $field->getTitle());
         }
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');

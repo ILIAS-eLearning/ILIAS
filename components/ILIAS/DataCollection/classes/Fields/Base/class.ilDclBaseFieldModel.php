@@ -69,7 +69,7 @@ class ilDclBaseFieldModel
         $this->lng = $DIC->language();
 
         if ($a_id != 0) {
-            $this->id = (string)$a_id;
+            $this->id = (string) $a_id;
             $this->doRead();
         }
     }
@@ -109,7 +109,7 @@ class ilDclBaseFieldModel
      */
     public function setId($a_id): void
     {
-        $this->id = (string)$a_id;
+        $this->id = (string) $a_id;
     }
 
     /**
@@ -300,7 +300,7 @@ class ilDclBaseFieldModel
                 $this->setDescription($rec["description"]);
             }
             $this->setDatatypeId($rec["datatype_id"]);
-            $this->setUnique((bool)$rec["is_unique"]);
+            $this->setUnique((bool) $rec["is_unique"]);
         }
 
         $this->loadProperties();
@@ -500,7 +500,7 @@ class ilDclBaseFieldModel
         } else {
             $property = new ilDclFieldProperty();
             $property->setName($key);
-            $property->setFieldId((int)$this->getId());
+            $property->setFieldId((int) $this->getId());
             $property->setValue($value);
 
             $this->property[$key] = $property;
@@ -574,7 +574,7 @@ class ilDclBaseFieldModel
         $this->cloneProperties($original);
 
         // mandatory for all cloning functions
-        ilDclCache::setCloneOf($original_id, (int)$this->getId(), ilDclCache::TYPE_FIELD);
+        ilDclCache::setCloneOf($original_id, (int) $this->getId(), ilDclCache::TYPE_FIELD);
     }
 
     public function afterClone(array $records)
@@ -592,7 +592,7 @@ class ilDclBaseFieldModel
         }
         foreach ($orgProps as $prop_name) {
             $fieldprop_obj = new ilDclFieldProperty();
-            $fieldprop_obj->setFieldId((int)$this->getId());
+            $fieldprop_obj->setFieldId((int) $this->getId());
             $fieldprop_obj->setName($prop_name);
 
             $value = $originalField->getProperty($prop_name);
