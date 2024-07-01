@@ -362,10 +362,10 @@ class LogTable implements Table\DataRetrieval
 
     private function getColumHeadingsForCSV(): string
     {
-        return $this->lng->txt('date_and_time') . ';'
+        return $this->lng->txt('date_time') . ';'
             . $this->lng->txt('test') . ';'
             . $this->lng->txt('author') . ';'
-            . $this->lng->txt('participant') . ';'
+            . $this->lng->txt('tst_participant') . ';'
             . $this->lng->txt('client_ip') . ';'
             . $this->lng->txt('question') . ';'
             . $this->lng->txt('log_entry_type') . ';'
