@@ -34,7 +34,7 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setSelectStatement($select_str);
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction. ", ID ASC");
+        $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction . ", ID ASC");
 
         return $sql_obj;
     }

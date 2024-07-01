@@ -461,7 +461,7 @@ class ilObjDataCollection extends ilObject2
     {
         if (preg_match_all('/<.*?br.*?>/', $body, $matches)) {
             $matches = array_unique($matches[0]);
-            $brNewLineMatches = array_map(static function($match): string {
+            $brNewLineMatches = array_map(static function ($match): string {
                 return $match . "\n";
             }, $matches);
 
