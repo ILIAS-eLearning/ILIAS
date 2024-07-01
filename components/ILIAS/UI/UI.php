@@ -32,6 +32,12 @@ class UI implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        new \ilUISetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Button/button.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
@@ -110,6 +116,28 @@ class UI implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
+
+        // MathJax is configured and loaded by one script
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentJS($this, "js/MathJax/mathjax.js");
+
+        // MathJax will dynamically load additional assets based on what is found on the page
+        foreach (['tex-chtml-full.js', 'a11y', 'adaptors', 'input', 'output', 'sre', 'ui',] as $asset) {
+            $contribute[Component\Resource\PublicAsset::class] = fn() => new class ($asset) implements Component\Resource\PublicAsset {
+                public function __construct(
+                    private readonly string $asset
+                ) {
+                }
+                public function getSource(): string
+                {
+                    return "node_modules/mathjax/es5/" . $this->asset;
+                }
+                public function getTarget(): string
+                {
+                    return "node_modules/mathjax/es5/" . $this->asset;
+                }
+            };
+        }
 
 
         // This is included via anonymous classes as a testament to the fact, that

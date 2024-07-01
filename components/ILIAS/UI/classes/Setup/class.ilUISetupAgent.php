@@ -20,7 +20,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
-class ilMathJaxSetupAgent implements Setup\Agent
+class ilUISetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
@@ -45,7 +45,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new ilMathJaxSetupConfig((array) $data);
+            return new ilUISetupConfig((bool) $data['mathjax_enabled']);
         });
     }
 
@@ -54,8 +54,8 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
-        /** @var ilMathJaxSetupConfig $config */
-        return new ilMathJaxConfigStoredObjective($config);
+        /** @var ilUISetupConfig $config */
+        return new ilUIConfigStoredObjective($config);
     }
 
     /**
@@ -63,12 +63,12 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        /** @var ilMathJaxSetupConfig $config */
+        /** @var ilUISetupConfig $config */
         if ($config !== null) {
             return new Setup\ObjectiveCollection(
-                'MathJax configuration and database update',
+                'UI configuration and database update',
                 false,
-                new ilMathJaxConfigStoredObjective($config),
+                new ilUIConfigStoredObjective($config),
             );
         }
     }
@@ -86,7 +86,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilMathJaxMetricsCollectedObjective($storage);
+        return new ilUIMetricsCollectedObjective($storage);
     }
 
     /**

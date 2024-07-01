@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\MathJax\MathJaxUIConfig;
 
 /**
  * Interface for component renderers that need to enable or disable a latex processing by MathJax
@@ -31,12 +30,12 @@ interface LatexAwareRenderer extends ComponentRenderer
     /**
      * Get the configuration of MathJax for the UI framework
      */
-    public function getMathJaxConfig(): MathJaxUIConfig;
+    public function getMathJaxConfig(): MathJaxConfig;
 
     /**
      * Add the configuration of MathJax for the UI framework
      */
-    public function withMathJaxConfig(MathJaxUIConfig $config): self;
+    public function withMathJaxConfig(MathJaxConfig $config): self;
 
     /**
      * Register resources that are needed for latex rendering in the component

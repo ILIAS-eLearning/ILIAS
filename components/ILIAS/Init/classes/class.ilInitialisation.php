@@ -1450,15 +1450,6 @@ class ilInitialisation
     }
 
     /**
-     * init the MathJax service
-     */
-    public static function initMathJax(\ILIAS\DI\Container $c): void
-    {
-        $init_mathjax = new InitMathJax();
-        $init_mathjax->init($c);
-    }
-
-    /**
      * init the ILIAS UI framework.
      */
     public static function initUIFramework(\ILIAS\DI\Container $c): void
@@ -1540,7 +1531,6 @@ class ilInitialisation
             self::initUploadPolicies($DIC);
         }
 
-        self::initMathJax($GLOBALS["DIC"]);
         self::initUIFramework($GLOBALS["DIC"]);
         $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
         self::initGlobal("tpl", $tpl);

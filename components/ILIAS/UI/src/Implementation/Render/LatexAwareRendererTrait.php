@@ -22,19 +22,19 @@ namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\LatexAwareRenderer;
-use ILIAS\MathJax\MathJaxUIConfig;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Functions to support latex rendering in a UI component
  */
 trait LatexAwareRendererTrait
 {
-    protected MathJaxUIConfig $mathjax_config;
+    protected MathJaxConfig $mathjax_config;
 
     /**
      * Get the configuration of MathJax for the UI framework
      */
-    public function getMathJaxConfig(): MathJaxUIConfig
+    public function getMathJaxConfig(): MathJaxConfig
     {
         return $this->mathjax_config;
     }
@@ -42,7 +42,7 @@ trait LatexAwareRendererTrait
     /**
      * Add the configuration of MathJax for the UI framework
      */
-    public function withMathJaxConfig(MathJaxUIConfig $config): self
+    public function withMathJaxConfig(MathJaxConfig $config): self
     {
         $clone = clone $this;
         $clone->mathjax_config = $config;

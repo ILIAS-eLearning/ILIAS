@@ -43,7 +43,7 @@ class DefaultRendererFactory implements RendererFactory
         protected DataFactory $data_factory,
         protected HelpTextRetriever $help_text_retriever,
         protected UploadLimitResolver $upload_limit_resolver,
-        protected MathJaxFactory $mathjax_factory
+        protected MathJaxConfig $mathjax_config
     ) {
     }
 
@@ -66,7 +66,7 @@ class DefaultRendererFactory implements RendererFactory
         );
 
         if ($renderer instanceof LatexAwareRenderer) {
-            $renderer = $renderer->withMathJaxConfig($this->mathjax_factory->uiConfig());
+            $renderer = $renderer->withMathJaxConfig($this->mathjax_config);
         }
         return $renderer;
     }

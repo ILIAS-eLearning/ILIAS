@@ -20,7 +20,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
-class ilMathJaxMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilUIMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     protected function getTentativePreconditions(Setup\Environment $environment): array
     {
@@ -33,16 +33,8 @@ class ilMathJaxMetricsCollectedObjective extends Setup\Metrics\CollectedObjectiv
     {
         /** @var ilSettingsFactory $factory */
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
-        $repo = new ilMathJaxConfigSettingsRepository($factory->settingsFor('MathJax'));
-        $config = $repo->getConfig();
-
-        $setup_config = new ilMathJaxSetupConfig([]);
-        foreach ($setup_config->getDataFromConfig($config) as $key => $value) {
-            if (is_bool($value)) {
-                $storage->storeStableBool($key, $value);
-            } else {
-                $storage->storeStableText($key, (string) $value);
-            }
-        }
+        /** @var ilSetting $settings */
+        $settings = $factory->settingsFor('UI');
+        $storage->storeStableBool('mathjax_enabled', (bool) $settings->get('mathjax_enabled'));
     }
 }
