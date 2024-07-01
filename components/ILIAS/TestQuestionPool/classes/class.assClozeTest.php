@@ -1736,7 +1736,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             }
 
             $gap_array[AdditionalInformationGenerator::KEY_QUESTION_TEXTSIZE] = $gap->getGapSize();
-            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS] = $gap->getShuffle();
+            $gap_array[AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS] = $additional_info->getTrueFalseTagForBool(
+                $gap->getShuffle()
+            );
             $gap_array[AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAP_TYPE] = $gap->getType();
             $gap_array[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $items;
 
