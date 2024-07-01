@@ -314,7 +314,7 @@ class ilDclDetailedViewGUI
     protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
-            return $this->notesGUI->getCommentsHTML();
+            return $this->notesGUI->getListHTML();
         } else {
             return $this->notesGUI->editNoteForm();
         }
@@ -408,7 +408,7 @@ class ilDclDetailedViewGUI
         );
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords(
-            (string)$this->table->getId(),
+            (string) $this->table->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $list->getLimit(),
