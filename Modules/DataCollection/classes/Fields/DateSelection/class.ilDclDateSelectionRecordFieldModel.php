@@ -26,7 +26,7 @@ class ilDclDateSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
     public function parseExportValue($value): string
     {
         $dates = [];
-        foreach (ilDclSelectionOption::getValues((int)$this->getField()->getId(), $value) as $value) {
+        foreach (ilDclSelectionOption::getValues((int) $this->getField()->getId(), $value) as $value) {
             $date = new ilDate($value, IL_CAL_DATE);
             $dates[] = $date->get(IL_CAL_DATE);
         }

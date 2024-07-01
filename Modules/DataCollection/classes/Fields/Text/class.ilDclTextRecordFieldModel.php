@@ -149,10 +149,10 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
             if (is_array($value)) {
                 return $value['title'] ?? $value['link'];
             } else {
-                return (string)$value;
+                return (string) $value;
             }
         } else {
-            return (string)$value;
+            return (string) $value;
         }
     }
 }

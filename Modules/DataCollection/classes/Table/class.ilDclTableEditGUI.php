@@ -317,15 +317,15 @@ class ilDclTableEditGUI
                 $delete_by_owner = ($this->form->getInput('delete_perm_mode') == 'own');
                 $this->table->setDeleteByOwner($delete_by_owner);
             }
-            $this->table->setViewOwnRecordsPerm((bool)$this->form->getInput('view_own_records_perm'));
-            $this->table->setExportEnabled((bool)$this->form->getInput("export_enabled"));
-            $this->table->setImportEnabled((bool)$this->form->getInput("import_enabled"));
+            $this->table->setViewOwnRecordsPerm((bool) $this->form->getInput('view_own_records_perm'));
+            $this->table->setExportEnabled((bool) $this->form->getInput("export_enabled"));
+            $this->table->setImportEnabled((bool) $this->form->getInput("import_enabled"));
             $this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
             $this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
-            $this->table->setLimited((bool)$this->form->getInput("limited"));
+            $this->table->setLimited((bool) $this->form->getInput("limited"));
             $this->table->setDescription($this->form->getInput('description'));
-            $this->table->setLimitStart((string)$this->form->getInput("limit_start"));
-            $this->table->setLimitEnd((string)$this->form->getInput("limit_end"));
+            $this->table->setLimitStart((string) $this->form->getInput("limit_start"));
+            $this->table->setLimitEnd((string) $this->form->getInput("limit_end"));
             if ($a_mode == "update") {
                 $this->table->doUpdate();
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_edited"), true);

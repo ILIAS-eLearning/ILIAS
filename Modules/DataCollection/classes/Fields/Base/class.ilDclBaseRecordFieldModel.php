@@ -182,7 +182,7 @@ class ilDclBaseRecordFieldModel
      */
     public function deserializeData($value)
     {
-        $deserialize = json_decode((string)$value, true);
+        $deserialize = json_decode((string) $value, true);
         if (is_array($deserialize)) {
             return $deserialize;
         }
@@ -218,7 +218,7 @@ class ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
-        return (string)$this->getExportValue();
+        return (string) $this->getExportValue();
     }
 
     /**
@@ -236,7 +236,7 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        return (string)$excel->getCell($row, $col);
+        return (string) $excel->getCell($row, $col);
     }
 
     /**
@@ -287,7 +287,7 @@ class ilDclBaseRecordFieldModel
     {
         ;
         if (!is_array($this->getValue())) {
-            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string)$this->getValue());
+            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string) $this->getValue());
         } else {
             foreach ($this->getValue() as $key => $value) {
                 $confirmation->addHiddenItem('field_' . $this->field->getId() . "[$key]", $value);

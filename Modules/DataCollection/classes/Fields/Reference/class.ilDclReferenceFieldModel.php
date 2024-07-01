@@ -35,7 +35,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
             return null;
         }
 
-        $ref_field = ilDclCache::getFieldCache((int)$this->getProperty(self::PROP_REFERENCE));
+        $ref_field = ilDclCache::getFieldCache((int) $this->getProperty(self::PROP_REFERENCE));
 
         //ATM, some referenced fields can not be sorted (Ratings, Formulas and Plugins), PR would be nice if fixeable.
         if($ref_field->getStorageLocation() == 0) {
@@ -124,7 +124,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
     public function afterClone(array $records): void
     {
         /** @var ilDclReferenceFieldModel $clone */
-        $clone = ilDclCache::getCloneOf((int)$this->getId(), ilDclCache::TYPE_FIELD);
+        $clone = ilDclCache::getCloneOf((int) $this->getId(), ilDclCache::TYPE_FIELD);
         $reference_clone = ilDclCache::getCloneOf(
             (int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE),
             ilDclCache::TYPE_FIELD
