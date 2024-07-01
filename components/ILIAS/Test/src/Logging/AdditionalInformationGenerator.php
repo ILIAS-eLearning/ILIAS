@@ -167,7 +167,7 @@ class AdditionalInformationGenerator
     public const KEY_QUESTION_POINTS_UNCHECKED = 'points_unchecked';
     public const KEY_QUESTION_IMAGEMAP_IMAGE = 'image';
     public const KEY_QUESTION_IMAGEMAP_MODE = 'tst_imap_qst_mode';
-    public const KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_COORDS = 'coords';
+    public const KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_COORDS = 'coordinates';
     public const KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_STATE = 'state';
     public const KEY_QUESTION_TEXTSIZE = 'textsize';
     public const KEY_QUESTION_UPLOAD_MAXSIZE = 'maxsize';
