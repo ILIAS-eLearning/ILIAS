@@ -355,29 +355,8 @@ class AdditionalInformationGenerator
                     true
                 );
             case self::KEY_USERS:
-                $usr_list = [];
-                foreach ($value as $usr) {
-                    $usr_list[] = \ilUserUtil::getNamePresentation(
-                        $usr,
-                        false,
-                        false,
-                        '',
-                        true
-                    );
-                }
-                return implode(
-                    ', ',
-                    array_map(
-                        static fn(int $usr): string => \ilUserUtil::getNamePresentation(
-                            $usr,
-                            false,
-                            false,
-                            '',
-                            true
-                        ),
-                        $value
-                    )
-                );
+                $this->buildListOfUsers($value);
+                // no break
             case self::KEY_QUESTION_TYPE:
                 return $this->lng->txt($value);
             case self::KEY_QUESTIONS:
@@ -395,40 +374,69 @@ class AdditionalInformationGenerator
                 }
                 //no break
             default:
-                if (is_int($value)
-                    || is_float($value)) {
-                    return (string) $value;
-                }
-                if (is_array($value)) {
-                    return array_reduce(
-                        array_keys($value),
-                        function ($c, $k) use ($value, $environment): string {
-                            $label = $k;
-                            if (is_string($k) && $this->lng->exists($k)) {
-                                $label = $this->lng->txt($k);
-                            }
-                            if ($c !== '') {
-                                $c .= ', ';
-                            }
-                            return "{$c}{$label}: {$this->parseValue($k, $value[$k], $environment)}";
-                        },
-                        ''
-                    );
-                }
-                if ($value === '') {
-                    return $this->lng->txt('none');
-                }
-                if (strpos($value, '+0000') !== false
-                    && ($date = \DateTimeImmutable::createFromFormat(self::DATE_STORAGE_FORMAT, $value)) !== false) {
-                    return $date
-                        ->setTimezone($environment['timezone'])
-                        ->format($environment['date_format']);
-                }
-                return $this->mustache->render(
-                    $this->refinery->string()->stripTags()->transform($value),
-                    $this->tags
-                );
+                return $this->buildDefaultValueString($value, $environment);
         }
+    }
+
+    private function buildListOfUsers(array $user_ids): string
+    {
+        return implode(
+            ', ',
+            array_map(
+                static fn(int $usr): string => \ilUserUtil::getNamePresentation(
+                    $usr,
+                    false,
+                    false,
+                    '',
+                    true
+                ),
+                $user_ids
+            )
+        );
+    }
+
+    private function buildDefaultValueString(
+        string|int|float|array $value,
+        array $environment
+    ): string {
+        if (is_int($value)
+            || is_float($value)) {
+            return (string) $value;
+        }
+        if (is_array($value)) {
+            return $this->buildValueStringFromArray($value, $environment);
+        }
+        if ($value === '') {
+            return $this->lng->txt('none');
+        }
+        if (strpos($value, '+0000') !== false
+            && ($date = \DateTimeImmutable::createFromFormat(self::DATE_STORAGE_FORMAT, $value)) !== false) {
+            return $date
+                ->setTimezone($environment['timezone'])
+                ->format($environment['date_format']);
+        }
+        return $this->mustache->render(
+            $this->refinery->string()->stripTags()->transform($value),
+            $this->tags
+        );
+    }
+
+    private function buildValueStringFromArray(array $value, array $environment): string
+    {
+        return array_reduce(
+            array_keys($value),
+            function ($c, $k) use ($value, $environment): string {
+                $label = $k;
+                if (is_string($k) && $this->lng->exists($k)) {
+                    $label = $this->lng->txt($k);
+                }
+                if ($c !== '') {
+                    $c .= ', ';
+                }
+                return "{$c}{$label}: {$this->parseValue($k, $value[$k], $environment)}";
+            },
+            ''
+        );
     }
 
     private function buildTags(): array
