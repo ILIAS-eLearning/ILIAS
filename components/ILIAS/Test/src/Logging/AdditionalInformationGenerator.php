@@ -404,7 +404,7 @@ class AdditionalInformationGenerator
                         array_keys($value),
                         function ($c, $k) use ($value, $environment): string {
                             $label = $k;
-                            if (is_string($k)) {
+                            if (is_string($k) && $this->lng->exists($k)) {
                                 $label = $this->lng->txt($k);
                             }
                             if ($c !== '') {
