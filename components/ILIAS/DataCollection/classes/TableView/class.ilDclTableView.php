@@ -473,7 +473,7 @@ class ilDclTableView extends ActiveRecord
      */
     public static function getAllForTableId(int $table_id): array
     {
-        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->get();
+        return self::where(['table_id' => $table_id])->orderBy('title')->get();
     }
 
     public static function getCountForTableId(int $table_id): int

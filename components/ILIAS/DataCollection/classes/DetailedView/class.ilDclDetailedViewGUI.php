@@ -120,12 +120,7 @@ class ilDclDetailedViewGUI
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
-            if ($this->table->getVisibleTableViews($this->dcl_gui_object->getRefId(), true)) {
-                $this->offerAlternativeViews();
-            } else {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            }
-
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             return;
         }
 
@@ -139,15 +134,6 @@ class ilDclDetailedViewGUI
                 $this->$cmd();
                 break;
         }
-    }
-
-    protected function offerAlternativeViews(): void
-    {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_msg_info_alternatives'));
-        $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table, $this->dcl_gui_object->getRefId());
-        $tpl->setContent($table_gui->getHTML());
     }
 
     public function jumpToRecord(): void

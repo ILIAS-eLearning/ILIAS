@@ -8797,6 +8797,7 @@ dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
 dcl#:#dcl_tableview_visible#:#Sichtbar
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
+dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
