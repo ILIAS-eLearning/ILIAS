@@ -276,10 +276,17 @@ class AdditionalInformationGenerator
         array $additional_info,
         array $environment
     ): DescriptiveListing {
+        /**
+         * @kergomard 01.07.2024: The name of the mark step might be a numeric
+         * string. But numeric strings are treated like integers when used as
+         * array keys. The descriptive items listing does check its keys if they
+         * are strings and things go sideways from there. Thus as a work around
+         * a space is added to the key here.
+         */
         return $this->ui_factory->listing()->descriptive(
             array_combine(
                 array_map(
-                    fn(string $k): string => $this->lng->exists($k) ? $this->lng->txt($k) : $k,
+                    fn(string $k): string => $this->lng->exists($k) ? $this->lng->txt($k) : $k . ' ',
                     array_keys($additional_info)
                 ),
                 array_map(
