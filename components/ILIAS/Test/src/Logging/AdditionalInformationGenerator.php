@@ -371,6 +371,8 @@ class AdditionalInformationGenerator
                         $value
                     )
                 );
+            case self::KEY_QUESTION_TYPE:
+                return $this->lng->txt($value);
             case self::KEY_QUESTIONS:
                 return implode(
                     ', ',
