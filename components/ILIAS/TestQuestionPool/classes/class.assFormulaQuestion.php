@@ -1317,8 +1317,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
             AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
-            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog($this->getVariables()),
-            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => $this->buildResultsForLog($this->getResults()),
+            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog(
+                $this->getVariables(),
+                $additional_info->getNoneTag()
+            ),
+            AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULTS => $this->buildResultsForLog(
+                $this->getResults(),
+                $additional_info->getNoneTag()
+            ),
             AdditionalInformationGenerator::KEY_FEEDBACK => [
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
                 AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -1330,20 +1336,21 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
      *
      * @param array<assFormulaQuestionVariable> $variables
      */
-    private function buildVariablesForLog(array $variables): string
+    private function buildVariablesForLog(array $variables, string $none_tag): array
     {
-        return json_encode(
-            array_map(
-                fn(assFormulaQuestionVariable $v) => [
-                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLE => $v->getVariable(),
+        return array_reduce(
+            $variables,
+            function (array $c, assFormulaQuestionVariable $v) use ($none_tag): array {
+                $c[$v->getVariable()] = [
                     AdditionalInformationGenerator::KEY_QUESTION_LOWER_LIMIT => $v->getRangeMinTxt(),
                     AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT => $v->getRangeMaxTxt(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_PRECISION => $v->getPrecision(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_INTPRECISION => $v->getIntprecision(),
-                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $v->getUnit()
-                ],
-                $variables
-            )
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $v->getUnit() ?? $none_tag
+                ];
+                return $c;
+            },
+            []
         );
     }
 
@@ -1351,13 +1358,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
      *
      * @param array<assFormulaQuestionResult> $variables
      */
-    private function buildResultsForLog(array $results): string
+    private function buildResultsForLog(array $results, string $none_tag): array
     {
-        return json_encode(
-            array_reduce(
-                $results,
-                fn(array $c, assFormulaQuestionResult $r) => [
-                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT => $r->getResult(),
+        return array_reduce(
+            $results,
+            function (array $c, assFormulaQuestionResult $r) use ($none_tag): array {
+                $c[$r->getResult()] = [
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_RESULT_TYPE => $r->getResultType(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_FORMULA => $r->getFormula(),
                     AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $r->getPoints(),
@@ -1365,10 +1371,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                     AdditionalInformationGenerator::KEY_QUESTION_UPPER_LIMIT => $r->getRangeMaxTxt(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_TOLERANCE => $r->getTolerance(),
                     AdditionalInformationGenerator::KEY_QUESTION_FORMULA_PRECISION => $r->getPrecision(),
-                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $r->getUnit()
-                ],
-                []
-            )
+                    AdditionalInformationGenerator::KEY_QUESTION_FORMULA_UNIT => $r->getUnit() ?? $none_tag
+                ];
+                return $c;
+            },
+            []
         );
     }
 
