@@ -234,16 +234,6 @@ class ilObjTest extends ilObject
     {
         $id = parent::create();
         $this->createMetaData();
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
-                    []
-                )
-            );
-        }
         return $id;
     }
 
