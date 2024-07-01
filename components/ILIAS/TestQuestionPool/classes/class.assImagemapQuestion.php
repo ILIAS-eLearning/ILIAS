@@ -878,9 +878,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 AdditionalInformationGenerator::KEY_QUESTION_POINTS_UNCHECKED => (float) $answer_obj->getPointsUnchecked(),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $order,
                 AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_COORDS => $answer_obj->getCoords(),
-                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_STATE => $additional_info->getTrueFalseTagForBool(
-                    $answer_obj->getState()
-                ),
                 AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
