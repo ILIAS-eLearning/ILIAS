@@ -1089,7 +1089,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         if ($question_gui->getMoveAfterQuestionId() !== null) {
-            $this->getTestObject()->moveQuestionAfter($question_gui->getObject()->getId(), $question_gui->getMoveAfterQuestionId());
+            $this->getTestObject()->moveQuestions(
+                [$question_gui->getObject()->getId()],
+                $question_gui->getMoveAfterQuestionId() === 0
+                    ? $this->getTestObject()->getQuestions()[1]
+                    : $question_gui->getMoveAfterQuestionId(),
+                $question_gui->getMoveAfterQuestionId() === 0 ? 0 : 1
+            );
             $question_gui->setMoveAfterQuestionId(null);
         }
 

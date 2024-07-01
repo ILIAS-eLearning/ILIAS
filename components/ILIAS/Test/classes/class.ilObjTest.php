@@ -1370,8 +1370,7 @@ class ilObjTest extends ilObject
                     TestAdministrationInteractionTypes::QUESTION_ADDED,
                     [
                         AdditionalInformationGenerator::KEY_QUESTION => (assQuestion::instantiateQuestion($question_id))
-                            ->toLog($this->logger->getAdditionalInformationGenerator()),
-                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $this->questions
+                            ->toLog($this->logger->getAdditionalInformationGenerator())
                     ]
                 )
             );
@@ -7086,35 +7085,6 @@ class ilObjTest extends ilObject
         }
 
         $this->loadQuestions();
-    }
-
-    public function moveQuestionAfter($question_to_move, $question_before)
-    {
-        if ($question_before) {
-            $query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
-            $types = ['integer'];
-            $values = [$question_before];
-            $rset = $this->db->queryF($query, $types, $values);
-        }
-
-        if (!$question_before || ($rset && !($row = $this->db->fetchAssoc($rset)))) {
-            $row = [
-            'sequence' => 0,
-            'test_fi' => $this->getTestId(),
-        ];
-        }
-
-        $update = 'UPDATE tst_test_question SET sequence = sequence + 1 WHERE sequence > %s AND test_fi = %s';
-        $types = ['integer', 'integer'];
-        $values = [$row['sequence'], $row['test_fi']];
-        $this->db->manipulateF($update, $types, $values);
-
-        $update = 'UPDATE tst_test_question SET sequence = %s WHERE question_fi = %s';
-        $types = ['integer', 'integer'];
-        $values = [$row['sequence'] + 1, $question_to_move];
-        $this->db->manipulateF($update, $types, $values);
-
-        $this->reindexFixedQuestionOrdering();
     }
 
     public function hasQuestionsWithoutQuestionpool(): bool
