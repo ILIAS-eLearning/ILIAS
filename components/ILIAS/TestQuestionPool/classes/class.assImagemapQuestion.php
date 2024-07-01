@@ -860,8 +860,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 : $additional_info->getTagForLangVar('tst_imap_qst_mode_sc'),
             AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_IMAGE => $this->getImagePathWeb() . $this->getImageFilename(),
             AdditionalInformationGenerator::KEY_FEEDBACK => [
-                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)
+                ),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+                )
             ]
         ];
 
@@ -874,7 +878,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 AdditionalInformationGenerator::KEY_QUESTION_POINTS_UNCHECKED => (float) $answer_obj->getPointsUnchecked(),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => $order,
                 AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_COORDS => $answer_obj->getCoords(),
-                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_STATE => $answer_obj->getState(),
+                AdditionalInformationGenerator::KEY_QUESTION_IMAGEMAP_ANSWER_OPTION_STATE => $additional_info->getTrueFalseTagForBool(
+                    $answer_obj->getState()
+                ),
                 AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
