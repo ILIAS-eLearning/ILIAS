@@ -31,6 +31,7 @@ use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
 use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -1418,6 +1419,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $new_object->saveToDb();
+
+        if ($new_object->getTestLogger()->isLoggingEnabled()) {
+            $new_object->getTestLogger()->logTestAdministrationInteraction(
+                $new_object->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
+                    []
+                )
+            );
+        }
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
