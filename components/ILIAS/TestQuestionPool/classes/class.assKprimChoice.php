@@ -50,39 +50,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public const DEFAULT_THUMB_SIZE = 150;
     public const THUMB_PREFIX = 'thumb.';
 
-    private bool $shuffle_answers_enabled;
+    private bool $shuffle_answers_enabled = true;
+    private string $answerType = self::ANSWER_TYPE_SINGLE_LINE;
+    private int $thumbSize = self::DEFAULT_THUMB_SIZE;
+    private bool $scorePartialSolutionEnabled = true;
+    private string $option_label = self::OPTION_LABEL_RIGHT_WRONG;
+    private string $customTrueOptionLabel = '';
+    private string $customFalseOptionLabel = '';
+    private int $specific_feedback_setting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 
-    private $answerType;
-
-    private $thumbSize;
-
-    private $scorePartialSolutionEnabled;
-
-    private $option_label;
-
-    private $customTrueOptionLabel;
-
-    private $customFalseOptionLabel;
-
-    private int $specific_feedback_setting;
-
-    private $answers;
+    private $answers = [];
 
     public function __construct($title = '', $comment = '', $author = '', $owner = -1, $question = '')
     {
         parent::__construct($title, $comment, $author, $owner, $question);
 
-        $this->shuffle_answers_enabled = true;
-        $this->answerType = self::ANSWER_TYPE_SINGLE_LINE;
-        $this->thumbSize = self::DEFAULT_THUMB_SIZE;
-        $this->scorePartialSolutionEnabled = true;
-        $this->option_label = self::OPTION_LABEL_RIGHT_WRONG;
-        $this->customTrueOptionLabel = '';
-        $this->customFalseOptionLabel = '';
-
-        $this->specific_feedback_setting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
-
-        $this->answers = [];
+        for ($i = count($this->answers); $i < self::NUM_REQUIRED_ANSWERS; $i++) {
+            $answer = new ilAssKprimChoiceAnswer();
+            $answer->setPosition($i);
+            $this->answers[$answer->getPosition()] = $answer;
+        }
     }
 
     public function getQuestionType(): string
@@ -304,14 +291,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
             $this->answers[$answer->getPosition()] = $answer;
         }
-
-        for ($i = count($this->answers); $i < self::NUM_REQUIRED_ANSWERS; $i++) {
-            $answer = new ilAssKprimChoiceAnswer();
-
-            $answer->setPosition($i);
-
-            $this->answers[$answer->getPosition()] = $answer;
-        }
     }
 
     public function saveToDb(?int $original_id = null): void
@@ -477,9 +456,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function getValidOptionLabelsTranslated(ilLanguage $lng): array
     {
-        return array_map(
-            fn(string $option_label): string => $lng->txt($this->getLangVarForOptionLabel($option_label)),
-            $this->getValidOptionLabels()
+        return array_reduce(
+            $this->getValidOptionLabels(),
+            function (array $c, string $option_label) use ($lng): array {
+                $c[$option_label] = $lng->txt($this->getLangVarForOptionLabel($option_label));
+                return $c;
+            },
+            []
         );
     }
 
@@ -878,7 +861,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         $answers = [];
         foreach ($this->getAnswers() as $key => $answer) {
-            $answers[] = [
+            $answers[$key + 1] = [
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer->getAnswertext()),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => $additional_info->getTrueFalseTagForBool((bool) $answer->getCorrectness()),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer->getPosition(),

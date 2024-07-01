@@ -160,10 +160,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->values as $value) {
-            /**
-             * @var ilAssKprimChoiceAnswer $value
-             */
-
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
                     if ($value->getImageFile() !== null
