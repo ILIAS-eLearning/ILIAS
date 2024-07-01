@@ -18,11 +18,17 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/ilMathJaxBaseTest.php';
+use ILIAS\Setup;
 
-/**
- * Testing the MathJax class
- */
-class ilMathJaxTest extends ilMathJaxBaseTest
+class ilUISetupConfig implements Setup\Config
 {
+    public function __construct(
+        protected readonly bool $mathjax_enabled
+    ) {
+    }
+
+    public function isMathJaxEnabled(): bool
+    {
+        return $this->mathjax_enabled;
+    }
 }
