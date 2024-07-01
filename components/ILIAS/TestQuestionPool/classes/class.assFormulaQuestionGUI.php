@@ -66,6 +66,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if ($this->writePostData()) {
             $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
         }
+        $this->setTestSpecificProperties();
         $this->editQuestion(false, null, $suggest_range_for_result);
     }
 
@@ -762,6 +763,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         $this->writePostData();
         $this->addSaveOnEnterOnLoadCode();
+        $this->setTestSpecificProperties();
         $this->editQuestion();
     }
 

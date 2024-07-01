@@ -746,7 +746,7 @@ abstract class assQuestionGUI
         $this->editQuestion();
     }
 
-    private function setTestSpecificProperties(): void
+    protected function setTestSpecificProperties(): void
     {
         if ($this->request->isset('pool_ref')) {
             $this->copy_to_existing_pool_on_save = $this->request->int('pool_ref');
