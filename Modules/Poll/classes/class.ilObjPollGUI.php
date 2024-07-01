@@ -557,7 +557,8 @@ class ilObjPollGUI extends ilObject2GUI
     protected function sendNotifications(): void
     {
         // Do not send notifications for non anonymous polls, see https://mantis.ilias.de/view.php?id=41607
-        if ($this->object->getNonAnonymous()) {
+        $non_anonymous = $this->object->getNonAnonymous();
+        if ($non_anonymous) {
             return;
         }
 
@@ -576,7 +577,7 @@ class ilObjPollGUI extends ilObject2GUI
         $ntf->setLangModules(array("poll"));
         $ntf->setRefId($this->ref_id);
 
-        if ($this->object->getNonAnonymous()) {
+        if ($non_anonymous) {
             $ntf->setChangedByUserId($this->user->getId());
         }
 
