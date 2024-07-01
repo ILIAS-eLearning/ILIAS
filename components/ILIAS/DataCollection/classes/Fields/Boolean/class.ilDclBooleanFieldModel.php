@@ -66,6 +66,6 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
         }
 
         //field is of type boolean (see ilDcldatatype::INPUTFORMAT_BOOLEAN)
-        parent::checkValidity((int)$value, $record_id);
+        parent::checkValidity((int) $value, $record_id);
     }
 }
