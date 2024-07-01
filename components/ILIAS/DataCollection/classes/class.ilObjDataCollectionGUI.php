@@ -264,7 +264,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->tabs->setTabActive(self::TAB_EXPORT);
         $exp_gui = new ilDclExportGUI($this);
         $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
-        $exp_gui->addFormat("xlsx", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
+        $exp_gui->addFormat("xlsx", $this->lng->txt('dcl_xls_async_export'), $exporter, 'exportAsync');
         $exp_gui->addFormat("xml");
         if ($do_default) {
             $exp_gui->listExportFiles();

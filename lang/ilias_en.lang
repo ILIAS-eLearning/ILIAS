@@ -8818,10 +8818,15 @@ dcl#:#dcl_width#:#Width
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
-dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#disable_comments#:#Disable comments
+dcl#:#disable_visible#:#Disable visible
+dcl#:#enable_comments#:#Enable comments
+dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
