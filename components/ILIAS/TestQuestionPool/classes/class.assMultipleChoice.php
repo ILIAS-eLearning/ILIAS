@@ -1018,7 +1018,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         ];
 
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS][] = [
+            $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS][$key + 1] = [
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer_obj->getAnswertext()),
                 AdditionalInformationGenerator::KEY_QUESTION_POINTS_CHECKED => (float) $answer_obj->getPointsChecked(),
                 AdditionalInformationGenerator::KEY_QUESTION_POINTS_UNCHECKED => (float) $answer_obj->getPointsUnchecked(),

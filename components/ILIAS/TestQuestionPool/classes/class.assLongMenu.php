@@ -844,7 +844,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
                     && $value === '-1') {
                     $value = '';
                 }
-                $parsed_solution[$gap_index] = $value;
+                $parsed_solution[$gap_index + 1] = $value;
                 break;
             }
         }

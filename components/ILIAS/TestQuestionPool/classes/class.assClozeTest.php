@@ -1720,7 +1720,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         ];
 
         $gaps = [];
-        foreach ($this->getGaps() as $gap) {
+        foreach ($this->getGaps() as $gap_index => $gap) {
             $items = [];
             foreach ($gap->getItems($this->getShuffler()) as $item) {
                 $item_array = [
@@ -1740,7 +1740,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $gap_array[AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAP_TYPE] = $gap->getType();
             $gap_array[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $items;
 
-            array_push($gaps, $gap_array);
+            $gaps[$gap_index + 1] = $gap_array;
         }
         $result[AdditionalInformationGenerator::KEY_QUESTION_CLOZE_GAPS] = $gaps;
         return $result;
@@ -1758,11 +1758,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
 
                 if ($gap->getType() === assClozeGap::TYPE_SELECT) {
-                    $parsed_solution[$gap_index] = $gap->getItem($solutionvalue['value2'])->getAnswertext();
+                    $parsed_solution[$gap_index + 1] = $gap->getItem($solutionvalue['value2'])->getAnswertext();
                     continue;
                 }
 
-                $parsed_solution[$gap_index] = $solutionvalue['value2'];
+                $parsed_solution[$gap_index + 1] = $solutionvalue['value2'];
             }
         }
         return $parsed_solution;

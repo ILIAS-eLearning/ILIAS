@@ -932,7 +932,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         ];
 
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS][] = [
+            $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS][$key + 1] = [
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer_obj->getAnswertext()),
                 AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => (float) $answer_obj->getPoints(),
                 AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer_obj->getOrder(),
