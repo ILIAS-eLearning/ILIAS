@@ -89,7 +89,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        $options_post_var = "prop_".static::PROP_SELECTION_OPTIONS;
+        $options_post_var = "prop_" . static::PROP_SELECTION_OPTIONS;
         foreach ($form->getInput($options_post_var) as $value) {
             if ($value["selection_value"] == "") {
                 $inputObj = $form->getItemByPostVar($options_post_var);

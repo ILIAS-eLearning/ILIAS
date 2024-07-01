@@ -147,7 +147,7 @@ class ilDclFieldProperty extends ActiveRecord
             $value = json_encode($value);
         }
 
-        return (string)$value;
+        return (string) $value;
     }
 
     /**

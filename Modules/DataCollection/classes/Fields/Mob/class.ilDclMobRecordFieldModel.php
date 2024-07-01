@@ -158,7 +158,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $mob->update();
             $return = $mob->getId();
-        // handover for save-confirmation
+            // handover for save-confirmation
         } else {
             if (is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
                 $return = $media;

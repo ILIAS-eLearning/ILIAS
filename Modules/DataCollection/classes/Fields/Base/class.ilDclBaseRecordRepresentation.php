@@ -91,7 +91,7 @@ class ilDclBaseRecordRepresentation
      */
     public function getHTML(bool $link = true, array $options = []): string
     {
-        return (string)$this->getRecordField()->getValue();
+        return (string) $this->getRecordField()->getValue();
     }
 
     /**

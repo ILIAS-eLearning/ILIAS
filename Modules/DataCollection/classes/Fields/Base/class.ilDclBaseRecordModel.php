@@ -644,11 +644,11 @@ class ilDclBaseRecordModel
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE) {
-                $this->deleteFile((int)$recordfield->getValue());
+                $this->deleteFile((int) $recordfield->getValue());
             }
 
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob((int)$recordfield->getValue());
+                $this->deleteMob((int) $recordfield->getValue());
             }
 
             $recordfield->delete();

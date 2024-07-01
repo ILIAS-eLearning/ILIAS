@@ -540,7 +540,7 @@ class ilDclRecordListGUI
         $offset = $list->getOffset();
 
         $num_records = count($table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -555,7 +555,7 @@ class ilDclRecordListGUI
         }
 
         $data = $table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
