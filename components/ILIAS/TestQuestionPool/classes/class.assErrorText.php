@@ -975,7 +975,19 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             ]
         ];
 
-        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = $this->getErrorData();
+        $error_data = $this->getErrorData();
+        $result[AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS] = array_reduce(
+            array_keys($error_data),
+            static function (array $c, int $k) use ($error_data): array {
+                $c[$k + 1] = [
+                    'text_wrong' => $error_data[$k]->getTextWrong(),
+                    'text_correct' => $error_data[$k]->getTextCorrect(),
+                    'points' => $error_data[$k]->getPoints()
+                ];
+                return $c;
+            },
+            []
+        );
 
         return $result;
     }
