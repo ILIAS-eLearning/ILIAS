@@ -261,6 +261,15 @@ class ilUserQuery
             }
         }
 
+        foreach ($this->getUdfFilter() as $k => $f) {
+            if ($f != "") {
+                $udf_id = (int) explode('_', $k)[1];
+                if (!in_array($udf_id, $udf_fields)) {
+                    $udf_fields[] = $udf_id;
+                }
+            }
+        }
+
         // if udf fields are involved we need the definitions
         $udf_def = array();
         if (count($udf_fields) > 0) {
