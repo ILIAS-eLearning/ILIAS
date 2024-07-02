@@ -1700,12 +1700,17 @@ class ilObject
         );
 
         $new_languages = [];
+        $installed_langs = $this->lng->getInstalledLanguages();
         foreach($obj_translations->getLanguages() as $language) {
             $lang_code = $language->getLanguageCode();
+            $suffix_lang = $lang_code;
+            if (!in_array($suffix_lang, $installed_langs)) {
+                $suffix_lang = $this->lng->getDefaultLanguage();
+            }
             $language->setTitle(
                 $this->appendNumberOfCopiesToTitle(
-                    $this->lng->txtlng('common', 'copy_of_suffix', $lang_code),
-                    $this->lng->txtlng('common', 'copy_n_of_suffix', $lang_code),
+                    $this->lng->txtlng('common', 'copy_of_suffix', $suffix_lang),
+                    $this->lng->txtlng('common', 'copy_n_of_suffix', $suffix_lang),
                     $language->getTitle(),
                     $title_translations_per_lang[$lang_code] ?? []
                 )
