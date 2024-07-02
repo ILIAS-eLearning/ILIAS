@@ -4,6 +4,16 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Button\Shy;
 
+/**
+ * ---
+ * description: >
+ *   This example provides buttons with a Glyph in (and as) the label.
+ *
+ * expected output: >
+ *   ILIAS shows a button with the Search Gylph and a label in different states
+ *   as well as a Button with _only_ a Glyph, again in different states.
+ * ---
+ */
 function with_glyph()
 {
     global $DIC;
