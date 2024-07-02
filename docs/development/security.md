@@ -38,21 +38,44 @@ your institution without your consent.
 
 ## Publishing Fixes for Security Issues
 [//]: # (BEGIN Publishing)
-
 We are delighted when solutions are offered together with the initial report.
-Please be aware, however, that our repository in GitHub is also open to the
-general public: commits, commit-messages and pull-requests can be viewed by
-anyone. It is therefore also better in this case to get in touch with
-security@lists.ilias.de in order to discuss further steps with us.
+Please follow the **Process for Fixing Security Issues** in order to not
+unnecessarily endanger existing ILIAS installations. If you don't have access
+to the corresponding issue in our internal security tracker please give access
+to the corresponding patch files to the issue manager through a secure channel.
 
 [//]: # (END Publishing)
+
+## Process for Fixing Security Issues
+[//]: # (BEGIN Fixing)
+The following process MUST be followed to hand in a fix for a security issue:
+* Create one patch file per supported branch needing the fix. The patch file MUST
+be named "<ilias_version>_<title_of_fix>.patch" (e.g. "9_my-very-important-fix.patch").
+To create the patch use `git format-patch` with the option `--stdout`
+(e.g. `git format-patch my-bug-fixing-branch --stdout > 9_my-very-important-fix.patch`)
+to ensure that all commits are in a single patch file, if multiple commits are
+needed to fix the issue. To make the application of the patches as easy as possible,
+**fixes for security issues MUST not contain any unrelated changes**.
+* Upload the patch files to the corresponding issue in the project "ILIAS Security"
+on our issue tracker. If you would like to provide a patch for an issue, but do
+not have access to the issue on our tracker please send the patch files to
+the issue manager on a secure channel.
+* Please provide a summary for the release notes and a few sentences describing
+the fix either directly in the corresponding sections in the issue tracker or in
+the communication.
+* The fixes will be applied to the release branches by the release manager before
+the release.
+
+[//]: # (END Fixing)
 
 ## Security Update Notifications
 [//]: # (BEGIN Notifications)
 
 Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get
 notifications about security updates, updates in general and announcements for
-ILIAS server administrators.
+ILIAS server administrators. As a general rule ILIAS updates will be published
+on the start of a week and will be announced in the middle of the previous week
+on the mailing list.
 
 [//]: # (END Notifications)
 
