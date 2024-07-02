@@ -413,7 +413,7 @@ class ilObjectCopyGUI
     protected function saveTarget(): void
     {
         // begin-patch mc
-        $target = $_REQUEST['target']; // TODO PHP8 Review: Remove/Replace SuperGlobals
+        $target = $_REQUEST['target'] ?? null; // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (is_array($target) && $target) {
             $this->setTargets($target);
             $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
