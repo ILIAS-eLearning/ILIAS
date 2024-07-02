@@ -377,7 +377,7 @@ class ilObjDataCollection extends ilObject2
     public function getTables(): array
     {
         $query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $this->db->quote($this->getId(), "integer") .
-            " ORDER BY -table_order DESC";
+            " ORDER BY title ASC";
         $set = $this->db->query($query);
         $tables = [];
 

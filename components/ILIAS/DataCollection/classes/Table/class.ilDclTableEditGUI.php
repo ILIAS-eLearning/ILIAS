@@ -408,6 +408,50 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 
+    public function enableVisible(): void
+    {
+        $this->table->setIsVisible(true);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function disableVisible(): void
+    {
+        $this->table->setIsVisible(false);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function enableComments(): void
+    {
+        $this->table->setPublicCommentsEnabled(true);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function disableComments(): void
+    {
+        $this->table->setPublicCommentsEnabled(false);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function setAsDefault(): void
+    {
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+        $order = 20;
+        foreach ($object->getTables() as $table) {
+            if ($table->getId() === $this->table->getId()) {
+                $table->setOrder(10);
+            } else {
+                $table->setOrder($order);
+                $order += 10;
+            }
+            $table->doUpdate();
+        }
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
     protected function checkAccess(): bool
     {
         $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
