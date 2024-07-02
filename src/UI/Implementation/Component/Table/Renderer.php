@@ -204,10 +204,9 @@ class Renderer extends AbstractComponentRenderer
 
         //TODO: Filter
         $filter_data = [];
-        $additional_parameters = [];
         [$component, $view_controls] = $component->applyViewControls(
             $filter_data = [],
-            $additional_parameters = []
+            $component->getAdditionalParameters()
         );
 
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
