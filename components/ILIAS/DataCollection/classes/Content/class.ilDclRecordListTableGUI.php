@@ -90,8 +90,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(true);
-        $this->setShowTemplates(true);
-        $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setTitle($table->getTitle());
         $this->setDescription($this->tableview->getTitle());
