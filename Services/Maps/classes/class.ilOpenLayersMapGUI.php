@@ -44,8 +44,18 @@ class ilOpenLayersMapGUI extends ilMapGUI
         return $this;
     }
 
+    public function initJSandCSS(): void
+    {
+        $this->tpl->addCss("node_modules/ol/ol.css");
+        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
+        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
+    }
+
     public function getHtml(bool $inline_js = false): string
     {
+        $this->initJSandCSS();
+        $this->lng->loadLanguageModule("maps");
+
         $html_tpl = new ilTemplate(
             "tpl.openlayers_map.html",
             true,
@@ -59,11 +69,6 @@ class ilOpenLayersMapGUI extends ilMapGUI
             true,
             "Services/Maps"
         );
-
-        $this->lng->loadLanguageModule("maps");
-        $this->tpl->addCss("node_modules/ol/ol.css");
-        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
-        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
 
         // add user markers
         $cnt = 0;
