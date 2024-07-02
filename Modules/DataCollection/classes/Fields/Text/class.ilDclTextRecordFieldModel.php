@@ -135,7 +135,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
             && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)
         ) {
-            return nl2br($value);
+            return $value;
         }
 
         return $value;
