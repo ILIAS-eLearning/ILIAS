@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Toast;
 
@@ -125,29 +125,5 @@ class Toast implements ComponentInterface\Toast
     public function getShowSignal(): Signal
     {
         return $this->signal;
-    }
-
-    public function withVanishTime(int $vanishTime): Toast
-    {
-        $new = clone $this;
-        $new->vanishTime = $vanishTime;
-        return $new;
-    }
-
-    public function getVanishTime(): int
-    {
-        return $this->vanishTime;
-    }
-
-    public function withDelayTime(int $delayTime): Toast
-    {
-        $new = clone $this;
-        $new->delayTime = $delayTime;
-        return $new;
-    }
-
-    public function getDelayTime(): int
-    {
-        return $this->delayTime;
     }
 }

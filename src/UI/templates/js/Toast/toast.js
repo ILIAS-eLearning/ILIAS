@@ -1,17 +1,9 @@
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.toast = ((UI) => {
-    let vanishTime = 5000;
-    let delayTime = 500;
-
-    let setToastSettings = (element) => {
-        if (element.hasAttribute('data-vanish')) {
-            vanishTime = parseInt(element.dataset.vanish);
-        }
-        if (element.hasAttribute('data-delay')) {
-            delayTime = parseInt(element.dataset.delay);
-        }
-    }
+    let container = document.querySelector('.il-toast-container');
+    let vanishTime = container.dataset.vanish;
+    let delayTime = container.dataset.delay;
 
     let showToast = (element) => {
         setTimeout(() => {appearToast(element);}, delayTime);
@@ -40,6 +32,5 @@ il.UI.toast = ((UI) => {
         showToast: showToast,
         closeToast: closeToast,
         appearToast: appearToast,
-        setToastSettings: setToastSettings,
     }
 })(il.UI)

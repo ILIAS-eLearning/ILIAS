@@ -227,30 +227,6 @@ class StandardToastItem implements isStandardItem
         return $this->handle_vanished !== null;
     }
 
-    public function withVanishTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->vanish_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getVanishTime(): ?int
-    {
-        return $this->vanish_time;
-    }
-
-    public function withDelayTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->delay_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getDelayTime(): ?int
-    {
-        return $this->delay_time;
-    }
-
     final public function getRenderer(): ToastRenderer
     {
         return $this->renderer;

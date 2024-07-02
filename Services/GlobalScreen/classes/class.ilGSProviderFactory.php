@@ -29,6 +29,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\UI\Component\Toast\Container as ToastContainer;
 
 /**
  * Class ilGSProviderFactory
@@ -225,6 +226,24 @@ class ilGSProviderFactory implements ProviderFactory
         $this->registerInternal($providers);
 
         return $providers;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getToastContainer(): ToastContainer
+    {
+        $settings = new ilSetting('notifications');
+        $container = $this->dic->ui()->factory()->toast()->container();
+
+        if ($vanish = $settings->get('osd_vanish')) {
+            $container = $container->withVanishTime((int) $vanish);
+        }
+        if ($delay = $settings->get('osd_delay')) {
+            $container = $container->withDelayTime((int) $delay);
+        }
+
+        return $container;
     }
 
     /**

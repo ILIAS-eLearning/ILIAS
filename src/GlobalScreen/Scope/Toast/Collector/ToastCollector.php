@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +22,7 @@ namespace ILIAS\GlobalScreen\Scope\Toast\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
+use ILIAS\UI\Component\Toast\Container;
 use Iterator;
 use ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem;
 
@@ -28,15 +30,17 @@ class ToastCollector extends AbstractBaseCollector
 {
     /** @var ToastProvider[] */
     private array $providers;
+    private Container $container;
     /** @var isStandardItem[] */
     private array $toasts = [];
 
     /**
      * @param ToastProvider[] $providers
      */
-    public function __construct(array $providers)
+    public function __construct(array $providers, Container $container)
     {
         $this->providers = $providers;
+        $this->container = $container;
         $this->collectOnce();
     }
 
@@ -77,5 +81,10 @@ class ToastCollector extends AbstractBaseCollector
     public function getToasts(): array
     {
         return $this->toasts;
+    }
+
+    public function getContainer(): Container
+    {
+        return $this->container;
     }
 }
