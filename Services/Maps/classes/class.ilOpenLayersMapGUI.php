@@ -44,7 +44,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
         return $this;
     }
 
-    public function getHtml(): string
+    public function getHtml(bool $inline_js = false): string
     {
         $html_tpl = new ilTemplate(
             "tpl.openlayers_map.html",
@@ -152,9 +152,13 @@ class ilOpenLayersMapGUI extends ilMapGUI
         $js_tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
         $js_tpl->setVariable("INVALID_ADDRESS_STRING", $this->lng->txt("invalid_address"));
 
-        $this->tpl->addOnLoadCode($js_tpl->get());
-
-        return $html_tpl->get();
+        $out = $html_tpl->get();
+        if (! $inline_js) {
+            $this->tpl->addOnLoadCode($js_tpl->get());
+        } else {
+            $out .= '<script>' .$js_tpl->get() . '</script>';
+        }
+        return $out;
     }
 
     /**

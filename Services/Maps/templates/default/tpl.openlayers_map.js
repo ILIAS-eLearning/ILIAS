@@ -15,10 +15,10 @@
  ******************************************************************** */
 
 /* eslint-disable */
-const ilOLInvalidAddress = '{INVALID_ADDRESS_STRING}';
-const ilOLUserMarkers = { '{MAP_ID}': [] };
-const ilOLMapData = {
-  '{MAP_ID}': [
+il.OLMaps.confInvalidAddress('{MAP_ID}', '{INVALID_ADDRESS_STRING}');
+il.OLMaps.confMapData(
+  '{MAP_ID}',
+  [
     {LAT},
     {LONG},
     {ZOOM},
@@ -27,42 +27,42 @@ const ilOLMapData = {
     {REPLACE_MARKER},
     {TILES},
     '{GEOLOCATION}',
-  ],
-};
+  ]
+);
 
 // <!-- BEGIN user_marker -->
-ilOLUserMarkers['{UMAP_ID}'][{CNT}] = new Array(
-  {ULONG},
-  {ULAT},
-  "<img style='float:right; margin-right:10px; margin-left:10px;' className='ilUserXXSmall' src='{IMG_USER}'\/><span className='small'>{USER_INFO}<\/span>",
+il.OLMaps.confUserMarker(
+  '{MAP_ID}',
+  [
+    {ULONG},
+    {ULAT},
+    "<img style='float:right; margin-right:10px; margin-left:10px;' className='ilUserXXSmall' src='{IMG_USER}'\/><span className='small'>{USER_INFO}<\/span>"
+  ]
 );
 // <!-- END user_marker -->
 
-const openLayer = il.OLMaps.init('{MAP_ID}', jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
-openLayer.forceResize(jQuery);
-openLayer.init(ilOLMapData);
+il.OLMaps.init('{MAP_ID}', jQuery);
 
 ilLookupAddress = function (id, address) {
-  return openLayer.jumpToAddress(id, address);
+  return il.OLMaps.registry.maps[id].jumpToAddress(id, address);
 };
 ilUpdateMap = function (id) {
-  return openLayer.updateMap(id);
+  return il.OLMaps.registry.maps[id].updateMap(id);
 };
 ilShowUserMarker = function (id, counter) {
-  return openLayer.moveToUserMarkerAndOpen(id, counter);
+  return il.OLMaps.registry.maps[id].moveToUserMarkerAndOpen(id, counter);
 };
 
 checkOLMapRendered = function(id) {
   window.clearTimeout();
-  if(! il.OLMaps.registry[id].map.isRendered()) {
+  if(! il.OLMaps.registry.maps[id].map.isRendered()) {
     window.setTimeout(
       function() {
-        il.OLMaps.registry[id].map.updateSize();
+        il.OLMaps.registry.maps[id].map.updateSize();
         checkOLMapRendered(id);
       },
       1000
     );
   }
 }
-
 checkOLMapRendered('{MAP_ID}');

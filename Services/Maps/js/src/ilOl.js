@@ -19,10 +19,36 @@ import ServiceOpenLayers from './ServiceOpenLayers';
 
 il.OLMaps = il.OLMaps || {};
 
-il.OLMaps.registry = {};
+il.OLMaps.registry = {
+  config : [],
+  maps : [],
+};
 
-il.OLMaps.init = function (id, jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers) {
-  const ol = new ServiceOpenLayers(jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
-  il.OLMaps.registry[id] = ol;  
-  return ol;
+il.OLMaps.confInvalidAddress = function (id, invalid_address_string) {
+  il.OLMaps.registry.config[id] = il.OLMaps.registry.config[id] || [];
+  il.OLMaps.registry.config[id].ilOLInvalidAddress = invalid_address_string;
+}
+il.OLMaps.confMapData = function (id, data) {
+  il.OLMaps.registry.config[id] = il.OLMaps.registry.config[id] || [];
+  il.OLMaps.registry.config[id].ilOLMapData = [];
+  il.OLMaps.registry.config[id].ilOLMapData[id] = data;
+}
+il.OLMaps.confUserMarker = function (id, data) {
+  il.OLMaps.registry.config[id] = il.OLMaps.registry.config[id] || [];
+  il.OLMaps.registry.config[id].ilOLUserMarkers = il.OLMaps.registry.config[id].ilOLUserMarkers || [];
+  il.OLMaps.registry.config[id].ilOLUserMarkers.push(data);
+}
+
+il.OLMaps.init = function (id, jQuery) {
+  let umarkers = [];
+  umarkers[id] = il.OLMaps.registry.config[id].ilOLUserMarkers;
+  il.OLMaps.registry.maps[id] = new ServiceOpenLayers(
+    jQuery, 
+    il.OLMaps.registry.config[id].ilOLInvalidAddress,
+    il.OLMaps.registry.config[id].ilOLMapData,
+    umarkers
+  );
+
+  il.OLMaps.registry.maps[id].forceResize(jQuery);
+  il.OLMaps.registry.maps[id].init(il.OLMaps.registry.config[id].ilOLMapData);
 };
