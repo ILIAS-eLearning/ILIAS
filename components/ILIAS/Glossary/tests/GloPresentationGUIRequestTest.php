@@ -67,19 +67,4 @@ class GloPresentationGUIRequestTest extends TestCase
             $request->getTermId()
         );
     }
-
-    public function test(): void
-    {
-        $request = $this->getRequest(
-            [
-                "type" => "xml"
-            ],
-            []
-        );
-
-        $this->assertEquals(
-            "xml",
-            $request->getExportType()
-        );
-    }
 }
