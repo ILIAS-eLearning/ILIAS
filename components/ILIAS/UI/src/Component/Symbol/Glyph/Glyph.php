@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes how a glyph could be modified during construction of UI.
+ * @deprecated with 10, the Clickable interface will be removed from Glyphs; use a Button with a Glyph as label instead
  */
 interface Glyph extends Symbol, Clickable
 {

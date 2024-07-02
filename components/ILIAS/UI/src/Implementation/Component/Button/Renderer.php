@@ -340,12 +340,6 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Template $tpl
     ): void {
-        $tpl->setVariable("ICON_OR_GLYPH", $default_renderer->render($component->getIconOrGlyph()));
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $label);
-        }
-
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {
             $tpl->setCurrentBlock("with_aria_role");

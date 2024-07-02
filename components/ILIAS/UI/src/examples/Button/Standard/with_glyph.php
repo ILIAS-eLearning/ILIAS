@@ -13,7 +13,8 @@ function with_glyph()
     $glyph = $f->symbol()->glyph()->search();
     $button = $f->button()->standard('search', '#')
         ->withSymbol($glyph);
-    $button2 = $button->withLabel('');
+    $button2 = $button->withLabel('')
+        ->withAriaLabel('search');
 
     return $renderer->render([
         $button,

@@ -78,7 +78,7 @@ abstract class Button implements C\Button\Button
     }
 
     /**
-     * @inheritdoc
+     * Get the symbol (as part of the Buttons's label) if set.
      */
     public function getSymbol(): ?Symbol
     {

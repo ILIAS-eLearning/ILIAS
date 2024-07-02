@@ -6591,6 +6591,16 @@ footer {
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
+.btn .glyph, .c-drilldown .c-drilldown__menulevel--trigger .glyph, .il-link.link-bulky .glyph,
+.il-drilldown .menulevel .glyph, .navbar-form > a .glyph,
+.btn .glyph .glyphicon,
+.c-drilldown .c-drilldown__menulevel--trigger .glyph .glyphicon,
+.il-link.link-bulky .glyph .glyphicon,
+.il-drilldown .menulevel .glyph .glyphicon,
+.navbar-form > a .glyph .glyphicon {
+  color: unset;
+}
+
 a.btn.disabled, .c-drilldown a.disabled.c-drilldown__menulevel--trigger, a.disabled.il-link.link-bulky,
 .il-drilldown a.disabled.menulevel, .navbar-form > a.disabled, fieldset[disabled] a.btn, fieldset[disabled] .c-drilldown a.c-drilldown__menulevel--trigger, .c-drilldown fieldset[disabled] a.c-drilldown__menulevel--trigger, fieldset[disabled] a.il-link.link-bulky,
 fieldset[disabled] .il-drilldown a.menulevel,

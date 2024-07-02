@@ -43,11 +43,6 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
     public function withLabel(string $label): Button;
 
     /**
-     * Get a symbol as part of the Buttons's label.
-     */
-    public function getSymbol(): ?Symbol;
-
-    /**
      * Get a button like this with a symbol in its label
      */
     public function withSymbol(?Symbol $symbol): self;

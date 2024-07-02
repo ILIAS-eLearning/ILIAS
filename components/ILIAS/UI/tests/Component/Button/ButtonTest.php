@@ -592,4 +592,33 @@ class ButtonTest extends ILIAS_UI_TestBase
             ['tag']
         ];
     }
+
+    public function testRenderButtonWithSymbolAndLabel(): void
+    {
+        $f = $this->getButtonFactory();
+        $r = $this->getDefaultRenderer();
+        $glyph = new Glyph(C\Symbol\Glyph\Glyph::LIKE, 'The Glyph Label');
+        $button = $f->standard('The Button Label', '')
+            ->withSymbol($glyph);
+
+        // the glyph still contains its aria-label
+        $this->assertStringContainsString(
+            'aria-label="The Glyph Label"',
+            $r->render($glyph)
+        );
+
+        //but not in button context
+        $expected = $this->brutallyTrimHTML(
+            '
+            <button class="btn btn-default" data-action="">
+                <span class="glyph" role="img">
+                    <span class="glyphicon il-glyphicon-like" aria-hidden="true"></span>
+                </span>
+                The Button Label
+            </button>'
+        );
+        $html = $this->brutallyTrimHTML($r->render($button));
+        $this->assertHTMLEquals($expected, $html);
+    }
+
 }
