@@ -405,7 +405,7 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function applyViewControls(
         array $filter_data,
-        array $additional_parameters
+        ?array $additional_parameters = []
     ): array {
         $table = $this;
         $total_count = $this->getDataRetrieval()->getTotalRowCount($filter_data, $additional_parameters);
@@ -414,7 +414,6 @@ class Data extends Table implements T\Data, JSBindable
         if ($request = $this->getRequest()) {
             $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
-
             $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
             $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
             $table = $table
@@ -424,9 +423,7 @@ class Data extends Table implements T\Data, JSBindable
         }
 
         return [
-            $table
-                ->withFilter($filter_data)
-                ->withAdditionalParameters($additional_parameters),
+            $table->withFilter($filter_data),
             $view_controls
         ];
     }
