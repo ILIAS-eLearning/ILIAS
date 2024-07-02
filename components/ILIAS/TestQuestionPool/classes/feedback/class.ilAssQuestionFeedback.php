@@ -731,7 +731,7 @@ abstract class ilAssQuestionFeedback
     public function importGenericFeedback(int $question_id, bool $solution_completed, string $feedback_content): void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $page_object_id = $this->getGenericFeedbackPageObjectId($question_id, $solution_completed);
+            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
             $page_object_type = $this->getGenericFeedbackPageObjectType();
 
             $this->createPageObject($page_object_type, $page_object_id, $feedback_content);
