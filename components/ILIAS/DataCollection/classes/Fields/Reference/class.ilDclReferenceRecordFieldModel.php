@@ -44,7 +44,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                 }
                 foreach ($value as $val) {
                     if ($val) {
-                        $ref_rec = ilDclCache::getRecordCache((int)$val);
+                        $ref_rec = ilDclCache::getRecordCache((int) $val);
                         $ref_record_field = $ref_rec->getRecordField((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
                         $exp_value = $ref_record_field->getExportValue();
                         $names[] = is_array($exp_value) ? array_shift($exp_value) : $exp_value;
@@ -58,7 +58,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             $ref_record_field = $ref_rec->getRecordField((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
             $exp_value = $ref_record_field->getExportValue();
 
-            return (string)(is_array($exp_value) ? array_shift($exp_value) : $exp_value);
+            return (string) (is_array($exp_value) ? array_shift($exp_value) : $exp_value);
         }
         return "";
     }
@@ -125,7 +125,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $table = ilDclCache::getTableCache($field->getTableId());
         $record_id = 0;
         foreach ($table->getRecords() as $record) {
-            $record_value = $record->getRecordField((int)$field->getId())->getExportValue();
+            $record_value = $record->getRecordField((int) $field->getId())->getExportValue();
             // in case of a url-field
             if (is_array($record_value) && !is_array($value)) {
                 $record_value = array_shift($record_value);
@@ -140,7 +140,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function afterClone(): void
     {
-        $field_clone = ilDclCache::getCloneOf((int)$this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field_clone = ilDclCache::getCloneOf((int) $this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
 
         if ($field_clone && $record_clone) {
@@ -165,7 +165,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     protected function getCloneRecordId(?string $clone_reference): ?string
     {
-        $reference_record = ilDclCache::getCloneOf((int)$clone_reference, ilDclCache::TYPE_RECORD);
+        $reference_record = ilDclCache::getCloneOf((int) $clone_reference, ilDclCache::TYPE_RECORD);
         if ($reference_record) {
             return (string) $reference_record->getId();
         }

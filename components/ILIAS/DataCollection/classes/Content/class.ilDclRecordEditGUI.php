@@ -207,9 +207,9 @@ class ilDclRecordEditGUI
                 $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
             }
         }
-        $conf->addItem('record_id', (string)$record->getId(), $record_data);
-        $conf->addHiddenItem('table_id', (string)$this->table_id);
-        $conf->addHiddenItem('tableview_id', (string)$this->tableview_id);
+        $conf->addItem('record_id', (string) $record->getId(), $record_data);
+        $conf->addHiddenItem('table_id', (string) $this->table_id);
+        $conf->addHiddenItem('tableview_id', (string) $this->tableview_id);
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
         $this->tpl->setContent($conf->getHTML());
@@ -276,14 +276,14 @@ class ilDclRecordEditGUI
         $this->form->setId($prefix . $this->table_id . $this->record_id);
 
         $hidden_prop = new ilHiddenInputGUI("table_id");
-        $hidden_prop->setValue((string)$this->table_id);
+        $hidden_prop->setValue((string) $this->table_id);
         $this->form->addItem($hidden_prop);
         $hidden_prop = new ilHiddenInputGUI("tableview_id");
-        $hidden_prop->setValue((string)$this->tableview_id);
+        $hidden_prop->setValue((string) $this->tableview_id);
         $this->form->addItem($hidden_prop);
         if ($this->record_id) {
             $hidden_prop = new ilHiddenInputGUI("record_id");
-            $hidden_prop->setValue((string)$this->record_id);
+            $hidden_prop->setValue((string) $this->record_id);
             $this->form->addItem($hidden_prop);
         }
 
@@ -315,9 +315,9 @@ class ilDclRecordEditGUI
 
                     if ($default_value !== null) {
                         if ($item instanceof ilDclCheckboxInputGUI) {
-                            $item->setChecked((bool)$default_value->getValue());
+                            $item->setChecked((bool) $default_value->getValue());
                         } else {
-                            $item->setValue((string)$default_value->getValue());
+                            $item->setValue((string) $default_value->getValue());
                         }
                     } else {
                         if ($item instanceof ilDclTextInputGUI) {
@@ -443,7 +443,7 @@ class ilDclRecordEditGUI
 
         $empty_fileuploads = [];
         foreach ($all_fields as $field) {
-            $record_field = $record_obj->getRecordField((int)$field->getId());
+            $record_field = $record_obj->getRecordField((int) $field->getId());
             /** @var ilDclBaseRecordFieldModel $record_field */
             $record_field->addHiddenItemsToConfirmation($confirmation);
 
@@ -467,8 +467,8 @@ class ilDclRecordEditGUI
 
         $confirmation->addHiddenItem('ilfilehash', $filehash);
         $confirmation->addHiddenItem('empty_fileuploads', htmlspecialchars(json_encode($empty_fileuploads)));
-        $confirmation->addHiddenItem('table_id', (string)$this->table_id);
-        $confirmation->addHiddenItem('tableview_id', (string)$this->tableview_id);
+        $confirmation->addHiddenItem('table_id', (string) $this->table_id);
+        $confirmation->addHiddenItem('tableview_id', (string) $this->tableview_id);
         $confirmation->addItem('save_confirmed', "1", $record_data);
 
         if ($this->ctrl->isAsynch()) {
@@ -579,7 +579,7 @@ class ilDclRecordEditGUI
 
                 //edit values, they are valid we already checked them above
                 foreach ($all_fields as $field) {
-                    $record_obj->setRecordFieldValueFromForm((int)$field->getId(), $this->form);
+                    $record_obj->setRecordFieldValueFromForm((int) $field->getId(), $this->form);
                 }
 
                 $this->saveConfirmation($record_obj, $hash);
@@ -608,7 +608,7 @@ class ilDclRecordEditGUI
             if ($field_setting->isVisibleInForm($create_mode) &&
                     (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
                 // set all visible fields
-                $record_obj->setRecordFieldValueFromForm((int)$field->getId(), $this->form);
+                $record_obj->setRecordFieldValueFromForm((int) $field->getId(), $this->form);
             } elseif ($create_mode) {
                 // set default values when creating
                 $default_value = ilDclTableViewBaseDefaultValue::findSingle(
