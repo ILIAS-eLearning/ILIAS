@@ -610,19 +610,6 @@ assessment#:#dont_use_questionpool#:#Ne pas ajouter les questions dans un jeu de
 assessment#:#duplicate#:#Doubler
 assessment#:#duplicate_matching_values_selected#:#Vous avez sélectionné des couples de valeurs en double.
 assessment#:#duplicate_order_values_entered#:#Vous avez saisi des valeurs en double pour le tri.
-assessment#:#ects_allow_ects_grades#:#Afficher le niveau ECTS en plus de l'appréciation reçue
-assessment#:#ects_fx_threshold#:#Seuil
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.
-assessment#:#ects_grade#:#Niveau ECTS
-assessment#:#ects_grade_a_desc#:#performance remarquable avec seulement quelques erreurs mineures
-assessment#:#ects_grade_b_desc#:#au-dessus de la moyenne mais avec certaines erreurs
-assessment#:#ects_grade_c_desc#:#bon travail de manière général, mais avec un certain nombre d’erreurs notables
-assessment#:#ects_grade_d_desc#:#raisonnable, mais avec d’importantes lacunes
-assessment#:#ects_grade_desc_prefix#:#Signification du classement:
-assessment#:#ects_grade_e_desc#:#La performance répond aux critères minimum
-assessment#:#ects_grade_f_desc#:#travail supplémentaire considérable est nécessaire
-assessment#:#ects_grade_fx_desc#:#plus de travail requis avant de pouvoir attribuer le crédit
-assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
 assessment#:#edit_answer#:#Éditer la Réponse
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###31 10 2023 new variable
 assessment#:#edit_introduction#:#Edit Introduction###31 10 2023 new variable
@@ -849,7 +836,6 @@ assessment#:#manscoring_results_pass#:#Questions Evaluées Manuellement pour la 
 assessment#:#manual_editing#:#Édition manuelle
 assessment#:#mark_schema#:#Echelle d'Evaluation
 assessment#:#mark_schema_invalid#:#L'échelle d'évaluation n'est pas valide. Veuillez créer une échelle correcte.
-assessment#:#mark_tst_ects#:#Votre notation ECTS est &quot;[markects]&quot;
 assessment#:#matches#:#correspond à
 assessment#:#matching_pairs#:#Apparier
 assessment#:#matching_shuffle_definitions#:#Définitions seulement
@@ -1963,7 +1949,6 @@ assessment#:#units#:#Unités
 assessment#:#unlimited#:#illimité
 assessment#:#unlock#:#Déverrouiller
 assessment#:#uploaded_material#:#Matériau téléchargé
-assessment#:#use_ects_fx#:#Use the 'FX' grade
 assessment#:#use_previous_solution#:#Utiliser la solution précédente
 assessment#:#use_previous_solution_advice#:#La solution montrée pour la question est celle que vous avez donné précédemment. Si vous voulez l’utiliser sans modification, vous devez confirmer l’adoption de la solution.
 assessment#:#user_has_finished_a_test#:#Un participant a terminé le test.

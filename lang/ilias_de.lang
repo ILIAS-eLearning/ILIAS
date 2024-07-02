@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
-assessment#:#ects_fx_threshold#:#Grenzwert
-assessment#:#ects_fx_threshold_info#:#Bitte geben Sie den Grenzwert an, ab dem durchgefallene Teilnehmer die ECTS-Note 'FX' erhalten.
-assessment#:#ects_grade#:#ECTS-Note
-assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
-assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
-assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
-assessment#:#ects_grade_d_desc#:#mittelmäßig, jedoch deutliche Mängel
-assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note:
-assessment#:#ects_grade_e_desc#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
-assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
-assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
-assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
 assessment#:#edit_introduction#:#Einleitung bearbeiten
@@ -877,7 +864,6 @@ assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchl
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
-assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#passt zu
 assessment#:#matching_pairs#:#Zuordnungspaare
 assessment#:#matching_shuffle_definitions#:#Nur Definitionen
@@ -2001,7 +1987,6 @@ assessment#:#units#:#Einheiten
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
 assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
