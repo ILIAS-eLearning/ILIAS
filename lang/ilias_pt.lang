@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Não insira as perguntas num banco de pergu
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#Selecionou valores correspondentes em duplicado!
 assessment#:#duplicate_order_values_entered#:#Introduziu valores de ordem em duplicado!
-assessment#:#ects_allow_ects_grades#:#Mostrar classificação ECTS adicionalmente à marca recebida
-assessment#:#ects_fx_threshold#:#Limite
-assessment#:#ects_fx_threshold_info#:#Insira a percentagem exigida para conceder o grau 'FX'.
-assessment#:#ects_grade#:#Classificação ECTS
-assessment#:#ects_grade_a_desc#:#desempenho extraordinário, com apenas erros menores
-assessment#:#ects_grade_b_desc#:#acima da média, mas com alguns erros
-assessment#:#ects_grade_c_desc#:#bom trabalho geral com alguns erros notáveis
-assessment#:#ects_grade_d_desc#:#razoável mas com falhas significativas
-assessment#:#ects_grade_desc_prefix#:#Significado da classificação:
-assessment#:#ects_grade_e_desc#:#o desempenho satisfaz os critérios mínimos
-assessment#:#ects_grade_f_desc#:#requer bastante mais trabalho
-assessment#:#ects_grade_fx_desc#:#requer mais algum trabalho antes de merecer o crédito
-assessment#:#ects_output_of_ects_grades#:#Resultado das classificações ECTS
 assessment#:#edit_answer#:#Editar resposta
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Perguntas manualmente pontuadas para tent
 assessment#:#manual_editing#:#Edição manual
 assessment#:#mark_schema#:#Esquema de anotações
 assessment#:#mark_schema_invalid#:#O esquema de anotações não é válido. Crie um esquema correto.
-assessment#:#mark_tst_ects#:#O seu grau ECTS é "[markects]" (European Credit Transfer System - Sistema de transferência de crédito europeu)
 assessment#:#matches#:#correspondências
 assessment#:#matching_pairs#:#Pares correspondentes
 assessment#:#matching_shuffle_definitions#:#Definições apenas
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Unidades
 assessment#:#unlimited#:#Conta Mozilla Backpack (e-mail)
 assessment#:#unlock#:#Desbloquear
 assessment#:#uploaded_material#:#E-mail de contacto
-assessment#:#use_ects_fx#:#Aprovar posting
 assessment#:#use_previous_solution#:#Usar solução anterior
 assessment#:#use_previous_solution_advice#:#A solução apresentada para a pergunta é a que deu anteriormente. Tem de confirmar a adoção da solução, se quiser usá-la sem qualquer alteração.
 assessment#:#user_has_finished_a_test#:#Um participante acabou um teste.

@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Nevkládat otázky do zásobníku otázek (
 assessment#:#duplicate#:#Duplikovat
 assessment#:#duplicate_matching_values_selected#:#Vybral(a) jste duplikované identické hodnoty!
 assessment#:#duplicate_order_values_entered#:#Vložil(a) jste duplikované hodnoty pořadí!
-assessment#:#ects_allow_ects_grades#:#Zobrazit dodatečné hodnocení ECTS k získané známce
-assessment#:#ects_fx_threshold#:#Práh
-assessment#:#ects_fx_threshold_info#:#Zadejte požadovaný percentil pro udělení stupně „FX“.
-assessment#:#ects_grade#:#Hodnocení ECTS
-assessment#:#ects_grade_a_desc#:#vynikající výkon pouze s malými chybami
-assessment#:#ects_grade_b_desc#:#nadprůměrný standard, ale s nějakými chybami
-assessment#:#ects_grade_c_desc#:#obecně dobrá práce s množstvím významných chyb
-assessment#:#ects_grade_d_desc#:#slušné, ale s výraznými nedostatky
-assessment#:#ects_grade_desc_prefix#:#Význam známky:
-assessment#:#ects_grade_e_desc#:#výkon splňuje minimální kritéria
-assessment#:#ects_grade_f_desc#:#je zapotřebí další velká práce
-assessment#:#ects_grade_fx_desc#:#než bude možné udělit kredit, je třeba další práce
-assessment#:#ects_output_of_ects_grades#:#Výstup hodnocení ECTS
 assessment#:#edit_answer#:#Upravit odpověď
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Manuálně hodnotitelné otázky pro prů
 assessment#:#manual_editing#:#Manuální editace
 assessment#:#mark_schema#:#Schéma známkování
 assessment#:#mark_schema_invalid#:#Schéma známkování není platné. Vytvořte prosím správné schéma.
-assessment#:#mark_tst_ects#:#Vaše hodnocení ECTS je &quot;[markects]&quot;
 assessment#:#matches#:#patří k
 assessment#:#matching_pairs#:#Odpovídající dvojice
 assessment#:#matching_shuffle_definitions#:#Jen definice
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Jednotky
 assessment#:#unlimited#:#neomezený
 assessment#:#unlock#:#Odemknout
 assessment#:#uploaded_material#:#Odeslaný materiál
-assessment#:#use_ects_fx#:#Použít stupeň „FX“
 assessment#:#use_previous_solution#:#Použít předchozí řešení
 assessment#:#use_previous_solution_advice#:#Zobrazené řešení pro tuto otázku je vaše dříve uvedené řešení. Musíte potvrdit přijetí řešení, pokud ho chcete použít bez jakýchkoliv změn.
 assessment#:#user_has_finished_a_test#:#Účastník dokončil test.

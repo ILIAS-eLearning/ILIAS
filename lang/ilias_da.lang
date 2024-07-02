@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpoo
 assessment#:#duplicate#:#Kopier
 assessment#:#duplicate_matching_values_selected#:#Du har valgt at kopiere ens værdier!
 assessment#:#duplicate_order_values_entered#:#Du har indtastet ens værdier!
-assessment#:#ects_allow_ects_grades#:#Vis ECTS karakter sammen med modtaget mærke
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#ECTS karakter
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#Output af ECTS karakter
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s###
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Karakterer
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
-assessment#:#mark_tst_ects#:#Din ECTS karakter er &quot;[markects]&quot;
 assessment#:#matches#:#Sammensæt
 assessment#:#matching_pairs#:#Matchende par
 assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Units###16 09 2013 new variable
 assessment#:#unlimited#:#Uendelig
 assessment#:#unlock#:#Ulås
 assessment#:#uploaded_material#:#Uploadet Materialle
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable

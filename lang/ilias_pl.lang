@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Nie dodawaj pytań do puli pytań, tylko wy
 assessment#:#duplicate#:#Kopiuj
 assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wartości!
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
-assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo ocenę ECTS do uzyskanego wyniku
-assessment#:#ects_fx_threshold#:#Wartość graniczna
-assessment#:#ects_fx_threshold_info#:#Podaj wartość graniczną, powyżej której uczestnicy, którzy nie zaliczyli pracy, otrzymają ocenę ECTS 'FX'.
-assessment#:#ects_grade#:#Ocena ECTS
-assessment#:#ects_grade_a_desc#:#wspaniałe wyniki i tylko kilka nieistotnych błędów
-assessment#:#ects_grade_b_desc#:#ponadprzeciętne wyniki z kilkoma błędami
-assessment#:#ects_grade_c_desc#:#w sumie dobra i solidna praca, zawiera jednak kilka podstawowych błędów
-assessment#:#ects_grade_d_desc#:#średnio, znaczne braki
-assessment#:#ects_grade_desc_prefix#:#Znaczenie oceny:
-assessment#:#ects_grade_e_desc#:#otrzymane wyniki odpowiadają minimalnym wymaganiom
-assessment#:#ects_grade_f_desc#:#konieczna jest znaczna poprawa
-assessment#:#ects_grade_fx_desc#:#przed uznaniem wyników konieczna jest poprawa
-assessment#:#ects_output_of_ects_grades#:#Wyniki ocen ECTS
 assessment#:#edit_answer#:#Zmień odpowiedź
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Ręczna punktacja pytań dla wykonania %s
 assessment#:#manual_editing#:#Manualne edytowanie
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#mark_schema_invalid#:#Nie udało się przeprowadzić walidacji schematu ocen. Sporządź poprawny schemat.
-assessment#:#mark_tst_ects#:#Twoja ocena ECTS to &quot;[markects]&quot;
 assessment#:#matches#:#zgodne
 assessment#:#matching_pairs#:#Dopasuj pary
 assessment#:#matching_shuffle_definitions#:#Tylko definicje
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Jednostki
 assessment#:#unlimited#:#nielimitowany
 assessment#:#unlock#:#Odblokuj
 assessment#:#uploaded_material#:#Załadowany materiał
-assessment#:#use_ects_fx#:#Stosowanie oceny ECTS 'FX'
 assessment#:#use_previous_solution#:#Użyj poprzedniej odpowiedzi
 assessment#:#use_previous_solution_advice#:#Widoczne rozwiązanie zostało oddane przez Ciebie wcześniej. Jeśli chcesz przejąć rozwiązanie bez dokonywania zmian, musisz potwierdzić przejęcie tego rozwiązania poniżej pytania.
 assessment#:#user_has_finished_a_test#:#Jeden z uczestników zakończył test.

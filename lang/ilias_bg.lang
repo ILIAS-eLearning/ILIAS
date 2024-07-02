@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Не вкарвайте въпросите 
 assessment#:#duplicate#:#Дублиране
 assessment#:#duplicate_matching_values_selected#:#Избрали сте дублирани съвпадащи стойности!
 assessment#:#duplicate_order_values_entered#:#Въвели сте дублирани поредни номера!
-assessment#:#ects_allow_ects_grades#:#Показване на оценката от ECTS в допълнение към получената оценка
-assessment#:#ects_fx_threshold#:#Прагова стойност###22 06 2022 new variable
-assessment#:#ects_fx_threshold_info#:#Внесете необходимия персентил за присъждане на оценка "FX".
-assessment#:#ects_grade#:#Оценка от ECTS
-assessment#:#ects_grade_a_desc#:#изключително добро представяне само с незначителни грешки
-assessment#:#ects_grade_b_desc#:#над средния стандарт, но с някои грешки
-assessment#:#ects_grade_c_desc#:#общо добра работа с няколко забележими грешки
-assessment#:#ects_grade_d_desc#:#справедлива, но със значителни недостатъци
-assessment#:#ects_grade_desc_prefix#:#Смисъл на оценката:
-assessment#:#ects_grade_e_desc#:#изпълнението отговаря на минималните критерии
-assessment#:#ects_grade_f_desc#:#необходима е значителна допълнителна работа
-assessment#:#ects_grade_fx_desc#:#нещо повече, което трябва да се свърши, за да се присъди кредит
-assessment#:#ects_output_of_ects_grades#:#Представяне на оценките от ECTS
 assessment#:#edit_answer#:#Редактиране на отговор
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Разбираеми въпроси за 
 assessment#:#manual_editing#:#Ръчно редактиране
 assessment#:#mark_schema#:#Схема на оценките
 assessment#:#mark_schema_invalid#:#Схемата на марката не се валидира. Моля, създайте правилна схема.
-assessment#:#mark_tst_ects#:# Вашата ECTS оценка е &quot;[markects]&quot;
 assessment#:#matches#:#съвпадения
 assessment#:#matching_pairs#:#Съпоставяне на двойки
 assessment#:#matching_shuffle_definitions#:#Само определения
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Единици
 assessment#:#unlimited#:#неограничено
 assessment#:#unlock#:#Отключване###22 06 2022 new variable
 assessment#:#uploaded_material#:#Зареден материал
-assessment#:#use_ects_fx#:#Използвайте класацията "FX
 assessment#:#use_previous_solution#:#Използване на предишно решение
 assessment#:#use_previous_solution_advice#:#Показаното решение на въпроса е даденото от вас преди това. Трябва да потвърдите приемането на решението, ако искате да го използвате без промяна.
 assessment#:#user_has_finished_a_test#:#Участникът е завършил тест.

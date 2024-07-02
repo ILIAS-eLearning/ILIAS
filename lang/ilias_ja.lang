@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#問題集へ問題を挿入しない(この
 assessment#:#duplicate#:#重複
 assessment#:#duplicate_matching_values_selected#:#選択値が重複しています!
 assessment#:#duplicate_order_values_entered#:#選択順が重複しています!
-assessment#:#ects_allow_ects_grades#:#ECTS評価に受領マークを追加して表示する
-assessment#:#ects_fx_threshold#:#しきい値
-assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
-assessment#:#ects_grade#:#ECTS評価
-assessment#:#ects_grade_a_desc#:#マイナーなエラーのみの優れたパフォーマンス
-assessment#:#ects_grade_b_desc#:#いくつかエラーはあるが平均標準より上位
-assessment#:#ects_grade_c_desc#:#顕著なエラー数ありで通常は音を鳴らす
-assessment#:#ects_grade_d_desc#:#かなりの欠点はるものの妥当
-assessment#:#ects_grade_desc_prefix#:#グレードの意味:
-assessment#:#ects_grade_e_desc#:#最低判断基準を満たすパフォーマンス
-assessment#:#ects_grade_f_desc#:#今後相当の努力が必須
-assessment#:#ects_grade_fx_desc#:#クレジットを受賞するにはさらなる努力を要する
-assessment#:#ects_output_of_ects_grades#:#ECTS評価の出力
 assessment#:#edit_answer#:#回答を編集
 assessment#:#edit_concluding_remarks#:#結語を編集
 assessment#:#edit_introduction#:#序論を編集
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#試験%sの手動採点可能な問題
 assessment#:#manual_editing#:#手動編集
 assessment#:#mark_schema#:#評価尺度
 assessment#:#mark_schema_invalid#:#マークスキーマは検証されません。正しいスキーマを作成してください。
-assessment#:#mark_tst_ects#:#ECTS評価は&quot;[markects]&quot;となっています。
 assessment#:#matches#:#一致するもの
 assessment#:#matching_pairs#:#一致する組
 assessment#:#matching_shuffle_definitions#:#定義のみ
@@ -1995,7 +1981,6 @@ assessment#:#units#:#ユニット
 assessment#:#unlimited#:#無期限
 assessment#:#unlock#:#解除
 assessment#:#uploaded_material#:#アップロードされた教材
-assessment#:#use_ects_fx#:# 'FX' 評価を使用
 assessment#:#use_previous_solution#:#前回の解答を使用する
 assessment#:#use_previous_solution_advice#:#表示されている回答は前回のものです。何も変更しないでそのまま利用したい場合は、その解答の採用を必ず確認する必要があります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。

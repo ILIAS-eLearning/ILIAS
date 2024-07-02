@@ -627,19 +627,6 @@ assessment#:#dont_use_questionpool#:#Non inserire le domande in una libreria (di
 assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#Hai scelto due volte la stessa risposta!
 assessment#:#duplicate_order_values_entered#:#Hai inserito due volte lo stesso valore!
-assessment#:#ects_allow_ects_grades#:#Mostra ulteriori voti ECTS per accettare una prova
-assessment#:#ects_fx_threshold#:#Limite
-assessment#:#ects_fx_threshold_info#:#Inserisci il percentile richiesto per la concessione del grado "FX".
-assessment#:#ects_grade#:#Scala ECTS
-assessment#:#ects_grade_a_desc#:#prestazioni eccezionali con solo errori minori
-assessment#:#ects_grade_b_desc#:#sopra lo standard medio ma con qualche errore
-assessment#:#ects_grade_c_desc#:#lavoro generalmente valido con una serie di errori notevoli
-assessment#:#ects_grade_d_desc#:#giusto ma con notevoli carenze
-assessment#:#ects_grade_desc_prefix#:#Significato del punteggio:
-assessment#:#ects_grade_e_desc#:#la prestazione soddisfa i criteri minimi
-assessment#:#ects_grade_f_desc#:#sono necessari notevoli ulteriori lavori
-assessment#:#ects_grade_fx_desc#:#un altro lavoro necessario prima che il credito possa essere assegnato
-assessment#:#ects_output_of_ects_grades#:#Non catalogabile secondo la scala ECTS
 assessment#:#edit_answer#:#Modifica risposta
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -873,7 +860,6 @@ assessment#:#manscoring_results_pass#:#Impostazione manuale delle domande per un
 assessment#:#manual_editing#:#Modifica manuale
 assessment#:#mark_schema#:#Schema voti
 assessment#:#mark_schema_invalid#:#Lo schema dei voti non è valido. Si prega di creare uno schema corretto.
-assessment#:#mark_tst_ects#:#Il tuo voto ECTS è "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#corrisponde
 assessment#:#matching_pairs#:#Coppie Corrispondenti
 assessment#:#matching_shuffle_definitions#:#Solo definizioni
@@ -1994,7 +1980,6 @@ assessment#:#units#:#Unità
 assessment#:#unlimited#:#illimitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#uploaded_material#:#Materiale salvato
-assessment#:#use_ects_fx#:#Usa il grado 'FX'
 assessment#:#use_previous_solution#:#Usa soluzione precedente
 assessment#:#use_previous_solution_advice#:#La soluzione mostrata per la domanda è quella che avete dato precedentemente. Bisogna confermare la soluzione adottata se si desidera utilizzarla senza modifiche.
 assessment#:#user_has_finished_a_test#:#Un partecipante ha terminato il test.

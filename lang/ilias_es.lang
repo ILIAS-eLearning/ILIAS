@@ -630,19 +630,6 @@ assessment#:#dont_use_questionpool#:#No insertar la pregunta en un banco de preg
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
-assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
-assessment#:#ects_fx_threshold#:#Umbral
-assessment#:#ects_fx_threshold_info#:#Por favor introduce el percentil requerido para conceder la nota 'FX'.
-assessment#:#ects_grade#:#nota ECTS
-assessment#:#ects_grade_a_desc#:#desempeño sobresaliente con solo algunos errores mínimos
-assessment#:#ects_grade_b_desc#:#por encima de la media, pero con algunos errores
-assessment#:#ects_grade_c_desc#:#buen trabajo en general con cierto número de errores notables
-assessment#:#ects_grade_d_desc#:#pasable, pero con defectos significativos
-assessment#:#ects_grade_desc_prefix#:#Significado de calificación:
-assessment#:#ects_grade_e_desc#:#el desempeño satisface criterios mínimos
-assessment#:#ects_grade_f_desc#:#se necesita una cantidad considerable de trabajo extra
-assessment#:#ects_grade_fx_desc#:#se necesita más trabajo para recibir el crédito
-assessment#:#ects_output_of_ects_grades#:#Informe de notas ECTS
 assessment#:#edit_answer#:#Editar respuesta
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -876,7 +863,6 @@ assessment#:#manscoring_results_pass#:#Preguntas susceptibles de ser puntuadas d
 assessment#:#manual_editing#:#Edición manual
 assessment#:#mark_schema#:#Esquema de calificación
 assessment#:#mark_schema_invalid#:#El esquema de puntuación no es correcto. Por favor, cree un esquema válido.
-assessment#:#mark_tst_ects#:#Su nota ECTS es &quot;[markects]&quot;
 assessment#:#matches#:#coincide
 assessment#:#matching_pairs#:#Parejas coincidentes
 assessment#:#matching_shuffle_definitions#:#Sólo definiciones
@@ -1997,7 +1983,6 @@ assessment#:#units#:#Unidades
 assessment#:#unlimited#:#ilimitado
 assessment#:#unlock#:#Desbloquear
 assessment#:#uploaded_material#:#Material Enviado
-assessment#:#use_ects_fx#:#Usa la nota 'FX'
 assessment#:#use_previous_solution#:#Usar solución anterior
 assessment#:#use_previous_solution_advice#:#La solución mostrada para la pregunta es la que proporcionó con anterioridad. Debe confirmar la adopción de la solución si desea usarla sin ningún cambio.
 assessment#:#user_has_finished_a_test#:#Un participante ha finalizado el test

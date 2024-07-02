@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Nemojte umetati pitanja u bazen pitanja (do
 assessment#:#duplicate#:#Dupliciraj
 assessment#:#duplicate_matching_values_selected#:#Odabrali ste dvostruku odgovarajuću vrijednost!
 assessment#:#duplicate_order_values_entered#:#Unijeli ste dvostruki redoslijed vrijednosti!
-assessment#:#ects_allow_ects_grades#:#Prikaži pored dobivene ocjene i ECTS ocjenu
-assessment#:#ects_fx_threshold#:#Prag
-assessment#:#ects_fx_threshold_info#:#Unesite traženi postatak za dodjelu ocjene ‘FX’.
-assessment#:#ects_grade#:#ECTS ocjena
-assessment#:#ects_grade_a_desc#:#izuzetan rezultat sa samo nekoliko manjih pogrešaka
-assessment#:#ects_grade_b_desc#:#natprosječan rezultat, ali s nekim pogreškama
-assessment#:#ects_grade_c_desc#:#sveukupno dobar rezultat, međutim, s nekoliko značajnih pogrešaka
-assessment#:#ects_grade_d_desc#:#osrednje, ali sa značajnim nedostacima
-assessment#:#ects_grade_desc_prefix#:#Značenje ocjene:
-assessment#:#ects_grade_e_desc#:#rezultat zadovoljava minimalne kriterije
-assessment#:#ects_grade_f_desc#:#potreban je značajan daljnji rad
-assessment#:#ects_grade_fx_desc#:#potrebna su poboljšanja prije nego što se učinak može priznati
-assessment#:#ects_output_of_ects_grades#:#Izdavanje ECTS ocjena
 assessment#:#edit_answer#:#Uredi odgovor
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Pitanja za prolaz %s koja se mogu bodovat
 assessment#:#manual_editing#:#Ručno uređivanje
 assessment#:#mark_schema#:#Shema ocjena
 assessment#:#mark_schema_invalid#:#Ova shema ocjena nije se mogla validirati. Molimo izradite ispravnu shemu.
-assessment#:#mark_tst_ects#:#Vaša ECTS ocjena je "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#odgovara
 assessment#:#matching_pairs#:#Odgovarajući parovi
 assessment#:#matching_shuffle_definitions#:#Samo definicije
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Jedinice
 assessment#:#unlimited#:#neograničeno
 assessment#:#unlock#:#Otključaj
 assessment#:#uploaded_material#:#Učitani materijali
-assessment#:#use_ects_fx#:#Koristite ECTS ocjenu ‘FX’
 assessment#:#use_previous_solution#:#Koristi prethodno rješenje
 assessment#:#use_previous_solution_advice#:#Prikazani odgovor je onaj koji ste prethodno dali na ovo pitanje. Ako ga želite preuzeti bez izmjena, morate potvrditi preuzimanje ovog rješenja.
 assessment#:#user_has_finished_a_test#:#Jedan sudionik je završio test.

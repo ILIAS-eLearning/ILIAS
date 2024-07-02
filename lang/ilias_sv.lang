@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Lägg inte in frågor i en frågepool, utan
 assessment#:#duplicate#:#Kopia
 assessment#:#duplicate_matching_values_selected#:#Du har valt minst ett värde för dubbel tilldelning!
 assessment#:#duplicate_order_values_entered#:#Du har gett minst en dubbelbeställning!
-assessment#:#ects_allow_ects_grades#:#Visa ECTS-betyg utöver det uppnådda betyget
-assessment#:#ects_fx_threshold#:#Begränsning
-assessment#:#ects_fx_threshold_info#:#Ange tröskelvärdet över vilket underkända deltagare får ECTS-betyget "FX".
-assessment#:#ects_grade#:#ECTS-klass
-assessment#:#ects_grade_a_desc#:#excellenta prestationer och endast ett fåtal obetydliga misstag
-assessment#:#ects_grade_b_desc#:#prestationer över genomsnittet, men vissa misstag
-assessment#:#ects_grade_c_desc#:#överlag bra och gediget arbete, men med några grundläggande brister
-assessment#:#ects_grade_d_desc#:#medium, men tydliga brister
-assessment#:#ects_grade_desc_prefix#:#Betydelsen av noten
-assessment#:#ects_grade_e_desc#:#de visade prestandan uppfyller minimikraven
-assessment#:#ects_grade_f_desc#:#Betydande förbättringar behövs
-assessment#:#ects_grade_fx_desc#:#förbättringar behövs innan prestationen erkänns
-assessment#:#ects_output_of_ects_grades#:#Utmatning av ECTS-betyg
 assessment#:#edit_answer#:#Ändra svar
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Manuellt poängsatta frågor för testkö
 assessment#:#manual_editing#:#Manuell redigering
 assessment#:#mark_schema#:#Notschema
 assessment#:#mark_schema_invalid#:#Bedömningsschemat kunde inte valideras framgångsrikt. Vänligen skapa ett giltigt schema.
-assessment#:#mark_tst_ects#:#Ditt ECTS-betyg är "[markects]" (Europeiska systemet för överföring av studiemeriter)
 assessment#:#matches#:#fits
 assessment#:#matching_pairs#:#Associationspar
 assessment#:#matching_shuffle_definitions#:#Endast definitioner
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Antal enheter
 assessment#:#unlimited#:#obegränsad
 assessment#:#unlock#:#Lås upp
 assessment#:#uploaded_material#:#Uppladdade material
-assessment#:#use_ects_fx#:#Användning av ECTS-betyget "FX
 assessment#:#use_previous_solution#:#Använd tidigare lösning
 assessment#:#use_previous_solution_advice#:#Lösningen som visas har tidigare lämnats in av dig. Du måste bekräfta antagandet av denna lösning under frågan om du vill anta lösningen utan ändringar.
 assessment#:#user_has_finished_a_test#:#En deltagare har avslutat ett test.

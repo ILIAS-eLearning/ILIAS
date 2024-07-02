@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Ne illessze be a kérdéseket kérdésgyűj
 assessment#:#duplicate#:#Másodpéldány létrehozása
 assessment#:#duplicate_matching_values_selected#:#Többszörösen illeszkedő értékeket választott ki.
 assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket adott meg.
-assessment#:#ects_allow_ects_grades#:#A kapott érdemjegyen túl az ETCS-értékelés megjelenítése
-assessment#:#ects_fx_threshold#:#Küszöbérték
-assessment#:#ects_fx_threshold_info#:#Adja meg az 'FX' osztályzat értékeihez szükséges százalékokat.
-assessment#:#ects_grade#:#ETCS-értékelés
-assessment#:#ects_grade_a_desc#:#kiemelkedő teljesítmény, csak kisebb hibák vannak
-assessment#:#ects_grade_b_desc#:#átlagon felüli teljesítmény, kevés hibával
-assessment#:#ects_grade_c_desc#:#általában elfogadható, de van számos jelentős hiba
-assessment#:#ects_grade_d_desc#:#elfogadható, de vannak jelentős hiányosságok
-assessment#:#ects_grade_desc_prefix#:#Értékelés jelentése:
-assessment#:#ects_grade_e_desc#:#a teljesítmény megfelel a minimális követelményeknek
-assessment#:#ects_grade_f_desc#:#jelentős további munka szükséges
-assessment#:#ects_grade_fx_desc#:#további munka szükséges még a kredit megszerzéséhez
-assessment#:#ects_output_of_ects_grades#:#ECTS-minősítés eredménye
 assessment#:#edit_answer#:#Válasz módosítása
 assessment#:#edit_concluding_remarks#:#Záró megjegyzések szerkesztése
 assessment#:#edit_introduction#:#Útmutató szerkesztése
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Manuálisan pontozandó kérdések a(z) %
 assessment#:#manual_editing#:#Kézi módosítás
 assessment#:#mark_schema#:#Értékelés
 assessment#:#mark_schema_invalid#:#Az értékelésséma nem teljes, kérem, ellenőrizze a minálisan elérendő értéket.
-assessment#:#mark_tst_ects#:#Az Ön ECTS-értékelése (ECTS = Európai Kreditátviteli Rendszer): '[markects]'
 assessment#:#matches#:#összeillők
 assessment#:#matching_pairs#:#Összeillő párok
 assessment#:#matching_shuffle_definitions#:#Csak definíciók
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Mértékegységek
 assessment#:#unlimited#:#Korlátlan
 assessment#:#unlock#:#Zárolás feloldása
 assessment#:#uploaded_material#:#Feltöltött anyag
-assessment#:#use_ects_fx#:#'FX' osztályzat használata
 assessment#:#use_previous_solution#:#Előző megoldás használata
 assessment#:#use_previous_solution_advice#:#A jelenleg látszódó megoldás egy korábbi teszkitöltése során adott válasza. Ha módosítás nélkül szeretné ezt a korábbi megoldását használni, erősítse azt meg a 'Előző megoldás használata' gombbal.
 assessment#:#user_has_finished_a_test#:#Egy résztvevő befejezte a tesztet.

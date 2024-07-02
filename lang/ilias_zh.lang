@@ -627,19 +627,6 @@ assessment#:#dont_use_questionpool#:#不要在题目池中插入题目(仅在这
 assessment#:#duplicate#:#复制
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#ECTS grade
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#ECTS等级输出
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -873,7 +860,6 @@ assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s手
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Mark schema已标注模式
 assessment#:#mark_schema_invalid#:#标记模式没有验证。请创建一个正确的模式。
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot; 此用户的ECTS 的成绩是**
 assessment#:#matches#:# 匹配
 assessment#:#matching_pairs#:#Matching Pairs匹配对 中
 assessment#:#matching_shuffle_definitions#:#Definitions only只填定义
@@ -1994,7 +1980,6 @@ assessment#:#units#:#Units###24 10 2013 new variable
 assessment#:#unlimited#:#无限制
 assessment#:#unlock#:#未锁定
 assessment#:#uploaded_material#:#已上传的资料
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable

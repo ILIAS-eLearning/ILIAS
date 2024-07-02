@@ -626,19 +626,6 @@ assessment#:#dont_use_questionpool#:#Vprašanj ne vstavi v skupino vprašanj, te
 assessment#:#duplicate#:#Kopiranje
 assessment#:#duplicate_matching_values_selected#:#Izbrali ste najmanj eno podvojeno vrednost!
 assessment#:#duplicate_order_values_entered#:#Navedli ste najmanj eno podvojeno zaporedje!
-assessment#:#ects_allow_ects_grades#:#Prikaži oceno ECTS poleg prejete ocene
-assessment#:#ects_fx_threshold#:#Mejna vrednost
-assessment#:#ects_fx_threshold_info#:#Vnesite mejno vrednost, nad katero neuspešni udeleženci prejmejo ECTS oceno 'FX'.
-assessment#:#ects_grade#:#ECTS ocena
-assessment#:#ects_grade_a_desc#:#izjemen rezultat z le nekaj manjšimi napakami
-assessment#:#ects_grade_b_desc#:#nadpovprečen rezultat, vendar z nekaj napakami
-assessment#:#ects_grade_c_desc#:#na splošno dober rezultat, vendar z nekaj osnovnimi napakami
-assessment#:#ects_grade_d_desc#:#povprečen, vendar s pomembnimi pomanjkljivostmi
-assessment#:#ects_grade_desc_prefix#:#Pomen ocene:
-assessment#:#ects_grade_e_desc#:#prikazani rezultati ustrezajo minimalnim zahtevam
-assessment#:#ects_grade_f_desc#:#potrebne so pomembne izboljšave
-assessment#:#ects_grade_fx_desc#:#potrebne so izboljšave, preden se rezultat lahko prizna
-assessment#:#ects_output_of_ects_grades#:#Izdaja ocen ECTS
 assessment#:#edit_answer#:#Spremeni odgovor
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -872,7 +859,6 @@ assessment#:#manscoring_results_pass#:#Vprašanja za opravljanje testa %s, ki ji
 assessment#:#manual_editing#:#Ročno urejanje
 assessment#:#mark_schema#:#Ocenjevalna shema
 assessment#:#mark_schema_invalid#:#Te sheme ocenjevanja ni bilo mogoče uspešno validirati. Ustvarite veljavno shemo.
-assessment#:#mark_tst_ects#:#Vaša ocena ECTS je "[markects]« (Evropski sistem prenosa kreditnih točk)
 assessment#:#matches#:#ustreza
 assessment#:#matching_pairs#:#Ujemanje parov
 assessment#:#matching_shuffle_definitions#:#Samo definicije
@@ -1993,7 +1979,6 @@ assessment#:#units#:#Enote
 assessment#:#unlimited#:#neomejeno
 assessment#:#unlock#:#Odkleni
 assessment#:#uploaded_material#:#Naložena gradiva
-assessment#:#use_ects_fx#:#Uporaba ECTS-Note 'FX'
 assessment#:#use_previous_solution#:#Uporabi prejšnjo rešitev
 assessment#:#use_previous_solution_advice#:#Prikazano rešitev, ki ste jo oddali pred tem. Če želite rešitev prevzeti brez sprememb, morate prevzem te rešitve potrditi znotraj vprašanja.
 assessment#:#user_has_finished_a_test#:#Udeleženec je zaključil test.

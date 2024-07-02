@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Niet toevoegen aan een vragenpool (alleen b
 assessment#:#duplicate#:#Duplicaat
 assessment#:#duplicate_matching_values_selected#:#Je hebt minstens één dubbele waarde gekozen  !
 assessment#:#duplicate_order_values_entered#:#Je hebt minstens één dubbele sorteervolgorde aangegeven!
-assessment#:#ects_allow_ects_grades#:#Laat ECTS graad zien, gelinkt aan verkregen punt
-assessment#:#ects_fx_threshold#:#Threshold###06 02 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the ‘FX’ grade.###06 02 2015 new variable
-assessment#:#ects_grade#:#ECTS-schaal
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#Uitvoer van ECTS-graad
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###30 04 2024 new variable
 assessment#:#edit_introduction#:#Edit Introduction###30 04 2024 new variable
@@ -874,7 +861,6 @@ assessment#:#manscoring_results_pass#:#Handmatig scorende Vragen voor Examen %s
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Cijferschema
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
-assessment#:#mark_tst_ects#:#Je  ECTS graad is &quot;[markects]&quot;
 assessment#:#matches#:#overeenkomsten
 assessment#:#matching_pairs#:#Gematchte paren
 assessment#:#matching_shuffle_definitions#:#Enkel definities
@@ -1995,7 +1981,6 @@ assessment#:#units#:#Eenheden
 assessment#:#unlimited#:#Ongelimiteerd
 assessment#:#unlock#:#Vrijmaken
 assessment#:#uploaded_material#:#Upgeload materiaal
-assessment#:#use_ects_fx#:#Use the ‘FX’ grade###06 02 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###06 02 2015 new variable
