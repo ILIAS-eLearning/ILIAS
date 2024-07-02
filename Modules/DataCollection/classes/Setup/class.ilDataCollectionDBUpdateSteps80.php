@@ -128,4 +128,16 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
             [ilDclDatatype::INPUTFORMAT_MOB]
         );
     }
+
+    public function step_9(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE il_dcl_stloc1_value v ' .
+            'INNER JOIN il_dcl_record_field rf ON rf.id = v.record_field_id ' .
+            'INNER JOIN il_dcl_field f ON f.id = rf.field_id ' .
+            'SET v.value = REPLACE(v.value, "<br />", "\r\n") WHERE f.datatype_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [ilDclDatatype::INPUTFORMAT_TEXT]
+        );
+    }
 }
