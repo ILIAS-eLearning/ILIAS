@@ -73,7 +73,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
 
         //dcl currently only works with integer type, when
         //field is of type number (see ilDcldatatype::INPUTFORMAT_NUMBER)
-        $valid = parent::checkValidity((int)$value, $record_id);
+        $valid = parent::checkValidity((int) $value, $record_id);
 
         return $valid;
     }

@@ -35,7 +35,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
             return null;
         }
 
-        $ref_field = ilDclCache::getFieldCache((int)$this->getProperty(self::PROP_REFERENCE));
+        $ref_field = ilDclCache::getFieldCache((int) $this->getProperty(self::PROP_REFERENCE));
 
         $select_str = "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
         $join_str = "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()} ON (record_field_{$this->getId()}.record_id = record.id AND record_field_{$this->getId()}.field_id = "
@@ -119,7 +119,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
     public function afterClone(array $records): void
     {
         /** @var ilDclReferenceFieldModel $clone */
-        $clone = ilDclCache::getCloneOf((int)$this->getId(), ilDclCache::TYPE_FIELD);
+        $clone = ilDclCache::getCloneOf((int) $this->getId(), ilDclCache::TYPE_FIELD);
         $reference_clone = ilDclCache::getCloneOf(
             (int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE),
             ilDclCache::TYPE_FIELD

@@ -295,7 +295,7 @@ class ilDclDetailedViewGUI
     protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
-            return $this->notesGUI->getCommentsHTML();
+            return $this->notesGUI->getListHTML();
         } else {
             return $this->notesGUI->editNoteForm();
         }
