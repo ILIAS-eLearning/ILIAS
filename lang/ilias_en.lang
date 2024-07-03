@@ -2135,12 +2135,24 @@ auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to genera
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
+auth#:#destination_after_logout#:#Destination after logout
+auth#:#destination_external_ressource#:#Show External Ressource
+auth#:#destination_external_ressource_url#:#Externe URL
+auth#:#destination_internal_ressource#:#Show Internal Ressource
+auth#:#destination_internal_ressource_ref_id#:#Interne Reference Id
+auth#:#destination_login_screen#:#Show Login Screen
+auth#:#destination_login_screen_info#:#Make sure that, for example, an SSO is not addressed that leads to immediate login
+auth#:#destination_logout_screen#:#Show Logout Screen
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
 auth#:#language_does_not_exist#:#The selected language does not exist.
 auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
+auth#:#logout_behaviour#:#Logout Behaviour
+auth#:#logout_behaviour_invalid_ref_id#:#Please make sure Anonymous User has Access to the ressource.
+auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
+auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page
 auth#:#logout_pages#:#Logout-Pages
@@ -14630,7 +14642,7 @@ registration#:#reg_direct_info#:#New user registration requests are automaticall
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.

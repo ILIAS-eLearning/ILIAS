@@ -1357,7 +1357,31 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $this->ctrl->setParameter($this, 'client_id', $client_id);
         $this->ctrl->setParameter($this, 'lang', $user_language);
-        $this->ctrl->redirect($this, 'showLogout');
+        $this->afterLogout();
+    }
+
+    public function afterLogout(): void
+    {
+        $settings = new ilSetting('auth');
+        switch ($settings->get('logout_behaviour', '')) {
+            case 'login_screen':
+                $this->ctrl->redirect($this, 'showLogin');
+                break;
+            case 'internal_ressource':
+                $ref_id = (int) $settings->get('logout_behaviour_ref_id', '0');
+                $this->ctrl->redirectToURL(ilLink::_getStaticLink($ref_id));
+                break;
+            case 'external_ressource':
+                $url = $settings->get('logout_behaviour_url', '');
+                if ($url) {
+                    $this->ctrl->redirectToURL($url);
+                }
+                // no break
+            case 'logout_screen':
+            default:
+                $this->ctrl->redirect($this, 'showLogout');
+                break;
+        }
     }
 
     protected function showLegalDocuments(): void

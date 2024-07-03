@@ -2135,12 +2135,24 @@ auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand 
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
+auth#:#destination_after_logout#:#Weiterleitung nach Abmeldung
+auth#:#destination_external_ressource#:#Zeige Externe Resource
+auth#:#destination_external_ressource_url#:#Externe URL
+auth#:#destination_internal_ressource#:#Zeige Interne Resource
+auth#:#destination_internal_ressource_ref_id#:#Interne Referenz-ID
+auth#:#destination_login_screen#:#Zeige Anmeldebildschirm
+auth#:#destination_login_screen_info#:#Stellen Sie sicher, dass z.B. kein SSO angesprochen wird, das zu einer sofortigen Anmeldung führt
+auth#:#destination_logout_screen#:#Zeige Abmeldebildschirm
 auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#language_does_not_exist#:#Die gewählte Sprache existiert leider nicht.
 auth#:#login_page#:#Sprache der Login-Seite
 auth#:#login_pages#:#Login-Seiten
+auth#:#logout_behaviour#:#Lougout-Verhalten
+auth#:#logout_behaviour_invalid_ref_id#:#Stellen sie sicher, dass die angegebene interne Resource für den Anonymous Nutzer zugänglich ist.
+auth#:#logout_behaviour_invalid_url#:#Die angegebene externe Resource ist keine gültige URL.
+auth#:#logout_behaviour_settings#:#Einstellungen für das Lougout-Verhalten
 auth#:#logout_editor#:#Logout-Seite gestalten
 auth#:#logout_page#:#Sprache der Logout-Seite
 auth#:#logout_pages#:#Logout-Seiten
