@@ -1075,12 +1075,12 @@ class Renderer extends AbstractComponentRenderer
         foreach (range($option_count, 1, -1) as $option) {
             $tpl->setCurrentBlock('scaleoption');
             $tpl->setVariable('ARIALABEL', $this->txt($option . 'stars'));
-            $tpl->setVariable('OPT_VALUE', (string)$option);
+            $tpl->setVariable('OPT_VALUE', (string) $option);
             $tpl->setVariable('OPT_ID', $id . '-' . $option);
             $tpl->setVariable('NAME', $component->getName());
             $tpl->setVariable('DESCRIPTION_ID', $aria_description_id);
 
-            if ($component->getValue() === FiveStarRatingScale::from((int)$option)) {
+            if ($component->getValue() === FiveStarRatingScale::from((int) $option)) {
                 $tpl->setVariable("SELECTED", ' checked="checked"');
             }
             if ($component->isDisabled()) {
