@@ -23,7 +23,6 @@ require_once(__DIR__ . '/../../Language/classes/class.ilLanguage.php');
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
-use ILIAS\UI\Implementaiton\Component as I;
 use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -38,12 +37,11 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use PHPUnit\Framework\MockObject\MockObject;
-use ILIAS\UI\Component\Component;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\Refinery\Factory as RefineryFactory;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -349,14 +347,9 @@ trait BaseUITestTrait
         return new LoggingJavaScriptBinding();
     }
 
-    /**
-     * @return \ILIAS\Refinery\Factory|mixed|MockObject
-     */
-    public function getRefinery()
+    public function getRefinery(): RefineryFactory
     {
-        return $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        return new RefineryFactory($this->getDataFactory(), $this->getLanguage());
     }
 
     public function getImagePathResolver(): ilImagePathResolver
