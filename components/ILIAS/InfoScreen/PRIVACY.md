@@ -2,18 +2,18 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
 - The Info Screen component employs the following services, please consult the respective privacy.mds
   - The **Learning Progress** service manages data on access time specifically last time, number of accesses and the progress status specifically in progress, completed for each user accessing the object.
   - The **Metadata** service contains two branches: LOM and custom metdata. The LOM offers storing person dates like author. Custom metadata do contain user-created metadata sets which may contain personal data, which must be individually checked in the global administration.)
-  - [Notes Service](../../Services/Notes/PRIVACY.md)
+  - [Notes Service](../../ILIAS/Notes/PRIVACY.md)
   - The **Object** service stores the account which created the
     object as it's owner and creation and update timestamps for the
     object.
-  - [Tagging Service](../../Services/Tagging/PRIVACY.md)
+  - [Tagging Service](../../ILIAS/Tagging/PRIVACY.md)
   - WebDav Service
 
 ## Configuration
@@ -29,11 +29,11 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
 
 Since the component itself does not store any data, all data being presented is provided by the integrated services. So this is just an overview on personal data being presented, the privacy information of the services may contain detailed information.
 
-- Notes and comments, see [Notes Service](../../Services/Notes/PRIVACY.md)
+- Notes and comments, see [Notes Service](../../ILIAS/Notes/PRIVACY.md)
 - (Personal) learning progress status
 - Metadata, incl. author and contributor information
 - Object creation date and owner (this presentation requires "edit settings" (write) permission)
-- Personal Tags, see [Tagging Service](../../Services/Tagging/PRIVACY.md)
+- Personal Tags, see [Tagging Service](../../ILIAS/Tagging/PRIVACY.md)
 - Locking user (if WebDav is activated)
 
 ## Data being deleted

@@ -62,9 +62,9 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
             $input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-                $input->setMaxLength((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxLength((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             } else {
-                $input->setMaxNumOfChars((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxNumOfChars((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             }
         }
 

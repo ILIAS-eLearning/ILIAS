@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once(__DIR__ . "/../../../../../../vendor/composer/vendor/autoload.php");
-
 use ILIAS\StudyProgramme\Assignment\Node;
 
 class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
@@ -240,7 +238,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($pgs->hasIndividualModifications());
     }
 
-    public function status(): array
+    public static function ilPRGProgressStatus(): array
     {
         return [
             //status, count as 'successful'
@@ -259,7 +257,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForInProgress(int $status): void
     {
@@ -278,7 +276,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForAccredited($status)
     {
@@ -299,7 +297,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForCompleted($status)
     {
@@ -318,7 +316,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForFailed($status)
     {
@@ -338,7 +336,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForIrrelevant($status): void
     {

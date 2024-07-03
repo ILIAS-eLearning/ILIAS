@@ -117,12 +117,20 @@ class LogicalOrTest extends TestCase
     /**
      * @return array
      */
-    public function constraintsProvider(): array
+    public static function constraintsProvider(): array
     {
-        $mock = $this->getMockBuilder(\ILIAS\Language\Language::class)->disableOriginalConstructor()->getMock();
+        $language = new class () implements \ILIAS\Language\Language {
+            public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
+            {
+                return $a_topic;
+            }
+            public function loadLanguageModule(string $a_module): void
+            {
+            }
+        };
         $data_factory = new DataFactory();
 
-        $refinery = new Refinery($data_factory, $mock);
+        $refinery = new Refinery($data_factory, $language);
         return [
             [
                 $refinery->logical()->logicalOr([

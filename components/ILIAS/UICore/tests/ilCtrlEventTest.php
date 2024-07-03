@@ -94,13 +94,19 @@ class ilCtrlEventTest extends TestCase
 
         $mocked_observer = $this->createMock(ilCtrlObserver::class);
         $mocked_ilctrl->attachObserver($mocked_observer, ilCtrlEvent::ALL);
-
-        $mocked_observer->expects($this->exactly(2))
-                        ->method('update')
-                        ->withConsecutive(
-                            [ilCtrlEvent::COMMAND_CLASS_FORWARD, ilCtrlBaseClass1TestGUI::class],
-                            [ilCtrlEvent::COMMAND_DETERMINATION, 'fallback']
-                        );
+        $consecutive = [
+            [ilCtrlEvent::COMMAND_CLASS_FORWARD, ilCtrlBaseClass1TestGUI::class],
+            [ilCtrlEvent::COMMAND_DETERMINATION, 'fallback']
+        ];
+        $mocked_observer
+            ->expects($this->exactly(2))
+            ->method('update')
+            ->willReturnCallback(
+                function ($event, $cmd) use (&$consecutive) {
+                    $expected = array_shift($consecutive);
+                    $this->assertEquals($expected, [$event, $cmd]);
+                }
+            );
 
         $mocked_ilctrl->forwardCommand($base_class);
         $command = $mocked_ilctrl->getCmd('fallback');
@@ -123,7 +129,8 @@ class ilCtrlEventTest extends TestCase
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
             $this->createMock(ilComponentFactory::class),
-            $subject ?? $this->subject
+            $subject ?? $this->subject,
+            $this->createMock(ilCtrlQueryParserInterface::class),
         );
     }
 }

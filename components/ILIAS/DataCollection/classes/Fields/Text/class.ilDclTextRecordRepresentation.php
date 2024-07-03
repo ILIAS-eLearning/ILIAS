@@ -33,10 +33,10 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $field = $this->getField();
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
-                $link = (string)$value['link'];
+                $link = (string) $value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = (string)$value;
+                $link = (string) $value;
                 $link_value = $this->shortenLink($link);
             }
 
@@ -83,7 +83,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {
-            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : $value;
+            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br($value);
         }
 
         if (!$html) {

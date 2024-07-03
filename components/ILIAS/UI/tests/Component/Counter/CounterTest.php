@@ -89,7 +89,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $f->status($no_number);
     }
 
-    public function getNumberProvider(): array
+    public static function getNumberProvider(): array
     {
         return [
             [-13],
@@ -99,7 +99,7 @@ class CounterTest extends ILIAS_UI_TestBase
         ];
     }
 
-    public function getNoNumberProvider(): array
+    public static function getNoNumberProvider(): array
     {
         return [
             ["foo"],
@@ -130,7 +130,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function getCounterTypeAndNumberProvider(): array
+    public static function getCounterTypeAndNumberProvider(): array
     {
         return [
             ["status", 42],

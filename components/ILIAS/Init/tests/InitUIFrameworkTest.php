@@ -19,10 +19,10 @@ class InitUIFrameworkTest extends TestCase
     {
         $this->dic = new \ILIAS\DI\Container();
 
-        $this->dic["lng"] = Mockery::mock("\ilLanguage");
-        $this->dic["lng"]->shouldReceive("loadLanguageModule");
-        $this->dic["tpl"] = Mockery::mock("\ilGlobalTemplateInterface");
-        $this->dic["refinery"] = Mockery::mock("\ILIAS\Refinery\Factory");
+        $this->dic["lng"] = $this->createMock("\ilLanguage");
+        $this->dic["tpl"] = $this->createMock("\ilGlobalTemplateInterface");
+        $this->dic["refinery"] = $this->createMock("\ILIAS\Refinery\Factory");
+        $this->dic["help.text_retriever"] = $this->createMock("ILIAS\UI\Help\TextRetriever\Echoing");
     }
 
     public function testUIFrameworkInitialization(): void
@@ -59,12 +59,13 @@ class InitUIFrameworkTest extends TestCase
     public function testByExampleThatRendererIsReadyToWork(): void
     {
         (new \InitUIFramework())->init($this->dic);
-        $this->dic["tpl"]->shouldReceive("addJavaScript");
+        $this->dic["tpl"]->expects($this->atLeastOnce())->method("addJavaScript");
 
         //Note, this dep is not properly injected ilTemplate, therefore we need to hit on the global.
         global $DIC;
         $initial_state = $DIC;
         $DIC = new \ILIAS\DI\Container();
+        $DIC["component.factory"] = $this->createMock(ilComponentFactory::class);
 
         $example_componanent = $this->dic->ui()->factory()->divider()->vertical();
         $example_out = $this->dic->ui()->renderer()->render($example_componanent);

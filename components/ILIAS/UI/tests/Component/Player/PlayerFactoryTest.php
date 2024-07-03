@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
-class PlayerFactoryTest extends AbstractFactoryTest
+class PlayerFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "audio" => [
         ]
     ];
 
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Player\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Player\\Factory';
 }

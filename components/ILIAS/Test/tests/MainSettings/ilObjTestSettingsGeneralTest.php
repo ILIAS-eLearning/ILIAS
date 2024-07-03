@@ -32,7 +32,7 @@ class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGeneral->getQuestionSetType());
     }
 
-    public function getAndWithQuestionSetTypeDataProvider(): array
+    public static function getAndWithQuestionSetTypeDataProvider(): array
     {
         return [
             [ilObjTest::QUESTION_SET_TYPE_FIXED],
@@ -52,7 +52,7 @@ class ilObjTestSettingsGeneralTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGeneral->getAnonymity());
     }
 
-    public function getAndWithAnonymityDataProvider(): array
+    public static function getAndWithAnonymityDataProvider(): array
     {
         return [
             [true],

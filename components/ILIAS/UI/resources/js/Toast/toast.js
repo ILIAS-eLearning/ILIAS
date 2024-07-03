@@ -3,8 +3,9 @@ il.UI = il.UI || {};
 il.UI.toast = ((UI) => {
     let vanishTime = 5000;
     let delayTime = 500;
+    let queue = new WeakMap();
 
-    let setToastSettings = (element) => {
+    const setToastSettings = (element) => {
         if (element.hasAttribute('data-vanish')) {
             vanishTime = parseInt(element.dataset.vanish);
         }
@@ -13,11 +14,11 @@ il.UI.toast = ((UI) => {
         }
     }
 
-    let showToast = (element) => {
+    const showToast = (element) => {
         setTimeout(() => {appearToast(element);}, delayTime);
     }
 
-    let closeToast = (element, forced = false) => {
+    const closeToast = (element, forced = false) => {
         element.querySelector('.il-toast').addEventListener('transitionend', () => {
             if (forced && element.dataset.vanishurl !== '') {
                 let xhr = new XMLHttpRequest();
@@ -30,10 +31,22 @@ il.UI.toast = ((UI) => {
         element.querySelector('.il-toast').classList.remove('active');
     };
 
-    let appearToast = (element) => {
+    const appearToast = (element) => {
         element.querySelector('.il-toast').classList.add('active');
-        element.querySelector('.il-toast .close').addEventListener('click', () => {closeToast(element, true);});
-        setTimeout(() => {closeToast(element);}, vanishTime);
+        queueToast(element);
+        element.querySelector('.il-toast .close').addEventListener('click', () => closeToast(element, true));
+        element.querySelector('.il-toast').addEventListener('mouseenter', () => stopToast(element));
+        element.querySelector('.il-toast').addEventListener('focusin', () => stopToast(element));
+        element.querySelector('.il-toast').addEventListener('mouseleave', () => queueToast(element));
+        element.querySelector('.il-toast').addEventListener('focusout', () => queueToast(element));
+    }
+
+    const stopToast = (element) => {
+        clearTimeout(queue.get(element));
+    }
+
+    const queueToast = (element) => {
+        queue.set(element, setTimeout(() => closeToast(element), vanishTime));
     }
 
     return {

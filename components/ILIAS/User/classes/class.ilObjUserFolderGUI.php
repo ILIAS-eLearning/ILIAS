@@ -1587,51 +1587,57 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if (!empty($role_assignment)) {
             $global_roles = $this->rbac_review->getGlobalRoles();
             $roles_of_user = $this->rbac_review->assignedRoles($this->user->getId());
-            foreach ($role_assignment as $role_id) {
-                if ($role_id != '') {
+            foreach ($role_assignment as $role_id_string) {
+                $role_id = $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->int(),
+                    $this->refinery->always(null)
+                ])->transform($role_id_string);
+                if ($role_id === null) {
+                    continue;
+                }
+
+                if (in_array(
+                    $role_id,
+                    $global_roles
+                )) {
                     if (in_array(
-                        $role_id,
-                        $global_roles
+                        SYSTEM_ROLE_ID,
+                        $roles_of_user
                     )) {
-                        if (!in_array(
-                            SYSTEM_ROLE_ID,
-                            $roles_of_user
-                        )) {
-                            if (($role_id == SYSTEM_ROLE_ID && !in_array(
-                                SYSTEM_ROLE_ID,
-                                $roles_of_user
-                            ))
-                                || ($this->object->getRefId() != USER_FOLDER_ID
-                                    && !ilObjRole::_getAssignUsersStatus($role_id))
-                            ) {
-                                $this->filesystem->deleteDir($import_dir);
-                                $this->tpl->setOnScreenMessage(
-                                    'failure',
-                                    $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                                    true
-                                );
-                                $this->redirectAfterImport();
-                            }
-                        }
-                    } else {
-                        $rolf = $this->rbac_review->getFoldersAssignedToRole(
-                            $role_id,
+                        continue;
+                    }
+
+                    if ($role_id === SYSTEM_ROLE_ID
+                        || $this->object->getRefId() !== USER_FOLDER_ID
+                            && !ilObjRole::_getAssignUsersStatus($role_id)
+                    ) {
+                        $this->filesystem->deleteDir($import_dir);
+                        $this->tpl->setOnScreenMessage(
+                            'failure',
+                            $this->lng->txt('usrimport_with_specified_role_not_permitted'),
                             true
                         );
-                        if ($this->rbac_review->isDeleted($rolf[0])
-                            || !$this->rbac_system->checkAccess(
-                                'write',
-                                $rolf[0]
-                            )) {
-                            $this->filesystem->deleteDir($import_dir);
-                            $this->tpl->setOnScreenMessage(
-                                'failure',
-                                $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                                true
-                            );
-                            $this->redirectAfterImport();
-                        }
+                        $this->redirectAfterImport();
                     }
+                }
+
+                $rolf = $this->rbac_review->getFoldersAssignedToRole(
+                    $role_id,
+                    true
+                );
+                if ($this->rbac_review->isDeleted($rolf[0])
+                    || !$this->rbac_system->checkAccess(
+                        'write',
+                        $rolf[0]
+                    )
+                ) {
+                    $this->filesystem->deleteDir($import_dir);
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $this->lng->txt('usrimport_with_specified_role_not_permitted'),
+                        true
+                    );
+                    $this->redirectAfterImport();
                 }
             }
         }

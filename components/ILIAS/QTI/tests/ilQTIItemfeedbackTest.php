@@ -53,7 +53,7 @@ class ilQTIItemfeedbackTest extends TestCase
         $this->assertEquals('Some input.', $instance->getTitle());
     }
 
-    public function views(): array
+    public static function views(): array
     {
         class_exists(ilQTIItemfeedback::class); // Force autoload to define the constants.
         return [

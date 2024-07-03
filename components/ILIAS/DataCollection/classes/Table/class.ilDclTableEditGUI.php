@@ -317,15 +317,15 @@ class ilDclTableEditGUI
                 $delete_by_owner = ($this->form->getInput('delete_perm_mode') == 'own');
                 $this->table->setDeleteByOwner($delete_by_owner);
             }
-            $this->table->setViewOwnRecordsPerm((bool)$this->form->getInput('view_own_records_perm'));
-            $this->table->setExportEnabled((bool)$this->form->getInput("export_enabled"));
-            $this->table->setImportEnabled((bool)$this->form->getInput("import_enabled"));
+            $this->table->setViewOwnRecordsPerm((bool) $this->form->getInput('view_own_records_perm'));
+            $this->table->setExportEnabled((bool) $this->form->getInput("export_enabled"));
+            $this->table->setImportEnabled((bool) $this->form->getInput("import_enabled"));
             $this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
             $this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
-            $this->table->setLimited((bool)$this->form->getInput("limited"));
+            $this->table->setLimited((bool) $this->form->getInput("limited"));
             $this->table->setDescription($this->form->getInput('description'));
-            $this->table->setLimitStart((string)$this->form->getInput("limit_start"));
-            $this->table->setLimitEnd((string)$this->form->getInput("limit_end"));
+            $this->table->setLimitStart((string) $this->form->getInput("limit_start"));
+            $this->table->setLimitEnd((string) $this->form->getInput("limit_end"));
             if ($a_mode == "update") {
                 $this->table->doUpdate();
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_edited"), true);
@@ -406,6 +406,50 @@ class ilDclTableEditGUI
         }
         $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
+    }
+
+    public function enableVisible(): void
+    {
+        $this->table->setIsVisible(true);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function disableVisible(): void
+    {
+        $this->table->setIsVisible(false);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function enableComments(): void
+    {
+        $this->table->setPublicCommentsEnabled(true);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function disableComments(): void
+    {
+        $this->table->setPublicCommentsEnabled(false);
+        $this->table->doUpdate();
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
+    }
+
+    public function setAsDefault(): void
+    {
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+        $order = 20;
+        foreach ($object->getTables() as $table) {
+            if ($table->getId() === $this->table->getId()) {
+                $table->setOrder(10);
+            } else {
+                $table->setOrder($order);
+                $order += 10;
+            }
+            $table->doUpdate();
+        }
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, 'listTables');
     }
 
     protected function checkAccess(): bool

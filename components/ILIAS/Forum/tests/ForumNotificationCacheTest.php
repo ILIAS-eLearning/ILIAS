@@ -43,7 +43,7 @@ class ForumNotificationCacheTest extends TestCase
         $this->assertSame('ilias', $cache->fetch('item'));
     }
 
-    public function nonScalarValuesProvider(): array
+    public static function nonScalarValuesProvider(): array
     {
         return [
             'Array Type' => [[4]],
@@ -64,7 +64,7 @@ class ForumNotificationCacheTest extends TestCase
         $cache->createKeyByValues([$nonScalarValue, $nonScalarValue]);
     }
 
-    public function scalarValuesAndNullProvider(): array
+    public static function scalarValuesAndNullProvider(): array
     {
         return [
             'Float Type' => [4.0],

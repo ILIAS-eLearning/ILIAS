@@ -335,7 +335,7 @@ class ilWikiUtil
                 if (substr($text, strlen($text) - strlen("#" . $nt->mFragment)) === "#" . $nt->mFragment) {
                     $text = substr($text, 0, strlen($text) - strlen("#" . $nt->mFragment));
                 }
-                $anc = "#" . $nt->mFragment;
+                $anc = "#copganc_" . $nt->mFragment;
             }
 
             # Separate the link trail from the rest of the link
@@ -507,16 +507,16 @@ class ilWikiUtil
                 $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
-            ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
+            $log->debug("--->" . print_r($users));
             if (!count($users)) {
                 $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
         }
-
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
+        ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users, null, false);
 
         // #15192 - should always be present
         if ($a_page_id) {

@@ -226,6 +226,14 @@ class ilAssQuestionFeedbackEditingGUI
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
 
+    private function createFeedbackPageCmd(): void
+    {
+        $mode = $this->request->raw('fb_mode');
+        $this->ctrl->redirectToUrl(
+            $this->feedbackOBJ->createFeedbackPages($mode)
+        );
+    }
+
     /**
      * builds the feedback editing form object
      *

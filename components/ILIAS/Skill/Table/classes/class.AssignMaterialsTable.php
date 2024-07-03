@@ -82,6 +82,12 @@ class AssignMaterialsTable
         $title = $this->node_manager->getWrittenPath($this->basic_skill_id);
         $table = $this->ui_fac->table()
                               ->data($title, $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->top_skill_id . "_" .
+                                  $this->tref_id . "_" .
+                                  $this->basic_skill_id
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 
@@ -95,7 +101,7 @@ class AssignMaterialsTable
                                     ->withIsSortable(false),
             "description" => $this->ui_fac->table()->column()->text($this->lng->txt("description"))
                                           ->withIsSortable(false),
-            "resources" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_materials"))
+            "resources" => $this->ui_fac->table()->column()->linkListing($this->lng->txt("skmg_materials"))
                                         ->withIsSortable(false)
         ];
 
@@ -135,15 +141,6 @@ class AssignMaterialsTable
         ) as $material) {
             $obj_id = $this->ws_tree->lookupObjectId($material->getWorkspaceId());
 
-            $uri_open = $this->df->uri($this->ws_access->getGotoLink($material->getWorkspaceId(), $obj_id));
-            $url_builder_open = new UI\URLBuilder($uri_open);
-            list($url_builder_open, $action_parameter_token_open, $row_id_token_open) =
-                $url_builder_open->acquireParameters(
-                    $query_params_namespace,
-                    "action",
-                    "level_ids"
-                );
-
             $uri_remove = $this->df->uri(
                 ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass(
                     "ilpersonalskillsgui",
@@ -160,12 +157,6 @@ class AssignMaterialsTable
                 );
             $url_builder_remove = $url_builder_remove->withParameter($wsp_token_remove, (string) $material->getWorkspaceId());
 
-            $actions["open_" . $material->getLevelId() . "_" . $material->getWorkspaceId()] =
-                $this->ui_fac->table()->action()->single(
-                    $this->lng->txt("skmg_open") . " '" . \ilObject::_lookupTitle($obj_id) . "'",
-                    $url_builder_open,
-                    $row_id_token_open
-                );
             $actions["remove_" . $material->getLevelId() . "_" . $material->getWorkspaceId()] =
                 $this->ui_fac->table()->action()->single(
                     $this->lng->txt("skmg_remove") . " '" . \ilObject::_lookupTitle($obj_id) . "'",
@@ -184,7 +175,9 @@ class AssignMaterialsTable
             $this->tref_id,
             $this->user,
             $this->ws_tree,
-            $this->assigned_material_manager
+            $this->assigned_material_manager,
+            $this->ui_fac,
+            $this->ws_access
         ) implements UI\Component\Table\DataRetrieval {
             use TableRecords;
 
@@ -193,7 +186,9 @@ class AssignMaterialsTable
                 protected int $tref_id,
                 protected \ilObjUser $user,
                 protected \ilWorkspaceTree $ws_tree,
-                protected Personal\AssignedMaterialManager $assigned_material_manager
+                protected Personal\AssignedMaterialManager $assigned_material_manager,
+                protected UI\Factory $ui_fac,
+                protected \ilWorkspaceAccessHandler $ws_access
             ) {
             }
 
@@ -217,9 +212,6 @@ class AssignMaterialsTable
                         $this->tref_id,
                     ) as $material) {
                         if (!in_array($material->getWorkspaceId(), $res_ids) || $row_id != $material->getLevelId()) {
-                            $data_row = $data_row->withDisabledAction(
-                                "open_" . $material->getLevelId() . "_" . $material->getWorkspaceId()
-                            );
                             $data_row = $data_row->withDisabledAction(
                                 "remove_" . $material->getLevelId() . "_" . $material->getWorkspaceId()
                             );
@@ -253,14 +245,17 @@ class AssignMaterialsTable
                         (int) $level["id"]
                     );
                     $wsp_ids = [];
-                    $obj_titles = [];
+                    $obj_links = [];
                     foreach ($materials as $m) {
                         $wsp_ids[] = $m->getWorkspaceId();
                         $obj_id = $this->ws_tree->lookupObjectId($m->getWorkspaceId());
-                        $obj_titles[] = \ilObject::_lookupTitle($obj_id);
+                        $obj_links[] = $this->ui_fac->link()->standard(
+                            \ilObject::_lookupTitle($obj_id),
+                            $this->ws_access->getGotoLink($m->getWorkspaceId(), $obj_id)
+                        );
                     }
                     $records[$i]["res_ids"] = $wsp_ids;
-                    $records[$i]["resources"] = implode(", ", $obj_titles);
+                    $records[$i]["resources"] = $this->ui_fac->listing()->unordered($obj_links);
 
                     $i++;
                 }

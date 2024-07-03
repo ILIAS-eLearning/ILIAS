@@ -37,9 +37,10 @@ class TableManager
     }
 
     public function getGlossaryForeignTermTable(
-        \ilObjGlossary $glossary
+        \ilObjGlossary $glossary,
+        \ilObjGlossary $foreign_glossary
     ): GlossaryForeignTermTable {
-        return new GlossaryForeignTermTable($glossary);
+        return new GlossaryForeignTermTable($glossary, $foreign_glossary);
     }
 
     public function getTermUsagesTable(
@@ -68,5 +69,11 @@ class TableManager
         int $tax_node
     ): TermListTable {
         return new TermListTable($glossary, $tax_node);
+    }
+
+    public function getDownloadListTable(
+        \ilObjGlossary $glossary
+    ): DownloadListTable {
+        return new DownloadListTable($glossary);
     }
 }

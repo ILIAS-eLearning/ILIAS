@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -12,8 +12,8 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
+    - [Info Screen Service](../../ILIAS/InfoScreen/PRIVACY.md)
     - Dedicated assignment types allow to submit exported ILIAS objects as zip files. These objects are **Portfolios**, **Blogs**, **Wikis**.
     - Evaluation statements and notifications can be sent using the **Mail** service.
 

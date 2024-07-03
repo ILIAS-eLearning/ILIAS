@@ -23,11 +23,9 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeTypeSettings
 {
-    protected int $type_id;
-
-    public function __construct(int $type_id)
-    {
-        $this->type_id = $type_id;
+    public function __construct(
+        protected int $type_id
+    ) {
     }
 
     public function getTypeId(): int

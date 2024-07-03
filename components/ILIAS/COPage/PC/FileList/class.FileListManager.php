@@ -85,7 +85,7 @@ class FileListManager
             $old_id = $node->getAttribute("Entry");
             $old_id = explode("_", $old_id);
             $old_id = $old_id[count($old_id) - 1];
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $node->setAttribute("Entry", "il__file_" . $a_mapping[$old_id]);
                 $changed = true;
             }

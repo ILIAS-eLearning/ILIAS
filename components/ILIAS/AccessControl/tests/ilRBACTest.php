@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -84,5 +84,10 @@ class ilRBACTest extends TestCase
                                ->getMock();
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", true);
+        }
+
     }
 }

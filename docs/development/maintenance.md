@@ -1515,7 +1515,7 @@ of ILIAS. The file contains the following fields:
     * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* Testcases: SIG E-Assessment
 	* Tester: [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
-        , Nadja Pfaffeicher
+        , [NDJ1508](https://docu.ilias.de/goto_docu_usr_93043.html)
         , [ksgrie](https://docu.ilias.de/goto_docu_usr_95947.html)
         , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
         , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)

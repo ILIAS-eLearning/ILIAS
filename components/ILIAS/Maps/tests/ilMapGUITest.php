@@ -52,7 +52,7 @@ class ilMapGUITest extends TestCase
         $this->assertEquals($value, $this->gui->$get());
     }
 
-    public function properties(): array
+    public static function properties(): array
     {
         return [
             ["MapId", "a_map_id"],

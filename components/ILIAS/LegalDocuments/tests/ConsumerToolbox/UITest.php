@@ -53,28 +53,37 @@ class UITest extends TestCase
     public function testTxt(): void
     {
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['ldoc_foo'], 'baz');
-        $consecutive = ['bar_foo', 'ldoc_foo'];
-        $language->expects(self::exactly(2))->method('exists')->with(
-            $this->callback(function ($value) use (&$consecutive) {
-                $this->assertSame(array_shift($consecutive), $value);
-                return true;
-            })
-        )->willReturnOnConsecutiveCalls(false, true);
-
+        $consecutive = [
+            ['bar_foo', false],
+            ['ldoc_foo', true]
+        ];
+        $language
+            ->expects(self::exactly(2))
+            ->method('exists')
+            ->willReturnCallback(
+                function (string $txt) use (&$consecutive) {
+                    list($expected, $return) = array_shift($consecutive);
+                    $this->assertEquals($expected, $txt);
+                    return $return;
+                }
+            );
         $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
     }
 
     public function testTxtFallback(): void
     {
-        $language = $this->mockMethod(ilLanguage::class, 'txt', ['foo'], 'baz');
         $consecutive = ['bar_foo', 'ldoc_foo'];
-        $language->expects(self::exactly(2))->method('exists')->with(
-            $this->callback(function ($value) use (&$consecutive) {
-                $this->assertSame(array_shift($consecutive), $value);
-                return true;
-            })
-        )->willReturn(false);
+        $language = $this->mockMethod(ilLanguage::class, 'txt', ['foo'], 'baz');
+        $language
+            ->expects(self::exactly(2))
+            ->method('exists')
+            ->willReturnCallback(
+                function (string $txt) use (&$consecutive) {
+                    $this->assertEquals(array_shift($consecutive), $txt);
+                    return false;
+                }
+            );
 
         $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));

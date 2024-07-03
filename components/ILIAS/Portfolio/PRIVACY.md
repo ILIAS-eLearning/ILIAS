@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -10,7 +10,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [COPage](../../Services/COPage/PRIVACY.md)
+    - [COPage](../../ILIAS/COPage/PRIVACY.md)
     - The **Blog** module allows to create blog postings shared with others. These blogs can be integrated into a portfolio.
     - The **User** service stores personal data like name, address and birthday.
     - The **Learning History** service collects data related to learning activites like received badges or successful completions of courses.
@@ -39,7 +39,7 @@ The main purpose of portfolios is to present information about its creator to ot
 
 ## Data being stored
 
-Single portfolio pages are stored using the [COPage](../../Services/COPage/PRIVACY.md) service. The author may include any personal content in these pages. The pages are not structured with any personal data related scheme (like e.g. the user service storing birthday, name or address information).
+Single portfolio pages are stored using the [COPage](../../ILIAS/COPage/PRIVACY.md) service. The author may include any personal content in these pages. The pages are not structured with any personal data related scheme (like e.g. the user service storing birthday, name or address information).
 
 The Blog module is being used to store blog postings. Similar almost everything included in a portfolio is data being stored by the integrated services.
 

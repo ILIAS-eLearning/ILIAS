@@ -25,7 +25,7 @@ use ILIAS\DI\Container;
  * Class InterestedUserFieldAttributeTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldAttributeTest extends ilUserBaseTest
+class InterestedUserFieldAttributeTest extends ilUserBaseTestCase
 {
     private InterestedUserFieldAttribute $interestedUserFieldAttribute;
 

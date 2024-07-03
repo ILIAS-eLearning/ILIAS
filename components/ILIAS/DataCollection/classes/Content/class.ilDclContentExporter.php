@@ -156,7 +156,7 @@ class ilDclContentExporter
             foreach ($this->tables as $table) {
                 ilDclCache::resetCache();
 
-                $list = $table->getPartialRecords((string)$this->dcl->getRefId(), 'id', 'asc', null, 0, $this->filter);
+                $list = $table->getPartialRecords((string) $this->dcl->getRefId(), 'id', 'asc', null, 0, $this->filter);
                 $data_available = $data_available || ($list['total'] > 0);
                 $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
                 if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {

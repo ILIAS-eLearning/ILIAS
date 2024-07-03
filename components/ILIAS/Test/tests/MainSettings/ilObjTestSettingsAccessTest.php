@@ -32,7 +32,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getStartTimeEnabled());
     }
 
-    public function getAndWithStartTimeEnabledDataProvider(): array
+    public static function getAndWithStartTimeEnabledDataProvider(): array
     {
         return [
             [true],
@@ -52,7 +52,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getStartTime());
     }
 
-    public function getAndWithStartTimeDataProvider(): array
+    public static function getAndWithStartTimeDataProvider(): array
     {
         return [
             [new DateTimeImmutable()],
@@ -72,7 +72,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getEndTimeEnabled());
     }
 
-    public function getAndWithEndTimeEnabledDataProvider(): array
+    public static function getAndWithEndTimeEnabledDataProvider(): array
     {
         return [
             [true],
@@ -92,7 +92,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getEndTime());
     }
 
-    public function getAndWithEndTimeDataProvider(): array
+    public static function getAndWithEndTimeDataProvider(): array
     {
         return [
             [new DateTimeImmutable()],
@@ -112,7 +112,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getPasswordEnabled());
     }
 
-    public function getAndWithPasswordEnabledDataProvider(): array
+    public static function getAndWithPasswordEnabledDataProvider(): array
     {
         return [
             [true],
@@ -132,7 +132,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getPassword());
     }
 
-    public function getAndWithPasswordDataProvider(): array
+    public static function getAndWithPasswordDataProvider(): array
     {
         return [
             [null],
@@ -153,7 +153,7 @@ class ilObjTestSettingsAccessTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingAccess->getFixedParticipants());
     }
 
-    public function getAndWithFixedParticipantsDataProvider(): array
+    public static function getAndWithFixedParticipantsDataProvider(): array
     {
         return [
             [true],

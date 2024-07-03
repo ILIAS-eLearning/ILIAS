@@ -570,7 +570,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $button->getAction());
     }
 
-    public function getButtonTypeProvider(): array
+    public static function getButtonTypeProvider(): array
     {
         return [
             ['standard'],

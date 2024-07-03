@@ -163,7 +163,7 @@ class Stream implements FileStream, \Stringable
     /**
      * @inheritDoc
      */
-    public function tell(): int|bool
+    public function tell(): int
     {
         $this->assertStreamAttached();
 
@@ -229,7 +229,7 @@ class Stream implements FileStream, \Stringable
     /**
      * @inheritDoc
      */
-    public function write($string): int|bool
+    public function write($string): int
     {
         $this->assertStreamAttached();
 
@@ -259,7 +259,7 @@ class Stream implements FileStream, \Stringable
     /**
      * @inheritDoc
      */
-    public function read($length): string|bool
+    public function read($length): string
     {
         $this->assertStreamAttached();
 
@@ -286,7 +286,7 @@ class Stream implements FileStream, \Stringable
     /**
      * @inheritDoc
      */
-    public function getContents(): string|bool
+    public function getContents(): string
     {
         $this->assertStreamAttached();
 

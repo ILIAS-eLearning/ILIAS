@@ -149,7 +149,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
     /**
      * @return array{indexed: int[][], associative: array<int, array{A: string, B: string, C: string}>, mixed: array<int, array<int|string, int|string>>, relations: \ilBuddySystemRelation&\PHPUnit\Framework\MockObject\MockObject[][]}
      */
-    public function provideElements(): array
+    public static function provideElements(): array
     {
         $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation2 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();

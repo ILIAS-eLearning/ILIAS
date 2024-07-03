@@ -208,41 +208,37 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
             self::VALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS_1
         );
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(
-                ['send_re_assigned_mail'],
-                ['send_re_assigned_mail_info'],
-                ['prg_user_not_restarted_time_input'],
-                ['prg_user_not_restarted_time_input_info'],
-                ['send_info_to_re_assign_mail'],
-                ['send_info_to_re_assign_mail_info'],
-                ['prg_processing_ends_no_success'],
-                ['prg_processing_ends_no_success_info'],
-                ['send_risky_to_fail_mail'],
-                ['send_risky_to_fail_mail_info'],
-                ['prg_cron_job_configuration']
-            )
-            ->will($this->onConsecutiveCalls(
-                'send_re_assigned_mail',
-                'send_re_assigned_mail_info',
-                'prg_user_not_restarted_time_input',
-                'prg_user_not_restarted_time_input_info',
-                'send_info_to_re_assign_mail',
-                'send_info_to_re_assign_mail_info',
-                'prg_processing_ends_no_success',
-                'prg_processing_ends_no_success_info',
-                'send_risky_to_fail_mail',
-                'send_risky_to_fail_mail_info',
-                'prg_cron_job_configuration'
-            ))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'send_re_assigned_mail',
+            'send_re_assigned_mail_info',
+            'prg_user_not_restarted_time_input',
+            'prg_user_not_restarted_time_input_info',
+            'send_info_to_re_assign_mail',
+            'send_info_to_re_assign_mail_info',
+            'prg_processing_ends_no_success',
+            'prg_processing_ends_no_success_info',
+            'send_risky_to_fail_mail',
+            'send_risky_to_fail_mail_info',
+            'prg_cron_job_configuration'
+        ];
 
         $field = $obj->toFormInput(
             $f,
             $lng,
             $refinery
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         $this->assertInstanceOf(
             Section::class,

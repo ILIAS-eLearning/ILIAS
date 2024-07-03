@@ -203,7 +203,7 @@ class ilDclRecordListGUI
             if ($ilSetting->get('advanced_editing_javascript_editor')) {
                 $desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
             } else {
-                $desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
+                $desc = "<div class='ilDclTableDescription'>" . nl2br($this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($desc)) . "</div>";
             }
         }
         $this->tpl->setContent($desc . $list->getHTML());
@@ -258,7 +258,7 @@ class ilDclRecordListGUI
             $file = $form->getInput("import_file");
             $file_location = $file["tmp_name"];
             $simulate = $form->getInput("simulate");
-            $this->importRecords($file_location, (bool)$simulate);
+            $this->importRecords($file_location, (bool) $simulate);
         } else {
             $this->showImportExcel($form);
         }
@@ -408,9 +408,9 @@ class ilDclRecordListGUI
                     $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
                 }
             }
-            $conf->addItem('record_ids[]', (string)$record->getId(), $record_data);
+            $conf->addItem('record_ids[]', (string) $record->getId(), $record_data);
         }
-        $conf->addHiddenItem('table_id', (string)$this->table_id);
+        $conf->addHiddenItem('table_id', (string) $this->table_id);
         $conf->setConfirm($this->lng->txt('dcl_delete_records'), self::CMD_DELETE_RECORDS);
         $conf->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_DELETE);
         $this->tpl->setContent($conf->getHTML());
@@ -514,7 +514,7 @@ class ilDclRecordListGUI
         $offset = $list->getOffset();
 
         $num_records = count($table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -529,7 +529,7 @@ class ilDclRecordListGUI
         }
 
         $data = $table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,

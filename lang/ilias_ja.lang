@@ -617,19 +617,6 @@ assessment#:#dont_use_questionpool#:#問題集へ問題を挿入しない(この
 assessment#:#duplicate#:#重複
 assessment#:#duplicate_matching_values_selected#:#選択値が重複しています!
 assessment#:#duplicate_order_values_entered#:#選択順が重複しています!
-assessment#:#ects_allow_ects_grades#:#ECTS評価に受領マークを追加して表示する
-assessment#:#ects_fx_threshold#:#しきい値
-assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
-assessment#:#ects_grade#:#ECTS評価
-assessment#:#ects_grade_a_desc#:#マイナーなエラーのみの優れたパフォーマンス
-assessment#:#ects_grade_b_desc#:#いくつかエラーはあるが平均標準より上位
-assessment#:#ects_grade_c_desc#:#顕著なエラー数ありで通常は音を鳴らす
-assessment#:#ects_grade_d_desc#:#かなりの欠点はるものの妥当
-assessment#:#ects_grade_desc_prefix#:#グレードの意味:
-assessment#:#ects_grade_e_desc#:#最低判断基準を満たすパフォーマンス
-assessment#:#ects_grade_f_desc#:#今後相当の努力が必須
-assessment#:#ects_grade_fx_desc#:#クレジットを受賞するにはさらなる努力を要する
-assessment#:#ects_output_of_ects_grades#:#ECTS評価の出力
 assessment#:#edit_answer#:#回答を編集
 assessment#:#edit_page#:#ページ編集
 assessment#:#edit_question#:#問題編集
@@ -847,7 +834,6 @@ assessment#:#manscoring_results_pass#:#試験%sの手動採点可能な問題
 assessment#:#manual_editing#:#手動編集
 assessment#:#mark_schema#:#評価尺度
 assessment#:#mark_schema_invalid#:#マークスキーマは検証されません。正しいスキーマを作成してください。
-assessment#:#mark_tst_ects#:#ECTS評価は&quot;[markects]&quot;となっています。
 assessment#:#matches#:#一致するもの
 assessment#:#matching_pairs#:#一致する組
 assessment#:#matching_shuffle_definitions#:#定義のみ
@@ -1898,7 +1884,6 @@ assessment#:#units#:#ユニット
 assessment#:#unlimited#:#無期限
 assessment#:#unlock#:#解除
 assessment#:#uploaded_material#:#アップロードされた教材
-assessment#:#use_ects_fx#:# 'FX' 評価を使用
 assessment#:#use_previous_solution#:#前回の解答を使用する
 assessment#:#use_previous_solution_advice#:#表示されている回答は前回のものです。何も変更しないでそのまま利用したい場合は、その解答の採用を必ず確認する必要があります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
@@ -10878,12 +10863,12 @@ mathjax#:#mathjax_home_link#:# >> MathJax
 mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###19 08 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###19 08 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###19 08 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###19 08 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#多角形のURL
+mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2 には不要
+mathjax#:#mathjax_polyfill_url_desc_line2#:#MathJax 3の例  https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#MathJax ScriptのURL
+mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2 の例 %s
+mathjax#:#mathjax_script_url_desc_line2#:#javascriptのMathJaxコードでXSS攻撃を回避するためのセーフモード有効にして下さい。MathJax 2用はCDN urlへ'セーフ'パラメータを追加する事で有効化できます。MathJax 3用はMathjaxを読込む前に構成するスクリプトをincludeする必要があります。例の使用 %s
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。

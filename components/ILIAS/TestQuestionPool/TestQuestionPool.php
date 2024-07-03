@@ -83,9 +83,13 @@ class TestQuestionPool implements Component\Component
             new Component\Resource\ComponentJS($this, 'bootstrap-tagsinput_2015_25_03.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'typeahead_0.11.1.js');
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule('@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+        */
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule('nestable2/dist/jquery.nestable.min.js');
+        */
     }
 }

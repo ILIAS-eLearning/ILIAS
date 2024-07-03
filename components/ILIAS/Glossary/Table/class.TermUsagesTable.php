@@ -54,8 +54,14 @@ class TermUsagesTable
         $columns = $this->getColumns();
         $data_retrieval = $this->getDataRetrieval();
 
+        $glo_id = \ilGlossaryTerm::_lookGlossaryID($this->term_id);
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("cont_usage"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $glo_id . "_" .
+                                  $this->term_id
+                              )
                               ->withRequest($this->request);
 
         return $table;
@@ -278,12 +284,10 @@ class TermUsagesTable
                     }
 
                     if ($usage["type"] != "clip") {
+                        $records[$i]["object"] = $item["obj_title"];
                         if ($item["obj_link"]) {
-                            $records[$i]["object"] = $item["obj_title"];
                             $link = $this->ui_fac->link()->standard($this->lng->txt("cont_link"), $item["obj_link"]);
                             $records[$i]["link"] = $link;
-                        } else {
-                            $records[$i]["object"] = $item["obj_title"];
                         }
 
                         $sub_text = "";

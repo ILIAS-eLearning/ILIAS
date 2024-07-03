@@ -614,19 +614,6 @@ assessment#:#dont_use_questionpool#:#Nevkládat otázky do zásobníku otázek (
 assessment#:#duplicate#:#Duplikovat
 assessment#:#duplicate_matching_values_selected#:#Vybral(a) jste duplikované identické hodnoty!
 assessment#:#duplicate_order_values_entered#:#Vložil(a) jste duplikované hodnoty pořadí!
-assessment#:#ects_allow_ects_grades#:#Zobrazit dodatečné hodnocení ECTS k získané známce
-assessment#:#ects_fx_threshold#:#Práh
-assessment#:#ects_fx_threshold_info#:#Zadejte požadovaný percentil pro udělení stupně „FX“.
-assessment#:#ects_grade#:#Hodnocení ECTS
-assessment#:#ects_grade_a_desc#:#vynikající výkon pouze s malými chybami
-assessment#:#ects_grade_b_desc#:#nadprůměrný standard, ale s nějakými chybami
-assessment#:#ects_grade_c_desc#:#obecně dobrá práce s množstvím významných chyb
-assessment#:#ects_grade_d_desc#:#slušné, ale s výraznými nedostatky
-assessment#:#ects_grade_desc_prefix#:#Význam známky:
-assessment#:#ects_grade_e_desc#:#výkon splňuje minimální kritéria
-assessment#:#ects_grade_f_desc#:#je zapotřebí další velká práce
-assessment#:#ects_grade_fx_desc#:#než bude možné udělit kredit, je třeba další práce
-assessment#:#ects_output_of_ects_grades#:#Výstup hodnocení ECTS
 assessment#:#edit_answer#:#Upravit odpověď
 assessment#:#edit_page#:#Upravit stránku
 assessment#:#edit_question#:#Upravit otázku
@@ -842,7 +829,6 @@ assessment#:#manscoring_results_pass#:#Manuálně hodnotitelné otázky pro prů
 assessment#:#manual_editing#:#Manuální editace
 assessment#:#mark_schema#:#Schéma známkování
 assessment#:#mark_schema_invalid#:#Schéma známkování není platné. Vytvořte prosím správné schéma.
-assessment#:#mark_tst_ects#:#Vaše hodnocení ECTS je &quot;[markects]&quot;
 assessment#:#matches#:#patří k
 assessment#:#matching_pairs#:#Odpovídající dvojice
 assessment#:#matching_shuffle_definitions#:#Jen definice
@@ -1888,7 +1874,6 @@ assessment#:#units#:#Jednotky
 assessment#:#unlimited#:#neomezený
 assessment#:#unlock#:#Odemknout
 assessment#:#uploaded_material#:#Odeslaný materiál
-assessment#:#use_ects_fx#:#Použít stupeň „FX“
 assessment#:#use_previous_solution#:#Použít předchozí řešení
 assessment#:#use_previous_solution_advice#:#Zobrazené řešení pro tuto otázku je vaše dříve uvedené řešení. Musíte potvrdit přijetí řešení, pokud ho chcete použít bez jakýchkoliv změn.
 assessment#:#user_has_finished_a_test#:#Účastník dokončil test.
@@ -10784,12 +10769,12 @@ mathjax#:#mathjax_home_link#:# »MathJax
 mathjax#:#mathjax_limiter#:#Oddělovače inline
 mathjax#:#mathjax_limiter_info#:#Vyberte inline oddělovače, jak jsou nakonfigurovány ve vaší instalaci MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Adresa serveru
 mathjax#:#mathjax_server_address_info#:#Například http://localhost: 8003
 mathjax#:#mathjax_server_cache_cleared#:#Mezipaměť MathJax byla vymazána.

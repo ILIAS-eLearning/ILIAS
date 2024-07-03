@@ -55,7 +55,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected string $requested_search_str;
     protected string $requested_file_id;
     protected int $requested_mob_id;
-    protected string $requested_export_type;
+    protected string $requested_table_glossary_download_list_action = "";
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_glossary_download_file_ids = [];
     protected \ILIAS\Style\Content\Service $content_style_service;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -121,7 +125,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->requested_search_str = $request->getSearchString();
         $this->requested_file_id = $request->getFileId();
         $this->requested_mob_id = $request->getMobId();
-        $this->requested_export_type = $request->getExportType();
+        $this->requested_table_glossary_download_list_action = $request->getTableGlossaryDownloadListAction();
+        $this->requested_table_glossary_download_file_ids = $request->getTableGlossaryDownloadFileIds();
 
 
         // determine term id and check whether it is valid (belongs to
@@ -713,8 +718,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "components/ILIAS/Glossary");
-
         $this->setTabs();
         $ilTabs->activateTab("download");
 
@@ -722,78 +725,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->tpl->setTitle($this->glossary->getTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
-        // create table
-        $tbl = new ilTableGUI();
+        $table = $this->domain->table()->getDownloadListTable($this->glossary)->getComponent();
 
-        // load files templates
-        $this->tpl->addBlockFile("DOWNLOAD_TABLE", "download_table", "tpl.table.html");
-
-        // load template for table content data
-        $this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", "components/ILIAS/Glossary");
-
-        $export_files = array();
-        $types = array("xml", "html");
-        foreach ($types as $type) {
-            if ($this->glossary->getPublicExportFile($type) != "") {
-                $dir = $this->glossary->getExportDirectory($type);
-                if (is_file($this->glossary->getExportDirectory($type) . "/" .
-                    $this->glossary->getPublicExportFile($type))) {
-                    $size = filesize($this->glossary->getExportDirectory($type) . "/" .
-                        $this->glossary->getPublicExportFile($type));
-                    $export_files[] = array("type" => $type,
-                        "file" => $this->glossary->getPublicExportFile($type),
-                        "size" => $size);
-                }
-            }
-        }
-
-        $num = 0;
-
-        $tbl->setTitle($this->lng->txt("download"));
-
-        $tbl->setHeaderNames(array($this->lng->txt("cont_format"),
-            $this->lng->txt("cont_file"),
-            $this->lng->txt("size"), $this->lng->txt("date"),
-            ""));
-
-        $cols = array("format", "file", "size", "date", "download");
-        $header_params = array("ref_id" => $this->requested_ref_id,
-            "cmd" => "showDownloadList", "cmdClass" => strtolower(get_class($this)));
-        $tbl->setHeaderVars($cols, $header_params);
-        $tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
-        $tbl->disable("sort");
-        // footer
-        $tbl->disable("footer");
-        $tbl->setMaxCount(count($export_files));
-
-        $tbl->render();
-        if (count($export_files) > 0) {
-            $i = 0;
-            foreach ($export_files as $exp_file) {
-                $this->tpl->setCurrentBlock("tbl_content");
-                $this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-                $this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-                $this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
-                $this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"] . ":" . $exp_file["file"]);
-
-                $file_arr = explode("__", $exp_file["file"]);
-                $this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s", $file_arr[0]));
-
-                $this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
-                $this->ctrl->setParameter($this, "type", $exp_file["type"]);
-                $this->tpl->setVariable(
-                    "LINK_DOWNLOAD",
-                    $this->ctrl->getLinkTarget($this, "downloadExportFile")
-                );
-
-                $this->tpl->parseCurrentBlock();
-            }
-        } else {
-            $this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-            $this->tpl->setVariable("NUM_COLS", 5);
-            $this->tpl->parseCurrentBlock();
-        }
+        $this->tpl->setContent($this->ui_ren->render($table));
     }
 
     /**
@@ -808,9 +742,16 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
-        $file = $this->glossary->getPublicExportFile($this->requested_export_type);
-        if ($this->glossary->getPublicExportFile($this->requested_export_type) != "") {
-            $dir = $this->glossary->getExportDirectory($this->requested_export_type);
+        $file_type = "";
+        if (($this->requested_table_glossary_download_list_action == "downloadExportFile")
+            && !empty($this->requested_table_glossary_download_file_ids)) {
+            $file_id = $this->requested_table_glossary_download_file_ids[0];
+            $file_type = explode(":", $file_id)[0];
+        }
+
+        $file = $this->glossary->getPublicExportFile($file_type);
+        if ($file != "") {
+            $dir = $this->glossary->getExportDirectory($file_type);
             if (is_file($dir . "/" . $file)) {
                 ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
                 exit;

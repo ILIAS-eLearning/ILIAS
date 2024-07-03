@@ -47,60 +47,60 @@ class UploadLimitResolverTest extends TestCase
     {
         return [
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => null,
                 'local_value' => null,
                 'upload_handler_supports_chunks' => true,
-                'result' => 10
+                'expected_result' => 10
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => null,
                 'local_value' => 20,
                 'upload_handler_supports_chunks' => true,
-                'result' => 20
+                'expected_result' => 20
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => null,
                 'local_value' => 20,
                 'upload_handler_supports_chunks' => true,
-                'result' => 20
+                'expected_result' => 20
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => 15,
                 'local_value' => 20,
                 'upload_handler_supports_chunks' => true,
-                'result' => 20
+                'expected_result' => 20
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => 20,
                 'local_value' => 15,
                 'upload_handler_supports_chunks' => true,
-                'result' => 15
+                'expected_result' => 15
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => null,
                 'local_value' => 20,
                 'upload_handler_supports_chunks' => false,
-                'result' => 10
+                'expected_result' => 10
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => 20,
                 'local_value' => null,
                 'upload_handler_supports_chunks' => false,
-                'result' => 10
+                'expected_result' => 10
             ],
             [
-                'ini_value' => 10,
+                'php_ini_value' => 10,
                 'custom_global_value' => 20,
                 'local_value' => 5,
                 'upload_handler_supports_chunks' => false,
-                'result' => 5
+                'expected_result' => 5
             ],
         ];
     }

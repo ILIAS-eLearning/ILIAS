@@ -44,7 +44,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             );
 
             return '<a href="' . $this->ctrl->getLinkTargetByClass(
-                    ilDclRecordListGUI::class,
+                ilDclRecordListGUI::class,
                 "sendFile"
             ) . '">' . $value['name'] . '</a>';
         }
@@ -112,10 +112,10 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         $width = "200px";
         $height = "auto";
         if ($field->getProperty(ilDclBaseFieldModel::PROP_WIDTH) > 0) {
-            $width = $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH)."px";
+            $width = $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH) . "px";
         }
         if ($field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT) > 0) {
-            $height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)."px";
+            $height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT) . "px";
         }
         $content = $this->renderer->render($components);
         return "<div style='width:$width; height:$height;'>$content</div>";

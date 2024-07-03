@@ -1,0 +1,190 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Course\Certificate;
+
+use ilObjUser;
+use ilLanguage;
+use ilException;
+use ilDatabaseException;
+use ilDateTimeException;
+use ilObjectTranslation;
+use ilCertificateDateHelper;
+use ilLegacyFormElementsUtil;
+use ilCertificateObjectHelper;
+use ilObjectNotFoundException;
+use ilDefaultPlaceholderValues;
+use ilCertificateLPStatusHelper;
+use ilInvalidCertificateException;
+use ilCertificatePlaceholderValues;
+use ilObjectCustomUserFieldsPlaceholderValues;
+
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
+class CoursePlaceholderValues implements ilCertificatePlaceholderValues
+{
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly CertificateParticipantsHelper $participantsHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
+
+    public function __construct(
+        ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?CertificateParticipantsHelper $participantsHelper = null,
+        ?ilCertificateDateHelper $dateHelper = null,
+        ?ilCertificateLPStatusHelper $lpStatusHelper = null
+    ) {
+        if (null === $language) {
+            global $DIC;
+            $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
+        }
+
+        if (null === $defaultPlaceholderValues) {
+            $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
+        }
+
+        if (null === $customUserFieldsPlaceholderValues) {
+            $customUserFieldsPlaceholderValues = new ilObjectCustomUserFieldsPlaceholderValues();
+        }
+
+        if (null === $objectHelper) {
+            $objectHelper = new ilCertificateObjectHelper();
+        }
+        $this->objectHelper = $objectHelper;
+
+        if (null === $participantsHelper) {
+            $participantsHelper = new CertificateParticipantsHelper();
+        }
+        $this->participantsHelper = $participantsHelper;
+
+        if (null === $dateHelper) {
+            $dateHelper = new ilCertificateDateHelper();
+        }
+        $this->dateHelper = $dateHelper;
+
+        if (null === $lpStatusHelper) {
+            $lpStatusHelper = new ilCertificateLPStatusHelper();
+        }
+        $this->lpStatusHelper = $lpStatusHelper;
+
+        $this->customUserFieldsPlaceholderValuesObject = $customUserFieldsPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
+    }
+
+    /**
+     * @param mixed $possibleDate
+     */
+    private function hasCompletionDate($possibleDate): bool
+    {
+        return
+            $possibleDate !== false &&
+            $possibleDate !== null &&
+            $possibleDate !== ''
+        ;
+    }
+
+    /**
+     * This method MUST return an array that contains the
+     * actual data for the given user of the given object.
+     * ilInvalidCertificateException MUST be thrown if the
+     * data could not be determined or the user did NOT
+     * achieve the certificate.
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilException
+     * @throws ilInvalidCertificateException
+     * @throws ilObjectNotFoundException
+     */
+    public function getPlaceholderValues(int $userId, int $objId): array
+    {
+        $courseObject = $this->objectHelper->getInstanceByObjId($objId);
+
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
+
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValues(
+            $userId,
+            $objId
+        );
+
+        $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
+
+        $completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
+        if (!$this->hasCompletionDate($completionDate)) {
+            $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
+        }
+
+        if ($this->hasCompletionDate($completionDate)) {
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
+            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+        }
+
+        $lng_code = ilObjUser::_lookupLanguage($userId);
+        $course_translation = $courseObject->getObjectTranslation();
+        $title = $courseObject->getTitle();
+        if ($course_translation instanceof ilObjectTranslation) {
+            $languages = $course_translation->getLanguages();
+            foreach ($languages as $trans) {
+                if ($trans->getLanguageCode() === $lng_code) {
+                    $title = $trans->getTitle();
+
+                    break;
+                }
+            }
+        }
+
+        $placeholders['COURSE_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($title);
+
+        return $placeholders;
+    }
+
+    /**
+     * This method is different then the 'getPlaceholderValues' method, this
+     * method is used to create a placeholder value array containing dummy values
+     * that is used to create a preview certificate.
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     */
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
+    {
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValuesForPreview(
+            $userId,
+            $objId
+        );
+
+        $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
+
+        $object = $this->objectHelper->getInstanceByObjId($objId);
+
+        $placeholders['COURSE_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+
+        return $placeholders;
+    }
+}

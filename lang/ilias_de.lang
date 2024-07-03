@@ -628,19 +628,6 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
-assessment#:#ects_fx_threshold#:#Grenzwert
-assessment#:#ects_fx_threshold_info#:#Bitte geben Sie den Grenzwert an, ab dem durchgefallene Teilnehmer die ECTS-Note 'FX' erhalten.
-assessment#:#ects_grade#:#ECTS-Note
-assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
-assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
-assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
-assessment#:#ects_grade_d_desc#:#mittelmäßig, jedoch deutliche Mängel
-assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note:
-assessment#:#ects_grade_e_desc#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
-assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
-assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
-assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
 assessment#:#edit_introduction#:#Einleitung bearbeiten
@@ -877,7 +864,6 @@ assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchl
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
-assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#passt zu
 assessment#:#matching_pairs#:#Zuordnungspaare
 assessment#:#matching_shuffle_definitions#:#Nur Definitionen
@@ -1091,6 +1077,7 @@ assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
+assessment#:#question_complete_title#:#Vollständig
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
@@ -2000,7 +1987,6 @@ assessment#:#units#:#Einheiten
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
 assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
@@ -5603,7 +5589,7 @@ common#:#shib_email#:#Attribut für E-Mail-Adresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
-common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den %s
+common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen auf der folgenden Seite Ihre Organisation aus. Bei Fragen dazu wenden Sie sich bitte an den %s
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den %s
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
@@ -8796,6 +8782,7 @@ dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
 dcl#:#dcl_tableview_visible#:#Sichtbar
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
+dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
@@ -8823,9 +8810,15 @@ dcl#:#dcl_width#:#Breite
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#disable_comments#:#Kommentare deaktivieren
+dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
+dcl#:#enable_comments#:#Kommentare aktivieren
+dcl#:#enable_visible#:#Sichtbarkeit aktivieren
+dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -11597,9 +11590,8 @@ mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. https://ihre-domain/ihr-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.

@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Niels Theen <ntheen@databay.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
+class ilGroupNameAsMailValidatorTest extends ilMailBaseTestCase
 {
     public function testGroupIsDetectedIfGroupNameExists(): void
     {

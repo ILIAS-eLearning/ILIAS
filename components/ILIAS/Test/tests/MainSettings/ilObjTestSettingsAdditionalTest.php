@@ -32,7 +32,7 @@ class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsAdditional->getSkillsServiceEnabled());
     }
 
-    public function getSkillsServiceEnabledDataProvider(): array
+    public static function getSkillsServiceEnabledDataProvider(): array
     {
         return [
             [true],
@@ -52,7 +52,7 @@ class ilObjTestSettingsAdditionalTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsAdditional->getHideInfoTab());
     }
 
-    public function getHideInfoTabDataProvider(): array
+    public static function getHideInfoTabDataProvider(): array
     {
         return [
             [true],

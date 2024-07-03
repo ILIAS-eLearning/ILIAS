@@ -317,8 +317,8 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $html = "";
         foreach ($usages as $k => $usage) {
-            $table = $this->table_manager->getUsageTable($k, $usage)->getComponent();
-            $html .= $this->ui_ren->render($table) . "<br/><br/>";
+            $usages_ui = $this->skill_ui_service->getUsagesUI($k, $usage);
+            $html .= $usages_ui->render() . "<br/><br/>";
         }
 
         $tpl->setContent($html);
@@ -340,7 +340,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $objects = $this->usage_manager->getAssignedObjectsForSkillTemplate($this->base_skill_id);
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            $this->base_skill_id
+        )->getComponent();
 
         $tpl->setContent($this->ui_ren->render($table));
     }

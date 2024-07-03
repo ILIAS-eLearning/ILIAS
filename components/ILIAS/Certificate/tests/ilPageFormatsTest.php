@@ -30,23 +30,17 @@ class ilPageFormatsTest extends ilCertificateBaseTestCase
             ->onlyMethods(['txt'])
             ->getMock();
 
-        $consecutive = [
-            'certificate_a4',
-            'certificate_a4_landscape',
-            'certificate_a5',
-            'certificate_a5_landscape',
-            'certificate_letter',
-            'certificate_letter_landscape',
-            'certificate_custom'
+        $consecutive_returns = [
+            'certificate_a4' => 'A4',
+            'certificate_a4_landscape' => 'A4l',
+            'certificate_a5' => 'A5',
+            'certificate_a5_landscape' => 'A5l',
+            'certificate_letter' => 'L',
+            'certificate_letter_landscape' => 'Ll',
+            'certificate_custom' => 'C',
         ];
         $languageMock->method('txt')
-            ->with(
-                $this->callback(function ($value) use (&$consecutive) {
-                    $this->assertSame(array_shift($consecutive), $value);
-                    return true;
-                })
-            )
-            ->willReturn('Some Translation');
+            ->willReturnCallback(fn($k) => $consecutive_returns[$k]);
 
         $pageFormats = new ilPageFormats($languageMock);
 
@@ -56,36 +50,36 @@ class ilPageFormatsTest extends ilCertificateBaseTestCase
         $this->assertSame('210mm', $formats['a4']['width']);
 
         $this->assertSame('297mm', $formats['a4']['height']);
-        $this->assertSame('Some Translation', $formats['a4']['name']);
+        $this->assertSame('A4', $formats['a4']['name']);
 
         $this->assertSame('a4landscape', $formats['a4landscape']['value']);
         $this->assertSame('297mm', $formats['a4landscape']['width']);
         $this->assertSame('210mm', $formats['a4landscape']['height']);
-        $this->assertSame('Some Translation', $formats['a4landscape']['name']);
+        $this->assertSame('A4l', $formats['a4landscape']['name']);
 
         $this->assertSame('a5', $formats['a5']['value']);
         $this->assertSame('148mm', $formats['a5']['width']);
         $this->assertSame('210mm', $formats['a5']['height']);
-        $this->assertSame('Some Translation', $formats['a5']['name']);
+        $this->assertSame('A5', $formats['a5']['name']);
 
         $this->assertSame('a5landscape', $formats['a5landscape']['value']);
         $this->assertSame('210mm', $formats['a5landscape']['width']);
         $this->assertSame('148mm', $formats['a5landscape']['height']);
-        $this->assertSame('Some Translation', $formats['a5landscape']['name']);
+        $this->assertSame('A5l', $formats['a5landscape']['name']);
 
         $this->assertSame('letter', $formats['letter']['value']);
         $this->assertSame('8.5in', $formats['letter']['width']);
         $this->assertSame('11in', $formats['letter']['height']);
-        $this->assertSame('Some Translation', $formats['letter']['name']);
+        $this->assertSame('L', $formats['letter']['name']);
 
         $this->assertSame('letterlandscape', $formats['letterlandscape']['value']);
         $this->assertSame('11in', $formats['letterlandscape']['width']);
         $this->assertSame('8.5in', $formats['letterlandscape']['height']);
-        $this->assertSame('Some Translation', $formats['letterlandscape']['name']);
+        $this->assertSame('Ll', $formats['letterlandscape']['name']);
 
         $this->assertSame('custom', $formats['custom']['value']);
         $this->assertSame('', $formats['custom']['width']);
         $this->assertSame('', $formats['custom']['height']);
-        $this->assertSame('Some Translation', $formats['custom']['name']);
+        $this->assertSame('C', $formats['custom']['name']);
     }
 }

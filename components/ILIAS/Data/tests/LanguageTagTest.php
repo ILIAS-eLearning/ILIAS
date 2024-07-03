@@ -52,7 +52,7 @@ class LanguageTagTest extends TestCase
         $this->testParse($input, $isOk);
     }
 
-    public function saveToRun(): array
+    public static function saveToRun(): array
     {
         return [
             ['de', true],
@@ -139,7 +139,7 @@ class LanguageTagTest extends TestCase
         ];
     }
 
-    public function risky(): array
+    public static function risky(): array
     {
         if (function_exists('xdebug_info') && ((int) ini_get('xdebug.max_nesting_level')) < 780) {
             $this->markTestSkipped(sprintf(

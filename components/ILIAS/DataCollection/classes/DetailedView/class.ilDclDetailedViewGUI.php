@@ -31,10 +31,6 @@ class ilDclDetailedViewGUI
     protected ilDclTable $table;
     protected int $tableview_id;
     protected ilDclBaseRecordModel $record_obj;
-    protected int $next_record_id = 0;
-    protected int $prev_record_id = 0;
-    protected int $current_record_position = 0;
-    protected array $record_ids = [];
     protected bool $is_enabled_paging = true;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
@@ -66,6 +62,11 @@ class ilDclDetailedViewGUI
                 'record_id',
                 $this->refinery->kindlyTo()->int()
             );
+        } elseif ($this->http->wrapper()->query()->has('record_pos')) {
+            $pos = $this->http->wrapper()->query()->retrieve('record_pos', $this->refinery->kindlyTo()->int());
+            $records = array_values(ilDclTableView::findOrGetInstance($tableview_id)->getTable()->getRecords());
+            $record = $records[$pos] ?? end($records);
+            $this->record_id = $record->getId();
         }
         if ($this->http->wrapper()->post()->has('record_id')) {
             $this->record_id = $this->http->wrapper()->post()->retrieve(
@@ -73,12 +74,11 @@ class ilDclDetailedViewGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $ref_id = $this->dcl_gui_object->getRefId();
 
         if ($this->record_id) {
             $this->record_obj = ilDclCache::getRecordCache($this->record_id);
             $this->table = $this->record_obj->getTable();
-            if (!$this->record_obj->hasPermissionToView($ref_id)) {
+            if (!$this->record_obj->hasPermissionToView($this->dcl_gui_object->getRefId())) {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_view'), true);
                 $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
             }
@@ -108,10 +108,6 @@ class ilDclDetailedViewGUI
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
             $this->is_enabled_paging = false;
         }
-        // Find current, prev and next records for navigation
-        if ($this->is_enabled_paging) {
-            $this->determineNextPrevRecords();
-        }
         $this->content_style_domain = $DIC->contentStyle()
                                           ->domain()
                                           ->styleForRefId(
@@ -124,12 +120,7 @@ class ilDclDetailedViewGUI
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
-            if ($this->table->getVisibleTableViews($this->dcl_gui_object->getRefId(), true)) {
-                $this->offerAlternativeViews();
-            } else {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            }
-
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             return;
         }
 
@@ -145,13 +136,10 @@ class ilDclDetailedViewGUI
         }
     }
 
-    protected function offerAlternativeViews(): void
+    public function jumpToRecord(): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_msg_info_alternatives'));
-        $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table, $this->dcl_gui_object->getRefId());
-        $tpl->setContent($table_gui->getHTML());
+        $this->ctrl->setParameterByClass(self::class, 'record_id', $this->record_id);
+        $this->ctrl->redirectByClass(self::class, 'renderRecord');
     }
 
     public function renderRecord(bool $editComments = false): void
@@ -228,36 +216,29 @@ class ilDclDetailedViewGUI
         // Buttons for previous/next records
 
         if ($this->is_enabled_paging) {
-            $prevNextLinks = $this->renderPrevNextLinks();
-            $rctpl->setVariable('PREV_NEXT_RECORD_LINKS', $prevNextLinks);
-            $ilCtrl->clearParameters($this); // #14083
-            $rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
-            $rctpl->setVariable('RECORD', $this->lng->txt('dcl_record'));
-            $rctpl->setVariable(
-                'RECORD_FROM_TOTAL',
-                sprintf(
-                    $this->lng->txt('dcl_record_from_total'),
-                    $this->current_record_position,
-                    count($this->record_ids)
-                )
+            $records = $this->table->getRecords();
+            $DIC->toolbar()->addComponent(
+                $DIC->ui()->factory()->viewControl()->pagination()
+                    ->withTargetURL($this->ctrl->getLinkTargetByClass(self::class, 'jumpToRecord'), 'record_pos')
+                    ->withPageSize(1)
+                    ->withDropdownAt(5)
+                    ->withDropdownLabel($this->lng->txt('entry_of'))
+                    ->withCurrentPage(array_search($this->record_id, array_keys($records)))
+                    ->withTotalEntries(count($records))
+                    ->withMaxPaginationButtons(20)
             );
-            $rctpl->setVariable('TABLEVIEW_ID', $this->tableview_id);
-            $rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
         }
 
-        // Edit Button
-        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-
-        if ($this->record_obj->hasPermissionToEdit($ref_id)) {
-            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'table_id', $this->table->getId());
-            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'tableview_id', $this->tableview_id);
-            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
-            $ilCtrl->saveParameterByClass(ilDclRecordEditGUI::class, 'record_id');
-            $edit_button = $this->ui_factory->button()->standard(
+        if ($this->record_obj->hasPermissionToEdit($this->dcl_gui_object->getRefId())) {
+            $DIC->toolbar()->addSpacer('100%');
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'table_id', $this->table->getId());
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'tableview_id', $this->tableview_id);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
+            $this->ctrl->saveParameterByClass(ilDclRecordEditGUI::class, 'record_id');
+            $DIC->toolbar()->addComponent($DIC->ui()->factory()->button()->standard(
                 $this->lng->txt('dcl_edit_record'),
-                $ilCtrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
-            );
-            $rctpl->setVariable('EDIT_RECORD_BUTTON', $this->renderer->render($edit_button));
+                $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
+            ));
         }
 
         // Comments
@@ -314,77 +295,12 @@ class ilDclDetailedViewGUI
     protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
-            return $this->notesGUI->getCommentsHTML();
+            return $this->notesGUI->getListHTML();
         } else {
             return $this->notesGUI->editNoteForm();
         }
     }
 
-    /**
-     * Find the previous/next record from the current position. Also determine position of current record in whole set.
-     */
-    protected function determineNextPrevRecords(): void
-    {
-        if (!ilSession::has("dcl_record_ids") || ilSession::get('dcl_record_ids') != $this->table->getId()) {
-            $this->loadSession();
-        }
-
-        if (ilSession::has("dcl_record_ids") && count(ilSession::get("dcl_record_ids"))) {
-            $this->record_ids = ilSession::get("dcl_record_ids");
-            foreach ($this->record_ids as $k => $recId) {
-                if ($recId == $this->record_id) {
-                    if ($k != 0) {
-                        $this->prev_record_id = $this->record_ids[$k - 1];
-                    }
-                    if (($k + 1) < count($this->record_ids)) {
-                        $this->next_record_id = $this->record_ids[$k + 1];
-                    }
-                    $this->current_record_position = $k + 1;
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Determine and return the markup for the previous/next records
-     */
-    protected function renderPrevNextLinks(): string
-    {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-        $prevStr = $this->lng->txt('dcl_prev_record');
-        $nextStr = $this->lng->txt('dcl_next_record');
-        $ilCtrl->setParameter($this, 'record_id', $this->prev_record_id);
-        $url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-        $out = ($this->prev_record_id) ? "<a href='$url'>$prevStr</a>" : "<span class='light'>$prevStr</span>";
-        $out .= " | ";
-        $ilCtrl->setParameter($this, 'record_id', $this->next_record_id);
-        $url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-        $out .= ($this->next_record_id) ? "<a href='$url'>$nextStr</a>" : "<span class='light'>$nextStr</span>";
-
-        return $out;
-    }
-
-    /**
-     * Render select options
-     */
-    protected function renderSelectOptions(): string
-    {
-        $out = '';
-        foreach ($this->record_ids as $k => $recId) {
-            $selected = ($recId == $this->record_id) ? " selected" : "";
-            $out .= "<option value='$recId'$selected>" . ($k + 1) . "</option>";
-        }
-
-        return $out;
-    }
-
-    /**
-     * setOptions
-     * string $link_name
-     */
     private function setOptions(string $link_name): array
     {
         $options = [];
@@ -408,7 +324,7 @@ class ilDclDetailedViewGUI
         );
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords(
-            (string)$this->table->getId(),
+            (string) $this->table->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $list->getLimit(),
@@ -417,13 +333,9 @@ class ilDclDetailedViewGUI
         );
     }
 
-    /**
-     * @return bool
-     */
     protected function checkAccess(): bool
     {
-        $ref_id = $this->dcl_gui_object->getRefId();
-        $has_accass = ilObjDataCollectionAccess::hasAccessTo($ref_id, $this->table->getId(), $this->tableview_id);
+        $has_accass = ilObjDataCollectionAccess::hasAccessTo($this->dcl_gui_object->getRefId(), $this->table->getId(), $this->tableview_id);
         $is_active = ilDclDetailedViewDefinition::isActive($this->tableview_id);
         return $has_accass && $is_active;
     }

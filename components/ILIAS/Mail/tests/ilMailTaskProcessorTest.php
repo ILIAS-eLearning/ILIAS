@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
  * Class ilMailTaskProcessorTest
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailTaskProcessorTest extends ilMailBaseTest
+class ilMailTaskProcessorTest extends ilMailBaseTestCase
 {
     private ilLanguage $languageMock;
     private Container $dicMock;

@@ -614,19 +614,6 @@ assessment#:#dont_use_questionpool#:#Ne illessze be a kérdéseket kérdésgyűj
 assessment#:#duplicate#:#Másodpéldány létrehozása
 assessment#:#duplicate_matching_values_selected#:#Többszörösen illeszkedő értékeket választott ki.
 assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket adott meg.
-assessment#:#ects_allow_ects_grades#:#A kapott érdemjegyen túl az ETCS-értékelés megjelenítése
-assessment#:#ects_fx_threshold#:#Küszöbérték
-assessment#:#ects_fx_threshold_info#:#Adja meg az 'FX' osztályzat értékeihez szükséges százalékokat.
-assessment#:#ects_grade#:#ETCS-értékelés
-assessment#:#ects_grade_a_desc#:#kiemelkedő teljesítmény, csak kisebb hibák vannak
-assessment#:#ects_grade_b_desc#:#átlagon felüli teljesítmény, kevés hibával
-assessment#:#ects_grade_c_desc#:#általában elfogadható, de van számos jelentős hiba
-assessment#:#ects_grade_d_desc#:#elfogadható, de vannak jelentős hiányosságok
-assessment#:#ects_grade_desc_prefix#:#Értékelés jelentése:
-assessment#:#ects_grade_e_desc#:#a teljesítmény megfelel a minimális követelményeknek
-assessment#:#ects_grade_f_desc#:#jelentős további munka szükséges
-assessment#:#ects_grade_fx_desc#:#további munka szükséges még a kredit megszerzéséhez
-assessment#:#ects_output_of_ects_grades#:#ECTS-minősítés eredménye
 assessment#:#edit_answer#:#Válasz módosítása
 assessment#:#edit_page#:#Lap szerkesztése
 assessment#:#edit_question#:#Kérdés módosítása
@@ -842,7 +829,6 @@ assessment#:#manscoring_results_pass#:#Manuálisan pontozandó kérdések a(z) %
 assessment#:#manual_editing#:#Kézi módosítás
 assessment#:#mark_schema#:#Értékelés
 assessment#:#mark_schema_invalid#:#A jelölésséma nem érvényesít. Megfelelő sémát hozzon létre!
-assessment#:#mark_tst_ects#:#Az Ön ECTS-értékelése (ECTS = Európai Kreditátviteli Rendszer): '[markects]'
 assessment#:#matches#:#összeillők
 assessment#:#matching_pairs#:#Összeillő párok
 assessment#:#matching_shuffle_definitions#:#Csak definíciók
@@ -1888,7 +1874,6 @@ assessment#:#units#:#Mértékegységek
 assessment#:#unlimited#:#Korlátlan
 assessment#:#unlock#:#Zárolás feloldása
 assessment#:#uploaded_material#:#Feltöltött anyag
-assessment#:#use_ects_fx#:#'FX' osztályzat használata
 assessment#:#use_previous_solution#:#Előző megoldás használata
 assessment#:#use_previous_solution_advice#:#A jelenleg látszódó megoldás az Ön egy korábbi megoldása. A megoldás elfogadását meg kell erősítenie, ha azt módosítás nélkül szeretné használni.
 assessment#:#user_has_finished_a_test#:#Egy résztvevő befejezte a tesztet.
@@ -10789,9 +10774,8 @@ mathjax#:#mathjax_polyfill_url#:#Polyfill URJ-je
 mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz nem szükséges
 mathjax#:#mathjax_polyfill_url_desc_line2#:#MathJax 3-hoz például https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
-mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3-hoz például https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: https://domain/ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például %s
+mathjax#:#mathjax_script_url_desc_line2#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: %s
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.

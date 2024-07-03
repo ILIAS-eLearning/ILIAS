@@ -32,7 +32,7 @@ class ilTestLPTest extends ilTestBaseTestCase
         $this->assertEquals($output, ilTestLP::getDefaultModes($input));
     }
 
-    public function getDefaultModesDataProvider(): array
+    public static function getDefaultModesDataProvider(): array
     {
         return [
             [true, [ilLPObjSettings::LP_MODE_DEACTIVATED, ilLPObjSettings::LP_MODE_TEST_FINISHED, ilLPObjSettings::LP_MODE_TEST_PASSED]],

@@ -18,10 +18,10 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
-require_once(__DIR__ . "/../AbstractBaseTest.php");
+require_once(__DIR__ . "/../AbstractTestBase.php");
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\ResourceStorage\AbstractBaseTest;
+use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
@@ -30,7 +30,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  * Class DirectoryNestingTest
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class DirectoryNestingTest extends AbstractBaseTest
+class DirectoryNestingTest extends AbstractTestBase
 {
     private const NESTING_256 = 256; // 16^2
     private const NESTING_4096 = 4096; // 16^3

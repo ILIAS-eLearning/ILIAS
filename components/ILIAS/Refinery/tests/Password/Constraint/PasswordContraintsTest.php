@@ -28,9 +28,17 @@ class PasswordContraintsTest extends TestCase
      *
      * @return array[[$constraint,$ok_values,$error_values]]
      */
-    public function constraintsProvider(): array
+    public static function constraintsProvider(): array
     {
-        $lng = $this->createMock(\ILIAS\Language\Language::class);
+        $lng = new class () implements \ILIAS\Language\Language {
+            public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
+            {
+                return $a_topic;
+            }
+            public function loadLanguageModule(string $a_module): void
+            {
+            }
+        };
         $d = new \ILIAS\Data\Factory();
         $refinery = new \ILIAS\Refinery\Factory($d, $lng);
         $v = $refinery->password();

@@ -369,7 +369,7 @@ class UserTest extends TestCase
         $this->assertSame($user, $instance->raw());
     }
 
-    public function externalAuthModes(): array
+    public static function externalAuthModes(): array
     {
         return [
             'lti' => [ilAuthUtils::AUTH_PROVIDER_LTI, true],

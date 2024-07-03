@@ -232,7 +232,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertSame($is_compliant, $plugin->isCompliantToILIAS());
     }
 
-    public function versionCompliance(): array
+    public static function versionCompliance(): array
     {
         $data_factory = new Data\Factory();
         return [
@@ -318,7 +318,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($is_activation_possible, $plugin->isActivationPossible());
     }
 
-    public function isActivationPossibleTruthTable(): array
+    public static function isActivationPossibleTruthTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_version_to_old => is_activation_possible
         return [
@@ -402,7 +402,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($is_activation_possible, $plugin->isActive());
     }
 
-    public function isActiveTruthTable(): array
+    public static function isActiveTruthTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => is_active
         return [
@@ -527,7 +527,7 @@ class ilPluginInfoTest extends TestCase
         $plugin->getReasonForInactivity();
     }
 
-    public function inactivityReasonTable(): array
+    public static function inactivityReasonTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => inactivity_reason
         return [

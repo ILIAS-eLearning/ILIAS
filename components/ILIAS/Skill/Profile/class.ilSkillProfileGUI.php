@@ -98,12 +98,7 @@ class ilSkillProfileGUI
      * @var string[]
      */
     protected array $requested_table_profile_ids = [];
-    protected string $requested_table_profile_level_assignment_action = "";
-
-    /**
-     * @var string[]
-     */
-    protected array $requested_table_profile_level_assignment_ids = [];
+    protected int $requested_level_id = 0;
     protected bool $local_context = false;
 
     public function __construct(SkillTreeAccess $skill_tree_access_manager, int $skill_tree_id = 0)
@@ -145,8 +140,7 @@ class ilSkillProfileGUI
         $this->requested_user_ids = $this->admin_gui_request->getUserIds();
         $this->requested_table_profile_action = $this->admin_gui_request->getTableProfileAction();
         $this->requested_table_profile_ids = $this->admin_gui_request->getTableProfileIds();
-        $this->requested_table_profile_level_assignment_action = $this->admin_gui_request->getTableProfileLevelAssignmentAction();
-        $this->requested_table_profile_level_assignment_ids = $this->admin_gui_request->getTableProfileLevelAssignmentIds();
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
 
         if ($this->requested_sprof_id > 0) {
             $this->id = $this->requested_sprof_id;
@@ -663,9 +657,31 @@ class ilSkillProfileGUI
             );
         }
 
-        $table = $this->table_manager->getProfileLevelAssignmentTable($this->requested_cskill_id, $update)
-                                     ->getComponent();
-        $tpl->setContent($this->ui_ren->render($table));
+        $id_parts = explode(":", $this->requested_cskill_id);
+        $skill_id = (int) $id_parts[0];
+        $skill = new ilBasicSkill($skill_id);
+        $level_data = $skill->getLevelData();
+
+        $items = [];
+        foreach ($level_data as $levels) {
+            $ilCtrl->setParameterByClass(self::class, "level_id", $levels["id"]);
+            $items[] = $this->ui_fac->item()->standard($levels["title"])->withMainAction(
+                $this->ui_fac->link()->standard(
+                    $lng->txt("skmg_assign_level"),
+                    $ilCtrl->getLinkTarget($this, $update ? "updateLevelOfProfile" : "assignLevelToProfile")
+                )
+            );
+            $ilCtrl->clearParameterByClass(self::class, "level_id");
+        }
+
+        $list = $this->ui_fac->panel()->listing()->standard(
+            $skill->getTitle() . ", " . $lng->txt("skmg_skill_levels"),
+            [
+                $this->ui_fac->item()->group("", $items)
+            ]
+        );
+
+        $tpl->setContent($this->ui_ren->render($list));
     }
 
     public function updateLevelOfSelectedSkill(): void
@@ -685,15 +701,13 @@ class ilSkillProfileGUI
 
         if ($level) {
             $this->profile_manager->updateSkillLevel($level);
-        } elseif ($this->requested_table_profile_level_assignment_action === "assignLevel"
-            && !empty($this->requested_table_profile_level_assignment_ids)
-        ) {
+        } else {
             $parts = explode(":", $this->requested_cskill_id);
             $level = $this->skill_factory->profile()->profileLevel(
                 $this->profile->getId(),
                 (int) $parts[0],
                 (int) $parts[1],
-                (int) $this->requested_table_profile_level_assignment_ids[0],
+                $this->requested_level_id,
                 $this->profile_manager->getMaxLevelOrderNr($this->profile->getId()) + 10
             );
             $this->profile_manager->addSkillLevel($level);
@@ -711,20 +725,16 @@ class ilSkillProfileGUI
 
     public function updateLevelOfProfile(): void
     {
-        if ($this->requested_table_profile_level_assignment_action === "assignLevel"
-            && !empty($this->requested_table_profile_level_assignment_ids)
-        ) {
-            $parts = explode(":", $this->requested_cskill_id);
-            $level = $this->profile_manager->getSkillLevel($this->profile->getId(), (int) $parts[0], (int) $parts[1]);
-            $level_updated = $this->skill_factory->profile()->profileLevel(
-                $level->getProfileId(),
-                $level->getBaseSkillId(),
-                $level->getTrefId(),
-                (int) $this->requested_table_profile_level_assignment_ids[0],
-                $level->getOrderNr()
-            );
-            $this->assignLevelToProfile($level_updated);
-        }
+        $parts = explode(":", $this->requested_cskill_id);
+        $level = $this->profile_manager->getSkillLevel($this->profile->getId(), (int) $parts[0], (int) $parts[1]);
+        $level_updated = $this->skill_factory->profile()->profileLevel(
+            $level->getProfileId(),
+            $level->getBaseSkillId(),
+            $level->getTrefId(),
+            $this->requested_level_id,
+            $level->getOrderNr()
+        );
+        $this->assignLevelToProfile($level_updated);
     }
 
     public function confirmLevelAssignmentRemoval(): void
@@ -956,8 +966,13 @@ class ilSkillProfileGUI
 
         $objects = $this->usage_manager->getAssignedObjectsForSkillProfile($this->profile->getId());
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)
-                                     ->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            0,
+            0,
+            $this->profile->getId()
+        )->getComponent();
         $tpl->setContent($this->ui_ren->render($table));
     }
 

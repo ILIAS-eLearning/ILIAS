@@ -39,7 +39,7 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsScoring->getCountSystem());
     }
 
-    public function getAndWithCountSystemDataProvider(): array
+    public static function getAndWithCountSystemDataProvider(): array
     {
         return [
             [true],
@@ -57,7 +57,7 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsScoring->getScoreCutting());
     }
 
-    public function getAndWithScoreCuttingDataProvider(): array
+    public static function getAndWithScoreCuttingDataProvider(): array
     {
         return [
             [true],
@@ -75,7 +75,7 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsScoring->getPassScoring());
     }
 
-    public function getAndWithPassScoringDataProvider(): array
+    public static function getAndWithPassScoringDataProvider(): array
     {
         return [
             [true],

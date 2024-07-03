@@ -629,19 +629,6 @@ assessment#:#dont_use_questionpool#:#Don't insert the questions in a question po
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_fx_threshold#:#Threshold
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the ‘FX’ grade.
-assessment#:#ects_grade#:#ECTS Grade
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
-assessment#:#ects_grade_f_desc#:#considerable further work is required
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
-assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
 assessment#:#edit_introduction#:#Edit Introduction
@@ -878,7 +865,6 @@ assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#mark_schema#:#Grading System
 assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
-assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
 assessment#:#matching_shuffle_definitions#:#Definitions only
@@ -1092,6 +1078,7 @@ assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qst_use_nested_answers#:#Nested answers
 assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
+assessment#:#question_complete_title#:#Complete
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_id#:#Question ID
 assessment#:#question_id_short#:#ID
@@ -2001,7 +1988,6 @@ assessment#:#units#:#Units
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
-assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
@@ -8790,6 +8776,7 @@ dcl#:#dcl_tableview_required_visible#:#Required & Visible
 dcl#:#dcl_tableview_visible#:#Visible
 dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
+dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
 dcl#:#dcl_text_area#:#Textarea
@@ -8817,9 +8804,15 @@ dcl#:#dcl_width#:#Width
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
-dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#disable_comments#:#Disable comments
+dcl#:#disable_visible#:#Disable visible
+dcl#:#enable_comments#:#Enable comments
+dcl#:#enable_visible#:#Enable visible
+dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -11591,9 +11584,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
