@@ -54,7 +54,6 @@ ilShowUserMarker = function (id, counter) {
 };
 
 checkOLMapRendered = function(id) {
-  window.clearTimeout();
   if(! il.OLMaps.registry.maps[id].map.isRendered()) {
     window.setTimeout(
       function() {
