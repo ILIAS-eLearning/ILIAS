@@ -220,7 +220,7 @@ class ilPersonalProfileGUI
                 }
             }
             if ($avatar_upload_result === null || !isset($rid)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error'), true);
                 $this->ctrl->redirect($this, 'showProfile');
             }
             $this->user->setAvatarRid($rid->serialize());
@@ -241,7 +241,7 @@ class ilPersonalProfileGUI
         );
         $data = base64_decode($img);
         if ($data === false) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error'), true);
             $this->ctrl->redirect($this, 'showProfile');
         }
         $stream = Streams::ofString($data);
