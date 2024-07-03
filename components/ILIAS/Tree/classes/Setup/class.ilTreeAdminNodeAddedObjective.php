@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
+use ILIAS\DI\Container;
 
 class ilTreeAdminNodeAddedObjective implements Setup\Objective
 {
@@ -71,90 +72,102 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
 
     public function achieve(Environment $environment): Environment
     {
-        global $DIC;
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
-        $DIC['ilDB'] = $DIC['ilDB'] ?? $db;
 
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
-        }
-        if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
-        }
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", false);
-        }
+        // ATTENTION: This is a total abomination. It only exists to allow various
+        // sub components of the various readers to run. This is a memento to the
+        // fact, that dependency injection is something we want. Currently, every
+        // component could just service locate the whole world via the global $DIC.
+        $PREVIOUS_DIC = $GLOBALS["DIC"] ?? null;
+        $GLOBALS["DIC"] = new Container();
+        $GLOBALS["DIC"]["ilDB"] = $db;
 
-        $obj_type_id = $db->nextId("object_data");
-        $values = [
-            'obj_id' => ['integer', $obj_type_id],
-            'type' => ['text', 'typ'],
-            'title' => ['text', $this->type],
-            'description' => ['text', $this->title],
-            'owner' => ['integer', -1],
-            'create_date' => ['timestamp', date("Y-m-d H:i:s")],
-            'last_update' => ['timestamp', date("Y-m-d H:i:s")]
-        ];
-        $db->insert("object_data", $values);
-
-        $obj_id = $db->nextId("object_data");
-        $values = [
-            'obj_id' => ['integer', $obj_id],
-            'type' => ['text', $this->type],
-            'title' => ['text', $this->title],
-            'description' => ['text', $this->title],
-            'owner' => ['integer', -1],
-            'create_date' => ['timestamp', date("Y-m-d H:i:s")],
-            'last_update' => ['timestamp', date("Y-m-d H:i:s")]
-        ];
-        $db->insert("object_data", $values);
-
-        $ref_id = $db->nextId("object_reference");
-        $values = [
-            "obj_id" => ["integer", $obj_id],
-            "ref_id" => ["integer", $ref_id]
-        ];
-        $db->insert("object_reference", $values);
-
-        $tree = new ilTree(
-            ROOT_FOLDER_ID,
-            0,
-            $db
-        );
-        if ($this->parent_type) {
-            $set = $db->queryF(
-                "SELECT * FROM object_data " .
-                " WHERE type = %s ",
-                ["text"],
-                [$this->parent_type]
-            );
-            $rec = $db->fetchAssoc($set);
-
-            $set = $db->queryF(
-                "SELECT * FROM object_reference " .
-                " WHERE obj_id = %s ",
-                ["integer"],
-                [$rec["obj_id"]]
-            );
-            $rec = $db->fetchAssoc($set);
-            $parent_type_ref_id = $rec["ref_id"];
-
-            $tree->insertNode((int) $ref_id, (int) $parent_type_ref_id);
-        } else {
-            $tree->insertNode((int) $ref_id, (int) SYSTEM_FOLDER_ID);
-        }
-
-        foreach ($this->rbac_ops as $ops_id) {
-            if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id, $db)) {
-                continue;
+        try {
+            if (!defined("ROOT_FOLDER_ID")) {
+                define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
             }
+            if (!defined("SYSTEM_FOLDER_ID")) {
+                define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+            }
+            if (!defined("ILIAS_LOG_ENABLED")) {
+                define("ILIAS_LOG_ENABLED", false);
+            }
+
+            $obj_type_id = $db->nextId("object_data");
             $values = [
-                "typ_id" => ["integer", $obj_type_id],
-                "ops_id" => ["integer", $ops_id]
+                'obj_id' => ['integer', $obj_type_id],
+                'type' => ['text', 'typ'],
+                'title' => ['text', $this->type],
+                'description' => ['text', $this->title],
+                'owner' => ['integer', -1],
+                'create_date' => ['timestamp', date("Y-m-d H:i:s")],
+                'last_update' => ['timestamp', date("Y-m-d H:i:s")]
             ];
-            $db->insert("rbac_ta", $values);
+            $db->insert("object_data", $values);
+
+            $obj_id = $db->nextId("object_data");
+            $values = [
+                'obj_id' => ['integer', $obj_id],
+                'type' => ['text', $this->type],
+                'title' => ['text', $this->title],
+                'description' => ['text', $this->title],
+                'owner' => ['integer', -1],
+                'create_date' => ['timestamp', date("Y-m-d H:i:s")],
+                'last_update' => ['timestamp', date("Y-m-d H:i:s")]
+            ];
+            $db->insert("object_data", $values);
+
+            $ref_id = $db->nextId("object_reference");
+            $values = [
+                "obj_id" => ["integer", $obj_id],
+                "ref_id" => ["integer", $ref_id]
+            ];
+            $db->insert("object_reference", $values);
+
+            $tree = new ilTree(
+                ROOT_FOLDER_ID,
+                0,
+                $db
+            );
+            if ($this->parent_type) {
+                $set = $db->queryF(
+                    "SELECT * FROM object_data " .
+                    " WHERE type = %s ",
+                    ["text"],
+                    [$this->parent_type]
+                );
+                $rec = $db->fetchAssoc($set);
+
+                $set = $db->queryF(
+                    "SELECT * FROM object_reference " .
+                    " WHERE obj_id = %s ",
+                    ["integer"],
+                    [$rec["obj_id"]]
+                );
+                $rec = $db->fetchAssoc($set);
+                $parent_type_ref_id = $rec["ref_id"];
+
+                $tree->insertNode((int) $ref_id, (int) $parent_type_ref_id);
+            } else {
+                $tree->insertNode((int) $ref_id, (int) SYSTEM_FOLDER_ID);
+            }
+
+            foreach ($this->rbac_ops as $ops_id) {
+                if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id, $db)) {
+                    continue;
+                }
+                $values = [
+                    "typ_id" => ["integer", $obj_type_id],
+                    "ops_id" => ["integer", $ops_id]
+                ];
+                $db->insert("rbac_ta", $values);
+            }
+        } finally {
+            // reset the abomination again so we don't make objectives flaky.
+            $GLOBALS["DIC"] = $PREVIOUS_DIC;
         }
+
         return $environment;
     }
 
