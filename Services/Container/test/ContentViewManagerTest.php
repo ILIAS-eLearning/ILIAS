@@ -16,8 +16,11 @@ class ContentViewManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
         $view_repo = new \ILIAS\Container\Content\ViewSessionRepository();
-        $this->manager = new \ILIAS\Container\Content\ViewManager($view_repo);
+        $this->manager = new \ILIAS\Container\Content\ViewManager($view_repo, 5);
     }
 
     protected function tearDown(): void
