@@ -364,7 +364,7 @@ class ilECSCourseCreationHandler
     {
         // Check if course is already created
         $course_id = $course->lectureID;
-        $this->course_url->setCmsLectureId($course_id);
+        $this->course_url->setCmsLectureId((string) $course_id);
 
         $obj_id = $this->getImportId((int) $course_id);
 
