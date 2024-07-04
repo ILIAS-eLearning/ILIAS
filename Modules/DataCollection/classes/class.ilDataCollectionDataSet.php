@@ -85,7 +85,7 @@ class ilDataCollectionDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return ['4.5.0'];
+        return ['4.5.0', '8.13'];
     }
 
     /**
@@ -444,6 +444,11 @@ class ilDataCollectionDataSet extends ilDataSet
                                     $value = null;
                                 }
                                 break;
+                            case ilDclDatatype::INPUTFORMAT_TEXT:
+                                if (version_compare($a_schema_version, "8.13") < 0) {
+                                    $a_rec['value'] = str_replace('&lt;br /&gt;', '', $a_rec['value']);
+                                }
+                                // no break
                             default:
                                 $value = $a_rec['value'];
                                 if ($a_entity == 'il_dcl_stloc3_value' && empty($value)) {
