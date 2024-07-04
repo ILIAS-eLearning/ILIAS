@@ -39,7 +39,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link = (string) $value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = $value;
+                $link = (string) $value;
                 $link_value = $this->shortenLink($link);
             }
 
