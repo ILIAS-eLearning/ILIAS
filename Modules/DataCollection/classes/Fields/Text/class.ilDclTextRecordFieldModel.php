@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
@@ -156,5 +156,11 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         } else {
             return $value;
         }
+    }
+
+    public function loadValue(): void
+    {
+        parent::loadValue();
+        $this->value = (string) $this->value;
     }
 }
