@@ -90,7 +90,10 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         ];
         foreach($taxs as $tax_entry) {
             $tax = new ilObjTaxonomy($tax_entry['tax_id']);
-            $children = $tax->getTree()->getChilds($tax->getTree()->readRootId());
+            $children = array_filter(
+                $tax->getTree()->getFilteredSubTree($tax->getTree()->readRootId()),
+                fn($ar) => $ar['type'] === 'taxn'
+            );
             $nodes = implode('-', array_map(fn($node) => $node['obj_id'], $children));
 
             $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
@@ -99,7 +102,10 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 
             foreach($children as $subtax) {
                 $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
-                $stax_title = ' &boxur;&HorizontalLine; ' . $subtax['title'];
+                $stax_title = str_repeat('&nbsp; ', ($subtax['depth'] - 2) * 2)
+                    . ' &boxur;&HorizontalLine; '
+                    . $subtax['title'];
+
                 $tax_filter_options[$stax_id] = $stax_title;
             }
         }
