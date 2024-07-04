@@ -118,4 +118,9 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_5(): void
+    {
+        $this->db->manipulate('DELETE FROM usr_pref WHERE keyword = \'hits_per_page\'');
+    }
 }

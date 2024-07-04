@@ -368,7 +368,6 @@ class ilUserXMLWriter extends ilXmlWriter
     public static function getExportablePreferences(): array // Missing array type.
     {
         return [
-                'hits_per_page',
                 'public_city',
                 'public_country',
                 'public_department',

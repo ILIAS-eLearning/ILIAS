@@ -1596,11 +1596,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            // set hits per page for all lists using table module
-            // @todo this is not fixable due to unknown sideeffects.
-            $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
-            ilSession::set('tbl_limit', $_GET['limit']);
-
             // the next line makes it impossible to save the offset somehow in a session for
             // a specific table (I tried it for the user administration).
             // its not posssible to distinguish whether it has been set to page 1 (=offset = 0)
