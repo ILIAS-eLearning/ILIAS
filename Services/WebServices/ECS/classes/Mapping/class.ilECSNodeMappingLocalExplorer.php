@@ -123,7 +123,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, int $a_type): string
+    public function buildFormItem($a_node_id, string $a_type): string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -134,13 +134,13 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                 return ilLegacyFormElementsUtil::formCheckbox(
                     $this->isItemChecked($a_node_id),
                     $this->post_var,
-                    $a_node_id
+                    (string) $a_node_id
                 );
             case self::SEL_TYPE_RADIO:
                 return ilLegacyFormElementsUtil::formRadioButton(
                     $this->isItemChecked($a_node_id),
                     $this->post_var,
-                    $a_node_id,
+                    (string) $a_node_id,
                     "document.getElementById('map').submit(); return false;"
                 );
         }
@@ -201,7 +201,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if ($formItem = ($this->buildFormItem((int) $a_node_id, (int) $a_option['type']) !== '')) {
+        if (($formItem = $this->buildFormItem((int) $a_node_id, (string) $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -285,7 +285,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (($formItem = $this->buildFormItem((int) $a_obj_id, (int) $a_option['type'])) !== '') {
+        if (($formItem = $this->buildFormItem((int) $a_obj_id, (string) $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
