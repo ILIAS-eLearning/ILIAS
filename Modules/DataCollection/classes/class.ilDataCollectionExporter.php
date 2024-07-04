@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDataCollectionExporter
@@ -45,8 +45,13 @@ class ilDataCollectionExporter extends ilXmlExporter
             '4.5.0' => array(
                 'namespace' => 'https://www.ilias.de/Modules/DataCollection/dcl/4_5',
                 'xsd_file" => "ilias_dcl_4_5.xsd',
-                'uses_dataset' => true,
                 'min' => '4.5.0',
+                'max' => '8.12',
+            ),
+            '8.13' => array(
+                'namespace' => 'https://www.ilias.de/Modules/DataCollection/dcl/4_5',
+                'xsd_file" => "ilias_dcl_4_5.xsd',
+                'min' => '8.13',
                 'max' => '',
             ),
         );
