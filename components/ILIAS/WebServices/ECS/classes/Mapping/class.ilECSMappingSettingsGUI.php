@@ -225,7 +225,7 @@ class ilECSMappingSettingsGUI
         $explorer->setPostVar('lnodes[]');
 
         $lnodes = (array) $_REQUEST['lnodes'];
-        $checked_node = array_pop($lnodes);
+        $checked_node = (int) array_pop($lnodes);
         if ((int) $_REQUEST['lid']) {
             $checked_node = (int) $_REQUEST['lid'];
         }
