@@ -86,7 +86,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {
-            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br($value);
+            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br((string) $value);
         }
 
         if (!$html) {
