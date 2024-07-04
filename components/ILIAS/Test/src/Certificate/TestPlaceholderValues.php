@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
+use ilObjUser;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -146,8 +148,10 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
         $placeholders['DATETIME_COMPLETED'] = '';
 
         if ($completionDate !== false && $completionDate !== '') {
-            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
-            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+            /** @var ilObjUser $user */
+            $user = $this->objectHelper->getInstanceByObjId($userId);
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
         return $placeholders;
