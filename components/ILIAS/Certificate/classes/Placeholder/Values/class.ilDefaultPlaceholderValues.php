@@ -156,10 +156,12 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_MATRICULATION'] = $this->utilHelper->prepareFormOutput((trim($user->getMatriculation())));
         $placeholder['DATE'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
             time(),
+            $user,
             $this->dateFormat
         ))));
         $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
+            $user,
             $this->dateFormat
         ))));
 
