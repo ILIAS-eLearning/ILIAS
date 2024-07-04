@@ -32,6 +32,7 @@ class ilDatePresentation
 {
     public static bool $use_relative_dates = true;
     private static ?ilLanguage $lang = null;
+    private static ?ilObjUser $user = null;
 
     public static ?ilDateTime $today = null;
     public static ?ilDateTime $tomorrow = null;
@@ -73,6 +74,19 @@ class ilDatePresentation
         return self::$lang ?: $lng;
     }
 
+    public static function setUser(ilObjUser $user): void
+    {
+        self::$user = $user;
+    }
+
+    public static function getUser(): ilObjUser
+    {
+        global $DIC;
+
+        $user = $DIC->user();
+        return self::$user ?: $user;
+    }
+
     /**
      * reset to defaults
      */
@@ -85,13 +99,15 @@ class ilDatePresentation
         self::setUseRelativeDates(true);
     }
 
-    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false, bool $include_seconds = false): string
-    {
+    public static function formatDate(
+        ilDateTime $date,
+        bool $a_skip_day = false,
+        bool $a_include_wd = false,
+        bool $include_seconds = false,
+    ): string {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $lng->loadLanguageModule('dateplaner');
-        $ilUser = $DIC['ilUser'];
+        self::getLanguage()->loadLanguageModule('dateplaner');
 
         if ($date->isNull()) {
             return self::getLanguage()->txt('no_date');
@@ -102,7 +118,7 @@ class ilDatePresentation
         // Converting pure dates to user timezone might return wrong dates
         $date_info = [];
         if ($has_time) {
-            $date_info = $date->get(IL_CAL_FKT_GETDATE, '', $ilUser->getTimeZone());
+            $date_info = $date->get(IL_CAL_FKT_GETDATE, '', self::getUser()->getTimeZone());
         } else {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
         }
@@ -119,10 +135,10 @@ class ilDatePresentation
             } else {
                 $date_str = "";
                 if ($a_include_wd) {
-                    $date_str = $lng->txt(self::$weekdays[$date_info['wday']]) . ", 	";
+                    $date_str = self::getLanguage()->txt(self::$weekdays[$date_info['wday']]) . ", 	";
                 }
                 $date_str .= $date_info['mday'] . '. ' .
-                    ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
+                    ilCalendarUtil::_numericMonthToString($date_info['mon'], false, self::getLanguage()) . ' ' .
                     $date_info['year'];
             }
         } else {
@@ -137,12 +153,12 @@ class ilDatePresentation
             ? ":s"
             : "";
 
-        switch ($ilUser->getTimeFormat()) {
+        switch (self::getUser()->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_24:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i' . $sec, $ilUser->getTimeZone());
+                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i' . $sec, self::getUser()->getTimeZone());
 
             case ilCalendarSettings::TIME_FORMAT_12:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia' . $sec, $ilUser->getTimeZone());
+                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia' . $sec, self::getUser()->getTimeZone());
         }
         return '';
     }

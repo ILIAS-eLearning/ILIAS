@@ -54,11 +54,13 @@ class ilCalendarUtil
      * @param int month (1-12)
      * @param bool short or long month translation
      */
-    public static function _numericMonthToString(int $a_month, bool $a_long = true): string
+    public static function _numericMonthToString(int $a_month, bool $a_long = true, ilLanguage $lng = null): string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        if (is_null($lng)) {
+            $lng = $DIC['lng'];
+        }
         $month = $a_month < 10 ? '0' . $a_month : $a_month;
         return $a_long ? $lng->txt('month_' . $month . '_long') : $lng->txt('month_' . $month . '_short');
     }
@@ -67,11 +69,13 @@ class ilCalendarUtil
      * @param int day of week (0 for sunday, 1 for monday)
      * @param bool short or long day translation
      */
-    public static function _numericDayToString(int $a_day, bool $a_long = true): string
+    public static function _numericDayToString(int $a_day, bool $a_long = true, ilLanguage $lng = null): string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        if (is_null($lng)) {
+            $lng = $DIC['lng'];
+        }
         $lng->loadLanguageModule('dateplaner');
         static $days = array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su');
 
