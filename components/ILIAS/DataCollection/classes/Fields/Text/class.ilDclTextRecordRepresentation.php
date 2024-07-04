@@ -36,7 +36,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link = (string) $value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = $value;
+                $link = (string) $value;
                 $link_value = $this->shortenLink($link);
             }
 
@@ -83,7 +83,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {
-            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br($value);
+            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br((string) $value);
         }
 
         if (!$html) {
