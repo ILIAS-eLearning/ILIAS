@@ -155,10 +155,4 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
             return (string) $value;
         }
     }
-
-    public function loadValue(): void
-    {
-        parent::loadValue();
-        $this->value = (string) $this->value;
-    }
 }
