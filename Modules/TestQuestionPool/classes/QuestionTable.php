@@ -159,6 +159,64 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         ];
     }
 
+    private function treeify(&$pointer, $stack)
+    {
+        $hop = array_shift($stack);
+        if(!$hop) {
+            return;
+        }
+        if (! array_key_exists($hop, $pointer)) {
+            $pointer[$hop] = [];
+        }
+        $this->treeify($pointer[$hop], $stack);
+    }
+
+    private function toNestedList(array $nodes)
+    {
+        $entries = [];
+        foreach ($nodes as $k => $n) {
+            if ($n === []) {
+                $entries[] = $k;
+            } else {
+                $entries[] = $k . $this->toNestedList($n);
+            }
+        }
+        return $this->ui_renderer->render(
+            $this->ui_factory->listing()->unordered($entries)
+        );
+    }
+
+    private function taxonomyRepresentation(array $taxonomy_data): string
+    {
+        $taxonomies = [];
+        $check = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), 'checked')
+        );
+        foreach ($taxonomy_data as $taxonomy_id => $tax_data) {
+            $taxonomy = new ilObjTaxonomy($taxonomy_id);
+            $title = ilObject::_lookupTitle($taxonomy_id);
+            $tree = $taxonomy->getTree();
+            $nodes = [];
+            foreach ($tax_data as $id => $tax_node) {
+                $path = array_map(
+                    fn($n) => in_array($n['obj_id'], array_keys($tax_data)) ? $check . $n['title'] : $n['title'],
+                    // getNodePath has dependencies to object_data and object_reference
+                    //$tree->getNodePath($tax_node['node_id'])
+                    array_filter(
+                        $tree->getPathFull($tax_node['node_id']),
+                        fn($ar) => $ar['type'] === 'taxn'
+                    )
+                );
+                $this->treeify($nodes, $path);
+                $listing = $this->toNestedList($nodes);
+            }
+
+            $taxonomies[] = ilObject::_lookupTitle($taxonomy_id);
+            $taxonomies[] = $listing;
+        }
+        return implode('', $taxonomies);
+    }
+
     public function getRows(
         Table\DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -184,23 +242,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 $title .= ' (' . $this->lng->txt('warning_question_not_complete') . ')';
             }
             $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
-
-            $taxonomies = [];
-            foreach ($record['taxonomies'] as $taxonomy_id => $tax_data) {
-                $taxonomy = new ilObjTaxonomy($taxonomy_id);
-                $title = ilObject::_lookupTitle($taxonomy_id);
-
-                $nodes = [];
-                foreach ($tax_data as $ids => $node) {
-                    $nodes[] = ilTaxonomyNode::_lookupTitle($node['node_id']);
-                }
-                $taxonomies[] = ilObject::_lookupTitle($taxonomy_id);
-                $taxonomies[] = $this->ui_renderer->render(
-                    $this->ui_factory->listing()->unordered($nodes)
-                );
-            }
-
-            $record['taxonomies'] = implode('', $taxonomies);
+            $record['taxonomies'] = $this->taxonomyRepresentation($record['taxonomies']);
 
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction('move', $no_write_access)
