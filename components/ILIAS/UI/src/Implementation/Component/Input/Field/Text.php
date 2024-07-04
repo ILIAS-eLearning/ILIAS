@@ -31,7 +31,6 @@ use Closure;
 class Text extends FormInput implements C\Input\Field\Text
 {
     private ?int $max_length = null;
-    private bool $complex = false;
 
     /**
      * @inheritdoc
@@ -112,6 +111,6 @@ class Text extends FormInput implements C\Input\Field\Text
      */
     public function isComplex(): bool
     {
-        return $this->complex;
+        return false;
     }
 }

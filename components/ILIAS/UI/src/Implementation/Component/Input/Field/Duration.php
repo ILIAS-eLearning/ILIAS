@@ -89,7 +89,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function addValidation(): void
     {
         $txt_id = 'duration_end_must_not_be_earlier_than_start';
-        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
+        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_null($v)) {
                 return true;
@@ -126,7 +126,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyFormat(): void
     {
         $this->inputs = array_map(
-            fn ($input) => $input->withFormat($this->getFormat()),
+            fn($input) => $input->withFormat($this->getFormat()),
             $this->inputs
         );
     }
@@ -148,7 +148,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyMinValue(): void
     {
         $this->inputs = array_map(
-            fn ($input) => $input->withMinValue($this->getMinValue()),
+            fn($input) => $input->withMinValue($this->getMinValue()),
             $this->inputs
         );
     }
@@ -178,7 +178,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyMaxValue(): void
     {
         $this->inputs = array_map(
-            fn ($inpt) => $inpt->withMaxValue($this->getMaxValue()),
+            fn($inpt) => $inpt->withMaxValue($this->getMaxValue()),
             $this->inputs
         );
     }
@@ -208,7 +208,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyWithTimeOnly(): void
     {
         $this->inputs = array_map(
-            fn ($input) => $input->withTimeOnly($this->getTimeOnly()),
+            fn($input) => $input->withTimeOnly($this->getTimeOnly()),
             $this->inputs
         );
     }
@@ -246,7 +246,7 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyWithUseTime(): void
     {
         $this->inputs = array_map(
-            fn ($input) => $input->withUseTime($this->getUseTime()),
+            fn($input) => $input->withUseTime($this->getUseTime()),
             $this->inputs
         );
     }
@@ -259,7 +259,7 @@ class Duration extends Group implements C\Input\Field\Duration
         $clone = clone $this;
         $clone->timezone = $tz;
         $clone->inputs = array_map(
-            fn ($input) => $input->withTimezone($tz),
+            fn($input) => $input->withTimezone($tz),
             $clone->inputs
         );
         return $clone;
@@ -298,14 +298,14 @@ class Duration extends Group implements C\Input\Field\Duration
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "var combinedDuration = function() {
+        return fn($id) => "var combinedDuration = function() {
 				var options = [];
 				$('#$id').find('input').each(function() {
 					options.push($(this).val());
 				});
 				return options.join(' - ');
 			}
-			$('#$id').on('input dp.change', function(event) {
+			$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', combinedDuration());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', combinedDuration());";
@@ -319,5 +319,10 @@ class Duration extends Group implements C\Input\Field\Duration
             $clone->inputs[1]->withLabel($end_label)
         ];
         return $clone;
+    }
+
+    public function isComplex(): bool
+    {
+        return true;
     }
 }
