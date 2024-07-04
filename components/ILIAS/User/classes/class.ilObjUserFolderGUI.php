@@ -2295,7 +2295,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'password' => 0,
             'language' => 0,
             'skin_style' => 0,
-            'hits_per_page' => 0,
             'hide_own_online_status' => 0
         ];
 
@@ -2430,13 +2429,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             } else {
                 $this->ilias->deleteSetting('require_' . $field);
             }
-        }
-
-        if ($selected['default_hits_per_page']) {
-            $this->ilias->setSetting(
-                'hits_per_page',
-                $selected['default_hits_per_page']
-            );
         }
 
         if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {

@@ -306,20 +306,6 @@ class ilUserProfileDefaultFields
             'prg_export_hide' => true,
             'group' => 'settings'
         ],
-        'hits_per_page' => [
-            'input' => 'hitsperpage',
-            'default' => 10,
-            'options' => [
-                10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
-                50 => 50, 100 => 100, 9999 => 9999
-            ],
-            'required_hide' => true,
-            'visib_reg_hide' => true,
-            'course_export_hide' => true,
-            'group_export_hide' => true,
-            'prg_export_hide' => true,
-            'group' => 'settings'
-        ],
         'hide_own_online_status' => [
             'input' => 'selection',
             'lang_var' => 'awrn_user_show',

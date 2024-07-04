@@ -1061,9 +1061,6 @@ class ilUserImportParser extends ilSaxParser
                             //insert user data in table user_data
                             $this->userObj->saveAsNew();
 
-                            // Set default prefs
-                            $this->userObj->setPref('hits_per_page', $this->settings->get('hits_per_page', '30'));
-
                             if (count($this->prefs)) {
                                 foreach ($this->prefs as $key => $value) {
                                     if ($key !== 'mail_incoming_type' &&
@@ -2182,11 +2179,6 @@ class ilUserImportParser extends ilSaxParser
     {
         switch ($key) {
             case 'mail_linebreak':
-            case 'hits_per_page':
-                if (!is_numeric($value) || $value < 0) {
-                    $this->logFailure('---', "Wrong value '{$this->stripTags($value)}': Positiv numeric value expected for preference {$this->stripTags($key)}.");
-                }
-                break;
             case 'language':
             case 'skin':
             case 'style':

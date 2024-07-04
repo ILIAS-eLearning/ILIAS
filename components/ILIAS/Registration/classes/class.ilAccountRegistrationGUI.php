@@ -525,11 +525,6 @@ class ilAccountRegistrationGUI
         global $DIC;
         $DIC['legalDocuments']->selfRegistration()->userCreation($this->userObj);
 
-        $hits_per_page = $this->settings->get("hits_per_page");
-        if ($hits_per_page < 10) {
-            $hits_per_page = 10;
-        }
-        $this->userObj->setPref("hits_per_page", $hits_per_page);
         if ($this->http->wrapper()->query()->has('target')) {
             $this->userObj->setPref(
                 'reg_target',

@@ -87,7 +87,6 @@ final class ilSamlSettingsGUI
         'preferences',
         'hide_own_online_status',
         'show_users_online',
-        'hits_per_page',
         'roles',
         'upload',
         'password',

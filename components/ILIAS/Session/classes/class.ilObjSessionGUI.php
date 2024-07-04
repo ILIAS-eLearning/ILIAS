@@ -1347,7 +1347,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setOrderColumn($this->requested_sort_by);
         $tbl->setOrderDirection($this->requested_sort_order);
         $tbl->setOffset($this->requested_offset);
-        $tbl->setLimit((int) $ilUser->getPref("hits_per_page"));
         $tbl->setMaxCount(count($members));
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 
