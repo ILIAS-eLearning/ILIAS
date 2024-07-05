@@ -30,12 +30,15 @@ use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButt
 use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\FormMethod;
+use ILIAS\UI\Implementation\Render\HiddenFieldsInjector;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class Renderer extends AbstractComponentRenderer
 {
+    use HiddenFieldsInjector;
+
     /**
      * @inheritdoc
      */
@@ -158,29 +161,16 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('CLOSE_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
 
         if($modal->getFormMethod() === FormMethod::GET) {
-            $params = $this->getDataFactory()->uri($url)->getParameters();
             $item_names = array_map(
                 fn($item) => $item->getParameterName(),
                 $modal->getAffectedItems()
             );
-            foreach($params as $key => $value) {
-                if(! in_array($key, $item_names)) {
-                    if(is_array($value)) {
-                        $key .= "[]";
-                        foreach($value as $entry) {
-                            $tpl->setCurrentBlock('query_params');
-                            $tpl->setVariable('QUERYPARAM_NAME', $key);
-                            $tpl->setVariable('QUERYPARAM_VALUE', $entry);
-                            $tpl->parseCurrentBlock();
-                        }
-                    } else {
-                        $tpl->setCurrentBlock('query_params');
-                        $tpl->setVariable('QUERYPARAM_NAME', $key);
-                        $tpl->setVariable('QUERYPARAM_VALUE', $value);
-                        $tpl->parseCurrentBlock();
-                    }
-                }
-            }
+            $params = array_filter(
+                $this->getDataFactory()->uri($url)->getParameters(),
+                fn($v, $k) => !in_array($k, $item_names),
+                ARRAY_FILTER_USE_BOTH
+            );
+            $tpl->setVariable('QUERYPARAMS', $this->getHiddenFieldsHTML($params));
         }
         return $tpl->get();
     }

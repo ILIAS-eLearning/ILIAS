@@ -89,6 +89,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         return $this->upload_limit_resolver;
     }
 
+    final protected function getTemplateFactory(): TemplateFactory
+    {
+        return $this->tpl_factory;
+    }
+
     /**
      * Get a text from the language file.
      */
