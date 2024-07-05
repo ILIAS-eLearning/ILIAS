@@ -30,12 +30,12 @@ use ILIAS\UI\Component\Component;
 interface InterruptiveItem extends Component
 {
     /**
+     * Use this as the default parameter name when submitting the interruptive modal
+     */
+    public const DEFAULT_PARAMETER_NAME = 'interruptive_items';
+
+    /**
      * Return an ID of the item
      */
     public function getId(): string;
-
-    /**
-     * Use this as a parameter name when submitting the interruptive modal
-     */
-    public function withParameterName(string $parameter_name): self;
 }

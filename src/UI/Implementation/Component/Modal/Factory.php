@@ -48,7 +48,7 @@ class Factory implements M\Factory
         string $title,
         string $message,
         string $form_action,
-        FormMethod $form_method = FormMethod::POST
+        FormMethod $form_method = FormMethod::POST,
     ): M\Interruptive {
         return new Interruptive(
             $title,

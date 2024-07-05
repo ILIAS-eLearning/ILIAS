@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
@@ -55,13 +55,15 @@ interface Factory
      * @param string $title
      * @param Image $icon
      * @param string $description
+     * @param string $parameter_name
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem\Standard
      */
     public function standard(
         string $id,
         string $title,
         Image $icon = null,
-        string $description = ''
+        string $description = '',
+        string $parameter_name = InterruptiveItem::DEFAULT_PARAMETER_NAME
     ): Standard;
 
     /**
@@ -92,11 +94,13 @@ interface Factory
      * @param string $id
      * @param string $key
      * @param string $value
+     * @param string $parameter_name
      * @return \ILIAS\UI\Component\Modal\InterruptiveItem\KeyValue
      */
     public function keyValue(
         string $id,
         string $key,
-        string $value
+        string $value,
+        string $parameter_name = InterruptiveItem::DEFAULT_PARAMETER_NAME
     ): KeyValue;
 }

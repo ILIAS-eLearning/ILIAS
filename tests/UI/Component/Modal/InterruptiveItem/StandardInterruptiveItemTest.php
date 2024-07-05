@@ -38,12 +38,14 @@ class StandardInterruptiveItemTest extends ILIAS_UI_TestBase
         $this->title = 'title';
         $this->image = new I\Image\Image(C\Image\Image::STANDARD, 'path', 'alt');
         $this->description = 'description';
+        $this->param = 'interruptive_items';
     }
 
     protected function getItem(): Standard
     {
         return new Standard(
             $this->id,
+            $this->param,
             $this->title,
             $this->image,
             $this->description
@@ -54,6 +56,7 @@ class StandardInterruptiveItemTest extends ILIAS_UI_TestBase
     {
         return new Standard(
             $this->id,
+            $this->param,
             $this->title,
             $this->image
         );
@@ -63,6 +66,7 @@ class StandardInterruptiveItemTest extends ILIAS_UI_TestBase
     {
         return new Standard(
             $this->id,
+            $this->param,
             $this->title,
             null,
             $this->description
