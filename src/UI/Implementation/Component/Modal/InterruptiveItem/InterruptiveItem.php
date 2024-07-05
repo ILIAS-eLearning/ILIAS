@@ -27,24 +27,15 @@ abstract class InterruptiveItem implements ItemInterface
 {
     use ComponentHelper;
 
-    protected string $id;
-    protected string $parameter_name = 'interruptive_items';
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        protected string $id,
+        protected string $parameter_name
+    ) {
     }
 
     public function getId(): string
     {
         return $this->id;
-    }
-
-    public function withParameterName(string $parameter_name): static
-    {
-        $clone = clone $this;
-        $clone->parameter_name = $parameter_name;
-        return $clone;
     }
 
     public function getParameterName(): string

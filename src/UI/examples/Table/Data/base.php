@@ -253,8 +253,8 @@ function base()
         if ($action === 'delete') {
             $items = [];
             foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id)
-                    ->withParameterName($row_id_token->getName());
+                $items[] = $f->modal()->interruptiveItem()
+                    ->keyValue($id, $row_id_token->getName(), $id, $row_id_token->getName());
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
