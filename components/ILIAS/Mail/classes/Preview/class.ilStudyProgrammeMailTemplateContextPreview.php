@@ -39,42 +39,55 @@ class ilStudyProgrammeMailTemplateContextPreview extends ilStudyProgrammeMailTem
             case ilStudyProgrammeMailTemplateContext::TITLE:
                 $string = 'programme title';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::DESCRIPTION:
                 $string = 'programme description';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::TYPE:
                 $string = 'prg subtype';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::LINK:
                 $string = '<a href="#">Link</a>';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::ORG_UNIT:
                 $string = 'OrgUnit';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::STATUS:
                 $string = 'completed';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::COMPLETION_DATE:
                 $string = $this->date2String((new \DateTimeImmutable())->sub((new DateInterval('P1D'))));
                 break;
+
             case ilStudyProgrammeMailTemplateContext::COMPLETED_BY:
                 $string = '1,2,3';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::POINTS_REQUIRED:
                 $string = '90';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::POINTS_CURRENT:
                 $string = '88';
                 break;
+
             case ilStudyProgrammeMailTemplateContext::DEADLINE:
                 $string = $this->date2String((new \DateTimeImmutable())->add((new DateInterval('P3D'))));
                 break;
+
             case ilStudyProgrammeMailTemplateContext::VALIDITY:
                 $string = $this->lng->txtlng('prg', 'prg_still_valid', 'de');
                 break;
+
             case ilStudyProgrammeMailTemplateContext::EXPIRE_DATE:
                 $string = $this->date2String((new \DateTimeImmutable())->add((new DateInterval('P5D'))));
                 break;
+
             default:
                 $string = '';
         }

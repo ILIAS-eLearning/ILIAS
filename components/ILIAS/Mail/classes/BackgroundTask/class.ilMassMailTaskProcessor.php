@@ -83,7 +83,7 @@ class ilMassMailTaskProcessor
      * @param string $contextId - context ID of the Background task
      * @param array $contextParameters - context parameters for the background tasks
      * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
-     * @throws ilException
+     * @throws ilMailException
      */
     public function run(
         array $mailValueObjects,

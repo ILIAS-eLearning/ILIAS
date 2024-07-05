@@ -25,7 +25,7 @@ class ilMailPreviewGUI
     protected ILIAS\Refinery\Factory $refinery;
     protected ilGlobalTemplateInterface $tpl;
 
-    public function __construct(ilMailTemplate $template, ilPreviewFactory $preview_factory)
+    public function __construct(ilMailTemplate $template)
     {
         global $DIC;
         $this->current_user = $DIC->user();
@@ -38,17 +38,11 @@ class ilMailPreviewGUI
 
         $this->template = $template;
         $this->not_translated = false;
-        $this->preview_factory = $preview_factory;
         $this->placeholder_resolver = $DIC["mail.template.placeholder.resolver"];
         $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    /**
-     * Render mail preview
-     *
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML(): string
     {
         if ($this->not_translated) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_template_not_translated"), true);

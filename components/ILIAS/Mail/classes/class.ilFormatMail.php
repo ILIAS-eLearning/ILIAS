@@ -70,8 +70,6 @@ class ilFormatMail extends ilMail
 
     /**
      * @param string[] $a_names
-     * @param string $a_type
-     * @return array
      */
     public function appendSearchResult(array $a_names, string $a_type): array
     {

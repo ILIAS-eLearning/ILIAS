@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,17 +33,11 @@ class ilCourseMailTemplateTutorContextPreview extends ilCourseMailTemplateTutorC
         parent::__construct();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return self::ID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveSpecificPlaceholder(
         $placeholder_id,
         array $context_parameters,
@@ -59,32 +54,39 @@ class ilCourseMailTemplateTutorContextPreview extends ilCourseMailTemplateTutorC
             case 'crs_title':
                 $ret = $this->g_lng->txt(self::DEFAULT_COURSE_TITLE);
                 break;
+
             case 'crs_link':
                 require_once './Services/Link/classes/class.ilLink.php';
                 $ret = ilLink::_getLink($context_parameters['ref_id'], 'crs');
                 break;
+
             case 'crs_status':
                 $ret = $this->g_lng->txt(self::DEFAULT_COURSE_STATUS);
                 break;
+
             case 'crs_mark':
                 $ret = $this->g_lng->txt(self::DEFAULT_COURSE_MARK);
                 break;
+
             case 'crs_time_spent':
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
                     require_once("Services/Calendar/classes/class.ilDatePresentation.php");
                     $ret = ilDatePresentation::secondsToString(self::DEFAULT_COURSE_TIME_SPENT, true, $this->g_lng);
                 }
                 break;
+
             case 'crs_first_access':
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
                     $ret = date("d.m.Y", strtotime("-5 day"));
                 }
                 break;
+
             case 'crs_last_access':
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
                     $ret = date("d.m.Y", strtotime("-1 day"));
                 }
                 break;
+
             default:
                 $ret = "";
         }

@@ -148,31 +148,48 @@ class ilMailTemplateGUI
         }
         $context = ilMailTemplateContextService::getTemplateContextById($context_id);
 
-        $form = $this->getTemplateForm(null, null, $context)->withRequest($this->request);
-        $result = $form->getInputGroup()->getContent();
-        if (!$result->isOK()) {
-            $this->tpl->setContent($this->uiRenderer->render($form));
-            return;
+        try {
+            $form = $this->getTemplateForm(null, null, $context)->withRequest($this->request);
+            $result = $form->getInputGroup()->getContent();
+            if (!$result->isOK()) {
+                $this->tpl->setContent($this->uiRenderer->render($form));
+                return;
+            }
+            $value = $result->value();
+
+            $generic_context = new ilMailTemplateGenericContext();
+            if ($value["context"] === $generic_context->getId()) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_valid_context'));
+                $this->tpl->setContent($this->uiRenderer->render($form));
+                return;
+            }
+
+            try {
+                $template = $this->service->createNewTemplate(
+                    ilMailTemplateContextService::getTemplateContextById($value["context"])->getId(),
+                    $value["title"],
+                    $value["m_subject"],
+                    $value["m_message"],
+                    $value["lang"]
+                );
+
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+                $this->ctrl->redirect($this, 'showTemplates');
+            } catch (OutOfBoundsException) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
+            } catch (\ILIAS\Mail\Templates\TemplateSubjectSyntaxException) {
+                $form->getItemByPostVar('m_subject')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
+            } catch (\ILIAS\Mail\Templates\TemplateMessageSyntaxException) {
+                $form->getItemByPostVar('m_message')->setAlert($this->lng->txt('mail_template_invalid_tpl_syntax'));
+            } catch (Exception) {
+                $form->getItemByPostVar('context')->setAlert(
+                    $this->lng->txt('mail_template_no_valid_context')
+                );
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            }
+        } catch (Exception) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt(''));
         }
-        $value = $result->value();
-
-        $generic_context = new ilMailTemplateGenericContext();
-        if ($value["context"] === $generic_context->getId()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_valid_context'));
-            $this->tpl->setContent($this->uiRenderer->render($form));
-            return;
-        }
-
-        $template = $this->service->createNewTemplate(
-            ilMailTemplateContextService::getTemplateContextById($value["context"])->getId(),
-            $value["title"],
-            $value["m_subject"],
-            $value["m_message"],
-            $value["lang"]
-        );
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-        $this->ctrl->redirect($this, 'showTemplates');
     }
 
     /**
@@ -660,7 +677,7 @@ class ilMailTemplateGUI
         }
 
         $template = $this->service->loadTemplateForId((int) $get['tpl_id']);
-        $gui = new ilMailPreviewGUI($template, new ilPreviewFactory());
+        $gui = new ilMailPreviewGUI($template);
 
         $this->tpl->setContent($gui->getHTML());
     }

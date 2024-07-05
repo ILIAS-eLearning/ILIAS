@@ -263,9 +263,6 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
-     * @param string $a_abs_path
-     * @param string $a_new_name
-     * @return bool
      */
     public function copyAttachmentFile(string $a_abs_path, string $a_new_name): bool
     {
@@ -311,8 +308,6 @@ class ilFileDataMail extends ilFileData
     /**
      * Resolves a path for a passed filename in regards of a user's mail attachment pool,
      * meaning attachments not being sent
-     * @param string $fileName
-     * @return string
      */
     public function getAbsoluteAttachmentPoolPathByFilename(string $fileName): string
     {
@@ -346,9 +341,6 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-     * @param int $a_mail_id
-     * @param string $a_attachment
-     * @return bool
      */
     public function saveFile(int $a_mail_id, string $a_attachment): bool
     {
@@ -368,7 +360,6 @@ class ilFileDataMail extends ilFileData
 
     /**
      * @param string[] $a_files
-     * @return bool
      */
     public function checkFilesExist(array $a_files): bool
     {

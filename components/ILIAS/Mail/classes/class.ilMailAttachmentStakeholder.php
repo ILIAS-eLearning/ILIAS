@@ -25,9 +25,7 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
     public function __construct()
     {
     }
-    /**
-     * @inheritDoc
-     */
+
     public function getId(): string
     {
         return 'mail_attachments';
@@ -37,6 +35,4 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
     {
         return 74;
     }
-
-
 }

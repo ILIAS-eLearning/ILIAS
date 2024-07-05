@@ -247,7 +247,7 @@ class ilMimeMail
 
     private function removeHTMLTags(string $maybeHTML): string
     {
-        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>', '</p>'], "\n", $maybeHTML);
+        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
 
         return html_entity_decode(strip_tags($maybeHTML), ENT_QUOTES);
     }

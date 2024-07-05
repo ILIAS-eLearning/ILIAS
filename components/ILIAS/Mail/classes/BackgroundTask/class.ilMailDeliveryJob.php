@@ -56,12 +56,20 @@ class ilMailDeliveryJob extends AbstractJob
             $mail = new ilFormatMail((int) $input[0]->getValue());
         }
 
+        if (isset($context_parameters['auto_responder'])) {
+            if ($context_parameters['auto_responder']) {
+                $mail->autoresponder()->enableAutoresponder();
+            } else {
+                $mail->autoresponder()->disableAutoresponder();
+            }
+        }
+
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
             ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
 
-        $mail->sendMail(
+        $mail_data = new MailDeliveryData(
             (string) $input[1]->getValue(), // To
             (string) $input[2]->getValue(),  // Cc
             (string) $input[3]->getValue(),  // Bcc
@@ -70,6 +78,8 @@ class ilMailDeliveryJob extends AbstractJob
             (array) unserialize($input[6]->getValue(), ['allowed_classes' => false]),  // Attachments
             (bool) $input[7]->getValue() // Use Placeholders
         );
+
+        $mail->sendMail($mail_data);
 
         $DIC->logger()->mail()->info('Mail delivery background task finished');
 

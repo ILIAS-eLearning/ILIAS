@@ -90,7 +90,7 @@ class ilMail
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
-        $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $this->senderFactory = $senderFactory ?? $DIC->mail()->mime()->senderFactory();
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
@@ -1052,7 +1052,7 @@ class ilMail
         }
 
         if (ilContext::getType() === ilContext::CONTEXT_CRON) {
-            return $this->sendMail(
+            $mail_data = new MailDeliveryData(
                 $rcp_to,
                 $rcp_cc,
                 $rcp_bcc,
@@ -1061,6 +1061,7 @@ class ilMail
                 $a_attachment,
                 $a_use_placeholders
             );
+            return $this->sendMail($mail_data);
         }
 
         $taskFactory = $DIC->backgroundTasks()->taskFactory();
@@ -1109,59 +1110,57 @@ class ilMail
      * @internal
      */
     public function sendMail(
-        string $to,
-        string $cc,
-        string $bcc,
-        string $subject,
-        string $message,
-        array $attachments,
-        bool $usePlaceholders
+        MailDeliveryData $mail_data
     ): array {
         $internalMessageId = $this->saveInSentbox(
-            $attachments,
-            $to,
-            $cc,
-            $bcc,
-            $subject,
-            $message
+            $mail_data->getAttachments(),
+            $mail_data->getTo(),
+            $mail_data->getCc(),
+            $mail_data->getBcc(),
+            $mail_data->getSubject(),
+            $mail_data->getMessage()
         );
 
-        if (count($attachments) > 0) {
+        if (count($mail_data->getAttachments()) > 0) {
             $this->mfile->assignAttachmentsToDirectory($internalMessageId, $internalMessageId);
-            $this->mfile->saveFiles($internalMessageId, $attachments);
+            $this->mfile->saveFiles($internalMessageId, $mail_data->getAttachments());
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc);
+        $numberOfExternalAddresses = $this->getCountRecipients(
+            $mail_data->getTo(),
+            $mail_data->getCc(),
+            $mail_data->getBcc()
+        );
 
         if ($numberOfExternalAddresses > 0) {
-            $externalMailRecipientsTo = $this->getEmailRecipients($to);
-            $externalMailRecipientsCc = $this->getEmailRecipients($cc);
-            $externalMailRecipientsBcc = $this->getEmailRecipients($bcc);
+            $externalMailRecipientsTo = $this->getEmailRecipients($mail_data->getTo());
+            $externalMailRecipientsCc = $this->getEmailRecipients($mail_data->getCc());
+            $externalMailRecipientsBcc = $this->getEmailRecipients($mail_data->getBcc());
 
             $this->logger->debug(
                 "Parsed external email addresses from given recipients /" .
                 " To: " . $externalMailRecipientsTo .
                 " | CC: " . $externalMailRecipientsCc .
                 " | BCC: " . $externalMailRecipientsBcc .
-                " | Subject: " . $subject
+                " | Subject: " . $mail_data->getSubject()
             );
 
-            if ($usePlaceholders &&
+            if ($mail_data->isUsePlaceholder() &&
                 array_key_exists('prg_ref_id', $this->contextParameters)
             ) {
-                $usr_id = ilObjUser::_lookupId($to);
-                $message = $this->replacePlaceholders($message, $usr_id, false);
+                $usr_id = ilObjUser::_lookupId($mail_data->getTo());
+                $message = $this->replacePlaceholders($mail_data->getMessage(), $usr_id, false);
             }
 
             $this->sendMimeMail(
                 $externalMailRecipientsTo,
                 $externalMailRecipientsCc,
                 $externalMailRecipientsBcc,
-                $subject,
+                $mail_data->getSubject(),
                 $this->refinery->string()->markdown()->toHTML()->transform(
-                    $usePlaceholders ? $this->replacePlaceholders($message, 0, false) : $message
+                    $mail_data->isUsePlaceholder() ? $this->replacePlaceholders($message, 0, false) : $message
                 ),
-                $attachments
+                $mail_data->getAttachments()
             );
         } else {
             $this->logger->debug('No external email addresses given in recipient string');
@@ -1170,14 +1169,14 @@ class ilMail
         $errors = [];
 
         if (!$this->distributeMail(
-            $to,
-            $cc,
-            $bcc,
-            $subject,
-            $message,
-            $attachments,
+            $mail_data->getTo(),
+            $mail_data->getCc(),
+            $mail_data->getBcc(),
+            $mail_data->getSubject(),
+            $mail_data->getMessage(),
+            $mail_data->getAttachments(),
             $internalMessageId,
-            $usePlaceholders
+            $mail_data->isUsePlaceholder()
         )) {
             $errors['mail_send_error'] = new ilMailError('mail_send_error');
         }

@@ -29,7 +29,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
 
     public function getLabel(): string
     {
-        return "ilUpdateMailTemplatesForMustache";
+        return 'ilUpdateMailTemplatesForMustache';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
