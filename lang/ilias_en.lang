@@ -12285,8 +12285,8 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
-notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#enable_osd#:#Enable Toasts
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
 notifications_adm#:#notification_settings#:#Notification Settings
 notifications_adm#:#osd_delay#:#Presentation Delay
 notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
@@ -12297,7 +12297,7 @@ notifications_adm#:#osd_interval#:#Refreshinterval
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notifications_adm#:#osd_play_sound#:#Play a Sound
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
-notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_settings#:#Toasts
 notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
