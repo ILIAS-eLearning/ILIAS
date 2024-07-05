@@ -657,7 +657,7 @@ ilias.questions.initClozeTest = function(a_id) {
 		closecounter++;
 		return input.outerHTML();
 	 };
-	var parsed=jQuery("div#"+a_id).get(0).innerHTML.replace(/\[gap\][^\[]+\[\/gap\]/g,
+	var parsed=jQuery("div#"+a_id).get(0).innerHTML.replace(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g,
         () => {return _initClozeTestCallBack();});
 	jQuery("div#"+a_id).html(parsed);
 };
