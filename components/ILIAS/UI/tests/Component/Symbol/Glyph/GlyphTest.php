@@ -95,7 +95,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::ITALIC => "glyphicon glyphicon-italic",
         G\Glyph::BOLD => "glyphicon glyphicon-bold",
         G\Glyph::LINK => "glyphicon glyphicon-link",
-        G\Glyph::LAUNCH => "glyphicon glyphicon-launch"
+        G\Glyph::LAUNCH => "glyphicon glyphicon-launch",
+        G\Glyph::UNDERLINE => "glyphicon glyphicon-underline"
     );
 
     public static array $aria_labels = array(
@@ -149,7 +150,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::ITALIC => "italic_action",
         G\Glyph::BOLD => "bold_action",
         G\Glyph::LINK => "link_action",
-        G\Glyph::LAUNCH => "launch"
+        G\Glyph::LAUNCH => "launch",
+        G\Glyph::UNDERLINE => "underline_action"
     );
 
     /**

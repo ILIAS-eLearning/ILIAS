@@ -82,6 +82,8 @@ interface Glyph extends Symbol, Clickable
     public const LINK = "link";
     public const LAUNCH = "launch";
 
+    public const UNDERLINE = "underline";
+
     /**
      * Get the type of the glyph.
      */
