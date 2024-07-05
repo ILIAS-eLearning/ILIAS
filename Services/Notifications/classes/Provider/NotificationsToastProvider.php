@@ -23,7 +23,6 @@ namespace ILIAS\Notifications\Provider;
 use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
 use ILIAS\Chatroom\GlobalScreen\ChatInvitationNotificationProvider;
 use ILIAS\Contact\Provider\ContactNotificationProvider;
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastProvider;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
@@ -33,12 +32,10 @@ use ILIAS\UI\Implementation\Component\Toast\Toast;
 use ilSetting;
 use ilLSCompletionNotificationProvider;
 
-use function Sabre\Xml\Deserializer\functionCaller;
-
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  */
-class NotificationToastProvider extends AbstractToastProvider
+class NotificationsToastProvider extends AbstractToastProvider
 {
     /**
      * @inheritDoc
@@ -47,14 +44,6 @@ class NotificationToastProvider extends AbstractToastProvider
     {
         $settings = new ilSetting('notifications');
         $toasts = [];
-
-        if (
-            $settings->get('enable_osd', '0') !== '1' ||
-            0 === $this->dic->user()->getId() ||
-            $this->dic->user()->isAnonymous()
-        ) {
-            return $toasts;
-        }
 
         $osd_repository = new ilNotificationOSDRepository($this->dic->database());
         $osd_notification_handler = new ilNotificationOSDHandler($osd_repository);

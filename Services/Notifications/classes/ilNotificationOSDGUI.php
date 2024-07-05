@@ -52,22 +52,24 @@ class ilNotificationOSDGUI
 
         $notificationSettings = new ilSetting('notifications');
 
-        $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
+        if ($notificationSettings->get('enable_osd', '0') === '1') {
+            $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
 
-        $osdTemplate->setVariable(
-            'OSD_INTERVAL',
-            $notificationSettings->get('osd_interval', (string) self::DEFAULT_POLLING_INTERVAL)
-        );
-        $osdTemplate->setVariable(
-            'OSD_PLAY_SOUND',
-            $notificationSettings->get('osd_play_sound') && $this->user->getPref('osd_play_sound') ? 'true' : 'false'
-        );
+            $osdTemplate->setVariable(
+                'OSD_INTERVAL',
+                $notificationSettings->get('osd_interval', (string) self::DEFAULT_POLLING_INTERVAL)
+            );
+            $osdTemplate->setVariable(
+                'OSD_PLAY_SOUND',
+                $notificationSettings->get('osd_play_sound') && $this->user->getPref('osd_play_sound') ? 'true' : 'false'
+            );
 
-        iljQueryUtil::initjQuery($this->page);
-        ilPlayerUtil::initMediaElementJs($this->page);
+            iljQueryUtil::initjQuery($this->page);
+            ilPlayerUtil::initMediaElementJs($this->page);
 
-        $this->page->addJavaScript('Services/Notifications/templates/default/notifications.js');
-        $this->page->addCSS('Services/Notifications/templates/default/osd.css');
-        $this->page->addOnLoadCode($osdTemplate->get());
+            $this->page->addJavaScript('Services/Notifications/templates/default/notifications.js');
+            $this->page->addCSS('Services/Notifications/templates/default/osd.css');
+            $this->page->addOnLoadCode($osdTemplate->get());
+        }
     }
 }
