@@ -746,7 +746,7 @@ class ilMailFolderGUI
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
-        $message->setHtml($this->refinery->string()->markdown()->toHTML()->transform($mailData['m_message']));
+        $message->setHtml(html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mailData['m_message'])));
         $form->addItem($message);
 
         if ($mailData['attachments']) {
