@@ -56,7 +56,7 @@ class ilMailbox
         if ($usrId < 1) {
             throw new InvalidArgumentException("Cannot create mailbox without user id");
         }
-        
+
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->table_mail_obj_data = 'mail_obj_data';
