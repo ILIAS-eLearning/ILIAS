@@ -36,6 +36,7 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
+        $this->addGlobal_ilLog();
 
         $this->testObj = new ilObjTestFolder();
     }

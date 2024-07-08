@@ -21,7 +21,7 @@ namespace ScoreReporting;
 use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;
 use ilTestBaseTestCase;
 
-class GamificationTest extends ilTestBaseTestCase
+class SettingsGamificationTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
@@ -52,7 +52,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreOwnTable(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreOwnTable($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreOwnTable());
     }
@@ -70,7 +70,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreTopTable(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreTopTable($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreTopTable());
     }
@@ -88,7 +88,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreTopNum(int $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreTopNum($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreTopNum());
     }
@@ -107,7 +107,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreAnon(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreAnon($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreAnon());
     }
@@ -125,7 +125,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreAchievedTS(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreAchievedTS($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreAchievedTS());
     }
@@ -143,7 +143,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreScore(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreScore($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreScore());
     }
@@ -161,7 +161,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscorePercentage(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscorePercentage($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscorePercentage());
     }
@@ -179,7 +179,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreHints(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreHints($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreHints());
     }
@@ -197,7 +197,7 @@ class GamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreWTime(bool $IO): void
     {
-        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = new SettingsGamification(0);
         $gamificationTest = $gamificationTest->withHighscoreWTime($IO);
         $this->assertEquals($IO, $gamificationTest->getHighscoreWTime());
     }

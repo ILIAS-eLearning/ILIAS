@@ -16,50 +16,50 @@
  *
  *********************************************************************/
 
-namespace Setup;
+namespace ILIAS\Test\test;
 
-use ILIAS\Test\Setup\ilTestSetupAgent;
+use ILIAS\Test\Setup\TestSetupAgent;
 
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
 use ilTestBaseTestCase;
 
-class ilTestSetupAgentTest extends ilTestBaseTestCase
+class SetupAgentTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(ilTestSetupAgent::class, $ilTestSetupAgentTest);
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
+        $this->assertInstanceOf(TestSetupAgent::class, $ilTestSetupAgentTest);
     }
 
     public function testGetUpdateObjective(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getUpdateObjective());
     }
 
     public function testHasConfig(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertFalse($ilTestSetupAgentTest->hasConfig());
     }
 
     public function testGetInstallObjective(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getInstallObjective());
     }
 
     public function testGetBuildArtifactObjective(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getBuildObjective());
     }
 
     public function testGetMigrations(): void
     {
-        $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertIsArray($ilTestSetupAgentTest->getMigrations());
     }
 }
