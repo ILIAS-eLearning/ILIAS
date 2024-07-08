@@ -26,7 +26,6 @@ use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
 use ILIAS\Data\Result;
-use ILIAS\UI\Component\MessageBox;
 use ILIAS\Data\Password;
 use ILIAS\UI\Component\Launcher\Launcher;
 use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
