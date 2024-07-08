@@ -1514,7 +1514,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function outCertificate()
     {
-        $ilUserCertificateRepository = new ilUserCertificateRepository($this->db, $this->logging_services);
+        $ilUserCertificateRepository = new ilUserCertificateRepository($this->db, $this->logging_services->root());
         $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $pdfAction = new ilCertificatePdfAction(
