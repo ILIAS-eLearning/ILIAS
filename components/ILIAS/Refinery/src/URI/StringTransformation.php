@@ -43,21 +43,6 @@ class StringTransformation implements Transformation
             );
         }
 
-        /** @var URI $from */
-        $result = $from->getBaseURI();
-
-        $query = $from->getQuery();
-        if (null !== $query) {
-            $query = '?' . $query;
-        }
-        $result .= $query;
-
-        $fragment = $from->getFragment();
-        if (null !== $fragment) {
-            $fragment = '#' . $fragment;
-        }
-        $result .= $fragment;
-
-        return $result;
+        return $from->__toString();
     }
 }
