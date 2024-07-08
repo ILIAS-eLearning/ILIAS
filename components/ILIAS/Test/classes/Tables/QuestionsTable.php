@@ -34,7 +34,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
 
 use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 * (editing) table for questions in test
@@ -72,7 +72,7 @@ class QuestionsTable
         protected ilLanguage $lng,
         protected ilCtrl $ctrl,
         protected ilObjTest $test_obj,
-        protected QuestionInfoService $questioninfo,
+        protected GeneralQuestionPropertiesRepository $questionrepository,
         protected \Closure $qpl_link_builder,
     ) {
         $this->table_id = (string) $test_obj->getId();
@@ -216,9 +216,7 @@ class QuestionsTable
         $items = [];
         foreach ($row_ids as $id) {
             $qdata = $this->test_obj->getQuestionDataset($id);
-            $type = $this->lng->txt(
-                $this->questioninfo->getQuestionType($id)
-            );
+            $type = $this->questionrepository->getForQuestionId($id)->getTypeName($this->lng);
             $icon = $this->ui_renderer->render(
                 $this->ui_factory->symbol()->icon()->standard('ques', $type, 'small')
             );
