@@ -33,7 +33,7 @@ use ILIAS\HTTP\Services as HTTPService;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
 
-use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**

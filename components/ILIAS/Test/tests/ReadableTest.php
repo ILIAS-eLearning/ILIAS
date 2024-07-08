@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test\test;
+namespace ILIAS\Test\Access\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Test\Readable;
+use ILIAS\Test\Access\Readable;
 use ILIAS\DI\Container;
 use ilAccessHandler;
 

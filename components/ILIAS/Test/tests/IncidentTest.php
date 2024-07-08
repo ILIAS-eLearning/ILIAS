@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test\test;
+namespace ILIAS\Test\Access\test;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Test\Incident;
+use ILIAS\Test\Access\Incident;
 
 class IncidentTest extends TestCase
 {
