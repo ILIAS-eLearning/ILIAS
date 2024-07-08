@@ -81,6 +81,11 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            protected SignalGenerator $sig_gen;
+            public function __construct()
+            {
+                $this->sig_gen = new SignalGenerator();
+            }
             public function button(): I\Button\Factory
             {
                 return new I\Button\Factory(
@@ -96,7 +101,6 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
                 );
             }
         };
-        $factory->sig_gen = new SignalGenerator();
         return $factory;
     }
 
