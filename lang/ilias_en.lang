@@ -1061,6 +1061,7 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Poi
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
 assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
+assessment#:#qpl_skill_tree_root_node_title#:#Skill Tree Root Node
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?
