@@ -391,7 +391,6 @@ trait BaseUITestTrait
             $js_binding = $this->getJavaScriptBinding();
         }
 
-        $refinery = $this->getRefinery();
         $image_path_resolver = $this->getImagePathResolver();
         $data_factory = $this->getDataFactory();
         $help_text_retriever = $this->getHelpTextRetriever();
@@ -405,7 +404,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
@@ -416,7 +414,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
@@ -427,7 +424,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
@@ -438,7 +434,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,

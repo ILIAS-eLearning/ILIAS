@@ -223,7 +223,6 @@ class ViewControlPaginationTest extends ViewControlTestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery(),
             $this->getImagePathResolver(),
             $this->getDataFactory(),
             $this->getHelpTextRetriever(),

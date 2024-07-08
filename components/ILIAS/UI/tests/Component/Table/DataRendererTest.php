@@ -87,7 +87,6 @@ class DataRendererTest extends TableTestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery(),
             new ilImagePathResolver(),
             new \ILIAS\Data\Factory(),
             new \ILIAS\UI\Help\TextRetriever\Echoing(),

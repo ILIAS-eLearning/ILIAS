@@ -45,9 +45,6 @@ class ComponentRendererFSLoaderTest extends TestCase
         $tpl_factory = $this->getMockBuilder(I\Render\TemplateFactory::class)->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $js_binding = $this->getMockBuilder(I\Render\JavaScriptBinding::class)->getMock();
-        $refinery_mock = $this->getMockBuilder(Refinery::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                 ->getMock();
         $data_factory = $this->getMockBuilder(ILIAS\Data\Factory::class)->getMock();
@@ -59,7 +56,6 @@ class ComponentRendererFSLoaderTest extends TestCase
             $tpl_factory,
             $lng,
             $js_binding,
-            $refinery_mock,
             $image_path_resolver,
             $data_factory,
             $help_text_retriever,
