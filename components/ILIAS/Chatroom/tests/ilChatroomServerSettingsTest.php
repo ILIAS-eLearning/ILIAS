@@ -29,7 +29,7 @@ class ilChatroomServerSettingsTest extends TestCase
     protected ilChatroomServerSettings $settings;
 
     /**
-     * @return list<array{1: string, 2: callable(mixed): void, 3: mixed}>
+     * @return list<array{0: string, 1: callable(mixed): void, 2: mixed}>
      */
     public static function setterAndGettersProvider(): array
     {
