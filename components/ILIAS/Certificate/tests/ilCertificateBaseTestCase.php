@@ -28,6 +28,8 @@ use ILIAS\LegalDocuments\Conductor;
  */
 abstract class ilCertificateBaseTestCase extends TestCase
 {
+    protected ?Container $dic;
+
     protected function setUp(): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
@@ -43,6 +45,9 @@ abstract class ilCertificateBaseTestCase extends TestCase
         parent::setUp();
     }
 
+    /**
+     * @param mixed $value
+     */
     protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
