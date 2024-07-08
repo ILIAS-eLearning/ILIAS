@@ -225,7 +225,7 @@ trait ilTestBaseTestCaseTrait
             ->getMock();
         $request_mock->method('getUri')
             ->willReturn(new GuzzleURI('http://wwww.ilias.de'));
-        $http_mock = $this->getMockBuilder(Services::class)->disableOriginalConstructor()
+        $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()
             ->getMock();
         $http_mock->method('request')
             ->willReturn($request_mock);

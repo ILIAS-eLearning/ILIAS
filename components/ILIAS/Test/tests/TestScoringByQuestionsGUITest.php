@@ -19,9 +19,10 @@
 declare(strict_types=1);
 
 /**
+ * Class TestScoringByQuestionGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class SettingsMainGUITest extends ilTestBaseTestCase
+class TestScoringByQuestionsGUITest extends ilTestBaseTestCase
 {
     public function testSuppressWarning(): void
     {

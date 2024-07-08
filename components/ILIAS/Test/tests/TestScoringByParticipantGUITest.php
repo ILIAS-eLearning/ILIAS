@@ -42,6 +42,7 @@ class TestScoringByParticipantGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_ilCtrl();
 
         $this->testObj = new TestScoringByParticipantGUI($this->getTestObjMock());
     }
