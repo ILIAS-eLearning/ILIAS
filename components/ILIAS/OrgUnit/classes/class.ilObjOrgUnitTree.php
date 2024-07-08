@@ -207,14 +207,6 @@ class ilObjOrgUnitTree
      */
     public function getOrgusWhereUserHasPermissionForOperation($operation): array
     {
-        /*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
-        INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
-        INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
-        INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
-        INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-        INNER JOIN tree ON tree.child = rbac_fa.parent
-        INNER JOIN object_reference ON object_reference.ref_id = tree.parent
-        WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";*/
 
         $q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = " . $this->db->quote($operation, "text") . "
@@ -339,7 +331,7 @@ class ilObjOrgUnitTree
      */
     public function getSuperiorsOfUser(int $user_id, bool $recursive = true): array
     {
-        //querry for all orgu where user_id is superior.
+        //query for all orgu where user_id is superior.
         $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
@@ -394,58 +386,6 @@ class ilObjOrgUnitTree
     public function getOrgUnitOfUser(int $user_id): array
     {
         return $this->getAssignmentRepo()->getOrgUnitsByUser($user_id);
-    }
-
-    /**
-     * Creates a temporary table with all orgu/user assignements. there will be three columns in
-     * the table orgu_usr_assignements (or specified table-name): ref_id: Reference-IDs of OrgUnits
-     * user_id: Assigned User-IDs path: Path-representation of the OrgUnit
-     * Usage:
-     * 1. Run ilObjOrgUnitTree::getInstance()->buildTempTableWithUsrAssignements(); in your code
-     * 2. use the table orgu_usr_assignements for your JOINS ans SELECTS
-     * 3. Run ilObjOrgUnitTree::getInstance()->dropTempTable(); to throw away the table
-     * @param string $temporary_table_name
-     * @return bool
-     * @throws ilException
-     */
-    public function buildTempTableWithUsrAssignements(string $temporary_table_name = 'orgu_usr_assignements'): bool
-    {
-        if (self::$temporary_table_name == $temporary_table_name) {
-            return true;
-        }
-        if (self::$temporary_table_name === null) {
-            $this->dropTempTable($temporary_table_name);
-            self::$temporary_table_name = $temporary_table_name;
-        } elseif ($temporary_table_name != self::$temporary_table_name) {
-            throw new ilException('there is already a temporary table for org-unit assignement: ' . self::$temporary_table_name);
-        }
-
-        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
-				SELECT DISTINCT object_reference.ref_id AS ref_id, il_orgu_ua.user_id AS user_id, orgu_path_storage.path AS path
-					FROM il_orgu_ua
-                    JOIN object_reference ON object_reference.ref_id = il_orgu_ua.orgu_id
-					JOIN object_data ON object_data.obj_id = object_reference.obj_id
-					JOIN orgu_path_storage ON orgu_path_storage.ref_id = object_reference.ref_id
-				WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL
-			);";
-        $this->db->manipulate($q);
-
-        return true;
-    }
-
-    public function dropTempTable(string $temporary_table_name): bool
-    {
-        if (self::$temporary_table_name === null
-            || $temporary_table_name !== self::$temporary_table_name
-        ) {
-            return false;
-        }
-        $q = "DROP TABLE IF EXISTS " . $temporary_table_name;
-        $this->db->manipulate($q);
-
-        self::$temporary_table_name = null;
-
-        return true;
     }
 
     public function getTitles(array $org_refs): array

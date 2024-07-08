@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,8 @@
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * Class ilOrgUnitPathStorage
@@ -90,13 +93,21 @@ class ilOrgUnitPathStorage extends ActiveRecord
              * @var ilDBInterface $ilDB
              */
             $ilDB = $DIC['ilDB'];
-            ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
+            $oua_temp = "
+                (SELECT DISTINCT object_reference.ref_id AS ref_id, il_orgu_ua.user_id AS user_id, orgu_path_storage.path AS path
+                    FROM il_orgu_ua
+                    JOIN object_reference ON object_reference.ref_id = il_orgu_ua.orgu_id
+                    JOIN object_data ON object_data.obj_id = object_reference.obj_id
+                    JOIN orgu_path_storage ON orgu_path_storage.ref_id = object_reference.ref_id
+                WHERE object_data.type = 'orgu' AND object_reference.deleted IS NULL) as TEMPTABLE";
 
             $res = $ilDB->queryF(
                 "SELECT " . $ilDB->groupConcat(
                     "path",
                     $separator
-                ) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
+                ) . " AS orgus FROM "
+                . $oua_temp
+                . " WHERE TEMPTABLE.user_id = %s GROUP BY user_id;",
                 array('integer'),
                 array($user_id)
             );
