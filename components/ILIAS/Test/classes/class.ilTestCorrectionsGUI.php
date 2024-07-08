@@ -25,6 +25,7 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Questions\QuestionsTable;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 

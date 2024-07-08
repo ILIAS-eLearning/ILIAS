@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Questions\QuestionsTable;
+use ILIAS\Test\Questions\QuestionsTableQuery;
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;

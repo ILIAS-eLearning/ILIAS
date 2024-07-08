@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Questions;
+
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
 use ILIAS\HTTP\Services as HTTPService;

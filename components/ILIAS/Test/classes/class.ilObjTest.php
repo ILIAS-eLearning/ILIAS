@@ -23,7 +23,9 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
+
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
@@ -42,8 +44,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Export\CSVExportTrait;
-
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
