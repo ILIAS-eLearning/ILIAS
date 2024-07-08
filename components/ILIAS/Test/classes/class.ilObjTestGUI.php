@@ -3255,7 +3255,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->ctrl,
             $this->object,
-            $this->questioninfo,
+            $this->questionrepository,
             $this->getQuestionPoolLinkBuilder()
         );
     }

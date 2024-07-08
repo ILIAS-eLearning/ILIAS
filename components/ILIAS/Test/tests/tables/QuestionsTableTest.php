@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component as C;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class QuestionsTableTest
@@ -64,7 +64,7 @@ class QuestionsTableTest extends ilTestBaseTestCase
                 ]
             );
 
-        $questioninfo = new class () extends QuestionInfoService {
+        $questionrepository = new class () extends GeneralQuestionPropertiesRepository {
             public function __construct()
             {
             }
@@ -75,14 +75,14 @@ class QuestionsTableTest extends ilTestBaseTestCase
             $DIC,
             $obj_test,
             $commands,
-            $questioninfo
+            $questionrepository
         ) extends QuestionsTable {
             public function __construct(
                 protected $data,
                 $DIC,
                 $obj_test,
                 $commands,
-                $questioninfo
+                $questionrepository
             ) {
                 parent::__construct(
                     $DIC['ui.factory'],
@@ -92,7 +92,7 @@ class QuestionsTableTest extends ilTestBaseTestCase
                     $DIC['lng'],
                     $DIC['ilCtrl'],
                     $obj_test,
-                    $questioninfo,
+                    $questionrepository,
                     fn() => ''
                 );
             }
