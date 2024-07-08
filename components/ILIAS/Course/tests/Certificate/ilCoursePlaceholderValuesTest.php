@@ -38,6 +38,8 @@ use ilObjectCustomUserFieldsPlaceholderValues;
  */
 class ilCoursePlaceholderValuesTest extends TestCase
 {
+    protected ?Container $dic;
+
     protected function setUp(): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
@@ -45,11 +47,8 @@ class ilCoursePlaceholderValuesTest extends TestCase
         }
 
         global $DIC;
-
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
-
         $DIC = new Container();
-
         parent::setUp();
     }
 

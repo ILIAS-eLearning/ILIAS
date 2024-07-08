@@ -34,6 +34,8 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph as GlyphInterface;
  */
 class ColumnTest extends ILIAS_UI_TestBase
 {
+    protected ilLanguage $lng;
+
     public function setUp(): void
     {
         $lng = $this->getMockBuilder(\ilLanguage::class)
