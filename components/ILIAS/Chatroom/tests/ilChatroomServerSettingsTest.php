@@ -28,18 +28,21 @@ class ilChatroomServerSettingsTest extends TestCase
 {
     protected ilChatroomServerSettings $settings;
 
-    public function setterAndGettersProvider(): array
+    /**
+     * @return list<array{1: string, 2: callable(mixed): void, 3: mixed}>
+     */
+    public static function setterAndGettersProvider(): array
     {
-        $assertIsString = function ($actual): void {
-            $this->assertIsString($actual, 'The actual return value is not a type of "string"');
+        $assertIsString = static function ($actual): void {
+            self::assertIsString($actual, 'The actual return value is not a type of "string"');
         };
 
-        $assertIsInteger = function ($actual): void {
-            $this->assertIsInt($actual, 'The actual return value is not a type of "int"');
+        $assertIsInteger = static function ($actual): void {
+            self::assertIsInt($actual, 'The actual return value is not a type of "int"');
         };
 
-        $assertIsBool = function ($actual): void {
-            $this->assertIsBool($actual, 'The actual return value is not a type of "bool"');
+        $assertIsBool = static function ($actual): void {
+            self::assertIsBool($actual, 'The actual return value is not a type of "bool"');
         };
 
         return [
@@ -59,13 +62,12 @@ class ilChatroomServerSettingsTest extends TestCase
     }
 
     /**
+     * @param callable(mixed): void $assertionCallback
      * @param mixed $value
-     * @_dataProvider setterAndGettersProvider
+     * @dataProvider setterAndGettersProvider
      */
-    public function testSettersAndGetters(/*string $property, callable $assertionCallback, $value*/): void
+    public function testSettersAndGetters(string $property, callable $assertionCallback, $value): void
     {
-        $this->markTestSkipped('Data Provider needs to be revisited.');
-
         $setter = 'set' . ucfirst($property);
         $getter = 'get' . ucfirst(($property));
 
