@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\QuestionIdentifiers;
-use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
@@ -37,7 +36,6 @@ use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -53,7 +51,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\ResourceStorage\Services as IRSS;
-
 
 /**
  * Class ilObjTestGUI

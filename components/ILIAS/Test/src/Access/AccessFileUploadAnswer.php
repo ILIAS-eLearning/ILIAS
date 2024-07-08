@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test;
+namespace ILIAS\Test\Access;
 
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Test;
+namespace ILIAS\Test\Access;
 
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
@@ -28,8 +28,8 @@ use ilAccessHandler;
 use ilDBInterface;
 use Closure;
 use ilObject;
-use ILIAS\components\Test\Incident;
-use ILIAS\components\Test\SimpleAccess;
+use ILIAS\Test\Access\Incident;
+use ILIAS\Test\Access\SimpleAccess;
 
 class AccessFileUploadPreview implements SimpleAccess
 {

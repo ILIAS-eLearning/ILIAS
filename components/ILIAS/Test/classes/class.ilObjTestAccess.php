@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\components\Test\AccessFileUploadAnswer;
-use ILIAS\Modules\Test\AccessFileUploadPreview;
-use ILIAS\components\Test\AccessQuestionImage;
-use ILIAS\components\Test\SimpleAccess;
-use ILIAS\components\Test\Readable;
+use ILIAS\Test\Access\AccessFileUploadAnswer;
+use ILIAS\Test\Access\AccessFileUploadPreview;
+use ILIAS\Test\Access\AccessQuestionImage;
+use ILIAS\Test\Access\SimpleAccess;
+use ILIAS\Test\Access\Readable;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
 
