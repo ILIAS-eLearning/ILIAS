@@ -214,7 +214,8 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
                 ...array_map(
                     static function (ilOrgUnitUser $user): \PHPUnit\Framework\Constraint\TraversableContainsEqual {
                         return self::containsEqual($user->getUserId());
-                    }, $ou_superiors
+                    },
+                    $ou_superiors
                 )
             );
         }
