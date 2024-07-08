@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Questions;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table;
@@ -69,9 +71,9 @@ class QuestionsTable
         protected UIRenderer $ui_renderer,
         protected ServerRequestInterface $request,
         protected QuestionsTableQuery $commands,
-        protected ilLanguage $lng,
-        protected ilCtrl $ctrl,
-        protected ilObjTest $test_obj,
+        protected \ilLanguage $lng,
+        protected \ilCtrl $ctrl,
+        protected \ilObjTest $test_obj,
         protected GeneralQuestionPropertiesRepository $questionrepository,
         protected \Closure $qpl_link_builder,
     ) {
@@ -250,16 +252,16 @@ class QuestionsTable
             case QuestionsTable::ACTION_PREVIEW:
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilAssQuestionPreviewGUI::class,
-                    ilAssQuestionPreviewGUI::CMD_SHOW
+                    \ilAssQuestionPreviewGUI::class,
+                    \ilAssQuestionPreviewGUI::CMD_SHOW
                 );
                 break;
 
             case QuestionsTable::ACTION_CORRECTION:
-                $this->ctrl->setParameterByClass(ilTestCorrectionsGUI::class, 'qid', (int) current($row_ids));
+                $this->ctrl->setParameterByClass(\ilTestCorrectionsGUI::class, 'qid', (int) current($row_ids));
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilTestCorrectionsGUI::class,
+                    \ilTestCorrectionsGUI::class,
                     'showQuestion'
                 );
                 break;
@@ -267,8 +269,8 @@ class QuestionsTable
             case QuestionsTable::ACTION_STATISTICS:
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilAssQuestionPreviewGUI::class,
-                    ilAssQuestionPreviewGUI::CMD_STATISTICS
+                    \ilAssQuestionPreviewGUI::class,
+                    \ilAssQuestionPreviewGUI::CMD_STATISTICS
                 );
                 break;
 
@@ -286,7 +288,7 @@ class QuestionsTable
             case QuestionsTable::ACTION_EDIT_PAGE:
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilAssQuestionPageGUI::class,
+                    \ilAssQuestionPageGUI::class,
                     'edit'
                 );
                 break;
@@ -294,16 +296,16 @@ class QuestionsTable
             case QuestionsTable::ACTION_FEEDBACK:
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilAssQuestionFeedbackEditingGUI::class,
-                    ilAssQuestionFeedbackEditingGUI::CMD_SHOW
+                    \ilAssQuestionFeedbackEditingGUI::class,
+                    \ilAssQuestionFeedbackEditingGUI::CMD_SHOW
                 );
                 break;
 
             case QuestionsTable::ACTION_HINTS:
                 $this->redirectWithQuestionParameters(
                     current($row_ids),
-                    ilAssQuestionHintsGUI::class,
-                    ilAssQuestionHintsGUI::CMD_SHOW_LIST
+                    \ilAssQuestionHintsGUI::class,
+                    \ilAssQuestionHintsGUI::CMD_SHOW_LIST
                 );
                 break;
 

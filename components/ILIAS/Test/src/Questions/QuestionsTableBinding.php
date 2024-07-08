@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Questions;
+
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Link;
 
@@ -25,7 +27,7 @@ class QuestionsTableBinding implements Table\OrderingBinding
 {
     public function __construct(
         protected array $records,
-        protected ilLanguage $lng,
+        protected \ilLanguage $lng,
         protected \Closure $title_link_builder,
         protected \Closure $qpl_link_builder,
         protected string $context,
@@ -42,7 +44,7 @@ class QuestionsTableBinding implements Table\OrderingBinding
             $record['title'] = $this->getTitleLink($record['title'], $row_id);
             $record['type_tag'] = $this->lng->txt($record['type_tag']);
             $record['complete'] = (bool) $record['complete'];
-            $record['lifecycle'] = ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
+            $record['lifecycle'] = \ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
             $record['qpl'] = $this->getQuestionPoolLink($record['orig_obj_fi']);
 
             $default_and_edit = !($this->context === QuestionsTable::CONTEXT_DEFAULT && $this->editing_enabled);

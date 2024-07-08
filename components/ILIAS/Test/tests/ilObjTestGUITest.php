@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Questions\QuestionsTableQuery;
+
 use ILIAS\DI\Container;
 
 class QuestionsTableQueryMock extends QuestionsTableQuery

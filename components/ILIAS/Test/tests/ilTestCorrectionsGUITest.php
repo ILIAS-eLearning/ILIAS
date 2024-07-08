@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Questions\QuestionsTable;
 
 /**
  * Class ilTestCorrectionsGUITest
