@@ -37,38 +37,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     public const DASH_SORT_PREFIX = 'dash_sort_by_';
     public const DASH_ENABLE_PREFIX = 'dash_enable_';
 
-    protected Factory $ui_factory;
-    protected Renderer $ui_renderer;
-    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    protected UIServices $ui;
-    protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
+    protected string $type = 'dshs';
+    protected readonly ilPDSelectedItemsBlockViewSettings $view_settings;
+    protected readonly ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
-    public function __construct(
-        $a_data,
-        int $a_id,
-        bool $a_call_by_reference = true,
-        bool $a_prepare_output = true
-    ) {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->access = $DIC->access();
-        $this->ctrl = $DIC->ctrl();
-        $this->settings = $DIC->settings();
-        $lng = $DIC->language();
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->request = $DIC->http()->request();
-        $this->ui = $DIC->ui();
-
-        $this->type = 'dshs';
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
+    {
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-        $lng->loadLanguageModule('dash');
-
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($DIC->user());
-
+        $this->lng->loadLanguageModule('dash');
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings($this->user);
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
     }
 
@@ -138,7 +116,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateTab('settings');
         $this->setSettingsSubTabs('sorting');
         $form = $this->getViewForm(self::VIEW_MODE_SORTING);
-        $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
+        $this->tpl->setContent($this->ui_renderer->renderAsync($form));
     }
 
     public function getViewForm(string $mode): ?StandardForm
@@ -150,7 +128,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                     $this->ctrl->getFormAction($this, 'save' . $mode),
                     array_map(
                         fn(int $view): Section => $this->getViewByMode($mode, $view),
-                        $this->viewSettings->getPresentationViews()
+                        $this->view_settings->getPresentationViews()
                     )
                 );
         }
@@ -161,7 +139,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $this->tpl->addJavaScript('Services/Dashboard/Administration/js/SortationUserInputHandler.js');
         $lng = $this->lng;
-        $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
+        $availabe_sort_options = $this->view_settings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
             $availabe_sort_options,
             static function (array $options, string $option) use ($lng): array {
@@ -176,7 +154,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->field()
             ->multiSelect($this->lng->txt('dash_avail_sortation'), $options)
             ->withValue(
-                $this->viewSettings->getActiveSortingsByView($view)
+                $this->view_settings->getActiveSortingsByView($view)
             )
             ->withAdditionalOnLoadCode(
                 static fn(string $id) => "document.getElementById('$id').setAttribute('data-checkbox', 'activeSorting$view');
@@ -188,7 +166,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->input()
             ->field()
             ->select($this->lng->txt('dash_default_sortation'), $options)
-            ->withValue($this->viewSettings->getDefaultSortingByView($view))
+            ->withValue($this->view_settings->getDefaultSortingByView($view))
             ->withRequired(true)
             ->withAdditionalOnLoadCode(
                 static fn(string $id) => "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"
@@ -205,13 +183,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             case self::VIEW_MODE_SORTING:
                 return $this->getViewSectionSorting(
                     $view,
-                    $this->lng->txt('dash_' . $this->viewSettings->getViewName($view))
+                    $this->lng->txt('dash_' . $this->view_settings->getViewName($view))
                 );
             case self::VIEW_MODE_PRESENTATION:
             default:
                 return $this->getViewSectionPresentation(
                     $view,
-                    $this->lng->txt('dash_' . $this->viewSettings->getViewName($view))
+                    $this->lng->txt('dash_' . $this->view_settings->getViewName($view))
                 );
         }
     }
@@ -220,20 +198,20 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         if ($this->canWrite()) {
             $form_data = $this->request->getParsedBody();
-            foreach ($this->viewSettings->getPresentationViews() as $presentation_view) {
+            foreach ($this->view_settings->getPresentationViews() as $presentation_view) {
                 if (isset($form_data['main_panel']['enable'][$presentation_view])) {
-                    $this->viewSettings->enableView(
+                    $this->view_settings->enableView(
                         $presentation_view,
                         (bool) $form_data['main_panel']['enable'][$presentation_view]
                     );
                 } elseif ($presentation_view !== ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT) {
-                    $this->viewSettings->enableView($presentation_view, false);
+                    $this->view_settings->enableView($presentation_view, false);
                 }
             }
 
             $positions = $form_data['main_panel']['position'];
             asort($positions);
-            $this->viewSettings->setViewPositions(array_keys($positions));
+            $this->view_settings->setViewPositions(array_keys($positions));
 
             foreach ($this->side_panel_settings->getValidModules() as $mod) {
                 $this->side_panel_settings->enable($mod, (bool) ($form_data['side_panel']['enable'][$mod] ?? false));
@@ -294,13 +272,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
 
-        $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
+        $this->tpl->setContent($this->ui_renderer->renderAsync($form));
     }
 
     public function getViewSectionPresentation(int $view, string $title): Section
     {
         $lng = $this->lng;
-        $ops = $this->viewSettings->getAvailablePresentationsByView($view);
+        $ops = $this->view_settings->getAvailablePresentationsByView($view);
         $pres_options = array_column(
             array_map(
                 static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
@@ -314,11 +292,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $lng->txt('dash_avail_presentation'),
             $pres_options
         )
-                                       ->withValue($this->viewSettings->getActivePresentationsByView($view));
+                                       ->withValue($this->view_settings->getActivePresentationsByView($view));
         $default_pres = $this->ui_factory->input()->field()->radio($lng->txt('dash_default_presentation'))
                                          ->withOption('list', $lng->txt('dash_list'))
                                          ->withOption('tile', $lng->txt('dash_tile'));
-        $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
+        $default_pres = $default_pres->withValue($this->view_settings->getDefaultPresentationByView($view));
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(['avail_pres' => $avail_pres, 'default_pres' => $default_pres]),
             $title
@@ -343,7 +321,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form_data = $form->getData();
 
         foreach ($form_data as $view => $view_data) {
-            $this->viewSettings->storeViewPresentation(
+            $this->view_settings->storeViewPresentation(
                 $view,
                 $view_data['default_pres'],
                 $view_data['avail_pres'] ?? []
@@ -370,7 +348,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 if (!is_array($view_data['avail_sorting'] ?? null)) {
                     $view_data['avail_sorting'] = [$view_data['default_sorting']];
                 }
-                $this->viewSettings->storeViewSorting(
+                $this->view_settings->storeViewSorting(
                     $view,
                     $view_data['default_sorting'],
                     $view_data['avail_sorting']

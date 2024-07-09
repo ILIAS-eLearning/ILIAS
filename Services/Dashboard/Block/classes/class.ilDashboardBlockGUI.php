@@ -34,19 +34,19 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
-    private string $content;
-    private ilRbacSystem $rbacsystem;
-    private string $parent;
-    protected ilFavouritesManager $favourites_manager;
+    protected string $content;
+    protected readonly ilRbacSystem $rbacsystem;
+    protected string $parent;
+    protected readonly ilFavouritesManager $favourites_manager;
     protected int $requested_item_ref_id;
-    private mixed $object_cache;
-    private ilTree $tree;
-    private mixed $objDefinition;
-    protected ilSetting $settings;
-    protected ilLogger $logging;
-    protected Services $http;
-    private Factory $refinery;
-    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
+    protected mixed $object_cache;
+    protected readonly ilTree $tree;
+    protected readonly mixed $obj_definition;
+    protected readonly ilSetting $settings;
+    protected readonly ilLogger $logging;
+    protected readonly Services $http;
+    protected readonly Factory $refinery;
+    protected ilPDSelectedItemsBlockViewSettings $view_settings;
     /** @var array<string, BlockDTO[]> */
     protected array $data;
 
@@ -60,7 +60,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
-        $this->objDefinition = $DIC['objDefinition'];
+        $this->obj_definition = $DIC['objDefinition'];
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
@@ -136,7 +136,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $list_item;
     }
 
-    protected function isRepositoryObject(): bool
+    final protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -168,7 +168,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function getViewSettings(): ilPDSelectedItemsBlockViewSettings
     {
-        return $this->viewSettings;
+        return $this->view_settings;
     }
 
     public function init(): void
@@ -178,12 +178,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
-        $this->viewSettings->parse();
+        $this->view_settings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
-        if ($this->viewSettings->isTilePresentation()) {
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
+        if ($this->view_settings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
         } else {
             $this->setPresentation(self::PRES_SEC_LIST);
@@ -210,7 +210,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function getHTML(): string
     {
         $this->setTitle(
-            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()))
+            $this->lng->txt('dash_' . $this->view_settings->getViewName($this->view_settings->getView()))
         );
 
         if (!$this->data) {
@@ -306,7 +306,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
      */
     protected function groupItemsByType(): array
     {
-        $object_types_by_container = $this->objDefinition->getGroupedRepositoryObjectTypes(
+        $object_types_by_container = $this->obj_definition->getGroupedRepositoryObjectTypes(
             ['cat', 'crs', 'grp', 'fold']
         );
         $grouped_items = [];
@@ -315,7 +315,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $data = array_merge(...array_values($data));
 
         foreach ($object_types_by_container as $type_title => $type) {
-            if (!$this->objDefinition->isPlugin($type_title)) {
+            if (!$this->obj_definition->isPlugin($type_title)) {
                 $title = $this->lng->txt('objs_' . $type_title);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($type_title);
@@ -365,7 +365,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $grouped_items;
     }
 
-    protected function isRootNode(int $refId): bool
+    final protected function isRootNode(int $refId): bool
     {
         return $this->tree->getRootId() === $refId;
     }
@@ -384,25 +384,25 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function addCommandActions(): void
     {
-        $sortings = $this->viewSettings->getSelectableSortingModes();
+        $sortings = $this->view_settings->getSelectableSortingModes();
         if (count($sortings) > 1) {
             foreach ($sortings as $sorting) {
                 $this->addSortOption(
                     $sorting,
                     $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
-                    $sorting === $this->viewSettings->getEffectiveSortingMode()
+                    $sorting === $this->view_settings->getEffectiveSortingMode()
                 );
             }
             $this->setSortTarget($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
         }
 
-        $presentations = $this->viewSettings->getSelectablePresentationModes();
+        $presentations = $this->view_settings->getSelectablePresentationModes();
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
             $this->addPresentation(
                 $this->lng->txt('pd_presentation_mode_' . $presentation),
                 $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
-                $presentation === $this->viewSettings->getEffectivePresentationMode()
+                $presentation === $this->view_settings->getEffectivePresentationMode()
             );
             $this->ctrl->setParameter($this, 'presentation', null);
         }
@@ -455,7 +455,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function changePDItemSortingObject(): string
     {
-        $this->viewSettings->storeActorSortingMode(
+        $this->view_settings->storeActorSortingMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
         );
 
@@ -464,7 +464,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function changePDItemPresentationObject(): string
     {
-        $this->viewSettings->storeActorPresentationMode(
+        $this->view_settings->storeActorPresentationMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
         return $this->initAndShow();
@@ -488,7 +488,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
      */
     public function getItemGroups(): array
     {
-        switch ($this->viewSettings->getEffectiveSortingMode()) {
+        switch ($this->view_settings->getEffectiveSortingMode()) {
             case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
                 $data = $this->getData();
                 $data = array_merge(...array_values($data));
@@ -518,8 +518,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->returnToContext();
     }
 
-    #[NoReturn]
-    public function removeFromDeskRoundtripObject(): void
+    public function removeFromDeskRoundtripObject(): never
     {
         $page = '';
         if ($this->http->wrapper()->query()->has('page')) {
@@ -542,13 +541,13 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 );
                 $content = $modal->withAdditionalOnLoadCode(function ($id) {
                     return "
-                    $('#$id').attr('data-modal-name', 'remove_modal_view_" . $this->viewSettings->getCurrentView() . "');
+                    $('#$id').attr('data-modal-name', 'remove_modal_view_" . $this->view_settings->getView() . "');
                     ";
                 });
                 break;
             case 'confirm':
             default:
-                if ($this->viewSettings->isSelectedItemsViewActive()) {
+                if ($this->view_settings->isSelectedItemsViewActive()) {
                     $question = $this->lng->txt('dash_info_sure_remove_from_favs');
                 } else {
                     $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
@@ -566,6 +565,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         );
         $this->http->sendResponse();
         $this->http->close();
+        exit;
     }
 
     public function manage(ReplaceSignal $replace_signal = null): string
@@ -576,8 +576,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
         $top_tb = new ilToolbarGUI();
         $top_tb->setFormAction($this->ctrl->getFormAction($this, 'confirmRemove'));
-        $top_tb->setFormName('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
-        $top_tb->setId('pd_remove_multiple_view_' . $this->viewSettings->getCurrentView());
+        $top_tb->setFormName('pd_remove_multiple_view_' . $this->view_settings->getView());
+        $top_tb->setId('pd_remove_multiple_view_' . $this->view_settings->getView());
         $top_tb->setLeadingImage(ilUtil::getImagePath('nav/arrow_upright.svg'), $this->lng->txt('actions'));
         $this->ctrl->setParameter($this, 'page', 'confirm');
         $url = $this->ctrl->getLinkTarget(
@@ -590,7 +590,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
             ->withOnLoadCode(function ($id) use ($url): string {
                 return "
-                        il.Dashboard.replaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
+                        il.Dashboard.replaceModalContent('$id', " . $this->view_settings->getView() . ", '$url');
                 ";
             });
 
@@ -624,13 +624,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $bot_tb->setOpenFormTag(false);
 
         $tpl = new ilTemplate('tpl.remove_multiple_modal_id_wrapper.html', true, true, 'Services/Dashboard');
-        $manageListHTML = $this->renderManageList($grouped_items);
-        if ($manageListHTML) {
+        if ($this->renderManageList($grouped_items)) {
             $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
         } else {
             $tpl->setVariable('CONTENT', $this->ui->renderer()->render($this->ui->factory()->messageBox()->info($this->lng->txt('pd_no_items_to_manage'))));
         }
-        $tpl->setVariable('VIEW', $this->viewSettings->getCurrentView());
+        $tpl->setVariable('VIEW', $this->view_settings->getView());
 
         return $tpl->get();
     }
@@ -640,16 +639,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->ctrl->setParameter($this, 'manage', '1');
         $title = '';
         if (
-            $this->viewSettings->isSelectedItemsViewActive() ||
-            $this->viewSettings->isRecommendedContentViewActive() ||
-            $this->viewSettings->isMembershipsViewActive()
+            $this->view_settings->isSelectedItemsViewActive() ||
+            $this->view_settings->isRecommendedContentViewActive() ||
+            $this->view_settings->isMembershipsViewActive()
         ) {
             $title .= $this->lng->txt('remove');
         } else {
             $title .= $this->lng->txt('pd_unsubscribe_memberships');
         }
         $title .= ' ' . strtolower($this->lng->txt('from')) . ' ' .
-            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()));
+            $this->lng->txt('dash_' . $this->view_settings->getViewName($this->view_settings->getView()));
         $this->main_tpl->setTitle($title);
 
         return (new ilDashObjectsTableRenderer($this))->render($grouped_items);
@@ -657,7 +656,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function confirmRemoveObject(): string
     {
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
 
         $refIds = (array) ($this->http->request()->getParsedBody()['id'] ?? []);
         if ($refIds === []) {
@@ -665,7 +664,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             return $this->ui->renderer()->render($message_box);
         }
 
-        if ($this->viewSettings->isSelectedItemsViewActive()) {
+        if ($this->view_settings->isSelectedItemsViewActive()) {
             $question = $this->lng->txt('dash_info_sure_remove_from_favs');
         } else {
             $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
@@ -703,12 +702,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function byType(string $a_type): ilObjectListGUI
     {
-        $class = $this->objDefinition->getClassName($a_type);
+        $class = $this->obj_definition->getClassName($a_type);
         if (!$class) {
             throw new ilException(sprintf('Could not find a class for object type: %s', $a_type));
         }
 
-        $location = $this->objDefinition->getLocation($a_type);
+        $location = $this->obj_definition->getLocation($a_type);
         if (!$location) {
             throw new ilException(sprintf('Could not find a class location for object type: %s', $a_type));
         }

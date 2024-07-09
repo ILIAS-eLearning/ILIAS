@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 class ilDashObjectsTableRenderer
 {
-    protected object $parent_gui;
-
-    public function __construct(object $parent_gui)
+    public function __construct(protected readonly object $parent_gui)
     {
-        $this->parent_gui = $parent_gui;
     }
 
     public function render(array $groupedItems): string

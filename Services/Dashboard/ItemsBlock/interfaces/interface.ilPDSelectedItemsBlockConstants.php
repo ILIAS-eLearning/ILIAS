@@ -33,4 +33,68 @@ interface ilPDSelectedItemsBlockConstants
 
     public const PRESENTATION_LIST = 'list';
     public const PRESENTATION_TILE = 'tile';
+
+    public const AVAILABLE_VIEWS = [
+        self::VIEW_SELECTED_ITEMS,
+        self::VIEW_RECOMMENDED_CONTENT,
+        self::VIEW_MY_MEMBERSHIPS,
+        self::VIEW_LEARNING_SEQUENCES,
+        self::VIEW_MY_STUDYPROGRAMME,
+    ];
+    public const VIEW_NAMES = [
+        self::VIEW_SELECTED_ITEMS => 'favourites',
+        self::VIEW_RECOMMENDED_CONTENT => 'recommended_content',
+        self::VIEW_MY_MEMBERSHIPS => 'memberships',
+        self::VIEW_LEARNING_SEQUENCES => 'learning_sequences',
+        self::VIEW_MY_STUDYPROGRAMME => 'study_programmes',
+    ];
+    public const AVAILABLE_SORT_OPTIONS_BY_VIEW = [
+        self::VIEW_SELECTED_ITEMS => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
+        ],
+        self::VIEW_RECOMMENDED_CONTENT => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
+        ],
+        self::VIEW_MY_MEMBERSHIPS => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
+            self::SORT_BY_START_DATE,
+        ],
+        self::VIEW_LEARNING_SEQUENCES => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_ALPHABET,
+        ],
+        self::VIEW_MY_STUDYPROGRAMME => [
+            self::SORT_BY_LOCATION,
+            self::SORT_BY_ALPHABET,
+        ],
+    ];
+    public const AVAILABLE_PRESENTATION_BY_VIEW = [
+        self::VIEW_SELECTED_ITEMS => [
+            self::PRESENTATION_LIST,
+            self::PRESENTATION_TILE
+        ],
+        self::VIEW_RECOMMENDED_CONTENT => [
+            self::PRESENTATION_LIST,
+            self::PRESENTATION_TILE
+        ],
+        self::VIEW_MY_MEMBERSHIPS => [
+            self::PRESENTATION_LIST,
+            self::PRESENTATION_TILE
+        ],
+        self::VIEW_LEARNING_SEQUENCES => [
+            self::PRESENTATION_LIST,
+            self::PRESENTATION_TILE
+        ],
+        self::VIEW_MY_STUDYPROGRAMME => [
+            self::PRESENTATION_LIST,
+            self::PRESENTATION_TILE
+        ],
+
+    ];
 }

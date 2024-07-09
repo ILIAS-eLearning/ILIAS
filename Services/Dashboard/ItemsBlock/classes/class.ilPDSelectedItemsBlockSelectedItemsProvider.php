@@ -20,16 +20,14 @@ declare(strict_types=1);
 
 class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
 {
-    protected ilObjUser $actor;
-    protected ilFavouritesManager $fav_manager;
-    protected ilAccessHandler $access;
-    protected ilSetting $settings;
+    protected readonly ilFavouritesManager $fav_manager;
+    protected readonly ilAccessHandler $access;
+    protected readonly ilSetting $settings;
 
-    public function __construct(ilObjUser $actor)
+    public function __construct(protected readonly ilObjUser $actor)
     {
         global $DIC;
 
-        $this->actor = $actor;
         $this->fav_manager = new ilFavouritesManager();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
