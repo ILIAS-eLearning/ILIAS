@@ -13860,7 +13860,7 @@ rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#condition_failed#:#Failed
-rbac#:#condition_learning_progress#:#Derive from Learning Progress
+rbac#:#condition_learning_progress#:#Learning Progress Status: Completed
 rbac#:#contribute#:#Contribute
 rbac#:#copa_copy#:#Copy Content Page
 rbac#:#copa_delete#:#User can move or delete Content Page
