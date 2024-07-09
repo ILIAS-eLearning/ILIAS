@@ -100,7 +100,7 @@ class ilTestPasswordProtectionGUI
     {
         $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->parentGUI->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
+            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
         );
 
         $this->tpl->setVariable(

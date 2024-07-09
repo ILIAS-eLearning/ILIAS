@@ -190,8 +190,8 @@ class ilTestResultsGUI
                 $gui = new ilMyTestResultsGUI(
                     $this->getTestObj(),
                     $this->test_access,
-                    $this->test_session,
                     $this->objective_parent,
+                    $this->user,
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,

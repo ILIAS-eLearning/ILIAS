@@ -23,6 +23,7 @@ namespace ILIAS\Test;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Repository\BaseGUIRequest;
+use Psr\Http\Message\RequestInterface;
 
 class RequestDataCollector
 {

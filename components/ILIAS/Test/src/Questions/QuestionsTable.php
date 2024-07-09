@@ -342,7 +342,7 @@ class QuestionsTable
                 break;
 
             default:
-                throw new InvalidArgumentException("No such table_cmd: '$table_cmd'.");
+                throw new \InvalidArgumentException("No such table_cmd: '$cmd'.");
         }
     }
 

@@ -751,7 +751,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $user_id = ilObjTest::_getUserIdFromActiveId($active_id);
 
             if (!$certValidator->isCertificateDownloadable($user_id, $objectId)) {
-                $this->logging_services->root()->debug(
+                $this->logger->debug(
                     sprintf(
                         'No certificate available for user %s in test %s ' .
                         '(Check if: ilServer is enabled / Certificates are enabled globally / ' .
@@ -779,7 +779,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 ) . ".pdf");
                 ++$num_pdfs;
             } else {
-                $this->logging_services->root()->error(
+                $this->logger->error(
                     sprintf(
                         'The certificate service could not create a PDF for user %s and test %s',
                         $user_id,
@@ -796,8 +796,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             try {
                 $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
             } catch (\ILIAS\Filesystem\Exception\IOException $e) {
-                $this->logging_services->root()->error($e->getMessage());
-                $this->logging_services->root()->error($e->getTraceAsString());
+                $this->logger->error($e->getMessage());
+                $this->logger->error($e->getTraceAsString());
                 $components[] = $this->ui_factory->messageBox()->failure(
                     $this->lng->txt('error_creating_certificate_zip_empty')
                 );
@@ -1437,19 +1437,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->setCss();
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
-    }
-
-    public function passDetails()
-    {
-        // @PHP8-CR: With this probably never working and no detectable usages, it would be a candidate for removal...
-        // Second opinion here, please, if it can go away.
-        if ($this->testrequest->isset("pass") && (strlen($this->testrequest->raw("pass")) > 0)) {
-            $this->ctrl->saveParameter($this, "pass");
-            $this->ctrl->saveParameter($this, "active_id");
-            $this->outTestResults(false, $this->testrequest->raw("pass"));
-        } else {
-            $this->outTestResults(false);
-        }
     }
 
     /**

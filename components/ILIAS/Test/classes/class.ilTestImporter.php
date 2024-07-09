@@ -89,11 +89,11 @@ class ilTestImporter extends ilXmlImporter
         $new_obj->loadFromDb();
 
         if (!file_exists($xmlfile)) {
-            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
+            $this->logger->error(__METHOD__ . ': Cannot find xml definition: ' . $xmlfile);
             return;
         }
         if (!file_exists($qtifile)) {
-            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $qtifile);
+            $this->logger->error(__METHOD__ . ': Cannot find xml definition: ' . $qtifile);
             return;
         }
 

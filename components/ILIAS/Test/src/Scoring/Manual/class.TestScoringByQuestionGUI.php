@@ -158,7 +158,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $active_data = current($scoring);
         $active_ids = array_keys($active_data);
 
-        if (!$this->test_access->checkScoreParticipantsAccessForActiveId(current($active_ids))) {
+        if (!$this->test_access->checkScoreParticipantsAccessForActiveId(current($active_ids), $this->object->getTestId())) {
             if ($ajax) {
                 echo $this->lng->txt('cannot_edit_test');
                 exit;
@@ -388,7 +388,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $pass = $this->testrequest->getPassId();
         $question_id = (int) $this->testrequest->raw('qst_id');
 
-        if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
+        if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id, $this->object->getTestId())) {
             $this->http->close(); // illegal ajax call
         }
 
@@ -396,7 +396,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
         $tmp_tpl = new \ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'components/ILIAS/Test');
-        if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+        if ($question_gui instanceof \assTextQuestionGUI && $this->object->getAutosave()) {
             $aresult_output = $question_gui->getAutoSavedSolutionOutput(
                 $active_id,
                 $pass,

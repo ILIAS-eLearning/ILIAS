@@ -118,7 +118,7 @@ class ilParticipantsTestResultsGUI
                     $this->getTestObj(),
                     $this->lng,
                     $this->ctrl,
-                    $this->tpl,
+                    $this->main_tpl,
                     $this->questionrepository,
                     $this->testrequest
                 );

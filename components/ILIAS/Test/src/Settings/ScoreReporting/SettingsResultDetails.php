@@ -114,8 +114,7 @@ class SettingsResultDetails extends TestSettings
         return [
             'results_presentation' => ['integer', $this->getResultsPresentation()],
             'examid_in_test_res' => ['integer', (int) $this->getShowExamIdInTestResults()],
-            'exportsettings' => ['integer', (int) $this->getExportSettings()],
-            'results_presentation' => ['integer', (int) $this->getResultsPresentation()]
+            'exportsettings' => ['integer', $this->getExportSettings()]
         ];
     }
 

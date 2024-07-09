@@ -174,7 +174,7 @@ class TestLogger implements LoggerInterface
 
     public function getComponentLogger(): \ilComponentLogger
     {
-        $this->component_logger;
+        return $this->component_logger;
     }
 
     public function getInteractionFactory(): Factory

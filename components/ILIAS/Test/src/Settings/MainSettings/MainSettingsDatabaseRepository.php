@@ -50,7 +50,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
     public function getFor(int $test_id): MainSettings
     {
-        if (!isset(self::$instances[$test_id])) {
+        if (!isset(self::$instances_by_test_fi[$test_id])) {
             $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
             self::$instances_by_test_fi[$test_id] = $this->doSelect($where_part);
             $obj_id = self::$instances_by_test_fi[$test_id]->getObjId();

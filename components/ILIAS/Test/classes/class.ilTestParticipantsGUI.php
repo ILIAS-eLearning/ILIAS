@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
-use ILiAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Renderer as UIRenderer;
 
 use ILIAS\Test\RequestDataCollector;
 

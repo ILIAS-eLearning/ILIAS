@@ -25,7 +25,6 @@ namespace ILIAS\Test\Certificate;
  */
 class TestPlaceholderDescription implements \ilCertificatePlaceholderDescription
 {
-    private readonly \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private readonly \ilLanguage $language;
     private array $placeholder;
 

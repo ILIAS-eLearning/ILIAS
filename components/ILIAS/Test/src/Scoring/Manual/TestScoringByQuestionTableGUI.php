@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
-use ILIAS\Test\TestDIC;
+use ILIAS\Test\RequestDataCollector;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -184,7 +185,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
 
         $this->tpl->setVariable('VAL_MODAL_CORRECTION', $a_set['feedback'] ?? '');
         if (is_numeric($fin_usr_id) && $fin_usr_id > 0) {
-            $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
+            $this->tpl->setVariable('VAL_FINALIZED_BY', \ilObjUser::_lookupFullname($fin_usr_id));
         }
         $fin_timestamp = $a_set['finalized_tstamp'] ?? 0;
         if ($fin_timestamp > 0) {

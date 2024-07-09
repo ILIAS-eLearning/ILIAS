@@ -411,7 +411,7 @@ class ilTestCorrectionsGUI
                     [
                         AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question_gui->getObject()->getTitle(),
                         AdditionalInformationGenerator::KEY_QUESTION_TEXT => $question_gui->getObject()->getQuestion(),
-                        AdditionalInformationGenerator::KEY_QUESTION => $question_gui->getObject()->getId(),
+                        AdditionalInformationGenerator::KEY_QUESTION_ID => $question_gui->getObject()->getId(),
                         AdditionalInformationGenerator::KEY_QUESTION_TYPE => $question_gui->getObject()->getQuestionType()
                     ]
                 )

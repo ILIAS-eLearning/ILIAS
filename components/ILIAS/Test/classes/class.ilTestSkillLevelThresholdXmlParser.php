@@ -78,7 +78,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 
     public function initSkillLevelThresholdImportList(): void
     {
-        $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($this->db);
+        $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList();
     }
 
     public function getCurSkillBaseId(): ?int
@@ -144,7 +144,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 break;
 
             case 'SkillLevel':
-                $skillLevelThreshold = new ilTestSkillLevelThresholdImport($this->db);
+                $skillLevelThreshold = new ilTestSkillLevelThresholdImport();
                 $skillLevelThreshold->setImportSkillBaseId($this->getCurSkillBaseId());
                 $skillLevelThreshold->setImportSkillTrefId($this->getCurSkillTrefId());
                 $skillLevelThreshold->setImportLevelId($tagAttributes['Id']);

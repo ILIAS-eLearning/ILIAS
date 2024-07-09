@@ -94,10 +94,6 @@ class MarkSchemaGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
         }
 
-        if ($this->runTableCommand()) {
-            return;
-        }
-
         $mark_schema_table = new MarkSchemaTable(
             $this->mark_schema,
             $this->editable,

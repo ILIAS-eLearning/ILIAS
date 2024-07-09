@@ -41,8 +41,8 @@ class ilMyTestResultsGUITest extends ilTestBaseTestCase
         $this->testObj = new ilMyTestResultsGUI(
             $this->test,
             $this->access,
-            $this->session,
             $this->objective_parent,
+            $this->createMock(ilObjUser::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
             $this->createMock(ilGlobalTemplateInterface::class),

@@ -153,7 +153,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             $this->deliver();
         }
 
-        $this->error->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
     }
 
     public static function _goto(string $a_target): void

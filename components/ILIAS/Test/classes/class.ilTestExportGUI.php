@@ -133,6 +133,8 @@ class ilTestExportGUI extends ilExportGUI
 
             $archiveService = new ilTestArchiveService(
                 $this->obj,
+                $this->questionrepository,
+                $this->testrequest,
                 $this->lng,
                 $this->db,
                 $this->ctrl,
@@ -143,6 +145,7 @@ class ilTestExportGUI extends ilExportGUI
                 $this->ui_factory,
                 $this->ui_renderer,
                 $this->http,
+                $this->refinery,
                 $this->access,
                 $this->irss,
                 $this->obj_cache,
