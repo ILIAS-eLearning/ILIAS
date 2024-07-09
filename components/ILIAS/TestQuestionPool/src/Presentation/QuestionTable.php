@@ -171,7 +171,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     ): \Generator {
         $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         foreach ($this->getData($order, $range) as $idx => $record) {
-            $row_id = (string)$record['question_id'];
+            $row_id = (string) $record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
             $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
             $lifecycle = \ilAssQuestionLifecycle::getInstance($record['lifecycle']);

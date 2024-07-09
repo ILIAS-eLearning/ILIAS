@@ -35,8 +35,10 @@ class ilIdentifiedMultiValuesInputGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilIdentifiedMultiValuesInputGUI{
-            public function onCheckInput(): void {}
+        $this->object = new class () extends ilIdentifiedMultiValuesInputGUI {
+            public function onCheckInput(): void
+            {
+            }
         };
     }
 

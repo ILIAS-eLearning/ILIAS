@@ -37,11 +37,11 @@ class ilAssLacAbstractManufacturerTest extends assBaseTestCase
 
         $ilAssLacAbstractComposite = $this->createMock(ilAssLacAbstractComposite::class);
 
-        $this->object = new class($ilAssLacAbstractComposite) extends ilAssLacAbstractManufacturer{
+        $this->object = new class ($ilAssLacAbstractComposite) extends ilAssLacAbstractManufacturer {
             public function __construct(
                 private readonly ilAssLacAbstractComposite $ilAssLacAbstractComposite
-            )
-            {}
+            ) {
+            }
 
             public static function _getInstance(): ?ilAssLacManufacturerInterface
             {

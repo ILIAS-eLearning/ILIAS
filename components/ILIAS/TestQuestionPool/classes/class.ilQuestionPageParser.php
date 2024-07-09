@@ -491,6 +491,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     $this->link_targets[$a_attribs["Id"]] = $a_attribs['Id'];
                 }
 
+                // no break
             case 'Definition':
                 $this->in_glossary_definition = true;
                 $this->page_object = new ilGlossaryDefPage();

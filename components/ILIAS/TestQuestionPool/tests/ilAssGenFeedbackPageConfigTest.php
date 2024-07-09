@@ -35,13 +35,13 @@ class ilAssGenFeedbackPageConfigTest extends assBaseTestCase
     {
         parent::setUp();
 
-//        $this->object = new ilAssGenFeedbackPageConfig();
+        //        $this->object = new ilAssGenFeedbackPageConfig();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssGenFeedbackPageConfig::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssGenFeedbackPageConfig::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

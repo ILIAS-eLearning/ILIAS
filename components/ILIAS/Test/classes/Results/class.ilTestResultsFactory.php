@@ -89,9 +89,9 @@ class ilTestResultsFactory
             $title = $qresult['title'];
             $question_score = $qresult['max'];
             $usr_score = $qresult['reached'];
-            $workedthrough = (bool)$qresult['workedthrough'];
-            $answered = (bool)$qresult['answered'];
-            $requested_hints = (int)$qresult['requested_hints'];
+            $workedthrough = (bool) $qresult['workedthrough'];
+            $answered = (bool) $qresult['answered'];
+            $requested_hints = (int) $qresult['requested_hints'];
 
 
             $question_gui = $test_obj->createQuestionGUI("", $qid);
@@ -197,7 +197,7 @@ class ilTestResultsFactory
         $show_optional_questions = true;
         $show_best_solution = $is_user_output ?
             $settings_result->getShowSolutionListComparison() :
-            (bool)ilSession::get('tst_results_show_best_solutions');
+            (bool) ilSession::get('tst_results_show_best_solutions');
         $show_feedback = $settings_result->getShowSolutionFeedback();
         $show_question_text_only = $settings_result->getShowSolutionAnswersOnly();
         $show_content_for_recapitulation = $settings_result->getShowSolutionSuggested();

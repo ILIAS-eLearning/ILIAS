@@ -34,7 +34,7 @@ class ilAssQuestionSolutionComparisonExpressionImportListTest extends assBaseTes
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->object = new ilAssQuestionSolutionComparisonExpressionImportList();
     }
 

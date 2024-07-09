@@ -110,8 +110,8 @@ class ilTestPassResultsTable
     protected function getViewControlNamespace(): array
     {
         $namespace = self::URL_NAMESPACE;
-        $namespace[] = (string)$this->test_results->getActiveId();
-        $namespace[] = (string)$this->test_results->getPass();
+        $namespace[] = (string) $this->test_results->getActiveId();
+        $namespace[] = (string) $this->test_results->getPass();
         return $namespace;
     }
 
@@ -180,22 +180,22 @@ class ilTestPassResultsTable
             $title = sprintf(
                 '%s [ID: %s]',
                 $question->getTitle(),
-                (string)$question->getId()
+                (string) $question->getId()
             );
 
             $important_fields = [
-                $lng->txt('question_id') => (string)$question->getId(),
+                $lng->txt('question_id') => (string) $question->getId(),
                 $lng->txt('question_type') => $lng->txt($question->getType()),
                 $lng->txt('points') => sprintf(
                     '%s/%s (%s%%)',
-                    (string)$question->getUserScore(),
-                    (string)$question->getQuestionScore(),
-                    (string)$question->getUserScorePercent()
+                    (string) $question->getUserScore(),
+                    (string) $question->getQuestionScore(),
+                    (string) $question->getUserScorePercent()
                 )
             ];
 
             $stats_fields = $important_fields;
-            $stats_fields[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string)$question->getNumberOfRequestedHints();
+            $stats_fields[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string) $question->getNumberOfRequestedHints();
             $stats = $ui_factory->listing()->characteristicValue()->text($stats_fields);
 
             $user_answer = $question->getUserAnswer();

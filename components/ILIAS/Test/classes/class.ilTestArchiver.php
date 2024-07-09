@@ -244,7 +244,8 @@ class ilTestArchiver
      * @param $pass
      * @return void
      */
-    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj){
+    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj)
+    {
         $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
         foreach ($questions as $question) {
             $question = $tst_obj->getQuestionDataset($question['question_fi']);
@@ -263,9 +264,9 @@ class ilTestArchiver
                     $folder_content = scandir($local_folder);
                     $folder_content = array_diff($folder_content, array('.', '..'));
                     foreach ($folder_content as $file_name) {
-                        if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)){
-                            if ($active_fi == intval($matches[1]) && $pass == $matches[2]){
-                                $local_file= $local_folder . $file_name;
+                        if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)) {
+                            if ($active_fi == intval($matches[1]) && $pass == $matches[2]) {
+                                $local_file = $local_folder . $file_name;
                                 $target_destination = $archive_folder . $file_name;
                                 copy($local_file, $target_destination);
                                 $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
@@ -275,11 +276,11 @@ class ilTestArchiver
                 }
                 // IRSS
                 $resource_id = $tst_obj->getTextAnswer($active_fi, $question->question_id, $pass);
-                if ($resource_id == ''){
+                if ($resource_id == '') {
                     continue;
                 }
                 $irss_unique_id = $this->irss->manage()->find($resource_id);
-                if ($irss_unique_id != null){
+                if ($irss_unique_id != null) {
                     $resource = $this->irss->manage()->getResource($irss_unique_id);
                     $information = $resource->getCurrentRevision()->getInformation();
                     $stream = $this->irss->consume()->stream($irss_unique_id);
