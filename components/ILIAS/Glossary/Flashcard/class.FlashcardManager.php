@@ -36,7 +36,7 @@ class FlashcardManager
     protected Glossary\InternalRepoServiceInterface $repo;
     protected FlashcardTermDBRepository $term_db_repo;
     protected FlashcardBoxDBRepository $box_db_repo;
-    protected FlashcardSessionRepository $session_repo;
+    protected FlashcardSessionRepositoryInterface $session_repo;
     protected int $glo_id;
     protected int $user_id;
     protected \ilObjGlossary $glossary;
@@ -80,6 +80,13 @@ class FlashcardManager
             $term_id = (int) $term["id"];
             $this->all_glossary_term_ids[] = $term_id;
         }
+    }
+
+    protected function getNow(): \DateTimeImmutable
+    {
+        $now = $this->clock->now();
+
+        return $now;
     }
 
     public function setSessionInitialTerms(
@@ -194,7 +201,7 @@ class FlashcardManager
         $non_recent_term_ids = [];
         foreach ($entries as $entry) {
             $entry_day = substr($entry["last_access"], 0, 10);
-            $today = $this->clock->now()->format("Y-m-d");
+            $today = $this->getNow()->format("Y-m-d");
             if ($entry_day !== $today) {
                 $non_recent_term_ids[] = (int) $entry["term_id"];
             }
@@ -214,7 +221,7 @@ class FlashcardManager
         $recent_term_ids = [];
         foreach ($entries as $entry) {
             $entry_day = substr($entry["last_access"], 0, 10);
-            $today = $this->clock->now()->format("Y-m-d");
+            $today = $this->getNow()->format("Y-m-d");
             if ($entry_day === $today) {
                 $recent_term_ids[] = (int) $entry["term_id"];
             }
@@ -258,9 +265,11 @@ class FlashcardManager
         }
         $date_tmp = new \ilDateTime($date_str, IL_CAL_DATETIME);
         $date = new DateTime($date_tmp->get(IL_CAL_DATE));
-        $now = new DateTime($this->clock->now()->format("Y-m-d"));
+        $now = new DateTime($this->getNow()->format("Y-m-d"));
         $diff = $date->diff($now)->days;
-        if ($diff === 0) {
+        if ($diff < 0) {
+            return "invalid";
+        } elseif ($diff === 0) {
             return $lng->txt("today");
         } elseif ($diff === 1) {
             return $lng->txt("yesterday");
@@ -279,6 +288,9 @@ class FlashcardManager
         array $current_terms,
         array $all_terms
     ): int {
+        if (count($all_terms) === 0) {
+            return 0;
+        }
         $shown_terms_cnt = count($all_terms) - count($current_terms);
         $progress = (int) round((($shown_terms_cnt + 1) / count($all_terms)) * 100);
 
@@ -288,7 +300,7 @@ class FlashcardManager
     public function createOrUpdateBoxAccessEntry(
         int $box_nr
     ): void {
-        $now = $this->clock->now()->format("Y-m-d H:i:s");
+        $now = $this->getNow()->format("Y-m-d H:i:s");
         $this->box_db_repo->createOrUpdateEntry($box_nr, $this->user_id, $this->glo_id, $now);
     }
 
@@ -297,7 +309,7 @@ class FlashcardManager
         bool $correct
     ): void {
         $box_nr = $this->getBoxNr($term_id);
-        $now = $this->clock->now()->format("Y-m-d H:i:s");
+        $now = $this->getNow()->format("Y-m-d H:i:s");
 
         if ($box_nr !== 0) {
             $box_nr = $correct ? ($box_nr + 1) : 1;

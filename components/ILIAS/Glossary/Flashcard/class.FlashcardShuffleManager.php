@@ -35,7 +35,7 @@ class FlashcardShuffleManager
     public function shuffleEntries(
         array $box_entries
     ): array {
-        shuffle($box_entries);
+        $box_entries = $this->shuffle($box_entries);
         return $box_entries;
     }
 
@@ -61,11 +61,18 @@ class FlashcardShuffleManager
         $entries = [];
         // shuffle entries with same day
         foreach ($tmp_entries as $entries_per_day) {
-            shuffle($entries_per_day);
+            $entries_per_day = $this->shuffle($entries_per_day);
             foreach ($entries_per_day as $entry) {
                 $entries[] = $entry;
             }
         }
+
+        return $entries;
+    }
+
+    protected function shuffle(array $entries): array
+    {
+        shuffle($entries);
 
         return $entries;
     }

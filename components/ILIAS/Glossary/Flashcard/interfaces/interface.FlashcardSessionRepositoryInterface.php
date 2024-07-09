@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Glossary;
+declare(strict_types=1);
 
-/**
- * @author Thomas Famula <famula@leifos.de>
- */
-interface InternalRepoServiceInterface
+namespace ILIAS\Glossary\Flashcard;
+
+interface FlashcardSessionRepositoryInterface
 {
-    public function termSession(): Term\TermSessionRepository;
+    public const KEY_BASE = "glo_flashcard_";
 
-    public function flashcardTerm(): Flashcard\FlashcardTermDBRepository;
+    public function setInitialTerms(int $glo_id, int $user_id, int $box_nr, array $initial_terms): void;
 
-    public function flashcardBox(): Flashcard\FlashcardBoxDBRepository;
+    public function getInitialTerms(int $glo_id, int $user_id, int $box_nr): array;
 
-    public function flashcardSession(): Flashcard\FlashcardSessionRepositoryInterface;
+    public function setTerms(int $glo_id, int $user_id, int $box_nr, array $terms): void;
+
+    public function getTerms(int $glo_id, int $user_id, int $box_nr): array;
 }

@@ -59,7 +59,7 @@ class InternalRepoService implements InternalRepoServiceInterface
         return new Flashcard\FlashcardBoxDBRepository($this->db);
     }
 
-    public function flashcardSession(): Flashcard\FlashcardSessionRepository
+    public function flashcardSession(): Flashcard\FlashcardSessionRepositoryInterface
     {
         return new Flashcard\FlashcardSessionRepository();
     }

@@ -23,8 +23,10 @@ namespace ILIAS\Glossary\Flashcard;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
+class FlashcardSessionArrayRepository implements FlashcardSessionRepositoryInterface
 {
+    protected array $session = [];
+
     public function __construct()
     {
     }
@@ -32,7 +34,7 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     public function setInitialTerms(int $glo_id, int $user_id, int $box_nr, array $initial_terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_initial_terms";
-        \ilSession::set($key, $initial_terms);
+        $this->session[$key] = $initial_terms;
     }
 
     /**
@@ -41,8 +43,8 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     public function getInitialTerms(int $glo_id, int $user_id, int $box_nr): array
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_initial_terms";
-        if (\ilSession::has($key)) {
-            return \ilSession::get($key);
+        if (isset($this->session[$key])) {
+            return $this->session[$key];
         }
         return [];
     }
@@ -50,7 +52,7 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     public function setTerms(int $glo_id, int $user_id, int $box_nr, array $terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_terms";
-        \ilSession::set($key, $terms);
+        $this->session[$key] = $terms;
     }
 
     /**
@@ -59,8 +61,8 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     public function getTerms(int $glo_id, int $user_id, int $box_nr): array
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_terms";
-        if (\ilSession::has($key)) {
-            return \ilSession::get($key);
+        if (isset($this->session[$key])) {
+            return $this->session[$key];
         }
         return [];
     }
