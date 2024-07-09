@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 {
@@ -29,6 +30,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
     protected ilObjectDefinition $obj_definition;
     protected UIFactory $ui_factory;
     protected Renderer $ui_renderer;
+    protected Refinery $refinery;
 
     protected int $user_id;
 
@@ -43,6 +45,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC['objDefinition'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->refinery = $DIC['refinery'];
 
         $this->user_id = $user_id;
         $this->setId('objownmgmt'); // #16373
