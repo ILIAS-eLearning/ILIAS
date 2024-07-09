@@ -113,12 +113,13 @@ class InterruptiveTest extends ModalBase
     protected function getExpectedHTML(bool $with_items = false): string
     {
         $expected_start = <<<EOT
-<div class="modal fade c-modal--interruptive" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal c-modal--interruptive" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="cancel">
-					<span aria-hidden="true">&times;</span></button><h1 class="modal-title">Title</h1>
+				<div class="modal-header">
+					<button formmethod="dialog" class="close" data-dismiss="modal" aria-label="cancel"><span aria-hidden="true">&times;</span></button>
+					<h1 class="modal-title">Title</h1>
 				</div>
 				<div class="modal-body">
 					<div class="alert alert-warning c-modal--interruptive__message" role="alert">Message</div>
@@ -142,12 +143,12 @@ EOT;
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="delete"/>
-					<button class="btn btn-default" data-dismiss="modal">cancel</button>
+					<button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
 				</div>
 			</div>
 		</form>
 	</div>
-</div>
+</dialog>
 EOT;
         if ($with_items) {
             return $expected_start . $expected_items . $expected_end;

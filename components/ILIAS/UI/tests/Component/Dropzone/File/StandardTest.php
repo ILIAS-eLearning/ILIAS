@@ -42,17 +42,17 @@ class StandardTest extends FileTestBase
 
         $expected_html = $this->brutallyTrimHTML('
 <div id="id_4" class="ui-dropzone ">
-	<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+    <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
 		<div class="modal-dialog" role="document" data-replace-marker="component">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
+				<div class="modal-header"><form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form><h1 class="modal-title">' . $expected_title . ' </h1></div>
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
-				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
+				<div class="modal-footer"><form><button class="btn btn-default" id="id_3">save</button><button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button></form></div>
 			</div>
 		</div>
-	</div>
+	</dialog>
 	<div class="ui-dropzone-container"><span class="ui-dropzone-message">' . $expected_msg . '</span></div>
 </div>
         ');
@@ -111,17 +111,17 @@ class StandardTest extends FileTestBase
 
         $expected_html = $this->brutallyTrimHTML('
 <div id="id_4" class="ui-dropzone ui-dropzone-bulky">
-	<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+	<dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
 		<div class="modal-dialog" role="document" data-replace-marker="component">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
+				<div class="modal-header"><form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form><h1 class="modal-title">' . $expected_title . ' </h1></div>
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
-				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
+				<div class="modal-footer"><form><button class="btn btn-default" id="id_3">save</button><button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button></form></div>
 			</div>
 		</div>
-	</div>
+	</dialog>
 	<div class="ui-dropzone-container"><span class="ui-dropzone-message">' . $expected_msg . '</span></div>
 </div>
         ');

@@ -82,21 +82,24 @@ class RoundTripTest extends ModalBase
     protected function getExpectedHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
    <div class="modal-dialog" role="document" data-replace-marker="component">
       <div class="modal-content">
          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true"></span></button><h1 class="modal-title">Title</h1>
+            <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+            <h1 class="modal-title">Title</h1>
          </div>
          <div class="modal-body">Content</div>
          <div class="modal-footer">
-            <button class="btn btn-default btn-primary" data-action="">Action 1</button>
-            <button class="btn btn-default" data-action="">Action 2</button>
-            <button class="btn btn-default" data-dismiss="modal">cancel</button>
+            <form>
+                <button class="btn btn-default btn-primary" data-action="">Action 1</button>
+                <button class="btn btn-default" data-action="">Action 2</button>
+                <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
+            </form>
          </div>
       </div>
    </div>
-</div>
+</dialog>
 EOT;
     }
 }
