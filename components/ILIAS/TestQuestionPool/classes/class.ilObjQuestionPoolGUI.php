@@ -525,6 +525,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->refinery->custom()->transformation(fn($v) => $v)
                     );
 
+                    if ($ids[0] === 'ALL_OBJECTS') {
+                        $ids = $this->object->getAllQuestionIds();
+                    }
+
                     if (is_null($ids)) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'), true);
                         $this->ctrl->redirect($this, self::DEFAULT_CMD);
