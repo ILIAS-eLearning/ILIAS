@@ -48,10 +48,12 @@ class assQuestionTest extends assBaseTestCase
 
             public function getAdditionalTableName(): string
             {
+                return '';
             }
 
             public function getAnswerTableName(): string
             {
+                return '';
             }
 
             public function calculateReachedPoints(
@@ -59,6 +61,7 @@ class assQuestionTest extends assBaseTestCase
                 ?int $pass = null,
                 bool $authorizedSolution = true
             ): float {
+                return 0.0;
             }
 
             public function getQuestionType(): string

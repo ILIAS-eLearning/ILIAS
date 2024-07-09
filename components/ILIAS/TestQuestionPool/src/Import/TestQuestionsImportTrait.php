@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\Import;
 
-use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 trait TestQuestionsImportTrait
@@ -79,13 +79,14 @@ trait TestQuestionsImportTrait
     private function retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
         string $form_cmd,
         string $importdir,
-        string $qtifile
+        string $qtifile,
+        ServerRequestInterface $request
     ): array {
         $data = $this->buildImportQuestionsSelectionForm(
             $form_cmd,
             $importdir,
             $qtifile
-        )->withRequest($this->request)->getData();
+        )->withRequest($request)->getData();
         if (isset($data['selected_questions'])) {
             return $data['selected_questions'];
         }
@@ -162,7 +163,7 @@ trait TestQuestionsImportTrait
         if (array_key_exists($type, $this->old_export_question_types)) {
             return $this->lng->txt($this->old_export_question_types[$type]);
         }
-        return $this->getLabelForPluginQuestionTypes($item['type']);
+        return $this->getLabelForPluginQuestionTypes($type);
     }
 
     private function getLabelForPluginQuestionTypes(string $type): string

@@ -92,7 +92,7 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
             }
         }
         if ($max == 0) {
-            $this->setAlert($lng->txt("enter_enough_positive_points"));
+            $this->setAlert($this->lng->txt("enter_enough_positive_points"));
             return false;
         }
 

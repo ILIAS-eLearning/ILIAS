@@ -407,10 +407,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return true;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getSolutionSubmit()
+    protected function getSolutionSubmit(): string
     {
         if (ilObjAdvancedEditing::_getRichTextEditor() === 'tinymce') {
             $text = ilUtil::stripSlashes($_POST["TEXT"], false);

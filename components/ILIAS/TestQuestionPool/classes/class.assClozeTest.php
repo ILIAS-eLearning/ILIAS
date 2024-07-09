@@ -1094,7 +1094,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $solutionSubmit;
     }
 
-    public function getSolutionSubmit(): array
+    protected function getSolutionSubmit(): array
     {
         return $this->fetchSolutionSubmit($_POST);
     }
@@ -1546,12 +1546,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param array $user_result
      * @param array $detailed
      */
-    protected function calculateReachedPointsForSolution($user_result, &$detailed = null): float
+    protected function calculateReachedPointsForSolution(?array $user_result, array &$detailed = []): float
     {
-        if ($detailed === null) {
-            $detailed = [];
-        }
-
         $points = 0.0;
 
         $assClozeGapCombinationObj = new assClozeGapCombination();

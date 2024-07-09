@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -47,7 +47,7 @@ class ilAssQuestionFeedbackEditingGUI
         protected readonly ilTabsGUI $tabs,
         protected readonly ilLanguage $lng,
         protected readonly ilHelpGUI $help,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly RequestDataCollector $request,
         private readonly bool $in_pool_context = false
     ) {
         $this->question_obj = $question_gui->getObject();
@@ -153,7 +153,7 @@ class ilAssQuestionFeedbackEditingGUI
     {
         $mode = $this->request->raw('fb_mode');
         $this->ctrl->redirectToUrl(
-            $this->feedbackOBJ->createFeedbackPages($mode)
+            $this->feedback_obj->createFeedbackPages($mode)
         );
     }
 

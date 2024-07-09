@@ -1558,8 +1558,8 @@ abstract class assQuestion implements Question
             if (!file_exists($filepath)) {
                 ilFileUtils::makeDirParents($filepath);
             }
-            if (!is_file($filepath_original . $filename)
-                || !copy($filepath_original . $filename, $filepath . $filename)) {
+            if (!is_file($filepath_original . $solution->getFilename())
+                || !copy($filepath_original . $solution->getFilename(), $filepath . $solution->getFilename())) {
                 $this->log->root()->error("File could not be duplicated!!!!");
                 $this->log->root()->error("object: " . print_r($this, true));
             }

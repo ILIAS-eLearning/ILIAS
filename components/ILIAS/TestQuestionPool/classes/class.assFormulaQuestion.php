@@ -900,7 +900,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                         $queryResult = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $this->db->like('value1', 'clob', $matches[1]);
 
                         if ($this->getStep() !== null) {
-                            $queryResult .= " AND step = " . $db->quote((int) $this->getStep(), 'integer') . " ";
+                            $queryResult .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
                         }
 
                         $result = $this->db->queryF(
@@ -909,8 +909,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                             array($active_id, $pass, $this->getId(), (int) $authorized)
                         );
                         if ($result->numRows()) {
-                            while ($row = $db->fetchAssoc($result)) {
-                                $db->manipulateF(
+                            while ($row = $this->db->fetchAssoc($result)) {
+                                $this->db->manipulateF(
                                     "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
                                     array('integer', 'integer'),
                                     array($row['solution_id'], (int) $authorized)
@@ -926,17 +926,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                         $queryResultUnit = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $this->db->like('value1', 'clob', $matches[1] . "_unit");
 
                         if ($this->getStep() !== null) {
-                            $queryResultUnit .= " AND step = " . $db->quote((int) $this->getStep(), 'integer') . " ";
+                            $queryResultUnit .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
                         }
 
-                        $result = $db->queryF(
+                        $result = $this->db->queryF(
                             $queryResultUnit,
                             array('integer', 'integer', 'integer', 'integer'),
                             array($active_id, $pass, $this->getId(), (int) $authorized)
                         );
                         if ($result->numRows()) {
-                            while ($row = $db->fetchAssoc($result)) {
-                                $db->manipulateF(
+                            while ($row = $this->db->fetchAssoc($result)) {
+                                $this->db->manipulateF(
                                     "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
                                     array('integer', 'integer'),
                                     array($row['solution_id'], (int) $authorized)

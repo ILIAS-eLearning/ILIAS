@@ -508,6 +508,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
             case self::OPTION_LABEL_ADEQUATE_OR_NOT:
                 return 'option_label_adequate';
+
+            default:
+                throw new \ErrorException('Invalide  Option Label');
         }
     }
 
@@ -536,6 +539,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
             case self::OPTION_LABEL_ADEQUATE_OR_NOT:
                 return 'option_label_not_adequate';
+
+            default:
+                throw new \ErrorException('Invalide  Option Label');
         }
     }
 

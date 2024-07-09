@@ -527,12 +527,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->editQuestion();
                 return;
             }
-            // @MBECKER: Check this in running test
-            if (!$this->checkInput()) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
-                $this->editQuestion();
-                return;
-            }
         }
         $this->object->saveToDb();
         $this->ctrl->setParameter($this, "q_id", $this->object->getId());

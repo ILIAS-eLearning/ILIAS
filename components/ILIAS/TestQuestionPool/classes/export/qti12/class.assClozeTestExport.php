@@ -16,8 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionLink;
+
 use ILIAS\Refinery\Random\Group as RandomGroup;
-use ILIAS\TA\Questions\assSuggestedSolutionLink;
 
 /**
 * Class for cloze question exports
@@ -171,7 +172,7 @@ class assClozeTestExport extends assQuestionExport
                         ];
                         $a_xml_writer->xmlStartTag("response_str", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if ($solution instanceof assSuggestedSolutionLink) {
+                        if ($solution instanceof SuggestedSolutionLink) {
                             $internalLink = $solution->getInternalLink();
                             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $internalLink, $matches)) {
                                 $attrs = [
@@ -205,7 +206,7 @@ class assClozeTestExport extends assQuestionExport
                         ];
                         $a_xml_writer->xmlStartTag("response_num", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if ($solution instanceof assSuggestedSolutionLink) {
+                        if ($solution instanceof SuggestedSolutionLink) {
                             $internalLink = $solution->getInternalLink();
                             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $internalLink, $matches)) {
                                 $attrs = [

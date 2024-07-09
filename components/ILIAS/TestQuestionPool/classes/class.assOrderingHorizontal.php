@@ -185,7 +185,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return $result;
     }
 
-    public function getSolutionSubmit()
+    protected function getSolutionSubmit(): string
     {
         return $this->questionpool_request->retrieveStringValueFromPost('orderresult');
     }
@@ -529,7 +529,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param $value
      * @return float
      */
-    protected function calculateReachedPointsForSolution($value): float
+    protected function calculateReachedPointsForSolution(?array $value): float
     {
         $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
         $value = join($this->answer_separator, $value);

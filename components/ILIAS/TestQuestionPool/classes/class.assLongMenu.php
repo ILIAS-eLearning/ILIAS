@@ -496,7 +496,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return $this->calculateReachedPointsForSolution($found_values, $active_id);
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
+    protected function calculateReachedPointsForSolution(?array $found_values, int $active_id = 0): float
     {
         if ($found_values == null) {
             $found_values = [];
@@ -596,7 +596,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     // fau.
 
 
-    public function getSolutionSubmit(): array
+    protected function getSolutionSubmit(): array
     {
         $answer = $this->questionpool_request->retrieveArrayOfStringsFromPost('answer');
 

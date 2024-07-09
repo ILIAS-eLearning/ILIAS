@@ -176,6 +176,7 @@ class assQuestionImport
         int &$question_counter,
         array $import_mapping
     ): array {
+        return [];
     }
 
     /**

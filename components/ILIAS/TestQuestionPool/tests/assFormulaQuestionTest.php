@@ -66,9 +66,6 @@ class assFormulaQuestionTest extends assBaseTestCase
 
     public static function simpleRatedCalculationsData(): array
     {
-        global $DIC;
-
-        $DIC = new ILIAS\DI\Container(['tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()]);
         $points = 5;
         $precision = 2;
 
