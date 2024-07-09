@@ -150,7 +150,7 @@ class ilTestAccess
     protected function checkAccessForActiveId(Closure $access_filter, int $active_id, int $test_id): bool
     {
         $participantData = new ilTestParticipantData($this->db, $this->lng);
-        $participantData->setActiveIdsFilter(array($active_id));
+        $participantData->setActiveIdsFilter([$active_id]);
         $participantData->setParticipantAccessFilter($access_filter);
         $participantData->load($test_id);
 

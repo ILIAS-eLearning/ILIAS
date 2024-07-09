@@ -267,16 +267,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
-                $options = array(
+                $options = [
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
-                );
+                ];
             } else {
-                $options = array(
+                $options = [
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
-                );
+                ];
             }
 
             if (!$this->object->getAnonymity()) {
@@ -451,12 +451,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
                 $counter = 0;
                 foreach ((array) $questions as $question) {
-                    $userDataData = array(
+                    $userDataData = [
                         'counter' => ++$counter,
                         'id' => $question['id'],
                         'id_txt' => $this->lng->txt('question_id_short'),
                         'title' => $data->getQuestionTitle($question['id'])
-                    );
+                    ];
 
                     $answeredquestion = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
                     if (is_array($answeredquestion)) {
@@ -537,15 +537,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $select = $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'));
             $this->toolbar->addComponent($select);
 
-            $data[] = array(
+            $data[] = [
                 'result' => $this->lng->txt("tst_eval_total_persons"),
                 'value' => count($found_participants)
-            );
+            ];
             $total_finished = $eval->getTotalFinishedParticipants();
-            $data[] = array(
+            $data[] = [
                 'result' => $this->lng->txt("tst_eval_total_finished"),
                 'value' => $total_finished
-            );
+            ];
             $average_time = $this->object->evalTotalStartedAverageTime(
                 $eval->getParticipantIds()
             );
@@ -554,10 +554,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $diff_seconds -= $diff_hours * 3600;
             $diff_minutes = floor($diff_seconds / 60);
             $diff_seconds -= $diff_minutes * 60;
-            array_push($data, array(
+            array_push($data, [
                 'result' => $this->lng->txt("tst_eval_total_finished_average_time"),
                 'value' => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
-            ));
+            ]);
             $total_passed = 0;
             $total_passed_reached = 0;
             $total_passed_max = 0;
@@ -573,24 +573,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $average_passed_reached = $total_passed ? $total_passed_reached / $total_passed : 0;
             $average_passed_max = $total_passed ? $total_passed_max / $total_passed : 0;
             $average_passed_time = $total_passed ? $total_passed_time / $total_passed : 0;
-            array_push($data, array(
+            array_push($data, [
                 'result' => $this->lng->txt("tst_eval_total_passed"),
                 'value' => $total_passed
-            ));
-            array_push($data, array(
+            ]);
+            array_push($data, [
                 'result' => $this->lng->txt("tst_eval_total_passed_average_points"),
                 'value' => sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max)
-            ));
+            ]);
             $average_time = $average_passed_time;
             $diff_seconds = $average_time;
             $diff_hours = floor($diff_seconds / 3600);
             $diff_seconds -= $diff_hours * 3600;
             $diff_minutes = floor($diff_seconds / 60);
             $diff_seconds -= $diff_minutes * 60;
-            array_push($data, array(
+            array_push($data, [
                 'result' => $this->lng->txt("tst_eval_total_passed_average_time"),
                 'value' => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
-            ));
+            ]);
         }
 
         $table_gui = new ilTestAggregatedResultsTableGUI($this, 'eval_a');
@@ -1889,7 +1889,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
 
         $participant_data = new ilTestParticipantData($this->db, $this->lng);
-        $participant_data->setActiveIdsFilter(array($active_id));
+        $participant_data->setActiveIdsFilter([$active_id]);
         $participant_data->setParticipantAccessFilter($access_filter);
         $participant_data->load($this->object->getTestId());
 

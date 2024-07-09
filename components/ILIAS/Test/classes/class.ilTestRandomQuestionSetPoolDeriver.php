@@ -115,7 +115,7 @@ class ilTestRandomQuestionSetPoolDeriver
 
         $questionList->loadQuestions();
 
-        $questions = array();
+        $questions = [];
         $list = $questionList->getQuestions();
         foreach ($list as $questionId) {
             $questions[] = assQuestion::instantiateQuestion($questionId);
@@ -138,7 +138,7 @@ class ilTestRandomQuestionSetPoolDeriver
 
     protected function copyQuestionsToPool(ilObjQuestionPool $pool, $questions): array
     {
-        $poolQidByTestQidMap = array();
+        $poolQidByTestQidMap = [];
 
         foreach ($questions as $questionOBJ) {
             /* @var assQuestion $questionOBJ */
@@ -162,7 +162,7 @@ class ilTestRandomQuestionSetPoolDeriver
 
     protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds): array
     {
-        $filteredTaxIds = array();
+        $filteredTaxIds = [];
 
         foreach ($taxonomyIds as $taxonomyId) {
             $taxNodeAssignment = new ilTaxNodeAssignment(
@@ -204,11 +204,11 @@ class ilTestRandomQuestionSetPoolDeriver
 
     protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter): array
     {
-        $originalTaxonomyFilter = array();
+        $originalTaxonomyFilter = [];
 
         foreach ($mappedTaxonomyFilter as $testTaxonomyId => $testTaxNodes) {
             $poolTaxonomyId = $taxKeysMap->getMappedTaxonomyId($testTaxonomyId);
-            $originalTaxonomyFilter[$poolTaxonomyId] = array();
+            $originalTaxonomyFilter[$poolTaxonomyId] = [];
 
             foreach ($testTaxNodes as $testTaxNode) {
                 $poolTaxNode = $taxKeysMap->getMappedTaxNodeId($testTaxNode);

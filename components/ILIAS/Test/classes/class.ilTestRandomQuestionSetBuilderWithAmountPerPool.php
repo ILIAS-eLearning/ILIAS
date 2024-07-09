@@ -104,7 +104,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
                         $translator->loadLabels($this->sourcePoolDefinitionList);
                     }
                     $this->logger->info("RANDOM TEST: missing questions for: "
-                        . implode(" - ", array($definition->getPoolTitle(), $translator->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter()))));
+                        . implode(" - ", [$definition->getPoolTitle(), $translator->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter())]));
                 }
                 // fau.
                 $questions = $actualQuestionStage;

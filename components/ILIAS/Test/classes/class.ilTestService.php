@@ -87,18 +87,18 @@ class ilTestService
                     $testMaxPoints = $result_data["test"]["total_max_points"];
                     $testReachedPoints = $result_data["test"]["total_reached_points"];
 
-                    $passOverwiewData['test'] = array(
+                    $passOverwiewData['test'] = [
                         'active_id' => $active_id,
                         'scored_pass' => $scoredPass,
                         'max_points' => $testMaxPoints,
                         'reached_points' => $testReachedPoints,
                         'percentage' => $testPercentage
-                    );
+                    ];
                 } else {
                     $isScoredPass = false;
                 }
 
-                $passOverwiewData['passes'][] = array(
+                $passOverwiewData['passes'][] = [
                     'active_id' => $active_id,
                     'pass' => $pass,
                     'finishdate' => $passFinishDate,
@@ -108,7 +108,7 @@ class ilTestService
                     'answered_questions' => $passAnsweredQuestions,
                     'total_questions' => $passTotalQuestions,
                     'is_scored_pass' => $isScoredPass
-                );
+                ];
             }
         }
 
@@ -251,7 +251,7 @@ class ilTestService
 
 
             // fau: testNav - add number parameter for getQuestionTitle()
-            $data[] = array(
+            $data[] = [
                 'order' => $value["nr"],
                 'title' => $this->object->getQuestionTitle($value["title"], $value["nr"], $value["points"]),
                 'description' => $description,
@@ -263,7 +263,7 @@ class ilTestService
                 'sequence' => $value["sequence"],
                 'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
-            );
+            ];
 
             $firstQuestion = false;
             // fau.

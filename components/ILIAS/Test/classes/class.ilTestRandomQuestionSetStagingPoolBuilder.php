@@ -81,7 +81,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
 
         $query = "DELETE FROM tst_rnd_cpy WHERE tst_fi = %s";
-        $this->db->manipulateF($query, array('integer'), array($this->test_obj->getTestId()));
+        $this->db->manipulateF($query, ['integer'], [$this->test_obj->getTestId()]);
     }
 
     private function build(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
@@ -99,22 +99,22 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
     private function stageQuestionsFromSourcePool($sourcePoolId): array
     {
-        $questionIdMapping = array();
+        $questionIdMapping = [];
 
         $query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
-        $res = $this->db->queryF($query, array('integer', 'text'), array($sourcePoolId, 1));
+        $res = $this->db->queryF($query, ['integer', 'text'], [$sourcePoolId, 1]);
 
         while ($row = $this->db->fetchAssoc($res)) {
             $question = assQuestion::instantiateQuestion($row['question_id']);
             $duplicateId = $question->duplicate(true, '', '', -1, $this->test_obj->getId());
 
             $nextId = $this->db->nextId('tst_rnd_cpy');
-            $this->db->insert('tst_rnd_cpy', array(
-                'copy_id' => array('integer', $nextId),
-                'tst_fi' => array('integer', $this->test_obj->getTestId()),
-                'qst_fi' => array('integer', $duplicateId),
-                'qpl_fi' => array('integer', $sourcePoolId)
-            ));
+            $this->db->insert('tst_rnd_cpy', [
+                'copy_id' => ['integer', $nextId],
+                'tst_fi' => ['integer', $this->test_obj->getTestId()],
+                'qst_fi' => ['integer', $duplicateId],
+                'qpl_fi' => ['integer', $sourcePoolId]
+            ]);
 
             $questionIdMapping[ $row['question_id'] ] = $duplicateId;
         }
@@ -141,7 +141,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             if (!empty($taxFilter)) {
                 $filterItems = null;
                 foreach ($taxFilter as $taxId => $nodeIds) {
-                    $taxItems = array();
+                    $taxItems = [];
                     foreach ($nodeIds as $nodeId) {
                         $nodeItems = ilObjTaxonomy::getSubTreeItems(
                             'qpl',
@@ -202,23 +202,23 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         if (!empty($lifecycleFilter)) {
             $query .= ' AND ' . $this->db->in('lifecycle', $lifecycleFilter, false, 'text');
         }
-        $res = $this->db->queryF($query, array('integer', 'text'), array($sourcePoolId, 1));
+        $res = $this->db->queryF($query, ['integer', 'text'], [$sourcePoolId, 1]);
 
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($questionIdMappingPerPool[$sourcePoolId])) {
-                $questionIdMappingPerPool[$sourcePoolId] = array();
+                $questionIdMappingPerPool[$sourcePoolId] = [];
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::instantiateQuestion($row['question_id']);
                 $duplicateId = $question->duplicate(true, '', '', -1, $this->test_obj->getId());
 
                 $nextId = $this->db->nextId('tst_rnd_cpy');
-                $this->db->insert('tst_rnd_cpy', array(
-                    'copy_id' => array('integer', $nextId),
-                    'tst_fi' => array('integer', $this->test_obj->getTestId()),
-                    'qst_fi' => array('integer', $duplicateId),
-                    'qpl_fi' => array('integer', $sourcePoolId)
-                ));
+                $this->db->insert('tst_rnd_cpy', [
+                    'copy_id' => ['integer', $nextId],
+                    'tst_fi' => ['integer', $this->test_obj->getTestId()],
+                    'qst_fi' => ['integer', $duplicateId],
+                    'qpl_fi' => ['integer', $sourcePoolId]
+                ]);
 
                 $questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ] = $duplicateId;
             }

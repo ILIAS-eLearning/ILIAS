@@ -144,55 +144,55 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
     {
         $cols = [];
         if (!$this->anonymity) {
-            $cols["gender"] = array(
+            $cols["gender"] = [
                 "txt" => $this->lng->txt("gender"),
                 "default" => false
-            );
-            $cols["email"] = array(
+            ];
+            $cols["email"] = [
                 "txt" => $this->lng->txt("email"),
                 "default" => false
-            );
-            $cols["institution"] = array(
+            ];
+            $cols["institution"] = [
                 "txt" => $this->lng->txt("institution"),
                 "default" => false
-            );
-            $cols["street"] = array(
+            ];
+            $cols["street"] = [
                 "txt" => $this->lng->txt("street"),
                 "default" => false
-            );
-            $cols["city"] = array(
+            ];
+            $cols["city"] = [
                 "txt" => $this->lng->txt("city"),
                 "default" => false
-            );
-            $cols["zipcode"] = array(
+            ];
+            $cols["zipcode"] = [
                 "txt" => $this->lng->txt("zipcode"),
                 "default" => false
-            );
+            ];
             if ($this->isFieldEnabledEnoughByAdministration('country')) {
-                $cols["country"] = array(
+                $cols["country"] = [
                     "txt" => $this->lng->txt("country"),
                     "default" => false
-                );
+                ];
             }
             if ($this->isFieldEnabledEnoughByAdministration('sel_country')) {
-                $cols["sel_country"] = array(
+                $cols["sel_country"] = [
                     "txt" => $this->lng->txt("country"),
                     "default" => false
-                );
+                ];
             }
-            $cols["department"] = array(
+            $cols["department"] = [
                 "txt" => $this->lng->txt("department"),
                 "default" => false
-            );
-            $cols["matriculation"] = array(
+            ];
+            $cols["matriculation"] = [
                 "txt" => $this->lng->txt("matriculation"),
                 "default" => false
-            );
+            ];
             if ($this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
-                $cols["exam_id"] = array(
+                $cols["exam_id"] = [
                     "txt" => $this->lng->txt("exam_id_label"),
                     "default" => false
-                );
+                ];
             }
         }
         return $cols;
@@ -321,7 +321,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
         $cols = $this->getSelectableColumns();
         if (!is_array($cols)) {
-            $cols = array();
+            $cols = [];
         }
 
         $fields_to_unset = array_diff(array_keys($scol), array_keys($cols));

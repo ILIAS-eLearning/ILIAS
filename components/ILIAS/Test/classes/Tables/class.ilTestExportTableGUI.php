@@ -58,7 +58,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
      */
     public function getExportFiles(): array
     {
-        return array();
+        return [];
     }
 
     protected function initColumns(): void
@@ -72,7 +72,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
 
     public function numericOrdering(string $a_field): bool
     {
-        if (in_array($a_field, array('size', 'date'))) {
+        if (in_array($a_field, ['size', 'date'])) {
             return true;
         }
 

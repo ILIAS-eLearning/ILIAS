@@ -86,7 +86,7 @@ class ilAssQuestionPageCommandForwarder
         $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
 
         $page_gui->setEditPreview(true);
-        $page_gui->setQuestionHTML(array($q_gui->getObject()->getId() => $q_gui->getPreview(true)));
+        $page_gui->setQuestionHTML([$q_gui->getObject()->getId() => $q_gui->getPreview(true)]);
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setOutputMode($this->test_obj->evalTotalPersons() == 0 ? "edit" : 'preview');
         $page_gui->setHeader($question->getTitle());

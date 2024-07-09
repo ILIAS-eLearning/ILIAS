@@ -44,7 +44,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     public function __construct(ilTestProcessLockFileStorage $lockFileStorage)
     {
         $this->lockFileStorage = $lockFileStorage;
-        $this->lockFileHandles = array();
+        $this->lockFileHandles = [];
     }
 
     /**

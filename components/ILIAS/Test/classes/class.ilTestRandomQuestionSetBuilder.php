@@ -187,15 +187,15 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     {
         $nextId = $this->db->nextId('tst_test_rnd_qst');
 
-        $this->db->insert('tst_test_rnd_qst', array(
-            'test_random_question_id' => array('integer', $nextId),
-            'active_fi' => array('integer', $testSession->getActiveId()),
-            'question_fi' => array('integer', $setQuestion->getQuestionId()),
-            'sequence' => array('integer', $setQuestion->getSequencePosition()),
-            'pass' => array('integer', $testSession->getPass()),
-            'tstamp' => array('integer', time()),
-            'src_pool_def_fi' => array('integer', $setQuestion->getSourcePoolDefinitionId())
-        ));
+        $this->db->insert('tst_test_rnd_qst', [
+            'test_random_question_id' => ['integer', $nextId],
+            'active_fi' => ['integer', $testSession->getActiveId()],
+            'question_fi' => ['integer', $setQuestion->getQuestionId()],
+            'sequence' => ['integer', $setQuestion->getSequencePosition()],
+            'pass' => ['integer', $testSession->getPass()],
+            'tstamp' => ['integer', time()],
+            'src_pool_def_fi' => ['integer', $setQuestion->getSourcePoolDefinitionId()]
+        ]);
     }
 
     protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount): ilTestRandomQuestionSetQuestionCollection

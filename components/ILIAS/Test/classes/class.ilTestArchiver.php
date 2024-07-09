@@ -262,7 +262,7 @@ class ilTestArchiver
                 $local_folder = CLIENT_WEB_DIR . '/assessment/tst_' . $tst_obj->test_id . self::DIR_SEP . $active_fi . self::DIR_SEP . $question->question_id . '/files/';
                 if (file_exists($local_folder)) {
                     $folder_content = scandir($local_folder);
-                    $folder_content = array_diff($folder_content, array('.', '..'));
+                    $folder_content = array_diff($folder_content, ['.', '..']);
                     foreach ($folder_content as $file_name) {
                         if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)) {
                             if ($active_fi == intval($matches[1]) && $pass == $matches[2]) {
@@ -441,7 +441,7 @@ class ilTestArchiver
 
         $objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
         $gui->setObjectiveParent($objectiveOrientedContainer);
-        $array_of_actives = array();
+        $array_of_actives = [];
         $participants = $test->getParticipants();
 
         foreach ($participants as $key => $value) {
@@ -721,7 +721,7 @@ class ilTestArchiver
          */
         $data_index_file = $this->getTestArchive() . self::DIR_SEP . self::DATA_INDEX_FILENAME;
 
-        $contents = array();
+        $contents = [];
 
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         if (@file_exists($data_index_file)) {
@@ -793,13 +793,13 @@ class ilTestArchiver
             throw new Exception('Invalid date format. Expected ISO 8601 format.');
         }
 
-        $line = array(
+        $line = [
             'identifier' => $active_fi . '|' . $pass,
             'yyyy' => date_format($date, 'Y'),
             'mm' => date_format($date, 'm'),
             'dd' => date_format($date, 'd'),
             'directory' => $active_fi . '_' . $pass . '_' . $user_firstname . '_' . $user_lastname . '_' . $matriculation
-        );
+        ];
         return $line;
     }
 
@@ -837,7 +837,7 @@ class ilTestArchiver
         /** @noinspection PhpAssignmentInConditionInspection */
         if ($handle = opendir($directory)) {
             while (($file = readdir($handle)) !== false) {
-                if (!in_array($file, array( '.', '..' )) && !is_dir($directory . $file)) {
+                if (!in_array($file, [ '.', '..' ]) && !is_dir($directory . $file)) {
                     if ($pattern && strpos($file, $pattern) === 0) {
                         $filecount++;
                     }

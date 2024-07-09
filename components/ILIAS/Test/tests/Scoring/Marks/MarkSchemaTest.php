@@ -44,7 +44,7 @@ class MarkSchemaTest extends ilTestBaseTestCase
     public function testConstructor()
     {
         // Arrange
-        $expected = is_array(array());
+        $expected = is_array([]);
 
         // Act
         $actual = is_array($this->ass_mark_schema->mark_steps);

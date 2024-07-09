@@ -102,7 +102,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 
     private function setRecipient($userId): void
     {
-        $this->setRecipients(array($userId));
+        $this->setRecipients([$userId]);
     }
 
     private function getRecipient()

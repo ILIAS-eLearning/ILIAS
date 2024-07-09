@@ -42,11 +42,11 @@ class ilTestLP extends ilObjectLP
 
     public static function getDefaultModes(bool $a_lp_active): array
     {
-        return array(
+        return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_TEST_FINISHED,
             ilLPObjSettings::LP_MODE_TEST_PASSED
-        );
+        ];
     }
 
     public function getDefaultMode(): int
@@ -56,11 +56,11 @@ class ilTestLP extends ilObjectLP
 
     public function getValidModes(): array
     {
-        return array(
+        return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_TEST_FINISHED,
             ilLPObjSettings::LP_MODE_TEST_PASSED
-        );
+        ];
     }
 
     public function isAnonymized(): bool
