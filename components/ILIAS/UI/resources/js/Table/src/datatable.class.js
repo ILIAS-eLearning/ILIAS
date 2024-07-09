@@ -231,7 +231,7 @@ export default class DataTable {
         if (this.#jquery(html).first().prop('tagName') === 'SCRIPT') {
           this.#jquery.globalEval(this.#jquery(html).first().text());
         } else {
-          if (this.#jquery(html).first().hasClass('modal')) {
+          if (this.#jquery(html).first().hasClass('c-modal')) {
             this.#modalResponseArea.innerHTML = html;
             modalId = this.#jquery(html).first().get(0).id;
           } else {
