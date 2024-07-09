@@ -41,7 +41,7 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Counter/dist/counter.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/Dropdown/dropdown.js");
+            new Component\Resource\ComponentJS($this, "js/Dropdown/dist/dropdown.js");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");

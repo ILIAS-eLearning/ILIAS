@@ -456,7 +456,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
                     <div class="il-pagetitle">pagetitle</div>
                 </div>
                 <nav class="il-header-locator">
-                    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label3<span class="caret"></span></button>
+                    <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label3<span class="caret"></span></button>
                         <ul id="id_3_menu" class="dropdown-menu">
                             <li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li>
                             <li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li>

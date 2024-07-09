@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
@@ -117,6 +118,10 @@ class Renderer extends AbstractComponentRenderer
             fn($id) => "$('#{$id} > .dropdown-menu')
                 .on('click', (event) =>  event.stopPropagation());"
         );
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) =>
+            "il.UI.dropdown.init(document.getElementById(\"$id\"));"
+        );
 
         $id = $this->bindJavaScript($component);
         $container_submit_signal = $component->getOnChangeSignal();
@@ -175,6 +180,10 @@ class Renderer extends AbstractComponentRenderer
                     });"
             );
         }
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) =>
+            "il.UI.dropdown.init(document.getElementById(\"$id\"));"
+        );
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable('ID', $id);
@@ -354,6 +363,15 @@ class Renderer extends AbstractComponentRenderer
                     });"
             );
         }
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) => "
+                il.UI.dropdown.init(
+                    document.getElementById(\"$id\").querySelector(
+                        '.dropdown.il-viewcontrol-pagination__num-of-items'
+                    )
+                );
+            "
+        );
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable('ID', $id);
@@ -370,5 +388,14 @@ class Renderer extends AbstractComponentRenderer
         );
 
         return $tpl->get();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/dropdown.js');
     }
 }
