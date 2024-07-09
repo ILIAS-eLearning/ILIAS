@@ -25,22 +25,19 @@ il.UI = il.UI || {};
             if (options.ajaxRenderUrl) {
                 var $container = $('#' + id);
                 $container.load(options.ajaxRenderUrl, function() {
-                    var $modal = $(this).find('.modal');
-                    if ($modal.length) {
-                        $modal.modal(options);
-                    }
+                    document.querySelector('#' + id + ' > dialog').showModal();
                     triggeredSignalsStorage[signalData.id] = false;
                 });
             } else {
-                var $modal = $('#' + id);
-                $modal.modal(options);
+                //$modal.modal(options);
+                document.getElementById(id).showModal();
                 triggeredSignalsStorage[signalData.id] = false;
             }
-			initializedModalboxes[signalData.id] = id;
-		};
+            initializedModalboxes[signalData.id] = id;
+        };
 
         var closeModal = function (id) {
-            $('#' + id).modal('hide');
+            document.getElementById(id).close();
         };
 
         /**
