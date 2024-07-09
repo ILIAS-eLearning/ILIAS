@@ -81,7 +81,7 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
     {
         $tpl = new ilTemplate('tpl.prop_gap_combi_answers_input.html', true, true, 'components/ILIAS/TestQuestionPool');
 
-        $gaps = array();
+        $gaps = [];
 
         foreach ($this->values as $varId => $variant) {
             foreach ($variant['gaps'] as $gapIndex => $answer) {

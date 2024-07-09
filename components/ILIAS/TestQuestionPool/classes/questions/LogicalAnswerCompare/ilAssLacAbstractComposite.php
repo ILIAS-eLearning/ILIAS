@@ -28,7 +28,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
     /**
      * @var ilAssLacAbstractComposite[]
      */
-    public $nodes = array();
+    public $nodes = [];
 
     /**
      * Adds an ilAssLacCompositeInterface object to the node array which represents the condition tree structure

@@ -246,20 +246,20 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         // save additional data
         $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
         $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, long_menu_text, feedback_setting, min_auto_complete, identical_scoring) VALUES (%s, %s, %s, %s, %s)",
-            array( "integer", "text", "integer", "integer", "integer"),
-            array(
+            [ "integer", "text", "integer", "integer", "integer"],
+            [
                 $this->getId(),
                 $this->getLongMenuTextValue(),
                 $this->getSpecificFeedbackSetting(),
                 $this->getMinAutoComplete(),
                 $this->getIdenticalScoring()
-            )
+            ]
         );
 
         $this->createFileFromArray();
@@ -279,16 +279,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
                 }
                 $this->db->replace(
                     $this->getAnswerTableName(),
-                    array(
-                        'question_fi' => array('integer', $this->getId()),
-                        'gap_number' => array('integer', (int) $gap_number),
-                        'position' => array('integer', (int) $position)
-                        ),
-                    array(
-                        'answer_text' => array('text', $answer),
-                        'points' => array('float', $gap[1]),
-                        'type' => array('integer', (int) $type)
-                        )
+                    [
+                        'question_fi' => ['integer', $this->getId()],
+                        'gap_number' => ['integer', (int) $gap_number],
+                        'position' => ['integer', (int) $position]
+                        ],
+                    [
+                        'answer_text' => ['text', $answer],
+                        'points' => ['float', $gap[1]],
+                        'type' => ['integer', (int) $type]
+                        ]
                 );
             }
             $points += $gap[1];
@@ -362,8 +362,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
@@ -406,11 +406,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY gap_number, position ASC",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
-        $correct_answers = array();
+        $correct_answers = [];
         while ($data = $this->db->fetchAssoc($res)) {
             $correct_answers[$data['gap_number']][0][$data['position']] = rtrim($data['answer_text']);
             $correct_answers[$data['gap_number']][1] = $data['points'];
@@ -422,11 +422,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     public function getCorrectAnswersForQuestionSolution($question_id): array
     {
-        $correct_answers = array();
+        $correct_answers = [];
         $res = $this->db->queryF(
             'SELECT gap_number, answer_text FROM  ' . $this->getAnswerTableName() . ' WHERE question_fi = %s',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         while ($data = $this->db->fetchAssoc($res)) {
             if (array_key_exists($data['gap_number'], $correct_answers)) {
@@ -441,11 +441,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     private function getCorrectAnswersForGap($question_id, $gap_id): array
     {
-        $correct_answers = array();
+        $correct_answers = [];
         $res = $this->db->queryF(
             'SELECT answer_text FROM  ' . $this->getAnswerTableName() . ' WHERE question_fi = %s AND gap_number = %s',
-            array('integer', 'integer'),
-            array($question_id, $gap_id)
+            ['integer', 'integer'],
+            [$question_id, $gap_id]
         );
         while ($data = $this->db->fetchAssoc($res)) {
             $correct_answers[] = rtrim($data['answer_text']);
@@ -458,8 +458,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $points = 0.0;
         $res = $this->db->queryF(
             'SELECT points FROM  ' . $this->getAnswerTableName() . ' WHERE question_fi = %s AND gap_number = %s GROUP BY gap_number, points',
-            array('integer', 'integer'),
-            array($question_id, $gap_id)
+            ['integer', 'integer'],
+            [$question_id, $gap_id]
         );
         while ($data = $this->db->fetchAssoc($res)) {
             $points = (float) $data['points'];
@@ -484,7 +484,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         ?int $pass = null,
         bool $authorized_solution = true
     ): float {
-        $found_values = array();
+        $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
@@ -560,10 +560,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
      */
     public function lookupForExistingSolutions(int $activeId, int $pass): array
     {
-        $return = array(
+        $return = [
             'authorized' => false,
             'intermediate' => false
-        );
+        ];
 
         $query = "
 			SELECT authorized, COUNT(*) cnt
@@ -723,8 +723,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $this->db->manipulateF(
             'DELETE FROM ' . $this->getAnswerTableName() . ' WHERE question_fi = %s',
-            array( 'integer' ),
-            array( $question_id )
+            [ 'integer' ],
+            [ $question_id ]
         );
     }
 
@@ -747,7 +747,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
      */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -756,10 +756,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $result['lmtext'] = $this->formatSAQuestion($replaced_quesiton_text);
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['answers'] = $this->getAnswers();

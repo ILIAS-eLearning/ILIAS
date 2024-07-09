@@ -63,7 +63,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      */
     protected function setMatches($matches): void
     {
-        $this->ordering = array();
+        $this->ordering = [];
 
         foreach ($matches[0] as $match) {
             $this->ordering[] = $match;

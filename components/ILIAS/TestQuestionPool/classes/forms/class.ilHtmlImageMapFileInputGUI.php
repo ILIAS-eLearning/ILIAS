@@ -24,7 +24,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * @var ASS_AnswerImagemap[]
      */
-    protected $shapes = array();
+    protected $shapes = [];
 
     /**
      * {@inheritdoc}

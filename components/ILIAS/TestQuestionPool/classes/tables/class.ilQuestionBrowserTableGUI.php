@@ -44,7 +44,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected $confirmdelete;
     protected array $filter = [];
 
-    protected $taxIds = array();
+    protected $taxIds = [];
 
     /**
      * @var bool
@@ -56,7 +56,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $a_parent_cmd,
         $a_write_access = false,
         $confirmdelete = false,
-        $taxIds = array(),
+        $taxIds = [],
         $enableCommenting = false
     ) {
         $this->setQuestionCommentingEnabled($enableCommenting);
@@ -224,45 +224,45 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $cols["description"] = array(
+        $cols["description"] = [
             "txt" => $lng->txt("description"),
             "default" => true
-        );
-        $cols["type"] = array(
+        ];
+        $cols["type"] = [
             "txt" => $lng->txt("question_type"),
             "default" => true
-        );
+        ];
         if (!$this->confirmdelete) {
-            $cols["points"] = array(
+            $cols["points"] = [
                 "txt" => $lng->txt("points"),
                 "default" => true
-            );
-            $cols["statistics"] = array(
+            ];
+            $cols["statistics"] = [
                 "txt" => $lng->txt("statistics"),
                 "default" => true
-            );
-            $cols["author"] = array(
+            ];
+            $cols["author"] = [
                 "txt" => $lng->txt("author"),
                 "default" => true
-            );
-            $cols['lifecycle'] = array(
+            ];
+            $cols['lifecycle'] = [
                 'txt' => $lng->txt('qst_lifecycle'),
                 'default' => true
-            );
+            ];
             if ($this->isQuestionCommentingEnabled()) {
-                $cols["comments"] = array(
+                $cols["comments"] = [
                     "txt" => $lng->txt("comments"),
                     "default" => true
-                );
+                ];
             }
-            $cols["created"] = array(
+            $cols["created"] = [
                 "txt" => $lng->txt("create_date"),
                 "default" => true
-            );
-            $cols["tstamp"] = array(
+            ];
+            $cols["tstamp"] = [
                 "txt" => $lng->txt("last_update"),
                 "default" => true
-            );
+            ];
         }
         return $cols;
     }
@@ -305,7 +305,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         // lifecycle
         $lifecycleOptions = array_merge(
-            array('' => $this->lng->txt('qst_lifecycle_filter_all')),
+            ['' => $this->lng->txt('qst_lifecycle_filter_all')],
             ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
         );
         $lifecycleInp = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
@@ -315,7 +315,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->filter['lifecycle'] = $lifecycleInp->getValue();
 
         $types = ilObjQuestionPool::_getQuestionTypes();
-        $options = array();
+        $options = [];
         $options[""] = $lng->txt('filter_all_question_types');
         foreach ($types as $translation => $row) {
             $options[$row['type_tag']] = $translation;
@@ -540,7 +540,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     public function numericOrdering(string $a_field): bool
     {
-        if (in_array($a_field, array('points', 'created', 'tstamp', 'comments'))) {
+        if (in_array($a_field, ['points', 'created', 'tstamp', 'comments'])) {
             return true;
         }
 

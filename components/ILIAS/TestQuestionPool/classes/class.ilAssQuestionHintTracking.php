@@ -111,8 +111,8 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
+            ['integer', 'integer', 'integer'],
+            [$this->getQuestionId(), $this->getActiveId(), $this->getPass()]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -149,8 +149,8 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getActiveId(), $this->getPass(), $this->getQuestionId())
+            ['integer', 'integer', 'integer'],
+            [$this->getActiveId(), $this->getPass(), $this->getQuestionId()]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -188,8 +188,8 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($hintId, $this->getActiveId(), $this->getPass())
+            ['integer', 'integer', 'integer'],
+            [$hintId, $this->getActiveId(), $this->getPass()]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -235,8 +235,8 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getActiveId(), $this->getPass(), $this->getQuestionId())
+            ['integer', 'integer', 'integer'],
+            [$this->getActiveId(), $this->getPass(), $this->getQuestionId()]
         );
 
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -276,11 +276,11 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
+            ['integer', 'integer', 'integer'],
+            [$this->getQuestionId(), $this->getActiveId(), $this->getPass()]
         );
 
-        $hintIds = array();
+        $hintIds = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $hintIds[] = $row['qhtr_hint_fi'];
@@ -306,13 +306,13 @@ class ilAssQuestionHintTracking
 
         $trackId = $ilDB->nextId('qpl_hint_tracking');
 
-        $ilDB->insert('qpl_hint_tracking', array(
-            'qhtr_track_id' => array('integer', $trackId),
-            'qhtr_active_fi' => array('integer', $this->getActiveId()),
-            'qhtr_pass' => array('integer', $this->getPass()),
-            'qhtr_question_fi' => array('integer', $this->getQuestionId()),
-            'qhtr_hint_fi' => array('integer', $questionHint->getId()),
-        ));
+        $ilDB->insert('qpl_hint_tracking', [
+            'qhtr_track_id' => ['integer', $trackId],
+            'qhtr_active_fi' => ['integer', $this->getActiveId()],
+            'qhtr_pass' => ['integer', $this->getPass()],
+            'qhtr_question_fi' => ['integer', $this->getQuestionId()],
+            'qhtr_hint_fi' => ['integer', $questionHint->getId()],
+        ]);
     }
 
     /**
@@ -347,8 +347,8 @@ class ilAssQuestionHintTracking
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
+            ['integer', 'integer', 'integer'],
+            [$this->getQuestionId(), $this->getActiveId(), $this->getPass()]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -391,8 +391,8 @@ class ilAssQuestionHintTracking
 
         $res = $db->queryF(
             $query,
-            array('integer'),
-            array($activeId)
+            ['integer'],
+            [$activeId]
         );
 
         $register = new ilAssQuestionHintRequestStatisticRegister();

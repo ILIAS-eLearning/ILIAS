@@ -79,16 +79,16 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity == 'qpl') {
-            $deps = array();
+            $deps = [];
 
             $taxIds = $this->getDependingTaxonomyIds($a_ids);
 
             if (count($taxIds)) {
-                $deps[] = array(
+                $deps[] = [
                     'component' => 'components/ILIAS/Taxonomy',
                     'entity' => 'tax',
                     'ids' => $taxIds
-                );
+                ];
             }
 
             return $deps;
@@ -103,7 +103,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     private function getDependingTaxonomyIds($poolObjIds): array
     {
-        $taxIds = array();
+        $taxIds = [];
 
         foreach ($poolObjIds as $poolObjId) {
             foreach (ilObjTaxonomy::getUsageOfObject($poolObjId) as $taxId) {
@@ -122,13 +122,13 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/TestQuestionPool/htlm/4_1",
                 "xsd_file" => "ilias_qpl_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => "")
-        );
+                "max" => ""]
+        ];
     }
 }

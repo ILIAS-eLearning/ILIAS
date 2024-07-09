@@ -39,17 +39,17 @@ class assClozeGapCombination
 													AND combinations.question_fi = %s
 									ORDER BY combination_id, row_id, gap_fi ASC
 									',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
-        $return_array = array();
+        $return_array = [];
         while ($data = $ilDB->fetchAssoc($result)) {
             if (isset($return_array[$data['combination_id'] . '::' . $data['gap_fi']])) {
                 continue;
             }
 
-            $return_array[$data['combination_id'] . '::' . $data['row_id'] . '::' . $data['gap_fi']] = array(
+            $return_array[$data['combination_id'] . '::' . $data['row_id'] . '::' . $data['gap_fi']] = [
                                     'cid' => $data['combination_id'],
                                     'gap_fi' => $data['gap_fi'],
                                     'answer' => $data['answer'],
@@ -57,7 +57,7 @@ class assClozeGapCombination
                                     'row_id' => $data['row_id'],
                                     'type' => $data['cloze_type'],
                                     'best_solution' => $data['best_solution']
-                                 );
+                                 ];
         }
 
         return array_values($return_array);
@@ -67,7 +67,7 @@ class assClozeGapCombination
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combination_from_db = $assClozeGapCombinationObj->loadFromDb($question_id);
-        $clean_array = array();
+        $clean_array = [];
         foreach ($combination_from_db as $key => $value) {
             $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['answer'] = $value['answer'];
             $clean_array[$value['cid']][$value['row_id']]['points'] = $value['points'];
@@ -80,7 +80,7 @@ class assClozeGapCombination
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $best_solutions = array();
+        $best_solutions = [];
         for ($i = 0; $i < count($gap_combinations['points']); $i++) {
             $highest_points = 0;
             for ($j = 0; $j < count($gap_combinations['points'][$i]); $j++) {
@@ -101,7 +101,7 @@ class assClozeGapCombination
                     $ilDB->manipulateF(
                         'INSERT INTO qpl_a_cloze_combi_res
 			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-                        array(
+                        [
                             'integer',
                             'integer',
                             'integer',
@@ -109,8 +109,8 @@ class assClozeGapCombination
                             'text',
                             'float',
                             'integer'
-                        ),
-                        array(
+                        ],
+                        [
                             $i,
                             $question_id,
                             $gap_combinations['select'][$i][$k],
@@ -118,7 +118,7 @@ class assClozeGapCombination
                             $gap_values[$i][$j][$k],
                             (float) str_replace(',', '.', $gap_combinations['points'][$i][$j]),
                             $best_solution
-                        )
+                        ]
                     );
                 }
             }
@@ -137,7 +137,7 @@ class assClozeGapCombination
                 $ilDB->manipulateF(
                     'INSERT INTO qpl_a_cloze_combi_res
 			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-                    array(
+                    [
                         'integer',
                         'integer',
                         'integer',
@@ -145,8 +145,8 @@ class assClozeGapCombination
                         'text',
                         'float',
                         'integer'
-                    ),
-                    array(
+                    ],
+                    [
                         $row['cid'],
                         $question_id,
                         $row['gap_fi'],
@@ -154,7 +154,7 @@ class assClozeGapCombination
                         $row['answer'],
                         $row['points'],
                         $row['best_solution']
-                    )
+                    ]
                 );
             }
         }
@@ -167,8 +167,8 @@ class assClozeGapCombination
 
         $ilDB->manipulateF(
             'DELETE FROM qpl_a_cloze_combi_res WHERE question_fi = %s',
-            array( 'integer' ),
-            array( $question_id )
+            [ 'integer' ],
+            [ $question_id ]
         );
     }
 
@@ -179,8 +179,8 @@ class assClozeGapCombination
 
         $result = $ilDB->queryF(
             'SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s ORDER BY gap_fi ASC',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() > 0) {
             return true;
@@ -196,10 +196,10 @@ class assClozeGapCombination
 
         $result = $ilDB->queryF(
             'SELECT gap_fi, combination_id FROM ' . $ilDB->quoteIdentifier('qpl_a_cloze_combi_res') . ' WHERE question_fi = %s GROUP BY gap_fi, combination_id',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
-        $gaps = array();
+        $gaps = [];
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $gaps[$data['gap_fi']] = $data['combination_id'];
@@ -216,8 +216,8 @@ class assClozeGapCombination
         if ($combination_id == -1) {
             $result = $ilDB->queryF(
                 'SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 GROUP BY combination_id, points',
-                array('integer'),
-                array($question_id)
+                ['integer'],
+                [$question_id]
             );
             if ($result->numRows() > 0) {
                 $points = 0;
@@ -229,8 +229,8 @@ class assClozeGapCombination
         } else {
             $result = $ilDB->queryF(
                 'SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND  combination_id = %s AND best_solution=1 GROUP BY combination_id, points',
-                array('integer', 'integer'),
-                array($question_id, $combination_id)
+                ['integer', 'integer'],
+                [$question_id, $combination_id]
             );
             if ($result->numRows() > 0) {
                 $points = 0;
@@ -251,8 +251,8 @@ class assClozeGapCombination
 
         $result = $ilDB->queryF(
             'SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 ORDER BY gap_fi',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() > 0) {
             $return_string = '<br>';

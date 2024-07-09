@@ -158,11 +158,11 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
-            array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())));
+            array_push($solutions, ["value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())]);
         }
 
         // generate the question output
@@ -250,9 +250,9 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         // get the solution of the user for the active pass or from the last pass if allowed
         if ($user_post_solutions !== false) {
             /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
-            $solutions = array(
-                array('value1' => $user_post_solutions['numeric_result'])
-            );
+            $solutions = [
+                ['value1' => $user_post_solutions['numeric_result']]
+            ];
         } elseif ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
         }
@@ -363,7 +363,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -377,7 +377,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -395,7 +395,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
     public function aggregateAnswers($relevant_answers_chosen): array
     {
-        $aggregate = array();
+        $aggregate = [];
 
         foreach ($relevant_answers_chosen as $relevant_answer) {
             if (array_key_exists($relevant_answer['value1'], $aggregate)) {
@@ -435,13 +435,13 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevantAnswers as $ans) {
             if (!isset($answers[$ans['value1']])) {
-                $answers[$ans['value1']] = array(
+                $answers[$ans['value1']] = [
                     'answer' => $ans['value1'], 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$ans['value1']]['frequency']++;

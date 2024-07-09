@@ -65,7 +65,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
 
     public function sleep(): array
     {
-        return array('skills');
+        return ['skills'];
     }
 
     public function wakeup(): void

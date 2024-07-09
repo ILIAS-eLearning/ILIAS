@@ -59,7 +59,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     protected function getUserSolution($active_id, $pass): array
     {
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -376,7 +376,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
@@ -404,7 +404,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         bool $show_question_only = false,
         bool $show_inline_feedback = false
     ): string {
-        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         $user_solution = array_values($user_solution);
 
         $template = $this->getTemplateForPreviewAndTest($user_solution);
@@ -423,7 +423,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         array|bool $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
     ): string {
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
@@ -489,7 +489,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -500,8 +500,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     public function getAggregatedAnswersView(array $relevant_answers): string
     {
-        $overview = array();
-        $aggregation = array();
+        $overview = [];
+        $aggregation = [];
         foreach ($relevant_answers as $answer) {
             $overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
         }
@@ -530,7 +530,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $tpl->get();
     }
 
-    public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false, $graphical = false): string
+    public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = [], $solution = false, $graphical = false): string
     {
         $return_value = '';
         $text_array = preg_split("/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/", $this->object->getLongMenuTextValue());
@@ -643,9 +643,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             if (!isset($answers[$row['value2']])) {
                 //$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
 
-                $answers[$row['value2']] = array(
+                $answers[$row['value2']] = [
                     'answer' => $row['value2'], 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$row['value2']]['frequency']++;
@@ -680,11 +680,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $correct_answers = $this->object->getCorrectAnswers();
 
         foreach ($this->object->getAnswers() as $lm_index => $lm) {
-            $lm_values = array(
-                'answers_all' => array(0 => $lm),
+            $lm_values = [
+                'answers_all' => [0 => $lm],
                 'answers_all_count' => count($lm),
                 'answers_correct' => $correct_answers[$lm_index][0]
-            );
+            ];
 
             $lm_points = $correct_answers[$lm_index][1];
 

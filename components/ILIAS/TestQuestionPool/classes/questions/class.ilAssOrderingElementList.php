@@ -45,10 +45,10 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @var array[integer]
      */
-    protected static $identifierRegistry = array(
-        self::IDENTIFIER_TYPE_SOLUTION => array(),
-        self::IDENTIFIER_TYPE_RANDOM => array()
-    );
+    protected static $identifierRegistry = [
+        self::IDENTIFIER_TYPE_SOLUTION => [],
+        self::IDENTIFIER_TYPE_RANDOM => []
+    ];
 
     /**
      * @var integer
@@ -58,7 +58,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @var array
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * ilAssOrderingElementList constructor.
@@ -81,7 +81,7 @@ class ilAssOrderingElementList implements Iterator
     {
         $this->objectInstanceId = ++self::$objectInstanceCounter;
 
-        $elements = array();
+        $elements = [];
 
         foreach ($this as $key => $element) {
             $elements[$key] = clone $element;
@@ -185,7 +185,7 @@ class ilAssOrderingElementList implements Iterator
      */
     public function resetElements(): void
     {
-        $this->elements = array();
+        $this->elements = [];
     }
 
     /**
@@ -245,7 +245,7 @@ class ilAssOrderingElementList implements Iterator
      */
     protected function getIndexedElements($identifierType): array
     {
-        $elements = array();
+        $elements = [];
 
         foreach ($this as $element) {
             $elements[$this->fetchIdentifier($element, $identifierType)] = $element;
@@ -348,7 +348,7 @@ class ilAssOrderingElementList implements Iterator
     protected function getRegisteredIdentifiers($identifierType): array
     {
         if (!isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()])) {
-            return array();
+            return [];
         }
 
         return self::$identifierRegistry[$identifierType][$this->getQuestionId()];
@@ -418,7 +418,7 @@ class ilAssOrderingElementList implements Iterator
     protected function registerIdentifier(ilAssOrderingElement $element, $identifierType): void
     {
         if (!isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()])) {
-            self::$identifierRegistry[$identifierType][$this->getQuestionId()] = array();
+            self::$identifierRegistry[$identifierType][$this->getQuestionId()] = [];
         }
 
         $identifier = $this->fetchIdentifier($element, $identifierType);
@@ -697,7 +697,7 @@ class ilAssOrderingElementList implements Iterator
     {
         $positionsMap = array_flip(array_values($randomIdentifiers));
 
-        $orderedElements = array();
+        $orderedElements = [];
 
         foreach ($this as $element) {
             if (!isset($positionsMap[$element->getRandomIdentifier()])) {
@@ -842,14 +842,14 @@ class ilAssOrderingElementList implements Iterator
 
     public function getHash(): string
     {
-        $items = array();
+        $items = [];
 
         foreach ($this as $element) {
-            $items[] = implode(':', array(
+            $items[] = implode(':', [
                 $element->getSolutionIdentifier(),
                 $element->getRandomIdentifier(),
                 $element->getIndentation()
-            ));
+            ]);
         }
 
         return md5(serialize($items));

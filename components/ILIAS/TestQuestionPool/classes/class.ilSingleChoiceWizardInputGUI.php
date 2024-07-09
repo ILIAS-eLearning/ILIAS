@@ -62,7 +62,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {

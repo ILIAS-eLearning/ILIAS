@@ -140,8 +140,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
     {
         $this->db->update(
             $this->getSpecificQuestionTableName(),
-            array('feedback_setting' => array('integer', $specificFeedbackSetting)),
-            array('question_fi' => array('integer', $questionId))
+            ['feedback_setting' => ['integer', $specificFeedbackSetting]],
+            ['question_fi' => ['integer', $questionId]]
         );
     }
 
@@ -155,8 +155,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
     {
         $res = $this->db->queryF(
             "SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($source_question_id)
+            ['integer'],
+            [$source_question_id]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -167,8 +167,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 
         $this->db->update(
             $this->getSpecificQuestionTableName(),
-            array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),
-            array( 'question_fi' => array('integer', $target_question_id) )
+            [ 'feedback_setting' => ['integer', $row['feedback_setting']] ],
+            [ 'question_fi' => ['integer', $target_question_id] ]
         );
     }
 }

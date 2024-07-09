@@ -31,7 +31,7 @@ class ilAssLacCompositeBuilder
      *
      * @var array
      */
-    protected $operators = array('<=','<','=','>=','>','<>','&','|');
+    protected $operators = ['<=','<','=','>=','>','<>','&','|'];
 
     /**
      * Creates a composite tree structure from a nodes tree.

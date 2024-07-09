@@ -84,8 +84,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->object->setQuestion($this->request->string('question'));
 
             $this->object->parseQuestionText();
-            $found_vars = array();
-            $found_results = array();
+            $found_vars = [];
+            $found_results = [];
 
             foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
@@ -203,7 +203,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $user_id = $ilUser->getId();
         $question_id = $this->object->getId();
         $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
-        $ilAssQuestionPreviewSession->setParticipantsSolution(array());
+        $ilAssQuestionPreviewSession->setParticipantsSolution([]);
     }
 
     public function editQuestion(
@@ -283,7 +283,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $range_max->setValue($variable->getRangeMax());
 
                 $units = new ilSelectInputGUI($this->lng->txt('unit'), 'unit_' . $variable->getVariable());
-                $units->setOptions(array(0 => $this->lng->txt('no_selection')) + $unit_options);
+                $units->setOptions([0 => $this->lng->txt('no_selection')] + $unit_options);
                 if (is_object($variable->getUnit())) {
                     $units->setValue($variable->getUnit()->getId());
                 }
@@ -309,8 +309,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $form->addItem($intprecision);
             }
         }
-        $quest_vars = array();
-        $result_vars = array();
+        $quest_vars = [];
+        $result_vars = [];
         $results = $this->object->getResults();
         if ($results !== []) {
             uasort($results, function (assFormulaQuestionResult $r1, assFormulaQuestionResult $r2) {
@@ -359,7 +359,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $range_max->setRequired(true);
                 $range_max->setValue($result->getRangeMax());
 
-                $matches = array();
+                $matches = [];
 
                 $precision = new ilNumberInputGUI($this->lng->txt('precision'), 'precision_' . $result->getResult());
                 $precision->setRequired(true);
@@ -389,7 +389,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 );
 
                 $sel_result_units = new ilSelectInputGUI($this->lng->txt('unit'), 'unit_' . $result->getResult());
-                $sel_result_units->setOptions(array(0 => $this->lng->txt('no_selection')) + $unit_options);
+                $sel_result_units->setOptions([0 => $this->lng->txt('no_selection')] + $unit_options);
                 $sel_result_units->setInfo($this->lng->txt('result_unit_info'));
                 if (is_object($result->getUnit())) {
                     $sel_result_units->setValue($result->getUnit()->getId());
@@ -398,7 +398,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $mc_result_units = new ilMultiSelectInputGUI($this->lng->txt('result_units'), 'units_' . $result->getResult());
                 $mc_result_units->setOptions($unit_options);
                 $mc_result_units->setInfo($this->lng->txt('result_units_info'));
-                $selectedvalues = array();
+                $selectedvalues = [];
                 foreach ($unit_options as $unit_id => $txt) {
                     if ($this->hasResultUnit($result, $unit_id, $result_units)) {
                         $selectedvalues[] = $unit_id;
@@ -486,9 +486,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $form->addItem($rating_type);
             }
 
-            $defined_result_vars = array();
+            $defined_result_vars = [];
 
-            $defined_result_res = array();
+            $defined_result_res = [];
 
             foreach ($variables as $key => $object) {
                 $quest_vars[$key] = $key;
@@ -562,8 +562,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $errors = !$checked;
 
         if ($save) {
-            $found_vars = array();
-            $found_results = array();
+            $found_vars = [];
+            $found_results = [];
             foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
@@ -807,12 +807,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $user_solution[$matches[1]] = $solution_value["value2"];
                 } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["value"] = $solution_value["value2"];
                 } elseif (preg_match("/^(\\\$r\\d+)_unit$/", $solution_value["value1"], $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
                 }
@@ -820,12 +820,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
         } elseif ($active_id) {
             $user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
-            $solutionValues = array();
+            $solutionValues = [];
 
             $participantsSolution = $this->getPreviewSession()->getParticipantsSolution();
             if (is_array($participantsSolution)) {
                 foreach ($participantsSolution as $val1 => $val2) {
-                    $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+                    $solutionValues[] = ['value1' => $val1, 'value2' => $val2];
                 }
             }
 
@@ -866,7 +866,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         bool $show_question_only = false,
         bool $show_inline_feedback = false
     ): string {
-        $user_solution = array();
+        $user_solution = [];
 
         if (is_object($this->getPreviewSession())) {
             $solutions = (array) $this->getPreviewSession()->getParticipantsSolution();
@@ -876,12 +876,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $user_solution[$matches[1]] = $val2;
                 } elseif (preg_match("/^(\\\$r\\d+)$/", $val1, $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["value"] = $val2;
                 } elseif (preg_match("/^(\\\$r\\d+)_unit$/", $val1, $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["unit"] = $val2;
                 }
@@ -904,7 +904,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if (is_object($this->getPreviewSession())) {
             $questiontext = $this->object->substituteVariables($user_solution);
         } else {
-            $questiontext = $this->object->substituteVariables(array());
+            $questiontext = $this->object->substituteVariables([]);
         }
         $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
@@ -924,7 +924,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     ): string {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('enter_valid_values'));
         // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
 
@@ -942,12 +942,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $user_solution[$matches[1]] = $solution_value["value2"];
                 } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["value"] = $solution_value["value2"];
                 } elseif (preg_match("/^(\\\$r\\d+)_unit$/", $solution_value["value1"], $matches)) {
                     if (!array_key_exists($matches[1], $user_solution)) {
-                        $user_solution[$matches[1]] = array();
+                        $user_solution[$matches[1]] = [];
                     }
                     $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
                 }

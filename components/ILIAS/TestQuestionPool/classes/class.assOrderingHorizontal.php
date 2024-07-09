@@ -111,8 +111,8 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     {
         $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
@@ -231,19 +231,19 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName()
                             . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
         $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName()
                             . " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)",
-            array( "integer", "text", "float" ),
-            array(
+            [ "integer", "text", "float" ],
+            [
                                 $this->getId(),
                                 $this->getOrderText(),
                                 ($this->getTextSize() < 10) ? null : (float) $this->getTextSize()
-                            )
+                            ]
         );
     }
 
@@ -427,17 +427,17 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $result['textsize'] = ((int) $this->getTextSize()) // #10923
             ? (int) $this->getTextSize()
             : self::DEFAULT_TEXT_SIZE;
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
         $arr = [];
         foreach ($this->getOrderingElements() as $order => $answer) {
-            array_push($arr, array(
+            array_push($arr, [
                 "answertext" => (string) $answer,
                 "order" => (int) $order + 1
-            ));
+            ]);
         }
         $result['answers'] = $arr;
 
@@ -454,12 +454,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumericResultExpression,
             iQuestionCondition::OrderingResultExpression,
             iQuestionCondition::StringResultExpression,
-        );
+        ];
     }
 
     public function getUserQuestionResult(
@@ -472,14 +472,14 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         if ($maxStep > 0) {
             $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer","integer"),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer","integer"],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
             $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
         $row = $this->db->fetchAssoc($data);

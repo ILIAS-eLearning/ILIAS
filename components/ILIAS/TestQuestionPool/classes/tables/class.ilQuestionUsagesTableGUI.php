@@ -77,17 +77,17 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
 
         $path = new ilPathGUI();
 
-        $rows = array();
+        $rows = [];
         foreach ($this->question->getInstances() as $instance) {
             foreach ($instance['refs'] as $ref_id) {
                 $trashed = $tree->isDeleted($ref_id);
-                $rows[] = array(
+                $rows[] = [
                     'title' => $instance['title'],
                     'author' => $instance['author'],
                     'ref_id' => $ref_id,
                     'is_trashed' => $trashed,
                     'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, (int) $ref_id)
-                );
+                ];
             }
         }
         $this->setData($rows);

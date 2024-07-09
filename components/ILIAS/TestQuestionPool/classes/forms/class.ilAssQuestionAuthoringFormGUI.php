@@ -55,7 +55,7 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
     {
         $itemWasReplaced = false;
 
-        $preparedItems = array();
+        $preparedItems = [];
 
         foreach ($this->getItems() as $dodgingItem) {
             /* @var ilFormPropertyGUI $dodgingItem */
