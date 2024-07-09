@@ -171,7 +171,7 @@ class ilAssQuestionPreviewGUI
                 $forwarder->forward();
                 break;
             case 'ilcommentgui':
-                $comment_gui = new ilCommentGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
+                $comment_gui = new ilCommentGUI($this->question_obj->getObjId(), $this->question_obj->getId(), 'quest');
                 $comments_panel_html = $this->ctrl->forwardCommand($comment_gui);
                 $this->showCmd($comments_panel_html);
                 break;

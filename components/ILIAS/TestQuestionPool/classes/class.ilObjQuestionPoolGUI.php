@@ -70,7 +70,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const DEFAULT_CMD = 'questions';
 
     private HttpRequest $http_request;
-    private QuestionInfoService $questioninfo;
     protected Service $taxonomy;
     public ?ilObject $object;
     protected ilDBInterface $db;
@@ -450,7 +449,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $ilTabs,
                     $lng,
                     $this->help,
-                    $this->questionrepository,
+                    $this->qplrequest,
                     true
                 );
                 $ilCtrl->forwardCommand($gui);
@@ -568,7 +567,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             $this->ctrl->redirectToURL($url);
                             break;
                         case 'move':
-                            $ret = $this->moveQuestions($ids);
+                            $this->moveQuestions($ids);
                             $this->ctrl->redirect($this, self::DEFAULT_CMD);
                             break;
                         case 'copy':
@@ -744,16 +743,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
             'importVerifiedFile',
             $importdir,
-            $qtifile
+            $qtifile,
+            $this->request
         );
 
         if (is_file($importdir . DIRECTORY_SEPARATOR . 'manifest.xml')) {
             $this->importQuestionPoolWithValidManifest(
                 $new_obj,
                 $selected_questions,
-                'importVerifiedFile',
-                $importdir,
-                $qtifile,
                 $file_to_import
             );
         } else {
@@ -786,7 +783,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
                 'importVerifiedQuestionsFile',
                 $importdir,
-                $file_to_import
+                $file_to_import,
+                $this->request
             );
             $this->importQuestionsFromQtiFile(
                 $this->getObject(),
@@ -799,7 +797,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
                 'importVerifiedQuestionsFile',
                 $importdir,
-                $qtifile
+                $qtifile,
+                $this->request
             );
             if (is_file($importdir . DIRECTORY_SEPARATOR . 'manifest.xml')) {
                 $this->importQuestionPoolWithValidManifest(
@@ -868,9 +867,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     private function importQuestionPoolWithValidManifest(
         ilObjQuestionPool $obj,
         array $selected_questions,
-        string $import_cmd,
-        string $importdir,
-        string $qtifile,
         string $file_to_import
     ): void {
 

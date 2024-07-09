@@ -251,7 +251,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         if ($user_post_solutions !== false) {
             /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
             $solutions = array(
-                array('value1' => $use_post_solutions['numeric_result'])
+                array('value1' => $user_post_solutions['numeric_result'])
             );
         } elseif ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);

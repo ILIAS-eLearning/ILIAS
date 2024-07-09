@@ -854,7 +854,10 @@ class ilObjQuestionPool extends ilObject
     {
         $result = [];
         $query_result = $this->db->query(
-            'SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND ' . $ilDB->in(
+            'SELECT qpl_questions.*, qpl_qst_type.type_tag '
+            . 'FROM qpl_questions, qpl_qst_type '
+            . 'WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id '
+            . 'AND ' . $this->db->in(
                 'qpl_questions.question_id',
                 $question_ids,
                 false,

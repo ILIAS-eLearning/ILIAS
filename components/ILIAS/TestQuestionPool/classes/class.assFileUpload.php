@@ -203,6 +203,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
             return $this->getPoints();
         }
+
+        return 0.0;
     }
 
     protected function calculateReachedPointsForSolution(?array $user_solution): float
@@ -967,7 +969,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         array $solution_values
     ): array {
         return array_map(
-            static fn(array $v): string => "{$solution['value1']} - {$solution['value2']}",
+            static fn(array $v): string => "{$v['value1']} - {$v['value2']}",
             $solution_values
         );
     }

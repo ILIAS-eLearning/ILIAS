@@ -907,7 +907,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     protected function calculateReachedPointsForSolution(
-        array $found_values,
+        ?array $found_values,
         int $active_id = 0
     ): float {
         if ($found_values === []

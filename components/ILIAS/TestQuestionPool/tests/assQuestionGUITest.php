@@ -62,12 +62,14 @@ class assQuestionGUITest extends assBaseTestCase
                 bool $checkonly = false,
                 ?bool $is_save_cmd = null
             ): bool {
+                return true;
             }
 
             public function getPreview(
                 bool $show_question_only = false,
                 bool $show_inline_feedback = false
             ): string {
+                return '';
             }
 
             public function getTestOutput(
@@ -77,6 +79,7 @@ class assQuestionGUITest extends assBaseTestCase
                 array|bool $user_post_solutions = false,
                 bool $show_specific_inline_feedback = false
             ): string {
+                return '';
             }
         };
     }

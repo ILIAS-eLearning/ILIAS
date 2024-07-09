@@ -178,7 +178,7 @@ class ilQuestionEditGUI
                 $this->tabs,
                 $this->lng,
                 $this->help,
-                $this->questionrepository
+                $this->request
             )
         );
     }

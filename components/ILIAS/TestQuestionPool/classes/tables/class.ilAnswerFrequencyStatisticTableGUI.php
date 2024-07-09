@@ -183,18 +183,4 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
         return $ui_renderer->render($show_modal_button);
     }
-
-    protected function purifyAndPrepareTextAreaOutput(string $content): string
-    {
-        $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
-        if ($this->isAdditionalContentEditingModePageObject()
-            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
-            $purified_content = nl2br($purified_content);
-        }
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
-            $purified_content,
-            true,
-            true
-        );
-    }
 }

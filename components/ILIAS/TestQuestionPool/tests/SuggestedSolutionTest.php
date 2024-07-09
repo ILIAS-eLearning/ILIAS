@@ -21,7 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
-use ILIAS\TestQuestionPool\Questions\SuggestedSolution\assSuggestedSolutionText;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionText;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionLink;
 

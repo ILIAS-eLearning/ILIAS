@@ -69,9 +69,9 @@ class ilAssKprimChoiceAnswer
     }
 
     // sk 2023-12-01: These are proxy functions to make things work like the other answertypes for Choice Questions
-    public function setImage(?string $image): ?string
+    public function setImage(?string $image): void
     {
-        return $this->setImageFile($image);
+        $this->setImageFile($image);
     }
 
     public function getImage(): ?string
