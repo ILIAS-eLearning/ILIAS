@@ -221,11 +221,11 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     </div>
     <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" role="img"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
     <div class="c-launcher__form">
-        <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+        <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
             <div class="modal-dialog" role="document" data-replace-marker="component">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                        <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                         <h1 class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">$msg_html
@@ -240,12 +240,14 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-default" id="id_4">some submit label</button>
-                        <button class="btn btn-default" data-dismiss="modal">some cancel label</button>
+                        <form>
+                            <button class="btn btn-default" id="id_4">some submit label</button>
+                            <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">some cancel label</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </dialog>
     </div>
 </div>
 EXP;

@@ -294,16 +294,16 @@ class DataRendererTest extends TableTestBase
     </div>
     <div class="c-table-data__async_modal_container"></div>
 
-    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+    <dialog class="c-table-data__async_message c-modal" role="dialog" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                    <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
-    </div>
+    </dialog>
 
 </div>
 EOT;
@@ -368,16 +368,16 @@ EOT;
 
     <div class="c-table-data__async_modal_container"></div>
 
-    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+    <dialog class="c-table-data__async_message c-modal" role="dialog" id="{ID}_msgmodal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                    <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
         </div>
-    </div>
+    </dialog>
 
 </div>
 EOT;
