@@ -10922,7 +10922,7 @@ lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
-lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben aber die "Weiter"-Schaltfläche weiterhin deaktiviert bleibt.
+lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben, aber die „Weiter“-Schaltfläche weiterhin deaktiviert bleibt.
 lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz „%s“ als Mitglied aufgenommen worden.
 lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz „%s“
 lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz „%s“ wurde beendet.
