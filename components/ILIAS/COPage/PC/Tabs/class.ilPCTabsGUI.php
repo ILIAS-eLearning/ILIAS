@@ -310,13 +310,14 @@ class ilPCTabsGUI extends ilPageContentGUI
                 $this->content_obj->getTemplate();
             $va->setValue($v);
         }
+        /*
         if ($values["type"] == ilPCTabs::ACCORDION_HOR) {
             $ha = $this->form->getItemByPostVar("haccord_templ");
             $v = "t:" .
                 ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()) . ":" .
                 $this->content_obj->getTemplate();
             $ha->setValue($v);
-        }
+        }*/
         if ($values["type"] == ilPCTabs::CAROUSEL) {
             $ca = $this->form->getItemByPostVar("carousel_templ");
             $v = "t:" .

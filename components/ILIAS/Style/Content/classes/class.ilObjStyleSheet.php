@@ -264,8 +264,8 @@ class ilObjStyleSheet extends ilObject
     // filter groups of properties that should only be
     // displayed with matching tag (group -> tags)
     public static array $filtered_groups =
-            array("ol" => array("ol"), "ul" => array("ul"),
-                "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li", "p"));
+        array("ol" => array("ol"), "ul" => array("ul"),
+            "table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a", "figure", "li", "p"));
 
     // style types and their super type
     public static array $style_super_types = array(
@@ -1400,6 +1400,27 @@ class ilObjStyleSheet extends ilObject
                 }
                 if ($tag[0]["type"] == "text_block") {
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
+                }
+                if ($tag[0]["class"] == "VAccordCntr") {
+                    fwrite($css_file, ",div.ilc_va_cntr_AccordCntr\n");
+                }
+                if ($tag[0]["class"] == "VAccordICntr") {
+                    fwrite($css_file, ",div.ilc_va_icntr_AccordICntr\n");
+                }
+                if ($tag[0]["class"] == "VAccordICont") {
+                    fwrite($css_file, ",div.ilc_va_icont_AccordICont\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHead") {
+                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHead:hover") {
+                    fwrite($css_file, ",div.ilc_va_ihead_AccordIHead:hover\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHeadActive") {
+                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive\n");
+                }
+                if ($tag[0]["class"] == "VAccordIHeadActive:hover") {
+                    fwrite($css_file, ",div.ilc_va_iheada_AccordIHeadActive:hover\n");
                 }
                 fwrite($css_file, "{\n");
 
