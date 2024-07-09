@@ -843,10 +843,6 @@ div.ilc_sco_title_Title {
   font-weight: bold;
   margin-top: 5px;
 }
-div.ilc_va_ihead_VAccordIHead:hover {
-  background-color: #E2E8EF;
-  background-position: 15px center;
-}
 em.ilc_em_Emph,
 span.ilc_text_inline_Emph {
   font-style: italic;
