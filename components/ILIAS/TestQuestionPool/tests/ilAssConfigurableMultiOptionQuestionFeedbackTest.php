@@ -40,7 +40,7 @@ class ilAssConfigurableMultiOptionQuestionFeedbackTest extends assBaseTestCase
         $db = $this->createMock(ilDBInterface::class);
         $lng = $this->createMock(ilLanguage::class);
 
-        $this->object = new class($questionOBJ, $ctrl, $db, $lng) extends ilAssConfigurableMultiOptionQuestionFeedback{
+        $this->object = new class ($questionOBJ, $ctrl, $db, $lng) extends ilAssConfigurableMultiOptionQuestionFeedback {
             protected function getSpecificQuestionTableName(): string
             {
                 return '';

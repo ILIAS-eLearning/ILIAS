@@ -37,13 +37,13 @@ class ilAssHintPageTest extends assBaseTestCase
 
         $this->addGlobal_objDefinition();
 
-//        $this->object = new ilAssHintPage();
+        //        $this->object = new ilAssHintPage();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssHintPage::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssHintPage::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

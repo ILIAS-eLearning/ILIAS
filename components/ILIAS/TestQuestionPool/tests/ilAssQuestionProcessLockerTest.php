@@ -35,7 +35,7 @@ class ilAssQuestionProcessLockerTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilAssQuestionProcessLocker{};
+        $this->object = new class () extends ilAssQuestionProcessLocker {};
     }
 
     public function testConstruct(): void

@@ -34,7 +34,7 @@ class ilAssQuestionSkillAssignmentImportListTest extends assBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->object = new ilAssQuestionSkillAssignmentImportList();
     }
 

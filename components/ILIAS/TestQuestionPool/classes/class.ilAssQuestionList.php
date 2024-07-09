@@ -119,7 +119,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter): void
     {
-        $this->questionInstanceTypeFilter = (string)$questionInstanceTypeFilter;
+        $this->questionInstanceTypeFilter = (string) $questionInstanceTypeFilter;
     }
 
     public function getQuestionInstanceTypeFilter()
@@ -582,8 +582,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
-            $row['feedback'] = $this->hasGenericFeedback((int)$row['question_id']);
-            $row['hints'] = $this->hasHints((int)$row['question_id']);
+            $row['feedback'] = $this->hasGenericFeedback((int) $row['question_id']);
+            $row['hints'] = $this->hasHints((int) $row['question_id']);
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
             if (

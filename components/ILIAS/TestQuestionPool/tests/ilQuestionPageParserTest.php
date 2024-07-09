@@ -38,7 +38,7 @@ class ilQuestionPageParserTest extends assBaseTestCase
         $this->addGlobal_ilLog();
         $this->addGlobal_ilLoggerFactory();
 
-        $this->object = new ilQuestionPageParser($this->createMock(ilObject::class), '', '' ,'X');
+        $this->object = new ilQuestionPageParser($this->createMock(ilObject::class), '', '', 'X');
     }
 
     public function testConstruct(): void

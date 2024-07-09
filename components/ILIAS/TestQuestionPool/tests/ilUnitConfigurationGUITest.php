@@ -35,7 +35,7 @@ class ilUnitConfigurationGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class($this->createMock(ilUnitConfigurationRepository::class)) extends ilUnitConfigurationGUI{
+        $this->object = new class ($this->createMock(ilUnitConfigurationRepository::class)) extends ilUnitConfigurationGUI {
             protected function getDefaultCommand(): string
             {
                 return '';
@@ -56,7 +56,9 @@ class ilUnitConfigurationGUITest extends assBaseTestCase
                 return '';
             }
 
-            protected function showUnitCategories(array $categories): void {}
+            protected function showUnitCategories(array $categories): void
+            {
+            }
         };
     }
 

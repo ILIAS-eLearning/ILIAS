@@ -38,7 +38,7 @@ class ilQuestionPoolExportTableGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $object = new class {
+        $object = new class () {
             public function getFormats(): array
             {
                 return [];

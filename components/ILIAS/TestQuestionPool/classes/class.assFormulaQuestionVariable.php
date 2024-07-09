@@ -59,7 +59,7 @@ class assFormulaQuestionVariable
         }
 
         $mul = ilMath::_pow(10, $this->getPrecision());
-        $r1 = round((float)ilMath::_mul($this->getRangeMin(), $mul));
+        $r1 = round((float) ilMath::_mul($this->getRangeMin(), $mul));
         $r2 = round((float) ilMath::_mul($this->getRangeMax(), $mul));
         $calcval = $this->getRangeMin() - 1;
         //test

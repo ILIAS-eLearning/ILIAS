@@ -35,7 +35,7 @@ class ilAssLacCompositeEvaluatorTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilAssLacCompositeEvaluator($this->createMock(ilAssLacQuestionProvider::class), 0,0);
+        $this->object = new ilAssLacCompositeEvaluator($this->createMock(ilAssLacQuestionProvider::class), 0, 0);
     }
 
     public function testConstruct(): void

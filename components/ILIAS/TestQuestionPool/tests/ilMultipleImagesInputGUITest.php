@@ -38,7 +38,7 @@ class ilMultipleImagesInputGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->object = new class extends ilMultipleImagesInputGUI{
+        $this->object = new class () extends ilMultipleImagesInputGUI {
             protected function isValidFilenameInput($filenameInput): bool
             {
                 return true;
