@@ -77,22 +77,22 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      */
     protected function initData(): void
     {
-        $rows = array();
+        $rows = [];
 
         $total_of_answers = $this->question->getTotalAnswers();
 
         if ($total_of_answers) {
-            $rows[] = array(
+            $rows[] = [
                 'result' => $this->lng->txt('qpl_assessment_total_of_answers'),
                 'value' => $total_of_answers,
                 'is_percent' => false
-            );
+            ];
 
-            $rows[] = array(
+            $rows[] = [
                 'result' => $this->lng->txt('qpl_assessment_total_of_right_answers'),
                 'value' => $this->questionrepository->getFractionOfReachedToReachablePointsTotal($this->question->getId()) * 100.0,
                 'is_percent' => true
-            );
+            ];
         } else {
             $this->disable('header');
         }

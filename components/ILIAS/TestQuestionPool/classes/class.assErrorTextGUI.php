@@ -280,7 +280,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $feedback .= mb_strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= mb_strlen($fb) ? $fb : '';
         }
         if (mb_strlen($feedback)) {

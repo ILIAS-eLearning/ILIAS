@@ -55,14 +55,14 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      */
     public static function _getCommands(): array
     {
-        $commands = array(
-            array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
-            array("permission" => "write", "cmd" => "ilObjQuestionPoolSettingsGeneralGUI::showForm", "lang_var" => "settings"),
+        $commands = [
+            ["permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"],
+            ["permission" => "write", "cmd" => "ilObjQuestionPoolSettingsGeneralGUI::showForm", "lang_var" => "settings"],
             #array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
             #	"default" => false),
-            array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
-                "default" => true)
-        );
+            ["permission" => "read", "cmd" => "questions", "lang_var" => "edit",
+                "default" => true]
+        ];
 
         return $commands;
     }

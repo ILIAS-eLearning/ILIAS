@@ -41,9 +41,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
     private function getTablesUsedDuringResultUpdate(): array
     {
-        return array(
-            array('name' => 'tst_test_result', 'sequence' => true)
-        );
+        return [
+            ['name' => 'tst_test_result', 'sequence' => true]
+        ];
     }
 
     protected function onBeforeExecutingUserSolutionUpdateOperation(): void

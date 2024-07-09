@@ -51,10 +51,10 @@ class assQuestionExport
     {
         foreach ($answers as $index => $answer) {
             $linkrefid = "response_$index";
-            $attrs = array(
+            $attrs = [
                 "ident" => $linkrefid,
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -95,45 +95,45 @@ class assQuestionExport
             $a_xml_writer->xmlEndTag("outcomes");
 
             if (strlen($feedback_allcorrect)) {
-                $attrs = array(
+                $attrs = [
                     "continue" => "Yes"
-                );
+                ];
                 $a_xml_writer->xmlStartTag("respcondition", $attrs);
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
-                $attrs = array(
+                $attrs = [
                     "respident" => "points"
-                );
+                ];
                 $a_xml_writer->xmlElement("varequal", $attrs, $this->object->getPoints());
                 $a_xml_writer->xmlEndTag("conditionvar");
                 // qti displayfeedback
-                $attrs = array(
+                $attrs = [
                     "feedbacktype" => "Response",
                     "linkrefid" => "response_allcorrect"
-                );
+                ];
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
             }
 
             if (strlen($feedback_onenotcorrect)) {
-                $attrs = array(
+                $attrs = [
                     "continue" => "Yes"
-                );
+                ];
                 $a_xml_writer->xmlStartTag("respcondition", $attrs);
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
                 $a_xml_writer->xmlStartTag("not");
-                $attrs = array(
+                $attrs = [
                     "respident" => "points"
-                );
+                ];
                 $a_xml_writer->xmlElement("varequal", $attrs, $this->object->getPoints());
                 $a_xml_writer->xmlEndTag("not");
                 $a_xml_writer->xmlEndTag("conditionvar");
                 // qti displayfeedback
-                $attrs = array(
+                $attrs = [
                     "feedbacktype" => "Response",
                     "linkrefid" => "response_onenotcorrect"
-                );
+                ];
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
             }
@@ -141,10 +141,10 @@ class assQuestionExport
         }
 
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_allcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -153,10 +153,10 @@ class assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_onenotcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -264,9 +264,9 @@ class assQuestionExport
         if (strcmp($matches[1], "") != 0) {
             $intlink = $suggested_solution->getInternalLink();
         }
-        $attrs = array(
+        $attrs = [
             "label" => "suggested_solution"
-        );
+        ];
         $writer->xmlElement("mattext", $attrs, $intlink);
         $writer->xmlEndTag("material");
 
@@ -276,9 +276,9 @@ class assQuestionExport
     public function addQTIMaterial(ilXmlWriter $a_xml_writer, string $a_material, bool $close_material_tag = true, bool $add_mobs = true): void
     {
         $a_xml_writer->xmlStartTag("material");
-        $attrs = array(
+        $attrs = [
             "texttype" => "text/plain"
-        );
+        ];
         if (ilUtil::isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
         }
@@ -290,10 +290,10 @@ class assQuestionExport
                 if (str_contains($a_material, "mm_$mob")) {
                     if (ilObjMediaObject::_exists($mob)) {
                         $mob_obj = new ilObjMediaObject($mob);
-                        $imgattrs = array(
+                        $imgattrs = [
                             "label" => $moblabel,
                             "uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-                        );
+                        ];
                     }
                     $a_xml_writer->xmlElement("matimage", $imgattrs, null);
                 }

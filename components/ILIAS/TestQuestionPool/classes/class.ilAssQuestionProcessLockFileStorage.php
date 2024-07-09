@@ -86,7 +86,7 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
     {
         $user_id = (string) $user_id;
 
-        $path = array();
+        $path = [];
 
         for ($i = 0, $max = strlen($user_id); $i < $max; $i++) {
             $path[] = substr($user_id, $i, 1);

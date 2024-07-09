@@ -284,7 +284,7 @@ class ilAssQuestionSkillAssignmentImporter
     protected function getSkillIdMapping($importSkillBaseId, $importSkillTrefId)
     {
         if ($this->getImportInstallationId() == $this->getLocalInstallationId()) {
-            return array( 'skill_id' => $importSkillBaseId, 'tref_id' => $importSkillTrefId );
+            return [ 'skill_id' => $importSkillBaseId, 'tref_id' => $importSkillTrefId ];
         }
 
         $foundSkillData = ilBasicSkill::getCommonSkillIdForImportId(

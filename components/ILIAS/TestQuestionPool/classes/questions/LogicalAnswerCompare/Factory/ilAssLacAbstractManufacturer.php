@@ -34,7 +34,7 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
      */
     public function match(string $subject): array
     {
-        $matches = array();
+        $matches = [];
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);
 
         if ($num_matches == 0) {

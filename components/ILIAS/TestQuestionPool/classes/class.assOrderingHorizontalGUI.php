@@ -337,7 +337,7 @@ JS;
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $files = array();
+        $files = [];
 
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
@@ -369,7 +369,7 @@ JS;
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -424,7 +424,7 @@ JS;
 
     public function aggregateAnswers($relevant_answers_chosen, $answer_defined_on_question): array
     {
-        $aggregate = array();
+        $aggregate = [];
         foreach ($relevant_answers_chosen as $answer) {
             $answer = str_replace($this->object->getAnswerSeparator(), '&nbsp;&nbsp;-&nbsp;&nbsp;', $answer);
             if (in_array($answer['value1'], $aggregate)) {
@@ -457,7 +457,7 @@ JS;
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevantAnswers as $ans) {
             $md5 = md5($ans['value1']);
@@ -469,9 +469,9 @@ JS;
                     $ans['value1']
                 );
 
-                $answers[$md5] = array(
+                $answers[$md5] = [
                     'answer' => $answer, 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$md5]['frequency']++;

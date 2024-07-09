@@ -68,8 +68,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     {
         $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
@@ -99,8 +99,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $result = $this->db->queryF(
             "SELECT * FROM qpl_num_range WHERE question_fi = %s ORDER BY aorder ASC",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         if ($result->numRows() > 0) {
@@ -275,18 +275,18 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         // save additional data
         $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
         $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
-            array( "integer", "integer" ),
-            array(
+            [ "integer", "integer" ],
+            [
                                 $this->getId(),
                                 ($this->getMaxChars()) ? $this->getMaxChars() : 0
-                            )
+                            ]
         );
     }
 
@@ -295,17 +295,17 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         // Write range to the database
         $this->db->manipulateF(
             "DELETE FROM qpl_num_range WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getId() )
+            [ 'integer' ],
+            [ $this->getId() ]
         );
 
         $next_id = $this->db->nextId('qpl_num_range');
         $this->db->manipulateF(
             "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp)
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
-            array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
-            ), $this->getPoints(), 0, time() )
+            [ 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ],
+            [ $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
+            ), $this->getPoints(), 0, time() ]
         );
     }
 
@@ -389,11 +389,11 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumericResultExpression,
             iQuestionCondition::EmptyAnswerExpression,
-        );
+        ];
     }
 
     public function getUserQuestionResult(
@@ -406,14 +406,14 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         if ($maxStep > 0) {
             $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer","integer"),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer","integer"],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
             $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
 
@@ -431,10 +431,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function getAvailableAnswerOptions(int $index = null): array
     {
-        return array(
+        return [
             "lower" => $this->getLowerLimit(),
             "upper" => $this->getUpperLimit()
-        );
+        ];
     }
 
     public function getAnswerTableName(): string

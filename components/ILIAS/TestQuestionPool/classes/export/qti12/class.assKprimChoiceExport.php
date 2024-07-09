@@ -37,11 +37,11 @@ class assKprimChoiceExport extends assQuestionExport
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -96,19 +96,19 @@ class assKprimChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
-        $attrs = array(
+        $attrs = [
             "ident" => "MCMR",
             "rcardinality" => "Multiple"
-        );
+        ];
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
 
@@ -116,15 +116,15 @@ class assKprimChoiceExport extends assQuestionExport
             $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
         }
         // shuffle output
-        $attrs = array();
+        $attrs = [];
         if ($this->object->isShuffleAnswersEnabled()) {
-            $attrs = array(
+            $attrs = [
                 "shuffle" => "Yes"
-            );
+            ];
         } else {
-            $attrs = array(
+            $attrs = [
                 "shuffle" => "No"
-            );
+            ];
         }
         $a_xml_writer->xmlStartTag("render_choice", $attrs);
 
@@ -134,7 +134,7 @@ class assKprimChoiceExport extends assQuestionExport
         foreach ($akeys as $index) {
             $answer = $this->object->getAnswer($index);
 
-            $a_xml_writer->xmlStartTag('response_label', array('ident' => $answer->getPosition()));
+            $a_xml_writer->xmlStartTag('response_label', ['ident' => $answer->getPosition()]);
 
             $image_file = $answer->getImageFile() ?? '';
             if ($image_file !== '') {
@@ -144,11 +144,11 @@ class assKprimChoiceExport extends assQuestionExport
                     $imagetype = "image/" . $matches[1];
                 }
                 if ($force_image_references) {
-                    $attrs = array(
+                    $attrs = [
                         "imagtype" => $imagetype,
                         "label" => $image_file,
                         "uri" => $answer->getImageWebPath()
-                    );
+                    ];
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
                     $imagepath = $answer->getImageFsPath();
@@ -157,11 +157,11 @@ class assKprimChoiceExport extends assQuestionExport
                         $imagefile = fread($fh, filesize($imagepath));
                         fclose($fh);
                         $base64 = base64_encode($imagefile);
-                        $attrs = array(
+                        $attrs = [
                             "imagtype" => $imagetype,
                             "label" => $image_file,
                             "embedded" => "base64"
-                        );
+                        ];
                         $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
@@ -181,23 +181,23 @@ class assKprimChoiceExport extends assQuestionExport
         $a_xml_writer->xmlStartTag('resprocessing');
 
         $a_xml_writer->xmlStartTag('outcomes');
-        $a_xml_writer->xmlElement('decvar', array(
+        $a_xml_writer->xmlElement('decvar', [
             'varname' => 'SCORE', 'vartype' => 'Decimal', 'defaultval' => '0',
             'minvalue' => $this->getMinPoints(), 'maxvalue' => $this->getMaxPoints()
-        ));
+        ]);
         $a_xml_writer->xmlEndTag('outcomes');
 
 
         foreach ($answers as $answer) {
-            $a_xml_writer->xmlStartTag('respcondition', array('continue' => 'Yes'));
+            $a_xml_writer->xmlStartTag('respcondition', ['continue' => 'Yes']);
 
             $a_xml_writer->xmlStartTag('conditionvar');
-            $a_xml_writer->xmlElement('varequal', array('respident' => $answer->getPosition()), $answer->getCorrectness());
+            $a_xml_writer->xmlElement('varequal', ['respident' => $answer->getPosition()], $answer->getCorrectness());
             $a_xml_writer->xmlEndTag('conditionvar');
 
-            $a_xml_writer->xmlElement('displayfeedback', array(
+            $a_xml_writer->xmlElement('displayfeedback', [
                 'feedbacktype' => 'Response', 'linkrefid' => "response_{$answer->getPosition()}"
-            ));
+            ]);
 
             $a_xml_writer->xmlEndTag('respcondition');
         }
@@ -207,20 +207,20 @@ class assKprimChoiceExport extends assQuestionExport
             true
         );
 
-        $a_xml_writer->xmlStartTag('respcondition', array('continue' => 'Yes'));
+        $a_xml_writer->xmlStartTag('respcondition', ['continue' => 'Yes']);
 
         $a_xml_writer->xmlStartTag('conditionvar');
         $a_xml_writer->xmlStartTag('and');
         foreach ($answers as $answer) {
-            $a_xml_writer->xmlElement('varequal', array('respident' => $answer->getPosition()), $answer->getCorrectness());
+            $a_xml_writer->xmlElement('varequal', ['respident' => $answer->getPosition()], $answer->getCorrectness());
         }
         $a_xml_writer->xmlEndTag('and');
         $a_xml_writer->xmlEndTag('conditionvar');
 
-        $a_xml_writer->xmlElement('setvar', array('action' => 'Add'), $this->object->getPoints());
+        $a_xml_writer->xmlElement('setvar', ['action' => 'Add'], $this->object->getPoints());
 
         if (strlen($feedback_allcorrect)) {
-            $a_xml_writer->xmlElement('displayfeedback', array('feedbacktype' => 'Response', 'linkrefid' => 'response_allcorrect'));
+            $a_xml_writer->xmlElement('displayfeedback', ['feedbacktype' => 'Response', 'linkrefid' => 'response_allcorrect']);
         }
 
         $a_xml_writer->xmlEndTag('respcondition');
@@ -230,22 +230,22 @@ class assKprimChoiceExport extends assQuestionExport
             false
         );
 
-        $a_xml_writer->xmlStartTag('respcondition', array('continue' => 'Yes'));
+        $a_xml_writer->xmlStartTag('respcondition', ['continue' => 'Yes']);
 
         $a_xml_writer->xmlStartTag('conditionvar');
         $a_xml_writer->xmlStartTag('or');
         foreach ($answers as $answer) {
             $a_xml_writer->xmlStartTag('not');
-            $a_xml_writer->xmlElement('varequal', array('respident' => $answer->getPosition()), $answer->getCorrectness());
+            $a_xml_writer->xmlElement('varequal', ['respident' => $answer->getPosition()], $answer->getCorrectness());
             $a_xml_writer->xmlEndTag('not');
         }
         $a_xml_writer->xmlEndTag('or');
         $a_xml_writer->xmlEndTag('conditionvar');
 
-        $a_xml_writer->xmlElement('setvar', array('action' => 'Add'), 0);
+        $a_xml_writer->xmlElement('setvar', ['action' => 'Add'], 0);
 
         if (strlen($feedback_onenotcorrect)) {
-            $a_xml_writer->xmlElement('displayfeedback', array('feedbacktype' => 'Response', 'linkrefid' => 'response_onenotcorrect'));
+            $a_xml_writer->xmlElement('displayfeedback', ['feedbacktype' => 'Response', 'linkrefid' => 'response_onenotcorrect']);
         }
 
         $a_xml_writer->xmlEndTag('respcondition');
@@ -253,7 +253,7 @@ class assKprimChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag('resprocessing');
 
         foreach ($answers as $answer) {
-            $a_xml_writer->xmlStartTag('itemfeedback', array('ident' => "response_{$answer->getPosition()}", 'view' => 'All'));
+            $a_xml_writer->xmlStartTag('itemfeedback', ['ident' => "response_{$answer->getPosition()}", 'view' => 'All']);
             $a_xml_writer->xmlStartTag('flow_mat');
 
             $this->addQTIMaterial($a_xml_writer, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
@@ -266,7 +266,7 @@ class assKprimChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag('itemfeedback');
         }
         if (strlen($feedback_allcorrect)) {
-            $a_xml_writer->xmlStartTag('itemfeedback', array('ident' => 'response_allcorrect', 'view' => 'All'));
+            $a_xml_writer->xmlStartTag('itemfeedback', ['ident' => 'response_allcorrect', 'view' => 'All']);
             $a_xml_writer->xmlStartTag('flow_mat');
 
             $this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
@@ -275,7 +275,7 @@ class assKprimChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag('itemfeedback');
         }
         if (strlen($feedback_onenotcorrect)) {
-            $a_xml_writer->xmlStartTag('itemfeedback', array('ident' => 'response_onenotcorrect', 'view' => 'All'));
+            $a_xml_writer->xmlStartTag('itemfeedback', ['ident' => 'response_onenotcorrect', 'view' => 'All']);
             $a_xml_writer->xmlStartTag('flow_mat');
 
             $this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);

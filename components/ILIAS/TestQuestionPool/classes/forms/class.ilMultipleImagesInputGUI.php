@@ -47,7 +47,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @var array
      */
-    protected $suffixes = array();
+    protected $suffixes = [];
 
     protected $imageRemovalCommand = 'removeImage';
 

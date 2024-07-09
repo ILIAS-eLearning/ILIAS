@@ -64,7 +64,7 @@ class ilAssLacExclusiveResultExpression extends ilAssLacAbstractExpression imple
      */
     protected function setMatches($matches): void
     {
-        $this->exclusive = array();
+        $this->exclusive = [];
 
         foreach ($matches[0] as $match) {
             $this->exclusive[] = $match;

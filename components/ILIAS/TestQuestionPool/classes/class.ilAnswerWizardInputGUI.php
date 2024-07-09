@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 */
 class ilAnswerWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $allowMove = false;
     protected $allowAddRemove = true;
     protected $singleline = true;
@@ -59,7 +59,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {

@@ -60,8 +60,8 @@ class ilImagemapPreview
             }
             $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
-        $this->areas = array();
-        $this->points = array();
+        $this->areas = [];
+        $this->points = [];
         $this->linewidth_outer = 4;
         $this->linewidth_inner = 2;
     }
@@ -93,7 +93,7 @@ class ilImagemapPreview
                 $fillcolor = str_replace("\"", "", $fillcolor);
             }
         }
-        $this->areas[$index] = array(
+        $this->areas[$index] = [
             "shape" => "$shape",
             "coords" => "$coords",
             "title" => htmlspecialchars($title),
@@ -103,7 +103,7 @@ class ilImagemapPreview
             "fillcolor" => '"' . $fillcolor . '"',
             "bordercolor" => '"' . $bordercolor . '"',
             "visible" => (int) $visible
-        );
+        ];
     }
 
     public function addPoint(
@@ -114,13 +114,13 @@ class ilImagemapPreview
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
     ): void {
-        $this->points[$index] = array(
+        $this->points[$index] = [
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
             "fillcolor" => '"' . $fillcolor . '"',
             "bordercolor" => '"' . $bordercolor . '"',
             "visible" => (int) $visible
-        );
+        ];
     }
 
     public function getAreaIdent(): string

@@ -29,7 +29,7 @@ class ilAssQuestionHintRequestStatisticRegister
     /**
      * @var array
      */
-    protected $requestsByTestPassIndexAndQuestionId = array();
+    protected $requestsByTestPassIndexAndQuestionId = [];
 
     /**
      * @param integer $passIndex
@@ -39,7 +39,7 @@ class ilAssQuestionHintRequestStatisticRegister
     public function addRequestByTestPassIndexAndQuestionId($passIndex, $qId, ilAssQuestionHintRequestStatisticData $request): void
     {
         if (!isset($this->requestsByTestPassIndexAndQuestionId[$passIndex])) {
-            $this->requestsByTestPassIndexAndQuestionId[$passIndex] = array();
+            $this->requestsByTestPassIndexAndQuestionId[$passIndex] = [];
         }
 
         $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId] = $request;

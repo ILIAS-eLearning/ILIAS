@@ -143,15 +143,15 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 
     private function buildTableRowsArray($assignedSkills): array
     {
-        $rows = array();
+        $rows = [];
 
         foreach ($assignedSkills as $assignedSkill) {
-            $rows[] = array(
+            $rows[] = [
                 'skill_title' => $assignedSkill['skill_title'],
                 'skill_path' => $assignedSkill['skill_path'],
                 'num_questions' => $assignedSkill['num_assigns'],
                 'max_skill_points' => $assignedSkill['max_points'],
-            );
+            ];
         }
 
         return $rows;

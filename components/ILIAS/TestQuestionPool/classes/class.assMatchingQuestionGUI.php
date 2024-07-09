@@ -423,12 +423,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // shuffle
             $shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
-            $shuffle_options = array(
+            $shuffle_options = [
                 0 => $this->lng->txt("no"),
                 1 => $this->lng->txt("matching_shuffle_terms_definitions"),
                 2 => $this->lng->txt("matching_shuffle_terms"),
                 3 => $this->lng->txt("matching_shuffle_definitions")
-            );
+            ];
             $shuffle->setOptions($shuffle_options);
             $shuffle->setValue($this->object->getShuffleMode());
             $shuffle->setRequired(false);
@@ -481,16 +481,16 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
-                $solutions[] = array(
+                $solutions[] = [
                     "value1" => $pair->getTerm()->getIdentifier(),
                     "value2" => $pair->getDefinition()->getIdentifier(),
                     'points' => $pair->getPoints()
-                );
+                ];
             }
         }
 
@@ -622,7 +622,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
@@ -649,7 +649,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         bool $show_question_only = false,
         bool $show_inline_feedback = false
     ): string {
-        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
@@ -781,8 +781,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     protected function sortDefinitionsBySolution(array $solution, array $definitions): array
     {
-        $neworder = array();
-        $handled_defintions = array();
+        $neworder = [];
+        $handled_defintions = [];
         foreach ($solution as $solution_values) {
             $id = $solution_values['value2'];
             if (!isset($handled_defintions[$id])) {
@@ -805,7 +805,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getPresentationJavascripts(): array
     {
-        $files = array();
+        $files = [];
 
         if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
@@ -834,11 +834,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
-        $solutions = array();
+        $solutions = [];
         if ($active_id) {
             if (is_array($user_post_solutions)) {
                 foreach ($user_post_solutions['matching'][$this->object->getId()] as $definition => $term) {
-                    array_push($solutions, array("value1" => $term, "value2" => $definition));
+                    array_push($solutions, ["value1" => $term, "value2" => $definition]);
                 }
             } else {
                 // hey: prevPassSolutions - obsolete due to central check
@@ -1020,7 +1020,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1034,7 +1034,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1092,19 +1092,19 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answersByActiveAndPass = array();
+        $answersByActiveAndPass = [];
 
         foreach ($relevantAnswers as $row) {
             $key = $row['active_fi'] . ':' . $row['pass'];
 
             if (!isset($answersByActiveAndPass[$key])) {
-                $answersByActiveAndPass[$key] = array();
+                $answersByActiveAndPass[$key] = [];
             }
 
             $answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
         }
 
-        $answers = array();
+        $answers = [];
 
         foreach ($answersByActiveAndPass as $key => $matchingPairs) {
             foreach ($matchingPairs as $termId => $defId) {
@@ -1119,12 +1119,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         $this->object->getDefinitionWithIdentifier($defId)
                     );
 
-                    $answers[$hash] = array(
+                    $answers[$hash] = [
                         'answer' => $termHtml . $defHtml,
                         'term' => $termHtml,
                         'definition' => $defHtml,
                         'frequency' => 0
-                    );
+                    ];
                 }
 
                 $answers[$hash]['frequency']++;

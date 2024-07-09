@@ -223,7 +223,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
     private function buildActionColumnHTML($assignments): string
     {
-        $actions = array();
+        $actions = [];
 
         /* PHP8: This appears to be an incomplete feature: Removal of skill assignment is nowhere found other than
         here, ilAssQuestionSkillAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN is undefined. Defusing for now.
@@ -265,9 +265,9 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
     private function buildSkillPointsInput(ilAssQuestionSkillAssignment $assignment): string
     {
-        $assignmentKey = implode(':', array(
+        $assignmentKey = implode(':', [
             $assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
-        ));
+        ]);
 
         if ($this->loadSkillPointsFromRequest) {
             $points = isset($_POST['skill_points'][$assignmentKey]) ? ilUtil::stripSlashes($_POST['skill_points'][$assignmentKey]) : '';

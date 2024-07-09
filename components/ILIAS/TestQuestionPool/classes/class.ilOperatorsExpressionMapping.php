@@ -28,16 +28,16 @@ abstract class ilOperatorsExpressionMapping
     /**
      * @var array
      */
-    private static $mappings = array(
-        iQuestionCondition::PercentageResultExpression => array("<", "<=", "=", ">=", ">", "<>"),
-        iQuestionCondition::NumericResultExpression => array("<", "<=", "=", ">=", ">", "<>"),
-        iQuestionCondition::StringResultExpression => array("=", "<>"),
-        iQuestionCondition::MatchingResultExpression => array("=", "<>"),
-        iQuestionCondition::OrderingResultExpression => array("=", "<>"),
-        iQuestionCondition::NumberOfResultExpression => array("=", "<>"),
-        iQuestionCondition::ExclusiveResultExpression => array("=", "<>"),
-        iQuestionCondition::EmptyAnswerExpression => array("=", "<>")
-    );
+    private static $mappings = [
+        iQuestionCondition::PercentageResultExpression => ["<", "<=", "=", ">=", ">", "<>"],
+        iQuestionCondition::NumericResultExpression => ["<", "<=", "=", ">=", ">", "<>"],
+        iQuestionCondition::StringResultExpression => ["=", "<>"],
+        iQuestionCondition::MatchingResultExpression => ["=", "<>"],
+        iQuestionCondition::OrderingResultExpression => ["=", "<>"],
+        iQuestionCondition::NumberOfResultExpression => ["=", "<>"],
+        iQuestionCondition::ExclusiveResultExpression => ["=", "<>"],
+        iQuestionCondition::EmptyAnswerExpression => ["=", "<>"]
+    ];
 
     public static function getOperatorsByExpression(string $expression): array
     {

@@ -45,16 +45,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         string $question = ""
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->variables = array();
-        $this->results = array();
-        $this->resultunits = array();
+        $this->variables = [];
+        $this->results = [];
+        $this->resultunits = [];
         $this->unitrepository = new ilUnitConfigurationRepository(0);
         $this->pass_presented_variables_repo = new PassPresentedVariablesRepo($this->db);
     }
 
     public function clearVariables(): void
     {
-        $this->variables = array();
+        $this->variables = [];
     }
 
     public function getVariables(): array
@@ -207,7 +207,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
      */
     public function fetchAllResults($questionText): array
     {
-        $resObjects = array();
+        $resObjects = [];
         $matches = null;
 
         if (preg_match_all("/(\\\$r\\d+)/ims", $questionText, $matches)) {
@@ -292,7 +292,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             $resObj->findValidRandomVariables($this->getVariables(), $this->getResults());
         }
 
-        $variableSolutionValues = array();
+        $variableSolutionValues = [];
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             $variableSolutionValues[$varObj->getVariable()] = $varObj->getValue();
@@ -590,33 +590,33 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             "
 		DELETE FROM il_qpl_qst_fq_var
 		WHERE question_fi = %s",
-            array("integer"),
-            array($this->getId())
+            ["integer"],
+            [$this->getId()]
         );
 
         foreach ($this->variables as $variable) {
             $next_id = $this->db->nextId('il_qpl_qst_fq_var');
             $this->db->insert(
                 'il_qpl_qst_fq_var',
-                array(
-                'variable_id' => array('integer', $next_id),
-                'question_fi' => array('integer', $this->getId()),
-                'variable' => array('text', $variable->getVariable()),
-                'range_min' => array('float', $variable->getRangeMin()),
-                'range_max' => array('float', $variable->getRangeMax()),
-                'unit_fi' => array('integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)),
-                'varprecision' => array('integer', (int) $variable->getPrecision()),
-                'intprecision' => array('integer', (int) $variable->getIntprecision()),
-                'range_min_txt' => array('text', $variable->getRangeMinTxt()),
-                'range_max_txt' => array('text', $variable->getRangeMaxTxt())
-            )
+                [
+                'variable_id' => ['integer', $next_id],
+                'question_fi' => ['integer', $this->getId()],
+                'variable' => ['text', $variable->getVariable()],
+                'range_min' => ['float', $variable->getRangeMin()],
+                'range_max' => ['float', $variable->getRangeMax()],
+                'unit_fi' => ['integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)],
+                'varprecision' => ['integer', (int) $variable->getPrecision()],
+                'intprecision' => ['integer', (int) $variable->getIntprecision()],
+                'range_min_txt' => ['text', $variable->getRangeMinTxt()],
+                'range_max_txt' => ['text', $variable->getRangeMaxTxt()]
+            ]
             );
         }
         // save results
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_res WHERE question_fi = %s",
-            array("integer"),
-            array($this->getId())
+            ["integer"],
+            [$this->getId()]
         );
 
         foreach ($this->results as $result) {
@@ -632,45 +632,45 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $formula = str_replace(",", ".", $result->getFormula());
             }
 
-            $this->db->insert("il_qpl_qst_fq_res", array(
-                "result_id" => array("integer", $next_id),
-                "question_fi" => array("integer", $this->getId()),
-                "result" => array("text", $result->getResult()),
-                "range_min" => array("float", $result->getRangeMin()),
-                "range_max" => array("float", $result->getRangeMax()),
-                "tolerance" => array("float", $result->getTolerance()),
-                "unit_fi" => array("integer", (int) $tmp_result_unit),
-                "formula" => array("clob", $formula),
-                "resprecision" => array("integer", $result->getPrecision()),
-                "rating_simple" => array("integer", ($result->getRatingSimple()) ? 1 : 0),
-                "rating_sign" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingSign()),
-                "rating_value" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingValue()),
-                "rating_unit" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingUnit()),
-                "points" => array("float", $result->getPoints()),
-                "result_type" => array('integer', (int) $result->getResultType()),
-                "range_min_txt" => array("text", $result->getRangeMinTxt()),
-                "range_max_txt" => array("text", $result->getRangeMaxTxt())
+            $this->db->insert("il_qpl_qst_fq_res", [
+                "result_id" => ["integer", $next_id],
+                "question_fi" => ["integer", $this->getId()],
+                "result" => ["text", $result->getResult()],
+                "range_min" => ["float", $result->getRangeMin()],
+                "range_max" => ["float", $result->getRangeMax()],
+                "tolerance" => ["float", $result->getTolerance()],
+                "unit_fi" => ["integer", (int) $tmp_result_unit],
+                "formula" => ["clob", $formula],
+                "resprecision" => ["integer", $result->getPrecision()],
+                "rating_simple" => ["integer", ($result->getRatingSimple()) ? 1 : 0],
+                "rating_sign" => ["float", ($result->getRatingSimple()) ? 0 : $result->getRatingSign()],
+                "rating_value" => ["float", ($result->getRatingSimple()) ? 0 : $result->getRatingValue()],
+                "rating_unit" => ["float", ($result->getRatingSimple()) ? 0 : $result->getRatingUnit()],
+                "points" => ["float", $result->getPoints()],
+                "result_type" => ['integer', (int) $result->getResultType()],
+                "range_min_txt" => ["text", $result->getRangeMinTxt()],
+                "range_max_txt" => ["text", $result->getRangeMaxTxt()]
 
-            ));
+            ]);
         }
         // save result units
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_res_unit WHERE question_fi = %s",
-            array("integer"),
-            array($this->getId())
+            ["integer"],
+            [$this->getId()]
         );
         foreach ($this->results as $result) {
             foreach ($this->getResultUnits($result) as $unit) {
                 $next_id = $this->db->nextId('il_qpl_qst_fq_res_unit');
                 $affectedRows = $this->db->manipulateF(
                     "INSERT INTO il_qpl_qst_fq_res_unit (result_unit_id, question_fi, result, unit_fi) VALUES (%s, %s, %s, %s)",
-                    array('integer', 'integer', 'text', 'integer'),
-                    array(
+                    ['integer', 'integer', 'text', 'integer'],
+                    [
                         $next_id,
                         $this->getId(),
                         $result->getResult(),
                         $unit->getId()
-                    )
+                    ]
                 );
             }
         }
@@ -682,8 +682,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     {
         $result = $this->db->queryF(
             "SELECT qpl_questions.* FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $this->db->fetchAssoc($result);
@@ -715,8 +715,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             // load variables
             $result = $this->db->queryF(
                 "SELECT * FROM il_qpl_qst_fq_var WHERE question_fi = %s",
-                array('integer'),
-                array($question_id)
+                ['integer'],
+                [$question_id]
             );
             if ($result->numRows() > 0) {
                 while ($data = $this->db->fetchAssoc($result)) {
@@ -734,8 +734,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             // load results
             $result = $this->db->queryF(
                 "SELECT * FROM il_qpl_qst_fq_res WHERE question_fi = %s",
-                array('integer'),
-                array($question_id)
+                ['integer'],
+                [$question_id]
             );
             if ($result->numRows() > 0) {
                 while ($data = $this->db->fetchAssoc($result)) {
@@ -761,8 +761,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
             // load result units
             $result = $this->db->queryF(
                 "SELECT * FROM il_qpl_qst_fq_res_unit WHERE question_fi = %s",
-                array('integer'),
-                array($question_id)
+                ['integer'],
+                [$question_id]
             );
             if ($result->numRows() > 0) {
                 while ($data = $this->db->fetchAssoc($result)) {
@@ -905,15 +905,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
                         $result = $this->db->queryF(
                             $queryResult,
-                            array('integer', 'integer', 'integer', 'integer'),
-                            array($active_id, $pass, $this->getId(), (int) $authorized)
+                            ['integer', 'integer', 'integer', 'integer'],
+                            [$active_id, $pass, $this->getId(), (int) $authorized]
                         );
                         if ($result->numRows()) {
                             while ($row = $this->db->fetchAssoc($result)) {
                                 $this->db->manipulateF(
                                     "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                                    array('integer', 'integer'),
-                                    array($row['solution_id'], (int) $authorized)
+                                    ['integer', 'integer'],
+                                    [$row['solution_id'], (int) $authorized]
                                 );
                             }
                         }
@@ -931,15 +931,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
                         $result = $this->db->queryF(
                             $queryResultUnit,
-                            array('integer', 'integer', 'integer', 'integer'),
-                            array($active_id, $pass, $this->getId(), (int) $authorized)
+                            ['integer', 'integer', 'integer', 'integer'],
+                            [$active_id, $pass, $this->getId(), (int) $authorized]
                         );
                         if ($result->numRows()) {
                             while ($row = $this->db->fetchAssoc($result)) {
                                 $this->db->manipulateF(
                                     "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                                    array('integer', 'integer'),
-                                    array($row['solution_id'], (int) $authorized)
+                                    ['integer', 'integer'],
+                                    [$row['solution_id'], (int) $authorized]
                                 );
                             }
                         }
@@ -958,10 +958,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
      */
     public function lookupForExistingSolutions(int $active_id, int $pass): array
     {
-        $return = array(
+        $return = [
             'authorized' => false,
             'intermediate' => false
-        );
+        ];
 
         $query = "
 			SELECT authorized, COUNT(*) cnt
@@ -1047,32 +1047,32 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     {
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_var WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_res WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_res_unit WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_ucat WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         $affectedRows = $this->db->manipulateF(
             "DELETE FROM il_qpl_qst_fq_unit WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
     }
 
@@ -1117,7 +1117,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function getBestSolution(array $solutions): array
     {
-        $user_solution = array();
+        $user_solution = [];
 
         foreach ($solutions as $idx => $solution_value) {
             if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
@@ -1126,12 +1126,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $varObj->setValue($solution_value["value2"]);
             } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
-                    $user_solution[$matches[1]] = array();
+                    $user_solution[$matches[1]] = [];
                 }
                 $user_solution[$matches[1]]["value"] = $solution_value["value2"];
             } elseif (preg_match("/^(\\\$r\\d+)_unit$/", $solution_value["value1"], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
-                    $user_solution[$matches[1]] = array();
+                    $user_solution[$matches[1]] = [];
                 }
                 $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
             }
@@ -1252,11 +1252,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumericResultExpression,
             iQuestionCondition::EmptyAnswerExpression,
-        );
+        ];
     }
 
     public function getUserQuestionResult(
@@ -1269,14 +1269,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         if ($maxStep > 0) {
             $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer",'integer'),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer",'integer'],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
             $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
 

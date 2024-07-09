@@ -263,7 +263,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
             $handledSkills = [];
 
-            $sgui = $this->buildSkillSelectorExplorerGUI(array());
+            $sgui = $this->buildSkillSelectorExplorerGUI([]);
             $skillIds = $sgui->getSelectedSkills();
 
             foreach ($skillIds as $skillId) {
@@ -614,7 +614,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $question->setShuffle(false); // dirty, but works ^^
         $question_gui->setObject($question);
         $questionHTML = $question_gui->getSolutionOutput(0, 0, false, false, true, false, true, false, true);
-        $pageGUI->setQuestionHTML(array($question_gui->getObject()->getId() => $questionHTML));
+        $pageGUI->setQuestionHTML([$question_gui->getObject()->getId() => $questionHTML]);
 
         $pageHTML = $pageGUI->presentation();
         $pageHTML = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $pageHTML);
@@ -647,7 +647,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function checkSolutionCompareExpressionInput($input, assQuestion $question): bool
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($input->getValues() as $expression) {
             $result = $this->validateSolutionCompareExpression($expression, $question);
@@ -696,7 +696,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function orderQuestionData($questionData)
     {
-        $orderedQuestionsData = array();
+        $orderedQuestionsData = [];
 
         if ($this->getQuestionOrderSequence()) {
             foreach ($this->getQuestionOrderSequence() as $questionId) {
