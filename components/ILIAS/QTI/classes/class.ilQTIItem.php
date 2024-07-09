@@ -123,11 +123,11 @@ class ilQTIItem
     public function setDuration(string $a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
-            $this->duration = array(
+            $this->duration = [
                 "h" => $matches[4],
                 "m" => $matches[5],
                 "s" => $matches[6]
-            );
+            ];
         }
     }
 
@@ -293,7 +293,7 @@ class ilQTIItem
 
     public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index): void
     {
-        $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
+        $this->suggested_solutions[] = ["solution" => $a_solution, "gap_index" => $a_gap_index];
     }
 
     /**
