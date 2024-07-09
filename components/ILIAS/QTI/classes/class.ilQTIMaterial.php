@@ -38,17 +38,17 @@ class ilQTIMaterial
 
     public function addMattext(ilQTIMattext $a_mattext): void
     {
-        $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
+        $this->materials[] = ["material" => $a_mattext, "type" => "mattext"];
     }
 
     public function addMatimage(ilQTIMatimage $a_matimage): void
     {
-        $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
+        $this->materials[] = ["material" => $a_matimage, "type" => "matimage"];
     }
 
     public function addMatapplet(ilQTIMatapplet $a_matapplet): void
     {
-        $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
+        $this->materials[] = ["material" => $a_matapplet, "type" => "matapplet"];
     }
 
     public function getMaterialCount(): int

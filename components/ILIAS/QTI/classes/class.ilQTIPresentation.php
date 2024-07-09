@@ -111,12 +111,12 @@ class ilQTIPresentation
     public function addMaterial(ilQTIMaterial $a_material): void
     {
         $count = array_push($this->material, $a_material);
-        $this->order[] = array("type" => "material", "index" => $count - 1);
+        $this->order[] = ["type" => "material", "index" => $count - 1];
     }
 
     public function addResponse(ilQTIResponse $a_response): void
     {
         $count = array_push($this->response, $a_response);
-        $this->order[] = array("type" => "response", "index" => $count - 1);
+        $this->order[] = ["type" => "response", "index" => $count - 1];
     }
 }
