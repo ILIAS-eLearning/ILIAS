@@ -18,35 +18,35 @@
 
 declare(strict_types=1);
 
-use ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRule as DontCancel;
+use ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestRule as Approve;
 
-class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestRuleTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $this->assertInstanceOf(
-            DontCancel::class,
-            new DontCancel($relation)
+            Approve::class,
+            new Approve($relation)
         );
     }
 
     public function testMatches(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(true);
+        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
         $relation->expects(self::once())->method('isOwnedByActor')->willReturn(false);
-        $instance = new DontCancel($relation);
+        $instance = new Approve($relation);
 
         $this->assertTrue($instance->matches());
     }
 
-    public function testMatchesRequested(): void
+    public function testMatchesIgnored(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(false);
+        $relation->expects(self::once())->method('isIgnored')->willReturn(false);
         $relation->expects(self::never())->method('isOwnedByActor');
-        $instance = new DontCancel($relation);
+        $instance = new Approve($relation);
 
         $this->assertFalse($instance->matches());
     }
@@ -54,9 +54,9 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
     public function testMatchesOwned(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(true);
+        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
         $relation->expects(self::once())->method('isOwnedByActor')->willReturn(true);
-        $instance = new DontCancel($relation);
+        $instance = new Approve($relation);
 
         $this->assertFalse($instance->matches());
     }
@@ -64,9 +64,9 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
     public function testInvokeFalse(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $state = $this->mock(ilBuddySystemUnlinkedRelationState::class);
+        $state = $this->mock(ilBuddySystemRelationState::class);
 
-        $instance = new DontCancel($relation);
+        $instance = new Approve($relation);
 
         $this->assertFalse($instance($state));
     }
@@ -74,8 +74,9 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
     public function testInvoke(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $state = $this->mock(ilBuddySystemRelationState::class);
-        $instance = new DontCancel($relation);
+        $state = $this->mock(ilBuddySystemLinkedRelationState::class);
+
+        $instance = new Approve($relation);
 
         $this->assertTrue($instance($state));
     }

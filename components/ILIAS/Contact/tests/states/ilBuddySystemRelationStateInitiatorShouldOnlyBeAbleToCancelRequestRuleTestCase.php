@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule as Cancel;
 
-class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRuleTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRuleTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): void
     {

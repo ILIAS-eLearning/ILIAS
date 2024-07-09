@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use ilAwarenessUserProviderApprovedContacts as ApprovedContacts;
 
-class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
+class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): ApprovedContacts
     {

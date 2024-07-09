@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRule as DontApprove;
 
-class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRuleTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRuleTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): void
     {

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilBuddySystemRelationStateNullFilterRuleTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationStateNullFilterRuleTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): ilBuddySystemRelationStateNullFilterRule
     {

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
+class ilBuddySystemStateFactoryTestCase extends ilBuddySystemBaseTestCase
 {
     private ilBuddySystemRelationStateFactory $stateFactory;
 

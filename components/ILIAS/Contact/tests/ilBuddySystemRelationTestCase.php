@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilBuddySystemRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationTestCase extends ilBuddySystemBaseTestCase
 {
     private const RELATION_OWNER_ID = -1;
 

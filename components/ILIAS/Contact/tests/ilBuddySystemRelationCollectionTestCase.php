@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilBuddySystemRelationCollectionTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationCollectionTestCase extends ilBuddySystemBaseTestCase
 {
     /**
      * @dataProvider provideElements

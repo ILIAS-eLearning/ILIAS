@@ -19,19 +19,19 @@
 declare(strict_types=1);
 
 /**
- * Class ilBuddySystemRequestedStateRelationTest
+ * Class ilBuddySystemUnlinkedStateRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
+class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTestCase
 {
     public function getInitialState(): ilBuddySystemRelationState
     {
-        return new ilBuddySystemRequestedRelationState();
+        return new ilBuddySystemUnlinkedRelationState();
     }
 
     public function testIsUnlinked(): void
     {
-        $this->assertFalse($this->relation->isUnlinked());
+        $this->assertTrue($this->relation->isUnlinked());
     }
 
     public function testIsLinked(): void
@@ -41,7 +41,7 @@ class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
 
     public function testIsRequested(): void
     {
-        $this->assertTrue($this->relation->isRequested());
+        $this->assertFalse($this->relation->isRequested());
     }
 
     public function testIsIgnored(): void
@@ -51,28 +51,27 @@ class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
 
     public function testCanBeUnlinked(): void
     {
+        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->unlink();
-        $this->assertTrue($this->relation->isUnlinked());
-        $this->assertTrue($this->relation->wasRequested());
     }
 
     public function testCanBeLinked(): void
     {
+        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->link();
-        $this->assertTrue($this->relation->isLinked());
-        $this->assertTrue($this->relation->wasRequested());
     }
 
     public function testCanBeRequested(): void
     {
-        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->request();
+        $this->assertTrue($this->relation->isRequested());
+        $this->assertTrue($this->relation->wasUnlinked());
     }
 
     public function testCanBeIgnored(): void
     {
+        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->ignore();
-        $this->assertTrue($this->relation->isIgnored());
     }
 
     public function testPossibleTargetStates(): void
@@ -81,9 +80,7 @@ class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
             $this->relation->getState()
                 ->getPossibleTargetStates()
                 ->equals(new ilBuddySystemRelationStateCollection([
-                    new ilBuddySystemLinkedRelationState(),
-                    new ilBuddySystemIgnoredRequestRelationState(),
-                    new ilBuddySystemUnlinkedRelationState(),
+                    new ilBuddySystemRequestedRelationState(),
                 ]))
         );
     }

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilBuddySystemRelationStateFilterRuleFactoryTest extends ilBuddySystemBaseTest
+class ilBuddySystemRelationStateFilterRuleFactoryTestCase extends ilBuddySystemBaseTestCase
 {
     public function testGetInstance(): void
     {

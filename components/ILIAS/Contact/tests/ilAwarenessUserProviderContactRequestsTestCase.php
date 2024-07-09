@@ -22,7 +22,7 @@ use ILIAS\DI\Container;
 use ilAwarenessUserProviderContactRequests as Contacts;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
+class ilAwarenessUserProviderContactRequestsTestCase extends ilBuddySystemBaseTestCase
 {
     /**
      * @var ilObjUser|MockObject

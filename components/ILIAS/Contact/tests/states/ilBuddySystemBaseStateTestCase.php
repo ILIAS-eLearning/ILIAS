@@ -19,19 +19,28 @@
 declare(strict_types=1);
 
 /**
- * Class ilBuddySystemRelationRepositoryTest
+ * Class ilBuddySystemBaseStateTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemRelationRepositoryTest extends ilBuddySystemBaseTest
+abstract class ilBuddySystemBaseStateTestCase extends ilBuddySystemBaseTestCase
 {
-    public function testSqlRepositoryDelegatesDeletionToDatabaseAbstraction(): void
-    {
-        $db = $this->createMock(ilDBInterface::class);
-        $db->expects($this->exactly(2))
-            ->method('manipulateF')
-            ->with($this->stringContains('DELETE FROM'));
+    private const RELATION_OWNER_ID = -1;
+    private const RELATION_BUDDY_ID = -2;
 
-        $repo = new ilBuddySystemRelationRepository(4711, $db);
-        $repo->destroy();
+    protected ilBuddySystemRelation $relation;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->relation = new ilBuddySystemRelation(
+            $this->getInitialState(),
+            self::RELATION_OWNER_ID,
+            self::RELATION_BUDDY_ID,
+            false,
+            time()
+        );
     }
+
+    abstract public function getInitialState(): ilBuddySystemRelationState;
 }

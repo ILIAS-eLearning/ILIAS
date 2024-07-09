@@ -21,10 +21,7 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Michael Jansen <mjansen@databay.de>
- */
-class ilBuddySystemBaseTest extends TestCase
+class ilBuddySystemBaseTestCase extends TestCase
 {
     private ?Container $dic = null;
 

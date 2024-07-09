@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilBuddyListTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddyListTest extends ilBuddySystemBaseTest
+class ilBuddyListTestCase extends ilBuddySystemBaseTestCase
 {
     private const BUDDY_LIST_OWNER_ID = -1;
     private const BUDDY_LIST_BUDDY_ID = -2;

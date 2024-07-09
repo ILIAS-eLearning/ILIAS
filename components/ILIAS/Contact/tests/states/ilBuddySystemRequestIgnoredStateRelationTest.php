@@ -19,19 +19,19 @@
 declare(strict_types=1);
 
 /**
- * Class ilBuddySystemUnlinkedStateRelationTest
+ * Class ilBuddySystemRequestIgnoredStateRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
+class ilBuddySystemRequestIgnoredStateRelationTest extends ilBuddySystemBaseStateTestCase
 {
     public function getInitialState(): ilBuddySystemRelationState
     {
-        return new ilBuddySystemUnlinkedRelationState();
+        return new ilBuddySystemIgnoredRequestRelationState();
     }
 
     public function testIsUnlinked(): void
     {
-        $this->assertTrue($this->relation->isUnlinked());
+        $this->assertFalse($this->relation->isUnlinked());
     }
 
     public function testIsLinked(): void
@@ -46,26 +46,27 @@ class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
 
     public function testIsIgnored(): void
     {
-        $this->assertFalse($this->relation->isIgnored());
+        $this->assertTrue($this->relation->isIgnored());
     }
 
     public function testCanBeUnlinked(): void
     {
-        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->unlink();
+        $this->assertTrue($this->relation->isUnlinked());
+        $this->assertTrue($this->relation->wasIgnored());
     }
 
     public function testCanBeLinked(): void
     {
-        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->link();
+        $this->assertTrue($this->relation->isLinked());
+        $this->assertTrue($this->relation->wasIgnored());
     }
 
     public function testCanBeRequested(): void
     {
+        $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->request();
-        $this->assertTrue($this->relation->isRequested());
-        $this->assertTrue($this->relation->wasUnlinked());
     }
 
     public function testCanBeIgnored(): void
@@ -80,7 +81,8 @@ class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
             $this->relation->getState()
                 ->getPossibleTargetStates()
                 ->equals(new ilBuddySystemRelationStateCollection([
-                    new ilBuddySystemRequestedRelationState(),
+                    new ilBuddySystemUnlinkedRelationState(),
+                    new ilBuddySystemLinkedRelationState(),
                 ]))
         );
     }
