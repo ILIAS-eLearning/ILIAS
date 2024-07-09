@@ -19,26 +19,27 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Personal;
+
 use PHPUnit\Framework\TestCase;
-use ILIAS\Skill\Personal;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class SkillPersonalTest extends TestCase
 {
-    protected Personal\SelectedUserSkill $selected_skill;
-    protected Personal\AssignedMaterial $material;
+    protected SelectedUserSkill $selected_skill;
+    protected AssignedMaterial $material;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->selected_skill = new Personal\SelectedUserSkill(
+        $this->selected_skill = new SelectedUserSkill(
             11,
             "My selected skill"
         );
-        $this->material = new Personal\AssignedMaterial(
+        $this->material = new AssignedMaterial(
             21,
             22,
             23,

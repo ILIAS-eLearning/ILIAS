@@ -19,23 +19,24 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Personal;
+
 use PHPUnit\Framework\TestCase;
-use ILIAS\Skill\Personal;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class SkillInternalPersonalFactoryTest extends TestCase
 {
-    protected Personal\PersonalSkillFactory $factory;
-    protected Personal\SelectedUserSkill $selected_skill;
-    protected Personal\AssignedMaterial $material;
+    protected PersonalSkillFactory $factory;
+    protected SelectedUserSkill $selected_skill;
+    protected AssignedMaterial $material;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->factory = new Personal\PersonalSkillFactory();
+        $this->factory = new PersonalSkillFactory();
 
         $this->selected_skill = $this->factory->selectedUserSkill(0, "");
         $this->material = $this->factory->assignedMaterial(0, 0, 0, 0, 0, 0);
@@ -43,7 +44,7 @@ class SkillInternalPersonalFactoryTest extends TestCase
 
     public function testFactoryInstances(): void
     {
-        $this->assertInstanceOf(Personal\SelectedUserSkill::class, $this->selected_skill);
-        $this->assertInstanceOf(Personal\AssignedMaterial::class, $this->material);
+        $this->assertInstanceOf(SelectedUserSkill::class, $this->selected_skill);
+        $this->assertInstanceOf(AssignedMaterial::class, $this->material);
     }
 }

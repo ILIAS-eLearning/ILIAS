@@ -19,8 +19,9 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Service;
+
 use PHPUnit\Framework\TestCase;
-use ILIAS\Skill\Service;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
 use ILIAS\Skill\Tree;
@@ -31,7 +32,7 @@ use ILIAS\Skill\Resource;
  */
 class SkillInternalFactoryServiceTest extends TestCase
 {
-    protected Service\SkillInternalFactoryService $factory;
+    protected SkillInternalFactoryService $factory;
     protected Profile\SkillProfileFactory $profile_fac;
     protected Personal\PersonalSkillFactory $personal_fac;
     protected Tree\SkillTreeFactory $tree_fac;
@@ -41,7 +42,7 @@ class SkillInternalFactoryServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->factory = new Service\SkillInternalFactoryService();
+        $this->factory = new SkillInternalFactoryService();
 
         $this->profile_fac = $this->factory->profile();
         $this->personal_fac = $this->factory->personal();
@@ -54,6 +55,6 @@ class SkillInternalFactoryServiceTest extends TestCase
         $this->assertInstanceOf(Profile\SkillProfileFactory::class, $this->profile_fac);
         $this->assertInstanceOf(Personal\PersonalSkillFactory::class, $this->personal_fac);
         $this->assertInstanceOf(Tree\SkillTreeFactory::class, $this->tree_fac);
-        $this->assertInstanceOf(\ILIAS\Skill\Resource\SkillResourceFactory::class, $this->resource_fac);
+        $this->assertInstanceOf(Resource\SkillResourceFactory::class, $this->resource_fac);
     }
 }

@@ -19,49 +19,50 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 use PHPUnit\Framework\TestCase;
-use ILIAS\Skill\Profile;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class SkillProfileTest extends TestCase
 {
-    protected Profile\SkillProfile $profile;
-    protected Profile\SkillProfileLevel $profile_level;
-    protected Profile\SkillProfileCompletion $profile_completion;
-    protected Profile\SkillProfileUserAssignment $profile_user_assignment;
-    protected Profile\SkillProfileRoleAssignment $profile_role_assignment;
+    protected SkillProfile $profile;
+    protected SkillProfileLevel $profile_level;
+    protected SkillProfileCompletion $profile_completion;
+    protected SkillProfileUserAssignment $profile_user_assignment;
+    protected SkillProfileRoleAssignment $profile_role_assignment;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->profile = new Profile\SkillProfile(
+        $this->profile = new SkillProfile(
             11,
             "My profile",
             "This is my profile",
             12,
             "my_profile_image_id"
         );
-        $this->profile_level = new Profile\SkillProfileLevel(
+        $this->profile_level = new SkillProfileLevel(
             21,
             22,
             23,
             24,
             25
         );
-        $this->profile_completion = new Profile\SkillProfileCompletion(
+        $this->profile_completion = new SkillProfileCompletion(
             31,
             32,
             "1999-01-01 12:12:12",
             true
         );
-        $this->profile_user_assignment = new Profile\SkillProfileUserAssignment(
+        $this->profile_user_assignment = new SkillProfileUserAssignment(
             "My user",
             41
         );
-        $this->profile_role_assignment = new Profile\SkillProfileRoleAssignment(
+        $this->profile_role_assignment = new SkillProfileRoleAssignment(
             "My role",
             51,
             "My object",
@@ -201,7 +202,7 @@ class SkillProfileTest extends TestCase
         $pu = $this->profile_user_assignment;
         $pr = $this->profile_role_assignment;
 
-        $this->assertInstanceOf(Profile\SkillProfileAssignmentInterface::class, $pu);
-        $this->assertInstanceOf(Profile\SkillProfileAssignmentInterface::class, $pr);
+        $this->assertInstanceOf(SkillProfileAssignmentInterface::class, $pu);
+        $this->assertInstanceOf(SkillProfileAssignmentInterface::class, $pr);
     }
 }

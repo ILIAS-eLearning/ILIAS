@@ -19,26 +19,27 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 use PHPUnit\Framework\TestCase;
-use ILIAS\Skill\Profile;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class SkillInternalProfileFactoryTest extends TestCase
 {
-    protected Profile\SkillProfileFactory $factory;
-    protected Profile\SkillProfile $profile;
-    protected Profile\SkillProfileLevel $profile_level;
-    protected Profile\SkillProfileCompletion $profile_completion;
-    protected Profile\SkillProfileUserAssignment $profile_user_assignment;
-    protected Profile\SkillProfileRoleAssignment $profile_role_assignment;
+    protected SkillProfileFactory $factory;
+    protected SkillProfile $profile;
+    protected SkillProfileLevel $profile_level;
+    protected SkillProfileCompletion $profile_completion;
+    protected SkillProfileUserAssignment $profile_user_assignment;
+    protected SkillProfileRoleAssignment $profile_role_assignment;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->factory = new Profile\SkillProfileFactory();
+        $this->factory = new SkillProfileFactory();
 
         $this->profile = $this->factory->profile(0, "", "", 0);
         $this->profile_level = $this->factory->profileLevel(0, 0, 0, 0, 0);
@@ -49,10 +50,10 @@ class SkillInternalProfileFactoryTest extends TestCase
 
     public function testFactoryInstances(): void
     {
-        $this->assertInstanceOf(Profile\SkillProfile::class, $this->profile);
-        $this->assertInstanceOf(Profile\SkillProfileLevel::class, $this->profile_level);
-        $this->assertInstanceOf(Profile\SkillProfileCompletion::class, $this->profile_completion);
-        $this->assertInstanceOf(Profile\SkillProfileUserAssignment::class, $this->profile_user_assignment);
-        $this->assertInstanceOf(Profile\SkillProfileRoleAssignment::class, $this->profile_role_assignment);
+        $this->assertInstanceOf(SkillProfile::class, $this->profile);
+        $this->assertInstanceOf(SkillProfileLevel::class, $this->profile_level);
+        $this->assertInstanceOf(SkillProfileCompletion::class, $this->profile_completion);
+        $this->assertInstanceOf(SkillProfileUserAssignment::class, $this->profile_user_assignment);
+        $this->assertInstanceOf(SkillProfileRoleAssignment::class, $this->profile_role_assignment);
     }
 }

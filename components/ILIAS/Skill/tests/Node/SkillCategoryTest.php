@@ -19,6 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Node;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SkillCategoryTest extends TestCase
 {
-    protected ilSkillCategory $skill_category;
+    protected \ilSkillCategory $skill_category;
 
     protected function setGlobalVariable(string $name, $value): void
     {
@@ -41,36 +43,35 @@ class SkillCategoryTest extends TestCase
         };
     }
 
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $dic = new ILIAS\DI\Container();
+        $dic = new \ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
 
-        $db = $this->createMock(ilDBInterface::class);
+        $db = $this->createMock(\ilDBInterface::class);
         $this->setGlobalVariable(
             "ilDB",
             $db
         );
-        $tree = $this->createMock(ilTree::class);
+        $tree = $this->createMock(\ilTree::class);
         $this->setGlobalVariable(
             "tree",
             $tree
         );
-        $rbac = $this->createMock(ilRbacSystem::class);
+        $rbac = $this->createMock(\ilRbacSystem::class);
         $this->setGlobalVariable(
             "rbacsystem",
             $rbac
         );
-        $user = $this->createMock(ilObjUser::class);
+        $user = $this->createMock(\ilObjUser::class);
         $this->setGlobalVariable(
             "ilUser",
             $user
         );
 
-        $this->skill_category = new ilSkillCategory();
+        $this->skill_category = new \ilSkillCategory();
     }
 
     protected function tearDown(): void
