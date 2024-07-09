@@ -65,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
