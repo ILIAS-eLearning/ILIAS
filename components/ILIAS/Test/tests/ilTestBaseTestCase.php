@@ -64,6 +64,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_uiRenderer();
         $this->addGlobal_uiService();
         $this->addGlobal_static_url();
+        $this->addGlobal_upload();
 
         parent::setUp();
     }

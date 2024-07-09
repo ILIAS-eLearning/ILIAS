@@ -44,7 +44,7 @@ class TestLogViewer
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
-        private readonly GeneralQuestionPropertiesRepository $question_repo,
+        private readonly GeneralQuestionPropertiesRepository $question_repository,
         private readonly RequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
         private readonly StaticURLServices $static_url,
@@ -69,7 +69,7 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
-            $this->question_repo,
+            $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
@@ -99,7 +99,7 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
-            $this->question_repo,
+            $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
@@ -163,12 +163,12 @@ class TestLogViewer
             $title = '';
             if ($log['question_fi']) {
                 $title = $this->lng->txt('question') . ': '
-                    . $this->questionrepository->getForQuestionId((int) $log['question_fi'])->getTitle();
+                    . $this->question_repository->getForQuestionId((int) $log['question_fi'])->getTitle();
             }
 
             if ($title === '' && $log['original_fi']) {
                 $title = $this->lng->txt('question') . ': '
-                    . $this->questionrepository->getForQuestionId((int) $log['original_fi'])->getTitle();
+                    . $this->question_repository->getForQuestionId((int) $log['original_fi'])->getTitle();
             }
 
             $content_row = [];

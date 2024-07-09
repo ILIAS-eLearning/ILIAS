@@ -125,7 +125,7 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
     {
         $this->determineOffsetAndOrder();
 
-        return ilArrayUtil::sortArray(
+        return \ilArrayUtil::sortArray(
             $this->getData(),
             $this->getOrderField(),
             $this->getOrderDirection(),

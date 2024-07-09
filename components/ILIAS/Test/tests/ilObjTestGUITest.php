@@ -61,7 +61,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_filesystem();
-        $this->addGlobal_upload();
         $this->addGlobal_ilErr();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilias();

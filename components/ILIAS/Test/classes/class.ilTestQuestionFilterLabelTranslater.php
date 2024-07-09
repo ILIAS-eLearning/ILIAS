@@ -156,13 +156,13 @@ class ilTestQuestionFilterLabelTranslater
      */
     public function getTaxonomyFilterLabel($filter = array(), $filterDelimiter = ' + ', $taxNodeDelimiter = ': ', $nodesDelimiter = ', '): string
     {
-        $labels = array();
+        $labels = [];
         foreach ($filter as $taxId => $nodeIds) {
-            $nodes = array();
+            $nodes = [];
             foreach ($nodeIds as $nodeId) {
                 $nodes[] = $this->getTaxonomyNodeLabel($nodeId);
             }
-            $labels[] .= $this->getTaxonomyTreeLabel($taxId) . $taxNodeDelimiter . implode($nodesDelimiter, $nodes);
+            $labels[] = $this->getTaxonomyTreeLabel($taxId) . $taxNodeDelimiter . implode($nodesDelimiter, $nodes);
         }
         return implode($filterDelimiter, $labels);
     }

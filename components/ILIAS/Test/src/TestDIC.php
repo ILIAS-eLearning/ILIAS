@@ -38,6 +38,7 @@ use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\Factory as InteractionFactory;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 
 class TestDIC extends PimpleContainer
 {
@@ -147,6 +148,12 @@ class TestDIC extends PimpleContainer
                 $DIC['ilDB'],
                 $DIC['component.factory'],
                 $DIC['lng']
+            );
+        $dic['question.request_data_wrapper'] = static fn($c): QPLRequestDataCollector =>
+            new QPLRequestDataCollector(
+                $DIC->http(),
+                $DIC['refinery'],
+                $DIC['upload']
             );
 
         return $dic;

@@ -88,7 +88,7 @@ class TestScreenGUI
         }
 
         if (!$this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass(ilObjTestGUI::class, 'infoScreen');
+            $this->ctrl->redirectByClass(\ilObjTestGUI::class, 'infoScreen');
         }
 
         $this->tpl->setOnScreenMessage('failure', sprintf(
@@ -562,7 +562,7 @@ class TestScreenGUI
         $message = $this->lng->txt('tst_skl_level_thresholds_missing');
 
         $link_target = $this->buildLinkTarget(
-            ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+            \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
         );
 
         $link = $this->ui_factory->link()->standard(
@@ -581,13 +581,13 @@ class TestScreenGUI
 
         $questionContainerId = $this->object->getId();
 
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->database);
+        $assignmentList = new \ilAssQuestionSkillAssignmentList($this->database);
         $assignmentList->setParentObjId($questionContainerId);
         $assignmentList->loadFromDb();
 
         foreach ($assignmentList->getUniqueAssignedSkills() as $data) {
             foreach ($data['skill']->getLevelData() as $level) {
-                $threshold = new ilTestSkillLevelThreshold($this->database);
+                $threshold = new \ilTestSkillLevelThreshold($this->database);
                 $threshold->setTestId($this->object->getTestId());
                 $threshold->setSkillBaseId($data['skill_base_id']);
                 $threshold->setSkillTrefId($data['skill_tref_id']);

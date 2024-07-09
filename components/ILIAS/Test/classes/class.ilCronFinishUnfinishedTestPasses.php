@@ -174,8 +174,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                 && !$this->finishPassOnProcessingTime(
                     $test_id,
                     $data['usr_id'],
-                    $data['active_id'])
-                ) {
+                    $data['active_id']
+                )
+            ) {
                 $this->logger->info('Test session with active id ('
                     . $data['active_id'] . ') can not be finished by this cron job.');
             }
@@ -219,7 +220,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
 
         if (ilObject::_exists($obj_id)) {
-            $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
+            $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');
             return false;
         }
 
@@ -262,9 +263,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 
             $pass_finisher = new ilTestPassFinishTasks($test_session, $obj_id);
             $pass_finisher->performFinishTasks($processLocker);
-            $this->log->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
+            $this->logger->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
         } else {
-            $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
+            $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');
         }
     }
 }

@@ -163,16 +163,10 @@ class ilTestAccess
         return $this->checkAccessForActiveId($access_filter, $active_id, $test_id);
     }
 
-    public function checkScoreParticipantsAccessForActiveId(int $active_id): bool
+    public function checkScoreParticipantsAccessForActiveId(int $active_id, int $test_id): bool
     {
         $access_filter = $this->participant_access_filter->getScoreParticipantsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($access_filter, $active_id);
-    }
-
-    public function checkStatisticsAccessForActiveId(int $active_id): bool
-    {
-        $access_filter = $this->participant_access_filter->getAccessStatisticsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($access_filter, $active_id);
+        return $this->checkAccessForActiveId($access_filter, $active_id, $test_id);
     }
 
     public function isParticipantAllowed(int $obj_id, int $user_id): ParticipantAccess

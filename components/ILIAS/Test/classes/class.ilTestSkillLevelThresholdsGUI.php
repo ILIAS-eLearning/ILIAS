@@ -32,7 +32,7 @@ class ilTestSkillLevelThresholdsGUI
     public const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
 
     private int $question_container_id;
-    private bool $questionAssignmentColumnsEnabled = false;
+    private bool $question_assignment_columns_enabled = false;
 
     public function __construct(
         private readonly ilCtrlInterface $ctrl,

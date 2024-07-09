@@ -940,32 +940,22 @@ class ilObjTest extends ilObject
         return $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
     }
 
-    /**
-    * @see $processing_time
-    */
-    public function getProcessingTimeAsArray(): array
+    private function getProcessingTimeForXML(): string
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
-        if ($processing_time && $processing_time !== '') {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $processing_time, $matches)) {
-                return [
-                    'hh' => $matches[1],
-                    'mm' => $matches[2],
-                    'ss' => $matches[3],
-                ];
-            }
-        }
-    }
-
-    public function getProcessingTimeAsMinutes()
-    {
-        if ($this->processing_time !== null) {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $this->processing_time, $matches)) {
-                return ($matches[1] * 60) + $matches[2];
-            }
+        if ($processing_time === null
+            || $processing_time === ''
+            || !preg_match('/(\d{2}):(\d{2}):(\d{2})/is', $processing_time, $matches)
+        ) {
+            return '';
         }
 
-        return self::DEFAULT_PROCESSING_TIME_MINUTES;
+        return sprintf(
+            "P0Y0M0DT%dH%dM%dS",
+            $matches[1],
+            $matches[2],
+            $matches[3]
+        );
     }
 
     /**
@@ -1369,7 +1359,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_ADDED,
                     [
-                        AdditionalInformationGenerator::KEY_QUESTION => (assQuestion::instantiateQuestion($question_id))
+                        AdditionalInformationGenerator::KEY_QUESTION_ID => (assQuestion::instantiateQuestion($question_id))
                             ->toLog($this->logger->getAdditionalInformationGenerator())
                     ]
                 )
@@ -2744,7 +2734,7 @@ class ilObjTest extends ilObject
                 break;
 
             default:
-                throw new ilTestException("not supported question set type: $questionSetType");
+                throw new ilTestException("not supported question set type: $question_set_type");
         }
 
         $row = $this->db->fetchAssoc($res);
@@ -3680,16 +3670,10 @@ class ilObjTest extends ilObject
         $a_xml_writer->xmlElement("qticomment", null, $this->getDescription());
 
         if ($main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled()) {
-            $processing_time_array = $this->getProcessingTimeAsArray();
             $a_xml_writer->xmlElement(
                 "duration",
                 null,
-                sprintf(
-                    "P0Y0M0DT%dH%dM%dS",
-                    $processing_time_array['hh'],
-                    $processing_time_array['mm'],
-                    $processing_time_array['ss']
-                )
+                $this->getProcessingTimeForXML()
             );
         }
 
@@ -6328,7 +6312,7 @@ class ilObjTest extends ilObject
 
         $reporting_date = $testsettings['ReportingDate'];
         if (is_string($reporting_date)) {
-            $reporting_date = DateTimeImmutable($testsettings['ReportingDate']);
+            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate']);
         }
 
         $score_settings = $this->getScoreSettings();
@@ -6974,7 +6958,7 @@ class ilObjTest extends ilObject
         if (count($file_names)) {
             $fd->unlinkFiles($file_names);
             unset($fd);
-            @unlink($file . 'xlsx');
+            @unlink($temp_file_path . 'xlsx');
         }
     }
 
@@ -7780,7 +7764,7 @@ class ilObjTest extends ilObject
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 
-        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $this->questionrepository);
+        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, TestDIC::dic()['question.general_properties.repository']);
 
         $test_session = $test_session_factory->getSession($active_id);
         $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $test_session->getPass());

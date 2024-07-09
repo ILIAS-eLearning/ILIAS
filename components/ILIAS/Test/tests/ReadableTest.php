@@ -48,7 +48,7 @@ class ReadableTest extends TestCase
 
         $access->method('checkAccess')->with('read', '', 456)->willReturn(true);
 
-        $references_of = fn(int $object_id) => $this->assertSame(123, $object_id) ?: [456];
+        $references_of = fn(int $object_id) => 123 !== $object_id ?: [456];
 
         $this->assertTrue((new Readable($access, $references_of))->objectId(123));
     }

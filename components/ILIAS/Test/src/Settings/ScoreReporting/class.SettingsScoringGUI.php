@@ -74,15 +74,6 @@ class SettingsScoringGUI extends TestSettingsGUI
         protected readonly \ilObjUser $active_user
     ) {
         parent::__construct($test_gui->getObject());
-
-        $template_id = $this->test_object->getTemplate();
-
-        if ($template_id) {
-            $this->settingsTemplate = new \ilSettingsTemplate(
-                (int) $template_id,
-                \ilObjTestFolderGUI::getSettingsTemplateConfig()
-            );
-        }
     }
 
     protected function loadScoreSettings(): ScoreSettings

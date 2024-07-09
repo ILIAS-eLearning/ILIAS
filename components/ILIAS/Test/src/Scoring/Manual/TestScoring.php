@@ -94,10 +94,14 @@ class TestScoring
         $user_data = $this
             ->test
             ->getCompleteEvaluationData(false)
-            ->getParticipant($active_id)
-            ->getPass($pass);
+            ->getParticipant($active_id);
 
-        $this->recalculatePass($user_data, $active_id, $pass);
+        $this->recalculatePass(
+            $user_data->getPass($pass),
+            $user_data->getUserID(),
+            $active_id,
+            $pass
+        );
         $this->test->updateTestResultCache($active_id);
     }
 

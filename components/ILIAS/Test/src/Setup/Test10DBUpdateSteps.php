@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Setup;
 
 use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
+use ILIAS\Test\Certificate\TestPlaceholderValues;
 
 class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
@@ -59,8 +60,8 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
     {
         $this->db->update(
             'il_cert_cron_queue',
-            ['adapter_class' => [ilDBConstants::T_TEXT, TestPlaceholderValues::class]],
-            ['adapter_class' => [ilDBConstants::T_TEXT, 'ilTestPlaceholderValues']]
+            ['adapter_class' => [\ilDBConstants::T_TEXT, TestPlaceholderValues::class]],
+            ['adapter_class' => [\ilDBConstants::T_TEXT, 'ilTestPlaceholderValues']]
         );
     }
 

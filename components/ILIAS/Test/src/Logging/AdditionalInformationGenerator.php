@@ -31,7 +31,7 @@ class AdditionalInformationGenerator
     public const DATE_STORAGE_FORMAT = \DateTimeInterface::ISO8601;
     public const KEY_USER = 'user';
     public const KEY_USERS = 'users';
-    public const KEY_QUESTION = 'question';
+    public const KEY_QUESTION_ID = 'id';
     public const KEY_QUESTION_ORDER = 'order';
     public const KEY_QUESTIONS = 'questions';
     public const KEY_ANON_IDS = 'anonymous';
@@ -368,7 +368,7 @@ class AdditionalInformationGenerator
                         $value
                     )
                 );
-            case self::KEY_QUESTION:
+            case self::KEY_QUESTION_ID:
                 if (is_int($value)) {
                     return $this->questions_repo->getForQuestionId($value)?->getTitle() ?? $this->lng->txt('deleted');
                 }

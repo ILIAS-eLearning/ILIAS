@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
@@ -38,6 +41,7 @@ class ilTestArchiveService
     public function __construct(
         private readonly ilObjTest $test_obj,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly RequestDataCollector $testrequest,
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
         private readonly ilCtrlInterface $ctrl,
@@ -48,6 +52,7 @@ class ilTestArchiveService
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly GlobalHttpState $http,
+        private readonly Refinery $refinery,
         private readonly ilAccess $access,
         private readonly IRSS $irss,
         private readonly ilObjectDataCache $obj_cache,
@@ -91,6 +96,7 @@ class ilTestArchiveService
             $this->ui_factory,
             $this->ui_renderer,
             $this->http,
+            $this->refinery,
             $this->access,
             $this->irss,
             $this->questionrepository,

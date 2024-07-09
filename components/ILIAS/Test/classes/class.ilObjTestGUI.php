@@ -36,6 +36,7 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -115,6 +116,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
     private GeneralQuestionPropertiesRepository $questionrepository;
+    private QPLRequestDataCollector $qplrequest;
     protected ?ilTestTabsManager $tabs_manager = null;
     private ilTestObjectiveOrientedContainer $objective_oriented_container;
     protected ilTestAccess $test_access;
@@ -165,6 +167,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $local_dic = TestDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
+        $this->qplrequest = $local_dic['question.request_data_wrapper'];
         $this->testrequest = $local_dic['request_data_collector'];
 
         $ref_id = 0;
@@ -454,15 +457,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->redirectAfterMissingRead();
                 }
                 $this->forwardToEvaluationGUI();
-                break;
-
-            case "iltestevalobjectiveorientedgui":
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                // @PHP8-CR I believe this is an indicator for an incomplete feature. I wish to leave it in place
-                // "as is"for further analysis.
-                $this->forwardToEvalObjectiveOrientedGUI();
                 break;
 
             case "iltestservicegui":
@@ -840,7 +834,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->tabs_gui,
                     $this->lng,
                     $this->help,
-                    $this->questionrepository
+                    $this->qplrequest
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -1223,7 +1217,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ui_renderer,
             new ilTestParticipantAccessFilterFactory($this->access),
             $this->questionrepository,
-            $this->testrequest
+            $this->testrequest,
+            $this->http,
+            $this->refinery
         );
         $gui->setTestObj($this->getTestObject());
         $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
@@ -1473,7 +1469,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
             'importVerifiedFile',
             $importdir,
-            $qtifile
+            $qtifile,
+            $this->request
         );
 
         if (is_file($importdir . DIRECTORY_SEPARATOR . "/manifest.xml")) {
@@ -1487,40 +1484,39 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $map->addMapping('components/ILIAS/Test', 'tst', 'new_id', (string) $new_obj->getId());
             $imp->importObject($new_obj, $file_to_import, basename($file_to_import), 'tst', 'components/ILIAS/Test', true);
         } else {
-            $qtiParser = new ilQTIParser(
+            $qti_parser = new ilQTIParser(
                 $importdir,
                 $qtifile,
                 ilQTIParser::IL_MO_PARSE_QTI,
                 $new_obj->getId(),
                 $selected_questions
             );
-            if ($idents === '') {
-                $qtiParser->setIgnoreItemsEnabled(true);
+            if ($selected_questions === []) {
+                $qti_parser->setIgnoreItemsEnabled(true);
             }
-            $qtiParser->setTestObject($new_obj);
-            $qtiParser->startParsing();
+            $qti_parser->setTestObject($new_obj);
+            $qti_parser->startParsing();
             $new_obj->saveToDb();
-            $questionPageParser = new ilQuestionPageParser(
+            $question_page_parser = new ilQuestionPageParser(
                 $new_obj,
                 $xmlfile,
                 $importdir
             );
-            $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-            $questionPageParser->startParsing();
+            $question_page_parser->setQuestionMapping($qti_parser->getImportMapping());
+            $question_page_parser->startParsing();
 
-            if (count($idents) == $qtiParser->getNumImportedItems()) {
-                // import test results
-                if (file_exists(ilSession::get("tst_import_results_file"))) {
-                    $results = new ilTestResultsImportParser(
-                        ilSession::get("tst_import_results_file"),
-                        $new_obj,
-                        $this->db,
-                        $new_obj->getTestlogger()
-                    );
-                    $results->setQuestionIdMapping($qti_parser->getQuestionIdMapping());
-                    $results->startParsing();
-                }
+            if (count($selected_questions) === $qti_parser->getNumImportedItems()
+                && file_exists(ilSession::get("tst_import_results_file"))) {
+                $results = new ilTestResultsImportParser(
+                    ilSession::get("tst_import_results_file"),
+                    $new_obj,
+                    $this->db,
+                    $new_obj->getTestlogger()
+                );
+                $results->setQuestionIdMapping($qti_parser->getQuestionIdMapping());
+                $results->startParsing();
             }
+
             $new_obj->update();
         }
 
@@ -1534,17 +1530,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
         $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $new_obj->getRefId());
         $this->ctrl->redirectByClass(ilObjTestGUI::class);
-    }
-
-    /**
-    * display status information or report errors messages
-    * in case of error
-    *
-    * @access	public
-    */
-    public function uploadObject()
-    {
-        $this->importFile();
     }
 
     /**
@@ -1864,9 +1849,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     *
     * @access	public
     */
-    public function insertQuestionsObject(): void
+    public function insertQuestionsObject(array $selected_array = null): void
     {
-        $selected_array = $this->testrequest->getQuestionIds();
+        $selected_array = $selected_array ?? $this->testrequest->getQuestionIds();
         if (!count($selected_array)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, 'browseForQuestions');
@@ -2067,7 +2052,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
             // @PHP8-CR This call seems to be critically important for the method, but I cannot see how to fix it yet.
             // I leave the warning "intact" for further analysis, possibly by T&A TechSquad.
-            $this->insertQuestions($selected_array);
+            $this->insertQuestionsObject($selected_array);
             return;
         }
 
@@ -2686,7 +2671,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "summary":
             case "finishTest":
             case "outCorrectSolution":
-            case "passDetails":
             case "showAnswersOfUser":
             case "outUserResultsOverview":
             case "backFromSummary":
@@ -3155,7 +3139,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $questionTitles = $this->getTestObject()->getQuestionTitles();
 
-        foreach ($ids as $id) {
+        foreach ($question_ids as $id) {
             $question = assQuestion::instantiateQuestionGUI($id);
             if ($question) {
                 $title = $question->getObject()->getTitle();

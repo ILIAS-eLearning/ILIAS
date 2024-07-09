@@ -377,7 +377,6 @@ class ilTestTabsManager
             case 'directfeedback':
             case 'finishTest':
             case 'outCorrectSolution':
-            case 'passDetails':
             case 'showAnswersOfUser':
             case 'backFromSummary':
             case 'show_answers':
@@ -642,7 +641,6 @@ class ilTestTabsManager
                     'detailedEvaluation',
                     'eval_a',
                     'evalUserDetail',
-                    'passDetails',
                     'outStatisticsResultsOverview',
                     'statisticsPassDetails',
                     'singleResults'

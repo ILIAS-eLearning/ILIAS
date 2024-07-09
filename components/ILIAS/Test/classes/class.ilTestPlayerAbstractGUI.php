@@ -22,6 +22,9 @@ use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
 
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -163,7 +166,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                     $this->ctrl,
                     $this->lng,
                     $this->tpl,
-                    $this->tabs
+                    $this->tabs,
+                    $this->global_screen
                 );
 
                 // fau: testNav - save the 'answer changed' status for viewing hint requests
@@ -349,7 +353,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         if (!$saved
-            || ($question_obj instanceof ilAssQuestionPartiallySaveable
+            || ($question_obj instanceof QuestionPartiallySaveable
                 && !$question_obj->validateSolutionSubmit())) {
             $this->ctrl->setParameter($this, 'save_error', '1');
             ilSession::set('previouspost', $_POST);
@@ -3084,7 +3088,7 @@ JS;
 
         $config['autosaveUrl'] = '';
         $config['autosaveInterval'] = 0;
-        if ($question_gui->getObject() instanceof ilAssQuestionAutosaveable && $this->object->getAutosave()) {
+        if ($question_gui->getObject() instanceof QuestionAutosaveable && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
             $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
         }

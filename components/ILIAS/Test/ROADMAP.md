@@ -58,7 +58,6 @@ Remarks on the individual items are marked with "@PHP8-CR"
 * \ilObjQuestionPoolGUI::questionObject / Undefined method. Left for review/analysis by TechSquad
 * \ilObjTestGUI::executeCommand / Undefined method. Left for review/analysis by TechSquad
 * \ilObjTestGUI::questionsObject / Undefined method. Left for review/analysis by TechSquad
-* \ilTestEvaluationGUI::passDetails / Undefined method. Left for review/analysis by TechSquad
 * \ilAssLacCompositeEvaluator::evaluateSubTree / Undefined method. Left for review/analysis by TechSquad
 
 

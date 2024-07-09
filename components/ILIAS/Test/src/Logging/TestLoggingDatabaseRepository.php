@@ -75,7 +75,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     {
         $storage_array = $interaction->toStorage();
         $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::SCORING_LOG_TABLE)];
-        $this->db->insert(self::SCOPRING_LOG_TABLE, $storage_array);
+        $this->db->insert(self::SCORING_LOG_TABLE, $storage_array);
     }
 
     public function storeError(TestError $interaction): void
@@ -256,6 +256,8 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             case TestError::IDENTIFIER:
                 return $this->buildErrorFromId((int) $unique_id_array[1]);
         }
+
+        return null;
     }
 
     private function buildTestAdministrationInteractionFromId(int $id): ?TestAdministrationInteraction
@@ -575,6 +577,8 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
                 return "SELECT '{$type}' AS type, id, ref_id, qst_id, admin_id, "
                     . 'pax_id, NULL AS source_ip, interaction_type, modification_ts, '
                     . "error_message AS additional_data FROM {$table_name}";
+            default:
+                throw new \ErrorException('Unknown Database Table');
         }
     }
 
@@ -725,6 +729,8 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
             case TestError::IDENTIFIER:
                 return self::ERROR_LOG_TABLE;
+            default:
+                throw new \ErrorException('Unknown Identifier Type');
         }
     }
 }

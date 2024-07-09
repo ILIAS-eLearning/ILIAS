@@ -34,6 +34,6 @@ abstract class TestSettingsGUI
 
     protected function formPropertyExists(\ilPropertyFormGUI $form, $propertyId): bool
     {
-        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
+        return $form->getItemByPostVar($propertyId) instanceof \ilFormPropertyGUI;
     }
 }
