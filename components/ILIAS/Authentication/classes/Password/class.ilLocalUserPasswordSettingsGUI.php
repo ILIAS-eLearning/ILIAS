@@ -18,17 +18,7 @@
 
 declare(strict_types=1);
 
-use Closure;
-use ilObjUser;
-use ilSession;
-use ilLanguage;
-use ilAuthUtils;
-use ilCtrlInterface;
-use ilErrorHandling;
 use ILIAS\Data\Password;
-use ilDAVActivationChecker;
-use ilGlobalTemplateInterface;
-use ilSecuritySettingsChecker;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
