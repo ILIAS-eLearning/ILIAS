@@ -76,14 +76,14 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 
     public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
     {
-        $rows = array();
+        $rows = [];
 
         $pools = $sourcePoolDefinitionList->getNonAvailablePools();
 
         foreach ($pools as $nonAvailablePool) {
             /** @var ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool */
 
-            $set = array();
+            $set = [];
 
             $set['id'] = $nonAvailablePool->getId();
             $set['title'] = $nonAvailablePool->getTitle();

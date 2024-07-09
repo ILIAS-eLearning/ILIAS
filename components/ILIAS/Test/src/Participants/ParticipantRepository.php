@@ -33,8 +33,8 @@ class ParticipantRepository
     {
         $result = $this->database->queryF(
             "SELECT test_fi FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         $test_id = -1;
         if ($this->database->numRows($result) > 0) {

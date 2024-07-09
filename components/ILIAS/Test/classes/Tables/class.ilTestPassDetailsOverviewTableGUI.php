@@ -40,10 +40,10 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     private bool $multipleObjectivesInvolved = true;
     private bool $passColumnEnabled = false;
 
-    private array $tableIdsByParentClasses = array(
+    private array $tableIdsByParentClasses = [
         'ilTestEvaluationGUI' => 1,
         'ilTestServiceGUI' => 2
-    );
+    ];
 
     private ?ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList = null;
     private UIFactory $ui_factory;

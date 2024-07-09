@@ -123,9 +123,9 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     public function numericOrdering(string $a_field): bool
     {
-        return in_array($a_field, array(
+        return in_array($a_field, [
             'access', 'tries'
-        ));
+        ]);
     }
 
     protected function needsCheckboxColumn(): bool
@@ -172,11 +172,11 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         if ($this->isParticipantHasSolutionsFilterEnabled()) {
             $ti = new ilSelectInputGUI($this->lng->txt("selection"), "selection");
             $ti->setOptions(
-                array(
+                [
                     'all' => $this->lng->txt('all_participants'),
                     'withSolutions' => $this->lng->txt('with_solutions_participants'),
                     'withoutSolutions' => $this->lng->txt('without_solutions_participants')
-                )
+                ]
             );
             $this->addFilterItem($ti);
             $ti->readFromSession();        // get currenty value from session (always after addFilterItem())

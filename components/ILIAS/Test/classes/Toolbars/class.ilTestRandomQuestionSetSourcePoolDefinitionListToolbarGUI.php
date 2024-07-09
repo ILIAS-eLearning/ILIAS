@@ -51,7 +51,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 
     private function buildSourcePoolSelectOptionsArray($availablePools): array
     {
-        $sourcePoolSelectOptionArray = array();
+        $sourcePoolSelectOptionArray = [];
 
         foreach ($availablePools as $poolId => $poolData) {
             $sourcePoolSelectOptionArray[$poolId] = $poolData['title'];

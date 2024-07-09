@@ -105,7 +105,7 @@ class ilTestParticipantList implements Iterator
 
     public function getAllUserIds(): array
     {
-        $usrIds = array();
+        $usrIds = [];
 
         foreach ($this as $participant) {
             $usrIds[] = $participant->getUsrId();
@@ -116,7 +116,7 @@ class ilTestParticipantList implements Iterator
 
     public function getAllActiveIds(): array
     {
-        $activeIds = array();
+        $activeIds = [];
 
         foreach ($this as $participant) {
             $activeIds[] = $participant->getActiveId();

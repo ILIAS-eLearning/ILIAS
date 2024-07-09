@@ -74,8 +74,8 @@ class ilTestSkillLevelThreshold
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -90,24 +90,24 @@ class ilTestSkillLevelThreshold
         if ($this->dbRecordExists()) {
             $this->db->update(
                 'tst_skl_thresholds',
-                array(
-                    'threshold' => array('integer', $this->getThreshold())
-                ),
-                array(
-                    'test_fi' => array('integer', $this->getTestId()),
-                    'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                    'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
-                    'skill_level_fi' => array('integer', $this->getSkillLevelId())
-                )
+                [
+                    'threshold' => ['integer', $this->getThreshold()]
+                ],
+                [
+                    'test_fi' => ['integer', $this->getTestId()],
+                    'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                    'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
+                    'skill_level_fi' => ['integer', $this->getSkillLevelId()]
+                ]
             );
         } else {
-            $this->db->insert('tst_skl_thresholds', array(
-                'test_fi' => array('integer', $this->getTestId()),
-                'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
-                'skill_level_fi' => array('integer', $this->getSkillLevelId()),
-                'threshold' => array('integer', $this->getThreshold())
-            ));
+            $this->db->insert('tst_skl_thresholds', [
+                'test_fi' => ['integer', $this->getTestId()],
+                'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
+                'skill_level_fi' => ['integer', $this->getSkillLevelId()],
+                'threshold' => ['integer', $this->getThreshold()]
+            ]);
         }
     }
 
@@ -123,8 +123,8 @@ class ilTestSkillLevelThreshold
 
         $this->db->manipulateF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId()]
         );
     }
 
@@ -141,8 +141,8 @@ class ilTestSkillLevelThreshold
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getTestId(), $this->getSkillBaseId(), $this->getSkillTrefId(), $this->getSkillLevelId()]
         );
 
         $row = $this->db->fetchAssoc($res);

@@ -90,7 +90,7 @@ class ilTestResultHeaderLabelBuilder
         $this->testType = null;
         $this->crsTitle = null;
 
-        $this->objectives = array();
+        $this->objectives = [];
     }
 
     /**
@@ -179,7 +179,7 @@ class ilTestResultHeaderLabelBuilder
     {
         $loRuns = ilLOTestRun::getRun($this->getObjectiveOrientedContainerId(), $this->getUserId(), $this->getTestObjId());
 
-        $this->objectives = array();
+        $this->objectives = [];
 
         foreach ($loRuns as $loRun) {
             /* @var ilLOTestRun $loRun */

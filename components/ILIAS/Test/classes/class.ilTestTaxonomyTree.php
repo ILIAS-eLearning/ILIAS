@@ -28,9 +28,9 @@ declare(strict_types=1);
  */
 class ilTestTaxonomyTree extends ilTaxonomyTree
 {
-    private $allNodes = array();
+    private $allNodes = [];
     private $maxOrderValueLength = 1;
-    private $pathNodesByNodeCache = array();
+    private $pathNodesByNodeCache = [];
     private $orderingFieldName;
 
     public function __construct($taxonomyId)

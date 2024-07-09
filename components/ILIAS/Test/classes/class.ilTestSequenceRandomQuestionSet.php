@@ -34,8 +34,8 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
 
         $result = $this->db->queryF(
             "SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
         // The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
         // is only one test pass (pass = 0) in tst_test_rnd_qst while with ILIAS 3.8 there are questions for every test pass.
@@ -44,8 +44,8 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
         if ($result->numRows() == 0) {
             $result = $this->db->queryF(
                 "SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = 0 ORDER BY sequence",
-                array('integer'),
-                array($this->active_id)
+                ['integer'],
+                [$this->active_id]
             );
         }
 
@@ -72,8 +72,8 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
     {
         $result = $this->db->queryF(
             "SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($active_id, $pass)
+            ['integer','integer'],
+            [$active_id, $pass]
         );
         return ($result->numRows() > 0) ? true : false;
     }

@@ -174,7 +174,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
                     $value = $item->getValue();
                     if (!is_array($value)) {
-                        $value = array($value);
+                        $value = [$value];
                     }
                     foreach ($value as $option) {
                         $this->addHiddenItem("{$item->getPostVar()}[]", $option);

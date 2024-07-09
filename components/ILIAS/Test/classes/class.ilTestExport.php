@@ -199,7 +199,7 @@ abstract class ilTestExport
         // set xml header
         $this->xml->xmlHeader();
 
-        $this->xml->xmlStartTag("ContentObject", array('Type' => 'Test'));
+        $this->xml->xmlStartTag("ContentObject", ['Type' => 'Test']);
 
         // create directories
         $this->test_obj->createExportDirectory();

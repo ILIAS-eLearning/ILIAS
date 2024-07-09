@@ -63,7 +63,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $component_repository = $this->createMock(ilComponentRepository::class);
         $this->setGlobalVariable("component.repository", $component_repository);
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestQuestionBrowserTableGUI(
             $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock(),

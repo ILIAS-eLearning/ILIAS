@@ -50,7 +50,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->getMockBuilder(ilTestPlayerFixedQuestionSetGUI::class)
-            ->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+            ->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilListOfQuestionsTableGUI($this->parentObj_mock, "", $DIC['ui.factory'], $DIC['ui.renderer']);
     }

@@ -50,8 +50,8 @@ class ilTestEvaluationPassData
 
     public function __sleep()
     {
-        return array('answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints',
-            'maxpoints', 'questioncount', 'workingtime', 'examId');
+        return ['answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints',
+            'maxpoints', 'questioncount', 'workingtime', 'examId'];
     }
 
     /**

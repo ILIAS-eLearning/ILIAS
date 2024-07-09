@@ -278,7 +278,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
      */
     protected function buildIntersectionQuestionSharingDefinitionsString(ilLanguage $lng): string
     {
-        $definitionsString = array();
+        $definitionsString = [];
 
         foreach ($this->getIntersectionQuantitySharingDefinitionList() as $definition) {
             $definitionsString[] = sprintf(

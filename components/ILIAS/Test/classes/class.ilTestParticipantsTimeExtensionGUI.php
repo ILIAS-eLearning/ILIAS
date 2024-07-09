@@ -92,7 +92,7 @@ class ilTestParticipantsTimeExtensionGUI
 
         $addons = $this->getTestObj()->getTimeExtensionsOfParticipants();
 
-        $table_data = array();
+        $table_data = [];
         foreach ($filtered_participant_list as $participant) {
             $table_row = [
                 'started' => '',

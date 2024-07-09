@@ -39,7 +39,7 @@ class ilTestSkillLevelThresholdList
     /**
      * @var array
      */
-    private $thresholds = array();
+    private $thresholds = [];
 
     public function __construct(ilDBInterface $db)
     {
@@ -64,7 +64,7 @@ class ilTestSkillLevelThresholdList
 
     public function resetThresholds()
     {
-        $this->thresholds = array();
+        $this->thresholds = [];
     }
 
     public function loadFromDb()
@@ -77,7 +77,7 @@ class ilTestSkillLevelThresholdList
 			WHERE test_fi = %s
 		";
 
-        $res = $this->db->queryF($query, array('integer'), array($this->getTestId()));
+        $res = $this->db->queryF($query, ['integer'], [$this->getTestId()]);
 
         while ($row = $this->db->fetchAssoc($res)) {
             $threshold = $this->buildSkillLevelThresholdByArray($row);

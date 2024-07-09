@@ -111,7 +111,7 @@ class ilTestParticipantsGUI
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilrepositorysearchgui':
                 $gui = new ilRepositorySearchGUI();
-                $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, array());
+                $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, []);
 
                 $gui->addUserAccessFilterCallable($this->participant_access_filter->getManageParticipantsUserFilter(
                     $this->getTestObj()->getRefId()
@@ -294,10 +294,10 @@ class ilTestParticipantsGUI
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $toolbar,
-            array(
+            [
                 'auto_complete_name' => $this->lng->txt('user'),
                 'submit_name' => $this->lng->txt('add')
-            )
+            ]
         );
         $toolbar->addSeparator();
 
