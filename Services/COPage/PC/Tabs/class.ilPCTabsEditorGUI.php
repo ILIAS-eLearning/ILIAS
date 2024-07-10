@@ -61,6 +61,7 @@ class ilPCTabsEditorGUI implements PageComponentEditor
         /** @var ilPCTabs $pc_tabs */
         $pc_tabs = $page_gui->getPageObject()->getContentObjectForPcId($pcid);
         $tabs_gui = new ilPCTabsGUI($page_gui->getPageObject(), $pc_tabs, "", $pcid);
+        $tabs_gui->setStyleId($style_id);
 
         /** @var ilPropertyFormGUI $form */
         $form = $tabs_gui->initEditingForm();
