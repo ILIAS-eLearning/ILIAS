@@ -19,6 +19,10 @@ $modal-content-fallback-border-color:          #999 !default;
 
 //** Modal backdrop background color
 $modal-backdrop-bg:           #000 !default;
+
+//** Modal backdrop blur
+$modal-backdrop-blur:           3px !default;
+
 //** Modal backdrop opacity
 $modal-backdrop-opacity:      .5 !default;
 //** Modal header border color
@@ -42,6 +46,14 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 //
 // Modals
 // --------------------------------------------------
+
+.c-modal {
+	border: 0;
+	background: none;
+}
+.c-modal::backdrop {
+	backdrop-filter: blur($modal-backdrop-blur) brightness($modal-backdrop-opacity);
+}
 
 // .modal-open      - body class for killing the scroll
 // .modal           - container to scroll within
