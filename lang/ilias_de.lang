@@ -4737,7 +4737,7 @@ common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles_rolts#:#Rollen und Rollenvorlagen gelöscht
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_form_save_error#:#Die Formulardaten konnten nicht gespeichert werden. Bitte überprüfen Sie die Formularfelder auf detaillierte Fehlermeldungen.
-common#:#msg_info_blacklisted#:#Leider dürfen Sie diese Datei aus Sicherheitsgründen nicht hochladen.
+common#:#msg_info_blacklisted#:#Diese Datei kann aus Sicherheitsgründen nicht hochgeladen werden.
 common#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
 common#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
