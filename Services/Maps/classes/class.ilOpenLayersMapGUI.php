@@ -44,8 +44,18 @@ class ilOpenLayersMapGUI extends ilMapGUI
         return $this;
     }
 
-    public function getHtml(): string
+    public function initJSandCSS(): void
     {
+        $this->tpl->addCss("node_modules/ol/ol.css");
+        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
+        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
+    }
+
+    public function getHtml(bool $inline_js = false): string
+    {
+        $this->initJSandCSS();
+        $this->lng->loadLanguageModule("maps");
+
         $html_tpl = new ilTemplate(
             "tpl.openlayers_map.html",
             true,
@@ -59,11 +69,6 @@ class ilOpenLayersMapGUI extends ilMapGUI
             true,
             "Services/Maps"
         );
-
-        $this->lng->loadLanguageModule("maps");
-        $this->tpl->addCss("node_modules/ol/ol.css");
-        $this->tpl->addCss("Services/Maps/css/service_openlayers.css");
-        $this->tpl->addJavaScript("Services/Maps/js/dist/ServiceOpenLayers.js");
 
         // add user markers
         $cnt = 0;
@@ -152,9 +157,13 @@ class ilOpenLayersMapGUI extends ilMapGUI
         $js_tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
         $js_tpl->setVariable("INVALID_ADDRESS_STRING", $this->lng->txt("invalid_address"));
 
-        $this->tpl->addOnLoadCode($js_tpl->get());
-
-        return $html_tpl->get();
+        $out = $html_tpl->get();
+        if (! $inline_js) {
+            $this->tpl->addOnLoadCode($js_tpl->get());
+        } else {
+            $out .= '<script>' .$js_tpl->get() . '</script>';
+        }
+        return $out;
     }
 
     /**
