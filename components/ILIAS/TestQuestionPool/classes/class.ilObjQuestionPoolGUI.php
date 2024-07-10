@@ -1796,10 +1796,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             foreach (array_filter($filter_params) as $item => $value) {
                 switch ($item) {
                     case 'taxonomies':
-                        if($value === 'null') {
-                            $table->addTaxonomyFilterNoTaxonomySet(true);
-                        } else {
-                            foreach($value as $tax_value) {
+                        foreach($value as $tax_value) {
+                            if($tax_value === 'null') {
+                                $table->addTaxonomyFilterNoTaxonomySet(true);
+                            } else {
                                 $tax_nodes = explode('-', $tax_value);
                                 $tax_id = array_shift($tax_nodes);
                                 $table->addTaxonomyFilter(
