@@ -58,6 +58,14 @@ class ilObjStudyProgrammeMembersGUI
     public const ACTION_ACKNOWLEDGE_COURSES = "acknowledge_completed_courses";
     public const ACTION_MAIL_USER = "mail_user";
 
+    //actions following an async ation, i.e.: a modal triggered them
+    private const ACTIONS_FROM_MODALS = [
+      self::ACTION_REMOVE_USER_CONFIRMED,
+      self::ACTION_UPDATE_FROM_CURRENT_PLAN_CONFIRMED,
+      self::ACTION_UPDATE_CERTIFICATE_CONFIRMED,
+      self::ACTION_REMOVE_CERTIFICATE_CONFIRMED,
+    ];
+
     public const F_MODAL_POST_PRGSIDS = 'interruptive_items';
     public const F_QUERY_PROGRESS_IDS = 'prgrsids';
 
@@ -124,6 +132,11 @@ class ilObjStudyProgrammeMembersGUI
         if($tcmd = $this->table->getTableCommand()) {
             $cmd = $tcmd;
             $prgrs_ids = $this->table->getRowIds();
+
+            if(in_array($cmd, self::ACTIONS_FROM_MODALS)) {
+                $prgrs_ids = $this->getPostPrgrsIdsFromModal();
+            }
+
             if($prgrs_ids === []) {
                 if (in_array($cmd, ilStudyProgrammeAssignmentsTable::ASYNC_ACTIONS)) {
                     echo $this->ui_renderer->render(
@@ -197,7 +210,6 @@ class ilObjStudyProgrammeMembersGUI
                         exit();
 
                     case self::ACTION_REMOVE_USER_CONFIRMED:
-                        $prgrs_ids = $this->getPostPrgrsIdsFromModal();
                         $this->confirmedRemoveAssignment($prgrs_ids);
                         break;
 
@@ -219,7 +231,7 @@ class ilObjStudyProgrammeMembersGUI
                         exit();
 
                     case self::ACTION_UPDATE_FROM_CURRENT_PLAN_CONFIRMED:
-                        $prgrs_ids = $this->getPostPrgrsIdsFromModal();
+                        //$prgrs_ids = $this->getPostPrgrsIdsFromModal();
                         $this->updateFromCurrentPlan($prgrs_ids);
                         break;
 
@@ -234,7 +246,7 @@ class ilObjStudyProgrammeMembersGUI
                         break;
 
                     case self::ACTION_UPDATE_CERTIFICATE_CONFIRMED:
-                        $prgrs_ids = $this->getPostPrgrsIdsFromModal();
+                        //$prgrs_ids = $this->getPostPrgrsIdsFromModal();
                         $this->updateCertificate($prgrs_ids);
                         break;
 
@@ -247,7 +259,7 @@ class ilObjStudyProgrammeMembersGUI
                         exit();
 
                     case self::ACTION_REMOVE_CERTIFICATE_CONFIRMED:
-                        $prgrs_ids = $this->getPostPrgrsIdsFromModal();
+                        //$prgrs_ids = $this->getPostPrgrsIdsFromModal();
                         $this->removeCertificate($prgrs_ids);
                         break;
 
