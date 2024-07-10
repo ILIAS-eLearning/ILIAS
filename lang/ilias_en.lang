@@ -11420,7 +11420,7 @@ mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
 mail#:#mail_new_template#:#New Text Template
-mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
+mail#:#mail_no_permissions_write_smtp#:#You do not have permission to send external e-mails.
 mail#:#mail_no_subject#:#No subject available
 mail#:#mail_no_valid_mailing_list#:#%1$s (not a valid mailing list)
 mail#:#mail_notification_membership_section#:#Membership
@@ -16742,7 +16742,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
-svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
+svy#:#svy_placeholders_label#:#Available Placeholders
 svy#:#svy_print_selection#:#Print View Selection
 svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
