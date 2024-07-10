@@ -255,17 +255,18 @@ export default class ServiceOpenLayers {
      */
   setMarker(id, pos) {
     const container = document.getElementById(id);
-    const element = document.createElement('div');
-    element.className = 'marker';
-    container.appendChild(element);
-    const marker = new Overlay({
-      element,
-    });
-    marker.setOffset([-7.5, -23.5]);
-    marker.setPosition(pos);
-    this.map.addOverlay(marker);
-
-    element.innerHTML = "<img src='./Services/Maps/images/mm_20_blue.png'>";
+    if(container) {
+      const element = document.createElement('div');
+      element.className = 'marker';
+      container.appendChild(element);
+      const marker = new Overlay({
+        element,
+      });
+      marker.setOffset([-7.5, -23.5]);
+      marker.setPosition(pos);
+      this.map.addOverlay(marker);
+      element.innerHTML = "<img src='./Services/Maps/images/mm_20_blue.png'>";
+    }
   }
 
   /**
@@ -275,9 +276,12 @@ export default class ServiceOpenLayers {
      * @returns {void}
      */
   deleteAllMarkers(id) {
-    const marker = document.getElementById(id).querySelectorAll('.marker');
-    for (let i = 0; i < marker.length; i++) {
-      marker[i].remove();
+    const container = document.getElementById(id); 
+    if (container) {
+      const marker = container.querySelectorAll('.marker');
+      for (let i = 0; i < marker.length; i++) {
+        marker[i].remove();
+      }
     }
   }
 
@@ -310,23 +314,25 @@ export default class ServiceOpenLayers {
      */
   setPopup(id, pos, elem) {
     const container = document.getElementById(id);
-    const append = document.createElement('div');
-    append.className = 'arrow_box';
-    append.addEventListener('click', (function (module) {
-      return function () {
-        module.deleteAllPopups();
-      };
-    }(this)));
-    append.innerHTML = elem;
-    container.appendChild(append);
+    if(container) {
+      const append = document.createElement('div');
+      append.className = 'arrow_box';
+      append.addEventListener('click', (function (module) {
+        return function () {
+          module.deleteAllPopups();
+        };
+      }(this)));
+      append.innerHTML = elem;
+      container.appendChild(append);
 
-    const popup = new Overlay({
-      element: append,
-      insertFirst: false,
-    });
-    popup.setOffset([15.5, -53.5]);
-    popup.setPosition(pos);
-    this.map.addOverlay(popup);
+      const popup = new Overlay({
+        element: append,
+        insertFirst: false,
+      });
+      popup.setOffset([15.5, -53.5]);
+      popup.setPosition(pos);
+      this.map.addOverlay(popup);
+    }
   }
 
   /**
