@@ -7298,6 +7298,15 @@ div.alert ul > li:before {
   /* margin-left: -10px; */
 }
 
+.c-modal {
+  border: 0;
+  background: none;
+}
+
+.c-modal::backdrop {
+  backdrop-filter: blur(3px) brightness(0.5);
+}
+
 .modal-open {
   overflow: hidden;
 }
