@@ -56,12 +56,15 @@ class InternalDomainService
         );
     }
 
-    public function page(\ilContainer $container): Page\PageManager
-    {
+    public function page(
+        \ilContainer $container,
+        ?string $lang = null
+    ): Page\PageManager {
         return new PageManager(
             $this,
             $this->content_style_domain,
-            $container
+            $container,
+            $lang
         );
     }
 
