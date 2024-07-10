@@ -1108,7 +1108,7 @@ assessment#:#question_marking_description#:#Si cochée, chaque participant a la 
 assessment#:#question_not_answered#:#Question sans réponse
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à supprimer la question dans la banque de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_summary#:#Liste des Questions
-assessment#:#question_summary_btn#:#Processing Status
+assessment#:#question_summary_btn#:#État d'avancement du test
 assessment#:#question_title#:#Titre de la Question
 assessment#:#question_type#:#Type de Question
 assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
@@ -1165,7 +1165,7 @@ assessment#:#result_units#:#Unités Disponibles
 assessment#:#result_units_info#:#Les unités sélectionnées sont proposées à l’apprenant comme une partie d’une réponse. L’apprenant doit choisir une unité.
 assessment#:#result_x#:#Résultat %s
 assessment#:#results#:#Résultats
-assessment#:#results_tab#:#Results
+assessment#:#results_tab#:#Résultats
 assessment#:#review_view#:#Révision
 assessment#:#saveOrder#:#Enregistrer l'Ordre
 assessment#:#saveOrderAndObligations#:#Enregistrer
@@ -1216,7 +1216,7 @@ assessment#:#solution_contain_keywords#:#L'obtention des points est assujettie �
 assessment#:#solution_hint#:#Ressources Associées
 assessment#:#start_tag#:#Point de départ
 assessment#:#statistical_data#:#Données Statistiques
-assessment#:#statistics#:#Résultats
+assessment#:#statistics#:#Statistiques
 assessment#:#submit_and_check#:#Soumettre et vérifier la réponse
 assessment#:#submit_answer#:#Soumettre la réponse
 assessment#:#suggest_range#:#Suggérer un Intervalle
