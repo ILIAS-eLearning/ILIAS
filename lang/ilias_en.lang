@@ -14320,7 +14320,7 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into 
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please enter a query for selecting the target roles.
+rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions should be copied.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
@@ -14378,26 +14378,26 @@ rbac#:#rbac_delete_local_policies#:#Delete Local Policies
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
 rbac#:#rbac_delete_role#:#Delete Role
 rbac#:#rbac_edit_condition#:#Edit Precondition
-rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
-rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
-rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
-rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
-rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
-rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Alter Permissions
+rbac#:#rbac_form_copy_roles_adjust_type#:#Type of Permission Alteration
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds the SELECTED permissions of the role or role template from which you are copying to the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Overwrite Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Completely overwrites the permission settings of the target role with the permissions settings of the role or role template from which you are copying. This applies to both the selected AND unselected permissions.
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions (of the role or role template from which you are copying) from the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#The selected permissions settings of the role from which you are copying will be added to both the target role(s) AND any existing objects.
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#The permissions settings of the target role(s) AND of any existing objects will be overwritten.
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#The selected permissions will only be removed from target role(s). The permission settings of existing objects will not be altered.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Remove From Existing Objects
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions will be removed from the target role(s) AND from the permission settings of existing objects.
 rbac#:#rbac_global_rolt#:#Global Role Template
 rbac#:#rbac_import_role#:#Import Role
 rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
@@ -14444,7 +14444,7 @@ rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Role Type
 rbac#:#rbac_role_title#:#Role Title
-rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions.
 rbac#:#rbac_ud_global#:#User-defined global role
 rbac#:#rbac_ud_local#:#User-defined local role
 rbac#:#rbac_ud_rolt#:#User-defined role template
