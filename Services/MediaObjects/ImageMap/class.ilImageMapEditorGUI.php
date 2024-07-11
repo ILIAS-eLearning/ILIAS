@@ -646,6 +646,13 @@ class ilImageMapEditorGUI
                     $link_str = "";
                 }
                 break;
+
+            case "WikiPage":
+                $wpg = new ilWikiPage($t_arr[count($t_arr) - 1]);
+                $link_str = $lng->txt("cont_wiki_page") .
+                    ": " . $wpg->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                break;
+
         }
 
         return $link_str;
