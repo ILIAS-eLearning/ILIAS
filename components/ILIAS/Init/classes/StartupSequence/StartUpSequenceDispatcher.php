@@ -122,7 +122,7 @@ class StartUpSequenceDispatcher
                     \ILIAS\Init\StartupSequence\StartUpSequenceLayoutProvider::FORCED_STARTUP_STEP,
                     true
                 );
-                
+
                 $this->dic->logger()->init()->debug('Step is in fulfillment:' . get_class($step));
                 return false;
             }

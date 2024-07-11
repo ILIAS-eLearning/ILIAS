@@ -102,7 +102,7 @@ class ilIniFile
     public function parse(): bool
     {
         try {
-            $ini_file_readable= is_readable($this->INI_FILE_NAME);
+            $ini_file_readable = is_readable($this->INI_FILE_NAME);
             if (!$ini_file_readable) {
                 $this->error("file_not_accessible");
                 return false;

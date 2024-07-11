@@ -118,7 +118,7 @@ class ilErrorHandling
             return new ilSoapExceptionHandler();
         }
 
-        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling. 
+        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling.
 
         if ($this->isDevmodeActive()) {
             return $this->devmodeHandler();
@@ -392,9 +392,6 @@ class ilErrorHandling
 
     protected function loggingHandler(): HandlerInterface
     {
-        /**
-         * @var 
-         */
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
              * Don't move this out of this callable
@@ -409,15 +406,15 @@ class ilErrorHandling
                 $previous = $exception->getPrevious();
                 while ($previous) {
                     $message .= "\n\nCaused by\n" . sprintf(
-                            '%s: %s in file %s on line %d',
-                            get_class($previous),
-                            $previous->getMessage(),
-                            $previous->getFile(),
-                            $previous->getLine()
-                        );
+                        '%s: %s in file %s on line %d',
+                        get_class($previous),
+                        $previous->getMessage(),
+                        $previous->getFile(),
+                        $previous->getLine()
+                    );
                     $previous = $previous->getPrevious();
                 }
-                
+
                 $ilLog->error($exception->getCode() . ' ' . $message);
             }
 
