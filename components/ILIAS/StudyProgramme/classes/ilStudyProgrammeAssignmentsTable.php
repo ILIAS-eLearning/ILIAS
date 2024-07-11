@@ -94,6 +94,7 @@ class ilStudyProgrammeAssignmentsTable
             'certificate_enabled' => $this->certificate_enabled,
         ];
 
+
         return $this->ui_factory->table()->data(
             'Assignments',
             $this->getColumns(),
@@ -106,13 +107,20 @@ class ilStudyProgrammeAssignmentsTable
 
     protected function getDataRetrieval(): Table\DataRetrieval
     {
+
+        $filter = $this->custom_filter->withValues(
+            $this->custom_filter->getDataFromFilterService()
+        );
+
         return new class (
             $this->prg_user_table,
-            $this->ui_factory
+            $this->ui_factory,
+            $filter
         ) implements Table\DataRetrieval {
             public function __construct(
                 protected ilStudyProgrammeUserTable $prg_user_table,
                 protected UIFactory $ui_factory,
+                protected ilPRGAssignmentFilter $filter,
             ) {
             }
 
@@ -127,7 +135,8 @@ class ilStudyProgrammeAssignmentsTable
                 $rows = $this->prg_user_table->fetchData(
                     $additional_parameters['prg_obj_id'],
                     $additional_parameters['valid_user_ids'],
-                    $order
+                    $order,
+                    $this->filter
                 );
                 foreach ($rows as $row) {
                     $row_data = $row->toArray();
@@ -531,7 +540,8 @@ class ilStudyProgrammeAssignmentsTable
 
     public function getFilter(): Filter
     {
-        return $this->custom_filter->toForm();
+        $target = urldecode($this->url_builder->buildURI()->__toString());
+        return $this->custom_filter->toForm($target);
     }
 
 }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\URI;
 
 class ilPRGAssignmentFilter
 {
@@ -38,6 +39,12 @@ class ilPRGAssignmentFilter
         $clone->values = $values;
         return $clone;
     }
+
+    public function getDataFromFilterService(): array
+    {
+        return $this->filter_service->getData($this->toForm('#')) ?? [];
+    }
+
 
     public function toConditions(): array
     {
@@ -212,10 +219,10 @@ class ilPRGAssignmentFilter
         return $items;
     }
 
-    public function toForm(): Filter
+    public function toForm(string $target): Filter
     {
         $field_factory = $this->ui_factory->input()->field();
-        $filter_action = '#'; //TODO
+        $filter_action = $target;
         $filter_id = "prg_ass_table_filter_id"; //TODO
 
         $filter_inputs = [

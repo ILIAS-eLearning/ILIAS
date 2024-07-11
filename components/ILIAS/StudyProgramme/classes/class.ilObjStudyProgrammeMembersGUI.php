@@ -432,28 +432,13 @@ class ilObjStudyProgrammeMembersGUI
 
         $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
         $table = $dic['ilStudyProgrammeAssignmentsTable'];
+
         return $this->ui_renderer->render(
             [
                 $table->getFilter(),
                 $table->getTable()->withRequest($this->request)
             ]
         );
-    }
-
-    public function applyFilter(): void
-    {
-        $table = $this->getMembersTableGUI();
-        $table->resetOffset();
-        $table->writeFilterToSession();
-        $this->ctrl->redirect($this, "view");
-    }
-
-    public function resetFilter(): void
-    {
-        $table = $this->getMembersTableGUI();
-        $table->resetOffset();
-        $table->resetFilter();
-        $this->ctrl->redirect($this, "view");
     }
 
     /**
