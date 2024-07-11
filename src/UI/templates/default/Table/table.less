@@ -39,6 +39,27 @@
     position: relative;
     white-space: nowrap;
 
+    &.expanded {
+        .il-table-presentation-row-expanded,
+        .il-table-presentation-row-controls-collapser {
+            display: block;
+        }
+        .il-table-presentation-row-header-fields,
+        .il-table-presentation-row-controls-expander {
+            display: none;
+        }
+    }
+    &.collapsed {
+        .il-table-presentation-row-expanded,
+        .il-table-presentation-row-controls-collapser {
+            display: none;
+        }
+        .il-table-presentation-row-header-fields,
+        .il-table-presentation-row-controls-expander {
+            display: block;
+        }
+    }
+
     .il-table-presentation-actions {
         right: 10px;
         position: absolute;
@@ -53,13 +74,6 @@
     .il-table-presentation-row-controls {
         width: @il-table-presentation-rowcontrol-colwidth;
         padding-left: @il-padding-small-horizontal;
-        .il-table-presentation-row-controls-collapser {
-            display: none; /*initially hidden*/
-        }
-
-        .il-table-presentation-row-controls-expander {
-            display: block; /*initially visible*/
-        }
     }
 
     .il-table-presentation-row-contents {
@@ -85,16 +99,11 @@
             margin: 0;
             cursor: pointer;
         }
-
-        .il-table-presentation-row-header-fields {
-            display: block; /*initially visible*/
-        }
     }
 
     .il-table-presentation-row-expanded {
         //Using row mixin, to make this responsive
         .make-row;
-        display: none; /*initially hidden*/
         margin-top:  @il-margin-large-vertical;
         margin-left: 0;
         margin-right: 0;
