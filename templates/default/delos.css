@@ -6010,6 +6010,8 @@ a[aria-disabled].il-link.link-bulky:hover {
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -9525,11 +9527,21 @@ div.alert ul > li:before {
   position: relative;
   white-space: nowrap;
 }
-.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
-  display: none; /*initially hidden*/
+.il-table-presentation-row.expanded .il-table-presentation-row-expanded,
+.il-table-presentation-row.expanded .il-table-presentation-row-controls-collapser {
+  display: block;
 }
-.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-expander {
-  display: block; /*initially visible*/
+.il-table-presentation-row.expanded .il-table-presentation-row-header-fields,
+.il-table-presentation-row.expanded .il-table-presentation-row-controls-expander {
+  display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-expanded,
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls-collapser {
+  display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-header-fields,
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls-expander {
+  display: block;
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
@@ -9549,9 +9561,6 @@ div.alert ul > li:before {
     order: 1;
   }
 }
-.il-table-presentation-row .il-table-presentation-row-header .il-table-presentation-row-header-fields {
-  display: block; /*initially visible*/
-}
 @media screen and (max-width: 768px) {
   .il-table-presentation-row .il-table-presentation-actions {
     order: 3;
@@ -9563,7 +9572,6 @@ div.alert ul > li:before {
   content: ":";
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
-  display: none; /*initially hidden*/
   margin-top: 6px;
 }
 @media screen and (max-width: 768px) {
