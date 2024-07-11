@@ -35,13 +35,24 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     position: relative;
     white-space: nowrap;
 
-    .il-table-presentation-row-controls {
+    &.expanded {
+        .il-table-presentation-row-expanded,
         .il-table-presentation-row-controls-collapser {
-            display: none; /*initially hidden*/
+            display: block;
         }
-
+        .il-table-presentation-row-header-fields,
         .il-table-presentation-row-controls-expander {
-            display: block; /*initially visible*/
+            display: none;
+        }
+    }
+    &.collapsed {
+        .il-table-presentation-row-expanded,
+        .il-table-presentation-row-controls-collapser {
+            display: none;
+        }
+        .il-table-presentation-row-header-fields,
+        .il-table-presentation-row-controls-expander {
+            display: block;
         }
     }
 
@@ -63,10 +74,6 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
         @include brk.on-screen-size('small') {
             order: 1;
         }
-
-        .il-table-presentation-row-header-fields {
-            display: block; /*initially visible*/
-        }
     }
 
     .il-table-presentation-actions {
@@ -83,7 +90,6 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     }
 
     .il-table-presentation-row-expanded {
-        display: none; /*initially hidden*/
         margin-top:  $il-margin-large-vertical;
 
         @include brk.on-screen-size('small') {

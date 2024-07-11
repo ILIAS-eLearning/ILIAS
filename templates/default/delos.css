@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -691,9 +688,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -901,6 +897,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -1992,9 +1991,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2356,9 +2352,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -6290,6 +6285,8 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -9170,11 +9167,21 @@ div.alert ul > li:before {
   position: relative;
   white-space: nowrap;
 }
-.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
-  display: none; /*initially hidden*/
+.il-table-presentation-row.expanded .il-table-presentation-row-expanded,
+.il-table-presentation-row.expanded .il-table-presentation-row-controls-collapser {
+  display: block;
 }
-.il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-expander {
-  display: block; /*initially visible*/
+.il-table-presentation-row.expanded .il-table-presentation-row-header-fields,
+.il-table-presentation-row.expanded .il-table-presentation-row-controls-expander {
+  display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-expanded,
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls-collapser {
+  display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-header-fields,
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls-expander {
+  display: block;
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
@@ -9194,9 +9201,6 @@ div.alert ul > li:before {
     order: 1;
   }
 }
-.il-table-presentation-row .il-table-presentation-row-header .il-table-presentation-row-header-fields {
-  display: block; /*initially visible*/
-}
 @media screen and (max-width: 768px) {
   .il-table-presentation-row .il-table-presentation-actions {
     order: 3;
@@ -9208,7 +9212,6 @@ div.alert ul > li:before {
   content: ":";
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
-  display: none; /*initially hidden*/
   margin-top: 6px;
 }
 @media screen and (max-width: 768px) {
@@ -9834,7 +9837,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10527,7 +10529,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11160,7 +11161,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18514,6 +18514,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
