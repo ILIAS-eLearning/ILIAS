@@ -182,7 +182,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
 
         foreach ($records as $record) {
             $row_id = (string) $record['key'];
-            $deactivate_action = (bool) $record['status'] == true ? self::ACTIVATE : self::DEACTIVATE;
+            $deactivate_action = (bool) $record['status'] === true ? self::ACTIVATE : self::DEACTIVATE;
             yield $row_builder->buildDataRow($row_id, $record)->withDisabledAction($deactivate_action);
         }
     }
