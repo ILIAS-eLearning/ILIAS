@@ -19,11 +19,6 @@
 declare(strict_types=1);
 
 /**
- * Login page editor settings GUI
- * ILIAS page editor or richtext editor
- *
- * @author            Stefan Meyer <meyer@leifos.com>
- * @ingroup           ServicesAuthentication
  * @ilCtrl_isCalledBy ilAuthLoginPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthLoginPageEditorGUI: ilLoginPageGUI
  */
@@ -33,26 +28,16 @@ class ilAuthLoginPageEditorGUI
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
-    private ilRbacSystem $rbacsystem;
-    private ilSetting $setting;
-    private ilErrorHandling $ilErr;
-    private ?ilPropertyFormGUI $form;
     private \ILIAS\HTTP\Services $http;
     private \ILIAS\Refinery\Factory $refinery;
     private \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $ui_renderer;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
-    private int $ref_id;
-    private ilAuthLoginPageEditorSettings $settings;
-    private ?ilSetting $loginSettings = null;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     //variables from requests
     private ?string $redirect_source = null;
     private ?int $key = null;
-    private array $visible_languages = [];
-    private array $languages = [];
 
     public function __construct(int $a_ref_id)
     {
@@ -61,10 +46,6 @@ class ilAuthLoginPageEditorGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC->toolbar();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->setting = $DIC->settings();
-        $this->ilErr = $DIC['ilErr'];
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -74,65 +55,34 @@ class ilAuthLoginPageEditorGUI
         $this->lng = $DIC['lng'];
 
         $this->lng->loadLanguageModule('auth');
-        $this->ref_id = $a_ref_id;
 
-        $this->settings = ilAuthLoginPageEditorSettings::getInstance();
         $this->content_style_domain = $DIC->contentStyle()
                                           ->domain()
                                           ->styleForRefId($a_ref_id);
 
         $query_wrapper = $DIC->http()->wrapper()->query();
         $post_wrapper = $DIC->http()->wrapper()->post();
-        $is_post_request = $DIC->http()->request()->getMethod() === "POST";
         $refinery = $DIC->refinery();
 
-        if ($query_wrapper->has("redirectSource")) {
-            $this->redirect_source = $query_wrapper->retrieve("redirectSource", $refinery->kindlyTo()->string());
+        if ($query_wrapper->has('redirectSource')) {
+            $this->redirect_source = $query_wrapper->retrieve('redirectSource', $refinery->kindlyTo()->string());
         }
 
-        if ($post_wrapper->has("key")) {
-            $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
-        } elseif ($query_wrapper->has("key")) {
-            $this->key = $query_wrapper->retrieve("key", $refinery->kindlyTo()->int());
-        }
-
-        if ($is_post_request) {
-            if ($post_wrapper->has("visible_languages")) {
-                $this->visible_languages = $post_wrapper->retrieve(
-                    'visible_languages', $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
-                );
-            }
-
-            if ($post_wrapper->has("languages")) {
-                $this->languages = $post_wrapper->retrieve(
-                    'languages', $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
-                );
-            }
+        if ($post_wrapper->has('key')) {
+            $this->key = $post_wrapper->retrieve('key', $refinery->kindlyTo()->int());
+        } elseif ($query_wrapper->has('key')) {
+            $this->key = $query_wrapper->retrieve('key', $refinery->kindlyTo()->int());
         }
     }
 
-    public function getSettings(): ilAuthLoginPageEditorSettings
-    {
-        return $this->settings;
-    }
-
-    public function getRefId(): int
-    {
-        return $this->ref_id;
-    }
-
-    /**
-     * ilCtrl execute command
-     */
     public function executeCommand(): void
     {
-        switch ($this->ctrl->getNextClass($this)) {
-            case 'illoginpagegui':
+        switch (strtolower($this->ctrl->getNextClass($this) ?? '')) {
+            case strtolower(ilLoginPageGUI::class):
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
                     $this->lng->txt('back'),
-                    $this->ctrl->getLinkTarget($this, 'show'),
-                    '_top'
+                    $this->ctrl->getLinkTarget($this, 'show')
                 );
 
                 if (strtolower((string) $this->redirect_source) !== strtolower(ilInternalLinkGUI::class)) {
@@ -149,10 +99,7 @@ class ilAuthLoginPageEditorGUI
         }
     }
 
-    /**
-     * Forward to page editor
-     */
-    protected function forwardToPageObject(): void
+    private function forwardToPageObject(): void
     {
         $keys = $this->http->wrapper()->query()->retrieve(
             'loginpage_languages_key',
@@ -165,7 +112,7 @@ class ilAuthLoginPageEditorGUI
         $this->key = ilLanguage::lookupId((string) current($keys));
 
         if ($this->key === 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_does_not_exist"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('language_does_not_exist'), true);
             $this->show();
             return;
         }
@@ -175,7 +122,6 @@ class ilAuthLoginPageEditorGUI
         $this->lng->loadLanguageModule('content');
 
         if (!ilLoginPage::_exists('auth', $this->key)) {
-            // doesn't exist -> create new one
             $new_page_object = new ilLoginPage();
             $new_page_object->setParentId($this->key);
             $new_page_object->setId($this->key);
@@ -189,43 +135,19 @@ class ilAuthLoginPageEditorGUI
         $page_gui = new ilLoginPageGUI($this->key);
 
         $page_gui->setTemplateTargetVar('ADM_CONTENT');
-        //TODO check what should go here $link_xml is undefined
-        //$page_gui->setLinkXML($link_xml);
-        //$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
-        //$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-        //$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
-        //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
-        //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setTemplateOutput(false);
-        //$page_gui->setLocator($contObjLocator);
-
-        // style tab
-        //$page_gui->setTabHook($this, "addPageTabs");
-
-        if ($this->ctrl->getCmd() === 'editPage') {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmd('edit');
-        }
 
         $html = $this->ctrl->forwardCommand($page_gui);
 
-        if ($html !== "") {
+        if ($html !== '') {
             $this->tpl->setContent($html);
         }
     }
 
-    /**
-     * Show current activated editor
-     */
-    protected function show(): void
+    private function show(): void
     {
-        switch ($this->getSettings()->getMode()) {
-            case ilAuthLoginPageEditorSettings::MODE_IPE:
-            default:
-                $this->showIliasEditor();
-                break;
-        }
+        $this->showIliasEditor();
     }
 
     private function handleLoginPageActions(): void
@@ -258,14 +180,16 @@ class ilAuthLoginPageEditorGUI
             case 'edit':
                 $this->ctrl->setParameter($this, 'loginpage_languages_key', current($keys));
                 $this->ctrl->redirectByClass(ilLoginPageGUI::class, 'edit');
-                break;
 
+                // no break
             default:
                 $this->ctrl->redirect($this, 'show');
-                break;
         }
     }
 
+    /**
+     * @return list<string>
+     */
     private function getLangKeysToUpdate(): array
     {
         $keys = $this->http->wrapper()->query()->retrieve(
@@ -285,10 +209,7 @@ class ilAuthLoginPageEditorGUI
         return $lang_keys;
     }
 
-    /**
-     * Activate languages
-     */
-    protected function activate(): void
+    private function activate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
         $settings = ilAuthLoginPageEditorSettings::getInstance();
@@ -303,7 +224,7 @@ class ilAuthLoginPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function deactivate(): void
+    private function deactivate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
         $settings = ilAuthLoginPageEditorSettings::getInstance();
@@ -318,10 +239,7 @@ class ilAuthLoginPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    /**
-     * Show ILIAS page editor summary.
-     */
-    protected function showIliasEditor(): void
+    private function showIliasEditor(): void
     {
         $tbl = new \ILIAS\Authentication\LoginPage\LoginPageLanguagesOverviewTable(
             $this->ctrl,
@@ -332,29 +250,5 @@ class ilAuthLoginPageEditorGUI
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
-    }
-
-    /**
-     * returns an array of all installed languages, default language at the first position
-     * @param string $a_def_language Default language of the current installation
-     * @param array  $a_languages    Array of all installed languages
-     * @return array $languages Array of the installed languages, default language at first position or
-     *                               an empty array, if $a_a_def_language is empty
-     * @author Michael Jansen
-     */
-    private function setDefLangFirst(string $a_def_language, array $a_languages): array
-    {
-        $languages = [];
-        if ($a_def_language !== "") {
-            $languages[] = $a_def_language;
-
-            foreach ($a_languages as $val) {
-                if (!in_array($val, $languages, true)) {
-                    $languages[] = $val;
-                }
-            }
-        }
-
-        return $languages;
     }
 }
