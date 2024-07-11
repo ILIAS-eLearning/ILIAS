@@ -29,6 +29,9 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     {
     }
 
+    /**
+     * @param Term[] $initial_terms
+     */
     public function setInitialTerms(int $glo_id, int $user_id, int $box_nr, array $initial_terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_initial_terms";
@@ -36,7 +39,7 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     }
 
     /**
-     * @return int[]
+     * @return Term[]
      */
     public function getInitialTerms(int $glo_id, int $user_id, int $box_nr): array
     {
@@ -47,6 +50,9 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
         return [];
     }
 
+    /**
+     * @param Term[] $initial_terms
+     */
     public function setTerms(int $glo_id, int $user_id, int $box_nr, array $terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_terms";
@@ -54,7 +60,7 @@ class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
     }
 
     /**
-     * @return int[]
+     * @return Term[]
      */
     public function getTerms(int $glo_id, int $user_id, int $box_nr): array
     {

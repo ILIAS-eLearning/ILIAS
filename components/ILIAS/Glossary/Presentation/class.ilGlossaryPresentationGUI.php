@@ -1153,9 +1153,15 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     public function showFlashcards(): void
     {
         $ilTabs = $this->tabs_gui;
+        $ilNavigationHistory = $this->nav_history;
 
         $this->setTabs();
         $ilTabs->activateTab("flashcards");
+        $ilNavigationHistory->addItem(
+            $this->requested_ref_id,
+            $this->ctrl->getLinkTarget($this, "showFlashcards"),
+            "glo"
+        );
         $flashcards = new ilGlossaryFlashcardGUI();
         $flashcards->listBoxes();
     }

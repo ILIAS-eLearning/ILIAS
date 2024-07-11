@@ -32,6 +32,10 @@ class FlashcardShuffleManager
     {
     }
 
+    /**
+     * @param Term[] $box_entries
+     * @return Term[]
+     */
     public function shuffleEntries(
         array $box_entries
     ): array {
@@ -39,6 +43,10 @@ class FlashcardShuffleManager
         return $box_entries;
     }
 
+    /**
+     * @param Term[] $box_entries
+     * @return Term[]
+     */
     public function shuffleEntriesWithEqualDay(
         array $box_entries
     ): array {
@@ -47,7 +55,7 @@ class FlashcardShuffleManager
         $i = 0;
         // split entries per day
         foreach ($box_entries as $entry) {
-            $entry_day = substr($entry["last_access"], 0, 10);
+            $entry_day = substr($entry->getLastAccess(), 0, 10);
             if (empty($tmp_day)
                 || $entry_day === $tmp_day
             ) {

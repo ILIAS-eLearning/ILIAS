@@ -38,7 +38,7 @@ class ilGlossaryFlashcardBoxGUI
     protected int $box_nr = 0;
     protected array $initial_terms_in_box = [];
     protected array $terms_in_box = [];
-    protected int $current_term_id = 0;
+    protected ?Flashcard\Term $current_term;
     protected ilObjGlossary $glossary;
 
     public function __construct()
@@ -62,7 +62,7 @@ class ilGlossaryFlashcardBoxGUI
         $this->box_nr = $this->request->getBoxId();
         $this->initial_terms_in_box = $this->manager->getSessionInitialTerms($this->box_nr);
         $this->terms_in_box = $this->manager->getSessionTerms($this->box_nr);
-        $this->current_term_id = $this->terms_in_box[0] ?? 0;
+        $this->current_term = $this->terms_in_box[0] ?? null;
         $this->glossary = new ilObjGlossary($this->request->getRefId());
     }
 
@@ -82,23 +82,23 @@ class ilGlossaryFlashcardBoxGUI
     public function show(): void
     {
         if ($this->box_nr === Flashcard\FlashcardBox::FIRST_BOX) {
-            $cnt_all = count($this->manager->getUserTermIdsForBox($this->box_nr))
+            $cnt_all = count($this->manager->getUserTermsForBox($this->box_nr))
                 + count($this->manager->getAllTermsWithoutEntry());
-            $cnt_remaining = count($this->manager->getNonTodayUserTermIdsForBox($this->box_nr))
+            $cnt_remaining = count($this->manager->getNonTodayUserTermsForBox($this->box_nr))
                 + count($this->manager->getAllTermsWithoutEntry());
         } else {
-            $cnt_all = count($this->manager->getUserTermIdsForBox($this->box_nr));
-            $cnt_remaining = count($this->manager->getNonTodayUserTermIdsForBox($this->box_nr));
+            $cnt_all = count($this->manager->getUserTermsForBox($this->box_nr));
+            $cnt_remaining = count($this->manager->getNonTodayUserTermsForBox($this->box_nr));
         }
-        $cnt_today = count($this->manager->getTodayUserTermIdsForBox($this->box_nr));
+        $cnt_today = count($this->manager->getTodayUserTermsForBox($this->box_nr));
 
         if (($this->box_nr === Flashcard\FlashcardBox::FIRST_BOX
                 && !$this->manager->getAllTermsWithoutEntry()
-                && !$this->manager->getNonTodayUserTermIdsForBox($this->box_nr)
-                && $this->manager->getTodayUserTermIdsForBox($this->box_nr))
+                && !$this->manager->getNonTodayUserTermsForBox($this->box_nr)
+                && $this->manager->getTodayUserTermsForBox($this->box_nr))
             || ($this->box_nr !== Flashcard\FlashcardBox::FIRST_BOX
-                && !$this->manager->getNonTodayUserTermIdsForBox($this->box_nr)
-                && $this->manager->getTodayUserTermIdsForBox($this->box_nr))) {
+                && !$this->manager->getNonTodayUserTermsForBox($this->box_nr)
+                && $this->manager->getTodayUserTermsForBox($this->box_nr))) {
             $all_button = $this->ui_fac->button()->standard(
                 sprintf($this->lng->txt("glo_use_all_flashcards"), $cnt_all),
                 $this->ctrl->getLinkTarget($this, "showAllItems")
@@ -107,7 +107,7 @@ class ilGlossaryFlashcardBoxGUI
                 sprintf($this->lng->txt("glo_flashcards_from_today_only_info"), $cnt_all)
             )->withButtons([$all_button]);
             $this->tpl->setContent($this->ui_ren->render($cbox));
-        } elseif ($this->manager->getTodayUserTermIdsForBox($this->box_nr)) {
+        } elseif ($this->manager->getTodayUserTermsForBox($this->box_nr)) {
             $remaining_button = $this->ui_fac->button()->standard(
                 sprintf($this->lng->txt("glo_use_remaining_flashcards"), $cnt_remaining),
                 $this->ctrl->getLinkTarget($this, "showRemainingItems")
@@ -138,9 +138,9 @@ class ilGlossaryFlashcardBoxGUI
     public function showItems(bool $all): void
     {
         if ($all) {
-            $terms = $this->manager->getUserTermIdsForBox($this->box_nr);
+            $terms = $this->manager->getUserTermsForBox($this->box_nr);
         } else {
-            $terms = $this->manager->getNonTodayUserTermIdsForBox($this->box_nr);
+            $terms = $this->manager->getNonTodayUserTermsForBox($this->box_nr);
         }
         if ($this->box_nr === Flashcard\FlashcardBox::FIRST_BOX) {
             $terms_without_entry = $this->manager->getAllTermsWithoutEntry();
@@ -239,7 +239,7 @@ class ilGlossaryFlashcardBoxGUI
 
     public function answer(bool $correct): void
     {
-        $this->manager->createOrUpdateUserTermEntry($this->current_term_id, $correct);
+        $this->manager->createOrUpdateUserTermEntry($this->current_term?->getTermId(), $correct);
         array_shift($this->terms_in_box);
         $this->manager->setSessionTerms($this->box_nr, $this->terms_in_box);
         if ($this->terms_in_box) {
@@ -251,13 +251,13 @@ class ilGlossaryFlashcardBoxGUI
 
     protected function getTermText(): string
     {
-        $text = ilGlossaryTerm::_lookGlossaryTerm($this->current_term_id);
+        $text = ilGlossaryTerm::_lookGlossaryTerm($this->current_term?->getTermId());
         return $text;
     }
 
     protected function getDefinitionPage(): string
     {
-        $page_gui = new ilGlossaryDefPageGUI($this->current_term_id);
+        $page_gui = new ilGlossaryDefPageGUI($this->current_term?->getTermId());
         return $page_gui->showPage();
     }
 }

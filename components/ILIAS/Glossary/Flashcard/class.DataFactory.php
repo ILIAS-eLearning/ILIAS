@@ -18,38 +18,33 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Glossary;
+namespace ILIAS\Glossary\Flashcard;
 
 /**
- * @author Alexander Killing <killing@leifos.de>
+ * @author Thomas Famula <famula@leifos.de>
  */
-class InternalDataService
+class DataFactory
 {
-    protected Flashcard\DataFactory $flashcard_factory;
-
     public function __construct()
     {
-        $this->flashcard_factory = new Flashcard\DataFactory();
     }
 
-    public function flashcardTerm(
+    public function term(
         int $term_id,
         int $user_id,
         int $glo_id,
         int $box_nr,
         ?string $last_access = null
-    ): Flashcard\Term
-    {
-        return $this->flashcard_factory->term($term_id, $user_id, $glo_id, $box_nr, $last_access);
+    ): Term {
+        return new Term($term_id, $user_id, $glo_id, $box_nr, $last_access);
     }
 
-    public function flashcardBox(
+    public function box(
         int $box_nr,
         int $user_id,
         int $glo_id,
         ?string $last_access = null
-    ): Flashcard\Box
-    {
-        return $this->flashcard_factory->box($box_nr, $user_id, $glo_id, $last_access);
+    ): Box {
+        return new Box($box_nr, $user_id, $glo_id, $last_access);
     }
 }
