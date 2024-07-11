@@ -4208,7 +4208,7 @@ common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
-common#:#global_role_assignment#:#Globale Rollenzuweisung
+common#:#global_role_assignment#:#Global Role Assignment
 common#:#global_settings#:#Global settings
 common#:#global_user#:#Global users
 common#:#glossaries#:#Glossaries
@@ -4518,7 +4518,7 @@ common#:#local#:#Local
 common#:#local_language_file#:#custom language file
 common#:#local_language_files#:#custom language files
 common#:#local_languages_already_installed#:#Selected custom language file(s) are already installed
-common#:#local_role_assignment#:#Lokale Rollenzuweisung
+common#:#local_role_assignment#:#Local Role Assignment
 common#:#location#:#Location
 common#:#locator#:#Location:
 common#:#log_in#:#Login
@@ -6043,7 +6043,7 @@ cont#:#cont_item_list#:#List
 cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.
 cont#:#cont_list_presentation#:#Content Display Options
 cont#:#cont_mem_skills#:#Competences
-cont#:#cont_news_edited#:#Bearbeitet
+cont#:#cont_news_edited#:#Edited
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline#:#News Timeline
 cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
@@ -8056,10 +8056,10 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
 crs#:#timing_user_accepted#:#Timings Accepted
 crs#:#timings#:#Timings
-crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
-crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
-crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
-crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
+crs#:#timings_cron_reminder_exceeded_start#:#The processing period is overdue at:
+crs#:#timings_cron_reminder_exceeded_subject#:#You have exceeded the processing period.
+crs#:#timings_cron_reminder_freshly_start#:#The processing period started at:
+crs#:#timings_cron_reminder_started_subject#:#The processing period has started.
 crs#:#timings_edit#:#Edit Timings
 crs#:#timings_of#:#Timings Off
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
@@ -10220,7 +10220,7 @@ grp#:#grp_create_and_add_user#:#Create and Add User
 grp#:#grp_create_new#:#Create New Group
 grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
 grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?
-grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+grp#:#grp_created_and_user_been_added#:#Group created and user added.
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
 grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
