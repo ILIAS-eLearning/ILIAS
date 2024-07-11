@@ -71,7 +71,7 @@ class ilAuthSession
 
         $this->setId(session_id());
 
-        $user_id = (int)(ilSession::get(self::SESSION_AUTH_USER_ID) ?? ANONYMOUS_USER_ID);
+        $user_id = (int) (ilSession::get(self::SESSION_AUTH_USER_ID) ?? ANONYMOUS_USER_ID);
 
         if ($user_id) {
             $this->getLogger()->debug('Resuming old session for user: ' . $user_id);
@@ -126,7 +126,7 @@ class ilAuthSession
      */
     public function isAuthenticated(): bool
     {
-        return $this->authenticated || $this->user_id === (int)ANONYMOUS_USER_ID;
+        return $this->authenticated || $this->user_id === (int) ANONYMOUS_USER_ID;
     }
 
     /**
@@ -149,7 +149,7 @@ class ilAuthSession
      */
     public function isExpired(): bool
     {
-        return $this->expired && $this->user_id !== (int)ANONYMOUS_USER_ID;
+        return $this->expired && $this->user_id !== (int) ANONYMOUS_USER_ID;
     }
 
     /**

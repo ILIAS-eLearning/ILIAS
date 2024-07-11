@@ -174,7 +174,7 @@ class ilSession
             $insert_values = implode(
                 ', ',
                 array_map(
-                    static fn (string $type, $value): string => $ilDB->quote($value, $type),
+                    static fn(string $type, $value): string => $ilDB->quote($value, $type),
                     array_column($fields, 0),
                     array_column($fields, 1)
                 )
@@ -182,13 +182,13 @@ class ilSession
 
             $update_fields = array_filter(
                 $fields,
-                static fn (string $field): bool => !in_array($field, ['session_id', 'user_id', 'createtime'], true),
+                static fn(string $field): bool => !in_array($field, ['session_id', 'user_id', 'createtime'], true),
                 ARRAY_FILTER_USE_KEY
             );
             $update_values = implode(
                 ', ',
                 array_map(
-                    static fn (string $field, string $type, $value): string => $field . ' = ' . $ilDB->quote(
+                    static fn(string $field, string $type, $value): string => $field . ' = ' . $ilDB->quote(
                         $value,
                         $type
                     ),
