@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Item\Standard;
 
 /**
- * With progress meter chart
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_image_and_progress()
 {

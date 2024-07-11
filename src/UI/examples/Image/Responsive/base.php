@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Image\Responsive;
 
 /**
- * Base Example for rendering an responsive Image
+ * ---
+ * description: >
+ *  Base example for rendering a responsive Image
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

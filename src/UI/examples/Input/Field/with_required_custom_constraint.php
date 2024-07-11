@@ -5,9 +5,17 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field;
 
 /**
- * Example showing the use of the withRequired() method
- * with a custom constraint that replaces the default requirement constraint.
- * A custom constraint SHOULD be explained in the byline of the input.
+ */
+/**
+ * ---
+ * description: >
+ *   Example showing the use of the withRequired() method
+ *   with a custom constraint that replaces the default requirement constraint.
+ *   A custom constraint SHOULD be explained in the byline of the input.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_required_custom_constraint()
 {

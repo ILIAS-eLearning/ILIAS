@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Mini;
 
 /**
- * Example for rendering a mini Progress Meter as part of a headline
+ * ---
+ * description: >
+ *   Example for rendering a mini Progress Meter as part of a headline
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function headline()
 {

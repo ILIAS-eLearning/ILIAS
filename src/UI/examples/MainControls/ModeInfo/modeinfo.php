@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\MainControls\ModeInfo;
 
 use ILIAS\DI\Container;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function modeinfo(): string
 {
     global $DIC;

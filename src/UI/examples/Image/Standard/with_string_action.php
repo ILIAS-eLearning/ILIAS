@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Image\Standard;
 
 /**
- * Example for rendering an Image with a string as action
+ * ---
+ * description: >
+ *   Example for rendering an Image with a string as action
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_string_action()
 {

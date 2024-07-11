@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\OptionalGroup;
 
 /**
- * Example showing how an optional group (of inputs) which shows, that
- * the optional input will not be required even though it's sub inputs
- * are.
+ * ---
+ * description: >
+ *   Example showing how an optional group (of inputs) which shows, that
+ *   the optional input will not be required even though it's sub inputs are.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_required_sub_inputs()
 {

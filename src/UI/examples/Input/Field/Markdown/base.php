@@ -7,7 +7,13 @@ namespace ILIAS\UI\examples\Input\Field\Markdown;
 use ilUIMarkdownPreviewGUI;
 
 /**
- * Example show how to create and render a basic markdown field and attach it to a form.
+ * ---
+ * description: >
+ *   Example show how to create and render a basic markdown field and attach it to a form.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

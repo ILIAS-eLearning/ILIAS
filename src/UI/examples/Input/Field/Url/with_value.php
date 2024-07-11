@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Url;
 
 /**
- * This example shows how to create and render a basic URL input field with an value
- * attached to it. It does also contain data processing.
+ * ---
+ * description: >
+ *   This example shows how to create and render a basic URL input field with an value
+ *   attached to it. It does also contain data processing.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_value()
 {

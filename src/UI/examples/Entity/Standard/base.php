@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Examples\Entity\Standard;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

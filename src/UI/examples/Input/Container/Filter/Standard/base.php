@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Container\Filter\Standard;
 
 /**
- * Example show how to create and render a basic filter.
+ * ---
+ * description: >
+ *   Example shows how to create and render a basic filter.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

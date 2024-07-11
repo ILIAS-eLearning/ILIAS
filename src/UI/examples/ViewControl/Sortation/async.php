@@ -4,7 +4,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
-//Async example show-casing how this control can be used, without reloading the page
+/**
+ * ---
+ * description: >
+ *   Async example show-casing how this control can be used, without reloading the page
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function async()
 {
     //Loading factories

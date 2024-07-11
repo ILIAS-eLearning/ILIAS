@@ -6,6 +6,12 @@ namespace ILIAS\UI\Examples\Popover\Standard;
 
 use ILIAS\UI\Implementation\Component\ReplaceContentSignal;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function show_popover_with_dynamic_changing_content()
 {
     global $DIC;

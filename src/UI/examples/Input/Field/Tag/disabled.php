@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Tag;
 
 /**
- * Example show how to create and render a disabled tag input field and attach it to a
- * form. This example does not contain any data processing.
+ * ---
+ * description: >
+ *   Example show how to create and render a disabled tag input field and attach
+ *   it to a form. This example does not contain any data processing.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function disabled()
 {

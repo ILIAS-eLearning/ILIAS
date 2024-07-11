@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Item\Standard;
 
 /**
- * Base
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_main_action()
 {

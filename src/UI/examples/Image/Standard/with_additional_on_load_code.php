@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Image\Standard;
 
 /**
- * Example showing how JS-Code can be attached to images.
- * In this example, an alert is popping up a soon as the image
- * is clicked.
+ * ---
+ * description: >
+ *   Example showing how JS-Code can be attached to images.
+ *   In this example, an alert is popping up a soon as the image is clicked.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_additional_on_load_code()
 {

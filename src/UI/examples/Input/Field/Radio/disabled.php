@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Radio;
 
 /**
- * Example showing how to plug a disabled radio into a form
+ * ---
+ * description: >
+ *   Example showing how to plug a disabled radio into a form
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function disabled()
 {

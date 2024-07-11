@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\MainControls\Footer;
 
 use ILIAS\DI\Container;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function footer_with_modals(): string
 {
     global $DIC;

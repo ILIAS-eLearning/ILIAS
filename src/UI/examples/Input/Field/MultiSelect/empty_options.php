@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\MultiSelect;
 
 /**
- * Multi-Select without options
+ * ---
+ * description: >
+ *   Multi-Select without options
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function empty_options()
 {

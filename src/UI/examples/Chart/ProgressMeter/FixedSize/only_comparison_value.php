@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\FixedSize;
 
 /**
- * Example for rendering a fixed size Progress Meter with an diagnostic score only
+ * ---
+ * description: >
+ *   Example for rendering a fixed size Progress Meter with an diagnostic score only
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function only_comparison_value()
 {

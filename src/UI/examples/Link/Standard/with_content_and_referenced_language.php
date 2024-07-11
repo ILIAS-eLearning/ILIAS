@@ -3,8 +3,15 @@
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Link\Standard;
+
 use ILIAS\Data\Factory as DataFactory;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function with_content_and_referenced_language()
 {
     global $DIC;

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Mini;
 
 /**
- * Example for rendering a mini Progress Meter when 100% are reached
+ * ---
+ * description: >
+ *   Example for rendering a mini Progress Meter when 100% are reached
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function reached_100_percent()
 {

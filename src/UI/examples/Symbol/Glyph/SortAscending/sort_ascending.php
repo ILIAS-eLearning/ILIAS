@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Symbol\Glyph\SortAscending;
 
 /**
- * Note that this example does not provide any functionality, it just shows, how this Glyph
- * can be rendered. The functionality needs to be provided by some surrounding component (e.g. Table)
+ * ---
+ * description: >
+ *   Note that this example does not provide any functionality, it just shows, how this Glyph
+ *   can be rendered. The functionality needs to be provided by some surrounding component (e.g. Table)
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function sort_ascending()
 {

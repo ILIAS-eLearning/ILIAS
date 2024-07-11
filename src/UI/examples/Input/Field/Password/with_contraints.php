@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Password;
 
 /**
- * Passwords (when setting) usually have some constraints.
-  */
+ * ---
+ * description: >
+ *   Passwords (when setting) usually have some constraints.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function with_contraints()
 {
     //Step 0: Declare dependencies
