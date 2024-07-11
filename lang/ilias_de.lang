@@ -9319,6 +9319,7 @@ exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktivie
 exc#:#exc_rel_last_submission#:#Letzt möglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
 exc#:#exc_relative_date#:#Relatives Datum
+exc#:#exc_relative_date_period#:#Bearbeitungszeitraum
 exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
 exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt

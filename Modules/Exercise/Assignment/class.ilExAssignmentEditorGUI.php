@@ -460,8 +460,11 @@ class ilExAssignmentEditorGUI
         $form->addItem($rmd_grade);
 
         // relative deadline
-        $ti = new ilNumberInputGUI($lng->txt("days"), "relative_deadline");
+        $ti = new ilNumberInputGUI($lng->txt("exc_relative_date_period"), "relative_deadline");
+        $ti->setMinValue(1);
+        $ti->setRequired(true);
         $ti->setMaxLength(3);
+        $ti->setSuffix($lng->txt("days"));
         $ti->setSize(3);
         $op2->addSubItem($ti);
 
