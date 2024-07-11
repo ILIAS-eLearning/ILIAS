@@ -151,6 +151,9 @@ class FlashcardManager
     }
 
     /**
+     * Filter out the terms, for which already exist entries, but are not part of the glossary currently/anymore.
+     * Only relevant for virtual glossaries.
+     *
      * @param Term[] $terms
      * @return Term[]
      */
