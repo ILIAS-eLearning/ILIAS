@@ -9511,6 +9511,7 @@ exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
 exc#:#exc_rel_start_lead_text#:#%s Tage nach Starten abgeben
 exc#:#exc_relative_date#:#Relatives Datum
 exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
+exc#:#exc_relative_date_period#:#Bearbeitungszeitraum
 exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt
 exc#:#exc_reminder_end#:#Letzte Erinnerung
