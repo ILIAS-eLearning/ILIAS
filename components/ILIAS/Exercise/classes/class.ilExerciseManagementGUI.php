@@ -2221,7 +2221,6 @@ class ilExerciseManagementGUI
         $submission = new ilExSubmission($this->assignment, $member_id);
 
         $last_opening = $submission->getLastOpeningHTMLView();
-
         $submission_time = $submission->getLastSubmission();
 
         // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
@@ -2330,14 +2329,14 @@ class ilExerciseManagementGUI
 
         if ($data_filesystem->has($internal_file_path)) {
             $this->log->debug("internal file path: " . $internal_file_path);
-            if (!$web_filesystem->hasDir($internal_dirs)) {
-                $web_filesystem->createDir($internal_dirs);
+            if ($web_filesystem->hasDir($internal_dirs)) {
+                $web_filesystem->deleteDir($internal_dirs);
             }
+            $web_filesystem->createDir($internal_dirs);
 
             if ($web_filesystem->has($internal_file_path)) {
                 $web_filesystem->delete($internal_file_path);
             }
-
             if (!$web_filesystem->has($internal_file_path)) {
                 $this->log->debug("writing: " . $internal_file_path);
                 $stream = $data_filesystem->readStream($internal_file_path);
