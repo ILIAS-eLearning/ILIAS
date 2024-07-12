@@ -731,32 +731,39 @@ class ilSurveyParticipantsGUI
             $reader->open($_FILES['codes']['tmp_name']);
             foreach ($reader->getCsvAsArray() as $row) {
                 // numeric check of used column due to #26176
-                if (count($row) === 8 && is_numeric($row[5])) {
-                    // used/sent/url are not relevant when importing
-                    [$code, $email, $last_name, $first_name, $created, $used, $sent, $url] = $row;
+                $code = $row[0] ?? "";
+                if ($code === "") {
+                    continue;
+                }
+                $email = $row[1] ?? "";
+                if (!is_int(strpos($email, "@")) && $email !== "") {
+                    continue;
+                }
+                $last_name = $row[2] ?? "";
+                $first_name = $row[3] ?? "";
+                $created = time();
 
-                    // unique code?
-                    if (!array_key_exists($code, $existing)) {
-                        // could be date or datetime
-                        try {
-                            if (strlen($created) === 10) {
-                                $created = new ilDate($created, IL_CAL_DATE);
-                            } else {
-                                $created = new ilDateTime($created, IL_CAL_DATETIME);
-                            }
-                            $created = $created->get(IL_CAL_UNIX);
-                        } catch (Exception $e) {
-                            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
-                            $this->ctrl->redirect($this, 'codes');
+                // unique code?
+                if (!array_key_exists($code, $existing)) {
+                    // could be date or datetime
+                    /*try {
+                        if (strlen($created) === 10) {
+                            $created = new ilDate($created, IL_CAL_DATE);
+                        } else {
+                            $created = new ilDateTime($created, IL_CAL_DATETIME);
                         }
+                        $created = $created->get(IL_CAL_UNIX);
+                    } catch (Exception $e) {
+                        $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                        $this->ctrl->redirect($this, 'codes');
+                    }*/
 
-                        $user_data = array(
-                            "email" => $email
-                            ,"lastname" => $last_name
-                            ,"firstname" => $first_name
-                        );
-                        $this->object->importSurveyCode($code, $created, $user_data);
-                    }
+                    $user_data = array(
+                        "email" => $email
+                        ,"lastname" => $last_name
+                        ,"firstname" => $first_name
+                    );
+                    $this->object->importSurveyCode($code, $created, $user_data);
                 }
             }
 
