@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Notes\Note;
+use ILIAS\Container\Content\ViewManager;
 
 /**
  * Important note:
@@ -182,6 +183,7 @@ class ilObjectListGUI
     protected string $title = "";
     protected string $description = "";
     protected ilWorkspaceAccessHandler $ws_access;
+    protected ViewManager $view_manager;
 
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
     {
@@ -228,6 +230,12 @@ class ilObjectListGUI
             ->domain()
             ->clipboard();
         $this->notes_service = $DIC->notes();
+        $this->view_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->view();
     }
 
     public function setContainerObject(object $container_obj): void
@@ -2916,6 +2924,7 @@ class ilObjectListGUI
         if ($this->context === self::CONTEXT_REPOSITORY
             && ($this->requested_cmd === "view" || $this->requested_cmd === "" || $this->requested_cmd === "render")
             && $file_upload_dropzone->isUploadAllowed($this->type)
+            && $this->view_manager->isAdminView() === false
         ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
