@@ -38,6 +38,7 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -69,6 +70,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
     public const DEFAULT_CMD = 'questions';
 
+    private HTTPServices $http;
     private HttpRequest $http_request;
     protected Service $taxonomy;
     public ?ilObject $object;
@@ -107,6 +109,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
         $this->http_request = $DIC->http()->request();
+        $this->http = $DIC->http();
         $this->archives = $DIC->archives();
 
         $this->data_factory = new DataFactory();
@@ -243,7 +246,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->lng,
                     $ilDB,
                     $randomGroup,
-                    $this->global_screen
+                    $this->global_screen,
+                    $this->http,
+                    $this->refinery
                 );
 
                 $gui->initQuestion(
