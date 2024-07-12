@@ -498,7 +498,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             ilSession::set("lang_ext_maintenance", $tmp);
             try {
                 $upload = $DIC->upload();
-                $upload->process();
+                //mantis #41617
+                if (!$upload->hasBeenProcessed()) {
+                    $upload->process();
+                }
+
 
                 if (!$upload->hasUploads()) {
                     throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
