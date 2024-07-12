@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
@@ -64,7 +66,9 @@ class ilAssQuestionPreviewGUI
         private ilDBInterface $db,
         private ilObjUser $user,
         private RandomGroup $randomGroup,
-        private GlobalScreen $global_screen
+        private GlobalScreen $global_screen,
+        private HTTPServices $http,
+        private Refinery $refinery
     ) {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
@@ -214,11 +218,15 @@ class ilAssQuestionPreviewGUI
 
     protected function isCommentingRequired(): bool
     {
-        if ($this->previewSettings->isTestRefId()) {
-            return false;
-        }
+        $ref_id = $this->http->wrapper()->query()->retrieve(
+            'ref_id',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(0)
+            ])
+        );
 
-        return (bool) $this->rbac_system->checkAccess('write', (int) $_GET['ref_id']);
+        return !$this->previewSettings->isTestRefId() && $this->rbac_system->checkAccess('read', (int) $ref_id);
     }
 
     private function showCmd(string $notes_panel_html = ''): void

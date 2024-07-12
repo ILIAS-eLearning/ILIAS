@@ -169,7 +169,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
     ): \Generator {
         $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         foreach ($this->getData($order, $range) as $idx => $record) {
-            $row_id = (string)$record['question_id'];
+            $row_id = (string) $record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
             $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
             $lifecycle = ilAssQuestionLifecycle::getInstance($record['lifecycle']);
@@ -244,7 +244,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $this->buildAction('edit_page', 'single'),
             $this->buildAction('feedback', 'single'),
             $this->buildAction('hints', 'single'),
-            $this->buildAction('comments', 'single', true)
+            $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }
 
@@ -292,5 +292,11 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $list = array_reverse($list);
         }
         return $list;
+    }
+
+    private function showCommentAction(): bool
+    {
+        return $this->notes_service->domain()->commentsActive($this->parent_obj_id)
+            || $this->rbac->checkAccess('write', $this->request_ref_id);
     }
 }
