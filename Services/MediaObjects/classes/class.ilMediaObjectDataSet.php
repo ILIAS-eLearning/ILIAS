@@ -294,6 +294,9 @@ class ilMediaObjectDataSet extends ilDataSet
     ): array {
         if ($a_entity == "mob") {
             $dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
+            if (!is_dir($dir)) {
+                ilFileUtils::makeDirParents($dir);
+            }
             $a_set["Dir"] = $dir;
         }
 
