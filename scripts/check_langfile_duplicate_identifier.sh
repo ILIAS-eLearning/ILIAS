@@ -34,12 +34,3 @@ do
 done
 
 exit $exit_status
-Footer
-© 2024 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact
