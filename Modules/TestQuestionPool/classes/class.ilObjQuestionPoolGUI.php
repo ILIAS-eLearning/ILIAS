@@ -26,6 +26,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -52,6 +53,7 @@ use ILIAS\GlobalScreen\Services as GlobalScreen;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    private HTTPServices $http;
     private HttpRequest $http_request;
     private QuestionInfoService $questioninfo;
     private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;
@@ -90,7 +92,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
         $this->taxonomy = $DIC->taxonomy();
-        $this->http_request = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->http_request = $this->http->request();
         $this->data_factory = new DataFactory();
         $this->archives = $DIC->legacyArchives();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
@@ -235,7 +238,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $ilDB,
                     $ilUser,
                     $randomGroup,
-                    $this->global_screen
+                    $this->global_screen,
+                    $this->http,
+                    $this->refinery
                 );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());

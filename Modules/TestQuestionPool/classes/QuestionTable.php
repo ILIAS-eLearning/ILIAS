@@ -305,7 +305,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $this->buildAction('edit_page', 'single'),
             $this->buildAction('feedback', 'single'),
             $this->buildAction('hints', 'single'),
-            $this->buildAction('comments', 'single', true)
+            $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }
 
@@ -353,5 +353,11 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $list = array_reverse($list);
         }
         return $list;
+    }
+
+    private function showCommentAction(): bool
+    {
+        return $this->notes_service->domain()->commentsActive($this->parent_obj_id)
+            || $this->rbac->checkAccess('write', $this->request_ref_id);
     }
 }
