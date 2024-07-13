@@ -29,6 +29,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+<<<<<<< HEAD
+=======
+>>>>>>> 17fc8b6397c (38108: Item Group and Resources of Type do not have a Label on mouseover)
 acc#:#acc_add_document_btn_label#:#Add Document
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
@@ -6885,6 +6888,7 @@ content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question
 content#:#cont_pc_repobj#:#Item Group
 content#:#cont_pc_res#:#Resource
+content#:#cont_pc_res#:#Resource List
 content#:#cont_pc_sec#:#Section
 content#:#cont_pc_skills#:#Competence
 content#:#cont_pc_src#:#Source Code
