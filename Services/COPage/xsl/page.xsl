@@ -3361,6 +3361,7 @@
 
 	<!-- Resources -->
 <xsl:template match="Resources">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_res']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	<div>
 		<xsl:if test="./ResourceList">
 			[list-<xsl:value-of select="./ResourceList/@Type"/>]
