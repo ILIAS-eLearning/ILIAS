@@ -16084,8 +16084,6 @@ survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Respo
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
-survey#:#add_material#:#Add Material
-survey#:#add_phrase#:#Add Phrase
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
@@ -16096,10 +16094,7 @@ survey#:#back#:#Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Add from Pool
 survey#:#cancel_survey#:#Suspend the Survey
-survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
-survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
-survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send e-mails.
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
 survey#:#categories#:#Answers
@@ -16170,38 +16165,13 @@ survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#define_questionblock#:#Define Question Block
 survey#:#delete_saved_message#:#Delete Message Text
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#display_all_available#:#Display all available
 survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
-survey#:#dp_standard_attitude_agree5#:#Standard Attitude (strongly agree-agree-undecided-disagree-strongly disagree)
-survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
-survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard Attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_desired5#:#Standard Attitude (strongly desired-desired-neutral-undesired-strongly undesired)
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard Attitude (desired-neutral-undesired)
-survey#:#dp_standard_attitude_desired_undesired#:#Standard Attitude (desired-undesired)
-survey#:#dp_standard_attitude_good5#:#Standard Attitude (very good-good-fair-poor-not acceptable)
-survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard Attitude (good-fair-not acceptable)
-survey#:#dp_standard_attitude_good_notacceptable#:#Standard Attitude (good-not acceptable)
-survey#:#dp_standard_attitude_must5#:#Standard Attitude (must-should-undecided-should not-must not)
-survey#:#dp_standard_attitude_shold_shouldnot#:#Standard Attitude (should-should not)
-survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard Attitude (should-undecided-should not)
-survey#:#dp_standard_behaviour_certainly5#:#Standard Behavior (most certainly-more positive-undecided-more negative-most certainly not)
-survey#:#dp_standard_behaviour_yes_no#:#Standard Behavior (yes-no)
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard Behavior (yes-undecided-no)
-survey#:#dp_standard_beliefs_always5#:#Standard Beliefs (always-many times-varying-rarely-never)
-survey#:#dp_standard_beliefs_always_never#:#Standard Beliefs (always-never)
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard Beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_true5#:#Standard Beliefs (definitely true-true-undecided-false-definitely false)
-survey#:#dp_standard_beliefs_true_false#:#Standard Beliefs (true-false)
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard Beliefs (true-undecided-false)
-survey#:#dp_standard_numbers#:#Standard Numbers
 survey#:#duplicate#:#Duplicate
 survey#:#edit_heading#:#Edit Heading
-survey#:#edit_phrase#:#Edit phrase
 survey#:#end_date#:#End Date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_anonymous_id#:#Survey Access Code
-survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
@@ -16275,12 +16245,6 @@ survey#:#mailparticipantdata#:#Additional participant data
 survey#:#mailparticipantdata_info#:#This information will be precede the automatically included results section of the notification mail.
 survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:
 survey#:#maintenance#:#Participants
-survey#:#manage_phrases#:#My Phrases
-survey#:#material#:#Material
-survey#:#material_added_empty#:#The object does not have any suitable material.
-survey#:#material_added_successfully#:#You successfully set a material link!
-survey#:#materials#:#Materials
-survey#:#materials_deleted#:#Material(s) have been removed from the question.
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -16331,13 +16295,10 @@ survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
 survey#:#msg_no_message_deleted#:#Please select a saved message text
 survey#:#msg_no_message_inserted#:#Please select a message text
 survey#:#new_survey_codes#:#new survey access code(s)
-survey#:#no_phrase_selected#:#Nothing selected.
 survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
-survey#:#no_questions_available#:#There are no questions available!
 survey#:#no_target_selected_for_move#:#You must select a target position!
-survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#non_ratio#:#Interval
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)
 survey#:#not_used#:#not used yet
@@ -16352,25 +16313,14 @@ survey#:#orientation#:#Orientation
 survey#:#other_answer#:#Other answer
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#outro#:#Concluding Remarks
-survey#:#percentage_of_selections#:#Percentage of selections
-survey#:#phrase_added#:#Phrase added
-survey#:#phrase_new#:#Create new phrase
-survey#:#phrase_saved#:#The phrase was saved successfully!
-survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
 survey#:#please_select#:#-- please select --
 survey#:#preview#:#Preview
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_export_select_none#:#Please check at least one question to export it
-survey#:#qpl_phrases_deleted#:#Phrase(s) deleted.
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
 survey#:#question_changed_in_survey_only#:#Question was changed only in survey
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
@@ -16398,15 +16348,12 @@ survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#row_text#:#Row Text
 survey#:#save_obligatory_state#:#Save Compulsory States and Order
-survey#:#save_phrase#:#Save as Phrase
-survey#:#save_phrase_introduction#:#If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
 survey#:#saved_messages#:#Available messages
 survey#:#scale#:#Scale
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Found Groups
-survey#:#search_roles#:#Found Roles
 survey#:#search_term#:#Search Term
 survey#:#search_users#:#Search Users
 survey#:#select_option#:#--- Please select an option ---
@@ -16436,7 +16383,6 @@ survey#:#spl_save_obligatory_state#:#Save Compulsory States
 survey#:#start_date#:#Start Date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start Survey
-survey#:#sub_tab_dashboard#:#Dashboard
 survey#:#subtype#:#Subtype
 survey#:#survey_360_add_external_rater#:#Add External Rater
 survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey
@@ -16452,7 +16398,6 @@ survey#:#survey_360_appraisee_info#:#Appraisee Info
 survey#:#survey_360_appraisee_is_closed#:#The appraisee has closed his survey.
 survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
-survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
@@ -16493,18 +16438,13 @@ survey#:#survey_activate_skill_service#:#Activate Competence Service
 survey#:#survey_activate_skill_service_info#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
 survey#:#survey_add_new_question#:#Create Question
 survey#:#survey_assign_competence#:#Assign Competence
-survey#:#survey_at_beginning#:#At The Beginning
 survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Available Pools
-survey#:#survey_behind_page#:#Behind
-survey#:#survey_block_hidden#:#hidden
-survey#:#survey_block_visible#:#visible
 survey#:#survey_calc_skills#:#Determine Competence Levels
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score
 survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
 survey#:#survey_cancel_preview#:#Cancel Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available
-survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_code#:#Survey Access Code
 survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following unused access codes?
 survey#:#survey_code_url#:#URL for Direct Access
@@ -16513,18 +16453,11 @@ survey#:#survey_code_used#:#Code was ..
 survey#:#survey_codes_lang#:#Preselected Survey Language
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_competences#:#Competences
-survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
 survey#:#survey_copy_questions_to_pool#:#Add to question pool
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 survey#:#survey_delete_heading#:#Remove Heading
-survey#:#survey_delete_page#:#Delete Page
-survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard
-survey#:#survey_dnd_move_next#:#Move to Next Page
-survey#:#survey_dnd_move_previous#:#Move to Previous Page
-survey#:#survey_dnd_paste#:#Paste
-survey#:#survey_dnd_split_page#:#Split Page
 survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_edit_settings#:#Edit Settings
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
@@ -16539,11 +16472,8 @@ survey#:#survey_has_datasets_warning_page_view#:#The survey already contains dat
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_introduction_info#:#This message is permanently displayed on the ‘Info’-tab.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is currently offline.
-survey#:#survey_jump_to#:#Jump to
-survey#:#survey_move_page#:#Move Page
 survey#:#survey_new_pool#:#Create new question pool
 survey#:#survey_next#:#Next >>
-survey#:#survey_next_question#:#Next Page
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the survey.
@@ -16561,10 +16491,7 @@ survey#:#survey_notification_tutor_salutation#:#Hello %s,
 survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_order#:#Sort Order
-survey#:#survey_page_moved#:#The page has been moved.
-survey#:#survey_per_page_view#:#Page View
 survey#:#survey_pool_selection#:#Pool Selection
-survey#:#survey_prev_question#:#Previous Page
 survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. You must answer the question!
@@ -16575,12 +16502,9 @@ survey#:#survey_question_pool_usage_active#:#Questions can be added optionally t
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used.
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
 survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for this survey first.
-survey#:#survey_question_text_hidden#:#Text hidden
-survey#:#survey_question_text_visible#:#Text visible
 survey#:#survey_question_title#:#Question Title
 survey#:#survey_questions#:#Questions
 survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
-survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
 survey#:#survey_reminder_cron#:#Remind users to participate
@@ -16602,8 +16526,6 @@ survey#:#survey_results_not_started#:#Survey not started
 survey#:#survey_results_personalized#:#With Names
 survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having full access to this tab can inspect who has provided which answer. Even users with limited access to the tab may deduce given answers, if the number of participants is low.
 survey#:#survey_results_started#:#Survey started
-survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
-survey#:#survey_results_tutor_subject#:#Results for survey "%s"
 survey#:#survey_show_blocktitle#:#Show Block Title
 survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.
 survey#:#survey_skill#:#Competence
@@ -16620,11 +16542,8 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions
 survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.
 survey#:#survey_sync_success#:#The selected questions were updated.
-survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!
-survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-survey#:#survey_using_template_link#:#Do not use template anymore
 survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
 survey#:#svy_activation_online_info#:#Only if a survey is online, users can participate in it.
 survey#:#svy_add_internal_user#:#Add User
@@ -16644,7 +16563,6 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 survey#:#svy_back#:#Back
-survey#:#svy_chart_download#:#Download Chart
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
@@ -16756,7 +16674,6 @@ survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#upper_limit#:#Upper Limit
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#use_anonymous_id#:#Show Survey Code
 survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text ‘Anonymous’ will be shown.
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
@@ -16771,7 +16688,6 @@ survey#:#values#:#Values
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#Working time
-survey#:#wrong_survey_code_used#:#No access to survey. Your survey code is invalid or has already been used.
 svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
 svy#:#svy_all_pages#:#All Pages
