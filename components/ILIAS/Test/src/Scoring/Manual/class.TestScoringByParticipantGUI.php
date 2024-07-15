@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ilCtrlException;
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -344,6 +345,9 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         return true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function saveNextManScoringParticipantScreen(): void
     {
         $table = $this->buildManScoringParticipantsTable(true);
@@ -364,14 +368,17 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 $this->ctrl->redirect($this, 'showManScoringParticipantScreen');
             }
 
-            $this->ctrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+            $this->ctrl->redirectByClass(self::class, 'showManScoringParticipantsTable');
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function saveReturnManScoringParticipantScreen(): void
     {
         if ($this->saveManScoringParticipantScreen(false)) {
-            $this->ctrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+            $this->ctrl->redirectByClass(self::class, 'showManScoringParticipantsTable');
         }
     }
 
