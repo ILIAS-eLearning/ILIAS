@@ -358,7 +358,6 @@ class InitUIFramework
             $setting = new ilSetting('UI');
             return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(
                 (bool) $setting->get('mathjax_enabled'),
-                (string) ILIAS_HTTP_PATH
             );
         };
 

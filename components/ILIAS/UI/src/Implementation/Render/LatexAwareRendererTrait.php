@@ -68,7 +68,7 @@ trait LatexAwareRendererTrait
     {
         if ($this->getMathJaxConfig()->isMathJaxEnabled()) {
             $class = $this->getMathJaxConfig()->getPartialEnablingClass();
-            return '<div class="' . $class . '">' . $content . '</div>';
+            return '<il-mathjax class="' . $class . '">' . $content . '</il-mathjax>';
         }
         return $content;
     }
@@ -80,7 +80,7 @@ trait LatexAwareRendererTrait
     {
         if ($this->getMathJaxConfig()->isMathJaxEnabled()) {
             $class = $this->getMathJaxConfig()->getPartialDisablingClass();
-            return '<div class="' . $class . '">' . $content . '</div>';
+            return '<il-mathjax class="' . $class . '">' . $content . '</il-mathjax>';
         }
         return $content;
     }

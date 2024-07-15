@@ -18,7 +18,6 @@ window.MathJax = {
   tex: {
     inlineMath: [
       ['[tex]', '[/tex]'],
-      ['<span class="latex">', '</span>'],
       ['\\(', '\\)']],
 
     displayMath: [
