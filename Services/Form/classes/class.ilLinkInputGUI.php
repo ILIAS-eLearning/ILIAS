@@ -553,6 +553,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $name = ilGlossaryTerm::_lookGlossaryTerm((int) $value[1]);
                 break;
 
+            case "wpage":
+                $type = $lng->txt("cont_wiki_page");
+                $name = ilWikiPage::lookupTitle((int) $value[1]);
+                break;
+
             default:
                 $type = $lng->txt("obj_" . $value[0]);
                 $name = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $value[1]));
