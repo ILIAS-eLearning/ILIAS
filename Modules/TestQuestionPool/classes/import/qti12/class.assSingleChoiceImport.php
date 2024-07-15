@@ -74,7 +74,7 @@ class assSingleChoiceImport extends assQuestionImport
                                         if (strcmp($foundmat["type"], "mattext") == 0) {
                                         }
                                         if (strcmp($foundmat["type"], "matimage") == 0) {
-                                            if (strlen($foundmat["material"]->getEmbedded())) {
+                                            if ($foundmat["material"]->getEmbedded()) {
                                                 $embedded = true;
                                             }
                                         }
