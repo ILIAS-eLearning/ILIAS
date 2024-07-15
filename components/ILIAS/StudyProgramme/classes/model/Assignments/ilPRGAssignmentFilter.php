@@ -29,7 +29,8 @@ class ilPRGAssignmentFilter
     public function __construct(
         protected ilLanguage $lng,
         protected UIFactory $ui_factory,
-        protected ilUIFilterService $filter_service
+        protected ilUIFilterService $filter_service,
+        protected string $filter_id
     ) {
     }
 
@@ -219,12 +220,9 @@ class ilPRGAssignmentFilter
         return $items;
     }
 
-    public function toForm(string $target): Filter
+    public function toForm(string $target_url): Filter
     {
         $field_factory = $this->ui_factory->input()->field();
-        $filter_action = $target;
-        $filter_id = "prg_ass_table_filter_id"; //TODO
-
         $filter_inputs = [
             ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED => $field_factory->select(
                 $this->lng->txt('prg_validity'),
@@ -275,8 +273,8 @@ class ilPRGAssignmentFilter
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $this->filter_service->standard(
-            $filter_id,
-            $filter_action,
+            $this->filter_id,
+            $target_url,
             $filter_inputs,
             $active,
             true,

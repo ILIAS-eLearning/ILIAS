@@ -41,13 +41,16 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 
 class ilStudyProgrammeAssignmentsTable
 {
+    public const F_MODAL_POST_PRGSIDS = 'interruptive_items'; //TODO: move to query
+
+
     public const ASYNC_ACTIONS = [
-        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER,
-        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN,
-        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE,
-        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE,
-        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE,
-        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_USER,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_FROM_CURRENT_PLAN,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_CERTIFICATE,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_CERTIFICATE,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_DEADLINE,
+        ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_EXPIRE_DATE,
     ];
 
     protected string $table_id;
@@ -57,6 +60,7 @@ class ilStudyProgrammeAssignmentsTable
     public function __construct(
         protected UIFactory $ui_factory,
         protected Refinery $refinery,
+        protected ilStudyProgrammeAssignmentsTableQuery $table_query,
         protected ilStudyProgrammeUserTable $prg_user_table,
         protected ilPRGAssignmentFilter $custom_filter,
         protected RequestWrapper $request_wrapper,
@@ -197,17 +201,17 @@ class ilStudyProgrammeAssignmentsTable
                 $disabled = [];
                 if ($row->isRootProgress()) {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT,
-                        ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_RELEVANT,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_RELEVANT,
                     ]);
                 } else {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN,
-                        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER,
-                        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN,
-                        ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES,
-                        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE,
-                        ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_SHOW_INDIVIDUAL_PLAN,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_USER,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_FROM_CURRENT_PLAN,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_ACKNOWLEDGE_COURSES,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_DEADLINE,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_EXPIRE_DATE,
                     ]);
                 }
 
@@ -216,30 +220,30 @@ class ilStudyProgrammeAssignmentsTable
                     ilPRGProgress::STATUS_ACCREDITED
                 ])) {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT,
-                        ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_RELEVANT,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_ACCREDITED,
                     ]);
                 } else {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE,
-                        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_CERTIFICATE,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_CERTIFICATE
                     ]);
                 }
 
                 if($row->getStatusRaw() === ilPRGProgress::STATUS_NOT_RELEVANT) {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT,
-                        ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_RELEVANT,
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_ACCREDITED
                     ]);
                 } else {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_RELEVANT
                     ]);
                 }
 
                 if($row->getStatusRaw() !== ilPRGProgress::STATUS_ACCREDITED) {
                     $disabled = array_merge($disabled, [
-                        ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED
+                        ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_ACCREDITED
                     ]);
                 }
 
@@ -296,37 +300,37 @@ class ilStudyProgrammeAssignmentsTable
     protected function getActions(array $additional_parameters): array
     {
         if($additional_parameters['may_view_individual_plan']) {
-            $cmds[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
+            $cmds[] = ilStudyProgrammeAssignmentsTableActions::ACTION_SHOW_INDIVIDUAL_PLAN;
         }
 
         if($additional_parameters['may_addremove_users']) {
-            $cmds[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
-            $cmds[] = ilObjStudyProgrammeMembersGUI::ACTION_MAIL_USER;
+            $cmds[] = ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_USER;
+            $cmds[] = ilStudyProgrammeAssignmentsTableActions::ACTION_MAIL_USER;
         }
 
         if($additional_parameters['may_edit_individual_plan']) {
             $cmds = array_merge($cmds, [
-                ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED,
-                ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED,
-                ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT,
-                ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT,
-                ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN,
-                ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES,
-                ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE,
-                ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_ACCREDITED,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_ACCREDITED,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_UNMARK_RELEVANT,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_MARK_RELEVANT,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_FROM_CURRENT_PLAN,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_ACKNOWLEDGE_COURSES,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_DEADLINE,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_EXPIRE_DATE,
             ]);
         }
 
         if($additional_parameters['certificate_enabled']) {
             $cmds = array_merge($cmds, [
-                ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE,
-                ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_CERTIFICATE,
+                ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_CERTIFICATE,
             ]);
         }
 
         $async_actions = self::ASYNC_ACTIONS;
         $single_actions = [
-            ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN,
+            ilStudyProgrammeAssignmentsTableActions::ACTION_SHOW_INDIVIDUAL_PLAN,
         ];
 
         $actions = [];
@@ -354,7 +358,7 @@ class ilStudyProgrammeAssignmentsTable
         return $valid_user_ids;
     }
 
-    public function getTableCommand(): ?string
+    public function getQueryCommand(): ?string
     {
         if(! $this->request_wrapper->query()->has($this->action_token->getName())) {
             return null;
@@ -365,7 +369,7 @@ class ilStudyProgrammeAssignmentsTable
         );
     }
 
-    public function getRowIds(): ?array
+    protected function getRowIds(): ?array
     {
         if ($this->request_wrapper->query()->retrieve(
             $this->row_id_token->getName(),
@@ -394,57 +398,103 @@ class ilStudyProgrammeAssignmentsTable
         );
     }
 
-    protected const MODAL_TEXTS = [
-        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER_CONFIRMED => [
-            'prg_remove_user',
-            'confirm_to_remove_selected_assignments',
-            'prg_remove_user',
-        ],
-        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN_CONFIRMED => [
-            'confirm',
-            'header_update_current_plan',
-            'confirm',
-        ],
-        ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE_CONFIRMED => [
-            'confirm',
-            'header_update_certificate',
-            'confirm',
-        ],
-        ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE_CONFIRMED => [
-            'confirm',
-            'header_remove_certificate',
-            'confirm',
-        ]
-    ];
 
-    public function getConfirmationModal(string $action, array $prgs_ids): Modal\Interruptive
+    public function getProgressIds(): array
     {
-        $affected = [];
-        foreach ($prgs_ids as $id) {
-            $user_name = ilObjUser::_lookupFullname($id->getUsrId());
-            $affected[] = $this->ui_factory->modal()->interruptiveItem()->keyvalue(
-                (string) $id,
-                $user_name,
-                (string) $id
-            );
+
+        $prgrs_ids = $this->getRowIds();
+
+        if(in_array($this->getQueryCommand(), ilStudyProgrammeAssignmentsTableActions::ACTIONS_FROM_MODALS)) {
+            $prgrs_ids = $this->getPostPrgrsIdsFromModal();
         }
-
-        list($caption, $txt, $button_label) = self::MODAL_TEXTS[$action];
-
-        return $this->ui_factory->modal()->interruptive(
-            $this->lng->txt($caption),
-            $this->lng->txt($txt),
-            $this->url_builder->withParameter(
-                $this->action_token,
-                $action
-            )
-            ->buildURI()
-            ->__toString()
-        )
-        ->withAffectedItems($affected)
-        ->withActionButtonLabel($this->lng->txt($button_label));
+        return $prgrs_ids;
+        /*
+        if($prgrs_ids === []) {
+            if (in_array($cmd, ilStudyProgrammeAssignmentsTable::ASYNC_ACTIONS)) {
+                echo $this->ui_renderer->render(
+                    $this->ui_factory->messageBox()->info($this->lng->txt("prg_no_user_selected"))
+                );
+                exit();
+            } else {
+                $this->showInfoMessage("no_user_selected");
+                $this->ctrl->redirect($this, "view");
+            }
+        }
+        */
     }
 
+
+    /**
+     * @return PRGProgressId[]
+     */
+    protected function getPostPrgrsIdsFromModal(): array
+    {
+        $prgrs_ids = [];
+        if ($this->request_wrapper->post()->has(self::F_MODAL_POST_PRGSIDS)) {
+            $prgrs_ids = $this->request_wrapper->post()->retrieve(
+                self::F_MODAL_POST_PRGSIDS,
+                $this->refinery->custom()->transformation(
+                    fn($ids) => array_map(
+                        fn($id) => PRGProgressId::createFromString($id),
+                        $ids
+                    )
+                )
+            );
+        }
+        return $prgrs_ids;
+    }
+
+    /*
+        protected const MODAL_TEXTS = [
+            ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_USER_CONFIRMED => [
+                'prg_remove_user',
+                'confirm_to_remove_selected_assignments',
+                'prg_remove_user',
+            ],
+            ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_FROM_CURRENT_PLAN_CONFIRMED => [
+                'confirm',
+                'header_update_current_plan',
+                'confirm',
+            ],
+            ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_CERTIFICATE_CONFIRMED => [
+                'confirm',
+                'header_update_certificate',
+                'confirm',
+            ],
+            ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_CERTIFICATE_CONFIRMED => [
+                'confirm',
+                'header_remove_certificate',
+                'confirm',
+            ]
+        ];
+
+        public function getConfirmationModal(string $action, array $prgs_ids): Modal\Interruptive
+        {
+            $affected = [];
+            foreach ($prgs_ids as $id) {
+                $user_name = ilObjUser::_lookupFullname($id->getUsrId());
+                $affected[] = $this->ui_factory->modal()->interruptiveItem()->keyvalue(
+                    (string) $id,
+                    $user_name,
+                    (string) $id
+                );
+            }
+
+            list($caption, $txt, $button_label) = self::MODAL_TEXTS[$action];
+
+            return $this->ui_factory->modal()->interruptive(
+                $this->lng->txt($caption),
+                $this->lng->txt($txt),
+                $this->url_builder->withParameter(
+                    $this->action_token,
+                    $action
+                )
+                ->buildURI()
+                ->__toString()
+            )
+            ->withAffectedItems($affected)
+            ->withActionButtonLabel($this->lng->txt($button_label));
+        }
 
     public function getDeadlineModal(
         string $action,
@@ -487,6 +537,7 @@ class ilStudyProgrammeAssignmentsTable
             $this->refinery->custom()->transformation(fn($v) => array_shift($v))
         );
     }
+    */
 
     public function getExpiryModal(
         string $action,
@@ -538,10 +589,9 @@ class ilStudyProgrammeAssignmentsTable
             ->buildURI();
     }
 
-    public function getFilter(): Filter
+    public function getFilter(string $target_url): Filter
     {
-        $target = urldecode($this->url_builder->buildURI()->__toString());
-        return $this->custom_filter->toForm($target);
+        return $this->custom_filter->toForm($target_url);
     }
 
 }

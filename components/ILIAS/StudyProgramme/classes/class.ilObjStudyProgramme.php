@@ -107,7 +107,8 @@ class ilObjStudyProgramme extends ilContainer
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
 
         self::initStudyProgrammeCache();
-        $this->ass_filter = $dic['filter.assignment'];
+        //$this->ass_filter = $dic['filter.assignment'];
+        $this->ass_filter = ilStudyProgrammeDIC::specificDicFor($this)['filter.assignment'];
     }
 
     public static function initStudyProgrammeCache(): void
