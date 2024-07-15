@@ -142,15 +142,44 @@ class ilSystemCheckTrash
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
 
             foreach ($sub_nodes as $sub_num => $subnode_info) {
-                $ref_obj = ilObjectFactory::getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
+                $tree_id = (int) ($subnode_info['tree'] ?? 0);
+                $node_id = (int) ($subnode_info['child'] ?? 0);
+                try {
+                    $ref_obj = ilObjectFactory::getInstanceByRefId($node_id, false);
+                } catch (Throwable $t) {
+                    // cannot instantiate object, must skip this
+                    $this->removePartial($tree_id, $node_id);
+                    continue;
+                }
                 if (!$ref_obj instanceof ilObject) {
                     continue;
                 }
 
-                $ref_obj->delete();
-                ilTree::_removeEntry((int) ($subnode_info['tree'] ?? 0), (int) ($subnode_info['child'] ?? 0));
+                try {
+                    $ref_obj->delete();
+                } catch (Throwable $t) {
+                    // cannot instantiate object, must skip this
+                    $this->removePartial($tree_id, $node_id);
+                    continue;
+                }
+
+                ilTree::_removeEntry($tree_id, $node_id);
             }
         }
+    }
+
+    private function removePartial(int $tree_id, int $node_id): void
+    {
+        $object_id = ilObject::_lookupObjectId($node_id);
+        $sql = "DELETE FROM " . ilObject::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($object_id, "integer") . PHP_EOL;
+        $this->db->manipulate($sql);
+
+        $sql = "DELETE FROM object_description" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($object_id, "integer") . PHP_EOL;
+        $this->db->manipulate($sql);
+
+        ilTree::_removeEntry($tree_id, $node_id);
     }
 
     protected function readSelectedDeleted(): array
