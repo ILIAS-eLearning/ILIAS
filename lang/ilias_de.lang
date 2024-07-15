@@ -8640,7 +8640,7 @@ dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_save_order#:#Sortierung Speichern
+dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
