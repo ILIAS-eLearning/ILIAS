@@ -31,6 +31,7 @@ class ilGlossaryDataSet extends ilDataSet
 {
     protected int $old_glo_id;
     protected ilObjGlossary $current_obj;
+    protected array $used_term_ids = [];
     protected ilLogger $log;
 
     public function __construct()
@@ -309,13 +310,15 @@ class ilGlossaryDataSet extends ilDataSet
                 $term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
                 if ($term_id == 0) {
                     $this->log->debug("ERROR: Did not find glossary term glo_term id '" . $a_rec["TermId"] . "' for definition id '" . $a_rec["Id"] . "'.");
-                } else {
+                } elseif (!in_array($term_id, $this->used_term_ids)) {
                     $a_mapping->addMapping(
                         "Services/COPage",
                         "pg",
                         "gdf:" . $a_rec["Id"],
                         "term:" . $term_id
                     );
+                    // use only first definition for term, because multiple definitons are abandoned since ILIAS 9
+                    $this->used_term_ids[] = $term_id;
                 }
                 break;
 
