@@ -755,6 +755,7 @@ class ilPCTable extends ilPageContent
 
     public function getModel(): ?stdClass
     {
+        $this->log->debug("Get table model start");
         $model = new \stdClass();
 
         $y = 0;
@@ -786,7 +787,7 @@ class ilPCTable extends ilPageContent
         }
 
         $model->hasHeaderRows = ($this->getHeaderRows() > 0);
-
+        $this->log->debug("...end");
         return $model;
     }
 }
