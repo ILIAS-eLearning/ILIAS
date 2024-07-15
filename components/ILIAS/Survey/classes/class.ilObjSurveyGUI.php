@@ -457,7 +457,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             } else {
                 $this->tabs_gui->addTab(
                     "maintenance",
-                    $this->lng->txt("maintenance"),
+                    $this->lng->txt("svy_participants"),
                     $this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance')
                 );
             }
