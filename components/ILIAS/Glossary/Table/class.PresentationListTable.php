@@ -33,6 +33,7 @@ class PresentationListTable
 {
     protected \ilLanguage $lng;
     protected UI\Factory $ui_fac;
+    protected UI\Renderer $ui_rend;
     protected ServerRequestInterface $request;
     protected Data\Factory $df;
     protected PresentationGUIRequest $pres_gui_request;
@@ -49,6 +50,7 @@ class PresentationListTable
 
         $this->lng = $DIC->language();
         $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_rend = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->df = new Data\Factory();
         $this->pres_gui_request = $DIC->glossary()->internal()->gui()->presentation()->request();
@@ -140,6 +142,7 @@ class PresentationListTable
                 protected array $adv_cols_order,
                 protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode,
                 protected UI\Factory $ui_fac,
+                protected UI\Renderer $ui_rend,
                 protected Data\Factory $df
             ) {
                 global $DIC;
@@ -250,15 +253,7 @@ class PresentationListTable
                         $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
                     }
 
-                    if (!$this->offline) {
-                        $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
-                    } else {
-                        $short_str = \ilMathJax::getInstance()->insertLatexImages(
-                            $short_str,
-                            '[tex]',
-                            '[/tex]'
-                        );
-                    }
+                    $short_str = $this->ui_rend->render($this->ui_fac->legacy($short_str)->withLatexEnabled());
 
                     $short_str = \ilPCParagraph::xml2output($short_str, false, true, false);
 

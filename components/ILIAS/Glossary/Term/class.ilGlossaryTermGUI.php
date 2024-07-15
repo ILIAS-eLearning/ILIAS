@@ -42,6 +42,7 @@ class ilGlossaryTermGUI
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected \ILIAS\Glossary\InternalDomainService $domain;
+    protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
@@ -66,6 +67,7 @@ class ilGlossaryTermGUI
             ->editing()
             ->request();
         $this->domain = $DIC->glossary()->internal()->domain();
+        $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
 
         $this->log = ilLoggerFactory::getLogger('glo');
@@ -316,7 +318,7 @@ class ilGlossaryTermGUI
         $page_gui->setTemplateOutput(false);
         $output = $page_gui->presentation($page_gui->getOutputMode());
 
-        ilMathJax::getInstance()->includeMathJax($tpl);
+        // ilMathJax::getInstance()->includeMathJax($tpl);
 
         $tpl->setCurrentBlock("definition");
         $tpl->setVariable("PAGE_CONTENT", $output);

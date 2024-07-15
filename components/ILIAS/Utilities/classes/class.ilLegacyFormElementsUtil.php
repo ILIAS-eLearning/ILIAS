@@ -112,6 +112,8 @@ class ilLegacyFormElementsUtil
         bool $prepare_for_latex_output = false,
         bool $omitNl2BrWhenTextArea = false
     ) {
+        global $DIC;
+
         $result = $txt_output;
         $is_html = ilUtil::isHTML($result);
 
@@ -135,14 +137,10 @@ class ilLegacyFormElementsUtil
             }
         }
 
-        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
-        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-        }
+            $result = ilRTE::_replaceLatexSpan($result);
+            $result = $DIC->ui()->renderer()->render($DIC->ui()->factory()->legacy($result)->withLatexEnabled());
 
-        if ($prepare_for_latex_output) {
             // replace special characters to prevent problems with the ILIAS template system
             // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
             $result = str_replace("{", "&#123;", $result);

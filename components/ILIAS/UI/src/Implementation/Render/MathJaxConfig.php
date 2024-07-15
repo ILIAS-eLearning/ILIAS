@@ -38,6 +38,7 @@ interface MathJaxConfig
      * - no enabling/disabling CSS classes should be added by a LatexAwareRenderer
      */
     public function isMathJaxEnabled(): bool;
+
     /**
      * CSS class for the root component to disable a latex rendering by default
      */

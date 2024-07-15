@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
+use ILIAS\UI\Implementation\Render\ilResourceRegistry;
 
 /**
  * Forum export to HTML and Print.
@@ -43,6 +45,7 @@ class ilForumExportGUI
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $ref_id;
+    private MathJaxConfig $mathjax_config;
 
     public function __construct()
     {
@@ -56,6 +59,7 @@ class ilForumExportGUI
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->mathjax_config = $DIC['ui.mathjax_config'];
 
         $this->ref_id = $this->retrieveRefId();
 
@@ -84,10 +88,14 @@ class ilForumExportGUI
         return $ref_id;
     }
 
-    private function prepare(): void
+    private function prepare(ilGlobalTemplateInterface $tpl): void
     {
-        ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_EXPORT);
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $registry = new ilResourceRegistry($tpl);
+            foreach ($this->mathjax_config->getResources() as $resource) {
+                $registry->register($resource);
+            }
+        }
     }
 
     private function ensureThreadBelongsToForum(int $objId, ilForumTopic $thread): void
@@ -257,16 +265,15 @@ class ilForumExportGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->prepare();
-
         ilDatePresentation::setUseRelativeDates(false);
 
         $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'components/ILIAS/Forum');
+        $this->prepare($tpl);
+
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
         iljQueryUtil::initjQuery($tpl);
-        ilMathJax::getInstance()->includeMathJax($tpl);
 
         $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$this->http->wrapper()->query()->retrieve(
             'thr_top_fk',
@@ -310,16 +317,15 @@ class ilForumExportGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->prepare();
-
         ilDatePresentation::setUseRelativeDates(false);
 
         $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'components/ILIAS/Forum');
+        $this->prepare($tpl);
+
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
         iljQueryUtil::initjQuery($tpl);
-        ilMathJax::getInstance()->includeMathJax($tpl);
 
         $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$this->http->wrapper()->query()->retrieve(
             'top_pk',
@@ -352,17 +358,18 @@ class ilForumExportGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->prepare();
-
         ilDatePresentation::setUseRelativeDates(false);
 
         $tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'components/ILIAS/Forum');
+        $this->prepare($tpl);
+        $tpl->fillJavaScriptFiles();
+        $tpl->fillCssFiles();
+
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
         $tpl->setVariable('BASE', (str_ends_with(ILIAS_HTTP_PATH, '/') ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
 
         iljQueryUtil::initjQuery($tpl);
-        ilMathJax::getInstance()->includeMathJax($tpl);
 
         /** @var ilForumTopic[] $threads */
         $threads = [];

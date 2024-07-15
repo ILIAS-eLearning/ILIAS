@@ -357,7 +357,9 @@ class InitUIFramework
             // this reads the enabling/disabling setting for MathJax rendering in the browser
             $setting = new ilSetting('UI');
             return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(
-                (bool) $setting->get('mathjax_enabled'));
+                (bool) $setting->get('mathjax_enabled'),
+                (string) ILIAS_HTTP_PATH
+            );
         };
 
         // currently this is will be a session storage because we cannot store

@@ -52,6 +52,8 @@ class ilForum
     public ilDBInterface $db;
     public ilObjUser $user;
     public ilSetting $settings;
+    private ILIAS\UI\Factory $ui_factory;
+    private ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -63,6 +65,8 @@ class ilForum
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->event = $DIC->event();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     public function setForumId(int $a_obj_id): void
@@ -1460,8 +1464,8 @@ class ilForum
 
         if ($type !== 'export') {
             if ($edit === 0) {
-                $text = ilMathJax::getInstance()->insertLatexImages($text, "\<span class\=\"latex\">", "\<\/span>");
-                $text = ilMathJax::getInstance()->insertLatexImages($text, "\[tex\]", "\[\/tex\]");
+                $text = ilRTE::_replaceLatexSpan($text);
+                $text = $this->ui_renderer->render($this->ui_factory->legacy($text)->withLatexEnabled());
             }
 
             // workaround for preventing template engine
