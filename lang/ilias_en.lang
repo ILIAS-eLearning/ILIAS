@@ -16672,6 +16672,7 @@ survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
 survey#:#svy_participant#:#Participant
+survey#:#svy_participants#:#Participants
 survey#:#svy_participation#:#Participation
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.
 survey#:#svy_print_hide_labels#:#Hide labels
