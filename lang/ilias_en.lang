@@ -2866,12 +2866,12 @@ certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#100 Main Street
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
-certificate#:#certificate_visibility#:#Visibility
-certificate#:#certificate_visibility_always#:#Always Visible
-certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.
-certificate#:#certificate_visibility_never#:#Not Visible
-certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
-certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
+certificate#:#certificate_visibility#:#Visibility###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_always#:#Always Visible###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_never#:#Not Visible###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###Suspected obsolescence - should be removed with 10.
 certificate#:#cmix_cert_ph_object_description#:#Description
 certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object
 certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage

@@ -560,7 +560,7 @@ assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinwe
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
+assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
@@ -1583,7 +1583,7 @@ assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
 assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Das aktuelle Schema wird durch ein einfaches Notenschema ersetzt. Es werden alle in diesem Test am Notenschema vorgenommenen Änderungen verworfen.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
+assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
 assessment#:#tst_median_mark_panel#:#Note des Median
@@ -2176,9 +2176,9 @@ awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige au
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 awrn#:#awrn_inactive#:#Keine Anzeige
 awrn#:#awrn_incl_offline#:#Online und offline
-awrn#:#awrn_max_inactivity#:#Max. Inaktivität
+awrn#:#awrn_max_inactivity#:#Maximale Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
-awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
+awrn#:#awrn_max_nr_entries#:#Anzahl maximaler Einträge
 awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
 awrn#:#awrn_minutes#:#min
 awrn#:#awrn_online#:#Online
@@ -2795,33 +2795,33 @@ certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seit
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
-certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_birthday#:#Geburtstag
 certificate#:#certificate_ph_cert_id#:#Eindeutige Zertifikats-ID
-certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_city#:#Stadt
+certificate#:#certificate_ph_country#:#Land
 certificate#:#certificate_ph_date#:#Aktuelles Datum
 certificate#:#certificate_ph_date_completed#:#Datum des Bestehens
 certificate#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
 certificate#:#certificate_ph_datetime_completed#:#Datum und Zeit des Bestehens
-certificate#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_department#:#Abteilung
 certificate#:#certificate_ph_exercisetitle#:#Titel der Übung
-certificate#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
-certificate#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
-certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_firstname#:#Vorname
+certificate#:#certificate_ph_fullname#:#Vollständiger Name, bestehend aus Titel, Vorname und Nachname
+certificate#:#certificate_ph_institution#:#Institution
+certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter können verwendet werden. Personenbezogene Daten werden dem Persönlichen Profil der Person entnommen, die das Zertifikat erhält.
+certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs der Person, die das Zertifikat erhält
+certificate#:#certificate_ph_lastname#:#Nachname
 certificate#:#certificate_ph_login#:#Anmeldename
 certificate#:#certificate_ph_mark#:#Erreichte Note
 certificate#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
 certificate#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
-certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
+certificate#:#certificate_ph_matriculation#:#Matrikelnummer
 certificate#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
 certificate#:#certificate_ph_no_sco#:#Wenn Materialien zur Bestimmung des Lernfortschritts ausgewählt werden, können Titel und Punktestand auch im Zertifikat angezeigt werden.
-certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
-certificate#:#certificate_ph_passed_exercise#:#"bestanden" oder "nicht bestanden"
-certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_passed#:#„bestanden“ oder „nicht bestanden“, abhängig vom Testergebnis
+certificate#:#certificate_ph_passed_exercise#:#„bestanden“ oder „nicht bestanden“
+certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl
+certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte
 certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_sco_points_max#:#Platzhalter<br/>für Punkte<br/>maximal
 certificate#:#certificate_ph_sco_points_raw#:#Platzhalter<br/>für Punkte
@@ -2831,11 +2831,11 @@ certificate#:#certificate_ph_scormmaxpoints#:#Maximal erreichbare Punktzahl im l
 certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM-Lernmoduls in Prozent
 certificate#:#certificate_ph_scormtitle#:#Titel des SCORM-Lernmoduls
 certificate#:#certificate_ph_scos#:#Folgende Materialien wurden zur Bestimmung des Lernfortschritts ausgewählt und stehen für Angaben im Zertifikat zur Verfügung:
-certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_street#:#Straße
 certificate#:#certificate_ph_testtitle#:#Titel des Tests
-certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_title#:#Titel
 certificate#:#certificate_ph_title_sco#:#Titel
-certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_zipcode#:#Postleitzahl
 certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
 certificate#:#certificate_preview#:#Vorschau
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
@@ -2865,12 +2865,12 @@ certificate#:#certificate_var_user_salutation#:#Frau
 certificate#:#certificate_var_user_street#:#Heidestraße 17
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#51147
-certificate#:#certificate_visibility#:#Sichtbarkeit
-certificate#:#certificate_visibility_always#:#Immer sichtbar
-certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten.
-certificate#:#certificate_visibility_never#:#Nicht sichtbar
-certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
-certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
+certificate#:#certificate_visibility#:#Sichtbarkeit###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_always#:#Immer sichtbar###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten.###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_never#:#Nicht sichtbar###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat###Suspected obsolescence - should be removed with 10.
 certificate#:#cmix_cert_ph_object_description#:#Beschreibung
 certificate#:#cmix_cert_ph_object_title#:#Titel des xAPI/cmi5-Objekts
 certificate#:#cmix_cert_ph_reached_score#:#Erreichte Punktzahl in Prozent
@@ -4040,7 +4040,7 @@ common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
+common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die maximale Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
 common#:#etal_talks#:#Gespräche
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
 common#:#event_assign_files#:#Dateien zuordnen
@@ -8221,7 +8221,7 @@ dateplaner#:#cal_ch_add_sequence#:#Neue Sprechstundenreihe anlegen
 dateplaner#:#cal_ch_app_bookings#:#Buchungen
 dateplaner#:#cal_ch_app_grp#:#Sprechstundengruppen
 dateplaner#:#cal_ch_app_list#:#Sprechstundentermine
-dateplaner#:#cal_ch_assign_participants#:#Teilnehmer zuordnen
+dateplaner#:#cal_ch_assign_participants#:#Für andere buchen
 dateplaner#:#cal_ch_assigned_apps#:#Anzahl Termine
 dateplaner#:#cal_ch_book#:#Sprechstunde buchen
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
@@ -8229,22 +8229,22 @@ dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_booking_owner#:#Sprechstunde bei###Modified as part of gender mainstreaming activities for ILIAS 8
 dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit „%s“ findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung „%s“
-dateplaner#:#cal_ch_bookings#:#Teilnehmer
+dateplaner#:#cal_ch_bookings#:#Gebucht von
 dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
-dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
+dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen werden die Personen, die bereits einen Termin gebucht haben, per Mail über die Absage informiert. Wenn Sie nicht möchten, dass diese informiert werden, wählen Sie die Option „Terminbuchung löschen“.
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
-dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
+dateplaner#:#cal_ch_current_bookings#:#Angemeldete Personen
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
-dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Teilnehmer nicht über die Löschung informiert.
+dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Personen, die gebucht haben, nicht über die Löschung informiert.
 dateplaner#:#cal_ch_delete_booking#:#Terminbuchung löschen
-dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
+dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen wird niemand informiert. Wenn Sie möchten, dass die Personen, die gebucht haben, informiert werden, wählen Sie die Option „Terminbuchung absagen“.
 dateplaner#:#cal_ch_delete_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen gelöscht werden sollen?
 dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
 dateplaner#:#cal_ch_duration#:#Dauer eines Termins
@@ -8256,19 +8256,16 @@ dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltu
 dateplaner#:#cal_ch_grp_add_tbl#:#Neue Sprechstundengruppe anlegen
 dateplaner#:#cal_ch_grp_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Sprechstundengruppen löschen möchten?
 dateplaner#:#cal_ch_grp_header#:#Sprechstundengruppe
-dateplaner#:#cal_ch_grp_multiple#:#Buchungen pro Teilnehmer
-dateplaner#:#cal_ch_grp_multiple_info#:#Sie können hier die Maximalanzahl von Buchungen pro Teilnehmer für diese Termingruppe festlegen.
 dateplaner#:#cal_ch_grp_no_assignment#:#-- Nicht zugeordnet --
 dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
 dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
 dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
 dateplaner#:#cal_ch_manager_info#:#Um Ihre Sprechstunden von einer anderen Person verwalten zu lassen, müssen Sie hier deren Anmeldename eintragen.
-dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
 dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest, wie viel aufeinander folgende Termine generiert werden sollen.
-dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
+dateplaner#:#cal_ch_num_bookings#:#Maximale Anzahl Personen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
@@ -8402,8 +8399,8 @@ dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
 dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termine für Sie vorhanden.
 dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
 dateplaner#:#cal_notification#:#Mail-Benachrichtigung
-dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
-dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
+dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung
+dateplaner#:#cal_notification_info#:#Alle Personen im Kurs bzw. in der Gruppe werden per Mail über die Terminänderung informiert.
 dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutzer
 dateplaner#:#cal_on#:#Am:
 dateplaner#:#cal_on_the#:#Am:
@@ -9720,7 +9717,7 @@ exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor d
 exercise#:#exc_your_submission#:#Ihre Einreichung
 exp#:#exp_create_file#:#Exportdatei erzeugen
 exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
-exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
+exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.
 exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
 exp#:#exp_html#:#HTML
@@ -10528,7 +10525,7 @@ irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#home_directory#:#Stammverzeichnis
-irss#:#max_revision#:#Max. Revision
+irss#:#max_revision#:#Maximale Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
 irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
@@ -13112,7 +13109,7 @@ poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
 poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
 poll#:#poll_limit_number_of_answers#:#Anzahl Antworten je Teilnehmer begrenzen
-poll#:#poll_max_number_of_answers#:#Max. Antworten
+poll#:#poll_max_number_of_answers#:#Maximale Antworten
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
@@ -16611,7 +16608,7 @@ survey#:#survey_show_blocktitle_description#:#Wenn dieses Kontrollkästchen akti
 survey#:#survey_skill#:#Kompetenz
 survey#:#survey_skill_assign#:#Fragen-Kompetenz-Zuordnung
 survey#:#survey_skill_level#:#Kompetenzstufe
-survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
+survey#:#survey_skill_max_scale_points#:#Maximale Skalenpunkte
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
 survey#:#survey_start#:#← Zur Startseite
@@ -17117,8 +17114,8 @@ trac#:#trac_object_stat_access#:#Nutzungsintensität
 trac#:#trac_object_stat_admin#:#Datenverwaltung
 trac#:#trac_object_stat_daily#:#Tagesverlauf
 trac#:#trac_object_stat_lp#:#Lernstandstatistik Kurs
-trac#:#trac_object_stat_lp_max#:#Max.
-trac#:#trac_object_stat_lp_min#:#Min.
+trac#:#trac_object_stat_lp_max#:#Maximum
+trac#:#trac_object_stat_lp_min#:#Minimim
 trac#:#trac_object_stat_types#:#Anzahl der Objekte
 trac#:#trac_object_statistics#:#Objekt-Statistik
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
