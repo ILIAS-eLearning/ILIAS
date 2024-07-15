@@ -58,12 +58,12 @@ class MarkSchemaTable implements DataRetrieval
                 'passed' => $f->column()->boolean(
                     $this->lng->txt('tst_mark_passed'),
                     $this->ui_factory->symbol()->icon()->custom(
-                        'templates/default/images/standard/icon_checked.svg',
+                        'assets/images/standard/icon_checked.svg',
                         $this->lng->txt('yes'),
                         'small'
                     ),
                     $this->ui_factory->symbol()->icon()->custom(
-                        'templates/default/images/standard/icon_unchecked.svg',
+                        'assets/images/standard/icon_unchecked.svg',
                         $this->lng->txt('no'),
                         'small'
                     )
