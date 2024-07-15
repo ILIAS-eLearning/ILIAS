@@ -3596,6 +3596,7 @@
 
 <!-- GridCell -->
 <xsl:template match="GridCell">
+	<xsl:variable name="container_edit_class"><xsl:if test="$mode = 'edit'"> copg-edit-container</xsl:if></xsl:variable>
 	<div>
 		<xsl:attribute name="class">
 			<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
@@ -3603,10 +3604,8 @@
 			<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
 			<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
 			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+			<xsl:value-of select="$container_edit_class"/>
 		</xsl:attribute>
-		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
-		</xsl:if>
 		<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
 			<xsl:if test="$mode = 'edit'">
 				<xsl:call-template name="EditReturnAnchors"/>
