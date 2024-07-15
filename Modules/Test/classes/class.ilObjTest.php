@@ -5010,7 +5010,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     break;
 
                 case "highscore_score":
-                    $gamification_settings = $gamification_settings->withHighscoreScore((bool)$metadata["entry"]);
+                    $gamification_settings = $gamification_settings->withHighscoreScore((bool) $metadata["entry"]);
                     break;
 
                 case "highscore_percentage":
@@ -5116,7 +5116,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $result_details_settings = $result_details_settings->withExportSettings((int) $metadata["entry"]);
                     break;
                 case "score_cutting":
-                    $scoring_settings = $scoring_settings->withScoreCutting((int)$metadata["entry"]);
+                    $scoring_settings = $scoring_settings->withScoreCutting((int) $metadata["entry"]);
                     break;
                 case "password":
                     $this->setPassword($metadata["entry"]);
@@ -7155,10 +7155,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $reached_points = 0;
                 $max_points = 0;
                 $pass = ilObjTest::_getResultPass($active_id);
-		// abort if no valid pass can be found
-		if (!is_int($pass)) {
-			continue;
-		}
+                // abort if no valid pass can be found
+                if (!is_int($pass)) {
+                    continue;
+                }
                 foreach ($this->questions as $value) {
                     $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
@@ -9086,9 +9086,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $settings = $settings
             ->withScoringSettings(
                 $settings->getScoringSettings()
-                ->withPassScoring((bool)$testsettings["PassScoring"])
-                ->withScoreCutting((bool)$testsettings['ScoreCutting'])
-                ->withCountSystem((bool)$testsettings["CountSystem"])
+                ->withPassScoring((bool) $testsettings["PassScoring"])
+                ->withScoreCutting((bool) $testsettings['ScoreCutting'])
+                ->withCountSystem((bool) $testsettings["CountSystem"])
             )
             ->withResultSummarySettings(
                 $settings->getResultSummarySettings()
