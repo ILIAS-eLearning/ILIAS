@@ -1005,7 +1005,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $nl = new ilNestedListInputGUI("", "obj_id");
         $op3->addSubItem($nl);
         foreach ($terms as $t) {
-            $nl->addListNode($t["id"], $t["term"], 0, false, false);
+            $nl->addListNode((string) $t["id"], (string) $t["term"], "0", false, false);
         }
 
         $this->form->addItem($radg);
