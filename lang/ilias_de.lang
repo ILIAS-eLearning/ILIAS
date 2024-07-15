@@ -1047,6 +1047,7 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunk
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
 assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
+assessment#:#qpl_skill_tree_root_node_title#:#Startknoten
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
@@ -1501,7 +1502,7 @@ assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer
 assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
 assessment#:#tst_introduction#:#Einleitung
-assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem 'Info'-Reiter des Tests an. Der Text ist bereits vor Beginn des Tests zugänglich.
+assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem "Test"-Reiter an. Der Einleitungstext kann im Unterreiter "Einleitung bearbeiten" geändert werden und ist bereits vor Beginn des Tests zugänglich.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt

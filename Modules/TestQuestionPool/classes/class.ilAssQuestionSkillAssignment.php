@@ -38,6 +38,11 @@ class ilAssQuestionSkillAssignment
     private $db;
 
     /**
+     * @var ilLanguage
+     */
+    private $lng;
+
+    /**
      * @var integer
      */
     private $parentObjId;
@@ -89,6 +94,7 @@ class ilAssQuestionSkillAssignment
         global $DIC;
 
         $this->db = $db;
+        $this->lng = $DIC->language();
 
         $this->solutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionList($this->db);
         $this->skill_tree_service = $DIC->skills()->tree();
@@ -328,6 +334,10 @@ class ilAssQuestionSkillAssignment
 
         $nodes = array();
         foreach ($path as $node) {
+            if ($node['title'] === "Skill Tree Root Node") {
+                $node['title'] = $this->lng->txt('qpl_skill_tree_root_node_title');
+            }
+
             if ($node['child'] > 1 && $node['skill_id'] != $this->getSkillBaseId()) {
                 $nodes[] = $node['title'];
             }
