@@ -140,6 +140,23 @@ class ilPCSectionGUI extends ilPageContentGUI
 
     public static function _getCharacteristics(string $a_style_id): array
     {
+        global $DIC;
+
+        $service = $DIC->contentStyle()->internal();
+        $request = $DIC->copage()->internal()
+                       ->gui()
+                       ->pc()
+                       ->editRequest();
+        $requested_ref_id = $request->getRefId();
+        $access_manager = $service->domain()->access(
+            $requested_ref_id,
+            $DIC->user()->getId()
+        );
+        $char_manager = $service->domain()->characteristic(
+            $a_style_id,
+            $access_manager
+        );
+
         $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
         $chars = $std_chars;
         if ($a_style_id > 0 &&
@@ -148,6 +165,9 @@ class ilPCSectionGUI extends ilPageContentGUI
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
             foreach ($chars as $char) {
+                if ($char_manager->isOutdated("section", $char)) {
+                    continue;
+                }
                 if (($std_chars[$char] ?? "") != "") {	// keep lang vars for standard chars
                     $new_chars[$char] = $std_chars[$char];
                 } else {

@@ -158,7 +158,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 $a_style_id,
                 $access_manager
             );
-            
+
             $style = new ilObjStyleSheet($a_style_id);
             $ti_chars = $style->getCharacteristics("text_inline", false, $a_include_core);
             foreach ($ti_chars as $k => $v) {
