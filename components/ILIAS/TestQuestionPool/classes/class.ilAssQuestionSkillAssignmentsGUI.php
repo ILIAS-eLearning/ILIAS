@@ -51,7 +51,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private ilAssQuestionList $questionList;
     private int $questionContainerId;
     private bool $assignmentEditingEnabled;
-    private string $assignmentConfigurationHintMessage;
+    private ?string $assignmentConfigurationHintMessage = null;
 
     /**
      * @var array
@@ -95,10 +95,7 @@ class ilAssQuestionSkillAssignmentsGUI
         return $this->assignmentConfigurationHintMessage;
     }
 
-    /**
-     * @param string $assignmentConfigurationHintMessage
-     */
-    public function setAssignmentConfigurationHintMessage($assignmentConfigurationHintMessage): void
+    public function setAssignmentConfigurationHintMessage(?string $assignmentConfigurationHintMessage): void
     {
         $this->assignmentConfigurationHintMessage = $assignmentConfigurationHintMessage;
     }
