@@ -291,11 +291,11 @@ class ilObjTestFolderGUI extends ilObjectGUI
             return;
         }
 
-        $this->getTestFolder()->setSkillTriggeringNumAnswersBarrier();
+        $this->getTestFolder()->setSkillTriggeringNumAnswersBarrier((int) $form->getInput('num_req_answers'));
         $this->getTestFolder()->setExportEssayQuestionsWithHtml(
             (bool) ($form->getInput('export_essay_qst_with_html') ?? '0')
         );
-        $this->getTestFolder()->_setManualScoring((int) $form->getInput('num_req_answers'));
+        $this->getTestFolder()->_setManualScoring($form->getInput('chb_manual_scoring'));
         $question_types = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
         foreach ($question_types as $name => $row) {
