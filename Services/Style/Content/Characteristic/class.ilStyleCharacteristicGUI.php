@@ -306,6 +306,7 @@ class ilStyleCharacteristicGUI
         if ($all_core_styles) {
             $cgui->setHeaderText($lng->txt("sty_all_styles_obligatory"));
             $cgui->setCancel($lng->txt("back"), "cancelCharacteristicDeletion");
+            $cgui->setConfirm($lng->txt("ok"), "cancelCharacteristicDeletion");
         } else {
             $cgui->setHeaderText($lng->txt("sty_some_styles_obligatory_delete_rest"));
             $cgui->setCancel($lng->txt("cancel"), "cancelCharacteristicDeletion");
