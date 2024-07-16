@@ -40,6 +40,7 @@ abstract class Action implements I\Action
 
     protected Signal|URI $target;
     protected bool $async = false;
+    protected bool $dialog = false;
 
     public function __construct(
         protected string $label,
@@ -68,6 +69,9 @@ abstract class Action implements I\Action
 
     public function withAsync(bool $async = true): self
     {
+        if($this->isDialog()) {
+            throw new \LogicException("Action is configured to use Dialog already. Use either Async or Dialog", 1);
+        }
         $clone = clone $this;
         $clone->async = $async;
         return $clone;
@@ -76,6 +80,21 @@ abstract class Action implements I\Action
     public function isAsync(): bool
     {
         return $this->async;
+    }
+
+    public function withDialog(bool $dialog = true): self
+    {
+        if($this->isAsync()) {
+            throw new \LogicException("Action is async already. Use either Async or Dialog", 1);
+        }
+        $clone = clone $this;
+        $clone->dialog = $dialog;
+        return $clone;
+    }
+
+    public function isDialog(): bool
+    {
+        return $this->dialog;
     }
 
     public function withRowId(string $row_id): self

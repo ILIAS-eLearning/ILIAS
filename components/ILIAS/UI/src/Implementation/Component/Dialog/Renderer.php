@@ -71,7 +71,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate('tpl.dialog.html', true, true);
         $show_signal = $component->getShowSignal();
         $close_signal = $component->getCloseSignal();
-        $url = $component->getAsyncUrl()->__toString();
+        $url = $component->getAsyncUrl();
+        $url = $url ? $url->__toString() : '#';
         $component = $component->withAdditionalOnLoadCode(
             fn($id) => "
                 il.UI.dialog.init('$id');
@@ -80,9 +81,8 @@ class Renderer extends AbstractComponentRenderer
             "
         );
         $id = $this->bindJavaScript($component);
-
         $tpl->setVariable('ID', $id);
-        $tpl->setVariable('URI', $component->getAsyncUrl()->__toString());
+        $tpl->setVariable('URI', $url);
 
         return $tpl->get();
     }
