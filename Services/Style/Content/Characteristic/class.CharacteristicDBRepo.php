@@ -265,6 +265,24 @@ class CharacteristicDBRepo
         );
     }
 
+    public function isOutdated(
+        int $style_id,
+        string $type,
+        string $characteristic
+    ): bool {
+        $db = $this->db;
+
+        $set = $db->queryF("SELECT outdated FROM style_char " .
+            " WHERE style_id = %s AND type = %s AND characteristic = %s",
+            ["integer", "text", "text"],
+            [$style_id, $type, $characteristic]
+        );
+        if ($rec = $db->fetchAssoc($set)) {
+            return (bool) $rec["outdated"];
+        }
+        return false;
+    }
+
     public function saveOrderNr(
         int $style_id,
         string $type,

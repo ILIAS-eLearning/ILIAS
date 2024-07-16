@@ -972,7 +972,7 @@ class ilObjStyleSheet extends ilObject
             foreach ($chars as $k => $char) {
                 if ($a_type == "" && $this->hidden_chars[$char["type"] . ":" . $char["class"]]) {
                     unset($chars[$k]);
-                } elseif ($this->hidden_chars[$a_type . ":" . $char]) {
+                } elseif ($this->hidden_chars[$a_type . ":" . $char] ?? false) {
                     unset($chars[$k]);
                 }
             }

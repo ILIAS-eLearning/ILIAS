@@ -221,6 +221,17 @@ class CharacteristicManager
         );
     }
 
+    public function isOutdated(
+        string $type,
+        string $characteristic
+    ): bool {
+        return $this->repo->isOutdated(
+            $this->style_id,
+            $type,
+            $characteristic
+        );
+    }
+
     /**
      * Save characteristics order
      * @param array $order_nrs (key is characteristic value is order nr)
