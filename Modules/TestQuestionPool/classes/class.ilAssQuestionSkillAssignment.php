@@ -328,10 +328,20 @@ class ilAssQuestionSkillAssignment
 
         $nodes = array();
         foreach ($path as $node) {
+            if ($node['title'] === "Skill Tree Root Node") {
+                continue;
+            }
+
             if ($node['child'] > 1 && $node['skill_id'] != $this->getSkillBaseId()) {
                 $nodes[] = $node['title'];
             }
         }
+
+        $root_node = reset($path);
+        array_unshift(
+            $nodes,
+            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitle()
+        );
 
         $this->setSkillPath(implode(' > ', $nodes));
     }
