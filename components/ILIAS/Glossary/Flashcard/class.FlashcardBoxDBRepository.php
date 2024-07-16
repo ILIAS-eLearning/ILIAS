@@ -20,24 +20,34 @@ declare(strict_types=1);
 
 namespace ILIAS\Glossary\Flashcard;
 
+use ILIAS\Glossary\InternalDataService;
+
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class FlashcardBoxDBRepository
 {
-    protected \ilDBInterface $db;
-
     public function __construct(
-        \ilDBInterface $db
+        protected \ilDBInterface $db,
+        protected InternalDataService $data_service
     ) {
-        $this->db = $db;
+    }
+
+    protected function getFromRecord(array $rec): Box
+    {
+        return $this->data_service->flashcardBox(
+            (int) $rec["box_nr"],
+            (int) $rec["user_id"],
+            (int) $rec["glo_id"],
+            $rec["last_access"]
+        );
     }
 
     public function getEntry(
         int $box_nr,
         int $user_id,
         int $glo_id
-    ): array {
+    ): ?Box {
         $set = $this->db->queryF(
             "SELECT * FROM glo_flashcard_box " .
             " WHERE box_nr = %s AND user_id = %s AND glo_id = %s ",
@@ -45,34 +55,25 @@ class FlashcardBoxDBRepository
             [$box_nr, $user_id, $glo_id]
         );
 
-        $entry = [];
         if ($rec = $this->db->fetchAssoc($set)) {
-            $entry = [
-                "box_nr" => $rec["box_nr"],
-                "user_id" => $rec["user_id"],
-                "glo_id" => $rec["glo_id"],
-                "last_access" => $rec["last_access"],
-            ];
+            return $this->getFromRecord($rec);
         }
 
-        return $entry;
+        return null;
     }
 
     public function createOrUpdateEntry(
-        int $box_nr,
-        int $user_id,
-        int $glo_id,
-        string $date
+        Box $box
     ): void {
         $this->db->replace(
             "glo_flashcard_box",
             [
-            "box_nr" => ["integer", $box_nr],
-            "user_id" => ["integer", $user_id],
-            "glo_id" => ["integer", $glo_id]
+                "box_nr" => ["integer", $box->getBoxNr()],
+                "user_id" => ["integer", $box->getUserId()],
+                "glo_id" => ["integer", $box->getGloId()]
             ],
             [
-            "last_access" => ["date", $date]
+                "last_access" => ["date", $box->getLastAccess()]
             ]
         );
     }

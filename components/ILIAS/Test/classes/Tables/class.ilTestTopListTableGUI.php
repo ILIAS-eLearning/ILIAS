@@ -36,7 +36,6 @@ class ilTestTopListTableGUI extends ilTable2GUI
 
         $this->setEnableNumInfo(false);
         $this->disable('sort');
-        $this->setLimit((int) $this->test->getHighscoreTopNum());
 
         $this->buildColumns();
     }
@@ -80,7 +79,10 @@ class ilTestTopListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_PARTICIPANT', (string) $a_set['participant']);
 
         if ($this->test->getHighscoreAchievedTS()) {
-            $this->tpl->setVariable('VAL_ACHIEVED', (string) ilDatePresentation::formatDate($a_set['achieved']));
+            $this->tpl->setVariable(
+                'VAL_ACHIEVED',
+                $a_set['achieved'] === '' ? '' : ilDatePresentation::formatDate($a_set['achieved'])
+            );
         }
 
         if ($this->test->getHighscoreScore()) {

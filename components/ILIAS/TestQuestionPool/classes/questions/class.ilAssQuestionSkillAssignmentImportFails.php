@@ -114,7 +114,7 @@ class ilAssQuestionSkillAssignmentImportFails
      */
     public function getFailedImportsMessage(ilLanguage $lng): string
     {
-        $handledSkills = array();
+        $handledSkills = [];
         $msg = $lng->txt('tst_failed_imp_qst_skl_assign');
 
         $msg .= '<ul>';

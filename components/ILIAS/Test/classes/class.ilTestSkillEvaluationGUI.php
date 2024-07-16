@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * User interface which displays the competences which a learner has shown in a
@@ -51,14 +51,14 @@ class ilTestSkillEvaluationGUI
     protected ?ilTestPassesSelector $testPassesSelector = null;
 
     public function __construct(
-        private ilObjTest $test_obj,
-        private ilCtrl $ctrl,
-        private ilGlobalTemplateInterface $tpl,
-        private ilLanguage $lng,
-        private ilDBInterface $db,
-        private LoggingServices $logging_services,
-        private SkillService $skills_service,
-        private InternalRequestService $testrequest
+        private readonly ilObjTest $test_obj,
+        private readonly ilCtrlInterface $ctrl,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly TestLogger $logger,
+        private readonly SkillService $skills_service,
+        private readonly RequestDataCollector $testrequest
     ) {
     }
 
@@ -115,7 +115,7 @@ class ilTestSkillEvaluationGUI
         $assSettings = new ilSetting('assessment');
         $skillEvaluation = new ilTestSkillEvaluation(
             $this->db,
-            $this->logging_services,
+            $this->logger,
             $this->test_obj->getTestId(),
             $this->test_obj->getRefId(),
             $this->skills_service->profile(),
@@ -127,7 +127,7 @@ class ilTestSkillEvaluationGUI
 
         $skillEvaluation->setNumRequiredBookingsForSkillTriggering((int) $assSettings->get(
             'ass_skl_trig_num_answ_barrier',
-            ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         ));
 
         $skillEvaluation->init($this->getQuestionList());

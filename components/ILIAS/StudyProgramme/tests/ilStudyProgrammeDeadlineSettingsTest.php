@@ -100,29 +100,26 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
             new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(
-                ['prg_no_deadline'],
-                ['prg_deadline_period_label'],
-                ['prg_deadline_period_desc'],
-                ['prg_deadline_period'],
-                ['prg_deadline_date_label'],
-                ['prg_deadline_date_desc'],
-                ['prg_deadline_date'],
-                ['prg_deadline_settings']
-            )
-            ->will($this->onConsecutiveCalls(
-                'prg_no_deadline',
-                'prg_deadline_period_label',
-                'prg_deadline_period_desc',
-                'prg_deadline_period',
-                'prg_deadline_date_label',
-                'prg_deadline_date_desc',
-                'prg_deadline_date',
-                'prg_deadline_settings'
-            ))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'prg_no_deadline',
+            'prg_deadline_period_label',
+            'prg_deadline_period_desc',
+            'prg_deadline_period',
+            'prg_deadline_date_label',
+            'prg_deadline_date_desc',
+            'prg_deadline_date',
+            'prg_deadline_settings'
+        ];
 
         $field = $obj->toFormInput(
             $f,
@@ -130,6 +127,8 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
             $refinery,
             $df
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         $switchable_group = $field->getInputs()['prg_deadline'];
         $this->assertInstanceOf(

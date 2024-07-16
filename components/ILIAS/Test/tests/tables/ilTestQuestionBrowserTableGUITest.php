@@ -55,7 +55,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $db_mock);
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
-        $this->addGlobal_ilLog();
+
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
@@ -63,13 +63,13 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $component_repository = $this->createMock(ilComponentRepository::class);
         $this->setGlobalVariable("component.repository", $component_repository);
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilTestQuestionBrowserTableGUI(
             $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock(),
             $tree_mock,
             $db_mock,
-            $this->createMock(ilLogger::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $component_repository,
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilAccessHandler::class),
@@ -80,8 +80,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             ),
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(ILIAS\TestQuestionPool\QuestionInfoService::class)
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
         );
     }
 

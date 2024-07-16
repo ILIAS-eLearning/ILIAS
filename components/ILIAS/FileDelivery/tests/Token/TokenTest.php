@@ -60,7 +60,7 @@ class TokenTest extends TestCase
         $this->assertSame($payload_data, $retrieve);
     }
 
-    public function providePayloads(): array
+    public static function providePayloads(): array
     {
         $random = static function (int $chars): string {
             for ($i = 0, $str = ''; $i < $chars; $i++) {

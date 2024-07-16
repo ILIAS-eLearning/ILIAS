@@ -172,7 +172,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $data['question_index'] = $this->getQuestionIndex();
 
         $form = $answer_form_builder->buildAddAnswerForm($data);
-        $modal = $ui_factory->modal()->roundtrip('titel', $form);
+        $modal = $ui_factory->modal()->roundtrip($this->question->getTitle(), $form);
 
         $show_modal_button = $ui_factory->button()->standard(
             $this->language->txt('tst_corr_add_as_answer_btn'),
@@ -182,19 +182,5 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $this->addAdditionalHtml($ui_renderer->render($modal));
 
         return $ui_renderer->render($show_modal_button);
-    }
-
-    protected function purifyAndPrepareTextAreaOutput(string $content): string
-    {
-        $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
-        if ($this->isAdditionalContentEditingModePageObject()
-            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
-            $purified_content = nl2br($purified_content);
-        }
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
-            $purified_content,
-            true,
-            true
-        );
     }
 }

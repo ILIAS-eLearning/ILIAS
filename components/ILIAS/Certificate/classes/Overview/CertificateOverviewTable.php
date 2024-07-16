@@ -25,6 +25,7 @@ use DateTimeImmutable;
 use Exception;
 use Generator;
 use ilAccessHandler;
+use ilCalendarSettings;
 use ilCtrl;
 use ilCtrlInterface;
 use ILIAS\Data\Order;
@@ -33,7 +34,6 @@ use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory;
-use ILIAS\UI\Implementation\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
@@ -47,6 +47,7 @@ use ilUserCertificate;
 use ilUserCertificateRepository;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Table\Action\Action;
 
 class CertificateOverviewTable implements DataRetrieval
 {
@@ -54,10 +55,10 @@ class CertificateOverviewTable implements DataRetrieval
     private ilUIService $ui_service;
     private Factory $ui_factory;
     private ilLanguage $lng;
-    private ServerRequestInterface|RequestInterface $request;
+    private ServerRequestInterface $request;
     private \ILIAS\Data\Factory $data_factory;
     private ilCtrl|ilCtrlInterface $ctrl;
-    private Standard $filter;
+    private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
     private Data $table;
     private Renderer $ui_renderer;
     private ilAccessHandler $access;
@@ -102,22 +103,22 @@ class CertificateOverviewTable implements DataRetrieval
         /**
          * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter_data
          */
-        $filter_data = $this->ui_service->filter()->getData($this->filter);
+        $ui_filter_data = $this->ui_service->filter()->getData($this->filter);
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        if (isset($filter_data['issue_date']) && $filter_data['issue_date'] !== '') {
+        if (isset($ui_filter_data['issue_date']) && $ui_filter_data['issue_date'] !== '') {
             try {
-                $filter_data['issue_date'] = new DateTime($filter_data['issue_date']);
-            } catch (Exception $e) {
-                $filter_data['issue_date'] = null;
+                $ui_filter_data['issue_date'] = new DateTime($ui_filter_data['issue_date']);
+            } catch (Exception) {
+                $ui_filter_data['issue_date'] = null;
             }
         } else {
-            $filter_data['issue_date'] = null;
+            $ui_filter_data['issue_date'] = null;
         }
 
         $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
             $this->user->getLanguage(),
-            $filter_data,
+            $ui_filter_data,
             $range,
             $order_field,
             $order_direction
@@ -134,23 +135,23 @@ class CertificateOverviewTable implements DataRetrieval
         /**
          * @var array{certificate_id: null|string, issue_date: null|DateTime, object: null|string, owner: null|string} $filter_data
          */
-        $filter_data = $this->ui_service->filter()->getData($this->filter);
+        $ui_filter_data = $this->ui_service->filter()->getData($this->filter);
 
-        if (isset($filter_data['issue_date']) && $filter_data['issue_date'] !== '') {
+        if (isset($ui_filter_data['issue_date']) && $ui_filter_data['issue_date'] !== '') {
             try {
-                $filter_data['issue_date'] = new DateTime($filter_data['issue_date']);
-            } catch (Exception $e) {
-                $filter_data['issue_date'] = null;
+                $ui_filter_data['issue_date'] = new DateTime($ui_filter_data['issue_date']);
+            } catch (Exception) {
+                $ui_filter_data['issue_date'] = null;
             }
         } else {
-            $filter_data['issue_date'] = null;
+            $ui_filter_data['issue_date'] = null;
         }
 
-        return $this->repo->fetchCertificatesForOverviewCount($filter_data);
+        return $this->repo->fetchCertificatesForOverviewCount($ui_filter_data);
     }
 
 
-    private function buildFilter(): Standard
+    private function buildFilter(): \ILIAS\UI\Component\Input\Container\Filter\Standard
     {
         return $this->ui_service->filter()->standard(
             'certificates_overview_filter',
@@ -173,18 +174,22 @@ class CertificateOverviewTable implements DataRetrieval
 
     private function buildTable(): Data
     {
-        $uiTable = $this->ui_factory->table();
-        return $uiTable->data(
+        $ui_table = $this->ui_factory->table();
+
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $date_format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
+        return $ui_table->data(
             $this->lng->txt('certificates'),
             [
-                'certificate_id' => $uiTable->column()->text($this->lng->txt('certificate_id')),
-                'issue_date' => $uiTable->column()->date(
-                    $this->lng->txt('certificate_issue_date'),
-                    $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard())
-                ),
-                'object' => $uiTable->column()->text($this->lng->txt('obj')),
-                'obj_id' => $uiTable->column()->text($this->lng->txt('object_id')),
-                'owner' => $uiTable->column()->text($this->lng->txt('owner')),
+                'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
+                'issue_date' => $ui_table->column()->date($this->lng->txt('certificate_issue_date'), $date_format),
+                'object' => $ui_table->column()->text($this->lng->txt('obj')),
+                'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
+                'owner' => $ui_table->column()->text($this->lng->txt('owner'))
             ],
             $this
         )
@@ -194,6 +199,9 @@ class CertificateOverviewTable implements DataRetrieval
             ->withActions($this->buildTableActions());
     }
 
+    /**
+     * @return array<string, Action>
+     */
     private function buildTableActions(): array
     {
         $uri_download = $this->data_factory->uri(
@@ -230,6 +238,7 @@ class CertificateOverviewTable implements DataRetrieval
 
     /**
      * @param ilUserCertificate[] $certificates
+     * @return list<array{"id": int, "certificate": string, "issue_date": int, "object": string, "obj_id": string, "owner": string}>
      */
     private function buildTableRows(array $certificates): array
     {
@@ -256,6 +265,7 @@ class CertificateOverviewTable implements DataRetrieval
                 'owner' => ilObjUser::_lookupLogin($certificate->getUserId()),
             ];
         }
+
         return $table_rows;
     }
 

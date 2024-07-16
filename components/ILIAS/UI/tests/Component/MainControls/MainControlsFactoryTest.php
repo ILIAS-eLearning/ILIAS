@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 /**
  * Tests on factory implementation for main controls
  *
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class MainControlsFactoryTest extends AbstractFactoryTest
+class MainControlsFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [];
-    public string $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Factory';
+    public static array $kitchensink_info_settings = [];
+    public static string $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Factory';
 }

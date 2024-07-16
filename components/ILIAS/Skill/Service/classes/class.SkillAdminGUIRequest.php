@@ -227,19 +227,6 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->getTableIds("skl_profile_table_profile_ids");
     }
 
-    public function getTableProfileLevelAssignmentAction(): string
-    {
-        return $this->getTableAction("skl_profile_level_assignment_table_action");
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getTableProfileLevelAssignmentIds(): array
-    {
-        return $this->getTableIds("skl_profile_level_assignment_table_level_ids");
-    }
-
     public function getTableProfileUserAssignmentAction(): string
     {
         return $this->getTableAction("skl_profile_user_assignment_table_action");

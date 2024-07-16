@@ -24,7 +24,7 @@ use ILIAS\components\User\ChangedUserFieldAttribute;
  * Class ChangedUserFieldAttributeTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ChangedUserFieldAttributeTest extends ilUserBaseTest
+class ChangedUserFieldAttributeTest extends ilUserBaseTestCase
 {
     private ChangedUserFieldAttribute $changedUserFieldAttribute;
 

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\User\Profile\ProfileChangeMailTokenDBRepository;
 
-class ProfileChangeMailTokenDBRepositoryTest extends ilUserBaseTest
+class ProfileChangeMailTokenDBRepositoryTest extends ilUserBaseTestCase
 {
     public function testGetNewTokenForUserReturnsMd5OfUserIdAndEmail(): void
     {

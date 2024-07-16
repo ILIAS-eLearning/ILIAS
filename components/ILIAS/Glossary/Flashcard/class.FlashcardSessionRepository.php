@@ -23,14 +23,15 @@ namespace ILIAS\Glossary\Flashcard;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class FlashcardSessionRepository
+class FlashcardSessionRepository implements FlashcardSessionRepositoryInterface
 {
-    public const KEY_BASE = "glo_flashcard_";
-
     public function __construct()
     {
     }
 
+    /**
+     * @param Term[] $initial_terms
+     */
     public function setInitialTerms(int $glo_id, int $user_id, int $box_nr, array $initial_terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_initial_terms";
@@ -38,7 +39,7 @@ class FlashcardSessionRepository
     }
 
     /**
-     * @return int[]
+     * @return Term[]
      */
     public function getInitialTerms(int $glo_id, int $user_id, int $box_nr): array
     {
@@ -49,6 +50,9 @@ class FlashcardSessionRepository
         return [];
     }
 
+    /**
+     * @param Term[] $initial_terms
+     */
     public function setTerms(int $glo_id, int $user_id, int $box_nr, array $terms): void
     {
         $key = self::KEY_BASE . $glo_id . "_" . $user_id . "_" . $box_nr . "_terms";
@@ -56,7 +60,7 @@ class FlashcardSessionRepository
     }
 
     /**
-     * @return int[]
+     * @return Term[]
      */
     public function getTerms(int $glo_id, int $user_id, int $box_nr): array
     {

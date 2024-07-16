@@ -16,9 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'components/ILIAS/Math/tests/ilMathBaseAdapterTest.php';
-
-class ilMathPhpAdapterTest extends ilMathBaseAdapterTest
+class ilMathPhpAdapterTest extends ilMathBaseAdapterTestCase
 {
     /**
      * @inheritDoc

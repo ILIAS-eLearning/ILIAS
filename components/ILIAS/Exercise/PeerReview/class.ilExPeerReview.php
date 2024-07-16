@@ -215,7 +215,7 @@ class ilExPeerReview
         }
         $data = $peer["pcomment"];
         if ($data) {
-            $items = unserialize($data);
+            $items = unserialize($data, ['allowed_classes' => false]);
             if (!is_array($items)) {
                 // v1 - pcomment == text
                 $items = array("text" => $data);
@@ -262,24 +262,18 @@ class ilExPeerReview
     protected function validatePeerReview(array $a_data): bool
     {
         $all_empty = true;
-
         // see getPeerReviewValues()
         $values = null;
         $data = $a_data["pcomment"];
         if ($data) {
             try {
-                $values = unserialize($data);
+                $values = unserialize($data, ['allowed_classes' => false]);
             } catch (Exception $e) {
             }
             if (!is_array($values)) {
                 // v1 - pcomment == text
                 $values = array("text" => $data);
             }
-        }
-
-        /* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria) */
-        if (!$values) {
-            return false;
         }
 
         foreach ($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit) {
@@ -468,10 +462,8 @@ class ilExPeerReview
         } else {
             $needed = 1;
         }
-
         // there could be less participants than stated in the min required setting
         $min = min($max, $needed);
-
         return max(0, $min - $this->countGivenFeedback());
     }
 

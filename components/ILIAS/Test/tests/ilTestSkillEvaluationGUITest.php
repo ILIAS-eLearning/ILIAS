@@ -31,14 +31,14 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestSkillEvaluationGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class)
+            $this->createMock(ILIAS\Test\RequestDataCollector::class)
         );
     }
 

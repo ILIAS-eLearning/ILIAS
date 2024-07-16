@@ -53,7 +53,7 @@ final class ilHtmlPurifierLibWrapperTest extends TestCase
     /**
      * @return array{integer: int[], float: float[], null: null[], array: never[][], object: \stdClass[], bool: false[], resource: resource[]|false[]}
      */
-    public function invalidHtmlDataTypeProvider(): array
+    public static function invalidHtmlDataTypeProvider(): array
     {
         return [
             'integer' => [5],

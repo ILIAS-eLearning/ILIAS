@@ -18,21 +18,21 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 use ILIAS\UI\Component\Table\Action;
 use ILIAS\Data;
 use ILIAS\UI\URLBuilder;
 
-class ActionFactoryTest extends AbstractFactoryTest
+class ActionFactoryTest extends AbstractFactoryTestCase
 {
-    public $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "standard" => ["context" => false, "rules" => false],
         "single" => ["context" => false, "rules" => false],
         "multi" => ["context" => false, "rules" => false]
     ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Table\\Action\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Table\\Action\\Factory';
 
     protected function buildFactories()
     {

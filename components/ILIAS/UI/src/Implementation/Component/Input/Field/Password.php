@@ -61,7 +61,7 @@ class Password extends FormInput implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }

@@ -38,12 +38,12 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_BACK_TO_QUESTION = 'backToQuestion';
 
     public function __construct(
-        private ilTestOutputGUI|ilAssQuestionPreviewGUI $parent_gui,
+        private ilTestPlayerAbstractGUI|ilAssQuestionPreviewGUI $parent_gui,
         private string $parent_cmd,
         assQuestionGUI $question_gui,
         private $question_hint_tracking,
-        private ilCtrl $ctrl,
-        private ilLanguage $lng,
+        protected ilCtrl $ctrl,
+        protected ilLanguage $lng,
         private ilGlobalTemplateInterface $tpl,
         protected ilTabsGUI $tabs,
         private GlobalScreen $global_screen
@@ -60,7 +60,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         switch ($next_class) {
             case 'ilasshintpagegui':
                 $forwarder = new ilAssQuestionHintPageObjectCommandForwarder(
-                    $this->questionOBJ,
+                    $this->question_obj,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng
@@ -85,7 +85,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $question_hint_list = $this->question_hint_tracking->getRequestedHintsList();
 
         $table = new ilAssQuestionHintsTableGUI(
-            $this->questionOBJ,
+            $this->question_obj,
             $question_hint_list,
             $this,
             self::CMD_SHOW_LIST
@@ -123,7 +123,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $form->setTitle(sprintf(
             $this->lng->txt('tst_question_hints_form_header_edit'),
             $question_hint->getIndex(),
-            $this->questionOBJ->getTitle()
+            $this->question_obj->getTitle()
         ));
         $form->addCommandButton(self::CMD_BACK_TO_QUESTION, $this->lng->txt('tst_question_hints_back_to_question'));
 
@@ -222,7 +222,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     public function getHintPresentationLinkTarget($hint_id, $xml_style = true): string
     {
-        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+        if ($this->question_obj->isAdditionalContentEditingModePageObject()) {
             $this->ctrl->setParameterByClass('ilasshintpagegui', 'hint_id', $hint_id);
             return $this->ctrl->getLinkTargetByClass('ilAssHintPageGUI', '', '', false, $xml_style);
         }

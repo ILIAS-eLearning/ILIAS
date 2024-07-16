@@ -152,8 +152,9 @@ class ilObjectTranslation
 
     public function getDefaultTitle(): string
     {
-        if ($this->getFallbackLanguage() !== "") {
-            return $this->languages[$this->getFallbackLanguage()]->getTitle();
+        if ($this->fallback_language !== ""
+            && array_key_exists($this->fallback_language, $this->languages)) {
+            return $this->languages[$this->fallback_language]->getTitle();
         } else {
             foreach ($this->languages as $l) {
                 if ($l->isDefault()) {
@@ -182,7 +183,8 @@ class ilObjectTranslation
 
     public function getDefaultDescription(): string
     {
-        if ($this->getFallbackLanguage() !== "") {
+        if ($this->getFallbackLanguage() !== ""
+            && array_key_exists($this->fallback_language, $this->languages)) {
             return $this->languages[$this->getFallbackLanguage()]->getDescription();
         }
         foreach ($this->languages as $l) {

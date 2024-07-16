@@ -86,7 +86,7 @@ class ilQTIResponseVarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function cases(): array
+    public static function cases(): array
     {
         class_exists(ilQTIResponseVar::class); // Force autoload to define the constants.
         return [
@@ -97,7 +97,7 @@ class ilQTIResponseVarTest extends TestCase
         ];
     }
 
-    public function setMatches(): array
+    public static function setMatches(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [
@@ -108,7 +108,7 @@ class ilQTIResponseVarTest extends TestCase
         ];
     }
 
-    public function areaTypes(): array
+    public static function areaTypes(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [

@@ -909,14 +909,6 @@ il.COPagePres = {
     }
   },
 
-  accordionRerender(acc_el) {
-    $(acc_el).find('video.ilPageVideo,audio.ilPageAudio').each((i, el) => {
-      if (el.player) el.player.remove();
-    });
-
-    il.COPagePres.initAudioVideo(acc_el);
-  },
-
   setFullscreenModalShowSignal(signal, suffix) {
     il.COPagePres.fullscreen_signal = signal;
     il.COPagePres.fullscreen_suffix = suffix;
@@ -943,13 +935,13 @@ il.COPagePres = {
     }
     $(`#il-copg-mob-fullscreen${il.COPagePres.fullscreen_suffix}`).attr('src', target);
     // workaround for media pool full screen view
-    $("#ilMepPreviewContent").attr("src", target);
+    $('#ilMepPreviewContent').attr('src', target);
     if (il.COPagePres.fullscreen_signal) {
       $(document).trigger(il.COPagePres.fullscreen_signal, {
         id: il.COPagePres.fullscreen_signal,
         event: 'click',
         triggerer: $(document),
-        options: JSON.parse('[]')
+        options: JSON.parse('[]'),
       });
     }
   },

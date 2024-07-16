@@ -28,16 +28,14 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilComponentRepository();
-
         $this->testObj = new ilTestRandomQuestionSetConfig(
             $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilLanguage::class),
-            $this->createMock(ilLogger::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilComponentRepository::class),
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(\ILIAS\TestQuestionPool\QuestionInfoService::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)->disableOriginalConstructor()->getMock()
         );
     }
 

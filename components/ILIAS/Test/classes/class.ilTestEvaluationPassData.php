@@ -50,8 +50,8 @@ class ilTestEvaluationPassData
 
     public function __sleep()
     {
-        return array('answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints',
-            'maxpoints', 'questioncount', 'workingtime', 'examId');
+        return ['answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints',
+            'maxpoints', 'questioncount', 'workingtime', 'examId'];
     }
 
     /**
@@ -133,7 +133,7 @@ class ilTestEvaluationPassData
         int $question_id,
         float $max_points,
         float $reached_points,
-        bool $isAnswered,
+        bool $is_answered,
         ?int $sequence = null,
         int $manual = 0
     ): void {
@@ -141,7 +141,7 @@ class ilTestEvaluationPassData
             "id" => $question_id,
             "points" => round($max_points, 2),
             "reached" => round($reached_points, 2),
-            'isAnswered' => $isAnswered,
+            'isAnswered' => $is_answered,
             "sequence" => $sequence,
             'manual' => $manual
         ];

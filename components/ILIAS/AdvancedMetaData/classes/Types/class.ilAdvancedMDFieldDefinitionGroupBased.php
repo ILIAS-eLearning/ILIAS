@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * AMD field type address
@@ -135,6 +150,21 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
 
     public function importValueFromXML(string $a_cdata): void
     {
+        /*
+         * On import from <7 options are not given by index but by
+         * their label. There is nothing in the XML by which one could
+         * tell apart legacy and standard imports, so we have to
+         * make a best guess here (32410).
+         *
+         * Might fail for enums where the labels are integers.
+         * See also ilAdvancedMDFieldDefinitionSelect::translateLegacyImportValueFromXML.
+         */
+        if (
+            !in_array($a_cdata, array_keys($this->options)) &&
+            in_array($a_cdata, $this->options)
+        ) {
+            $a_cdata = (string) array_search($a_cdata, $this->options);
+        }
         $this->getADT()->setSelection($a_cdata);
     }
 

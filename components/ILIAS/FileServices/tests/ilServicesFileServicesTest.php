@@ -147,18 +147,21 @@ class ilServicesFileServicesTest extends TestCase
         $default_whitelist = include __DIR__ . "/../defaults/default_whitelist.php";
 
         // Blacklist
-        $settings_mock->expects($this->exactly(3))
-                      ->method('get')
-                      ->withConsecutive(
-                          ['suffix_custom_expl_black'],
-                          ['suffix_repl_additional'],
-                          ['suffix_custom_white_list']
-                      )
-                      ->willReturnOnConsecutiveCalls(
-                          'bl001,bl002', // blacklisted
-                          'docx,doc', // remove from whitelist
-                          'wl001,wl002' // add whitelist
-                      );
+        $consecutive = [
+            ['suffix_custom_expl_black', 'bl001,bl002'], // blacklisted
+            ['suffix_repl_additional', 'docx,doc'], // remove from whitelist
+            ['suffix_custom_white_list', 'wl001,wl002'] // add whitelist
+        ];
+        $settings_mock
+            ->expects($this->exactly(3))
+            ->method('get')
+            ->willReturnCallback(
+                function ($k) use (&$consecutive) {
+                    list($expected, $return) = array_shift($consecutive);
+                    $this->assertEquals($expected, $k);
+                    return $return;
+                }
+            );
 
         $settings = new ilFileServicesSettings($settings_mock, $ini_mock, $this->db_mock);
         $this->assertEquals(['bl001', 'bl002'], $settings->getBlackListedSuffixes());

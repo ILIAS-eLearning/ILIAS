@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\DI\LoggingServices;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\InternalRequestService;
-use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Skill\Service\SkillService;
 
 /**
  * Class ilTestResultsGUI
@@ -48,49 +50,42 @@ class ilTestResultsGUI
     public const DEFAULT_CMD = 'show';
     private \ILIAS\DI\UIServices $ui;
 
-    protected ilTestAccess $testAccess;
-    protected ilTestSession $testSession;
-    protected ilTestTabsManager $testTabs;
-    protected ilTestObjectiveOrientedContainer $objectiveParent;
-
+    protected ilTestAccess $test_access;
+    protected ilTestSession $test_session;
+    protected ilTestTabsManager $test_tabs;
+    protected ilTestObjectiveOrientedContainer $objective_parent;
 
     public function __construct(
         private ilObjTest $testObj,
         private ilTestQuestionSetConfig $question_set_config,
-        private ilCtrl $ctrl,
-        private ilAccess $access,
-        private ilDBInterface $db,
-        private Refinery $refinery,
-        private ilObjUser $user,
-        private ilLanguage $lng,
-        private LoggingServices $logging_services,
-        private ilComponentRepository $component_repository,
-        private ilTabsGUI $tabs,
-        private ilToolbarGUI $toolbar,
-        private ilGlobalTemplateInterface $main_tpl,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private SkillService $skills_service,
-        private InternalRequestService $testrequest,
-        private QuestionInfoService $questioninfo,
-        private GlobalHttpState $http
+        private readonly ilCtrlInterface $ctrl,
+        private readonly ilAccess $access,
+        private readonly ilDBInterface $db,
+        private readonly Refinery $refinery,
+        private readonly ilObjUser $user,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly ilGlobalTemplateInterface $main_tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly SkillService $skills_service,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly RequestDataCollector $testrequest,
+        private readonly GlobalHttpState $http
     ) {
     }
 
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
     public function getObjectiveParent(): ilTestObjectiveOrientedContainer
     {
-        return $this->objectiveParent;
+        return $this->objective_parent;
     }
 
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent($objectiveParent)
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent): void
     {
-        $this->objectiveParent = $objectiveParent;
+        $this->objective_parent = $objective_parent;
     }
 
     /**
@@ -121,32 +116,32 @@ class ilTestResultsGUI
 
     public function getTestAccess(): ilTestAccess
     {
-        return $this->testAccess;
+        return $this->test_access;
     }
 
     public function setTestAccess(ilTestAccess $testAccess): void
     {
-        $this->testAccess = $testAccess;
+        $this->test_access = $testAccess;
     }
 
     public function getTestSession(): ilTestSession
     {
-        return $this->testSession;
+        return $this->test_session;
     }
 
     public function setTestSession(ilTestSession $testSession): void
     {
-        $this->testSession = $testSession;
+        $this->test_session = $testSession;
     }
 
     public function getTestTabs(): ilTestTabsManager
     {
-        return $this->testTabs;
+        return $this->test_tabs;
     }
 
     public function setTestTabs(ilTestTabsManager $testTabs): void
     {
-        $this->testTabs = $testTabs;
+        $this->test_tabs = $testTabs;
     }
 
     public function executeCommand(): void
@@ -173,6 +168,7 @@ class ilTestResultsGUI
                     $this->ui_factory,
                     $this->ui_renderer,
                     new ilTestParticipantAccessFilterFactory($this->access),
+                    $this->questionrepository,
                     $this->testrequest,
                     $this->http,
                     $this->refinery
@@ -191,11 +187,17 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_RESULTS);
 
-                $gui = new ilMyTestResultsGUI();
-                $gui->setTestObj($this->getTestObj());
-                $gui->setTestAccess($this->getTestAccess());
-                $gui->setTestSession($this->getTestSession());
-                $gui->setObjectiveParent($this->getObjectiveParent());
+                $gui = new ilMyTestResultsGUI(
+                    $this->getTestObj(),
+                    $this->test_access,
+                    $this->objective_parent,
+                    $this->user,
+                    $this->lng,
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -218,10 +220,16 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
 
-                $gui = new ilMyTestSolutionsGUI();
-                $gui->setTestObj($this->getTestObj());
-                $gui->setTestAccess($this->getTestAccess());
-                $gui->setObjectiveParent($this->getObjectiveParent());
+                $gui = new ilMyTestSolutionsGUI(
+                    $this->getTestObj(),
+                    $this->test_access,
+                    $this->objective_parent,
+                    $this->lng,
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -262,7 +270,7 @@ class ilTestResultsGUI
                     $this->main_tpl,
                     $this->lng,
                     $this->db,
-                    $this->logging_services,
+                    $this->logger,
                     $this->skills_service,
                     $this->testrequest
                 );
@@ -283,7 +291,7 @@ class ilTestResultsGUI
     protected function showCmd(): void
     {
         if ($this->testObj->canShowTestResults($this->getTestSession())) {
-            if ($this->objectiveParent->isObjectiveOrientedPresentationRequired()) {
+            if ($this->objective_parent->isObjectiveOrientedPresentationRequired()) {
                 $this->ctrl->redirectByClass('ilTestEvalObjectiveOrientedGUI');
             }
 
@@ -304,14 +312,14 @@ class ilTestResultsGUI
         $message = $this->lng->txt('tst_res_tab_msg_res_after_taking_test');
 
         switch ($this->testObj->getScoreReporting()) {
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
+            case SettingsResultSummary::SCORE_REPORTING_FINISHED:
                 if ($this->testObj->hasAnyTestResult($this->getTestSession())) {
                     $message = $this->lng->txt('tst_res_tab_msg_res_after_finish_test');
                 }
 
                 break;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
+            case SettingsResultSummary::SCORE_REPORTING_DATE:
                 $date = $this->getTestObj()->getScoreSettings()->getResultSummarySettings()->getReportingDate()
                     ->setTimezone(new \DateTimeZone($this->user->getTimeZone()));
                 $date_format = $this->user->getDateFormat();
@@ -335,7 +343,7 @@ class ilTestResultsGUI
                 );
                 break;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+            case SettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
                 $message = $this->lng->txt('tst_res_tab_msg_res_after_test_passed');
                 break;
         }

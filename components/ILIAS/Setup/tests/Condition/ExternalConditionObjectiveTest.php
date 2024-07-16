@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\Condition;
 
@@ -86,11 +86,44 @@ class ExternalConditionObjectiveTest extends TestCase
         $this->f->achieve($env);
     }
 
-
     public function testAchieveTrue(): void
     {
         $env = $this->createMock(Setup\Environment::class);
         $res = $this->t->achieve($env);
         $this->assertEquals($env, $res);
+    }
+
+    public function testNotExecutable(): void
+    {
+        $env = $this->createMock(Setup\Environment::class);
+
+        $throws_not_executable = new Condition\ExternalConditionObjective(
+            "Not executable",
+            function (Setup\Environment $e) {
+                return false;
+            },
+            null,
+            true
+        );
+
+        $this->expectException(Setup\NotExecutableException::class);
+        $throws_not_executable->achieve($env);
+    }
+
+    public function testUnachievable(): void
+    {
+        $env = $this->createMock(Setup\Environment::class);
+
+        $throws_unachievable = new Condition\ExternalConditionObjective(
+            "Unachievable",
+            function (Setup\Environment $e) {
+                return false;
+            },
+            null,
+            false
+        );
+
+        $this->expectException(Setup\UnachievableException::class);
+        $throws_unachievable->achieve($env);
     }
 }

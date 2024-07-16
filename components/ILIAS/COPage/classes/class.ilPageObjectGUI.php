@@ -37,7 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\Questions\PublicInterface $questioninfo;
     protected \ILIAS\COPage\Page\PageManager $pm;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\InternalGUIService $gui;
@@ -178,7 +178,7 @@ class ilPageObjectGUI
             ->page()
             ->editRequest();
 
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = $DIC->testQuestion();
 
         $this->requested_old_nr = $this->request->getInt("old_nr");
         $this->requested_transl = $this->request->getString("transl");
@@ -844,7 +844,6 @@ class ilPageObjectGUI
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                //$this->tabs_gui->activateTab("meta_data");
                 $this->setBackToEditTabs();
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
@@ -945,18 +944,17 @@ class ilPageObjectGUI
 
                 // set context tabs
                 $questionGUI = assQuestionGUI::_getQuestionGUI(
-                    $this->questioninfo->getQuestionType(
+                    $this->questioninfo->getGeneralQuestionProperties(
                         $this->requested_q_id
-                    ),
+                    )->getClassName(),
                     $this->requested_q_id
                 );
-                $questionGUI->object->setObjId(0);
-                $questionGUI->object->setSelfAssessmentEditingMode(true);
-                $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                $questionGUI->getObject()->setObjId(0);
+                $questionGUI->getObject()->setSelfAssessmentEditingMode(true);
+                $questionGUI->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $this->ctrl, $this->access, $this->tpl, $this->tabs_gui, $this->lng);
-                $this->ctrl->forwardCommand($gui);
+                (new ilQuestionEditGUI())->forwardToFeedbackEditGUI($questionGUI);
                 break;
 
 

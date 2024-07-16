@@ -29,6 +29,7 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
  */
 class ItemPresentationManager
 {
+    protected ?string $lang = null;
     protected bool $include_empty_blocks;
     protected ModeManager $mode_manager;
     protected ?bool $can_order = null;
@@ -47,7 +48,8 @@ class ItemPresentationManager
         \ilContainer $container,
         ?\ilContainerUserFilter $container_user_filter,
         ClipboardManager $repo_clipboard,
-        bool $include_empty_blocks = true
+        bool $include_empty_blocks = true,
+        ?string $lang = null
     ) {
         $this->container = $container;
         $this->domain = $domain;
@@ -55,6 +57,7 @@ class ItemPresentationManager
         $this->repo_clipboard = $repo_clipboard;
         $this->mode_manager = $domain->content()->mode($container);
         $this->include_empty_blocks = $include_empty_blocks;
+        $this->lang = $lang;
 
         // sequence from view manager
     }
@@ -177,7 +180,8 @@ class ItemPresentationManager
             $this->container,
             $view->getBlockSequence(),
             $this->item_set,
-            $this->include_empty_blocks
+            $this->include_empty_blocks,
+            $this->lang
         );
     }
 

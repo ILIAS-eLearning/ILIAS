@@ -160,10 +160,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "components/ILIAS/TestQuestionPool");
 
         foreach ($this->values as $value) {
-            /**
-             * @var ilAssKprimChoiceAnswer $value
-             */
-
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
                     if ($value->getImageFile() !== null
@@ -444,13 +440,13 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 continue;
             }
 
-            $this->files[$index] = array(
+            $this->files[$index] = [
                 'position' => $index,
                 'tmp_name' => $_FILES[$this->getPostVar()]['tmp_name']['image'][$index],
                 'name' => $_FILES[$this->getPostVar()]['name']['image'][$index],
                 'type' => $_FILES[$this->getPostVar()]['type']['image'][$index],
                 'size' => $_FILES[$this->getPostVar()]['size']['image'][$index]
-            );
+            ];
         }
     }
 

@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Factory for test question set config
@@ -33,13 +34,13 @@ class ilTestQuestionSetConfigFactory
     private ?ilTestQuestionSetConfig $testQuestionSetConfig = null;
 
     public function __construct(
-        protected ilTree $tree,
-        protected ilDBInterface $db,
-        protected ilLanguage $lng,
-        protected ilLogger $log,
-        protected ilComponentRepository $component_repository,
-        protected ilObjTest $test_obj,
-        protected QuestionInfoService $questioninfo
+        protected readonly ilTree $tree,
+        protected readonly ilDBInterface $db,
+        protected readonly ilLanguage $lng,
+        protected readonly TestLogger $logger,
+        protected readonly ilComponentRepository $component_repository,
+        protected readonly ilObjTest $test_obj,
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -55,10 +56,10 @@ class ilTestQuestionSetConfigFactory
                     $this->tree,
                     $this->db,
                     $this->lng,
-                    $this->log,
+                    $this->logger,
                     $this->component_repository,
                     $this->test_obj,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
             if ($this->test_obj->isRandomTest()) {
@@ -66,10 +67,10 @@ class ilTestQuestionSetConfigFactory
                     $this->tree,
                     $this->db,
                     $this->lng,
-                    $this->log,
+                    $this->logger,
                     $this->component_repository,
                     $this->test_obj,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
 

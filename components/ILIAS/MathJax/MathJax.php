@@ -36,5 +36,7 @@ class MathJax implements Component\Component
             new \ilMathJaxSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentJS($this, "js/cdn-mathjax3-es5-tex-mml-chtml-safe.js");
     }
 }

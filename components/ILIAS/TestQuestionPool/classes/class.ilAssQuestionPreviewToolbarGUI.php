@@ -42,14 +42,12 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     {
         // Edit Question
         if ($this->getEditQuestionCmd() !== null) {
-            $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getEditQuestionCmd());
-            $button_edit_question = $this->ui->factory()->button()->primary($this->lng->txt('edit_question'), $action);
+            $button_edit_question = $this->ui->factory()->button()->primary($this->lng->txt('edit_question'), $this->getEditQuestionCmd());
             $this->addComponent($button_edit_question);
         }
 
         // Edit Page
         if ($this->getEditPageCmd() !== null) {
-            $action = $this->ilCtrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, $this->getEditPageCmd());
             $button_edit_page = $this->ui->factory()->button()->standard($this->lng->txt('edit_page'), $this->getEditPageCmd());
             $this->addComponent($button_edit_page);
         }

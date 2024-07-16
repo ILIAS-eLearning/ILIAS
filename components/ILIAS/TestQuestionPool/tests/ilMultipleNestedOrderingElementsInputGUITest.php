@@ -35,8 +35,10 @@ class ilMultipleNestedOrderingElementsInputGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilMultipleNestedOrderingElementsInputGUI{
-            protected function getItemHtml($value, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId): void {}
+        $this->object = new class () extends ilMultipleNestedOrderingElementsInputGUI {
+            protected function getItemHtml($value, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId): void
+            {
+            }
 
             protected function getCurrentIndentation($elementValues, $elementCounter): int
             {

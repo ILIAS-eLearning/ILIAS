@@ -411,6 +411,9 @@ adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
 assessment#:#action#:#Action
+assessment#:#activate_logging#:#Activer le Suivi des Tests et Evaluations
+assessment#:#activate_manual_scoring#:#Activer la Notation Manuelle pour
+assessment#:#activate_manual_scoring_desc#:#Lorsque la notation manuelle est activée pour un type de question, toutes les questions de ce type pourront être évaluées manuellement par l'auteur du test. Veuillez être attentif à ce paramètre car la modification d'une note attribuée automatiquement pourrait provoquer un contentieux !
 assessment#:#addSuggestedSolution#:#Ajouter solution suggérée
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Ajouter Zone Circulaire
@@ -569,7 +572,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concaténation
 assessment#:#conf_delete_pass#:#Voulez vous vraiment supprimer cette tentative ?
-assessment#:#conf_delete_pass_ctm#:#Voulez-vous vraiment supprimer les réponses que vous avez fournies jusqu’ici?
 assessment#:#confirm_delete_all_user_data#:#Êtes-vous sûr(e) de vouloir supprimer toutes les informations utilisateurs du test ?
 assessment#:#confirm_delete_single_user_data#:#Êtes-vous certain de vouloir supprimer les données de test de l'utilisateur sélectionné ?
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le questionnaire de l'enquête en cours. Voulez-vous modifier l'original de cette question également ?
@@ -584,6 +586,7 @@ assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
 assessment#:#customstyle#:#Style personnalisé
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Date/Heure
 assessment#:#definition#:#Définition
 assessment#:#definition_image#:#Texte de la définition
 assessment#:#definition_text#:#Texte de la définition
@@ -611,19 +614,6 @@ assessment#:#dont_use_questionpool#:#Ne pas ajouter les questions dans un jeu de
 assessment#:#duplicate#:#Doubler
 assessment#:#duplicate_matching_values_selected#:#Vous avez sélectionné des couples de valeurs en double.
 assessment#:#duplicate_order_values_entered#:#Vous avez saisi des valeurs en double pour le tri.
-assessment#:#ects_allow_ects_grades#:#Afficher le niveau ECTS en plus de l'appréciation reçue
-assessment#:#ects_fx_threshold#:#Seuil
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.
-assessment#:#ects_grade#:#Niveau ECTS
-assessment#:#ects_grade_a_desc#:#performance remarquable avec seulement quelques erreurs mineures
-assessment#:#ects_grade_b_desc#:#au-dessus de la moyenne mais avec certaines erreurs
-assessment#:#ects_grade_c_desc#:#bon travail de manière général, mais avec un certain nombre d’erreurs notables
-assessment#:#ects_grade_d_desc#:#raisonnable, mais avec d’importantes lacunes
-assessment#:#ects_grade_desc_prefix#:#Signification du classement:
-assessment#:#ects_grade_e_desc#:#La performance répond aux critères minimum
-assessment#:#ects_grade_f_desc#:#travail supplémentaire considérable est nécessaire
-assessment#:#ects_grade_fx_desc#:#plus de travail requis avant de pouvoir attribuer le crédit
-assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
 assessment#:#edit_answer#:#Éditer la Réponse
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###31 10 2023 new variable
 assessment#:#edit_introduction#:#Edit Introduction###31 10 2023 new variable
@@ -755,6 +745,7 @@ assessment#:#hints#:#Hints###31 10 2023 new variable
 assessment#:#identical_scoring#:#Résultat identique
 assessment#:#identical_scoring_desc#:#Si cochée, tous les trous à  solution identique seront comptabilisées, même si la même solution est utilisée deux fois ou plus. Si la case n'est pas cochée, seule la première occurrence de cette même solution sera comptabilisée.
 assessment#:#imagemap#:#Image Interactive
+assessment#:#imap_line_color#:#Couleur de Ligne des Zones Interactives
 assessment#:#import_question#:#Importer question(s)
 assessment#:#imported#:#importé
 assessment#:#info_answer_type_change#:#La question contient déjà  des images. Vous ne pouvez pas changer le type de question en question à  choix multiples.
@@ -816,23 +807,12 @@ assessment#:#lacex_example_header#:#Exemples
 assessment#:#last_update#:#Dernière Mise à Jour
 assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
-assessment#:#log_added_extratime#:#Ajouter %d minutes supplémentaires au participant : id %d
-assessment#:#log_answer_changed_points#:#Modification manuelle des points %s de %d à %d points par %s
-assessment#:#log_create_new_test#:#Nouveau test créé
-assessment#:#log_manual_feedback#:#%s fichier de commentaire ajouté pour individu testé %s et question %s: %s
-assessment#:#log_mark_added#:#Marque ajoutée
-assessment#:#log_mark_changed#:#Marque modifiée
-assessment#:#log_mark_removed#:#Marque supprimée
-assessment#:#log_modified_test#:#Le test a été modifié
-assessment#:#log_question_added#:#Question ajoutée à la position
-assessment#:#log_question_position_changed#:#Position de la question modifiée
-assessment#:#log_question_removed#:#Question supprimée
-assessment#:#log_selected_user_data_removed#:#Données de test supprimées pour l'utilisateur %s
-assessment#:#log_user_answered_question#:#L'utilisateur a répondu à une question et a reçu %s points
-assessment#:#log_user_entered_values#:#Valeurs saisies par l'utilisateur
-assessment#:#log_user_not_entered_values#:#L'utilisateur n'a saisi aucune valeur
+assessment#:#log_text#:#Action
 assessment#:#log_user_solution_willingly_deleted#:#L’utilisateur a supprimé la réponse.
-assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné.
+assessment#:#logging_settings#:#Historique
+assessment#:#logs_deleted#:#Les données de suivi des tests sélectionnés ont été supprimées
+assessment#:#logs_output#:#Affichage des Données de Suivi
+assessment#:#logs_wrong_test_password_provided#:#Le Participant a entré un mot de passe de test erroné.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Texte de menu long
@@ -850,7 +830,6 @@ assessment#:#manscoring_results_pass#:#Questions Evaluées Manuellement pour la 
 assessment#:#manual_editing#:#Édition manuelle
 assessment#:#mark_schema#:#Echelle d'Evaluation
 assessment#:#mark_schema_invalid#:#L'échelle d'évaluation n'est pas valide. Veuillez créer une échelle correcte.
-assessment#:#mark_tst_ects#:#Votre notation ECTS est &quot;[markects]&quot;
 assessment#:#matches#:#correspond à
 assessment#:#matching_pairs#:#Apparier
 assessment#:#matching_shuffle_definitions#:#Définitions seulement
@@ -1069,7 +1048,7 @@ assessment#:#question_marking_description#:#Si cochée, chaque participant a la 
 assessment#:#question_not_answered#:#Question sans réponse
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à supprimer la question dans la banque de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_summary#:#Liste des Questions
-assessment#:#question_summary_btn#:#Processing Status
+assessment#:#question_summary_btn#:#État d'avancement du test
 assessment#:#question_title#:#Titre de la Question
 assessment#:#question_type#:#Type de Question
 assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
@@ -1127,7 +1106,7 @@ assessment#:#result_units#:#Unités Disponibles
 assessment#:#result_units_info#:#Les unités sélectionnées sont proposées à l’apprenant comme une partie d’une réponse. L’apprenant doit choisir une unité.
 assessment#:#result_x#:#Résultat %s
 assessment#:#results#:#Résultats
-assessment#:#results_tab#:#Results
+assessment#:#results_tab#:#Résultats
 assessment#:#resulttable_all#:#All###31 10 2023 new variable
 assessment#:#resulttable_correct#:#Correct###31 10 2023 new variable
 assessment#:#resulttable_incorrect#:#Incorrect/Incomplete###31 10 2023 new variable
@@ -1170,8 +1149,8 @@ assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presen
 assessment#:#show_answer_overview#:#Afficher l'Aperçu de la Réponse
 assessment#:#show_detailed_results#:#Afficher les résultats détaillés de l'utilisateur (passage marqué)
 assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumission du test.
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks###31 10 2023 new variable
-assessment#:#show_old_introduction#:#Show old introduction###31 10 2023 new variable
+assessment#:#show_old_concluding_remarks#:#Afficher l'ancienne conclusion
+assessment#:#show_old_introduction#:#Afficher l'ancienne introduction
 assessment#:#show_pass_overview#:#Afficher les Résultats
 assessment#:#show_requested_question_hints#:#Montrer un indice
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
@@ -1182,7 +1161,7 @@ assessment#:#solution_contain_keywords#:#L'obtention des points est assujettie �
 assessment#:#solution_hint#:#Ressources Associées
 assessment#:#start_tag#:#Point de départ
 assessment#:#statistical_data#:#Données Statistiques
-assessment#:#statistics#:#Résultats
+assessment#:#statistics#:#Statistiques
 assessment#:#submit_and_check#:#Soumettre et vérifier la réponse
 assessment#:#submit_answer#:#Soumettre la réponse
 assessment#:#suggest_range#:#Suggérer un Intervalle
@@ -1191,8 +1170,8 @@ assessment#:#suggested_solution#:#Contenu pour Récapitulation
 assessment#:#suggested_solution_added_successfully#:#Vous avez ajouté une ressource avec succès !
 assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode###31 10 2023 new variable
 assessment#:#tab_nest_answers#:#Nesting
-assessment#:#tax_filter#:#Taxonomy###31 10 2023 new variable
-assessment#:#tax_filter_notax#:#Questions without assigned Taxonomy###31 10 2023 new variable
+assessment#:#tax_filter#:#Taxonomie
+assessment#:#tax_filter_notax#:#Question sans taxinomie associée
 assessment#:#term#:#Terme
 assessment#:#term_image#:#Image du terme
 assessment#:#term_text#:#Texte du terme
@@ -1964,7 +1943,6 @@ assessment#:#units#:#Unités
 assessment#:#unlimited#:#illimité
 assessment#:#unlock#:#Déverrouiller
 assessment#:#uploaded_material#:#Matériau téléchargé
-assessment#:#use_ects_fx#:#Use the 'FX' grade
 assessment#:#use_previous_solution#:#Utiliser la solution précédente
 assessment#:#use_previous_solution_advice#:#La solution montrée pour la question est celle que vous avez donné précédemment. Si vous voulez l’utiliser sans modification, vous devez confirmer l’adoption de la solution.
 assessment#:#user_has_finished_a_test#:#Un participant a terminé le test.
@@ -3400,7 +3378,6 @@ common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
 common#:#actions_for#:#Actions pour %s
 common#:#activate#:#Actif
-common#:#activate_assessment_logging#:#Activer le Suivi des Tests et Evaluations
 common#:#activate_https#:#Gestion HTTPS par ILIAS<br/>(Paiement, Connexion)
 common#:#activate_tracking#:#Activation
 common#:#activation#:#Editer Chronologie
@@ -3467,24 +3444,6 @@ common#:#approve_recipient#:#Nom d'Utilisateur de l'Approbateur
 common#:#archive#:#Archive
 common#:#archive_broken#:#L'archive semble être endommagée ou vide.
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
-common#:#ass_log_admin#:#Administration des Données de Suivi
-common#:#ass_log_count_datasets#:#Entrées du Journal
-common#:#ass_log_delete_entries#:#Supprimer les Données de Suivi
-common#:#ass_log_delete_no_selection#:#Veuillez sélectionner au moins un test dont vous souhaitez supprimer les données de suivi
-common#:#ass_log_deleted#:#Les données de suivi des tests sélectionnés ont été supprimées
-common#:#ass_log_output#:#Affichage des Données de Suivi
-common#:#assessment_imap_line_color#:#Couleur de Ligne des Zones Interactives
-common#:#assessment_log#:#Afficher les données de suivi pour une période spécifique
-common#:#assessment_log_datetime#:#Date/Heure
-common#:#assessment_log_deleted#:#Les données de journal du Test & Evaluation ont été supprimés dans l'administration.
-common#:#assessment_log_for_test#:#Pour le test
-common#:#assessment_log_log_entries#:#entrées du journal
-common#:#assessment_log_logging#:#Historique
-common#:#assessment_log_manual_scoring_activate#:#Activer la Notation Manuelle pour
-common#:#assessment_log_manual_scoring_desc#:#Lorsque la notation manuelle est activée pour un type de question, toutes les questions de ce type pourront être évaluées manuellement par l'auteur du test. Veuillez être attentif à ce paramètre car la modification d'une note attribuée automatiquement pourrait provoquer un contentieux !
-common#:#assessment_log_question#:#Question
-common#:#assessment_log_text#:#Action
-common#:#assessment_settings_reporting_language#:#Langue pour les rapports
 common#:#assf_allowed_questiontypes#:#Types de Questions Disponibles
 common#:#assf_allowed_questiontypes_desc#:#Tous les types de questions cochés seront disponibles. Si vous ne voulez pas autoriser la création de certains types de questions, vous devez décocher les cases correspondantes.
 common#:#assf_questiontypes#:#Paramètres des Questions
@@ -4306,7 +4265,7 @@ common#:#import_cat_table#:#Le tableau suivant n'a de sens que si la case est co
 common#:#import_categories#:#Importer Catégories
 common#:#import_failure_log#:#Importer journal des échecs
 common#:#import_file#:#Importer Fichier
-common#:#import_file_not_valid#:#Le fichier importé n'est pas valide.
+common#:#import_file_not_valid_here#:#Le fichier importé n'est pas valide.
 common#:#import_finished#:#Nombre de messages importés.
 common#:#import_lm#:#Importer Module ILIAS
 common#:#import_qpl#:#Importer Banque de Questions (Test)
@@ -11428,9 +11387,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 10 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 10 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 10 2023 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js###31 10 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 10 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 10 2023 new variable
 mathjax#:#mathjax_server_address#:#Adresse de serveur
 mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Le cache MathJax a été supprimé.
@@ -14614,12 +14572,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Veuillez sélectionner celles que vous souhaitez aussi supprimer :
 rep#:#rep_multiple_reference_deletion_intro#:#D'autres références existent pour cet objet.
 rep#:#rep_new_item_group_add#:#Ajouter Groupe
-rep#:#rep_new_item_group_add_separator#:#Ajouter Séparateur de Colonnes
 rep#:#rep_new_item_group_delete_sure#:#Etes-vous sûr de vouloir supprimer les groupes suivants ?
 rep#:#rep_new_item_group_edit#:#Editer Groupe
 rep#:#rep_new_item_group_nr_subitems#:#Nombre d'Objets Assignés
 rep#:#rep_new_item_group_other#:#Autre
-rep#:#rep_new_item_group_separator#:#Séparateur de Colonnes
 rep#:#rep_new_item_group_unassigned#:#Non Assigné
 rep#:#rep_new_item_group_unassigned_subitems#:#Nombre d'Objets Non Assignés : %s
 rep#:#rep_new_item_groups#:#Nouveau Groupe d'Objets

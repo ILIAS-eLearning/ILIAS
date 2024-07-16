@@ -43,7 +43,9 @@ class Link implements Component\Component
             new Component\Resource\ComponentJS($this, "ilExtLink.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("linkifyjs/dist/linkify.min.js");
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("linkifyjs/dist/linkify-jquery.min.js");
+        */
     }
 }

@@ -35,6 +35,7 @@ use ILIAS\COPage\PC\Resources\ResourcesManager;
  */
 class ItemBlockSequenceGenerator
 {
+    protected ?string $lang = null;
     protected ResourcesManager $copage_resources;
     protected bool $include_empty_blocks;
     protected Content\ModeManager $mode_manager;
@@ -62,7 +63,8 @@ class ItemBlockSequenceGenerator
         \ilContainer $container,
         BlockSequence $block_sequence,
         ItemSetManager $item_set_manager,
-        bool $include_empty_blocks = true
+        bool $include_empty_blocks = true,
+        ?string $lang = null
     ) {
         $this->access = $domain_service->access();
         $this->data_service = $data_service;
@@ -74,6 +76,7 @@ class ItemBlockSequenceGenerator
         $this->mode_manager = $this->domain_service->content()->mode($container);
         $this->include_empty_blocks = $include_empty_blocks;
         $this->block_limit = 0;
+        $this->lang = $lang;
         if (!$this->mode_manager->isActiveItemOrdering()) {
             $this->block_limit = (int) \ilContainer::_lookupContainerSetting($container->getId(), "block_limit");
         }
@@ -404,7 +407,10 @@ class ItemBlockSequenceGenerator
      */
     public function getPageEmbeddedBlockIds(): array
     {
-        $page = $this->domain_service->page($this->container);
+        $page = $this->domain_service->page(
+            $this->container,
+            $this->lang
+        );
         $dom = $page->getDom();
 
         $ids = [];

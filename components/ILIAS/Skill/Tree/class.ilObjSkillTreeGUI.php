@@ -47,7 +47,6 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
-    protected Table\TableManager $skill_table_manager;
     protected Node\SkillDeletionManager $skill_deletion_manager;
     protected Usage\SkillUsageManager $skill_usage_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
@@ -56,6 +55,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected ilGlobalTemplateInterface $main_tpl;
     protected ScreenContext\ContextServices $tool_context;
     protected Service\SkillAdminGUIRequest $admin_gui_request;
+    protected Service\SkillUIService $skill_ui_service;
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_templates_tree = 0;
@@ -108,6 +108,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->locator = $DIC["ilLocator"];
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->skill_ui_service = $DIC->skills()->ui();
 
         $this->type = "skee";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -141,7 +142,6 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->skill_management_access_manager = $skill_manager->getManagementAccessManager(
             $this->skill_tree_manager->getSkillManagementRefId()
         );
-        $this->skill_table_manager = $skill_manager->getTableManager();
         $this->skill_deletion_manager = $skill_manager->getDeletionManager();
         $this->skill_usage_manager = $skill_manager->getUsageManager();
     }
@@ -702,8 +702,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $usage_html = "";
         if (count($usages) > 0) {
             foreach ($usages as $k => $usage) {
-                $table = $this->skill_table_manager->getUsageTable($k, $usage, $mode)->getComponent();
-                $usage_html .= $this->ui->renderer()->render($table) . "<br/><br/>";
+                $usages_ui = $this->skill_ui_service->getUsagesUI($k, $usage, $mode);
+                $usage_html .= $usages_ui->render() . "<br/><br/>";
             }
             $ilCtrl->saveParameter($a_gui, "tmpmode");
         }

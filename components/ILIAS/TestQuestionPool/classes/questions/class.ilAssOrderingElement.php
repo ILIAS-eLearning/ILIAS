@@ -208,7 +208,8 @@ class ilAssOrderingElement
      */
     public function isImageUploadAvailable(): bool
     {
-        return (bool) strlen($this->getUploadImageFile());
+        return $this->getUploadImageFile() !== null
+            && $this->getUploadImageFile() !== '';
     }
 
     /**
@@ -376,12 +377,12 @@ class ilAssOrderingElement
 
     public function getExportIdent(): string
     {
-        $ident = array(
+        $ident = [
             $this->getRandomIdentifier(),
             $this->getSolutionIdentifier(),
             $this->getPosition(),
             $this->getIndentation()
-        );
+        ];
 
         return implode(self::EXPORT_IDENT_PROPERTY_SEPARATOR, $ident);
     }

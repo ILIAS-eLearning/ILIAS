@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -35,13 +38,12 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 
     public function __construct(
         \ilObjTest $test_obj,
-        private ilLanguage $lng,
-        private ilLogger $logger,
-        private ilTree $tree,
-        private ilComponentRepository $component_repository,
-        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilTree $tree,
+        private readonly ilComponentRepository $component_repository,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
         string $mode = "xml"
-
     ) {
         parent::__construct($test_obj, $mode);
     }
@@ -83,7 +85,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
         $question_set_config->loadFromDb();
 

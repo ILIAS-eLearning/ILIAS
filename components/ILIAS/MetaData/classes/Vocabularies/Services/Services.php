@@ -54,6 +54,7 @@ class Services
                 new Factory(),
                 new TagFactory(),
                 $this->path_services->pathFactory(),
+                $this->path_services->navigatorFactory(),
                 $this->structure_services->structure()
             ),
             $this->path_services->navigatorFactory()

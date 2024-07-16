@@ -86,7 +86,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        $options_post_var = "prop_".static::PROP_SELECTION_OPTIONS;
+        $options_post_var = "prop_" . static::PROP_SELECTION_OPTIONS;
         foreach ($form->getInput($options_post_var) as $value) {
             if ($value["selection_value"] == "") {
                 $inputObj = $form->getItemByPostVar($options_post_var);
@@ -145,7 +145,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         $properties = $this->getValidFieldProperties();
         foreach ($properties as $prop) {
             if ($prop == static::PROP_SELECTION_OPTIONS) {
-                $options = ilDclSelectionOption::getAllForField((int)$this->getId());
+                $options = ilDclSelectionOption::getAllForField((int) $this->getId());
                 $prop_values = [];
                 foreach ($options as $option) {
                     // the 'selection_value' is for a correct input
@@ -172,10 +172,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         switch ($key) {
             case static::PROP_SELECTION_OPTIONS:
 
-                ilDclSelectionOption::flushOptions((int)$this->getId());
+                ilDclSelectionOption::flushOptions((int) $this->getId());
                 $sorting = 1;
                 foreach ($value as $id => $val) {
-                    ilDclSelectionOption::storeOption((int)$this->getId(), $id, $sorting, $val);
+                    ilDclSelectionOption::storeOption((int) $this->getId(), $id, $sorting, $val);
                     $sorting++;
                 }
                 // if the field is not being created reorder the options in the existing record fields
@@ -203,10 +203,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
      */
     public function reorderExistingValues(): void
     {
-        $options = ilDclSelectionOption::getAllForField((int)$this->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $this->getId());
         // loop each record(-field)
         foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
-            $record_field = $record->getRecordField((int)$this->getId());
+            $record_field = $record->getRecordField((int) $this->getId());
             $record_field_value = $record_field->getValue();
 
             if (is_array($record_field_value) && count($record_field_value) > 1) {
@@ -229,7 +229,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     protected function multiPropertyChanged(bool $is_multi_now): void
     {
         foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
-            $record_field = $record->getRecordField((int)$this->getId());
+            $record_field = $record->getRecordField((int) $this->getId());
             $record_field_value = $record_field->getValue();
 
             if ($record_field_value && !is_array($record_field_value) && $is_multi_now) {
@@ -252,7 +252,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     {
         switch ($key) {
             case static::PROP_SELECTION_OPTIONS:
-                return ilDclSelectionOption::getAllForField((int)$this->getId());
+                return ilDclSelectionOption::getAllForField((int) $this->getId());
             default:
                 return parent::getProperty($key);
         }
@@ -286,18 +286,18 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     public function cloneProperties(ilDclBaseFieldModel $originalField): void
     {
         parent::cloneProperties($originalField);
-        $options = ilDclSelectionOption::getAllForField((int)$originalField->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $originalField->getId());
         foreach ($options as $opt) {
             $new_opt = new ilDclSelectionOption();
             $new_opt->cloneOption($opt);
-            $new_opt->setFieldId((int)$this->getId());
+            $new_opt->setFieldId((int) $this->getId());
             $new_opt->store();
         }
     }
 
     public function doDelete(): void
     {
-        foreach (ilDclSelectionOption::getAllForField((int)$this->getId()) as $option) {
+        foreach (ilDclSelectionOption::getAllForField((int) $this->getId()) as $option) {
             $option->delete();
         }
         parent::doDelete();

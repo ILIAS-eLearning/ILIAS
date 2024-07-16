@@ -32,6 +32,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     private GlyphFactory $glyph_factory;
     private UIRenderer $renderer;
 
+    private ?ilPropertyFormGUI $edit_form = null;
+
     public function __construct($id = -1)
     {
         parent::__construct();
@@ -57,7 +59,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     protected function getUserSolution($active_id, $pass): array
     {
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -84,7 +86,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $check = $form->checkInput() && $this->verifyAnswerOptions();
 
         if (!$check) {
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
         $this->writeQuestionGenericPostData();
@@ -92,7 +95,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $custom_check = $this->object->checkQuestionCustomPart($form);
         if (!$custom_check) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
         $this->saveTaxonomyAssignments();
@@ -169,15 +173,17 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         );
     }
 
-    protected function editQuestion(ilPropertyFormGUI $form = null): void
-    {
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();
         }
 
-        $this->getQuestionTemplate();
-
-        $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
+        $this->renderEditForm($form);
+        return false;
     }
     /**
      * @return ilPropertyFormGUI
@@ -274,7 +280,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         ];
 
         $question_parts = [
-            'list' => json_decode($this->object->getJsonStructure()),
+            'list' => json_decode($this->object->getJsonStructure()) ?? [],
             'gap_placeholder' => assLongMenu::GAP_PLACEHOLDER,
             'last_updated_element' => 0,
             'replacement_word' => '',
@@ -338,28 +344,17 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $form;
     }
 
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @return string solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
@@ -371,7 +366,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         } else {
             $correct_solution = $this->object->getCorrectAnswersForQuestionSolution($this->object->getId());
         }
-        $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true, $graphicalOutput));
+        $template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true, $graphical_output));
         $solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $question_output = $template->get();
         $feedback = '';
@@ -381,7 +376,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
@@ -405,9 +400,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $solution_output;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
-        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
+        $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         $user_solution = array_values($user_solution);
 
         $template = $this->getTemplateForPreviewAndTest($user_solution);
@@ -420,15 +417,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     }
 
     public function getTestOutput(
-        $active_id,
-        // hey: prevPassSolutions - will be always available from now on
-        $pass,
-        // hey.
-        $is_postponed = false,
-        $use_post_solutions = false,
-        $show_feedback = false
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
     ): string {
-        $user_solution = array();
+        $user_solution = [];
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
@@ -439,7 +434,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $template = $this->getTemplateForPreviewAndTest($user_solution);
 
         $question_output = $template->get();
-        $page_output = $this->outQuestionPage("", $is_postponed, $active_id, $question_output);
+        $page_output = $this->outQuestionPage("", $is_question_postponed, $active_id, $question_output);
         return $page_output;
     }
 
@@ -494,7 +489,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -505,8 +500,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      */
     public function getAggregatedAnswersView(array $relevant_answers): string
     {
-        $overview = array();
-        $aggregation = array();
+        $overview = [];
+        $aggregation = [];
         foreach ($relevant_answers as $answer) {
             $overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
         }
@@ -535,7 +530,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $tpl->get();
     }
 
-    public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false, $graphical = false): string
+    public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = [], $solution = false, $graphical = false): string
     {
         $return_value = '';
         $text_array = preg_split("/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/", $this->object->getLongMenuTextValue());
@@ -648,9 +643,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             if (!isset($answers[$row['value2']])) {
                 //$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
 
-                $answers[$row['value2']] = array(
+                $answers[$row['value2']] = [
                     'answer' => $row['value2'], 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$row['value2']]['frequency']++;
@@ -682,68 +677,63 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $correctAnswers = $this->object->getCorrectAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
 
-        foreach ($this->object->getAnswers() as $lmIndex => $lm) {
-            $lmValues = array(
-                'answers_all' => array(0 => $lm),
+        foreach ($this->object->getAnswers() as $lm_index => $lm) {
+            $lm_values = [
+                'answers_all' => [0 => $lm],
                 'answers_all_count' => count($lm),
-                'answers_correct' => $correctAnswers[$lmIndex][0]
-            );
+                'answers_correct' => $correct_answers[$lm_index][0]
+            ];
 
-            $lmPoints = $correctAnswers[$lmIndex][1];
+            $lm_points = $correct_answers[$lm_index][1];
 
             $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lmIndex + 1));
+            $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lm_index + 1));
             $form->addItem($section);
 
-            $lmInput = new ilAssLongmenuCorrectionsInputGUI(
+            $lm_input = new ilAssLongmenuCorrectionsInputGUI(
                 $this->lng->txt('answers'),
-                'longmenu_' . $lmIndex
+                'longmenu_' . $lm_index
             );
 
-            $lmInput->setRequired(true);
+            $lm_input->setRequired(true);
 
-            $lmInput->setValues($lmValues);
+            $lm_input->setValues($lm_values);
 
-            $form->addItem($lmInput);
+            $form->addItem($lm_input);
 
-            $pointsInp = new ilNumberInputGUI($this->lng->txt("points"), 'points_' . $lmIndex);
-            $pointsInp->setRequired(true);
-            $pointsInp->allowDecimals(true);
-            $pointsInp->setSize(4);
-            $pointsInp->setMinValue(0);
-            $pointsInp->setMinvalueShouldBeGreater(false);
-            $pointsInp->setValue($lmPoints);
-            $form->addItem($pointsInp);
+            $points_inp = new ilNumberInputGUI($this->lng->txt("points"), 'points_' . $lm_index);
+            $points_inp->setRequired(true);
+            $points_inp->allowDecimals(true);
+            $points_inp->setSize(4);
+            $points_inp->setMinValue(0);
+            $points_inp->setMinvalueShouldBeGreater(false);
+            $points_inp->setValue($lm_points);
+            $form->addItem($points_inp);
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $correctAnswers = $this->object->getCorrectAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
 
-        foreach ($this->object->getAnswers() as $lmIndex => $lm) {
-            $pointsInput = (float) str_replace(',', '.', $form->getInput('points_' . $lmIndex));
-            $correctAnswersInput = (array) $form->getInput('longmenu_' . $lmIndex . '_tags');
+        foreach ($this->object->getAnswers() as $lm_index => $lm) {
+            $points_input = (float) str_replace(',', '.', $form->getInput('points_' . $lm_index));
+            $correct_answers_input = (array) $form->getInput('longmenu_' . $lm_index . '_tags');
 
-            foreach ($correctAnswersInput as $idx => $answer) {
+            foreach ($correct_answers_input as $idx => $answer) {
                 if (in_array($answer, $lm)) {
                     continue;
                 }
 
-                unset($correctAnswersInput[$idx]);
+                unset($correct_answers_input[$idx]);
             }
 
-            $correctAnswersInput = array_values($correctAnswersInput);
-
-            $correctAnswers[$lmIndex][0] = $correctAnswersInput;
-            $correctAnswers[$lmIndex][1] = $pointsInput;
+            $correct_answers[$lm_index][0] = array_values($correct_answers_input);
+            $correct_answers[$lm_index][1] = $points_input;
         }
 
-        $this->object->setCorrectAnswers($correctAnswers);
+        $this->object->setCorrectAnswers($correct_answers);
     }
 }

@@ -52,7 +52,7 @@ class DictionaryTransformationTest extends TestCase
         $transformation->transform($failingVal);
     }
 
-    public function TransformationFailingDataProvider(): array
+    public static function TransformationFailingDataProvider(): array
     {
         return [
             'from_is_a_string' => ['hello'],
@@ -65,7 +65,7 @@ class DictionaryTransformationTest extends TestCase
         ];
     }
 
-    public function DictionaryTransformationDataProvider(): array
+    public static function DictionaryTransformationDataProvider(): array
     {
         return [
             'first_arr' => [['hello' => 'world'], ['hello' => 'world'] ],

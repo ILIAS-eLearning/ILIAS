@@ -142,6 +142,11 @@ class ilUserTableGUI extends ilTable2GUI
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
+            if ($this->mode === self::MODE_LOCAL_USER
+                && $definition['visib_lua'] === '0') {
+                continue;
+            }
+
             $this->udf_fields["udf_" . $field] = [
                 "txt" => $definition["field_name"],
                 "default" => false,
@@ -240,12 +245,8 @@ class ilUserTableGUI extends ilTable2GUI
             "txt" => $lng->txt("auth_mode"),
             "default" => false];
 
-
-        // custom user fields
-        if ($this->getMode() == self::MODE_USER_FOLDER) {
-            foreach ($this->udf_fields as $k => $field) {
-                $cols[$k] = $field;
-            }
+        foreach ($this->udf_fields as $k => $field) {
+            $cols[$k] = $field;
         }
 
         // fields that are always shown

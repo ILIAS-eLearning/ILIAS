@@ -144,15 +144,18 @@ class ilUserStartingPointRepository
     public function onRoleDeleted(ilObjRole $role): void
     {
         foreach ($this->getRolesWithStartingPoint() as $role_id => $data) {
-            if ((int) $role_id === $role->getId()
-                || ($maybe_deleted_role = ilObjectFactory::getInstanceByObjId((int) $role_id, false)) === null
+            if ($role_id === $role->getId()
+                || ($maybe_deleted_role = ilObjectFactory::getInstanceByObjId($role_id, false)) === null
                 || !($maybe_deleted_role instanceof ilObjRole)
             ) {
-                $this->delete((int) $data['id']);
+                $this->delete($data['id']);
             }
         }
     }
 
+    /**
+     * @return array<int, array{"id": int, "starting_point": int, "starting_object": int, "calendar_view": int, "calendar_period": int, "position": int, "role_id": int}>
+     */
     private function getRolesWithStartingPoint(): array
     {
         $query = 'SELECT * FROM usr_starting_point WHERE rule_options LIKE %s ORDER BY position ASC';
@@ -162,7 +165,7 @@ class ilUserStartingPointRepository
         while ($sp = $this->db->fetchAssoc($res)) {
             $options = unserialize($sp['rule_options']);
 
-            $roles[$options['role_id']] = [
+            $roles[(int) $options['role_id']] = [
                 'id' => (int) $sp['id'],
                 'starting_point' => (int) $sp['starting_point'],
                 'starting_object' => (int) $sp['starting_object'],

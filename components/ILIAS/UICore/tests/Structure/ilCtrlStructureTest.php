@@ -227,7 +227,7 @@ class ilCtrlStructureTest extends TestCase
         $this->assertNull($structure->getReturnTargetByClass('Class2'));
     }
 
-    public function getProtectedParameters(): array
+    public static function getProtectedParameters(): array
     {
         return [
             ['baseClass'],

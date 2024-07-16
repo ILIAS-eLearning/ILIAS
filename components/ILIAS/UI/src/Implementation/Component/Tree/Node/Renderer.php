@@ -56,10 +56,7 @@ class Renderer extends AbstractComponentRenderer
         $link = $component->getLink();
 
         if (null !== $link) {
-            $linkAsString = $this->getRefinery()
-                ->uri()
-                ->toString()
-                ->transform($link);
+            $linkAsString = $link->__toString();
 
             $tpl->setVariable("LINK", $linkAsString);
             $tpl->setVariable("LABEL_LINKED", $label);
@@ -146,7 +143,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $signals = json_encode($signals);
 
-        return $component->withAdditionalOnLoadCode(fn ($id) => "
+        return $component->withAdditionalOnLoadCode(fn($id) => "
 			$('#$id > span').click(function(e){
 				var node = $('#$id'),
 					signals = $signals;

@@ -106,7 +106,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
             '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper"> ' .
             '	<div class="breadcrumb"> ' .
             '		<span class="crumb"> ' .
-            '			<a href="https://ilias.de/somepath?lsocmd=cmd&lsov=1" >item 1</a>' .
+            '			<a href="https://ilias.de/somepath?lsocmd=cmd&lsov=1">item 1</a>' .
             '		</span> ' .
             '	</div>' .
             '</nav>'

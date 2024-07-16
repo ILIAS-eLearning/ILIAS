@@ -1629,11 +1629,14 @@ class ilNewsItem
         string $a_title,
         bool $a_content_is_lang_var,
         int $a_agg_ref_id = 0,
-        array $a_aggregation = []
+        array $a_aggregation = [],
+        ?ilLanguage $lng = null
     ): string {
         global $DIC;
 
-        $lng = $DIC->language();
+        if (is_null($lng)) {
+            $lng = $DIC->language();
+        }
         $obj_definition = $DIC["objDefinition"];
         $tit = "";
 
@@ -1691,11 +1694,14 @@ class ilNewsItem
     public static function determineNewsContent(
         string $a_context_obj_type,
         string $a_content,
-        bool $a_is_lang_var
+        bool $a_is_lang_var,
+        ?ilLanguage $lng = null
     ): string {
         global $DIC;
 
-        $lng = $DIC->language();
+        if (is_null($lng)) {
+            $lng = $DIC->language();
+        }
         $obj_definition = $DIC["objDefinition"];
 
         if ($a_is_lang_var) {

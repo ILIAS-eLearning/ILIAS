@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\OnScreenChat\Repository\Subscriber;
 
-class SubscriberRepositoryTest extends ilOnScreenChatBaseTest
+class SubscriberRepositoryTest extends ilOnScreenChatBaseTestCase
 {
     public function testSubscribersCanBeRetrieved(): void
     {

@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
-use ILiAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Renderer as UIRenderer;
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestDashboardGUI
@@ -42,18 +42,18 @@ class ilTestDashboardGUI
 
     public function __construct(
         protected ilObjTest $test_obj,
-        protected ilObjUser $user,
-        protected ilAccess $access,
+        protected readonly ilObjUser $user,
+        protected readonly ilAccess $access,
         protected ilGlobalTemplateInterface $main_tpl,
-        protected UIFactory $ui_factory,
-        protected UIRenderer $ui_renderer,
-        protected ilLanguage $lng,
-        protected ilDBInterface $db,
-        protected ilCtrl $ctrl,
+        protected readonly UIFactory $ui_factory,
+        protected readonly UIRenderer $ui_renderer,
+        protected readonly ilLanguage $lng,
+        protected readonly ilDBInterface $db,
+        protected readonly ilCtrl $ctrl,
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
         protected ilTestQuestionSetConfig $question_set_config,
-        protected InternalRequestService $testrequest
+        protected readonly RequestDataCollector $testrequest
     ) {
     }
 

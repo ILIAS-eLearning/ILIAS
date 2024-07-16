@@ -40,7 +40,7 @@ class ilAssMultiOptionQuestionFeedbackTest extends assBaseTestCase
         $db = $this->createMock(ilDBInterface::class);
         $lng = $this->createMock(ilLanguage::class);
 
-        $this->object = new class($questionOBJ, $ctrl, $db, $lng) extends ilAssMultiOptionQuestionFeedback{};
+        $this->object = new class ($questionOBJ, $ctrl, $db, $lng) extends ilAssMultiOptionQuestionFeedback {};
     }
 
     public function testConstruct(): void

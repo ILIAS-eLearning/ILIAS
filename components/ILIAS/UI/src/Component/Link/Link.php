@@ -39,7 +39,7 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
     /**
      * Set if link should be opened in new viewport
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport): Link;
+    public function withOpenInNewViewport(bool $open_in_new_viewport): static;
 
     public function getOpenInNewViewport(): ?bool;
 
@@ -49,7 +49,7 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
      * not be translated in this process. If the link text also is not translated (e.g., because it is a formal title
      * that should be kept in the original language), you should also add the language attributes to the anchor element.
      */
-    public function withLanguageOfReferencedContent(LanguageTag $language): Link;
+    public function withLanguageOfReferencedContent(LanguageTag $language): static;
 
     /**
      * See comment in withLanguageOfReferencedContent
@@ -60,10 +60,15 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
      * Relationships between the current and the referenced page are
      * added as a rel attribute.
      */
-    public function withAdditionalRelationshipToReferencedResource(Relationship $type): Link;
+    public function withAdditionalRelationshipToReferencedResource(Relationship $type): static;
 
     /**
      * @return IsRelationship[]
      */
     public function getRelationshipsToReferencedResource(): array;
+
+    /**
+     * disables the Link
+     */
+    public function withDisabled(bool $disabled = true): static;
 }

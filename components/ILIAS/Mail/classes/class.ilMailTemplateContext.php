@@ -21,11 +21,6 @@ declare(strict_types=1);
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
 
-/**
- * Class ilMailTemplateContext
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 abstract class ilMailTemplateContext
 {
     protected ilLanguage $language;
@@ -99,6 +94,9 @@ abstract class ilMailTemplateContext
         ];
     }
 
+    /**
+     * @return list<array<string, array{placeholder: string, crs_period_end_mail_placeholder: string}>>
+     */
     final public function getPlaceholders(): array
     {
         $placeholders = $this->getGenericPlaceholders();
@@ -107,14 +105,23 @@ abstract class ilMailTemplateContext
         return array_merge($placeholders, $specific);
     }
 
+    /**
+     * @return list<array<string, array{placeholder: string, crs_period_end_mail_placeholder: string}>>
+     */
     abstract public function getSpecificPlaceholders(): array;
 
+    /**
+     * @param array<string, mixed> $context_parameters
+     */
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null
     ): string;
 
+    /**
+     * @param array<string, mixed> $context_parameters
+     */
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,

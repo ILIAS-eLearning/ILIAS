@@ -37,7 +37,7 @@ class ilAssIncompleteQuestionPurger
     {
         $this->db = $db;
 
-        $this->ignoredContainerObjectTypes = array('lm');
+        $this->ignoredContainerObjectTypes = ['lm'];
     }
 
     public function getOwnerId()
@@ -70,9 +70,9 @@ class ilAssIncompleteQuestionPurger
 			AND qpl_questions.tstamp = %s
 		";
 
-        $res = $this->db->queryF($query, array('integer', 'integer'), array($this->getOwnerId(), 0));
+        $res = $this->db->queryF($query, ['integer', 'integer'], [$this->getOwnerId(), 0]);
 
-        $questionIds = array();
+        $questionIds = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             $questionIds[] = $row['question_id'];

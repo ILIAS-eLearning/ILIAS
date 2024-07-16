@@ -55,7 +55,7 @@ class BooleanTransformationTest extends TestCase
         $this->transformation->transform($failingValue);
     }
 
-    public function BooleanTestDataProvider(): array
+    public static function BooleanTestDataProvider(): array
     {
         return [
             'true' => [true, true],
@@ -75,7 +75,7 @@ class BooleanTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider(): array
+    public static function TransformationFailureDataProvider(): array
     {
         return [
             'null' => [null],

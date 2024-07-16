@@ -48,11 +48,15 @@ class UIComponent implements Component\Component
             new Component\Resource\ComponentJS($this, "AdvancedSelectionList.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilTextHighlighter.js");
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("qtip2/dist/jquery.qtip.min.js");
+        */
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("jstree/dist/jstree.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
            new Component\Resource\NodeModule("jstree/dist/themes/default/style.min.css");
+        */
     }
 }

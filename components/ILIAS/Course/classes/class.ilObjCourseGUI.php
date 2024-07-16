@@ -120,10 +120,6 @@ class ilObjCourseGUI extends ilContainerGUI
             return;
         }
 
-        if ($this->isActiveAdministrationPanel()) {
-            $this->addAdoptContentLinkToToolbar();
-        }
-
         // Fill meta header tags
         ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
 
@@ -169,6 +165,10 @@ class ilObjCourseGUI extends ilContainerGUI
             // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
             // $this->ctrl->setCmdClass(get_class($course_content_obj));
             $this->ctrl->forwardCommand($course_content_obj);
+        }
+
+        if ($this->isActiveAdministrationPanel()) {
+            $this->addAdoptContentLinkToToolbar();
         }
     }
 
@@ -1241,7 +1241,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTopActionsVisibility();
 
         // breadcrumbs
-        if ($setting->get("rep_breadcr_crs_overwrite")) {
+        if ($setting->get("rep_breadcr_crs") && $setting->get("rep_breadcr_crs_overwrite")) {
             $add = $setting->get("rep_breadcr_crs_default")
                 ? " (" . $this->lng->txt("crs_breadcrumb_crs_only") . ")"
                 : " (" . $this->lng->txt("crs_breadcrumb_full_path") . ")";
@@ -1581,7 +1581,11 @@ class ilObjCourseGUI extends ilContainerGUI
             !$this->isActiveAdministrationPanel()) {
             return;
         }
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes()
+            )
+        );
         $gui->render();
     }
 
@@ -2367,6 +2371,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilnewstimelinegui":
+                if (!$this->__checkStartObjects()) {    // see #37236
+                    $this->ctrl->redirectByClass(self::class, "view");
+                }
                 $this->tabs_gui->setTabActive('news_timeline');
                 $t = ilNewsTimelineGUI::getInstance(
                     $this->object->getRefId(),
@@ -2806,21 +2813,6 @@ class ilObjCourseGUI extends ilContainerGUI
             return false;
         }
         return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function prepareOutput(bool $show_subobjects = true): bool
-    {
-        if (!$this->getCreationMode()) {
-            $settings = ilMemberViewSettings::getInstance();
-            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
-                $settings->setContainer($this->object->getRefId());
-                $this->rbac_system->initMemberView();
-            }
-        }
-        return parent::prepareOutput($show_subobjects);
     }
 
     /**

@@ -129,16 +129,18 @@ class TileTest extends TestCase
 
         $ui->method('factory')->willReturn($factory);
 
-        $consecutive = [$badge_id, ''];
         $ctrl->expects(self::once())->method('getLinkTargetByClass')->with($gui_class_name, 'deactivateInCard')->willReturn($url);
-        $ctrl->expects(self::exactly(2))->method('setParameterByClass')->with(
-            $this->identicalTo($gui_class_name),
-            $this->identicalTo('badge_id'),
-            $this->callback(function ($value) use (&$consecutive) {
-                $this->assertSame(array_shift($consecutive), $value);
-                return true;
-            })
-        );
+        $expected = [
+            [$gui_class_name, 'badge_id', (string) $badge_id],
+            [$gui_class_name, 'badge_id', '']
+        ];
+        $ctrl->expects(self::exactly(2))
+            ->method('setParameterByClass')
+            ->willReturnCallback(
+                function ($classname, $param, $value) use (&$expected) {
+                    $this->assertEquals(array_shift($expected), [$classname, $param, $value]);
+                }
+            );
 
         $language->method('txt')->willReturnCallback(
             static fn(string $lang_key) => 'Translated: ' . $lang_key
@@ -195,7 +197,7 @@ class TileTest extends TestCase
         array_map($this->assertInstanceOf(...), $expected_components, $components);
     }
 
-    public function provideAsVariants(): array
+    public static function provideAsVariants(): array
     {
         return [
             'Test asImage.' => ['asImage', [ModalComponent::class, ImageComponent::class]],

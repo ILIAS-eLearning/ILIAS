@@ -39,7 +39,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     public function __construct(ilAssQuestionProcessLockFileStorage $lockFileStorage)
     {
         $this->lockFileStorage = $lockFileStorage;
-        $this->lockFileHandles = array();
+        $this->lockFileHandles = [];
     }
 
     /**

@@ -238,7 +238,8 @@ class ilNewsTimelineGUI
         if (count($this->news_data) > 0) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
             $ttpl->setVariable("NEWS", $timeline->render());
-            $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
+            $edit_modal = $this->getEditModal($form);
+            $ttpl->setVariable("EDIT_MODAL", $this->ui->renderer()->render($edit_modal));
             //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $this->renderDeleteModal($ttpl);
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("media/loader.svg"));
@@ -247,8 +248,9 @@ class ilNewsTimelineGUI
         } else {
             if ($this->getEnableAddNews()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
-                $this->tpl->setContent($this->getEditModal());
-                $html = $this->getEditModal();
+                $edit_modal = $this->getEditModal();
+                $this->tpl->setContent($this->ui->renderer()->render($edit_modal));
+                $html = $this->ui->renderer()->render($edit_modal);
             } else {
                 $mess = $this->ui->factory()->messageBox()->info(
                     $this->lng->txt("news_timline_no_entries")
@@ -437,13 +439,8 @@ class ilNewsTimelineGUI
         $this->send("");
     }
 
-    protected function getEditModal($form = null): string
+    protected function getEditModal($form = null): \ILIAS\UI\Component\Modal\Modal
     {
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($this->lng->txt("edit"));
-        $modal->setId("ilNewsEditModal");
-        $modal->setType(ilModalGUI::TYPE_LARGE);
-
         if (is_null($form)) {
             $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         }
@@ -458,9 +455,12 @@ class ilNewsTimelineGUI
         $form->addItem($act);
         $form->setId("news_edit_form");
 
-        $modal->setBody($form->getHTML());
+        $modal = $this->gui->ui()->factory()->modal()->roundtrip(
+            $this->lng->txt("edit"),
+            $this->ui->factory()->legacy($form->getHTML())
+        );
 
-        return $modal->getHTML();
+        return $modal;
     }
 
     protected function renderDeleteModal(ilTemplate $tpl): void

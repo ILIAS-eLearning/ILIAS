@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
-require_once('ViewControlBaseTest.php');
+require_once('ViewControlTestBase.php');
 
 
 class VCPaginationRendererMock extends ILIAS\UI\Implementation\Component\Input\ViewControl\Renderer
@@ -46,7 +46,7 @@ class VCPaginationRendererMock extends ILIAS\UI\Implementation\Component\Input\V
     }
 }
 
-class ViewControlPaginationTest extends ViewControlBaseTest
+class ViewControlPaginationTest extends ViewControlTestBase
 {
     public function testViewControlPaginationConstruct(): void
     {
@@ -77,47 +77,47 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         return [
             [
                 'offset' => 24,
-                'limit' => 25,
+                'page_size' => 25,
                 'expected' => [0, 25]
             ],
             [
                 'offset' => 25,
-                'limit' => 25,
+                'page_size' => 25,
                 'expected' => [25, 25]
             ],
             [
                 'offset' => 52,
-                'limit' => 25,
+                'page_size' => 25,
                 'expected' => [50, 25]
             ],
             [
                 'offset' => 7,
-                'limit' => 5,
+                'page_size' => 5,
                 'expected' => [5, 5]
             ],
             [
                 'offset' => 99,
-                'limit' => 5,
+                'page_size' => 5,
                 'expected' => [95, 5]
             ],
             [
                 'offset' => 4,
-                'limit' => 3,
+                'page_size' => 3,
                 'expected' => [3, 3]
             ],
             [
                 'offset' => 4,
-                'limit' => PHP_INT_MAX,
+                'page_size' => PHP_INT_MAX,
                 'expected' => [0, PHP_INT_MAX]
             ],
             [
                 'offset' => 0,
-                'limit' => 2,
+                'page_size' => 2,
                 'expected' => [0, 2]
             ],
             [
                 'offset' => 10,
-                'limit' => 0,
+                'page_size' => 0,
                 'expected' => [10, 5] //default smallest limit
             ],
 
@@ -223,7 +223,6 @@ class ViewControlPaginationTest extends ViewControlBaseTest
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery(),
             $this->getImagePathResolver(),
             $this->getDataFactory(),
             $this->getHelpTextRetriever(),

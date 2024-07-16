@@ -426,6 +426,9 @@ adve#:#adve_use_physical#:#Ersätt #str|emp|imp med <u>B|I|U</u>
 adve#:#adve_use_physical_info#:#Inställningen ersätter knapparna i de semantiska stilklasserna för stark, eftertrycklig och viktig med de fast definierade distinktionerna <b>B</b> (fet), <i>I</i> (kursiv) och <u>U</u> (understruken). Uppmärksamhet
 adve#:#adve_use_tiny_mce#:#Aktivera TinyMCE för WYSIWYG-redigering
 assessment#:#action#:#Åtgärder
+assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
+assessment#:#activate_manual_scoring#:#Aktivera manuell bedömning för
+assessment#:#activate_manual_scoring_desc#:#Alla frågor av den valda frågetypen kan poängsättas manuellt. Uppmärksamhet
 assessment#:#addSuggestedSolution#:#Innehåll för repetition
 assessment#:#add_answers#:#Lägg till svar
 assessment#:#add_circle#:#Lägg till cirkel
@@ -585,7 +588,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
-assessment#:#conf_delete_pass_ctm#:#Vill du verkligen radera dina tidigare svar?
 assessment#:#confirm_delete_all_user_data#:#Är du säker på att du vill radera alla poster från undersökningen?
 assessment#:#confirm_delete_single_user_data#:#Är du säker på att du vill ta bort alla testdata för de valda användarna?
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?
@@ -600,6 +602,7 @@ assessment#:#create_gaps#:#Skapa och uppdatera luckor
 assessment#:#create_new#:#Skapa ny
 assessment#:#customstyle#:#Egen formatmall
 assessment#:#dashboard_tab#:#Deltagare
+assessment#:#date_time#:#Datum/Tid
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Image
 assessment#:#definition_text#:#Text
@@ -627,19 +630,6 @@ assessment#:#dont_use_questionpool#:#Lägg inte in frågor i en frågepool, utan
 assessment#:#duplicate#:#Kopia
 assessment#:#duplicate_matching_values_selected#:#Du har valt minst ett värde för dubbel tilldelning!
 assessment#:#duplicate_order_values_entered#:#Du har gett minst en dubbelbeställning!
-assessment#:#ects_allow_ects_grades#:#Visa ECTS-betyg utöver det uppnådda betyget
-assessment#:#ects_fx_threshold#:#Begränsning
-assessment#:#ects_fx_threshold_info#:#Ange tröskelvärdet över vilket underkända deltagare får ECTS-betyget "FX".
-assessment#:#ects_grade#:#ECTS-klass
-assessment#:#ects_grade_a_desc#:#excellenta prestationer och endast ett fåtal obetydliga misstag
-assessment#:#ects_grade_b_desc#:#prestationer över genomsnittet, men vissa misstag
-assessment#:#ects_grade_c_desc#:#överlag bra och gediget arbete, men med några grundläggande brister
-assessment#:#ects_grade_d_desc#:#medium, men tydliga brister
-assessment#:#ects_grade_desc_prefix#:#Betydelsen av noten
-assessment#:#ects_grade_e_desc#:#de visade prestandan uppfyller minimikraven
-assessment#:#ects_grade_f_desc#:#Betydande förbättringar behövs
-assessment#:#ects_grade_fx_desc#:#förbättringar behövs innan prestationen erkänns
-assessment#:#ects_output_of_ects_grades#:#Utmatning av ECTS-betyg
 assessment#:#edit_answer#:#Ändra svar
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks###21 11 2023 new variable
 assessment#:#edit_introduction#:#Edit Introduction###21 11 2023 new variable
@@ -771,6 +761,7 @@ assessment#:#hints#:#Hints###21 11 2023 new variable
 assessment#:#identical_scoring#:#Identisk utvärdering
 assessment#:#identical_scoring_desc#:#Om den är markerad kommer luckor med identiska lösningar att poängsättas enligt specifikationerna, även om samma lösning har använts flera gånger. Om kryssrutan inte är markerad kommer endast den första identiska lösningen som används att poängsättas.
 assessment#:#imagemap#:#Imagemap
+assessment#:#imap_line_color#:#Imagemap linjefärg
 assessment#:#import_question#:#Importfrågor
 assessment#:#imported#:#importerad
 assessment#:#info_answer_type_change#:#Frågan innehåller redan bilder. Frågetypen kunde därför inte ändras till flerradiga svar.
@@ -832,23 +823,12 @@ assessment#:#lacex_example_header#:#Exempel
 assessment#:#last_update#:#Uppdaterad
 assessment#:#legend#:#Legend
 assessment#:#locked#:#låst
-assessment#:#log_added_extratime#:#Ytterligare %d minuter av behandlingstid har lagts till för deltagar-ID %d
-assessment#:#log_answer_changed_points#:#Manuellt ställa in punkterna för deltagaren %s från %d till %d punkter med %s
-assessment#:#log_create_new_test#:#Nytt test skapat
-assessment#:#log_manual_feedback#:#%s har skapat en manuell bedömning för deltagaren %s och frågan %s
-assessment#:#log_mark_added#:#Note tillagd
-assessment#:#log_mark_changed#:#Note ändrad
-assessment#:#log_mark_removed#:#Note borttagen
-assessment#:#log_modified_test#:#Testet har ändrats
-assessment#:#log_question_added#:#Fråga tillagd till position
-assessment#:#log_question_position_changed#:#Fråga position ändrad
-assessment#:#log_question_removed#:#Fråga borttagen
-assessment#:#log_selected_user_data_removed#:#Ta bort användaren %s testdata
-assessment#:#log_user_answered_question#:#En användare har svarat på en fråga och fått %s poäng
-assessment#:#log_user_entered_values#:#Användaren har angett värden
-assessment#:#log_user_not_entered_values#:#Användaren har inte angett några värden
+assessment#:#log_text#:#Protokollinmatning
 assessment#:#log_user_solution_willingly_deleted#:#Användaren har tagit bort sitt svar.
-assessment#:#log_wrong_test_password_entered#:#Deltagaren har angett fel testlösenord.
+assessment#:#logging_settings#:#Protokolluppgifter
+assessment#:#logs_deleted#:#Loggposterna för de utvalda testerna har raderats!
+assessment#:#logs_output#:#Utmatning av loggdata
+assessment#:#logs_wrong_test_password_provided#:#Deltagaren har angett fel testlösenord.
 assessment#:#longmenu#:#Lång meny
 assessment#:#longmenu_answeroptions_differ#:#Den här frågan fungerar inte korrekt eftersom den inte har samma antal luckor i texten som i svarsalternativen.
 assessment#:#longmenu_text#:#"Lång meny" text
@@ -866,7 +846,6 @@ assessment#:#manscoring_results_pass#:#Manuellt poängsatta frågor för testkö
 assessment#:#manual_editing#:#Manuell redigering
 assessment#:#mark_schema#:#Notschema
 assessment#:#mark_schema_invalid#:#Bedömningsschemat kunde inte valideras framgångsrikt. Vänligen skapa ett giltigt schema.
-assessment#:#mark_tst_ects#:#Ditt ECTS-betyg är "[markects]" (Europeiska systemet för överföring av studiemeriter)
 assessment#:#matches#:#fits
 assessment#:#matching_pairs#:#Associationspar
 assessment#:#matching_shuffle_definitions#:#Endast definitioner
@@ -1981,7 +1960,6 @@ assessment#:#units#:#Antal enheter
 assessment#:#unlimited#:#obegränsad
 assessment#:#unlock#:#Lås upp
 assessment#:#uploaded_material#:#Uppladdade material
-assessment#:#use_ects_fx#:#Användning av ECTS-betyget "FX
 assessment#:#use_previous_solution#:#Använd tidigare lösning
 assessment#:#use_previous_solution_advice#:#Lösningen som visas har tidigare lämnats in av dig. Du måste bekräfta antagandet av denna lösning under frågan om du vill anta lösningen utan ändringar.
 assessment#:#user_has_finished_a_test#:#En deltagare har avslutat ett test.
@@ -3418,7 +3396,6 @@ common#:#action_aborted#:#Aktion avbruten
 common#:#actions#:#Åtgärder
 common#:#actions_for#:#Aktioner för %s
 common#:#activate#:#Aktivera
-common#:#activate_assessment_logging#:#Aktivera loggning av test och bedömning
 common#:#activate_https#:#Aktivera HTTPS (inloggning)
 common#:#activate_tracking#:#Aktivera spårning
 common#:#activation#:#Tillgänglighet
@@ -3485,24 +3462,6 @@ common#:#approve_recipient#:#E-postavisering för (inloggnings-ID)
 common#:#archive#:#Arkiv
 common#:#archive_broken#:#Arkivet verkar vara skadat eller tomt.
 common#:#are_you_sure#:#Är du säker?
-common#:#ass_log_admin#:#Administration av loggdata
-common#:#ass_log_count_datasets#:#Protokollposter
-common#:#ass_log_delete_entries#:#Radera loggposter
-common#:#ass_log_delete_no_selection#:#Välj minst ett test vars loggposter du vill radera!
-common#:#ass_log_deleted#:#Loggposterna för de utvalda testerna har raderats!
-common#:#ass_log_output#:#Utmatning av loggdata
-common#:#assessment_imap_line_color#:#Imagemap linjefärg
-common#:#assessment_log#:#Logga in test- och utvärderingsaktiviteter under en angiven tidsperiod.
-common#:#assessment_log_datetime#:#Datum/Tid
-common#:#assessment_log_deleted#:#Alla loggade data för testet raderades via administrationsgränssnittet.
-common#:#assessment_log_for_test#:#För testet
-common#:#assessment_log_log_entries#:#Protokollposter
-common#:#assessment_log_logging#:#Protokolluppgifter
-common#:#assessment_log_manual_scoring_activate#:#Aktivera manuell bedömning för
-common#:#assessment_log_manual_scoring_desc#:#Alla frågor av den valda frågetypen kan poängsättas manuellt. Uppmärksamhet
-common#:#assessment_log_question#:#Fråga
-common#:#assessment_log_text#:#Protokollinmatning
-common#:#assessment_settings_reporting_language#:#Språk för loggning
 common#:#assf_allowed_questiontypes#:#Tillgängliga frågetyper
 common#:#assf_allowed_questiontypes_desc#:#Alla valda frågetyper kommer att vara tillgängliga för denna ILIAS-installation. Om du vill förhindra skapandet av vissa frågetyper måste du avmarkera dessa frågetyper.
 common#:#assf_questiontypes#:#Inställningar för frågor
@@ -4325,7 +4284,7 @@ common#:#import_cat_table#:#Var god notera att följande tabell endast visas om 
 common#:#import_categories#:#Importkategorier
 common#:#import_failure_log#:#Import av fellogg
 common#:#import_file#:#Importera fil
-common#:#import_file_not_valid#:#Importfilen är inte giltig.
+common#:#import_file_not_valid_here#:#Importfilen är inte giltig.
 common#:#import_finished#:#Antal importerade e-postmeddelanden
 common#:#import_lm#:#Import ILIAS utbildningsmodul
 common#:#import_qpl#:#Importera frågepool för tester
@@ -11453,9 +11412,8 @@ mathjax#:#mathjax_polyfill_url#:#Url för en polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Behövs inte för MathJax 2
 mathjax#:#mathjax_polyfill_url_desc_line2#:#För MathJax 3 i äldre webbläsare, t.ex. https
 mathjax#:#mathjax_script_url#:#URL för MathJax-skriptet
-mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. https
-mathjax#:#mathjax_script_url_desc_line2#:#För MathJax 3 t.ex. https
-mathjax#:#mathjax_script_url_desc_line3#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd
+mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd %s
 mathjax#:#mathjax_server_address#:#Serverns adress
 mathjax#:#mathjax_server_address_info#:#T.ex. http
 mathjax#:#mathjax_server_cache_cleared#:# MathJax-cachen har rensats.
@@ -14652,12 +14610,10 @@ rep#:#rep_mo_mem_dash#:#Du är för närvarande inte medlem i en kurs eller grup
 rep#:#rep_multiple_reference_deletion_instruction#:#Välj ut de som också bör raderas
 rep#:#rep_multiple_reference_deletion_intro#:#Det finns ytterligare referenser för detta objekt.
 rep#:#rep_new_item_group_add#:#Lägg till gruppering
-rep#:#rep_new_item_group_add_separator#:#Lägg till kolumnavgränsare
 rep#:#rep_new_item_group_delete_sure#:#Vill du verkligen ta bort följande grupperingar?
 rep#:#rep_new_item_group_edit#:#Redovisa gruppering
 rep#:#rep_new_item_group_nr_subitems#:#Antal tilldelade objekt
 rep#:#rep_new_item_group_other#:#Mer
-rep#:#rep_new_item_group_separator#:#Kolumnavgränsare
 rep#:#rep_new_item_group_unassigned#:#Inte tilldelad
 rep#:#rep_new_item_group_unassigned_subitems#:#Antal ej tilldelade objekt
 rep#:#rep_new_item_groups#:#Grupperingar

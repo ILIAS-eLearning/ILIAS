@@ -81,3 +81,27 @@ Business Rules
 ### Main term retrieval
 - Done in ilGlossaryTerm::getTermList
 
+
+## Flashcards
+The flashcard training can be activated in the settings of a glossary. If activated, the flashcards are the primary
+displayed tab. For the flashcard training, it can be chosen if the term of the flashcard is displayed first and the
+learner has to guess the definition or vice versa.
+
+### Basic principle
+The flashcards are based on the training scheme of Sebasian Leitner. There are five boxes for the flashcards.
+In the beginning, all term-definitons-pairs are located in box 1. If the learner opens box 1 and clicks "I got it right"
+for a term-definition-pair, it is moved to box 2. From box 2, it is moved to box 3 and so on. The aim is to get all
+term-definition-pairs to box 5, the last box which cannot be opened. If the learner clicks on "I was wrong" for a
+term-definition-pair, it is always moved back to box 1.
+For more information about the training scheme, have a look [here](https://en.wikipedia.org/wiki/Flashcard).
+
+### Special features
+There are a few special features with the flashcards in ILIAS:
+* If the learner opens a box containing flashcards which has been already presented to her on the same calendar day,
+she will be informed about it and can decide if she wants to see only "older" flashcards or also flashcards from
+today's date. If there are only flashcards from today's date, the learner can only continue with these flashcards.
+* In genereal, flashcards are sorted by date within a box. That means flashcards, which have not been displayed for the
+longest time, will be shown to the learner first. There is an exception when multiple flashcards were last accessed
+on the same calendar day. These flashcards are not sorted to the second, but mixed randomly.
+* By clicking on "Reset All Boxes" in the overview, all flashcards are moved back to box 1. The dates of the flashcards
+are reset, too.

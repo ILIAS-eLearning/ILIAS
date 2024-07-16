@@ -26,7 +26,7 @@ abstract class ilSystemStyleExceptionBaseUnit extends TestCase
 {
     abstract protected function getClassName(): string;
 
-    public function codesProvider(): array
+    public static function codesProvider(): array
     {
         $reflection = new ReflectionClass($this->getClassName());
 

@@ -32,8 +32,6 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_tpl();
-        $this->addGlobal_ilLoggerFactory();
-        $this->addGlobal_http();
         $this->addGlobal_refinery();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_lng();
@@ -56,7 +54,8 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(ilTestParticipantAccessFilterFactory::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $DIC['http'],
             $DIC['refinery']
         );
@@ -69,12 +68,12 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $objTest_mock = $this->createMock(ilObjTest::class);
+        $obj_test_mock = $this->getTestObjMock();
 
         $this->assertNull($this->testObj->getTestObj());
 
-        $this->testObj->setTestObj($objTest_mock);
-        $this->assertEquals($objTest_mock, $this->testObj->getTestObj());
+        $this->testObj->setTestObj($obj_test_mock);
+        $this->assertEquals($obj_test_mock, $this->testObj->getTestObj());
     }
 
     public function testQuestionSetConfig(): void

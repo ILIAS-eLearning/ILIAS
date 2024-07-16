@@ -24,6 +24,7 @@ use ILIAS\MetaData\Structure\Dictionaries\DictionaryInitiator as BaseDictionaryI
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
@@ -32,16 +33,17 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     public function __construct(
         TagFactory $tag_factory,
         PathFactoryInterface $path_factory,
+        NavigatorFactoryInterface $navigator_factory,
         StructureSetInterface $structure
     ) {
         $this->tag_factory = $tag_factory;
-        parent::__construct($path_factory, $structure);
+        parent::__construct($path_factory, $navigator_factory, $structure);
     }
 
     public function get(): DictionaryInterface
     {
         $this->initDictionary();
-        return new LOMDictionary($this->path_factory, ...$this->getTagAssignments());
+        return new LOMDictionary($this->path_factory, $this->navigator_factory, ...$this->getTagAssignments());
     }
 
     protected function initDictionary(): void

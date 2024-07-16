@@ -55,7 +55,7 @@ class ilQTIResponseTest extends TestCase
         $this->assertEquals($expected, $instance->getNumtype());
     }
 
-    public function rtimings(): array
+    public static function rtimings(): array
     {
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
 
@@ -68,7 +68,7 @@ class ilQTIResponseTest extends TestCase
         ];
     }
 
-    public function numtypes(): array
+    public static function numtypes(): array
     {
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
         return [

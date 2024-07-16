@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * QTI material class
@@ -39,17 +38,17 @@ class ilQTIMaterial
 
     public function addMattext(ilQTIMattext $a_mattext): void
     {
-        $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
+        $this->materials[] = ["material" => $a_mattext, "type" => "mattext"];
     }
 
     public function addMatimage(ilQTIMatimage $a_matimage): void
     {
-        $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
+        $this->materials[] = ["material" => $a_matimage, "type" => "matimage"];
     }
 
     public function addMatapplet(ilQTIMatapplet $a_matapplet): void
     {
-        $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
+        $this->materials[] = ["material" => $a_matapplet, "type" => "matapplet"];
     }
 
     public function getMaterialCount(): int

@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U<
 adve#:#adve_use_physical_info#:#To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości.
 adve#:#adve_use_tiny_mce#:#Aktywuj TinyMCE do edytowania WYSIWYG
 assessment#:#action#:#Akcja
+assessment#:#activate_logging#:#Aktywuj śledzenie testów i oceniania
+assessment#:#activate_manual_scoring#:#Aktywuj ręczne punktowanie dla
+assessment#:#activate_manual_scoring_desc#:#Jeśli jest aktywowana ręczna punktacja dla typu pytania, to wszystkie pytania tego typu mogą być ręcznie punktowane przez autora testu. Ostrożnie używaj tego ustawienia, ponieważ późniejsza ręczna punktacja typów pytań automatycznie punktowanych może spowodować nieprawidłową ocenę!
 assessment#:#addSuggestedSolution#:#Pokaż sugerowane rozwiązanie
 assessment#:#add_answers#:#Dodaj odpowiedzi
 assessment#:#add_circle#:#Dodaj krąg
@@ -573,7 +576,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Baza kodu
 assessment#:#concatenation#:#Złączenie
 assessment#:#conf_delete_pass#:#Czy naprawdę usunąć przebieg?
-assessment#:#conf_delete_pass_ctm#:#Czy naprawdę chcesz usunąć dotychczasowe odpowiedzi?
 assessment#:#confirm_delete_all_user_data#:#Czy chcesz usunąć wszystkie dane użytkownika testu?
 assessment#:#confirm_delete_single_user_data#:#Czy chcesz usunąć dane testu wybranych użytkowników?
 assessment#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią utworzoną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#Twórz i odświeżaj odstępy
 assessment#:#create_new#:#Twórz nowe
 assessment#:#customstyle#:#Własny arkusz stylu
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Data/czas
 assessment#:#definition#:#Definicja
 assessment#:#definition_image#:#Obraz definicji
 assessment#:#definition_text#:#Tekst definicji
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#Nie dodawaj pytań do puli pytań, tylko wy
 assessment#:#duplicate#:#Kopiuj
 assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wartości!
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
-assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo ocenę ECTS do uzyskanego wyniku
-assessment#:#ects_fx_threshold#:#Wartość graniczna
-assessment#:#ects_fx_threshold_info#:#Podaj wartość graniczną, powyżej której uczestnicy, którzy nie zaliczyli pracy, otrzymają ocenę ECTS 'FX'.
-assessment#:#ects_grade#:#Ocena ECTS
-assessment#:#ects_grade_a_desc#:#wspaniałe wyniki i tylko kilka nieistotnych błędów
-assessment#:#ects_grade_b_desc#:#ponadprzeciętne wyniki z kilkoma błędami
-assessment#:#ects_grade_c_desc#:#w sumie dobra i solidna praca, zawiera jednak kilka podstawowych błędów
-assessment#:#ects_grade_d_desc#:#średnio, znaczne braki
-assessment#:#ects_grade_desc_prefix#:#Znaczenie oceny:
-assessment#:#ects_grade_e_desc#:#otrzymane wyniki odpowiadają minimalnym wymaganiom
-assessment#:#ects_grade_f_desc#:#konieczna jest znaczna poprawa
-assessment#:#ects_grade_fx_desc#:#przed uznaniem wyników konieczna jest poprawa
-assessment#:#ects_output_of_ects_grades#:#Wyniki ocen ECTS
 assessment#:#edit_answer#:#Zmień odpowiedź
 assessment#:#edit_page#:#Edytuj stronę
 assessment#:#edit_question#:#Edytuj pytanie
@@ -751,6 +741,7 @@ assessment#:#height#:#Wysokość
 assessment#:#identical_scoring#:#Identyczna ocena
 assessment#:#identical_scoring_desc#:#Jeśli wybrana jest ta opcja, luki z identycznymi rozwiązaniami są oceniane zgodnie z wytycznymi, nawet wówczas, gdy jedno rozwiązanie zostało użyte kilka razy. Jeśli nie zaznaczono pola wyboru, oceniane jest tylko pierwsze użyte identyczne rozwiązanie.
 assessment#:#imagemap#:#Mapa bitowa
+assessment#:#imap_line_color#:#Mapa bitowa, kolor linii
 assessment#:#import_question#:#Import pytań
 assessment#:#imported#:#zaimportowany
 assessment#:#info_answer_type_change#:#Pytanie zawiera już obrazy. Dlatego nie udało się zmienić typ pytania na kilkuwierszowe odpowiedzi.
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Przykłady
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
-assessment#:#log_added_extratime#:#Do czasu przetwarzania dla uczestników o nr ID %d zostaną dodane dodatkowe %d minuty
-assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów %s od %d do %d przez %s.
-assessment#:#log_create_new_test#:#Utworzono nowy test
-assessment#:#log_manual_feedback#:#%s utworzono ręczną punktację dla uczestnika %s oraz pytania %s: %s
-assessment#:#log_mark_added#:#Znacznik dodany
-assessment#:#log_mark_changed#:#Znacznik zmieniony
-assessment#:#log_mark_removed#:#Znacznik usunięty
-assessment#:#log_modified_test#:#Test został zmodyfikowany
-assessment#:#log_question_added#:#Pytanie dodano na pozycji
-assessment#:#log_question_position_changed#:#Zmieniono pozycję pytania
-assessment#:#log_question_removed#:#Usunięto pytanie
-assessment#:#log_selected_user_data_removed#:#Usunięto dane testu użytkownika %s
-assessment#:#log_user_answered_question#:#Użytkownik odpowiedział na pytanie i otrzymał %s punktów
-assessment#:#log_user_entered_values#:#Wartość podana przez użytkownika
-assessment#:#log_user_not_entered_values#:#Użytkownik nie podał wartości
+assessment#:#log_text#:#Komunikat logu
 assessment#:#log_user_solution_willingly_deleted#:#Użytkownik usunął swoją odpowiedź.
-assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
+assessment#:#logging_settings#:#Rejestracja danych
+assessment#:#logs_deleted#:#Dane logu wybranych testów zostały usunięte
+assessment#:#logs_output#:#Wyniki logu danych
+assessment#:#logs_wrong_test_password_provided#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#Ręczna punktacja pytań dla wykonania %s
 assessment#:#manual_editing#:#Manualne edytowanie
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#mark_schema_invalid#:#Nie udało się przeprowadzić walidacji schematu ocen. Sporządź poprawny schemat.
-assessment#:#mark_tst_ects#:#Twoja ocena ECTS to &quot;[markects]&quot;
 assessment#:#matches#:#zgodne
 assessment#:#matching_pairs#:#Dopasuj pary
 assessment#:#matching_shuffle_definitions#:#Tylko definicje
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Jednostki
 assessment#:#unlimited#:#nielimitowany
 assessment#:#unlock#:#Odblokuj
 assessment#:#uploaded_material#:#Załadowany materiał
-assessment#:#use_ects_fx#:#Stosowanie oceny ECTS 'FX'
 assessment#:#use_previous_solution#:#Użyj poprzedniej odpowiedzi
 assessment#:#use_previous_solution_advice#:#Widoczne rozwiązanie zostało oddane przez Ciebie wcześniej. Jeśli chcesz przejąć rozwiązanie bez dokonywania zmian, musisz potwierdzić przejęcie tego rozwiązania poniżej pytania.
 assessment#:#user_has_finished_a_test#:#Jeden z uczestników zakończył test.
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Aktywuj
-common#:#activate_assessment_logging#:#Aktywuj śledzenie testów i oceniania
 common#:#activate_https#:#Aktywacja HTTPS (płatność, logowanie)
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#Login ID zatwierdzonego
 common#:#archive#:#Archiwuj
 common#:#archive_broken#:#Archiwum wydaje się uszkodzone lub puste.
 common#:#are_you_sure#:#Jesteś pewien?
-common#:#ass_log_admin#:#Administracja logiem danych
-common#:#ass_log_count_datasets#:#Wpisy logu
-common#:#ass_log_delete_entries#:#Usuń wpisy logu
-common#:#ass_log_delete_no_selection#:#Wybierz co najmniej jeden test do usunięcia logu danych
-common#:#ass_log_deleted#:#Dane logu wybranych testów zostały usunięte
-common#:#ass_log_output#:#Wyniki logu danych
-common#:#assessment_imap_line_color#:#Mapa bitowa, kolor linii
-common#:#assessment_log#:#Twórz log testu i oceniania na określony przedział czasu
-common#:#assessment_log_datetime#:#Data/czas
-common#:#assessment_log_deleted#:#Dane logu testu i oceniania zostały usunięte
-common#:#assessment_log_for_test#:#Dla testu
-common#:#assessment_log_log_entries#:#Pozycje logu
-common#:#assessment_log_logging#:#Rejestracja danych
-common#:#assessment_log_manual_scoring_activate#:#Aktywuj ręczne punktowanie dla
-common#:#assessment_log_manual_scoring_desc#:#Jeśli jest aktywowana ręczna punktacja dla typu pytania, to wszystkie pytania tego typu mogą być ręcznie punktowane przez autora testu. Ostrożnie używaj tego ustawienia, ponieważ późniejsza ręczna punktacja typów pytań automatycznie punktowanych może spowodować nieprawidłową ocenę!
-common#:#assessment_log_question#:#Pytanie
-common#:#assessment_log_text#:#Komunikat logu
-common#:#assessment_settings_reporting_language#:#Język raportowania
 common#:#assf_allowed_questiontypes#:#Dostępne typy pytań
 common#:#assf_allowed_questiontypes_desc#:#Wszystkie wybrane typy pytań będą dostępne w tej instalacji ILIAS. Jeśli nie chcesz zezwalać na tworzenie pytań określonego typu, musisz usunąć wybór w polu wyboru.
 common#:#assf_questiontypes#:#Ustawienia pytań
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#Tabela ta ma znaczenie tylko po ustawieniu pola wybo
 common#:#import_categories#:#Import kategorii
 common#:#import_failure_log#:#Błąd w logu importu
 common#:#import_file#:#Importuj plik
-common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
+common#:#import_file_not_valid_here#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości:
 common#:#import_lm#:#Importuj moduł nauczania ILIAS
 common#:#import_qpl#:#Import testowej puli pytań
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_limiter#:#Separator
 mathjax#:#mathjax_limiter_info#:#Wybierz te separatory, które są skonfigurowane w MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Adres serwera
 mathjax#:#mathjax_server_address_info#:#np. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Pamięć podręczna MathJax została opróżniona.
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Wybierz te, które również mają zostać usunięte:
 rep#:#rep_multiple_reference_deletion_intro#:#Dla tego obiektu istnieją dodatkowe rekomendacje.
 rep#:#rep_new_item_group_add#:#Dodaj grupę
-rep#:#rep_new_item_group_add_separator#:#Dodaj separator kolumny
 rep#:#rep_new_item_group_delete_sure#:#Czy naprawdę chcesz usunąć następujące grupy?
 rep#:#rep_new_item_group_edit#:#Edytuj grupę
 rep#:#rep_new_item_group_nr_subitems#:#Liczba przydzielonych obiektów
 rep#:#rep_new_item_group_other#:#Inne
-rep#:#rep_new_item_group_separator#:#Separatory kolumn
 rep#:#rep_new_item_group_unassigned#:#Nie przydzielono
 rep#:#rep_new_item_group_unassigned_subitems#:#Liczba nieprzydzielonych obiektów: %s
 rep#:#rep_new_item_groups#:#Grupy

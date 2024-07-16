@@ -197,7 +197,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         );
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;

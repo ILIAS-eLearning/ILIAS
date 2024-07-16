@@ -16,13 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilQuestionUsagesTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
 {
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     /**
      * @var assQuestion
      */
@@ -33,11 +34,16 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      * @param string                 $template_context
      * @param assQuestion            $question
      */
-    public function __construct($controller, $cmd, $template_context, assQuestion $question, \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo)
-    {
+    public function __construct(
+        $controller,
+        $cmd,
+        $template_context,
+        assQuestion $question,
+        protected GeneralQuestionPropertiesRepository $questionrepository
+    ) {
         $this->question = $question;
         $this->setId('qst_usage_' . $question->getId());
-        $this->questioninfo = $questioninfo;
+
         parent::__construct($controller, $cmd);
 
         $this->setRowTemplate('tpl.il_as_qpl_question_cumulated_stats_table_row.html', 'components/ILIAS/TestQuestionPool');
@@ -71,22 +77,22 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      */
     protected function initData(): void
     {
-        $rows = array();
+        $rows = [];
 
         $total_of_answers = $this->question->getTotalAnswers();
 
         if ($total_of_answers) {
-            $rows[] = array(
+            $rows[] = [
                 'result' => $this->lng->txt('qpl_assessment_total_of_answers'),
                 'value' => $total_of_answers,
                 'is_percent' => false
-            );
+            ];
 
-            $rows[] = array(
+            $rows[] = [
                 'result' => $this->lng->txt('qpl_assessment_total_of_right_answers'),
-                'value' => $this->questioninfo->getFractionOfReachedToReachablePointsTotal($this->question->getId()) * 100.0,
+                'value' => $this->questionrepository->getFractionOfReachedToReachablePointsTotal($this->question->getId()) * 100.0,
                 'is_percent' => true
-            );
+            ];
         } else {
             $this->disable('header');
         }

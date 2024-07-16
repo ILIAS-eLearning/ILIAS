@@ -26,12 +26,14 @@ class ilTestTopListTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
         $this->addGlobal_lng();
 
-        $this->testObj = new ilTestTopList($this->createMock(ilObjTest::class), $DIC['ilDB']);
+        $this->testObj = new ilTestTopList(
+            $this->getTestObjMock(),
+            $this->createMock(ilDBInterface::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

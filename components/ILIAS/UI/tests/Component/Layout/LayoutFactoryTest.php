@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 /**
  * Tests on factory implementation for layout
  *
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class LayoutFactoryTest extends AbstractFactoryTest
+class LayoutFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "page" => [
             "context" => false,
             "rules" => false
@@ -36,5 +36,5 @@ class LayoutFactoryTest extends AbstractFactoryTest
             "context" => true
         ]
     ];
-    public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
 }

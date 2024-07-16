@@ -25,16 +25,31 @@ namespace ILIAS\Glossary;
  */
 class InternalDataService
 {
-    // protected ...\DataFactory ..._factory;
+    protected Flashcard\DataFactory $flashcard_factory;
 
     public function __construct()
     {
-        //$this->..._factory = new ...\DataFactory();
+        $this->flashcard_factory = new Flashcard\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
+    public function flashcardTerm(
+        int $term_id,
+        int $user_id,
+        int $glo_id,
+        int $box_nr,
+        ?string $last_access = null
+    ): Flashcard\Term
     {
-        return $this->..._factory->...();
-    }*/
+        return $this->flashcard_factory->term($term_id, $user_id, $glo_id, $box_nr, $last_access);
+    }
+
+    public function flashcardBox(
+        int $box_nr,
+        int $user_id,
+        int $glo_id,
+        ?string $last_access = null
+    ): Flashcard\Box
+    {
+        return $this->flashcard_factory->box($box_nr, $user_id, $glo_id, $last_access);
+    }
 }

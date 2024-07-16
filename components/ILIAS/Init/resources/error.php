@@ -10,7 +10,7 @@ try {
     $local_tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
     $lng->loadLanguageModule("error");
     // #13515 - link back to "system" [see ilWebAccessChecker::sendError()]
-    $nd  = $tree->getNodeData(ROOT_FOLDER_ID);
+    $nd = $tree->getNodeData(ROOT_FOLDER_ID);
     $txt = $lng->txt('error_back_to_repository');
     $local_tpl->SetCurrentBlock("ErrorLink");
     $local_tpl->SetVariable("TXT_LINK", $txt);

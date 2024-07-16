@@ -32,13 +32,21 @@ class FlashcardShuffleManager
     {
     }
 
+    /**
+     * @param Term[] $box_entries
+     * @return Term[]
+     */
     public function shuffleEntries(
         array $box_entries
     ): array {
-        shuffle($box_entries);
+        $box_entries = $this->shuffle($box_entries);
         return $box_entries;
     }
 
+    /**
+     * @param Term[] $box_entries
+     * @return Term[]
+     */
     public function shuffleEntriesWithEqualDay(
         array $box_entries
     ): array {
@@ -47,7 +55,7 @@ class FlashcardShuffleManager
         $i = 0;
         // split entries per day
         foreach ($box_entries as $entry) {
-            $entry_day = substr($entry["last_access"], 0, 10);
+            $entry_day = substr($entry->getLastAccess(), 0, 10);
             if (empty($tmp_day)
                 || $entry_day === $tmp_day
             ) {
@@ -61,11 +69,18 @@ class FlashcardShuffleManager
         $entries = [];
         // shuffle entries with same day
         foreach ($tmp_entries as $entries_per_day) {
-            shuffle($entries_per_day);
+            $entries_per_day = $this->shuffle($entries_per_day);
             foreach ($entries_per_day as $entry) {
                 $entries[] = $entry;
             }
         }
+
+        return $entries;
+    }
+
+    protected function shuffle(array $entries): array
+    {
+        shuffle($entries);
 
         return $entries;
     }

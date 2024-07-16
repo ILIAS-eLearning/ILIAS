@@ -37,7 +37,9 @@ class UICore implements Component\Component
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
+        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("bootstrap/dist/js/bootstrap.min.js");
+        */
     }
 }

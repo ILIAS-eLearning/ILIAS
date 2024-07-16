@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -31,7 +33,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     protected function __construct(
         protected ilDBInterface $db,
         protected ilLanguage $lng,
-        protected ilLogger $log,
+        protected TestLogger $logger,
         protected ilObjTest $testOBJ,
         protected ilTestRandomQuestionSetConfig $questionSetConfig,
         protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
@@ -185,15 +187,15 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     {
         $nextId = $this->db->nextId('tst_test_rnd_qst');
 
-        $this->db->insert('tst_test_rnd_qst', array(
-            'test_random_question_id' => array('integer', $nextId),
-            'active_fi' => array('integer', $testSession->getActiveId()),
-            'question_fi' => array('integer', $setQuestion->getQuestionId()),
-            'sequence' => array('integer', $setQuestion->getSequencePosition()),
-            'pass' => array('integer', $testSession->getPass()),
-            'tstamp' => array('integer', time()),
-            'src_pool_def_fi' => array('integer', $setQuestion->getSourcePoolDefinitionId())
-        ));
+        $this->db->insert('tst_test_rnd_qst', [
+            'test_random_question_id' => ['integer', $nextId],
+            'active_fi' => ['integer', $testSession->getActiveId()],
+            'question_fi' => ['integer', $setQuestion->getQuestionId()],
+            'sequence' => ['integer', $setQuestion->getSequencePosition()],
+            'pass' => ['integer', $testSession->getPass()],
+            'tstamp' => ['integer', time()],
+            'src_pool_def_fi' => ['integer', $setQuestion->getSourcePoolDefinitionId()]
+        ]);
     }
 
     protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount): ilTestRandomQuestionSetQuestionCollection
@@ -215,7 +217,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     final public static function getInstance(
         ilDBInterface $db,
         ilLanguage $lng,
-        ilLogger $log,
+        TestLogger $logger,
         ilObjTest $testOBJ,
         ilTestRandomQuestionSetConfig $questionSetConfig,
         ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
@@ -225,7 +227,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
             return new ilTestRandomQuestionSetBuilderWithAmountPerPool(
                 $db,
                 $lng,
-                $log,
+                $logger,
                 $testOBJ,
                 $questionSetConfig,
                 $sourcePoolDefinitionList,
@@ -236,7 +238,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         return new ilTestRandomQuestionSetBuilderWithAmountPerTest(
             $db,
             $lng,
-            $log,
+            $logger,
             $testOBJ,
             $questionSetConfig,
             $sourcePoolDefinitionList,

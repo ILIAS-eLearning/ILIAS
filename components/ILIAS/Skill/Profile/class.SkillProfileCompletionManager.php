@@ -145,7 +145,8 @@ class SkillProfileCompletionManager
         $profile_count = 0;
         $achieved_count = 0;
         foreach ($profile_levels as $level) {
-            if ($actual_levels[$level->getBaseSkillId()][$level->getTrefId()] >= $level->getLevelId()) {
+            if (isset($actual_levels[$level->getBaseSkillId()][$level->getTrefId()]) &&
+                $actual_levels[$level->getBaseSkillId()][$level->getTrefId()] >= $level->getLevelId()) {
                 $achieved_count++;
             }
             $profile_count++;

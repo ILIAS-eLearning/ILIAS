@@ -335,8 +335,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         $html = "";
         foreach ($usages as $k => $usage) {
-            $table = $this->table_manager->getUsageTable($k, $usage)->getComponent();
-            $html .= $this->ui_ren->render($table) . "<br/><br/>";
+            $usages_ui = $this->skill_ui_service->getUsagesUI($k, $usage);
+            $html .= $usages_ui->render() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @package components\ILIAS/Test
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssQuestionHintRequestGUI
@@ -30,14 +29,14 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilConfirmationGUI
  */
-class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
+class ilTestPlayerRandomQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
         $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $question_list->setParentObjId($this->object->getId());
         $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-        $question_list->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
+        $question_list->setIncludeQuestionIdsFilter($this->test_sequence->getQuestionIds());
         return $question_list;
     }
 

@@ -37,13 +37,13 @@ class ilAssHintPageGUITest extends assBaseTestCase
 
         $this->addGlobal_ilToolbar();
 
-//        $this->object = new ilAssHintPageGUI();
+        //        $this->object = new ilAssHintPageGUI();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssHintPageGUI::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssHintPageGUI::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

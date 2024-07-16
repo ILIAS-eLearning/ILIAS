@@ -756,7 +756,7 @@ abstract class ilParticipants
                 $this->ilDB->quote($a_usr_id, 'integer') . ", " .
                 $this->ilDB->quote(0, 'integer') . ", " .
                 $this->ilDB->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE blocked = VALUES(blocked)";
         }
         $res = $this->ilDB->manipulate($query);
     }
@@ -811,7 +811,7 @@ abstract class ilParticipants
                 $this->ilDB->quote($a_usr_id, 'integer') . ", " .
                 $this->ilDB->quote(0, 'integer') . ", " .
                 $this->ilDB->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE notification = VALUES(notification)";
         }
         $res = $this->ilDB->manipulate($query);
     }

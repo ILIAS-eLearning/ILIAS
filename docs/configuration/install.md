@@ -434,10 +434,6 @@ configuration might look like this afterwards:
 	"http" : {
 		"path" : "http://demo1.cat06.de"
 	},
-    "language" : {
-        "default_language" : "de",
-        "install_languages" : ["de"]
-    },
     "logging" : {
         "enable" : true,
         "path_to_logfile" : "/var/www/logs/ilias.log",

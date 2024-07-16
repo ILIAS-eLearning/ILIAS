@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#از b/i/u instead of str/emp/imp استفاده کن
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#عمل
+assessment#:#activate_logging#:#فعال کردن ثبت وقایع تست و ارزیابی
+assessment#:#activate_manual_scoring#:#فعال کردن امتیاز دهی دستی برای
+assessment#:#activate_manual_scoring_desc#:#اگر امتیازدهی دستی برای یک نوع سوال فعال شود، همه سوالهای این نوع می توانند بطور دستی و توسط یک نویسنده تست امتیازدهی شوند.
 assessment#:#addSuggestedSolution#:#اضافه کردن راه حل پیشنهادی
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area
@@ -573,7 +576,6 @@ assessment#:#code#:#کد
 assessment#:#codebase#:#پایگاه کد
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#ایجاد شکاف
 assessment#:#create_new#:#Create New
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#زمان/تاریخ
 assessment#:#definition#:#تعریف
 assessment#:#definition_image#:#عکس تعریف
 assessment#:#definition_text#:#متن تعریف
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#سوالها را در یک مخزن سوا
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#ECTS Grade
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
@@ -751,6 +741,7 @@ assessment#:#height#:#طول
 assessment#:#identical_scoring#:#امتیازدهی یکسان
 assessment#:#identical_scoring_desc#:#اگر انتخاب شود، شکافها با پاسخهای یکسان امتیازدهی می شوند، حتی اگر یک جواب دو بار یا بیشتر مورد استفاده قرار گرفته باشد.
 assessment#:#imagemap#:#Image Map
+assessment#:#imap_line_color#:#Imagemap Line Color
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#آخرین بروزرسانی
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#تست جدید ساخته شد
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#نمره اضافه شد
-assessment#:#log_mark_changed#:#Mark changed
-assessment#:#log_mark_removed#:#Mark removed
-assessment#:#log_modified_test#:#تست اصلاح شد
-assessment#:#log_question_added#:#سوال در این مکان اضافه شد
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#Question removed
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
-assessment#:#log_user_answered_question#:#User answered a question and received %s points
-assessment#:#log_user_entered_values#:#User entered values
-assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_text#:#پیغام موارد ثبتی
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#ثبت وقایع
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted
+assessment#:#logs_output#:#خروجی داده های ثبت وقایع
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#ارسال آگاه سز حتی زمانی که یک کاربر یک دوره تست را به پایان می رساند.
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#طرح نمره
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#جفت های تطبیقی
 assessment#:#matching_shuffle_definitions#:#فقط تعریف ها
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Units###24 10 2013 new variable
 assessment#:#unlimited#:#نامحدود
 assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#عمل لغو شد
 common#:#actions#:#اعمال
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#فعال کردن
-common#:#activate_assessment_logging#:#فعال کردن ثبت وقایع تست و ارزیابی
 common#:#activate_https#:#کنترل HTTPS توسط سیستم
 common#:#activate_tracking#:#فعال سازی
 common#:#activation#:#وایرایش زمان بندی ها
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#Login ID of Approver
 common#:#archive#:#آرشیو
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Are you sure?
-common#:#ass_log_admin#:#مدیریت داده های ثبت وقایع
-common#:#ass_log_count_datasets#:#موارد ثبت شده
-common#:#ass_log_delete_entries#:#پاک کردن موارد ثبت شده
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#خروجی داده های ثبت وقایع
-common#:#assessment_imap_line_color#:#Imagemap Line Color
-common#:#assessment_log#:#ساختن ثبت وقایع تست و ارزیابی برای یک بازه زمانی مشخص
-common#:#assessment_log_datetime#:#زمان/تاریخ
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#برای تست
-common#:#assessment_log_log_entries#:#log entries
-common#:#assessment_log_logging#:#ثبت وقایع
-common#:#assessment_log_manual_scoring_activate#:#فعال کردن امتیاز دهی دستی برای
-common#:#assessment_log_manual_scoring_desc#:#اگر امتیازدهی دستی برای یک نوع سوال فعال شود، همه سوالهای این نوع می توانند بطور دستی و توسط یک نویسنده تست امتیازدهی شوند.
-common#:#assessment_log_question#:#Question
-common#:#assessment_log_text#:#پیغام موارد ثبتی
-common#:#assessment_settings_reporting_language#:#زبان گزارش
 common#:#assf_allowed_questiontypes#:#نوع سوالهای موجود
 common#:#assf_allowed_questiontypes_desc#:#تمام نوع سوالهای انتخاب شده در مرحله راه اندازی وجود خواهند داشت. اگر نوعی را نمی خواهید باید آن را از حال انتخاب بیرون بیاورید.
 common#:#assf_questiontypes#:#Question Settings
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Import Categories
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#وارد کردن فایل
-common#:#import_file_not_valid#:#فایل ورودی معتبر نیست.
+common#:#import_file_not_valid_here#:#فایل ورودی معتبر نیست.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#وارد کردن ماژول یادگیری ILIAS
 common#:#import_qpl#:#وارد کردن مخزن سوال تست
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
 mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###28 09 2012 new variable
 mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

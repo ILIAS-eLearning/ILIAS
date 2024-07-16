@@ -32,20 +32,12 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilAccess();
         $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilLoggerFactory();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
-        $this->addGlobal_tpl();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
-        $this->addGlobal_http();
 
         $this->testObj = new ilTestResultsGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestQuestionSetConfig::class),
             $DIC['ilCtrl'],
             $DIC['ilAccess'],
@@ -53,7 +45,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['refinery'],
             $DIC['ilUser'],
             $DIC['lng'],
-            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $DIC['component.repository'],
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
@@ -61,8 +53,8 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $DIC['http']
         );
     }
@@ -81,7 +73,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $mock = $this->createMock(ilObjTest::class);
+        $mock = $this->getTestObjMock();
         $this->testObj->setTestObj($mock);
         $this->assertEquals($mock, $this->testObj->getTestObj());
     }

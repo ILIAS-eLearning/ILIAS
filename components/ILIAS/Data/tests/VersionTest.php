@@ -77,7 +77,7 @@ class VersionTest extends TestCase
         $this->assertFalse($r->equals($l));
     }
 
-    public function greaterThanProvider(): array
+    public static function greaterThanProvider(): array
     {
         $f = new Data\Factory();
         return [
@@ -106,7 +106,7 @@ class VersionTest extends TestCase
         $this->assertTrue($r->equals($l));
     }
 
-    public function equalsProvider(): array
+    public static function equalsProvider(): array
     {
         $f = new Data\Factory();
         return [

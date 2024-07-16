@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderValues;
+
 class PRGPlaceholderMock extends ilStudyProgrammePlaceholderValues
 {
     public function __construct()

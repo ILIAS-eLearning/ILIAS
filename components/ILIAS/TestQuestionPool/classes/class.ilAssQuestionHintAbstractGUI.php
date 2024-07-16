@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * abstract parent class for concrete question hint GUI classes
  *
@@ -27,23 +32,30 @@
  */
 abstract class ilAssQuestionHintAbstractGUI
 {
-    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
-    protected ?assQuestionGUI $questionGUI = null;
-    protected ?assQuestion $questionOBJ = null;
+    protected RequestDataCollector $request;
+    protected ?assQuestionGUI $question_gui = null;
+    protected ?assQuestion $question_obj = null;
     protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
     /**
      * Constructor
      *
      * @access	public
-     * @param	assQuestionGUI	$questionGUI
+     * @param	assQuestionGUI	$question_gui
      */
-    public function __construct(assQuestionGUI $questionGUI)
+    public function __construct(assQuestionGUI $question_gui)
     {
-        $this->questionGUI = $questionGUI;
-        $this->questionOBJ = $questionGUI->object;
         global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs = $DIC->tabs();
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+
+        $this->question_gui = $question_gui;
+        $this->question_obj = $question_gui->getObject();
     }
 }

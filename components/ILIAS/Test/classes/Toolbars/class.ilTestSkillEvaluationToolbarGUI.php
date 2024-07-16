@@ -31,7 +31,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
     private int $selectedEvaluationMode;
 
     public function __construct(
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         parent::__construct();
     }
@@ -80,7 +80,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 
     private function buildEvaluationModeOptionsArray(): array
     {
-        $options = array();
+        $options = [];
 
         if ($this->isNoSkillProfileOptionEnabled()) {
             $options[0] = $this->lng->txt('tst_all_test_competences');

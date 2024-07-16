@@ -224,4 +224,32 @@ class AvatarTest extends ILIAS_UI_TestBase
             }
         }
     }
+
+    public function testHTMLInLabel(): void
+    {
+        $f = $this->getAvatarFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = $f->letter('user')->withLabel('<h1>label</h1>');
+        $html = $this->brutallyTrimHTML($r->render($avatar));
+        $expected = $this->brutallyTrimHTML('
+<span class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-11" aria-label="&lt;h1&gt;label&lt;/h1&gt;" role="img">	
+    <span class="abbreviation">us</span>
+</span>');
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testHTMLInCustomImage(): void
+    {
+        $f = $this->getAvatarFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = $f->picture('<h1>path</h1>', 'user');
+        $html = $this->brutallyTrimHTML($r->render($avatar));
+        $expected = $this->brutallyTrimHTML('
+<span class="il-avatar il-avatar-picture il-avatar-size-large">	
+    <img src="&lt;h1&gt;path&lt;/h1&gt;" alt="user_avatar"/>
+</span>');
+        $this->assertEquals($expected, $html);
+    }
 }

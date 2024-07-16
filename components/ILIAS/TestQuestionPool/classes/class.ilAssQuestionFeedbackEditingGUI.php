@@ -16,13 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
- * GUI class for feedback editing of assessment questions
- *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package		Modules/TestQuestionPool
  *
  * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilPropertyFormGUI
@@ -34,98 +33,25 @@ class ilAssQuestionFeedbackEditingGUI
      */
     public const CMD_SHOW = 'showFeedbackForm';
     public const CMD_SAVE = 'saveFeedbackForm';
-    public const CMD_SHOW_SYNC = 'showSync';
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    public const CMD_SHOW_SYNC = 'confirmSync';
+    public const CMD_SYNC = 'sync';
 
-    /**
-     * gui instance of current question
-     *
-     * @access protected
-     * @var assQuestionGUI
-     */
-    protected $questionGUI = null;
+    protected ?assQuestion $question_obj = null;
+    protected ?ilAssQuestionFeedback $feedback_obj = null;
 
-    /**
-     * object instance of current question
-     *
-     * @access protected
-     * @var assQuestion
-     */
-    protected $questionOBJ = null;
-
-    /**
-     * object instance of current question's feedback
-     *
-     * @access protected
-     * @var ilAssQuestionFeedback
-     */
-    protected $feedbackOBJ = null;
-
-    /**
-     * global $ilCtrl
-     *
-     * @access protected
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * global $ilAccess
-     *
-     * @access protected
-     * @var ilAccess
-     */
-    protected $access = null;
-
-    /**
-     * global $tpl
-     *
-     * @access protected
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl = null;
-
-    /**
-     * global $ilTabs
-     *
-     * @access protected
-     * @var ilTabsGUI
-     */
-    protected $tabs = null;
-
-    /**
-     * global $lng
-     *
-     * @access protected
-     * @var ilLanguage
-     */
-    protected $lng = null;
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param assQuestionGUI $questionGUI
-     * @param ilCtrl $ctrl
-     * @param ilAccessHandler $access
-     * @param ilGlobalTemplate $tpl
-     * @param ilTabsGUI $tabs
-     * @param ilLanguage $lng
-     */
-    public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilTabsGUI $tabs, ilLanguage $lng)
-    {
-        $this->questionGUI = $questionGUI;
-        $this->questionOBJ = $questionGUI->object;
-        $this->feedbackOBJ = $questionGUI->object->feedbackOBJ;
-        global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->tpl = $tpl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+    public function __construct(
+        protected readonly assQuestionGUI $question_gui,
+        protected readonly ilCtrl $ctrl,
+        protected readonly ilAccessHandler $access,
+        protected readonly ilGlobalTemplateInterface $tpl,
+        protected readonly ilTabsGUI $tabs,
+        protected readonly ilLanguage $lng,
+        protected readonly ilHelpGUI $help,
+        private readonly RequestDataCollector $request,
+        private readonly bool $in_pool_context = false
+    ) {
+        $this->question_obj = $question_gui->getObject();
+        $this->feedback_obj = $question_gui->getObject()->feedbackOBJ;
     }
 
     /**
@@ -135,21 +61,19 @@ class ilAssQuestionFeedbackEditingGUI
      */
     public function executeCommand(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
-        $ilHelp->setScreenIdComponent('qpl');
+        $this->help->setScreenIdComponent('qpl');
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
 
-        $this->ctrl->setParameter($this, 'q_id', $this->request->getQuestionId());
+        $this->ctrl->setParameter($this, 'q_id', $this->question_gui->getObject()->getId());
 
         $this->setContentStyle();
 
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
+                $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->question_obj, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
 
@@ -174,7 +98,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function showFeedbackFormCmd(): void
+    private function showFeedbackFormCmd(string $additional_content = ''): void
     {
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
@@ -182,12 +106,12 @@ class ilAssQuestionFeedbackEditingGUI
 
         $form = $this->buildForm();
 
-        $this->feedbackOBJ->initGenericFormProperties($form);
-        if ($this->questionOBJ->hasSpecificFeedback()) {
-            $this->feedbackOBJ->initSpecificFormProperties($form);
+        $this->feedback_obj->initGenericFormProperties($form);
+        if ($this->question_obj->hasSpecificFeedback()) {
+            $this->feedback_obj->initSpecificFormProperties($form);
         }
 
-        $this->tpl->setContent($this->ctrl->getHTML($form));
+        $this->tpl->setContent($form->getHTML() . $additional_content);
     }
 
     /**
@@ -202,16 +126,15 @@ class ilAssQuestionFeedbackEditingGUI
     private function saveFeedbackFormCmd(): void
     {
         $form = $this->buildForm();
-
         $form->setValuesByPost();
 
         if ($form->checkInput()) {
-            $this->feedbackOBJ->saveGenericFormProperties($form);
-            if ($this->questionOBJ->hasSpecificFeedback()) {
-                $this->feedbackOBJ->saveSpecificFormProperties($form);
+            $this->feedback_obj->saveGenericFormProperties($form);
+            if ($this->question_obj->hasSpecificFeedback()) {
+                $this->feedback_obj->saveSpecificFormProperties($form);
             }
-            $this->questionOBJ->cleanupMediaObjectUsage();
-            $this->questionOBJ->updateTimestamp();
+            $this->question_obj->cleanupMediaObjectUsage();
+            $this->question_obj->updateTimestamp();
 
             if ($this->isSyncAfterSaveRequired()) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
@@ -224,6 +147,14 @@ class ilAssQuestionFeedbackEditingGUI
 
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         $this->tpl->setContent($this->ctrl->getHTML($form));
+    }
+
+    private function createFeedbackPageCmd(): void
+    {
+        $mode = $this->request->raw('fb_mode');
+        $this->ctrl->redirectToUrl(
+            $this->feedback_obj->createFeedbackPages($mode)
+        );
     }
 
     /**
@@ -240,9 +171,9 @@ class ilAssQuestionFeedbackEditingGUI
         $form->setTableWidth("100%");
         $form->setId("feedback");
 
-        $this->feedbackOBJ->completeGenericFormProperties($form);
-        if ($this->questionOBJ->hasSpecificFeedback()) {
-            $this->feedbackOBJ->completeSpecificFormProperties($form);
+        $this->feedback_obj->completeGenericFormProperties($form);
+        if ($this->question_obj->hasSpecificFeedback()) {
+            $this->feedback_obj->completeSpecificFormProperties($form);
         }
 
         if ($this->isFormSaveable()) {
@@ -252,65 +183,41 @@ class ilAssQuestionFeedbackEditingGUI
         return $form;
     }
 
-    /**
-     * returns the fact wether the feedback editing form has to be saveable or not.
-     * this depends on the additional content editing mode and the current question type,
-     * as well as on fact wether the question is writable for current user or not,
-     * or the fact if we are in self assessment mode or not
-     *
-     * @access private
-     * @return boolean $isFormSaveable
-     */
     private function isFormSaveable(): bool
     {
-        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
-            && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
+        if ($this->question_obj->isAdditionalContentEditingModePageObject()
+            && !($this->feedback_obj->isSaveableInPageObjectEditingMode())) {
             return false;
         }
-
-        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request->getRefId());
-        $isSelfAssessmentEditingMode = $this->questionOBJ->getSelfAssessmentEditingMode();
-
-        return $hasWriteAccess || $isSelfAssessmentEditingMode;
+        return true;
     }
 
-    /**
-     * returns the fact wether the presentation of the question sync2pool form
-     * is required after saving the form or not
-     *
-     * @access private
-     * @return boolean $isSyncAfterSaveRequired
-     */
     private function isSyncAfterSaveRequired(): bool
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        if (!$this->request->isset("calling_test")) {
+        if ($this->in_pool_context) {
             return false;
         }
 
-        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+        if ($this->question_obj->isAdditionalContentEditingModePageObject()) {
             return false;
         }
 
-        if (!$this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
-            return false;
-        }
-
-        if (!$this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
-            return false;
-        }
-
-        if (!assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
+        if (!$this->question_gui->needsSyncQuery()) {
             return false;
         }
 
         return true;
     }
 
-    public function showSyncCmd(): void
+    public function confirmSyncCmd(): void
     {
-        $this->questionGUI->originalSyncForm('', 'true');
+        $modal = $this->question_gui->getQuestionSyncModal(self::CMD_SYNC, self::class);
+        $this->showFeedbackFormCmd($modal);
+    }
+
+    public function syncCmd(): void
+    {
+        $this->question_obj->syncWithOriginal();
+        $this->showFeedbackFormCmd();
     }
 }

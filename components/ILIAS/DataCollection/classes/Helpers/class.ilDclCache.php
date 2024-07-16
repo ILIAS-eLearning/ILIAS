@@ -281,7 +281,7 @@ class ilDclCache
             $field->setDescription($rec["description"]);
         }
         $field->setDatatypeId($rec["datatype_id"]);
-        $field->setUnique((bool)$rec["is_unique"]);
+        $field->setUnique((bool) $rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;
 
         return $field;

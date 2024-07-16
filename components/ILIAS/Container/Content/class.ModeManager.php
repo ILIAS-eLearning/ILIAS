@@ -25,6 +25,7 @@ namespace ILIAS\Container\Content;
  */
 class ModeManager
 {
+    protected int $user_id;
     protected bool $ordering_mode = false;
     protected \ILIAS\Repository\Clipboard\ClipboardManager $clipboard;
     protected ModeSessionRepository $mode_repo;
@@ -33,15 +34,20 @@ class ModeManager
     public function __construct(
         \ilContainer $container,
         ModeSessionRepository $mode_repo,
-        \ILIAS\Repository\Clipboard\ClipboardManager $clipboard
+        \ILIAS\Repository\Clipboard\ClipboardManager $clipboard,
+        int $user_id
     ) {
         $this->container = $container;
         $this->mode_repo = $mode_repo;
         $this->clipboard = $clipboard;
+        $this->user_id = $user_id;
     }
 
     public function setAdminMode(): void
     {
+        if (in_array($this->user_id, [ANONYMOUS_USER_ID, 0], true)) {
+            return;
+        }
         $this->mode_repo->setAdminMode();
     }
 

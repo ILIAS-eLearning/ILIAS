@@ -43,7 +43,7 @@ interface ilGuiQuestionScoringAdjustable
     public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
     /**
-     * Extracts the question specific values from $_POST and applies them
+     * Extracts the question specific values from the request and applies them
      * to the data object.
      */
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void;

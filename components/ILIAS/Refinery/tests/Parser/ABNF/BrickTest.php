@@ -44,9 +44,9 @@ class BrickTest extends TestCase
         $ok->method('value')->willReturn($expected);
         $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
         $intermediate->method('done')->willReturn(true);
-        $intermediate->method('transform')->willReturnCallback(fn () => $ok);
+        $intermediate->method('transform')->willReturnCallback(fn() => $ok);
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Ok($intermediate))
         ), 'abcde');
 
@@ -61,7 +61,7 @@ class BrickTest extends TestCase
         $intermediate->expects(self::never())->method('transform');
 
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Ok($intermediate))
         ), 'abcde');
 
@@ -71,7 +71,7 @@ class BrickTest extends TestCase
     public function testAFailingParser(): void
     {
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Error('something happened'))
         ), 'abcde');
 
@@ -175,7 +175,7 @@ class BrickTest extends TestCase
         }
     }
 
-    public function repeatProvider(): array
+    public static function repeatProvider(): array
     {
         return [
             'Ranges are inclusive' => [3, 3, ['abc'], ['ab', 'abcd']],
@@ -205,17 +205,17 @@ class BrickTest extends TestCase
         }
     }
 
-    private function breakIntoPieces(int $x, string $break_me): array
+    private static function breakIntoPieces(int $x, string $break_me): array
     {
         $len = (int) floor(strlen($break_me) / $x);
 
         return array_map(
-            fn ($i) => substr($break_me, $i * $len, $len),
+            fn($i) => substr($break_me, $i * $len, $len),
             range(0, $x - !(strlen($break_me) % $x))
         );
     }
 
-    public function characterProvider(): array
+    public static function characterProvider(): array
     {
         $alpha = array_fill(ord('a'), ord('z') - ord('a') + 1, '');
         array_walk($alpha, function (&$value, int $i) {
@@ -225,7 +225,7 @@ class BrickTest extends TestCase
         $alpha .= strtoupper($alpha);
 
         // Circumvent error when running this test with Xdebug. The default value of xdebug.max_nesting_level will kill the test.
-        $alpha_parts = $this->breakIntoPieces(3, $alpha);
+        $alpha_parts = self::breakIntoPieces(3, $alpha);
 
         $digits = '1234567890';
 
@@ -252,7 +252,7 @@ class BrickTest extends TestCase
         $this->assertEquals($isOk, $result->isOk());
     }
 
-    public function emptyStringProvider(): array
+    public static function emptyStringProvider(): array
     {
         return [
             'Test empty input' => ['', true],
@@ -260,7 +260,7 @@ class BrickTest extends TestCase
         ];
     }
 
-    public function testTransfromation(): void
+    public function testTransformation(): void
     {
         $brick = new Brick();
 
@@ -277,7 +277,7 @@ class BrickTest extends TestCase
         $transformation = $this->getMockBuilder(Transformation::class)->getMock();
         $transformation->expects(self::once())->method('applyTo')->willReturn($ok);
 
-        $parser = $brick->transformation($transformation, fn ($x, $cc) => $cc(new Ok($x)));
+        $parser = $brick->transformation($transformation, fn($x, $cc) => $cc(new Ok($x)));
 
         $result = $brick->apply($parser, 'a');
 

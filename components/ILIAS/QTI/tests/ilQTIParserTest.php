@@ -24,16 +24,11 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIParserTest extends TestCase
 {
+    private ?Container $dic = null;
+
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilQTIParser::class, new ilQTIParser('dummy xml file'));
-    }
-
-    public function testSetGetQuestionSetType(): void
-    {
-        $instance = new ilQTIParser('dummy xml file');
-        $instance->setQuestionSetType('Some input.');
-        $this->assertEquals('Some input.', $instance->getQuestionSetType());
+        $this->assertInstanceOf(ilQTIParser::class, new ilQTIParser('dummy import dir', 'dummy xml file'));
     }
 
     public function testSetTestObject(): void
@@ -41,20 +36,24 @@ class ilQTIParserTest extends TestCase
         $id = 8098;
         $test = $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock();
         $test->expects(self::once())->method('getId')->willReturn($id);
-        $instance = new ilQTIParser('dummy xml file');
+        $instance = new ilQTIParser('dummy import dir', 'dummy xml file');
         $instance->setTestObject($test);
         $this->assertEquals($test, $instance->tst_object);
         $this->assertEquals($id, $instance->tst_id);
     }
 
-    protected function setup(): void
+    protected function setUp(): void
     {
-        $GLOBALS['DIC'] = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $GLOBALS['DIC']->expects(self::any())->method('isDependencyAvailable')->with('language')->willReturn(false);
+        global $DIC;
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+        $DIC = new Container();
+        $DIC['ilUser'] = $this->createMock(ilObjUser::class);
+        $DIC['lng'] = $this->createMock(ilLanguage::class);
     }
 
     protected function tearDown(): void
     {
-        unset($GLOBALS['DIC']);
+        global $DIC;
+        $DIC = $this->dic;
     }
 }

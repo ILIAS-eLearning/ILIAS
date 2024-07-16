@@ -20,19 +20,52 @@ declare(strict_types=1);
 
 namespace ILIAS\Glossary\Flashcard;
 
+use ILIAS\Glossary\InternalDataService;
+
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
 class FlashcardTermDBRepository
 {
-    protected \ilDBInterface $db;
-
     public function __construct(
-        \ilDBInterface $db
+        protected \ilDBInterface $db,
+        protected InternalDataService $data_service
     ) {
-        $this->db = $db;
     }
 
+    protected function getFromRecord(array $rec): Term
+    {
+        return $this->data_service->flashcardTerm(
+            (int) $rec["term_id"],
+            (int) $rec["user_id"],
+            (int) $rec["glo_id"],
+            (int) $rec["box_nr"],
+            $rec["last_access"]
+        );
+    }
+
+    public function getEntry(
+        int $term_id,
+        int $user_id,
+        int $glo_id
+    ): ?Term {
+        $set = $this->db->queryF(
+            "SELECT * FROM glo_flashcard_term " .
+            " WHERE term_id = %s AND user_id = %s AND glo_id = %s ",
+            ["integer", "integer", "integer"],
+            [$term_id, $user_id, $glo_id]
+        );
+
+        if ($rec = $this->db->fetchAssoc($set)) {
+            return $this->getFromRecord($rec);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return Term[]
+     */
     public function getUserEntriesForBox(
         int $box_nr,
         int $user_id,
@@ -48,18 +81,15 @@ class FlashcardTermDBRepository
 
         $entries = [];
         while ($rec = $this->db->fetchAssoc($set)) {
-            $entries[] = [
-                "term_id" => $rec["term_id"],
-                "user_id" => $rec["user_id"],
-                "glo_id" => $rec["glo_id"],
-                "last_access" => $rec["last_access"],
-                "box_nr" => $rec["box_nr"]
-            ];
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;
     }
 
+    /**
+     * @return Term[]
+     */
     public function getAllUserEntries(
         int $user_id,
         int $glo_id
@@ -74,67 +104,34 @@ class FlashcardTermDBRepository
 
         $entries = [];
         while ($rec = $this->db->fetchAssoc($set)) {
-            $entries[] = [
-                "term_id" => $rec["term_id"],
-                "user_id" => $rec["user_id"],
-                "glo_id" => $rec["glo_id"],
-                "last_access" => $rec["last_access"],
-                "box_nr" => $rec["box_nr"]
-            ];
+            $entries[] = $this->getFromRecord($rec);
         }
 
         return $entries;
     }
 
-    public function getBoxNr(
-        int $term_id,
-        int $user_id,
-        int $glo_id
-    ): int {
-        $set = $this->db->queryF(
-            "SELECT box_nr FROM glo_flashcard_term " .
-            " WHERE term_id = %s AND user_id = %s AND glo_id = %s ",
-            ["integer", "integer", "integer"],
-            [$term_id, $user_id, $glo_id]
-        );
-
-        if ($rec = $this->db->fetchAssoc($set)) {
-            return (int) $rec["box_nr"];
-        }
-
-        return 0;
-    }
-
     public function createEntry(
-        int $term_id,
-        int $user_id,
-        int $glo_id,
-        int $box_nr,
-        string $date
+        Term $term
     ): void {
         $this->db->insert("glo_flashcard_term", [
-            "term_id" => ["integer", $term_id],
-            "user_id" => ["integer", $user_id],
-            "glo_id" => ["integer", $glo_id],
-            "last_access" => ["date", $date],
-            "box_nr" => ["integer", $box_nr]
+            "term_id" => ["integer", $term->getTermId()],
+            "user_id" => ["integer", $term->getUserId()],
+            "glo_id" => ["integer", $term->getGloId()],
+            "last_access" => ["date", $term->getLastAccess()],
+            "box_nr" => ["integer", $term->getBoxNr()]
         ]);
     }
 
     public function updateEntry(
-        int $term_id,
-        int $user_id,
-        int $glo_id,
-        int $box_nr,
-        string $date
+        Term $term
     ): void {
         $this->db->update("glo_flashcard_term", [
-            "last_access" => ["date", $date],
-            "box_nr" => ["integer", $box_nr]
+            "last_access" => ["date", $term->getLastAccess()],
+            "box_nr" => ["integer", $term->getBoxNr()]
         ], [
-            "term_id" => ["integer", $term_id],
-            "user_id" => ["integer", $user_id],
-            "glo_id" => ["integer", $glo_id]
+            "term_id" => ["integer", $term->getTermId()],
+            "user_id" => ["integer", $term->getUserId()],
+            "glo_id" => ["integer", $term->getGloId()]
         ]);
     }
 

@@ -95,7 +95,7 @@ class ilTestQuestionFilterLabelTranslater
 			AND			type = %s
 		";
 
-        $res = $this->db->queryF($query, array('text'), array('tax'));
+        $res = $this->db->queryF($query, ['text'], ['tax']);
 
         while ($row = $this->db->fetchAssoc($res)) {
             $this->taxonomyTreeLabels[ $row['tax_tree_id'] ] = $row['tax_tree_title'];
@@ -154,15 +154,15 @@ class ilTestQuestionFilterLabelTranslater
      * @param string	delimiter between taxonomy name and node list
      * @param string	delimiter between nodes in the node list
      */
-    public function getTaxonomyFilterLabel($filter = array(), $filterDelimiter = ' + ', $taxNodeDelimiter = ': ', $nodesDelimiter = ', '): string
+    public function getTaxonomyFilterLabel($filter = [], $filterDelimiter = ' + ', $taxNodeDelimiter = ': ', $nodesDelimiter = ', '): string
     {
-        $labels = array();
+        $labels = [];
         foreach ($filter as $taxId => $nodeIds) {
-            $nodes = array();
+            $nodes = [];
             foreach ($nodeIds as $nodeId) {
                 $nodes[] = $this->getTaxonomyNodeLabel($nodeId);
             }
-            $labels[] .= $this->getTaxonomyTreeLabel($taxId) . $taxNodeDelimiter . implode($nodesDelimiter, $nodes);
+            $labels[] = $this->getTaxonomyTreeLabel($taxId) . $taxNodeDelimiter . implode($nodesDelimiter, $nodes);
         }
         return implode($filterDelimiter, $labels);
     }
@@ -188,9 +188,9 @@ class ilTestQuestionFilterLabelTranslater
      * Get the label for a type filter
      * @param array $filter	list of type ids
      */
-    public function getTypeFilterLabel($filter = array()): string
+    public function getTypeFilterLabel($filter = []): string
     {
-        $types = array();
+        $types = [];
 
         foreach ($filter as $type_id) {
             $types[] = $this->typeLabels[$type_id];

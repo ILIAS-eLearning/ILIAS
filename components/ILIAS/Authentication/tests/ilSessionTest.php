@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,46 +16,40 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\UI\Factory;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ilSessionTest
- */
 class ilSessionTest extends TestCase
 {
-    protected Container $dic;
+    private ?Container $dic_backup = null;
 
     protected function setUp(): void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
 
-        //$this->setGlobalVariable('lng', $this->getLanguageMock());
-        $this->setGlobalVariable(
-            'ilCtrl',
-            $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
-        );
-        $this->setGlobalVariable(
-            'ilUser',
-            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
-        );
+        $this->dic_backup = $DIC;
+
+        if (!isset($DIC)) {
+            $DIC = new Container();
+        }
+
         $this->setGlobalVariable(
             'ilDB',
-            $this->getMockBuilder(ilDBInterface::class)->disableAutoReturnValueGeneration()->getMock()
+            $this->createMock(ilDBInterface::class)
         );
-        $this->setGlobalVariable(
-            'ilClientIniFile',
-            $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock()
-        );
-        $this->setGlobalVariable(
-            'ilSetting',
-            $this->getMockBuilder(\ILIAS\Administration\Setting::class)->getMock()
-        );
+
         parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic_backup;
+
+        parent::tearDown();
     }
 
     /**
@@ -71,94 +63,104 @@ class ilSessionTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function ($c) use ($name) {
+        $DIC[$name] = static function (Container $c) use ($name) {
             return $GLOBALS[$name];
         };
     }
 
-    public function tstBasicSessionBehaviour(): void
+    public function testBasicSessionBehaviour(): void
     {
         global $DIC;
 
-        //setup some method calls
-        /** @var $setting MockObject */
-        $setting = $DIC['ilSetting'];
-        $setting->method("get")->willReturnCallback(
+        $this->setGlobalVariable(
+            'ilClientIniFile',
+            $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock()
+        );
+
+        /** @var \PHPUnit\Framework\MockObject\MockObject&ilSetting $setting */
+        $settings = $this->getMockBuilder(ilSetting::class)->getMock();
+        $settings->method('get')->willReturnCallback(
             function ($arg) {
                 if ($arg === 'session_handling_type') {
                     return (string) ilSession::SESSION_HANDLING_FIXED;
                 }
+
                 if ($arg === 'session_statistics') {
-                    return "0";
+                    return '0';
                 }
 
                 throw new \RuntimeException($arg);
             }
         );
-        /** @var $ilDB MockObject */
-        $data = null;
+        $this->setGlobalVariable(
+            'ilSetting',
+            $settings
+        );
+
+        /** @var \PHPUnit\Framework\MockObject\MockObject&ilDBInterface $ilDB  */
         $ilDB = $DIC['ilDB'];
-        $ilDB->method("update")->
-            with("usr_session")->willReturn(1);
+        $ilDB->method('update')->
+            with('usr_session')->willReturn(1);
 
 
         $consecutive_quote = [
-            "123456",
-            "123456",
-            "123456",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "123456",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "123456",
-            "123456",
-            "123456",
+            '123456',
+            '123456',
+            '123456',
+            'e10adc3949ba59abbe56e057f20f883e',
+            '123456',
+            'e10adc3949ba59abbe56e057f20f883e',
+            'e10adc3949ba59abbe56e057f20f883e',
+            '123456',
+            '123456',
+            '123456',
             time() - 100,
-            "e10adc3949ba59abbe56e057f20f883e",
-            "17"
+            'e10adc3949ba59abbe56e057f20f883e',
+            17,
+            'e10adc3949ba59abbe56e057f20f883e'
         ];
-        $ilDB->method("quote")->with(
+        $ilDB->method('quote')->with(
             $this->callback(function ($value) use (&$consecutive_quote) {
-                if (count($consecutive_quote) === 3) {
+                if (count($consecutive_quote) === 4) {
                     $this->assertGreaterThan(array_shift($consecutive_quote), $value);
                 } else {
                     $this->assertSame(array_shift($consecutive_quote), $value);
                 }
                 return true;
             })
-        )->
-        willReturnOnConsecutiveCalls(
-            "123456",
-            "123456",
-            "123456",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "123456",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "e10adc3949ba59abbe56e057f20f883e",
-            "123456",
-            "123456",
-            "123456",
+        )->willReturnOnConsecutiveCalls(
+            '123456',
+            '123456',
+            '123456',
+            'e10adc3949ba59abbe56e057f20f883e',
+            'e10adc3949ba59abbe56e057f20f883e',
+            '123456',
+            'e10adc3949ba59abbe56e057f20f883e',
+            'e10adc3949ba59abbe56e057f20f883e',
+            '123456',
+            '123456',
+            '123456',
             (string) time(),
-            "e10adc3949ba59abbe56e057f20f883e",
-            "17"
+            'e10adc3949ba59abbe56e057f20f883e',
+            '17',
+            'e10adc3949ba59abbe56e057f20f883e'
         );
-        $ilDB->expects($this->exactly(6))->method("numRows")->willReturn(1, 1, 1, 0, 1, 0);
+        $ilDB->expects($this->exactly(6))->method('numRows')->willReturn(1, 1, 1, 0, 1, 0);
 
         $consecutive_select = [
-            "SELECT 1 FROM usr_session WHERE session_id = 123456",
-            "SELECT 1 FROM usr_session WHERE session_id = 123456",
-            "SELECT data FROM usr_session WHERE session_id = 123456",
+            'SELECT 1 FROM usr_session WHERE session_id = 123456',
+            'SELECT 1 FROM usr_session WHERE session_id = 123456',
+            'SELECT data FROM usr_session WHERE session_id = 123456',
             'SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
             'SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
-            "SELECT 1 FROM usr_session WHERE session_id = 123456",
+            'SELECT 1 FROM usr_session WHERE session_id = 123456',
             'SELECT data FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
             'SELECT 1 FROM usr_session WHERE session_id = 123456',
-            'SELECT session_id,expires FROM usr_session WHERE expires < 123456',
+            'SELECT session_id, expires FROM usr_session WHERE expires < 123456',
             'SELECT 1 FROM usr_session WHERE session_id = ',
             'SELECT 1 FROM usr_session WHERE session_id = 17'
         ];
-        $ilDB->method("query")->with(
+        $ilDB->method('query')->with(
             $this->callback(function ($value) use (&$consecutive_select) {
                 if (count($consecutive_select) === 2) {
                     $this->assertStringStartsWith(array_shift($consecutive_select), $value);
@@ -167,110 +169,204 @@ class ilSessionTest extends TestCase
                 }
                 return true;
             })
-        )->
-            willReturnOnConsecutiveCalls(
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
-                $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock()
-            );
-        $ilDB->expects($this->exactly(4))->method("fetchAssoc")->willReturn(
-            ["data" => "Testdata"],
+        )->willReturnOnConsecutiveCalls(
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class),
+            $this->createMock(ilDBStatement::class)
+        );
+        $ilDB->expects($this->exactly(4))->method('fetchAssoc')->willReturn(
+            ['data' => 'Testdata'],
             [],
-            ["data" => "Testdata"],
+            ['data' => 'Testdata'],
             []
         );
-        $ilDB->expects($this->exactly(1))->method("fetchObject")->willReturn((object) array(
-            'data' => "Testdata"
-        ));
+        $ilDB->expects($this->once())->method('fetchObject')->willReturn(
+            (object) [
+                'data' => 'Testdata'
+            ]
+        );
 
         $consecutive_delete = [
             'DELETE FROM usr_sess_istorage WHERE session_id = 123456',
             'DELETE FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
             'DELETE FROM usr_session WHERE user_id = e10adc3949ba59abbe56e057f20f883e'
         ];
-        $ilDB->method("manipulate")->with(
+        $ilDB->method('manipulate')->with(
             $this->callback(function ($value) use (&$consecutive_delete) {
                 $this->assertSame(array_shift($consecutive_delete), $value);
                 return true;
             })
-        )->
-        willReturnOnConsecutiveCalls(
+        )->willReturnOnConsecutiveCalls(
             1,
             1,
             1
         );
 
-        $result = "";
-        ilSession::_writeData("123456", "Testdata");
-        if (ilSession::_exists("123456")) {
-            $result .= "exists-";
+        $cron_manager = $this->createMock(ilCronManager::class);
+        $cron_manager->method('isJobActive')->with($this->isType('string'))->willReturn(true);
+        $this->setGlobalVariable(
+            'cron.manager',
+            $cron_manager
+        );
+
+        $result = '';
+        ilSession::_writeData('123456', 'Testdata');
+        if (ilSession::_exists('123456')) {
+            $result .= 'exists-';
         }
-        if (ilSession::_getData("123456") === "Testdata") {
-            $result .= "write-get-";
+        if (ilSession::_getData('123456') === 'Testdata') {
+            $result .= 'write-get-';
         }
-        $duplicate = ilSession::_duplicate("123456");
-        if (ilSession::_getData($duplicate) === "Testdata") {
-            $result .= "duplicate-";
+        $duplicate = ilSession::_duplicate('123456');
+        if (ilSession::_getData($duplicate) === 'Testdata') {
+            $result .= 'duplicate-';
         }
-        ilSession::_destroy("123456");
-        if (!ilSession::_exists("123456")) {
-            $result .= "destroy-";
+        ilSession::_destroy('123456');
+        if (!ilSession::_exists('123456')) {
+            $result .= 'destroy-';
         }
         ilSession::_destroyExpiredSessions();
         if (ilSession::_exists($duplicate)) {
-            $result .= "destroyExp-";
+            $result .= 'destroyExp-';
         }
 
         ilSession::_destroyByUserId(17);
         if (!ilSession::_exists($duplicate)) {
-            $result .= "destroyByUser-";
+            $result .= 'destroyByUser-';
         }
-        $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
+
+        $this->assertEquals('exists-write-get-duplicate-destroy-destroyExp-destroyByUser-', $result);
     }
 
     public function testPasswordAssisstanceSession(): void
     {
-        global $DIC;
+        $result = '';
+        $usr_id = 4711;
 
-        $ilUser = $DIC['ilUser'];
+        try {
+            $sqlite = new PDO('sqlite::memory:');
+            $create_table = <<<SQL
+create table usr_pwassist
+(
+    pwassist_id char(180) default '' not null primary key,
+    expires     int       default 0  not null,
+    ctime       int       default 0  not null,
+    user_id     int       default 0  not null,
+    constraint c1_idx
+        unique (user_id)
+);
+SQL;
 
-        $result = "";
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+            $sqlite->query($create_table);
+        } catch (Exception $e) {
+            $this->markTestIncomplete(
+                'Cannot test the password assistance session storage because of missing sqlite: ' . $e->getMessage()
+            );
+        }
+
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('quote')->willReturnCallback(static function ($value, ?string $type = null) use ($sqlite): string {
+            if ($value === null) {
+                return 'NULL';
+            }
+
+            $pdo_type = PDO::PARAM_STR;
+            switch ($type) {
+                case ilDBConstants::T_TIMESTAMP:
+                case ilDBConstants::T_DATETIME:
+                case ilDBConstants::T_DATE:
+                    if ($value === '') {
+                        return 'NULL';
+                    }
+                    if ($value === 'NOW()') {
+                        return $value;
+                    }
+                    $value = (string) $value;
+                    break;
+                case ilDBConstants::T_INTEGER:
+                    return (string) (int) $value;
+                case ilDBConstants::T_FLOAT:
+                    $pdo_type = PDO::PARAM_INT;
+                    $value = (string) $value;
+                    break;
+                case ilDBConstants::T_TEXT:
+                default:
+                    $value = (string) $value;
+                    $pdo_type = PDO::PARAM_STR;
+                    break;
+            }
+
+            return $sqlite->quote((string) $value, $pdo_type);
+        });
+        $db->method('query')->willReturnCallback(static function (string $query) use ($sqlite): ilDBStatement {
+            return new ilPDOStatement($sqlite->query($query));
+        });
+        $db->method('manipulate')->willReturnCallback(static function (string $query) use ($sqlite): int {
+            return (int) $sqlite->exec($query);
+        });
+        $db->method('manipulateF')->willReturnCallback(static function (...$args) use ($db): int {
+            $query = $args[0];
+
+            $quoted_values = [];
+            foreach ($args[1] as $k => $t) {
+                $quoted_values[] = $db->quote($args[2][$k], $t);
+            }
+            $query = vsprintf($query, $quoted_values);
+
+            return $db->manipulate($query);
+        });
+        $db->method('fetchAssoc')->willReturnCallback(static function (ilDBStatement $statement): ?array {
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+            if ($res === null || $res === false) {
+                $statement->closeCursor();
+
+                return null;
+            }
+
+            return $res;
+        });
+
+        $this->setGlobalVariable(
+            'ilDB',
+            $db
         );
-        return;
+
+        require_once __DIR__ . '/../../../../cli/inc.pwassist_session_handler.php';
+
         // write session
-        db_pwassist_session_write("12345", 60, $ilUser->getId());
+        db_pwassist_session_write('12345', 60, $usr_id);
 
         // find
-        $res = db_pwassist_session_find($ilUser->getId());
-        if ($res["pwassist_id"] === "12345") {
-            $result .= "find-";
+        $res = db_pwassist_session_find($usr_id);
+        if ($res['pwassist_id'] === '12345') {
+            $result .= 'find-';
         }
 
         // read
-        $res = db_pwassist_session_read("12345");
-        if ((int) $res["user_id"] === $ilUser->getId()) {
-            $result .= "read-";
+        $res = db_pwassist_session_read('12345');
+        if ((int) $res['user_id'] === $usr_id) {
+            $result .= 'read-';
         }
 
         // destroy
-        db_pwassist_session_destroy("12345");
-        $res = db_pwassist_session_read("12345");
+        db_pwassist_session_destroy('12345');
+        $res = db_pwassist_session_read('12345');
         if (!$res) {
-            $result .= "destroy-";
+            $result .= 'destroy-';
         }
 
         db_pwassist_session_gc();
 
-        $this->assertEquals("find-read-destroy-", $result);// TODO PHP8-REVIEW This method does not exists (because this class has no parent class)
+        $this->assertEquals('find-read-destroy-', $result);
+
+        $sqlite = null;
     }
 }

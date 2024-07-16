@@ -39,7 +39,7 @@ class getObjectSettingsCommandHandler
         $obj_id = $this->cmd->getObjectId();
         $repo = $this->use_book_repo;
 
-        $used_book_ids = $repo->getUsedBookingPools($obj_id);
+        $used_book_ids = $repo->getUsedBookingPools($obj_id, false);
 
         return new getObjectSettingsResponse(new \ilObjBookingServiceSettings($obj_id, $used_book_ids));
     }

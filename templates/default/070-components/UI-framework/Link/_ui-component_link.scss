@@ -16,3 +16,11 @@
 		color: $il-text-color;
 	}
 }
+
+a[aria-disabled], 
+a[aria-disabled].il-link.link-bulky:hover {
+	text-decoration: none;
+	cursor:initial;
+	color: inherit;
+	background-color:unset;
+}

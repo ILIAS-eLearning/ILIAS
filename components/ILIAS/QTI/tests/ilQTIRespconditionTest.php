@@ -52,7 +52,7 @@ class ilQTIRespconditionTest extends TestCase
         $this->assertEquals('Some input.', $instance->getComment());
     }
 
-    public function continues(): array
+    public static function continues(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [

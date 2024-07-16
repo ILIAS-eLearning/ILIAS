@@ -30,9 +30,33 @@ trait TableRecords
 {
     protected function orderRecords(array $records, Data\Order $order): array
     {
-        list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-        usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-        if ($order_direction === "DESC") {
+        [$aspect, $direction] = $order->join("", function ($i, $k, $v) {
+            return [$k, $v];
+        });
+        usort($records, static function (array $a, array $b) use ($aspect): int {
+            if (!isset($a[$aspect]) && !isset($b[$aspect])) {
+                return 0;
+            }
+            if (!isset($a[$aspect])) {
+                return -1;
+            }
+            if (!isset($b[$aspect])) {
+                return 1;
+            }
+            if (is_numeric($a[$aspect]) || is_bool($a[$aspect])) {
+                return $a[$aspect] <=> $b[$aspect];
+            }
+            if (is_array($a[$aspect])) {
+                return $a[$aspect] <=> $b[$aspect];
+            }
+            if ($a[$aspect] instanceof \ILIAS\UI\Component\Link\Link) {
+                return $a[$aspect]->getLabel() <=> $b[$aspect]->getLabel();
+            }
+
+            return strcmp($a[$aspect], $b[$aspect]);
+        });
+
+        if ($direction === $order::DESC) {
             $records = array_reverse($records);
         }
 

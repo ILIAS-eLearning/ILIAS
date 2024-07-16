@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\TestDIC;
 
 /**
  * Class ilObjTestListGUI
@@ -63,7 +64,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         string $description = ''
     ): void {
         try {
-            if (ilTestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
+            if (TestDIC::dic()['settings.main.repository']->getForObjFi($obj_id)
                 ->getAdditionalSettings()->getHideInfoTab()) {
                 $this->enableInfoScreen(false);
             }
@@ -131,8 +132,8 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         $cmd = explode('::', $cmd);
 
-        if (count($cmd) == 2) {
-            $cmd_link = $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]], $cmd[1]);
+        if (count($cmd) === 2) {
+            $cmd_link = $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class, $cmd[0]], $cmd[1]);
         } else {
             $cmd_link = $this->ctrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
         }
@@ -149,7 +150,9 @@ class ilObjTestListGUI extends ilObjectListGUI
     public function getCommands(): array
     {
         $commands = parent::getCommands();
-        $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
+        if ($this->access->checkAccess('read', '', $this->ref_id)) {
+            $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
+        }
         return $this->handleUserResultsCommand($commands);
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Class ilStudyProgrammeTreeGUI
  * ilObjStudyProgrammeTreeExplorerGUI generates the tree output for StudyProgrammes
  * This class builds the tree with drag & drop functionality and some additional buttons which triggers bootstrap-modals
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
  */
 class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 {
@@ -33,6 +35,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     protected ilToolbarGUI $toolbar;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     protected int $tree_root_id;
 
@@ -59,8 +63,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         'lp_object' => 'lp-object',
     ];
 
-    protected string $js_study_programme_path = "./components/ILIAS/StudyProgramme/templates/js/ilStudyProgramme.js";
-    protected string $css_study_programme_path = "./components/ILIAS/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
+    protected string $js_study_programme_path = "./assets/js/ilStudyProgramme.js";
+    protected string $css_study_programme_path = "./assets/css/ilStudyProgrammeTree.css";
 
     /**
      * @param $parent_obj string|object|array
@@ -84,6 +88,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $this->js_conf = array();
 
         $this->lng->loadLanguageModule("prg");
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         $this->setAjax(true);
 
@@ -186,7 +192,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
             'ilObjStudyProgrammeSettingsGUI',
             'view',
             array('ref_id' => $node->getRefId(), 'currentNode' => $node_config['is_current_node']),
-            ilGlyphGUI::get(ilGlyphGUI::INFO)
+            $this->getGlyph('settings')
         );
         $tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 
@@ -196,7 +202,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
                 'ilObjStudyProgrammeTreeGUI',
                 'create',
                 array('ref_id' => $node->getRefId()),
-                ilGlyphGUI::get(ilGlyphGUI::ADD)
+                $this->getGlyph('add')
             );
             $tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
         }
@@ -207,7 +213,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
                 'ilObjStudyProgrammeTreeGUI',
                 'delete',
                 array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']),
-                ilGlyphGUI::get(ilGlyphGUI::REMOVE)
+                $this->getGlyph('remove')
             );
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
@@ -232,7 +238,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
                 'ilObjStudyProgrammeTreeGUI',
                 'delete',
                 array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']),
-                ilGlyphGUI::get(ilGlyphGUI::REMOVE)
+                $this->getGlyph('remove')
             );
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
@@ -458,5 +464,19 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     public function getJsConf(string $key): string
     {
         return $this->js_conf[$key];
+    }
+
+    private function getGlyph(string $which): string
+    {
+        $symbol = $this->ui_factory->symbol()->glyph()->$which();
+        /**
+         * do not render an a-tag around the glyph.
+         * should be outdated and removed when Glyphs loose their Clickable
+         */
+        $renderer = $this->ui_renderer->withAdditionalContext(
+            $this->ui_factory->button()->bulky($symbol, '', '')
+        );
+
+        return $renderer->render($symbol);
     }
 }

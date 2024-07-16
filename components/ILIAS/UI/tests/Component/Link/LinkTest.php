@@ -162,4 +162,15 @@ class LinkTest extends ILIAS_UI_TestBase
         $html = $r->render($c);
         $this->assertHTMLEquals($expected_html, $html);
     }
+
+    public function testLinkRenderWithDisabled(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+            ->withDisabled(true);
+
+        $expected_html = '<a aria-disabled="true">label</a>';
+        $this->assertHTMLEquals($expected_html, $r->render($c));
+    }
 }

@@ -38,12 +38,12 @@ class ilQuestionBrowserTableGUITest extends assBaseTestCase
         $this->addGlobal_uiRenderer();
         $this->addGlobal_uiFactory();
 
-        $object = new class {
+        $object = new class () {
             public object $object;
 
             public function __construct()
             {
-                $this->object = new class {
+                $this->object = new class () {
                     public function getRefId(): int
                     {
                         return 0;

@@ -17,6 +17,7 @@
  *********************************************************************/
 
 namespace Test\tests;
+
 use ilObjectDataCache;
 use ilRepositorySelectorExplorerGUI;
 use ilTestBaseTestCase;
@@ -34,6 +35,7 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilAccess();
         $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilLog();
 
         $this->testObj = new ilTestQuestionPoolSelectorExplorer(
             $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
@@ -58,7 +60,7 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $this->testObj->getAvailableQuestionPools());
     }
 
-    public function getAndSetAvailableQuestionPoolsDataProvider(): array
+    public static function getAndSetAvailableQuestionPoolsDataProvider(): array
     {
         return [
             [[]],

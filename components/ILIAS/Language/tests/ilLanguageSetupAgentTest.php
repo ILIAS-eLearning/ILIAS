@@ -25,7 +25,7 @@ use ILIAS\Setup\Objective\NullObjective;
 /**
  * Class ilLanguageSetupAgentTest
  */
-class ilLanguageSetupAgentTest extends ilLanguageBaseTest
+class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
 {
     /**
      * @var \ilLanguageSetupAgent

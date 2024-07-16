@@ -42,7 +42,7 @@ class ilTestPersonalSkillsGUI
         $gui = new ilPersonalSkillsGUI();
 
         $gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
-        $gui->setTriggerObjectsFilter(array($this->getTestId()));
+        $gui->setTriggerObjectsFilter([$this->getTestId()]);
         $gui->setHistoryView(true); // NOT IMPLEMENTED YET
         $gui->setProfileId($this->getSelectedSkillProfile());
 

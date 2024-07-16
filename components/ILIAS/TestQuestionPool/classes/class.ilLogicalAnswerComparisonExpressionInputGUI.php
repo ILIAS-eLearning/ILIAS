@@ -26,7 +26,7 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
 {
     public function setValues($modelValues): void
     {
-        $formValues = array();
+        $formValues = [];
 
         foreach ($modelValues as $modelValue) {
             $formValues[] = new ASS_AnswerSimple(
@@ -49,7 +49,7 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
     {
         $formValues = parent::getValues();
 
-        $modelValues = array();
+        $modelValues = [];
 
         foreach ($formValues as $formValue) {
             $expression = new ilAssQuestionSolutionComparisonExpression();

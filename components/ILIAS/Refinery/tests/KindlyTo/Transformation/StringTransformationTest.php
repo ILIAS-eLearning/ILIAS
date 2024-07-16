@@ -45,7 +45,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    public function StringTestDataProvider(): array
+    public static function StringTestDataProvider(): array
     {
         $obj = new class () extends stdClass {
             public function __toString()

@@ -24,7 +24,7 @@
  */
 class ilWACPath
 {
-    public const DIR_DATA = "public/data";
+    public const DIR_DATA = "data";
     public const DIR_SEC = "sec";
     /**
      * Copy this without to regex101.com and test with some URL of files
@@ -253,7 +253,8 @@ class ilWACPath
                 $real_data_dir,
                 '',
                 $realpath
-            ), '/'
+            ),
+            '/'
         );
 
         return "/" . self::DIR_DATA . '/' . $normalized_path . (!empty($query) ? '?' . $query : '');

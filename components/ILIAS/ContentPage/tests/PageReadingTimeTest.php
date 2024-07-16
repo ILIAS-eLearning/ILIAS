@@ -31,7 +31,7 @@ use stdClass;
  */
 class PageReadingTimeTest extends TestCase
 {
-    public function mixedReadingTypesProvider(): array
+    public static function mixedReadingTypesProvider(): array
     {
         return [
             'Float Type' => [4.0],

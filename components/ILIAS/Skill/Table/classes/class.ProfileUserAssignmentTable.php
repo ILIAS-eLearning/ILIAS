@@ -109,6 +109,10 @@ class ProfileUserAssignmentTable
 
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("skmg_assigned_users"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->profile->getId()
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 

@@ -174,7 +174,7 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
         return $this->with_time_only;
     }
 
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($value instanceof \DateTimeImmutable || is_null($value)) {
             return true;
@@ -233,9 +233,14 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "$('#$id').on('input dp.change', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());";
+    }
+
+    public function isComplex(): bool
+    {
+        return false;
     }
 }

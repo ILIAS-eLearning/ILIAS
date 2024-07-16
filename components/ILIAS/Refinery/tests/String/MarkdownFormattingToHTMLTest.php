@@ -42,7 +42,7 @@ class MarkdownFormattingToHTMLTest extends TestCase
         $this->markdown_with_escaped_html = $group->markdown()->toHTML();
     }
 
-    public function stringProvider(): array
+    public static function stringProvider(): array
     {
         return [
             ["lorem", "<p>lorem</p>\n"],

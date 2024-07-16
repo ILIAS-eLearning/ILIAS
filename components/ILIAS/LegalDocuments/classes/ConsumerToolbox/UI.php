@@ -52,6 +52,7 @@ class UI
 
     public function txt(string $name): string
     {
+        $this->loadLanguageModule($this->id);
         return $this->language->txt($this->firstExisting([
             $this->id . '_' . $name,
             ilObjLegalDocumentsGUI::TYPE . '_' . $name

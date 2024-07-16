@@ -136,15 +136,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         return $this->mode_manager;
     }
 
-    protected function getItemPresentation($include_empty_blocks = true): \ILIAS\Container\Content\ItemPresentationManager
-    {
+    protected function getItemPresentation(
+        $include_empty_blocks = true,
+        ?string $lang = null
+    ): \ILIAS\Container\Content\ItemPresentationManager {
         if (is_null($this->item_presentation)) {
             $this->item_presentation = $this->domain
                 ->content()
                 ->itemPresentation(
                     $this->getObject(),
                     $this->container_user_filter,
-                    $include_empty_blocks
+                    $include_empty_blocks,
+                    $lang
                 );
         }
         return $this->item_presentation;
@@ -256,7 +259,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $page_gui->setStyleId(
             $style->getEffectiveStyleId()
         );
-        $page_gui->setItemPresentationManager($this->getItemPresentation(false));
+        $page_gui->setItemPresentationManager($this->getItemPresentation(
+            false,
+            $page_gui->getLanguage()
+        ));
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setFileDownloadLink("");
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
@@ -348,7 +354,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->isActiveOrdering()) {
             return;
         }
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements($this->getCreatableObjectTypes())
+        );
         $gui->render();
     }
 
@@ -427,8 +435,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // we will create nested forms in case, e.g. a news/calendar item is added
         if ($is_container_cmd) {
             $this->showAdministrationPanel();
+
             if (!$this->edit_order) {
                 $this->showPossibleSubObjects();
+            }
+            if ($this->isActiveAdministrationPanel()) {
+                $this->addImportButtonToToolbar();
             }
 
             if (is_object($this->object) &&
@@ -1064,7 +1076,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     continue;
                 }
 
-                if (!$rbacsystem->checkAccess('visible,read,copy', $node["ref_id"])) {
+                if (!$rbacsystem->checkAccess('visible,read', $node["ref_id"])) {
                     $no_copy[] = $node["ref_id"];
                 }
             }
@@ -1109,6 +1121,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function downloadObject(): void
     {
+        if (in_array($this->user->getId(), [ANONYMOUS_USER_ID, 0], true)) {
+            return;
+        }
+
         $ilErr = $this->error;
         // This variable determines whether the task has been initiated by a folder's action drop-down to prevent a folder
         // duplicate inside the zip.
@@ -2144,10 +2160,20 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $item_data = $this->object->getSubItems(false, false, $child_ref_id);
         $container_view = $this->getContentGUI();
 
+        // see #41377 (material not redrawn, when not a direct child)
+        $sess_data = [];
+        if (isset($this->object->items["sess"])) {
+            $sess_data = $this->object->items["sess"]; // before #41377
+        } elseif (ilObject::_lookupType($parent_ref_id, true) === "sess") {
+            $sess_data[] = [
+                "obj_id" => ilObject::_lookupObjectId($parent_ref_id)
+            ]; // added with #41377
+        }
+
         // list item is session material (not part of "_all"-items - see below)
         $event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
         if (in_array($child_ref_id, $event_items)) {
-            foreach ($this->object->items["sess"] as $id) {
+            foreach (($sess_data) as $id) {
                 $items = ilObjectActivation::getItemsByEvent($id['obj_id']);
                 foreach ($items as $event_item) {
                     if ($event_item["child"] == $child_ref_id) {
@@ -2163,7 +2189,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // "normal" list item
         if (!$html) {
-            foreach ($this->object->items["_all"] as $id) {
+            foreach (($this->object->items["_all"] ?? []) as $id) {
                 if ($id["child"] == $child_ref_id) {
                     $html = $container_view->renderItem($id);
                 }

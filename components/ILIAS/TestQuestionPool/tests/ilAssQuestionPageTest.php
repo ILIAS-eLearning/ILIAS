@@ -37,13 +37,13 @@ class ilAssQuestionPageTest extends assBaseTestCase
 
         $this->addGlobal_objDefinition();
 
-//        $this->object = new ilAssQuestionPage();
+        //        $this->object = new ilAssQuestionPage();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssQuestionPage::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssQuestionPage::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

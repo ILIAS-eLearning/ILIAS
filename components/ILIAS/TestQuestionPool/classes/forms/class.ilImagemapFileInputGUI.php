@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 */
 class ilImagemapFileInputGUI extends ilImageFileInputGUI
 {
-    protected $areas = array();
+    protected $areas = [];
     protected $image_path = "";
     protected $image_path_web = "";
     protected $line_color = "";
@@ -101,7 +101,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     public function setAreasByArray($a_areas): void
     {
         if (is_array($a_areas['name'])) {
-            $this->areas = array();
+            $this->areas = [];
             foreach ($a_areas['name'] as $idx => $name) {
                 if ($this->getPointsUncheckedFieldEnabled() && isset($a_areas['points_unchecked'])) {
                     $pointsUnchecked = $a_areas['points_unchecked'][$idx];
@@ -378,7 +378,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
-        $this->tpl->addJavascript("asserts/js/imagemap.js");
+        $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+        $this->tpl->addJavascript("assets/js/imagemap.js");
     }
 }

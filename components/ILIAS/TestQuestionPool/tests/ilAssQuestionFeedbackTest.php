@@ -40,17 +40,23 @@ class ilAssQuestionFeedbackTest extends assBaseTestCase
         $db = $this->createMock(ilDBInterface::class);
         $lng = $this->createMock(ilLanguage::class);
 
-        $this->object = new class($questionOBJ, $ctrl, $db, $lng) extends ilAssQuestionFeedback{
+        $this->object = new class ($questionOBJ, $ctrl, $db, $lng) extends ilAssQuestionFeedback {
             public function getSpecificAnswerFeedbackTestPresentation(int $questionId, int $questionIndex, int $answerIndex): string
             {
                 return '';
             }
 
-            public function completeSpecificFormProperties(ilPropertyFormGUI $form): void {}
+            public function completeSpecificFormProperties(ilPropertyFormGUI $form): void
+            {
+            }
 
-            public function initSpecificFormProperties(ilPropertyFormGUI $form): void {}
+            public function initSpecificFormProperties(ilPropertyFormGUI $form): void
+            {
+            }
 
-            public function saveSpecificFormProperties(ilPropertyFormGUI $form): void {}
+            public function saveSpecificFormProperties(ilPropertyFormGUI $form): void
+            {
+            }
 
             public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex): string
             {
@@ -67,23 +73,27 @@ class ilAssQuestionFeedbackTest extends assBaseTestCase
                 return 0;
             }
 
-            public function deleteSpecificAnswerFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject): void {}
-
-            protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void {}
+            public function deleteSpecificAnswerFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject): void
+            {
+            }
 
             protected function isSpecificAnswerFeedbackId(int $feedbackId): bool
             {
                 return true;
             }
 
-            protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void {}
+            protected function cloneSpecificFeedback(int $source_question_id, int $target_question_id): void
+            {
+            }
 
             public function getSpecificAnswerFeedbackExportPresentation(int $questionId, int $questionIndex, int $answerIndex): string
             {
                 return '';
             }
 
-            public function importSpecificAnswerFeedback(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent): void {}
+            public function importSpecificAnswerFeedback(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent): void
+            {
+            }
         };
     }
 

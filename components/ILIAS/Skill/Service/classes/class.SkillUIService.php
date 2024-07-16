@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Skill\Usage\UsagesUI;
+
 /**
  * Skill UI service
  * @author famula@leifos.de
@@ -33,5 +35,10 @@ class SkillUIService
 
     public function getGapUI(): void //int $user_id, int $profile_id,...
     {
+    }
+
+    public function getUsagesUI(string $cskill_id, array $usage, string $mode = ""): UsagesUI
+    {
+        return new UsagesUI($cskill_id, $usage, $mode);
     }
 }

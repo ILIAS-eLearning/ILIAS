@@ -28,7 +28,7 @@
  */
 class ilObjQuestionPoolListGUI extends ilObjectListGUI
 {
-    protected $command_link_params = array();
+    protected $command_link_params = [];
 
     /**
     * constructor
@@ -88,15 +88,11 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     */
     public function getProperties(): array
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
-        $props = array();
+        $props = [];
 
         if (!$this->object_properties->getPropertyIsOnline()->getIsOnline()) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"));
+            $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
+                "value" => $this->lng->txt("offline")];
         }
         return $props;
     }
@@ -107,18 +103,15 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     */
     public function getCommandLink(string $cmd): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $cmd = explode('::', $cmd);
 
         if (count($cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjQuestionPoolGUI', $cmd[0]), $cmd[1]);
+            $cmd_link = $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjQuestionPoolGUI', $cmd[0]], $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjQuestionPoolGUI', $cmd[0]);
+            $cmd_link = $this->ctrl->getLinkTargetByClass('ilObjQuestionPoolGUI', $cmd[0]);
         }
 
-        $params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);
+        $params = array_merge(['ref_id' => $this->ref_id], $this->command_link_params);
 
         foreach ($params as $param => $value) {
             $cmd_link = ilUtil::appendUrlParameterString($cmd_link, "$param=$value", true);

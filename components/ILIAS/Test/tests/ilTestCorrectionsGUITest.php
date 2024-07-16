@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Questions\QuestionsTable;
 
 /**
  * Class ilTestCorrectionsGUITest
@@ -39,7 +40,6 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilDB();
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilTabs();
-        $this->addGlobal_http();
         $this->addGlobal_refinery();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
@@ -55,10 +55,12 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
             $DIC['ui.renderer'],
             $DIC['tpl'],
             $DIC['refinery'],
-            $DIC->http()->request(),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(ilObjTest::class),
-            $this->createMock(QuestionInfoService::class)
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
+            $this->getTestObjMock(),
+            $this->createMock(ilObjUser::class),
+            $this->createMock(GeneralQuestionPropertiesRepository::class),
+            $this->createMock(QuestionsTable::class)
         );
     }
 

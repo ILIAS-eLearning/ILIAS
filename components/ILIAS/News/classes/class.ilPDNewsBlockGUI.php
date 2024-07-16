@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * BlockGUI class for block NewsForContext
@@ -396,7 +397,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $ilCtrl->redirect($this, "showFeedUrl");
             } else {
                 $passwd = $form->getInput("desired_password");
-                if (ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $passwd)) {
+                if (LocalUserPasswordManager::getInstance()->verifyPassword($ilUser, $passwd)) {
                     $form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
                     $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                 } else {

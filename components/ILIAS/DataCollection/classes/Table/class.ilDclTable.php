@@ -104,27 +104,27 @@ class ilDclTable
         if (null !== $rec["title"]) {
             $this->setTitle($rec["title"]);
         }
-        $this->setAddPerm((bool)$rec["add_perm"]);
-        $this->setEditPerm((bool)$rec["edit_perm"]);
-        $this->setDeletePerm((bool)$rec["delete_perm"]);
-        $this->setEditByOwner((bool)$rec["edit_by_owner"]);
+        $this->setAddPerm((bool) $rec["add_perm"]);
+        $this->setEditPerm((bool) $rec["edit_perm"]);
+        $this->setDeletePerm((bool) $rec["delete_perm"]);
+        $this->setEditByOwner((bool) $rec["edit_by_owner"]);
         if (null !== $rec["export_enabled"]) {
             $this->setExportEnabled((bool) $rec["export_enabled"]);
         }
-        $this->setImportEnabled((bool)$rec["import_enabled"]);
-        $this->setLimited((bool)$rec["limited"]);
-        $this->setLimitStart((string)$rec["limit_start"]);
-        $this->setLimitEnd((string)$rec["limit_end"]);
-        $this->setIsVisible((bool)$rec["is_visible"]);
+        $this->setImportEnabled((bool) $rec["import_enabled"]);
+        $this->setLimited((bool) $rec["limited"]);
+        $this->setLimitStart((string) $rec["limit_start"]);
+        $this->setLimitEnd((string) $rec["limit_end"]);
+        $this->setIsVisible((bool) $rec["is_visible"]);
         if (null !== $rec['description']) {
             $this->setDescription($rec['description']);
         }
-        $this->setDefaultSortField((string)$rec['default_sort_field_id']);
+        $this->setDefaultSortField((string) $rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
-        $this->setPublicCommentsEnabled((bool)$rec['public_comments']);
-        $this->setViewOwnRecordsPerm((bool)$rec['view_own_records_perm']);
-        $this->setDeleteByOwner((bool)$rec['delete_by_owner']);
-        $this->setSaveConfirmation((bool)$rec['save_confirmation']);
+        $this->setPublicCommentsEnabled((bool) $rec['public_comments']);
+        $this->setViewOwnRecordsPerm((bool) $rec['view_own_records_perm']);
+        $this->setDeleteByOwner((bool) $rec['delete_by_owner']);
+        $this->setSaveConfirmation((bool) $rec['save_confirmation']);
         if (null !== $rec['table_order']) {
             $this->setOrder($rec['table_order']);
         }
@@ -509,12 +509,11 @@ class ilDclTable
 
     /**
      * get id of first (for current user) available view
-     * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0): ?int
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0, bool $with_detailed_view = false): ?int
     {
         $uid = $user_id;
-        $array = $this->getVisibleTableViews($ref_id, false, $uid);
+        $array = $this->getVisibleTableViews($ref_id, $with_detailed_view, $uid);
         $tableview = array_shift($array);
 
         return $tableview ? $tableview->getId() : null;
@@ -1068,7 +1067,7 @@ class ilDclTable
             }
         }
 
-        $this->setDefaultSortField((string)$default_sort_field);
+        $this->setDefaultSortField((string) $default_sort_field);
         $this->doUpdate();
 
         // Clone Records with recordfields

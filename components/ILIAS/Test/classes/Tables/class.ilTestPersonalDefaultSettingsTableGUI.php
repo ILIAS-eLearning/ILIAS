@@ -52,17 +52,17 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        parent::fillRow(array(
+        parent::fillRow([
             'name' => $a_set['name'],
             'checkbox' => ilLegacyFormElementsUtil::formCheckbox(false, 'chb_defaults[]', (string) $a_set['test_defaults_id']),
             'tstamp' => ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX))
-        ));
+        ]);
     }
 
     public function numericOrdering(string $a_field): bool
     {
-        return in_array($a_field, array(
+        return in_array($a_field, [
             'tstamp'
-        ));
+        ]);
     }
 }

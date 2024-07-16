@@ -18,16 +18,13 @@ declare(strict_types=1);
 
 namespace ILIAS\HTTP;
 
-/** @noRector */
-require_once "AbstractBaseTest.php";
-
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Refinery\Factory as Refinery;
 use ilLanguage;
 use OutOfBoundsException;
 
-class SuperGlobalDropInReplacementTest extends AbstractBaseTest
+class SuperGlobalDropInReplacementTest extends AbstractBaseTestCase
 {
     private function getRefinery(): Refinery
     {

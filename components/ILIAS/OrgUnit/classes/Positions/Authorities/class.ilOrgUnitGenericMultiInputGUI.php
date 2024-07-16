@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +18,9 @@
  */
 
 declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilDclGenericMultiInputGUI
@@ -49,12 +53,20 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     protected bool $show_info = false;
     protected bool $render_one_for_empty_value = true;
 
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
         $this->setType("line_select");
         $this->setMulti(true);
         $this->initCSSandJS();
+
+        global $DIC;
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+
     }
 
     public function getHook(string $key)
@@ -166,7 +178,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         $internal_fields = array_keys($this->inputs);
         $key = $this->getPostVar();
-        $post =  $this->raw($key);
+        $post = $this->raw($key);
 
         if (is_array($post)) {
             foreach ($post as $authority) {
@@ -306,22 +318,19 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             $tpl->parseCurrentBlock();
         }
         if ($this->getMulti() && !$this->getDisabled()) {
-            $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
-            $show_remove = true;
             $is_removeable_hook = $this->getHook(self::HOOK_IS_LINE_REMOVABLE);
             if ($is_removeable_hook !== false && !$clean_render) {
                 $show_remove = $is_removeable_hook($this->getValue());
             }
-            $show_remove = true;
-            $image_minus = ($show_remove) ? ilGlyphGUI::get(ilGlyphGUI::REMOVE) : '<span class="glyphicon glyphicon-minus hide"></span>';
             $tpl->setCurrentBlock('multi_icons');
-            $tpl->setVariable('IMAGE_PLUS', $image_plus);
-            $tpl->setVariable('IMAGE_MINUS', $image_minus);
+            $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
+            $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
             $tpl->parseCurrentBlock();
+
             if ($this->isPositionMovable()) {
                 $tpl->setCurrentBlock('multi_icons_move');
-                $tpl->setVariable('IMAGE_UP', ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable('IMAGE_DOWN', ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable('IMAGE_UP', $this->getGlyph('up'));
+                $tpl->setVariable('IMAGE_DOWN', $this->getGlyph('down'));
                 $tpl->parseCurrentBlock();
             }
         }
@@ -331,8 +340,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function initCSSandJS()
     {
-        global $tpl;
-        $tpl->addJavascript('assets/js/generic_multi_line_input.js');
+        $this->global_tpl->addJavascript('assets/js/generic_multi_line_input.js');
     }
 
     /**
@@ -346,13 +354,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $output .= $this->render(0, true);
         if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
             $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
-            $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
-            $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
-
             $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button' style='display:none'");
             $tpl->setCurrentBlock('multi_icons');
-            $tpl->setVariable('IMAGE_PLUS', $image_plus);
-            $tpl->setVariable('IMAGE_MINUS', $image_minus);
+            $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
+            $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
             $tpl->parseCurrentBlock();
             $output .= $tpl->get();
 
@@ -366,13 +371,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 $output .= $this->render(0, true);
             } else {
                 $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
-                $image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
-                $image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
-
                 $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button'");
                 $tpl->setCurrentBlock('multi_icons');
-                $tpl->setVariable('IMAGE_PLUS', $image_plus);
-                $tpl->setVariable('IMAGE_MINUS', $image_minus);
+                $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
+                $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
                 $tpl->parseCurrentBlock();
                 $output .= $tpl->get();
             }
@@ -445,5 +447,19 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     public function setRenderOneForEmptyValue(bool $render_one_for_empty_value): void
     {
         $this->render_one_for_empty_value = $render_one_for_empty_value;
+    }
+
+    private function getGlyph(string $which): string
+    {
+        $symbol = $this->ui_factory->symbol()->glyph()->$which();
+        /**
+         * do not render an a-tag around the glyph.
+         * should be outdated and removed when Glyphs loose their Clickable
+         */
+        $renderer = $this->ui_renderer->withAdditionalContext(
+            $this->ui_factory->button()->bulky($symbol, '', '')
+        );
+
+        return $renderer->render($symbol);
     }
 }

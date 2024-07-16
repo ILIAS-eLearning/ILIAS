@@ -311,8 +311,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $in_file->setSuffixes(array("ris", "bib", "bibtex"));
         $in_file->setRequired(true);
         $forms[self::CFORM_NEW]->addItem($in_file);
-        $this->ctrl->saveParameterByClass('ilobjrootfoldergui', 'new_type');
-        $forms[self::CFORM_NEW]->setFormAction($this->ctrl->getFormActionByClass('ilobjrootfoldergui', "save"));
 
         return $forms;
     }

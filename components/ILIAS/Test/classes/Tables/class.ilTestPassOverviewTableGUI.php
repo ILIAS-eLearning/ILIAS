@@ -249,7 +249,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
     private function getRequiredActions(?bool $isScoredPass): array
     {
-        $actions = array();
+        $actions = [];
 
         if ($this->getPassDetailsCommand()) {
             $actions[$this->getPassDetailsCommand()] = $this->lng->txt('tst_pass_details');

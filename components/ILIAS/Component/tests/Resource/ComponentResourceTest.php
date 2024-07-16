@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Component\Dependencies\Name;
 use ILIAS\Component\Resource as R;
 
-class OfComponentTest extends TestCase
+class ComponentResourceTest extends TestCase
 {
     public function testTarget1()
     {

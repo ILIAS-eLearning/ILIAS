@@ -53,7 +53,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         private ilLanguage $lng,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         $this->validationFailed = false;
         $this->validationReports = [];
@@ -193,7 +193,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 
     private function buildLostQuestionPoolsString(): string
     {
-        $titles = array();
+        $titles = [];
 
         foreach ($this->getLostPools() as $lostPool) {
             $titles[] = $lostPool->getTitle();
@@ -322,7 +322,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
                 $action
             );
 
-            $msg_box = $this->ui_factory->messageBox()->info($report)->withLinks(array($link));
+            $msg_box = $this->ui_factory->messageBox()->info($report)->withLinks([$link]);
         } else {
             $msg_box = $this->ui_factory->messageBox()->info($report);
         }
@@ -364,7 +364,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     {
         $message = $this->lng->txt('tst_msg_rand_quest_set_not_sync');
         $button = $this->buildQuestionStageRebuildButton();
-        $msg_box = $this->ui_factory->messageBox()->info($message)->withButtons(array($button));
+        $msg_box = $this->ui_factory->messageBox()->info($message)->withButtons([$button]);
 
         return $this->ui_renderer->render($msg_box);
     }

@@ -245,7 +245,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance(
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->test_obj,
             $this,
             $sourcePoolDefinitionList,
@@ -279,7 +279,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
         $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
             $this->db,
-            $this->log,
+            $this->logger,
             $this->test_obj
         );
         $stagingPool->reset();
@@ -319,7 +319,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             $originalKey = $this->test_obj->getRefId() . '_rndSelDef_' . $originalDefinitionId;
             $mappedKey = $cloneTestOBJ->getRefId() . '_rndSelDef_' . $cloneDefinitionId;
             $cwo->appendMapping($originalKey, $mappedKey);
-            $this->log->write(__METHOD__ . ": Added random selection definition id mapping $originalKey <-> $mappedKey");
+            $this->logger->info(__METHOD__ . ": Added random selection definition id mapping $originalKey <-> $mappedKey");
         }
     }
 
@@ -341,7 +341,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     private function buildStagingPoolBuilder(ilObjTest $test_obj): ilTestRandomQuestionSetStagingPoolBuilder
     {
-        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $this->log, $test_obj);
+        $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $this->logger, $test_obj);
 
         return $stagingPool;
     }

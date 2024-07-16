@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilAsyncNotifications
  * Allows displaying async notifications on a page
  *
  * @author Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
  */
 class ilAsyncNotifications
 {
+    private const JS_PATH = "./assets/js/";
+
     /**
      * @var bool Shows if the js is already added
      */
@@ -38,11 +39,6 @@ class ilAsyncNotifications
     protected ?string $content_container_id;
 
     /**
-     * @var string Path to the js-path of the module
-     */
-    protected string $js_path;
-
-    /**
      * @var array JavaScript configuration for the jquery plugin
      */
     protected array $js_config;
@@ -50,7 +46,6 @@ class ilAsyncNotifications
     public function __construct(string $content_container_id = null)
     {
         $this->js_init = false;
-        $this->js_path = "./components/ILIAS/StudyProgramme/templates/js/";
         $this->content_container_id = $content_container_id ?? "ilContentContainer";
     }
 
@@ -114,15 +109,7 @@ class ilAsyncNotifications
      */
     public function getJsPath(): string
     {
-        return $this->js_path;
-    }
-
-    /**
-     * Sets the path for the java scripts
-     */
-    public function setJsPath(string $js_path): void
-    {
-        $this->js_path = $js_path;
+        return self::JS_PATH;
     }
 
     /**

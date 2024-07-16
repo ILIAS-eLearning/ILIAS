@@ -28,7 +28,7 @@ class ClientIdTest extends TestCase
     /**
      * @return array[]
      */
-    public function clientIdProvider(): array
+    public static function clientIdProvider(): array
     {
         return [
             'single letter' => ['c'],
@@ -47,7 +47,7 @@ class ClientIdTest extends TestCase
     /**
      * @return array[]
      */
-    public function invalidClientIdProvider(): array
+    public static function invalidClientIdProvider(): array
     {
         return [
             'path traversal' => ['../../../../some/obscure/path'],

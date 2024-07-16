@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test\test;
+namespace ILIAS\Test\Access\test;
 
 use PHPUnit\Framework\TestCase;
 

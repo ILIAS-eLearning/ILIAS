@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * GUI class for random question set general config form
  *
@@ -30,41 +32,24 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {
-    public ilObjTest $testOBJ;
+    protected bool $edit_mode_enabled = true;
 
-    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
-
-    public ilTestRandomQuestionSetConfig $questionSetConfig;
-
-    protected bool $editModeEnabled = true;
-
-    /**
-     * @param ilCtrl $ctrl
-     * @param ilLanguage $lng
-     * @param ilObjTest $testOBJ
-     * @param ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI
-     * @param ilTestRandomQuestionSetConfig $questionSetConfig
-     */
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
-    {
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        // Bugfix for mantis: 0015081
-        $this->lng->loadLanguageModule('form');
-        $this->testOBJ = $testOBJ;
-        $this->questionSetConfigGUI = $questionSetConfigGUI;
-        $this->questionSetConfig = $questionSetConfig;
+    public function __construct(
+        private ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI,
+        private ilTestRandomQuestionSetConfig $questionSetConfig
+    ) {
         parent::__construct();
+        $this->lng->loadLanguageModule('form');
     }
 
     public function isEditModeEnabled(): bool
     {
-        return $this->editModeEnabled;
+        return $this->edit_mode_enabled;
     }
 
-    public function setEditModeEnabled(bool $editModeEnabled): void
+    public function setEditModeEnabled(bool $edit_mode_enabled): void
     {
-        $this->editModeEnabled = $editModeEnabled;
+        $this->edit_mode_enabled = $edit_mode_enabled;
     }
 
     public function build(): void
@@ -162,36 +147,36 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
 
-    public function save(): void
+    public function save(AdditionalInformationGenerator $additional_info): array
     {
+        $log_array = [];
+        $question_equal_per_pool = $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked();
         $this->questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired(
-            $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
+            $question_equal_per_pool
         );
 
-        switch ($this->getItemByPostVar('quest_amount_cfg_mode')->getValue()) {
-            case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
+        $log_array[AdditionalInformationGenerator::KEY_HOMOGENEOUS_SCORING] = $additional_info
+            ->getTrueFalseTagForBool($question_equal_per_pool);
 
-                $this->questionSetConfig->setQuestionAmountConfigurationMode(
-                    $this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
-                );
+        $question_amount_configuration_mode = $this->getItemByPostVar('quest_amount_cfg_mode')->getValue();
+        $this->questionSetConfig->setQuestionAmountConfigurationMode(
+            $question_amount_configuration_mode
+        );
 
-                $this->questionSetConfig->setQuestionAmountPerTest(
-                    (int) $this->getItemByPostVar('quest_amount_per_test')->getValue()
-                );
+        $log_array[AdditionalInformationGenerator::KEY_QUESTION_AMOUNT_TYPE] = $this->questionSetConfig->getQuestionAmountPerTest()
+            ? $additional_info->getTagForLangVar('tst_inp_quest_amount_cfg_mode_test')
+            : $additional_info->getTagForLangVar('tst_inp_quest_amount_cfg_mode_pool');
 
-                break;
-
-            case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
-
-                $this->questionSetConfig->setQuestionAmountConfigurationMode(
-                    $this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
-                );
-
-                $this->questionSetConfig->setQuestionAmountPerTest(null);
-
-                break;
+        $this->questionSetConfig->setQuestionAmountPerTest(null);
+        if (!$this->questionSetConfig->getQuestionAmountPerTest()) {
+            $question_amount_per_test = (int) $this->getItemByPostVar('quest_amount_per_test')->getValue();
+            $this->questionSetConfig->setQuestionAmountPerTest(
+                $question_amount_per_test
+            );
+            $log_array[AdditionalInformationGenerator::KEY_QUESTION_AMOUNT_PER_TEST] = $question_amount_per_test;
         }
 
         $this->questionSetConfig->saveToDb();
+        return $log_array;
     }
 }

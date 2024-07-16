@@ -31,7 +31,7 @@ class EncodingTest extends TestCase
         $this->group = new Group();
     }
 
-    public function latin1StringProvider(): array
+    public static function latin1StringProvider(): array
     {
         // generate 500 random strings with ISO-8859-1 encoding. unfortunately, I was not able to find a list to copy
         // here which keeps it's encoding, therefore we must generate them randomly
@@ -60,7 +60,7 @@ class EncodingTest extends TestCase
         $this->assertEquals($expected_utf8, $result);
     }
 
-    public function asciiStringProvider(): array
+    public static function asciiStringProvider(): array
     {
         // generate 500 random strings with US-ASCII encosing.
         $strings = [];

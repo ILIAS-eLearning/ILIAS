@@ -47,9 +47,8 @@ class ilTimingOverviewTableGUITest extends ilTestBaseTestCase
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
-        //$this->addGlobal_http();
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
 
         $this->tableGui = new ilTimingOverviewTableGUI($this->parentObj_mock, "");
     }

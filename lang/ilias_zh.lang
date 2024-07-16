@@ -414,6 +414,9 @@ adve#:#adve_use_physical#:#使用 b/i/u 而不是 str/emp/imp
 adve#:#adve_use_physical_info#:#为strong、emphatic和重要的物理属性按钮b(bold)、i(italic)和 u(underline)设置替代语义样式类。请注意，如果样式编辑器已在使用，并且其他物理属性已分配给strong/emphatic/important 样式类，这可能导致不一致的结果。
 adve#:#adve_use_tiny_mce#:#为所见即所得编辑启用TinyMCE。
 assessment#:#action#:#动作
+assessment#:#activate_logging#:#激测试 & 评估日志
+assessment#:#activate_manual_scoring#:#激活手动评分
+assessment#:#activate_manual_scoring_desc#:#如果一个题目类型的手动评分被激活，这个题目类型中的所有题目都能由测试的作者手动评分。请小心调整这些设置，因为已自动评分的题目类型最后弄成手动评分很有可能会造成无法裁决的问题！
 assessment#:#addSuggestedSolution#:#添加建议解决方案
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#添加圆区域
@@ -572,7 +575,6 @@ assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
 assessment#:#conf_delete_pass#:#真的要删除通过的(pass)？
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#您确信要删除所有用户的测试数据吗？
 assessment#:#confirm_delete_single_user_data#:#您确信要删除所选用户的测试数据吗？
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
@@ -587,6 +589,7 @@ assessment#:#create_gaps#:#创建间隔
 assessment#:#create_new#:#新创建
 assessment#:#customstyle#:#自定义样式
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#日期/时间
 assessment#:#definition#:#定义
 assessment#:#definition_image#:#图像定义
 assessment#:#definition_text#:#文本定义
@@ -614,19 +617,6 @@ assessment#:#dont_use_questionpool#:#不要在题目池中插入题目(仅在这
 assessment#:#duplicate#:#复制
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#ECTS grade
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#ECTS等级输出
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_page#:#编辑页面
 assessment#:#edit_question#:#编辑题目
@@ -750,6 +740,7 @@ assessment#:#height#:#高度
 assessment#:#identical_scoring#:#相同的评分
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored.
 assessment#:#imagemap#:#图形映像
+assessment#:#imap_line_color#:#Imagemap线颜色
 assessment#:#import_question#:#导入题目
 assessment#:#imported#:#已导入
 assessment#:#info_answer_type_change#:#这道题已经包含图片。您不能更改更改答案类型为多行答案。
@@ -811,23 +802,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#上次更新
 assessment#:#legend#:#传说
 assessment#:#locked#:#锁定
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#新的测试已创建
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#标记已添加
-assessment#:#log_mark_changed#:#标记已变更
-assessment#:#log_mark_removed#:#标记已移除
-assessment#:#log_modified_test#:#测试已经被修改
-assessment#:#log_question_added#:#Question added at position
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#题目已移除
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s移除用户**的所有考试记录
-assessment#:#log_user_answered_question#:#User answered a question and received %s points用户已经回答完问题，并且得到了%的分
-assessment#:#log_user_entered_values#:#User entered values用户输入的值
-assessment#:#log_user_not_entered_values#:#User did not enter values用户没有输入值
+assessment#:#log_text#:#日志消息
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#日志
+assessment#:#logs_deleted#:#已选定测试的日志数据已经被删除
+assessment#:#logs_output#:#日志数据输出
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
@@ -842,7 +822,6 @@ assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s手
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Mark schema已标注模式
 assessment#:#mark_schema_invalid#:#标记模式没有验证。请创建一个正确的模式。
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot; 此用户的ECTS 的成绩是**
 assessment#:#matches#:# 匹配
 assessment#:#matching_pairs#:#Matching Pairs匹配对 中
 assessment#:#matching_shuffle_definitions#:#Definitions only只填定义
@@ -1888,7 +1867,6 @@ assessment#:#units#:#Units###24 10 2013 new variable
 assessment#:#unlimited#:#无限制
 assessment#:#unlock#:#未锁定
 assessment#:#uploaded_material#:#已上传的资料
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
@@ -3262,7 +3240,6 @@ common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#设置活动
-common#:#activate_assessment_logging#:#激测试 & 评估日志
 common#:#activate_https#:#激活HTTPS (支付,登录)
 common#:#activate_tracking#:#激活跟踪
 common#:#activation#:#激活
@@ -3329,24 +3306,6 @@ common#:#approve_recipient#:#审批人的登录ID
 common#:#archive#:#存档
 common#:#archive_broken#:#归档似乎不完整或是空的。
 common#:#are_you_sure#:#您确定吗？
-common#:#ass_log_admin#:#日志数据管理
-common#:#ass_log_count_datasets#:#日志条目
-common#:#ass_log_delete_entries#:#删除日志条目
-common#:#ass_log_delete_no_selection#:#请至少选择一个测试去删除日志数据
-common#:#ass_log_deleted#:#已选定测试的日志数据已经被删除
-common#:#ass_log_output#:#日志数据输出
-common#:#assessment_imap_line_color#:#Imagemap线颜色
-common#:#assessment_log#:#为一个特定的时期内创建一个测试和评估日志
-common#:#assessment_log_datetime#:#日期/时间
-common#:#assessment_log_deleted#:#在这次管理中测试和评估日志数据已被删除
-common#:#assessment_log_for_test#:#供测试
-common#:#assessment_log_log_entries#:#日志条目
-common#:#assessment_log_logging#:#日志
-common#:#assessment_log_manual_scoring_activate#:#激活手动评分
-common#:#assessment_log_manual_scoring_desc#:#如果一个题目类型的手动评分被激活，这个题目类型中的所有题目都能由测试的作者手动评分。请小心调整这些设置，因为已自动评分的题目类型最后弄成手动评分很有可能会造成无法裁决的问题！
-common#:#assessment_log_question#:#题目
-common#:#assessment_log_text#:#日志消息
-common#:#assessment_settings_reporting_language#:#报告语言
 common#:#assf_allowed_questiontypes#:#可用的问题类型
 common#:#assf_allowed_questiontypes_desc#:#在这次ILIAS安装中，所有已勾选的题目类型都将可用。如果您不允许在这些安装中创建某些题目类型，您必需移除相关复选框中的选项。
 common#:#assf_questiontypes#:#题目设置
@@ -4149,7 +4108,7 @@ common#:#import_cat_table#:#如果设置了复选框，下面的表才有意义�
 common#:#import_categories#:#导入类目
 common#:#import_failure_log#:#导入失败日志
 common#:#import_file#:#导入文件
-common#:#import_file_not_valid#:#导入文件无效。
+common#:#import_file_not_valid_here#:#导入文件无效。
 common#:#import_finished#:#已导入的消息数。
 common#:#import_lm#:#导入学习模块
 common#:#import_qpl#:#导入题目池测试
@@ -10784,12 +10743,12 @@ mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
 mathjax#:#mathjax_limiter#:#行内分隔符
 mathjax#:#mathjax_limiter_info#:#选择行内分隔符，因为他们已配置在您的MathJax安装中。
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -13873,12 +13832,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#请选择应该也被删除的一项：
 rep#:#rep_multiple_reference_deletion_intro#:#这个对象的进一步参考已存在。
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

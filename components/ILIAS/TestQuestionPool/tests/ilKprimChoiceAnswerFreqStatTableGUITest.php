@@ -35,7 +35,7 @@ class ilKprimChoiceAnswerFreqStatTableGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilKprimChoiceAnswerFreqStatTableGUI((object) [], '', $this->createMock(assQuestion::class),);
+        $this->object = new ilKprimChoiceAnswerFreqStatTableGUI((object) [], '', $this->createMock(assQuestion::class), );
     }
 
     public function testConstruct(): void

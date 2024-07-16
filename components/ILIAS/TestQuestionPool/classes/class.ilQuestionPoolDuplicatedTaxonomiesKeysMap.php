@@ -24,9 +24,9 @@
  */
 class ilQuestionPoolDuplicatedTaxonomiesKeysMap
 {
-    private array $taxonomyKeyMap = array();
-    private array $taxNodeKeyMap = array();
-    private array $taxRootNodeKeyMap = array();
+    private array $taxonomyKeyMap = [];
+    private array $taxNodeKeyMap = [];
+    private array $taxRootNodeKeyMap = [];
 
     public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy): void
     {

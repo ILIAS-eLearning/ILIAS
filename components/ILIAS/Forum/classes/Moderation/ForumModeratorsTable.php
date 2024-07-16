@@ -118,7 +118,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         );
 
         return [
-            'detachModeratorRole' => $this->ui_factory->table()->action()->multi(
+            'detachModeratorRole' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('remove'),
                 $url_builder_detach->withParameter($action_parameter_token_copy, 'detachModeratorRole'),
                 $row_id_token_detach

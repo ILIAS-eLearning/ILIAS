@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -26,13 +30,14 @@ declare(strict_types=1);
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-    protected ?ilObjTest $test_obj = null;
+    private readonly GeneralQuestionPropertiesRepository $questionrepository;
 
-    private ilDBInterface $db;
-    private ilLogger $log;
-    private ilTree $tree;
-    private ilComponentRepository $component_repository;
+    private readonly ilDBInterface $db;
+    private readonly TestLogger $logger;
+    private readonly ilTree $tree;
+    private readonly ilComponentRepository $component_repository;
+
+    protected ?ilObjTest $test_obj = null;
 
     protected ?ilImportMapping $import_mapping = null;
 
@@ -51,10 +56,11 @@ class ilObjTestXMLParser extends ilSaxParser
     ) {
         global $DIC;
         $this->db = $DIC['ilDB'];
-        $this->log = $DIC['ilLog'];
+        $local_dic = TestDIC::dic();
+        $this->logger = $local_dic['logging.logger'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($path_to_file, $throw_exception);
     }
 
@@ -224,10 +230,10 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
 
         if (!$question_set_config->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {

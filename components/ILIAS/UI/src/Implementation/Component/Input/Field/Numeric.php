@@ -32,8 +32,6 @@ use ILIAS\Refinery\ConstraintViolationException;
  */
 class Numeric extends FormInput implements C\Input\Field\Numeric
 {
-    private bool $complex = false;
-
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -57,7 +55,7 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_numeric($value) || $value === "" || $value === null;
     }
@@ -90,6 +88,6 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
      */
     public function isComplex(): bool
     {
-        return $this->complex;
+        return false;
     }
 }

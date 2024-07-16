@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component\Input\Field\Section;
 use ILIAS\UI\Implementation\Component\Input\Field\Numeric;
@@ -130,35 +130,34 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
 
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(
-                ['prg_points'],
-                ['prg_points_byline'],
-                ['prg_status'],
-                ['prg_status_draft'],
-                ['prg_status_active'],
-                ['prg_status_outdated'],
-                ['prg_status_byline'],
-                ['prg_assessment']
-            )
-            ->will($this->onConsecutiveCalls(
-                'prg_points',
-                'prg_points_byline',
-                'prg_status',
-                'prg_status_draft',
-                'prg_status_active',
-                'prg_status_outdated',
-                'prg_status_byline',
-                'prg_assessment'
-            ))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'prg_points',
+            'prg_points_byline',
+            'prg_status',
+            'prg_status_draft',
+            'prg_status_active',
+            'prg_status_outdated',
+            'prg_status_byline',
+            'prg_assessment'
+        ];
 
         $field = $obj->toFormInput(
             $f,
             $lng,
             $refinery
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         $this->assertInstanceOf(
             Section::class,

@@ -22,6 +22,7 @@ namespace ILIAS\components\ResourceStorage\Container\Wrapper;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Zip;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>
@@ -31,7 +32,7 @@ final class ZipReader
 {
     private const BASE = '/';
     private const APPLICATION_OCTET_STREAM = 'application/octet-stream';
-    private array $ignored = ['.', '..', '__MACOSX', '.info', '.DS_Store'];
+    private array $ignored = ['.', '..', '__MACOSX', '.info', '.DS_Store', Zip::DOT_EMPTY];
     private \ZipArchive $zip;
     private ?array $structure = null;
 

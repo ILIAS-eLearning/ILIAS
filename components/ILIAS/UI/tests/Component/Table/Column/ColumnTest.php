@@ -110,7 +110,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         $df = new \ILIAS\Data\Factory();
         $format = $df->dateFormat()->germanShort();
         $dat = new \DateTimeImmutable();
-        $col = new Column\Timespan($this->lng, 'col', $format);
+        $col = new Column\TimeSpan($this->lng, 'col', $format);
         $this->assertEquals(
             $dat->format($format->toString()) . ' - ' . $dat->format($format->toString()),
             $col->format([$dat, $dat])

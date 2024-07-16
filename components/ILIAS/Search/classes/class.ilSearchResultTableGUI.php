@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 /**
 * TableGUI class for search results
 *
@@ -110,7 +109,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $description = $a_set['description'];
         $relevance = $a_set['relevance'];
 
-        if (!$type) {
+        if (!$type || $this->objDefinition->isSideBlock($type)) {
             return;
         }
 

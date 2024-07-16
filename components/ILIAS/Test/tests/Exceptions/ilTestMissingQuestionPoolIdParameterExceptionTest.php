@@ -32,7 +32,7 @@ class ilTestMissingQuestionPoolIdParameterExceptionTest extends ilTestBaseTestCa
         $this->assertEquals($output['code'], $ilTestMissingQuestionPoolIdParameterException->getCode());
     }
 
-    public function constructDataProvider(): array
+    public static function constructDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],
@@ -60,7 +60,7 @@ class ilTestMissingQuestionPoolIdParameterExceptionTest extends ilTestBaseTestCa
         ;
     }
 
-    public function exceptionDataProvider(): array
+    public static function exceptionDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestMissingQuestionPoolIdParameterException::class, 'code' => 0]],

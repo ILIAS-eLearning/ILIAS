@@ -115,7 +115,7 @@ class ilQTIMattextTest extends TestCase
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function xmlSpaces(): array
+    public static function xmlSpaces(): array
     {
         class_exists(ilQTIMattext::class); // Force autoload to define the constants.
         return [

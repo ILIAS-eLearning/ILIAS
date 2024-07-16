@@ -98,11 +98,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
                 $area_link_type = $this->edit_request->getString("area_link_type");
                 if ($area_link_type == IL_INT_LINK) {
+                    $int_link = $this->map->getInternalLink();
                     $this->std_alias_item->setAreaIntLink(
                         $this->map->getAreaNr(),
-                        $this->map->getLinkType(),
-                        $this->map->getLinkTarget(),
-                        $this->map->getLinkFrame()
+                        $int_link["type"],
+                        $int_link["target"],
+                        $int_link["target_frame"]
                     );
                 } elseif ($area_link_type == IL_NO_LINK) {
                     $this->std_alias_item->setAreaExtLink(

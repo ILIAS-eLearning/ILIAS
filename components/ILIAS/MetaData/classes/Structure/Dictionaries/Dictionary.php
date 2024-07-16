@@ -25,10 +25,14 @@ use ILIAS\MetaData\Structure\Dictionaries\Tags\TagInterface;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagAssignmentInterface;
+use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
+use ILIAS\MetaData\Elements\ElementInterface;
 
 abstract class Dictionary
 {
     protected PathFactoryInterface $path_factory;
+    protected NavigatorFactoryInterface $navigator_factory;
 
     /**
      * @var TagAssignmentInterface[]
@@ -37,9 +41,11 @@ abstract class Dictionary
 
     public function __construct(
         PathFactoryInterface $path_factory,
+        NavigatorFactoryInterface $navigator_factory,
         TagAssignmentInterface ...$tag_assignments
     ) {
         $this->path_factory = $path_factory;
+        $this->navigator_factory = $navigator_factory;
         $this->tag_assignments = $tag_assignments;
     }
 
@@ -51,9 +57,10 @@ abstract class Dictionary
     public function tagsForElement(
         BaseElementInterface $element
     ): \Generator {
-        foreach ($this->getAssignmentsForElement($element) as $assignment) {
+        $path = $this->path_factory->toElement($element);
+        foreach ($this->getAssignmentsForElement($path) as $assignment) {
             $tag = $assignment->tag();
-            if (!$this->doesIndexMatch($element, $tag)) {
+            if (!$this->doesIndexMatch($path, $element, $tag)) {
                 continue;
             }
             yield $tag;
@@ -64,9 +71,8 @@ abstract class Dictionary
      * @return TagAssignmentInterface[]
      */
     protected function getAssignmentsForElement(
-        BaseElementInterface $element
+        PathInterface $path
     ): \Generator {
-        $path = $this->path_factory->toElement($element);
         foreach ($this->tag_assignments as $assignment) {
             if ($assignment->matchesPath($path)) {
                 yield $assignment;
@@ -75,16 +81,17 @@ abstract class Dictionary
     }
 
     protected function doesIndexMatch(
+        PathInterface $path,
         BaseElementInterface $element,
         TagInterface $tag
     ): bool {
-        if ($element instanceof StructureElementInterface) {
+        if (!($element instanceof ElementInterface)) {
             return true;
         }
         if (!$tag->isRestrictedToIndices()) {
             return true;
         }
-        $index = $this->findIndexOfElement($element);
+        $index = $this->findIndexOfElement($path, $element);
         if (in_array($index, iterator_to_array($tag->indices()), true)) {
             return true;
         }
@@ -92,19 +99,14 @@ abstract class Dictionary
     }
 
     protected function findIndexOfElement(
-        BaseElementInterface $element
+        PathInterface $path,
+        ElementInterface $element
     ): int {
-        if (!($super = $element->getSuperElement())) {
-            return 0;
-        }
-
         $name = $element->getDefinition()->name();
+        $navigator = $this->navigator_factory->navigator($path, $element);
         $index = 0;
-        foreach ($super->getSubElements() as $sub) {
-            if ($sub->getDefinition()->name() !== $name) {
-                continue;
-            }
-            if ($sub === $element) {
+        foreach ($navigator->elementsAtFinalStep() as $sibling_element) {
+            if ($sibling_element === $element) {
                 return $index;
             }
             $index++;

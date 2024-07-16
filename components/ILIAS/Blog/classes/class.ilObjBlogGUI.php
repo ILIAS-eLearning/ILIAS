@@ -2597,7 +2597,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $confirm->addItem(
                 'id[]',
                 (string) $user_id,
-                $this->profile_gui->getNamePresentation($user_id, false, false, "", true)
+                $this->profile_gui->getNamePresentation($user_id, false, "", true)
             );
         }
 

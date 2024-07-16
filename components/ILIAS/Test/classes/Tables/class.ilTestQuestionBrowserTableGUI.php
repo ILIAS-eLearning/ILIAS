@@ -22,8 +22,10 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
-use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -53,19 +55,19 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private array $filter = [];
 
     public function __construct(
-        private ilTabsGUI $tabs,
-        private ilTree $tree,
-        private ilDBInterface $db,
-        private ilLogger $log,
-        private ilComponentRepository $component_repository,
-        private ilObjTest $test_obj,
-        private ilAccessHandler $access,
-        private GlobalHttpState $http_state,
-        private Refinery $refinery,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private InternalRequestService $testrequest,
-        private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        private readonly ilTabsGUI $tabs,
+        private readonly ilTree $tree,
+        private readonly ilDBInterface $db,
+        private readonly TestLogger $logger,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilObjTest $test_obj,
+        private readonly ilAccessHandler $access,
+        private readonly GlobalHttpState $http_state,
+        private readonly Refinery $refinery,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly RequestDataCollector $testrequest,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
@@ -126,12 +128,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         switch (strtolower((string) $this->ctrl->getNextClass($this))) {
             case strtolower(__CLASS__):
             case '':
-
                 $cmd = $this->ctrl->getCmd() . 'Cmd';
                 return $this->$cmd();
 
             default:
-
                 $this->ctrl->setReturn($this, self::CMD_BROWSE_QUESTIONS);
                 return parent::executeCommand();
         }
@@ -172,19 +172,19 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
         }
 
-        $testQuestionSetConfig = $this->buildTestQuestionSetConfig();
+        $test_question_set_config = $this->buildTestQuestionSetConfig();
 
         $manscoring = false;
 
         foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->test_obj->insertQuestion($testQuestionSetConfig, $value);
+            $last_question_id = $this->test_obj->insertQuestion($value);
 
             if (!$manscoring) {
                 $manscoring |= assQuestion::_needsManualScoring($value);
             }
         }
 
-        $this->test_obj->saveCompleteStatus($testQuestionSetConfig);
+        $this->test_obj->saveCompleteStatus($test_question_set_config);
 
         if ($manscoring) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
@@ -287,11 +287,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         switch ($this->fetchContextParameter()) {
             case self::CONTEXT_LIST_VIEW:
-
-                return 'questions';
+                return ilObjTestGUI::SHOW_QUESTIONS_CMD;
 
             case self::CONTEXT_PAGE_VIEW:
-
                 return 'showPage';
         }
 
@@ -416,7 +414,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_ID", $a_set["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"]);
-        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set['question_id'])->getTypeName($this->lng));
         $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
         $this->tpl->setVariable("QUESTION_LIFECYCLE", $this->getTranslatedLifecycle($a_set['lifecycle']));
         $this->tpl->setVariable(
@@ -471,10 +469,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
 
         return $testQuestionSetConfigFactory->getQuestionSetConfig();
@@ -482,12 +480,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionsData(): array
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+        $question_list->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
+        $question_list->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
 
-        $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
-        $questionList->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
-
-        $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        $repository_root_node = self::REPOSITORY_ROOT_NODE_ID;
 
         foreach ($this->getFilterItems() as $item) {
             if (!in_array($item->getValue(), [false, null, ''], true)) {
@@ -498,30 +495,29 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
                     case 'lifecycle':
                     case 'type':
                     case 'parent_title':
-                        $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
+                        $question_list->addFieldFilter($item->getPostVar(), $item->getValue());
                         break;
 
                     case 'repository_root_node':
-                        $repositoryRootNode = (int) $item->getValue();
+                        $repository_root_node = (int) $item->getValue();
                 }
             }
         }
-        if ($repositoryRootNode < 1) {
-            $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        if ($repository_root_node < 1) {
+            $repository_root_node = self::REPOSITORY_ROOT_NODE_ID;
         }
 
-        $parentObjectIds = $this->getQuestionParentObjIds($repositoryRootNode);
-
-        if (!count($parentObjectIds)) {
+        $parent_object_ids = $this->getQuestionParentObjIds($repository_root_node);
+        if ($parent_object_ids === []) {
             return [];
         }
 
-        $questionList->setParentObjIdsFilter($parentObjectIds);
-        $questionList->setParentObjectType($this->getQuestionParentObjectType());
+        $question_list->setParentObjIdsFilter($parent_object_ids);
+        $question_list->setParentObjectType($this->getQuestionParentObjectType());
 
-        $questionList->load();
+        $question_list->load();
 
-        return $questionList->getQuestionDataArray();
+        return $question_list->getQuestionDataArray();
     }
 
     private function getQuestionInstanceTypeFilter(): string

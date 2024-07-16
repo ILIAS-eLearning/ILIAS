@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Base class for course and group participant
@@ -444,7 +443,7 @@ abstract class ilParticipant
                 $this->db->quote($a_usr_id, 'integer') . ", " .
                 $this->db->quote(0, 'integer') . ", " .
                 $this->db->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE notification = VALUES(notification)";
         }
         $this->db->manipulate($query);
     }

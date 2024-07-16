@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestExportFactoryTest
@@ -34,12 +34,12 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_ilBench();
 
         $this->testObj = new ilTestExportFactory(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilLanguage::class),
-            $this->createMock(ilLogger::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
-            $this->createMock(QuestionInfoService::class)
+            $this->createMock(GeneralQuestionPropertiesRepository::class)
         );
     }
 
@@ -47,30 +47,4 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestExportFactory::class, $this->testObj);
     }
-
-    /*public function testGetExporter(): void
-    {
-        $this->addGlobal_ilUser();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilias();
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilBench();
-        $this->addGlobal_ilLog();
-        $this->addGlobal_ilErr();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilAppEventHandler();
-        $this->addGlobal_objDefinition();
-        $this->addGlobal_ilComponentRepository();
-        $this->addGlobal_filesystem();
-
-        $objTest = new ilObjTest();
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
-        $testObj = new ilTestExportFactory($objTest);
-        $this->assertInstanceOf(ilTestExportFixedQuestionSet::class, $testObj->getExporter());
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
-        $testObj = new ilTestExportFactory($objTest);
-        $this->assertInstanceOf(ilTestExportRandomQuestionSet::class, $testObj->getExporter());
-    }*/
 }

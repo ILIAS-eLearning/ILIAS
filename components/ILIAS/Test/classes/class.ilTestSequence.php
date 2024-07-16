@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 * Test sequence handler
@@ -67,7 +67,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         protected ilDBInterface $db,
         protected int $active_id,
         protected int $pass,
-        protected QuestionInfoService $questioninfo
+        protected GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->sequencedata = [
             "sequence" => [],
@@ -104,8 +104,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
         $result = $this->db->queryF(
             "SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
-            array('integer'),
-            array($this->active_id)
+            ['integer'],
+            [$this->active_id]
         );
 
         $index = 1;
@@ -131,8 +131,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
@@ -160,8 +160,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $res = $this->db->queryF(
             "SELECT question_fi FROM tst_seq_qst_presented WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -173,8 +173,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $res = $this->db->queryF(
             "SELECT question_fi FROM tst_seq_qst_checked WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -186,8 +186,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     {
         $res = $this->db->queryF(
             "SELECT question_fi FROM tst_seq_qst_optional WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -221,40 +221,40 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
         $this->db->manipulateF(
             "DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
-            array('integer','integer'),
-            array($this->active_id, $this->pass)
+            ['integer','integer'],
+            [$this->active_id, $this->pass]
         );
 
-        $this->db->insert("tst_sequence", array(
-            "active_fi" => array("integer", $this->active_id),
-            "pass" => array("integer", $this->pass),
-            "sequence" => array("clob", serialize($this->sequencedata["sequence"])),
-            "postponed" => array("text", $postponed),
-            "hidden" => array("text", $hidden),
-            "tstamp" => array("integer", time()),
-            'ans_opt_confirmed' => array('integer', (int) $this->isAnsweringOptionalQuestionsConfirmed())
-        ));
+        $this->db->insert("tst_sequence", [
+            "active_fi" => ["integer", $this->active_id],
+            "pass" => ["integer", $this->pass],
+            "sequence" => ["clob", serialize($this->sequencedata["sequence"])],
+            "postponed" => ["text", $postponed],
+            "hidden" => ["text", $hidden],
+            "tstamp" => ["integer", time()],
+            'ans_opt_confirmed' => ['integer', (int) $this->isAnsweringOptionalQuestionsConfirmed()]
+        ]);
     }
 
     protected function saveNewlyPresentedQuestion(): void
     {
         if ($this->newlyPresentedQuestion) {
-            $this->db->replace('tst_seq_qst_presented', array(
-                'active_fi' => array('integer', $this->active_id),
-                'pass' => array('integer', $this->pass),
-                'question_fi' => array('integer', $this->newlyPresentedQuestion)
-            ), []);
+            $this->db->replace('tst_seq_qst_presented', [
+                'active_fi' => ['integer', $this->active_id],
+                'pass' => ['integer', $this->pass],
+                'question_fi' => ['integer', $this->newlyPresentedQuestion]
+            ], []);
         }
     }
 
     private function saveNewlyCheckedQuestion(): void
     {
         if ((int) $this->newlyCheckedQuestion) {
-            $this->db->replace('tst_seq_qst_checked', array(
-                'active_fi' => array('integer', $this->active_id),
-                'pass' => array('integer', $this->pass),
-                'question_fi' => array('integer', (int) $this->newlyCheckedQuestion)
-            ), []);
+            $this->db->replace('tst_seq_qst_checked', [
+                'active_fi' => ['integer', $this->active_id],
+                'pass' => ['integer', $this->pass],
+                'question_fi' => ['integer', (int) $this->newlyCheckedQuestion]
+            ], []);
         }
     }
 
@@ -264,16 +264,16 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
         $this->db->queryF(
             "DELETE FROM tst_seq_qst_optional WHERE active_fi = %s AND pass = %s AND $NOT_IN_questions",
-            array('integer', 'integer'),
-            array($this->active_id, $this->pass)
+            ['integer', 'integer'],
+            [$this->active_id, $this->pass]
         );
 
         foreach ($this->optionalQuestions as $questionId) {
-            $this->db->replace('tst_seq_qst_optional', array(
-                'active_fi' => array('integer', $this->active_id),
-                'pass' => array('integer', $this->pass),
-                'question_fi' => array('integer', (int) $questionId)
-            ), []);
+            $this->db->replace('tst_seq_qst_optional', [
+                'active_fi' => ['integer', $this->active_id],
+                'pass' => ['integer', $this->pass],
+                'question_fi' => ['integer', (int) $questionId]
+            ], []);
         }
     }
 
@@ -611,7 +611,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         foreach ($correctedsequence as $sequence) {
             $question = assQuestion::instantiateQuestion($this->getQuestionForSequence($sequence));
             if (is_object($question)) {
-                $worked_through = $this->questioninfo->lookupResultRecordExist($this->active_id, $question->getId(), $this->pass);
+                $worked_through = $this->questionrepository->lookupResultRecordExist($this->active_id, $question->getId(), $this->pass);
                 $solved = 0;
                 if (array_key_exists($question->getId(), $solved_questions)) {
                     $solved = $solved_questions[$question->getId()]["solved"];

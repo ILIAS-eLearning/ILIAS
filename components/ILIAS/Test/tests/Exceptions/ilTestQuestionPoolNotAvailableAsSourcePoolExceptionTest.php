@@ -17,6 +17,7 @@
  *********************************************************************/
 
 namespace Test\tests\exceptions;
+
 use ilTestBaseTestCase;
 use ilTestQuestionPoolNotAvailableAsSourcePoolException;
 
@@ -35,7 +36,7 @@ class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBase
         $this->assertEquals($output['code'], $ilTestQuestionPoolNotAvailableAsSourcePoolException->getCode());
     }
 
-    public function constructDataProvider(): array
+    public static function constructDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],
@@ -62,7 +63,7 @@ class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBase
             : new ilTestQuestionPoolNotAvailableAsSourcePoolException($input['msg']);
     }
 
-    public function exceptionDataProvider(): array
+    public static function exceptionDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestQuestionPoolNotAvailableAsSourcePoolException::class, 'code' => 0]],

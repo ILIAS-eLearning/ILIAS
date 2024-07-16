@@ -198,14 +198,6 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), true);
     }
 
-    public function test_getSolutionSubmit_shouldReturnSolution(): void
-    {
-        $obj = new assLongMenu();
-        $array = [0 => 'squirrel', 1 => 'icebear'];
-        $_POST['answer'] = $array;
-        $this->assertEquals($obj->getSolutionSubmit(), $array);
-    }
-
     public function test_setAnswerType_shouldReturnGetAnswerType(): void
     {
         $obj = new assLongMenu();
@@ -221,13 +213,6 @@ class assLongmenuTest extends assBaseTestCase
         $obj->setLongMenuTextValue('dummy text');
         $this->assertEquals('dummy text', $obj->getLongMenuTextValue());
     } */
-
-    public function test_setJsonStructure_shouldReturnGetJsonStructure(): void
-    {
-        $obj = new assLongMenu();
-        $obj->setJsonStructure(json_encode([1 => 'bla']));
-        $this->assertEquals('{"1":"bla"}', $obj->getJsonStructure());
-    }
 
     public function test_isShuffleAnswersEnabled_shouldReturnFalse(): void
     {

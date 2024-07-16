@@ -92,12 +92,12 @@ class ilLoggingErrorFileStorage
         $previous = $exception->getPrevious();
         while ($previous) {
             $message .= "\n\nCaused by\n" . sprintf(
-                    '%s: %s in file %s on line %d',
-                    get_class($previous),
-                    $previous->getMessage(),
-                    $previous->getFile(),
-                    $previous->getLine()
-                );
+                '%s: %s in file %s on line %d',
+                get_class($previous),
+                $previous->getMessage(),
+                $previous->getFile(),
+                $previous->getLine()
+            );
             $previous = $previous->getPrevious();
         }
 
@@ -111,7 +111,7 @@ class ilLoggingErrorFileStorage
             $ret .= "\n\n-- $title --\n\n";
             if (count($content) > 0) {
                 foreach ($content as $key => $value) {
-                    $key = str_pad($key, self::KEY_SPACE);
+                    $key = str_pad((string) $key, self::KEY_SPACE);
 
                     // indent multiline values, first print_r, split in lines,
                     // indent all but first line, then implode again.

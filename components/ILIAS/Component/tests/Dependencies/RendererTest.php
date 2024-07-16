@@ -55,7 +55,7 @@ class RendererTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function scenarios()
+    public static function scenarios()
     {
         return [
             "no dependencies" => ["scenario1.php", "result1.php",

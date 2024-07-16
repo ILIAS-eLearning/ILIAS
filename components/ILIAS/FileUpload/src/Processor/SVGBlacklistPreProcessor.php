@@ -129,7 +129,7 @@ final class SVGBlacklistPreProcessor implements PreProcessor
         $this->rejection_message = $rejection_message ?? $this->rejection_message;
         $this->rejection_message_script = $additional_message_script ?? 'contains script tags';
         $this->rejection_message_base64 = $additional_message_base64 ?? 'contains base64 encoded content';
-        $this->rejection_message_elements = $additional_message_elements ?? 'contains not allowed or uknown elements or attributes';
+        $this->rejection_message_elements = $additional_message_elements ?? 'contains not allowed or unknown elements or attributes';
     }
 
     private function isSVG(Metadata $metadata): bool
@@ -199,13 +199,13 @@ final class SVGBlacklistPreProcessor implements PreProcessor
     {
         // Check for Base64 encoded Content
         if (preg_match(self::REGEX_BASE64, $raw_svg_content)) {
-            $this->rejection_message .= ' ' . $this->rejection_message_base64 . '.';
+            $this->rejection_message .= ' ' . $this->rejection_message_base64;
             return true;
         }
 
         // Check for script tags directly
         if (preg_match(self::REGEX_SCRIPT, $raw_svg_content)) {
-            $this->rejection_message .= ' ' . $this->rejection_message_script . '.';
+            $this->rejection_message .= ' ' . $this->rejection_message_script;
             return true;
         }
 
@@ -219,7 +219,7 @@ final class SVGBlacklistPreProcessor implements PreProcessor
                 foreach ($node->attributes as $attribute) {
                     if ($closure($attribute->name)) {
                         $this->rejection_message .= sprintf(
-                            $this->rejection_message_elements . ' (%s).',
+                            $this->rejection_message_elements . ' (%s)',
                             $attribute->name
                         );
                         return false;

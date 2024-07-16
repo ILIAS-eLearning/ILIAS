@@ -36,6 +36,14 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     protected ilCtrl $ctrl;
     protected ilLikeGUI $like_gui;
     protected StandardGUIRequest $std_request;
+    /**
+     * @var array<int, \ILIAS\UI\Component\Image\Image>
+     */
+    protected array $item_image = [];
+    /**
+     * @var array<int, \ILIAS\UI\Component\Modal\Modal>
+     */
+    protected array $item_modal = [];
 
     protected function __construct(
         ilNewsItem $a_news_item,
@@ -200,24 +208,25 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     protected function renderMedia(ilNewsItem $i): string
     {
-        global $DIC;
-
         $media_path = $this->getMediaPath($i);
         $mime = ilObjMediaObject::getMimeType($media_path);
 
-        $ui_factory = $DIC->ui()->factory();
-        $ui_renderer = $DIC->ui()->renderer();
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
 
         if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
-            $item_id = "il-news-modal-img-" . $i->getId();
-            $title = basename($media_path);
-            $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-
-            $img_tpl = new ilTemplate("tpl.news_timeline_image_file.html", true, true, "components/ILIAS/News");
-            $img_tpl->setVariable("ITEM_ID", $item_id);
-            $img_tpl->setVariable("IMAGE", $image);
-
-            $html = $img_tpl->get();
+            if (isset($this->item_image[$i->getId()]) && isset($this->item_modal[$i->getId()])) {
+                $image = $this->item_image[$i->getId()];
+            } else {
+                $title = basename($media_path);
+                $image = $ui_factory->image()->responsive($media_path, $title);
+                $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
+                $modal = $ui_factory->modal()->lightbox($modal_page);
+                $image = $image->withAction($modal->getShowSignal());
+                $this->item_image[$i->getId()] = $image;
+                $this->item_modal[$i->getId()] = $modal;
+            }
+            $html = $ui_renderer->render($image);
         } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
             $video = $ui_factory->player()->video($media_path);
             $html = $ui_renderer->render($video);
@@ -240,26 +249,28 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     protected function renderMediaModal(ilNewsItem $i): string
     {
-        global $DIC;
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
+
+        if (isset($this->item_image[$i->getId()]) && isset($this->item_modal[$i->getId()])) {
+            $modal = $this->item_modal[$i->getId()];
+            return $ui_renderer->render($modal);
+        }
 
         $media_path = $this->getMediaPath($i);
         $mime = ilObjMediaObject::getMimeType($media_path);
-
-        $ui_factory = $DIC->ui()->factory();
-        $ui_renderer = $DIC->ui()->renderer();
 
         $modal_html = "";
 
         if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
             $title = basename($media_path);
-            $item_id = "il-news-modal-img-" . $i->getId();
-            $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-            $modal = ilModalGUI::getInstance();
-            $modal->setId($item_id);
-            $modal->setType(ilModalGUI::TYPE_LARGE);
-            $modal->setBody($image);
-            $modal->setHeading($title);
-            $modal_html = $modal->getHTML();
+            $image = $ui_factory->image()->responsive($media_path, $title);
+            $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
+            $modal = $ui_factory->modal()->lightbox($modal_page);
+            $image = $image->withAction($modal->getShowSignal());
+            $this->item_image[$i->getId()] = $image;
+            $this->item_modal[$i->getId()] = $modal;
+            $modal_html = $ui_renderer->render($modal);
         }
         return $modal_html;
     }

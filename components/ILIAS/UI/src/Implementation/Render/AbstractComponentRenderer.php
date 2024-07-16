@@ -48,7 +48,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         private TemplateFactory $tpl_factory,
         private ilLanguage $lng,
         private JavaScriptBinding $js_binding,
-        private \ILIAS\Refinery\Factory $refinery,
         private ImagePathResolver $image_path_resolver,
         private DataFactory $data_factory,
         private HelpTextRetriever $help_text_retriever,
@@ -77,11 +76,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final protected function getDataFactory(): DataFactory
     {
         return $this->data_factory;
-    }
-
-    final protected function getRefinery(): \ILIAS\Refinery\Factory
-    {
-        return $this->refinery;
     }
 
     final protected function getUploadLimitResolver(): UploadLimitResolver
@@ -327,5 +321,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
             );
         }
         return $this->tooltip_renderer;
+    }
+
+    protected function convertSpecialCharacters(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
     }
 }

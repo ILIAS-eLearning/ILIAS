@@ -30,7 +30,7 @@ class ilTestExportFilenameTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestExportFilename($this->createMock(ilObjTest::class));
+        $this->testObj = new ilTestExportFilename($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

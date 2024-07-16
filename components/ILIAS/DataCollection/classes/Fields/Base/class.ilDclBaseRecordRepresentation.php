@@ -89,7 +89,7 @@ class ilDclBaseRecordRepresentation
      */
     public function getHTML(bool $link = true, array $options = []): string
     {
-        return (string)$this->getRecordField()->getValue();
+        return (string) $this->getRecordField()->getValue();
     }
 
     /**
@@ -139,31 +139,5 @@ class ilDclBaseRecordRepresentation
     public function getRecord(): ilDclBaseRecordModel
     {
         return $this->record_field->getRecord();
-    }
-
-    /**
-     * Note this should be properly injected from ilObjDataCollection GUI.
-     */
-    protected function getTableViewId(): int
-    {
-        $tableview_id = null;
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->post()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->post()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if (!$tableview_id) {
-            $table_obj = ilDclCache::getTableCache($this->getRecordField()->getRecord()->getTableId());
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            $tableview_id = $table_obj->getFirstTableViewId($ref_id);
-        }
-        return $tableview_id;
     }
 }

@@ -44,14 +44,14 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): string
     {
-        $values = ilDclSelectionOption::getValues((int)$this->getField()->getId(), $value);
+        $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $value);
 
         return implode("; ", $values);
     }
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $string = (string)parent::getValueFromExcel($excel, $row, $col);
+        $string = (string) parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
         if ($this->getField()->isMulti()) {
             $string = $this->getMultipleValuesFromString($string);

@@ -37,20 +37,50 @@ class assQuestionGUITest extends assBaseTestCase
 
         $this->addGlobal_ilLog();
 
-        $this->object = new class extends assQuestionGUI{
+        $this->object = new class () extends assQuestionGUI {
             public function getSpecificFeedbackOutput(array $userSolution): string
             {
                 return '';
             }
 
-            public function getSolutionOutput($active_id, $pass = null, $graphicalOutput = false, $result_output = false, $show_question_only = true, $show_feedback = false, $show_correct_solution = false, $show_manual_scoring = false, $show_question_text = true): string
-            {
+            public function getSolutionOutput(
+                int $active_id,
+                ?int $pass = null,
+                bool $graphical_output = false,
+                bool $result_output = false,
+                bool $show_question_only = true,
+                bool $show_feedback = false,
+                bool $show_correct_solution = false,
+                bool $show_manual_scoring = false,
+                bool $show_question_text = true,
+                bool $show_inline_feedback = true
+            ): string {
                 return '';
             }
 
-            public function getPreview($show_question_only = false, $showInlineFeedback = false): void {}
+            public function editQuestion(
+                bool $checkonly = false,
+                ?bool $is_save_cmd = null
+            ): bool {
+                return true;
+            }
 
-            public function getTestOutput($active_id, $pass, $is_question_postponed, $user_post_solutions, $show_specific_inline_feedback): void {}
+            public function getPreview(
+                bool $show_question_only = false,
+                bool $show_inline_feedback = false
+            ): string {
+                return '';
+            }
+
+            public function getTestOutput(
+                int $active_id,
+                int $pass,
+                bool $is_question_postponed = false,
+                array|bool $user_post_solutions = false,
+                bool $show_specific_inline_feedback = false
+            ): string {
+                return '';
+            }
         };
     }
 

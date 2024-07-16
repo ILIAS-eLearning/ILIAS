@@ -18,39 +18,48 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
-use ILIAS\Setup\Config;
 use ILIAS\Setup;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Metrics;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\ObjectiveCollection;
 
 class ilCourseObjectiveSetupAgent extends NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilCourseObjectiveDBUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Course',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilCourseObjectiveDBUpdateSteps()),
+        );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCourseObjectiveDBUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Course',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilCourseObjectiveDBUpdateSteps()),
+        );
     }
 
     public function getArrayToConfigTransformation(): Transformation
     {
-        throw new \LogicException("Agent has no config.");
+        throw new LogicException('Agent has no config.');
     }
 
     public function getInstallObjective(Config $config = null): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Objective\NullObjective();
     }
 
     public function getBuildObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Objective\NullObjective();
     }
 }

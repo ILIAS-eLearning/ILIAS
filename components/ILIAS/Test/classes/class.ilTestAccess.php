@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\MainSettings\SettingsAccess;
 
 /**
  * Class ilTestAccess
@@ -33,7 +36,7 @@ class ilTestAccess
     protected ilAccessHandler $access;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
-    protected ilObjTestMainSettingsDatabaseRepository $main_settings_repository;
+    protected MainSettingsDatabaseRepository $main_settings_repository;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
@@ -46,7 +49,7 @@ class ilTestAccess
         $this->lng = $DIC['lng'];
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->access = $DIC->access();
-        $this->main_settings_repository = ilTestDIC::dic()['main_settings_repository'];
+        $this->main_settings_repository = TestDIC::dic()['settings.main.repository'];
     }
 
     public function getAccess(): ilAccessHandler
@@ -147,9 +150,9 @@ class ilTestAccess
     protected function checkAccessForActiveId(Closure $access_filter, int $active_id, int $test_id): bool
     {
         $participantData = new ilTestParticipantData($this->db, $this->lng);
-        $participantData->setActiveIdsFilter(array($active_id));
+        $participantData->setActiveIdsFilter([$active_id]);
         $participantData->setParticipantAccessFilter($access_filter);
-        $participantData->load($this->getTestId());
+        $participantData->load($test_id);
 
         return in_array($active_id, $participantData->getActiveIds());
     }
@@ -160,16 +163,10 @@ class ilTestAccess
         return $this->checkAccessForActiveId($access_filter, $active_id, $test_id);
     }
 
-    public function checkScoreParticipantsAccessForActiveId(int $active_id): bool
+    public function checkScoreParticipantsAccessForActiveId(int $active_id, int $test_id): bool
     {
         $access_filter = $this->participant_access_filter->getScoreParticipantsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($access_filter, $active_id);
-    }
-
-    public function checkStatisticsAccessForActiveId(int $active_id): bool
-    {
-        $access_filter = $this->participant_access_filter->getAccessStatisticsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($access_filter, $active_id);
+        return $this->checkAccessForActiveId($access_filter, $active_id, $test_id);
     }
 
     public function isParticipantAllowed(int $obj_id, int $user_id): ParticipantAccess
@@ -207,7 +204,7 @@ class ilTestAccess
     private function isPartipipantWithIpAllowedToAccessTest(
         int $user_id,
         string $ip,
-        ilObjTestSettingsAccess $access_settings
+        SettingsAccess $access_settings
     ): ?bool {
         $assigned_users_result = $this->db->queryF(
             "SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
@@ -241,9 +238,9 @@ class ilTestAccess
 
     private function isIpAllowedToAccessTest(
         string $ip,
-        ilObjTestSettingsAccess $access_settings
+        SettingsAccess $access_settings
     ): bool {
-        if (!$access_settings) {
+        if (!$access_settings->isIpRangeEnabled()) {
             return true;
         }
 

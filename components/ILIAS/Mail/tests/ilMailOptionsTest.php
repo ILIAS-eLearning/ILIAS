@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  */
-class ilMailOptionsTest extends ilMailBaseTest
+class ilMailOptionsTest extends ilMailBaseTestCase
 {
     protected stdClass $object;
     protected MockObject&ilDBInterface $database;
@@ -164,7 +164,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->assertEquals($result, $mailOptions->isAbsent());
     }
 
-    public function provideMailOptionsData(): Generator
+    public static function provideMailOptionsData(): Generator
     {
         yield 'correct configuration' => [
             'absence_status' => true,

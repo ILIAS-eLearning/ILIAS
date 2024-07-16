@@ -67,15 +67,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return 1;
     }
 
-    /**
-    * Creates an output of the edit form for the question
-    *
-    * @access public
-    */
-    public function editQuestion($checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -107,7 +103,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -128,38 +124,23 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // TODO - BEGIN: what exactly is done here? cant we use the parent method?
         $rtestring = ilRTE::_getRTEClassname();
         $rte = new $rtestring();
-        $rte->addUserTextEditor("textinput");
-        $this->outAdditionalOutput();
+        $rte->addUserTextEditor('textinput');
 
         // TODO - END: what exactly is done here? cant we use the parent method?
     }
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
-        // get the solution of the user for the active pass or from the last pass if allowed
-
-
         if (($active_id > 0) && (!$show_correct_solution)) {
             $user_solution = $this->getUserAnswer($active_id, $pass);
             $solution = $user_solution;
@@ -202,7 +183,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
-            if ($graphicalOutput) {
+            if ($graphical_output) {
                 $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 $reached_points = $this->object->getReachedPoints($active_id, $pass);
                 if ($reached_points == $this->object->getMaximumPoints()) {
@@ -247,33 +228,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $solutionoutput;
     }
 
-    /**
-    * Get the question solution output
-    *
-    * @param integer $active_id The active user id
-    * @param integer $pass The test pass
-    * @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-    * @param boolean $result_output Show the reached points for parts of the question
-    * @param boolean $show_question_only Show the question without the ILIAS content around
-    * @param boolean $show_feedback Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getAutoSavedSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true,
-        $show_autosave_title = false
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_autosave_title = false
     ): string {
-        // get the solution of the user for the active pass or from the last pass if allowed
-
         $user_solution = $this->getUserAnswer($active_id, $pass);
 
         if (($active_id > 0) && (!$show_correct_solution)) {
@@ -394,13 +360,13 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $tpl->setVariable('SCORING_LABEL', $this->lng->txt('essay_scoring_mode') . ': ');
 
         switch ($this->object->getKeywordRelation()) {
-            case 'any':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_any'));
                 break;
-            case 'all':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_all'));
                 break;
-            case 'one':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_one'));
                 break;
         }
@@ -418,8 +384,10 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $user_solution;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
             $template->setCurrentBlock("maximum_char_hint");
@@ -466,13 +434,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $questionoutput;
     }
 
-    public function getTestOutput($active_id, $pass = null, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false): string
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = "";
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
-            foreach ($solutions as $idx => $solution_value) {
+            foreach ($solutions as $solution_value) {
                 $user_solution = $solution_value["value1"];
             }
 
@@ -512,7 +485,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $questionoutput .= $this->getJsCode();
 
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         ilYuiUtil::initDomEvent();
         return $pageoutput;
     }
@@ -554,12 +527,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->editQuestion();
                 return;
             }
-            // @MBECKER: Check this in running test
-            if (!$this->checkInput()) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
-                $this->editQuestion();
-                return;
-            }
         }
         $this->object->saveToDb();
         $this->ctrl->setParameter($this, "q_id", $this->object->getId());
@@ -584,21 +551,21 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $points = 0;
         switch ($this->object->getKeywordRelation()) {
-            case 'non':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_NONE:
                 $this->object->setAnswers([]);
-                $points = str_replace(',', '.', $_POST['non_keyword_points'] ?? '');
+                $points = str_replace(',', '.', $this->request->raw('non_keyword_points') ?? '');
                 break;
-            case 'any':
-                $this->object->setAnswers($_POST['any_keyword']);
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY:
+                $this->object->setAnswers($this->request->raw('any_keyword'));
                 $points = $this->object->getMaximumPoints();
                 break;
-            case 'all':
-                $this->object->setAnswers($_POST['all_keyword']);
-                $points = str_replace(',', '.', $_POST['all_keyword_points'] ?? '');
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL:
+                $this->object->setAnswers($this->request->raw('all_keyword'));
+                $points = str_replace(',', '.', $this->request->raw('all_keyword_points') ?? '');
                 break;
-            case 'one':
-                $this->object->setAnswers($_POST['one_keyword']);
-                $points = (float) str_replace(',', '.', $_POST['one_keyword_points'] ?? '');
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE:
+                $this->object->setAnswers($this->request->raw('one_keyword'));
+                $points = (float) str_replace(',', '.', $this->request->raw('one_keyword_points') ?? '');
                 break;
         }
         $this->object->setPoints((float) $points);
@@ -649,28 +616,28 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $scoringOptionNone = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_without_keywords'),
-            'non',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_NONE,
             $this->lng->txt(
                 'essay_scoring_mode_without_keywords_desc'
             )
         );
         $scoringOptionAnyKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_any'),
-            'any',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_any_desc'
             )
         );
         $scoringOptionAllKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_all'),
-            'all',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_all_desc'
             )
         );
         $scoringOptionOneKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_one'),
-            'one',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_one_desc'
             )

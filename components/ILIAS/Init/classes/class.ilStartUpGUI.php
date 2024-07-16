@@ -804,13 +804,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return $page_editor_html;
         }
 
-        $loginSettings = new ilSetting('login_settings');
-        $information = trim($loginSettings->get('login_message_' . $this->lng->getLangKey()) ?? '');
-
-        if ($information !== '') {
-            $tpl->setVariable('TXT_LOGIN_INFORMATION', $information);
-        }
-
         return $page_editor_html;
     }
 
@@ -1930,7 +1923,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $this->ui_factory->messageBox()->info($this->lng->txt('auth_saml_idp_selection_table_desc')),
                     $this->ui_factory->listing()->unordered(
                         array_map(
-                            fn ($item) => $this->ui_renderer->render($item),
+                            fn($item) => $this->ui_renderer->render($item),
                             $items
                         )
                     )

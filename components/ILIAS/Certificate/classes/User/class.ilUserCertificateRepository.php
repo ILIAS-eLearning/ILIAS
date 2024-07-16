@@ -657,7 +657,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             throw new InvalidArgumentException('Invalid table column passed');
         }
 
-        return '';
+        return $result;
     }
 
     /**
@@ -712,7 +712,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             . 'LEFT JOIN object_data_del ON object_data_del.obj_id = cert.obj_id '
             . 'LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id AND trans.lang_code = ' . $this->database->quote($user_language, 'text')
             . ($sql_filters !== [] ? " WHERE " . implode(" AND ", $sql_filters) : "")
-            . 'ORDER BY ' . $order_field . ' ' . $order_direction
+            . ' ORDER BY ' . $order_field . ' ' . $order_direction
         );
 
         $certificates = [];

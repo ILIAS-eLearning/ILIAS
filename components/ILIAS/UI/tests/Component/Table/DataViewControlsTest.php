@@ -103,10 +103,21 @@ class DataViewControlsTest extends TableTestBase
 
         $this->assertEquals(
             [
+                C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
                 C\Table\Data::VIEWCONTROL_KEY_ORDERING,
                 C\Table\Data::VIEWCONTROL_KEY_FIELDSELECTION,
             ],
             array_keys($view_controls->getInputs())
+        );
+        $this->assertInstanceOf(
+            I\Input\ViewControl\Group::class,
+            $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]
+        );
+
+        $group_contents = $view_controls->getInputs()[C\Table\Data::VIEWCONTROL_KEY_PAGINATION]->getInputs();
+        array_walk(
+            $group_contents,
+            fn($vc) => $this->assertInstanceOf(I\Input\ViewControl\NullControl::class, $vc)
         );
     }
 
@@ -157,12 +168,7 @@ class DataViewControlsTest extends TableTestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->method("getUri")
-            ->willReturn(new class () {
-                public function __toString()
-                {
-                    return 'http://localhost:80';
-                }
-            });
+            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
         $request
             ->method("getQueryParams")
             ->willReturn($returns);

@@ -60,8 +60,8 @@ class ilImagemapPreview
             }
             $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
-        $this->areas = array();
-        $this->points = array();
+        $this->areas = [];
+        $this->points = [];
         $this->linewidth_outer = 4;
         $this->linewidth_inner = 2;
     }
@@ -93,7 +93,7 @@ class ilImagemapPreview
                 $fillcolor = str_replace("\"", "", $fillcolor);
             }
         }
-        $this->areas[$index] = array(
+        $this->areas[$index] = [
             "shape" => "$shape",
             "coords" => "$coords",
             "title" => htmlspecialchars($title),
@@ -103,7 +103,7 @@ class ilImagemapPreview
             "fillcolor" => '"' . $fillcolor . '"',
             "bordercolor" => '"' . $bordercolor . '"',
             "visible" => (int) $visible
-        );
+        ];
     }
 
     public function addPoint(
@@ -114,13 +114,13 @@ class ilImagemapPreview
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
     ): void {
-        $this->points[$index] = array(
+        $this->points[$index] = [
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
             "fillcolor" => '"' . $fillcolor . '"',
             "bordercolor" => '"' . $bordercolor . '"',
             "visible" => (int) $visible
-        );
+        ];
     }
 
     public function getAreaIdent(): string
@@ -241,30 +241,29 @@ class ilImagemapPreview
         return $arr;
     }
 
-    public function getPreviewFilename($imagePath, $baseFileName)
-    {
-        $filename = $baseFileName;
-        if (count($this->areas) + count($this->points) > 0) {
-            $pfile = $this->preview_filename;
-            if (is_file($pfile)) {
-                $ident = $this->getAreaIdent();
-                $previewfile = $imagePath . $ident . $baseFileName;
-                if (@md5_file($previewfile) != @md5_file($pfile)) {
-                    if (strlen($ident) > 0) {
-                        @copy($pfile, $previewfile);
-                    }
-                }
-                @unlink($pfile);
-                if (strlen($pfile) == 0) {
-                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
-                } else {
-                    $filename = basename($previewfile);
-                }
-            } else {
-                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
-            }
+    public function getPreviewFilename(
+        string $image_path,
+        string $base_file_name
+    ): string {
+        if (count($this->areas) + count($this->points) < 1) {
+            return $base_file_name;
         }
-        return $filename;
+
+        $preview_file = $this->preview_filename;
+        if (!is_file($preview_file)) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
+            return $base_file_name;
+        }
+
+        $ident = $this->getAreaIdent();
+        $requested_preview_file = $image_path . $ident . $base_file_name;
+        if ((!is_file($requested_preview_file)
+            || md5_file($requested_preview_file) !== md5_file($preview_file))
+            && $ident !== '') {
+            copy($preview_file, $requested_preview_file);
+        }
+        unlink($preview_file);
+        return basename($requested_preview_file);
     }
 
     /**

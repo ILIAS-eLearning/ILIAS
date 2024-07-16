@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 *
@@ -29,8 +33,8 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 */
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
-    private QuestionInfoService $questioninfo;
+    private RequestDataCollector $request;
+    private GeneralQuestionPropertiesRepository $questionrepository;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
@@ -40,15 +44,21 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected $confirmdelete;
     protected array $filter = [];
 
-    protected $taxIds = array();
+    protected $taxIds = [];
 
     /**
      * @var bool
      */
     protected $questionCommentingEnabled = false;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_write_access = false,
+        $confirmdelete = false,
+        $taxIds = [],
+        $enableCommenting = false
+    ) {
         $this->setQuestionCommentingEnabled($enableCommenting);
 
         // Bugfix: #0019539
@@ -61,15 +71,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $this->request = $DIC->testQuestionPool()->internal()->request();
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->confirmdelete = $confirmdelete;
         $this->setWriteAccess($a_write_access);
@@ -215,45 +224,45 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $cols["description"] = array(
+        $cols["description"] = [
             "txt" => $lng->txt("description"),
             "default" => true
-        );
-        $cols["type"] = array(
+        ];
+        $cols["type"] = [
             "txt" => $lng->txt("question_type"),
             "default" => true
-        );
+        ];
         if (!$this->confirmdelete) {
-            $cols["points"] = array(
+            $cols["points"] = [
                 "txt" => $lng->txt("points"),
                 "default" => true
-            );
-            $cols["statistics"] = array(
+            ];
+            $cols["statistics"] = [
                 "txt" => $lng->txt("statistics"),
                 "default" => true
-            );
-            $cols["author"] = array(
+            ];
+            $cols["author"] = [
                 "txt" => $lng->txt("author"),
                 "default" => true
-            );
-            $cols['lifecycle'] = array(
+            ];
+            $cols['lifecycle'] = [
                 'txt' => $lng->txt('qst_lifecycle'),
                 'default' => true
-            );
+            ];
             if ($this->isQuestionCommentingEnabled()) {
-                $cols["comments"] = array(
+                $cols["comments"] = [
                     "txt" => $lng->txt("comments"),
                     "default" => true
-                );
+                ];
             }
-            $cols["created"] = array(
+            $cols["created"] = [
                 "txt" => $lng->txt("create_date"),
                 "default" => true
-            );
-            $cols["tstamp"] = array(
+            ];
+            $cols["tstamp"] = [
                 "txt" => $lng->txt("last_update"),
                 "default" => true
-            );
+            ];
         }
         return $cols;
     }
@@ -296,7 +305,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         // lifecycle
         $lifecycleOptions = array_merge(
-            array('' => $this->lng->txt('qst_lifecycle_filter_all')),
+            ['' => $this->lng->txt('qst_lifecycle_filter_all')],
             ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
         );
         $lifecycleInp = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
@@ -306,7 +315,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->filter['lifecycle'] = $lifecycleInp->getValue();
 
         $types = ilObjQuestionPool::_getQuestionTypes();
-        $options = array();
+        $options = [];
         $options[""] = $lng->txt('filter_all_question_types');
         foreach ($types as $translation => $row) {
             $options[$row['type_tag']] = $translation;
@@ -356,7 +365,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     public function fillRow(array $a_set): void
     {
-        $class = strtolower(assQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
+        $class = strtolower($this->questionrepository->getForQuestionId($a_set['question_id'])->getGuiClassName());
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $a_set["question_id"]);
         $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $a_set["question_id"]);
         $this->ctrl->setParameterByClass($class, "q_id", $a_set["question_id"]);
@@ -487,7 +496,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
+                $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set["question_id"])->getTypeName($this->lng));
                 $this->tpl->parseCurrentBlock();
             }
         }
@@ -531,7 +540,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     public function numericOrdering(string $a_field): bool
     {
-        if (in_array($a_field, array('points', 'created', 'tstamp', 'comments'))) {
+        if (in_array($a_field, ['points', 'created', 'tstamp', 'comments'])) {
             return true;
         }
 

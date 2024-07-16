@@ -121,9 +121,11 @@ trait Group
     }
 
     /**
-     * @inheritdoc
+     * ATTENTION: This is not the same as @see Input::isClientSideValueOk(),
+     * even if it had the same name. These are different symbols, as this trait
+     * is not in the hierarchy that defines the original isClientSideValueOk.
      */
-    public function isClientSideValueOk($value): bool
+    protected function _isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;

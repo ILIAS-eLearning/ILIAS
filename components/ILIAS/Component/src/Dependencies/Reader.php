@@ -352,7 +352,7 @@ class Reader
 
     protected function createMock(string $class_name): object
     {
-        $mock_builder = new \PHPUnit\Framework\MockObject\MockBuilder(new class () extends \PHPUnit\Framework\TestCase {}, $class_name);
+        $mock_builder = new \PHPUnit\Framework\MockObject\MockBuilder(new class ("") extends \PHPUnit\Framework\TestCase {}, $class_name);
         return $mock_builder
             ->disableOriginalConstructor()
             ->disableOriginalClone()

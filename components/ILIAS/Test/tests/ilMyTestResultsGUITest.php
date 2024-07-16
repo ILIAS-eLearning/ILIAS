@@ -25,48 +25,34 @@ declare(strict_types=1);
 class ilMyTestResultsGUITest extends ilTestBaseTestCase
 {
     private ilMyTestResultsGUI $testObj;
+    private ilObjTest $test;
+    private ilTestAccess $access;
+    private ilTestSession $session;
+    private ilTestObjectiveOrientedContainer $objective_parent;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilMyTestResultsGUI();
+        $this->test = $this->getTestObjMock();
+        $this->access = $this->createMock(ilTestAccess::class);
+        $this->session = $this->createMock(ilTestSession::class);
+        $this->objective_parent = $this->createMock(ilTestObjectiveOrientedContainer::class);
+        $this->testObj = new ilMyTestResultsGUI(
+            $this->test,
+            $this->access,
+            $this->objective_parent,
+            $this->createMock(ilObjUser::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilCtrlInterface::class),
+            $this->createMock(ilGlobalTemplateInterface::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilMyTestResultsGUI::class, $this->testObj);
-    }
-
-    public function testTestObj(): void
-    {
-        $obj_mock = $this->createMock(ilObjTest::class);
-        $this->testObj->setTestObj($obj_mock);
-
-        $this->assertEquals($obj_mock, $this->testObj->getTestObj());
-    }
-
-    public function testTestAccess(): void
-    {
-        $obj_mock = $this->createMock(ilTestAccess::class);
-        $this->testObj->setTestAccess($obj_mock);
-
-        $this->assertEquals($obj_mock, $this->testObj->getTestAccess());
-    }
-
-    public function testTestSession(): void
-    {
-        $obj_mock = $this->createMock(ilTestSession::class);
-        $this->testObj->setTestSession($obj_mock);
-
-        $this->assertEquals($obj_mock, $this->testObj->getTestSession());
-    }
-
-    public function testObjectiveParent(): void
-    {
-        $obj_mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
-        $this->testObj->setObjectiveParent($obj_mock);
-
-        $this->assertEquals($obj_mock, $this->testObj->getObjectiveParent());
     }
 }

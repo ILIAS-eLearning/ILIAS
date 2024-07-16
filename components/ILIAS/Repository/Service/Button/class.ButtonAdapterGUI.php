@@ -31,6 +31,10 @@ class ButtonAdapterGUI
     protected const TYPE_STD = 0;
     protected const TYPE_SUBMIT = 1;
     protected const TYPE_STD_PRIMARY = 2;
+    /**
+     * @var true
+     */
+    protected bool $is_primary = false;
     protected string $on_click = "";
     protected int $type;
 
@@ -64,6 +68,7 @@ class ButtonAdapterGUI
     public function primary(): self
     {
         $this->type = self::TYPE_STD_PRIMARY;
+        $this->is_primary = true;
         return $this;
     }
 
@@ -82,10 +87,18 @@ class ButtonAdapterGUI
     protected function getSubmitButton(): \ILIAS\UI\Component\Button\Button
     {
         $cmd = $this->cmd;
-        return $this->ui->factory()->button()->standard(
-            $this->caption,
-            ""
-        )->withOnLoadCode(function ($id) use ($cmd) {
+        if ($this->is_primary) {
+            $b = $this->ui->factory()->button()->primary(
+                $this->caption,
+                ""
+            );
+        } else {
+            $b = $this->ui->factory()->button()->standard(
+                $this->caption,
+                ""
+            );
+        }
+        $b = $b->withOnLoadCode(function ($id) use ($cmd) {
             $code = <<<EOT
 (function() {
     const el = document.getElementById('$id');
@@ -95,6 +108,7 @@ class ButtonAdapterGUI
 EOT;
             return $code;
         });
+        return $b;
     }
 
     protected function getStandardButton(): \ILIAS\UI\Component\Button\Button

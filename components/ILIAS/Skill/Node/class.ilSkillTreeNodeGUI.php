@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
+use ILIAS\Skill\Service\SkillUIService;
 use ILIAS\Skill\Node;
 use ILIAS\Skill\Table;
 use ILIAS\Skill\Usage;
@@ -56,6 +57,7 @@ class ilSkillTreeNodeGUI
     protected int $skill_tree_id = 0;
     protected ilTabsGUI $tabs;
     protected SkillAdminGUIRequest $admin_gui_request;
+    protected SkillUIService $skill_ui_service;
     protected int $requested_ref_id = 0;
     protected int $requested_node_id = 0;
     protected string $requested_backcmd = "";
@@ -87,6 +89,7 @@ class ilSkillTreeNodeGUI
         $this->tree = $DIC->repositoryTree();
         $this->tabs = $DIC->tabs();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->skill_ui_service = $DIC->skills()->ui();
 
         $this->node_object = null;
         $this->access = $ilAccess;
@@ -571,8 +574,8 @@ class ilSkillTreeNodeGUI
 
         $html = "";
         foreach ($usages as $k => $usage) {
-            $table = $this->table_manager->getUsageTable($k, $usage)->getComponent();
-            $html .= $this->ui_ren->render($table) . "<br/><br/>";
+            $usages_ui = $this->skill_ui_service->getUsagesUI($k, $usage);
+            $html .= $usages_ui->render() . "<br/><br/>";
         }
 
         $tpl->setContent($html);
@@ -601,7 +604,12 @@ class ilSkillTreeNodeGUI
             : $this->node_object->getId();
         $objects = $this->usage_manager->getAssignedObjectsForSkill($base_skill_id, $this->tref_id);
 
-        $table = $this->table_manager->getAssignedObjectsTable($objects)->getComponent();
+        $table = $this->table_manager->getAssignedObjectsTable(
+            $this,
+            $objects,
+            $base_skill_id,
+            $this->tref_id
+        )->getComponent();
 
         $tpl->setContent($this->ui_ren->render($table));
     }

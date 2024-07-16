@@ -136,6 +136,16 @@ abstract class ilBlockGUI
      */
     abstract protected function isRepositoryObject(): bool;
 
+    protected function specialCharsAsEntities(string $string): string
+    {
+        // Should be replaced by a proper refinery transformation once https://github.com/ILIAS-eLearning/ILIAS/pull/6314 is merged
+        return  htmlspecialchars(
+            $string,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'utf-8'
+        );
+    }
+
     public function setData(array $a_data): void
     {
         $this->data = $a_data;
@@ -848,14 +858,14 @@ abstract class ilBlockGUI
         switch ($this->getPresentation()) {
             case self::PRES_SEC_LEG:
                 $panel = $this->factory->panel()->secondary()->legacy(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->factory->legacy($this->getLegacyContent())
                 );
                 break;
 
             case self::PRES_MAIN_LEG:
                 $panel = $this->factory->panel()->standard(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->factory->legacy($this->getLegacyContent())
                 );
                 break;
@@ -863,7 +873,7 @@ abstract class ilBlockGUI
             case self::PRES_SEC_LIST:
                 $this->handleNavigation();
                 $panel = $this->factory->panel()->secondary()->listing(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->getListItemGroups()
                 );
                 break;
@@ -872,7 +882,7 @@ abstract class ilBlockGUI
             case self::PRES_MAIN_LIST:
                 $this->handleNavigation();
                 $panel = $this->factory->panel()->listing()->standard(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->getListItemGroups()
                 );
                 break;
@@ -883,12 +893,12 @@ abstract class ilBlockGUI
             ($panel->getItemGroups() === [] || (count($panel->getItemGroups()) === 1 && $panel->getItemGroups()[0]->getItems() === []))) {
             if ($this->getPresentation() === self::PRES_SEC_LIST) {
                 $panel = $this->factory->panel()->secondary()->legacy(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->factory->legacy($this->getNoItemFoundContent())
                 );
             } else {
                 $panel = $this->factory->panel()->standard(
-                    $this->getTitle(),
+                    $this->specialCharsAsEntities($this->getTitle()),
                     $this->factory->legacy($this->getNoItemFoundContent())
                 );
             }
@@ -958,7 +968,7 @@ abstract class ilBlockGUI
             $actions = $this->factory->dropdown()->standard($actions)
                                ->withAriaLabel(sprintf(
                                    $this->lng->txt('actions_for'),
-                                   htmlspecialchars($this->getTitle())
+                                   $this->specialCharsAsEntities($this->getTitle())
                                ));
             return $actions;
         }

@@ -300,7 +300,6 @@ class ilObjectMetaDataGUI
                 'grp',
                 "file",
                 "glo",
-                "glo:term",
                 "svy",
                 "spl",
                 "tst",

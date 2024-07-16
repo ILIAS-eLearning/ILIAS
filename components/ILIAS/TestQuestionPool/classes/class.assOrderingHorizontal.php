@@ -16,6 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+
 /**
  * Class for horizontal ordering questions
  *
@@ -27,7 +34,7 @@
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
     protected const DEFAULT_TEXT_SIZE = 100;
@@ -78,14 +85,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     * Saves a assOrderingHorizontal object to a database
     *
     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == "") {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
     }
@@ -107,16 +109,13 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function loadFromDb($question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -145,167 +144,30 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         parent::loadFromDb($question_id);
     }
 
-    /**
-    * Duplicates an assOrderingHorizontal
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Copies an assOrderingHorizontal object
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Returns the maximum points, a learner can reach answering the question
-    *
-    * @see $points
-    */
     public function getMaximumPoints(): float
     {
         return $this->getPoints();
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $found_values = [];
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        $points = 0;
 
-        if ($ilDB->numRows($result) > 0) {
-            $data = $ilDB->fetchAssoc($result);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
+        $points = 0.0;
+        if ($this->db->numRows($result) > 0) {
+            $data = $this->db->fetchAssoc($result);
             $points = $this->calculateReachedPointsForSolution($data['value1']);
         }
 
         return $points;
     }
 
-    /**
-     * Splits the answer string either by space(s) or the separator (eg. ::) and
-     * trims the resulting array elements.
-     *
-     * @param string $in_string OrderElements
-     * @param string $separator to be used for splitting.
-     *
-     * @return array
-     */
     public function splitAndTrimOrderElementText(string $in_string, string $separator): array
     {
         $result = [];
@@ -323,90 +185,65 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return $result;
     }
 
-    public function getSolutionSubmit()
+    protected function getSolutionSubmit(): string
     {
-        return $_POST["orderresult"];
+        return $this->questionpool_request->retrieveStringValueFromPost('orderresult');
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if($this->questionpool_request->raw('test_answer_changed') === null) {
             return true;
         }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
 
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = false;
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
+                if ($answer === '') {
+                    return;
+                }
 
-            $solutionSubmit = $this->getSolutionSubmit();
-
-            $entered_values = false;
-            if (strlen($solutionSubmit)) {
-                $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
-                $entered_values = true;
+                $this->saveCurrentSolution(
+                    $active_id,
+                    $pass,
+                    $answer,
+                    null,
+                    $authorized
+                );
             }
-        });
-
-        if ($entered_values) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        } else {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        }
+        );
 
         return true;
     }
 
     public function saveAdditionalQuestionDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName()
                             . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName()
                             . " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)",
-            array( "integer", "text", "float" ),
-            array(
+            [ "integer", "text", "float" ],
+            [
                                 $this->getId(),
                                 $this->getOrderText(),
                                 ($this->getTextSize() < 10) ? null : (float) $this->getTextSize()
-                            )
+                            ]
         );
     }
 
@@ -476,36 +313,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $i++;
 
         return $startrow + $i + 1;
-    }
-
-    /**
-    * Creates a question from a QTI file
-    *
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param ilQTIItem $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    */
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
-    {
-        $import = new assOrderingHorizontalImport($this);
-        return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
-    }
-
-    /**
-    * Returns a QTI xml representation of the question and sets the internal
-    * domxml variable with the DOM XML representation of the QTI xml representation
-    *
-    * @return string The QTI xml representation of the question
-    */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
-    {
-        $export = new assOrderingHorizontalExport($this);
-        return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
     }
 
     /**
@@ -620,17 +427,17 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $result['textsize'] = ((int) $this->getTextSize()) // #10923
             ? (int) $this->getTextSize()
             : self::DEFAULT_TEXT_SIZE;
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
         $arr = [];
         foreach ($this->getOrderingElements() as $order => $answer) {
-            array_push($arr, array(
+            array_push($arr, [
                 "answertext" => (string) $answer,
                 "order" => (int) $order + 1
-            ));
+            ]);
         }
         $result['answers'] = $arr;
 
@@ -640,68 +447,45 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return json_encode($result);
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumericResultExpression,
             iQuestionCondition::OrderingResultExpression,
             iQuestionCondition::StringResultExpression,
-        );
+        ];
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-
         if ($maxStep > 0) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer","integer"),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer","integer"],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
-        $row = $ilDB->fetchAssoc($data);
+        $row = $this->db->fetchAssoc($data);
 
         $answer_elements = $this->splitAndTrimOrderElementText($row["value1"] ?? "", $this->answer_separator);
         $elements = $this->getOrderingElements();
-        $solutions = [];
 
         foreach ($answer_elements as $answer) {
             foreach ($elements as $key => $element) {
@@ -726,14 +510,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     }
 
     /**
-     * If index is null, the function returns an array with all anwser options
-     * Else it returns the specific answer option
-     *
-     * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
+     * @return array<ASS_AnswerSimple>|ASS_AnswerSimple|null
      */
-    public function getAvailableAnswerOptions($index = null)
+    public function getAvailableAnswerOptions(?int $index = null): array|ASS_AnswerSimple|null
     {
         $elements = $this->getOrderingElements();
         if ($index !== null) {
@@ -750,7 +529,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param $value
      * @return float
      */
-    protected function calculateReachedPointsForSolution($value): float
+    protected function calculateReachedPointsForSolution(?array $value): float
     {
         $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
         $value = join($this->answer_separator, $value);
@@ -761,12 +540,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return 0;
     }
 
-    // fau: testNav - new function getTestQuestionConfig()
-    /**
-     * Get the test question configuration
-     * @return ilTestQuestionConfig
-     */
-    // hey: refactored identifiers
     public function buildTestPresentationConfig(): ilTestQuestionConfig
     // hey.
     {
@@ -776,5 +549,32 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             ->setIsUnchangedAnswerPossible(true)
             ->setUseUnchangedAnswerLabel($this->lng->txt('tst_unchanged_order_is_correct'));
     }
-    // fau.
+
+    public function toLog(AdditionalInformationGenerator $additional_info): array
+    {
+        return [
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXTSIZE => ((int) $this->getTextSize()) ? (int) $this->getTextSize() : 100,
+            AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => $this->getOrderText(),
+            AdditionalInformationGenerator::KEY_QUESTION_REACHABLE_POINTS => $this->getPoints(),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): string {
+        if (!array_key_exists(0, $solution_values) ||
+            !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+
+        return str_replace("{::}", " ", $solution_values[0]['value1']);
+    }
 }

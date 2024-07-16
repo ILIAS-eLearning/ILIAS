@@ -148,7 +148,8 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::GCON,
         self::CON,
         self::FILS,
-        self::TALA
+        self::TALA,
+        self::QST
     ];
 
     private static array $standard_page_editor_icons = [

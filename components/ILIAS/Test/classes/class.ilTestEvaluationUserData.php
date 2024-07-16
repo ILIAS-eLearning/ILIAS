@@ -61,9 +61,9 @@ class ilTestEvaluationUserData
 
     public function __sleep()
     {
-        return array('questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions',
+        return ['questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions',
         'questionsWorkedThrough', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login',
-        'name', 'passScoring');
+        'name', 'passScoring'];
     }
 
     public function __construct(int $passScoring)

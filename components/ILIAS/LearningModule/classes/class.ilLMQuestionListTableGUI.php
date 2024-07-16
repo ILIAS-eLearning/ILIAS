@@ -23,7 +23,7 @@
  */
 class ilLMQuestionListTableGUI extends ilTable2GUI
 {
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\Questions\PublicInterface $questioninfo;
     protected ilObjLearningModule $lm;
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
@@ -42,7 +42,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
 
         $this->lm = $a_lm;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = $DIC->testQuestion();
         $this->setId("lm_qst" . $this->lm->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -100,7 +100,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable(
             "QUESTION",
-            $this->questioninfo->getQuestionText($a_set["question_id"])
+            $this->questioninfo->getGeneralQuestionProperties($a_set["question_id"])->getQuestionText()
         );
 
         $stats = ilPageQuestionProcessor::getQuestionStatistics($a_set["question_id"]);

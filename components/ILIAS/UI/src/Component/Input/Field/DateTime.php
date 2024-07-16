@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Component;
 use DateTimeImmutable;
@@ -28,7 +28,7 @@ use DateTimeImmutable;
 /**
  * This describes the datetime-field.
  */
-interface DateTime extends FormInput
+interface DateTime extends FilterInput
 {
     /**
      * Get an input like this using the given format.

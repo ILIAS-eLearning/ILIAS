@@ -155,7 +155,7 @@ abstract class ilDclBaseFieldRepresentation
     {
         $opt = new ilRadioOption(
             $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            (string)$this->getField()->getDatatypeId()
+            (string) $this->getField()->getDatatypeId()
         );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 

@@ -775,9 +775,11 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             $modals = $this->ui_ren->render($this->getModalsToRender());
         } else {
             $this->showToolbarForStandard();
-            $table = $this->domain->table()->getTermListTable($this->object, $this->tax_node)->getComponent();
+            $table = $this->domain->table()->getTermListTable($this->getGlossary(), $this->tax_node)->getComponent();
             $tab_html = $this->ui_ren->render($table);
         }
+
+        $this->tabs->activateTab("content");
 
         $this->tpl->setContent($panel_html . $modals . $tab_html);
     }
@@ -1008,11 +1010,11 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         if (count($files) > 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
 

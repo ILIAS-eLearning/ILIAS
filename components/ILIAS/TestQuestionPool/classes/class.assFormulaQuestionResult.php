@@ -94,7 +94,7 @@ class assFormulaQuestionResult
 
     public function calculateFormula($variables, $results, $question_id = 0, $use_precision = true)
     {
-        $resultunits = array();
+        $resultunits = [];
         if ($question_id > 0) {
             $resultunits = $this->getAvailableResultUnits($question_id);
         }
@@ -411,8 +411,6 @@ class assFormulaQuestionResult
 
     public function getReachedPoints($variables, $results, $value, $unit, $units)
     {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
         if ($this->getRatingSimple()) {
             if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
                 return $this->getPoints();
@@ -533,9 +531,9 @@ class assFormulaQuestionResult
     {
         if ($this->getRatingSimple()) {
             if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
-                return array("points" => $this->getPoints());
+                return ["points" => $this->getPoints()];
             } else {
-                return array("points" => 0);
+                return ["points" => 0];
             }
         } else {
             $totalpoints = 0;
@@ -556,7 +554,7 @@ class assFormulaQuestionResult
                 $value = ilMath::_mul($value, $unit->getFactor(), 100);
             } else {
             }
-            $details = array();
+            $details = [];
             if ($this->checkSign($result, $value)) {
                 $points = ilMath::_mul($this->getPoints(), $this->getRatingSign() / 100);
                 $totalpoints += $points;
@@ -779,8 +777,8 @@ class assFormulaQuestionResult
 			FROM il_qpl_qst_fq_res
 			WHERE question_fi = %s
 			AND result = %s',
-            array('integer', 'text'),
-            array($a_qst_id, $a_result)
+            ['integer', 'text'],
+            [$a_qst_id, $a_result]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -836,7 +834,7 @@ class assFormulaQuestionResult
         if ($to_string == $checkResult . '' || $checkResult . '' == $result) {
             return $result;
         } else {
-            return array($to_string,$result);
+            return [$to_string,$result];
         }
     }
 
@@ -860,8 +858,8 @@ class assFormulaQuestionResult
 			SELECT * FROM il_qpl_qst_fq_res_unit
 			WHERE question_fi = %s
 			ORDER BY result',
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
 

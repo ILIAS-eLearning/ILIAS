@@ -45,7 +45,6 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $lng = $this->createMock(ilLanguage::class);
         $db = $this->createMock(ilDBInterface::class);
-        $user = $this->createMock(ilObjUser::class);
         $random_group = $this->createMock(RandomGroup::class);
         $global_screen = $this->createMock(ILIAS\GlobalScreen\Services::class);
 
@@ -56,7 +55,6 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
             $tpl,
             $lng,
             $db,
-            $user,
             $random_group,
             $global_screen
         );

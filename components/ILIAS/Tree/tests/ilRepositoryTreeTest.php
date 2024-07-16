@@ -13,6 +13,18 @@ class ilRepositoryTreeTest extends TestCase
     {
         $this->initRepositoryTreeDependencies();
         parent::setUp();
+        if (!defined("ROOT_FOLDER_ID")) {
+            define("ROOT_FOLDER_ID", 8);
+        }
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", false);
+        }
+        if (!defined("ILIAS_LOG_DIR")) {
+            define("ILIAS_LOG_DIR", '/var/log');
+        }
+        if (!defined("ILIAS_LOG_FILE")) {
+            define("ILIAS_LOG_FILE", '/var/log/ilias.log');
+        }
     }
 
     public function testTreeConstruct(): void

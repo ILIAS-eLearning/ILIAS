@@ -26,14 +26,17 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
     {
         $value = $this->getRecordField()->getValue();
 
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $views = $this->getRecord()->getTable()->getVisibleTableViews($ref_id, true, $this->user->getId());
+
         //Property URL
         $field = $this->getField();
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
-                $link = (string)$value['link'];
+                $link = (string) $value['link'];
                 $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
-                $link = (string)$value;
+                $link = (string) $value;
                 $link_value = $this->shortenLink($link);
             }
 
@@ -54,22 +57,33 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link,
                 ENT_QUOTES
             ) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-        } elseif ($field->hasProperty(
-            ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
-        ) && $link && ilDclDetailedViewDefinition::isActive($this->getTableViewId())) {
+        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && $views !== []) {
+            $view = array_shift($views);
+            if ($this->http->wrapper()->query()->has('tableview_id')) {
+                $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+                foreach ($views as $v) {
+                    if ($v->getId() === $tableview_id) {
+                        $view = $tableview_id;
+                        break;
+                    }
+                }
+            }
+
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass(
                 ilDclDetailedViewGUI::class,
                 'record_id',
                 $this->getRecordField()->getRecord()->getId()
             );
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->getTableViewId());
+
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'table_id', $this->getRecord()->getTableId());
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $view->getId());
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
                 ilDclDetailedViewGUI::class,
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {
-            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : $value;
+            $html = (is_array($value) && isset($value['link'])) ? $value['link'] : nl2br((string) $value);
         }
 
         if (!$html) {

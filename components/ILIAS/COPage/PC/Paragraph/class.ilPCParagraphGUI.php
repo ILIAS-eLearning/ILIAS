@@ -136,14 +136,35 @@ class ilPCParagraphGUI extends ilPageContentGUI
         int $a_style_id,
         bool $a_include_core = false
     ): array {
+        global $DIC;
+
         $chars = array();
+
+        $service = $DIC->contentStyle()->internal();
+        $request = $DIC->copage()->internal()
+                       ->gui()
+                       ->pc()
+                       ->editRequest();
+        $requested_ref_id = $request->getRefId();
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
+
+            $access_manager = $service->domain()->access(
+                $requested_ref_id,
+                $DIC->user()->getId()
+            );
+            $char_manager = $service->domain()->characteristic(
+                $a_style_id,
+                $access_manager
+            );
+
             $style = new ilObjStyleSheet($a_style_id);
-            $types = array("text_inline");
-            foreach ($types as $t) {
-                $chars = array_merge($chars, $style->getCharacteristics($t, false, $a_include_core));
+            $ti_chars = $style->getCharacteristics("text_inline", false, $a_include_core);
+            foreach ($ti_chars as $k => $v) {
+                if (!$char_manager->isOutdated("text_inline", $v)) {
+                    $chars[] = $v;
+                }
             }
         } else {
             return self::_getStandardTextCharacteristics();

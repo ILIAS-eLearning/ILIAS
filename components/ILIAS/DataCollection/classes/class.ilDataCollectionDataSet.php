@@ -68,6 +68,7 @@ class ilDataCollectionDataSet extends ilDataSet
      */
     protected array $import_record_field_cache = [];
     protected ilObjUser $user;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected array $import_temp_refs = [];
     protected array $import_temp_refs_props = [];
     protected array $import_temp_new_mob_ids = [];
@@ -78,11 +79,12 @@ class ilDataCollectionDataSet extends ilDataSet
         parent::__construct();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->refinery = $DIC->refinery();
     }
 
     public function getSupportedVersions(): array
     {
-        return ['4.5.0'];
+        return ['4.5.0', '8.13'];
     }
 
     /**
@@ -110,78 +112,86 @@ class ilDataCollectionDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        foreach ($a_rec as $key => &$value) {
+            $decode = json_decode($value, true);
+            if (is_array($decode)) {
+                $value = htmlspecialchars(json_encode($decode, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_SUBSTITUTE, 'utf-8');
+            } else {
+                $value = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($value);
+            }
+        }
         switch ($a_entity) {
             case 'dcl':
                 if ($new_id = $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_rec['id'])) {
-                    $new_obj = ilObjectFactory::getInstanceByObjId((int)$new_id, false);
+                    $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $new_obj = new ilObjDataCollection();
                     $new_obj->create(true);
                 }
                 $new_obj->setTitle($a_rec['title']);
                 $new_obj->setDescription($a_rec['description']);
-                $new_obj->setApproval((bool)$a_rec['approval']);
-                $new_obj->setPublicNotes((bool)$a_rec['public_notes']);
-                $new_obj->setNotification((bool)$a_rec['notification']);
-                $new_obj->setPublicNotes((bool)$a_rec['public_notes']);
+                $new_obj->setApproval((bool) $a_rec['approval']);
+                $new_obj->setPublicNotes((bool) $a_rec['public_notes']);
+                $new_obj->setNotification((bool) $a_rec['notification']);
+                $new_obj->setPublicNotes((bool) $a_rec['public_notes']);
                 $new_obj->setOnline(false);
-                $new_obj->setRating((bool)$a_rec['rating']);
+                $new_obj->setRating((bool) $a_rec['rating']);
                 $new_obj->update(); //clone mode, so no table will be created
                 $this->import_dc_object = $new_obj;
-                $a_mapping->addMapping('components/ILIAS/DataCollection', 'dcl', $a_rec['id'], (string)$new_obj->getId());
+                $a_mapping->addMapping('components/ILIAS/DataCollection', 'dcl', $a_rec['id'], (string) $new_obj->getId());
                 break;
             case 'il_dcl_table':
                 $table = new ilDclTable();
                 $table->setTitle($a_rec['title']);
                 $table->setObjId($this->import_dc_object->getId());
                 $table->setDescription($a_rec['description']);
-                $table->setAddPerm((bool)$a_rec['add_perm']);
-                $table->setEditPerm((bool)$a_rec['edit_perm']);
-                $table->setDeletePerm((bool)$a_rec['delete_perm']);
-                $table->setEditByOwner((bool)$a_rec['edit_by_owner']);
-                $table->setLimited((bool)$a_rec['limited']);
+                $table->setAddPerm((bool) $a_rec['add_perm']);
+                $table->setEditPerm((bool) $a_rec['edit_perm']);
+                $table->setDeletePerm((bool) $a_rec['delete_perm']);
+                $table->setEditByOwner((bool) $a_rec['edit_by_owner']);
+                $table->setLimited((bool) $a_rec['limited']);
                 $table->setLimitStart($a_rec['limit_start']);
                 $table->setLimitEnd($a_rec['limit_end']);
-                $table->setIsVisible((bool)$a_rec['is_visible']);
-                $table->setExportEnabled((bool)$a_rec['export_enabled']);
-                $table->setImportEnabled((bool)$a_rec['import_enabled']);
+                $table->setIsVisible((bool) $a_rec['is_visible']);
+                $table->setExportEnabled((bool) $a_rec['export_enabled']);
+                $table->setImportEnabled((bool) $a_rec['import_enabled']);
                 $table->setDefaultSortField($a_rec['default_sort_field_id']);
                 $table->setDefaultSortFieldOrder($a_rec['default_sort_field_order']);
-                $table->setPublicCommentsEnabled((bool)$a_rec['public_comments']);
-                $table->setViewOwnRecordsPerm((bool)$a_rec['view_own_records_perm']);
-                $table->setDeleteByOwner((bool)$a_rec['delete_by_owner']);
-                $table->setSaveConfirmation((bool)$a_rec['save_confirmation']);
-                $table->setOrder((int)$a_rec['table_order']);
+                $table->setPublicCommentsEnabled((bool) $a_rec['public_comments']);
+                $table->setViewOwnRecordsPerm((bool) $a_rec['view_own_records_perm']);
+                $table->setDeleteByOwner((bool) $a_rec['delete_by_owner']);
+                $table->setSaveConfirmation((bool) $a_rec['save_confirmation']);
+                $table->setOrder((int) $a_rec['table_order']);
                 $table->doCreate(false, false); // false => Do not create views! They are imported later
-                $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_table', $a_rec['id'], (string)$table->getId());
+                $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_table', $a_rec['id'], (string) $table->getId());
                 break;
             case 'il_dcl_tableview':
                 $new_table_id = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_table', $a_rec['table_id']);
                 if ($new_table_id) {
                     $tableview = new ilDclTableView();
                     $tableview->setTitle($a_rec['title']);
-                    $tableview->setTableId((int)$new_table_id);
+                    $tableview->setTableId((int) $new_table_id);
                     $tableview->setDescription($a_rec['description']);
-                    $tableview->setTableviewOrder((int)$a_rec['tableview_order']);
+                    $tableview->setTableviewOrder((int) $a_rec['tableview_order']);
                     if (!is_array($a_rec['roles'])) {
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
                     $tableview->setRoles($a_rec['roles']);
 
                     $step_is_null = !array_key_exists('step_vs', $a_rec) || is_null($a_rec['step_vs']);
-                    $step_is_null ? $tableview->setStepVs(true) : $tableview->setStepVs((bool)$a_rec['step_vs']);
+                    $step_is_null ? $tableview->setStepVs(true) : $tableview->setStepVs((bool) $a_rec['step_vs']);
 
                     $step_is_null = !array_key_exists('step_c', $a_rec) || is_null($a_rec['step_c']);
-                    $step_is_null ? $tableview->setStepC(false) : $tableview->setStepC((bool)$a_rec['step_c']);
+                    $step_is_null ? $tableview->setStepC(false) : $tableview->setStepC((bool) $a_rec['step_c']);
 
                     $step_is_null = !array_key_exists('step_e', $a_rec) || is_null($a_rec['step_e']);
-                    $step_is_null ? $tableview->setStepE(false) : $tableview->setStepE((bool)$a_rec['step_e']);
+                    $step_is_null ? $tableview->setStepE(false) : $tableview->setStepE((bool) $a_rec['step_e']);
 
                     $step_is_null = !array_key_exists('step_o', $a_rec) || is_null($a_rec['step_o']);
-                    $step_is_null ? $tableview->setStepO(false) : $tableview->setStepO((bool)$a_rec['step_o']);
+                    $step_is_null ? $tableview->setStepO(false) : $tableview->setStepO((bool) $a_rec['step_o']);
 
                     $step_is_null = !array_key_exists('step_s', $a_rec) || is_null($a_rec['step_s']);
-                    $step_is_null ? $tableview->setStepS(false) : $tableview->setStepS((bool)$a_rec['step_s']);
+                    $step_is_null ? $tableview->setStepS(false) : $tableview->setStepS((bool) $a_rec['step_s']);
 
                     $tableview->create(false);    //do not create default setting as they are imported too
 
@@ -199,14 +209,14 @@ class ilDataCollectionDataSet extends ilDataSet
                 if ($new_table_id) {
                     $field = new ilDclBaseFieldModel();
                     $field->setTableId((int) $new_table_id);
-                    $field->setDatatypeId((int)$a_rec['datatype_id']);
+                    $field->setDatatypeId((int) $a_rec['datatype_id']);
                     $field->setTitle($a_rec['title']);
                     $field->setDescription($a_rec['description']);
-                    $field->setUnique((bool)$a_rec['is_unique']);
+                    $field->setUnique((bool) $a_rec['is_unique']);
                     $field->doCreate();
                     $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_field', $a_rec['id'], $field->getId());
                     // Check if this field was used as default order by, if so, update to new id
-                    $table = ilDclCache::getTableCache((int)$new_table_id);
+                    $table = ilDclCache::getTableCache((int) $new_table_id);
                     if ($table->getDefaultSortField() == $a_rec['id']) {
                         $table->setDefaultSortField($field->getId());
                         $table->doUpdate();
@@ -221,8 +231,8 @@ class ilDataCollectionDataSet extends ilDataSet
                         (int) $new_table_id,
                         $new_field_id ?: $a_rec['field']
                     );
-                    $setting->setFieldOrder((int)$a_rec['field_order']);
-                    $setting->setExportable((bool)$a_rec['exportable']);
+                    $setting->setFieldOrder((int) $a_rec['field_order']);
+                    $setting->setExportable((bool) $a_rec['exportable']);
                     $setting->store();
                 }
                 break;
@@ -236,18 +246,18 @@ class ilDataCollectionDataSet extends ilDataSet
                 if ($new_tableview_id) {
                     $setting = new ilDclTableViewFieldSetting();
                     $setting->setTableviewId((int) $new_tableview_id);
-                    $setting->setVisible((bool)$a_rec['visible']);
+                    $setting->setVisible((bool) $a_rec['visible']);
                     $setting->setField($new_field_id ?: $a_rec['field']);
-                    $setting->setInFilter((bool)$a_rec['in_filter']);
+                    $setting->setInFilter((bool) $a_rec['in_filter']);
                     $setting->setFilterValue($a_rec['filter_value'] ?: null);
-                    $setting->setFilterChangeable((bool)$a_rec['filter_changeable']);
-                    is_null($a_rec['required_create']) ? $setting->setRequiredCreate(false) : $setting->setRequiredCreate((bool)$a_rec['required_create']);
-                    is_null($a_rec['locked_create']) ? $setting->setLockedCreate(false) : $setting->setLockedCreate((bool)$a_rec['locked_create']);
-                    is_null($a_rec['visible_create']) ? $setting->setVisibleCreate(true) : $setting->setVisibleCreate((bool)$a_rec['visible_create']);
-                    is_null($a_rec['visible_edit']) ? $setting->setVisibleEdit(true) : $setting->setVisibleEdit((bool)$a_rec['visible_edit']);
-                    is_null($a_rec['required_edit']) ? $setting->setRequiredEdit(false) : $setting->setRequiredEdit((bool)$a_rec['required_edit']);
-                    is_null($a_rec['locked_edit']) ? $setting->setLockedEdit(false) : $setting->setLockedEdit((bool)$a_rec['locked_edit']);
-                    $setting->setDefaultValue($a_rec['default_value']);
+                    $setting->setFilterChangeable((bool) $a_rec['filter_changeable']);
+                    $setting->setRequiredCreate((bool) ($a_rec['required_create'] ?? false));
+                    $setting->setLockedCreate((bool) ($a_rec['locked_create'] ?? false));
+                    $setting->setVisibleCreate((bool) ($a_rec['visible_create'] ?? true));
+                    $setting->setVisibleEdit((bool) ($a_rec['visible_edit'] ?? true));
+                    $setting->setRequiredEdit((bool) ($a_rec['required_edit'] ?? false));
+                    $setting->setLockedEdit((bool) ($a_rec['locked_edit'] ?? false));
+                    $setting->setDefaultValue($a_rec['default_value'] ?? null);
                     $setting->create();
                     $a_mapping->addMapping(
                         'components/ILIAS/DataCollection',
@@ -337,8 +347,8 @@ class ilDataCollectionDataSet extends ilDataSet
                 if ($new_field_id) {
                     $opt = new ilDclSelectionOption();
                     $opt->setFieldId((int) $new_field_id);
-                    $opt->setOptId((int)$a_rec['opt_id']);
-                    $opt->setSorting((int)$a_rec['sorting']);
+                    $opt->setOptId((int) $a_rec['opt_id']);
+                    $opt->setSorting((int) $a_rec['sorting']);
                     $opt->setValue($a_rec['value']);
                     $opt->store();
                 }
@@ -374,24 +384,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     }
 
                     $prop->setName($name);
-                    // For field references, we need to get the new field id of the referenced field
-                    // If the field_id does not yet exist (e.g. referenced table not yet created), store temp info and fix before finishing import
-                    $value = $a_rec['value'];
-                    $refs = [ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE];
-
-                    if (in_array($prop->getName(), $refs)) {
-                        $new_field_id = $a_mapping->getMapping(
-                            'components/ILIAS/DataCollection',
-                            'il_dcl_field',
-                            $a_rec['value']
-                        );
-                        if ($new_field_id === false) {
-                            $value = null;
-                        } else {
-                            $value = $new_field_id;
-                        }
-                    }
-                    $prop->setValue($value);
+                    $prop->setValue($a_rec['value']);
                     $prop->save();
                     $a_mapping->addMapping(
                         'components/ILIAS/DataCollection',
@@ -406,7 +399,7 @@ class ilDataCollectionDataSet extends ilDataSet
                 $record_id = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_record', $a_rec['record_id']);
                 $field_id = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_field', $a_rec['field_id']);
                 if ($record_id && $field_id) {
-                    $record = ilDclCache::getRecordCache((int)$record_id);
+                    $record = ilDclCache::getRecordCache((int) $record_id);
                     $field = ilDclCache::getFieldCache((int) $field_id);
                     $record_field = new ilDclBaseRecordFieldModel($record, $field);
                     $a_mapping->addMapping(
@@ -445,15 +438,15 @@ class ilDataCollectionDataSet extends ilDataSet
                                 break;
                             case ilDclDatatype::INPUTFORMAT_REFERENCE:
                             case ilDclDatatype::INPUTFORMAT_REFERENCELIST:
-                                // If we are referencing to a record from a table that is not yet created, return value is always false because the record does exist neither
-                                // Solution: Temporary store all references and fix them before finishing the import.
-                                $new_record_id = $a_mapping->getMapping(
-                                    'components/ILIAS/DataCollection',
-                                    'il_dcl_record',
-                                    $a_rec['value']
-                                );
-                                $this->import_temp_refs[$new_record_field_id] = $a_rec['value'];
-                                $value = ($new_record_id) ? (int) $new_record_id : null;
+                                $value = $a_rec['value'];
+                                $decode = json_decode($a_rec['value']);
+                                if (is_array($decode)) {
+                                    foreach ($decode as $id) {
+                                        $this->import_temp_refs[$new_record_field_id][] = $id;
+                                    }
+                                } else {
+                                    $this->import_temp_refs[$new_record_field_id] = $value;
+                                }
                                 break;
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
                                 $value = null;
@@ -464,6 +457,11 @@ class ilDataCollectionDataSet extends ilDataSet
                                     $value = null;
                                 }
                                 break;
+                            case ilDclDatatype::INPUTFORMAT_TEXT:
+                                if (version_compare($a_schema_version, "8.13") < 0) {
+                                    $a_rec['value'] = str_replace('&lt;br /&gt;', '', $a_rec['value']);
+                                }
+                                // no break
                             default:
                                 $value = $a_rec['value'];
                                 if ($a_entity == 'il_dcl_stloc3_value' && empty($value)) {
@@ -490,10 +488,10 @@ class ilDataCollectionDataSet extends ilDataSet
                     if ($value) {
                         $stloc_default = (new ilDclDefaultValueFactory())->createByTableName($a_entity);
                         if ($a_entity == ilDclTableViewNumberDefaultValue::returnDbTableName()) {
-                            $value = (int)$value;
+                            $value = (int) $value;
                         }
                         $stloc_default->setValue($value);
-                        $stloc_default->setTviewSetId((int)$tview_set_id);
+                        $stloc_default->setTviewSetId((int) $tview_set_id);
                         $stloc_default->create();
                     }
                 }
@@ -509,12 +507,19 @@ class ilDataCollectionDataSet extends ilDataSet
     {
         foreach ($this->import_temp_new_mob_ids as $new_mob_id) {
             if ($new_mob_id) {
-                ilObjMediaObject::_saveUsage((int)$new_mob_id, "dcl:html", $a_mapping->getTargetId());
+                ilObjMediaObject::_saveUsage((int) $new_mob_id, "dcl:html", $a_mapping->getTargetId());
             }
         }
         foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
-            $new_record_id = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_record', $old_record_id);
-            $value = ($new_record_id) ? (int) $new_record_id : null;
+            if (is_array($old_record_id)) {
+                $new_record_id = [];
+                foreach ($old_record_id as $id) {
+                    $new_record_id[] = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_record', $id);
+                }
+                $value = $new_record_id;
+            } else {
+                $value = $a_mapping->getMapping('components/ILIAS/DataCollection', 'il_dcl_record', $old_record_id);
+            }
             /** @var ilDclBaseRecordFieldModel $record_field */
             $record_field = $this->import_record_field_cache[$record_field_id];
             $record_field->setValue($value, true);
@@ -787,7 +792,8 @@ class ilDataCollectionDataSet extends ilDataSet
                     'il_dcl_tview_set' => ['ids' => $ids],
                 ];
             case 'il_dcl_tview_set':
-                if (!(int)$a_rec['field'] > 0) {
+
+                if (!(int) $a_rec['field'] > 0) {
                     break;
                 }
                 // Also build a cache of all values, no matter in which table they are (il_dcl_stloc(1|2|3)_value)
@@ -803,7 +809,7 @@ class ilDataCollectionDataSet extends ilDataSet
                 $set = $this->db->query($sql);
 
                 while ($rec = $this->db->fetchObject($set)) {
-                    $stloc = ilDclCache::getFieldCache((int)$a_rec['field'])->getStorageLocation();
+                    $stloc = ilDclCache::getFieldCache((int) $a_rec['field'])->getStorageLocation();
                     if ($stloc != 0) {
                         $value_str = "value$stloc";
                         $value = $rec->{$value_str};
@@ -812,7 +818,7 @@ class ilDataCollectionDataSet extends ilDataSet
                         $tview_set_id = $rec->tview_set_id;
 
                         // Save reocrd field id. Internal ID is not used currently
-                        $this->caches["il_dcl_stloc"."$stloc"."_default"][$rec->tview_set_id] = [
+                        $this->caches["il_dcl_stloc" . "$stloc" . "_default"][$rec->tview_set_id] = [
                             'id' => $id,
                             'tview_set_id' => $rec->tview_set_id,
                             'value' => $value,
@@ -856,7 +862,7 @@ class ilDataCollectionDataSet extends ilDataSet
         switch ($a_entity) {
             case 'dcl':
                 foreach ($a_ids as $dcl_id) {
-                    if (ilObject::_lookupType((int)$dcl_id) === 'dcl') {
+                    if (ilObject::_lookupType((int) $dcl_id) === 'dcl') {
                         $obj = new ilObjDataCollection((int) $dcl_id, false);
                         $data = [
                             'id' => $dcl_id,

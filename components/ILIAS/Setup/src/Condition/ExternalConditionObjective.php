@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\Condition;
 
@@ -34,15 +34,21 @@ class ExternalConditionObjective implements Setup\Objective
     protected string $label;
     protected \Closure $condition;
     protected ?string $message;
+    protected bool $block_setup;
 
     /**
      * @param callable $condition needs to be function from Environment to bool.
      */
-    public function __construct(string $label, \Closure $condition, string $message = null)
-    {
+    public function __construct(
+        string $label,
+        \Closure $condition,
+        string $message = null,
+        bool $block_setup = false
+    ) {
         $this->condition = $condition;
         $this->label = $label;
         $this->message = $message;
+        $this->block_setup = $block_setup;
     }
 
     /**
@@ -93,10 +99,11 @@ class ExternalConditionObjective implements Setup\Objective
             $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
             $admin_interaction->inform($this->message);
         }
+        if ($this->block_setup) {
+            throw new Setup\NotExecutableException("An external condition was not met: $this->label");
+        }
 
-        throw new Setup\UnachievableException(
-            "An external condition was not met: $this->label"
-        );
+        throw new Setup\UnachievableException("An external condition was not met: $this->label");
     }
 
     /**

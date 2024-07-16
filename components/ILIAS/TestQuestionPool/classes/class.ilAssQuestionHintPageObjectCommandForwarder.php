@@ -176,7 +176,8 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
             $this->questionHint->getPageObjectType(),
             $this->questionHint->getId()
         );
-
+        $pageObjectGUI->setTemplateTargetVar('ADM_CONTENT');
+        $pageObjectGUI->setTemplateOutput(true);
         $pageObjectGUI->setEnabledTabs(true);
 
         return $pageObjectGUI;

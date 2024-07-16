@@ -169,7 +169,7 @@ class ilTestEvaluationData
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setObligationsAnswered((bool) $row['obligations_answered']);
 
             if ($row['questioncount'] == 0) {
-                $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
+                $data = $this->test->getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
                 $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setMaxPoints($data['points']);
                 $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setQuestionCount($data['count']);
             } else {

@@ -119,7 +119,7 @@ class RangeTest extends TestCase
         }
     }
 
-    public function cropCases(): array
+    public static function cropCases(): array
     {
         return [
             [0, 100, 1000, false],

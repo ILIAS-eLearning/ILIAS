@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Modules\Test\test;
+namespace ILIAS\Test\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Modules\Test\AccessFileUploadPreview;
-use ILIAS\components\Test\Incident;
+use ILIAS\Test\Access\AccessFileUploadPreview;
+use ILIAS\Test\Access\Incident;
 use ilDBInterface;
 use ilDBStatement;
 use ilDBConstants;
@@ -31,14 +31,14 @@ use Closure;
 
 class AccessFileUploadPreviewTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->getMock();
         $this->assertInstanceOf(AccessFileUploadPreview::class, new AccessFileUploadPreview($database, $access));
     }
 
-    public function testNoUploadPath() : void
+    public function testNoUploadPath(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->getMock();
@@ -48,7 +48,7 @@ class AccessFileUploadPreviewTest extends TestCase
         $this->assertFalse($result->isOk());
     }
 
-    public function testFalseWithInvalidId() : void
+    public function testFalseWithInvalidId(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->getMock();
@@ -66,7 +66,7 @@ class AccessFileUploadPreviewTest extends TestCase
     /**
      * @dataProvider types
      */
-    public function testWithTypes(?string $type, bool $permitted, ?string $requires_permission) : void
+    public function testWithTypes(?string $type, bool $permitted, ?string $requires_permission): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
         $access = $this->getMockBuilder(ilAccessHandler::class)->getMock();
@@ -81,7 +81,7 @@ class AccessFileUploadPreviewTest extends TestCase
         $database->expects(self::once())->method('queryF')->with('SELECT obj_fi FROM qpl_questions WHERE question_id = %s', [ilDBConstants::T_INTEGER], [383])->willReturn($statement);
         $database->expects(self::once())->method('fetchAssoc')->with($statement)->willReturn(['obj_fi' => '383']);
 
-        $incident->expects(self::once())->method('any')->willReturnCallback(function (callable $call_me, array $ref_ids) : bool {
+        $incident->expects(self::once())->method('any')->willReturnCallback(function (callable $call_me, array $ref_ids): bool {
             $this->assertEquals([987], $ref_ids);
             return $call_me(987);
         });
@@ -102,7 +102,7 @@ class AccessFileUploadPreviewTest extends TestCase
         $this->assertSame(1, $type_called);
     }
 
-    public function types() : array
+    public static function types(): array
     {
         return [
             'Type qpl with access rights.' => ['qpl', false, 'read'],

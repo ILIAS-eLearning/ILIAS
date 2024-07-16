@@ -40,6 +40,7 @@ abstract class Link implements C\Link\Link
     protected string $action;
     protected ?bool $open_in_new_viewport = null;
     protected ?LanguageTag $action_content_language = null;
+    protected bool $disabled = false;
 
     /**
      * @var C\Link\IsRelationship[]
@@ -62,7 +63,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport): C\Link\Link
+    public function withOpenInNewViewport(bool $open_in_new_viewport): static
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
@@ -77,7 +78,7 @@ abstract class Link implements C\Link\Link
         return $this->open_in_new_viewport;
     }
 
-    public function withLanguageOfReferencedContent(LanguageTag $language): C\Link\Link
+    public function withLanguageOfReferencedContent(LanguageTag $language): static
     {
         $clone = clone $this;
         $clone->action_content_language = $language;
@@ -89,7 +90,7 @@ abstract class Link implements C\Link\Link
         return $this->action_content_language;
     }
 
-    public function withAdditionalRelationshipToReferencedResource(C\Link\Relationship $type): C\Link\Link
+    public function withAdditionalRelationshipToReferencedResource(C\Link\Relationship $type): static
     {
         $clone = clone $this;
         if (!in_array($type, $clone->relationships)) {
@@ -112,4 +113,17 @@ abstract class Link implements C\Link\Link
         }
         return $relationships;
     }
+
+    public function withDisabled(bool $disabled = true): static
+    {
+        $clone = clone $this;
+        $clone->disabled = $disabled;
+        return $clone;
+    }
+
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
 }

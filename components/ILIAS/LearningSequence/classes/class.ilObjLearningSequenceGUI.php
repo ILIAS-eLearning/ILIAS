@@ -65,7 +65,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_SETTINGS = "settings";
     public const CMD_PERMISSIONS = "perm";
     public const CMD_EXPORT = "export";
-    public const CMD_IMPORT = "importFile";
+    public const CMD_IMPORT = "routeImportCmd";
     public const CMD_CREATE = "create";
     public const CMD_SAVE = "save";
     public const CMD_CANCEL = "cancel";
@@ -361,7 +361,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
                 switch ($cmd) {
                     case self::CMD_IMPORT:
-                        $this->importFileObject();
+                        $this->routeImportCmdObject();
                         break;
                     case self::CMD_INFO:
                     case self::CMD_INFO_SCREEN:
@@ -898,7 +898,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function showPossibleSubObjects(): void
     {
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes()
+            )
+        );
         $gui->render();
     }
 

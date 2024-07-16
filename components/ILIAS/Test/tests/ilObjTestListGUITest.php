@@ -29,10 +29,10 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilSetting();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_filesystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilLoggerFactory();
 
         $this->testObj = new ilObjTestListGUI(1);
     }
@@ -49,7 +49,7 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->assertEquals($IO, $this->testObj->createDefaultCommand($IO));
     }
 
-    public function createDefaultCommandDataProvider()
+    public static function createDefaultCommandDataProvider()
     {
         return [
             [[]],

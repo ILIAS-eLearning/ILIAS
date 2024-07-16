@@ -110,7 +110,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (string)$this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', (string) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -208,7 +208,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 $data_type_id = intval($parts[2]);
 
                 // Delete all field values associated with this id
-                $existing_values = ilDclTableViewBaseDefaultValue::findAll($data_type_id, (int)$id);
+                $existing_values = ilDclTableViewBaseDefaultValue::findAll($data_type_id, (int) $id);
 
                 if (!is_null($existing_values)) {
                     foreach ($existing_values as $existing_value) {
@@ -237,7 +237,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     } else {
                         $default_value->setValue($value);
                     }
-                    $default_value->setTviewSetId((int)$id);
+                    $default_value->setTviewSetId((int) $id);
                     $default_value->create();
                 }
             }

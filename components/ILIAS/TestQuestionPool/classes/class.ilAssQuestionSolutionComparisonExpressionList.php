@@ -60,7 +60,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         $this->skillBaseId = null;
         $this->skillTrefId = null;
 
-        $this->expressions = array();
+        $this->expressions = [];
     }
 
     public function load(): void
@@ -73,8 +73,8 @@ class ilAssQuestionSolutionComparisonExpressionList
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer'],
+            [$this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -107,8 +107,8 @@ class ilAssQuestionSolutionComparisonExpressionList
 
         $this->db->manipulateF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer'],
+            [$this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
     }
 
@@ -129,7 +129,7 @@ class ilAssQuestionSolutionComparisonExpressionList
 
     public function reset(): void
     {
-        $this->expressions = array();
+        $this->expressions = [];
     }
 
     /**

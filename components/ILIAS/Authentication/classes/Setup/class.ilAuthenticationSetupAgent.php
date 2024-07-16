@@ -42,8 +42,15 @@ class ilAuthenticationSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilAuthenticationDatabaseUpdateSteps8()
+        return new Setup\ObjectiveCollection(
+            'Authentication',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilAuthenticationDatabaseUpdateSteps8()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new AbandonAuthRichTextEditorDatabaseUpdateSteps()
+            ),
         );
     }
 
@@ -54,7 +61,18 @@ class ilAuthenticationSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilAuthenticationDatabaseUpdateSteps8());
+        return new Setup\ObjectiveCollection(
+            'Component Authentication',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilAuthenticationDatabaseUpdateSteps8()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new AbandonAuthRichTextEditorDatabaseUpdateSteps()
+            ),
+        );
     }
 
     public function getMigrations(): array

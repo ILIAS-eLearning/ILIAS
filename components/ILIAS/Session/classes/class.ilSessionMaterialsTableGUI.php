@@ -104,10 +104,21 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $tree = $this->tree;
         $objDefinition = $this->objDefinition;
 
-        $nodes = $tree->getSubTree($tree->getNodeData($this->parent_ref_id));
         $materials = [];
 
-        foreach ($nodes as $node) {
+        $already_assigned_ref_ids = [];
+        foreach ($this->getMaterialItems() as $ref_id) {
+            $already_assigned_ref_ids[] = $ref_id;
+            $node = $tree->getNodeData($ref_id);
+            $node['active'] = 1;
+            $materials[] = $tree->getNodeData($ref_id);
+        }
+
+        foreach ($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $node) {
+            if (in_array($node['ref_id'], $already_assigned_ref_ids)) {
+                continue;
+            }
+
             // No side blocks here
             if ($node['child'] == $this->parent_ref_id ||
                 $objDefinition->isSideBlock($node['type']) ||
@@ -115,14 +126,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
                 continue;
             }
 
-            if ($node['type'] == 'rolf') {
-                continue;
-            }
-
-            if (!empty($this->getMaterialItems())) {
-                $node["sorthash"] = (int) (!in_array($node['ref_id'], $this->getMaterialItems())) . $node["title"];
-            }
-            $node['active'] = in_array($node['ref_id'], ($this->getMaterialItems() ?? []));
+            $node['active'] = 0;
             $materials[] = $node;
         }
 
@@ -211,8 +215,9 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         $path = new ilPathGUI();
-        $path->enableDisplayCut(true);
+        $path->enableDisplayCut(false);
         $path->enableTextOnly(false);
+        $path->enableHideLeaf(false);
         $this->tpl->setVariable("COLL_PATH", $path->getPath($this->getContainerRefId(), (int) $a_set['ref_id']));
     }
 

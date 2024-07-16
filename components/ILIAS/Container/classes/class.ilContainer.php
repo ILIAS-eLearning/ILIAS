@@ -413,6 +413,15 @@ class ilContainer extends ilObject
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
         $ot->copy($new_obj->getId());
+        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
+        $ot2->read();
+        $new_obj->setObjectTranslation($ot2);
+        if ($ot2->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot2->getDefaultDescription());
+        }
+        $log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
+        $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
+            $new_obj->getId());
 
         #18624 - copy all sorting settings
         ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
@@ -683,6 +692,15 @@ class ilContainer extends ilObject
 
         $classification_filter_active = $this->isClassificationFilterActive();
         foreach ($objects as $key => $object) {
+            // see #41377, this ensures session materials to be preloaded
+            if (!self::$data_preloaded) {
+                if ($object["type"] === "sess") {
+                    $ev_items = ilObjectActivation::getItemsByEvent((int) $object["obj_id"]);
+                    foreach ($ev_items as $ev_item) {
+                        $preloader->addItem((int) $ev_item["obj_id"], $ev_item["type"], $ev_item["ref_id"]);
+                    }
+                }
+            }
             if ($a_get_single > 0 && $object["child"] != $a_get_single) {
                 continue;
             }
@@ -696,7 +714,6 @@ class ilContainer extends ilObject
             if ($objDefinition->isInactivePlugin($object["type"])) {
                 continue;
             }
-
             // BEGIN WebDAV: Don't display hidden Files, Folders and Categories
             if (in_array(
                 $object['type'],
@@ -710,7 +727,6 @@ class ilContainer extends ilObject
             }
             // END WebDAV: Don't display hidden Files, Folders and Categories
 
-            // including event items!
             if (!self::$data_preloaded) {
                 $preloader->addItem((int) $object["obj_id"], $object["type"], $object["child"]);
             }
@@ -852,10 +868,17 @@ class ilContainer extends ilObject
     {
         $ret = parent::update();
 
+        $log = ilLoggerFactory::getLogger("cont");
+        $log->debug("**5**" . count($this->getObjectTranslation()->getLanguages()));
+
         $trans = $this->getObjectTranslation();
         $trans->setDefaultTitle($this->getTitle());
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
+
+        $log = ilLoggerFactory::getLogger("cont");
+        $log->debug(":::::::::::::::::::::::::::");
+        $log->logStack(10);
 
         //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 

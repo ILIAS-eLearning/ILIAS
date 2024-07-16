@@ -57,7 +57,7 @@ EOT;
     /**
      * @return array[]
      */
-    public function inputProvider(): array
+    public static function inputProvider(): array
     {
         return [
             [5],
@@ -74,7 +74,7 @@ EOT;
     /**
      * @return array[]
      */
-    public function unsupportedButKnownEntitiesProvider(): array
+    public static function unsupportedButKnownEntitiesProvider(): array
     {
         return array_map(static function (string $entity): array {
             return [

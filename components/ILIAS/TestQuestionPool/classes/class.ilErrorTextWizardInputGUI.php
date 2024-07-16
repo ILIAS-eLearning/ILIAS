@@ -25,7 +25,7 @@
 */
 class ilErrorTextWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $key_size = 20;
     protected $value_size = 20;
     protected $key_maxlength = 255;
@@ -46,7 +46,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['key'])) {
                 foreach ($a_value['key'] as $idx => $key) {

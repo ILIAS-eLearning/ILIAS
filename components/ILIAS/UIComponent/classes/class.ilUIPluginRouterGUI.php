@@ -41,7 +41,7 @@ class ilUIPluginRouterGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             default:
-                $class_file = $this->ctrl->lookupClassPath($next_class);
+                $class_file = '../' . ltrim($this->ctrl->lookupClassPath($next_class), './');
                 if (is_file($class_file)) {
                     include_once($class_file);
                     $gui = new $next_class();

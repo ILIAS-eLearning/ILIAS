@@ -31,7 +31,7 @@ class URIBuilderTest extends Base
     private ?string $ilias_http_path_backup = null;
     private StandardURIBuilder $uri_builder;
 
-    public function getILIAS_HTTP_Paths(): array
+    public static function getILIAS_HTTP_Paths(): array
     {
         return [
             ['https://ilias.de/ilias', 'https://ilias.de/ilias'],
@@ -57,7 +57,7 @@ class URIBuilderTest extends Base
         $this->assertEquals($expected, (string) $uri_builder->getBaseURI());
     }
 
-    public function getBuilderParts(): array
+    public static function getBuilderParts(): array
     {
         return [
             ['wiki', 42, [], 'https://test9.ilias.de/goto.php/wiki/42'],

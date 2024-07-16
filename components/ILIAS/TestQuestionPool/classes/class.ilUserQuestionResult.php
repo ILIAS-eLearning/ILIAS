@@ -52,7 +52,7 @@ class ilUserQuestionResult
     /**
      * @var array
      */
-    protected $solutions = array();
+    protected $solutions = [];
 
     public function __construct($question, $active_id, $pass)
     {
@@ -67,10 +67,10 @@ class ilUserQuestionResult
      */
     public function addKeyValue($key, $value): void
     {
-        $this->solutions[] = array(
+        $this->solutions[] = [
             self::$USER_SOLUTION_IDENTIFIER_KEY => $key,
             self::$USER_SOLUTION_IDENTIFIER_VALUE => $value
-        );
+        ];
     }
 
     /**
@@ -101,7 +101,7 @@ class ilUserQuestionResult
             throw new Exception(sprintf("Unkown Identifier %s", $identifier));
         }
 
-        $solutions = array();
+        $solutions = [];
         foreach ($this->solutions as $solution) {
             $solutions[] = $solution[$identifier];
         }

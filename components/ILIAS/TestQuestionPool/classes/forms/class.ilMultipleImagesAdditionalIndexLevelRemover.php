@@ -21,9 +21,9 @@
  */
 class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipulator
 {
-    protected $filesSubmissionProperties = array(
+    protected $filesSubmissionProperties = [
         'name', 'tmp_name', 'type', 'error', 'size'
-    );
+    ];
 
     protected $postVar;
 
@@ -92,7 +92,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         }
 
         $storedImages = $values[ilMultipleImagesInputGUI::STORED_IMAGE_SUBFIELD_NAME] ?? [];
-        $actualValues = array();
+        $actualValues = [];
 
         foreach ($values[ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME] as $index => $value) {
             if (!isset($storedImages[$index])) {

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Certificate\API\UserCertificateApiInterface;
+use ILIAS\Course\Certificate\CertificateCourseLearningProgressEvaluation;
 
 class ilCertificateAppEventListener implements ilAppEventListener
 {
@@ -169,7 +170,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             'Triggering certificate evaluation of possible depending course objects ...'
         );
 
-        $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation(
+        $progressEvaluation = new CertificateCourseLearningProgressEvaluation(
             new ilCachedCertificateTemplateRepository(
                 $this->templateRepository
             )

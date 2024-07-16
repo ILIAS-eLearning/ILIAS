@@ -107,8 +107,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -134,26 +134,26 @@ class ilAssQuestionSkillAssignment
         if ($this->dbRecordExists()) {
             $this->db->update(
                 'qpl_qst_skl_assigns',
-                array(
-                    'skill_points' => array('integer', $this->getSkillPoints()),
-                    'eval_mode' => array('text', $this->getEvalMode())
-                ),
-                array(
-                    'obj_fi' => array('integer', $this->getParentObjId()),
-                    'question_fi' => array('integer', $this->getQuestionId()),
-                    'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                    'skill_tref_fi' => array('integer', $this->getSkillTrefId())
-                )
+                [
+                    'skill_points' => ['integer', $this->getSkillPoints()],
+                    'eval_mode' => ['text', $this->getEvalMode()]
+                ],
+                [
+                    'obj_fi' => ['integer', $this->getParentObjId()],
+                    'question_fi' => ['integer', $this->getQuestionId()],
+                    'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                    'skill_tref_fi' => ['integer', $this->getSkillTrefId()]
+                ]
             );
         } else {
-            $this->db->insert('qpl_qst_skl_assigns', array(
-                'obj_fi' => array('integer', $this->getParentObjId()),
-                'question_fi' => array('integer', $this->getQuestionId()),
-                'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
-                'skill_points' => array('integer', $this->getSkillPoints()),
-                'eval_mode' => array('text', $this->getEvalMode())
-            ));
+            $this->db->insert('qpl_qst_skl_assigns', [
+                'obj_fi' => ['integer', $this->getParentObjId()],
+                'question_fi' => ['integer', $this->getQuestionId()],
+                'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
+                'skill_points' => ['integer', $this->getSkillPoints()],
+                'eval_mode' => ['text', $this->getEvalMode()]
+            ]);
         }
 
         if ($this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION) {
@@ -179,8 +179,8 @@ class ilAssQuestionSkillAssignment
 
         $this->db->manipulateF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $this->deleteComparisonExpressions();
@@ -205,8 +205,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -226,8 +226,8 @@ class ilAssQuestionSkillAssignment
 
         $res = $this->db->queryF(
             $query,
-            array('integer', 'integer', 'integer'),
-            array($this->getParentObjId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+            ['integer', 'integer', 'integer'],
+            [$this->getParentObjId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -326,7 +326,7 @@ class ilAssQuestionSkillAssignment
             $this->getSkillTrefId()
         );
 
-        $nodes = array();
+        $nodes = [];
         foreach ($path as $node) {
             if ($node['child'] > 1 && $node['skill_id'] != $this->getSkillBaseId()) {
                 $nodes[] = $node['title'];
@@ -408,7 +408,7 @@ class ilAssQuestionSkillAssignment
     {
         return (
             is_numeric($skillPoints) &&
-            str_replace(array('.', ','), '', $skillPoints) == $skillPoints &&
+            str_replace(['.', ','], '', $skillPoints) == $skillPoints &&
             $skillPoints > 0
         );
     }

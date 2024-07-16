@@ -32,13 +32,13 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @var array
      */
-    protected static $reserved_formats = array(
+    protected static $reserved_formats = [
         'xml',
         'csv'
-    );
+    ];
     private \ilGlobalTemplateInterface $main_tpl;
     private \ilLanguage $lng;
-    private \ilCtrl $ctrl;
+    private \ilCtrlInterface $ctrl;
 
     public function __construct(
         \ilDBInterface $db,

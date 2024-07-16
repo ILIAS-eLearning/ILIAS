@@ -418,6 +418,9 @@ adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
 assessment#:#action#:#アクション
+assessment#:#activate_logging#:#テストとアセスメントログを使用可能にする
+assessment#:#activate_manual_scoring#:#手動採点を可能にする
+assessment#:#activate_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
@@ -576,7 +579,6 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#conf_delete_pass_ctm#:#前回の回答を削除してもよろしいですか。
 assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
@@ -591,6 +593,7 @@ assessment#:#create_gaps#:#穴埋め作成
 assessment#:#create_new#:#新規作成
 assessment#:#customstyle#:#カスタムスタイル
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#日付/時間
 assessment#:#definition#:#定義
 assessment#:#definition_image#:#定義イメージ
 assessment#:#definition_text#:#定義テキスト
@@ -618,19 +621,6 @@ assessment#:#dont_use_questionpool#:#問題集へ問題を挿入しない(この
 assessment#:#duplicate#:#重複
 assessment#:#duplicate_matching_values_selected#:#選択値が重複しています!
 assessment#:#duplicate_order_values_entered#:#選択順が重複しています!
-assessment#:#ects_allow_ects_grades#:#ECTS評価に受領マークを追加して表示する
-assessment#:#ects_fx_threshold#:#しきい値
-assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
-assessment#:#ects_grade#:#ECTS評価
-assessment#:#ects_grade_a_desc#:#マイナーなエラーのみの優れたパフォーマンス
-assessment#:#ects_grade_b_desc#:#いくつかエラーはあるが平均標準より上位
-assessment#:#ects_grade_c_desc#:#顕著なエラー数ありで通常は音を鳴らす
-assessment#:#ects_grade_d_desc#:#かなりの欠点はるものの妥当
-assessment#:#ects_grade_desc_prefix#:#グレードの意味:
-assessment#:#ects_grade_e_desc#:#最低判断基準を満たすパフォーマンス
-assessment#:#ects_grade_f_desc#:#今後相当の努力が必須
-assessment#:#ects_grade_fx_desc#:#クレジットを受賞するにはさらなる努力を要する
-assessment#:#ects_output_of_ects_grades#:#ECTS評価の出力
 assessment#:#edit_answer#:#回答を編集
 assessment#:#edit_page#:#ページ編集
 assessment#:#edit_question#:#問題編集
@@ -756,6 +746,7 @@ assessment#:#height#:#高さ
 assessment#:#identical_scoring#:#同一採点
 assessment#:#identical_scoring_desc#:#選択すると、同じ解答が2度以上使用されても同一解答の穴埋めが採点されます。選択していないと、同じ解答の最初のものだけが採点されます。
 assessment#:#imagemap#:#イメージマップ
+assessment#:#imap_line_color#:#イメージマップラインカラー
 assessment#:#import_question#:#問題をインポート
 assessment#:#imported#:#インポート完了
 assessment#:#info_answer_type_change#:#問題にはイメージが既に含まれます。複数解答に対して解答タイプの変更はできません。
@@ -817,23 +808,12 @@ assessment#:#lacex_example_header#:#例
 assessment#:#last_update#:#最終更新
 assessment#:#legend#:#凡例
 assessment#:#locked#:#固定
-assessment#:#log_added_extratime#:#受験者ID %dへ%d分時間延長しました
-assessment#:#log_answer_changed_points#:#受験者の点数を %sから%dへ%d 点を手動変更
-assessment#:#log_create_new_test#:#新規テストを作成
-assessment#:#log_manual_feedback#:#受験者 %sと問題%s:%sを手動フィードバックで%s追加
-assessment#:#log_mark_added#:#マークを追加
-assessment#:#log_mark_changed#:#マークを変更
-assessment#:#log_mark_removed#:#マークを削除
-assessment#:#log_modified_test#:#問題を修正
-assessment#:#log_question_added#:#問題が追加されました
-assessment#:#log_question_position_changed#:#問題の位置が変更されました
-assessment#:#log_question_removed#:#問題が削除されました
-assessment#:#log_selected_user_data_removed#:#ユーザ%sのテストデータが削除されました
-assessment#:#log_user_answered_question#:#ユーザは問題に解答して%s点獲得しました
-assessment#:#log_user_entered_values#:#ユーザが値を入力しました
-assessment#:#log_user_not_entered_values#:#ユーザは値を未入力です
+assessment#:#log_text#:#ログメッセージ
 assessment#:#log_user_solution_willingly_deleted#:#ユーザは回答を削除しました。
-assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
+assessment#:#logging_settings#:#ログ
+assessment#:#logs_deleted#:#選択されたテストのログデータは削除されました
+assessment#:#logs_output#:#ログデータ出力
+assessment#:#logs_wrong_test_password_provided#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
@@ -848,7 +828,6 @@ assessment#:#manscoring_results_pass#:#試験%sの手動採点可能な問題
 assessment#:#manual_editing#:#手動編集
 assessment#:#mark_schema#:#評価尺度
 assessment#:#mark_schema_invalid#:#マークスキーマは検証されません。正しいスキーマを作成してください。
-assessment#:#mark_tst_ects#:#ECTS評価は&quot;[markects]&quot;となっています。
 assessment#:#matches#:#一致するもの
 assessment#:#matching_pairs#:#一致する組
 assessment#:#matching_shuffle_definitions#:#定義のみ
@@ -1899,7 +1878,6 @@ assessment#:#units#:#ユニット
 assessment#:#unlimited#:#無期限
 assessment#:#unlock#:#解除
 assessment#:#uploaded_material#:#アップロードされた教材
-assessment#:#use_ects_fx#:# 'FX' 評価を使用
 assessment#:#use_previous_solution#:#前回の解答を使用する
 assessment#:#use_previous_solution_advice#:#表示されている回答は前回のものです。何も変更しないでそのまま利用したい場合は、その解答の採用を必ず確認する必要があります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
@@ -3300,7 +3278,6 @@ common#:#action_aborted#:#失敗したアクション
 common#:#actions#:#アクション
 common#:#actions_for#:#%sのアクション
 common#:#activate#:#使用可能に設定
-common#:#activate_assessment_logging#:#テストとアセスメントログを使用可能にする
 common#:#activate_https#:#ILIAS(支払、ログイン)の<br/>HTTPS操作
 common#:#activate_tracking#:#アクティベーション
 common#:#activation#:#期間調整
@@ -3367,24 +3344,6 @@ common#:#approve_recipient#:#承認者のログインID
 common#:#archive#:#アーカイブ
 common#:#archive_broken#:#アーカイブは壊れているか空のようです。
 common#:#are_you_sure#:#本当ですか?
-common#:#ass_log_admin#:#ログデータ管理
-common#:#ass_log_count_datasets#:#ログエントリー
-common#:#ass_log_delete_entries#:#ログエントリーを削除
-common#:#ass_log_delete_no_selection#:#ログデータ削除するのに最低一つテストを選択してください
-common#:#ass_log_deleted#:#選択されたテストのログデータは削除されました
-common#:#ass_log_output#:#ログデータ出力
-common#:#assessment_imap_line_color#:#イメージマップラインカラー
-common#:#assessment_log#:#特定時間のテストとアセスメントログを作成
-common#:#assessment_log_datetime#:#日付/時間
-common#:#assessment_log_deleted#:#テストとアセスメントログデータは管理にて削除されました
-common#:#assessment_log_for_test#:#対象のテスト
-common#:#assessment_log_log_entries#:#ログエントリー
-common#:#assessment_log_logging#:#ログ
-common#:#assessment_log_manual_scoring_activate#:#手動採点を可能にする
-common#:#assessment_log_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
-common#:#assessment_log_question#:#質問
-common#:#assessment_log_text#:#ログメッセージ
-common#:#assessment_settings_reporting_language#:#報告言語
 common#:#assf_allowed_questiontypes#:#利用できる問題タイプ
 common#:#assf_allowed_questiontypes_desc#:#全てのチェックした問題タイプはILIASシステムで利用可能になります。このシステムにおいて特定の問題タイプの作成を許可したくない時は、該当するチェックボックスを外す必要があります。
 common#:#assf_questiontypes#:#問題設定
@@ -4188,7 +4147,7 @@ common#:#import_cat_table#:#チェックボックスがオンの場合のみ次�
 common#:#import_categories#:#インポートカテゴリ
 common#:#import_failure_log#:#失敗ログのインポート
 common#:#import_file#:#インポートファイル
-common#:#import_file_not_valid#:#インポートファイルは無効です。
+common#:#import_file_not_valid_here#:#インポートファイルは無効です。
 common#:#import_finished#:#インポートしたメッセージの数です。
 common#:#import_lm#:#ILIAS ラーニングモジュールをインポート
 common#:#import_qpl#:#テスト問題集をインポート
@@ -10879,12 +10838,12 @@ mathjax#:#mathjax_home_link#:# >> MathJax
 mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###19 08 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###19 08 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###19 08 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###19 08 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###19 08 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#多角形のURL
+mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2 には不要
+mathjax#:#mathjax_polyfill_url_desc_line2#:#MathJax 3の例  https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#MathJax ScriptのURL
+mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2 の例 %s
+mathjax#:#mathjax_script_url_desc_line2#:#javascriptのMathJaxコードでXSS攻撃を回避するためのセーフモード有効にして下さい。MathJax 2用はCDN urlへ'セーフ'パラメータを追加する事で有効化できます。MathJax 3用はMathjaxを読込む前に構成するスクリプトをincludeする必要があります。例の使用 %s
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
@@ -13968,12 +13927,10 @@ rep#:#rep_mo_mem_dash#:#現在コース、グループのどちらもメンバ�
 rep#:#rep_multiple_reference_deletion_instruction#:#どれを削除するのか選択してください：
 rep#:#rep_multiple_reference_deletion_intro#:#このオブジェクトには追加情報が存在します。
 rep#:#rep_new_item_group_add#:#グループ追加
-rep#:#rep_new_item_group_add_separator#:#列区切りを追加
 rep#:#rep_new_item_group_delete_sure#:#本当に次のグループ化を削除しますか?
 rep#:#rep_new_item_group_edit#:#グループ編集
 rep#:#rep_new_item_group_nr_subitems#:#割当て済みオブジェクト数
 rep#:#rep_new_item_group_other#:#その他
-rep#:#rep_new_item_group_separator#:#列区切り
 rep#:#rep_new_item_group_unassigned#:#割当てなし
 rep#:#rep_new_item_group_unassigned_subitems#:#未割当てオブジェクト数: %s
 rep#:#rep_new_item_groups#:#グループ化

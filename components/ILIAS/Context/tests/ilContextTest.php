@@ -26,7 +26,7 @@ class ilContextTest extends TestCase
         $this->assertEquals(ilContextExtended::getClassName(), $className);
     }
 
-    public function contextProvider(): array
+    public static function contextProvider(): array
     {
         return [
             [ilContext::CONTEXT_WEB, ilContextWeb::class],

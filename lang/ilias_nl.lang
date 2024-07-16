@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
 assessment#:#action#:#Actie
+assessment#:#activate_logging#:#Inschakelen Toets&Beoordeling logging
+assessment#:#activate_manual_scoring#:#Inschakelen handmatige score voor
+assessment#:#activate_manual_scoring_desc#:#Als het handmatige noteren voor een vraagtype wordt ingeschakeld, zouden alle vragen van dit vraagtype manueel door een toetsauteur kunnen worden genoteerd. Gelieve zorgvuldig te zijn met deze instellingen, omdat late handmatig noteren van  genoteerde vraagtypes zelfs gerechtelijke problemen kan veroorzaken!
 assessment#:#addSuggestedSolution#:#Voeg voorgestelde oplossing toe
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Voeg cirkel gebied toe
@@ -573,7 +576,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling
 assessment#:#conf_delete_pass#:#Deze poging echt verwijderen?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen
 assessment#:#confirm_delete_single_user_data#:#Weet je zeker dat je de toetsgegevens van de geselecteerde gebruiker wilt verwijderen
 assessment#:#confirm_sync_questions#:#De vraag die je hebt veranderd is een kopie die is gemaakt om te gebruiken in de actieve toets. Wil je de originele vraag ook aanpassen?
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#Gaten aanmaken
 assessment#:#create_new#:#Aanmaken van een nieuwe
 assessment#:#customstyle#:#Aangepaste Stijl
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Datum/Tijd
 assessment#:#definition#:#Definitie
 assessment#:#definition_image#:#Definitie afbeelding
 assessment#:#definition_text#:#Definitie Tekst
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#Niet toevoegen aan een vragenpool (alleen b
 assessment#:#duplicate#:#Duplicaat
 assessment#:#duplicate_matching_values_selected#:#Je hebt minstens één dubbele waarde gekozen  !
 assessment#:#duplicate_order_values_entered#:#Je hebt minstens één dubbele sorteervolgorde aangegeven!
-assessment#:#ects_allow_ects_grades#:#Laat ECTS graad zien, gelinkt aan verkregen punt
-assessment#:#ects_fx_threshold#:#Threshold###06 02 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the ‘FX’ grade.###06 02 2015 new variable
-assessment#:#ects_grade#:#ECTS-schaal
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#Uitvoer van ECTS-graad
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_page#:#Pagina wijzigen
 assessment#:#edit_question#:#Wijzigen vraag
@@ -751,6 +741,7 @@ assessment#:#height#:#Hoogte
 assessment#:#identical_scoring#:#Identieke Scoring
 assessment#:#identical_scoring_desc#:#Indien geselecteerd, openingen met identieke oplossingen worden geteld, zelfs als dezelfde oplossing twee of meerdere keren werd gegeven.Indien niet geselecteerd, wordt de eerst gegeven oplossing geteld.
 assessment#:#imagemap#:#Afbeeldingen map
+assessment#:#imap_line_color#:#Lijnkleur afbeedlingsmap
 assessment#:#import_question#:#Importeren vraag(vragen)
 assessment#:#imported#:#Geimporteerd
 assessment#:#info_answer_type_change#:#De vraag bevat reeds plaatjes.U kunt het antwoordtype niet veranderen in meerregelige antwoorden
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Laatst bijgewerkt
 assessment#:#legend#:#Legende
 assessment#:#locked#:#Gesloten
-assessment#:#log_added_extratime#:#Extra %d minuten zijn toegevoegd aan deelnemer %d
-assessment#:#log_answer_changed_points#:#De handmatige verandering van punten %s van %d to %d door %s
-assessment#:#log_create_new_test#:#Maak een nieuwe toets
-assessment#:#log_manual_feedback#:#%s toegevoegde handmatige feedback voor toets persoon %s en vraag %s: %s
-assessment#:#log_mark_added#:#Punt toegevoegd
-assessment#:#log_mark_changed#:#Punt gewijzigd
-assessment#:#log_mark_removed#:#Punt verwijderd
-assessment#:#log_modified_test#:#De toets is gewijzigd
-assessment#:#log_question_added#:#Vraag toegevoegd op de positie
-assessment#:#log_question_position_changed#:#Positie van de vraag veranderd
-assessment#:#log_question_removed#:#Vraag verwijderd
-assessment#:#log_selected_user_data_removed#:#Toetsgegevens van gebruiker %s verwijderd
-assessment#:#log_user_answered_question#:#De gebruiker heeft geantwoord op een vraag en heeft %s punten gekregen
-assessment#:#log_user_entered_values#:#Gebruiker heeft waarden ingevoerd
-assessment#:#log_user_not_entered_values#:#Gebruiker heeft geen waarden ingevoerd
+assessment#:#log_text#:#Log bericht
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Registreren
+assessment#:#logs_deleted#:#De logboekgegevens voor de geselecteerde toetsen zijn verwijderd
+assessment#:#logs_output#:#Logboekgegevens output
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Verzend melding zelfs wanneer de gebruiker een toets goed afgesloten heeft
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#Handmatig scorende Vragen voor Examen %s
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Cijferschema
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
-assessment#:#mark_tst_ects#:#Je  ECTS graad is &quot;[markects]&quot;
 assessment#:#matches#:#overeenkomsten
 assessment#:#matching_pairs#:#Gematchte paren
 assessment#:#matching_shuffle_definitions#:#Enkel definities
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Eenheden
 assessment#:#unlimited#:#Ongelimiteerd
 assessment#:#unlock#:#Vrijmaken
 assessment#:#uploaded_material#:#Upgeload materiaal
-assessment#:#use_ects_fx#:#Use the ‘FX’ grade###06 02 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###06 02 2015 new variable
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Acties
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Inschakelen
-common#:#activate_assessment_logging#:#Inschakelen Toets&Beoordeling logging
 common#:#activate_https#:#Inschakelen HTTPS (Betalingen, Aanmelden)
 common#:#activate_tracking#:#Inschakelen voortgangscontrole
 common#:#activation#:#Timing en Voorwaarden
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#login-ID van keurder
 common#:#archive#:#Archief
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Ben je zeker?
-common#:#ass_log_admin#:#Logboekgegevens-beheer
-common#:#ass_log_count_datasets#:#Logboek ingave
-common#:#ass_log_delete_entries#:#Verwijder Logboek ingave
-common#:#ass_log_delete_no_selection#:#Gelieve minstens één toets te selecteren  om logboekgegevens te verwijderen
-common#:#ass_log_deleted#:#De logboekgegevens voor de geselecteerde toetsen zijn verwijderd
-common#:#ass_log_output#:#Logboekgegevens output
-common#:#assessment_imap_line_color#:#Lijnkleur afbeedlingsmap
-common#:#assessment_log#:#Aanmaken Toets&Beoordeling log voor een specifieke periode
-common#:#assessment_log_datetime#:#Datum/Tijd
-common#:#assessment_log_deleted#:#De logboekgegevens van de Toets&Beoordeling zijn verwijderd in het beheer
-common#:#assessment_log_for_test#:#Voor toets
-common#:#assessment_log_log_entries#:#Log gegevens
-common#:#assessment_log_logging#:#Registreren
-common#:#assessment_log_manual_scoring_activate#:#Inschakelen handmatige score voor
-common#:#assessment_log_manual_scoring_desc#:#Als het handmatige noteren voor een vraagtype wordt ingeschakeld, zouden alle vragen van dit vraagtype manueel door een toetsauteur kunnen worden genoteerd. Gelieve zorgvuldig te zijn met deze instellingen, omdat late handmatig noteren van  genoteerde vraagtypes zelfs gerechtelijke problemen kan veroorzaken!
-common#:#assessment_log_question#:#Vraag
-common#:#assessment_log_text#:#Log bericht
-common#:#assessment_settings_reporting_language#:#Taal melding
 common#:#assf_allowed_questiontypes#:#Beschikbare vraagtypes
 common#:#assf_allowed_questiontypes_desc#:#Alle gecontroleerde vraagtypes zullen in deze installatie beschikbaar zijn. Als je niet de verwezenlijking van een bepaald vraagtype in deze installatie wilt toestaan, moet je de selectie in de bijbehorende checkbox verwijderen.
 common#:#assf_questiontypes#:#Vraaginstellingen
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#De volgende tabel is alleen zinvol als de checkbox i
 common#:#import_categories#:#Importeer categorieën
 common#:#import_failure_log#:#Import log mislukt
 common#:#import_file#:#Importeren Bestand
-common#:#import_file_not_valid#:#Het te importeren bestand is niet geldig.
+common#:#import_file_not_valid_here#:#Het te importeren bestand is niet geldig.
 common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_lm#:#Importeren Lesmodule
 common#:#import_qpl#:#Importeer vragenpool (toets)
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
 mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Selecteer de inline delimiters zoals deze zijn ingesteld in je MathJax installatie
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Toevoegen groep
-rep#:#rep_new_item_group_add_separator#:#Toevoegen kolom-scheidingsteken
 rep#:#rep_new_item_group_delete_sure#:#Weet je zeker dat je de volgende groepen wilt verwijderen?
 rep#:#rep_new_item_group_edit#:#Groep wijzigen
 rep#:#rep_new_item_group_nr_subitems#:#Aantal toegewezen objecten:
 rep#:#rep_new_item_group_other#:#Ander
-rep#:#rep_new_item_group_separator#:#Kolom-scheidingsteken
 rep#:#rep_new_item_group_unassigned#:#Niet toegewezen
 rep#:#rep_new_item_group_unassigned_subitems#:#Aantal niet toegewezen objecten: %s
 rep#:#rep_new_item_groups#:#Nieuwe itemgroepen

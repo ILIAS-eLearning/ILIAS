@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
  * Scorm 2004 Question Exporter
@@ -86,15 +88,15 @@ class ilQuestionExporter
 
         $this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 
-        if (!is_object($this->q_gui->object)) {
+        if (!is_object($this->q_gui->getObject())) {
             return "Error: Question not found.";
         }
 
-        $type = $this->q_gui->object->getQuestionType();
-        if($this->q_gui->object instanceof ilAssQuestionLMExportable) {
-            $this->q_gui->object->setExportImagePath($a_image_path);
-            $this->q_gui->object->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
-            $this->json = $this->q_gui->object->toJSON();
+        $type = $this->q_gui->getObject()->getQuestionType();
+        if($this->q_gui->getObject() instanceof QuestionLMExportable) {
+            $this->q_gui->getObject()->setExportImagePath($a_image_path);
+            $this->q_gui->getObject()->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
+            $this->json = $this->q_gui->getObject()->toJSON();
             $this->json_decoded = json_decode($this->json);
             self::$exported[$this->json_decoded->id] = $this->json;
             self::$mobs[$this->json_decoded->id] = $this->json_decoded->mobs;
@@ -166,9 +168,9 @@ class ilQuestionExporter
         $this->tpl->parseCurrentBlock();
         foreach ($this->json_decoded->answers as $answer) {
             if ($answer->image != "") {
-                array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->image);
-                if (is_file($this->q_gui->object->getImagePath() . "thumb." . $answer->image)) {
-                    array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->image);
+                array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . $answer->image);
+                if (is_file($this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image)) {
+                    array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image);
                 }
             }
         }
@@ -204,8 +206,8 @@ class ilQuestionExporter
         $this->tpl->parseCurrentBlock();
         foreach ($this->json_decoded->answers as $answer) {
             if ($answer->image != "") {
-                array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->image);
-                array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->image);
+                array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . $answer->image);
+                array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image);
             }
         }
         //		$this->setHeaderFooter();
@@ -244,9 +246,9 @@ class ilQuestionExporter
                 self::$media_files[] = $answer->getImageFsPath();
                 self::$media_files[] = $answer->getThumbFsPath();
             } elseif (is_string($answer->image)) {
-                self::$media_files[] = $this->q_gui->object->getImagePath() . $answer->image;
-                if (is_file($this->q_gui->object->getImagePath() . "thumb." . $answer->image)) {
-                    self::$media_files[] = $this->q_gui->object->getImagePath() . "thumb." . $answer->image;
+                self::$media_files[] = $this->q_gui->getObject()->getImagePath() . $answer->image;
+                if (is_file($this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image)) {
+                    self::$media_files[] = $this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image;
                 }
             }
         }
@@ -305,7 +307,7 @@ class ilQuestionExporter
         if ($this->preview_mode) {
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
-        if ($this->q_gui->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
+        if ($this->q_gui->getObject()->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
             $this->tpl->setVariable("VAL_SUBTYPE", "_images");
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
@@ -314,8 +316,8 @@ class ilQuestionExporter
 
             foreach ($this->json_decoded->answers as $answer) {
                 if ($answer->answertext != "") {
-                    array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->answertext);
-                    array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->answertext);
+                    array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . $answer->answertext);
+                    array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . "thumb." . $answer->answertext);
                 }
             }
         } else {
@@ -343,7 +345,7 @@ class ilQuestionExporter
     private function assImagemapQuestion()
     {
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
-        array_push(self::$media_files, $this->q_gui->object->getImagePath() . $this->q_gui->object->getImageFilename());
+        array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . $this->q_gui->getObject()->getImageFilename());
         $this->tpl->setCurrentBlock("mapareas");
         $areas = $this->json_decoded->answers;
         //set areas in PHP cause of inteference between pure and highlighter

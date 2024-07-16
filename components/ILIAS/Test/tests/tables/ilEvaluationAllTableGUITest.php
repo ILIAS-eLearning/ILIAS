@@ -57,8 +57,8 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("rbacreview", $this->createMock(ilRbacReview::class));
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
-        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());
         $this->tableGui = new ilEvaluationAllTableGUI($this->parentObj_mock, "", $this->createMock(ilSetting::class));
     }
 

@@ -24,7 +24,7 @@ use ILIAS\Refinery\Factory;
  * Class ilMailMimeTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMimeTest extends ilMailBaseTest
+class ilMailMimeTest extends ilMailBaseTestCase
 {
     private const USER_ID = 6;
 

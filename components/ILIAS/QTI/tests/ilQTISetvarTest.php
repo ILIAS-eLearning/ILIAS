@@ -52,7 +52,7 @@ class ilQTISetvarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getVarname());
     }
 
-    public function actions(): array
+    public static function actions(): array
     {
         class_exists(ilQTISetvar::class); // Force autoload to define the constants.
         return [

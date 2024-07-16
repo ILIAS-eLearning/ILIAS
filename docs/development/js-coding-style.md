@@ -118,6 +118,12 @@ Airbnb requires ALL functions to be declared BEFORE they are used, which is unne
 functions are [hoisted](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting), which makes this rule obsolete.
 Therefore, we do not require function declarations to be placed before they are used.
 
+#### 4. Parameter Properties Reassignment
+
+Airbnb does not allow to manipulate/reassign parameters completely. However, reassigning **parameter properties** of 
+e.g. `HTMLElement`s is a common use-case, which has led to many unnecessary variables being initialised to work around
+this code-style rule. Therefore we allow the manipulation/reassignment of **parameter properties**.
+
 ## Applying Code Style
 
 ILIAS is using [ESLint](https://eslint.org/) to automatically check and/or fix JavaScript code according to the

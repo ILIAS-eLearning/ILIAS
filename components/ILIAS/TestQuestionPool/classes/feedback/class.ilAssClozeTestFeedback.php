@@ -632,19 +632,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         );
     }
 
-    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
-    {
-        $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
-
-        parent::duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
-    }
-
-    private function syncSpecificFeedbackSetting(int $sourceQuestionId, int $targetQuestionId): void
-    {
+    private function cloneSpecificFeedbackSetting(
+        int $source_question_id,
+        int $target_question_id
+    ): void {
         $res = $this->db->queryF(
             "SELECT feedback_mode FROM {$this->questionOBJ->getAdditionalTableName()} WHERE question_fi = %s",
             ['integer'],
-            [$sourceQuestionId]
+            [$source_question_id]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -652,14 +647,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         $this->db->update(
             $this->questionOBJ->getAdditionalTableName(),
             [ 'feedback_mode' => ['text', $row['feedback_mode']] ],
-            [ 'question_fi' => ['integer', $targetQuestionId] ]
+            [ 'question_fi' => ['integer', $target_question_id] ]
         );
     }
 
-    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    protected function cloneSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
-        $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
-        parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
+        parent::cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**

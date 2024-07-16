@@ -346,6 +346,8 @@ administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+adn#:#action_confirm_delete#:#Ankündigung(en) löschen
+adn#:#action_confirm_delete_msg#:#Möchten Sie die folgende(n) Ankündigung(en) löschen?
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 adn#:#btn_cancel#:#Abbrechen
@@ -383,7 +385,7 @@ adn#:#msg_show_to_all_languages#:#Allen Sprachen anzeigen
 adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
 adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
 adn#:#msg_success_created#:#Ankündigung erstellt
-adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_deleted#:#Ankündigung(en) erfolgreich gelöscht
 adn#:#msg_success_duplicated#:#Ankündigung erfolgreich dupliziert
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
 adn#:#msg_success_updated#:#Ankündigung aktualisiert
@@ -426,6 +428,9 @@ adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#action#:#Aktion
+assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
+assessment#:#activate_manual_scoring#:#Aktivieren der manuellen Bewertung für
+assessment#:#activate_manual_scoring_desc#:#Alle Fragen des gewählten Fragetyps können manuell bewertet werden. Achtung: Das nachträgliche Ändern von Ergebnissen kann rechtliche Auswirkungen haben!###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
@@ -555,7 +560,7 @@ assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinwe
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
+assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
@@ -585,9 +590,9 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
 assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
+assessment#:#confirm_log_deletion#:#Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht.
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
@@ -600,6 +605,7 @@ assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Teilnehmer
+assessment#:#date_time#:#Datum und Uhrzeit
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
@@ -627,19 +633,6 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
-assessment#:#ects_fx_threshold#:#Grenzwert
-assessment#:#ects_fx_threshold_info#:#Bitte geben Sie den Grenzwert an, ab dem durchgefallene Teilnehmer die ECTS-Note 'FX' erhalten.
-assessment#:#ects_grade#:#ECTS-Note
-assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
-assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
-assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
-assessment#:#ects_grade_d_desc#:#mittelmäßig, jedoch deutliche Mängel
-assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note:
-assessment#:#ects_grade_e_desc#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
-assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
-assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
-assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
 assessment#:#edit_introduction#:#Einleitung bearbeiten
@@ -714,6 +707,7 @@ assessment#:#export_cert_ignored_for_users_s#:#Für das folgende Konto liegt kei
 assessment#:#export_cert_no_users#:#Ein Zertifikats-Archiv kann nicht generiert werden, da aktuell keine Teilnehmer existierten.
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
+assessment#:#export_legacy_logs#:#Legacy-Log-Daten exportieren
 assessment#:#extratime#:#Zeitverlängerung
 assessment#:#factor#:#Faktor
 assessment#:#failed_official#:#nicht bestanden
@@ -777,14 +771,17 @@ assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
+assessment#:#imap_line_color#:#Imagemap Linienfarbe
 assessment#:#import_question#:#Fragen importieren
 assessment#:#imported#:#importiert
 assessment#:#in_range#:#Innerhalb des Bereichs
+assessment#:#in_trash#:#Im Papierkorb
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#insert_gap#:#Lücke einfügen
+assessment#:#interaction_type#:#Interaktion
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#intprecision#:#Teilbar durch
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Wert 1 für beliebige ganze Zahlen.
@@ -842,23 +839,53 @@ assessment#:#lacex_example_header#:#Beispiele
 assessment#:#last_update#:#Aktualisiert
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
-assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
-assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_create_new_test#:#Neuer Test erzeugt
-assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
-assessment#:#log_mark_added#:#Note hinzugefügt
-assessment#:#log_mark_changed#:#Note geändert
-assessment#:#log_mark_removed#:#Note entfernt
-assessment#:#log_modified_test#:#Der Test wurde verändert
-assessment#:#log_question_added#:#Frage hinzugefügt an Position
-assessment#:#log_question_position_changed#:#Fragenposition geändert
-assessment#:#log_question_removed#:#Frage entfernt
-assessment#:#log_selected_user_data_removed#:#Testdaten des Benutzer %s entfernen
-assessment#:#log_user_answered_question#:#Ein Benutzer beantwortet eine Frage und erhielt %s Punkte
-assessment#:#log_user_entered_values#:#Der Benutzer hat Werte eingetragen
-assessment#:#log_user_not_entered_values#:#Der Benutzer hat keine Werte eingetragen
+assessment#:#log_deletion_not_allowed#:#Es fehlen Ihnen die Berechtigung, um Protokolleinträge zu löschen.
+assessment#:#log_entry_type#:#Typ des Protokolleintrags
+assessment#:#log_ip#:#IP-Adresse protokollieren
+assessment#:#log_ip_info#:#Die IP-Adresse wird bei Interaktionen von Teilnehmenden protokolliert. Bestehende Protokolleinträge werden beim Deaktivieren nicht gelöscht.
+assessment#:#log_participant_data_delete_warning#:#Für diesen Test sind Protokolldaten von Teilnehmenden vorhanden. Diese werden beim Umstellen auf "Testergebnisse ohne Namen/Anonymer Test" gelöscht.
+assessment#:#log_text#:#Protokolleintrag
 assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwort entfernt.
-assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
+assessment#:#logging_settings#:#Protokolldaten
+assessment#:#logs_answer_deleted#:#Antwort gelöscht
+assessment#:#logs_answer_submitted#:#Antwort eingereicht
+assessment#:#logs_deleted#:#Die ausgewählten Protokolleinträge wurden gelöscht.
+assessment#:#logs_error_on_participant_interaction#:#Fehler während Teilnehmerinteraktion
+assessment#:#logs_error_on_question_administration_interaction#:#Fehler während Fragenadministartionsinteraktion
+assessment#:#logs_error_on_scoring_interaction#:#Fehler währed Bewertungsinteraktion
+assessment#:#logs_error_on_test_administration_interaction#:#Fehler während Testadministrationsinteraktion
+assessment#:#logs_error_on_undefined_interaction#:#Fehler während unbestimmter Interaktion
+assessment#:#logs_extra_time_added#:#Zeitverlängerung gewährt
+assessment#:#logs_main_settings_modified#:#Einstellungen des Tests geändert
+assessment#:#logs_mark_schema_modified#:#Notenschema geändert
+assessment#:#logs_mark_schema_reset#:#Notenschema zurückgesetzt
+assessment#:#logs_new_test_created#:#Neuen Test erstellt
+assessment#:#logs_output#:#Ausgabe der Protokolldaten
+assessment#:#logs_participant_data_removed#:#Testdaten entfernt
+assessment#:#logs_pi#:#Teilnehmerinteraktion
+assessment#:#logs_qai#:#Fragenadministrationsinteraktion
+assessment#:#logs_question_added#:#Frage hinzugefügt
+assessment#:#logs_question_graded#:#Frage bewertet
+assessment#:#logs_question_grading_reset#:#Bewertung zurückgesetzt
+assessment#:#logs_question_modified#:#Frage bearbeitet
+assessment#:#logs_question_modified_in_corrections#:#Frage in Nachkorrektur bearbeitet
+assessment#:#logs_question_moved#:#Frage verschoben
+assessment#:#logs_question_removed#:#Frage entfernt
+assessment#:#logs_question_removed_in_corrections#:#Frage in der Nachkorrektur entfernt
+assessment#:#logs_question_selection_criteria_modified#:#Frageauswahlkriterien geändert
+assessment#:#logs_question_shown#:#Frage angezeigt
+assessment#:#logs_question_skipped#:#Frage übersprungen
+assessment#:#logs_question_synchronisation_reset#:#Fragesynchronisation aufgehoben
+assessment#:#logs_questions_synchronised#:#Frangen synchronisiert
+assessment#:#logs_scoring_settings_modified#:#Auswertungseinstellungen geändert
+assessment#:#logs_si#:#Bewertungsinteraktion
+assessment#:#logs_tai#:#Testadministrationsinteraktion
+assessment#:#logs_te#:#Fehler
+assessment#:#logs_test_deleted#:#Test gelöscht
+assessment#:#logs_test_run_finished#:#Testdurchlauf beendet
+assessment#:#logs_test_run_of_participant_closed#:#Testdurchlauf beendet
+assessment#:#logs_test_run_started#:#Testdurchlauf gestartet
+assessment#:#logs_wrong_test_password_provided#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht richtig, denn sie hat nicht die gleiche Anzahl Lücken im Text wie in den Antwortoptionen.
 assessment#:#longmenu_text#:#‘Long Menu’-Text
@@ -876,7 +903,6 @@ assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchl
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
-assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#passt zu
 assessment#:#matching_pairs#:#Zuordnungspaare
 assessment#:#matching_shuffle_definitions#:#Nur Definitionen
@@ -893,7 +919,7 @@ assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 assessment#:#min_auto_complete#:#Autovervollständigung
 assessment#:#min_ip_label#:#Kleinste IP mit Zugriff
-assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen. Das Notenschema wurde nicht gespeichert.
+assessment#:#min_percentage_ne_0#:#Das Notenschema muss mindestens eine Stufe mit einem minimalen Prozentsatz von 0 Prozent enthalten.
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
@@ -910,7 +936,7 @@ assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
 assessment#:#next_question_rows#:#Fragen %d - %d von %d →
 assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
-assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
+assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_result_type#:#Keine Einschränkung
@@ -1090,6 +1116,7 @@ assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#qst_use_nested_answers#:#Einrückung in Antworten verwenden
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
+assessment#:#question_complete_title#:#Vollständig
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
@@ -1221,6 +1248,7 @@ assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
+assessment#:#sync_question_to_pool#:#Frage synchronisieren
 assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#tax_filter#:#Taxonomie
@@ -1519,7 +1547,7 @@ assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer
 assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
 assessment#:#tst_introduction#:#Einleitung
-assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem 'Info'-Reiter des Tests an. Der Text ist bereits vor Beginn des Tests zugänglich.
+assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem "Test"-Reiter an. Der Einleitungstext kann im Unterreiter "Einleitung bearbeiten" geändert werden und ist bereits vor Beginn des Tests zugänglich.
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
@@ -1548,12 +1576,13 @@ assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_minimum_level#:#Mindestprozentsatz
+assessment#:#tst_mark_minimum_level_invalid#:#Der Mindestprozentsatz muss zwischen 0 und 100 liegen.
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
 assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Das aktuelle Schema wird durch ein einfaches Notenschema ersetzt. Es werden alle in diesem Test am Notenschema vorgenommenen Änderungen verworfen.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
+assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
 assessment#:#tst_median_mark_panel#:#Note des Median
@@ -1999,7 +2028,6 @@ assessment#:#units#:#Einheiten
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
 assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
@@ -2008,6 +2036,7 @@ assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
 assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#values#:#Werte
+assessment#:#variable#:#Variable
 assessment#:#variable_x#:#Variable %s
 assessment#:#variables#:#Variablen
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
@@ -2129,10 +2158,11 @@ auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiz
 auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
-auth#:#login_page_activate#:#Editor für ausgewählte Sprachen aktivieren
-auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
-auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
-auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
+auth#:#language_does_not_exist#:#Die gewählte Sprache existiert leider nicht.
+auth#:#login_page#:#Sprache der Login-Seite
+auth#:#login_page_activate#:#Seitengestaltung aktivieren
+auth#:#login_page_deactivate#:#Seitengestaltung deaktivieren
+auth#:#login_pages#:#Login-Seiten
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jetzt online
@@ -2145,9 +2175,9 @@ awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige au
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 awrn#:#awrn_inactive#:#Keine Anzeige
 awrn#:#awrn_incl_offline#:#Online und offline
-awrn#:#awrn_max_inactivity#:#Max. Inaktivität
+awrn#:#awrn_max_inactivity#:#Maximale Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
-awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
+awrn#:#awrn_max_nr_entries#:#Anzahl maximaler Einträge
 awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
 awrn#:#awrn_minutes#:#min
 awrn#:#awrn_online#:#Online
@@ -2764,33 +2794,33 @@ certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seit
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
-certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_birthday#:#Geburtstag
 certificate#:#certificate_ph_cert_id#:#Eindeutige Zertifikats-ID
-certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_city#:#Stadt
+certificate#:#certificate_ph_country#:#Land
 certificate#:#certificate_ph_date#:#Aktuelles Datum
 certificate#:#certificate_ph_date_completed#:#Datum des Bestehens
 certificate#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
 certificate#:#certificate_ph_datetime_completed#:#Datum und Zeit des Bestehens
-certificate#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_department#:#Abteilung
 certificate#:#certificate_ph_exercisetitle#:#Titel der Übung
-certificate#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
-certificate#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
-certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_firstname#:#Vorname
+certificate#:#certificate_ph_fullname#:#Vollständiger Name, bestehend aus Titel, Vorname und Nachname
+certificate#:#certificate_ph_institution#:#Institution
+certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter können verwendet werden. Personenbezogene Daten werden dem Persönlichen Profil der Person entnommen, die das Zertifikat erhält.
+certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs der Person, die das Zertifikat erhält
+certificate#:#certificate_ph_lastname#:#Nachname
 certificate#:#certificate_ph_login#:#Anmeldename
 certificate#:#certificate_ph_mark#:#Erreichte Note
 certificate#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
 certificate#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
-certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
+certificate#:#certificate_ph_matriculation#:#Matrikelnummer
 certificate#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
 certificate#:#certificate_ph_no_sco#:#Wenn Materialien zur Bestimmung des Lernfortschritts ausgewählt werden, können Titel und Punktestand auch im Zertifikat angezeigt werden.
-certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
-certificate#:#certificate_ph_passed_exercise#:#"bestanden" oder "nicht bestanden"
-certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_passed#:#„bestanden“ oder „nicht bestanden“, abhängig vom Testergebnis
+certificate#:#certificate_ph_passed_exercise#:#„bestanden“ oder „nicht bestanden“
+certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl
+certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte
 certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_sco_points_max#:#Platzhalter<br/>für Punkte<br/>maximal
 certificate#:#certificate_ph_sco_points_raw#:#Platzhalter<br/>für Punkte
@@ -2800,11 +2830,11 @@ certificate#:#certificate_ph_scormmaxpoints#:#Maximal erreichbare Punktzahl im l
 certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM-Lernmoduls in Prozent
 certificate#:#certificate_ph_scormtitle#:#Titel des SCORM-Lernmoduls
 certificate#:#certificate_ph_scos#:#Folgende Materialien wurden zur Bestimmung des Lernfortschritts ausgewählt und stehen für Angaben im Zertifikat zur Verfügung:
-certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_street#:#Straße
 certificate#:#certificate_ph_testtitle#:#Titel des Tests
-certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_title#:#Titel
 certificate#:#certificate_ph_title_sco#:#Titel
-certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_zipcode#:#Postleitzahl
 certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
 certificate#:#certificate_preview#:#Vorschau
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
@@ -2834,12 +2864,12 @@ certificate#:#certificate_var_user_salutation#:#Frau
 certificate#:#certificate_var_user_street#:#Heidestraße 17
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#51147
-certificate#:#certificate_visibility#:#Sichtbarkeit
-certificate#:#certificate_visibility_always#:#Immer sichtbar
-certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten.
-certificate#:#certificate_visibility_never#:#Nicht sichtbar
-certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
-certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
+certificate#:#certificate_visibility#:#Sichtbarkeit###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_always#:#Immer sichtbar###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_introduction#:#Den Teilnehmern wird in der Ergebnisansicht des Tests das Zertifikat zum Herunterladen angeboten.###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_never#:#Nicht sichtbar###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat###Suspected obsolescence - should be removed with 10.
 certificate#:#cmix_cert_ph_object_description#:#Beschreibung
 certificate#:#cmix_cert_ph_object_title#:#Titel des xAPI/cmi5-Objekts
 certificate#:#cmix_cert_ph_reached_score#:#Erreichte Punktzahl in Prozent
@@ -3435,7 +3465,6 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#actions_for#:#Aktionen für %s
 common#:#activate#:#Aktivieren
-common#:#activate_assessment_logging#:#Protokollieren des Test und Assessments aktivieren
 common#:#activate_https#:#HTTPS aktivieren (Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Verfügbarkeit
@@ -3502,24 +3531,6 @@ common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Anmeldename ID)
 common#:#archive#:#Archiv
 common#:#archive_broken#:#Archiv scheint beschädigt oder leer zu sein.
 common#:#are_you_sure#:#Sind Sie sicher?
-common#:#ass_log_admin#:#Administration der Protokolldaten
-common#:#ass_log_count_datasets#:#Protokolleinträge
-common#:#ass_log_delete_entries#:#Protokolleinträge löschen
-common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test aus, dessen Protokolleinträge Sie löschen wollen!
-common#:#ass_log_deleted#:#Die Protokolleinträge für die ausgewählten Tests wurden gelöscht!
-common#:#ass_log_output#:#Ausgabe der Protokolldaten
-common#:#assessment_imap_line_color#:#Imagemap Linienfarbe
-common#:#assessment_log#:#Test und Assessment-Aktivitäten für eine bestimmte Zeitperiode protokollieren
-common#:#assessment_log_datetime#:#Datum/Uhrzeit
-common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
-common#:#assessment_log_for_test#:#Für den Test
-common#:#assessment_log_log_entries#:#Protokolleinträge
-common#:#assessment_log_logging#:#Protokolldaten
-common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
-common#:#assessment_log_manual_scoring_desc#:#Alle Fragen des gewählten Fragetyps können manuell bewertet werden. Achtung: Das nachträgliche Ändern von Ergebnissen kann rechtliche Auswirkungen haben!###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#assessment_log_question#:#Frage
-common#:#assessment_log_text#:#Protokolleintrag
-common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_questiontypes#:#Frageneinstellungen
@@ -4028,7 +4039,7 @@ common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
 common#:#error_extraction_failed#:#Das Entpacken des Archivs und dessen Ordnerstruktur ist fehlgeschlagen. Wahrscheinlich verfügen Sie nicht über die Rechte um Ordner oder Kategorien in diesem Objekt zu erstellen.
 common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
+common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die maximale Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
 common#:#etal_talks#:#Gespräche
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
 common#:#event_assign_files#:#Dateien zuordnen
@@ -4354,7 +4365,7 @@ common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Chec
 common#:#import_categories#:#Kategorien importieren
 common#:#import_failure_log#:#Import-Fehler-Log
 common#:#import_file#:#Datei importieren
-common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
+common#:#import_file_not_valid_here#:#Die Importdatei ist nicht gültig oder der enthaltene Objekttyp ist an dieser Stelle nicht erlaubt.
 common#:#import_finished#:#Anzahl der importierten Mails:
 common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
@@ -4727,7 +4738,7 @@ common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles_rolts#:#Rollen und Rollenvorlagen gelöscht
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_form_save_error#:#Die Formulardaten konnten nicht gespeichert werden. Bitte überprüfen Sie die Formularfelder auf detaillierte Fehlermeldungen.
-common#:#msg_info_blacklisted#:#Leider dürfen Sie diese Datei aus Sicherheitsgründen nicht hochladen.
+common#:#msg_info_blacklisted#:#Diese Datei kann aus Sicherheitsgründen nicht hochgeladen werden.
 common#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
 common#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
@@ -5481,6 +5492,7 @@ common#:#sahs_export_file_info#:#Nutzen Sie diese Option für eine ZIP-Datei, di
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
+common#:#sahs_new#:#Neues Lernmodul anlegen
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -5558,6 +5570,7 @@ common#:#sess#:#Sitzung
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
 common#:#sess_mode#:#Session-Modus
+common#:#sess_new#:#Neue Sitzung anlegen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“
@@ -5600,7 +5613,7 @@ common#:#shib_email#:#Attribut für E-Mail-Adresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
-common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den %s
+common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen auf der folgenden Seite Ihre Organisation aus. Bei Fragen dazu wenden Sie sich bitte an den %s
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den %s
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
@@ -5784,6 +5797,7 @@ common#:#treeview#:#Baumansicht ein
 common#:#tst#:#Test
 common#:#tst_add#:#Test anlegen
 common#:#tst_edit_questions#:#Fragen bearbeiten
+common#:#tst_history_read#:#Verlauf einsehen
 common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_results#:#Testergebnisse
 common#:#tst_run#:#Ausführen
@@ -5859,7 +5873,7 @@ common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das 
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Zusätzliche Felder
-common#:#user_defined_list#:#Übersicht zusätzliche Felder
+common#:#user_defined_list#:#Übersicht zusätzlicher Felder
 common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
@@ -6890,7 +6904,7 @@ content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage
 content#:#cont_pc_repobj#:#Objekteblock
-content#:#cont_pc_res#:#Ressource
+content#:#cont_pc_res#:#Objekteblock
 content#:#cont_pc_sec#:#Block
 content#:#cont_pc_skills#:#Kompetenz
 content#:#cont_pc_src#:#Programmcode
@@ -7408,7 +7422,7 @@ cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
-cron#:#cron_action_run#:#Ausführen
+cron#:#cron_action_run#:#Cron-Job Ausführen
 cron#:#cron_action_run_fail#:#Ausführung gescheitert.
 cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
@@ -7516,6 +7530,7 @@ crs#:#crs_course_status_of_users#:#Bestehen des Kurses
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_custom_user_fields#:#Personenbezogene Angaben
 crs#:#crs_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Kursmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter „Mitglieder“ als zusätzliche Spalte einblenden.
+crs#:#crs_custom_user_fields_table_title#:#Personenbezogene Angaben zu diesem Kurs
 crs#:#crs_dates#:#Termine
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
@@ -8205,7 +8220,7 @@ dateplaner#:#cal_ch_add_sequence#:#Neue Sprechstundenreihe anlegen
 dateplaner#:#cal_ch_app_bookings#:#Buchungen
 dateplaner#:#cal_ch_app_grp#:#Sprechstundengruppen
 dateplaner#:#cal_ch_app_list#:#Sprechstundentermine
-dateplaner#:#cal_ch_assign_participants#:#Teilnehmer zuordnen
+dateplaner#:#cal_ch_assign_participants#:#Für andere buchen
 dateplaner#:#cal_ch_assigned_apps#:#Anzahl Termine
 dateplaner#:#cal_ch_book#:#Sprechstunde buchen
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
@@ -8213,22 +8228,22 @@ dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_booking_owner#:#Sprechstunde bei###Modified as part of gender mainstreaming activities for ILIAS 8
 dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit „%s“ findet in wenigen Tagen statt.
 dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung „%s“
-dateplaner#:#cal_ch_bookings#:#Teilnehmer
+dateplaner#:#cal_ch_bookings#:#Gebucht von
 dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
-dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen, werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option Terminbuchung(en) löschen auswählen.
+dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen werden die Personen, die bereits einen Termin gebucht haben, per Mail über die Absage informiert. Wenn Sie nicht möchten, dass diese informiert werden, wählen Sie die Option „Terminbuchung löschen“.
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
 dateplaner#:#cal_ch_cron_reminder_info#:#Wenn aktiviert, erhalten Benutzer, die einen Sprechstundentermin gebucht haben, eine Erinnerungsmail über bevorstehende Termine. Bitte legen Sie fest, wieviele Tage im voraus die Erinnerungen verschickt werden sollen.
-dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
+dateplaner#:#cal_ch_current_bookings#:#Angemeldete Personen
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
-dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Teilnehmer nicht über die Löschung informiert.
+dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen bereits Buchungen. Wenn Sie diese Termine löschen, werden die Personen, die gebucht haben, nicht über die Löschung informiert.
 dateplaner#:#cal_ch_delete_booking#:#Terminbuchung löschen
-dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen, werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option Terminbuchung(en) absagen auswählen.
+dateplaner#:#cal_ch_delete_booking_info#:#Bei der Löschung von Terminbuchungen wird niemand informiert. Wenn Sie möchten, dass die Personen, die gebucht haben, informiert werden, wählen Sie die Option „Terminbuchung absagen“.
 dateplaner#:#cal_ch_delete_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen gelöscht werden sollen?
 dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
 dateplaner#:#cal_ch_duration#:#Dauer eines Termins
@@ -8240,19 +8255,16 @@ dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltu
 dateplaner#:#cal_ch_grp_add_tbl#:#Neue Sprechstundengruppe anlegen
 dateplaner#:#cal_ch_grp_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Sprechstundengruppen löschen möchten?
 dateplaner#:#cal_ch_grp_header#:#Sprechstundengruppe
-dateplaner#:#cal_ch_grp_multiple#:#Buchungen pro Teilnehmer
-dateplaner#:#cal_ch_grp_multiple_info#:#Sie können hier die Maximalanzahl von Buchungen pro Teilnehmer für diese Termingruppe festlegen.
 dateplaner#:#cal_ch_grp_no_assignment#:#-- Nicht zugeordnet --
 dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
 dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
 dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
 dateplaner#:#cal_ch_manager_info#:#Um Ihre Sprechstunden von einer anderen Person verwalten zu lassen, müssen Sie hier deren Anmeldename eintragen.
-dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
 dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest, wie viel aufeinander folgende Termine generiert werden sollen.
-dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
+dateplaner#:#cal_ch_num_bookings#:#Maximale Anzahl Personen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
@@ -8386,8 +8398,8 @@ dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
 dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termine für Sie vorhanden.
 dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
 dateplaner#:#cal_notification#:#Mail-Benachrichtigung
-dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
-dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
+dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung
+dateplaner#:#cal_notification_info#:#Alle Personen im Kurs bzw. in der Gruppe werden per Mail über die Terminänderung informiert.
 dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutzer
 dateplaner#:#cal_on#:#Am:
 dateplaner#:#cal_on_the#:#Am:
@@ -8792,6 +8804,7 @@ dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
 dcl#:#dcl_tableview_visible#:#Sichtbar
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Ansichten gelöscht werden sollen?
+dcl#:#dcl_tableviews_of_X#:#Ansichten der Tabelle %s
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_text#:#Texteingabe
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
@@ -8819,9 +8832,15 @@ dcl#:#dcl_width#:#Breite
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#disable_comments#:#Kommentare deaktivieren
+dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
+dcl#:#enable_comments#:#Kommentare aktivieren
+dcl#:#enable_visible#:#Sichtbarkeit aktivieren
+dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -8869,6 +8888,8 @@ didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#sess_closed#:#Geschlossene Sitzung
 didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Datenschutzerklärung
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgende Datenschutzerklärung.
 dpro#:#dpro_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Datenschutzerklärung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 dpro#:#dpro_agree_date#:#Datenschutzerklärung zugestimmt am
 dpro#:#dpro_last_reset_date#:#Die Datenschutzerklärung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Datenschutzerklärung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
@@ -9487,6 +9508,7 @@ exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
 exc#:#exc_rel_start_lead_text#:#%s Tage nach Starten abgeben
 exc#:#exc_relative_date#:#Relatives Datum
 exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
+exc#:#exc_relative_date_period#:#Bearbeitungszeitraum
 exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt
 exc#:#exc_reminder_end#:#Letzte Erinnerung
@@ -9681,7 +9703,7 @@ exc#:#text_assignment#:#Text Übungseinheit
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 exercise#:#exc_admin_settings#:#Übungs-Administration
-exercise#:#exc_comment#:#Stellungnahme
+exercise#:#exc_comment#:#Rückmeldung
 exercise#:#exc_comment_for_learner#:#Rückmeldung für Teilnehmer
 exercise#:#exc_failed#:#Nicht bestanden
 exercise#:#exc_feedback_from_tutor#:#Bewertung
@@ -9694,7 +9716,7 @@ exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor d
 exercise#:#exc_your_submission#:#Ihre Einreichung
 exp#:#exp_create_file#:#Exportdatei erzeugen
 exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
-exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
+exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.
 exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
 exp#:#exp_html#:#HTML
@@ -9706,6 +9728,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
+exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
 export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
@@ -10225,6 +10248,7 @@ grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden 
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 grp#:#grp_custom_user_fields#:#Personenbezogene Angaben
 grp#:#grp_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Gruppenmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter "Mitglieder" als zusätzliche Spalte einblenden.
+grp#:#grp_custom_user_fields_table_title#:#Personenbezogene Angaben zu dieser Gruppe
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
 grp#:#grp_enable_map#:#Gruppenkarte aktivieren
@@ -10438,7 +10462,6 @@ iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
-iass#:#iass_no_entries#:#Keine Einträge gefunden
 iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
 iass#:#iass_phone#:#Telefon
@@ -10467,7 +10490,7 @@ iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
-iass#:#iass_usr_edit#:#Bewerten
+iass#:#iass_usr_edit#:#Prüfungsdaten bearbeiten
 iass#:#iass_usr_remove#:#Entfernen
 iass#:#iass_usr_view#:#Prüfungsdaten
 iass#:#il_iass_member#:#Teilnehmer
@@ -10501,7 +10524,7 @@ irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#home_directory#:#Stammverzeichnis
-irss#:#max_revision#:#Max. Revision
+irss#:#max_revision#:#Maximale Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
 irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
@@ -10898,7 +10921,7 @@ lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
-lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben aber die "Weiter"-Schaltfläche weiterhin deaktiviert bleibt.
+lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben, aber die „Weiter“-Schaltfläche weiterhin deaktiviert bleibt.
 lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz „%s“ als Mitglied aufgenommen worden.
 lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz „%s“
 lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz „%s“ wurde beendet.
@@ -11473,7 +11496,7 @@ mail#:#mail_select_grp#:#Bitte mindestens eine Gruppe auswählen.
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_send_html#:#HTML-Rahmen
-mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
+mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
@@ -11590,9 +11613,8 @@ mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
 mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. https://ihre-domain/ihr-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
@@ -12597,6 +12619,7 @@ mme#:#type_separator#:#Trenner
 mme#:#type_separator_info#:#Der Titel des Trenners wird in einem grauen Bereich angezeigt. Sie erhalten eine Trennlinie, wenn Sie den Titel leer lassen.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
@@ -13085,7 +13108,7 @@ poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
 poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
 poll#:#poll_limit_number_of_answers#:#Anzahl Antworten je Teilnehmer begrenzen
-poll#:#poll_max_number_of_answers#:#Max. Antworten
+poll#:#poll_max_number_of_answers#:#Maximale Antworten
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
@@ -13880,7 +13903,7 @@ rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
 rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
-rbac#:#condition_learning_progress#:#gemäß Lernfortschritt
+rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_delete#:#Inhaltsseite löschen
@@ -14360,23 +14383,23 @@ rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten
 rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
 rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt die MARKIERTEN Rechte der zuerst ausgewählten Rolle bzw. Rollenvorlage den Rechtevorgaben der Rollen hinzu, die im zweiten Schritt ausgewählt wurden.
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Die Rechteeinstellungen der zuerst ausgewählten Rolle bzw. Rollenvorlage werden VOLLSTÄNDIG in die Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n übernommen. Dies gilt für ausgewählte und nicht ausgewählte Rechte.
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Die in der zuerst ausgewählten Rolle bzw. Rollenvorlage MARKIERTEN Rechte werden aus den Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n entfernt.
 rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Nur die Rechtevorgaben der ausgewählten Rollen werden ergänzt. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend ergänzt.
 rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Nur die Rechtevorgaben der ausgewählten Rollen werden geändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
 rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend geändert.
 rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Es werden nur die Rechtevorgaben der Rollen verändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Ausgewählte Rechte in vorhandenen Objekten entfernen
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die Rechte werden aus den Rechtevorgaben der ausgewählten Rollen UND aus den Rechteeinstellungen bereits vorhandener Objekte entfernt.
 rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
@@ -14804,12 +14827,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
 rep#:#rep_new_item_group_add#:#Gruppierung hinzufügen
-rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppierungen löschen?
 rep#:#rep_new_item_group_edit#:#Gruppierung bearbeiten
 rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_other#:#Weitere
-rep#:#rep_new_item_group_separator#:#Spaltentrenner
 rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
 rep#:#rep_new_item_groups#:#Gruppierungen
@@ -16586,7 +16607,7 @@ survey#:#survey_show_blocktitle_description#:#Wenn dieses Kontrollkästchen akti
 survey#:#survey_skill#:#Kompetenz
 survey#:#survey_skill_assign#:#Fragen-Kompetenz-Zuordnung
 survey#:#survey_skill_level#:#Kompetenzstufe
-survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
+survey#:#survey_skill_max_scale_points#:#Maximale Skalenpunkte
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
 survey#:#survey_start#:#← Zur Startseite
@@ -16688,6 +16709,8 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
+survey#:#svy_participant#:#Teilnehmer
+survey#:#svy_participants#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
@@ -16887,6 +16910,8 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
+tos#:#tos_accept_usr_agreement_anonymous#:#Nutzungsvereinbarung
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgenden Nutzungsvereinbarungen.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie Ihre <a href="%1$s">ILIAS-Administration</a> für weitere Informationen.
 tos#:#tos_agree_date#:#Nutzungsvereinbarungen zugestimmt am
 tos#:#tos_agreement#:#Nutzungsvereinbarungen
@@ -17088,8 +17113,8 @@ trac#:#trac_object_stat_access#:#Nutzungsintensität
 trac#:#trac_object_stat_admin#:#Datenverwaltung
 trac#:#trac_object_stat_daily#:#Tagesverlauf
 trac#:#trac_object_stat_lp#:#Lernstandstatistik Kurs
-trac#:#trac_object_stat_lp_max#:#Max.
-trac#:#trac_object_stat_lp_min#:#Min.
+trac#:#trac_object_stat_lp_max#:#Maximum
+trac#:#trac_object_stat_lp_min#:#Minimim
 trac#:#trac_object_stat_types#:#Anzahl der Objekte
 trac#:#trac_object_statistics#:#Objekt-Statistik
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
@@ -17172,11 +17197,12 @@ ui#:#3stars#:#drei von fünf Sternen
 ui#:#4stars#:#vier von fünf Sternen
 ui#:#5stars#:#fünf von fünf Sternen
 ui#:#datatable_multiaction_label#:#Sammelaktionen
-ui#:#datatable_multiactionmodal_actionlabel#:#Aktion
-ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
-ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
-ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
-ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
+ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
+ui#:#datatable_multiactionmodal_apply#:#Ausführen
+ui#:#datatable_multiactionmodal_listentry#:#Aktionen für gesamte Tabelle
+ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in diser Tabelle aus.
+ui#:#datatable_multiactionmodal_title#:#Aktionen für gesamte Tabelle
+ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.

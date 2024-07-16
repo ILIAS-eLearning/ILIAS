@@ -35,7 +35,7 @@ class ilOperatorsExpressionMappingTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends  ilOperatorsExpressionMapping{};
+        $this->object = new class () extends ilOperatorsExpressionMapping {};
     }
 
     public function testConstruct(): void

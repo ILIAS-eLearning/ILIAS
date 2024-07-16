@@ -224,4 +224,14 @@ class StandardGUIRequest
     {
         return $this->int("owner_id");
     }
+
+    public function getSignature(): bool
+    {
+        return (bool) $this->int("signature");
+    }
+
+    public function getIncludeDeclaration(): bool
+    {
+        return (bool) $this->int("decl_author");
+    }
 }

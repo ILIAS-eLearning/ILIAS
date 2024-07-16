@@ -98,31 +98,22 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         $this->object->parseErrorText();
 
-        $points_wrong = str_replace(",", ".", $this->request->raw('points_wrong') ?? '');
-        if (mb_strlen($points_wrong) == 0) {
-            $points_wrong = self::DEFAULT_POINTS_WRONG;
-        }
-        $this->object->setPointsWrong((float) $points_wrong);
+        $this->object->setPointsWrong(
+            $this->request->float('points_wrong') ?? self::DEFAULT_POINTS_WRONG
+        );
 
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $this->object->setTextSize(
-                (float) str_replace(',', '.', $this->request->raw('textsize'))
+                $this->request->float('textsize')
             );
         }
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     * @param bool $checkonly
-     *
-     * @return bool
-     */
-    public function editQuestion($checkonly = false): bool
-    {
-        $this->tabs->setTabActive('edit_question');
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -158,7 +149,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -232,31 +223,17 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->editQuestion();
     }
 
-    /**
-     * Get the question solution output
-     * The getSolutionOutput() method is used to print either the
-     * user's pass' solution or the best possible solution for the
-     * current errorText question object.
-     * @param	integer		$active_id             The active test id
-     * @param	integer		$pass                  The test pass counter
-     * @param	boolean		$graphicalOutput       Show visual feedback for right/wrong answers
-     * @param	boolean		$result_output         Show the reached points for parts of the question
-     * @param	boolean		$show_question_only    Show the question without the ILIAS content around
-     * @param	boolean		$show_feedback         Show the question feedback
-     * @param	boolean		$show_correct_solution Show the correct solution instead of the user solution
-     * @param	boolean		$show_manual_scoring   Show specific information for the manual scoring output
-     * @return	string	HTML solution output
-     **/
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphical_output = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -303,7 +280,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $feedback .= mb_strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= mb_strlen($fb) ? $fb : '';
         }
         if (mb_strlen($feedback)) {
@@ -326,8 +303,10 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $selections = [
             'user' => $this->getUsersSolutionFromPreviewOrDatabase()
          ];
@@ -336,11 +315,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     }
 
     public function getTestOutput(
-        $active_id,
-        $pass,
-        $is_postponed = false,
-        $use_post_solutions = false,
-        $show_feedback = false
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
     ): string {
         $selections = [
             'user' => $this->getUsersSolutionFromPreviewOrDatabase($active_id, $pass)
@@ -348,7 +327,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         return $this->outQuestionPage(
             '',
-            $is_postponed,
+            $is_question_postponed,
             $active_id,
             $this->generateQuestionOutput($selections, false)
         );

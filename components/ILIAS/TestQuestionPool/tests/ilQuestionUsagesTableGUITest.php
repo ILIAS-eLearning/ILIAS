@@ -37,6 +37,13 @@ class ilQuestionUsagesTableGUITest extends assBaseTestCase
 
         $this->addGlobal_objDefinition();
 
+        if (!defined("ROOT_FOLDER_ID")) {
+            define("ROOT_FOLDER_ID", 8);
+        }
+        if (!defined("ANONYMOUS_USER_ID")) {
+            define("ANONYMOUS_USER_ID", 13);
+        }
+
         $this->object = new ilQuestionUsagesTableGUI((object) [], '', '', $this->createMock(assQuestion::class));
     }
 

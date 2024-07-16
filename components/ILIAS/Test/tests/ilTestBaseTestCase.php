@@ -18,9 +18,7 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . '/../../UI/tests/Base.php');
-require_once(__DIR__ . '/../../UI/tests/UITestHelper.php');
-require_once(__DIR__ . '/ilTestBaseTestCaseTrait.php');
+require_once __DIR__ . '/ilTestBaseTestCaseTrait.php';
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -44,41 +42,29 @@ class ilTestBaseTestCase extends TestCase
 
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
 
-        $DIC = new Container();
+        $DIC = $this->getMockBuilder(Container::class)->onlyMethods(['uiService'])->getMock();
+        $DIC->method('uiService')->willReturn($this->createMock(ilUIService::class));
 
         $this->addGlobal_ilAccess();
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilUser();
         $this->addGlobal_ilias();
-        $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();
         $this->addGlobal_lng();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
         $this->addGlobal_refinery();
+        $this->addGlobal_http();
+        $this->addGlobal_fileDelivery();
         $this->addGlobal_ilComponentFactory();
+        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
-
-        $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
-
-        $http_mock = $this
-            ->getMockBuilder(\ILIAS\HTTP\Services::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['request', 'wrapper'])->getMock();
-
-        $request_mock = $this
-            ->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getParsedBody'])->getMock();
-        $request_mock->method('getParsedBody')->willReturn(array());
-        $http_mock->method('request')->willReturn($request_mock);
-
-        $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
-        $http_mock->method('wrapper')->willReturn($wrapper_mock);
-
-        $this->setGlobalVariable('http', $http_mock);
+        $this->addGlobal_uiService();
+        $this->addGlobal_static_url();
+        $this->addGlobal_upload();
 
         parent::setUp();
     }

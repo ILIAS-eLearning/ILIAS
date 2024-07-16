@@ -26,9 +26,9 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
-require_once('ViewControlBaseTest.php');
+require_once('ViewControlTestBase.php');
 
-class ViewControlGenericTest extends ViewControlBaseTest
+class ViewControlInputGenericTest extends ViewControlTestBase
 {
     protected function getViewControl(): Control\ViewControlInput
     {

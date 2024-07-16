@@ -32,14 +32,10 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_tpl();
-        $this->addGlobal_lng();
         $this->addGlobal_ilUser();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestToplistGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestTopList::class),
             $DIC['ilCtrl'],
             $DIC['tpl'],

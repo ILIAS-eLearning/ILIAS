@@ -19,7 +19,6 @@
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as StandardForm;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Class ilAddAnswerModalFormGUI

@@ -35,20 +35,24 @@ class ilAssLacAbstractExpressionTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilAssLacAbstractExpression{
+        $this->object = new class () extends ilAssLacAbstractExpression {
             public function getValue(): string
             {
                 return '';
             }
 
-            public function parseValue($value): void {}
+            public function parseValue($value): void
+            {
+            }
 
             public function getDescription(): string
             {
                 return '';
             }
 
-            public function setMatches($matches): void {}
+            public function setMatches($matches): void
+            {
+            }
         };
     }
 

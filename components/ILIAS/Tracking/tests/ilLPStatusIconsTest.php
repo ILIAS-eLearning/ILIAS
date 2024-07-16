@@ -40,6 +40,8 @@ class ilLPStatusIconsTest extends TestCase
      */
     public function testTripleton(): array
     {
+        $this->markTestSkipped('Data Provider needs to be revisited.');
+
         $utilMock = Mockery::mock('alias:' . ilUtil::class);
         $utilMock->shouldReceive('getImagePath')
                  ->with(Mockery::type('string'))

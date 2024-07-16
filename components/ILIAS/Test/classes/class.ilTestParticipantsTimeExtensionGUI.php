@@ -92,7 +92,7 @@ class ilTestParticipantsTimeExtensionGUI
 
         $addons = $this->getTestObj()->getTimeExtensionsOfParticipants();
 
-        $table_data = array();
+        $table_data = [];
         foreach ($filtered_participant_list as $participant) {
             $table_row = [
                 'started' => '',
@@ -209,8 +209,8 @@ class ilTestParticipantsTimeExtensionGUI
 
         if ($form->checkInput()) {
             $this->getTestObj()->addExtraTime(
-                $form->getInput('participant'),
-                $form->getInput('extratime')
+                (int) $form->getInput('participant'),
+                (int) $form->getInput('extratime')
             );
 
             $this->main_tpl->setOnScreenMessage('success', sprintf($this->lng->txt('tst_extratime_added'), $form->getInput('extratime')), true);

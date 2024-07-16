@@ -43,7 +43,7 @@ class SVGPreProcessorTest extends TestCase
         );
     }
 
-    public function maliciousSVGProvider(): array
+    public static function maliciousSVGProvider(): array
     {
         return [
             [
@@ -100,7 +100,7 @@ aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
 
         $this->assertFalse($result->getCode() === ProcessingStatus::OK);
         $this->assertTrue($result->getCode() === ProcessingStatus::DENIED);
-        $this->assertSame('The SVG file contains malicious code. (' . $type . ').', $result->getMessage());
+        $this->assertSame('The SVG file contains malicious code. (' . $type . ')', $result->getMessage());
     }
 
     public function testSaneSVG(): void
@@ -121,7 +121,7 @@ xmlns="http://www.w3.org/2000/svg">
         $this->assertSame('SVG OK', $result->getMessage());
     }
 
-    private function provideSomeComplexSaneSVG(): array
+    public static function provideSomeComplexSaneSVG(): array
     {
         return [
             [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/bigplay.svg'],

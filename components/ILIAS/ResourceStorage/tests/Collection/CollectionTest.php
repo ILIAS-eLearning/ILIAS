@@ -18,9 +18,7 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
-require_once(__DIR__ . '/../AbstractBaseResourceBuilderTest.php');
-
-use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
+use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTestCase;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
@@ -36,7 +34,7 @@ use ILIAS\ResourceStorage\Events\Subject;
  * Class CollectionTest
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class CollectionTest extends AbstractBaseResourceBuilderTest
+class CollectionTest extends AbstractBaseResourceBuilderTestCase
 {
     /**
      * @var \ILIAS\ResourceStorage\Collection\CollectionBuilder|mixed
@@ -270,15 +268,21 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         $this->assertCount(3, $collection->getResourceIdentifications());
 
         $collections_service->store($collection);
-
-        $this->resource_repository->expects($this->exactly(3))
-                               ->method('has')
-                               ->withConsecutive(
-                                   [$rid_one],
-                                   [$rid_two],
-                                   [$rid_three]
-                               )
-                               ->willReturn(true);
+        $consecutive = [
+            $rid_one,
+            $rid_two,
+            $rid_three
+        ];
+        $this->resource_repository
+            ->expects($this->exactly(3))
+            ->method('has')
+            ->willReturnCallback(
+                function ($rid) use (&$consecutive) {
+                    $expected = array_shift($consecutive);
+                    $this->assertEquals($expected, $rid);
+                    return true;
+                }
+            );
 
         $collection = $collections_service->get(
             $resource_collection_identification

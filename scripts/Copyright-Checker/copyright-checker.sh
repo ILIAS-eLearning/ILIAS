@@ -173,7 +173,7 @@ function perform_copyright_check() {
 
 # this helper is only required if we are in a GitHub-run.
 if ! [ -z "${GHRUN}" ]; then
-  source "$(pwd)/CI/Import/Functions.sh"
+  source "$(pwd)/scripts/Import/Functions.sh"
 fi
 
 # run script with all supplied arguments and exit with the status code

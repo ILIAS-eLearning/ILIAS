@@ -19,7 +19,7 @@
 namespace ILIAS\ResourceStorage\Flavours;
 
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\AbstractBaseTest;
+use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenStream;
@@ -42,9 +42,9 @@ use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
  * Class FlavorTest
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-require_once __DIR__ . '/../AbstractBaseTest.php';
+require_once __DIR__ . '/../AbstractTestBase.php';
 
-class FlavourTest extends AbstractBaseTest
+class FlavourTest extends AbstractTestBase
 {
     public $resource_builder;
     private const BASE_DIR = '/var';
@@ -125,11 +125,21 @@ class FlavourTest extends AbstractBaseTest
             ->method('getVariantName')
             ->willReturn('short');
 
-        $this->flavour_repo->expects($this->exactly(2))
-            ->method('has')
-            ->withConsecutive([$rid_one, 0, $flavour_definition], [$rid_two, 0, $flavour_definition])
-            ->willReturnOnConsecutiveCalls(false, true);
 
+        $consecutive = [
+                [[$rid_one, 0, $flavour_definition], false],
+                [[$rid_two, 0, $flavour_definition], true],
+        ];
+        $this->flavour_repo
+            ->expects($this->exactly(2))
+            ->method('has')
+            ->willReturnCallback(
+                function ($rid, $mid, $def) use (&$consecutive) {
+                    list($expected, $ret) = array_shift($consecutive);
+                    $this->assertEquals($expected, [$rid, $mid, $def]);
+                    return $ret;
+                }
+            );
 
         // Assertions
         $this->assertFalse(

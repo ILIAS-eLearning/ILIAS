@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#გამოიყენეთ b/i/u,     str/emp/imp
 adve#:#adve_use_physical_info#:#ეს პარამეტრი ცვლის სემანტიკური სტილის კლასის ღილაკებს, ძლიერი, განსაკუთრებული და მნიშვნელოვანი ფიზიკური დახმარების ღილაკებით b (bold), i (italic) and u (underline). გთხოვთ გაითვალისწინოთ ამან შეიძლება გამოიწვიოს შეუსაბამობა, თუ სტილის რედაქტირება გამოიყენება სხვა ფიზიკური დამხარებებით რომლებიც დანიშნულია ძლიერ/განსაკუთრებულ/მნიშვნელოვან სტილის კლასზე.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#ქმედება
+assessment#:#activate_logging#:#ტესტისა და შეფასების ჩატვირთვის გააქტიურება
+assessment#:#activate_manual_scoring#:#ხელით შეფასების აქტივაცია
+assessment#:#activate_manual_scoring_desc#:#თუ ხელით შეფასება გააქტიურებულია კითხვის სახეიობისთვის, ყველა ამ ტიპის კითხვა შეიძლება ავტორის მიერ ხელიტ შეფასდეს. გთხოვთ ყურადღება მიაქციოთ პარამტრებს, რადგან ავტომატურად შეფასებულ კითხვების გვიანი ხელით შეფასებამ შეიძლება იურიდული პრობლემებიც კი გამოიწვიოს!
 assessment#:#addSuggestedSolution#:#დაამატეთ შემოთავაზებული ამოხსნა
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#დაამატეთ წრის სივრცე
@@ -573,7 +576,6 @@ assessment#:#code#:#კოდი
 assessment#:#codebase#:#კოდების ბაზა
 assessment#:#concatenation#:#ურთიერთაკვშირი, დამთხვევა
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#დარწმუნებული ხართ რომ მომხმარებლის  ტესტის მთლიანი მონაცემების წაშლა გსურთ?
 assessment#:#confirm_delete_single_user_data#:#დარწმუნებული ხართ რომ ამ მომხმარებლის  ტესტის მონაცემების წაშლა გსურთ?
 assessment#:#confirm_sync_questions#:#კითხვა რომელიც თქვენ შეცვალეთ არის ასლი რომელიც შეიქმნა მიმდინარე ტესტში გამოსაყენებლად. გსურთ კითხვის ორიგინალის შეცვლა?
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#ნაპრალების შექმნა
 assessment#:#create_new#:#ახალის შექმნა
 assessment#:#customstyle#:#საკუთარი სტილი
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#თარიღი/დრო
 assessment#:#definition#:#განსაზღვრება სურათი
 assessment#:#definition_image#:#განსაზღვრება სურათი
 assessment#:#definition_text#:#განსზღვრება ტექსტი
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#არ ჩასვათ კითხვ�
 assessment#:#duplicate#:#დუბლირება
 assessment#:#duplicate_matching_values_selected#:#თქვენ აირჩიეთ შესატყვისი ღირებულებების დუბლირება
 assessment#:#duplicate_order_values_entered#:#თქვენ შეიყვანეთ თანმიმდევრობითი ღირებულებების დუბლირება
-assessment#:#ects_allow_ects_grades#:#აჩვენე კრედიტების ქულები დამატებით მიღებულ ქულასთან ერთად
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#კრედიტის ქულა
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#კრედიტების ქულების შედეგი
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
@@ -751,6 +741,7 @@ assessment#:#height#:#სიმაღლე
 assessment#:#identical_scoring#:#იდენტური შეფასება
 assessment#:#identical_scoring_desc#:#თუ შერჩეულ იქნა, ნაპრალები იდენტური ამოხსნებით შეფასებული იქნება, თუნდაც იგივე ამოხსნა გამოყენებული იქნას ორჯერ ან მეტჯერ
 assessment#:#imagemap#:#სურათის რუკა
+assessment#:#imap_line_color#:#სურათის რუკის ხაზის ფერი
 assessment#:#import_question#:#კითხვების იმპორტირება
 assessment#:#imported#:#იმპორტირებული
 assessment#:#info_answer_type_change#:#კითხვა უკვე შეიცავს სურათებს. თქვენ არ შეგიძლიათ პასუხის სახეობის მრავალხაზიან პასუხად შეცვლა
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#ბოლო განახლება
 assessment#:#legend#:#ლეგენდა/წარწერა
 assessment#:#locked#:#დალუქული
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#სახელმძღვანელო ცვლილება მონაწილის ტესტის ქულებში %s-დან %s-მდე %s-დან %s-ით
-assessment#:#log_create_new_test#:#ახალი ტესტის შექმნა
-assessment#:#log_manual_feedback#:#%s დაემატა სახელმძღვანელო უკუკავშირსტესტის  მომხმარებლის %s-ს და კითხვების %s-ს
-assessment#:#log_mark_added#:#ქულა/შენიშვნა დაემატა
-assessment#:#log_mark_changed#:#ქულა/შენიშვნა შეიცვალა
-assessment#:#log_mark_removed#:#ქულა/შენიშვნა ამოიშალა
-assessment#:#log_modified_test#:#ტესტი შეიცვალა
-assessment#:#log_question_added#:#კითხვა დაემატა ადგილზე
-assessment#:#log_question_position_changed#:#კითხვის ადგილი შეიცვალა
-assessment#:#log_question_removed#:#კითხვა ამოიშალა
-assessment#:#log_selected_user_data_removed#:#ამოიშალა ტესტის მომხმარებლის მონაცემები %s-ით
-assessment#:#log_user_answered_question#:#მომხმარებელმა უპასუხა კითხვას და მიიღო %s ქულა
-assessment#:#log_user_entered_values#:#მომხმარებელმა შეიყვანა ღირებულებები
-assessment#:#log_user_not_entered_values#:#მომხმარებელმა არ შეიყვანა ღირებულებები
+assessment#:#log_text#:#მესიჯის ჩატვირთვა
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#ჩატვირთვა
+assessment#:#logs_deleted#:#ჩატვირთვის მონაცემები მონიშნული ტესტებისთვის წაიშალა
+assessment#:#logs_output#:#მონაცემთა შედეგის ჩატვირთვა
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#შეტყობინების გაგზავნა მაშინაც როდესაც მომხმარებელი ჩააბარებს ტესტს
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#ხელით შესაფასე�
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#ქულების სქემა
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
-assessment#:#mark_tst_ects#:#თქვენი კრედიტების ქულა არის &quot;[mark]&quot;
 assessment#:#matches#:#შესატყვისობები
 assessment#:#matching_pairs#:#შესატყვისი წყვილები
 assessment#:#matching_shuffle_definitions#:#მხოლოდ განსაზღვრებები
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Units###24 10 2013 new variable
 assessment#:#unlimited#:#შეუზღუდავი
 assessment#:#unlock#:#გახსნა
 assessment#:#uploaded_material#:#ატვირთული მასალა
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#მოქმედება გაუქმდა
 common#:#actions#:#მოქმედებები
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#აქტიურად დაყენება
-common#:#activate_assessment_logging#:#ტესტისა და შეფასების ჩატვირთვის გააქტიურება
 common#:#activate_https#:#
 common#:#activate_tracking#:#გააქტიურება
 common#:#activation#:#დროების რედაქტირება
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#დამმტკიცებელის შე�
 common#:#archive#:#არქივი
 common#:#archive_broken#:#არქივი გატეხილია ან ცარიელი
 common#:#are_you_sure#:#დარწმუნებული ხართ?
-common#:#ass_log_admin#:#მონაცემთა ადმინისტრაციის ჩატვირთვა
-common#:#ass_log_count_datasets#:#შესვლების ჩატვირთვა
-common#:#ass_log_delete_entries#:#შესვლის ჩატვირთვების წაშლა
-common#:#ass_log_delete_no_selection#:#გთხოვთ აირჩიოთ სულ მცირე ერთი ტესტი რომ წაშალოტ ჩატვირთვის მონაცემები
-common#:#ass_log_deleted#:#ჩატვირთვის მონაცემები მონიშნული ტესტებისთვის წაიშალა
-common#:#ass_log_output#:#მონაცემთა შედეგის ჩატვირთვა
-common#:#assessment_imap_line_color#:#სურათის რუკის ხაზის ფერი
-common#:#assessment_log#:#კონკრეტული დროისთვის ტესტისა და შეფასების ჩატვირთვის შექმნა
-common#:#assessment_log_datetime#:#თარიღი/დრო
-common#:#assessment_log_deleted#:#ტესტისა და შეფასების ჩატვირთვის მონაცემები წაშლილია ადმინისტრაციაში
-common#:#assessment_log_for_test#:#ტესტისთვის
-common#:#assessment_log_log_entries#:#ჩატვირთული შესვლები
-common#:#assessment_log_logging#:#ჩატვირთვა
-common#:#assessment_log_manual_scoring_activate#:#ხელით შეფასების აქტივაცია
-common#:#assessment_log_manual_scoring_desc#:#თუ ხელით შეფასება გააქტიურებულია კითხვის სახეიობისთვის, ყველა ამ ტიპის კითხვა შეიძლება ავტორის მიერ ხელიტ შეფასდეს. გთხოვთ ყურადღება მიაქციოთ პარამტრებს, რადგან ავტომატურად შეფასებულ კითხვების გვიანი ხელით შეფასებამ შეიძლება იურიდული პრობლემებიც კი გამოიწვიოს!
-common#:#assessment_log_question#:#კითხვა
-common#:#assessment_log_text#:#მესიჯის ჩატვირთვა
-common#:#assessment_settings_reporting_language#:#მაუწყებელი ენა
 common#:#assf_allowed_questiontypes#:#შესაძლებელი კითხვების სახეობები
 common#:#assf_allowed_questiontypes_desc#:#ყველა შემოწმებული კითხვის სახეობა შესაძლებელი იქნება ილიასის ამ ინსტალაციაში. თუ არ გსურთ კონკრეტული კითხვის სახეობის შექმნის დაშვება ამ ინსტალაციაში თქვენ უნდა ამოშალოთ ეს მონიშვნა შემოწმების ყუთში
 common#:#assf_questiontypes#:#კითხვების პარამეტრები
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#შემდეგი მაგიდა მოქ�
 common#:#import_categories#:#კატეგორიების იმპორტი
 common#:#import_failure_log#:#გადმოტანის წარუმატებლობა
 common#:#import_file#:#ფაილის გადმოტანა
-common#:#import_file_not_valid#:#გადმოტანილი ფაილი არ არის სწორი
+common#:#import_file_not_valid_here#:#გადმოტანილი ფაილი არ არის სწორი
 common#:#import_finished#:#გადმოტანილი შეტყობინებების რიცხვი
 common#:#import_lm#:#ილიასის სასწავლო მოდულის გადმოტანა
 common#:#import_qpl#:#კითხვების ნაკადის ტესტის გადმოტანა
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
 mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

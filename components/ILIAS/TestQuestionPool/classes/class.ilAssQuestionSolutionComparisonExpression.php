@@ -76,16 +76,16 @@ class ilAssQuestionSolutionComparisonExpression
     {
         $this->db->replace(
             'qpl_qst_skl_sol_expr',
-            array(
-                'question_fi' => array('integer', $this->getQuestionId()),
-                'skill_base_fi' => array('integer', $this->getSkillBaseId()),
-                'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
-                'order_index' => array('integer', $this->getOrderIndex())
-            ),
-            array(
-                'expression' => array('text', $this->getExpression()),
-                'points' => array('integer', $this->getPoints())
-            )
+            [
+                'question_fi' => ['integer', $this->getQuestionId()],
+                'skill_base_fi' => ['integer', $this->getSkillBaseId()],
+                'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
+                'order_index' => ['integer', $this->getOrderIndex()]
+            ],
+            [
+                'expression' => ['text', $this->getExpression()],
+                'points' => ['integer', $this->getPoints()]
+            ]
         );
     }
 

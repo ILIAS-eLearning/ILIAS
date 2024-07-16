@@ -23,10 +23,13 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
+
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -44,14 +47,14 @@ use ILIAS\Skill\Service\SkillService;
 */
 class ilTestServiceGUI
 {
-    protected InternalRequestService $testrequest;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected readonly RequestDataCollector $testrequest;
+    protected readonly GeneralQuestionPropertiesRepository $questionrepository;
     protected ?ilTestService $service = null;
-    protected ilDBInterface $db;
-    protected ilLanguage $lng;
-    protected LoggingServices $logging_services;
-    protected ilHelpGUI $help;
-    protected ilRbacSystem $rbac_system;
+    protected readonly ilDBInterface $db;
+    protected readonly ilLanguage $lng;
+    protected readonly TestLogger $logger;
+    protected readonly ilHelpGUI $help;
+    protected readonly ilRbacSystem $rbac_system;
 
     /**
      * sk 2023-08-01: We need this union type, even if it is wrong! To change this
@@ -59,29 +62,29 @@ class ilTestServiceGUI
      * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
      */
     protected ilGlobalTemplateInterface|ilTemplate $tpl;
-    protected ilErrorHandling $error;
+    protected readonly ilErrorHandling $error;
     protected ilAccess $access;
-    protected HTTPServices $http;
-    protected ilCtrl $ctrl;
-    protected ilToolbarGUI $toolbar;
-    protected ilTabsGUI $tabs;
-    protected ilObjectDataCache $obj_cache;
-    protected ilComponentRepository $component_repository;
-    protected ilObjUser $user;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ilNavigationHistory $navigation_history;
-    protected Refinery $refinery;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected SkillService $skills_service;
-    protected ilTestShuffler $shuffler;
-    protected ilTestResultsFactory $results_factory;
-    protected ilTestResultsPresentationFactory $results_presentation_factory;
+    protected readonly HTTPServices $http;
+    protected readonly ilCtrlInterface $ctrl;
+    protected readonly ilToolbarGUI $toolbar;
+    protected readonly ilTabsGUI $tabs;
+    protected readonly ilObjectDataCache $obj_cache;
+    protected readonly ilComponentRepository $component_repository;
+    protected readonly ilObjUser $user;
+    protected readonly ArrayBasedRequestWrapper $post_wrapper;
+    protected readonly ilNavigationHistory $navigation_history;
+    protected readonly Refinery $refinery;
+    protected readonly UIFactory $ui_factory;
+    protected readonly UIRenderer $ui_renderer;
+    protected readonly SkillService $skills_service;
+    protected readonly ilTestShuffler $shuffler;
+    protected readonly ilTestResultsFactory $results_factory;
+    protected readonly ilTestResultsPresentationFactory $results_presentation_factory;
 
-    protected ILIAS $ilias;
-    protected ilSetting $settings;
-    protected GlobalScreenServices $global_screen;
-    protected ilTree $tree;
+    protected readonly ILIAS $ilias;
+    protected readonly ilSetting $settings;
+    protected readonly GlobalScreenServices $global_screen;
+    protected readonly ilTree $tree;
     protected int $ref_id;
 
     protected ?ilTestSessionFactory $testSessionFactory = null;
@@ -131,7 +134,6 @@ class ilTestServiceGUI
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
-        $this->logging_services = $DIC->logger();
         $this->help = $DIC['ilHelp'];
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC['ui.factory'];
@@ -141,24 +143,22 @@ class ilTestServiceGUI
         $this->skills_service = $DIC->skills();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
 
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
+        $local_dic = $object->getLocalDIC();
+        $this->testrequest = $local_dic['request_data_collector'];
+        $this->logger = $local_dic['logging.logger'];
+        $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
+        $this->shuffler = $local_dic['shuffler'];
+        $this->results_factory = $local_dic['results.factory'];
+        $this->results_presentation_factory = $local_dic['results.presentation.factory'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
+
+        $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 
         $this->lng->loadLanguageModule('cert');
         $this->ref_id = $this->object->getRefId();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
+        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
         $this->objective_oriented_container = null;
-
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-
-        $local_dic = $object->getLocalDIC();
-        $this->testrequest = $local_dic['request.internal'];
-        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
-        $this->shuffler = $local_dic['shuffler'];
-        $this->results_factory = $local_dic['factory.results'];
-        $this->results_presentation_factory = $local_dic['factory.results_presentation'];
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void
@@ -183,7 +183,10 @@ class ilTestServiceGUI
     {
         $data = [];
 
-        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+        $objective_oriented_presentation = $this->getObjectiveOrientedContainer()
+            ?->isObjectiveOrientedPresentationRequired() ?? false;
+
+        if ($objective_oriented_presentation) {
             $considerHiddenQuestions = false;
 
             $objectives_adapter = ilLOTestQuestionAdapter::getInstance($testSession);
@@ -205,7 +208,7 @@ class ilTestServiceGUI
             ];
             $considerOptionalQuestions = true;
 
-            if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+            if ($objective_oriented_presentation) {
                 $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($testSession->getActiveId(), $pass);
                 $test_sequence->loadFromDb();
                 $test_sequence->loadQuestions();
@@ -288,23 +291,12 @@ class ilTestServiceGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
         switch ($next_class) {
             default:
                 $ret = &$this->$cmd();
                 break;
         }
         return $ret;
-    }
-
-    /**
-     * Retrieves the ilCtrl command
-     *
-     * @access public
-     */
-    public function getCommand($cmd)
-    {
-        return $cmd;
     }
 
     public function buildPassOverviewTableGUI(ilTestEvaluationGUI $target_gui): ilTestPassOverviewTableGUI
@@ -316,7 +308,7 @@ class ilTestServiceGUI
         );
 
         $table->setObjectiveOrientedPresentationEnabled(
-            $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
+            $this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired() ?? false
         );
 
         return $table;
@@ -365,7 +357,7 @@ class ilTestServiceGUI
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
 
-                    $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
+                    $question_gui->getObject()->setShuffler($this->shuffler->getAnswerShuffleFor(
                         (int) $question_id,
                         (int) $active_id,
                         (int) $pass
@@ -384,17 +376,17 @@ class ilTestServiceGUI
 
                         if ($show_reached_points) {
                             $template->setCurrentBlock("result_points");
-                            $template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->object->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->object->getMaximumPoints());
+                            $template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->getObject()->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->getObject()->getMaximumPoints());
                             $template->parseCurrentBlock();
                         }
                         $template->setVariable("COUNTER_QUESTION", $counter . ". ");
                         $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
-                        $template->setVariable("QUESTION_ID", $question_gui->object->getId());
-                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
+                        $template->setVariable("QUESTION_ID", $question_gui->getObject()->getId());
+                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
 
                         if ($objectives_list !== null) {
                             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-                            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+                            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->getObject()->getId());
                             $template->setVariable("OBJECTIVES", $objectives);
                         }
 
@@ -463,7 +455,7 @@ class ilTestServiceGUI
     public function getPassListOfAnswersWithScoring(&$result_array, $active_id, $pass, $show_solutions = false): string
     {
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "components/ILIAS/Test");
-        $scoring = ilObjAssessmentFolder::_getManualScoring();
+        $scoring = ilObjTestFolder::_getManualScoring();
 
         $counter = 1;
         // output of questions with solutions
@@ -471,13 +463,13 @@ class ilTestServiceGUI
             $question = $question_data["qid"];
             if (is_numeric($question)) {
                 $question_gui = $this->object->createQuestionGUI("", $question);
-                if (in_array($question_gui->object->getQuestionTypeID(), $scoring)) {
+                if (in_array($question_gui->getObject()->getQuestionTypeID(), $scoring)) {
                     $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
                     $scoretemplate = new ilTemplate("tpl.il_as_tst_manual_scoring_points.html", true, true, "components/ILIAS/Test");
                     #mbecker: No such block. $this->tpl->setCurrentBlock("printview_question");
                     $template->setVariable("COUNTER_QUESTION", $counter . ". ");
-                    $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
-                    $points = $question_gui->object->getMaximumPoints();
+                    $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
+                    $points = $question_gui->getObject()->getMaximumPoints();
                     if ($points == 1) {
                         $template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("point"));
                     } else {
@@ -487,7 +479,7 @@ class ilTestServiceGUI
                     $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
                     $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, true);
 
-                    $solout = $question_gui->object->getSuggestedSolutionOutput();
+                    $solout = $question_gui->getObject()->getSuggestedSolutionOutput();
                     if (strlen($solout)) {
                         $scoretemplate->setCurrentBlock("suggested_solution");
                         $scoretemplate->setVariable("TEXT_SUGGESTED_SOLUTION", $this->lng->txt("solution_hint"));
@@ -638,7 +630,7 @@ class ilTestServiceGUI
             $t = $this->object->_getLastAccess($testSession->getActiveId());
         }
 
-        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+        if ($this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()) {
             $uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
             $template->setCurrentBlock("name");
             $template->setVariable('TXT_USR_NAME', $this->lng->txt("name"));
@@ -701,8 +693,8 @@ class ilTestServiceGUI
         $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true, false, false);
         if ($this->object->getShowSolutionFeedback() && $this->testrequest->raw('cmd') != 'outCorrectSolution') {
             $specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
-                $question_gui->object->fetchIndexedValuesFromValuePairs(
-                    $question_gui->object->getSolutionValues($active_id, $pass)
+                $question_gui->getObject()->fetchIndexedValuesFromValuePairs(
+                    $question_gui->getObject()->getSolutionValues($active_id, $pass)
                 )
             );
             if (strlen($specificAnswerFeedback)) {
@@ -714,19 +706,19 @@ class ilTestServiceGUI
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
         $template->setVariable("TEXT_SOLUTION_OUTPUT", $this->lng->txt("tst_your_answer_was")); // Mantis 28646. I don't really know why Ingmar renamed the placeholder, so
         // I set both old and new since the old one is set as well in several places.
-        $maxpoints = $question_gui->object->getMaximumPoints();
+        $maxpoints = $question_gui->getObject()->getMaximumPoints();
         if ($maxpoints == 1) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
         } else {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
         if ($objectives_list !== null) {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
-            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
+            $objectives .= $objectives_list->getQuestionRelatedObjectiveTitles($question_gui->getObject()->getId());
             $template->setVariable('OBJECTIVES', $objectives);
         }
         $template->setVariable("SOLUTION_OUTPUT", $result_output);
-        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
+        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->getObject()->getReachedPoints($active_id, $pass), $maxpoints));
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
         return $template->get();

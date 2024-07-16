@@ -88,31 +88,23 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
         if ($checkonly) {
-            $types = $_POST['types'] ?? '0';
-            return $types === '0' ? true : false;
+            return $this->request->int('types') === 0;
         }
 
-        $lastChange = $this->object->getLastChange();
-        if (empty($lastChange) && !isset($_POST['types'])) {
+        if (empty($this->object->getLastChange())
+            && !$this->request->isset('types')) {
             // a new question is edited
-            return $this->object->getMultilineAnswerSetting() ? false : true;
-        } else {
-            // a saved question is edited
-            return $this->object->isSingleline();
+            return $this->object->getMultilineAnswerSetting() === 0;
         }
+        // a saved question is edited
+        return $this->object->isSingleline();
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     * @param bool $checkonly
-     *
-     * @return bool
-     */
-    public function editQuestion($checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $is_singleline = $this->getEditAnswersSingleLine($checkonly);
 
@@ -127,7 +119,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $errors = false;
 
         if ($save) {
-            $form->getItemByPostVar('selection_limit')->setMaxValue(count((array) $_POST['choice']['answer']));
+            $form->getItemByPostVar('selection_limit')->setMaxValue(count($this->request->raw('choice')['answer'] ?? []));
 
             $form->setValuesByPost();
             $errors = !$form->checkInput();
@@ -137,7 +129,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -163,57 +155,22 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function removeimagechoice(): void
     {
         $this->writePostData(true);
-        $position = key($_POST['cmd']['removeimagechoice']);
+        $position = key($this->request->raw('cmd')['removeimagechoice']);
         $this->object->removeAnswerImage($position);
         $this->editQuestion();
     }
 
-    /**
-     * Add a new answer
-     */
-    public function addchoice(): void
-    {
-        $this->writePostData(true);
-        $position = key($_POST['cmd']['addchoice']);
-        $this->object->addAnswer("", 0, 0, $position + 1);
-        $this->editQuestion();
-    }
-
-    /**
-     * Remove an answer
-     */
-    public function removechoice(): void
-    {
-        $this->writePostData(true);
-        $position = key($_POST['cmd']['removechoice']);
-        $this->object->deleteAnswer($position);
-        $this->editQuestion();
-    }
-
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @param bool    $show_question_text
-     * @return string The solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true,
-        $show_inline_feedback = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // shuffle output
         $keys = $this->getChoiceKeys();
@@ -244,7 +201,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
             if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphicalOutput) {
+                if ($graphical_output) {
                     // output of ok/not ok icons for user entered solutions
                     $ok = false;
                     $checked = false;
@@ -408,8 +365,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         // shuffle output
         $keys = $this->getChoiceKeys();
@@ -450,7 +409,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 }
             }
 
-            if ($showInlineFeedback) {
+            if ($show_inline_feedback) {
                 $this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
             }
 
@@ -478,7 +437,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
         $questiontext = $this->object->getQuestionForHTMLOutput();
-        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+        if ($show_inline_feedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
         $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
@@ -490,23 +449,12 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $questionoutput;
     }
 
-    /**
-     * @param integer		$active_id
-     * @param integer|null	$pass
-     * @param bool			$is_postponed
-     * @param bool			$use_post_solutions
-     * @param bool			$show_feedback
-     *
-     * @return string
-     */
     public function getTestOutput(
-        $active_id,
-        // hey: prevPassSolutions - will be always available from now on
-        $pass,
-        // hey.
-        $is_postponed = false,
-        $use_post_solutions = false,
-        $show_feedback = false
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
     ): string {
         // shuffle output
         $keys = $this->getChoiceKeys();
@@ -516,7 +464,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
-            foreach ($solutions as $idx => $solution_value) {
+            foreach ($solutions as $solution_value) {
                 // fau: testNav - don't add the dummy entry for 'none of the above' to the user options
                 if ($solution_value["value1"] == 'mc_none_above') {
                     $this->setUseEmptySolutionInputChecked(true);
@@ -570,7 +518,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 }
             }
 
-            if ($show_feedback) {
+            if ($show_specific_inline_feedback) {
                 $this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
             }
 
@@ -600,7 +548,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setVariable('SELECTION_LIMIT_VALUE', 'null');
         }
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $show_feedback);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput, $show_specific_inline_feedback);
         return $pageoutput;
     }
 
@@ -775,21 +723,15 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $selLim->setValue($this->object->getSelectionLimit());
         $form->addItem($selLim);
 
-        if ($this->object->getId()) {
-            $hidden = new ilHiddenInputGUI("ID");
-            $hidden->setValue($this->object->getId());
-            $form->addItem($hidden);
-        }
-
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
             $types->setRequired(false);
-            $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions([
                 0 => $this->lng->txt('answers_singleline'),
                 1 => $this->lng->txt('answers_multiline'),
             ]);
+            $types->setValue($is_singleline ? 0 : 1);
             $form->addItem($types);
         }
 

@@ -32,7 +32,7 @@ class ilTestEvaluationExceptionTest extends ilTestBaseTestCase
         $this->assertEquals($output['code'], $ilTestEvaluationException->getCode());
     }
 
-    public function constructDataProvider(): array
+    public static function constructDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestEvaluationException::class, 'code' => -1]],
@@ -60,7 +60,7 @@ class ilTestEvaluationExceptionTest extends ilTestBaseTestCase
         ;
     }
 
-    public function exceptionDataProvider(): array
+    public static function exceptionDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestEvaluationException::class, 'code' => -1]],

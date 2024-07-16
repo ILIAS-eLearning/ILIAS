@@ -32,10 +32,8 @@
  */
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-    public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const REUSE_FILES_LANGVAR = 'ass_file_upload_reuse_btn';
     public const REUSE_FILES_ACTION = 'reuse';
-    public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     public const DELETE_FILES_LANGVAR = 'delete';
     public const DELETE_FILES_ACTION = 'delete';
     private const HANDLE_FILE_UPLOAD = 'handleFileUpload';
@@ -82,15 +80,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->object->setCompletionBySubmission(isset($_POST['completion_by_submission']) && $_POST['completion_by_submission'] == 1);
     }
 
-    /**
-     * Creates an output of the edit form for the question
-     *
-     * @access public
-     */
-    public function editQuestion($checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -120,7 +114,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -152,7 +146,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->setRequired(true);
         $points->setSize(3);
         $points->setMinValue(0.0);
-        $points->setMinvalueShouldBeGreater(false);
+        $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
@@ -165,28 +159,17 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $form;
     }
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -223,7 +206,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         if (($active_id > 0) && (!$show_correct_solution)) {
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
-            if ($graphicalOutput) {
+            if ($graphical_output) {
                 $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if ($reached_points == $this->object->getMaximumPoints()) {
                     $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);
@@ -266,8 +249,10 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
         if (is_object($this->getPreviewSession())) {
@@ -312,8 +297,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $questionoutput;
     }
 
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
@@ -357,7 +347,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $questionoutput = $this->getILIASPage($questionoutput);
         //}
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 
@@ -445,7 +435,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->setRequired(true);
         $points->setSize(3);
         $points->setMinValue(0.0);
-        $points->setMinvalueShouldBeGreater(false);
+        $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(

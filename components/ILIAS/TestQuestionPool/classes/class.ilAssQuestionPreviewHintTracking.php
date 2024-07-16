@@ -57,8 +57,8 @@ class ilAssQuestionPreviewHintTracking
 
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->previewSession->getQuestionId())
+            ['integer'],
+            [$this->previewSession->getQuestionId()]
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -74,18 +74,18 @@ class ilAssQuestionPreviewHintTracking
     {
         $query = "
 			SELECT		qht_hint_id
-			
+
 			FROM		qpl_hints
-			
+
 			WHERE		qht_question_fi = %s
-			
+
 			ORDER BY	qht_hint_index ASC
 		";
 
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->previewSession->getQuestionId())
+            ['integer'],
+            [$this->previewSession->getQuestionId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {

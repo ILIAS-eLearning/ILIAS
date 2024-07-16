@@ -5,7 +5,7 @@
 chdir("../../..");
 ilInitialisation::initILIAS();
 include_once "./components/ILIAS/soap/include/inc.soap_functions.php";
-$results = array();
+$results = [];
 foreach ($_POST as $key => $value) {
     if (preg_match("/value_(\d+)_1/", $key, $matches)) {
         array_push($results, $_POST["value_" . $matches[1] . "_1"]);

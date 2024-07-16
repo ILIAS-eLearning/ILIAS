@@ -34,9 +34,9 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     private string $pending;
     protected $text_name = '';
     protected $image_name = '';
-    protected $values = array();
+    protected $values = [];
     protected $qstObject = null;
-    protected $suffixes = array();
+    protected $suffixes = [];
     protected $hideImages = false;
 
     protected GlyphFactory $glyph_factory;
@@ -50,7 +50,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
 
-        $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
+        $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize('40');
         $this->setMaxLength(800);
 
@@ -141,7 +141,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {

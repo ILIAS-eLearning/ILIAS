@@ -1,54 +1,69 @@
 var ilFileWizardInputTemplate = {
-		
+
 	tag_container: 'div.wzdcnt',
 	tag_row: 'div.wzdrow',
 	tag_button: 'imagewizard',
-	
-	getRowFromEvent: function(e) {
-		return $(e.target).parent(this.tag_row);
+
+	initEvents: function (rootel) {
+		let that = this;
+		$(rootel).find('span.' + this.tag_button + '_add a').click(function (e) {
+			that.addRow(e);
+		});
+		$(rootel).find('span.' + this.tag_button + '_remove a').click(function (e) {
+			that.removeRow(e);
+		});
+		$(rootel).find('span.' + this.tag_button + '_up a').click(function (e) {
+			that.moveRowUp(e);
+		});
+		$(rootel).find('span.' + this.tag_button + '_down a').click(function (e) {
+			that.moveRowDown(e);
+		});
 	},
-	
-	getContainerFromEvent: function(e) {
-		return $(e.target).parents(this.tag_container);
+
+	getRowFromEvent: function (e) {
+		return $(e.target).closest(this.tag_row);
 	},
-			
-	cleanRow: function(row) {
-            
-            $(row).find('input:file').val('');
-            $(row).find('input[type=hidden]').remove();
-            $(row).find('img').remove();
+
+	getContainerFromEvent: function (e) {
+		return $(e.target).closest(this.tag_container);
 	},
-		
-	reindexRows: function(rootel) {					
+
+	cleanRow: function (row) {
+		$(row).find('input:file').val('');
+		$(row).find('input[type=hidden]').remove();
+		$(row).find('img').remove();
+	},
+
+	reindexRows: function (rootel) {
 		var that = this;
 		var rowindex = 0;
-	
+
 		// process all rows
-		$(rootel).find(this.tag_row).each(function() {
-			
+		$(rootel).find(this.tag_row).each(function () {
+
 			// file
-			$(this).find('input:file').each(function() {					
+			$(this).find('input:file').each(function () {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);							
+				that.handleId(this, 'name', rowindex);
 			});
-			
+
 			// hidden
-			$(this).find('input:hidden').each(function() {		
-				that.handleId(this, 'name', rowindex);													
+			$(this).find('input:hidden').each(function () {
+				that.handleId(this, 'name', rowindex);
 			});
-			
-			// button
-			$(this).find('button').each(function() {	
+
+			// span with glyph
+			$(this).find('> span').each(function () {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);											
+				that.handleId(this, 'data-name', rowindex);
 			});
-								
+
 			rowindex++;
-		});					
+		});
 	}
 };
 
-$(document).ready(function() {
-	var ilFileWizardInput = $.extend({}, ilFileWizardInputTemplate, ilWizardInput);
+$(document).ready(function () {
+	var ilFileWizardInput = $.extend({}, ilWizardInput, ilFileWizardInputTemplate);
 	ilFileWizardInput.init();
 });

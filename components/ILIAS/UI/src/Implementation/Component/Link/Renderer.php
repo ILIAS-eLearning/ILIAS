@@ -71,7 +71,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("LABEL", $label);
-        $tpl->setVariable("HREF", $action);
+        if($component->isDisabled()) {
+            $tpl->touchBlock("ariadisabled", $action);
+        } else {
+            $tpl->setVariable("HREF", $action);
+        }
         return $tpl;
     }
 

@@ -31,5 +31,5 @@ interface InternalRepoServiceInterface
 
     public function flashcardBox(): Flashcard\FlashcardBoxDBRepository;
 
-    public function flashcardSession(): Flashcard\FlashcardSessionRepository;
+    public function flashcardSession(): Flashcard\FlashcardSessionRepositoryInterface;
 }

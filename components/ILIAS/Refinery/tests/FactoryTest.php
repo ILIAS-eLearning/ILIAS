@@ -36,6 +36,7 @@ use ILIAS\Refinery\Password\Group as PasswordGroup;
 use ILIAS\Refinery\String\Group as StringGroup;
 use ILIAS\Refinery\To\Group as ToGroup;
 use ILIAS\Refinery\URI\Group as URIGroup;
+use ILIAS\Refinery\Encode\Group as EncodeGroup;
 use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 
@@ -121,10 +122,15 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf(DateTimeGroup::class, $group);
     }
 
-    public function testCreateUriGrouo(): void
+    public function testCreateUriGroup(): void
     {
         $group = $this->basicFactory->uri();
         $this->assertInstanceOf(URIGroup::class, $group);
+    }
+
+    public function testCreateEncodeGroup(): void
+    {
+        $this->assertInstanceOf(EncodeGroup::class, $this->basicFactory->encode());
     }
 
     public function testByTryingInGroup(): void

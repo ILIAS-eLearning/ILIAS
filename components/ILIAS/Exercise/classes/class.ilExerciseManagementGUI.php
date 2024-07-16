@@ -613,12 +613,12 @@ class ilExerciseManagementGUI
 
         foreach ($this->requested_learning_comments as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setComment(ilUtil::stripSlashes($v));
+            $marks_obj->setComment($v);
             $marks_obj->update();
         }
         foreach ($this->requested_marks as $k => $v) {
             $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-            $marks_obj->setMark(ilUtil::stripSlashes($v));
+            $marks_obj->setMark($v);
             $marks_obj->update();
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_saved_grades"), true);
@@ -2221,7 +2221,6 @@ class ilExerciseManagementGUI
         $submission = new ilExSubmission($this->assignment, $member_id);
 
         $last_opening = $submission->getLastOpeningHTMLView();
-
         $submission_time = $submission->getLastSubmission();
 
         // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
@@ -2330,14 +2329,14 @@ class ilExerciseManagementGUI
 
         if ($data_filesystem->has($internal_file_path)) {
             $this->log->debug("internal file path: " . $internal_file_path);
-            if (!$web_filesystem->hasDir($internal_dirs)) {
-                $web_filesystem->createDir($internal_dirs);
+            if ($web_filesystem->hasDir($internal_dirs)) {
+                $web_filesystem->deleteDir($internal_dirs);
             }
+            $web_filesystem->createDir($internal_dirs);
 
             if ($web_filesystem->has($internal_file_path)) {
                 $web_filesystem->delete($internal_file_path);
             }
-
             if (!$web_filesystem->has($internal_file_path)) {
                 $this->log->debug("writing: " . $internal_file_path);
                 $stream = $data_filesystem->readStream($internal_file_path);

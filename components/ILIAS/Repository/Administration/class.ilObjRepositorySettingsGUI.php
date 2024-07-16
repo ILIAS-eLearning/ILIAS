@@ -679,11 +679,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 $this->lng->txt("rep_new_item_group_add"),
                 $this->ctrl->getLinkTarget($this, "addNewItemGroup")
             );
-
-            $ilToolbar->addButton(
-                $this->lng->txt("rep_new_item_group_add_separator"),
-                $this->ctrl->getLinkTarget($this, "addNewItemGroupSeparator")
-            );
         }
 
         $grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
@@ -807,14 +802,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $form->setValuesByPost();
         $this->addNewItemGroup($form);
-    }
-
-    protected function addNewItemGroupSeparator(): void
-    {
-        if (ilObjRepositorySettings::addNewItemGroupSeparator()) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
-        }
-        $this->ctrl->redirect($this, "listNewItemGroups");
     }
 
     protected function saveNewItemGroupOrder(): void

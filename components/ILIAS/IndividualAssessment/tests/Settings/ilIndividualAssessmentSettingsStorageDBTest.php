@@ -62,14 +62,22 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
             "obj_id" => ["integer", $obj_id]
         ];
 
+        $expected = [
+            [ilIndividualAssessmentSettingsStorageDB::IASS_SETTINGS_TABLE, $values1],
+            [ilIndividualAssessmentSettingsStorageDB::IASS_SETTINGS_INFO_TABLE, $values2]
+        ];
         $db = $this->createMock(ilDBInterface::class);
         $db
             ->expects($this->exactly(2))
             ->method("insert")
-            ->withConsecutive(
-                [ilIndividualAssessmentSettingsStorageDB::IASS_SETTINGS_TABLE, $values1],
-                [ilIndividualAssessmentSettingsStorageDB::IASS_SETTINGS_INFO_TABLE, $values2]
-            )
+            ->willReturnCallback(
+                function (string $k, array $v) use (&$expected) {
+                    list($ek, $ev) = array_shift($expected);
+                    $this->assertEquals($ek, $k);
+                    $this->assertEquals($ev, $v);
+                    return 1;
+                }
+            );
         ;
 
         $obj = new ilIndividualAssessmentSettingsStorageDB($db);
@@ -171,14 +179,23 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
             ->willReturn(22)
         ;
 
+        $expected = [
+            [$sql1, ["integer"], [22]],
+            [$sql2, ["integer"], [22]]
+        ];
         $db = $this->createMock(ilDBInterface::class);
         $db
             ->expects($this->exactly(2))
             ->method("manipulateF")
-            ->withConsecutive(
-                [$sql1, ["integer"], [22]],
-                [$sql2, ["integer"], [22]]
-            )
+            ->willReturnCallback(
+                function (string $sql, array $type, array $v) use (&$expected) {
+                    list($esql, $etype, $ev) = array_shift($expected);
+                    $this->assertEquals($esql, $sql);
+                    $this->assertEquals($etype, $type);
+                    $this->assertEquals($ev, $v);
+                    return 1;
+                }
+            );
         ;
 
         $obj = new ilIndividualAssessmentSettingsStorageDB($db);

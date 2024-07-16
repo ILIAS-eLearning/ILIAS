@@ -15,8 +15,9 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
 * Class for question imports
@@ -165,21 +166,17 @@ class assQuestionImport
         return $feedbacks;
     }
 
-    /**
-    * Creates a question from a QTI file
-    *
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param ilQtiItem $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    * @access public
-    */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
-    {
+    public function fromXML(
+        string $importdirectory,
+        int $user_id,
+        ilQTIItem $item,
+        int $questionpool_id,
+        ?int $tst_id,
+        ?ilObject &$tst_object,
+        int &$question_counter,
+        array $import_mapping
+    ): array {
+        return [];
     }
 
     /**
@@ -223,22 +220,6 @@ class assQuestionImport
         return $lifecycle;
     }
 
-    /**
-     * returns the full path to extracted qpl import archiv (qpl import dir + qpl archiv subdir)
-     */
-    protected function getQplImportArchivDirectory(): string
-    {
-        return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
-    }
-
-    /**
-     * returns the full path to extracted tst import archiv (tst import dir + tst archiv subdir)
-     */
-    protected function getTstImportArchivDirectory(): string
-    {
-        return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
-    }
-
     protected function processNonAbstractedImageReferences($text, $sourceNic): string
     {
         $reg = '/<img.*src=".*\\/mm_(\\d+)\\/(.*?)".*>/m';
@@ -250,12 +231,6 @@ class assQuestionImport
                 $mobSrcId = $matches[1][$i];
                 $mobSrcName = $matches[2][$i];
                 $mobSrcLabel = 'il_' . $sourceNic . '_mob_' . $mobSrcId;
-
-                //if (!is_array(ilSession::get("import_mob_xhtml"))) {
-                //    ilSession::set("import_mob_xhtml", array());
-                //}
-
-                //$_SESSION["import_mob_xhtml"][] = array(
                 $mobs[] = [
                     "mob" => $mobSrcLabel, "uri" => 'objects/' . $mobSrcLabel . '/' . $mobSrcName
                 ];
@@ -306,7 +281,7 @@ class assQuestionImport
 
     protected function findSolutionTypeByValue(string $value): ?string
     {
-        foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
+        foreach (array_keys(SuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
             if (strpos($value, $search_type) !== false) {
                 return $type;
@@ -316,11 +291,11 @@ class assQuestionImport
     }
 
 
-    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
-    protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
+    protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
-            $dic = ilQuestionPoolDIC::dic();
+            $dic = QuestionPoolDIC::dic();
             $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
         }
         return $this->suggestedsolution_repo;
@@ -342,10 +317,6 @@ class assQuestionImport
             if (strcmp($material["type"], "matimage") === 0) {
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
-                    // import an mediaobject which was inserted using tiny mce
-                    //if (!is_array(ilSession::get("import_mob_xhtml"))) {
-                    //    ilSession::set("import_mob_xhtml", array());
-                    //}
                     $mobs[] = ["mob" => $matimage->getLabel(),
                                     "uri" => $matimage->getUri()
                     ];

@@ -76,6 +76,7 @@ class InternalDomainService
         return new FlashcardManager(
             $this,
             $this->repo_service,
+            $this->data_service,
             $glo_ref_id,
             $user_id
         );

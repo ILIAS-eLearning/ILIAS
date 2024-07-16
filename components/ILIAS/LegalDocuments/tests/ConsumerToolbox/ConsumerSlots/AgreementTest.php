@@ -23,6 +23,7 @@ namespace ILIAS\LegalDocuments\test\ConsumerToolbox\ConsumerSlots;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\PageFragment\PageContent;
+use ILIAS\LegalDocuments\PageFragment\ShowOnScreenMessage;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
+use ILIAS\UI\Component\Component;
 
 require_once __DIR__ . '/../../ContainerMock.php';
 
@@ -58,7 +60,7 @@ class AgreementTest extends TestCase
             $this->fail(...)
         );
 
-        $this->assertInstanceOf(PageContent::class, $instance->showAgreement('foo', 'bar'));
+        $this->assertInstanceOf(ShowOnScreenMessage::class, $instance->showAgreement('foo', 'bar'));
     }
 
     public function testShowAgreementForm(): void
@@ -68,10 +70,10 @@ class AgreementTest extends TestCase
             $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
-            $this->fail(...)
+            fn() => $this->mock(Component::class)
         );
 
-        $this->assertInstanceOf(PageContent::class, $instance->showAgreement('foo', 'bar'));
+        $this->assertInstanceOf(ShowOnScreenMessage::class, $instance->showAgreementForm('foo', 'bar'));
     }
 
     public function testNeedsToAgree(): void

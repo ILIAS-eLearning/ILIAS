@@ -177,7 +177,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     protected function collectValuesFromElements(array $elements): array
     {
-        $values = array();
+        $values = [];
 
         foreach ($elements as $identifier => $orderingElement) {
             switch ($this->getContext()) {
@@ -215,21 +215,21 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         $element->setImagePathFs($this->getImageFsPath());
         $element->setImageThumbnailPrefix($this->getThumbnailPrefix());
 
-        return array(
+        return [
             'title' => $element->getContent(),
             'src' => $element->getPresentationImageUrl()
-        );
+        ];
     }
 
     protected function getStructValueFromObject(ilAssOrderingElement $element): array
     {
-        return array(
+        return [
             'answer_id' => $element->getId(),
             'random_id' => $element->getRandomIdentifier(),
             'content' => (string) $element->getContent(),
             'ordering_position' => $element->getPosition(),
             'ordering_indentation' => $element->getIndentation()
-        );
+        ];
     }
 
     protected function needsConvertToElements($valuesOrElements): bool
@@ -252,7 +252,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     public function constructElementsFromValues(array $values): array
     {
-        $elements = array();
+        $elements = [];
 
         $position = 0;
 
@@ -262,12 +262,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         foreach ($values as $identifier => $value) {
             $element = new ilAssOrderingElement();
 
-            $element->setRandomIdentifier($identifier);
+            $element->setRandomIdentifier((int) $identifier);
 
             $element->setPosition($position++);
 
             if ($this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY) {
-                $element->setIndentation((int)$value);
+                $element->setIndentation((int) $value);
             } else {
                 $element->setContent($value);
             }
@@ -311,7 +311,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         $uploadFiles = $this->fetchSubmittedUploadFiles();
 
         if (!isset($uploadFiles[$identifier])) {
-            return array();
+            return [];
         }
 
         return $uploadFiles[$identifier];
@@ -351,12 +351,12 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
      */
     protected function getFileSubmitDataRestructuredByIdentifiers(): array
     {
-        $submittedUploadFiles = array();
+        $submittedUploadFiles = [];
 
         foreach ($this->getFileSubmitData() as $uploadProperty => $valueElement) {
             foreach ($valueElement as $elementIdentifier => $uploadValue) {
                 if (!isset($submittedUploadFiles[$elementIdentifier])) {
-                    $submittedUploadFiles[$elementIdentifier] = array();
+                    $submittedUploadFiles[$elementIdentifier] = [];
                 }
 
                 $submittedUploadFiles[$elementIdentifier][$uploadProperty] = $uploadValue;
@@ -369,7 +369,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     protected function getFileSubmitData()
     {
         if (!isset($_FILES[$this->getPostVar()])) {
-            return array();
+            return [];
         }
 
         return $_FILES[$this->getPostVar()];
@@ -406,7 +406,6 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
         $requested_identfier = key($identifierArr);
 
-        // The code actually relied on a manipulation of $_POST by ilIdentifiedMultiValuesJsPositionIndexRemover
         return (string) str_replace(
             ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX,
             '',

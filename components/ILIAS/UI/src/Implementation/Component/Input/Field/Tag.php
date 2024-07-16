@@ -132,7 +132,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($this->getMaxTags() > 0) {
             $max_tags = $this->getMaxTags();

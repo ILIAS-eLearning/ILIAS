@@ -154,15 +154,37 @@ abstract class ilAssQuestionFeedback
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $page_object_type = $this->getGenericFeedbackPageObjectType();
 
-            $value_feedback_solution_complete = $this->getPageObjectNonEditableValueHTML(
-                $page_object_type,
-                $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), true)
-            );
+            $page_object_id = $this->getGenericFeedbackId($this->questionOBJ->getId(), true);
 
-            $value_feedback_solution_incomplete = $this->getPageObjectNonEditableValueHTML(
-                $page_object_type,
-                $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), false)
-            );
+            if($page_object_id === -1) {
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'feedback_type', $page_object_type);
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'complete');
+                $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
+                $value_feedback_solution_complete = sprintf(
+                    '<a href="%s">%s</a>',
+                    $link,
+                    $this->lng->txt('tst_question_feedback_edit_page')
+                );
+                $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'incomplete');
+                $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
+                $value_feedback_solution_incomplete = sprintf(
+                    '<a href="%s">%s</a>',
+                    $link,
+                    $this->lng->txt('tst_question_feedback_edit_page')
+                );
+            } else {
+                $this->ensurePageObjectExists($page_object_type, $page_object_id);
+
+                $value_feedback_solution_complete = $this->getPageObjectNonEditableValueHTML(
+                    $page_object_type,
+                    $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), true)
+                );
+                $value_feedback_solution_incomplete = $this->getPageObjectNonEditableValueHTML(
+                    $page_object_type,
+                    $this->getGenericFeedbackPageObjectId($this->questionOBJ->getId(), false)
+                );
+            }
+
         } else {
             $value_feedback_solution_complete = $this->getGenericFeedbackContent(
                 $this->questionOBJ->getId(),
@@ -376,7 +398,7 @@ abstract class ilAssQuestionFeedback
     final public function duplicateFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $this->duplicateGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
@@ -404,7 +426,7 @@ abstract class ilAssQuestionFeedback
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getGenericFeedbackPageObjectType();
-                $this->duplicatePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
+                $this->clonePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
             }
         }
     }
@@ -413,21 +435,21 @@ abstract class ilAssQuestionFeedback
      * duplicates the SPECIFIC feedback relating to the given original question id
      * and saves it for the given duplicate question id
      */
-    abstract protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
+    abstract protected function cloneSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
 
     /**
      * syncs the feedback from a duplicated question back to the original question
      */
-    final public function syncFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    final public function cloneFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
-        $this->syncGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneGenericFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
      * syncs the GENERIC feedback from a duplicated question back to the original question
      */
-    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    private function cloneGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         // delete generic feedback of the original question
         $this->db->manipulateF(
@@ -505,11 +527,6 @@ abstract class ilAssQuestionFeedback
         return false;
     }
 
-    /**
-     * syncs the SPECIFIC feedback from a duplicated question back to the original question
-     */
-    abstract protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
-
     final protected function getGenericFeedbackTableName(): string
     {
         return self::TABLE_NAME_GENERIC_FEEDBACK;
@@ -523,8 +540,12 @@ abstract class ilAssQuestionFeedback
     {
         $link = $this->getPageObjectEditingLink($page_object_type, $page_object_id);
         $content = $this->getPageObjectContent($page_object_type, $page_object_id);
-
-        return "$link<br /><br />$content";
+        return sprintf(
+            '<a href="%s">%s</a><br /><br />%s',
+            $link,
+            $this->lng->txt('tst_question_feedback_edit_page'),
+            $content
+        );
     }
 
     public function getClassNameByType(string $a_type, bool $a_gui = false): string
@@ -545,10 +566,7 @@ abstract class ilAssQuestionFeedback
         $this->ctrl->setParameterByClass($cl, 'feedback_type', $page_object_type);
         $this->ctrl->setParameterByClass($cl, 'feedback_id', $page_object_id);
 
-        $linkHREF = $this->ctrl->getLinkTargetByClass($cl, 'edit');
-        $linkTEXT = $this->lng->txt('tst_question_feedback_edit_page');
-
-        return "<a href='$linkHREF'>$linkTEXT</a>";
+        return $this->ctrl->getLinkTargetByClass($cl, 'edit');
     }
 
     final public function setPageObjectOutputMode(string $page_obj_output_mode): void
@@ -613,16 +631,21 @@ abstract class ilAssQuestionFeedback
         $pageObject->createFromXML();
     }
 
-    final protected function duplicatePageObject(string $page_object_type, int $original_page_object_id, int $duplicate_page_object_id, int $duplicate_page_object_parent_id): void
-    {
-        $this->ensurePageObjectExists($page_object_type, $original_page_object_id);
+    final protected function clonePageObject(
+        string $page_object_type,
+        int $source_page_object_id,
+        int $target_page_object_id,
+        int $target_page_object_parent_id
+    ): void {
+        $this->ensurePageObjectExists($page_object_type, $source_page_object_id);
+        $this->ensurePageObjectExists($page_object_type, $target_page_object_id);
 
         $cl = $this->getClassNameByType($page_object_type);
 
-        $pageObject = new $cl($original_page_object_id);
-        $pageObject->setParentId($duplicate_page_object_parent_id);
-        $pageObject->setId($duplicate_page_object_id);
-        $pageObject->createFromXML();
+        $pageObject = new $cl($source_page_object_id);
+        $pageObject->setParentId($target_page_object_parent_id);
+        $pageObject->setId($target_page_object_id);
+        $pageObject->updateFromXML();
     }
 
     final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void
@@ -674,11 +697,6 @@ abstract class ilAssQuestionFeedback
     final protected function getGenericFeedbackPageObjectId(int $question_id, bool $solution_completed): int
     {
         $page_object_id = $this->getGenericFeedbackId($question_id, $solution_completed);
-
-        if ($page_object_id == -1) {
-            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
-        }
-
         return $page_object_id;
     }
 
@@ -713,7 +731,7 @@ abstract class ilAssQuestionFeedback
     public function importGenericFeedback(int $question_id, bool $solution_completed, string $feedback_content): void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $page_object_id = $this->getGenericFeedbackPageObjectId($question_id, $solution_completed);
+            $page_object_id = $this->saveGenericFeedbackContent($question_id, $solution_completed, '');
             $page_object_type = $this->getGenericFeedbackPageObjectType();
 
             $this->createPageObject($page_object_type, $page_object_id, $feedback_content);
@@ -749,4 +767,29 @@ abstract class ilAssQuestionFeedback
         }
         return $content;
     }
+
+    public function createFeedbackPages(string $mode): string
+    {
+        $page_object_type = ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK;
+        $page_object_id_complete = $this->saveGenericFeedbackContent(
+            $this->questionOBJ->getId(),
+            true,
+            ''
+        );
+        $this->ensurePageObjectExists($page_object_type, $page_object_id_complete);
+
+        $page_object_id_incomplete = $this->saveGenericFeedbackContent(
+            $this->questionOBJ->getId(),
+            false,
+            ''
+        );
+        $this->ensurePageObjectExists($page_object_type, $page_object_id_incomplete);
+
+        $page_object_id = ($mode === 'complete') ? $page_object_id_complete : $page_object_id_incomplete;
+        return $this->getPageObjectEditingLink(
+            $page_object_type,
+            $page_object_id
+        );
+    }
+
 }

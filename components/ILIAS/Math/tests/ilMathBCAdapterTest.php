@@ -16,9 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'components/ILIAS/Math/tests/ilMathBaseAdapterTest.php';
-
-class ilMathBCAdapterTest extends ilMathBaseAdapterTest
+class ilMathBCAdapterTest extends ilMathBaseAdapterTestCase
 {
     /**
      * @inheritDoc
@@ -36,7 +34,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
     /**
      * @return array
      */
-    public function powData(): array
+    public static function powData(): array
     {
         return array_merge([
             ['2', '64', '18446744073709551616', null],

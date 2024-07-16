@@ -24,16 +24,11 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeValidityOfAchievedQualificationSettings
 {
-    protected ?int $qualification_period;
-    protected ?DateTimeImmutable $qualification_date;
-    protected ?int $restart_period;
-    protected $restart_recheck;
-
     public function __construct(
-        ?int $qualification_period,
-        ?DateTimeImmutable $qualification_date,
-        ?int $restart_period,
-        bool $restart_recheck
+        protected ?int $qualification_period,
+        protected ?DateTimeImmutable $qualification_date,
+        protected ?int $restart_period,
+        protected bool $restart_recheck
     ) {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
             throw new InvalidArgumentException(

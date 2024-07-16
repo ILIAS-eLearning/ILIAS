@@ -35,13 +35,13 @@ class ilAssHintPageConfigTest extends assBaseTestCase
     {
         parent::setUp();
 
-//        $this->object = new ilAssHintPageConfig();
+        //        $this->object = new ilAssHintPageConfig();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssHintPageConfig::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssHintPageConfig::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

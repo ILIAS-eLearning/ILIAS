@@ -27,6 +27,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 {
     protected ?ilObjectLP $olp = null;
     protected bool $is_root;
+    protected bool $is_in_course = false;
+    protected bool $is_in_group = false;
     protected int $ref_id;
     protected ?string $type = null;
     protected int $obj_id;
@@ -61,6 +63,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $this->type = $type;
                 $this->olp = ilObjectLP::getInstance($this->obj_id);
             }
+        }
+
+        if (
+            !$this->is_root &&
+            $DIC->repositoryTree()->checkForParentType($this->ref_id, 'grp')
+        ) {
+            $this->is_in_group = true;
+        } elseif (
+            !$this->is_root &&
+            $DIC->repositoryTree()->checkForParentType($this->ref_id, 'crs')
+        ) {
+            $this->is_in_course = true;
         }
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -173,7 +187,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $privacy = array("gender", "city", "country", "sel_country");
         foreach ($privacy as $field) {
-            if ($this->setting->get("usr_settings_course_export_" . $field)) {
+            if (
+                ($this->is_in_course && $this->setting->get("usr_settings_course_export_" . $field)) ||
+                ($this->is_in_group && $this->setting->get("usr_settings_group_export_" . $field))
+            ) {
                 $all[] = $field;
             }
         }

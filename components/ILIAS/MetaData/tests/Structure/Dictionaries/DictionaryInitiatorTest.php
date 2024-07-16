@@ -30,17 +30,21 @@ use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\NullTag;
 use ILIAS\MetaData\Elements\Structure\NullStructureElement;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagAssignmentInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
+use ILIAS\MetaData\Paths\Navigator\NullNavigatorFactory;
 
 class DictionaryInitiatorTest extends TestCase
 {
     protected function getDictionaryInitiator(): DictionaryInitiator
     {
-        return new class (new NullFactory(), new NullStructureSet()) extends DictionaryInitiator {
-            public function __construct(
-                PathFactoryInterface $path_factory,
-                StructureSetInterface $structure
-            ) {
-                parent::__construct($path_factory, $structure);
+        return new class () extends DictionaryInitiator {
+            public function __construct()
+            {
+                parent::__construct(
+                    new NullFactory(),
+                    new NullNavigatorFactory(),
+                    new NullStructureSet()
+                );
             }
 
             public function exposeAddTagToElement(

@@ -53,9 +53,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
     public function setValue($a_value): void
     {
-        $this->pairs = array();
-        $this->terms = array();
-        $this->definitions = array();
+        $this->pairs = [];
+        $this->terms = [];
+        $this->definitions = [];
         if (is_array($a_value)) {
             if (isset($a_value['term']) && is_array($a_value['term'])) {
                 foreach ($a_value['term'] as $idx => $term) {
@@ -201,8 +201,8 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         $global_tpl = $DIC['tpl'];
-        $global_tpl->addJavascript("asserts/js/answerwizardinput.js");
-        $global_tpl->addJavascript("asserts/js/matchingpairwizard.js");
+        $global_tpl->addJavascript("assets/js/answerwizardinput.js");
+        $global_tpl->addJavascript("assets/js/matchingpairwizard.js");
 
         $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
@@ -275,7 +275,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         }
 
         $tpl->setCurrentBlock('term_ids');
-        $ids = array();
+        $ids = [];
         foreach ($this->terms as $term) {
             array_push($ids, $term->getIdentifier());
         }
@@ -284,7 +284,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock('definition_ids');
-        $ids = array();
+        $ids = [];
         foreach ($this->definitions as $definition) {
             array_push($ids, $definition->getIdentifier());
         }

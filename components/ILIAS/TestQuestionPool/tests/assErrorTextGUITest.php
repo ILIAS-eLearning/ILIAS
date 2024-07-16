@@ -51,7 +51,7 @@ class assErrorTextGUITest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
 
         global $DIC;
-        $user_mock = $this->createMock('ilObjUser', array(), array(), '', false);
+        $user_mock = $this->createMock('ilObjUser', [], [], '', false);
         $DIC['ilUser'] = $user_mock;
         $GLOBALS['ilUser'] = $user_mock;
     }

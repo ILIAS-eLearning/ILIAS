@@ -51,6 +51,9 @@ class ilNotificationOSDGUI
         }
 
         $notificationSettings = new ilSetting('notifications');
+        if ($notificationSettings->get('enable_osd', '0') !== '1') {
+            return;
+        }
 
         $osdTemplate = new ilTemplate('tpl.osd_notifications.js', true, true, 'components/ILIAS/Notifications');
 

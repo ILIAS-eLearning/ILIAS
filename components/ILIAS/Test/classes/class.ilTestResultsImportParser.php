@@ -17,7 +17,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\LoggingServices;
+use ILIAS\Test\Logging\TestLogger;
 
 class ilTestResultsImportParser extends ilSaxParser
 {
@@ -37,7 +37,7 @@ class ilTestResultsImportParser extends ilSaxParser
         ?string $a_xml_file,
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private LoggingServices $log
+        private TestLogger $log
     ) {
         parent::__construct($a_xml_file, true);
         $this->table = '';
@@ -115,8 +115,8 @@ class ilTestResultsImportParser extends ilSaxParser
                         if (strlen($this->user_criteria_field)) {
                             $result = $this->db->queryF(
                                 "SELECT usr_id FROM usr_data WHERE " . $this->user_criteria_field . " =  %s",
-                                array($this->user_criteria_type),
-                                array($a_attribs[$this->user_criteria_field])
+                                [$this->user_criteria_type],
+                                [$a_attribs[$this->user_criteria_field]]
                             );
                             if ($result->numRows()) {
                                 $row = $this->db->fetchAssoc($result);
@@ -125,22 +125,22 @@ class ilTestResultsImportParser extends ilSaxParser
                         }
                         $next_id = $this->db->nextId('tst_active');
 
-                        $this->db->insert('tst_active', array(
-                            'active_id' => array('integer', $next_id),
-                            'user_fi' => array('integer', $usr_id),
-                            'anonymous_id' => array('text', strlen($a_attribs['anonymous_id']) ? $a_attribs['anonymous_id'] : null),
-                            'test_fi' => array('integer', $this->test_obj->getTestId()),
-                            'lastindex' => array('integer', $a_attribs['lastindex']),
-                            'tries' => array('integer', $a_attribs['tries']),
-                            'submitted' => array('integer', $a_attribs['submitted']),
-                            'submittimestamp' => array('timestamp', strlen($a_attribs['submittimestamp']) ? $a_attribs['submittimestamp'] : null),
-                            'tstamp' => array('integer', $a_attribs['tstamp']),
-                            'importname' => array('text', $a_attribs['fullname']),
-                            'last_finished_pass' => array('integer', $this->fetchLastFinishedPass($a_attribs)),
-                            'last_started_pass' => array('integer', $this->fetchLastStartedPass($a_attribs)),
-                            'answerstatusfilter' => array('integer', $this->fetchAttribute($a_attribs, 'answer_status_filter')),
-                            'objective_container' => array('integer', $this->fetchAttribute($a_attribs, 'objective_container'))
-                        ));
+                        $this->db->insert('tst_active', [
+                            'active_id' => ['integer', $next_id],
+                            'user_fi' => ['integer', $usr_id],
+                            'anonymous_id' => ['text', strlen($a_attribs['anonymous_id']) ? $a_attribs['anonymous_id'] : null],
+                            'test_fi' => ['integer', $this->test_obj->getTestId()],
+                            'lastindex' => ['integer', $a_attribs['lastindex']],
+                            'tries' => ['integer', $a_attribs['tries']],
+                            'submitted' => ['integer', $a_attribs['submitted']],
+                            'submittimestamp' => ['timestamp', strlen($a_attribs['submittimestamp']) ? $a_attribs['submittimestamp'] : null],
+                            'tstamp' => ['integer', $a_attribs['tstamp']],
+                            'importname' => ['text', $a_attribs['fullname']],
+                            'last_finished_pass' => ['integer', $this->fetchLastFinishedPass($a_attribs)],
+                            'last_started_pass' => ['integer', $this->fetchLastStartedPass($a_attribs)],
+                            'answerstatusfilter' => ['integer', $this->fetchAttribute($a_attribs, 'answer_status_filter')],
+                            'objective_container' => ['integer', $this->fetchAttribute($a_attribs, 'objective_container')]
+                        ]);
                         $this->active_id_mapping[$a_attribs['active_id']] = $next_id;
                         break;
                     case 'tst_test_rnd_qst':
@@ -148,20 +148,20 @@ class ilTestResultsImportParser extends ilSaxParser
                         $newActiveId = $this->active_id_mapping[$a_attribs['active_fi']];
                         $newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']];
                         $newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']];
-                        $this->db->insert('tst_test_rnd_qst', array(
-                            'test_random_question_id' => array('integer', $nextId),
-                            'active_fi' => array('integer', $newActiveId),
-                            'question_fi' => array('integer', $newQuestionId),
-                            'sequence' => array('integer', $a_attribs['sequence']),
-                            'pass' => array('integer', $a_attribs['pass']),
-                            'tstamp' => array('integer', $a_attribs['tstamp']),
-                            'src_pool_def_fi' => array('integer', $newSrcPoolDefId)
-                        ));
+                        $this->db->insert('tst_test_rnd_qst', [
+                            'test_random_question_id' => ['integer', $nextId],
+                            'active_fi' => ['integer', $newActiveId],
+                            'question_fi' => ['integer', $newQuestionId],
+                            'sequence' => ['integer', $a_attribs['sequence']],
+                            'pass' => ['integer', $a_attribs['pass']],
+                            'tstamp' => ['integer', $a_attribs['tstamp']],
+                            'src_pool_def_fi' => ['integer', $newSrcPoolDefId]
+                        ]);
                         break;
                     case 'tst_pass_result':
                         $affectedRows = $this->db->manipulateF(
                             "INSERT INTO tst_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                            array(
+                            [
                                 'integer',
                                 'integer',
                                 'float',
@@ -170,8 +170,8 @@ class ilTestResultsImportParser extends ilSaxParser
                                 'integer',
                                 'integer',
                                 'integer'
-                            ),
-                            array(
+                            ],
+                            [
                                 $this->active_id_mapping[$a_attribs['active_fi']],
                                 strlen($a_attribs['pass']) ? $a_attribs['pass'] : 0,
                                 ($a_attribs["points"]) ? $a_attribs["points"] : 0,
@@ -180,13 +180,13 @@ class ilTestResultsImportParser extends ilSaxParser
                                 $a_attribs["answeredquestions"],
                                 ($a_attribs["workingtime"]) ? $a_attribs["workingtime"] : 0,
                                 $a_attribs["tstamp"]
-                            )
+                            ]
                         );
                         break;
                     case 'tst_result_cache':
                         $affectedRows = $this->db->manipulateF(
                             "INSERT INTO tst_result_cache (active_fi, pass, max_points, reached_points, mark_short, mark_official, passed, failed, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                            array(
+                            [
                                 'integer',
                                 'integer',
                                 'float',
@@ -196,8 +196,8 @@ class ilTestResultsImportParser extends ilSaxParser
                                 'integer',
                                 'integer',
                                 'integer'
-                            ),
-                            array(
+                            ],
+                            [
                                 $this->active_id_mapping[$a_attribs['active_fi']],
                                 strlen($a_attribs['pass']) ? $a_attribs['pass'] : 0,
                                 ($a_attribs["max_points"]) ? $a_attribs["max_points"] : 0,
@@ -207,45 +207,45 @@ class ilTestResultsImportParser extends ilSaxParser
                                 ($a_attribs["passed"]) ? 1 : 0,
                                 ($a_attribs["failed"]) ? 1 : 0,
                                 $a_attribs["tstamp"]
-                            )
+                            ]
                         );
                         break;
                     case 'tst_sequence':
-                        $affectedRows = $this->db->insert("tst_sequence", array(
-                            "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
-                            "pass" => array("integer", $a_attribs['pass']),
-                            "sequence" => array("clob", $a_attribs['sequence']),
-                            "postponed" => array("text", (strlen($a_attribs['postponed'])) ? $a_attribs['postponed'] : null),
-                            "hidden" => array("text", (strlen($a_attribs['hidden'])) ? $a_attribs['hidden'] : null),
-                            "tstamp" => array("integer", $a_attribs['tstamp'])
-                        ));
+                        $affectedRows = $this->db->insert("tst_sequence", [
+                            "active_fi" => ["integer", $this->active_id_mapping[$a_attribs['active_fi']]],
+                            "pass" => ["integer", $a_attribs['pass']],
+                            "sequence" => ["clob", $a_attribs['sequence']],
+                            "postponed" => ["text", (strlen($a_attribs['postponed'])) ? $a_attribs['postponed'] : null],
+                            "hidden" => ["text", (strlen($a_attribs['hidden'])) ? $a_attribs['hidden'] : null],
+                            "tstamp" => ["integer", $a_attribs['tstamp']]
+                        ]);
                         break;
                     case 'tst_solutions':
                         $next_id = $this->db->nextId('tst_solutions');
-                        $affectedRows = $this->db->insert("tst_solutions", array(
-                            "solution_id" => array("integer", $next_id),
-                            "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
-                            "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']]),
-                            "value1" => array("clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null),
-                            "value2" => array("clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null),
-                            "pass" => array("integer", $a_attribs['pass']),
-                            "tstamp" => array("integer", $a_attribs['tstamp'])
-                        ));
+                        $affectedRows = $this->db->insert("tst_solutions", [
+                            "solution_id" => ["integer", $next_id],
+                            "active_fi" => ["integer", $this->active_id_mapping[$a_attribs['active_fi']]],
+                            "question_fi" => ["integer", $this->question_id_mapping[$a_attribs['question_fi']]],
+                            "value1" => ["clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null],
+                            "value2" => ["clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null],
+                            "pass" => ["integer", $a_attribs['pass']],
+                            "tstamp" => ["integer", $a_attribs['tstamp']]
+                        ]);
                         break;
                     case 'tst_test_result':
                         $next_id = $this->db->nextId('tst_test_result');
                         $affectedRows = $this->db->manipulateF(
                             "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                            array('integer', 'integer','integer', 'float', 'integer', 'integer','integer'),
-                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
+                            ['integer', 'integer','integer', 'float', 'integer', 'integer','integer'],
+                            [$next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp']]
                         );
                         break;
                     case 'tst_times':
                         $next_id = $this->db->nextId('tst_times');
                         $affectedRows = $this->db->manipulateF(
                             "INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-                            array('integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'),
-                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $a_attribs['started'], $a_attribs['finished'], $a_attribs['pass'], $a_attribs['tstamp'])
+                            ['integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'],
+                            [$next_id, $this->active_id_mapping[$a_attribs['active_fi']], $a_attribs['started'], $a_attribs['finished'], $a_attribs['pass'], $a_attribs['tstamp']]
                         );
                         break;
                 }
@@ -262,11 +262,11 @@ class ilTestResultsImportParser extends ilSaxParser
     public function handlerEndTag($a_xml_parser, $a_name): void
     {
         switch (strtolower($a_name)) {
-            case "tst_active":
-                $this->log->write("active id mapping: " . print_r($this->active_id_mapping, true));
+            case 'tst_active':
+                $this->log->info('active id mapping: ' . print_r($this->active_id_mapping, true));
                 break;
-            case "tst_test_question":
-                $this->log->write("question id mapping: " . print_r($this->question_id_mapping, true));
+            case 'tst_test_question':
+                $this->log->info('question id mapping: ' . print_r($this->question_id_mapping, true));
                 break;
         }
     }

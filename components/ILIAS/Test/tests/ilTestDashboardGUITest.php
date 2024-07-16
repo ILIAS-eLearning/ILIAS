@@ -43,7 +43,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
 
         $this->testObj = new ilTestDashboardGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $DIC['ilUser'],
             $DIC['ilAccess'],
             $DIC['tpl'],
@@ -55,7 +55,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
             $this->createMock(ilTestQuestionSetConfig::class),
-            $this->createMock(\ILIAS\Test\InternalRequestService::class)
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }
 
@@ -66,9 +66,9 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $objTest_mock = $this->createMock(ilObjTest::class);
-        $this->testObj->setTestObj($objTest_mock);
-        $this->assertEquals($objTest_mock, $this->testObj->getTestObj());
+        $obj_test_mock = $this->getTestObjMock();
+        $this->testObj->setTestObj($obj_test_mock);
+        $this->assertEquals($obj_test_mock, $this->testObj->getTestObj());
     }
 
     public function testQuestionSetConfig(): void

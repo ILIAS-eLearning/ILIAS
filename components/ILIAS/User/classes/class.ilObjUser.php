@@ -22,6 +22,7 @@ use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * User class
@@ -203,6 +204,7 @@ class ilObjUser extends ilObject
                 )
             ) {
                 //load default (css)
+                $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
                 $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
             }
 
@@ -349,7 +351,7 @@ class ilObjUser extends ilObject
         switch ($this->passwd_type) {
             case self::PASSWD_PLAIN:
                 if (strlen($this->passwd)) {
-                    ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
+                    LocalUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
                     $pw_value = $this->getPasswd();
                 } else {
                     $pw_value = $this->passwd;
@@ -494,6 +496,7 @@ class ilObjUser extends ilObject
             'latitude' => ['text', $this->latitude],
             'longitude' => ['text', $this->longitude],
             'loc_zoom' => ['integer', (int) $this->loc_zoom],
+            'login_attempts' => ['integer', $this->login_attempts],
             'last_password_change' => ['integer', $this->last_password_change_ts],
             'passwd_policy_reset' => ['integer', $this->passwd_policy_reset],
             'last_update' => ['timestamp', ilUtil::now()],
@@ -511,7 +514,7 @@ class ilObjUser extends ilObject
         switch ($this->passwd_type) {
             case self::PASSWD_PLAIN:
                 if (strlen($this->passwd)) {
-                    ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
+                    LocalUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
                     $update_array['passwd'] = ['text', $this->getPasswd()];
                 } else {
                     $update_array['passwd'] = ['text', $this->passwd];
@@ -793,7 +796,7 @@ class ilObjUser extends ilObject
             return false;
         }
 
-        ilUserPasswordManager::getInstance()->encodePassword($this, $raw);
+        LocalUserPasswordManager::getInstance()->encodePassword($this, $raw);
 
         $ilDB->manipulateF(
             'UPDATE usr_data
@@ -1136,9 +1139,6 @@ class ilObjUser extends ilObject
         $q = 'DELETE FROM bookmark_data WHERE user_id = ' .
             $ilDB->quote($this->getId(), 'integer');
         $ilDB->manipulate($q);
-
-        // DELETE FORUM ENTRIES (not complete in the moment)
-        ilObjForum::_deleteUser($this->getId());
 
         // Delete crs entries
         ilObjCourse::_deleteUser($this->getId());
@@ -1847,7 +1847,7 @@ class ilObjUser extends ilObject
 
         if ($this->id == SYSTEM_USER_ID) {
             if (
-                \ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
+                LocalUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
                 !ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
             ) {
                 return true;
@@ -3522,24 +3522,6 @@ class ilObjUser extends ilObject
             $users[] = $rec['usr_id'];
         }
         return $users;
-    }
-
-
-    public static function _resetLoginAttempts(
-        int $a_usr_id
-    ): bool {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'UPDATE usr_data SET login_attempts = 0 WHERE usr_id = %s';
-        $affected = $ilDB->manipulateF($query, ['integer'], [$a_usr_id]);
-
-        if ($affected) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static function _getLoginAttempts(

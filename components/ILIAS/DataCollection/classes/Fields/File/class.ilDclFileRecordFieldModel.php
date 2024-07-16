@@ -188,7 +188,7 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function afterClone(): void
     {
-        $field = ilDclCache::getCloneOf((int)$this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field = ilDclCache::getCloneOf((int) $this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
 

@@ -29,7 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-    common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
 acc#:#acc_add_document_btn_label#:#Add Document
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
@@ -347,6 +346,8 @@ administration#:#vc_information#:#Show Version Control Information
 administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
+adn#:#action_confirm_delete#:#Delete Notifications
+adn#:#action_confirm_delete_msg#:#Would you like to delete the following notification(s)?
 adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 adn#:#btn_cancel#:#Cancel
@@ -384,7 +385,7 @@ adn#:#msg_show_to_all_languages#:#Show to all languages
 adn#:#msg_show_to_all_roles#:#Show to all roles
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
 adn#:#msg_success_created#:#Notification created
-adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_deleted#:#Notification(s) sucessfully deleted
 adn#:#msg_success_duplicated#:#Notification sucessfully duplicated
 adn#:#msg_success_reset#:#Notification reset
 adn#:#msg_success_updated#:#Notification updated
@@ -427,6 +428,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#action#:#Action
+assessment#:#activate_logging#:#Activate Test and Assessment Logging
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
@@ -586,9 +590,9 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
+assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
@@ -601,6 +605,7 @@ assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Participants
+assessment#:#date_time#:#Date and Time
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -628,19 +633,6 @@ assessment#:#dont_use_questionpool#:#Don't insert the questions in a question po
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_fx_threshold#:#Threshold
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the ‘FX’ grade.
-assessment#:#ects_grade#:#ECTS Grade
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
-assessment#:#ects_grade_f_desc#:#considerable further work is required
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
-assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
 assessment#:#edit_introduction#:#Edit Introduction
@@ -715,6 +707,7 @@ assessment#:#export_cert_ignored_for_users_s#:#The following account did not ach
 assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
+assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren
 assessment#:#extratime#:#Extra Time
 assessment#:#factor#:#Factor
 assessment#:#failed_official#:#failed
@@ -723,7 +716,7 @@ assessment#:#false#:#False
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_answers#:#Feedback for Every Answer
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
-assessment#:#feedback_complete_solution#:#Correct solution
+assessment#:#feedback_complete_solution#:#Correct Solution
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_generic#:#Correct/Incorrect Answer Feedback
@@ -778,14 +771,17 @@ assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
+assessment#:#imap_line_color#:#Image Map Line Color
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
 assessment#:#in_range#:#Within range
+assessment#:#in_trash#:#In Trash
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
 assessment#:#insert_before#:#Insert Before
 assessment#:#insert_gap#:#Insert Gap
+assessment#:#interaction_type#:#Interaction Type
 assessment#:#internal_links#:#Internal Links
 assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
@@ -843,23 +839,53 @@ assessment#:#lacex_example_header#:#Examples
 assessment#:#last_update#:#Updated
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
-assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_create_new_test#:#Created new test
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
-assessment#:#log_mark_added#:#Mark added
-assessment#:#log_mark_changed#:#Mark changed
-assessment#:#log_mark_removed#:#Mark removed
-assessment#:#log_modified_test#:#The test was modified
-assessment#:#log_question_added#:#Question added at position
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_removed#:#Question removed
-assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
-assessment#:#log_user_answered_question#:#User answered a question and received %s points
-assessment#:#log_user_entered_values#:#User entered values
-assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
+assessment#:#log_entry_type#:#Log Entry Type
+assessment#:#log_ip#:#Log IP
+assessment#:#log_ip_info#:#The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records.
+assessment#:#log_participant_data_delete_warning#:#This test contains log data for participant interactions that will be deleted when changing the test to a test without names.
+assessment#:#log_text#:#Log message
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
+assessment#:#logging_settings#:#Logging
+assessment#:#logs_answer_deleted#:#Answer deleted
+assessment#:#logs_answer_submitted#:#Answer Submitted
+assessment#:#logs_deleted#:#The selected Log Data has been deleted.
+assessment#:#logs_error_on_participant_interaction#:#Error on Participant Interaction
+assessment#:#logs_error_on_question_administration_interaction#:#Error on Question Administration Interaction
+assessment#:#logs_error_on_scoring_interaction#:#Error on Scoring Interaction
+assessment#:#logs_error_on_test_administration_interaction#:#Error on Test Administration Interaction
+assessment#:#logs_error_on_undefined_interaction#:#Error on Undefined Interaction
+assessment#:#logs_extra_time_added#:#Extra Time Added
+assessment#:#logs_main_settings_modified#:#Main Settings Modified
+assessment#:#logs_mark_schema_modified#:#Mark Schema Modified
+assessment#:#logs_mark_schema_reset#:#Mark Schema Reset
+assessment#:#logs_new_test_created#:#New Test Created
+assessment#:#logs_output#:#Log Data Output
+assessment#:#logs_participant_data_removed#:#Participant Data Removed
+assessment#:#logs_pi#:#Participant Interaction
+assessment#:#logs_qai#:#Question Administration Interaction
+assessment#:#logs_question_added#:#Question Added
+assessment#:#logs_question_graded#:#Question Graded
+assessment#:#logs_question_grading_reset#:#Grading Reset
+assessment#:#logs_question_modified#:#Question Modified
+assessment#:#logs_question_modified_in_corrections#:#Question Modified in Corrections
+assessment#:#logs_question_moved#:#Question Moved
+assessment#:#logs_question_removed#:#Question Removed
+assessment#:#logs_question_removed_in_corrections#:#Question Removed in Corrections
+assessment#:#logs_question_selection_criteria_modified#:#Question Selection Criteria Modified
+assessment#:#logs_question_shown#:#Question Shown
+assessment#:#logs_question_skipped#:#Question Skipped
+assessment#:#logs_question_synchronisation_reset#:#Question Synchronisation Reset
+assessment#:#logs_questions_synchronised#:#Questions Synchonised
+assessment#:#logs_scoring_settings_modified#:#Scoring Settings Modified
+assessment#:#logs_si#:#Scoring Interaction
+assessment#:#logs_tai#:#Test Administration Interaction
+assessment#:#logs_te#:#Error
+assessment#:#logs_test_deleted#:#Test Deleted
+assessment#:#logs_test_run_finished#:#Test Run Finished
+assessment#:#logs_test_run_of_participant_closed#:#Run of Participant Closed
+assessment#:#logs_test_run_started#:#Test Run Started
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
@@ -877,7 +903,6 @@ assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#mark_schema#:#Grading System
 assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
-assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
 assessment#:#matching_shuffle_definitions#:#Definitions only
@@ -1091,6 +1116,7 @@ assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#qst_use_nested_answers#:#Nested answers
 assessment#:#que_contains_unused_var#:#The question text contains a variable, that is not used in any result formula!
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
+assessment#:#question_complete_title#:#Complete
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_id#:#Question ID
 assessment#:#question_id_short#:#ID
@@ -1222,6 +1248,7 @@ assessment#:#suggest_range#:#Suggest Range
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
+assessment#:#sync_question_to_pool#:#Synchronize Question
 assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#tax_filter#:#Taxonomy
@@ -1520,7 +1547,7 @@ assessment#:#tst_instant_feedback_trigger_forced_desc#:#The presentation of feed
 assessment#:#tst_instant_feedback_trigger_manual#:#Participants can Trigger the Feedback Manually
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble but will only be shown when a participant triggers the presentation manually.
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message on the ‘Test’ tab. The message can be edited in the sub-tab 'Edit Introduction' of these settings and is accessible already before the test can be started.
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
@@ -1549,6 +1576,7 @@ assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
 assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
+assessment#:#tst_mark_minimum_level_invalid#:#Minimum Level must be between 0 and 100.
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Reset to Simple Mark Schema
@@ -2000,7 +2028,6 @@ assessment#:#units#:#Units
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
-assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
@@ -2009,6 +2036,7 @@ assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
+assessment#:#variable#:#Variable
 assessment#:#variable_x#:#Variable %s
 assessment#:#variables#:#Variables
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
@@ -2130,10 +2158,11 @@ auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users w
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
-auth#:#login_page_activate#:#Activate Editor for Selected Languages
-auth#:#login_page_editor_switched#:#The active page editor has been changed
-auth#:#login_page_switch_ipe#:#Use ILIAS page editor
-auth#:#login_page_switch_rte#:#Use Rich-text editor
+auth#:#language_does_not_exist#:#The selected language does not exist.
+auth#:#login_page#:#Login-Page
+auth#:#login_page_activate#:#Activate Page Design
+auth#:#login_page_deactivate#:#Deactivate Page Design
+auth#:#login_pages#:#Login-Pages
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Online Now
@@ -2836,12 +2865,12 @@ certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#100 Main Street
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
-certificate#:#certificate_visibility#:#Visibility
-certificate#:#certificate_visibility_always#:#Always Visible
-certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.
-certificate#:#certificate_visibility_never#:#Not Visible
-certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
-certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
+certificate#:#certificate_visibility#:#Visibility###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_always#:#Always Visible###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen.###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_never#:#Not Visible###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###Suspected obsolescence - should be removed with 10.
+certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###Suspected obsolescence - should be removed with 10.
 certificate#:#cmix_cert_ph_object_description#:#Description
 certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object
 certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage
@@ -3435,7 +3464,6 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#actions_for#:#Actions for %s
 common#:#activate#:#Set Active
-common#:#activate_assessment_logging#:#Activate Test and Assessment Logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br />(Login)
 common#:#activate_tracking#:#Activation
 common#:#activation#:#Edit Timings
@@ -3502,24 +3530,6 @@ common#:#approve_recipient#:#Login ID of Approver
 common#:#archive#:#Archive
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Are you sure?
-common#:#ass_log_admin#:#Log Data Administration
-common#:#ass_log_count_datasets#:#Log Entries
-common#:#ass_log_delete_entries#:#Delete Log Entries
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#Log Data Output
-common#:#assessment_imap_line_color#:#Image Map Line Color
-common#:#assessment_log#:#Create a Test and Assessment log for a specific time period
-common#:#assessment_log_datetime#:#Date/Time
-common#:#assessment_log_deleted#:#The Test and Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#For test
-common#:#assessment_log_log_entries#:#log entries
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
-common#:#assessment_log_question#:#Question
-common#:#assessment_log_text#:#Log message
-common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
@@ -3892,6 +3902,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted
 common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
 common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_parameter#:#Delete Parameter
@@ -4060,7 +4071,7 @@ common#:#exc_time_over_short#:#Time is up.
 common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#excs#:#Exercises
-common#:#execute#:#Execute
+common#:#execute#:#Apply
 common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
 common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
@@ -4210,7 +4221,7 @@ common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
-common#:#global_role_assignment#:#Globale Rollenzuweisung
+common#:#global_role_assignment#:#Global Role Assignment
 common#:#global_settings#:#Global settings
 common#:#global_user#:#Global users
 common#:#glossaries#:#Glossaries
@@ -4347,7 +4358,7 @@ common#:#import_cat_table#:#The following table is only meaningful if the checkb
 common#:#import_categories#:#Import Categories
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Import File
-common#:#import_file_not_valid#:#The import file is not valid.
+common#:#import_file_not_valid_here#:#The import file is not valid or the contained object type cannot be imported here.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
@@ -4520,7 +4531,7 @@ common#:#local#:#Local
 common#:#local_language_file#:#custom language file
 common#:#local_language_files#:#custom language files
 common#:#local_languages_already_installed#:#Selected custom language file(s) are already installed
-common#:#local_role_assignment#:#Lokale Rollenzuweisung
+common#:#local_role_assignment#:#Local Role Assignment
 common#:#location#:#Location
 common#:#locator#:#Location:
 common#:#log_in#:#Login
@@ -5474,6 +5485,7 @@ common#:#sahs_export_file_info#:#Use this option for a ZIP file that was exporte
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
+common#:#sahs_new#:#Create New Learning Module
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms
 common#:#salutation_m#:#Mr
@@ -5551,6 +5563,7 @@ common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
 common#:#sess_mode#:#Session Mode
+common#:#sess_new#:#New Session
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
@@ -5775,6 +5788,7 @@ common#:#treeview#:#Show Sidebar
 common#:#tst#:#Test
 common#:#tst_add#:#Add test
 common#:#tst_edit_questions#:#Edit Questions
+common#:#tst_history_read#:#View History
 common#:#tst_new#:#New test
 common#:#tst_results#:#Test Results
 common#:#tst_run#:#Run
@@ -6042,7 +6056,7 @@ cont#:#cont_item_list#:#List
 cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.
 cont#:#cont_list_presentation#:#Content Display Options
 cont#:#cont_mem_skills#:#Competences
-cont#:#cont_news_edited#:#Bearbeitet
+cont#:#cont_news_edited#:#Edited
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline#:#News Timeline
 cont#:#cont_news_timeline_auto_entries#:#Include Automatic Entries
@@ -6883,7 +6897,7 @@ content#:#cont_pc_prof#:#Personal Data
 content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question
 content#:#cont_pc_repobj#:#Item Group
-content#:#cont_pc_res#:#Resource
+content#:#cont_pc_res#:#Item Group
 content#:#cont_pc_sec#:#Section
 content#:#cont_pc_skills#:#Competence
 content#:#cont_pc_src#:#Source Code
@@ -7388,28 +7402,28 @@ cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cron job deactivated becaus
 cron#:#cro_job_rc_job_manual_reset#:#Cron job re-activated by admin
 cron#:#cro_job_rc_job_no_result#:#Cron job did not return a proper result
 cron#:#cron_action_activate#:#Activate
-cron#:#cron_action_activate_success#:#Cron-Job activated.
-cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron-job "%s"?
-cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
+cron#:#cron_action_activate_success#:#Cron job activated.
+cron#:#cron_action_activate_sure#:#Are you sure you want to activate the cron job "%s"?
+cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron jobs?
 cron#:#cron_action_deactivate#:#Deactivate
-cron#:#cron_action_deactivate_success#:#Cron-Job deactivated.
-cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron-job "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
+cron#:#cron_action_deactivate_success#:#Cron job deactivated.
+cron#:#cron_action_deactivate_sure#:#Are you sure you want to deactivate the cron job "%s"?
+cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron jobs?
 cron#:#cron_action_edit#:#Edit
 cron#:#cron_action_edit_success#:#Schedule updated.
 cron#:#cron_action_reset#:#Reset
-cron#:#cron_action_reset_success#:#Cron-Job reset.
-cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron-job "%s"?
-cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
-cron#:#cron_action_run#:#Execute
-cron#:#cron_action_run_fail#:#Cron-Job failed.
-cron#:#cron_action_run_success#:#Cron-Job run successfully.
-cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
+cron#:#cron_action_reset_success#:#Cron job reset.
+cron#:#cron_action_reset_sure#:#Are you sure you want to reset the cron job "%s"?
+cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron jobs?
+cron#:#cron_action_run#:#Run Cron Job
+cron#:#cron_action_run_fail#:#Cron Job failed.
+cron#:#cron_action_run_success#:#Cron Job run successfully.
+cron#:#cron_action_run_sure#:#Are you sure you want to run the cron job "%s"?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Component
 cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Last Run
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron job.
 cron#:#cron_result#:#Result
 cron#:#cron_result_info#:#Result Info
 cron#:#cron_result_status_crashed#:#Crashed
@@ -7509,6 +7523,7 @@ crs#:#crs_course_status_of_users#:#Passing the Course
 crs#:#crs_create_date#:#Create date
 crs#:#crs_custom_user_fields#:#Course-Specific User Data
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course
 crs#:#crs_dates#:#Dates
 crs#:#crs_deactivate_notification#:#Deactivate Notification
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
@@ -8054,10 +8069,10 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
 crs#:#timing_user_accepted#:#Timings Accepted
 crs#:#timings#:#Timings
-crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
-crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
-crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
-crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
+crs#:#timings_cron_reminder_exceeded_start#:#The processing period is overdue at:
+crs#:#timings_cron_reminder_exceeded_subject#:#You have exceeded the processing period.
+crs#:#timings_cron_reminder_freshly_start#:#The processing period started at:
+crs#:#timings_cron_reminder_started_subject#:#The processing period has started.
 crs#:#timings_edit#:#Edit Timings
 crs#:#timings_of#:#Timings Off
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
@@ -8497,7 +8512,7 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#execute#:#Execute choices
+dateplaner#:#execute#:#Apply
 dateplaner#:#free#:#Free
 dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
@@ -8786,6 +8801,7 @@ dcl#:#dcl_tableview_required_visible#:#Required & Visible
 dcl#:#dcl_tableview_visible#:#Visible
 dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
+dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
 dcl#:#dcl_text_area#:#Textarea
@@ -8813,9 +8829,15 @@ dcl#:#dcl_width#:#Width
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
-dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#disable_comments#:#Disable comments
+dcl#:#disable_visible#:#Disable visible
+dcl#:#enable_comments#:#Enable comments
+dcl#:#enable_visible#:#Enable visible
+dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -8863,6 +8885,8 @@ didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
 didactic#:#sess_closed_info#:#Session is not visible for non-participants.
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.
 dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on
 dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
@@ -9481,6 +9505,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
+exc#:#exc_relative_date_period#:#Working Time
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 exc#:#exc_reminder_end#:#Reminder ends
@@ -9700,6 +9725,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
+exp#:#export_files_deleted#:#The selected export files have been deleted.
 export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
@@ -10216,9 +10242,10 @@ grp#:#grp_create_and_add_user#:#Create and Add User
 grp#:#grp_create_new#:#Create New Group
 grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
 grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?
-grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+grp#:#grp_created_and_user_been_added#:#Group created and user added.
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
 grp#:#grp_deactivate_notification#:#Deactivate Notification
 grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
@@ -10432,7 +10459,6 @@ iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
 iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
-iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_notify_explanation#:#The participant will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_phone#:#Phone
@@ -10710,7 +10736,7 @@ ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol,
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server Settings
-ldap#:#ldap_sync_cron#:#Per Cron-Job
+ldap#:#ldap_sync_cron#:#Per Cron Job
 ldap#:#ldap_sync_login#:#On Login
 ldap#:#ldap_tbl_role_ass#:#Active Rules
 ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version ‘3’ or disable TLS support.
@@ -10724,7 +10750,7 @@ ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose ‘Sub�
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
+ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per cron job.
 ldap#:#ldap_username_filter#:#Username Filter
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.
 ldoc#:#deleteDocument#:#Delete
@@ -11435,7 +11461,7 @@ mail#:#mail_nacc_user_login#:#User Login
 mail#:#mail_nacc_user_name#:#User Name
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_mail_items#:#No unread mails.
-mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
+mail#:#mail_no_permissions_write_smtp#:#You do not have permission to send external e-mails.
 mail#:#mail_no_subject#:#No subject available
 mail#:#mail_no_valid_mailing_list#:#%1$s (not a valid mailing list)
 mail#:#mail_notification_membership_section#:#Membership
@@ -11467,7 +11493,7 @@ mail#:#mail_select_grp#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
-mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html'.
+mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html'.
 mail#:#mail_serial_letter_placeholders#:#Mail Merge Placeholders
 mail#:#mail_settings_external_frm_head#:#External E-Mails
 mail#:#mail_settings_external_tab#:#External
@@ -11584,9 +11610,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
-mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
@@ -12591,6 +12616,7 @@ mme#:#type_separator#:#Separator
 mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
+mme#:#unable_to_render#:#Unable to show '%s' in '%s'.
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_external_url#:#External URL
 mob#:#mob_extract_preview_image#:#Extract Preview Image
@@ -12797,8 +12823,8 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
-notifications_adm#:#enable_osd#:#Enable On-Screen Notifications
-notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
+notifications_adm#:#enable_osd#:#Enable Toasts
+notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
 notifications_adm#:#notification_settings#:#Notification Settings
 notifications_adm#:#osd_delay#:#Presentation Delay
 notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.
@@ -12809,7 +12835,7 @@ notifications_adm#:#osd_interval#:#Refreshinterval
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notifications_adm#:#osd_play_sound#:#Play a Sound
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
-notifications_adm#:#osd_settings#:#On-Screen Notifications
+notifications_adm#:#osd_settings#:#Toasts
 notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#activation_visible_when_disabled#:#Visibility
@@ -13132,7 +13158,7 @@ prg#:#add_category#:#Add Category
 prg#:#assignment_date#:#Assignment Date
 prg#:#assignments#:#Assignments
 prg#:#auto_add_success#:#Add automatism successfully.
-prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.
+prg#:#auto_membership_description#:#Rules are only implemented when a criterion is fulfilled after a rule has been activated. Deleting rules will not remove allocations if any other active criterion has been fulfilled by that time.
 prg#:#auto_membership_src_type#:#Type
 prg#:#auto_membership_title#:#Sources for Membership Automation
 prg#:#auto_memberships#:#Membership Automation
@@ -13876,7 +13902,7 @@ rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#condition_failed#:#Failed
-rbac#:#condition_learning_progress#:#Derive from Learning Progress
+rbac#:#condition_learning_progress#:#Learning Progress Status: Completed
 rbac#:#contribute#:#Contribute
 rbac#:#copa_copy#:#Copy Content Page
 rbac#:#copa_delete#:#User can move or delete Content Page
@@ -14295,7 +14321,7 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into 
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please enter a query for selecting the target roles.
+rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions should be copied.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
@@ -14353,26 +14379,26 @@ rbac#:#rbac_delete_local_policies#:#Delete Local Policies
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
 rbac#:#rbac_delete_role#:#Delete Role
 rbac#:#rbac_edit_condition#:#Edit Precondition
-rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
-rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
-rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
-rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
-rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
-rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Alter Permissions
+rbac#:#rbac_form_copy_roles_adjust_type#:#Type of Permission Alteration
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds the SELECTED permissions of the role or role template from which you are copying to the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Overwrite Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Completely overwrites the permission settings of the target role with the permissions settings of the role or role template from which you are copying. This applies to both the selected AND unselected permissions.
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions (of the role or role template from which you are copying) from the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#The selected permissions settings of the role from which you are copying will be added to both the target role(s) AND any existing objects.
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Only the permission settings of the target role(s) will be overwritten. Existing objects will not be affected.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#The permissions settings of the target role(s) AND of any existing objects will be overwritten.
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Do NOT Alter Existing Objects
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#The selected permissions will only be removed from target role(s). The permission settings of existing objects will not be altered.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Remove From Existing Objects
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions will be removed from the target role(s) AND from the permission settings of existing objects.
 rbac#:#rbac_global_rolt#:#Global Role Template
 rbac#:#rbac_import_role#:#Import Role
 rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
@@ -14419,7 +14445,7 @@ rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Role Type
 rbac#:#rbac_role_title#:#Role Title
-rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions.
 rbac#:#rbac_ud_global#:#User-defined global role
 rbac#:#rbac_ud_local#:#User-defined local role
 rbac#:#rbac_ud_rolt#:#User-defined role template
@@ -14568,7 +14594,7 @@ rbac#:#svyf_write#:#Edit settings in Survey administration
 rbac#:#sysc_edit_permission#:#User can change permissions of System Check.
 rbac#:#sysc_read#:#User has read access to System Check.
 rbac#:#sysc_visible#:#System Check is visible.
-rbac#:#sysc_write#:#User can execute System Check.
+rbac#:#sysc_write#:#User can run System Check.
 rbac#:#tags_edit_permission#:#User can change permission settings in Tagging administration
 rbac#:#tags_read#:#User has read access to Tagging administration
 rbac#:#tags_visible#:#Tagging administration is visible
@@ -14803,12 +14829,10 @@ rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_new_item_group_add#:#Add Grouping
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groupings?
 rep#:#rep_new_item_group_edit#:#Edit Grouping
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
 rep#:#rep_new_item_group_other#:#Other
-rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_groups#:#Grouping
@@ -15648,7 +15672,7 @@ style#:#icons_gallery#:#Icons Gallery
 style#:#image_dir#:#Image Directory
 style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
 style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:
-style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
+style#:#invalid_scss_path#:#The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
 style#:#main_scss_created#:#Main SCSS has been created:
@@ -16060,8 +16084,6 @@ survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Respo
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
-survey#:#add_material#:#Add Material
-survey#:#add_phrase#:#Add Phrase
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
@@ -16072,10 +16094,7 @@ survey#:#back#:#Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Add from Pool
 survey#:#cancel_survey#:#Suspend the Survey
-survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
-survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
-survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send e-mails.
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
 survey#:#categories#:#Answers
@@ -16146,38 +16165,13 @@ survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#define_questionblock#:#Define Question Block
 survey#:#delete_saved_message#:#Delete Message Text
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#display_all_available#:#Display all available
 survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
-survey#:#dp_standard_attitude_agree5#:#Standard Attitude (strongly agree-agree-undecided-disagree-strongly disagree)
-survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
-survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard Attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_desired5#:#Standard Attitude (strongly desired-desired-neutral-undesired-strongly undesired)
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard Attitude (desired-neutral-undesired)
-survey#:#dp_standard_attitude_desired_undesired#:#Standard Attitude (desired-undesired)
-survey#:#dp_standard_attitude_good5#:#Standard Attitude (very good-good-fair-poor-not acceptable)
-survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard Attitude (good-fair-not acceptable)
-survey#:#dp_standard_attitude_good_notacceptable#:#Standard Attitude (good-not acceptable)
-survey#:#dp_standard_attitude_must5#:#Standard Attitude (must-should-undecided-should not-must not)
-survey#:#dp_standard_attitude_shold_shouldnot#:#Standard Attitude (should-should not)
-survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard Attitude (should-undecided-should not)
-survey#:#dp_standard_behaviour_certainly5#:#Standard Behavior (most certainly-more positive-undecided-more negative-most certainly not)
-survey#:#dp_standard_behaviour_yes_no#:#Standard Behavior (yes-no)
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard Behavior (yes-undecided-no)
-survey#:#dp_standard_beliefs_always5#:#Standard Beliefs (always-many times-varying-rarely-never)
-survey#:#dp_standard_beliefs_always_never#:#Standard Beliefs (always-never)
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard Beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_true5#:#Standard Beliefs (definitely true-true-undecided-false-definitely false)
-survey#:#dp_standard_beliefs_true_false#:#Standard Beliefs (true-false)
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard Beliefs (true-undecided-false)
-survey#:#dp_standard_numbers#:#Standard Numbers
 survey#:#duplicate#:#Duplicate
 survey#:#edit_heading#:#Edit Heading
-survey#:#edit_phrase#:#Edit phrase
 survey#:#end_date#:#End Date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_anonymous_id#:#Survey Access Code
-survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
@@ -16251,12 +16245,6 @@ survey#:#mailparticipantdata#:#Additional participant data
 survey#:#mailparticipantdata_info#:#This information will be precede the automatically included results section of the notification mail.
 survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:
 survey#:#maintenance#:#Participants
-survey#:#manage_phrases#:#My Phrases
-survey#:#material#:#Material
-survey#:#material_added_empty#:#The object does not have any suitable material.
-survey#:#material_added_successfully#:#You successfully set a material link!
-survey#:#materials#:#Materials
-survey#:#materials_deleted#:#Material(s) have been removed from the question.
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
@@ -16307,13 +16295,10 @@ survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
 survey#:#msg_no_message_deleted#:#Please select a saved message text
 survey#:#msg_no_message_inserted#:#Please select a message text
 survey#:#new_survey_codes#:#new survey access code(s)
-survey#:#no_phrase_selected#:#Nothing selected.
 survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
-survey#:#no_questions_available#:#There are no questions available!
 survey#:#no_target_selected_for_move#:#You must select a target position!
-survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#non_ratio#:#Interval
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)
 survey#:#not_used#:#not used yet
@@ -16328,25 +16313,14 @@ survey#:#orientation#:#Orientation
 survey#:#other_answer#:#Other answer
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#outro#:#Concluding Remarks
-survey#:#percentage_of_selections#:#Percentage of selections
-survey#:#phrase_added#:#Phrase added
-survey#:#phrase_new#:#Create new phrase
-survey#:#phrase_saved#:#The phrase was saved successfully!
-survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
 survey#:#please_select#:#-- please select --
 survey#:#preview#:#Preview
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_export_select_none#:#Please check at least one question to export it
-survey#:#qpl_phrases_deleted#:#Phrase(s) deleted.
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
 survey#:#question_changed_in_survey_only#:#Question was changed only in survey
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
@@ -16374,15 +16348,12 @@ survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#row_text#:#Row Text
 survey#:#save_obligatory_state#:#Save Compulsory States and Order
-survey#:#save_phrase#:#Save as Phrase
-survey#:#save_phrase_introduction#:#If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
 survey#:#saved_messages#:#Available messages
 survey#:#scale#:#Scale
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Found Groups
-survey#:#search_roles#:#Found Roles
 survey#:#search_term#:#Search Term
 survey#:#search_users#:#Search Users
 survey#:#select_option#:#--- Please select an option ---
@@ -16412,7 +16383,6 @@ survey#:#spl_save_obligatory_state#:#Save Compulsory States
 survey#:#start_date#:#Start Date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start Survey
-survey#:#sub_tab_dashboard#:#Dashboard
 survey#:#subtype#:#Subtype
 survey#:#survey_360_add_external_rater#:#Add External Rater
 survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey
@@ -16428,7 +16398,6 @@ survey#:#survey_360_appraisee_info#:#Appraisee Info
 survey#:#survey_360_appraisee_is_closed#:#The appraisee has closed his survey.
 survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
-survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
@@ -16469,18 +16438,13 @@ survey#:#survey_activate_skill_service#:#Activate Competence Service
 survey#:#survey_activate_skill_service_info#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
 survey#:#survey_add_new_question#:#Create Question
 survey#:#survey_assign_competence#:#Assign Competence
-survey#:#survey_at_beginning#:#At The Beginning
 survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Available Pools
-survey#:#survey_behind_page#:#Behind
-survey#:#survey_block_hidden#:#hidden
-survey#:#survey_block_visible#:#visible
 survey#:#survey_calc_skills#:#Determine Competence Levels
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score
 survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
 survey#:#survey_cancel_preview#:#Cancel Preview
 survey#:#survey_cannot_preview_survey#:#Preview not available
-survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_code#:#Survey Access Code
 survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following unused access codes?
 survey#:#survey_code_url#:#URL for Direct Access
@@ -16489,18 +16453,11 @@ survey#:#survey_code_used#:#Code was ..
 survey#:#survey_codes_lang#:#Preselected Survey Language
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_competences#:#Competences
-survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
 survey#:#survey_copy_questions_to_pool#:#Add to question pool
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 survey#:#survey_delete_heading#:#Remove Heading
-survey#:#survey_delete_page#:#Delete Page
-survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard
-survey#:#survey_dnd_move_next#:#Move to Next Page
-survey#:#survey_dnd_move_previous#:#Move to Previous Page
-survey#:#survey_dnd_paste#:#Paste
-survey#:#survey_dnd_split_page#:#Split Page
 survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_edit_settings#:#Edit Settings
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
@@ -16515,11 +16472,8 @@ survey#:#survey_has_datasets_warning_page_view#:#The survey already contains dat
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_introduction_info#:#This message is permanently displayed on the ‘Info’-tab.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is currently offline.
-survey#:#survey_jump_to#:#Jump to
-survey#:#survey_move_page#:#Move Page
 survey#:#survey_new_pool#:#Create new question pool
 survey#:#survey_next#:#Next >>
-survey#:#survey_next_question#:#Next Page
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the survey.
@@ -16537,10 +16491,7 @@ survey#:#survey_notification_tutor_salutation#:#Hello %s,
 survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_order#:#Sort Order
-survey#:#survey_page_moved#:#The page has been moved.
-survey#:#survey_per_page_view#:#Page View
 survey#:#survey_pool_selection#:#Pool Selection
-survey#:#survey_prev_question#:#Previous Page
 survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. You must answer the question!
@@ -16551,12 +16502,9 @@ survey#:#survey_question_pool_usage_active#:#Questions can be added optionally t
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used.
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
 survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for this survey first.
-survey#:#survey_question_text_hidden#:#Text hidden
-survey#:#survey_question_text_visible#:#Text visible
 survey#:#survey_question_title#:#Question Title
 survey#:#survey_questions#:#Questions
 survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
-survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_reminder_body#:#the following survey has not been finished by you yet
 survey#:#survey_reminder_cron#:#Remind users to participate
@@ -16578,8 +16526,6 @@ survey#:#survey_results_not_started#:#Survey not started
 survey#:#survey_results_personalized#:#With Names
 survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having full access to this tab can inspect who has provided which answer. Even users with limited access to the tab may deduce given answers, if the number of participants is low.
 survey#:#survey_results_started#:#Survey started
-survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
-survey#:#survey_results_tutor_subject#:#Results for survey "%s"
 survey#:#survey_show_blocktitle#:#Show Block Title
 survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.
 survey#:#survey_skill#:#Competence
@@ -16596,11 +16542,8 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions
 survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.
 survey#:#survey_sync_success#:#The selected questions were updated.
-survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!
-survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-survey#:#survey_using_template_link#:#Do not use template anymore
 survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
 survey#:#svy_activation_online_info#:#Only if a survey is online, users can participate in it.
 survey#:#svy_add_internal_user#:#Add User
@@ -16620,7 +16563,6 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 survey#:#svy_back#:#Back
-survey#:#svy_chart_download#:#Download Chart
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
@@ -16688,6 +16630,7 @@ survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
 survey#:#svy_participant#:#Participant
+survey#:#svy_participants#:#Participants
 survey#:#svy_participation#:#Participation
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.
 survey#:#svy_print_hide_labels#:#Hide labels
@@ -16732,7 +16675,6 @@ survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#upper_limit#:#Upper Limit
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#use_anonymous_id#:#Show Survey Code
 survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text ‘Anonymous’ will be shown.
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
@@ -16747,7 +16689,6 @@ survey#:#values#:#Values
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#Working time
-survey#:#wrong_survey_code_used#:#No access to survey. Your survey code is invalid or has already been used.
 svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
 svy#:#svy_all_pages#:#All Pages
@@ -16759,7 +16700,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
-svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
+svy#:#svy_placeholders_label#:#Available Placeholders
 svy#:#svy_print_selection#:#Print View Selection
 svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
@@ -16798,7 +16739,7 @@ sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tr
 sysc#:#sysc_overview#:#Overview
 sysc#:#sysc_status_completed#:#Completed
 sysc#:#sysc_status_failed#:#Failed
-sysc#:#sysc_status_na#:#Not Executed
+sysc#:#sysc_status_na#:#Not yet run
 sysc#:#sysc_status_running#:#Running
 sysc#:#sysc_tab_trash#:#Deleted Objects
 sysc#:#sysc_task_overview#:#Tasks
@@ -16887,6 +16828,8 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_agree_date#:#ToS agreed on
 tos#:#tos_agreement#:#Terms of Service
@@ -17172,11 +17115,12 @@ ui#:#3stars#:#three of five stars
 ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
 ui#:#datatable_multiaction_label#:#Bulk Actions
-ui#:#datatable_multiactionmodal_actionlabel#:#operation
-ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
-ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
-ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.
-ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
+ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries
+ui#:#datatable_multiactionmodal_apply#:#Apply
+ui#:#datatable_multiactionmodal_listentry#:#Actions for Entire Table
+ui#:#datatable_multiactionmodal_msg#:#Selected action will affect all entries in this table.
+ui#:#datatable_multiactionmodal_title#:#Actions for Entire Table
+ui#:#drilldown_no_items#:#No Matching Elements
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.

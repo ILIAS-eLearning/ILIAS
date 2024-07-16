@@ -1503,7 +1503,7 @@ class ilUserImportParser extends ilSaxParser
             case 'TimeLimitUntil':
                 if (is_numeric($this->cdata)) {
                     // Treat cdata as a unix timestamp
-                    $this->userObj->setTimeLimitUntil((int)$this->cdata);
+                    $this->userObj->setTimeLimitUntil((int) $this->cdata);
                 } else {
                     // Try to convert cdata into unix timestamp, or ignore it
                     $timestamp = strtotime($this->cdata);
@@ -1786,6 +1786,12 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'SelCountry':
+                if (mb_strlen($this->cdata) !== 2) {
+                    $this->logFailure(
+                        $this->userObj->getLogin(),
+                        sprintf($this->lng->txt('usrimport_xml_element_content_illegal'), 'SelCountry', $this->stripTags($this->cdata))
+                    );
+                }
                 $this->userObj->setSelectedCountry($this->cdata);
                 break;
 

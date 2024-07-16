@@ -270,13 +270,13 @@ class ilShibbolethRoleAssignmentRule
         );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setRoleId($row->role_id);
-            $this->setName($row->name);
-            $this->setValue($row->value);
-            $this->enablePlugin($row->plugin);
+            $this->setRoleId((int) $row->role_id);
+            $this->setName((string) $row->name);
+            $this->setValue((string) $row->value);
+            $this->enablePlugin((bool) $row->plugin);
             $this->setPluginId($row->plugin_id);
-            $this->enableAddOnUpdate($row->add_on_update);
-            $this->enableRemoveOnUpdate($row->remove_on_update);
+            $this->enableAddOnUpdate((bool) $row->add_on_update);
+            $this->enableRemoveOnUpdate((bool) $row->remove_on_update);
         }
     }
 }

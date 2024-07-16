@@ -47,7 +47,7 @@ class ilAssQuestionHintsOrderingClipboard
 
         $class = ilSession::get(__CLASS__);
         if ($class == null) {
-            ilSession::set(__CLASS__, array());
+            ilSession::set(__CLASS__, []);
         }
 
         if (!isset($class[$this->questionId])) {

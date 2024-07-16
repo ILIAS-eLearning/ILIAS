@@ -24,7 +24,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderDto;
 use ILIAS\Mail\Autoresponder\AutoresponderRepository;
 use ILIAS\Data\Clock\ClockInterface;
 
-class ilMailAutoresponderServiceTest extends ilMailBaseTest
+class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
 {
     private const MAIL_SENDER_USER_ID = 4711;
     private const MAIL_RECEIVER_USER_ID = 4712;
@@ -128,7 +128,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         );
     }
 
-    public function autoresponderProvider(): Generator
+    public static function autoresponderProvider(): Generator
     {
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 

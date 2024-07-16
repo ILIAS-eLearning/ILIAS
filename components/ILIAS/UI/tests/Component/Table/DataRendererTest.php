@@ -87,7 +87,6 @@ class DataRendererTest extends TableTestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery(),
             new ilImagePathResolver(),
             new \ILIAS\Data\Factory(),
             new \ILIAS\UI\Help\TextRetriever\Echoing(),
@@ -112,13 +111,7 @@ class DataRendererTest extends TableTestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->method("getUri")
-            ->willReturn(new class () {
-                public function __toString()
-                {
-                    return 'http://localhost:80';
-                }
-            });
-
+            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
         $request
             ->method("getQueryParams")
             ->willReturn([]);
@@ -517,8 +510,8 @@ EOT;
     <span class="c-table-data__cell__col-title">Field 3:</span>3
 </td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+    <div class="dropdown" id="id_3">
+        <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
             <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
             <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>

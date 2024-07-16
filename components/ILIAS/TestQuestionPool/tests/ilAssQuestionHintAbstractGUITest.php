@@ -36,9 +36,8 @@ class ilAssQuestionHintAbstractGUITest extends assBaseTestCase
         parent::setUp();
 
         $assQuestionGUI = $this->createMock(assQuestionGUI::class);
-        $assQuestionGUI->object = $this->createMock(assQuestion::class);
 
-        $this->object = new class($assQuestionGUI) extends ilAssQuestionHintAbstractGUI{};
+        $this->object = new class ($assQuestionGUI) extends ilAssQuestionHintAbstractGUI {};
     }
 
     public function testConstruct(): void

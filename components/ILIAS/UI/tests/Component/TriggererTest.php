@@ -56,7 +56,7 @@ class Triggerermock implements Component\Triggerer
 class ILIAS_UI_Component_TriggererTest extends TestCase
 {
     protected Triggerermock $mock;
-    protected int $signal_mock_counter = 0;
+    protected static int $signal_mock_counter = 0;
 
     public function setUp(): void
     {
@@ -68,13 +68,13 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
      */
     protected function getSignalMock()
     {
-        $this->signal_mock_counter++;
+        self::$signal_mock_counter++;
         return $this
             ->getMockBuilder(Component\Signal::class)
             ->disableOriginalClone()
             ->disableArgumentCloning()
             ->disallowMockingUnknownTypes()
-            ->setMockClassName("Signal_$this->signal_mock_counter")
+            ->setMockClassName("Signal_" . ((string) self::$signal_mock_counter))
             ->getMock();
     }
 

@@ -33,6 +33,7 @@ use ILIAS\Data\Factory as DataFactory;
 
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
+use ILIAS\Data\Range;
 
 class Data extends AbstractTable implements T\Data
 {
@@ -127,8 +128,10 @@ class Data extends AbstractTable implements T\Data
         if ($request = $this->getRequest()) {
             $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
+            $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
+            $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
             $table = $table
-                ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
+                ->withRange($range)
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
                 ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
         }

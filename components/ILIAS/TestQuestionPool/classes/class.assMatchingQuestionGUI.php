@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Matching question GUI representation
@@ -31,16 +36,12 @@
  */
 class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    /**
-     * assMatchingQuestionGUI constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
-     *
-     * @param integer $id The database id of a image map question object
-     * @param integer $id The database id of a image map question object
-     */
+    private HTTPServices $http;
     public function __construct($id = -1)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->http = $DIC['http'];
         parent::__construct();
         $this->object = new assMatchingQuestion();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
@@ -67,6 +68,30 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
+        $array_of_strings_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->string()
+                ),
+                $this->refinery->always([])
+            ]
+        );
+        $array_of_ints_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->int()
+                ),
+                $this->refinery->always([])
+            ]
+        );
+        $array_of_floats_trafo = $this->refinery->byTrying(
+            [
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->float()
+                ),
+                $this->refinery->always([])
+            ]
+        );
         // Delete all existing answers and create new answers from the form data
         $this->object->flushMatchingPairs();
         $this->object->flushTerms();
@@ -76,9 +101,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $allowed_mime_types = ['image/jpeg', 'image/png', 'image/gif'];
 
         if ($this->request->isset('terms')) {
-            $answers = $this->request->raw('terms')['answer'] ?? [];
-            $terms_image_names = $this->request->raw('terms')['imagename'] ?? [];
-            $terms_identifiers = $this->request->raw('terms')['identifier'] ?? [];
+            $terms = $this->request->raw('terms');
+            $answers = $array_of_strings_trafo->transform($terms['answer']);
+            $terms_image_names = $array_of_strings_trafo->transform($terms['imagename'] ?? []);
+            $terms_identifiers = $array_of_ints_trafo->transform($terms['identifier']);
 
             foreach ($answers as $index => $answer) {
                 $filename = $terms_image_names[$index] ?? '';
@@ -109,9 +135,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($this->request->isset('definitions')) {
-            $answers = $this->request->raw('definitions')['answer'] ?? [];
-            $definitions_image_names = $this->request->raw('definitions')['imagename'] ?? [];
-            $definitions_identifiers = $this->request->raw('definitions')['identifier'] ?? [];
+            $definitions = $this->request->raw('definitions');
+            $answers = $array_of_strings_trafo->transform($definitions['answer']);
+            $definitions_image_names = $array_of_strings_trafo->transform($definitions['imagename'] ?? []);
+            $definitions_identifiers = $array_of_ints_trafo->transform($definitions['identifier']);
 
             foreach ($answers as $index => $answer) {
                 $filename = $definitions_image_names[$index] ?? '';
@@ -141,9 +168,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($this->request->isset('pairs')) {
-            $points_of_pairs = $this->request->raw('pairs')['points'] ?? [];
-            $pair_terms = $this->request->raw('pairs')['term'] ?? [];
-            $pair_definitions = $this->request->raw('pairs')['definition'] ?? [];
+            $pairs = $this->request->raw('pairs');
+            $points_of_pairs = $array_of_floats_trafo->transform($pairs['points']);
+            $pair_terms = $array_of_ints_trafo->transform($pairs['term']);
+            $pair_definitions = $array_of_ints_trafo->transform($pairs['definition']);
 
             foreach ($points_of_pairs as $index => $points) {
                 $term_id = $pair_terms[$index] ?? 0;
@@ -151,7 +179,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
-                    (float) str_replace(',', '.', $points)
+                    $points
                 );
             }
         }
@@ -160,14 +188,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            $this->object->setShuffle($_POST["shuffle"] ?? '0');
-            $this->object->setShuffleMode($_POST["shuffle"] ?? '0');
+            $this->object->setShuffle($this->request->int('shuffle'));
+            $this->object->setShuffleMode($this->request->int('shuffle'));
         } else {
             $this->object->setShuffle(1);
             $this->object->setShuffleMode(1);
         }
-        $this->object->setThumbGeometry($_POST["thumb_geometry"] ?? 0);
-        $this->object->setMatchingMode($_POST['matching_mode']);
+        $this->object->setThumbGeometry($this->request->int('thumb_geometry'));
+        $this->object->setMatchingMode($this->request->string('matching_mode'));
     }
 
     public function uploadterms(): void
@@ -246,10 +274,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function editQuestion($checkonly = false): bool
-    {
-        $save = $this->isSaveCommand();
-        $this->getQuestionTemplate();
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $save = $is_save_cmd ?? $this->isSaveCommand();
 
         $form = new ilPropertyFormGUI();
         $this->editForm = $form;
@@ -283,7 +312,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -394,19 +423,19 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // shuffle
             $shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
-            $shuffle_options = array(
+            $shuffle_options = [
                 0 => $this->lng->txt("no"),
                 1 => $this->lng->txt("matching_shuffle_terms_definitions"),
                 2 => $this->lng->txt("matching_shuffle_terms"),
                 3 => $this->lng->txt("matching_shuffle_definitions")
-            );
+            ];
             $shuffle->setOptions($shuffle_options);
             $shuffle->setValue($this->object->getShuffleMode());
             $shuffle->setRequired(false);
             $form->addItem($shuffle);
 
             $geometry = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_geometry');
-            $geometry->setValue($this->object->getThumbGeometry());
+            $geometry->setValue((string) $this->object->getThumbGeometry());
             $geometry->setRequired(true);
             $geometry->setMaxLength(6);
             $geometry->setMinValue(20);
@@ -437,42 +466,31 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
-        $solutions = array();
+        $solutions = [];
         if (($active_id > 0) && (!$show_correct_solution)) {
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
-                $solutions[] = array(
+                $solutions[] = [
                     "value1" => $pair->getTerm()->getIdentifier(),
                     "value2" => $pair->getDefinition()->getIdentifier(),
                     'points' => $pair->getPoints()
-                );
+                ];
             }
         }
 
@@ -560,7 +578,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $i++;
             }
             if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphicalOutput) {
+                if ($graphical_output) {
                     // output of ok/not ok icons for user entered solutions
                     $ok = false;
                     foreach ($this->object->getMatchingPairs() as $pair) {
@@ -604,7 +622,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            $fb = $this->getSpecificFeedbackOutput(array());
+            $fb = $this->getSpecificFeedbackOutput([]);
             $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
@@ -627,9 +645,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
-        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
+        $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
@@ -761,8 +781,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     protected function sortDefinitionsBySolution(array $solution, array $definitions): array
     {
-        $neworder = array();
-        $handled_defintions = array();
+        $neworder = [];
+        $handled_defintions = [];
         foreach ($solution as $solution_values) {
             $id = $solution_values['value2'];
             if (!isset($handled_defintions[$id])) {
@@ -785,7 +805,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getPresentationJavascripts(): array
     {
-        $files = array();
+        $files = [];
 
         if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
@@ -796,12 +816,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $files;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $user_post_solution = false, $inlineFeedback = false): string
-    // hey.
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
+        if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
@@ -812,11 +834,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
-        $solutions = array();
+        $solutions = [];
         if ($active_id) {
-            if (is_array($user_post_solution)) {
-                foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term) {
-                    array_push($solutions, array("value1" => $term, "value2" => $definition));
+            if (is_array($user_post_solutions)) {
+                foreach ($user_post_solutions['matching'][$this->object->getId()] as $definition => $term) {
+                    array_push($solutions, ["value1" => $term, "value2" => $definition]);
                 }
             } else {
                 // hey: prevPassSolutions - obsolete due to central check
@@ -825,7 +847,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
 
             $counter = 0;
-            foreach ($solutions as $idx => $solution_value) {
+            foreach ($solutions as $solution_value) {
                 if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1)) {
                     $template->setCurrentBlock("matching_data");
                     $template->setVariable("TERM_ID", $solution_value["value1"]);
@@ -936,7 +958,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
 
-        return $this->outQuestionPage("", $is_postponed, $active_id, $template->get());
+        return $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
     }
 
     /**
@@ -998,7 +1020,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1012,7 +1034,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -1070,19 +1092,19 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answersByActiveAndPass = array();
+        $answersByActiveAndPass = [];
 
         foreach ($relevantAnswers as $row) {
             $key = $row['active_fi'] . ':' . $row['pass'];
 
             if (!isset($answersByActiveAndPass[$key])) {
-                $answersByActiveAndPass[$key] = array();
+                $answersByActiveAndPass[$key] = [];
             }
 
             $answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
         }
 
-        $answers = array();
+        $answers = [];
 
         foreach ($answersByActiveAndPass as $key => $matchingPairs) {
             foreach ($matchingPairs as $termId => $defId) {
@@ -1097,12 +1119,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                         $this->object->getDefinitionWithIdentifier($defId)
                     );
 
-                    $answers[$hash] = array(
+                    $answers[$hash] = [
                         'answer' => $termHtml . $defHtml,
                         'term' => $termHtml,
                         'definition' => $defHtml,
                         'frequency' => 0
-                    );
+                    ];
                 }
 
                 $answers[$hash]['frequency']++;

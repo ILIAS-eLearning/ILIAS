@@ -28,8 +28,12 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 {
     public const IDENTIFIER = 'NonAvailPoolsTbl';
 
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
-    {
+    public function __construct(
+        ilCtrlInterface $ctrl,
+        ilLanguage $lng,
+        $parentGUI,
+        $parentCMD
+    ) {
         parent::__construct($parentGUI, $parentCMD);
 
         $this->ctrl = $ctrl;
@@ -72,14 +76,14 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
 
     public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
     {
-        $rows = array();
+        $rows = [];
 
         $pools = $sourcePoolDefinitionList->getNonAvailablePools();
 
         foreach ($pools as $nonAvailablePool) {
             /** @var ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool */
 
-            $set = array();
+            $set = [];
 
             $set['id'] = $nonAvailablePool->getId();
             $set['title'] = $nonAvailablePool->getTitle();

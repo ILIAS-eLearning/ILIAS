@@ -27,6 +27,20 @@
 */
 class ilObjQuestionPoolAccess extends ilObjectAccess
 {
+    private ilObjUser $current_user;
+    private ilLanguage $lng;
+    private ilRbacSystem $rbacsystem;
+    private ilAccess $access;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->current_user = $DIC['ilUser'];
+        $this->lng = $DIC['lng'];
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->access = $DIC['ilAccess'];
+        ;
+    }
     /**
      * get commands
      *
@@ -41,31 +55,25 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      */
     public static function _getCommands(): array
     {
-        $commands = array(
-            array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
-            array("permission" => "write", "cmd" => "ilObjQuestionPoolSettingsGeneralGUI::showForm", "lang_var" => "settings"),
+        $commands = [
+            ["permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"],
+            ["permission" => "write", "cmd" => "ilObjQuestionPoolSettingsGeneralGUI::showForm", "lang_var" => "settings"],
             #array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
             #	"default" => false),
-            array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
-                "default" => true)
-        );
+            ["permission" => "read", "cmd" => "questions", "lang_var" => "edit",
+                "default" => true]
+        ];
 
         return $commands;
     }
 
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilAccess = $DIC['ilAccess'];
-
         if (is_null($user_id)) {
-            $user_id = $ilUser->getId();
+            $user_id = $this->current_user->getId();
         }
 
-        if ($rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
+        if ($this->rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
             return true;
         }
 
@@ -73,7 +81,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
             case 'visible':
             case 'read':
                 if (self::_isOffline($obj_id)) {
-                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
+                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("tst_warning_pool_offline"));
                     return false;
                 }
                 break;

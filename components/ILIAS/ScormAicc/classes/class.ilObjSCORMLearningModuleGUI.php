@@ -881,7 +881,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function import(): void
     {
-        $form = $this->initImportForm("");
+        $form = $this->initTrackingImportForm("");
         if ($form->checkInput()) {
             $source = $form->getInput('csv');
             $success = $this->object->importTrackingData($source['tmp_name']);
@@ -902,26 +902,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     }
 
     /**
-     * Show import form
-     * @throws ilCtrlException
-     */
-    protected function importForm(): void
-    {
-        global $DIC;
-        $ilTabs = $DIC->tabs();
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showTrackingItems'));
-
-        $form = $this->initImportForm("");
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    /**
      * Init import form
      * @throws ilCtrlException
      */
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
+    protected function initTrackingImportForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));

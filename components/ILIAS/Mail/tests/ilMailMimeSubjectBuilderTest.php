@@ -21,14 +21,14 @@ declare(strict_types=1);
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
+class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
 {
     private const DEFAULT_PREFIX = 'docu default';
 
     /**
      * @return array<string, array<int, string>>
      */
-    public function globalSubjectPrefixOnlyProvider(): array
+    public static function globalSubjectPrefixOnlyProvider(): array
     {
         return [
             'Global Prefix without Brackets' => ['docu', 'docu %s'],
@@ -39,7 +39,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     /**
      * @return array<string, array<int, string|null>>
      */
-    public function subjectPrefixesProvider(): array
+    public static function subjectPrefixesProvider(): array
     {
         return [
             'Global Prefix without Brackets and Additional Context Prefix' => ['docu', 'Course', '[docu : Course] %s'],

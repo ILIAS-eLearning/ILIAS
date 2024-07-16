@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\OnScreenChat\Repository\Conversation;
 
-class ConversationRepositoryTest extends ilOnScreenChatBaseTest
+class ConversationRepositoryTest extends ilOnScreenChatBaseTestCase
 {
     public function testConversationsCanBeRetrieved(): void
     {

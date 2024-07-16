@@ -18,10 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
-use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * GUI class that manages the question set configuration for continues tests
@@ -64,33 +67,33 @@ class ilTestRandomQuestionSetConfigGUI
     protected ilTestRandomQuestionSetConfigStateMessageHandler $configStateMessageHandler;
 
     public function __construct(
-        private ilObjTest $test_obj,
-        private ilCtrl $ctrl,
-        private ilObjUser $user,
-        private ilAccessHandler $access,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer,
-        private ilTabsGUI $tabs,
-        private ilLanguage $lng,
-        private ilLogger $log,
-        private ilGlobalTemplateInterface $tpl,
-        private ilDBInterface $db,
-        private ilTree $tree,
-        private ilComponentRepository $component_repository,
-        private ilObjectDefinition $obj_definition,
-        private ilObjectDataCache $obj_cache,
+        private readonly ilObjTest $test_obj,
+        private readonly ilCtrl $ctrl,
+        private readonly ilObjUser $user,
+        private readonly ilAccessHandler $access,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilLanguage $lng,
+        private readonly TestLogger $logger,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilDBInterface $db,
+        private readonly ilTree $tree,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilObjectDefinition $obj_definition,
+        private readonly ilObjectDataCache $obj_cache,
         private ilTestProcessLockerFactory $processLockerFactory,
-        private InternalRequestService $testrequest,
-        private QuestionInfoService $questioninfo
+        private readonly RequestDataCollector $testrequest,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->question_set_config = new ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
             $this->lng,
-            $this->log,
+            $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
         $this->question_set_config->loadFromDb();
 
@@ -109,7 +112,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
             $this->db,
-            $this->log,
+            $this->logger,
             $this->test_obj
         );
 
@@ -146,11 +149,11 @@ class ilTestRandomQuestionSetConfigGUI
         switch ($nextClass) {
             case 'iltestrandomquestionsetpooldefinitionformgui':
                 $this->question_set_config->loadFromDb();
-                $poolId = $this->fetchQuestionPoolIdParameter();
-                $sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
-                $availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+                $pool_id = $this->fetchQuestionPoolIdParameter();
+                $source_pool_definition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($pool_id);
+                $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($source_pool_definition->getPoolId());
                 $form = $this->buildCreateSourcePoolDefinitionFormGUI();
-                $form->build($sourcePoolDefinition, $availableTaxonomyIds);
+                $form->build($source_pool_definition, $available_taxonomy_ids);
 
                 $this->ctrl->forwardCommand($form);
                 break;
@@ -260,6 +263,16 @@ class ilTestRandomQuestionSetConfigGUI
 
                 $this->ctrl->setParameterByClass(self::class, 'modified', 'sync');
             });
+            if ($this->logger->isLoggingEnabled()) {
+                $this->logger->logTestAdministrationInteraction(
+                    $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                        $this->test_obj->getRefId(),
+                        $this->user->getId(),
+                        TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISED,
+                        []
+                    )
+                );
+            }
         }
 
         $this->ctrl->redirect($this, $this->fetchAfterRebuildQuestionStageCmdParameter());
@@ -313,10 +326,21 @@ class ilTestRandomQuestionSetConfigGUI
             return;
         }
 
-        $form->save();
+        $log_array = $form->save($this->logger->getAdditionalInformationGenerator());
 
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();
+
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->test_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
+                    $log_array
+                )
+            );
+        }
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
 
@@ -328,9 +352,6 @@ class ilTestRandomQuestionSetConfigGUI
     private function buildGeneralConfigFormGUI(bool $disabled = false): ilTestRandomQuestionSetGeneralConfigFormGUI
     {
         $form = new ilTestRandomQuestionSetGeneralConfigFormGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->test_obj,
             $this,
             $this->question_set_config
         );
@@ -393,14 +414,12 @@ class ilTestRandomQuestionSetConfigGUI
         $this->question_set_config->loadFromDb();
 
         $table = $this->buildSourcePoolDefinitionListTableGUI();
-
         $table->applySubmit($this->source_pool_definition_list);
 
         $this->source_pool_definition_list->reindexPositions();
         $this->source_pool_definition_list->saveDefinitions();
 
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
-        // fau.
         $this->question_set_config->saveToDb();
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
@@ -536,14 +555,14 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->question_set_config->loadFromDb();
 
-        $poolId = $this->fetchQuestionPoolIdParameter();
+        $pool_id = $this->fetchQuestionPoolIdParameter();
 
-        $sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
-        $availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+        $source_pool_definition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($pool_id);
+        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($source_pool_definition->getPoolId());
 
         if ($form === null) {
             $form = $this->buildCreateSourcePoolDefinitionFormGUI();
-            $form->build($sourcePoolDefinition, $availableTaxonomyIds);
+            $form->build($source_pool_definition, $available_taxonomy_ids);
         }
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
@@ -561,12 +580,12 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->question_set_config->loadFromDb();
 
-        $poolId = $this->fetchQuestionPoolIdParameter();
-        $sourcePoolDefinition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($poolId);
-        $availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+        $pool_id = $this->fetchQuestionPoolIdParameter();
+        $source_pool_definition = $this->getSourcePoolDefinitionByAvailableQuestionPoolId($pool_id);
+        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($source_pool_definition->getPoolId());
 
         $form = $this->buildCreateSourcePoolDefinitionFormGUI();
-        $form->build($sourcePoolDefinition, $availableTaxonomyIds);
+        $form->build($source_pool_definition, $available_taxonomy_ids);
 
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
@@ -576,11 +595,11 @@ class ilTestRandomQuestionSetConfigGUI
             return;
         }
 
-        $form->applySubmit($sourcePoolDefinition, $availableTaxonomyIds);
+        $log_array = $form->applySubmit($source_pool_definition, $available_taxonomy_ids);
 
-        $sourcePoolDefinition->setSequencePosition($this->source_pool_definition_list->getNextPosition());
-        $sourcePoolDefinition->saveToDb();
-        $this->source_pool_definition_list->addDefinition($sourcePoolDefinition);
+        $source_pool_definition->setSequencePosition($this->source_pool_definition_list->getNextPosition());
+        $source_pool_definition->saveToDb();
+        $this->source_pool_definition_list->addDefinition($source_pool_definition);
 
         $this->source_pool_definition_list->saveDefinitions();
 
@@ -589,15 +608,27 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
 
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->test_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
+                    $log_array
+                )
+            );
+        }
+
         if ($redirect_back_to_form) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_qsc_modified_add_new_rule"), true);
-            $this->ctrl->setParameter($this, 'src_pool_def_id', $sourcePoolDefinition->getId());
-            $this->ctrl->setParameter($this, 'quest_pool_id', $sourcePoolDefinition->getPoolId());
+            $this->ctrl->setParameter($this, 'src_pool_def_id', $source_pool_definition->getId());
+            $this->ctrl->setParameter($this, 'quest_pool_id', $source_pool_definition->getPoolId());
             $this->ctrl->redirect($this, self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM);
-        } else {
-            $this->ctrl->setParameterByClass(self::class, 'modified', 'save');
-            $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+            return;
         }
+
+        $this->ctrl->setParameterByClass(self::class, 'modified', 'save');
+        $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
     private function buildCreateSourcePoolDefinitionFormGUI(): ilTestRandomQuestionSetPoolDefinitionFormGUI
@@ -621,12 +652,12 @@ class ilTestRandomQuestionSetConfigGUI
         $this->question_set_config->loadFromDb();
 
         $defId = $this->fetchSingleSourcePoolDefinitionIdParameter();
-        $sourcePoolDefinition = $this->source_pool_definition_factory->getSourcePoolDefinitionByDefinitionId($defId);
-        $availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+        $source_pool_definition = $this->source_pool_definition_factory->getSourcePoolDefinitionByDefinitionId($defId);
+        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($source_pool_definition->getPoolId());
 
         if ($form === null) {
             $form = $this->buildEditSourcePoolDefinitionFormGUI();
-            $form->build($sourcePoolDefinition, $availableTaxonomyIds);
+            $form->build($source_pool_definition, $available_taxonomy_ids);
         }
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
@@ -637,11 +668,11 @@ class ilTestRandomQuestionSetConfigGUI
         $this->question_set_config->loadFromDb();
 
         $defId = $this->fetchSingleSourcePoolDefinitionIdParameter();
-        $sourcePoolDefinition = $this->source_pool_definition_factory->getSourcePoolDefinitionByDefinitionId($defId);
-        $availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($sourcePoolDefinition->getPoolId());
+        $source_pool_definition = $this->source_pool_definition_factory->getSourcePoolDefinitionByDefinitionId($defId);
+        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($source_pool_definition->getPoolId());
 
         $form = $this->buildEditSourcePoolDefinitionFormGUI();
-        $form->build($sourcePoolDefinition, $availableTaxonomyIds);
+        $form->build($source_pool_definition, $available_taxonomy_ids);
 
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
@@ -651,14 +682,25 @@ class ilTestRandomQuestionSetConfigGUI
             return;
         }
 
-        $form->applySubmit($sourcePoolDefinition, $availableTaxonomyIds);
+        $log_array = $form->applySubmit($source_pool_definition, $available_taxonomy_ids);
 
-        $sourcePoolDefinition->saveToDb();
+        $source_pool_definition->saveToDb();
 
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
+
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->test_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
+                    $log_array
+                )
+            );
+        }
 
         $this->ctrl->setParameterByClass(self::class, 'modified', 'save');
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
@@ -724,7 +766,7 @@ class ilTestRandomQuestionSetConfigGUI
         return $definitionIds;
     }
 
-    private function getSourcePoolDefinitionByAvailableQuestionPoolId($poolId): ilTestRandomQuestionSetSourcePoolDefinition
+    private function getSourcePoolDefinitionByAvailableQuestionPoolId($pool_id): ilTestRandomQuestionSetSourcePoolDefinition
     {
         $availablePools = $this->test_obj->getAvailableQuestionpools(
             true,
@@ -734,11 +776,11 @@ class ilTestRandomQuestionSetConfigGUI
             true
         );
 
-        if (isset($availablePools[$poolId])) {
-            $originalPoolData = $availablePools[$poolId];
+        if (isset($availablePools[$pool_id])) {
+            $originalPoolData = $availablePools[$pool_id];
 
-            $originalPoolData['qpl_path'] = $this->question_set_config->getQuestionPoolPathString($poolId);
-            $originalPoolData['qpl_ref_id'] = $this->question_set_config->getFirstQuestionPoolRefIdByObjId($poolId);
+            $originalPoolData['qpl_path'] = $this->question_set_config->getQuestionPoolPathString($pool_id);
+            $originalPoolData['qpl_ref_id'] = $this->question_set_config->getFirstQuestionPoolRefIdByObjId($pool_id);
 
             return $this->source_pool_definition_factory->getSourcePoolDefinitionByOriginalPoolData($originalPoolData);
         }
@@ -879,6 +921,16 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->test_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
+                    []
+                )
+            );
+        }
         $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
     }
 

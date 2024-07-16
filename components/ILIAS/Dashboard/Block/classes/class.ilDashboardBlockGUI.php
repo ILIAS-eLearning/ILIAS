@@ -97,6 +97,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $data = $this->loadData();
         $groupedCards = [];
+        $obj_ids = [];
+        foreach ($data as $group) {
+            foreach ($group as $datum) {
+                $obj_ids[] = $datum->getObjId();
+            }
+        }
+        ilLPStatus::preloadListGUIData($obj_ids);
+
         foreach ($data as $title => $group) {
             $items = [];
             foreach ($group as $datum) {

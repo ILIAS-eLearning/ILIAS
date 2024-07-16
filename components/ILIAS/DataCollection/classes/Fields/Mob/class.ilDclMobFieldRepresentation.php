@@ -70,7 +70,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
     {
         $opt = new ilRadioOption(
             $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            (string)$this->getField()->getDatatypeId()
+            (string) $this->getField()->getDatatypeId()
         );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
@@ -90,7 +90,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 
         $prop_page_details = new ilDclCheckboxInputGUI(
             $this->lng->txt('dcl_link_detail_page'),
-            'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE
+            'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         );
         $opt->addSubItem($prop_page_details);
 

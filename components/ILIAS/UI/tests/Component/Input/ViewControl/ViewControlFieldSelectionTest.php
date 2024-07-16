@@ -26,9 +26,9 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
-require_once('ViewControlBaseTest.php');
+require_once('ViewControlTestBase.php');
 
-class ViewControlFieldSelectionTest extends ViewControlBaseTest
+class ViewControlFieldSelectionTest extends ViewControlTestBase
 {
     public function testViewControlFieldSelectionConstruct(): void
     {

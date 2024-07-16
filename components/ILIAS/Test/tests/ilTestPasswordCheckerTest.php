@@ -31,7 +31,7 @@ class ilTestPasswordCheckerTest extends ilTestBaseTestCase
         $this->testObj = new ilTestPasswordChecker(
             $this->createMock(ilRbacSystem::class),
             $this->createMock(ilObjUser::class),
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilLanguage::class)
         );
     }

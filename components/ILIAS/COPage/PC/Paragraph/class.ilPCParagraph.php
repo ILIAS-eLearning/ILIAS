@@ -2015,7 +2015,7 @@ class ilPCParagraph extends ilPageContent
     {
         $model = new \stdClass();
         $s_text = $this->getText();
-        $s_text = $this->xml2output($s_text, true, false);
+        $s_text = static::xml2output($s_text, true, false);
         $s_text = ilPCParagraphGUI::xml2outputJS($s_text);
         $char = $this->getCharacteristic();
         if ($char == "") {

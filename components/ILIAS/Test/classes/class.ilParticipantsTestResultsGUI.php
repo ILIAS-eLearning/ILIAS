@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
@@ -53,7 +54,8 @@ class ilParticipantsTestResultsGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
-        private InternalRequestService $testrequest,
+        private GeneralQuestionPropertiesRepository $questionrepository,
+        private RequestDataCollector $testrequest,
         private \ILIAS\HTTP\GlobalHttpState $http,
         private \ILIAS\Refinery\Factory $refinery,
     ) {
@@ -112,8 +114,14 @@ class ilParticipantsTestResultsGUI
                 break;
 
             case 'ilassquestionpagegui':
-                $forwarder = new ilAssQuestionPageCommandForwarder();
-                $forwarder->setTestObj($this->getTestObj());
+                $forwarder = new ilAssQuestionPageCommandForwarder(
+                    $this->getTestObj(),
+                    $this->lng,
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $forwarder->forward();
                 break;
 
@@ -161,7 +169,7 @@ class ilParticipantsTestResultsGUI
 
     private function showParticipantsCmd(): void
     {
-        ilSession::clear("show_user_results");
+        ilSession::clear('show_user_results');
 
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
             $this->main_tpl->setOnScreenMessage(
@@ -233,9 +241,9 @@ class ilParticipantsTestResultsGUI
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("delete_all_user_data_confirmation"));
-        $cgui->setCancel($this->lng->txt("cancel"), self::CMD_SHOW_PARTICIPANTS);
-        $cgui->setConfirm($this->lng->txt("proceed"), self::CMD_PERFORM_DELETE_ALL_USER_RESULTS);
+        $cgui->setHeaderText($this->lng->txt('delete_all_user_data_confirmation'));
+        $cgui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PARTICIPANTS);
+        $cgui->setConfirm($this->lng->txt('proceed'), self::CMD_PERFORM_DELETE_ALL_USER_RESULTS);
 
         $this->main_tpl->setContent($cgui->getHTML());
     }
@@ -255,7 +263,7 @@ class ilParticipantsTestResultsGUI
 
         $this->getTestObj()->removeTestResults($participant_data);
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_all_user_data_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_all_user_data_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
@@ -271,11 +279,11 @@ class ilParticipantsTestResultsGUI
         }
 
         $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("confirm_delete_single_user_data"));
+        $cgui->setHeaderText($this->lng->txt('confirm_delete_single_user_data'));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt("cancel"), self::CMD_SHOW_PARTICIPANTS);
-        $cgui->setConfirm($this->lng->txt("confirm"), self::CMD_PERFORM_DELETE_SELECTED_USER_RESULTS);
+        $cgui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PARTICIPANTS);
+        $cgui->setConfirm($this->lng->txt('confirm'), self::CMD_PERFORM_DELETE_SELECTED_USER_RESULTS);
 
         $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 
@@ -294,11 +302,11 @@ class ilParticipantsTestResultsGUI
             }
 
             $cgui->addItem(
-                "chbUser[]",
+                'chbUser[]',
                 (string) $active_id,
                 $username,
-                ilUtil::getImagePath("standard/icon_usr.svg"),
-                $this->lng->txt("usr")
+                ilUtil::getImagePath('standard/icon_usr.svg'),
+                $this->lng->txt('usr')
             );
         }
 
@@ -310,21 +318,23 @@ class ilParticipantsTestResultsGUI
      */
     private function confirmDeleteSelectedUserDataCmd(): void
     {
-        $usr_ids = $this->getUserIdsFromPost();
-        if ($usr_ids !== []) {
-            $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-
-            $participant_data = new ilTestParticipantData($this->db, $this->lng);
-            $participant_data->setParticipantAccessFilter($access_filter);
-            $participant_data->setActiveIdsFilter($usr_ids);
-
-            $participant_data->load($this->getTestObj()->getTestId());
-
-            $this->getTestObj()->removeTestResults($participant_data);
-
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_selected_user_data_deleted"), true);
+        $to_be_deleted = $this->getUserIdsFromPost();
+        if ($to_be_deleted === []) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one_user'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
 
+        $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $participant_data->setParticipantAccessFilter($access_filter);
+        $participant_data->setActiveIdsFilter($to_be_deleted);
+
+        $participant_data->load($this->getTestObj()->getTestId());
+
+        $this->getTestObj()->removeTestResults($participant_data);
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_selected_user_data_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
@@ -334,9 +344,12 @@ class ilParticipantsTestResultsGUI
     private function showDetailedResultsCmd(): void
     {
         $usr_ids = $this->getUserIdsFromPost();
-        if ($usr_ids !== []) {
-            ilSession::set('show_user_results', $usr_ids);
+        if ($usr_ids === []) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('select_one_user'), true);
+            $this->ctrl->redirect($this);
         }
+
+        ilSession::set('show_user_results', $usr_ids);
         $results_href = $this->ctrl->getLinkTargetByClass(
             [ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class],
             'multiParticipantsPassDetails'

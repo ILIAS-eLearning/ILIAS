@@ -112,7 +112,7 @@ class ilGlossaryFlashcardGUI
         $item_cnt = $this->manager->getItemsForBoxCount($nr);
         $last_access = $this->manager->getLastAccessForBoxAsDaysText($nr);
 
-        if (($this->manager->getUserTermIdsForBox($nr) && $nr !== Flashcard\FlashcardBox::LAST_BOX)
+        if (($this->manager->getUserTermsForBox($nr) && $nr !== Flashcard\FlashcardBox::LAST_BOX)
             || ($this->manager->getAllTermsWithoutEntry() && $nr === Flashcard\FlashcardBox::FIRST_BOX)) {
             $this->ctrl->setParameterByClass("ilglossaryflashcardboxgui", "box_id", $nr);
             $title = $this->ui_fac->link()->standard(

@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Test\QuestionIdentifiers;
-
 /**
 * Class for formula question question exports
 *

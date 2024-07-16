@@ -95,8 +95,8 @@ class DropdownTest extends ILIAS_UI_TestBase
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
+			<div class="dropdown" id="id_3">
+				<button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
 					<span class="caret"></span>
 				</button>
 				<ul id="id_3_menu" class="dropdown-menu">
@@ -124,7 +124,7 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label<span class="caret"></span></button>
+			<div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label<span class="caret"></span></button>
 				<ul id="id_3_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>
@@ -150,7 +150,7 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_1" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_menu"><span class="caret"></span></button>
+			<div class="dropdown" id="id_1"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_1_menu"><span class="caret"></span></button>
 				<ul id="id_1_menu" class="dropdown-menu">
 					<li><a href="http://www.ilias.de" target="_blank" rel="noopener">Link to ILIAS</a></li>
 				</ul>
@@ -174,7 +174,7 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="my_aria_label" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label<span class="caret"></span></button>
+			<div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="my_aria_label" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label<span class="caret"></span></button>
 				<ul id="id_3_menu" class="dropdown-menu">
 					<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 					<li><hr  /></li>

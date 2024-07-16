@@ -86,24 +86,23 @@ class CollectionBuilderTest extends TestCase
                                   ])
                               );
 
-        $this->resource_builder->expects($this->exactly(6))
-                               ->method('has')
-                               ->withConsecutive(
-                                   [new ResourceIdentification('rid1')],
-                                   [new ResourceIdentification('rid2')],
-                                   [new ResourceIdentification('rid3')],
-                                   [new ResourceIdentification('rid1')],
-                                   [new ResourceIdentification('rid2')],
-                                   [new ResourceIdentification('rid3')],
-                               )
-                               ->willReturn(
-                                   true,
-                                   true,
-                                   true,
-                                   true,
-                                   true,
-                                   true,
-                               );
+        $consecutive = [
+            new ResourceIdentification('rid1'),
+            new ResourceIdentification('rid2'),
+            new ResourceIdentification('rid3'),
+            new ResourceIdentification('rid1'),
+            new ResourceIdentification('rid2'),
+            new ResourceIdentification('rid3'),
+        ];
+        $this->resource_builder
+            ->expects($this->exactly(6))
+            ->method('has')
+            ->willReturnCallback(
+                function ($rid) use (&$consecutive) {
+                    $this->assertEquals(array_shift($consecutive), $rid);
+                    return true;
+                }
+            );
 
         $collection = $this->collections->get($rcid, null);
 

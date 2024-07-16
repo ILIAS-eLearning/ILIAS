@@ -2,8 +2,6 @@
 
 namespace ILIAS\HTTP;
 
-/** @noRector */
-require_once "AbstractBaseTest.php";
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
@@ -24,7 +22,7 @@ use ILIAS\Refinery\Factory;
  * Class WrapperTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class WrapperTest extends AbstractBaseTest
+class WrapperTest extends AbstractBaseTestCase
 {
     protected Factory $refinery;
     protected array $get = ['key_one' => 1, 'key_two' => 2];

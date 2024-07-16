@@ -50,9 +50,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $message = $inp->render();
 
         $page = $this->ui->factory()->modal()->lightboxTextPage($message, $this->lng->txt('answer_options'));
-
         $modal = $this->ui->factory()->modal()->lightbox($page);
-
         $button = $this->ui->factory()->button()->standard($this->lng->txt('show'), $modal->getShowSignal());
 
         $tpl = new ilTemplate('tst.longmenu_corrections_input.html', true, true, 'components/ILIAS/TestQuestionPool');

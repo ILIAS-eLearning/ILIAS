@@ -55,7 +55,7 @@ class IntegerTransformationTest extends TestCase
         $this->transformation->transform($failingValue);
     }
 
-    public function IntegerTestDataProvider(): array
+    public static function IntegerTestDataProvider(): array
     {
         return [
             'pos_bool' => [true, 1],
@@ -71,7 +71,7 @@ class IntegerTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider(): array
+    public static function TransformationFailureDataProvider(): array
     {
         return [
             'bigger_than_int_max' => ["9223372036854775808"],

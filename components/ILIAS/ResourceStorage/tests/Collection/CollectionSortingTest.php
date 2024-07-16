@@ -18,9 +18,7 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
-require_once(__DIR__ . "/../AbstractBaseResourceBuilderTest.php");
-
-use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
+use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTestCase;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
@@ -35,7 +33,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
  * Class CollectionSortingTest
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class CollectionSortingTest extends AbstractBaseResourceBuilderTest
+class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
 {
     public const DUMMY_RCID = 'dummy-rcid';
 
@@ -102,17 +100,19 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTest
             ->method('getCurrentRevision')
             ->willReturn($this->revision_three);
 
+        $consecutive = [
+            [$this->rid_one]
+        ];
+
+        $map = [
+            [$this->rid_one, $this->resource_one],
+            [$this->rid_two, $this->resource_two],
+            [$this->rid_two, $this->resource_two],
+            [$this->rid_three, $this->resource_three],
+        ];
         $this->resource_builder->expects($this->atLeastOnce())
             ->method('get')
-            ->withConsecutive([$this->rid_one], [$this->rid_two], [$this->rid_two], [$this->rid_three])
-            ->will(
-                $this->onConsecutiveCalls(
-                    $this->resource_one,
-                    $this->resource_two,
-                    $this->resource_two,
-                    $this->resource_three
-                )
-            );
+            ->will($this->returnValueMap($map));
     }
 
     private function setUpRevisionExpectations(FileInformation $one, FileInformation $two, FileInformation $three): void

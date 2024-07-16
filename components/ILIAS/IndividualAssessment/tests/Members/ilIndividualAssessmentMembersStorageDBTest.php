@@ -243,13 +243,23 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
 
         $db_statement = $this->createMock(ilDBStatement::class);
 
+        $consecutive = [
+            [22, "integer"],
+            [33, "integer"]
+        ];
         $db = $this->createMock(ilDBInterface::class);
         $db
             ->expects($this->exactly(2))
             ->method("quote")
-            ->withConsecutive([22, "integer"], [33, "integer"])
-            ->willReturnOnConsecutiveCalls("22", "33")
-        ;
+            ->willReturnCallback(
+                function (int $v, string $type) use (&$consecutive) {
+                    list($ev, $etype) = array_shift($consecutive);
+                    $this->assertEquals($ev, $v);
+                    $this->assertEquals($etype, $type);
+                    return (string)$v;
+                }
+            );
+
         $db
             ->expects($this->once())
             ->method("query")
@@ -315,13 +325,23 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
 
         $db_statement = $this->createMock(ilDBStatement::class);
 
+        $consecutive = [
+            [22, "integer"],
+            [33, "integer"]
+        ];
         $db = $this->createMock(ilDBInterface::class);
         $db
             ->expects($this->exactly(2))
             ->method("quote")
-            ->withConsecutive([22, "integer"], [33, "integer"])
-            ->willReturnOnConsecutiveCalls("22", "33")
-        ;
+            ->willReturnCallback(
+                function (int $v, string $type) use (&$consecutive) {
+                    list($ev, $etype) = array_shift($consecutive);
+                    $this->assertEquals($ev, $v);
+                    $this->assertEquals($etype, $type);
+                    return (string)$v;
+                }
+            );
+
         $db
             ->expects($this->once())
             ->method("query")
@@ -608,13 +628,23 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             . "AND usr_id = 22" . PHP_EOL
         ;
 
+        $consecutive = [
+            [11, "integer"],
+            [22, "integer"]
+        ];
         $db = $this->createMock(ilDBInterface::class);
         $db
             ->expects($this->exactly(2))
             ->method("quote")
-            ->withConsecutive([11, "integer"], [22, "integer"])
-            ->willReturnOnConsecutiveCalls("11", "22")
-        ;
+            ->willReturnCallback(
+                function (int $v, string $type) use (&$consecutive) {
+                    list($ev, $etype) = array_shift($consecutive);
+                    $this->assertEquals($ev, $v);
+                    $this->assertEquals($etype, $type);
+                    return (string)$v;
+                }
+            );
+
         $db
             ->expects($this->once())
             ->method("manipulate")
@@ -627,7 +657,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->removeMembersRecord($iass, $record);
     }
 
-    public function dataFor_getWhereFromFilter(): array
+    public static function dataFor_getWhereFromFilter(): array
     {
         return [
             [

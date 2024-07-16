@@ -60,7 +60,7 @@ class ilObjFileInfoRepository
     private function initInlineSuffixes(): array
     {
         $settings = new ilSetting('file_access');
-        return array_map('strtolower', explode(" ", $settings->get('inline_file_extensions')));
+        return array_map('strtolower', explode(' ', $settings->get('inline_file_extensions', '')));
     }
 
     public function preloadData(array $object_ids): void

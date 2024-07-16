@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
@@ -11,8 +11,8 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
       object as it's owner and creation and update timestamps for the
       object.
     - The **Learning Module** service stores all the content of the help modules.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [COPage](../../Services/COPage/PRIVACY.md)
+    - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
+    - [COPage](../../ILIAS/COPage/PRIVACY.md)
 
 ## Data being stored
 

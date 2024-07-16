@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilMailErrorFormatterTest extends ilMailBaseTest
+class ilMailErrorFormatterTest extends ilMailBaseTestCase
 {
     private ilMailErrorFormatter $errorFormatter;
 
@@ -46,7 +46,7 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
         $this->errorFormatter = new ilMailErrorFormatter($languageMock);
     }
 
-    public function errorCollectionProvider(): array
+    public static function errorCollectionProvider(): array
     {
         return [
             'Zero errors' => [

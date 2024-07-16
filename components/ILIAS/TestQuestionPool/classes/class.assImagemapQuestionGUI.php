@@ -32,7 +32,8 @@
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    private $linecolor;
+    private string $linecolor;
+    private ?ilPropertyFormGUI $edit_form = null;
 
     /**
      * assImagemapQuestionGUI constructor
@@ -81,7 +82,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setValuesByPost();
 
         if (!$always && !$form->checkInput()) {
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
 
@@ -158,18 +160,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
-    public function editQuestion(ilPropertyFormGUI $form = null): void
-    {
-        if (null === $form) {
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
+        $form = $this->edit_form;
+        if ($form === null) {
             $form = $this->buildEditForm();
         }
 
-        $this->getQuestionTemplate();
-
-        $this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
+        $this->renderEditForm($form);
+        return false;
     }
 
     public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -388,45 +389,33 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
-    // hey: prevPassSolutions - max solution pass determinations allready done, pass passed for sure
-    // hey: fixedIdentifier - changed access to passed param (lower-/uppercase issues)
-    protected function completeTestOutputFormAction($formAction, $active_id, $pass)
-    {
+    protected function completeTestOutputFormAction(
+        string $form_action,
+        int $active_id,
+        int $pass
+    ): string {
         $info = $this->object->getTestOutputSolutions($active_id, $pass);
 
-        if (count($info)) {
-            if ($info[0]["value1"] !== "") {
-                $formAction .= "&selImage=" . $info[0]["value1"];
+        if ($info !== []) {
+            if ($info[0]['value1'] !== '') {
+                $form_action .= '&selImage=' . $info[0]['value1'];
             }
         }
 
-        return $formAction;
+        return $form_action;
     }
-    // hey.
-    // hey.
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphicalOutput = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
         $solutions = [];
@@ -555,8 +544,10 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         if (is_object($this->getPreviewSession())) {
             $user_solution = [];
 
@@ -611,16 +602,18 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
         $questionoutput = $template->get();
         if (!$show_question_only) {
-            // get page object output
             $questionoutput = $this->getILIASPage($questionoutput);
         }
         return $questionoutput;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-    // hey.
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
@@ -657,7 +650,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
-            if ($show_feedback) {
+            if ($show_specific_inline_feedback) {
                 if (!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id) {
                     $feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
                         $this->object->getId(),
@@ -677,7 +670,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 

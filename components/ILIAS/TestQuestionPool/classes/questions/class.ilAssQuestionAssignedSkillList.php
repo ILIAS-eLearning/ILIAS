@@ -28,7 +28,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
 
     public function addSkill(int $skill_base_id, int $skill_ref_id): void
     {
-        $this->skills[] = "{$skill_base_id}:{$skill_ref_Id}";
+        $this->skills[] = "{$skill_base_id}:{$skill_ref_id}";
     }
 
     public function skillsExist(): bool
@@ -65,7 +65,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
 
     public function sleep(): array
     {
-        return array('skills');
+        return ['skills'];
     }
 
     public function wakeup(): void

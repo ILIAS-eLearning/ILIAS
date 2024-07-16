@@ -26,10 +26,14 @@ class ilTestSequenceTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestSequence($DIC['ilDB'], 0, 0, $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class));
+        $this->testObj = new ilTestSequence(
+            $this->createMock(ilDBInterface::class),
+            0,
+            0,
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

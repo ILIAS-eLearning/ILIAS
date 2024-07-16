@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\TestManScoringDoneHelper;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Service class for tests.
@@ -37,7 +38,7 @@ class ilTestService
     public function __construct(
         protected ilObjTest $object,
         protected ilDBInterface $db,
-        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        protected GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -60,44 +61,44 @@ class ilTestService
             }
 
             if (!$short) {
-                $resultData = &$this->object->getTestResult($active_id, $pass);
+                $result_data = $this->object->getTestResult($active_id, $pass);
 
-                if (!$resultData["pass"]["total_max_points"]) {
+                if (!$result_data["pass"]["total_max_points"]) {
                     $passPercentage = 0;
                 } else {
-                    $passPercentage = ($resultData["pass"]["total_reached_points"] / $resultData["pass"]["total_max_points"]) * 100;
+                    $passPercentage = ($result_data["pass"]["total_reached_points"] / $result_data["pass"]["total_max_points"]) * 100;
                 }
 
-                $passMaxPoints = $resultData["pass"]["total_max_points"];
-                $passReachedPoints = $resultData["pass"]["total_reached_points"];
+                $passMaxPoints = $result_data["pass"]["total_max_points"];
+                $passReachedPoints = $result_data["pass"]["total_reached_points"];
 
                 $passAnsweredQuestions = $this->object->getAnsweredQuestionCount($active_id, $pass);
-                $passTotalQuestions = count($resultData) - 2;
+                $passTotalQuestions = count($result_data) - 2;
 
                 if ($pass == $scoredPass) {
                     $isScoredPass = true;
 
-                    if (!$resultData["test"]["total_max_points"]) {
+                    if (!$result_data["test"]["total_max_points"]) {
                         $testPercentage = 0;
                     } else {
-                        $testPercentage = ($resultData["test"]["total_reached_points"] / $resultData["test"]["total_max_points"]) * 100;
+                        $testPercentage = ($result_data["test"]["total_reached_points"] / $result_data["test"]["total_max_points"]) * 100;
                     }
 
-                    $testMaxPoints = $resultData["test"]["total_max_points"];
-                    $testReachedPoints = $resultData["test"]["total_reached_points"];
+                    $testMaxPoints = $result_data["test"]["total_max_points"];
+                    $testReachedPoints = $result_data["test"]["total_reached_points"];
 
-                    $passOverwiewData['test'] = array(
+                    $passOverwiewData['test'] = [
                         'active_id' => $active_id,
                         'scored_pass' => $scoredPass,
                         'max_points' => $testMaxPoints,
                         'reached_points' => $testReachedPoints,
                         'percentage' => $testPercentage
-                    );
+                    ];
                 } else {
                     $isScoredPass = false;
                 }
 
-                $passOverwiewData['passes'][] = array(
+                $passOverwiewData['passes'][] = [
                     'active_id' => $active_id,
                     'pass' => $pass,
                     'finishdate' => $passFinishDate,
@@ -107,7 +108,7 @@ class ilTestService
                     'answered_questions' => $passAnsweredQuestions,
                     'total_questions' => $passTotalQuestions,
                     'is_scored_pass' => $isScoredPass
-                );
+                ];
             }
         }
 
@@ -119,31 +120,31 @@ class ilTestService
      */
     public function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
-        $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
+        $man_scoring_question_types = ilObjTestFolder::_getManualScoring();
 
-        $testResultData = $this->object->getTestResult($active_id, $pass);
+        $test_result_data = $this->object->getTestResult($active_id, $pass);
 
-        $manScoringQuestionGuiList = [];
+        $man_scoring_question_gui_list = [];
 
-        foreach ($testResultData as $questionData) {
-            if (!isset($questionData['qid'])) {
+        foreach ($test_result_data as $question_data) {
+            if (!isset($question_data['qid'])) {
                 continue;
             }
 
-            if (!isset($questionData['type'])) {
+            if (!isset($question_data['type'])) {
                 throw new ilTestException('no question type given!');
             }
 
-            $questionGUI = $this->object->createQuestionGUI("", $questionData['qid']);
+            $question_gui = $this->object->createQuestionGUI("", $question_data['qid']);
 
-            if (!in_array($questionGUI->object->getQuestionTypeID(), $manScoringQuestionTypes)) {
+            if (!in_array($question_gui->getObject()->getQuestionTypeID(), $man_scoring_question_types)) {
                 continue;
             }
 
-            $manScoringQuestionGuiList[ $questionData['qid'] ] = $questionGUI;
+            $man_scoring_question_gui_list[ $question_data['qid'] ] = $question_gui;
         }
 
-        return $manScoringQuestionGuiList;
+        return $man_scoring_question_gui_list;
     }
 
     public static function isManScoringDone(int $active_id): bool
@@ -158,7 +159,7 @@ class ilTestService
 
     public function buildVirtualSequence(ilTestSession $testSession): ilTestVirtualSequence
     {
-        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
+        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
 
         if ($this->object->isRandomTest()) {
             $virtual_sequence = new ilTestVirtualSequenceRandomQuestionSet($this->db, $this->object, $test_sequence_factory);
@@ -250,7 +251,7 @@ class ilTestService
 
 
             // fau: testNav - add number parameter for getQuestionTitle()
-            $data[] = array(
+            $data[] = [
                 'order' => $value["nr"],
                 'title' => $this->object->getQuestionTitle($value["title"], $value["nr"], $value["points"]),
                 'description' => $description,
@@ -262,7 +263,7 @@ class ilTestService
                 'sequence' => $value["sequence"],
                 'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
-            );
+            ];
 
             $firstQuestion = false;
             // fau.

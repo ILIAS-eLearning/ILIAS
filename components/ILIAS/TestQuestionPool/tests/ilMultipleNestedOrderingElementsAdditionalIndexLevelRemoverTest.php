@@ -34,7 +34,7 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemoverTest extends as
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->object = new ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover();
     }
 

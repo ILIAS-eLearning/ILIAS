@@ -57,7 +57,7 @@ class ilRandomTest extends TestCase
         unset($GLOBALS['DIC']);
     }
 
-    public function intArguments(): array
+    public static function intArguments(): array
     {
         return [
             'No arguments can be provided' => [],

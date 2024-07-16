@@ -48,14 +48,19 @@ class COPageTestBase extends TestCase
         if (!defined("ILIAS_LOG_ENABLED")) {
             define("ILIAS_LOG_ENABLED", false);
         }
-
         if (!defined("IL_INST_ID")) {
             define("IL_INST_ID", 0);
         }
-
         if (!defined("COPAGE_TEST")) {
             define("COPAGE_TEST", "1");
         }
+        if (!defined("ILIAS_LOG_DIR")) {
+            define("ILIAS_LOG_DIR", "/var/log");
+        }
+        if (!defined("ILIAS_LOG_FILE")) {
+            define("ILIAS_LOG_FILE", "/var/log/ilias.log");
+        }
+
         parent::setUp();
 
         $def_mock = $this->getMockBuilder(ilObjectDefinition::class)

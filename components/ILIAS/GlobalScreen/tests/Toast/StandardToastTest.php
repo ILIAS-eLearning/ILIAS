@@ -68,7 +68,7 @@ class StandardToastTest extends BaseToastSetUp
         $standard_toast = $standard_toast->withAdditionToastAction($this->factory->action('two', 'Two', $handle));
     }
 
-    public function reservedActionsProvider(): array
+    public static function reservedActionsProvider(): array
     {
         $action = function () {
             return true;

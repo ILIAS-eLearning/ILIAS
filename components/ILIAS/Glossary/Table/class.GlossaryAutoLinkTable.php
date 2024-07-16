@@ -90,6 +90,10 @@ class GlossaryAutoLinkTable
 
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("cont_auto_glossaries"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->glossary->getRefId()
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 

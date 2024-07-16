@@ -30,28 +30,19 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_lng();
-        $this->addGlobal_ilAccess();
-        $this->addGlobal_tpl();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilias();
         $this->addGlobal_tree();
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
         $this->addGlobal_refinery();
         $this->addGlobal_ilHelp();
-        $this->addGlobal_ilLog();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilToolbar();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilNavigationHistory();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestPlayerRandomQuestionSetGUI($this->getTestObjMock());
     }

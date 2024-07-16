@@ -44,6 +44,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
         return $this->glossary;
     }
 
+    //TODO: Is this still needed after abandoning LOM for Definitons?
     public function postOutputProcessing(string $a_output): string
     {
         if ($this->getOutputMode() == "print" && !is_null($this->glossary)) {

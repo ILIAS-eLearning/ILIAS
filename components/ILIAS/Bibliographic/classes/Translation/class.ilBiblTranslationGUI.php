@@ -34,6 +34,7 @@ class ilBiblTranslationGUI
     public const CMD_SAVE_TRANSLATIONS = "saveTranslations";
     public const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
     public const CMD_DEFAULT = 'index';
+    private ilCtrlInterface $ctrl;
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     protected \ilBiblFieldInterface $field;
     private \ilGlobalTemplateInterface $main_tpl;
@@ -49,15 +50,15 @@ class ilBiblTranslationGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
         $this->field = $field;
+        $this->ctrl = $DIC['ilCtrl'];
     }
 
 
     public function executeCommand(): void
     {
-        $this->ctrl()->saveParameter($this, ilBiblAdminFieldGUI::FIELD_IDENTIFIER);
-        switch ($this->ctrl()->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             default:
-                $cmd = $this->ctrl()->getCmd(self::CMD_DEFAULT);
+                $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
                 $this->{$cmd}();
         }
     }
@@ -74,7 +75,7 @@ class ilBiblTranslationGUI
 
     protected function initToolbar(): void
     {
-        $this->toolbar()->addButton($this->lng()->txt("obj_add_languages"), $this->ctrl()
+        $this->toolbar()->addButton($this->lng()->txt("obj_add_languages"), $this->ctrl
             ->getLinkTarget($this, self::CMD_ADD_LANGUAGE));
     }
 
@@ -136,7 +137,7 @@ class ilBiblTranslationGUI
     protected function getLanguagesForm(): \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl()->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
 
         // master language
         //		$options = ilMDLanguageItem::_getLanguages();
@@ -163,6 +164,6 @@ class ilBiblTranslationGUI
 
     protected function cancel(): void
     {
-        $this->ctrl()->redirect($this, self::CMD_DEFAULT);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 }

@@ -43,7 +43,7 @@ class ilObjectPropertiesAgregator
             $this->core_properties_repository,
             $this->additional_properties_repository->getFor($object_id),
             $this->additional_properties_repository,
-            new ilMD($object_id, 0, $core_properties->getType())
+            new ilMD($object_id, 0, $core_properties->getType() ?? '')
         );
     }
 

@@ -91,21 +91,21 @@ class TupleTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function TupleTooManyValuesDataProvider(): array
+    public static function TupleTooManyValuesDataProvider(): array
     {
         return [
             'too_many_values' => [[1,2,3]]
         ];
     }
 
-    public function TupleFailingTransformationDataProvider(): array
+    public static function TupleFailingTransformationDataProvider(): array
     {
         return [
             'incorrect_tuple' => [[1, 2]]
         ];
     }
 
-    public function TupleTransformationDataProvider(): array
+    public static function TupleTransformationDataProvider(): array
     {
         return [
             'array_test01' => [[1, 2], [1, 2]]

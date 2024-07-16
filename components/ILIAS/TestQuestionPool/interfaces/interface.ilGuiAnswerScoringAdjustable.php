@@ -39,7 +39,8 @@ interface ilGuiAnswerScoringAdjustable
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
     /**
-     * Extracts the answer specific values from $_POST and applies them to the data object.
+     * Extracts the answer specific values from the request and applies them
+     * to the data object.
      */
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void;
 

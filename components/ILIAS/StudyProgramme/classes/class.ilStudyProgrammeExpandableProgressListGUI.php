@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgressListGUI
 {
@@ -281,7 +281,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             return false;
         }
 
-        $this->tpl->addCSS("components/ILIAS/StudyProgramme/templates/css/ilStudyProgramme.css");
+        $this->tpl->addCSS("assets/css/ilStudyProgramme.css");
         $this->css_added = true;
     }
 }

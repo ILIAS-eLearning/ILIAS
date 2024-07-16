@@ -479,7 +479,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // xmldocfile is deprecated! Use domxml_open_file instead.
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
-        $xmlfile = file_get_contents("./components/ILIAS/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
+        $xmlfile = file_get_contents(ILIAS_ABSOLUTE_PATH . "/components/ILIAS/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
 
         $error = null;
         $doc = $this->dom_util->docFromString($xmlfile, $error);

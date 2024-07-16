@@ -70,13 +70,21 @@ class ilOrgUnitOperationContextRegisteredObjectiveTest extends TestCase
             ->onlyMethods(['getContextId'])
             ->getMock();
 
+        $consecutive = [
+            [$context_name, $existing_context_id],
+            [$parent_context, $parent_id]
+        ];
+
         $obj
             ->method('getContextId')
-            ->withConsecutive(
-                [$this->isInstanceOf(ilDBInterface::class), $context_name],
-                [$this->isInstanceOf(ilDBInterface::class), $parent_context]
-            )
-            ->willReturnOnConsecutiveCalls($existing_context_id, $parent_id);
+            ->willReturnCallback(
+                function ($db, $context) use (&$consecutive) {
+                    list($econtext, $ret) = array_shift($consecutive);
+                    $this->assertInstanceOf(ilDBInterface::class, $db);
+                    $this->assertEquals($econtext, $context);
+                    return $ret;
+                }
+            );
 
         return $obj;
     }

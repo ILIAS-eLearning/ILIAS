@@ -66,7 +66,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
-        $options = ilDclSelectionOption::getAllForField((int)$this->getField()->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
         switch ($this->getField()->getProperty(static::PROP_SELECTION_TYPE)) {
             case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
                 $input = new ilMultiSelectInputGUI(
@@ -97,9 +97,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
             default:
                 $input = new ilRadioGroupInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
                 foreach ($options as $opt) {
-                    $input->addOption(new ilRadioOption($opt->getValue(), (string)$opt->getOptId()));
+                    $input->addOption(new ilRadioOption($opt->getValue(), (string) $opt->getOptId()));
                 }
-                $input->setValue((string)array_keys($options)[0]);
+                $input->setValue((string) array_keys($options)[0]);
                 break;
         }
         $this->setupInputField($input, $this->getField());
@@ -120,7 +120,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
             $this->getField()->getId()
         );
 
-        $options = ilDclSelectionOption::getAllForField((int)$this->getField()->getId());
+        $options = ilDclSelectionOption::getAllForField((int) $this->getField()->getId());
         $array = ['' => $this->lng->txt('dcl_all_entries')];
         foreach ($options as $opt) {
             $array[$opt->getOptId()] = $opt->getValue();

@@ -182,4 +182,23 @@ class CardTest extends ILIAS_UI_TestBase
 
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
+
+    public function test_render_content_with_component_title(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $c = $this->getBaseCard();
+        $title = new I\Component\Button\Shy('Card Title', '');
+        $c = $c->withTitle($title);
+
+        $html = $this->brutallyTrimHTML($r->render($c));
+
+        $expected_html =
+            "<div class=\"il-card thumbnail\">" .
+            "   <div class=\"il-card-image-container\"><img src=\"src\" class=\"img-standard\" alt=\"open Card Title\" /></div>" .
+            "   <div class=\"card-no-highlight\"></div>" .
+            "   <div class=\"caption card-title\">" . $r->render($title) . "</div>" .
+            "</div>";
+
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
+    }
 }

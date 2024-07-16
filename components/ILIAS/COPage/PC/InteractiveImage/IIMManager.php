@@ -169,7 +169,7 @@ class IIMManager
         $nodes = $this->dom_util->path($dom, $path);
         foreach ($nodes as $node) {
             $old_id = $node->getAttribute("OriginId");
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $node->setAttribute("OriginId", "il__mob_" . $a_mapping[$old_id]);
                 $changed = true;
             }

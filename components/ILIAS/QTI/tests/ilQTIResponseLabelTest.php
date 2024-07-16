@@ -93,7 +93,7 @@ class ilQTIResponseLabelTest extends TestCase
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function rshuffles(): array
+    public static function rshuffles(): array
     {
         class_exists(ilQTIResponseLabel::class); // Force autoload to define the constants.
 
@@ -106,7 +106,7 @@ class ilQTIResponseLabelTest extends TestCase
         ];
     }
 
-    public function areas(): array
+    public static function areas(): array
     {
         class_exists(ilQTIResponseLabel::class); // Force autoload to define the constants.
         return [
@@ -120,7 +120,7 @@ class ilQTIResponseLabelTest extends TestCase
         ];
     }
 
-    public function rranges(): array
+    public static function rranges(): array
     {
         class_exists(ilQTIResponseLabel::class); // Force autoload to define the constants.
         return [

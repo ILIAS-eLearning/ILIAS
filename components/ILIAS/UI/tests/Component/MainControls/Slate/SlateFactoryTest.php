@@ -18,19 +18,19 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 /**
  * Tests on factory implementation for Slates
  *
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class SlateFactoryTest extends AbstractFactoryTest
+class SlateFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "legacy" => ["context" => false],
         "combined" => ["rules" => false]
     ];
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Slate\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Slate\\Factory';
 }

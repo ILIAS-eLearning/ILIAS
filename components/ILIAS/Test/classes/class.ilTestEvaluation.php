@@ -58,13 +58,13 @@ class ilTestEvaluation
 			WHERE test_fi = %s
 		";
 
-        $res = $this->db->queryF($query, array('integer'), array($this->testId));
+        $res = $this->db->queryF($query, ['integer'], [$this->testId]);
 
-        $passes = array();
+        $passes = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($passes[$row['active_fi']])) {
-                $passes[$row['active_fi']] = array();
+                $passes[$row['active_fi']] = [];
             }
 
             $passes[$row['active_fi']][] = $row['pass'];

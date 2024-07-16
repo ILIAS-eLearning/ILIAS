@@ -24,6 +24,8 @@ function base()
         "Multi Selection",
         ["one" => "Num One", "two" => "Num Two", "three" => "Num Three", "four" => "Num Four", "five" => "Num Five"]
     );
+    $date = $ui->input()->field()->dateTime("Date/Time")->withUseTime(true);
+    $duration = $ui->input()->field()->duration("Duration")->withUseTime(true);
 
     //Step 2: Define the filter and attach the inputs.
     $action = $DIC->ctrl()->getLinkTargetByClass("ilsystemstyledocumentationgui", "entries", "", true);
@@ -36,9 +38,11 @@ function base()
             "with_def" => $with_def,
             "init_hide" => $init_hide,
             "number" => $number,
-            "multi_select" => $multi_select
+            "multi_select" => $multi_select,
+            "date" => $date,
+            "duration" => $duration
         ],
-        [true, true, true, false, true, true],
+        [true, true, true, false, true, true, true, true],
         true,
         true
     );
@@ -47,5 +51,5 @@ function base()
     $filter_data = $DIC->uiService()->filter()->getData($filter);
 
     //Step 4: Render the filter
-    return $renderer->render($filter) . "Filter Data: " . print_r($filter_data, true);
+    return $renderer->render($filter) . "Filter Data: " . "<pre>" . print_r($filter_data, true) . "</pre><br/>";
 }

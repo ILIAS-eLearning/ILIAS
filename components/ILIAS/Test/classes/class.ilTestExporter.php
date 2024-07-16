@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Logging\TestLogger;
 
 /**
  * Used for container export with tests
@@ -29,20 +31,21 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  */
 class ilTestExporter extends ilXmlExporter
 {
-    private ilLanguage $lng;
-    private ilLogger $log;
-    private ilTree $tree;
-    private ilComponentRepository $component_repository;
-    private QuestionInfoService $questioninfo;
+    private readonly ilLanguage $lng;
+    private readonly TestLogger $logger;
+    private readonly ilTree $tree;
+    private readonly ilComponentRepository $component_repository;
+    private readonly GeneralQuestionPropertiesRepository $questionrepository;
 
     public function __construct()
     {
         global $DIC;
         $this->lng = $DIC['lng'];
-        $this->log = $DIC['ilLog'];
+        $local_dic = TestDIC::dic();
+        $this->logger = $local_dic['logging.logger'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         parent::__construct();
     }
@@ -58,11 +61,18 @@ class ilTestExporter extends ilXmlExporter
     {
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $test_export_factory = new ilTestExportFactory($tst, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
+        $test_export_factory = new ilTestExportFactory(
+            $tst,
+            $this->lng,
+            $this->logger,
+            $this->tree,
+            $this->component_repository,
+            $this->questionrepository
+        );
         $test_export = $test_export_factory->getExporter('xml');
         $zip = $test_export->buildExportFile();
 
-        $this->log->write(__METHOD__ . ': Created zip file ' . $zip);
+        $this->logger->info(__METHOD__ . ': Created zip file ' . $zip);
         return ''; // Sagt mjansen
     }
 

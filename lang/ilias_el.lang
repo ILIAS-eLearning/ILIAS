@@ -416,6 +416,9 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#action#:#Ενέργεια
+assessment#:#activate_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
+assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
+assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Add suggested solution###30 04 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -574,7 +577,6 @@ assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?###10 11 2018 new variable
 assessment#:#confirm_delete_all_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε όλα τα δεδομένα χρήστη του διαγωνίσματος;
 assessment#:#confirm_delete_single_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε τα δεδομένα διαγωνίσματος των επιλεγμένων χρηστών;
 assessment#:#confirm_sync_questions#:#Η ερώτηση που αλλάξατε είναι αντίγραφο το οποίο δημιουργήθηκε για χρήση από το ενεργό τεστ. Θέλετε να αλλάξετε και την πρωτότυπη ερώτηση;
@@ -589,6 +591,7 @@ assessment#:#create_gaps#:#Δημιουργία κενών
 assessment#:#create_new#:#Δημιουργία νέου
 assessment#:#customstyle#:#Custom Style###02 03 2009 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
+assessment#:#date_time#:#Ημερομηνία/Ώρα
 assessment#:#definition#:#Ορισμός
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
@@ -616,19 +619,6 @@ assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpoo
 assessment#:#duplicate#:#Αντίγραφο
 assessment#:#duplicate_matching_values_selected#:#Επιλέξατε διπλές τιμές ταιριάσματος!
 assessment#:#duplicate_order_values_entered#:#Εισάγατε διπλές τιμές σειράς!
-assessment#:#ects_allow_ects_grades#:#Εμφάνιση βαθμού ECTS επιπλέον του τελικού βαθμού
-assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
-assessment#:#ects_grade#:#Βαθμός ECTS
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###10 11 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###10 11 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###10 11 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###10 11 2018 new variable
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###10 11 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###10 11 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###10 11 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###10 11 2018 new variable
-assessment#:#ects_output_of_ects_grades#:#Έξοδος βαθμών ECTS
 assessment#:#edit_answer#:#Edit Answer###30 08 2015 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
@@ -752,6 +742,7 @@ assessment#:#height#:#Ύψος
 assessment#:#identical_scoring#:#Ταυτόσημα αποτελέσματα
 assessment#:#identical_scoring_desc#:#Εαν επιλεγέι, τα κενά με ταυτόσημες λύσεις θα προσμετρηθούν, ακόμα και εαν η ίδια λύση επιλέχθηκε δύο ή και περισσότερες φορές. Εαν δέν επιλεγεί, μόνο η πρώτη εμφάνιση της ίδιας λύσης θα βαθμόλογηθεί
 assessment#:#imagemap#:#Χάρτης εικόνας
+assessment#:#imap_line_color#:#Imagemap Line Color###02 03 2009 new variable
 assessment#:#import_question#:#Ερωτήσεις εισαγωγής
 assessment#:#imported#:#imported###12 06 2011 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
@@ -813,23 +804,12 @@ assessment#:#lacex_example_header#:#Examples###30 08 2015 new variable
 assessment#:#last_update#:#Τελευταία ενημέρωση
 assessment#:#legend#:#Υπόμνημα
 assessment#:#locked#:#κλειδωμένο
-assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
-assessment#:#log_answer_changed_points#:#Χειροκίνητη αλλαγή των βαθμών του τέστ του αξιολογούμενου %s απο %d σε %d points κατα %s
-assessment#:#log_create_new_test#:#Δημιουργήθηκε νέο τεστ
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###30 04 2009 new variable
-assessment#:#log_mark_added#:#Προστέθηκε βαθμός
-assessment#:#log_mark_changed#:#Ο βαθμός άλλαξε
-assessment#:#log_mark_removed#:#Ο βαθμός διαγράφηκε
-assessment#:#log_modified_test#:#Το τεστ τροποποιήθηκε
-assessment#:#log_question_added#:#Η ερώτηση προστέθηκε στη θέση
-assessment#:#log_question_position_changed#:#Η θέση της ερώτησης άλλαξε
-assessment#:#log_question_removed#:#Η ερώτηση διαγράφηκε
-assessment#:#log_selected_user_data_removed#:#Διαγράφηκαν τα δεδομένα διαγωνίσματος του χρήστη %s
-assessment#:#log_user_answered_question#:#Ο χρήστης απάντησε μια ερώτηση και έλαβε %s βαθμούς
-assessment#:#log_user_entered_values#:#Τιμές εισηγμένες από το χρήστη
-assessment#:#log_user_not_entered_values#:#Ο χρήστης δεν εισήγαγε τιμές
+assessment#:#log_text#:#Μήνημα καταγραφής
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
+assessment#:#logging_settings#:#Logging
+assessment#:#logs_deleted#:#The Log Data for the selected tests has been deleted
+assessment#:#logs_output#:#Log Data Output
+assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
@@ -844,7 +824,6 @@ assessment#:#manscoring_results_pass#:#Ερωτήσεις Χειροκίνητη
 assessment#:#manual_editing#:#Manual Editing###30 08 2015 new variable
 assessment#:#mark_schema#:#Βαθμολογικό σχήμα
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
 assessment#:#matches#:#ταιριάσματα
 assessment#:#matching_pairs#:#Matching Pairs###30 04 2009 new variable
 assessment#:#matching_shuffle_definitions#:#Μόνο ορισμοί
@@ -1892,7 +1871,6 @@ assessment#:#units#:#Units###24 10 2013 new variable
 assessment#:#unlimited#:#απεριόριστο
 assessment#:#unlock#:#Ξεκλείδωμα
 assessment#:#uploaded_material#:#Υλικό που έχει εκφορτωθεί
-assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
@@ -3266,7 +3244,6 @@ common#:#action_aborted#:#Η ενέργεια ακυρώθηκε
 common#:#actions#:#Ενέργειες
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Set Active
-common#:#activate_assessment_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
 common#:#activate_https#:#Διαχείρηση HTTPS από το ILIAS<br>(Πληρωμή, Σύνδεση)
 common#:#activate_tracking#:#Ενεργοποίηση Ιχνηλασίας
 common#:#activation#:#Ενεργοποίηση
@@ -3333,24 +3310,6 @@ common#:#approve_recipient#:#Ταυτότητα σύνδεσης του εξου
 common#:#archive#:#Αρχείο
 common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#are_you_sure#:#Είστε βέβαιοι;
-common#:#ass_log_admin#:#Log Data Administration
-common#:#ass_log_count_datasets#:#Log Entries
-common#:#ass_log_delete_entries#:#Delete Log Entries
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
-common#:#ass_log_output#:#Log Data Output
-common#:#assessment_imap_line_color#:#Imagemap Line Color###02 03 2009 new variable
-common#:#assessment_log#:#Δημιουργία καταγραφής Διαγωνίσματος & Αξιολόγησης για συγκεκριμένη χρονική περίοδο
-common#:#assessment_log_datetime#:#Ημερομηνία/Ώρα
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#Για το διαγώνισμα
-common#:#assessment_log_log_entries#:#εισαγωγές στο αρχείο καταγραφής
-common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
-common#:#assessment_log_question#:#Ερώτηση
-common#:#assessment_log_text#:#Μήνημα καταγραφής
-common#:#assessment_settings_reporting_language#:#Γλώσσα αναφοράς
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
@@ -4153,7 +4112,7 @@ common#:#import_cat_table#:#Ο ακόλουθος πίνακας έχει σημ
 common#:#import_categories#:#Εισαγωγή κατηγοριών
 common#:#import_failure_log#:#Η εισαγωγή στο αρχείο καταγραφής απέτυχε
 common#:#import_file#:#Εισαγωγή αρχείου
-common#:#import_file_not_valid#:#Η εισαγωγή του αρχείου δεν είναι έγκυρη.
+common#:#import_file_not_valid_here#:#Η εισαγωγή του αρχείου δεν είναι έγκυρη.
 common#:#import_finished#:#Αριθμός μηνυμάτων που έχουν εισαχθεί.
 common#:#import_lm#:#Εισαγωγή εκπαιδευτικής μονάδας ILIAS
 common#:#import_qpl#:#Εισαγωγή μνήμης διαγωνίσματος ερωτήσεων
@@ -10788,12 +10747,12 @@ mathjax#:#mathjax_home_link#:# » MathJax###25 10 2016 new variable
 mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###28 09 2012 new variable
 mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Server Address###25 10 2016 new variable
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003###25 10 2016 new variable
 mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.###25 10 2016 new variable
@@ -13877,12 +13836,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
 rep#:#rep_new_item_group_add#:#Add Group###24 10 2013 new variable
-rep#:#rep_new_item_group_add_separator#:#Add Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?###24 10 2013 new variable
 rep#:#rep_new_item_group_edit#:#Edit Group###24 10 2013 new variable
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects###24 10 2013 new variable
 rep#:#rep_new_item_group_other#:#Other###24 10 2013 new variable
-rep#:#rep_new_item_group_separator#:#Column Separator###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned#:#Not Assigned###24 10 2013 new variable
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s###24 10 2013 new variable
 rep#:#rep_new_item_groups#:#New Item Groups###24 10 2013 new variable

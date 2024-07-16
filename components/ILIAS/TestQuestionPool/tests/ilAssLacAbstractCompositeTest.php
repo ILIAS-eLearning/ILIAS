@@ -35,7 +35,7 @@ class ilAssLacAbstractCompositeTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new class extends ilAssLacAbstractComposite{
+        $this->object = new class () extends ilAssLacAbstractComposite {
             public function getDescription(): string
             {
                 return '';

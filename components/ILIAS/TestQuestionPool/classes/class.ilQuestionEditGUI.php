@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilQuestionEditGUI
  * @author		Alex Killing <alex.killing@gmx.de>
@@ -30,10 +36,16 @@
 class ilQuestionEditGUI
 {
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilRbacSystem $rbac_system;
+    private \ilTabsGUI $tabs;
+    private readonly \ilHelpGUI $help;
+    private readonly \ilCtrlInterface $ctrl;
+    private readonly \ilAccessHandler $access;
+    private readonly \ilLanguage $lng;
+    private readonly \ilRbacSystem $rbac_system;
+
+    private readonly RequestDataCollector $request;
+    private readonly GeneralQuestionPropertiesRepository $questionrepository;
+
     private ?int $questionid = null;
     private ?int $poolrefid = null;
     private ?int $poolobjid = null;
@@ -44,18 +56,23 @@ class ilQuestionEditGUI
     private bool $selfassessmenteditingmode = false;
     private ?int $defaultnroftries = null;
     private ?ilPageConfig $page_config = null;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC['tpl'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->help = $DIC['ilHelp'];
         $this->ctrl = $DIC['ilCtrl'];
-        $this->request = $DIC->testQuestionPool()->internal()->request();
-        $this->lng = $DIC->language();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->access = $DIC['ilAccess'];
+        $this->lng = $DIC['lng'];
+        $this->rbac_system = $DIC['rbacsystem'];
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         if ($this->request->raw('qpool_ref_id')) {
             $this->setPoolRefId($this->request->raw('qpool_ref_id'));
@@ -103,15 +120,6 @@ class ilQuestionEditGUI
         return $this->page_config;
     }
 
-    public function addNewIdListener(object $a_object, string $a_method, string $a_parameters = ''): void
-    {
-        $cnt = $this->new_id_listener_cnt;
-        $this->new_id_listeners[$cnt]['object'] = $a_object;
-        $this->new_id_listeners[$cnt]['method'] = $a_method;
-        $this->new_id_listeners[$cnt]['parameters'] = $a_parameters;
-        $this->new_id_listener_cnt++;
-    }
-
     public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd();
@@ -119,49 +127,60 @@ class ilQuestionEditGUI
 
         switch ($next_class) {
             default:
-                $q_gui = assQuestionGUI::_getQuestionGUI(
+                $question_gui = assQuestionGUI::_getQuestionGUI(
                     $this->getQuestionType() ?? '',
                     $this->getQuestionId()
                 );
-                $q_gui->object->setSelfAssessmentEditingMode(
+                $question = $question_gui->getObject();
+                $question->setSelfAssessmentEditingMode(
                     $this->getSelfAssessmentEditingMode()
                 );
                 if ($this->getDefaultNrOfTries() > 0) {
-                    $q_gui->object->setDefaultNrOfTries(
+                    $question->setDefaultNrOfTries(
                         $this->getDefaultNrOfTries()
                     );
                 }
 
                 if (is_object($this->page_config)) {
-                    $q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
-                    $q_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
+                    $question->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                    $question_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
                 }
-                $q_gui->object->setObjId((int) $this->getPoolObjId());
+                $question->setObjId((int) $this->getPoolObjId());
+                $question_gui->setObject($question);
 
-                for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
-                    $object = $this->new_id_listeners[$i]['object'];
-                    $method = $this->new_id_listeners[$i]['method'];
-                    $parameters = $this->new_id_listeners[$i]['parameters'];
-                    $q_gui->addNewIdListener(
-                        $object,
-                        $method,
-                        $parameters
-                    );
-                }
-
-                $count = $this->questioninfo->usageNumber($q_gui->object->getId());
+                $count = $this->questionrepository->usageCount($question_gui->getObject()->getId());
                 if ($count > 0) {
                     if ($this->rbac_system->checkAccess('write', $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
                     }
                 }
-                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                // $this->ctrl->setCmdClass(get_class($q_gui));
-                $ret = (string) $this->ctrl->forwardCommand($q_gui);
+
+                if ($cmd !== 'save') {
+                    return (string) $this->ctrl->forwardCommand($question_gui);
+                }
+                if ($question_gui->saveQuestion()) {
+                    $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+                }
+
+                return (string) $question_gui->editQuestion();
                 break;
         }
+    }
 
-        return $ret;
+    public function forwardToFeedbackEditGUI(assQuestionGUI $question_gui): void
+    {
+        $this->ctrl->forwardCommand(
+            new ilAssQuestionFeedbackEditingGUI(
+                $question_gui,
+                $this->ctrl,
+                $this->access,
+                $this->main_tpl,
+                $this->tabs,
+                $this->lng,
+                $this->help,
+                $this->request
+            )
+        );
     }
 
     public function setQuestionId(?int $a_questionid): void

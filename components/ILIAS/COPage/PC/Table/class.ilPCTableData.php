@@ -34,21 +34,23 @@ class ilPCTableData extends ilPageContent
         $this->initTablePCNode();
         $td = $this->getDomNode();
         $parent_tr = $td->parentNode;
-        $new_tr = $parent_tr->cloneNode(true);
+        for ($i = 1; $i <= $cnt; $i++) {
+            $new_tr = $parent_tr->cloneNode(true);
 
-        // remove pc ids
-        if ($new_tr->hasAttribute("PCID")) {
-            $new_tr->removeAttribute("PCID");
-        }
-        if ($next_tr = $parent_tr->nextSibling) {
-            $new_tr = $next_tr->parentNode->insertBefore($new_tr, $next_tr);
-        } else {
-            $parent_table = $parent_tr->parentNode;
-            $new_tr = $parent_table->appendChild($new_tr);
-        }
+            // remove pc ids
+            if ($new_tr->hasAttribute("PCID")) {
+                $new_tr->removeAttribute("PCID");
+            }
+            if ($next_tr = $parent_tr->nextSibling) {
+                $new_tr = $next_tr->parentNode->insertBefore($new_tr, $next_tr);
+            } else {
+                $parent_table = $parent_tr->parentNode;
+                $new_tr = $parent_table->appendChild($new_tr);
+            }
 
-        // remove td content of new row
-        $this->deleteRowContent($new_tr);
+            // remove td content of new row
+            $this->deleteRowContent($new_tr);
+        }
         $this->fixHideAndSpans();
     }
 
@@ -58,14 +60,16 @@ class ilPCTableData extends ilPageContent
         $this->initTablePCNode();
         $td = $this->getDomNode();
         $parent_tr = $td->parentNode;
-        $new_tr = $parent_tr->cloneNode(true);
-        $new_tr = $parent_tr->parentNode->insertBefore($new_tr, $parent_tr);
-        if ($new_tr->hasAttribute("PCID")) {
-            $new_tr->removeAttribute("PCID");
-        }
+        for ($i = 1; $i <= $cnt; $i++) {
+            $new_tr = $parent_tr->cloneNode(true);
+            $new_tr = $parent_tr->parentNode->insertBefore($new_tr, $parent_tr);
+            if ($new_tr->hasAttribute("PCID")) {
+                $new_tr->removeAttribute("PCID");
+            }
 
-        // remove td content of new row
-        $this->deleteRowContent($new_tr);
+            // remove td content of new row
+            $this->deleteRowContent($new_tr);
+        }
         $this->fixHideAndSpans();
     }
 
@@ -121,25 +125,27 @@ class ilPCTableData extends ilPageContent
         $parent_tr = $td->parentNode;
         $parent_table = $parent_tr->parentNode;
 
-        // iterate all table rows
-        foreach ($parent_table->childNodes as $row) {
-            if ($row->nodeName == "TableRow") {
-                // clone td at $col_nr
-                $tds = $row->childNodes;
-                $old_td = $tds->item($col_nr);
-                $new_td = $old_td->cloneNode(true);
+        for ($i = 1; $i <= $cnt; $i++) {
+            // iterate all table rows
+            foreach ($parent_table->childNodes as $row) {
+                if ($row->nodeName == "TableRow") {
+                    // clone td at $col_nr
+                    $tds = $row->childNodes;
+                    $old_td = $tds->item($col_nr);
+                    $new_td = $old_td->cloneNode(true);
 
-                if ($new_td->hasAttribute("PCID")) {
-                    $new_td->removeAttribute("PCID");
-                }
+                    if ($new_td->hasAttribute("PCID")) {
+                        $new_td->removeAttribute("PCID");
+                    }
 
-                // insert clone after $col_nr
-                if ($next_td = $old_td->nextSibling) {
-                    $new_td = $next_td->parentNode->insertBefore($new_td, $next_td);
-                } else {
-                    $new_td = $row->appendChild($new_td);
+                    // insert clone after $col_nr
+                    if ($next_td = $old_td->nextSibling) {
+                        $new_td = $next_td->parentNode->insertBefore($new_td, $next_td);
+                    } else {
+                        $new_td = $row->appendChild($new_td);
+                    }
+                    $this->deleteTDContent($new_td);
                 }
-                $this->deleteTDContent($new_td);
             }
         }
         $this->fixHideAndSpans();
@@ -158,21 +164,23 @@ class ilPCTableData extends ilPageContent
         $parent_tr = $td->parentNode;
         $parent_table = $parent_tr->parentNode;
 
-        // iterate all table rows
-        foreach ($parent_table->childNodes as $row) {
-            if ($row->nodeName == "TableRow") {
-                // clone td at $col_nr
-                $tds = $row->childNodes;
-                $old_td = $tds->item($col_nr);
-                $new_td = $old_td->cloneNode(true);
+        for ($i = 1; $i <= $cnt; $i++) {
+            // iterate all table rows
+            foreach ($parent_table->childNodes as $row) {
+                if ($row->nodeName == "TableRow") {
+                    // clone td at $col_nr
+                    $tds = $row->childNodes;
+                    $old_td = $tds->item($col_nr);
+                    $new_td = $old_td->cloneNode(true);
 
-                if ($new_td->hasAttribute("PCID")) {
-                    $new_td->removeAttribute("PCID");
+                    if ($new_td->hasAttribute("PCID")) {
+                        $new_td->removeAttribute("PCID");
+                    }
+
+                    // insert clone before $col_nr
+                    $new_td = $old_td->parentNode->insertBefore($new_td, $old_td);
+                    $this->deleteTDContent($new_td);
                 }
-
-                // insert clone before $col_nr
-                $new_td = $old_td->parentNode->insertBefore($new_td, $old_td);
-                $this->deleteTDContent($new_td);
             }
         }
         $this->fixHideAndSpans();

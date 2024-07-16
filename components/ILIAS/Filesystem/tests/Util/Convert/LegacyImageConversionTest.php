@@ -40,7 +40,7 @@ class LegacyImageConversionTest extends TestCase
     }
 
 
-    public function someDefinitions(): array
+    public static function someDefinitions(): array
     {
         return [
             [100, 100, 'jpg', 'image/jpeg'],

@@ -3,17 +3,17 @@ il.MediaPool = {
 
 	setPreviewUrl: function (url) {
 		il.MediaPool.ajaxurl = url;
-		$('#ilMepPreview').on('shown.bs.modal', function () {
+		$('#ilMepPreviewContent').closest('.il-modal-roundtrip').on('shown.bs.modal', function () {
 			il.MediaPool.resizePreview();
 		});
-		$('#ilMepPreview').on('hidden.bs.modal', function () {
+		$('#ilMepPreviewContent').closest('.il-modal-roundtrip').on('hidden.bs.modal', function () {
 			$('#ilMepPreviewContent').attr("src", "about:blank");
 		});
 	},
 
 	preview: function (id) {
 		$('#ilMepPreviewContent').attr("src", il.MediaPool.ajaxurl + "&mepitem_id="+ id);
-		$('#ilMepPreview').modal('show');
+		$('#ilMepPreviewContent').closest('.il-modal-roundtrip').modal('show');
 	},
 
 	resizePreview: function () {

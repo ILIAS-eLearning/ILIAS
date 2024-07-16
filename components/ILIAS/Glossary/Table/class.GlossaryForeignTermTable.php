@@ -36,8 +36,9 @@ class GlossaryForeignTermTable
     protected ServerRequestInterface $request;
     protected Data\Factory $df;
     protected \ilObjGlossary $glossary;
+    protected \ilObjGlossary $foreign_glossary;
 
-    public function __construct(\ilObjGlossary $glossary)
+    public function __construct(\ilObjGlossary $glossary, \ilObjGlossary $foreign_glossary)
     {
         global $DIC;
 
@@ -47,6 +48,7 @@ class GlossaryForeignTermTable
         $this->request = $DIC->http()->request();
         $this->df = new Data\Factory();
         $this->glossary = $glossary;
+        $this->foreign_glossary = $foreign_glossary;
     }
 
     public function getComponent(): UI\Component\Table\Data
@@ -56,7 +58,16 @@ class GlossaryForeignTermTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->glossary->getTitle() . ": " . $this->lng->txt("glo_select_terms"), $columns, $data_retrieval)
+                              ->data(
+                                  $this->foreign_glossary->getTitle() . ": " .$this->lng->txt("glo_select_terms"),
+                                  $columns,
+                                  $data_retrieval
+                              )
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->glossary->getRefId() . "_" .
+                                  $this->foreign_glossary->getRefId()
+                              )
                               ->withActions($actions)
                               ->withRequest($this->request);
 
@@ -118,12 +129,12 @@ class GlossaryForeignTermTable
     protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
     {
         $data_retrieval = new class (
-            $this->glossary
+            $this->foreign_glossary
         ) implements UI\Component\Table\DataRetrieval {
             use TableRecords;
 
             public function __construct(
-                protected \ilObjGlossary $glossary
+                protected \ilObjGlossary $foreign_glossary
             ) {
             }
 
@@ -154,7 +165,7 @@ class GlossaryForeignTermTable
             {
                 $records = [];
                 $i = 0;
-                foreach ($this->glossary->getTermList() as $term) {
+                foreach ($this->foreign_glossary->getTermList() as $term) {
                     $records[$i]["term_id"] = $term["id"];
                     $records[$i]["title"] = $term["term"];
                     $i++;

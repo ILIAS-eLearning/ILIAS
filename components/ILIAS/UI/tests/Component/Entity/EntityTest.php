@@ -60,7 +60,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $this->assertEquals([$this->legacy('d')], $entity->withDetails($this->legacy('d'))->getDetails());
     }
 
-    public function getEntityAllowedIdentiferTypes(): array
+    public static function getEntityAllowedIdentiferTypes(): array
     {
         $shy_button = new Button\Shy('the label', '#');
         $shy_link = new Link\Standard('the label', '#');
@@ -147,8 +147,8 @@ class EntityTest extends ILIAS_UI_TestBase
 <div class="c-entity __container">
     <div class="c-entity __blocking-conditions">bc</div>
     <div class="c-entity __actions">
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_9" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
+        <div class="dropdown" id="id_9">
+            <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_9_menu"><span class="caret"></span></button>
             <ul id="id_9_menu" class="dropdown-menu">
                 <li><button class="btn btn-link" data-action="#" id="id_7">shy</button></li>
                 <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>

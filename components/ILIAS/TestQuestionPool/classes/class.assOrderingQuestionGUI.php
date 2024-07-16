@@ -187,11 +187,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->updateImageFiles();
         }
 
-        $points = (float) str_replace(',', '.', $this->request->raw('points'));
+        $this->object->setPoints($this->request->float('points'));
 
-        $this->object->setPoints($points);
-
-        $use_nested = $this->request->raw(self::F_USE_NESTED) === '1';
+        $use_nested = $this->request->int(self::F_USE_NESTED) === 1;
         $this->object->setNestingType($use_nested);
     }
 
@@ -201,7 +199,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $list = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)
             ->getElementList($this->object->getId());
 
-        $use_nested = $this->request->raw(self::F_USE_NESTED) === "1";
+        $use_nested = $this->request->int(self::F_USE_NESTED) === 1;
 
         if ($use_nested) {
             $existing_list = $this->object->getOrderingElementList();
@@ -247,9 +245,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $list = $this->fetchSolutionListFromSubmittedForm($form);
-        $this->object->setOrderingElementList($list);
-        return;
+        $this->object->setOrderingElementList(
+            $this->fetchSolutionListFromSubmittedForm($form)
+        );
     }
 
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -309,12 +307,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    /**
-    * {@inheritdoc}
-    *
-    * parent::save calls this->writePostData.
-    * afterwards, object->saveToDb is called.
-    */
     protected function writePostData(bool $always = false): int
     {
         $form = $this->buildEditForm();
@@ -353,10 +345,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $tabs->setSubTabActive($active);
     }
 
-    public function editQuestion($checkonly = false): void
-    {
+    public function editQuestion(
+        bool $checkonly = false,
+        ?bool $is_save_cmd = null
+    ): bool {
         $this->renderEditForm($this->buildEditForm());
         $this->addEditSubtabs(self::TAB_EDIT_QUESTION);
+        return false;
     }
 
     public function editNesting()
@@ -415,40 +410,22 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-
-    /**
-     * Question type specific support of intermediate solution output
-     * The function getSolutionOutput respects getUseIntermediateSolution()
-     * @return bool
-     */
     public function supportsIntermediateSolutionOutput()
     {
         return true;
     }
 
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution  Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @param bool    $show_question_text
-     * @return string The solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
             $show_correct_solution,
@@ -466,7 +443,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $answers_gui->setInteractionEnabled(false);
         $answers_gui->setElementList($solutionOrderingList);
-        if ($graphicalOutput) {
+        if ($graphical_output) {
             $answers_gui->setShowCorrectnessIconsEnabled(true);
         }
         $answers_gui->setCorrectnessTrueElementList(
@@ -513,8 +490,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // $template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "components/ILIAS/TestQuestionPool");
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         if ($this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution()) {
             $solutionOrderingElementList = unserialize(
                 $this->getPreviewSession()->getParticipantsSolution(),
@@ -557,36 +536,37 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $files;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($activeId, $pass, $isPostponed = false, $userSolutionPost = false, $inlineFeedback = false): string
-    // hey.
-    {
-        // hey: prevPassSolutions - fixed variable type, makes phpstorm stop crying
-        $userSolutionPost = is_array($userSolutionPost) ? $userSolutionPost : array();
-        // hey.
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
+        $user_post_solutions = is_array($user_post_solutions) ? $user_post_solutions : [];
 
-        $orderingGUI = $this->object->buildNestedOrderingElementInputGui();
-        $orderingGUI->setNestingEnabled($this->object->isOrderingTypeNested());
+        $ordering_gui = $this->object->buildNestedOrderingElementInputGui();
+        $ordering_gui->setNestingEnabled($this->object->isOrderingTypeNested());
 
         $solutionOrderingElementList = $this->object->getSolutionOrderingElementListForTestOutput(
-            $orderingGUI,
-            $userSolutionPost,
-            $activeId,
+            $ordering_gui,
+            $user_post_solutions,
+            $active_id,
             $pass
         );
 
         $template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', true, true, 'components/ILIAS/TestQuestionPool');
 
-        $orderingGUI->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_SUBMISSION);
-        $orderingGUI->setElementList($solutionOrderingElementList);
+        $ordering_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_SUBMISSION);
+        $ordering_gui->setElementList($solutionOrderingElementList);
 
         $template->setCurrentBlock('nested_ordering_output');
-        $template->setVariable('NESTED_ORDERING', $orderingGUI->getHTML());
+        $template->setVariable('NESTED_ORDERING', $ordering_gui->getHTML());
         $template->parseCurrentBlock();
 
         $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
 
-        $pageoutput = $this->outQuestionPage('', $isPostponed, $activeId, $template->get());
+        $pageoutput = $this->outQuestionPage('', $is_question_postponed, $active_id, $template->get());
 
         return $pageoutput;
     }
@@ -626,7 +606,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -640,7 +620,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -661,12 +641,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question): array
     {
-        $passdata = array(); // Regroup answers into units of passes.
+        $passdata = []; // Regroup answers into units of passes.
         foreach ($relevant_answers_chosen as $answer_chosen) {
             $passdata[$answer_chosen['active_fi'] . '-' . $answer_chosen['pass']][$answer_chosen['value2']] = $answer_chosen['value1'];
         }
 
-        $variants = array(); // Determine unique variants.
+        $variants = []; // Determine unique variants.
         foreach ($passdata as $key => $data) {
             $hash = md5(implode('-', $data));
             $value_set = false;
@@ -682,7 +662,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
         }
 
-        $aggregate = array(); // Render aggregate from variant.
+        $aggregate = []; // Render aggregate from variant.
         foreach ($variants as $key => $variant_entry) {
             $variant = $passdata[$key];
 
@@ -792,26 +772,26 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answersByActiveAndPass = array();
+        $answersByActiveAndPass = [];
 
         foreach ($relevantAnswers as $row) {
             $key = $row['active_fi'] . ':' . $row['pass'];
 
             if (!isset($answersByActiveAndPass[$key])) {
-                $answersByActiveAndPass[$key] = array();
+                $answersByActiveAndPass[$key] = [];
             }
 
             $answersByActiveAndPass[$key][$row['value1']] = $row['value2'];
         }
 
-        $solutionLists = array();
+        $solutionLists = [];
 
         foreach ($answersByActiveAndPass as $indexedSolutions) {
             $solutionLists[] = $this->object->getSolutionOrderingElementList($indexedSolutions);
         }
 
         /* @var ilAssOrderingElementList[] $answers */
-        $answers = array();
+        $answers = [];
 
         foreach ($solutionLists as $orderingElementList) {
             $hash = $orderingElementList->getHash();
@@ -821,9 +801,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $orderingElementList
                 );
 
-                $answers[$hash] = array(
+                $answers[$hash] = [
                     'answer' => $variantHtml, 'frequency' => 0
-                );
+                ];
             }
 
             $answers[$hash]['frequency']++;

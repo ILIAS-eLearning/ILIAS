@@ -16,7 +16,13 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
+
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -24,9 +30,9 @@ use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
  *
  * @package components\ILIAS/TestQuestionPool
  */
-class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
-    use ManipulateThumbnailsInChoiceQuestionsTrait;
+    use ManipulateImagesInChoiceQuestionsTrait;
 
     public const NUM_REQUIRED_ANSWERS = 4;
 
@@ -44,39 +50,26 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     public const DEFAULT_THUMB_SIZE = 150;
     public const THUMB_PREFIX = 'thumb.';
 
-    private $shuffleAnswersEnabled;
+    private bool $shuffle_answers_enabled = true;
+    private string $answerType = self::ANSWER_TYPE_SINGLE_LINE;
+    private int $thumbSize = self::DEFAULT_THUMB_SIZE;
+    private bool $scorePartialSolutionEnabled = true;
+    private string $option_label = self::OPTION_LABEL_RIGHT_WRONG;
+    private string $customTrueOptionLabel = '';
+    private string $customFalseOptionLabel = '';
+    private int $specific_feedback_setting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
 
-    private $answerType;
-
-    private $thumbSize;
-
-    private $scorePartialSolutionEnabled;
-
-    private $optionLabel;
-
-    private $customTrueOptionLabel;
-
-    private $customFalseOptionLabel;
-
-    private $specificFeedbackSetting;
-
-    private $answers;
+    private $answers = [];
 
     public function __construct($title = '', $comment = '', $author = '', $owner = -1, $question = '')
     {
         parent::__construct($title, $comment, $author, $owner, $question);
 
-        $this->shuffleAnswersEnabled = true;
-        $this->answerType = self::ANSWER_TYPE_SINGLE_LINE;
-        $this->thumbSize = self::DEFAULT_THUMB_SIZE;
-        $this->scorePartialSolutionEnabled = true;
-        $this->optionLabel = self::OPTION_LABEL_RIGHT_WRONG;
-        $this->customTrueOptionLabel = '';
-        $this->customFalseOptionLabel = '';
-
-        $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
-
-        $this->answers = [];
+        for ($i = count($this->answers); $i < self::NUM_REQUIRED_ANSWERS; $i++) {
+            $answer = new ilAssKprimChoiceAnswer();
+            $answer->setPosition($i);
+            $this->answers[$answer->getPosition()] = $answer;
+        }
     }
 
     public function getQuestionType(): string
@@ -94,14 +87,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return "qpl_a_kprim";
     }
 
-    public function setShuffleAnswersEnabled($shuffleAnswersEnabled): void
+    public function setShuffleAnswersEnabled(bool $shuffle_answers_enabled): void
     {
-        $this->shuffleAnswersEnabled = $shuffleAnswersEnabled;
+        $this->shuffle_answers_enabled = $shuffle_answers_enabled;
     }
 
     public function isShuffleAnswersEnabled(): bool
     {
-        return $this->shuffleAnswersEnabled;
+        return $this->shuffle_answers_enabled;
     }
 
     public function setAnswerType($answerType): void
@@ -134,14 +127,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->scorePartialSolutionEnabled;
     }
 
-    public function setOptionLabel($optionLabel): void
+    public function setOptionLabel(string $option_label): void
     {
-        $this->optionLabel = $optionLabel;
+        $this->option_label = $option_label;
     }
 
     public function getOptionLabel(): string
     {
-        return $this->optionLabel;
+        return $this->option_label;
     }
 
     public function setCustomTrueOptionLabel($customTrueOptionLabel): void
@@ -164,14 +157,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $this->customFalseOptionLabel;
     }
 
-    public function setSpecificFeedbackSetting($specificFeedbackSetting): void
+    public function setSpecificFeedbackSetting(int $specific_feedback_setting): void
     {
-        $this->specificFeedbackSetting = $specificFeedbackSetting;
+        $this->specific_feedback_setting = $specific_feedback_setting;
     }
 
     public function getSpecificFeedbackSetting(): int
     {
-        return $this->specificFeedbackSetting;
+        return $this->specific_feedback_setting;
     }
 
     public function setAnswers($answers): void
@@ -274,18 +267,15 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         parent::loadFromDb($questionId);
     }
 
-    private function loadAnswerData($questionId): void
+    private function loadAnswerData(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY position ASC",
             ['integer'],
-            [$questionId]
+            [$question_id]
         );
 
-        while ($data = $ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             $answer = new ilAssKprimChoiceAnswer();
 
             $answer->setPosition($data['position']);
@@ -301,28 +291,15 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
             $this->answers[$answer->getPosition()] = $answer;
         }
-
-        for ($i = count($this->answers); $i < self::NUM_REQUIRED_ANSWERS; $i++) {
-            $answer = new ilAssKprimChoiceAnswer();
-
-            $answer->setPosition($i);
-
-            $this->answers[$answer->getPosition()] = $answer;
-        }
     }
 
-    public function saveToDb($originalId = ''): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($originalId == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($originalId);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
-        parent::saveToDb($originalId);
+        parent::saveToDb();
     }
 
     public function saveAdditionalQuestionDataToDb()
@@ -393,86 +370,43 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return true;
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        /** @var ilDBInterface $ilDB */
-        $ilDB = $GLOBALS['DIC']['ilDB'];
-
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
-
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            $solutionSubmit = $this->getSolutionSubmit();
-
-            foreach ($solutionSubmit as $answerIndex => $answerValue) {
-                if ($answerValue !== null) {
-                    $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
-                    $entered_values++;
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
+                foreach ($answer as $index => $value) {
+                    if ($value !== null) {
+                        $this->saveCurrentSolution($active_id, $pass, (int) $index, (int) $value, $authorized);
+                    }
                 }
             }
-        });
-
-        if ($entered_values) {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        } else {
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        }
+        );
 
         return true;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return float/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
 
-        while ($data = $ilDB->fetchAssoc($result)) {
+        while ($data = $this->db->fetchAssoc($result)) {
             $found_values[(int) $data['value1']] = (int) $data['value2'];
         }
 
@@ -522,69 +456,101 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     public function getValidOptionLabelsTranslated(ilLanguage $lng): array
     {
-        return [
-            self::OPTION_LABEL_RIGHT_WRONG => $lng->txt('option_label_right_wrong'),
-            self::OPTION_LABEL_PLUS_MINUS => $lng->txt('option_label_plus_minus'),
-            self::OPTION_LABEL_APPLICABLE_OR_NOT => $lng->txt('option_label_applicable_or_not'),
-            self::OPTION_LABEL_ADEQUATE_OR_NOT => $lng->txt('option_label_adequate_or_not'),
-            self::OPTION_LABEL_CUSTOM => $lng->txt('option_label_custom')
-        ];
+        return array_reduce(
+            $this->getValidOptionLabels(),
+            function (array $c, string $option_label) use ($lng): array {
+                $c[$option_label] = $lng->txt($this->getLangVarForOptionLabel($option_label));
+                return $c;
+            },
+            []
+        );
     }
 
-    public function isValidOptionLabel($optionLabel): bool
+    public function getLangVarForOptionLabel(string $option_label): string
     {
-        $validLabels = $this->getValidOptionLabels();
-        return in_array($optionLabel, $validLabels);
+        return match ($option_label) {
+            self::OPTION_LABEL_RIGHT_WRONG => 'option_label_right_wrong',
+            self::OPTION_LABEL_PLUS_MINUS => 'option_label_plus_minus',
+            self::OPTION_LABEL_APPLICABLE_OR_NOT => 'option_label_applicable_or_not',
+            self::OPTION_LABEL_ADEQUATE_OR_NOT => 'option_label_adequate_or_not',
+            self::OPTION_LABEL_CUSTOM => 'option_label_custom'
+        };
     }
 
-    public function getTrueOptionLabelTranslation(ilLanguage $lng, $optionLabel)
+    public function isValidOptionLabel(string $option_label): bool
     {
-        switch ($optionLabel) {
+        $valid_labels = $this->getValidOptionLabels();
+        return in_array($option_label, $valid_labels);
+    }
+
+    public function getTrueOptionLabelTranslation(ilLanguage $lng, string $option_label): string
+    {
+        if ($option_label === self::OPTION_LABEL_CUSTOM) {
+            return $this->getCustomTrueOptionLabel();
+        }
+
+        return $lng->txt(
+            $this->getTrueOptionLabel($option_label)
+        );
+    }
+
+    public function getTrueOptionLabel(string $option_label): string
+    {
+        switch ($option_label) {
             case self::OPTION_LABEL_RIGHT_WRONG:
-                return $lng->txt('option_label_right');
+                return 'option_label_right';
 
             case self::OPTION_LABEL_PLUS_MINUS:
-                return $lng->txt('option_label_plus');
+                return 'option_label_plus';
 
             case self::OPTION_LABEL_APPLICABLE_OR_NOT:
-                return $lng->txt('option_label_applicable');
+                return 'option_label_applicable';
 
             case self::OPTION_LABEL_ADEQUATE_OR_NOT:
-                return $lng->txt('option_label_adequate');
+                return 'option_label_adequate';
 
-            case self::OPTION_LABEL_CUSTOM:
             default:
-                return $this->getCustomTrueOptionLabel();
+                throw new \ErrorException('Invalide  Option Label');
         }
     }
 
-    public function getFalseOptionLabelTranslation(ilLanguage $lng, $optionLabel)
+    public function getFalseOptionLabelTranslation(ilLanguage $lng, string $option_label): string
     {
-        switch ($optionLabel) {
+        if ($option_label === self::OPTION_LABEL_CUSTOM) {
+            return $this->getCustomFalseOptionLabel();
+        }
+
+        return $lng->txt(
+            $this->getFalseOptionLabel($option_label)
+        );
+    }
+
+    private function getFalseOptionLabel(string $option_label): string
+    {
+        switch ($option_label) {
             case self::OPTION_LABEL_RIGHT_WRONG:
-                return $lng->txt('option_label_wrong');
+                return 'option_label_wrong';
 
             case self::OPTION_LABEL_PLUS_MINUS:
-                return $lng->txt('option_label_minus');
+                return 'option_label_minus';
 
             case self::OPTION_LABEL_APPLICABLE_OR_NOT:
-                return $lng->txt('option_label_not_applicable');
+                return 'option_label_not_applicable';
 
             case self::OPTION_LABEL_ADEQUATE_OR_NOT:
-                return $lng->txt('option_label_not_adequate');
+                return 'option_label_not_adequate';
 
-            case self::OPTION_LABEL_CUSTOM:
             default:
-                return $this->getCustomFalseOptionLabel();
+                throw new \ErrorException('Invalide  Option Label');
         }
     }
 
-    public function getInstructionTextTranslation(ilLanguage $lng, $optionLabel): string
+    public function getInstructionTextTranslation(ilLanguage $lng, $option_label): string
     {
         return sprintf(
             $lng->txt('kprim_instruction_text'),
-            $this->getTrueOptionLabelTranslation($lng, $optionLabel),
-            $this->getFalseOptionLabelTranslation($lng, $optionLabel)
+            $this->getTrueOptionLabelTranslation($lng, $option_label),
+            $this->getFalseOptionLabelTranslation($lng, $option_label)
         );
     }
 
@@ -628,7 +594,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return 0;
     }
 
-    public function removeAnswerImage($position): void
+    private function removeAnswerImage($position): void
     {
         $answer = $this->getAnswer($position);
 
@@ -664,13 +630,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $solutionSubmit;
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
+    protected function calculateReachedPointsForSolution(?array $found_values, int $active_id = 0): float
     {
         $numCorrect = 0;
-        if ($found_values == null) {
+        if ($found_values === null) {
             $found_values = [];
         }
-        foreach ($this->getAnswers() as $key => $answer) {
+        foreach ($this->getAnswers() as $answer) {
             if (!isset($found_values[$answer->getPosition()])) {
                 continue;
             }
@@ -693,190 +659,20 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $points = 0;
             }
         }
-        return (float)$points;
+        return (float) $points;
     }
 
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the images
-        $clone->cloneAnswerImages($this_id, $thisObjId, $clone->getId(), $clone->getObjId());
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($target_parent_id, $target_question_title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $source_question_id = $this->id;
-        $source_parent_id = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($target_parent_id);
-
-        if ($target_question_title) {
-            $clone->setTitle($target_question_title);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($source_question_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
-        // duplicate the image
-        $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-
-        $clone->onCopy($source_parent_id, $source_question_id, $target_parent_id, $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-     * Copies an assMultipleChoice object
-     */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
-        $clone->cloneAnswerImages($original_id, $source_questionpool_id, $clone->getId(), $clone->getObjId());
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-
-        $question = self::instantiateQuestion($origQuestionId);
-
-        foreach ($question->getAnswers() as $answer) {
-            $question->removeAnswerImage($answer->getPosition());
-        }
-    }
-
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-
-        $this->cloneAnswerImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
-    }
-
-    protected function cloneAnswerImages(
-        $source_question_id,
-        $source_parent_id,
-        $target_question_id,
-        $target_parent_id
-    ): void {
-        /** @var $ilLog ilLogger */
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
-        $source_path = $this->questionFilesService->buildImagePath($source_question_id, $source_parent_id);
-        $target_path = $this->questionFilesService->buildImagePath($target_question_id, $target_parent_id);
-
-        foreach ($this->getAnswers() as $answer) {
-            $filename = $answer->getImageFile();
-
-            if ($filename === null || $filename === '') {
-                continue;
-            }
-
-            if (!file_exists($target_path)) {
-                ilFileUtils::makeDirParents($target_path);
-            }
-
-            if (file_exists($source_path . $filename)) {
-                if (!copy($source_path . $filename, $target_path . $filename)) {
-                    $ilLog->warning(sprintf(
-                        "Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                        $source_path . $filename,
-                        $target_path . $filename,
-                        $source_question_id,
-                        $target_question_id,
-                        $source_parent_id,
-                        $target_parent_id
-                    ));
-                }
-            }
-
-            if (file_exists($source_path . $this->getThumbPrefix() . $filename)) {
-                if (!copy($source_path . $this->getThumbPrefix() . $filename, $target_path . $this->getThumbPrefix() . $filename)) {
-                    $ilLog->warning(sprintf(
-                        "Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                        $source_path . $this->getThumbPrefix() . $filename,
-                        $target_path . $this->getThumbPrefix() . $filename,
-                        $source_question_id,
-                        $target_question_id,
-                        $source_parent_id,
-                        $target_parent_id
-                    ));
-                }
-            }
-        }
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $target
+    ): \assQuestion {
+        $this->cloneImages(
+            $this->getId(),
+            $this->getObjId(),
+            $target->getId(),
+            $target->getObjId(),
+            $this->getAnswers()
+        );
+        return $target;
     }
 
     protected function getRTETextWithMediaObjects(): string
@@ -1048,5 +844,68 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
 
         return true;
+    }
+
+    public function toLog(AdditionalInformationGenerator $additional_info): array
+    {
+        $result = [
+            AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
+            AdditionalInformationGenerator::KEY_QUESTION_KPRIM_OPTION_LABEL => $additional_info
+                ->getTagForLangVar($this->getLangVarForOptionLabel($this->getOptionLabel())),
+            AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info
+                ->getTrueFalseTagForBool($this->getShuffle()),
+            AdditionalInformationGenerator::KEY_FEEDBACK => [
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_INCOMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                AdditionalInformationGenerator::KEY_QUESTION_FEEDBACK_ON_COMPLETE => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        $result[AdditionalInformationGenerator::KEY_QUESTION_KPRIM_SCORE_PARTIAL_SOLUTION_ENABLED] = $additional_info
+            ->getEnabledDisabledTagForBool($this->getNumAllowedFailures() > 0);
+
+        $answers = [];
+        foreach ($this->getAnswers() as $key => $answer) {
+            $answers[$key + 1] = [
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION => $this->formatSAQuestion($answer->getAnswertext()),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_CORRECTNESS => $additional_info->getTrueFalseTagForBool((bool) $answer->getCorrectness()),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_ORDER => (int) $answer->getPosition(),
+                AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTION_IMAGE => (string) $answer->getImageFile(),
+                AdditionalInformationGenerator::KEY_FEEDBACK => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
+                )
+            ];
+        }
+
+        $result[AdditionalInformationGenerator::KEY_QUESTION_ANSWER_OPTIONS] = $answers;
+
+        return $result;
+    }
+
+    public function solutionValuesToLog(
+        AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array {
+        $parsed_solution = [];
+        $true_option_label = $this->getTrueOptionLabel($this->getOptionLabel());
+        $false_option_label = $this->getFalseOptionLabel($this->getOptionLabel());
+        foreach ($this->getAnswers() as $id => $answer) {
+            $value = $additional_info->getNoneTag();
+            foreach ($solution_values as $solution) {
+                if ($solution['value1'] != $id) {
+                    continue;
+                }
+
+                if ($solution['value2']) {
+                    $value = $true_option_label;
+                } else {
+                    $value = $false_option_label;
+                }
+                break;
+            }
+            $parsed_solution[$answer->getAnswertext()] = $value;
+        }
+        return $parsed_solution;
     }
 }

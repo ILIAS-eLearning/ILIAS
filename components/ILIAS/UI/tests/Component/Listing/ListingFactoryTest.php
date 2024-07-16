@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
-class ListingFactoryTest extends AbstractFactoryTest
+class ListingFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "ordered" => [
                 "context" => false,
                 "rules" => false
@@ -54,5 +54,5 @@ class ListingFactoryTest extends AbstractFactoryTest
     ];
 
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Listing\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Listing\\Factory';
 }

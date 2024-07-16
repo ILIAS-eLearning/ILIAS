@@ -287,4 +287,18 @@ EXP;
         $html = $r->render($b);
         $this->assertHTMLEquals($expected_html, $html);
     }
+
+    public function testBulkyLinkRenderWithDisabled(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "label", $this->target)
+            ->withDisabled(true);
+        $expected_html = <<<EXP
+            <a class="il-link link-bulky" aria-disabled="true">
+                <img class="icon someExample small" src="./assets/images/standard/icon_default.svg" alt=""/>
+                <span class="bulky-label">label</span>
+            </a>
+EXP;
+        $this->assertHTMLEquals($expected_html, $r->render($b));
+    }
 }

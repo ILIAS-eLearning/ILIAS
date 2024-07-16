@@ -58,11 +58,21 @@ class ilStudyProgrammeTypeSettingsTest extends TestCase
 
         $obj = new ilStudyProgrammeTypeSettings(self::VALID_TYPE_1);
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(['type'], ['prg_type_byline'], ['prg_type'])
-            ->will($this->onConsecutiveCalls('type', 'prg_type_byline', 'prg_type'))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'type',
+            'prg_type_byline',
+            'prg_type',
+        ];
 
         $field = $obj->toFormInput(
             $f,
@@ -73,6 +83,8 @@ class ilStudyProgrammeTypeSettingsTest extends TestCase
                 self::VALID_TYPE_2 => 'second'
             ]
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         /** @var ILIAS\UI\Implementation\Component\Input\Field\Select $select */
         $select = $field->getInputs()['type'];

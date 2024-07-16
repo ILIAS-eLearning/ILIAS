@@ -26,6 +26,7 @@ use ILIAS\MetaData\Vocabularies\FactoryInterface as VocabularyFactoryInterface;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator implements DictionaryInitiatorInterface
 {
@@ -38,11 +39,12 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator implements Dictiona
         VocabularyFactoryInterface $vocab_factory,
         TagFactory $tag_factory,
         PathFactoryInterface $path_factory,
+        NavigatorFactoryInterface $navigator_factory,
         StructureSetInterface $structure
     ) {
         $this->vocab_factory = $vocab_factory;
         $this->tag_factory = $tag_factory;
-        parent::__construct($path_factory, $structure);
+        parent::__construct($path_factory, $navigator_factory, $structure);
     }
 
     public function pathFromValueToSource(): PathInterface
@@ -59,7 +61,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator implements Dictiona
     public function get(): DictionaryInterface
     {
         $this->initDictionary();
-        return new LOMDictionary($this->path_factory, ...$this->getTagAssignments());
+        return new LOMDictionary($this->path_factory, $this->navigator_factory, ...$this->getTagAssignments());
     }
 
     protected function initDictionary(): void

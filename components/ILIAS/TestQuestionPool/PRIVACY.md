@@ -23,7 +23,7 @@ but always at both.
   Owners of questions are stored in the TestQuestionPool as reference to the users id. 
   The data is required to manage detailed access and permissions on usage and editing of the question.
   
-- The TestQuestions Pool component employs the following services, please consult the respective privacy.mds: [Skill](../../Services/Skill/PRIVACY.md), [Metadata](../../Services/MetaData/Privacy.md), [AccessControl](../../Services/AccessControl/PRIVACY.md)
+- The TestQuestions Pool component employs the following services, please consult the respective privacy.mds: [Skill](../../ILIAS/Skill/PRIVACY.md), [Metadata](../../ILIAS/MetaData/Privacy.md), [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
 
 
 ## Data being presented 

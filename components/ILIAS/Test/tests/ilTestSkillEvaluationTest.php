@@ -32,7 +32,7 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestSkillEvaluation(
             $this->createMock(ilDBInterface::class),
-            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             0,
             0,
             $this->createMock(\ILIAS\Skill\Service\SkillProfileService::class),

@@ -411,7 +411,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $this->form->setTitle($this->lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_tst_editing"), "tst_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_tst_editing_desc"));
-            if ($this->settings->get("enable_tst_page_edit", ilObjAssessmentFolder::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED)) {
+            if ($this->settings->get("enable_tst_page_edit", ilObjTestFolder::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED)) {
                 $cb->setChecked(true);
             }
             $this->form->addItem($cb);

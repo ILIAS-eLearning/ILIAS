@@ -554,7 +554,7 @@ class ilObjUserGUI extends ilObjectGUI
             ? $until->get(IL_CAL_UNIX)
             : null);
 
-        $user->setTimeLimitUnlimited((bool)$this->form_gui->getInput('time_limit_unlimited'));
+        $user->setTimeLimitUnlimited((bool) $this->form_gui->getInput('time_limit_unlimited'));
 
         if ($a_mode == 'create') {
             $user->setTimeLimitOwner($this->usrf_ref_id);
@@ -711,7 +711,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             if ((int) $this->form_gui->getInput('active') == 1) {
-                ilObjUser::_resetLoginAttempts($this->object->getId());
+                $this->object->setLoginAttempts(0);
             }
 
             $this->loadValuesFromForm('update');

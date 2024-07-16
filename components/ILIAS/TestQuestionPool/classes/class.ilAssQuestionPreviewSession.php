@@ -83,9 +83,9 @@ class ilAssQuestionPreviewSession
         $this->saveSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE, $instantResponseActive);
     }
 
-    public function isInstantResponseActive()
+    public function isInstantResponseActive(): bool
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE);
+        return (bool) $this->readSessionValue(self::SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE);
     }
 
     public function setParticipantsSolution($participantSolution): void
@@ -145,7 +145,7 @@ class ilAssQuestionPreviewSession
 
     public function resetRequestedHints(): void
     {
-        $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, array());
+        $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, []);
     }
 
     public function setRandomizerSeed($seed): void
@@ -167,13 +167,13 @@ class ilAssQuestionPreviewSession
     private function ensureSessionStructureExists(): void
     {
         if (!is_array(ilSession::get(self::SESSION_BASEINDEX))) {
-            ilSession::set(self::SESSION_BASEINDEX, array());
+            ilSession::set(self::SESSION_BASEINDEX, []);
         }
 
         $baseSession = ilSession::get(self::SESSION_BASEINDEX);
 
         if (!isset($baseSession[$this->getSessionContextIndex()])) {
-            $baseSession[$this->getSessionContextIndex()] = array();
+            $baseSession[$this->getSessionContextIndex()] = [];
         }
 
         $contextSession = &$baseSession[$this->getSessionContextIndex()];

@@ -300,14 +300,8 @@ class ilObjectDataSet extends ilDataSet
                     $transl = ilObjectTranslation::getInstance($new_id);
                     $transl->addLanguage(
                         $rec['LangCode'],
-                        strip_tags(
-                            $rec['Title'],
-                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
-                        ),
-                        strip_tags(
-                            $rec['Description'],
-                            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
-                        ),
+                        $rec['Title'],
+                        $rec['Description'],
                         (bool) $rec['LangDefault'],
                         true
                     );

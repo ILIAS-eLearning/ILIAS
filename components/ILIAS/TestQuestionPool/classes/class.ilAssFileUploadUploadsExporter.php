@@ -158,19 +158,19 @@ class ilAssFileUploadUploadsExporter
 
         $res = $this->db->queryF(
             $query,
-            array("integer", "integer"),
-            array($this->question->getId(), $this->getTestId())
+            ["integer", "integer"],
+            [$this->question->getId(), $this->getTestId()]
         );
 
-        $solutionData = array();
+        $solutionData = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($solutionData[$row['active_fi']])) {
-                $solutionData[ $row['active_fi'] ] = array();
+                $solutionData[ $row['active_fi'] ] = [];
             }
 
             if (!isset($solutionData[ $row['active_fi'] ][ $row['pass'] ])) {
-                $solutionData[ $row['active_fi'] ][ $row['pass'] ] = array();
+                $solutionData[ $row['active_fi'] ][ $row['pass'] ] = [];
             }
 
             $solutionData[ $row['active_fi'] ][ $row['pass'] ][] = $row;
@@ -181,7 +181,7 @@ class ilAssFileUploadUploadsExporter
 
     private function getParticipantData($solutionData): ilTestParticipantData
     {
-        $activeIds = array();
+        $activeIds = [];
 
         foreach ($solutionData as $activeId => $passes) {
             $activeIds[] = $activeId;

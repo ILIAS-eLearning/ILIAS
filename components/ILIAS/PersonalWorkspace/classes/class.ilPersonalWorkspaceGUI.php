@@ -114,6 +114,7 @@ class ilPersonalWorkspaceGUI
             // when creating a link resource)
             // Without this fix, the cmdClass ilObjectCopyGUI would never be reached
             if (strtolower($ilCtrl->getNextClass($this)) !== strtolower("ilObj" . $class_name . "GUI")) {
+                $this->ctrl->setParameterByClass("ilObj" . $class_name . "GUI", "new_type", $this->std_request->getNewType());
                 $ilCtrl->redirectByClass("ilObj" . $class_name . "GUI", $ilCtrl->getCmd());
             }
         }

@@ -43,9 +43,30 @@ class PresentationGUIRequest
         return $this->int("mob_id");
     }
 
-    public function getExportType(): string
+    /**
+     * @return string[]
+     */
+    protected function getTableIds(string $key): array
     {
-        return $this->str("type");
+        return $this->strArray($key);
+    }
+
+    protected function getTableAction(string $key): string
+    {
+        return $this->str($key);
+    }
+
+    public function getTableGlossaryDownloadListAction(): string
+    {
+        return $this->getTableAction("glo_download_list_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableGlossaryDownloadFileIds(): array
+    {
+        return $this->getTableIds("glo_download_list_table_file_ids");
     }
 
     public function getFileId(): string

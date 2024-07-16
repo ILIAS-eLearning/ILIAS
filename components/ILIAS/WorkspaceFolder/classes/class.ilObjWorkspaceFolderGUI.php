@@ -18,6 +18,8 @@
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 use ILIAS\PersonalWorkspace\WorkspaceSessionRepository;
+use ILIAS\ILIASObject\Creation\AddNewItemElement;
+use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 
 /**
  * Class ilObjWorkspaceFolderGUI
@@ -217,9 +219,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->session_repo->clearClipboard();
 
         // add new item
-        $gui = new ilObjectAddNewItemGUI($this->node_id);
-        $gui->setMode(ilObjectDefinition::MODE_WORKSPACE);
-        $gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAvailableObjectTypes()
+        );
         $gui->render();
 
         ilObjectListGUI::prepareJsLinks(
@@ -972,5 +974,45 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $title = $this->lng->txt('personal_resources');
         }
         return $title;
+    }
+
+    protected function buildAvailableObjectTypes(): array
+    {
+        $settings_map = [
+            'blog' => 'blogs',
+            'file' => 'files',
+            'webr' => 'links',
+        ];
+
+        $object_types = $this->obj_definition->getCreatableSubObjects("wfld", ilObjectDefinition::MODE_WORKSPACE);
+        $filtered_object_types = [];
+        foreach (array_keys($object_types) as $type) {
+            if (isset($settings_map[$type])
+                    && $this->settings->get("disable_wsp_" . $settings_map[$type])) {
+                continue;
+            }
+
+            $filtered_object_types[] = $this->buildObjectType($type);
+        }
+
+        return $filtered_object_types;
+    }
+
+    protected function buildObjectType(string $type): AddNewItemElement
+    {
+        $icon = $this->ui_factory->symbol()->icon()->custom(
+            \ilObject::_getIcon(0, 'tiny', $type),
+            ''
+        );
+
+        $this->ctrl->setParameterByClass(self::class, 'new_type', $type);
+        $element = new AddNewItemElement(
+            AddNewItemElementTypes::Object,
+            $this->lng->txt('wsp_type_' . $type),
+            $icon,
+            new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'create'))
+        );
+        $this->ctrl->clearParameterByClass(self::class, 'new_type', $type);
+        return $element;
     }
 }

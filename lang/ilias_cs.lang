@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Použít b/i/u namísto str/emp/imp
 adve#:#adve_use_physical_info#:#Toto nastavení nahrazuje tlačítka sémantické třídy stylu pro silné (strong),  zdůrazněné (emphatic) a důležité (important) tlačítky fyzikálních atributů b (bold-tučné), i (italic-kurzíva) a u (underline-podtržené). Povšimněte si prosím, že to může mít za následek nekonzistence, pokud je použit tento editor stylu a jiné fyzické atributy jsou přiřazeny třídám stylu strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Zapnout TinyMCE pro editaci WYSIWYG
 assessment#:#action#:#Akce
+assessment#:#activate_logging#:#Aktivovat záznam Test a Hodnocení
+assessment#:#activate_manual_scoring#:#Aktivovat manuální bodování pro
+assessment#:#activate_manual_scoring_desc#:#Pokud je manuální bodování aktivováno pro typ otázky, všechny otázky tohoto typu otázek mohou být manuálně bodovány autorem testu. Buďte prosím opatrný(á) s těmito nastaveními, protože pozdější manuální bodování automaticky bodovaného typu otázek může způsobit dokonce právní problémy!
 assessment#:#addSuggestedSolution#:#Přidat doporučené řešení
 assessment#:#add_answers#:#Přidat odpovědi
 assessment#:#add_circle#:#Přidat kruhovou plochu
@@ -573,7 +576,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
 assessment#:#conf_delete_pass#:#Skutečně smazat průchod?
-assessment#:#conf_delete_pass_ctm#:#Opravdu chcete smazat dosavadní odpovědi?
 assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data uživatelů tohoto testu?
 assessment#:#confirm_delete_single_user_data#:#Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?
 assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#Vytvořit mezery
 assessment#:#create_new#:#Vytvořit nový
 assessment#:#customstyle#:#Volitelný styl
 assessment#:#dashboard_tab#:#Ovládací panel
+assessment#:#date_time#:#Datum/čas
 assessment#:#definition#:#Definice
 assessment#:#definition_image#:#Definice obrázku
 assessment#:#definition_text#:#Definice textu
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#Nevkládat otázky do zásobníku otázek (
 assessment#:#duplicate#:#Duplikovat
 assessment#:#duplicate_matching_values_selected#:#Vybral(a) jste duplikované identické hodnoty!
 assessment#:#duplicate_order_values_entered#:#Vložil(a) jste duplikované hodnoty pořadí!
-assessment#:#ects_allow_ects_grades#:#Zobrazit dodatečné hodnocení ECTS k získané známce
-assessment#:#ects_fx_threshold#:#Práh
-assessment#:#ects_fx_threshold_info#:#Zadejte požadovaný percentil pro udělení stupně „FX“.
-assessment#:#ects_grade#:#Hodnocení ECTS
-assessment#:#ects_grade_a_desc#:#vynikající výkon pouze s malými chybami
-assessment#:#ects_grade_b_desc#:#nadprůměrný standard, ale s nějakými chybami
-assessment#:#ects_grade_c_desc#:#obecně dobrá práce s množstvím významných chyb
-assessment#:#ects_grade_d_desc#:#slušné, ale s výraznými nedostatky
-assessment#:#ects_grade_desc_prefix#:#Význam známky:
-assessment#:#ects_grade_e_desc#:#výkon splňuje minimální kritéria
-assessment#:#ects_grade_f_desc#:#je zapotřebí další velká práce
-assessment#:#ects_grade_fx_desc#:#než bude možné udělit kredit, je třeba další práce
-assessment#:#ects_output_of_ects_grades#:#Výstup hodnocení ECTS
 assessment#:#edit_answer#:#Upravit odpověď
 assessment#:#edit_page#:#Upravit stránku
 assessment#:#edit_question#:#Upravit otázku
@@ -751,6 +741,7 @@ assessment#:#height#:#Výška
 assessment#:#identical_scoring#:#Identické hodnocení
 assessment#:#identical_scoring_desc#:#Pokud je vybráno, mezery s identickým řešením budou ohodnoceny, dokonce i v případě, že stejné řešení bude použito dvakrát. Pokud není vybráno, pak bude ohodnocen pouze první výskyt stejného řešení.
 assessment#:#imagemap#:#Mapa obrázku
+assessment#:#imap_line_color#:#Barva čáry mapy obrázku
 assessment#:#import_question#:#Import otázek
 assessment#:#imported#:#importováno
 assessment#:#info_answer_type_change#:#Tato otázka již obsahuje obrázky. Nemůžete změnit typ odpovědi na víceřádkové odpovědi.
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Příklady
 assessment#:#last_update#:#Poslední aktualizace
 assessment#:#legend#:#Vysvětlivka
 assessment#:#locked#:#uzamčeno
-assessment#:#log_added_extratime#:#Přidáno dalších %d minut pro id účastníka %d
-assessment#:#log_answer_changed_points#:#Manuální změna bodů testované osoby %s z %d na %d bodů hodnotícím testu %s
-assessment#:#log_create_new_test#:#Nový test vytvořen
-assessment#:#log_manual_feedback#:#%s přidán manuální ohlas pro testovanou osobu %s a otázku %s: %s
-assessment#:#log_mark_added#:#Známka přidána
-assessment#:#log_mark_changed#:#Známka změněna
-assessment#:#log_mark_removed#:#Známka odstraněna
-assessment#:#log_modified_test#:#Test byl modifikován
-assessment#:#log_question_added#:#Otázka byla přidána na pozici
-assessment#:#log_question_position_changed#:#Pozice otázky změněna
-assessment#:#log_question_removed#:#Otázka odstraněna
-assessment#:#log_selected_user_data_removed#:#Odstraněny data testu uživatele %s
-assessment#:#log_user_answered_question#:#Uživatel odpověděl na otázku a obdržel %s bodů
-assessment#:#log_user_entered_values#:#Uživatel vložil hodnoty
-assessment#:#log_user_not_entered_values#:#Uživatel nevložil hodnoty
+assessment#:#log_text#:#Záznam zprávy
 assessment#:#log_user_solution_willingly_deleted#:#Uživatel smazal odpověď.
-assessment#:#log_wrong_test_password_entered#:#Účastník zadal nesprávné heslo k testu.
+assessment#:#logging_settings#:#Záznam
+assessment#:#logs_deleted#:#Data záznamu pro vybrané testy byly smazány
+assessment#:#logs_output#:#Záznam výstupních dat
+assessment#:#logs_wrong_test_password_provided#:#Účastník zadal nesprávné heslo k testu.
 assessment#:#longmenu#:#Dlouhé menu
 assessment#:#longmenu_text#:#Text dlouhého menu
 assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#Manuálně hodnotitelné otázky pro prů
 assessment#:#manual_editing#:#Manuální editace
 assessment#:#mark_schema#:#Schéma známkování
 assessment#:#mark_schema_invalid#:#Schéma známkování není platné. Vytvořte prosím správné schéma.
-assessment#:#mark_tst_ects#:#Vaše hodnocení ECTS je &quot;[markects]&quot;
 assessment#:#matches#:#patří k
 assessment#:#matching_pairs#:#Odpovídající dvojice
 assessment#:#matching_shuffle_definitions#:#Jen definice
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Jednotky
 assessment#:#unlimited#:#neomezený
 assessment#:#unlock#:#Odemknout
 assessment#:#uploaded_material#:#Odeslaný materiál
-assessment#:#use_ects_fx#:#Použít stupeň „FX“
 assessment#:#use_previous_solution#:#Použít předchozí řešení
 assessment#:#use_previous_solution_advice#:#Zobrazené řešení pro tuto otázku je vaše dříve uvedené řešení. Musíte potvrdit přijetí řešení, pokud ho chcete použít bez jakýchkoliv změn.
 assessment#:#user_has_finished_a_test#:#Účastník dokončil test.
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#Akce přerušena
 common#:#actions#:#Akce
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Nastavit aktivní
-common#:#activate_assessment_logging#:#Aktivovat záznam Test a Hodnocení
 common#:#activate_https#:#HTTPS zajištěné ILIASem<br>(Platba, Login)
 common#:#activate_tracking#:#Aktivace
 common#:#activation#:#Upravit časování
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#Login ID potvrzeného účastníka
 common#:#archive#:#Archív
 common#:#archive_broken#:#Archív je pravděpodobně poškozen, nebo prázdný.
 common#:#are_you_sure#:#Jste si jistý(á)?
-common#:#ass_log_admin#:#Správa záznamu dat
-common#:#ass_log_count_datasets#:#Vstupy záznamu
-common#:#ass_log_delete_entries#:#Smazat vstupy záznamu
-common#:#ass_log_delete_no_selection#:#Vyberte prosím alespoň jeden test ke smazání záznamu dat
-common#:#ass_log_deleted#:#Data záznamu pro vybrané testy byly smazány
-common#:#ass_log_output#:#Záznam výstupních dat
-common#:#assessment_imap_line_color#:#Barva čáry mapy obrázku
-common#:#assessment_log#:#Vytvořit záznam testů a hodnocení pro specifikované časové období
-common#:#assessment_log_datetime#:#Datum/čas
-common#:#assessment_log_deleted#:#Data záznamu tohoto testu a hodnocení byla smazána v této administraci
-common#:#assessment_log_for_test#:#Pro test
-common#:#assessment_log_log_entries#:#Položky záznamu
-common#:#assessment_log_logging#:#Záznam
-common#:#assessment_log_manual_scoring_activate#:#Aktivovat manuální bodování pro
-common#:#assessment_log_manual_scoring_desc#:#Pokud je manuální bodování aktivováno pro typ otázky, všechny otázky tohoto typu otázek mohou být manuálně bodovány autorem testu. Buďte prosím opatrný(á) s těmito nastaveními, protože pozdější manuální bodování automaticky bodovaného typu otázek může způsobit dokonce právní problémy!
-common#:#assessment_log_question#:#Otázka
-common#:#assessment_log_text#:#Záznam zprávy
-common#:#assessment_settings_reporting_language#:#Jazyk hlášení
 common#:#assf_allowed_questiontypes#:#Dostupné typy otázek
 common#:#assf_allowed_questiontypes_desc#:#Všechny vybrané typy otázek budou v této instalaci ILIAS k dispozici. Pokud nechcete umožnit tvorbu jistého typu otázky v této instalaci, musíte odstranit výběr v příslušném zaškrtávacím poli.
 common#:#assf_questiontypes#:#Nastavení otázek
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#Následující tabulka je smysluplná pouze tehdy, j
 common#:#import_categories#:#Importovat kategorii
 common#:#import_failure_log#:#Importovat záznam chyb
 common#:#import_file#:#Importovat soubor
-common#:#import_file_not_valid#:#Importovaný soubor není platný.
+common#:#import_file_not_valid_here#:#Importovaný soubor není platný.
 common#:#import_finished#:#Počet imporotvaných zpráv.
 common#:#import_lm#:#Importovat výukový modul ILIAS
 common#:#import_qpl#:#Importovat zásobník otázek testu
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# »MathJax
 mathjax#:#mathjax_limiter#:#Oddělovače inline
 mathjax#:#mathjax_limiter_info#:#Vyberte inline oddělovače, jak jsou nakonfigurovány ve vaší instalaci MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Adresa serveru
 mathjax#:#mathjax_server_address_info#:#Například http://localhost: 8003
 mathjax#:#mathjax_server_cache_cleared#:#Mezipaměť MathJax byla vymazána.
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Vyberte ty, které by měly být také smazány:
 rep#:#rep_multiple_reference_deletion_intro#:#Pro tento objekt existují další odkazy.
 rep#:#rep_new_item_group_add#:#Přidat skupinu
-rep#:#rep_new_item_group_add_separator#:#Přidat oddělovač sloupců
 rep#:#rep_new_item_group_delete_sure#:#Opravdu chcete odstranit následující skupiny?
 rep#:#rep_new_item_group_edit#:#Upravit skupinu
 rep#:#rep_new_item_group_nr_subitems#:#Počet přiřazených objektů
 rep#:#rep_new_item_group_other#:#Další
-rep#:#rep_new_item_group_separator#:#Oddělovač sloupců
 rep#:#rep_new_item_group_unassigned#:#Nepřiřazen
 rep#:#rep_new_item_group_unassigned_subitems#:#Počet objektů, u kterých bylo zrušeno přiřazení: %s
 rep#:#rep_new_item_groups#:#Nové skupiny položek

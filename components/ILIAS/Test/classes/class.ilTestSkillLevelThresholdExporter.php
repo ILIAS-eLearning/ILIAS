@@ -102,10 +102,10 @@ class ilTestSkillLevelThresholdExporter
         $this->getXmlWriter()->xmlStartTag('SkillsLevelThresholds');
 
         foreach ($this->getAssignmentList()->getUniqueAssignedSkills() as $assignedSkillData) {
-            $this->getXmlWriter()->xmlStartTag('QuestionsAssignedSkill', array(
+            $this->getXmlWriter()->xmlStartTag('QuestionsAssignedSkill', [
                 'BaseId' => $assignedSkillData['skill_base_id'],
                 'TrefId' => $assignedSkillData['skill_tref_id']
-            ));
+            ]);
 
             $this->getXmlWriter()->xmlElement('OriginalSkillTitle', null, $assignedSkillData['skill_title']);
             $this->getXmlWriter()->xmlElement('OriginalSkillPath', null, $assignedSkillData['skill_path']);
@@ -124,9 +124,9 @@ class ilTestSkillLevelThresholdExporter
                     true
                 );
 
-                $this->getXmlWriter()->xmlStartTag('SkillLevel', array(
+                $this->getXmlWriter()->xmlStartTag('SkillLevel', [
                     'Id' => $levelData['id'], 'Nr' => $levelData['nr']
-                ));
+                ]);
 
                 $this->getXmlWriter()->xmlElement('ThresholdPercentage', null, $skillLevelThreshold->getThreshold());
 

@@ -415,6 +415,9 @@ adve#:#adve_use_physical#:#Utilizzare b/i/u invece di str/emp/imp
 adve#:#adve_use_physical_info#:#Questa impostazione sostituisce i semantici pulsanti di stile "strong", "emphatic" e "important" con "b" (grassetto), "i" (corsivo) e "u" (sottolineato). Si prega di notare, che questo potrebbe causare incoerenze se l'editor di stile è utilizzato e altri attributi fisici sono assegnati alle classi di stile strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Abilita TinyMCE come Editor WYSIWYG (What You See Is What You Get)
 assessment#:#action#:#Azione
+assessment#:#activate_logging#:#Attiva il logging del Test e Valutazione
+assessment#:#activate_manual_scoring#:#Attiva Punteggio Manuale per
+assessment#:#activate_manual_scoring_desc#:#Se e' attivato il punteggio manuale per un tipo di domande, tutte le domande di questo tipo possono essere attribuite manualmente da un test author. Presta molta attenzione a queste impostazioni perche' la post-attribuzione dei punteggi automatici potrebbe causare problemi di giudizio!
 assessment#:#addSuggestedSolution#:#Aggiungi soluzione suggerita
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Aggiungi area circolare
@@ -573,7 +576,6 @@ assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
 assessment#:#conf_delete_pass#:#Vuoi davvero cancellare il passaggio?
-assessment#:#conf_delete_pass_ctm#:#Vuoi davvero eliminare le tue risposte precedenti?
 assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
 assessment#:#confirm_delete_single_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti selezionati?
 assessment#:#confirm_sync_questions#:#La domanda, che &
@@ -588,6 +590,7 @@ assessment#:#create_gaps#:#Crea uno spazio vuoto
 assessment#:#create_new#:#Crea nuova
 assessment#:#customstyle#:#Stile personalizzato
 assessment#:#dashboard_tab#:#Dashboard
+assessment#:#date_time#:#Giorno/Ora
 assessment#:#definition#:#Definizione
 assessment#:#definition_image#:#Definizione dell'immagine
 assessment#:#definition_text#:#Definizione del testo
@@ -615,19 +618,6 @@ assessment#:#dont_use_questionpool#:#Non inserire le domande in una libreria (di
 assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#Hai scelto due volte la stessa risposta!
 assessment#:#duplicate_order_values_entered#:#Hai inserito due volte lo stesso valore!
-assessment#:#ects_allow_ects_grades#:#Mostra ulteriori voti ECTS per accettare una prova
-assessment#:#ects_fx_threshold#:#Limite
-assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.
-assessment#:#ects_grade#:#Scala ECTS
-assessment#:#ects_grade_a_desc#:#prestazioni eccezionali con solo errori minori
-assessment#:#ects_grade_b_desc#:#sopra lo standard medio ma con qualche errore
-assessment#:#ects_grade_c_desc#:#lavoro generalmente valido con una serie di errori notevoli
-assessment#:#ects_grade_d_desc#:#giusto ma con notevoli carenze
-assessment#:#ects_grade_desc_prefix#:#Significato del punteggio:
-assessment#:#ects_grade_e_desc#:#la prestazione soddisfa i criteri minimi
-assessment#:#ects_grade_f_desc#:#sono necessari notevoli ulteriori lavori
-assessment#:#ects_grade_fx_desc#:#un altro lavoro necessario prima che il credito possa essere assegnato
-assessment#:#ects_output_of_ects_grades#:#Non catalogabile secondo la scala ECTS
 assessment#:#edit_answer#:#Modifica risposta
 assessment#:#edit_page#:#Modifica pagina
 assessment#:#edit_question#:#Modifica domanda
@@ -751,6 +741,7 @@ assessment#:#height#:#Altezza
 assessment#:#identical_scoring#:#Punteggio identico
 assessment#:#identical_scoring_desc#:#Se selezionate, le mancanze con soluzioni identiche verranno valutate secondo le impostazioni vigenti anche se sono state scelte due volte. Se il quadratino non è stato spuntato verrà valutata solo la prima risposta uguale.
 assessment#:#imagemap#:#Mappa immagine
+assessment#:#imap_line_color#:#Imagemap Line Color
 assessment#:#import_question#:#Importa domande
 assessment#:#imported#:#importato
 assessment#:#info_answer_type_change#:#La domanda contiene già delle immagini. Non puoi modificare il tipo di risposta in risposte multilinea.
@@ -812,23 +803,12 @@ assessment#:#lacex_example_header#:#Esempi
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
-assessment#:#log_added_extratime#:#Aggiunti minuti %d supplementari per l’id dei partecipanti %d
-assessment#:#log_answer_changed_points#:#Impostazione manuale dei punti da %d a %d da parte dell'autore del test
-assessment#:#log_create_new_test#:#Creato nuovo test
-assessment#:#log_manual_feedback#:#aggiunto feedback manuale per studente e domande del test
-assessment#:#log_mark_added#:#Aggiunto marcatore
-assessment#:#log_mark_changed#:#Voto modificato
-assessment#:#log_mark_removed#:#Eliminato marcatore
-assessment#:#log_modified_test#:#Il test è; stato modificato
-assessment#:#log_question_added#:#Domanda aggiunta nella posizione
-assessment#:#log_question_position_changed#:#Modificata posizione della domanda
-assessment#:#log_question_removed#:#Domanda eliminata
-assessment#:#log_selected_user_data_removed#:#Eliminati i dati del test degli utenti %s
-assessment#:#log_user_answered_question#:#Un utente ha risposto alla domanda ed ha ricevuto %s punti
-assessment#:#log_user_entered_values#:#L'utente ha inserito un valore
-assessment#:#log_user_not_entered_values#:#L'utente non ha inserito un valore
+assessment#:#log_text#:#Messaggio del report
 assessment#:#log_user_solution_willingly_deleted#:#L’utente ha eliminato la risposta.
-assessment#:#log_wrong_test_password_entered#:#Il partecipante ha inserito una password sbagliata del test.
+assessment#:#logging_settings#:#Registrazione
+assessment#:#logs_deleted#:#I dati di registro per i testi selezionati sono stati eliminati
+assessment#:#logs_output#:#Output dei dati di registro
+assessment#:#logs_wrong_test_password_provided#:#Il partecipante ha inserito una password sbagliata del test.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Testo menu lungo
 assessment#:#mailnottype#:#Inviare la notifica anche quando un utente termina un passaggio di prova
@@ -843,7 +823,6 @@ assessment#:#manscoring_results_pass#:#Impostazione manuale delle domande per un
 assessment#:#manual_editing#:#Modifica manuale
 assessment#:#mark_schema#:#Schema voti
 assessment#:#mark_schema_invalid#:#Lo schema dei voti non è valido. Si prega di creare uno schema corretto.
-assessment#:#mark_tst_ects#:#Il tuo voto ECTS è &quot;[markects]&quot;
 assessment#:#matches#:#corrisponde
 assessment#:#matching_pairs#:#Coppie Corrispondenti
 assessment#:#matching_shuffle_definitions#:#Solo definizioni
@@ -1889,7 +1868,6 @@ assessment#:#units#:#Unità
 assessment#:#unlimited#:#illimitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#uploaded_material#:#Materiale salvato
-assessment#:#use_ects_fx#:#Use the 'FX' grade
 assessment#:#use_previous_solution#:#Usa soluzione precedente
 assessment#:#use_previous_solution_advice#:#La soluzione mostrata per la domanda è quella che avete dato precedentemente. Bisogna confermare la soluzione adottata se si desidera utilizzarla senza modifiche.
 assessment#:#user_has_finished_a_test#:#Un partecipante ha terminato il test.
@@ -3263,7 +3241,6 @@ common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
 common#:#actions_for#:#Actions for %s###29 07 2022 new variable
 common#:#activate#:#Imposta Attivo
-common#:#activate_assessment_logging#:#Attiva il logging del Test e Valutazione
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attivazione
 common#:#activation#:#Attivazione
@@ -3330,24 +3307,6 @@ common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#archive_broken#:#L'archivio sembra essere corrotto o vuoto.
 common#:#are_you_sure#:#Sei sicuro?
-common#:#ass_log_admin#:#Amministrazione dei dati del registro
-common#:#ass_log_count_datasets#:#Entrate registro
-common#:#ass_log_delete_entries#:#Cancella il Log delle Entrate
-common#:#ass_log_delete_no_selection#:#Selezionare almeno un test per eliminare i dati di registro
-common#:#ass_log_deleted#:#I dati di registro per i testi selezionati sono stati eliminati
-common#:#ass_log_output#:#Output dei dati di registro
-common#:#assessment_imap_line_color#:#Imagemap Line Color
-common#:#assessment_log#:#Crea il report del test indicato nel periodo
-common#:#assessment_log_datetime#:#Giorno/Ora
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
-common#:#assessment_log_for_test#:#Test
-common#:#assessment_log_log_entries#:#dati nel log
-common#:#assessment_log_logging#:#Registrazione
-common#:#assessment_log_manual_scoring_activate#:#Attiva Punteggio Manuale per
-common#:#assessment_log_manual_scoring_desc#:#Se e' attivato il punteggio manuale per un tipo di domande, tutte le domande di questo tipo possono essere attribuite manualmente da un test author. Presta molta attenzione a queste impostazioni perche' la post-attribuzione dei punteggi automatici potrebbe causare problemi di giudizio!
-common#:#assessment_log_question#:#Domanda
-common#:#assessment_log_text#:#Messaggio del report
-common#:#assessment_settings_reporting_language#:#Lingua del report
 common#:#assf_allowed_questiontypes#:#Tipi di Domande disponibili
 common#:#assf_allowed_questiontypes_desc#:#Tutte le domande selezionate saranno disponibili in questa installazione di ILIAS. Se non vuoi consentire la creazione di un certo tipo di domande devi rimuovere la selezione della casella di spunta associata.
 common#:#assf_questiontypes#:#Impostazioni di domanda
@@ -4150,7 +4109,7 @@ common#:#import_cat_table#:#La seguente tabella &
 common#:#import_categories#:#Importa contesto
 common#:#import_failure_log#:#Log di importazione: fallimenti
 common#:#import_file#:#Scegli il file
-common#:#import_file_not_valid#:#Il file di import non &
+common#:#import_file_not_valid_here#:#Il file di import non &
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test
@@ -10785,12 +10744,12 @@ mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_limiter#:#Delimitatori in linea
 mathjax#:#mathjax_limiter_info#:#Selezionare i delimitatori in linea come sono configurati nell'installazione di MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 03 2023 new variable
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 03 2023 new variable
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
 mathjax#:#mathjax_server_address#:#Indirizzo del server
 mathjax#:#mathjax_server_address_info#:#Per esempio http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#La cache di MathJax è stata eliminata.
@@ -13874,12 +13833,10 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 rep#:#rep_multiple_reference_deletion_instruction#:#Si prega di selezionare quello che dovrebbe essere eliminato:
 rep#:#rep_multiple_reference_deletion_intro#:#Per questo oggetto esistono ulteriori riferimenti.
 rep#:#rep_new_item_group_add#:#Add Group
-rep#:#rep_new_item_group_add_separator#:#Aggiungi separatore di colonna
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groups?
 rep#:#rep_new_item_group_edit#:#Edit Group
 rep#:#rep_new_item_group_nr_subitems#:#Numero degli oggetti assegnati
 rep#:#rep_new_item_group_other#:#Altro
-rep#:#rep_new_item_group_separator#:#Separatore di colonna
 rep#:#rep_new_item_group_unassigned#:#Non assegnato
 rep#:#rep_new_item_group_unassigned_subitems#:#Numero degli oggetti non assegnati: %s
 rep#:#rep_new_item_groups#:#New Item Groups

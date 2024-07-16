@@ -98,7 +98,7 @@ class ilUserProfile
     public function addStandardFieldsToForm(
         ilPropertyFormGUI $form,
         ?ilObjUser $user = null,
-        array $custom_fields = null
+        array $custom_fields = []
     ): void {
         $registration_settings = null;
         if ($this->mode == self::MODE_REGISTRATION) {
@@ -130,8 +130,12 @@ class ilUserProfile
         }
 
         // append custom fields as 'other'
-        if (is_array($custom_fields) && !$custom_fields_done) {
-            $form = $this->addCustomFieldsToForm($form, $custom_fields, $current_group);
+        if ($custom_fields !== [] && !$custom_fields_done) {
+            $form = $this->addCustomFieldsToForm(
+                $form,
+                $custom_fields,
+                $current_group
+            );
         }
     }
 
@@ -152,10 +156,10 @@ class ilUserProfile
         ilPropertyFormGUI $form,
         string $current_group,
         string $next_group,
-        ?array $custom_fields,
+        array $custom_fields,
         bool $custom_fields_done
     ): array {
-        if ($custom_fields !== null && !$custom_fields_done
+        if ($custom_fields !== [] && !$custom_fields_done
             && ($current_group === 'other' || $next_group === 'settings')) {
             // add 'other' subheader
             $form = $this->addCustomFieldsToForm(
@@ -648,8 +652,11 @@ class ilUserProfile
         return $non_editable_input;
     }
 
-    private function addCustomFieldsToForm(ilPropertyFormGUI $form, array $custom_fields, string $current_group): ilPropertyFormGUI
-    {
+    private function addCustomFieldsToForm(
+        ilPropertyFormGUI $form,
+        array $custom_fields,
+        string $current_group
+    ): ilPropertyFormGUI {
         if ($current_group !== 'other') {
             $section_header = new ilFormSectionHeaderGUI();
             $section_header->setTitle($this->lng->txt('other'));

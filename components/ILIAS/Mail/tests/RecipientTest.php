@@ -23,7 +23,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\Mail\Recipient;
 
-class RecipientTest extends ilMailBaseTest
+class RecipientTest extends ilMailBaseTestCase
 {
     public function testCreate(): void
     {

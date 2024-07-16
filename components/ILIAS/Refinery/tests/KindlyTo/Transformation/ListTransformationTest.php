@@ -51,7 +51,7 @@ class ListTransformationTest extends TestCase
         $transformList->transform($origValue);
     }
 
-    public function ArrayToListTransformationDataProvider(): array
+    public static function ArrayToListTransformationDataProvider(): array
     {
         return [
             'first_arr' => [['hello', 'world'], ['hello', 'world']],
@@ -61,7 +61,7 @@ class ListTransformationTest extends TestCase
         ];
     }
 
-    public function ArrayFailureDataProvider(): array
+    public static function ArrayFailureDataProvider(): array
     {
         return [
             'null_array' => [[null]],

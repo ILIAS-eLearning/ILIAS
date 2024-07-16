@@ -220,11 +220,12 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $this->db->expects($this->once())
             ->method("quote")
-            ->withConsecutive(
-                [self::CLASS_NAME_200, "text"],
-            )
-            ->willReturnOnConsecutiveCalls(
-                "CLASS"
+            ->willReturnCallback(
+                function ($field, $type) {
+                    $this->assertEquals(self::CLASS_NAME_200, $field);
+                    $this->assertEquals('text', $type);
+                    return 'CLASS';
+                }
             );
 
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
@@ -249,12 +250,14 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $this->db->expects($this->once())
             ->method("quote")
-            ->withConsecutive(
-                [self::CLASS_NAME_200, "text"],
-            )
-            ->willReturnOnConsecutiveCalls(
-                "CLASS"
+            ->willReturnCallback(
+                function ($field, $type) {
+                    $this->assertEquals(self::CLASS_NAME_200, $field);
+                    $this->assertEquals('text', $type);
+                    return 'CLASS';
+                }
             );
+
 
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db->expects($this->once())

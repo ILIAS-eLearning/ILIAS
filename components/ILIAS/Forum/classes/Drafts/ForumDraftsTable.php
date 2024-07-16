@@ -22,7 +22,6 @@ namespace ILIAS\Forum\Drafts;
 
 use Generator;
 use ilObjUser;
-use ilDateTime;
 use ilLanguage;
 use ilObjForum;
 use ilObjForumGUI;
@@ -30,6 +29,8 @@ use ilCtrlInterface;
 use ilForumPostDraft;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use DateTimeImmutable;
+use ilCalendarSettings;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
@@ -97,7 +98,9 @@ class ForumDraftsTable implements DataRetrieval
                 } else {
                     $this->records[$draft_id]['draft'] = $draft['subject'];
                 }
-                $this->records[$draft_id]['edited_on'] = new ilDateTime($draft['post_update'], IL_CAL_DATETIME);
+                $this->records[$draft_id]['edited_on'] = new DateTimeImmutable(
+                    $draft['post_update']
+                );
             }
         }
     }
@@ -175,13 +178,19 @@ class ForumDraftsTable implements DataRetrieval
      */
     private function getColumns(): array
     {
+        if ((int) $this->user->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
+            $format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+
         return [
             'draft' => $this->ui_factory->table()->column()->link($this->lng->txt('drafts'))->withIsSortable(
                 false
             )->withIsSortable(false),
             'edited_on' => $this->ui_factory->table()->column()->date(
                 $this->lng->txt('edited_on'),
-                $this->data_factory->dateFormat()->germanLong()
+                $format
             )->withIsSortable(false)
         ];
     }

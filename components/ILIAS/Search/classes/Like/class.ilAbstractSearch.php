@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilSearchGUI
@@ -38,8 +38,7 @@ abstract class ilAbstractSearch
     /**
      * @var string[]
      */
-    protected array $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-                         'chat','webr','mcst','sess','pg','st','wiki','book', 'copa');
+    protected array $object_types = [];
 
     /**
      * @var int[]
@@ -60,6 +59,33 @@ abstract class ilAbstractSearch
         $this->db = $DIC->database();
         $this->query_parser = $qp_obj;
         $this->search_result = new ilSearchResult();
+
+        $this->object_types = $this->getValidObjectTypes($DIC['objDefinition']);
+    }
+
+    protected function getValidObjectTypes(ilObjectDefinition $object_definition): array
+    {
+        $valid_types = [];
+        foreach ($object_definition->getAllObjects() as $type) {
+            if (
+                !$object_definition->isSystemObject($type) &&
+                !$object_definition->isAdministrationObject($type) &&
+                !$object_definition->isSideBlock($type) &&
+                $object_definition->isRBACObject($type) &&
+                $object_definition->isAllowedInRepository($type)
+            ) {
+                $valid_types[] = $type;
+            }
+        }
+
+        $grouped_types = [];
+        foreach ($object_definition->getAllObjects() as $type) {
+            if (in_array($object_definition->getGroupOfObj($type), $valid_types)) {
+                $grouped_types[] = $type;
+            }
+        }
+
+        return array_unique(array_merge($valid_types, $grouped_types));
     }
 
     public function setFields(array $a_fields): void

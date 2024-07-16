@@ -29,7 +29,7 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
     /**
      * @var ilAssSpecificFeedbackIdentifier[]
      */
-    protected array $map = array();
+    protected array $map = [];
 
     protected function add(ilAssSpecificFeedbackIdentifier $identifier): void
     {
@@ -42,8 +42,8 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
 
         $res = $DIC->database()->queryF(
             "SELECT feedback_id, question, answer FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-            array('integer'),
-            array($questionId)
+            ['integer'],
+            [$questionId]
         );
 
         while ($row = $DIC->database()->fetchAssoc($res)) {

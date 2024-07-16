@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -38,7 +38,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageFolderGUI, ilObjMailGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjRecoveryFolderGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTestFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI

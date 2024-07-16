@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
 
-class SequentialTest extends TestCase
+class SequentialConstraintTest extends TestCase
 {
     private DataFactory $df;
     private ILIAS\Language\Language $lng;

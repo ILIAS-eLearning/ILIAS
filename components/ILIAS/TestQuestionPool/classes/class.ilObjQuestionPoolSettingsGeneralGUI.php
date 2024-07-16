@@ -130,11 +130,10 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->poolOBJ->getObjectProperties()->storePropertyTileImage($display_settings['tile_image']);
         }
 
-        $skill_service = $data['skill_service'] ?? [];
-        $this->poolOBJ->setSkillServiceEnabled($skill_service['skill_service'] ?? false);
 
         $additional_features = $data['additional_features'] ?? [];
-        $this->poolOBJ->setShowTaxonomies($additional_features['showTax'] ?? false);
+        $this->poolOBJ->setSkillServiceEnabled($additional_features['skill_service'] ?? false);
+        $this->poolOBJ->setShowTaxonomies($additional_features['show_tax'] ?? false);
 
         $this->poolOBJ->saveToDb();
     }
@@ -180,27 +179,22 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->lng->txt('tst_presentation_settings_section')
         );
 
+        $additional_features_inputs = [];
+
         if (ilObjQuestionPool::isSkillManagementGloballyActivated()) {
-            $skill_service = $this->ui_factory->input()->field()->checkbox(
+            $additional_features_inputs['skill_service'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_activate_skill_service')
             )->withValue($this->poolOBJ->isSkillServiceEnabled());
-
-            $skill_service_section = $this->ui_factory->input()->field()->section(
-                ['skill_service' => $skill_service],
-                $this->lng->txt('obj_features')
-            );
-            $items['skill_service'] = $skill_service_section;
         }
 
-        $showTax = $this->ui_factory->input()->field()->checkbox(
+        $additional_features_inputs['show_tax'] = $this->ui_factory->input()->field()->checkbox(
             $this->lng->txt('qpl_settings_general_form_property_show_taxonomies')
         )->withValue($this->poolOBJ->getShowTaxonomies());
 
-        $additional_features_section = $this->ui_factory->input()->field()->section(
-            ['showTax' => $showTax],
+        $items['additional_features'] = $this->ui_factory->input()->field()->section(
+            $additional_features_inputs,
             $this->lng->txt('obj_features')
         );
-        $items['additional_features'] = $additional_features_section;
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, self::CMD_SAVE_GENERAL_FORM),

@@ -29,7 +29,8 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
     private $inMetaDataTag;
     private $inMdGeneralTag;
-    private bool $descriptionProcessed = false;
+    private bool $title_processed = false;
+    private bool $description_processed = false;
     private string $cdata = "";
 
     /**
@@ -44,7 +45,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         $this->inMetaDataTag = false;
         $this->inMdGeneralTag = false;
 
-        return parent::__construct($xmlFile);
+        parent::__construct($xmlFile);
     }
 
     public function setHandlers($a_xml_parser): void
@@ -64,6 +65,12 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
             case 'General':
                 if ($this->inMetaDataTag) {
                     $this->inMdGeneralTag = true;
+                }
+                break;
+
+            case 'Title':
+                if ($this->inMetaDataTag && $this->inMdGeneralTag) {
+                    $this->cdata = '';
                 }
                 break;
 
@@ -100,10 +107,18 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 }
                 break;
 
+            case 'Title':
+                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
+                    $this->poolOBJ->setTitle($this->cdata);
+                    $this->title_processed = true;
+                    $this->cdata = '';
+                }
+                break;
+
             case 'Description':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->descriptionProcessed) {
+                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
                     $this->poolOBJ->setDescription($this->cdata);
-                    $this->descriptionProcessed = true;
+                    $this->description_processed = true;
                     $this->cdata = '';
                 }
                 break;

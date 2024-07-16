@@ -48,18 +48,14 @@ class TableManager
         return new LevelResourcesTable($ref_id, $base_skill_id, $tref_id, $requested_level_id);
     }
 
-    public function getUsageTable(
-        string $cskill_id,
-        array $usage,
-        string $mode = ""
-    ): UsageTable {
-        return new UsageTable($cskill_id, $usage, $mode);
-    }
-
     public function getAssignedObjectsTable(
-        array $objects
+        object $parent_obj,
+        array $objects,
+        int $skill_id = 0,
+        int $tref_id = 0,
+        int $profile_id = 0
     ): AssignedObjectsTable {
-        return new AssignedObjectsTable($objects);
+        return new AssignedObjectsTable($parent_obj, $objects, $skill_id, $tref_id, $profile_id);
     }
 
     public function getProfileTable(
@@ -67,13 +63,6 @@ class TableManager
         int $skill_tree_id
     ): ProfileTable {
         return new ProfileTable($ref_id, $skill_tree_id);
-    }
-
-    public function getProfileLevelAssignmentTable(
-        string $cskill_id,
-        bool $update = false
-    ): ProfileLevelAssignmentTable {
-        return new ProfileLevelAssignmentTable($cskill_id, $update);
     }
 
     public function getProfileUserAssignmentTable(

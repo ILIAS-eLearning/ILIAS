@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 use ILIAS\UI\Component\Table\Column;
 use ILIAS\Data;
 
-class ColumnFactoryTest extends AbstractFactoryTest
+class ColumnFactoryTest extends AbstractFactoryTestCase
 {
-    public $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "text" => ["context" => false, "rules" => false],
         "number" => ["context" => false, "rules" => false],
         "date" => ["context" => false, "rules" => false],
@@ -38,45 +38,44 @@ class ColumnFactoryTest extends AbstractFactoryTest
         "linkListing" => ["context" => false, "rules" => false]
     ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
 
-    protected function buildFactories()
+    protected function buildColumnFactory()
     {
         $lng = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
         $lng->method('txt')->willReturnCallback(fn($v) => $v);
 
-        return [
-            new \ILIAS\UI\Implementation\Component\Table\Column\Factory($lng),
-            new Data\Factory()
-        ];
+        return new \ILIAS\UI\Implementation\Component\Table\Column\Factory($lng);
     }
 
-    public function getColumnTypeProvider(): array
+    public static function getColumnTypeProvider(): array
     {
-        list($f, $df) = $this->buildFactories();
-        $date_format = $df->dateFormat()->germanShort();
+        $date_format = (new Data\Factory())->dateFormat()->germanShort();
 
         return [
-            [Column\Text::class, $f->text("")],
-            [Column\Date::class, $f->date("", $date_format)],
-            [Column\TimeSpan::class, $f->timespan("", $date_format)],
-            [Column\Number::class, $f->number("")],
-            [Column\Boolean::class, $f->boolean("", '1', '0')],
-            [Column\Status::class, $f->status("")],
-            [Column\StatusIcon::class, $f->statusIcon("")],
-            [Column\EMail::class, $f->eMail("")],
-            [Column\Link::class, $f->link("")],
-            [Column\LinkListing::class, $f->linkListing("")]
+            [static fn($f) => [Column\Text::class, $f->text("")]],
+            [static fn($f) => [Column\Text::class, $f->text("")]],
+            [static fn($f) => [Column\Date::class, $f->date("", $date_format)]],
+            [static fn($f) => [Column\TimeSpan::class, $f->timespan("", $date_format)]],
+            [static fn($f) => [Column\Number::class, $f->number("")]],
+            [static fn($f) => [Column\Boolean::class, $f->boolean("", '1', '0')]],
+            [static fn($f) => [Column\Status::class, $f->status("")]],
+            [static fn($f) => [Column\StatusIcon::class, $f->statusIcon("")]],
+            [static fn($f) => [Column\Link::class, $f->link("")]],
+            [static fn($f) => [Column\EMail::class, $f->eMail("")]],
+            [static fn($f) => [Column\LinkListing::class, $f->linkListing("")]]
         ];
     }
 
     /**
      * @dataProvider getColumnTypeProvider
      */
-    public function testDataTableColsImplementInterfaces($class, $instance)
+    public function testDataTableColsImplementInterfaces(\Closure $col): void
     {
+        $factory = $this->buildColumnFactory();
+        list($class, $instance) = $col($factory);
         $this->assertInstanceOf(Column\Column::class, $instance);
         $this->assertInstanceOf($class, $instance);
     }

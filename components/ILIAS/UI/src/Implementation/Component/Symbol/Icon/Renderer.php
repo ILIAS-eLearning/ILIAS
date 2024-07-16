@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
@@ -49,7 +49,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("NAME", $component->getName());
+        $tpl->setVariable("NAME", $this->convertSpecialCharacters($component->getName()));
         $tpl->setVariable("SIZE", $component->getSize());
 
         $tpl = $this->renderLabel($component, $tpl);
@@ -57,10 +57,10 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Symbol\Icon\Standard) {
             $imagepath = $this->getStandardIconPath($component);
         } else {
-            $imagepath = $component->getIconPath();
+            $imagepath = $this->convertSpecialCharacters($component->getIconPath());
         }
 
-        $ab = $component->getAbbreviation();
+        $ab = $this->convertSpecialCharacters($component->getAbbreviation() ?? '');
         if ($ab) {
             $tpl->setVariable("ABBREVIATION", $ab);
 
@@ -86,7 +86,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
-        $tpl->setVariable('LABEL', $component->getLabel());
+        $tpl->setVariable('LABEL', $this->convertSpecialCharacters($component->getLabel()));
         return $tpl;
     }
 

@@ -41,21 +41,27 @@ class assQuestionTest extends assBaseTestCase
                 return true;
             }
 
-            public function saveWorkingData(int $active_id, int $pass, bool $authorized = true): bool
+            public function saveWorkingData(int $active_id, ?int $pass = null, bool $authorized = true): bool
             {
                 return true;
             }
 
-            public function getAdditionalTableName()
+            public function getAdditionalTableName(): string
             {
+                return '';
             }
 
-            public function getAnswerTableName()
+            public function getAnswerTableName(): string
             {
+                return '';
             }
 
-            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float|array
-            {
+            public function calculateReachedPoints(
+                int $active_id,
+                ?int $pass = null,
+                bool $authorizedSolution = true
+            ): float {
+                return 0.0;
             }
 
             public function getQuestionType(): string
@@ -66,6 +72,18 @@ class assQuestionTest extends assBaseTestCase
             public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
             {
                 return 0;
+            }
+
+            public function toLog(\ILIAS\Test\Logging\AdditionalInformationGenerator $additional_info): array
+            {
+                return [];
+            }
+
+            public function solutionValuesToLog(
+                \ILIAS\Test\Logging\AdditionalInformationGenerator $additional_info,
+                array $solution_values
+            ): array {
+                return [];
             }
         };
     }

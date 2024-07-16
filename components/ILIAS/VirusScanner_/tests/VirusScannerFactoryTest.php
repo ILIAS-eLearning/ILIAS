@@ -24,7 +24,7 @@ require_once __DIR__ . '/bootstrap.php';
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class VirusScannerFactoryTest extends VirusScannerBaseTest
+class VirusScannerFactoryTest extends VirusScannerBaseTestCase
 {
     public static ilLogger $logger;
 

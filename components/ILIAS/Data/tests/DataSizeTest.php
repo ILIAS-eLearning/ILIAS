@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DataSizeTest extends TestCase
 {
-    public function provideDataSizes(): array
+    public static function provideDataSizes(): array
     {
         return [
             [1000, '1000 B'],
@@ -82,7 +82,7 @@ class DataSizeTest extends TestCase
         }
     }
 
-    public function tDataProvider(): array
+    public static function tDataProvider(): array
     {
         return [
             [122, 1000, "122 B", 122],

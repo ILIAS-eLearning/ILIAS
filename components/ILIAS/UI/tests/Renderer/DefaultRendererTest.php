@@ -233,7 +233,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $renderer->$render_type($component, $root);
     }
 
-    public function getRenderType()
+    public static function getRenderType()
     {
         return [
             ["render"],

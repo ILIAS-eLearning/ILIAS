@@ -26,7 +26,7 @@ use ILIAS\Filesystem\Util;
  */
 class FilenameSanitizing extends TestCase
 {
-    public function provideFilenames(): array
+    public static function provideFilenames(): array
     {
         return [
             ["Control\u{00a0}Character", 'ControlCharacter'],

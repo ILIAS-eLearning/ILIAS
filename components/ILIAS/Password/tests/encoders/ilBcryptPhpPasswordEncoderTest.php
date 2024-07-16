@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-final class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
+final class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTestCase
 {
     /** @var string */
     private const VALID_COSTS = '08';
@@ -37,7 +37,7 @@ final class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     /**
      * @return array<string, string[]>
      */
-    public function costsProvider(): array
+    public static function costsProvider(): array
     {
         $data = [];
         for ($i = 4; $i <= 31; ++$i) {

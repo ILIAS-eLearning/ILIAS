@@ -119,7 +119,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter): void
     {
-        $this->questionInstanceTypeFilter = (string)$questionInstanceTypeFilter;
+        $this->questionInstanceTypeFilter = (string) $questionInstanceTypeFilter;
     }
 
     public function getQuestionInstanceTypeFilter()
@@ -274,7 +274,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
                 case 'question_id':
                     if ($fieldValue != "" && !is_array($fieldValue)) {
-                        $fieldValue = array($fieldValue);
+                        $fieldValue = [$fieldValue];
                     }
                     $expressions[] = $this->db->in("qpl_questions.question_id", $fieldValue, false, "integer");
                     break;
@@ -504,13 +504,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getSelectFieldsExpression(): string
     {
-        $selectFields = array(
+        $selectFields = [
             'qpl_questions.*',
             'qpl_qst_type.type_tag',
             'qpl_qst_type.plugin',
             'qpl_qst_type.plugin_name',
             'qpl_questions.points max_points'
-        );
+        ];
 
         if ($this->join_obj_data) {
             $selectFields[] = 'object_data.title parent_title';
@@ -582,8 +582,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
-            $row['feedback'] = $this->hasGenericFeedback((int)$row['question_id']);
-            $row['hints'] = $this->hasHints((int)$row['question_id']);
+            $row['feedback'] = $this->hasGenericFeedback((int) $row['question_id']);
+            $row['hints'] = $this->hasHints((int) $row['question_id']);
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
             if (

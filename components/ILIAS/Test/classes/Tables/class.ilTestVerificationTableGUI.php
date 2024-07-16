@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * List all completed tests for current user
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -32,9 +34,9 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         string $parent_cmd,
         private ilDBInterface $db,
         private ilObjUser $user,
-        private ilLogger $logger
+        private TestLogger $logger
     ) {
-        $user_certificate_repository = new ilUserCertificateRepository($this->db, $this->logger);
+        $user_certificate_repository = new ilUserCertificateRepository($this->db, $this->logger->getComponentLogger());
         $this->userCertificateRepository = $user_certificate_repository;
 
         parent::__construct($parent_obj, $parent_cmd);

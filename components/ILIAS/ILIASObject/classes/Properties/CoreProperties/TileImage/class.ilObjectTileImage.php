@@ -67,7 +67,7 @@ class ilObjectTileImage
         }
 
         if ($this->exists()) {
-            return $this->image_factory->responsive($this->getFullPath(), '');
+            return $image_factory->responsive($this->getFullPath(), '');
         }
 
         if ($this->object_type_specific_property_providers !== null &&

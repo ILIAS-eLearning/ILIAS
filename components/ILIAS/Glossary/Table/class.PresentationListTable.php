@@ -74,6 +74,10 @@ class PresentationListTable
 
         $table = $this->ui_fac->table()
                               ->data($this->lng->txt("cont_terms"), $columns, $data_retrieval)
+                              ->withId(
+                                  self::class . "_" .
+                                  $this->glossary->getRefId()
+                              )
                               ->withRequest($this->request);
 
         return $table;

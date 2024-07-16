@@ -28,12 +28,11 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
 
         $this->testObj = new ilTestResultsToXML(
             0,
-            $DIC['ilDB'],
+            $this->createMock(ilDBInterface::class),
             false
         );
     }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setup the results data directories
-RESULTS_DATA_DIRECTORY="CI/results/data"
+RESULTS_DATA_DIRECTORY="scripts/results/data"
 
 RESULTS_DATA_DIRECTORY_CSFIXER="$RESULTS_DATA_DIRECTORY/phpfix_results"
 

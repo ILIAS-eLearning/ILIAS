@@ -28,20 +28,16 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
 {
     protected function getTrueOptionLabel()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         return $this->question->getTrueOptionLabelTranslation(
-            $DIC->language(),
+            $this->language,
             $this->question->getOptionLabel()
         );
     }
 
     protected function getFalseOptionLabel()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         return $this->question->getFalseOptionLabelTranslation(
-            $DIC->language(),
+            $this->language,
             $this->question->getOptionLabel()
         );
     }
@@ -49,7 +45,7 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
 
     public function initColumns(): void
     {
-        $lng = $this->DIC->language();
+        $lng = $this->language;
         $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');
         $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
         $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');

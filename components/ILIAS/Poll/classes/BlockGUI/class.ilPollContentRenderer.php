@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,8 +17,11 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilPollContentRenderer
 {
@@ -33,11 +34,13 @@ class ilPollContentRenderer
     protected ilLanguage $lng;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected Refinery $refinery;
 
     public function __construct(
         ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
+        Refinery $refinery,
         ilPollStateInfo $availability,
         ilPollCommentsHandler $comments,
         ilPollAnswersHandler $answers,
@@ -48,6 +51,7 @@ class ilPollContentRenderer
         $this->lng = $lng;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
+        $this->refinery = $refinery;
         $this->state = $availability;
         $this->comments = $comments;
         $this->answers = $answers;
@@ -219,7 +223,10 @@ class ilPollContentRenderer
         string $text,
         ?string $img_path
     ): void {
-        $tpl->setVariable("TXT_QUESTION", nl2br(trim($text)));
+        $tpl->setVariable(
+            "TXT_QUESTION",
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br(trim($text)))
+        );
         if ($img_path) {
             $tpl->setVariable(
                 "URL_IMAGE",
@@ -300,7 +307,10 @@ class ilPollContentRenderer
     ): void {
         $description = trim($description);
         if ($description) {
-            $tpl->setVariable("TXT_DESC", nl2br($description));
+            $tpl->setVariable(
+                "TXT_DESC",
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($description))
+            );
         }
     }
 

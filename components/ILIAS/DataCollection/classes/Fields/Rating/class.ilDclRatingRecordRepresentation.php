@@ -26,12 +26,12 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
         $rgui->setObject(
             $this->getRecordField()->getRecord()->getId(),
             "dcl_record",
-            (int)$this->getRecordField()->getField()->getId(),
+            (int) $this->getRecordField()->getField()->getId(),
             "dcl_field"
         );
         $this->ctrl->setParameterByClass(ilRatingGUI::class, "field_id", $this->getRecordField()->getField()->getId());
         $this->ctrl->setParameterByClass(ilRatingGUI::class, "record_id", $this->getRecordField()->getRecord()->getId());
-        if(array_key_exists("tableview_id", $options)) {
+        if (isset($options['tableview_id'])) {
             $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, 'tableview_id', $options['tableview_id']);
         }
         return $rgui->getHTML();

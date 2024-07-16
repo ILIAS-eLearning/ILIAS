@@ -37,7 +37,7 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
         $this->addGlobal_tpl();
 
         $this->testObj = new ilTestParticipantsTimeExtensionGUI(
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $DIC['ilUser'],
             $DIC['ilCtrl'],
             $DIC['lng'],
@@ -54,7 +54,7 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $mock = $this->createMock(ilObjTest::class);
+        $mock = $this->getTestObjMock();
         $this->testObj->setTestObj($mock);
         $this->assertEquals($mock, $this->testObj->getTestObj());
     }

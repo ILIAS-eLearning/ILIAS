@@ -120,22 +120,18 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         // type: vertical accordion
         $op1 = new ilRadioOption($lng->txt("cont_tabs_acc_ver"), ilPCTabs::ACCORDION_VER);
-
         $templ = $this->getTemplateOptions("vaccordion");
         if (count($templ) > 0) {
-            $vchar_prop = new ilAdvSelectInputGUI(
-                $this->lng->txt("cont_characteristic"),
-                "vaccord_templ"
-            );
+
+            $options = [];
             foreach ($templ as $k => $te) {
-                $t = explode(":", $k);
-                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both" class="small">' . $te . "</div>";
-                $vchar_prop->addOption($k, $te, $html);
-                if ($t[2] == "VerticalAccordion") {
-                    $vchar_prop->setValue($k);
-                }
+                $options[$k] = $te;
             }
+            $vchar_prop = new ilSelectInputGUI($this->lng->txt("cont_characteristic"), "vaccord_templ");
+            $vchar_prop->setOptions($options);
             $op1->addSubItem($vchar_prop);
+
+
         } else {
             $vchar_prop = new ilHiddenInputGUI("vaccord_templ");
             $this->form->addItem($vchar_prop);
@@ -310,13 +306,14 @@ class ilPCTabsGUI extends ilPageContentGUI
                 $this->content_obj->getTemplate();
             $va->setValue($v);
         }
+        /*
         if ($values["type"] == ilPCTabs::ACCORDION_HOR) {
             $ha = $this->form->getItemByPostVar("haccord_templ");
             $v = "t:" .
                 ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()) . ":" .
                 $this->content_obj->getTemplate();
             $ha->setValue($v);
-        }
+        }*/
         if ($values["type"] == ilPCTabs::CAROUSEL) {
             $ca = $this->form->getItemByPostVar("carousel_templ");
             $v = "t:" .

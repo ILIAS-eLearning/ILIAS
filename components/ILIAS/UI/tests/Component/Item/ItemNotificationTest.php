@@ -240,8 +240,8 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<div class="il-item-description">description</div>
-				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
+				<div class="dropdown" id="id">
+					<button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
 						<span class="caret"></span>
 					</button>
 					<ul id="id_menu" class="dropdown-menu">

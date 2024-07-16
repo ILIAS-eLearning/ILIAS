@@ -170,8 +170,8 @@ class ilAssLacConditionParser
      */
     protected function createNodeArray(): array
     {
-        $expected = array("n", "(", "!");
-        $group = array();
+        $expected = ["n", "(", "!"];
+        $group = [];
         $negation = false;
 
         while ($this->index < strlen($this->condition)) {
@@ -180,17 +180,17 @@ class ilAssLacConditionParser
                 if ($this->condition[$this->index] == ')') {
                     return $group;
                 } elseif ($this->condition[$this->index] == 'n') {
-                    $group[] = array('type' => 'expression', 'value' => array_shift($this->expressions));
-                    $expected = array("o", ")");
+                    $group[] = ['type' => 'expression', 'value' => array_shift($this->expressions)];
+                    $expected = ["o", ")"];
                 } elseif ($this->condition[$this->index] == 'o') {
-                    $group[] = array('type' => 'operator', 'value' => array_shift($this->operators));
-                    $expected = array("n", "(", "!");
+                    $group[] = ['type' => 'operator', 'value' => array_shift($this->operators)];
+                    $expected = ["n", "(", "!"];
                 } elseif ($this->condition[$this->index] == '(') {
                     $this->index++;
                     $elements = $this->createNodeArray();
-                    $group[] = array('type' => "group", "negated" => $negation, 'nodes' => $elements);
+                    $group[] = ['type' => "group", "negated" => $negation, 'nodes' => $elements];
                     $negation = false;
-                    $expected = array("o",")");
+                    $expected = ["o",")"];
                 } elseif ($this->condition[$this->index] == "!") {
                     $negation = true;
                 }
@@ -202,7 +202,7 @@ class ilAssLacConditionParser
 
             $this->index++;
         }
-        return array('type' => 'group', "negated" => $negation, 'nodes' => $group);
+        return ['type' => 'group', "negated" => $negation, 'nodes' => $group];
     }
 
     /**

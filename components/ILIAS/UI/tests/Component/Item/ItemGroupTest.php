@@ -150,8 +150,8 @@ EOT;
         $expected = <<<EOT
 <div class="il-item-group">
   <h3>group</h3>
-  <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
+  <div class="dropdown" id="id_3">
+    <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
      <span class="caret"></span>
     </button>
     <ul id="id_3_menu" class="dropdown-menu">

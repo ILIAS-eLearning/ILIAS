@@ -34,7 +34,6 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
      * @var array <string,string> {$value => $label}
      */
     protected array $options = [];
-    private bool $complex = true;
 
     /**
      * @param array<string, string> $options
@@ -61,7 +60,7 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
+    protected function isClientSideValueOk($value): bool
     {
         if (is_null($value)) {
             return true;
@@ -118,6 +117,6 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
      */
     public function isComplex(): bool
     {
-        return $this->complex;
+        return true;
     }
 }

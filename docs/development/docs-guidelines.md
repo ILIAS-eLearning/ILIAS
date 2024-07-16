@@ -67,3 +67,20 @@ with the following attributes:
 ```
 <!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
 ```
+
+# PRs and tickets for the Technical Documentation
+
+* PRs for documentation and according tickets in Mantis will be assigned to Ann-Christin
+  Gruber (@acgruber), as she is the staff member of the ILIAS society that is tasked
+  to take care of the technical documentation.
+* Ann-Christin can handle PRs and Mantis-tickets about documentation however she sees
+  fit. In particular, she may merge PRs and close tickets.
+* We kindly ask Ann-Christin to consider if and when to ask other community members
+  for help when working on the documentation.
+* We kindly ask every community member to support Ann-Christin with her work on the
+  technical documentation, especially when asked for feedback regarding changes in
+  PRs.
+* Issues in the technical documentation are treated like any issue in our code:
+  People may open tickets in mantis or propose changes via PR to solve issues or make
+  improvements. As for the ILIAS code, there exists no warranty for the correctness
+  of our documentation.

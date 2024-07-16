@@ -37,13 +37,13 @@ class ilAssSpecFeedbackPageGUITest extends assBaseTestCase
 
         $this->addGlobal_ilToolbar();
 
-//        $this->object = new ilAssSpecFeedbackPageGUI();
+        //        $this->object = new ilAssSpecFeedbackPageGUI();
     }
 
-//    public function testConstruct(): void
-//    {
-//        $this->assertInstanceOf(ilAssSpecFeedbackPageGUI::class, $this->object);
-//    }
+    //    public function testConstruct(): void
+    //    {
+    //        $this->assertInstanceOf(ilAssSpecFeedbackPageGUI::class, $this->object);
+    //    }
 
     public function testSuppressWarning(): void
     {

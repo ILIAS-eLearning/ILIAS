@@ -83,13 +83,13 @@ class ilTestPlayerCommands
     /**
      * @var array
      */
-    private static $nonExecutionCommands = array(
+    private static $nonExecutionCommands = [
 // fau: testNav - declare DETECT_CHANGES as non execution command
         self::DETECT_CHANGES,
 // fau.
         self::AUTO_SAVE, self::AUTO_SAVE_ON_TIME_LIMIT, self::REDIRECT_ON_TIME_LIMIT,
         self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
-    );
+    ];
 
     /**
      * @param $cmd

@@ -65,10 +65,16 @@ class ilFileObjectRBACDatabaseSteps implements ilDatabaseUpdateSteps
             if (in_array(4, $ops_ids, false) && !in_array($edit_file_ops_id, $ops_ids, false)) {
                 $ops_ids[] = $edit_file_ops_id;
                 $ops_ids = array_unique($ops_ids);
+                $new_ops_ids = serialize($ops_ids);
                 $this->database->update(
                     "rbac_pa",
-                    ['ops_id' => serialize($ops_ids)],
-                    ['rol_id' => ['integer', $row['rol_id']], 'ref_id' => ['integer', $row['ref_id']]]
+                    [
+                        'ops_id' => ['text', $new_ops_ids]
+                    ],
+                    [
+                        'rol_id' => ['integer', $row['rol_id']],
+                        'ref_id' => ['integer', $row['ref_id']]
+                    ]
                 );
             }
         }

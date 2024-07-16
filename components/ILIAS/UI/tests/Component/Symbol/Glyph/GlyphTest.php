@@ -331,7 +331,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         new Glyph("FOO", "http://www.ilias.de");
     }
 
-    public function getGlyphTypeProvider(): array
+    public static function getGlyphTypeProvider(): array
     {
         $glyph_reflection = new ReflectionClass(G\Glyph::class);
         $constant_values = array_values($glyph_reflection->getConstants());
@@ -340,7 +340,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         }, $constant_values);
     }
 
-    public function getCounterTypeProvider(): array
+    public static function getCounterTypeProvider(): array
     {
         return [
             ["status"],
@@ -441,7 +441,6 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery(),
             new ilImagePathResolver(),
             $this->createMock(DataFactory::class),
             $this->createMock(HelpTextRetriever::class),

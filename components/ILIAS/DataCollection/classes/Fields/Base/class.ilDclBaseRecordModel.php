@@ -549,7 +549,7 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'id':
-                return (string)$this->getId();
+                return (string) $this->getId();
             case 'owner':
                 return ilUserUtil::getNamePresentation($this->getOwner());
             case 'last_edit_by':
@@ -634,7 +634,7 @@ class ilDclBaseRecordModel
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob((int)$recordfield->getValue());
+                $this->deleteMob((int) $recordfield->getValue());
             }
 
             $recordfield->delete();

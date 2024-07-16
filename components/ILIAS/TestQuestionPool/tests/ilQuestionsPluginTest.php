@@ -36,12 +36,14 @@ class ilQuestionsPluginTest extends assBaseTestCase
         parent::setUp();
 
         $db = $this->createMock(ilDBInterface::class);
-        $component_repository = $this->createConfiguredMock(ilComponentRepositoryWrite::class,[
+        $component_repository = $this->createConfiguredMock(ilComponentRepositoryWrite::class, [
             'hasPluginId' => true,
         ]);
 
-        $this->object = new class($db, $component_repository, 0) extends  ilQuestionsPlugin{
-            public function getQuestionType(): void {}
+        $this->object = new class ($db, $component_repository, 0) extends ilQuestionsPlugin {
+            public function getQuestionType(): void
+            {
+            }
 
             public function getQuestionTypeTranslation(): string
             {

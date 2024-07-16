@@ -38,8 +38,10 @@ class ilUnitCategoryTableGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->object = new class($this->createMock(ilUnitConfigurationGUI::class), '') extends ilUnitCategoryTableGUI{
-            protected function populateTitle(): void {}
+        $this->object = new class ($this->createMock(ilUnitConfigurationGUI::class), '') extends ilUnitCategoryTableGUI {
+            protected function populateTitle(): void
+            {
+            }
         };
     }
 

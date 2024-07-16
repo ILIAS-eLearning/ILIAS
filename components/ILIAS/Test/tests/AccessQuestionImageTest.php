@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Test\test;
+namespace ILIAS\Test\Access\test;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Test\AccessQuestionImage;
-use ILIAS\components\Test\Readable;
+use ILIAS\Test\Access\AccessQuestionImage;
+use ILIAS\Test\Access\Readable;
 
 class AccessQuestionImageTest extends TestCase
 {
@@ -44,7 +44,7 @@ class AccessQuestionImageTest extends TestCase
         $this->assertFalse($instance->isPermitted($path)->isOk());
     }
 
-    public function invalidPaths(): array
+    public static function invalidPaths(): array
     {
         return [
             ['foo'],
@@ -71,7 +71,7 @@ class AccessQuestionImageTest extends TestCase
         $this->assertSame($is_readable, $result->value());
     }
 
-    public function isPermittedProvider(): array
+    public static function isPermittedProvider(): array
     {
         return [
             'With readable object path.' => [true],

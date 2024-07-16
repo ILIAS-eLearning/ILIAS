@@ -25,15 +25,20 @@ use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagAssignmentInterface;
 use ILIAS\MetaData\Paths\NullFactory;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Paths\NullPath;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\NullTagAssignment;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\TagInterface;
 use ILIAS\MetaData\Structure\Dictionaries\Tags\NullTag;
-use ILIAS\MetaData\Elements\Base\NullBaseElement;
 use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Structure\Definitions\NullDefinition;
+use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
+use ILIAS\MetaData\Paths\Navigator\NullNavigatorFactory;
+use ILIAS\MetaData\Paths\Navigator\NavigatorInterface;
+use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\Paths\Navigator\NullNavigator;
+use ILIAS\MetaData\Elements\NullElement;
+use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 
 class DictionaryTest extends TestCase
 {
@@ -115,22 +120,59 @@ class DictionaryTest extends TestCase
             }
         };
 
-        return new class ($path_factory, ...$tag_assignments) extends Dictionary {
+        $navigator_factory = new class () extends NullNavigatorFactory {
+            public function navigator(
+                PathInterface $path,
+                ElementInterface $start_element
+            ): NavigatorInterface {
+                return new class ($path, $start_element) extends NullNavigator {
+                    protected ElementInterface $start_element;
+
+                    public function __construct(
+                        protected PathInterface $path,
+                        ElementInterface $start_element
+                    ) {
+                        if ($start_element->getMDID() === 0) {
+                            $this->start_element = $start_element;
+                        } else {
+                            $this->start_element = $start_element->getSuperElement();
+                        }
+                    }
+
+                    public function elementsAtFinalStep(): \Generator
+                    {
+                        if ($this->path->toString() === '0') {
+                            yield $this->start_element;
+                            return;
+                        }
+
+                        foreach ($this->start_element->getSubElements() as $sub) {
+                            if ((string) $sub->getMDID() === $this->path->toString()) {
+                                yield $sub;
+                            }
+                        }
+                    }
+                };
+            }
+        };
+
+        return new class ($path_factory, $navigator_factory, ...$tag_assignments) extends Dictionary {
             public function __construct(
                 PathFactoryInterface $path_factory,
+                NavigatorFactoryInterface $navigator_factory,
                 TagAssignmentInterface ...$tag_assignments
             ) {
-                parent::__construct($path_factory, ...$tag_assignments);
+                parent::__construct($path_factory, $navigator_factory, ...$tag_assignments);
             }
         };
     }
 
     protected function getElement(
         int $id,
-        BaseElementInterface ...$subs
-    ): BaseElementInterface {
-        return new class ($id, $subs) extends NullBaseElement {
-            protected ?BaseElementInterface $super = null;
+        ElementInterface ...$subs
+    ): ElementInterface {
+        return new class ($id, $subs) extends NullElement {
+            protected ?ElementInterface $super = null;
             public function __construct(
                 protected int $id,
                 protected array $subs
@@ -156,12 +198,12 @@ class DictionaryTest extends TestCase
                 yield from $this->subs;
             }
 
-            public function getSuperElement(): ?BaseElementInterface
+            public function getSuperElement(): ?ElementInterface
             {
                 return $this->super;
             }
 
-            public function setSuperElement(BaseElementInterface $super): void
+            public function setSuperElement(ElementInterface $super): void
             {
                 $this->super = $super;
             }
