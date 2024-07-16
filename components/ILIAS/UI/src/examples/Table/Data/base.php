@@ -116,6 +116,20 @@ function base()
                 $row_id_token
             )
             ->withAsync()
+            ,
+        'status' =>
+            $f->table()->action()->standard(
+                'Status',
+                $url_builder->withParameter($action_parameter_token, "status"),
+                $row_id_token
+            )
+            /**
+             * An dialog Action will open a Dialog and load the Action's url
+             * expecting a Response in return.
+             * You may not mix withAsync and withDialog.
+             */
+            ->withDialog()
+
     ];
 
 
@@ -276,6 +290,15 @@ function base()
                 $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
                 . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
             );
+            exit();
+        }
+        if ($action === 'status') {
+            $ids = array_map(fn($id) => $f->button()->shy($id, '#'), $ids);
+            $message = $f->messageBox()->info('some message box in a dialog')
+                ->withLinks($ids);
+
+            $response = $f->dialog()->response($message);
+            echo($r->renderAsync($response));
             exit();
         }
 

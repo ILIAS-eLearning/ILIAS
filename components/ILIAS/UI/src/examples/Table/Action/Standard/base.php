@@ -39,10 +39,17 @@ function base()
             $id_token
         ),
         $f->table()->action()->standard(
-            'do something else',
-            $url_builder->withParameter($action_token, "do_something_else"),
+            'do something async',
+            $url_builder->withParameter($action_token, "something_async"),
             $id_token
         )->withAsync(),
+
+        $f->table()->action()->standard(
+            'do a dialog',
+            $url_builder->withParameter($action_token, "something_dialog"),
+            $id_token
+        )->withDialog(),
+
     ];
 
     $table = getExampleTable($f)
@@ -58,28 +65,36 @@ function base()
         $action = $query->retrieve($action_token->getName(), $refinery->to()->string());
         $ids = $query->retrieve($id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
 
-        if ($action === 'do_something_else') {
-            $items = [];
-            foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
-            }
-            echo($r->renderAsync([
-                $f->modal()->interruptive(
-                    'do something else',
-                    'affected items',
-                    '#'
-                )->withAffectedItems($items)
-            ]));
-            exit();
-        } else {
-            $items = $f->listing()->characteristicValue()->text(
-                [
-                    'table_action' => $action,
-                    'id' => print_r($ids, true),
-                ]
-            );
-            $result[] = $f->divider()->horizontal();
-            $result[] = $items;
+        switch ($action) {
+            case 'something_async':
+                $items = [];
+                foreach ($ids as $id) {
+                    $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
+                }
+                echo($r->renderAsync([
+                    $f->modal()->interruptive(
+                        'do something else',
+                        'affected items',
+                        '#'
+                    )->withAffectedItems($items)
+                ]));
+                exit();
+
+            case 'something_dialog':
+                $message = $f->messageBox()->success('some message box in a dialog');
+                $response = $f->dialog()->response($message);
+                echo($r->renderAsync($response));
+                exit();
+
+            default:
+                $items = $f->listing()->characteristicValue()->text(
+                    [
+                        'table_action' => $action,
+                        'id' => print_r($ids, true),
+                    ]
+                );
+                $result[] = $f->divider()->horizontal();
+                $result[] = $items;
         }
     }
 

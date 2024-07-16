@@ -41,13 +41,13 @@ abstract class Dialog implements I\Dialog
 
     public function __construct(
         SignalGenerator $signal_generator,
-        protected URI $async_url
+        protected ?URI $async_url
     ) {
         $this->show_signal = $signal_generator->create();
         $this->close_signal = $signal_generator->create();
     }
 
-    public function getAsyncUrl(): URI
+    public function getAsyncUrl(): ?URI
     {
         return $this->async_url;
     }
@@ -56,7 +56,7 @@ abstract class Dialog implements I\Dialog
     {
         $target = $uri ?? $this->async_url;
         $signal = clone $this->show_signal;
-        $signal->addOption('url', $target->__toString());
+        $signal->addOption('url', $target ? $target->__toString() : '#');
         return $signal;
     }
 

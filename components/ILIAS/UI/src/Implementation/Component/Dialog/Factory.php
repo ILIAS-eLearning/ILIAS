@@ -34,7 +34,7 @@ class Factory implements I\Factory
     ) {
     }
 
-    public function standard(URI $async_url): I\Dialog
+    public function standard(URI $async_url = null): I\Dialog
     {
         return new Standard($this->signal_generator, $async_url);
     }

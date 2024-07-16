@@ -56,7 +56,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Dialog\Dialog
      */
-    public function standard(URI $async_url): Dialog;
+    public function standard(URI $async_url = null): Dialog;
 
     /**
      * ---

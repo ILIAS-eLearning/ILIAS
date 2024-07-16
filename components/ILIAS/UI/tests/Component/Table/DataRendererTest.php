@@ -80,6 +80,13 @@ class DTRenderer extends I\Table\Renderer
  */
 class DataRendererTest extends TableTestBase
 {
+    protected Component\Dialog\Dialog $mock_dialog;
+
+    public function setUp(): void
+    {
+        $this->mock_dialog = $this->createMock(Component\Dialog\Dialog::class);
+    }
+
     private function getRenderer()
     {
         return new DTRenderer(
@@ -125,9 +132,20 @@ class DataRendererTest extends TableTestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class ($this->getTableFactory()) extends NoUIFactory {
+        $dialog_factory = $this->createMock(Component\Dialog\Factory::class);
+        $dialog_factory
+            ->method("standard")
+            ->willReturn(
+                $this->mock_dialog
+                //$this->createMock(Component\Dialog\Dialog::class)
+            );
+        $factory = new class (
+            $this->getTableFactory(),
+            $dialog_factory
+        ) extends NoUIFactory {
             public function __construct(
-                protected Component\Table\Factory $table_factory
+                protected Component\Table\Factory $table_factory,
+                protected Component\Dialog\Factory $dialog_factory
             ) {
             }
             public function button(): Component\Button\Factory
@@ -154,6 +172,11 @@ class DataRendererTest extends TableTestBase
             {
                 return new I\Divider\Factory();
             }
+            public function dialog(): Component\Dialog\Factory
+            {
+                return $this->dialog_factory;
+            }
+
         };
         return $factory;
     }
@@ -184,11 +207,26 @@ class DataRendererTest extends TableTestBase
         $action = $f->standard('label', $builder, $token);
         $closure = $renderer->p_getActionRegistration('action_id', $action);
 
-        $actual = $this->brutallyTrimHTML($closure('component_id'));
-        $url = $url->__toString();
         $expected = $this->brutallyTrimHTML(
-            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', false, new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
+            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', \'none\', new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
         );
+        $actual = $this->brutallyTrimHTML($closure('component_id'));
+        $this->assertStringStartsWith($expected, $actual);
+
+        $action = $action->withAsync();
+        $expected = $this->brutallyTrimHTML(
+            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', \'async\', new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
+        );
+        $closure = $renderer->p_getActionRegistration('action_id', $action);
+        $actual = $this->brutallyTrimHTML($closure('component_id'));
+        $this->assertStringStartsWith($expected, $actual);
+
+        $action = $action->withAsync(false)->withDialog();
+        $expected = $this->brutallyTrimHTML(
+            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', \'dialog\', new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
+        );
+        $closure = $renderer->p_getActionRegistration('action_id', $action);
+        $actual = $this->brutallyTrimHTML($closure('component_id'));
         $this->assertStringStartsWith($expected, $actual);
     }
 
@@ -304,7 +342,7 @@ class DataRendererTest extends TableTestBase
             </div>
         </div>
     </dialog>
-
+    <div class="c-table-data__dialog_container">{DIALOG}</div>
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -378,7 +416,7 @@ EOT;
             </div>
         </div>
     </dialog>
-
+    <div class="c-table-data__dialog_container">{DIALOG}</div>
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -554,7 +592,7 @@ EOT;
         $table = $this->getTableFactory()->data('', $columns, $data)
             ->withRequest($this->getDummyRequest());
 
-        $html = $this->getDefaultRenderer()->render($table);
+        $html = $this->getDefaultRenderer(null, [$this->mock_dialog])->render($table);
 
         $translation = $this->getLanguage()->txt('ui_table_no_records');
         $column_count = count($columns);
