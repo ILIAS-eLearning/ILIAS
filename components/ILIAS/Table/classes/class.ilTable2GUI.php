@@ -1989,7 +1989,7 @@ class ilTable2GUI extends ilTableGUI
                     !$this->rows_selector_off) { // JF, 2014-10-27
                     $actions = [];
 
-                    $options = array(0 => $lng->txt("default") . " (::HITS_PER_PAGE_DEFAULT)",5 => 5, 10 => 10, 15 => 15, 20 => 20,
+                    $options = array(5 => 5, 10 => 10, 15 => 15, 20 => 20,
                                      30 => 30, 40 => 40, 50 => 50,
                                      100 => 100, 200 => 200, 400 => 400, 800 => 800);
                     foreach ($options as $k => $v) {

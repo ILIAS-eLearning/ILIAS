@@ -220,7 +220,7 @@ class ilPresentationFullGUI
 
     protected function initDropdown(int $page_length): UI\Component\Dropdown\Dropdown
     {
-        $terms_per_page_sel = [-1 => $this->lng->txt("default") . " (::HITS_PER_PAGE_DEFAULT)", 5 => "5", 10 => "10",
+        $terms_per_page_sel = [5 => "5", 10 => "10",
                                 15 => "15", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
 
         foreach ($terms_per_page_sel as $count => $count_text) {
