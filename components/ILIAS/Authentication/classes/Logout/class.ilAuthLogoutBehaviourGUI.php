@@ -107,7 +107,12 @@ class ilAuthLogoutBehaviourGUI
                 'external_ressource' => $external_group
             ],
             $this->lng->txt('destination_after_logout')
-        )->withValue($this->settings->get('logout_behaviour') ?? '');
+        );
+        if ($this->settings->get('logout_behaviour') !== null) {
+            $logout_behaviour_switchable_group = $logout_behaviour_switchable_group->withValue(
+                $this->settings->get('logout_behaviour')
+            );
+        }
 
         $section = $this->ui_factory->input()->field()->section(
             ['logout_behaviour_settings' => $logout_behaviour_switchable_group],
