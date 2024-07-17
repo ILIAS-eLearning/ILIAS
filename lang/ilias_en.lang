@@ -4276,7 +4276,6 @@ common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
 common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#History
-common#:#hits_per_page#:#Hits/Page
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
 common#:#host#:#Host

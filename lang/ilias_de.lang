@@ -4276,7 +4276,6 @@ common#:#hist_webr_add#:#Neuer Weblink angelegt mit Titel: "%1"
 common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
 common#:#hist_webr_update#:#Weblink wurde aktualisiert. Titel: "%1"
 common#:#history#:#Verlauf
-common#:#hits_per_page#:#Treffer/Seite
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
