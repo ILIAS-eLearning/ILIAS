@@ -374,12 +374,6 @@ class ilMDGeneral extends ilMDBase
             $lan = $this->getLanguage($id);
             $lan->toXML($writer);
         }
-        if (!count($languages)) {
-            // Default
-
-            $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId());
-            $lan->toXML($writer);
-        }
 
         // Description
         $descriptions = $this->getDescriptionIds();
