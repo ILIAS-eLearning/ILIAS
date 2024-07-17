@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Dialog;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Implementation\Component\Dialog\Response;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -91,6 +92,13 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate('tpl.dialogresponse.html', true, true);
         $tpl->setVariable('COMMAND', $component->getCommand());
+
+        foreach ($component->getParameters() as $key => $value) {
+            $tpl->setCurrentBlock('param');
+            $tpl->setVariable('KEY', $key);
+            $tpl->setVariable('VALUE', $value);
+            $tpl->parseCurrentBlock();
+        }
 
         $content_component = $component->getContent();
         if($content_component === null) {

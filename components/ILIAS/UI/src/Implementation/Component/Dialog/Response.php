@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Dialog as I;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\Data\URI;
 
 /**
  *
@@ -33,9 +34,11 @@ class Response implements I\Response
     use ComponentHelper;
 
     public const CMD_CLOSE = 'close';
+    public const CMD_REDIRECT = 'redirect';
 
     protected array $buttons = [];
     protected string $cmd = 'show';
+    protected array $params = [];
 
     public function __construct(
         protected ?I\DialogContent $content
@@ -70,10 +73,18 @@ class Response implements I\Response
         return $this->content->getDialogButtons();
     }
 
-
     public function withCloseModal(bool $flag): self
     {
         return $this->withCommand($flag ? self::CMD_CLOSE : '');
+    }
+
+    public function withRedirect(URI $redirect): self
+    {
+        $clone = $this->withCommand(self::CMD_REDIRECT);
+        $clone->params = [
+            self::CMD_REDIRECT => $redirect->__toString()
+        ];
+        return $clone;
     }
 
     protected function withCommand(string $cmd)
@@ -88,4 +99,8 @@ class Response implements I\Response
         return $this->cmd;
     }
 
+    public function getParameters(): array
+    {
+        return $this->params;
+    }
 }

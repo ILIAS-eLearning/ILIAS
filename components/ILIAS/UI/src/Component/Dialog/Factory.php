@@ -74,7 +74,8 @@ interface Factory
      *       parts of the Dialog.
      *       Forms and Links are automatically turned into async requests to
      *       stay in context of the Dialog.
-     *       You may also tell the Dialog to close - after the request has been processed.
+     *       You may also tell the Dialog to close or redirect - after the
+     *       request has been processed.
      * context:
      *   - The Dialog Response is used for Dialogs.
      *
@@ -103,4 +104,27 @@ interface Factory
      * @return \ILIAS\UI\Component\Dialog\Response
      */
     public function close(): Response;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Factors a Dialog Response without contents, but with a 'redirect'-command
+     *      for the Dialog.
+     *   composition: >
+     *      The Redirect Response does not have any relevant manifestation.
+     *   effect: >
+     *      Tells the Dialog to redirect the page. When the response is called
+     *      asynchronously, the server-side redirect will do so for the
+     *      async call only.
+     *      Use Redirect to redirect the client to the given URL.
+     *
+     * context:
+     *   - The Close Response is used for Dialogs.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Dialog\Response
+     */
+    public function redirect(URI $redirect): Response;
+
 }

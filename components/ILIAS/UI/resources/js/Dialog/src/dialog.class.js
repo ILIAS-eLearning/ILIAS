@@ -68,7 +68,8 @@ export default class Dialog {
         const title = doc.querySelector('section[data-section="il-dialog-response__title"]');
         const contents = doc.querySelector('section[data-section="il-dialog-response__contents"]');
         const buttons = doc.querySelector('section[data-section="il-dialog-response__buttons"]');
-        const command = doc.querySelector('template[data-section="il-dialog-response__command"]');
+        const command = doc.querySelector('section[data-section="il-dialog-response__command"]');
+        const parameters = doc.querySelector('section[data-section="il-dialog-response__parameters"]');
         const scripts = doc.querySelector('script');
         const dialogTitle = this.#dialog.querySelector('span.il-dialog__title');
         const dialogContents = this.#dialog.querySelector('div.il-dialog__contents');
@@ -76,20 +77,37 @@ export default class Dialog {
         dialogTitle.innerHTML = title.innerHTML;
         dialogContents.innerHTML = contents.innerHTML;
         dialogButtons.innerHTML = buttons.innerHTML;
-        // eval(dialogButtons.innerHTML);
 
         this.#captureForms(dialogContents);
         this.#captureLinks(dialogContents);
         if (scripts) {
           this.#appendScript(scripts.text);
         }
-        return command.innerHTML.trim();
+
+        const params = [];
+        parameters.querySelectorAll('data').forEach(
+          (data) => {
+            params[data.innerHTML.trim()] = data.getAttribute('value');
+          },
+        );
+
+        return {
+          cmd: command.innerHTML.trim(),
+          params,
+        };
       })
-      .then((command) => {
-        if (command === 'close') {
-          this.close();
-        }
-      });
+      .then(
+        (script) => {
+          const command = script.cmd;
+          const { params } = script;
+          if (command === 'close') {
+            this.close();
+          }
+          if (command === 'redirect') {
+            window.location.replace(params.redirect);
+          }
+        },
+      );
   }
 
   /**

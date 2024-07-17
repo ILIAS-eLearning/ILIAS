@@ -49,4 +49,11 @@ class Factory implements I\Factory
         return (new Response(null))
             ->withCloseModal(true);
     }
+
+    public function redirect(URI $redirect): Response
+    {
+        return (new Response(null))
+            ->withRedirect($redirect);
+    }
+
 }
