@@ -18,15 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\URI;
+
 class ilPRGAssignmentFilter
 {
-    protected ilLanguage $lng;
     protected array $values = [];
 
     public function __construct(
-        ilLanguage $lng
+        protected ilLanguage $lng,
+        protected UIFactory $ui_factory,
+        protected ilUIFilterService $filter_service,
+        protected string $filter_id
     ) {
-        $this->lng = $lng;
     }
 
     public function withValues(array $values): self
@@ -35,6 +40,12 @@ class ilPRGAssignmentFilter
         $clone->values = $values;
         return $clone;
     }
+
+    public function getDataFromFilterService(): array
+    {
+        return $this->filter_service->getData($this->toForm('#')) ?? [];
+    }
+
 
     public function toConditions(): array
     {
@@ -207,5 +218,68 @@ class ilPRGAssignmentFilter
         ];
 
         return $items;
+    }
+
+    public function toForm(string $target_url): Filter
+    {
+        $field_factory = $this->ui_factory->input()->field();
+        $filter_inputs = [
+            ilPRGAssignmentDBRepository::PROGRESS_FIELD_INVALIDATED => $field_factory->select(
+                $this->lng->txt('prg_validity'),
+                [
+                    ilStudyProgrammeUserTable::OPTION_ALL => $this->lng->txt("all"),
+                    ilStudyProgrammeUserTable::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
+                    ilStudyProgrammeUserTable::VALIDITY_OPTION_INVALID => $this->lng->txt("prg_not_valid")
+                ]
+            ),
+            ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS => $field_factory->select(
+                $this->lng->txt('prg_status'),
+                [
+                    ilStudyProgrammeUserTable::OPTION_ALL => $this->lng->txt("all"),
+                    ilPRGProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
+                    ilPRGProgress::STATUS_COMPLETED => $this->lng->txt("prg_status_completed"),
+                    ilPRGProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
+                    ilPRGProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant"),
+                    ilPRGProgress::STATUS_FAILED => $this->lng->txt("prg_status_failed")
+                ]
+            ),
+
+            /*
+            'hide_irrelevant' => $field_factory->checkbox(
+                $this->lng->txt('prg_status_hide_irrelevant')
+            ),
+            */
+            'usr_active' => $field_factory->select(
+                $this->lng->txt('usr_active'),
+                [
+                    ilStudyProgrammeUserTable::OPTION_ALL => $this->lng->txt("all"),
+                    ilStudyProgrammeUserTable::OPTION_USR_ACTIVE => $this->lng->txt("active_only"),
+                    ilStudyProgrammeUserTable::OPTION_USR_INACTIVE => $this->lng->txt("inactive_only")
+                ]
+            ),
+            'name' => $field_factory->text($this->lng->txt("name")),
+
+            /*ilPRGAssignmentDBRepository::PROGRESS_FIELD_VQ_DATE => $field_factory->duration(
+                $this->lng->txt(ilPRGAssignmentDBRepository::PROGRESS_FIELD_VQ_DATE)
+            ),
+
+            ilPRGAssignmentDBRepository::PROGRESS_FIELD_DEADLINE => $field_factory->duration(
+                $this->lng->txt(ilPRGAssignmentDBRepository::PROGRESS_FIELD_DEADLINE)
+            )*/
+        ];
+
+
+
+        $active = array_fill(0, count($filter_inputs), true);
+
+        $filter = $this->filter_service->standard(
+            $this->filter_id,
+            $target_url,
+            $filter_inputs,
+            $active,
+            true,
+            true
+        );
+        return $filter;
     }
 }

@@ -38,7 +38,7 @@ in terms of points or relevance. This is not a static flag but a result of query
   ids instead of getting them from complete settings objects.
 
 # ilObjStudyProgrammeMembersGUI / ilPRGAssignmentFilter
-* There are sorting and range options in the GUI that saould move to the Filter.
+* There are sorting and range options in the GUI that should move to the Filter.
 
 # ilObjStudyProgramme
 * The query whether there are relevant progresses (canBeRemoved) should go into the repo and 

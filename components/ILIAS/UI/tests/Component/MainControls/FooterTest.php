@@ -272,38 +272,46 @@ EOT;
                 </div>
             </div>
             <div class="il-footer-modals">
-                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_3">
+                <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_3">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <form>
+                                    <button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </form>
                                 <h1 class="modal-title">Modal1</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal">cancel</button>
+                                <form>
+                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_5">
+                </dialog>
+                <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_5">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <form>
+                                    <button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </form>
                                 <h1 class="modal-title">Modal2</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal">cancel</button>
+                                <form>
+                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
+                </dialog>
             </div>
         </div>
 EOT;

@@ -4530,6 +4530,9 @@ hr.il-divider-with-label {
 .il-filter-input-section .il-input-multiselect {
   margin: 0.8em;
 }
+.il-filter-input-section .c-input--duration {
+  margin: 12px;
+}
 
 .il-filter-field {
   cursor: text;
@@ -4553,7 +4556,7 @@ hr.il-divider-with-label {
   width: 100%;
 }
 
-.il-input-duration .form-group.row {
+.c-input--duration .form-group.row {
   width: 50%;
   float: left;
 }
@@ -7609,6 +7612,15 @@ div.alert ul {
 div.alert ul > li:before {
   content: "» ";
   /* margin-left: -10px; */
+}
+
+.c-modal {
+  border: 0;
+  background: none;
+}
+
+.c-modal::backdrop {
+  backdrop-filter: blur(3px) brightness(0.5);
 }
 
 .modal-open {

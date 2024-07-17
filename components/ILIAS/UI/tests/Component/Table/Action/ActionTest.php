@@ -94,4 +94,29 @@ class ActionTest extends ILIAS_UI_TestBase
             urldecode($act->getTarget()->getQuery())
         );
     }
+
+    public function testDataTableActionModes(): void
+    {
+        $this->assertFalse($this->link_action->isAsync());
+        $this->assertFalse($this->link_action->isDialog());
+        $l = $this->link_action->withAsync();
+        $this->assertTrue($l->isAsync());
+        $this->assertFalse($l->isDialog());
+        $l = $this->link_action->withDialog();
+        $this->assertFalse($l->isAsync());
+        $this->assertTrue($l->isDialog());
+    }
+
+    public function testDataTableActionWithDoubleModes(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->link_action->withDialog()->withAsync();
+    }
+
+    public function testDataTableActionWithDoubleModes2(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->link_action->withAsync()->withDialog();
+    }
+
 }

@@ -26,7 +26,6 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Render\Template;
 
@@ -65,7 +64,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
@@ -206,7 +205,8 @@ class Renderer extends AbstractComponentRenderer
         if (!empty($modal->getInputs())) {
             // render form in modal body.
             $tpl->setCurrentBlock('with_form');
-            $tpl->setVariable('FORM', $default_renderer->render($modal->getForm()));
+            $context_renderer = $default_renderer->withAdditionalContext($modal);
+            $tpl->setVariable('FORM', $context_renderer->render($modal->getForm()));
             $tpl->parseCurrentBlock();
 
             // render submit in modal footer.

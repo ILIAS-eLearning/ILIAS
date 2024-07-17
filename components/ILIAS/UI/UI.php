@@ -75,7 +75,9 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Menu/dist/drilldown.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/Modal/modal.js");
+            new Component\Resource\ComponentJS($this, "js/Modal/dist/modal.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/Dialog/dist/dialog.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Page/stdpage.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

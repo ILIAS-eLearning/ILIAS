@@ -116,6 +116,20 @@ function base()
                 $row_id_token
             )
             ->withAsync()
+            ,
+        'status' =>
+            $f->table()->action()->standard(
+                'Status',
+                $url_builder->withParameter($action_parameter_token, "status"),
+                $row_id_token
+            )
+            /**
+             * An dialog Action will open a Dialog and load the Action's url
+             * expecting a Response in return.
+             * You may not mix withAsync and withDialog.
+             */
+            ->withDialog()
+
     ];
 
 
@@ -241,12 +255,9 @@ function base()
     $query = $DIC->http()->wrapper()->query();
     if ($query->has($action_parameter_token->getName())) {
         $action = $query->retrieve($action_parameter_token->getName(), $refinery->to()->string());
-        /** also get the row-ids and build some listing */
+        /** get the row-ids */
         $ids = $query->retrieve($row_id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
-        $listing = $f->listing()->characteristicValue()->text([
-            'table_action' => $action,
-            'id' => print_r($ids, true),
-        ]);
+
 
         /** take care of the async-call; 'delete'-action asks for it. */
         if ($action === 'delete') {
@@ -258,12 +269,22 @@ function base()
                 $f->modal()->interruptive(
                     'Deletion',
                     'You are about to delete items!',
-                    '#'
+                    $url_builder->withParameter($action_parameter_token, 'delete_confirmed')->buildURI()->__toString()
                 )->withAffectedItems($items)
                 ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
             ]));
             exit();
         }
+
+        if ($action === 'delete_confirmed') {
+            $ids = $DIC->http()->wrapper()->post()->retrieve(
+                'interruptive_items',
+                $refinery->kindlyTo()->listOf(
+                    $refinery->byTrying([$refinery->kindlyTo()->string(), $refinery->always("")])
+                )
+            );
+        }
+
         if ($action === 'info') {
             echo(
                 $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
@@ -271,10 +292,23 @@ function base()
             );
             exit();
         }
+        if ($action === 'status') {
+            $ids = array_map(fn($id) => $f->button()->shy($id, '#'), $ids);
+            $message = $f->messageBox()->info('some message box in a dialog')
+                ->withLinks($ids);
+
+            $response = $f->dialog()->response($message);
+            echo($r->renderAsync($response));
+            exit();
+        }
 
         /** otherwise, we want the table and the results below */
         $out[] = $f->divider()->horizontal();
-        $out[] = $listing;
+        $out[] = $f->listing()->characteristicValue()->text([
+            'table_action' => $action,
+            'id' => print_r($ids, true),
+        ]);
+
     }
 
     return $r->render($out);
