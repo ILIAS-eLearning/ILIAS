@@ -58,4 +58,12 @@ class ArrayBasedRequestWrapper implements RequestWrapper
     {
         return isset($this->raw_values[$key]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function keys(): array
+    {
+        return array_keys($this->raw_values);
+    }
 }

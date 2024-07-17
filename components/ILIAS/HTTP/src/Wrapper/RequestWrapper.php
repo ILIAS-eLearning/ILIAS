@@ -34,4 +34,11 @@ interface RequestWrapper
 
 
     public function has(string $key): bool;
+
+    /**
+     * Get all keys from the request
+     *
+     * @return array<string|int>
+     */
+    public function keys(): array;
 }
