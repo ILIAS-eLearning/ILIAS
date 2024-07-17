@@ -82,6 +82,10 @@ class ilStudyProgrammeAssignmentsTableQuery
     {
         return $this->row_id_token;
     }
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->request;
+    }
 
 
     //getPostPrgrsIdsFromModal

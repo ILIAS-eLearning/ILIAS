@@ -49,6 +49,8 @@ class ilStudyProgrammeAssignmentsTable
         ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_FROM_CURRENT_PLAN,
         ilStudyProgrammeAssignmentsTableActions::ACTION_UPDATE_CERTIFICATE,
         ilStudyProgrammeAssignmentsTableActions::ACTION_REMOVE_CERTIFICATE,
+    ];
+    public const DIALOG_ACTIONS = [
         ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_DEADLINE,
         ilStudyProgrammeAssignmentsTableActions::ACTION_CHANGE_EXPIRE_DATE,
     ];
@@ -328,7 +330,6 @@ class ilStudyProgrammeAssignmentsTable
             ]);
         }
 
-        $async_actions = self::ASYNC_ACTIONS;
         $single_actions = [
             ilStudyProgrammeAssignmentsTableActions::ACTION_SHOW_INDIVIDUAL_PLAN,
         ];
@@ -341,9 +342,13 @@ class ilStudyProgrammeAssignmentsTable
                 $this->url_builder->withParameter($this->action_token, $cmd),
                 $this->row_id_token
             );
-            if (in_array($cmd, $async_actions)) {
+            if (in_array($cmd, self::ASYNC_ACTIONS)) {
                 $actions[$cmd] = $actions[$cmd]->withAsync();
             }
+            if (in_array($cmd, self::DIALOG_ACTIONS)) {
+                $actions[$cmd] = $actions[$cmd]->withDialog();
+            }
+
         }
         return $actions;
     }

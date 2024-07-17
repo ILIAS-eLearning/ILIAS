@@ -22,8 +22,10 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Modal;
-//use ILIAS\UI\Component\Dialog;
+//use ILIAS\UI\Component\Dialog\Response;
+use ILIAS\UI\Component\Dialog\DialogContent;
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 
 class ilStudyProgrammeAssignmentsTableActions
 {
@@ -166,48 +168,28 @@ class ilStudyProgrammeAssignmentsTableActions
 
 
             case self::ACTION_CHANGE_DEADLINE:
-                /*
-                                $dialog = $this->getDialog(
-                                    $this->getChangeDeadlineForm(
-                                        self::ACTION_CHANGE_DEADLINE_SUBMITTED,
-                                        $prgrs_ids,
-                                        $this->user->getDateFormat()
-                                    )
-                                );
-                                echo $this->ui_renderer->renderAsync($modal);
-                                exit();
-
-                */
-                $modal = $this->getDeadlineModal(
-                    self::ACTION_CHANGE_DEADLINE_SUBMITTED,
-                    $prgrs_ids,
-                    $this->user->getDateFormat()
+                $this->respond(
+                    $this->getChangeDeadlineForm(
+                        self::ACTION_CHANGE_DEADLINE_SUBMITTED,
+                        $prgrs_ids,
+                        $this->user->getDateFormat()
+                    )
                 );
-                echo $this->ui_renderer->renderAsync($modal);
-                exit();
 
+                // no break
             case self::ACTION_CHANGE_DEADLINE_SUBMITTED:
-                $modal = $this->getDeadlineModal(
+                $form = $this->getChangeDeadlineForm(
                     self::ACTION_CHANGE_DEADLINE_SUBMITTED,
                     $prgrs_ids,
                     $this->user->getDateFormat()
                 )
-                ->withRequest($this->request);
+                ->withRequest($this->table_query->getRequest());
 
-                $data = $modal->getData();
-                list($deadline_mode, $date) = $data;
-
-                if($data === null ||
-                    ($deadline_mode === ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE
-                    && $date === null)
-                ) {
-                    $cont = $this->view()
-                    . $this->ui_renderer->renderAsync(
-                        $modal->withOnLoad($modal->getShowSignal())
-                    );
-                    $this->tpl->setContent($cont);
-                    break;
+                $data = $form->getData();
+                if($data === null) {
+                    $this->respond($form);
                 }
+                list($deadline_mode, $date) = $data;
                 $date = array_shift($date);
                 $this->changeDeadline($prgrs_ids, $date);
                 break;
@@ -289,6 +271,27 @@ class ilStudyProgrammeAssignmentsTableActions
         $this->ctrl->redirectByClass(ilObjStudyProgrammeMembersGUI::class, "view");
     }
 
+    protected function respond(DialogContent $response): void
+    {
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->dialog()->response($response)
+        );
+        exit();
+    }
+
+    protected function respondToGUI(): void
+    {
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->dialog()->redirect(
+                new \ILIAS\Data\URI(
+                    ILIAS_HTTP_PATH . '/'
+                    . $this->ctrl->getLinkTargetByClass(ilObjStudyProgrammeMembersGUI::class, "view"),
+                )
+            )
+        );
+        exit();
+    }
+
 
 
     protected const MODAL_TEXTS = [
@@ -342,12 +345,12 @@ class ilStudyProgrammeAssignmentsTableActions
         ->withActionButtonLabel($this->lng->txt($button_label));
     }
 
-    //public function getChangeDeadlineForm(
-    public function getDeadlineModal(
+    public function getChangeDeadlineForm(
         string $action,
         array $prgrs_ids,
         DateFormat $format
-    ): Modal\Roundtrip {
+    ): Form {
+        $shift = $this->refinery->custom()->transformation(fn($v) => array_shift($v));
         $ff = $this->ui_factory->input()->field();
         $settings = $ff->switchableGroup(
             [
@@ -367,6 +370,12 @@ class ilStudyProgrammeAssignmentsTableActions
             ''
         )->withValue(ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE);
 
+        $section = $ff->section(
+            [$settings],
+            $this->lng->txt('prg_deadline_settings'),
+        )
+        ->withAdditionalTransformation($shift);
+
         $ids = array_map(fn($id) => $id->__toString(), $prgrs_ids);
         $action = $this->table_query->getUrlBuilder()
             ->withParameter($this->table_query->getActionToken(), $action)
@@ -374,15 +383,11 @@ class ilStudyProgrammeAssignmentsTableActions
             ->buildURI()
             ->__toString();
 
-        return $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('prg_deadline_settings'),
-            null,
-            [$settings],
-            $action
+        return $this->ui_factory->input()->container()->form()->standard(
+            $action,
+            [$section],
         )
-        ->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(fn($v) => array_shift($v))
-        );
+        ->withAdditionalTransformation($shift);
     }
 
 
@@ -485,10 +490,10 @@ class ilStudyProgrammeAssignmentsTableActions
         $msgs = $this->getMessageCollection('msg_change_deadline_date');
         foreach ($prgrs_ids as $progress_id) {
             $assignment_id = $progress_id->getAssignmentId();
-            $this->object->changeProgressDeadline($assignment_id, $this->user->getId(), $msgs, $deadline);
+            $this->prg->changeProgressDeadline($assignment_id, $this->user->getId(), $msgs, $deadline);
         }
         $this->showMessages($msgs);
-        $this->returnToGUI();
+        $this->respondToGUI();
     }
 
     protected function changeExpiryDate(array $prgrs_ids, ?DateTimeImmutable $validity): void

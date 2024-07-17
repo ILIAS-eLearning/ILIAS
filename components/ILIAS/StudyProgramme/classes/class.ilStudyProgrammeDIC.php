@@ -91,6 +91,7 @@ class ilStudyProgrammeDIC
             new ilStudyProgrammeAssignmentsTableActions(
                 $dic['ui.factory'],
                 $dic['ui.renderer'],
+                $DIC->refinery(),
                 $DIC['ilCtrl'],
                 $DIC['lng'],
                 $prg,
