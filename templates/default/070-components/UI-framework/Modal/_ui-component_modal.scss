@@ -1,6 +1,7 @@
 @use "../../../010-settings/"as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 @use "../../../030-tools/tool_clearfix" as *;
+@use "../../../030-tools/patterns/tool_dialog-patterns" as *;
 @use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../050-layout/basics" as *;
 
@@ -16,15 +17,6 @@ $modal-content-bg:                             #fff !default;
 $modal-content-border-color:                   rgba(0, 0, 0, .2) !default;
 //** Modal content border color **for IE8**
 $modal-content-fallback-border-color:          #999 !default;
-
-//** Modal backdrop background color
-$modal-backdrop-bg:           #000 !default;
-
-//** Modal backdrop blur
-$modal-backdrop-blur:           3px !default;
-
-//** Modal backdrop opacity
-$modal-backdrop-opacity:      .5 !default;
 //** Modal header border color
 $modal-header-border-color:   #e5e5e5 !default;
 //** Modal footer border color
@@ -50,9 +42,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 .c-modal {
 	border: 0;
 	background: none;
-}
-.c-modal::backdrop {
-	backdrop-filter: blur($modal-backdrop-blur) brightness($modal-backdrop-opacity);
+	@include box-shadow($il-shadow--large);
 }
 
 // .modal-open      - body class for killing the scroll
@@ -76,6 +66,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	display: none;
 	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
+
 
 	// Prevent Chrome on Windows from adding a focus outline. For details, see
 	// https://github.com/twbs/bootstrap/pull/10951.
@@ -119,7 +110,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   // Shell div to position the modal with bottom padding
-  .modal-dialog {
+  .modal .modal-dialog {
 	position: relative;
 	width: auto;
 	margin: 10px;
@@ -218,11 +209,11 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   // Scale up the modal
   @media (min-width: $il-grid-float-breakpoint-max) {
 	// Automatically set modal's width for larger viewports
-	.modal-dialog {
+	.modal .modal-dialog {
 	  width: $modal-md;
 	  margin: 30px auto;
 	}
-	.modal-content {
+	.modal .modal-content {
 	  @include box-shadow(0 5px 15px rgba(0, 0, 0, .5));
 	}
 
