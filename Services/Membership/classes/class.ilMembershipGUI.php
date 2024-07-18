@@ -237,7 +237,6 @@ class ilMembershipGUI
                 $this->checkPermission('manage_members');
 
                 $rep_search = new ilRepositorySearchGUI();
-                $rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
                 $rep_search->addUserAccessFilterCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
 
                 $participants = $this->getMembersObject();
