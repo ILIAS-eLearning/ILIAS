@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -243,7 +244,7 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $value = $excel->getCell($row, $col);
+        $value = $excel->getCell($row, $col) ?? '';
         return $value;
     }
 
