@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Deck;
 
-/* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
-
 function repository()
 {
     //Init Factory and Renderer

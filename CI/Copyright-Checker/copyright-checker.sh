@@ -62,20 +62,35 @@ function is_copyright_valid() {
   local file_extension="${file##*.}"
   local offset=1
 
-  # since PSR-12 the php files will contain the copyright license as
-  # document-level comment, which starts on line 3.
-  if [ "php" = "${file_extension}" ]; then
-    offset=3
-  fi
+  is_ui_example "${file}"
+  local is_example=${?}
 
-  for copyright_line in "${COPYRIGHT_LINES[@]}"; do
-    local line_to_check="$(sed "${offset}q;d" "${file}")"
-    if ! [ "${copyright_line}" = "${line_to_check}" ]; then
-      return 1
+  if [ 1 -eq ${is_example} ]; then
+    if [ "php" = ${file_extension} ]; then
+      offset=3
     fi
+    for copyright_line in "${COPYRIGHT_LINES[@]}"; do
+      local line_to_check="$(sed "${offset}q;d" "${file}")"
+      if ! [ "${copyright_line}" = "${line_to_check}" ]; then
+        return 1
+      fi
 
-    offset=$((1 + ${offset}))
-  done
+      offset=$((1 + ${offset}))
+    done
+  else
+    local lines=$(wc -l < "${file}");
+    while [ ${offset} -lt ${lines} ]
+    do
+      local line_to_check="$(echo "$(sed "${offset}q;d" ${file})" | xargs)"
+      if echo "$line_to_check" | grep -q "^namespace "; then
+        return 0
+      fi
+      if echo "$line_to_check" | grep -q -e '^/\*' -e '^//' -e '^#'; then
+        return 2
+      fi
+      offset=$((1 + ${offset}))
+    done
+  fi
 
   return 0
 }
@@ -162,15 +177,12 @@ function perform_copyright_check() {
     is_copyright_valid "${file}"
     local is_valid="${?}"
 
-    is_ui_example "${file}"
-    local is_example="${?}"
-
-    # invert the copyright-check for UI examples, because we
-    # don't want them to have too much content.
-    if ([ 0 -eq ${is_example} ] && [ 0 -eq ${is_valid} ]) ||
-      ([ 1 -eq ${is_example} ] && [ 1 -eq ${is_valid} ]); then
+    if [ 1 -eq ${is_valid} ]; then
       printf "copyright is not as expected in %s\n" "${file}"
       exit_status=1
+    elif [ 2 -eq ${is_valid} ]; then
+      printf "copyright is not allowed in %s\n" "${file}"
+      exit_status=2
     fi
   done
 
