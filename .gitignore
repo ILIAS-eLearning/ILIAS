@@ -51,6 +51,7 @@ captainhook.local.json
 .php-cs-fixer.cache
 phpstan.local.neon
 phpstan-baseline.neon
+/scripts/PHPUnit/.phpunit.cache
 
 # File Delivery
 override.php
