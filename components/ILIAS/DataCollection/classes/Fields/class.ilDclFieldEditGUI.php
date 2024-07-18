@@ -252,23 +252,19 @@ class ilDclFieldEditGUI
 
         $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
 
-        foreach (ilDclDatatype::getAllDatatype() as $datatype) {
-            $model = new ilDclBaseFieldModel();
-            $model->setDatatypeId($datatype->getId());
-
-            if ($a_mode == 'edit' && $datatype->getId() == $this->field_obj->getDatatypeId()) {
-                $model = $this->field_obj;
-            }
-
-            $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
+        if ($a_mode === 'edit') {
+            $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
             $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject(), $a_mode);
+            $edit_datatype->setDisabled(true);
+        } else {
+            foreach (ilDclDatatype::getAllDatatype() as $datatype) {
+                $model = new ilDclBaseFieldModel();
+                $model->setDatatypeId($datatype->getId());
+                $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
+                $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject());
+            }
         }
         $edit_datatype->setRequired(true);
-
-        //you can't change type but we still need it in POST
-        if ($a_mode == "edit") {
-            $edit_datatype->setDisabled(true);
-        }
         $this->form->addItem($edit_datatype);
 
         //Unique
