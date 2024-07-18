@@ -301,7 +301,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
 
     public function step_10(): void
     {
-        if (!$this->db->addPrimaryKey('il_resource_rca', ['rcid', 'rid'])) {
+        if (!$this->db->primaryExistsByFields('il_resource_rca', ['rcid', 'rid'])) {
             $this->db->addPrimaryKey(
                 'il_resource_rca',
                 [
@@ -311,7 +311,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
             );
         }
 
-        if (!$this->db->indexExistsByFields('il_resource_rc', ['rcid'])) {
+        if (!$this->db->primaryExistsByFields('il_resource_rc', ['rcid'])) {
             $this->db->addPrimaryKey(
                 'il_resource_rc',
                 [
