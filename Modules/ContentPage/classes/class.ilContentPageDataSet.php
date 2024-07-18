@@ -175,7 +175,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
             return $a_set;
         }
-        
+
         return parent::getXmlRecord($a_entity, $a_version, $a_set);
     }
 }
