@@ -28,17 +28,12 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 class ilFileDataForumDrafts implements ilFileDataForumInterface
 {
     private array $posting_cache = [];
-    private ilFileDataForumInterface $legacy_implementation;
     private ilFileDataForumInterface $rc_implementation;
 
     public function __construct(
         private int $obj_id = 0,
         private int $draft_id = 0
     ) {
-        $this->legacy_implementation = new ilFileDataForumDraftsLegacyImplementation(
-            $this->obj_id,
-            $this->draft_id
-        );
         $this->rc_implementation = new ilFileDataForumDraftsRCImplementation(
             $this->obj_id,
             $this->draft_id
@@ -55,12 +50,7 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
 
     private function getImplementation(): ilFileDataForumInterface
     {
-        $posting = $this->getCurrentPosting();
-        if ($posting->getRCID() !== ilForumPost::NO_RCID) {
-            return $this->rc_implementation;
-        }
-
-        return $this->legacy_implementation;
+        return $this->rc_implementation;
     }
 
     public function getObjId(): int
