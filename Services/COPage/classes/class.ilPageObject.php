@@ -635,6 +635,14 @@ abstract class ilPageObject
                 array($a_id, $a_parent_type, $a_lang)
             );
             $rec = $db->fetchAssoc($set);
+            if (!$rec) {
+                return [
+                    "active" => 1,
+                    "activation_start" => null,
+                    "activation_end" => null,
+                    "show_activation_info" => 0
+                ];
+            }
         }
 
         return $rec;
