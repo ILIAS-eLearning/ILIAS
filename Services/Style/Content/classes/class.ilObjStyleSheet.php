@@ -1475,21 +1475,21 @@ class ilObjStyleSheet extends ilObject
                 fwrite($css_file, "\n");
 
                 // use table border attributes for th td as well
-    /*			if ($tag[0]["type"] == "table")
-                {
-                    if (count($t_border) > 0)
-                    {
-                        fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
-                            $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
-                        fwrite ($css_file, "{\n");
-                        foreach ($t_border as $p => $v)
-                        {
-    //						fwrite ($css_file, "\t".$p.": ".$v.";\n");
-                        }
-                        fwrite ($css_file, "}\n");
-                        fwrite ($css_file, "\n");
-                    }
-                }*/
+                /*			if ($tag[0]["type"] == "table")
+                            {
+                                if (count($t_border) > 0)
+                                {
+                                    fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
+                                        $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
+                                    fwrite ($css_file, "{\n");
+                                    foreach ($t_border as $p => $v)
+                                    {
+                //						fwrite ($css_file, "\t".$p.": ".$v.";\n");
+                                    }
+                                    fwrite ($css_file, "}\n");
+                                    fwrite ($css_file, "\n");
+                                }
+                            }*/
             }
 
             if ($page_background != "") {
@@ -2602,9 +2602,9 @@ class ilObjStyleSheet extends ilObject
         string $a_rgb,
         bool $as_dec = false
     ): array {
-        $r["r"] = substr($a_rgb, 0, 2);
-        $r["g"] = substr($a_rgb, 2, 2);
-        $r["b"] = substr($a_rgb, 4, 2);
+        $r["r"] = (string) substr($a_rgb, 0, 2);
+        $r["g"] = (string) substr($a_rgb, 2, 2);
+        $r["b"] = (string) substr($a_rgb, 4, 2);
         if ($as_dec) {
             $r["r"] = self::hexdec($r["r"]);
             $r["g"] = self::hexdec($r["g"]);
@@ -2614,7 +2614,7 @@ class ilObjStyleSheet extends ilObject
         return $r;
     }
 
-    protected static function hexdec(string $hex) : int
+    protected static function hexdec(string $hex): int
     {
         $hex = preg_replace("/[^a-fA-F0-9]+/", "", $hex);
         if ($hex === "") {
