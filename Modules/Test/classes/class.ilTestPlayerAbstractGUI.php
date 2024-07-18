@@ -571,9 +571,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->performTestPassFinishedTasks($actualpass);
 
-        $this->testSession->setLastFinishedPass($this->testSession->getPass());
-        $this->testSession->increaseTestPass();
-
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
