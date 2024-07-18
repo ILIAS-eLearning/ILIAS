@@ -20,6 +20,8 @@ declare(strict_types=0);
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilObjUserTrackingGUI
@@ -46,6 +48,8 @@ class ilLearningProgressBaseGUI
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     protected bool $anonymized;
     protected int $usr_id = 0;
@@ -95,6 +99,8 @@ class ilLearningProgressBaseGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->mode = $a_mode;
         $this->ref_id = $a_ref_id;
@@ -603,11 +609,12 @@ class ilLearningProgressBaseGUI
             $this->lng->txt("trac_failed")
         );
 
-        $panel = ilPanelGUI::getInstance();
-        $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-        $panel->setBody($tpl->get());
+        $panel = $this->ui_factory->panel()->secondary()->legacy(
+            '',
+            $this->ui_factory->legacy($tpl->get())
+        );
 
-        return $panel->getHTML();
+        return $this->ui_renderer->render($panel);
     }
 
     protected function initEditUserForm(
