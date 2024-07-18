@@ -65,6 +65,11 @@ export default class DataTable {
   #responseContent;
 
   /**
+   * @type {HTMLDialogElement}
+   */
+  #dialog;
+
+  /**
    * @type {HTMLTableElement}
    */
   #table;
@@ -93,6 +98,7 @@ export default class DataTable {
     this.#modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
     this.#responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
     this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
+    this.#dialog = this.#component.querySelector('.c-table-data__dialog_container .il-dialog');
 
     this.#jquery = jquery;
     this.#signalConstants = {
@@ -106,7 +112,7 @@ export default class DataTable {
 
   /**
    * @param {string} actionId
-   * @param {bool} async
+   * @param {string} async
    * @param {URLBuilder} urlBuilder
    * @param {Map} urlTokens
    * @return {void}
@@ -210,8 +216,10 @@ export default class DataTable {
     action.urlBuilder.writeParameter(token, rowIds);
     const target = decodeURI(action.urlBuilder.getUrl().toString());
 
-    if (!action.async) {
+    if (action.async === 'none') {
       window.location.href = target;
+    } else if (action.async === 'dialog') {
+      il.UI.dialog.get(this.#dialog.id).show(target);
     } else {
       this.asyncAction(target);
     }

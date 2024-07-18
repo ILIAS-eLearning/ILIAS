@@ -25,5 +25,13 @@ use ILIAS\Data\URI;
 
 interface Action extends \ILIAS\UI\Component\Component
 {
+    /**
+     * call the Action asynchronously
+     */
     public function withAsync(bool $async = true): self;
+
+    /**
+     * open a Dialog with an (async) call to the Actions's target
+     */
+    public function withDialog(bool $dialog = true): self;
 }
