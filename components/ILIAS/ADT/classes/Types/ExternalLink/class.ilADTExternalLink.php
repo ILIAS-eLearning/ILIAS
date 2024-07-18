@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilADTExternalLink extends ilADT
 {
-    public const MAX_LENGTH = 500;
+    public const MAX_LENGTH = 2000;
 
     protected ?string $value;
     protected ?string $title;

@@ -47,7 +47,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
         $both->addCombinationItem('title', $title, $this->lng->txt('title'));
 
         $url = new ilTextInputGUI('', $this->getElementId() . '_url');
-        $url->setSize(250);
+        $url->setMaxLength(1000);
         $url->setValue($this->getADT()->getUrl());
         $both->addCombinationItem('url', $url, $this->lng->txt('url'));
 
