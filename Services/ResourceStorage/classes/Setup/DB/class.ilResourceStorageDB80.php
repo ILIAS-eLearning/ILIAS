@@ -344,4 +344,17 @@ SET il_resource_info.version_number = il_resource_revision.version_number
             'owner_id',
         );
     }
+
+    public function step_13(): void
+    {
+        if ($this->db->indexExistsByFields('il_resource_stkh_u', ['stakeholder_id'])) {
+            $this->db->dropIndexByFields('il_resource_stkh_u', ['stakeholder_id']);
+        }
+        if ($this->db->indexExistsByFields('il_resource_stkh_u', ['rid'])) {
+            $this->db->dropIndexByFields('il_resource_stkh_u', ['rid']);
+        }
+        if (!$this->db->primaryExistsByFields('il_resource_stkh_u', ['rid'])) {
+            $this->db->addPrimaryKey('il_resource_stkh_u', ['rid']);
+        }
+    }
 }
