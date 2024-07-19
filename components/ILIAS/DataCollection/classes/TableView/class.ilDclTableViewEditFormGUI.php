@@ -95,11 +95,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->tableview->setDescription($this->getInput('description'));
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->setTableId($this->table->getId());
-        $this->tableview->setStepVs(true);
-        $this->tableview->setStepE(false);
-        $this->tableview->setStepC(false);
-        $this->tableview->setStepO(false);
-        $this->tableview->setStepS(false);
         $this->tableview->setOrder($this->table->getNewTableviewOrder());
         $this->tableview->create();
 

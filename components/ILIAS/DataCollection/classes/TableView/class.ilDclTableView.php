@@ -69,41 +69,6 @@ class ilDclTableView extends ActiveRecord
      */
     protected int $tableview_order = 0;
     /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_vs = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_c = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_e = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_o = false;
-    /**
-     * @var bool
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           1
-     */
-    protected bool $step_s = false;
-    /**
      * @var ilDclBaseFieldModel[]
      */
     protected array $visible_fields_cache = [];
@@ -175,56 +140,6 @@ class ilDclTableView extends ActiveRecord
     public function setTableviewOrder(int $tableview_order): void
     {
         $this->tableview_order = $tableview_order;
-    }
-
-    public function isStepVs(): bool
-    {
-        return $this->step_vs;
-    }
-
-    public function setStepVs(bool $step_vs): void
-    {
-        $this->step_vs = $step_vs;
-    }
-
-    public function isStepC(): bool
-    {
-        return $this->step_c;
-    }
-
-    public function setStepC(bool $step_c): void
-    {
-        $this->step_c = $step_c;
-    }
-
-    public function isStepE(): bool
-    {
-        return $this->step_e;
-    }
-
-    public function setStepE(bool $step_e): void
-    {
-        $this->step_e = $step_e;
-    }
-
-    public function isStepO(): bool
-    {
-        return $this->step_o;
-    }
-
-    public function setStepO(bool $step_o): void
-    {
-        $this->step_o = $step_o;
-    }
-
-    public function isStepS(): bool
-    {
-        return $this->step_s;
-    }
-
-    public function setStepS(bool $step_s): void
-    {
-        $this->step_s = $step_s;
     }
 
     public function getRoles(): array
@@ -423,11 +338,6 @@ class ilDclTableView extends ActiveRecord
         $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
-        $this->setStepVs($orig->isStepVs());
-        $this->setStepC($orig->isStepC());
-        $this->setStepE($orig->isStepE());
-        $this->setStepO($orig->isStepO());
-        $this->setStepS($orig->isStepS());
         $this->create(false); //create default setting, adjust them later
 
         //clone default values
@@ -525,22 +435,8 @@ class ilDclTableView extends ActiveRecord
         $lng = $DIC['lng'];
         $view->setTitle($lng->txt('dcl_title_standardview'));
         $view->setTableviewOrder(10);
-        $view->setStepVs(true);
-        $view->setStepC(false);
-        $view->setStepE(false);
-        $view->setStepO(false);
-        $view->setStepS(false);
         $view->create($create_default_settings);
 
         return $view;
-    }
-
-    /**
-     * Check if the configuration of the view is complete. The step "single" is
-     * optional and therefore omitted.
-     */
-    public function validateConfigCompletion(): bool
-    {
-        return $this->step_vs && $this->step_c && $this->step_e && $this->step_o;
     }
 }
