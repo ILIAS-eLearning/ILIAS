@@ -177,22 +177,6 @@ class ilDataCollectionDataSet extends ilDataSet
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
                     $tableview->setRoles($a_rec['roles']);
-
-                    $step_is_null = !array_key_exists('step_vs', $a_rec) || is_null($a_rec['step_vs']);
-                    $step_is_null ? $tableview->setStepVs(true) : $tableview->setStepVs((bool) $a_rec['step_vs']);
-
-                    $step_is_null = !array_key_exists('step_c', $a_rec) || is_null($a_rec['step_c']);
-                    $step_is_null ? $tableview->setStepC(false) : $tableview->setStepC((bool) $a_rec['step_c']);
-
-                    $step_is_null = !array_key_exists('step_e', $a_rec) || is_null($a_rec['step_e']);
-                    $step_is_null ? $tableview->setStepE(false) : $tableview->setStepE((bool) $a_rec['step_e']);
-
-                    $step_is_null = !array_key_exists('step_o', $a_rec) || is_null($a_rec['step_o']);
-                    $step_is_null ? $tableview->setStepO(false) : $tableview->setStepO((bool) $a_rec['step_o']);
-
-                    $step_is_null = !array_key_exists('step_s', $a_rec) || is_null($a_rec['step_s']);
-                    $step_is_null ? $tableview->setStepS(false) : $tableview->setStepS((bool) $a_rec['step_s']);
-
                     $tableview->create(false);    //do not create default setting as they are imported too
 
                     $a_mapping->addMapping(
@@ -582,11 +566,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     'table_id' => 'integer',
                     'title' => 'text',
                     'roles' => 'text',
-                    'step_vs' => 'integer',
-                    'step_c' => 'integer',
-                    'step_e' => 'integer',
-                    'step_o' => 'integer',
-                    'step_s' => 'integer',
                     'description' => 'text',
                     'tableview_order' => 'integer',
                 ];
