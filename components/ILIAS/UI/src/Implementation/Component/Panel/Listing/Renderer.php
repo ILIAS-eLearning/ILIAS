@@ -27,9 +27,12 @@ use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Implementation\Render\Template as Template;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Component\Panel\HasExpandableRenderer;
 
 class Renderer extends AbstractComponentRenderer
 {
+    use HasExpandableRenderer;
+
     /**
      * @inheritdoc
      */
@@ -46,8 +49,17 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
+        $f = $this->getUIFactory();
 
-        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+        $id = $this->bindJavaScript($component);
+        if ($id === null) {
+            $id = $this->createId();
+        }
+        $tpl->setVariable("ID", $id);
+
+        $tpl_heading = $this->parseExpandingHeader($component, $default_renderer, $f);
+        $tpl->setVariable("HEADING", $tpl_heading->get());
+        $tpl = $this->declareExpandable($component, $tpl);
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof Group) {
@@ -60,99 +72,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function parseHeader(
-        C\Panel\Listing\Standard $component,
-        RendererInterface $default_renderer,
-        Template $tpl
-    ): Template {
-        $f = $this->getUIFactory();
-        $title = $component->getTitle();
-        $actions = $component->getActions();
-        $view_controls = $component->getViewControls();
-
-        if ($title !== "" || $actions || $view_controls) {
-            if ($actions) {
-                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-            }
-            if ($view_controls) {
-                foreach ($view_controls as $view_control) {
-                    $tpl->setCurrentBlock("view_controls");
-                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                    $tpl->parseCurrentBlock();
-                }
-            }
-            if ($component->isExpandable()) {
-                $tpl->touchBlock("panel_expandable");
-                $tpl->touchBlock("body_expandable");
-
-                $component = $component->withAdditionalOnLoadCode(
-                    function ($id) {
-                        return "il.UI.panel.initExpandable();";
-                    }
-                );
-                $id = $this->bindJavaScript($component);
-                if ($id === null) {
-                    $id = $this->createId();
-                }
-                $tpl->setVariable("BODY_ID", $id . "_body");
-
-                $opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $component->getTitle(), "");
-                $collapse_action = $component->getCollapseAction();
-                if ($collapse_action instanceof URI) {
-                    $opener_collapse = $opener_collapse
-                        ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.panel.onCollapseCmd(event, '$id', '$collapse_action');
-					event.preventDefault();
-			    });");
-                } elseif ($collapse_action instanceof C\Signal) {
-                    $collapse_signal = [
-                        "signal_id" => $collapse_action->getId(),
-                        "event" => "click",
-                        "options" => $collapse_action->getOptions()
-                    ];
-                    $collapse_signal = json_encode($collapse_signal);
-                    $opener_collapse = $opener_collapse
-                        ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.panel.onCollapseCmd(event, '$id', null, $collapse_signal);
-					event.preventDefault();
-			    });");
-                }
-                $tpl->setVariable("COLLAPSE_BUTTON", $default_renderer->render($opener_collapse));
-
-                $opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $component->getTitle(), "");
-                $expand_action = $component->getExpandAction();
-                if ($expand_action instanceof URI) {
-                    $opener_expand = $opener_expand
-                        ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.panel.onExpandCmd(event, '$id', '$expand_action');
-					event.preventDefault();
-			    });");
-                } elseif ($expand_action instanceof C\Signal) {
-                    $expand_signal = [
-                        "signal_id" => $expand_action->getId(),
-                        "event" => "click",
-                        "options" => $expand_action->getOptions()
-                    ];
-                    $expand_signal = json_encode($expand_signal);
-                    $opener_expand = $opener_expand
-                        ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-					il.UI.panel.onExpandCmd(event, '$id', null, $expand_signal);
-					event.preventDefault();
-			    });");
-                }
-                $tpl->setVariable("EXPAND_BUTTON", $default_renderer->render($opener_expand));
-
-                if ($component->isExpanded()) {
-                    $tpl->setVariable("BODY_EXPANDED", "in");
-                }
-            } else {
-                $tpl->setVariable("TITLE", $title);
-            }
-        }
-        return $tpl;
-    }
-
-    public function registerResources (ResourceRegistry $registry): void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('assets/js/panel.js');

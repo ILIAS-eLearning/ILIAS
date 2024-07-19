@@ -29,13 +29,14 @@ use ILIAS\UI\Component\Signal;
  */
 trait IsExpandable
 {
-    protected bool $expandable = false;
-    protected bool $expanded = false;
+    protected bool $is_expandable = false;
+    protected bool $is_expanded = false;
     protected URI | Signal | null $expand_action = null;
     protected URI | Signal | null $collapse_action = null;
 
     public function withExpandable(
-        bool $expanded,
+        bool $is_expandable,
+        bool $is_expanded = false,
         URI | Signal | null $expand_action = null,
         URI | Signal | null $collapse_action = null
     ): IsExpandableInterface {
@@ -43,8 +44,8 @@ trait IsExpandable
          * @var $clone IsExpandableInterface
          */
         $clone = clone $this;
-        $clone->expandable = true;
-        $clone->expanded = $expanded;
+        $clone->is_expandable = $is_expandable;
+        $clone->is_expanded = $is_expanded;
         $clone->expand_action = $expand_action;
         $clone->collapse_action = $collapse_action;
         return $clone;
@@ -55,7 +56,7 @@ trait IsExpandable
      */
     public function isExpandable(): bool
     {
-        return $this->expandable;
+        return $this->is_expandable;
     }
 
     /**
@@ -63,7 +64,7 @@ trait IsExpandable
      */
     public function isExpanded(): bool
     {
-        return $this->expanded;
+        return $this->is_expanded;
     }
 
     /**

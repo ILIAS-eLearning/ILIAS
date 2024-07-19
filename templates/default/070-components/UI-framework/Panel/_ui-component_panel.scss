@@ -126,7 +126,7 @@
 
 //Expandable Panels
 .panel-expandable {
-	.panel-opener {
+	.panel-toggler {
 		order: 1;
 		flex-grow: 1;
 
@@ -145,6 +145,30 @@
 		@include break.on-screen-size(large) {
 			flex-grow: 0;
 		}
+	}
+	span[data-collapse-button-visibility="1"] {
+		display: inline;
+	}
+	span[data-collapse-button-visibility="0"] {
+		display: none;
+	}
+	span[data-expand-button-visibility="1"] {
+		display: inline;
+	}
+	span[data-expand-button-visibility="0"] {
+		display: none;
+	}
+	div[data-vc-expanded="1"] {
+		display: flex;
+	}
+	div[data-vc-expanded="0"] {
+		display: none;
+	}
+	div[data-body-expanded="1"] {
+		display: block;
+	}
+	div[data-body-expanded="0"] {
+		display: none;
 	}
 }
 

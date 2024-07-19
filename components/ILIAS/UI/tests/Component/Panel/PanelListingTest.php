@@ -126,7 +126,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
 <div class="panel-title"><h2>title</h2></div><div class="panel-controls"></div></div>
 <div class="panel-listing-body">
@@ -186,12 +186,12 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
-<ul id="id_3_menu" class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"> <span class="caret"></span></button>
+<ul id="id_4_menu" class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
+	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
 </ul>
 </div>
 </div>
@@ -212,36 +212,36 @@ EOT;
 
         $uri = new ILIAS\Data\URI("http://www.ilias.de");
         $c = $f->standard("title", [])
-            ->withExpandable(true, $uri, $uri);
+            ->withExpandable(true, true, $uri, $uri);
 
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
     <div class="panel-heading ilHeader">
-        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+        <div class="panel-toggler">
             <h2>
-                <div class="panel-collapse-button">
+                <span data-collapse-button-visibility="1">
                     <button class="btn btn-bulky" data-action="" id="id_2">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">title</span>
                     </button>
-                </div>
-                <div class="panel-expand-button">
+                </span>
+                <span data-expand-button-visibility="0">
                     <button class="btn btn-bulky" data-action="" id="id_3">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">title</span>
                     </button>
-                </div>
+                </span>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-listing-body panel-body-expandable collapse in" id="id_1_body"></div>
+    <div class="panel-listing-body" data-body-expanded="1"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(
@@ -257,36 +257,36 @@ EOT;
 
         $uri = new ILIAS\Data\URI("http://www.ilias.de");
         $c = $f->standard("title", [])
-               ->withExpandable(false, $uri, $uri);
+               ->withExpandable(true, false, $uri, $uri);
 
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
     <div class="panel-heading ilHeader">
-        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+        <div class="panel-toggler">
             <h2>
-                <div class="panel-collapse-button">
+                <span data-collapse-button-visibility="0">
                     <button class="btn btn-bulky" data-action="" id="id_2">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">title</span>
                     </button>
-                </div>
-                <div class="panel-expand-button">
+                </span>
+                <span data-expand-button-visibility="1">
                     <button class="btn btn-bulky" data-action="" id="id_3">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">title</span>
                     </button>
-                </div>
+                </span>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-listing-body panel-body-expandable collapse " id="id_1_body"></div>
+    <div class="panel-listing-body" data-body-expanded="0"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(

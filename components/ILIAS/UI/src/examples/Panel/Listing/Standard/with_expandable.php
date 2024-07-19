@@ -68,7 +68,7 @@ function with_expandable(): string
         ])
     ])->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(false, $modal1->getShowSignal(), $modal2->getShowSignal());
+                  ->withExpandable(true, false, $modal1->getShowSignal(), $modal2->getShowSignal());
 
     return $renderer->render([$std_list, $modal1, $modal2]);
 }
