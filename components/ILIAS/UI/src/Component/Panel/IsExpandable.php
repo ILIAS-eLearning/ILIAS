@@ -34,7 +34,8 @@ interface IsExpandable extends Component
      * to handle e.g. the storage of the expand/collapse status in the session. The actions are handled asynchronously.
      */
     public function withExpandable(
-        bool $expanded,
+        bool $is_expandable,
+        bool $is_expanded = false,
         URI | Signal | null $expand_action = null,
         URI | Signal | null $collapse_action = null
     );

@@ -237,14 +237,14 @@ class PanelTest extends ILIAS_UI_TestBase
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-controls">
-            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
-                <ul id="id_3_menu" class="dropdown-menu">
-                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+            <div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"><span class="caret"></span></button>
+                <ul id="id_4_menu" class="dropdown-menu">
+                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
+                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
                 </ul>
             </div>
         </div>
@@ -482,7 +482,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
@@ -526,7 +526,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex">
+<div id="id_1" class="panel panel-primary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
@@ -578,12 +578,37 @@ EOT;
 
         $this->assertEquals(false, $p->isExpandable());
 
-        $p = $p->withExpandable(true);
+        $p = $p->withExpandable(true, true);
 
         $this->assertEquals(true, $p->isExpandable());
         $this->assertEquals(true, $p->isExpanded());
         $this->assertEquals(null, $p->getExpandAction());
         $this->assertEquals(null, $p->getCollapseAction());
+    }
+
+    public function testWithExpandableNotExpanded(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()))
+                ->withExpandable(true);
+
+        $this->assertEquals(true, $p->isExpandable());
+        $this->assertEquals(false, $p->isExpanded());
+    }
+
+    public function testWithNotExpandable(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->standard("Title", array(new ComponentDummy()))
+                ->withExpandable(true);
+
+        $this->assertEquals(true, $p->isExpandable());
+
+        $p = $p->withExpandable(false);
+
+        $this->assertEquals(false, $p->isExpandable());
     }
 
     public function testWithExpandableCollapsedActions(): void
@@ -597,7 +622,7 @@ EOT;
 
         $this->assertEquals(false, $p->isExpandable());
 
-        $p = $p->withExpandable(false, $uri1, $uri2);
+        $p = $p->withExpandable(true, false, $uri1, $uri2);
 
         $this->assertEquals(true, $p->isExpandable());
         $this->assertEquals(false, $p->isExpanded());
@@ -611,36 +636,36 @@ EOT;
         $r = $this->getDefaultRenderer();
 
         $p = $f->standard("Title", [])
-               ->withExpandable(true);
+               ->withExpandable(true, true);
 
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex panel-expandable">
+<div id="id_1" class="panel panel-primary panel-flex panel-expandable">
     <div class="panel-heading ilHeader">
-        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+        <div class="panel-toggler">
             <h2>
-                <div class="panel-collapse-button">
+                <span data-collapse-button-visibility="1">
                     <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">Title</span>
                     </button>
-                </div>
-                <div class="panel-expand-button">
+                </span>
+                <span data-expand-button-visibility="0">
                     <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">Title</span>
                     </button>
-                </div>
+                </span>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-body panel-body-expandable collapse in" id="id_1_body"></div>
+    <div class="panel-body" data-body-expanded="1"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(
@@ -655,36 +680,36 @@ EOT;
         $r = $this->getDefaultRenderer();
 
         $p = $f->standard("Title", [])
-               ->withExpandable(false);
+               ->withExpandable(true, false);
 
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary panel-flex panel-expandable">
+<div id="id_1" class="panel panel-primary panel-flex panel-expandable">
     <div class="panel-heading ilHeader">
-        <div class="panel-opener" data-toggle="collapse" data-target="#id_1_body">
+        <div class="panel-toggler">
             <h2>
-                <div class="panel-collapse-button">
+                <span data-collapse-button-visibility="0">
                     <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">Title</span>
                     </button>
-                </div>
-                <div class="panel-expand-button">
+                </span>
+                <span data-expand-button-visibility="1">
                     <button class="btn btn-bulky" data-action="">
                         <span class="glyph" role="img">
                             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">Title</span>
                     </button>
-                </div>
+                </span>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-body panel-body-expandable collapse " id="id_1_body"></div>
+    <div class="panel-body" data-body-expanded="0"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(

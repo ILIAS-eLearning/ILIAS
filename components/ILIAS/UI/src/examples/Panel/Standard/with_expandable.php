@@ -73,7 +73,7 @@ function with_expandable(): string
     ])
                   ->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(true, $expand_action, $collapse_action);
+                  ->withExpandable(true, true, $expand_action, $collapse_action);
 
     return $renderer->render($std_list);
 }
