@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 * Class ilSearchGUI
 *
@@ -42,6 +45,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     protected ilTabsGUI $tabs_gui;
     protected ilHelpGUI $help_gui;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     /**
     * Constructor
@@ -54,6 +59,9 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help_gui = $DIC->help();
         $this->lng->loadLanguageModule("search");
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $post_search = (array) ($this->http->request()->getParsedBody()['search'] ?? []);
         $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
@@ -339,6 +347,9 @@ class ilSearchGUI extends ilSearchBaseGUI
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("assets/js/Search.js");
 
+        $filter_glyph = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->glyph()->filter()
+        );
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'components/ILIAS/Search');
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
@@ -349,7 +360,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $btn->setCaption("search");
         $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
         $this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
-        $this->tpl->setVariable("ARR_IMG", ilGlyphGUI::get(ilGlyphGUI::CARET));
+        $this->tpl->setVariable("ARR_IMG", $filter_glyph);
         $this->tpl->setVariable("TXT_COMBINATION", $this->lng->txt("search_term_combination"));
         $this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $this->lng->txt('search_all_words') : $this->lng->txt('search_any_word'));
 
@@ -358,7 +369,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->tpl->setVariable('TXT_TYPE_DEFAULT', $this->lng->txt("search_fast_info"));
             $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("search_type"));
             $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
-            $this->tpl->setVariable("ARR_IMGT", ilGlyphGUI::get(ilGlyphGUI::CARET));
+            $this->tpl->setVariable("ARR_IMGT", $filter_glyph);
             $this->tpl->setVariable("FORM", $this->form->getHTML());
             $this->tpl->parseCurrentBlock();
         }
@@ -368,7 +379,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
             $this->tpl->setVariable('TXT_CD_OFF', $this->lng->txt('search_off'));
             $this->tpl->setVariable('FORM_CD', $this->getCreationDateForm()->getHTML());
-            $this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
+            $this->tpl->setVariable("ARR_IMG_CD", $filter_glyph);
             // end-patch creation_date
         }
 

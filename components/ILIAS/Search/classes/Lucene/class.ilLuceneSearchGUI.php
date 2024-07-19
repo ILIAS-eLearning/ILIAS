@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 * @classDescription GUI for simple Lucene search
 *
@@ -36,6 +39,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 {
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     protected ilLuceneAdvancedSearchFields $fields;
 
@@ -55,6 +60,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
         $this->tabs = $DIC->tabs();
         $this->help = $DIC->help();
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         parent::__construct();
         $this->fields = ilLuceneAdvancedSearchFields::getInstance();
@@ -523,6 +531,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("assets/js/Search.js");
 
+        $filter_glyph = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->glyph()->filter()
+        );
 
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($this->search_cache->getQuery()));
@@ -532,7 +543,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $btn->setCaption("search");
         $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
         $this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
-        $this->tpl->setVariable("ARR_IMG", ilGlyphGUI::get(ilGlyphGUI::CARET));
+        $this->tpl->setVariable("ARR_IMG", $filter_glyph);
         $this->tpl->setVariable("TXT_COMBINATION", $this->lng->txt("search_term_combination"));
         $this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $this->lng->txt('search_all_words') : $this->lng->txt('search_any_word'));
         $this->tpl->setVariable("TXT_AREA", $this->lng->txt("search_area"));
@@ -540,7 +551,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
             $this->tpl->setCurrentBlock("type_sel");
             $this->tpl->setVariable('TXT_TYPE_DEFAULT', $this->lng->txt("search_off"));
-            $this->tpl->setVariable("ARR_IMGT", ilGlyphGUI::get(ilGlyphGUI::CARET));
+            $this->tpl->setVariable("ARR_IMGT", $filter_glyph);
             $this->tpl->setVariable("TXT_FILTER_BY_TYPE", $this->lng->txt("search_filter_by_type"));
             $this->tpl->setVariable('FORM', $this->form->getHTML());
             $this->tpl->parseCurrentBlock();
@@ -555,7 +566,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
             $this->tpl->setVariable('TXT_CD_OFF', $this->lng->txt('search_off'));
             $this->tpl->setVariable('FORM_CD', $this->getCreationDateForm()->getHTML());
-            $this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
+            $this->tpl->setVariable("ARR_IMG_CD", $filter_glyph);
             // end-patch creation_date
         }
     }
