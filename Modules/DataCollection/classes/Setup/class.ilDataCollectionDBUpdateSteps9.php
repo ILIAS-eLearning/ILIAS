@@ -187,4 +187,23 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             [ilDclDatatype::INPUTFORMAT_TEXT]
         );
     }
+
+    public function step_13(): void
+    {
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_vs')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_vs');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_c')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_c');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_e')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_e');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_o')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_o');
+        }
+        if ($this->db->tableColumnExists('il_dcl_tableview', 'step_s')) {
+            $this->db->dropTableColumn('il_dcl_tableview', 'step_s');
+        }
+    }
 }

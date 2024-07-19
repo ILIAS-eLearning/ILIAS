@@ -8552,7 +8552,6 @@ dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
 dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.
-dcl#:#dcl_configuration_complete#:#Configuration Complete
 dcl#:#dcl_confirm_delete_detailed_view_text#:#The detailed view definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this detailed view?
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
