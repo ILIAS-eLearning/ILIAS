@@ -468,7 +468,7 @@ EOT;
             <div class="form-group row">
                 <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_top_num<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input id="id_3" type="number" value="10" class="form-control form-control-sm" />
+                    <input id="id_3" type="number" value="10" class="form-control form-control-sm c-input-numeric" />
                     <div class="help-block">tst_highscore_top_num_description</div>
                 </div>
             </div>

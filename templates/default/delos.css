@@ -4397,6 +4397,10 @@ hr.il-divider-with-label {
   width: 55%;
 }
 
+.c-input-numeric {
+  min-width: 60px;
+}
+
 .il-standard-form {
   background-color: white;
   margin-top: 6px;
