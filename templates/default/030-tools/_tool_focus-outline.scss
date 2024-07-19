@@ -3,12 +3,12 @@
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
 $il-focus-outline-inner-width: 3px;
 $il-focus-outline-outer-width: 2px;
-$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
-$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 
 // KEYBOARD FOCUS DEFAULT
 // This is the mixin you should be using if possible
-@mixin il-focus(){
+@mixin il-focus($il-focus-outline-inner-width: $il-focus-outline-inner-width, $il-focus-outline-outer-width: $il-focus-outline-outer-width){
+	$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
+	$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 	&:focus {
 		outline: none;
     	outline-offset: 0px;
@@ -18,7 +18,7 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 		// outermost protection color line
 		outline: $il-focus-outline-outer;
 		outline-offset: $il-focus-outline-outer-width + $il-focus-outline-inner-width;
-		
+
 		&::after {
 			content: " ";
 			position: absolute;
@@ -37,7 +37,9 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 // KEYBOARD FOCUS FOR BUTTONS, INPUTS AND ELEMENTS WITH :AFTER
 // some elements like buttons and input field cannot display the il-focus mixin because of the :after element
 // in this case use this mixin instead
-@mixin il-focus-outline-only($clearAfter: false) {
+@mixin il-focus-outline-only($clearAfter: false, $il-focus-outline-inner-width: $il-focus-outline-inner-width, $il-focus-outline-outer-width: $il-focus-outline-outer-width) {
+	$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
+	$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 	&:focus-visible{
 		outline: $il-focus-outline-inner;
 		box-shadow: inset 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color, 0px 0px 0px ($il-focus-outline-outer-width + $il-focus-outline-inner-width) $il-focus-protection-color;
@@ -52,10 +54,12 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 // KEYBOARD FOCUS FOR Elements, that contain Elements that get Focus
 // some elements like file buttons and input field cannot display the il-focus mixin because they do not get focus directly
 // in this case use this mixin instead
-@mixin il-focus-within-outline-only($clearAfter: false) {
+@mixin il-focus-within-outline-only($clearAfter: false, $il-focus-outline-inner-width: $il-focus-outline-inner-width, $il-focus-outline-outer-width: $il-focus-outline-outer-width) {
+	$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
+	$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 	&:focus-within{
 		outline: $il-focus-outline-inner;
-		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 6px $il-focus-protection-color;
+		box-shadow: inset 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color, 0px 0px 0px (($il-focus-outline-outer-width*2) + $il-focus-outline-inner-width) red; // $il-focus-protection-color
 		@if $clearAfter {
 			&::after {
 				content: none;
@@ -68,11 +72,13 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 // some elements at the edge do not show the focus outline because it's already offscreen
 // or for inline elements that break into multiple lines
 // in these cases use this mixin instead
-@mixin il-focus-border-only($clearAfter: false) {
+@mixin il-focus-border-only($clearAfter: false, $il-focus-outline-inner-width: $il-focus-outline-inner-width, $il-focus-outline-outer-width: $il-focus-outline-outer-width) {
+	$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
+	$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
 	&:focus-visible {
 		outline: none;
 		border: $il-focus-outline-inner;
-		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 2px $il-focus-protection-color;
+		box-shadow: inset 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color, 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color;
 		@if $clearAfter {
 			&::after {
 				content: none;
