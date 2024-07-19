@@ -289,13 +289,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             }
         }
 
-        // Set Workflow flag to true
-        $view = ilDclTableView::getCollection()->where(["id" => filter_input(INPUT_GET, "tableview_id")])->first();
-        if (!is_null($view)) {
-            $view->setStepC(true);
-            $view->save();
-        }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this, 'tableview_id');
         $this->ctrl->redirect($this, 'presentation');

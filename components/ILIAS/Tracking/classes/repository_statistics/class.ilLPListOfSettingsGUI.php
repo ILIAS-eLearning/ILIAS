@@ -574,14 +574,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 );
             }
 
-            $panel = ilPanelGUI::getInstance();
-            $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-            $panel->setHeading(
-                $this->lng->txt("trac_lp_settings_info_parent_container")
+            $panel = $this->ui_factory->panel()->secondary()->legacy(
+                $this->lng->txt("trac_lp_settings_info_parent_container"),
+                $this->ui_factory->legacy($tpl->get())
             );
-            $panel->setBody($tpl->get());
 
-            return $panel->getHTML();
+            return $this->ui_renderer->render($panel);
         }
         return '';
     }

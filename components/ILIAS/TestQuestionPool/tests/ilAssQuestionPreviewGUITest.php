@@ -47,6 +47,8 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
         $db = $this->createMock(ilDBInterface::class);
         $random_group = $this->createMock(RandomGroup::class);
         $global_screen = $this->createMock(ILIAS\GlobalScreen\Services::class);
+        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
+        $http = $this->createMock(ILIAS\HTTP\Services::class);
 
         $this->object = new ilAssQuestionPreviewGUI(
             $ctrl,
@@ -56,7 +58,9 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
             $lng,
             $db,
             $random_group,
-            $global_screen
+            $global_screen,
+            $http,
+            $refinery
         );
     }
 

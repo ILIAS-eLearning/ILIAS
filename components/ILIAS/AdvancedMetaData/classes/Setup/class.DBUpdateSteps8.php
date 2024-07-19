@@ -121,4 +121,17 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
             }
         }
     }
+
+    public function step_4(): void
+    {
+        $this->db->modifyTableColumn(
+            'adv_md_values_extlink',
+            'value',
+            [
+                'type' => 'text',
+                'length' => 2000,
+                'notnull' => false
+            ]
+        );
+    }
 }

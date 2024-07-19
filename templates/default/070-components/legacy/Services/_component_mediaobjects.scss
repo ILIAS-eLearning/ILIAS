@@ -1,4 +1,5 @@
 @use "../../../010-settings/" as *;
+@use "../../../030-tools/tool_focus-outline" as focus;
 
 /* Services/MediaObjects */
 
@@ -40,6 +41,26 @@
 
 .mejs-overlay-button {
 	background-image: url("#{$il-background-images-path}media/bigplay.svg");
+}
+
+.mejs__overlay-button,
+.ilPlayerPreviewPlayButton {
+	@include focus.il-focus();
+}
+
+.mejs__time-total {
+	@include focus.il-focus($il-focus-outline-inner-width: 1px, $il-focus-outline-outer-width: 1px);
+}
+
+.mejs__container {
+	@include focus.il-focus-border-only();
+}
+
+.mejs__button button,
+.ilPageVideo button,
+a.mejs__volume-slider {
+	@include focus.clear-focus-for-override();
+	@include focus.il-focus-border-only($il-focus-outline-inner-width: 1px, $il-focus-outline-outer-width: 1px);
 }
 
 .ilPlayerPreviewPlayButton {
