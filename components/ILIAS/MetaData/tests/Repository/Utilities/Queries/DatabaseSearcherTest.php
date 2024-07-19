@@ -89,9 +89,15 @@ class DatabaseSearcherTest extends TestCase
             {
                 return new class () extends NullDatabasePathsParser {
                     protected array $paths = [];
+                    protected bool $force_join_to_base_table = false;
 
-                    public function addPathAndGetColumn(PathInterface $path): string
-                    {
+                    public function addPathAndGetColumn(
+                        PathInterface $path,
+                        bool $force_join_to_base_table
+                    ): string {
+                        if (!$this->force_join_to_base_table) {
+                            $this->force_join_to_base_table = $force_join_to_base_table;
+                        }
                         $path_string = $path->toString();
                         $this->paths[] = $path_string;
                         return $path_string . '_column';
@@ -102,7 +108,8 @@ class DatabaseSearcherTest extends TestCase
                         if (empty($this->paths)) {
                             throw new \ilMDRepositoryException('no paths!');
                         }
-                        return 'selected paths:[' . implode('~', $this->paths) . ']';
+                        return 'selected paths' . ($this->force_join_to_base_table ? ' (join forced)' : '') .
+                            ':[' . implode('~', $this->paths) . ']';
                     }
 
                     public function getTableAliasForFilters(): string
@@ -467,9 +474,32 @@ class DatabaseSearcherTest extends TestCase
 
         $result = iterator_to_array($searcher->search($clause, null, null));
         $this->assertSame(
-            'selected paths:[path] GROUP BY ~identifier:base_table~.rbac_id, ' .
+            'selected paths (join forced):[path] GROUP BY ~identifier:base_table~.rbac_id, ' .
             '~identifier:base_table~.obj_id, ~identifier:base_table~.obj_type ' .
             'HAVING NOT COUNT(CASE WHEN path_column = ~text:value~ THEN 1 END) > 0 ' .
+            'ORDER BY rbac_id, obj_id, obj_type',
+            $searcher->exposed_last_query
+        );
+    }
+
+
+
+    public function testSearchWithEmptyValueBasicClause(): void
+    {
+        $searcher = $this->getDatabaseSearcher(self::RESULT);
+        $clause = $this->getBasicClause(
+            false,
+            'path',
+            Mode::EQUALS,
+            '',
+            false
+        );
+
+        $result = iterator_to_array($searcher->search($clause, null, null));
+        $this->assertSame(
+            'selected paths (join forced):[path] GROUP BY ~identifier:base_table~.rbac_id, ' .
+            '~identifier:base_table~.obj_id, ~identifier:base_table~.obj_type ' .
+            'HAVING COUNT(CASE WHEN path_column = ~text:~ THEN 1 END) > 0 ' .
             'ORDER BY rbac_id, obj_id, obj_type',
             $searcher->exposed_last_query
         );

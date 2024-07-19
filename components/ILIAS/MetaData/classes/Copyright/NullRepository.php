@@ -22,32 +22,32 @@ namespace ILIAS\MetaData\Copyright;
 
 use ILIAS\Data\URI;
 
-interface RepositoryInterface
+class NullRepository implements RepositoryInterface
 {
-    public function getEntry(int $id): EntryInterface;
+    public function getEntry(int $id): EntryInterface
+    {
+        return new NullEntry();
+    }
 
-    /**
-     * The default entry is returned first, and the remaining
-     * entries are returned according to their position.
-     * @return EntryInterface[]
-     */
-    public function getAllEntries(): \Generator;
+    public function getAllEntries(): \Generator
+    {
+        yield from [];
+    }
 
-    /**
-     * The default entry is returned first, and the remaining
-     * entries are returned according to their position.
-     * Outdated entries are skipped.
-     * @return EntryInterface[]
-     */
-    public function getActiveEntries(): \Generator;
+    public function getActiveEntries(): \Generator
+    {
+        yield from [];
+    }
 
-    public function getDefaultEntry(): EntryInterface;
+    public function getDefaultEntry(): EntryInterface
+    {
+        return new NullEntry();
+    }
 
-    public function deleteEntry(int $id): void;
+    public function deleteEntry(int $id): void
+    {
+    }
 
-    /**
-     * Returns the ID of the newly created entry.
-     */
     public function createEntry(
         string $title,
         string $description = '',
@@ -56,7 +56,9 @@ interface RepositoryInterface
         ?URI $link = null,
         URI|string $image = '',
         string $alt_text = ''
-    ): int;
+    ): int {
+        return 0;
+    }
 
     public function updateEntry(
         int $id,
@@ -67,11 +69,10 @@ interface RepositoryInterface
         ?URI $link = null,
         URI|string $image = '',
         string $alt_text = ''
-    ): void;
+    ): void {
+    }
 
-    /**
-     * Updates the position of entries according to the order
-     * their IDs are passed.
-     */
-    public function reorderEntries(int ...$ids): void;
+    public function reorderEntries(int ...$ids): void
+    {
+    }
 }

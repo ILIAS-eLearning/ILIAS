@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\MetaData\Copyright\Database\Wrapper;
 
 /**
- * @deprecated use ILIAS/MetaData/Copyright/DatabaseRepository
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  * @author  Stefan Meyer <meyer@leifos.com>
  */
 class ilMDCopyrightSelectionEntry

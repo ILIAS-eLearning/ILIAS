@@ -36,6 +36,16 @@ use ILIAS\MetaData\XML\Version;
 use ILIAS\MetaData\XML\Dictionary\TagInterface;
 use ILIAS\MetaData\XML\Dictionary\NullTag;
 use ILIAS\MetaData\XML\SpecialCase;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\NullScaffoldProvider;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
+use ILIAS\MetaData\Paths\NullFactory as NullPathFactory;
+use ILIAS\MetaData\Paths\BuilderInterface;
+use ILIAS\MetaData\Paths\NullBuilder;
+use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Paths\NullPath;
+use ILIAS\MetaData\Manipulator\NullManipulator;
+
+use function PHPUnit\Framework\assertGreaterThanOrEqual;
 
 class StandardTest extends TestCase
 {
@@ -100,7 +110,7 @@ class StandardTest extends TestCase
         };
     }
 
-    protected function getStandardWriter(): Standard
+    protected function getStandardWriter(bool $cp_selection_active = false): Standard
     {
         $dictionary = new class () extends NullDictionary {
             /**
@@ -143,14 +153,92 @@ class StandardTest extends TestCase
             }
         };
 
-        $copyright_handler = new class () extends NullCopyrightHandler {
+        $copyright_handler = new class ($cp_selection_active) extends NullCopyrightHandler {
+            public function __construct(protected bool $cp_selection_active)
+            {
+            }
+
             public function copyrightForExport(string $copyright): string
             {
                 return '~parsed:' . $copyright . '~';
             }
+
+            public function isCopyrightSelectionActive(): bool
+            {
+                return $this->cp_selection_active;
+            }
         };
 
-        return new Standard($dictionary, $copyright_handler);
+        $path_factory = new class () extends NullPathFactory {
+            public function custom(): BuilderInterface
+            {
+                return new class () extends NullBuilder {
+                    protected array $path = [];
+
+                    public function withNextStep(string $name, bool $add_as_first = false): BuilderInterface
+                    {
+                        $clone = clone $this;
+                        $clone->path[] = $name;
+                        return $clone;
+                    }
+
+                    public function get(): PathInterface
+                    {
+                        $string = implode('>', $this->path);
+                        return new class ($string) extends NullPath {
+                            public function __construct(protected string $string)
+                            {
+                            }
+
+                            public function toString(): string
+                            {
+                                return $this->string;
+                            }
+                        };
+                    }
+                };
+            }
+        };
+
+        $manipulator = new class () extends NullManipulator {
+            public function prepareCreateOrUpdate(
+                SetInterface $set,
+                PathInterface $path,
+                string ...$values
+            ): SetInterface {
+                if (
+                    $path->toString() !== 'rights>description>string' ||
+                    count($values) !== 1
+                ) {
+                    throw new \ilMDXMLException(
+                        'Unexpected preparation, path: "' . $path->toString() .
+                        '", value count: "' . count($values) . '"'
+                    );
+                }
+
+                /*
+                 * Always insert the copyright when testing, the manipulator automatically
+                 * takes care of the case where it is already there.
+                 */
+                $insert_array = [
+                    'name' => 'copyright',
+                    'type' => Type::NULL,
+                    'value' => '',
+                    'subs' => [[
+                        'name' => 'string',
+                        'type' => Type::STRING,
+                        'value' => '',
+                        'subs' => [],
+                        'specials' => [SpecialCase::COPYRIGHT]
+                    ]]
+                ];
+
+                $set->getRoot()->element_as_array['subs'][] = $insert_array;
+                return $set;
+            }
+        };
+
+        return new Standard($dictionary, $copyright_handler, $path_factory, $manipulator);
     }
 
     public function testWrite(): void
@@ -433,6 +521,37 @@ XML;
 XML;
 
         $writer = $this->getStandardWriter();
+        $set = $this->getSet($set_array);
+        $xml = $writer->write($set);
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
+    }
+
+    public function testWriteCPSelectionActive(): void
+    {
+        $set_array = [
+            'name' => 'el1',
+            'type' => Type::NULL,
+            'value' => '',
+            'subs' => [
+                [
+                    'name' => 'el2',
+                    'type' => Type::STRING,
+                    'value' => 'some value',
+                    'subs' => []
+                ]
+            ]
+        ];
+
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el2>some value</el2>
+    <copyright><string>~parsed:~</string></copyright>
+</el1>
+XML;
+
+        $writer = $this->getStandardWriter(true);
         $set = $this->getSet($set_array);
         $xml = $writer->write($set);
 

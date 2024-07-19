@@ -78,7 +78,14 @@ class Services
         ))->get();
         return $this->standard_writer = new StandardWriter(
             $dictionary,
-            new CopyrightHandler($this->copyright_services->repository())
+            new CopyrightHandler(
+                $this->copyright_services->repository(),
+                $this->copyright_services->identifiersHandler(),
+                $this->copyright_services->renderer(),
+                \ilMDSettings::_getInstance()
+            ),
+            $this->path_services->pathFactory(),
+            $this->manipulator_services->manipulator()
         );
     }
 
@@ -94,7 +101,12 @@ class Services
             $this->structure_services->structure()
         ))->get();
         $marker_factory = new MarkerFactory();
-        $copyright_handler = new CopyrightHandler($this->copyright_services->repository());
+        $copyright_handler = new CopyrightHandler(
+            $this->copyright_services->repository(),
+            $this->copyright_services->identifiersHandler(),
+            $this->copyright_services->renderer(),
+            \ilMDSettings::_getInstance()
+        );
         return $this->standard_reader = new StandardReader(
             new StructurallyCoupled(
                 $marker_factory,
@@ -118,7 +130,12 @@ class Services
         return $this->simple_dc_writer = new SimpleDC(
             $this->path_services->pathFactory(),
             $this->path_services->navigatorFactory(),
-            new CopyrightHandler($this->copyright_services->repository()),
+            new CopyrightHandler(
+                $this->copyright_services->repository(),
+                $this->copyright_services->identifiersHandler(),
+                $this->copyright_services->renderer(),
+                \ilMDSettings::_getInstance()
+            ),
             new LinkGenerator($this->dic['static_url'])
         );
     }

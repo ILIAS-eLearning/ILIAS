@@ -27,6 +27,7 @@ use ILIAS\MetaData\Services\Reader\ReaderInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Services\Derivation\SourceSelectorInterface;
 use ILIAS\MetaData\Services\Search\SearcherInterface;
+use ILIAS\MetaData\Services\CopyrightHelper\CopyrightHelperInterface;
 
 interface ServicesInterface
 {
@@ -89,4 +90,12 @@ interface ServicesInterface
      * of helpful translations from or to these formats.
      */
     public function dataHelper(): DataHelperInterface;
+
+    /**
+     * The LOM of an object also contains its copyright information, which might consist of
+     * a reference to a preset copyright. This helper offers some infrastructure
+     * to parse and manipulate copyright information of objects, to access the copyright
+     * presets, and to search and filter objects by copyright.
+     */
+    public function copyrightHelper(): CopyrightHelperInterface;
 }

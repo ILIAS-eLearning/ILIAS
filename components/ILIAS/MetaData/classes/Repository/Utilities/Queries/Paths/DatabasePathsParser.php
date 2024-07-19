@@ -58,6 +58,8 @@ class DatabasePathsParser implements DatabasePathsParserInterface
      */
     protected array $columns_by_path = [];
 
+    protected bool $force_join_to_base_table = false;
+
     /**
      * Just for quoting.
      */
@@ -84,9 +86,14 @@ class DatabasePathsParser implements DatabasePathsParserInterface
     public function getSelectForQuery(): string
     {
         $from_expression = '';
+        $base_table = '';
         if (empty($this->path_joins_by_path)) {
             throw new \ilMDRepositoryException('No tables found for search.');
-        } elseif (count($this->path_joins_by_path) === 1) {
+        } elseif (
+            count($this->path_joins_by_path) === 1 &&
+            !$this->force_join_to_base_table
+        ) {
+            $base_table = 'p1t1';
             $from_expression = array_values($this->path_joins_by_path)[0];
             $path = array_keys($this->path_joins_by_path)[0];
             if (isset($this->additional_conditions_by_path[$path])) {
@@ -94,6 +101,7 @@ class DatabasePathsParser implements DatabasePathsParserInterface
                     implode(' AND ', $this->additional_conditions_by_path[$path]);
             }
         } else {
+            $base_table = 'base';
             $from_expression = 'il_meta_general AS base';
             $path_number = 1;
             foreach ($this->path_joins_by_path as $path => $join) {
@@ -110,11 +118,19 @@ class DatabasePathsParser implements DatabasePathsParserInterface
             }
         }
 
-        return 'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type FROM ' . $from_expression;
+        return 'SELECT ' . $this->quoteIdentifier($base_table) . '.rbac_id, ' .
+            $this->quoteIdentifier($base_table) . '.obj_id, ' .
+            $this->quoteIdentifier($base_table) . '.obj_type FROM ' . $from_expression;
     }
 
-    public function addPathAndGetColumn(PathInterface $path): string
-    {
+    public function addPathAndGetColumn(
+        PathInterface $path,
+        bool $force_join_to_base_table
+    ): string {
+        if (!$this->force_join_to_base_table) {
+            $this->force_join_to_base_table = $force_join_to_base_table;
+        }
+
         $path_string = $path->toString();
         if (isset($this->columns_by_path[$path_string])) {
             return $this->columns_by_path[$path_string];
@@ -161,8 +177,13 @@ class DatabasePathsParser implements DatabasePathsParserInterface
     {
         if (empty($this->path_joins_by_path)) {
             throw new \ilMDRepositoryException('No tables found for search.');
+        } elseif (
+            count($this->path_joins_by_path) === 1 &&
+            !$this->force_join_to_base_table
+        ) {
+            return 'p1t1';
         }
-        return 'p1t1';
+        return 'base';
     }
 
     /**

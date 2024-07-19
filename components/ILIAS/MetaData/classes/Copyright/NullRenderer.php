@@ -18,26 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\XML\Copyright;
+namespace ILIAS\MetaData\Copyright;
 
-class NullCopyrightHandler implements CopyrightHandlerInterface
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Legacy\Legacy;
+
+class NullRenderer implements RendererInterface
 {
-    public function isCopyrightSelectionActive(): bool
+    /**
+     * Returns a string in a legacy UI component if only a string can be returned.
+     * @return Image[]|Link[]|Legacy[]
+     */
+    public function toUIComponents(CopyrightDataInterface $copyright): array
     {
-        return false;
+        return [];
     }
 
-    public function copyrightForExport(string $copyright): string
-    {
-        return '';
-    }
-
-    public function copyrightFromExport(string $copyright): string
-    {
-        return '';
-    }
-
-    public function copyrightAsString(string $copyright): string
+    public function toString(CopyrightDataInterface $copyright): string
     {
         return '';
     }

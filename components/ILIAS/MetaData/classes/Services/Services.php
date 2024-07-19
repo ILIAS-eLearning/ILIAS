@@ -43,6 +43,8 @@ use ILIAS\MetaData\Services\Derivation\Creation\Creator;
 use ILIAS\MetaData\Elements\Scaffolds\ScaffoldFactory;
 use ILIAS\MetaData\Elements\Data\DataFactory;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactory;
+use ILIAS\MetaData\Services\CopyrightHelper\CopyrightHelperInterface;
+use ILIAS\MetaData\Services\CopyrightHelper\CopyrightHelper;
 
 class Services implements ServicesInterface
 {
@@ -54,6 +56,7 @@ class Services implements ServicesInterface
     protected DataHelperInterface $data_helper;
     protected SourceSelectorInterface $derivation_source_selector;
     protected SearcherInterface $searcher;
+    protected CopyrightHelperInterface $copyright_helper;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -145,6 +148,21 @@ class Services implements ServicesInterface
         return $this->data_helper = new DataHelper(
             $this->internal_services->dataHelper()->dataHelper(),
             $this->internal_services->presentation()->data()
+        );
+    }
+
+    public function copyrightHelper(): CopyrightHelperInterface
+    {
+        if (isset($this->copyright_helper)) {
+            return $this->copyright_helper;
+        }
+        return $this->copyright_helper = new CopyrightHelper(
+            \ilMDSettings::_getInstance(),
+            $this->internal_services->paths()->pathFactory(),
+            $this->internal_services->copyright()->repository(),
+            $this->internal_services->copyright()->identifiersHandler(),
+            $this->internal_services->copyright()->renderer(),
+            $this->internal_services->repository()->SearchClauseFactory()
         );
     }
 
