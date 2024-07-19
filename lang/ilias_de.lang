@@ -8552,7 +8552,6 @@ dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
 dcl#:#dcl_comments_desc#:#Zeigt die Zahl der Kommentare pro Eintrag an.
-dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
 dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Vorlage für Einzelansicht wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Vorlage für Einzelansicht wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?

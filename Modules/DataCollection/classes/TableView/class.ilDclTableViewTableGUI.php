@@ -63,7 +63,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('title'), '', 'auto');
         $this->addColumn($this->lng->txt('description'), '', 'auto');
-        $this->addColumn($this->lng->txt('dcl_configuration_complete'), '', 'auto');
         $this->addColumn($this->lng->txt('actions'), '', '30px');
 
         $this->setTopCommands(true);
@@ -217,12 +216,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(ilDclTableViewEditGUI::class, 'tableview_id', $a_set->getId());
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
-
-        $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
-        if ($a_set->validateConfigCompletion()) {
-            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_ok_monochrome.svg'), $this->lng->txt("no"));
-        }
-        $this->tpl->setVariable("ICON_CONFIG", $this->renderer->render($icon));
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
 
