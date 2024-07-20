@@ -65,10 +65,14 @@ class ilSystemStyleHTMLExport
 
     public function export(): void
     {
+        $location_stylesheet = ilUtil::getStyleSheetLocation('filesystem');
+
+        // Fix skin path
+        $this->style_dir = dirname($this->style_dir, 2) . DIRECTORY_SEPARATOR . dirname($location_stylesheet);
+
         $this->createDirectories();
 
         // export system style sheet
-        $location_stylesheet = ilUtil::getStyleSheetLocation('filesystem');
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(dirname($location_stylesheet), FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
