@@ -543,6 +543,8 @@ class ilPersonalProfileGUI
     {
         $this->initPersonalDataForm();
 
+        $this->uploads->process();
+
         if (!$this->form->checkInput()
             || !$this->emailCompletionForced()
                 && $this->emailChanged()
