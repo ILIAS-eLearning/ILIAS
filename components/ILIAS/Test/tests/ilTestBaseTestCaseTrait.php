@@ -168,7 +168,21 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_ilDB(): void
     {
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+        $db = $this->createMock(ilDBInterface::class);
+        $db->method('loadModule')->willReturnCallback(
+            function ($module): \ilDBPdoManager|\ilDBPdoReverse|null {
+                switch ($module) {
+                    case ilDBConstants::MODULE_MANAGER:
+                        return $this->createMock(ilDBPdoManager::class);
+                    case ilDBConstants::MODULE_REVERSE:
+                        return $this->createMock(ilDBPdoReverse::class);
+                    default:
+                        return null;
+                }
+            }
+        );
+
+        $this->setGlobalVariable('ilDB', $db);
     }
 
     protected function addGlobal_ilBench(): void
