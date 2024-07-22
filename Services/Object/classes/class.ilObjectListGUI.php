@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Notes\Note;
+use ILIAS\Container\Content\ViewSessionRepository;
 
 /**
  * Important note:
@@ -2916,6 +2917,7 @@ class ilObjectListGUI
         if ($this->context === self::CONTEXT_REPOSITORY
             && ($this->requested_cmd === "view" || $this->requested_cmd === "" || $this->requested_cmd === "render")
             && $file_upload_dropzone->isUploadAllowed($this->type)
+             && !(new ViewSessionRepository())->isAdminView()
         ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
