@@ -180,7 +180,6 @@ administration#:#clean_desc#:#Remove invalid references and tree entries. Initia
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#course_export#:#Visible in Courses
-administration#:#disabled#:#Disabled
 administration#:#done#:#Done
 administration#:#dump_tree#:#Dump tree
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.
@@ -427,7 +426,6 @@ adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
-assessment#:#action#:#Action
 assessment#:#activate_logging#:#Activate Test and Assessment Logging
 assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
 assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
@@ -467,7 +465,6 @@ assessment#:#answers_text_box#:#Text
 assessment#:#applet_attributes#:#Applet Attributes
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
-assessment#:#apply#:#Apply
 assessment#:#apply_def_settings_to_tst#:#Apply Settings
 assessment#:#assClozeTest#:#Cloze Question
 assessment#:#assErrorText#:#Error Text
@@ -558,7 +555,6 @@ assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
@@ -567,7 +563,6 @@ assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the metadata!
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!
-assessment#:#categories#:#Categories
 assessment#:#category#:#Category
 assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.
@@ -600,7 +595,6 @@ assessment#:#copy_no_questions_selected#:#Please select at least one question to
 assessment#:#copy_questions_success#:#The question(s) has been copied.
 assessment#:#correct_answers#:#Correct Answers:
 assessment#:#counter#:#Counter
-assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
 assessment#:#customstyle#:#Custom Style
@@ -2121,7 +2115,6 @@ auth#:#auth_oidc_update_field_info#:#Update Automatically
 auth#:#auth_oidc_update_role_info#:#Only Synchronise Automatically the First Time a User Logs In.
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_page_type_auth#:#Login Page
-auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
 auth#:#auth_saml_add_idp_md_info#:#Please enter the XML formatted metadata for the Identity Provider.
@@ -6121,7 +6114,6 @@ contact#:#contact_awrn_req_contacts#:#Contact Requests
 contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
-content#:#all#:#All
 content#:#all_pages#:#Entire Learning Module
 content#:#choose_public_mode#:#Access for Users not logged-in
 content#:#choose_public_pages#:#Choose public accessible pages
@@ -7467,7 +7459,6 @@ crs#:#crs_add_remove_from_desktop#:#Add to Favourites
 crs#:#crs_add_remove_from_desktop_info#:#Objects within the course can be added to favourites.
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_to_group#:#Add to Group
-crs#:#crs_added#:#Added new course
 crs#:#crs_added_member#:#Your registration for course "%s"
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
 crs#:#crs_added_new_archive#:#A new archive has been added
@@ -8149,8 +8140,6 @@ dateplaner#:#app_consultation_hours#:#Consultation Hours
 dateplaner#:#app_day#:#Day
 dateplaner#:#app_month#:#Month
 dateplaner#:#app_week#:#Week
-dateplaner#:#apply#:#Apply
-dateplaner#:#back#:#Back
 dateplaner#:#back_to_crs#:#Go to Course
 dateplaner#:#back_to_grp#:#Go to Group
 dateplaner#:#back_to_pd#:#Back
@@ -8500,14 +8489,12 @@ dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#consultation_hours_block_title#:#Consultation Hours
-dateplaner#:#created#:#Created
 dateplaner#:#crs_cal_activation_end#:#Course Availability ends
 dateplaner#:#crs_cal_activation_start#:#Course Availability starts
 dateplaner#:#crs_cal_end#:#Course ends
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#crs_cal_start#:#Course starts
-dateplaner#:#date#:#Date
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
@@ -10574,7 +10561,6 @@ itgr#:#itgr_tile_size#:#Tile Size
 jscalendar#:#about_calendar#:#About the calendar
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection.
-jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
 jscalendar#:#drag_to_move#:#Drag to move
@@ -12920,7 +12906,6 @@ objref#:#objref_edit_title#:#Title
 objref#:#objref_failure_target_type#:#Target of link must be of following type:
 objref#:#objref_reuse_title#:#Adopt Title of Linked Object
 objref#:#objref_title_settings#:#Title of Linked Object
-orgu#:#Actions#:#Actions
 orgu#:#Staff#:#Staff
 orgu#:#add_position#:#Add Position
 orgu#:#authorities#:#Authorities
@@ -14998,7 +14983,6 @@ scormdebug#:#cmi.success_status#:#Indicates whether the learner has mastered the
 scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data between learner sessions
 scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
 scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
-scormdebug#:#comment#:#Comment
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
 scormdebug#:#debugwindow_action#:#Action
 scormdebug#:#debugwindow_cancel#:#Cancel
@@ -15076,7 +15060,6 @@ scormdebug#:#summary_for_SCO_with_test#:#Summary for a SCO with a test
 scormdebug#:#summary_for_SCO_without_test#:#Summary for a SCO without a test
 scormdebug#:#undefined_color#:#undefined color
 scormdebug#:#unknown#:#unknown
-scormtrac#:#Attempts#:#Attempts
 scormtrac#:#LearningModuleId#:#ID of learning module
 scormtrac#:#LearningModuleTitle#:#Title of learning module
 scormtrac#:#LearningModuleVersion#:#Version of learning module
@@ -16087,16 +16070,13 @@ survey#:#already_completed_survey#:#You have already finished the survey! You ar
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
 survey#:#answer#:#Answer
-survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic Mean
-survey#:#back#:#Back
-survey#:#before#:#before
 survey#:#browse_for_questions#:#Add from Pool
 survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
-survey#:#categories#:#Answers
+survey#:#categories#:#Answers###LangRefactoring: needs new Language_ID
 survey#:#category#:#Answer
 survey#:#category_nr_selected#:#Number of selections
 survey#:#chart#:#Chart
@@ -16122,8 +16102,7 @@ survey#:#constraints_list_of_entities#:#Available hooks for routing rules
 survey#:#constraints_no_nonessay_available#:#There are no previous questions available to define routing rules. The following types are supported: Metric, Single Choice and Multiple Choice question.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or question block!
 survey#:#contains#:#Contains
-survey#:#continue#:#Continue >>
-survey#:#create_date#:#Created
+survey#:#continue#:#Continue →
 survey#:#create_new#:#Create New
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
