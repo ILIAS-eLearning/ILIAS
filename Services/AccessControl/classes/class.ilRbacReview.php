@@ -662,7 +662,7 @@ class ilRbacReview
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return unserialize($row['ops_id']);
+            return $row['ops_id'] === ':' ? [] : unserialize($row['ops_id']);
         }
         return [];
     }
