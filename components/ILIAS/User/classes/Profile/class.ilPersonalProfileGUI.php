@@ -197,30 +197,31 @@ class ilPersonalProfileGUI
 
         // move uploaded file
         if ($this->form->hasFileUpload('userfile') && $this->uploads->hasBeenProcessed()) {
-            $uploads = $this->uploads->getResults();
-            // this implementation uses the $_FILES superglobal since
-            // the file has to be identified by the name of the input field
-            $upload_tmp_name = $_FILES['userfile']['tmp_name'];
-            $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
-            if ($avatar_upload_result !== null) {
-                if ($existing_rid === null) {
-                    $rid = $this->irss->manage()->upload(
-                        $avatar_upload_result,
-                        $this->stakeholder,
-                        $revision_title
-                    );
-                } else {
-                    $rid = $existing_rid;
-                    $this->irss->manage()->replaceWithUpload(
-                        $existing_rid,
-                        $avatar_upload_result,
-                        $this->stakeholder,
-                        $revision_title
-                    );
-                }
+            $stream = Streams::ofResource(
+                fopen(
+                    $this->form->getFileUpload('userfile')['tmp_name'],
+                    'r'
+                )
+            );
+
+            if ($existing_rid === null) {
+                $rid = $this->irss->manage()->stream(
+                    $stream,
+                    $this->stakeholder,
+                    $revision_title
+                );
+            } else {
+                $rid = $existing_rid;
+                $this->irss->manage()->replaceWithStream(
+                    $existing_rid,
+                    $stream,
+                    $this->stakeholder,
+                    $revision_title
+                );
             }
-            if ($avatar_upload_result === null || !isset($rid)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+
+            if (!isset($rid)) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'), true);
                 $this->ctrl->redirect($this, 'showProfile');
             }
             $this->user->setAvatarRid($rid->serialize());
@@ -241,7 +242,7 @@ class ilPersonalProfileGUI
         );
         $data = base64_decode($img);
         if ($data === false) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'), true);
             $this->ctrl->redirect($this, 'showProfile');
         }
         $stream = Streams::ofString($data);
