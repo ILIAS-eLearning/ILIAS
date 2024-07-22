@@ -59,4 +59,10 @@ interface MathJaxConfig
      * @return string[] relative paths from the public directory
      */
     public function getResources(): array;
+
+    /**
+     * Resources that need to be included in an export 
+     * @return string[] relative paths from the public directory
+     */
+    public function getResourcesToExport(): array;
 }

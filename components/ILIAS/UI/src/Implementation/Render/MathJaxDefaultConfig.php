@@ -74,4 +74,20 @@ class MathJaxDefaultConfig implements MathJaxConfig
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getResourcesToExport(): array
+    {
+        $resources = [
+            'assets/js/mathjax.js'
+        ];
+
+        // MathJax will dynamically load additional assets based on what is found on the page
+        foreach (['tex-chtml-full.js', 'a11y', 'adaptors', 'input', 'output', 'sre', 'ui',] as $resource) {
+            $resources[] = "node_modules/mathjax/es5/" . $resource;
+        }
+
+        return $resources;
+    }
 }
