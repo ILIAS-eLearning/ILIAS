@@ -69,7 +69,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $record->getId());
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $view);
         $html = $this->factory->link()->standard(
-            $record->getRecordFieldValue($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE)),
+            $record->getRecordFieldHTML($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE)),
             $this->ctrl->getLinkTargetByClass(
                 ilDclDetailedViewGUI::class,
                 "renderRecord"
