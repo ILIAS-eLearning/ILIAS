@@ -260,6 +260,11 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('ilToolbar', $this->createMock(ilToolbarGUI::class));
     }
 
+    protected function addGlobal_ilObjectCustomIconFactory(): void
+    {
+        $this->setGlobalVariable('object.customicons.factory', $this->createMock(ilObjectCustomIconFactory::class));
+    }
+
     protected function addGlobal_http(): void
     {
         $request_mock = $this->getMockBuilder(\Psr\Http\Message\ServerRequestInterface::class)
