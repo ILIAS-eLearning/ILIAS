@@ -152,7 +152,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <input id="id_1" type="number" class="form-control form-control-sm" />
+                <input id="id_1" type="number" class="form-control form-control-sm c-input-numeric" />
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>

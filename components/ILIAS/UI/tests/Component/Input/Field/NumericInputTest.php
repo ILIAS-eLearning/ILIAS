@@ -75,7 +75,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
    <div class="col-sm-8 col-md-9 col-lg-10">
-      <input id="id_1" type="number" name="name_0" class="form-control form-control-sm" />
+      <input id="id_1" type="number" name="name_0" class="form-control form-control-sm c-input-numeric" />
       <div class="help-block">byline</div>
    </div>
 </div>
@@ -99,7 +99,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
-      <input id="id_1" type="number" name="name_0" class="form-control form-control-sm" />		
+      <input id="id_1" type="number" name="name_0" class="form-control form-control-sm c-input-numeric" />
       <div class="help-block">byline</div>
    </div>
 </div>');
@@ -118,7 +118,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10">		<input id="id_1" type="number" name="name_0" class="form-control form-control-sm" />					</div>
+   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="number" name="name_0" class="form-control form-control-sm c-input-numeric" /></div>
 </div>
 ');
         $this->assertEquals($expected, $html);
@@ -137,7 +137,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10">		<input id="id_1" type="number" value="10" name="name_0" class="form-control form-control-sm" />					</div>
+   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="number" value="10" name="name_0" class="form-control form-control-sm c-input-numeric" /></div>
 </div>
 ');
         $this->assertEquals($expected, $html);
@@ -155,7 +155,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
-   <div class="col-sm-8 col-md-9 col-lg-10">		<input id="id_1" type="number" name="name_0" disabled="disabled" class="form-control form-control-sm" />					</div>
+   <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="number" name="name_0" disabled="disabled" class="form-control form-control-sm c-input-numeric" /></div>
 </div>');
         $this->assertEquals($expected, $html);
     }
