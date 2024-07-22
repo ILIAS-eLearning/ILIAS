@@ -62,6 +62,7 @@ class ilPersonalProfileGUI
         \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
         \ilTermsOfServiceHelper $termsOfServiceHelper = null
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tabs = $DIC->tabs();
@@ -186,22 +187,15 @@ class ilPersonalProfileGUI
         $ilUser->setPref("profile_image", $store_file);
         $ilUser->update();
 
-        // move uploaded file
-        // begin patch profile-image-patch – Killing 1.3.2021
         if ($this->form->hasFileUpload("userfile")) {
-            $pi = pathinfo($_FILES["userfile"]["name"]);
-            $uploaded_file = $this->form->moveFileUpload(
-                $image_dir,
-                "userfile",
-                "upload_" . $ilUser->getId() . "." . $pi["extension"]
-            );
-            if (!$uploaded_file) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                $this->ctrl->redirect($this, "showProfile");
+            $file_info = $this->form->getFileUpload('userfile');
+            $tmp_path = $file_info['tmp_name'];
+            if (!$file_info['is_upload']) {
+                $new_path = ilFileUtils::ilTempnam();
+                rename($tmp_path, $new_path);
+                $tmp_path = $new_path;
             }
-
-            $this->convertUserPicture($uploaded_file, $image_dir);
-            chmod($uploaded_file, 0770);
+            $this->convertUserPicture($tmp_path, $image_dir);
             return;
         }
 
@@ -210,7 +204,7 @@ class ilPersonalProfileGUI
             return;
         }
 
-        $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
+        $uploaded_file = $image_dir . DIRECTORY_SEPARATOR . "upload_" . $ilUser->getId() . ".png";
         $img = str_replace(
             ['data:image/png;base64,', ' '],
             ['', '+'],
@@ -219,7 +213,7 @@ class ilPersonalProfileGUI
         $data = base64_decode($img);
         $success = file_put_contents($uploaded_file, $data);
         if (!$success) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error_file_not_found", true));
             $this->ctrl->redirect($this, "showProfile");
         }
 
