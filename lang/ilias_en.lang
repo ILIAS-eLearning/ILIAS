@@ -6021,6 +6021,7 @@ cont#:#cont_news_timeline_info#:#Activate News Timeline Tab
 cont#:#cont_news_timeline_landing_page#:#Landing Page
 cont#:#cont_news_timeline_landing_page_info#:#Set the Timeline tab as the group’s landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
+cont#:#cont_no_title#:#Empty Title
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Path

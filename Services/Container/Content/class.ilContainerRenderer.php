@@ -667,7 +667,14 @@ class ilContainerRenderer
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
         }
 
-        $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+        $presentation_title = $title;
+        $sr_only = "";
+        if (trim($title) === "") {
+            $presentation_title = $this->lng->txt("cont_no_title");
+            $sr_only = "sr-only";
+        }
+        $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $presentation_title);
+        $a_tpl->setVariable("SR_ONLY", $sr_only);
         $a_tpl->setVariable("CHR_COMMANDS", $a_commands_html);
         $a_tpl->parseCurrentBlock();
     }
