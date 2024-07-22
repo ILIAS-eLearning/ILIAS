@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Deck;
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
 function user()
 {
     //Init Factory and Renderer
