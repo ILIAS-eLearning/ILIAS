@@ -171,6 +171,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
+                        <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                     <div class="help-block">byline</div>
                 </div>
@@ -200,6 +201,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-dropzone">
                             <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                        <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                     <div class="help-block">byline</div>
                 </div>
@@ -226,6 +228,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-dropzone">
                             <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                        <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                 </div>
             </div>
@@ -284,6 +287,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				<button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
+            <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
 		</div>
 	</div>
 </div>
@@ -357,6 +361,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				<button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
+            <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
 		</div>
 	</div>
 </div>
@@ -439,6 +444,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				<button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
+            <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
 		</div>
 	</div>
 </div>
@@ -465,6 +471,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-dropzone">
                             <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                    <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                 </div>
             </div>
@@ -490,6 +497,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-dropzone">
                             <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                        <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1 </div>
                     </div>
                 </div>
             </div>
