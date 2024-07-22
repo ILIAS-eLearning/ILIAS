@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
+use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Object\ilObjectDIC;
 
@@ -2866,6 +2867,7 @@ class ilObjectListGUI
         if ($this->context === self::CONTEXT_REPOSITORY
             && ($this->requested_cmd === "view" || $this->requested_cmd === "" || $this->requested_cmd === "render")
             && $file_upload_dropzone->isUploadAllowed($this->type)
+             && !(new ModeSessionRepository())->isAdminMode()
         ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
