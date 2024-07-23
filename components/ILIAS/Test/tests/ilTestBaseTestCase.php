@@ -118,8 +118,19 @@ class ilTestBaseTestCase extends TestCase
         parent::tearDown();
     }
 
-    public static function callMethod($obj, $name, array $args = [])
+    /**
+     * @throws ReflectionException
+     */
+    public static function callMethod($obj, $name, array $args = []): mixed
     {
         return (new ReflectionClass($obj))->getMethod($name)->invokeArgs($obj, $args);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public static function getNonPublicPropertyValue(object $obj, string $name): mixed
+    {
+        return (new ReflectionProperty($obj, $name))->getValue($obj);
     }
 }
