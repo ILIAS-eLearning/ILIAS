@@ -20,37 +20,146 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Access\test;
 
+use ilTestPassResultsSettings;
 use PHPUnit\Framework\TestCase;
 
 class ilTestPassResultsSettingsTest extends TestCase
 {
-    public function testTestResultsSettingsDefaults(): void
+    protected function setUp(): void
     {
-        $trs = new \ilTestPassResultsSettings();
-        $this->assertFalse($trs->getShowHiddenQuestions());
-        $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertTrue($trs->getShowBestSolution());
-        $this->assertTrue($trs->getShowFeedback());
-        $this->assertFalse($trs->getQuestionTextOnly());
-        $this->assertFalse($trs->getShowRecapitulation());
+        parent::setUp();
+
+        $this->testPassResultsSettings = new ilTestPassResultsSettings();
     }
 
-    public function testTestResultsSettingsBasicProps(): void
+    public function testConstruct(): void
     {
-        $trs = new \ilTestPassResultsSettings(true, true, true, true, true, true);
-        $this->assertTrue($trs->getShowHiddenQuestions());
-        $this->assertTrue($trs->getShowOptionalQuestions());
-        $this->assertTrue($trs->getShowBestSolution());
-        $this->assertTrue($trs->getShowFeedback());
-        $this->assertTrue($trs->getQuestionTextOnly());
-        $this->assertTrue($trs->getShowRecapitulation());
+        $this->assertInstanceOf(ilTestPassResultsSettings::class, $this->testPassResultsSettings);
+    }
 
-        $trs = new \ilTestPassResultsSettings(false, false, false, false, false, false);
-        $this->assertFalse($trs->getShowHiddenQuestions());
-        $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertFalse($trs->getShowBestSolution());
-        $this->assertFalse($trs->getShowFeedback());
-        $this->assertFalse($trs->getQuestionTextOnly());
-        $this->assertFalse($trs->getShowRecapitulation());
+    /**
+     * @dataProvider getShowHiddenQuestionsProvider
+     */
+    public function testGetShowHiddenQuestions(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(show_hidden_questions: $IO);
+
+        $this->assertEquals($IO ?? false, $testPassResultsSettings->getShowHiddenQuestions());
+    }
+
+    public static function getShowHiddenQuestionsProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowOptionalQuestionsProvider
+     */
+    public function testGetShowOptionalQuestions(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(show_optional_questions: $IO);
+
+        $this->assertEquals($IO ?? false, $testPassResultsSettings->getShowOptionalQuestions());
+    }
+
+    public static function getShowOptionalQuestionsProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowBestSolutionProvider
+     */
+    public function testGetShowBestSolution(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(show_best_solution: $IO);
+
+        $this->assertEquals($IO ?? true, $testPassResultsSettings->getShowBestSolution());
+    }
+
+    public static function getShowBestSolutionProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowFeedbackProvider
+     */
+    public function testGetShowFeedback(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(show_feedback: $IO);
+
+        $this->assertEquals($IO ?? true, $testPassResultsSettings->getShowFeedback());
+    }
+
+    public static function getShowFeedbackProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getQuestionTextOnlyProvider
+     */
+    public function testGetQuestionTextOnly(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(question_text_only: $IO);
+
+        $this->assertEquals($IO ?? false, $testPassResultsSettings->getQuestionTextOnly());
+    }
+
+    public static function getQuestionTextOnlyProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowRecapitulationProvider
+     */
+    public function testGetShowRecapitulation(?bool $IO): void
+    {
+        $testPassResultsSettings = is_null($IO)
+            ? $this->testPassResultsSettings
+            : new ilTestPassResultsSettings(show_recapitulation: $IO);
+
+        $this->assertEquals($IO ?? false, $testPassResultsSettings->getShowRecapitulation());
+    }
+
+    public static function getShowRecapitulationProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
     }
 }
