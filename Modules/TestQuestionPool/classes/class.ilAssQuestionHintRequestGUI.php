@@ -78,7 +78,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
     private function showListCmd(): void
     {
         if ($this->global_screen->tool()->context()->current()->getAdditionalData()
-            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE)) {
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
             $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
                 ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
                 $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('show_requested_question_hints')
@@ -112,7 +112,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $question_hint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
 
         if ($this->global_screen->tool()->context()->current()->getAdditionalData()
-            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE)) {
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
             $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
                 ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
                 $this->parent_gui->getObject()->getTitle() . ' - ' . sprintf(
@@ -157,7 +157,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
     private function confirmRequestCmd(): void
     {
         if ($this->global_screen->tool()->context()->current()->getAdditionalData()
-            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE)) {
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
             $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
                 ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
                 $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_question_hints_confirm_request')
