@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
-
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 /**
@@ -122,7 +121,7 @@ class ilTestPasswordProtectionGUI
 
     private function backToInfoScreenCmd(): void
     {
-        $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
     private function setNextCommandClass(string $next_command_class): void
