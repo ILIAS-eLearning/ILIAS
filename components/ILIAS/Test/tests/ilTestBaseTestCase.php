@@ -66,6 +66,8 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_static_url();
         $this->addGlobal_upload();
 
+        $this->defineGlobalConstants();
+
         parent::setUp();
     }
 
