@@ -1594,50 +1594,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 if ($role_id === null) {
                     continue;
                 }
-
-                if (in_array(
+                $this->redirectOnRoleWithMissingWrite(
                     $role_id,
-                    $global_roles
-                )) {
-                    if (in_array(
-                        SYSTEM_ROLE_ID,
-                        $roles_of_user
-                    )) {
-                        continue;
-                    }
-
-                    if ($role_id === SYSTEM_ROLE_ID
-                        || $this->object->getRefId() !== USER_FOLDER_ID
-                            && !ilObjRole::_getAssignUsersStatus($role_id)
-                    ) {
-                        $this->filesystem->deleteDir($import_dir);
-                        $this->tpl->setOnScreenMessage(
-                            'failure',
-                            $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                            true
-                        );
-                        $this->redirectAfterImport();
-                    }
-                }
-
-                $rolf = $this->rbac_review->getFoldersAssignedToRole(
-                    $role_id,
-                    true
+                    $roles_of_user,
+                    $global_roles,
+                    $xml_path
                 );
-                if ($this->rbac_review->isDeleted($rolf[0])
-                    || !$this->rbac_system->checkAccess(
-                        'write',
-                        $rolf[0]
-                    )
-                ) {
-                    $this->filesystem->deleteDir($import_dir);
-                    $this->tpl->setOnScreenMessage(
-                        'failure',
-                        $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                        true
-                    );
-                    $this->redirectAfterImport();
-                }
             }
         }
 
@@ -1685,6 +1647,58 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'ilobjcategorygui',
                 'listUsers'
             );
+        }
+    }
+
+    private function redirectOnRoleWithMissingWrite(
+        int $role_id,
+        array $roles_of_user,
+        array $global_roles,
+        string $import_dir
+    ): void {
+        if (in_array(
+            $role_id,
+            $global_roles
+        )) {
+            if (in_array(
+                SYSTEM_ROLE_ID,
+                $roles_of_user
+            )) {
+                return;
+            }
+
+            if ($role_id === SYSTEM_ROLE_ID
+                || $this->object->getRefId() !== USER_FOLDER_ID
+                    && !ilObjRole::_getAssignUsersStatus($role_id)
+            ) {
+                $this->filesystem->deleteDir($import_dir);
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('usrimport_with_specified_role_not_permitted'),
+                    true
+                );
+                $this->redirectAfterImport();
+            }
+            return;
+        }
+
+        $rolf = $this->rbac_review->getFoldersAssignedToRole(
+            $role_id,
+            true
+        );
+        if ($this->rbac_review->isDeleted($rolf[0])
+            || !$this->rbac_system->checkAccess(
+                'write',
+                $rolf[0]
+            )
+        ) {
+            $this->filesystem->deleteDir($import_dir);
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('usrimport_with_specified_role_not_permitted'),
+                true
+            );
+            $this->redirectAfterImport();
         }
     }
 
