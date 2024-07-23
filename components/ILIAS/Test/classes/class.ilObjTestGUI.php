@@ -2928,10 +2928,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function copyAndLinkToQuestionpoolObject()
     {
-        if (
-            'copyAndLinkToQuestionpool' == $this->ctrl->getCmd() &&
-            (!$this->testrequest->isset('q_id') || !is_array($this->testrequest->raw('q_id')))
-        ) {
+        if (!$this->testrequest->isset('q_id') || !is_array($this->testrequest->raw('q_id'))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_no_question_selected_for_moving_to_qpl'), true);
             $this->ctrl->redirect($this, self::SHOW_QUESTIONS_CMD);
         }

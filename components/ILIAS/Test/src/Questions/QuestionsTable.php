@@ -338,7 +338,7 @@ class QuestionsTable
                     $gui_call('setMessage', ['failure', 'no_selection']);
                     break;
                 }
-                $gui_call('copyAndLinkToQuestionpool', [$row_ids]);
+                $gui_call('copyAndLinkToQuestionpoolObject', [$row_ids]);
                 break;
 
             default:
