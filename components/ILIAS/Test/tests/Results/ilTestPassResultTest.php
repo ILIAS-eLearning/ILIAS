@@ -18,6 +18,7 @@
 
 namespace Results;
 
+use Closure;
 use ilQuestionResult;
 use ilTestBaseTestCase;
 use ilTestPassResult;
@@ -36,6 +37,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
             0,
             []
         );
+
         $this->assertEquals($IO, $ilTestPassResult->getSettings());
     }
 
@@ -57,15 +59,16 @@ class ilTestPassResultTest extends ilTestBaseTestCase
             0,
             []
         );
+
         $this->assertEquals($IO, $ilTestPassResult->getActiveId());
     }
 
     public static function getActiveIdDataProvider(): array
     {
         return [
-            [-1],
-            [0],
-            [1]
+            'minus_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
         ];
     }
 
@@ -80,22 +83,23 @@ class ilTestPassResultTest extends ilTestBaseTestCase
             $IO,
             []
         );
+
         $this->assertEquals($IO, $ilTestPassResult->getPass());
     }
 
     public static function getPassDataProvider(): array
     {
         return [
-            [-1],
-            [0],
-            [1]
+            'minus_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
         ];
     }
 
     /**
      * @dataProvider getQuestionResultsDataProvider
      */
-    public function testGetQuestionResults(\Closure $IO): void
+    public function testGetQuestionResults(Closure $IO): void
     {
         $IO = $IO($this);
         $ilTestPassResult = new ilTestPassResult(
@@ -110,15 +114,14 @@ class ilTestPassResultTest extends ilTestBaseTestCase
     public static function getQuestionResultsDataProvider(): array
     {
         return [
-            [static fn(self $test_case): array => []],
-            [static fn(self $test_case): array => [
+            'empty_array' => [static fn(self $test_case): array => []],
+            'one_question_result' => [static fn(self $test_case): array => [
                 $test_case->createMock(ilQuestionResult::class)
             ]],
-            [static fn(self $test_case): array => [
+            'multiple_question_results' => [static fn(self $test_case): array => [
                 $test_case->createMock(ilQuestionResult::class),
                 $test_case->createMock(ilQuestionResult::class),
             ]]
         ];
-
     }
 }
