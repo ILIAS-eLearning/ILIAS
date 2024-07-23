@@ -47,7 +47,7 @@ class ilLoggerFactory
     private ilLoggingSettings $settings;
     protected Container $dic;
 
-    private bool $enabled; //ToDo PHP8 Review: This is a private var never read only written and should probably be removed.
+    private bool $enabled = false; //ToDo PHP8 Review: This is a private var never read only written and should probably be removed.
 
     /**
      * @var array<string, ilComponentLogger>
@@ -77,7 +77,7 @@ class ilLoggerFactory
         return static::$instance = new self($settings);
     }
 
-    private function isLoggingEnabled(): bool
+    public function isLoggingEnabled(): bool
     {
         return $this->enabled;
     }
