@@ -63,6 +63,11 @@ class ilSessionReminder
         return (bool) $ilSetting->get('session_reminder_enabled');
     }
 
+    public static function getMaxLeadTime(): int
+    {
+        $expires = ilSession::getSessionExpireValue();
+        return max(self::MIN_LEAD_TIME, ($expires / 60) - 1);
+    }
     public function __construct(ilObjUser $user, ClockInterface $clock)
     {
         $this->user = $user;
@@ -73,10 +78,15 @@ class ilSessionReminder
 
     private function init(): void
     {
+        /** @var ilSetting $ilSetting */
+        global $DIC;
+
+        $ilSetting = $DIC['ilSetting'];
+
         $this->setLeadTime(
             ((int) max(
                 self::MIN_LEAD_TIME,
-                (float) $this->getUser()->getPref('session_reminder_lead_time')
+                (float) $this->getUser()->getPref('session_reminder_lead_time') ?: $ilSetting->get('session_reminder')
             )) * 60
         );
 

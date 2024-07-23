@@ -137,6 +137,11 @@ class UserGUIRequest
         return $this->strArray('select');
     }
 
+    public function getInput(): array
+    {
+        return $this->strArray('input');
+    }
+
     public function getFiles(): array
     {
         return $this->strArray('file');

@@ -390,6 +390,19 @@ class DefaultFields
             'prg_export_hide' => true,
             'search_hide' => true,
             'group' => 'settings'
+        ],
+        'session_reminder' => [
+            'input' => 'session_reminder_lead_time',
+            'default' => 'y',
+            'visible_hide' => true,
+            'visib_lua_hide' => true,
+            'required_hide' => true,
+            'visib_reg_hide' => true,
+            'course_export_hide' => true,
+            'group_export_hide' => true,
+            'prg_export_hide' => true,
+            'search_hide' => true,
+            'group' => 'settings'
         ]
     ];
 

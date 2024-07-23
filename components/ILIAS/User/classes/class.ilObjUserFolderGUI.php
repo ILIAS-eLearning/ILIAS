@@ -2277,6 +2277,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $checked = $this->user_request->getChecked();
         $selected = $this->user_request->getSelect();
+        $input = $this->user_request->getInput();
 
         $user_settings_config = $this->user_settings_config;
 
@@ -2482,6 +2483,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'components/ILIAS/User',
                 'onUserFieldAttributesChanged',
                 $changed_fields
+            );
+        }
+
+        if (isset($input['default_session_reminder'])) {
+            $this->ilias->setSetting(
+                'session_reminder',
+                $input['default_session_reminder']
             );
         }
 
