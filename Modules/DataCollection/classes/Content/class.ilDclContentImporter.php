@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
@@ -174,7 +174,7 @@ class ilDclContentImporter
             }
         }
 
-        return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
+        return array('line' => (($i ?? 2) - 2), 'warnings' => $this->warnings);
     }
 
     protected function checkImportType(ilDclBaseFieldModel $field): bool
