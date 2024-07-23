@@ -168,6 +168,11 @@ class ilAssQuestionPreviewGUI
         $this->questionGUI->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
     }
 
+    public function getObject(): assQuestion
+    {
+        return $this->questionOBJ;
+    }
+
     public function initPreviewSettings($parentRefId): void
     {
         $this->previewSettings = new ilAssQuestionPreviewSettings($parentRefId);
