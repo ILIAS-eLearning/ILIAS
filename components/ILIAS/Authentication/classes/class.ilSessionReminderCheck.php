@@ -42,7 +42,8 @@ class ilSessionReminderCheck
         ilDBInterface $db,
         ilIniFile $clientIni,
         ilLogger $logger,
-        ClockInterface $utcClock
+        ClockInterface $utcClock,
+        private ilSetting $settings
     ) {
         $this->http = $http;
         $this->refinery = $refinery;
@@ -113,7 +114,7 @@ class ilSessionReminderCheck
 
         $reminderTime = $expirationTime - ((int) max(
             ilSessionReminder::MIN_LEAD_TIME,
-            (float) $ilUser->getPref('session_reminder_lead_time')
+            (float) $ilUser->getPref('session_reminder_lead_time') ?: $this->settings->get('session_reminder')
         )) * 60;
         if ($reminderTime > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes
