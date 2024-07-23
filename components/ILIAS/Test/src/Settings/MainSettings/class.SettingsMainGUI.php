@@ -25,7 +25,6 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
@@ -37,6 +36,8 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Data\Factory as DataFactory;
+use ilInfoScreenGUI;
+use ilObjTestGUI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
 
@@ -122,7 +123,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirect($this->test_gui, 'infoScreen');
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);

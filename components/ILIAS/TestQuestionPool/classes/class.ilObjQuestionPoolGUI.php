@@ -337,7 +337,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
-            case 'ilinfoscreengui':
+            case strtolower(ilInfoScreenGUI::class):
                 $this->infoScreenForward();
                 break;
 
