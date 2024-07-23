@@ -81,6 +81,11 @@ class ilAssQuestionPreviewGUI
         return $this->question_obj;
     }
 
+    public function getObject(): assQuestion
+    {
+        return $this->question_obj;
+    }
+
     public function initQuestion(assQuestionGUI $question_gui, int $parent_obj_id): void
     {
         $this->question_gui = $question_gui;

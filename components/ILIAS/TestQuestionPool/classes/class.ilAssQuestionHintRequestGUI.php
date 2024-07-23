@@ -77,10 +77,13 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     private function showListCmd(): void
     {
-        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('show_requested_question_hints')
-        );
+        if ($this->global_screen->tool()->context()->current()->getAdditionalData()
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
+            $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+                ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+                $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('show_requested_question_hints')
+            );
+        }
 
         $question_hint_list = $this->question_hint_tracking->getRequestedHintsList();
 
@@ -108,14 +111,17 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
         $question_hint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
 
-        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->parent_gui->getObject()->getTitle() . ' - ' . sprintf(
-                $this->lng->txt('tst_question_hints_form_header_edit'),
-                $question_hint->getIndex(),
-                $this->request->int('sequence') ?? 0
-            )
-        );
+        if ($this->global_screen->tool()->context()->current()->getAdditionalData()
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
+            $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+                ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+                $this->parent_gui->getObject()->getTitle() . ' - ' . sprintf(
+                    $this->lng->txt('tst_question_hints_form_header_edit'),
+                    $question_hint->getIndex(),
+                    $this->request->int('sequence') ?? 0
+                )
+            );
+        }
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -150,10 +156,13 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     private function confirmRequestCmd(): void
     {
-        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_question_hints_confirm_request')
-        );
+        if ($this->global_screen->tool()->context()->current()->getAdditionalData()
+            ->exists(ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE)) {
+            $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+                ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+                $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_question_hints_confirm_request')
+            );
+        }
 
         try {
             $next_requestable_hint = $this->question_hint_tracking->getNextRequestableHint();
