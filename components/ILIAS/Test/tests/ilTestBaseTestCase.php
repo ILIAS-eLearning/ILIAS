@@ -31,6 +31,7 @@ class ilTestBaseTestCase extends TestCase
 {
     use ilTestBaseTestCaseTrait;
 
+    protected ?Container $backup_dic = null;
     protected ?Container $dic = null;
 
     /**
@@ -38,9 +39,31 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function setUp(): void
     {
+        if (!defined("ILIAS_HTTP_PATH")) {
+            define("ILIAS_HTTP_PATH", "http://localhost");
+        }
+        if (!defined("CLIENT_DATA_DIR")) {
+            define("CLIENT_DATA_DIR", "/var/iliasdata");
+        }
+        if (!defined("ANONYMOUS_USER_ID")) {
+            define("ANONYMOUS_USER_ID", 13);
+        }
+        if (!defined("ROOT_FOLDER_ID")) {
+            define("ROOT_FOLDER_ID", 8);
+        }
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", true);
+        }
+        if (!defined("ILIAS_LOG_DIR")) {
+            define("ILIAS_LOG_DIR", '/var/log');
+        }
+        if (!defined("ILIAS_LOG_FILE")) {
+            define("ILIAS_LOG_FILE", '/var/log/ilias.log');
+        }
+
         global $DIC;
 
-        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+        $this->backup_dic = is_object($DIC) ? clone $DIC : $DIC;
 
         $DIC = $this->getMockBuilder(Container::class)->onlyMethods(['uiService'])->getMock();
         $DIC->method('uiService')->willReturn($this->createMock(ilUIService::class));
@@ -56,6 +79,9 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
         $this->addGlobal_refinery();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_rbacreview();
+        $this->addGlobal_ilRbacAdmin();
         $this->addGlobal_http();
         $this->addGlobal_fileDelivery();
         $this->addGlobal_ilComponentFactory();
@@ -65,6 +91,18 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_uiService();
         $this->addGlobal_static_url();
         $this->addGlobal_upload();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilSetting();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilLocator();
+        $this->addGlobal_ilToolbar();
+        $this->addGlobal_ilObjectCustomIconFactory();
+        $this->addGlobal_filesystem();
+
+        $this->dic = $DIC;
 
         $this->defineGlobalConstants();
 
@@ -75,7 +113,7 @@ class ilTestBaseTestCase extends TestCase
     {
         global $DIC;
 
-        $DIC = $this->dic;
+        $DIC = $this->backup_dic;
 
         parent::tearDown();
     }

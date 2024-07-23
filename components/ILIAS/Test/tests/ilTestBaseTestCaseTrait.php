@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\FileUpload;
@@ -27,6 +28,8 @@ use ILIAS\UI\Implementation\Factory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use GuzzleHttp\Psr7\Uri as GuzzleURI;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use Psr\Http\Message\ServerRequestInterface;
 
 trait ilTestBaseTestCaseTrait
 {
@@ -415,4 +418,106 @@ trait ilTestBaseTestCaseTrait
             );
         return $local_dic_mock;
     }
+
+    protected function mockRbacAccess(bool $will_return): void
+    {
+        $this->dic['rbacsystem']
+            ->expects($this->any())
+            ->method("checkAccess")
+            ->willReturn($will_return);
+    }
+
+    protected function mockObjectDefinitionGetClassName(string $willReturn): void
+    {
+        $this->dic['objDefinition']
+            ->expects($this->any())
+            ->method("getClassName")
+            ->willReturn($willReturn);
+    }
+
+    protected function mockDBQuery(ilDBStatement $ilDBStatement): void
+    {
+        $this->dic['ilDB']
+            ->expects($this->any())
+            ->method("query")
+            ->willReturn($ilDBStatement);
+    }
+
+    protected function mockDBFetchAssoc(array $willReturn): void
+    {
+        $this->dic['ilDB']
+            ->expects($this->any())
+            ->method("fetchAssoc")
+            ->willReturn($willReturn);
+    }
+
+    /**
+     * Expect that the template content will be set to the specified expected content.
+     *
+     * @param mixed $expectedContent The expected content for the template.
+     */
+    protected function expectTplContent($expectedContent): void
+    {
+        $this->dic['tpl']->expects($this->once())->method('setContent')->with($expectedContent);
+    }
+
+    /**
+     * Mock a command by configuring the control object to return the specified command.
+     *
+     * @param string $command The command to be mocked.
+     */
+    public function mockCommand(string $command): void
+    {
+        $this->dic['ilCtrl']->method('getCmd')->willReturn($command);
+    }
+
+    /**
+     * Expect that a redirect will be called with the specified method.
+     *
+     * @param InvocationOrder $expects The expected invocation order for the redirect method.
+     * @param string          $method  The method to be redirected to.
+     */
+    public function expectRedirect(InvocationOrder $expects, string $method): void
+    {
+        $this->dic['ilCtrl']->expects($expects)
+            ->method('redirect')
+            ->with($this->anything(), $this->equalTo($method));
+    }
+
+    /**
+     * Mock a POST request with the specified properties and optional query parameters.
+     *
+     * @param array<array-key, mixed> $properties      The properties to set in the POST request body.
+     * @param array<array-key, mixed> $queryParameters Optional query parameters for the request.
+     */
+    public function mockPostRequest(array $properties, array $queryParameters = []): void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $request->method('getServerParams')->willReturn(['REQUEST_METHOD' => 'POST']);
+        $request->method('getParsedBody')->willReturn($properties);
+        $request->method('getQueryParams')->willReturn($queryParameters);
+        $this->dic['http']->method('request')->willReturn($request);
+        $this->dic['http']->method('wrapper')->willReturn(new WrapperFactory($request));
+    }
+
+    /**
+     * Mock a GET request with optional query parameters.
+     *
+     * @param array<array-key, mixed> $queryParameters Optional query parameters for the request.
+     */
+    public function mockGetRequest(array $queryParameters = []): void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $request->method('getServerParams')->willReturn(['REQUEST_METHOD' => 'GET']);
+        $request->method('getParsedBody')->willReturn([]);
+        $request->method('getQueryParams')->willReturn($queryParameters);
+        $this->dic['http']->method('request')->willReturn($request);
+        $this->dic['http']->method('wrapper')->willReturn(new WrapperFactory($request));
+    }
+
+
 }
