@@ -1245,10 +1245,17 @@ class ilTree
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        $join = $this->buildJoin();
+        if ($this->table_obj_reference) {
+            // Use inner join instead of left join to improve performance
+            $innerjoin = "JOIN " . $this->table_obj_reference . " ON v.child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
+                "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
+        } else {
+            // Use inner join instead of left join to improve performance
+            $innerjoin = "JOIN " . $this->table_obj_data . " ON v.child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
+        }
 
         $query = 'SELECT * FROM ' . $this->table_tree . ' s, ' . $this->table_tree . ' v ' .
-            $join .
+            $innerjoin .
             'WHERE s.child = %s ' .
             'AND s.parent = v.child ' .
             'AND s.' . $this->tree_pk . ' = %s ' .
