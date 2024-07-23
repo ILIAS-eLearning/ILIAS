@@ -122,7 +122,7 @@ class ilTestPasswordProtectionGUI
 
     private function backToInfoScreenCmd(): void
     {
-        $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+        $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
     }
 
     private function setNextCommandClass(string $next_command_class): void

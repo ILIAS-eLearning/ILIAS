@@ -402,7 +402,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             case '':
 
                 $cmds = [
-                    'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
+                    ilInfoScreenGUI::CMD_SHOW_SUMMARY, 'participants', 'npSetFilter', 'npResetFilter',
                 ];
 
                 if (in_array($cmd, $cmds)) {

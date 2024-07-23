@@ -352,7 +352,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
-            case 'ilinfoscreengui':
+            case strtolower(ilInfoScreenGUI::class):
                 $this->infoScreenForward();
                 break;
 
@@ -1057,7 +1057,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         $qsaImportFails->deleteRegisteredImportFails();
 
-        $this->ctrl->redirect($this, 'infoScreen');
+        $this->ctrl->redirectByClass([ilObjQuestionPoolGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
     }
 
     /**
@@ -1600,8 +1600,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if ($currentUserHasReadAccess) {
             $this->tabs_gui->addTarget(
                 'info_short',
-                $this->ctrl->getLinkTarget($this, 'infoScreen'),
-                ['infoScreen', 'showSummary']
+                $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, ilInfoScreenGUI::CMD_SHOW_SUMMARY),
+                [ilInfoScreenGUI::CMD_SHOW_SUMMARY]
             );
         }
 
@@ -1699,19 +1699,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->ctrl->getLinkTargetByClass('ilTaxonomySettingsGUI', ''),
             );
         }
-    }
-
-    /**
-     * this one is called from the info button in the repository
-     * not very nice to set cmdClass/Cmd manually, if everything
-     * works through ilCtrl in the future this may be changed
-     */
-    public function infoScreenObject(): void
-    {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd('showSummary');
-        // $this->ctrl->setCmdClass('ilinfoscreengui');
-        $this->infoScreenForward();
     }
 
     public function infoScreenForward(): void

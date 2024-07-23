@@ -67,7 +67,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
         if (!$this->access->checkAccess('write', '', $this->poolGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_question_pool'), true);
-            $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjQuestionPoolGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->tabs->activateTab('settings');

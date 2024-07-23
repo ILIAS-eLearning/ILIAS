@@ -30,6 +30,8 @@ use ILIAS\MetaData\Services\Services as Metadata;
  */
 class ilInfoScreenGUI
 {
+    public const CMD_SHOW_SUMMARY = 'showSummary';
+
     protected \ILIAS\Repository\HTML\HTMLUtil $html;
     protected \ILIAS\DI\UIServices $ui;
     protected ?\ILIAS\UI\Component\MessageBox\MessageBox $mbox = null;

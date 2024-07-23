@@ -127,10 +127,11 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $this->setGlobalVariable('ilCtrl', $ctrl_mock);
         $testObj = $this->getNewTestGUI();
+        $infoScreenGUI = $this->createMock(ilInfoScreenGUI::class);
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-            ->with($testObj, 'infoScreen');
+            ->with([$testObj, $infoScreenGUI], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
 
         $testObj->runObject();
     }

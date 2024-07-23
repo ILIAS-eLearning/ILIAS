@@ -24,6 +24,8 @@ use ilCtrlException;
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ilInfoScreenGUI;
+use ilObjTestGUI;
 
 /**
 * Scoring class for tests
@@ -83,7 +85,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     {
         if (!$this->testrequest->isset('active_id') || $this->testrequest->int('active_id') === 0) {
             $this->tpl->setOnScreenMessage('failure', 'no active id given!', true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         return $this->testrequest->int('active_id');
@@ -122,7 +124,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         if (!\ilObjTestFolder::_mananuallyScoreableQuestionTypesExists()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_MANUAL_SCORING);
