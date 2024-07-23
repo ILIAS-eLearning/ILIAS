@@ -335,11 +335,6 @@ class AdditionalInformationGenerator
         return "{{ {$lang_var} }}";
     }
 
-    private function getCorrectedLangVarForKey(string $key): string
-    {
-        return $key;
-    }
-
     private function parseValue(
         int|string $key,
         string|int|float|array $value,
