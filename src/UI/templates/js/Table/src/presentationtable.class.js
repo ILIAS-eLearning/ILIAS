@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 export default class PresentationTable {
   /**
@@ -35,49 +35,29 @@ export default class PresentationTable {
    * @param {string} rowId
    */
   expandRow(rowId) {
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`).style.display = 'none';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`).style.display = 'block';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`).style.display = 'block';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`).style.display = 'none';
-    this.#component.classList.remove('collapsed');
-    this.#component.classList.add('expanded');
+    const row = this.#component.querySelector(`#${rowId}`);
+    row.classList.remove('collapsed');
+    row.classList.add('expanded');
   }
 
   /**
    * @param {string} rowId
    */
   collapseRow(rowId) {
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`).style.display = 'block';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`).style.display = 'none';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`).style.display = 'none';
-    this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`).style.display = 'block';
-    this.#component.classList.remove('expanded');
-    this.#component.classList.add('collapsed');
+    const row = this.#component.querySelector(`#${rowId}`);
+    row.classList.remove('expanded');
+    row.classList.add('collapsed');
   }
 
   /**
    * @param {string} rowId
    */
   toggleRow(rowId) {
-    const elements = [
-      this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`),
-      this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`),
-      this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`),
-      this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`),
-    ];
-    let i = 0;
-    for (i; i < elements.length; i += 1) {
-      const el = elements[i];
-      const mode = (el.style.display === 'none') ? 'block' : 'none';
-      el.style.display = mode;
-    }
-
-    if (this.#component.classList.contains('expanded')) {
-      this.#component.classList.remove('expanded');
-      this.#component.classList.add('collapsed');
+    const row = this.#component.querySelector(`#${rowId}`);
+    if (row.classList.contains('expanded')) {
+      this.collapseRow(rowId);
     } else {
-      this.#component.classList.remove('collapsed');
-      this.#component.classList.add('expanded');
+      this.expandRow(rowId);
     }
   }
 
