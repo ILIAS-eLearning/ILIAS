@@ -258,6 +258,12 @@ class AdditionalInformationGenerator
         'oq_btn_use_order_terms',
     ];
 
+    /**
+     * @var array<string, string> LEGACY_TAGS Associative array containing mappings
+     * from the legacy language tag as key to the new language tag as value
+     */
+    private const LEGACY_TAGS = [];
+
     private array $tags;
 
     public function __construct(
@@ -280,13 +286,13 @@ class AdditionalInformationGenerator
          * @kergomard 01.07.2024: The name of the mark step might be a numeric
          * string. But numeric strings are treated like integers when used as
          * array keys. The descriptive items listing does check its keys if they
-         * are strings and things go sideways from there. Thus as a work around
+         * are strings and things go sideways from there. Thus as a workaround
          * a space is added to the key here.
          */
         return $this->ui_factory->listing()->descriptive(
             array_combine(
                 array_map(
-                    fn(string $k): string => $this->lng->exists($k) ? $this->lng->txt($k) : $k . ' ',
+                    fn(string $k): string => $this->getCorrectedTranslationForKey($k) . ' ',
                     array_keys($additional_info)
                 ),
                 array_map(
@@ -335,9 +341,14 @@ class AdditionalInformationGenerator
         return "{{ {$lang_var} }}";
     }
 
-    private function getCorrectedLangVarForKey(string $key): string
+    private function getCorrectedTranslationForKey(string $key): string
     {
-        return $key;
+        $lang_var = $key;
+        if (array_key_exists($key, self::LEGACY_TAGS)) {
+            $lang_var = self::LEGACY_TAGS[$key];
+        }
+
+        return $this->lng->exists($lang_var) ? $this->lng->txt($lang_var) : $key;
     }
 
     private function parseValue(
@@ -427,8 +438,8 @@ class AdditionalInformationGenerator
             array_keys($value),
             function ($c, $k) use ($value, $environment): string {
                 $label = $k;
-                if (is_string($k) && $this->lng->exists($k)) {
-                    $label = $this->lng->txt($k);
+                if (is_string($k)) {
+                    $label = $this->getCorrectedTranslationForKey($k);
                 }
                 if ($c !== '') {
                     $c .= ', ';
@@ -447,6 +458,13 @@ class AdditionalInformationGenerator
                 fn(string $v): string => $this->lng->txt($v),
                 self::VALID_TAGS
             )
+        ) + array_reduce(
+            array_keys(self::LEGACY_TAGS),
+            function (array $c, string $k): array {
+                $c[$k] = $this->lng->txt(self::LEGACY_TAGS[$k]);
+                return $c;
+            },
+            []
         );
     }
 }
