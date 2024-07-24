@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\StaticURL\Builder\URIBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\FileUpload;
@@ -518,6 +519,27 @@ trait ilTestBaseTestCaseTrait
         $this->dic['http']->method('request')->willReturn($request);
         $this->dic['http']->method('wrapper')->willReturn(new WrapperFactory($request));
     }
+
+    protected function mockLanguageVariables(): void
+    {
+        $this->dic['lng']
+            ->method('txt')->willReturnCallback(function ($var): string {
+                return $var;
+            });
+    }
+
+    protected function setUriBuilderMock(URIBuilder $builder): void
+    {
+        $this->dic['static_url']
+            ->method('builder')->willReturn($builder);
+    }
+
+    protected function mockUIRenderFunction(string $willReturn): void
+    {
+        $this->dic['ui.renderer']
+            ->method('render')->willReturn($willReturn);
+    }
+
 
 
 }
