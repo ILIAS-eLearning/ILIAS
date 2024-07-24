@@ -306,6 +306,10 @@ class Renderer extends AbstractComponentRenderer
         if ($x_axis->getMaxValue()) {
             $scales->x->max = $x_axis->getMaxValue();
         }
+        if ($component->isStacked()) {
+            $scales->y->stacked = true;
+            $scales->x->stacked = true;
+        }
 
         // hide pseudo y axes
         $dimension_scales = $component->getDataset()->getDimensions();
@@ -337,6 +341,10 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($y_axis->getMaxValue()) {
             $scales->y->max = $y_axis->getMaxValue();
+        }
+        if ($component->isStacked()) {
+            $scales->x->stacked = true;
+            $scales->y->stacked = true;
         }
 
         // hide pseudo x axes
@@ -381,6 +389,9 @@ class Renderer extends AbstractComponentRenderer
             }
             if (isset($bar_configs[$dimension_name]) && $bar_configs[$dimension_name]->getRelativeWidth()) {
                 $data[$dimension_name]["barPercentage"] = $bar_configs[$dimension_name]->getRelativeWidth();
+            }
+            if (isset($bar_configs[$dimension_name]) && $component->isStacked()) {
+                $data[$dimension_name]["stack"] = $bar_configs[$dimension_name]->getStackGroup();
             }
 
             $points_as_objects = [];

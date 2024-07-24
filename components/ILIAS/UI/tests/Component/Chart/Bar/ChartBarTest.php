@@ -121,6 +121,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         );
     }
 
+    // This test can only be performed when there will be a Dimension in the future, which is not compatible with Bar Charts
     /*
     public function testInvalidDatasetDimension() : void
     {
@@ -235,6 +236,22 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->expectExceptionMessage("Position must be 'bottom', 'top', 'left' or 'right'.");
 
         $horizontal = $horizontal->withLegendPosition("middle");
+    }
+
+    public function testWithStacked(): void
+    {
+        $f = $this->getFactory();
+
+        $dataset = $this->getSimpleDataset();
+
+        $horizontal = $f->horizontal(
+            "Horizontal Bar",
+            $dataset
+        );
+        $horizontal1 = $horizontal->withStacked(true);
+
+        $this->assertEquals(false, $horizontal->isStacked());
+        $this->assertEquals(true, $horizontal1->isStacked());
     }
 
     public function testWithDataset(): void

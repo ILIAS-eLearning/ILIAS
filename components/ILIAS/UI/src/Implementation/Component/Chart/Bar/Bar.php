@@ -44,6 +44,7 @@ class Bar implements C\Chart\Bar\Bar
     protected bool $legend_visible = true;
     protected string $legend_position = "top";
     protected bool $tooltips_visible = true;
+    protected bool $stacked = false;
 
     public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
     {
@@ -154,5 +155,17 @@ class Bar implements C\Chart\Bar\Bar
     public function isTooltipsVisible(): bool
     {
         return $this->tooltips_visible;
+    }
+
+    public function withStacked(bool $stacked): self
+    {
+        $clone = clone $this;
+        $clone->stacked = $stacked;
+        return $clone;
+    }
+
+    public function isStacked(): bool
+    {
+        return $this->stacked;
     }
 }

@@ -29,6 +29,7 @@ class BarConfig
 {
     protected ?Color $color = null;
     protected ?float $size = null;
+    protected string $stack_group = "Stack 0";
 
     public function __construct()
     {
@@ -62,5 +63,21 @@ class BarConfig
     public function getRelativeWidth(): ?float
     {
         return $this->size;
+    }
+
+    /**
+     * Datasets can be divided into multiple stacks by giving them a group. Default is "Stack 0".
+     * This has no effect when the whole Bar Chart is not stacked, see Bar::withStacked()
+     */
+    public function withStackGroup(string $group): self
+    {
+        $clone = clone $this;
+        $clone->stack_group = $group;
+        return $clone;
+    }
+
+    public function getStackGroup(): string
+    {
+        return $this->stack_group;
     }
 }

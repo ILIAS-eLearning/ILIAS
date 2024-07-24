@@ -79,4 +79,11 @@ interface Bar extends Component, JavaScriptBindable
     public function withTooltipsVisible(bool $tooltips_visible): self;
 
     public function isTooltipsVisible(): bool;
+
+    /**
+     * Should the bars be stacked on top of each other instead of next to each other?
+     */
+    public function withStacked(bool $stacked): self;
+
+    public function isStacked(): bool;
 }
