@@ -135,7 +135,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
             }
 
             if ($code["role"]) {
-                $result[$k]["role"] = $this->role_map[$code["role"]];
+                $result[$k]["role"] = $this->role_map[$code["role"]] ?? $this->lng->txt('deleted');
             } else {
                 $result[$k]["role"] = "";
             }
