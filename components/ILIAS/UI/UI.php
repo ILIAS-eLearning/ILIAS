@@ -98,6 +98,8 @@ class UI implements Component\Component
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("chart.js/dist/chart.umd.js");
         /*
         those are contributed by MediaObjects
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
