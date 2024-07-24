@@ -64,7 +64,7 @@ class Factory
         TestQuestionAdministrationInteractionTypes $type,
         array $additional_data
     ): TestQuestionAdministrationInteraction {
-        return new TestAdministrationInteraction(
+        return new TestQuestionAdministrationInteraction(
             $ref_id,
             $qst_id,
             $admin_id,
