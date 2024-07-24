@@ -147,10 +147,10 @@ class ilTestImporter extends ilXmlImporter
         }
 
 
-        $results_file_path = ilSession::get("tst_import_results_file");
+        $results_file = $this->buildResultsFilePath($importdir, $subdir);
         // import test results
-        if ($results_file_path !== null && file_exists($results_file_path)) {
-            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger);
+        if ($results_file !== null && file_exists($results_file)) {
+            $results = new ilTestResultsImportParser($results_file, $new_obj, $this->db, $this->logger);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));
             $results->startParsing();

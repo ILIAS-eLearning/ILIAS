@@ -1354,7 +1354,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED) {
+        if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED
+            || file_exists($this->buildResultsFilePath($importdir, $subdir))) {
             $this->importVerifiedFileObject();
             return;
         }
@@ -1493,7 +1494,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $new_obj->getId(),
                 $selected_questions
             );
-            if ($selected_questions === []) {
+
+            $results_file = $this->buildResultsFilePath($importdir, $subdir);
+            if (!file_exists($results_file) && $selected_questions === []) {
                 $qti_parser->setIgnoreItemsEnabled(true);
             }
             $qti_parser->setTestObject($new_obj);
@@ -1508,9 +1511,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_page_parser->startParsing();
 
             if (count($selected_questions) === $qti_parser->getNumImportedItems()
-                && file_exists(ilSession::get("tst_import_results_file"))) {
+                && file_exists($results_file)) {
                 $results = new ilTestResultsImportParser(
-                    ilSession::get("tst_import_results_file"),
+                    $results_file,
                     $new_obj,
                     $this->db,
                     $new_obj->getTestlogger()
