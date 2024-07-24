@@ -2150,8 +2150,9 @@ auth#:#language_does_not_exist#:#The selected language does not exist.
 auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
 auth#:#logout_behaviour#:#Logout Behaviour
-auth#:#logout_behaviour_invalid_ref_id#:#Please make sure Anonymous User has Access to the ressource.
+auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the Internal Resource Id exists and is not in Trash
 auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
+auth#:#logout_behaviour_ref_id_no_access#:#Please make sure Anonymous User has Access to the ressource.
 auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page

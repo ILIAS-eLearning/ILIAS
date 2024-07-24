@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data\Link;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\components\Authentication\Logout\ConfigurableLogoutHandler;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
-use ILIAS\Data\URI;
 
 /**
  * @ingroup           ServicesAuthentication
@@ -69,60 +69,96 @@ class ilAuthLogoutBehaviourGUI
         $this->showForm();
     }
 
-    public function getForm(): StandardForm
-    {
-        $logout_group = $this->ui_factory->input()->field()->group(
-            [],
-            $this->lng->txt('destination_logout_screen')
-        );
-
-        $login_group = $this->ui_factory->input()->field()->group(
-            [],
-            $this->lng->txt('destination_login_screen'),
-            $this->lng->txt('destination_login_screen_info')
-        );
-
-        $ref_id = $this->ui_factory->input()->field()->numeric(
-            $this->lng->txt('destination_internal_ressource_ref_id')
-        )->withValue($this->settings->get('logout_behaviour_ref_id', ''));
-        $internal_group = $this->ui_factory->input()->field()->group(
-            ['ref_id' => $ref_id],
-            $this->lng->txt('destination_internal_ressource')
-        );
-
-        $url = $this->settings->get('logout_behaviour_url', '');
-        $html = $this->ui_factory->input()->field()->url(
-            $this->lng->txt('destination_external_ressource_url')
-        )->withValue($url);
-        $external_group = $this->ui_factory->input()->field()->group(
-            ['url' => $html],
-            $this->lng->txt('destination_external_ressource')
-        );
-
-        $logout_behaviour_switchable_group = $this->ui_factory->input()->field()->switchableGroup(
-            [
-                'logout_screen' => $logout_group,
-                'login_screen' => $login_group,
-                'internal_ressource' => $internal_group,
-                'external_ressource' => $external_group
-            ],
-            $this->lng->txt('destination_after_logout')
-        );
-        if ($this->settings->get('logout_behaviour') !== null) {
-            $logout_behaviour_switchable_group = $logout_behaviour_switchable_group->withValue(
-                $this->settings->get('logout_behaviour')
+    public function getForm(
+        ServerRequestInterface $request = null,
+        array $errors = []
+    ): StandardForm {
+        $logout_group = $this->ui_factory->input()->field()
+            ->group(
+                [],
+                $this->lng->txt('destination_logout_screen')
             );
+
+        $login_group = $this->ui_factory->input()->field()
+            ->group(
+                [],
+                $this->lng->txt('destination_login_screen'),
+                $this->lng->txt('destination_login_screen_info')
+            );
+
+        $ref_id = $this->ui_factory->input()->field()
+            ->numeric($this->lng->txt('destination_internal_ressource_ref_id'))
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    fn($value) => ilObject::_exists($value, true) && !ilObject::_isInTrash($value),
+                    fn(callable $txt, $value) => $txt('logout_behaviour_invalid_ref_id', $value)
+                )
+            )
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    fn($value) => $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', $value),
+                    fn(callable $txt, $value) => $txt('logout_behaviour_ref_id_no_access', $value)
+                )
+            )
+            ->withValue($this->settings->get('logout_behaviour_ref_id', ''));
+        if (isset($errors['ref_id'])) {
+            $ref_id = $ref_id->withError($errors['ref_id']);
         }
 
-        $section = $this->ui_factory->input()->field()->section(
-            ['logout_behaviour_settings' => $logout_behaviour_switchable_group],
-            $this->lng->txt('logout_behaviour_settings')
-        );
+        $internal_group = $this->ui_factory->input()->field()
+            ->group(
+                ['ref_id' => $ref_id],
+                $this->lng->txt('destination_internal_ressource')
+            );
 
-        return $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'saveForm'),
-            ['logout_behaviour' => $section]
-        );
+        $url = $this->settings->get('logout_behaviour_url', '');
+        $html = $this->ui_factory->input()->field()
+            ->url($this->lng->txt('destination_external_ressource_url'))
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    fn($value) => filter_var($value, FILTER_VALIDATE_URL) !== false,
+                    fn(callable $txt, $value) => $txt('logout_behaviour_invalid_url', $value)
+                )
+            )
+            ->withValue($url);
+        if (isset($errors['url'])) {
+            $html = $html->withError($errors['url']);
+        }
+
+        $external_group = $this->ui_factory->input()->field()
+            ->group(
+                ['url' => $html],
+                $this->lng->txt('destination_external_ressource')
+            );
+
+        $logout_behaviour_switchable_group = $this->ui_factory->input()->field()
+            ->switchableGroup(
+                [
+                    'logout_screen' => $logout_group,
+                    'login_screen' => $login_group,
+                    'internal_ressource' => $internal_group,
+                    'external_ressource' => $external_group
+                ],
+                $this->lng->txt('destination_after_logout')
+            )
+            ->withValue($this->settings->get('logout_behaviour', 'logout_screen'));
+
+        $section = $this->ui_factory->input()->field()
+            ->section(
+                ['logout_behaviour_settings' => $logout_behaviour_switchable_group],
+                $this->lng->txt('logout_behaviour_settings')
+            );
+
+        $form = $this->ui_factory->input()->container()->form()
+            ->standard(
+                $this->ctrl->getFormAction($this, 'saveForm'),
+                ['logout_behaviour' => $section]
+            );
+        if ($request) {
+            $form = $form->withRequest($request);
+        }
+
+        return $form;
     }
 
     public function showForm(): void
@@ -134,44 +170,39 @@ class ilAuthLogoutBehaviourGUI
     {
         $form = $this->getForm();
         $form = $form->withRequest($this->http->request());
+        $section = $form->getInputs()['logout_behaviour'];
+        $group = $section->getInputs()['logout_behaviour_settings'];
+        $ref_id = $group->getInputs()[ConfigurableLogoutHandler::INTERNAL_RESSOURCE]->getInputs()['ref_id'];
+        $url = $group->getInputs()[ConfigurableLogoutHandler::EXTERNAL_RESSOURCE]->getInputs()['url'];
 
-        if ($form->getError()) {
-            $this->tpl->setContent($this->ui_renderer->render($form));
-
-            return;
-        }
         $data = $form->getData();
+        if (!$data || $form->getError() || $ref_id->getError() || $url->getError()) {
+            $errors = [];
+            if ($ref_id->getError()) {
+                $errors['ref_id'] = $ref_id->getError();
+            }
+            if ($url->getError()) {
+                $errors['url'] = $url->getError();
+            }
+            $this->tpl->setContent($this->ui_renderer->render($this->getForm($this->http->request(), $errors)));
+            $this->tpl->printToStdout();
+
+            $this->http->close();
+        }
         if (isset($data['logout_behaviour']['logout_behaviour_settings'][0])) {
             $mode = $data['logout_behaviour']['logout_behaviour_settings'][0];
 
             switch ($mode) {
-                case 'logout_screen':
-                case 'login_screen':
+                case ConfigurableLogoutHandler::LOGOUT_SCREEN:
+                case ConfigurableLogoutHandler::LOGIN_SCREEN:
                     break;
-                case 'internal_ressource':
-                    // check access
-                    if ($this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', $data['logout_behaviour']['logout_behaviour_settings'][1]['ref_id'])) {
-                        $this->settings->set('logout_behaviour_ref_id', (string) $data['logout_behaviour']['logout_behaviour_settings'][1]['ref_id']);
-                    } else {
-                        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('logout_behaviour_invalid_ref_id'));
-                        $this->tpl->setContent($this->ui_renderer->render($form));
-
-                        return;
-                    }
+                case ConfigurableLogoutHandler::INTERNAL_RESSOURCE:
                     $this->settings->set('logout_behaviour_ref_id', (string) ($data['logout_behaviour']['logout_behaviour_settings'][1]['ref_id'] ?? ''));
 
                     break;
-                case 'external_ressource':
-                    /** @var URI $url */
+                case ConfigurableLogoutHandler::EXTERNAL_RESSOURCE:
                     $url = $data['logout_behaviour']['logout_behaviour_settings'][1]['url'] ?? '';
-                    if ($url !== '' && filter_var((string) $url, FILTER_VALIDATE_URL) !== false) {
-                        $this->settings->set('logout_behaviour_url', (string) $url);
-                    } else {
-                        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('logout_behaviour_invalid_url'));
-                        $this->tpl->setContent($this->ui_renderer->render($form));
-
-                        return;
-                    }
+                    $this->settings->set('logout_behaviour_url', (string) $url);
 
                     break;
             }
