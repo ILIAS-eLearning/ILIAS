@@ -39,7 +39,6 @@ class TestLogger implements LoggerInterface
         private readonly Factory $interaction_factory,
         private readonly AdditionalInformationGenerator $additional_information,
         private readonly \ilComponentLogger $component_logger,
-        private readonly \ilLanguage $lng
     ) {
     }
 
@@ -207,7 +206,6 @@ class TestLogger implements LoggerInterface
     private function createTestErrorFromContext(array $context, string $message): TestError
     {
         return new TestError(
-            $this->lng,
             $context['ref_id'],
             $context ['question_id'] ?? null,
             $context['administrator'] ?? null,
