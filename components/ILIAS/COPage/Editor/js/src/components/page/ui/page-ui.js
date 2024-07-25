@@ -113,7 +113,7 @@ export default class PageUI {
     this.util = new Util();
   }
 
-  static getFirstAddText() {
+  getFirstAddText() {
     return `<span class='il-copg-add-text'> ${
       il.Language.txt('cont_ed_click_to_add_pg')
     }</span>`;
@@ -509,6 +509,8 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const pageUI = this;
+    const scrollSpeed = 5;
+    const scrollThreshold = 40; // distance from the edge to start scrolling
 
     if (!draggableSelector) {
       draggableSelector = '.il_editarea, .il_editarea_disabled';
@@ -517,6 +519,19 @@ export default class PageUI {
     if (!droppableSelector) {
       droppableSelector = '.il_droparea';
     }
+
+    const mainElement = document.querySelector('main.il-layout-page-content');
+
+    function autoScroll(event) {
+      const rect = mainElement.getBoundingClientRect();
+
+      if (event.clientY < rect.top + scrollThreshold) {
+        mainElement.scrollBy(0, -scrollSpeed);
+      } else if (event.clientY > rect.bottom - scrollThreshold) {
+        mainElement.scrollBy(0, scrollSpeed);
+      }
+    }
+
 
     document.querySelectorAll(draggableSelector).forEach((draggableElement) => {
       if (pageUI.isProtectedElement(draggableElement)) {
@@ -530,7 +545,6 @@ export default class PageUI {
 
         // Create a transparent clone for the drag image
         const dragClone = draggableElement.cloneNode(true);
-        dragClone.style.opacity = '0.2';
         dragClone.style.position = 'absolute';
         dragClone.style.top = '-9999px'; // Move it offscreen
         document.body.appendChild(dragClone);
@@ -538,11 +552,14 @@ export default class PageUI {
 
         // event.target.classList.add('copg-dragging');
         dispatch.dispatch(action.page().editor().dndDrag());
+
+        mainElement.addEventListener('dragover', autoScroll);
       });
 
       draggableElement.addEventListener('dragend', () => {
         // event.target.classList.remove('copg-dragging');
         dispatch.dispatch(action.page().editor().dndStopped());
+        mainElement.removeEventListener('dragover', autoScroll);
       });
     });
 
