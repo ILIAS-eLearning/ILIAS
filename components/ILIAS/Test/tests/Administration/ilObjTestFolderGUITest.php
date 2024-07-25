@@ -20,9 +20,9 @@ class ilObjTestFolderGUITest extends ilTestBaseTestCase
     {
         $ilDBStatement = $this->createMock(\ilDBStatement::class);
         $ilDBStatement->expects($this->any())->method("numRows")->willReturn(1);
-        $ilDBStatement->expects($this->any())->method("fetchRow")->willReturn(["type" => "xxx"]);
+        $ilDBStatement->expects($this->any())->method("fetchRow")->willReturn(["type" => "xxx", "obj_id" => 1]);
 
-        $this->mockDBFetchAssoc(["id" => 1, "type" => "xxx"]);
+        $this->mockDBFetchAssoc(["id" => 1, "type" => "xxx", "obj_id" => 1, "title" => "test", "description" => "test", "owner" => 1, "create_date" => 1, "last_update" => 1, "import_id" => 1]);
         $this->mockDBQuery($ilDBStatement);
         $this->mockObjectDefinitionGetClassName("TestFolder");
         $this->mockRbacAccess(true);

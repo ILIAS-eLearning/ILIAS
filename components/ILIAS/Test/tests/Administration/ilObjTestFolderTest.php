@@ -187,7 +187,7 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
         $this->assertSame($adjustableQuestionTypes, $this->testObj->fetchScoringAdjustableTypes($questionTypes));
     }
 
-    private function provideQuestionTypeArrays(): array
+    public static function provideQuestionTypeArrays(): array
     {
         return [
             "dataset 1: only adjustable types" => [

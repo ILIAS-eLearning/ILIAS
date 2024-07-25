@@ -40,7 +40,7 @@ class TestGlobalSettingsRepositoryTest extends ilTestBaseTestCase
         $this->assertEquals($testLoggingSettings->isIPLoggingEnabled(), $settings->isIPLoggingEnabled());
     }
 
-    private function provideLoggingSettings(): array
+    public static function provideLoggingSettings(): array
     {
         return [
             "dataset 1: both enabled" => [

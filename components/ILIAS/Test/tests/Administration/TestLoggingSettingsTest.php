@@ -25,7 +25,7 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
     /**
      * @dataProvider provideLoggingSettings
      */
-    public function test_toForm($testLoggingSettings): void
+    public function test_toForm(TestLoggingSettings $testLoggingSettings, bool $logging, bool $IPLogging): void
     {
         global $DIC;
         $formInput = $this->createMock(FormInput::class);
@@ -80,7 +80,7 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
         $this->assertEquals($testLoggingSettings->isLoggingEnabled(), $newSettings->isLoggingEnabled());
     }
 
-    private function provideLoggingSettings(): array
+    public static function provideLoggingSettings(): array
     {
         return [
             "dataset 1: both enabled" => [
@@ -106,7 +106,7 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
         ];
     }
 
-    private function provideLoggingSettingsAndNewValue(): array
+    public static function provideLoggingSettingsAndNewValue(): array
     {
         return [
             "dataset 1: both enabled" => [

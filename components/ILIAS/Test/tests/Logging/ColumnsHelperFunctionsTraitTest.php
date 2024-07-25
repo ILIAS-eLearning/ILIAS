@@ -64,7 +64,7 @@ class ColumnsHelperFunctionsTraitTest extends ilTestBaseTestCase
         $this->assertSame($result, $title);
     }
 
-    private function provideQuestionId(): array
+    public static function provideQuestionId(): array
     {
         return [
             "dataset 1: valid question id but no title" => [

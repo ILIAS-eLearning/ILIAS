@@ -25,6 +25,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilTestPassResultsSettingsTest extends TestCase
 {
+    private readonly ilTestPassResultsSettings $testPassResultsSettings;
+
     protected function setUp(): void
     {
         parent::setUp();

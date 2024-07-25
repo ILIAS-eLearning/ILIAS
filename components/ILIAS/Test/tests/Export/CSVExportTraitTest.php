@@ -16,7 +16,7 @@ class CSVExportTraitTest extends TestCase
         $this->assertSame($result, $this->processCSVRow($row, $quote_all, $separator));
     }
 
-    private function provideRows(): array
+    public static function provideRows(): array
     {
         return [
             "dataset 1" => [

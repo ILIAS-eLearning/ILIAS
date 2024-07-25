@@ -50,7 +50,7 @@ class FactoryTest extends TestCase
         }
     }
 
-    private function provideInteractionType(): array
+    public static function provideInteractionType(): array
     {
         return [
             "dataset 1: valid type" => [
@@ -88,7 +88,7 @@ class FactoryTest extends TestCase
         }
     }
 
-    private function provideQuestionInteractionType(): array
+    public static function provideQuestionInteractionType(): array
     {
         return [
             "dataset 1: valid type" => [
@@ -128,7 +128,7 @@ class FactoryTest extends TestCase
 
     }
 
-    private function provideParticipantInteractionType(): array
+    public static function provideParticipantInteractionType(): array
     {
         return [
             "dataset 1: valid type" => [
@@ -167,7 +167,7 @@ class FactoryTest extends TestCase
         }
     }
 
-    private function provideScoringInteractionType(): array
+    public static function provideScoringInteractionType(): array
     {
         return [
             "dataset 1: valid type" => [
@@ -206,7 +206,7 @@ class FactoryTest extends TestCase
         }
     }
 
-    private function provideErrorType(): array
+    public static function provideErrorType(): array
     {
         return [
             "dataset 1: valid type" => [
