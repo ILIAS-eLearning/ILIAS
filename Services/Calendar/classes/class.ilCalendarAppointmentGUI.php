@@ -251,9 +251,11 @@ class ilCalendarAppointmentGUI
         $this->form->addItem($dur);
 
         // recurrence
-        $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
-        $rec->setRecurrence($this->rec);
-        $this->form->addItem($rec);
+        if (!$a_edit_single_app) {
+            $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
+            $rec->setRecurrence($this->rec);
+            $this->form->addItem($rec);
+        }
 
         // location
         $where = new ilTextInputGUI($this->lng->txt('cal_where'), 'location');
