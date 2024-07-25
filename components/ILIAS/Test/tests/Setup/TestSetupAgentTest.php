@@ -18,6 +18,7 @@
 
 namespace ILIAS\Test\test;
 
+use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Test\Setup\TestSetupAgent;
 
 use ILIAS\Setup\ObjectiveCollection;
@@ -25,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
 use ilTestBaseTestCase;
 
-class SetupAgentTest extends ilTestBaseTestCase
+class TestSetupAgentTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
@@ -39,10 +40,25 @@ class SetupAgentTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getUpdateObjective());
     }
 
+    public function testGetStatusObjective(): void
+    {
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
+        $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getStatusObjective(
+            $this->createMock(Storage::class)
+        ));
+    }
+
     public function testHasConfig(): void
     {
         $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->assertFalse($ilTestSetupAgentTest->hasConfig());
+    }
+
+    public function testGetArrayToConfigTransformation(): void
+    {
+        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
+        $this->expectException(\LogicException::class);
+        $ilTestSetupAgentTest->getArrayToConfigTransformation();
     }
 
     public function testGetInstallObjective(): void
