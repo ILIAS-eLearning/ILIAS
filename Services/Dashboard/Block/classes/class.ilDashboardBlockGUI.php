@@ -47,7 +47,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     protected Services $http;
     private Factory $refinery;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    /** @var array<string, BlockDTO[]> */
+    /** @var array<BlockDTO[]> */
     protected array $data;
 
     public function __construct()
@@ -224,7 +224,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @param array<string, BlockDTO[]> $a_data
+     * @param array<BlockDTO[]> $a_data
      */
     public function setData(array $a_data): void
     {
@@ -237,7 +237,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @return array<string, BlockDTO[]>
+     * @return array<BlockDTO[]>
      */
     public function getData(): array
     {
@@ -245,7 +245,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @return array<string, BlockDTO[]>
+     * @return array<BlockDTO[]>
      */
     public function groupItemsByStartDate(): array
     {
@@ -302,7 +302,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @return array<string, BlockDTO[]>
+     * @return array<BlockDTO[]>
      */
     protected function groupItemsByType(): array
     {
@@ -337,7 +337,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @return array<string, BlockDTO[]>
+     * @return array<BlockDTO[]>
      */
     protected function groupItemsByLocation(): array
     {
@@ -351,7 +351,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
-        foreach ($data as $key => $item) {
+        foreach ($data as $item) {
             $parent_ref = $this->tree->getParentId($item->getRefId());
             if ($this->isRootNode($parent_ref)) {
                 $title = $this->getRepositoryTitle();
@@ -484,7 +484,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     }
 
     /**
-     * @return array<string, BlockDTO[]>
+     * @return array<BlockDTO[]>
      */
     public function getItemGroups(): array
     {
@@ -598,7 +598,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $item_groups = $this->getItemGroups();
         foreach ($item_groups as $key => $item_group) {
             $group = new ilPDSelectedItemsBlockGroup();
-            $group->setLabel($key);
+            $group->setLabel((string) $key);
             $items = [];
             foreach ($item_group as $item) {
                 if ($this->rbacsystem->checkAccess('leave', $item->getRefId())) {
