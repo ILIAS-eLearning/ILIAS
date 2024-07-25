@@ -18,54 +18,208 @@
 
 declare(strict_types=1);
 
+use \PHPUnit\Framework\MockObject\Exception;
+
 /**
  * Class ilTestSkillEvaluationToolbarGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestSkillEvaluationToolbarGUI $toolbarGUI;
-
-    protected function setUp(): void
+    /**
+     * @throws Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $lng_mock = $this->createMock(ilLanguage::class);
-        $this->setGlobalVariable("lng", $lng_mock);
-
-        $this->toolbarGUI = new ilTestSkillEvaluationToolbarGUI(
-            $ctrl_mock,
-            $lng_mock
+        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
         );
+
+        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $il_test_skill_evaluation_toolbar_gui);
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    /**
+     * @dataProvider setAndGetAvailableSkillProfilesDataProvider
+     * @throws Exception
+     */
+    public function testSetAndGetAvailableSkillProfiles(array $IO): void
     {
-        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->toolbarGUI);
+        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
+        );
+        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($IO);
+
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getAvailableSkillProfiles());
     }
 
-    public function testAvailableSkillProfiles(): void
+    public static function setAndGetAvailableSkillProfilesDataProvider(): array
     {
-        $expected = ["test1", "test2", "test3"];
-
-        $this->toolbarGUI->setAvailableSkillProfiles($expected);
-
-        $this->assertEquals($expected, $this->toolbarGUI->getAvailableSkillProfiles());
+        return [
+            'empty' => [[]],
+            'array_string' => [['string']],
+            'array_strING' => [['strING']]
+        ];
     }
 
-    public function testNoSkillProfileOptionEnabled(): void
+    /**
+     * @dataProvider setAndGetNoSkillProfileOptionEnabledDataProvider
+     * @throws Exception
+     */
+    public function testSetAndGetNoSkillProfileOptionEnabled(bool $IO): void
     {
-        $this->toolbarGUI->setNoSkillProfileOptionEnabled(true);
-        $this->assertTrue($this->toolbarGUI->isNoSkillProfileOptionEnabled());
+        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
+        );
+        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($IO);
 
-        $this->toolbarGUI->setNoSkillProfileOptionEnabled(false);
-        $this->assertFalse($this->toolbarGUI->isNoSkillProfileOptionEnabled());
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->isNoSkillProfileOptionEnabled());
     }
 
-    public function testSelectedEvaluationMode(): void
+    public static function setAndGetNoSkillProfileOptionEnabledDataProvider(): array
     {
-        $this->toolbarGUI->setSelectedEvaluationMode(4);
-        $this->assertEquals(4, $this->toolbarGUI->getSelectedEvaluationMode());
+        return [
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider setAndGetSelectedEvaluationModeDataProvider
+     * @throws Exception
+     */
+    public function testSetAndGetSelectedEvaluationMode(int $IO): void
+    {
+        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
+        );
+        $il_test_skill_evaluation_toolbar_gui->setSelectedEvaluationMode($IO);
+
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getSelectedEvaluationMode());
+    }
+
+    public static function setAndGetSelectedEvaluationModeDataProvider(): array
+    {
+        return [
+            'minus_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
+        ];
+    }
+
+    /**
+     * @dataProvider buildEvaluationModeOptionsArrayDataProvider
+     * @throws Exception|ReflectionException
+     */
+    public function testBuildEvaluationModeOptionsArray(array $input, array $output): void
+    {
+        $available_kill_profiles = $input['available_kill_profiles'];
+        $no_skill_profile_option_enabled = $input['no_skill_profile_option_enabled'];
+        $il_language = $this->createMock(ilLanguage::class);
+        $il_language
+            ->expects($this->exactly(count($available_kill_profiles) + ((int) $no_skill_profile_option_enabled)))
+            ->method('txt')
+            ->willReturnCallback(fn($topic) => $topic . '_x');
+        $this->setGlobalVariable('lng', $il_language);
+        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
+        );
+        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
+        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($available_kill_profiles);
+
+        $this->assertEquals($output, self::callMethod($il_test_skill_evaluation_toolbar_gui, 'buildEvaluationModeOptionsArray'));
+    }
+
+    public static function buildEvaluationModeOptionsArrayDataProvider(): array
+    {
+        return [
+            'no_skill_profile_option_enabled_true_empty' => [
+                [
+                    'no_skill_profile_option_enabled' => true,
+                    'available_kill_profiles' => []
+                ],
+                [
+                    0 => 'tst_all_test_competences_x'
+                ]
+            ],
+            'no_skill_profile_option_enabled_false_empty' => [
+                [
+                    'no_skill_profile_option_enabled' => false,
+                    'available_kill_profiles' => []
+                ],
+                []
+            ],
+            'no_skill_profile_option_enabled_true_one' => [
+                [
+                    'no_skill_profile_option_enabled' => true,
+                    'available_kill_profiles' => [
+                        1 => 'string'
+                    ]
+                ],
+                [
+                    0 => 'tst_all_test_competences_x',
+                    1 => 'tst_gap_analysis_x: string'
+                ]
+            ],
+            'no_skill_profile_option_enabled_false_one' => [
+                [
+                    'no_skill_profile_option_enabled' => false,
+                    'available_kill_profiles' => [
+                        1 => 'string'
+                    ]
+                ],
+                [
+                    1 => 'tst_gap_analysis_x: string'
+                ]
+            ],
+            'no_skill_profile_option_enabled_true_multiple' => [
+                [
+                    'no_skill_profile_option_enabled' => true,
+                    'available_kill_profiles' => [
+                        1 => 'string',
+                        2 => 'strING'
+                    ]
+                ],
+                [
+                    0 => 'tst_all_test_competences_x',
+                    1 => 'tst_gap_analysis_x: string',
+                    2 => 'tst_gap_analysis_x: strING'
+                ]
+            ],
+            'no_skill_profile_option_enabled_false_multiple' => [
+                [
+                    'no_skill_profile_option_enabled' => false,
+                    'available_kill_profiles' => [
+                        1 => 'string',
+                        2 => 'strING'
+                    ]
+                ],
+                [
+                    1 => 'tst_gap_analysis_x: string',
+                    2 => 'tst_gap_analysis_x: strING'
+                ]
+            ],
+            'no_skill_profile_option_enabled_true_overwrite' => [
+                [
+                    'no_skill_profile_option_enabled' => true,
+                    'available_kill_profiles' => [
+                        0 => 'string'
+                    ]
+                ],
+                [
+                    0 => 'tst_gap_analysis_x: string'
+                ]
+            ],
+            'no_skill_profile_option_enabled_false_overwrite' => [
+                [
+                    'no_skill_profile_option_enabled' => false,
+                    'available_kill_profiles' => [
+                        0 => 'string'
+                    ]
+                ],
+                [
+                    0 => 'tst_gap_analysis_x: string'
+                ]
+            ]
+        ];
     }
 }
