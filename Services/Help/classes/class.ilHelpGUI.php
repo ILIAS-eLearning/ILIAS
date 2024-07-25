@@ -18,6 +18,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 use ILIAS\Help\StandardGUIRequest;
+use ILIAS\Services\Help\ScreenId\HelpScreenIdObserver;
 
 /**
  * Help GUI class.
@@ -29,6 +30,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public const ID_PART_SCREEN = "screen";
     public const ID_PART_SUB_SCREEN = "sub_screen";
     public const ID_PART_COMPONENT = "component";
+    protected HelpScreenIdObserver $observer;
     protected \ILIAS\Repository\InternalGUIService $gui;
     protected static ?\ILIAS\Help\InternalService $internal_service = null;
     protected \ILIAS\Help\Presentation\PresentationManager $presentation;
@@ -48,6 +50,8 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function __construct()
     {
+        global $DIC;
+
         $domain = $this->internal()->domain();
 
         $this->settings = $domain->settings();
@@ -56,6 +60,12 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $this->help_map = $domain->map();
         $this->presentation = $domain->presentation();
+
+        $DIC['help.screen_id_collector'] = function () use ($DIC) {
+            return new HelpScreenIdObserver();
+        };
+        $DIC->ctrl()->attachObserver($DIC['help.screen_id_collector']);
+        $this->observer = $DIC['help.screen_id_collector'];
     }
 
     protected function initUI(): void
@@ -96,6 +106,8 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function getScreenId(): string
     {
+        return $this->observer->getScreenId();
+
         $comp = ($this->screen_id_component != "")
             ? $this->screen_id_component
             : ($this->def_screen_id[self::ID_PART_COMPONENT] ?? '');

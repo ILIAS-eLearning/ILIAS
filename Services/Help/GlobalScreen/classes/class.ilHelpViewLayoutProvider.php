@@ -52,6 +52,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
             return null;
         }
 
+        $f = $DIC->ui()->factory();
         $ttm = $DIC->help()->internal()->domain()->tooltips();
 
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
@@ -62,7 +63,14 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
             $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
 
             if ($tt_text !== "" && $item instanceof hasSymbol && $item->hasSymbol()) {
-                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text): Symbol {
+                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text, $f): Symbol {
+                    /*  This does not work for multiple reasons, first, symbols do no
+                        accept help topics. Even if they would, it would be the wrong ui element to attach
+                        a help tooltip, since the symbol may be smaller than the parent button or link
+                        we need a $item->hasLink() and $item->hasButton() and Link and Button decorators instead
+                    return $symbol->withHelpTopics(
+                        ...$f->helpTopics($tt_text)
+                    );*/
                     return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
                         return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
                     });
