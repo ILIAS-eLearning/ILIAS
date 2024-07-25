@@ -28,7 +28,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
- *
+ * @ilCtrl_Calls ilDashboardGUI: ilObjIndividualAssessmentGUI
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
@@ -103,7 +103,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->ctrl->setReturn($this, "show");
         switch ($next_class) {
 
-                // profile
+            // profile
             case "ilpersonalprofilegui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -111,7 +111,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
-            // settings
+                // settings
             case "ilpersonalsettingsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -143,7 +143,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
 
-            // pd news
+                // pd news
             case "ilpdnewsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
