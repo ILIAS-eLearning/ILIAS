@@ -113,7 +113,7 @@ export default class PageUI {
     this.util = new Util();
   }
 
-  getFirstAddText() {
+  static getFirstAddText() {
     return `<span class='il-copg-add-text'> ${
       il.Language.txt('cont_ed_click_to_add_pg')
     }</span>`;
@@ -518,40 +518,48 @@ export default class PageUI {
       droppableSelector = '.il_droparea';
     }
 
-    $(draggableSelector).filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable({
-      cursor: 'move',
-      revert: false,
-      scroll: true,
-      distance: 3,
-      cursorAt: { top: 5, left: 20 },
-      snap: true,
-      snapMode: 'outer',
-      start(event, ui) {
+    document.querySelectorAll(draggableSelector).forEach((draggableElement) => {
+      if (pageUI.isProtectedElement(draggableElement)) {
+        return;
+      }
+
+      draggableElement.setAttribute('draggable', true);
+
+      draggableElement.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', event.target.id);
+
+        // Create a transparent clone for the drag image
+        const dragClone = draggableElement.cloneNode(true);
+        dragClone.style.opacity = '0.2';
+        dragClone.style.position = 'absolute';
+        dragClone.style.top = '-9999px'; // Move it offscreen
+        document.body.appendChild(dragClone);
+        event.dataTransfer.setDragImage(dragClone, 0, 0);
+
+        // event.target.classList.add('copg-dragging');
         dispatch.dispatch(action.page().editor().dndDrag());
-      },
-      stop(event, ui) {
+      });
+
+      draggableElement.addEventListener('dragend', () => {
+        // event.target.classList.remove('copg-dragging');
         dispatch.dispatch(action.page().editor().dndStopped());
-      },
-      helper: (() => $("<div class='il-copg-drag'>&nbsp;</div>")),		/* temp helper */
+      });
     });
 
-    $(droppableSelector).droppable({
-      drop: (event, ui) => {
-        ui.draggable.draggable('option', 'revert', false);
+    document.querySelectorAll(droppableSelector).forEach((droppableElement) => {
+      droppableElement.addEventListener('dragover', (event) => {
+        event.preventDefault(); // Necessary to allow a drop
+      });
 
-        // @todo: remove legacy
-        const target_id = event.target.id.substr(6);
-        const source_id = ui.draggable[0].id.substr(7);
+      droppableElement.addEventListener('drop', (event) => {
+        event.preventDefault();
 
-        dispatch.dispatch(action.page().editor().dndDrop(target_id, source_id));
-      },
+        const sourceId = event.dataTransfer.getData('text/plain');
+        const targetId = event.target.id.substr(6); // Remove 'TARGET' prefix
+
+        dispatch.dispatch(action.page().editor().dndDrop(targetId, sourceId));
+      });
     });
-
-    // this is needed to make scrolling while dragging with helper possible
-    $('main.il-layout-page-content').css('position', 'relative');
-
     this.hideDropareas();
   }
 
@@ -845,17 +853,19 @@ export default class PageUI {
   //
 
   enableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('enable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.setAttribute('draggable', true);
+      }
+    });
   }
 
   disableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('disable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.removeAttribute('draggable');
+      }
+    });
   }
 
   showAddButtons() {
