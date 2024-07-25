@@ -121,8 +121,7 @@ class TestDIC extends PimpleContainer
                     $DIC['refinery'],
                     $c['question.general_properties.repository']
                 ),
-                \ilLoggerFactory::getLogger('tst'),
-                $DIC['lng']
+                \ilLoggerFactory::getLogger('tst')
             );
 
         $dic['logging.viewer'] = static fn($c): TestLogViewer =>

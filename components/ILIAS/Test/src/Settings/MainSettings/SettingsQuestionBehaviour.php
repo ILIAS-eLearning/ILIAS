@@ -134,7 +134,7 @@ class SettingsQuestionBehaviour extends TestSettings
                 ];
             }
         );
-        $sub_inputs_autosave['autosave_interval'] = $f->numeric($lng->txt('autosave_ival'))
+        $sub_inputs_autosave['autosave_interval'] = $f->numeric($lng->txt('autosave_ival'), $lng->txt('seconds'))
             ->withRequired(true)
             ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
             ->withValue($this->getAutosaveInterval() / 1000)
