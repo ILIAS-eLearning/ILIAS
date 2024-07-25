@@ -586,25 +586,28 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $ilDB = $DIC['ilDB'];
 
         $result_active = $ilDB->queryF(
-            "SELECT * FROM tst_active WHERE active_id = %s",
-            ["integer"],
+            'SELECT * FROM tst_active WHERE active_id = %s',
+            ['integer'],
             [$active_id]
         );
         $row_active = $ilDB->fetchAssoc($result_active);
+        $importname = $row_active['importname'];
 
-        if ($row_active["user_fi"] === ANONYMOUS_USER_ID) {
+        if ($importname !== null
+            && $importname !== '') {
+            return $importname . ' (' . $lng->txt('imported') . ')';
+        }
+
+        if ($row_active['user_fi'] === ANONYMOUS_USER_ID) {
             return '';
         }
 
-        $uname = ilObjUser::_lookupName($row_active["user_fi"]);
-
-        $test_id = $row_active["test_fi"];
-        $importname = $row_active['importname'];
+        $uname = ilObjUser::_lookupName($row_active['user_fi']);
 
         $result_test = $ilDB->queryF(
             "SELECT obj_fi FROM tst_tests WHERE test_id = %s",
             ["integer"],
-            [$test_id]
+            [$row_active['test_fi']]
         );
         $row_test = $ilDB->fetchAssoc($result_test);
         $obj_id = $row_test["obj_fi"];
@@ -613,16 +616,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             return $lng->txt("anonymous");
         }
 
-        if ($importname !== null
-            && $importname !== '') {
-            return $importname . ' (' . $lng->txt('imported') . ')';
+        if ($uname['firstname'] . $uname['lastname'] === '') {
+            return $lng->txt('deleted_user');
         }
 
-        if (strlen($uname["firstname"] . $uname["lastname"]) === 0) {
-            return $lng->txt("deleted_user");
-        }
-
-        return trim($uname["lastname"] . ", " . $uname["firstname"]);
+        return trim($uname['lastname'] . ', ' . $uname['firstname']);
     }
 
     /**
