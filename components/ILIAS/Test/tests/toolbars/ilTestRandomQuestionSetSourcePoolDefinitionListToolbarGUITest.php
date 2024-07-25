@@ -18,36 +18,136 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Exception;
+
 /**
  * Class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI $toolbarGUI;
-
-    protected function setUp(): void
+    /**
+     * @throws Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
+        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
+            $this->createMock(ilCtrlInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
+            $this->createMock(ilTestRandomQuestionSetConfig::class)
+        );
 
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $lng_mock = $this->createMock(ilLanguage::class);
-
-        $questionSetConfigGui_mock = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
-        $questionSetConfig_mock = $this->createMock(ilTestRandomQuestionSetConfig::class);
-
-        $this->setGlobalVariable("lng", $lng_mock);
-
-        $this->toolbarGUI = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $ctrl_mock,
-            $lng_mock,
-            $questionSetConfigGui_mock,
-            $questionSetConfig_mock
+        $this->assertInstanceOf(
+            ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class,
+            $il_test_random_question_set_source_pool_definition_list_toolbar_gui
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    /**
+     * @throws Exception
+     */
+    public function testBuild(): void
     {
-        $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class, $this->toolbarGUI);
+        $il_test_random_question_set_config_gui = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
+        $il_ctrl = $this->createMock(ilCtrlInterface::class);
+        $il_ctrl
+            ->expects($this->exactly(2))
+            ->method('getFormAction')
+            ->with($il_test_random_question_set_config_gui)
+            ->willReturn('form_action');
+        $il_test_random_question_set_config = $this->createMock(ilTestRandomQuestionSetConfig::class);
+        $il_test_random_question_set_config
+            ->expects($this->exactly(2))
+            ->method('doesSelectableQuestionPoolsExist')
+            ->willReturn(true, false);
+
+        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
+            $il_ctrl,
+            $this->createMock(ilLanguage::class),
+            $il_test_random_question_set_config_gui,
+            $il_test_random_question_set_config
+        );
+
+        $this->assertNull($il_test_random_question_set_source_pool_definition_list_toolbar_gui->build());
+        $this->assertNull($il_test_random_question_set_source_pool_definition_list_toolbar_gui->build());
+    }
+
+    /**
+     * @dataProvider buildSourcePoolSelectOptionsArrayDataProvider
+     * @throws Exception|ReflectionException
+     */
+    public function testBuildSourcePoolSelectOptionsArray(array $input, array $output): void
+    {
+        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
+            $this->createMock(ilCtrlInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
+            $this->createMock(ilTestRandomQuestionSetConfig::class)
+        );
+
+        $this->assertEquals(
+            $output,
+            self::callMethod(
+                $il_test_random_question_set_source_pool_definition_list_toolbar_gui,
+                'buildSourcePoolSelectOptionsArray',
+                [$input]
+            )
+        );
+    }
+
+    public static function buildSourcePoolSelectOptionsArrayDataProvider(): array
+    {
+        return [
+            'empty' => [[], []],
+            'single_string' => [[0 => ['title' => 'string']], [0 => 'string']],
+            'single_strING' => [[0 => ['title' => 'strING']], [0 => 'strING']],
+            'multiple_string_string' => [[0 => ['title' => 'string'], 1 => ['title' => 'string']], [0 => 'string', 1 => 'string']],
+            'multiple_strING_strING' => [[0 => ['title' => 'strING'], 1 => ['title' => 'strING']], [0 => 'strING', 1 => 'strING']],
+            'multiple_string_strING' => [[0 => ['title' => 'string'], 1 => ['title' => 'strING']], [0 => 'string', 1 => 'strING']],
+            'multiple_strING_string' => [[0 => ['title' => 'strING'], 1 => ['title' => 'string']], [0 => 'strING', 1 => 'string']],
+            'single_string_1' => [[1 => ['title' => 'string']], [1 => 'string']],
+            'single_string_2' => [[2 => ['title' => 'string']], [2 => 'string']]
+        ];
+    }
+
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testPopulateNewQuestionSelectionRuleInputs(): void
+    {
+        $il_language = $this->createMock(ilLanguage::class);
+        $il_language
+            ->expects($this->once())
+            ->method('txt')
+            ->with('tst_rnd_quest_set_tb_add_pool_btn')
+            ->willReturn('tst_rnd_quest_set_tb_add_pool_btn_x');
+        $this->setGlobalVariable('lng', $il_language);
+        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
+            $this->createMock(ilCtrlInterface::class),
+            $il_language,
+            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
+            $this->createMock(ilTestRandomQuestionSetConfig::class)
+        );
+
+        $this->assertNull(
+            self::callMethod(
+                $il_test_random_question_set_source_pool_definition_list_toolbar_gui,
+                'populateNewQuestionSelectionRuleInputs'
+            )
+        );
+        $this->assertEquals(
+            [
+                [
+                    'type' => 'fbutton',
+                    'txt' => 'tst_rnd_quest_set_tb_add_pool_btn_x',
+                    'cmd' => 'showPoolSelectorExplorer',
+                    'acc_key' => null,
+                    'primary' => false,
+                    'class' => null
+                ]
+            ],
+            $il_test_random_question_set_source_pool_definition_list_toolbar_gui->items
+        );
     }
 }
