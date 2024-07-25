@@ -444,11 +444,28 @@ trait ilTestBaseTestCaseTrait
             ->willReturn($ilDBStatement);
     }
 
-    protected function mockDBFetchAssoc(array $willReturn): void
+    protected function mockDBFetchAssoc(InvocationOrder $expects, array $willReturn): void
     {
         $this->dic['ilDB']
-            ->expects($this->any())
+            ->expects($expects)
             ->method("fetchAssoc")
+            ->willReturn($willReturn);
+    }
+
+    protected function mockDBQueryF(InvocationOrder $expects, ilDBStatement $willReturn): void
+    {
+        $this->dic['ilDB']
+            ->expects($expects)
+            ->method("queryF")
+            ->willReturn($willReturn);
+    }
+
+    protected function mockDBNumRows(InvocationOrder $expects, int $willReturn, ilDBStatement $ilDBStatement): void
+    {
+        $this->dic['ilDB']
+            ->expects($expects)
+            ->method("numRows")
+            ->with($ilDBStatement)
             ->willReturn($willReturn);
     }
 
