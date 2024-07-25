@@ -25,7 +25,7 @@ class HelpScreenIdObserver implements \ilCtrlObserver
     use ClassNameToScreenId;
 
     private const SCREEN_SEPARATOR = '/';
-    private const COMMAND_SEPARATOR = '#';
+    private const COMMAND_SEPARATOR = '/';
     private array $map;
     protected array $clean_name_stack = [];
     protected ?string $command = null;

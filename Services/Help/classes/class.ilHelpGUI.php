@@ -61,9 +61,11 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $this->help_map = $domain->map();
         $this->presentation = $domain->presentation();
 
-        $DIC['help.screen_id_collector'] = function () use ($DIC) {
-            return new HelpScreenIdObserver();
-        };
+        if (!isset($DIC['help.screen_id_collector'])) {
+            $DIC['help.screen_id_collector'] = function () use ($DIC) {
+                return new HelpScreenIdObserver();
+            };
+        }
         $DIC->ctrl()->attachObserver($DIC['help.screen_id_collector']);
         $this->observer = $DIC['help.screen_id_collector'];
     }
@@ -170,7 +172,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $lng = $this->lng;
         $lng->loadLanguageModule("help");
         $ui = $this->ui;
-
         if ($this->help_request->getHelpScreenId() !== "") {
             ilSession::set("help_screen_id", $this->help_request->getHelpScreenId());
             $help_screen_id = $this->help_request->getHelpScreenId();
