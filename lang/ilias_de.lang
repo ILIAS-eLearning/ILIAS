@@ -17266,6 +17266,7 @@ user#:#enable_local_user_administration#:#Lokale Konten
 user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#feedhash#:#Newsfeed-Hash
 user#:#has_role#:#Rolle
+user#:#info_accessFree_sure#:#Sind Sie sicher, dass Sie die Befristung des Zugangs der folgenden Konten entfernen möchten?
 user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in der Administration: „Konten und Rollen » ILIAS-Konten”, Reiter „Einstellungen : Benachrichtigung über Neuanmeldung”
 user#:#interests#:#Interessen
 user#:#interests_general#:#Allgemeine Interessen
