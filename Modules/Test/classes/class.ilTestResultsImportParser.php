@@ -22,8 +22,8 @@ class ilTestResultsImportParser extends ilSaxParser
     private $table;
     private $active_id_mapping;
     private $question_id_mapping;
-    private $user_criteria_field;
-    private $user_criteria_type;
+    private string $user_criteria_field = '';
+    private string $user_criteria_type = '';
     private bool $user_criteria_checked = false;
 
     protected $src_pool_def_id_mapping;
@@ -102,7 +102,8 @@ class ilTestResultsImportParser extends ilSaxParser
                     case 'tst_active':
                         if (!$this->user_criteria_checked) {
                             $this->user_criteria_checked = true;
-                            if ($this->db->tableColumnExists('usr_data', $a_attribs['user_criteria'])) {
+                            if (isset($a_attribs['user_criteria'])
+                                && $this->db->tableColumnExists('usr_data', $a_attribs['user_criteria'])) {
                                 $analyzer = new ilDBAnalyzer();
                                 $info = $analyzer->getFieldInformation('usr_data');
                                 $this->user_criteria_field = $a_attribs['user_criteria'];
@@ -110,9 +111,10 @@ class ilTestResultsImportParser extends ilSaxParser
                             }
                         }
                         $usr_id = ANONYMOUS_USER_ID;
-                        if (strlen($this->user_criteria_field)) {
+                        if ($this->user_criteria_field !== '') {
                             $result = $this->db->queryF(
-                                "SELECT usr_id FROM usr_data WHERE " . $this->user_criteria_field . " =  %s",
+                                'SELECT usr_id FROM usr_data WHERE '
+                                    . $this->user_criteria_field . ' =  %s',
                                 array($this->user_criteria_type),
                                 array($a_attribs[$this->user_criteria_field])
                             );
