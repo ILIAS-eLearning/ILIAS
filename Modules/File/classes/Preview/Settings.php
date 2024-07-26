@@ -46,10 +46,15 @@ class Settings extends ilSetting implements Setting
     private const F_PREVIEW_IMAGE_SIZE = 'preview_image_size';
     private const F_PREVIEW_PERSISTING = 'preview_persisting';
     private const F_PREVIEW_IMAGE_QUALITY = 'preview_image_quality';
+    /**
+     * @readonly
+     */
+    private ImagickEngine $imagick;
 
     public function __construct()
     {
         parent::__construct(self::MODULE_NAME, false);
+        $this->imagick = new ImagickEngine();
     }
 
     public function setPersisting(bool $a_value): void
@@ -64,7 +69,7 @@ class Settings extends ilSetting implements Setting
 
     public function isPreviewPossible(): bool
     {
-        return (new ImagickEngine())->isRunning(); // &&(new GDEngine())->isRunning();
+        return $this->imagick->isRunning(); // &&(new GDEngine())->isRunning();
     }
 
     public function setPreviewEnabled(bool $a_value): void
