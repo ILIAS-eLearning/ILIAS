@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 class ilStudyProgrammeSettingsTableUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -51,14 +50,16 @@ class ilStudyProgrammeSettingsTableUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $this->db->dropPrimaryKey(self::TABLE_PROGRESSES);
-        $this->db->addPrimaryKey(
-            self::TABLE_PROGRESSES,
-            [
-                'assignment_id',
-                'prg_id',
-                'usr_id'
-            ]
-        );
+        if (!$this->db->indexExistsByFields(self::TABLE_NAME, ['assignment_id', 'prg_id', 'usr_id'])) {
+            $this->db->dropPrimaryKey(self::TABLE_PROGRESSES);
+            $this->db->addPrimaryKey(
+                self::TABLE_PROGRESSES,
+                [
+                    'assignment_id',
+                    'prg_id',
+                    'usr_id'
+                ]
+            );
+        }
     }
 }
