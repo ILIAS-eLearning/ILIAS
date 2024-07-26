@@ -278,7 +278,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             "ICON_SRC",
             ilObject::_getIcon(0, "tiny", $a_set["type"])
         );
-        $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
+        $this->tpl->setVariable("ICON_ALT", $this->lng->txt("obj_" . $a_set["type"]));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 
         if ($a_set["offline"] ?? false) {
@@ -449,7 +449,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         int &$a_row,
         array $a_set
     ): void {
-        $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
+        $a_excel->setCell($a_row, 0, $this->lng->txt("obj_" . $a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
         $a_excel->setCell(
             $a_row,
@@ -498,7 +498,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
-        $a_csv->addColumn($this->lng->txt($a_set["type"]));
+        $a_csv->addColumn($this->lng->txt("obj_" . $a_set["type"]));
         $a_csv->addColumn($a_set["title"]);
         $a_csv->addColumn(
             ilLearningProgressBaseGUI::_getStatusText($a_set["status"])
