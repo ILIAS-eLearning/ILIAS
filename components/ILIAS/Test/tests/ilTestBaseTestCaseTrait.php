@@ -436,36 +436,131 @@ trait ilTestBaseTestCaseTrait
             ->willReturn($willReturn);
     }
 
-    protected function mockDBQuery(ilDBStatement $ilDBStatement): void
+    protected function mockDBQuery(InvocationOrder $expects, ilDBStatement $ilDBStatement, ?string $with = null): void
     {
-        $this->dic['ilDB']
-            ->expects($this->any())
-            ->method("query")
-            ->willReturn($ilDBStatement);
+        if($with) {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("query")
+                ->with($with)
+                ->willReturn($ilDBStatement);
+        } else {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("query")
+                ->willReturn($ilDBStatement);
+        }
+
     }
 
-    protected function mockDBFetchAssoc(InvocationOrder $expects, array $willReturn): void
+    protected function mockDBFetchObject(InvocationOrder $expects, ilDBStatement $ilDBStatement, stdClass $willReturn): void
     {
         $this->dic['ilDB']
             ->expects($expects)
-            ->method("fetchAssoc")
-            ->willReturn($willReturn);
-    }
-
-    protected function mockDBQueryF(InvocationOrder $expects, ilDBStatement $willReturn): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("queryF")
-            ->willReturn($willReturn);
-    }
-
-    protected function mockDBNumRows(InvocationOrder $expects, int $willReturn, ilDBStatement $ilDBStatement): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("numRows")
+            ->method("fetchObject")
             ->with($ilDBStatement)
+            ->willReturn($willReturn);
+    }
+
+    protected function mockDBFetchAssoc(?array $willReturn = null, ?callable $willReturnCallable = null): void
+    {
+        if ($willReturn) {
+            $this->dic['ilDB']
+                ->expects($this->any())
+                ->method("fetchAssoc")
+                ->willReturn($willReturn);
+        } else {
+            $this->dic['ilDB']
+                ->expects($this->any())
+                ->method("fetchAssoc")
+                ->willReturnCallback($willReturnCallable);
+        }
+    }
+
+    protected function mockDBQueryF(InvocationOrder $expects, ilDBStatement $willReturn, ?string $query = null, ?array $types = null, ?array $values = null): void
+    {
+        if($query) {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("queryF")
+                ->with($query, $types, $values)
+                ->willReturn($willReturn);
+        } else {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("queryF")
+                ->willReturn($willReturn);
+        }
+    }
+
+    protected function mockDBManipulateF(InvocationOrder $expects, int $willReturn, ?string $query = null, ?array $types = null, ?array $values = null): void
+    {
+        if($query) {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("manipulateF")
+                ->with($query, $types, $values)
+                ->willReturn($willReturn);
+        } else {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("manipulateF")
+                ->willReturn($willReturn);
+        }
+    }
+
+    protected function mockDBNumRows(InvocationOrder $expects, int $willReturn, ?ilDBStatement $ilDBStatement = null): void
+    {
+        if($ilDBStatement) {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("numRows")
+                ->with($ilDBStatement)
+                ->willReturn($willReturn);
+        } else {
+            $this->dic['ilDB']
+                ->expects($expects)
+                ->method("numRows")
+                ->willReturn($willReturn);
+        }
+
+    }
+
+    protected function mockDBNextId(InvocationOrder $expects, string $parameter, int $willReturn): void
+    {
+        /**
+         * @var MockObject $dbMock
+         */
+        $dbMock = $this->dic['ilDB'];
+        $dbMock
+            ->expects($expects)
+            ->method("nextId")
+            ->with($parameter)
+            ->willReturn($willReturn);
+    }
+
+    protected function mockDBManipulate(InvocationOrder $expects, string $with): void
+    {
+        $this->dic['ilDB']
+            ->expects($expects)
+            ->method("manipulate")
+            ->with($with);
+    }
+
+    protected function mockDBIn(InvocationOrder $expects, callable $call): void
+    {
+        $this->dic['ilDB']
+            ->expects($expects)
+            ->method("in")
+            ->willReturnCallback($call);
+    }
+
+    protected function mockDBInsert(InvocationOrder $expects, string $table, array $data, int $willReturn = 0): void
+    {
+        $this->dic['ilDB']
+            ->expects($expects)
+            ->method("insert")
+            ->with($table, $data)
             ->willReturn($willReturn);
     }
 
