@@ -61,6 +61,7 @@ class Services
         $dictionary = (new LOMDictionaryInitiator(
             new TagFactory(),
             $this->path_services->pathFactory(),
+            $this->path_services->navigatorFactory(),
             $this->structure_services->structure()
         ))->get();
         return $this->standard_writer = new StandardWriter(
@@ -77,6 +78,7 @@ class Services
         $dictionary = (new LOMDictionaryInitiator(
             new TagFactory(),
             $this->path_services->pathFactory(),
+            $this->path_services->navigatorFactory(),
             $this->structure_services->structure()
         ))->get();
         $marker_factory = new MarkerFactory();
