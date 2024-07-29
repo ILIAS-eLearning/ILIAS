@@ -29,4 +29,9 @@ class RessourceIDFactory implements RessourceIDFactoryInterface
     ): RessourceIDInterface {
         return new RessourceID($obj_id, $sub_id, $type);
     }
+
+    public function null(): RessourceIDInterface
+    {
+        return new NullRessourceID();
+    }
 }

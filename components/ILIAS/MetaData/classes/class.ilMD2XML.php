@@ -27,6 +27,7 @@ declare(strict_types=1);
  * Meta Data to XML class
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, LOM should only be exported as a tail dependency
  */
 class ilMD2XML extends ilXmlWriter
 {

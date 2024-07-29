@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
@@ -24,6 +28,7 @@ use ILIAS\UI\Component\Modal\LightboxImagePage;
 use ILIAS\components\File\Preview\Settings;
 use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
+use ILIAS\Modules\File\Preview\SettingsFactory;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -33,30 +38,72 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     public const P_RID = "rid";
     public const CMD_GET_ASYNC_MODAL = 'getAsyncModal';
 
+    /**
+     * @readonly
+     */
     private ilDBInterface $db;
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    /**
+     * @readonly
+     */
+    private Factory $ui_factory;
+    /**
+     * @readonly
+     */
+    private Renderer $ui_renderer;
+    /**
+     * @readonly
+     */
     private ilCtrlInterface $ctrl;
     private ?ResourceIdentification $rid = null;
-    private \ILIAS\ResourceStorage\Services $irss;
+    /**
+     * @readonly
+     */
+    private Services $irss;
+    /**
+     * @readonly
+     */
     private \ILIAS\HTTP\Services $http;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    /**
+     * @readonly
+     */
+    private WrapperFactory $http_wrapper;
+    /**
+     * @readonly
+     */
     private \ILIAS\Refinery\Factory $refinery;
+    /**
+     * @readonly
+     */
     private FlavourDefinition $flavour_definition;
+    /**
+     * @readonly
+     */
     private ilAccessHandler $access;
+    /**
+     * @readonly
+     */
     private ilLanguage $language;
+    /**
+     * @readonly
+     */
     private int $preview_size;
+    /**
+     * @readonly
+     */
     private int $pages_to_extract;
     private bool $activated = false;
     private string $file_name = '';
+    /**
+     * @readonly
+     */
     private FlavourDefinition $fallback_flavour_definition;
 
     public function __construct(
-        private ?int $object_id = null
+        private readonly ?int $object_id = null
     ) {
         global $DIC;
 
-        $settings = new Settings();
+        $settings = (new SettingsFactory())->getSettings();
         $this->activated = $settings->isPreviewEnabled();
 
         $this->db = $DIC->database();

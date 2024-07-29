@@ -18,26 +18,41 @@
 
 declare(strict_types=1);
 
-/**
- * Exporter class for meta data
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesMetaData
- */
+use ILIAS\MetaData\Services\InternalServices;
+use ILIAS\MetaData\XML\Writer\WriterInterface as StandardXMLWriter;
+use ILIAS\MetaData\Repository\RepositoryInterface;
+
 class ilMetaDataExporter extends ilXmlExporter
 {
+    protected StandardXMLWriter $writer;
+    protected RepositoryInterface $repository;
+
     public function init(): void
     {
+        global $DIC;
+
+        $services = new InternalServices($DIC);
+
+        $this->writer = $services->xml()->standardWriter();
+        $this->repository = $services->repository()->repository();
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $id = explode(":", $a_id);
-        $mdxml = new ilMD2XML((int) $id[0], (int) $id[1], (string) $id[2]);
-        $mdxml->setExportMode();
-        $mdxml->startExport();
 
-        return $mdxml->getXML();
+        $obj_id = (int) $id[0];
+        $sub_id = (int) $id[1];
+        $type = (string) $id[2];
+
+        if ($sub_id === 0) {
+            $sub_id = $obj_id;
+        }
+
+        $md = $this->repository->getMD($obj_id, $sub_id, $type);
+        $xml = $this->writer->write($md);
+
+        return trim(str_replace('<?xml version="1.0"?>', '', $xml->asXML()));
     }
 
     /**
@@ -48,13 +63,19 @@ class ilMetaDataExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Services/MetaData/meta/4_1",
-                "xsd_file" => "ilias_meta_4_1.xsd",
-                "min" => "4.1.0",
+        return [
+            "10.0" => [
+                "namespace" => "http://www.ilias.de/Services/MetaData/md/10_0",
+                "xsd_file" => "ilias_md_10_0.xsd",
+                "min" => "10.0",
                 "max" => ""
-            )
-        );
+            ],
+            "4.1.0" => [
+                "namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
+                "xsd_file" => "ilias_md_4_1.xsd",
+                "min" => "4.1.0",
+                "max" => "9.99"
+            ]
+        ];
     }
 }

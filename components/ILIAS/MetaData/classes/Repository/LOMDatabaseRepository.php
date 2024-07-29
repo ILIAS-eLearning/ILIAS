@@ -20,36 +20,41 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Repository;
 
-use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Repository\Validation\CleanerInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
 use ILIAS\MetaData\Repository\Utilities\DatabaseManipulatorInterface;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Repository\Utilities\DatabaseReaderInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactoryInterface;
+use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseSearcherInterface;
+use ILIAS\MetaData\Repository\IdentifierHandler\IdentifierHandlerInterface;
 
 class LOMDatabaseRepository implements RepositoryInterface
 {
     protected RessourceIDFactoryInterface $ressource_factory;
-    protected ScaffoldProviderInterface $scaffold_provider;
     protected DatabaseManipulatorInterface $manipulator;
     protected DatabaseReaderInterface $reader;
+    protected DatabaseSearcherInterface $searcher;
     protected CleanerInterface $cleaner;
+    protected IdentifierHandlerInterface $identifier_handler;
 
     public function __construct(
         RessourceIDFactoryInterface $ressource_factory,
-        ScaffoldProviderInterface $scaffold_provider,
         DatabaseManipulatorInterface $manipulator,
         DatabaseReaderInterface $reader,
-        CleanerInterface $cleaner
+        DatabaseSearcherInterface $searcher,
+        CleanerInterface $cleaner,
+        IdentifierHandlerInterface $identifier_handler
     ) {
         $this->ressource_factory = $ressource_factory;
-        $this->scaffold_provider = $scaffold_provider;
         $this->manipulator = $manipulator;
         $this->reader = $reader;
+        $this->searcher = $searcher;
         $this->cleaner = $cleaner;
+        $this->identifier_handler = $identifier_handler;
     }
 
     public function getMD(
@@ -79,17 +84,40 @@ class LOMDatabaseRepository implements RepositoryInterface
     }
 
     /**
-     * @return ElementInterface[]
+     * @return RessourceIDInterface[]
      */
-    public function scaffolds(): ScaffoldProviderInterface
-    {
-        return $this->scaffold_provider;
+    public function searchMD(
+        ClauseInterface $clause,
+        ?int $limit,
+        ?int $offset,
+        FilterInterface ...$filters
+    ): \Generator {
+        yield from $this->searcher->search($clause, $limit, $offset, ...$filters);
     }
 
     public function manipulateMD(SetInterface $set): void
     {
         $this->cleaner->checkMarkers($set);
         $this->manipulator->manipulateMD($set);
+    }
+
+    public function transferMD(
+        SetInterface $from_set,
+        int $to_obj_id,
+        int $to_sub_id,
+        string $to_type,
+        bool $throw_error_if_invalid
+    ): void {
+        $to_ressource_id = $this->ressource_factory->ressourceID($to_obj_id, $to_sub_id, $to_type);
+
+        if ($throw_error_if_invalid) {
+            $this->cleaner->checkMarkers($from_set);
+        } else {
+            $this->cleaner->cleanMarkers($from_set);
+        }
+        $from_set = $this->identifier_handler->prepareUpdateOfIdentifier($from_set, $to_ressource_id);
+        $this->manipulator->deleteAllMD($to_ressource_id);
+        $this->manipulator->transferMD($from_set, $to_ressource_id);
     }
 
     public function deleteAllMD(

@@ -1,6 +1,6 @@
 # Copyright Administration
 
-ILIAS 9 comes pre-installed with seven Creative Commons licenses as well
+ILIAS 10 comes pre-installed with seven Creative Commons licenses as well
 as 'All rights reserved'. Copyright can be selected for objects that support
 LOM when 'Enable Copyright Selection' is checked in the 'Copyright'-tab
 of the Metadata Administration. The copyright of an object can be chosen

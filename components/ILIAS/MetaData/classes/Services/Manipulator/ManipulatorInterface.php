@@ -29,7 +29,7 @@ interface ManipulatorInterface
      * by the path in order. Previous values of these elements are
      * overwritten, new elements are created if not enough exist.
      *
-     * Note that an error is thrown if it is not possible to create
+     * @throws \ilMDServicesException if it is not possible to create
      * enough elements to hold all values. Be careful with unique
      * elements.
      */
@@ -40,9 +40,9 @@ interface ManipulatorInterface
 
     /**
      * New elements are set to be created as specified by the path,
-     * and are filled with the values.
+     * and filled with the values.
      *
-     * Note that an error is thrown if it is not possible to create
+     * @throws \ilMDServicesException if it is not possible to create
      * enough elements to hold all values. Be careful with unique
      * elements.
      */
@@ -57,9 +57,10 @@ interface ManipulatorInterface
     public function prepareDelete(PathInterface $path): ManipulatorInterface;
 
     /**
-     * Execute all prepared actions. An error is thrown if
-     * the LOM set would become invalid, e.g. because of
-     * invalid data values.
+     * Execute all prepared actions.
+     *
+     * @throws \ilMDServicesException if the LOM set would become invalid,
+     * e.g. because of invalid data values.
      */
     public function execute(): void;
 }

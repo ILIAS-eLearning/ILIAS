@@ -26,6 +26,8 @@ use ILIAS\MetaData\Paths\PathInterface;
 
 interface ManipulatorInterface extends BaseManipulatorInterface
 {
+    public function execute(SetInterface $set): void;
+
     public function addScaffolds(
         SetInterface $set,
         PathInterface $path

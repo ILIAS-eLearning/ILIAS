@@ -31,6 +31,8 @@ use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\ActionAssignmentInte
 
 class DatabaseQuerier implements DatabaseQuerierInterface
 {
+    use TableNamesHandler;
+
     protected ResultFactoryInterface $data_row_factory;
     protected \ilDBInterface $db;
     protected \ilLogger $logger;
@@ -43,26 +45,6 @@ class DatabaseQuerier implements DatabaseQuerierInterface
         $this->data_row_factory = $data_row_factory;
         $this->db = $db;
         $this->logger = $logger;
-    }
-
-    protected function checkTable(string $table): void
-    {
-        if (
-            is_null($this->table($table)) ||
-            is_null($this->IDName($table))
-        ) {
-            throw new \ilMDRepositoryException('Invalid MD table: ' . $table);
-        }
-    }
-
-    protected function table(string $table): ?string
-    {
-        return LOMDictionaryInitiator::TABLES[$table] ?? null;
-    }
-
-    protected function IDName(string $table): ?string
-    {
-        return LOMDictionaryInitiator::ID_NAME[$table] ?? null;
     }
 
     public function manipulate(

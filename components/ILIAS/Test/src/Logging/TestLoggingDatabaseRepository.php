@@ -297,7 +297,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             return null;
         }
 
-        return $this->factory->buildParticipantInteractionFromDBValues($this->db->fetchObject($query));
+        return $this->factory->buildScoringInteractionFromDBValues($this->db->fetchObject($query));
     }
 
     private function buildErrorFromId(int $id): ?TestError

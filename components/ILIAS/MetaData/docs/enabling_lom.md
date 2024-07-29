@@ -52,7 +52,7 @@ array in `ilObjectMetadataGUI::isLOMAvailable`.
 
 #### Listening to Changes in LOM
 
-The `ilObjectMetadataGUI` (and `Services\Object` in general) already
+The `ilObjectMetadataGUI` (and the `Object` component in general) already
 takes care of changing the title and description of your object when
 the corresponding elements in LOM are changed in the editor, see
 `ilObject::doMDUpdateListener`. If you want to change or extend this

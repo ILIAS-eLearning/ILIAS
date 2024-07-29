@@ -100,6 +100,9 @@ class Builder implements BuilderInterface
         return $builder;
     }
 
+    /**
+     * @throws \ilMDPathException
+     */
     public function withAdditionalFilterAtCurrentStep(
         FilterType $type,
         string ...$values
@@ -123,7 +126,7 @@ class Builder implements BuilderInterface
     public function get(): PathInterface
     {
         $clone = $this->withCurrentStepSaved();
-        $path =  new Path(
+        $path = new Path(
             $clone->is_relative,
             $clone->leads_to_one,
             ...$clone->steps

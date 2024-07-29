@@ -75,29 +75,28 @@ abstract class BaseElement implements BaseElementInterface
         yield from $this->sub_elements;
     }
 
-    protected function addSubElement(
-        BaseElement $sub_element,
-        string $insert_before = ''
-    ): void {
+    protected function addSubElement(BaseElement $sub_element): void
+    {
         $sub_element->setSuperElement($this);
-        if ($insert_before === '') {
-            $this->sub_elements[] = $sub_element;
-            return;
+        $this->sub_elements[] = $sub_element;
+    }
+
+    protected function orderSubElements(string ...$names_in_order): void
+    {
+        $sub_elements_by_name = [];
+        foreach ($this->sub_elements as $sub_element) {
+            $sub_elements_by_name[$sub_element->getDefinition()->name()][] = $sub_element;
         }
 
-        $new_subs = [];
-        $added = false;
-        foreach ($this->getSubElements() as $sub) {
-            if (!$added && $sub->getDefinition()->name() === $insert_before) {
-                $new_subs[] = $sub_element;
-                $added = true;
-            }
-            $new_subs[] = $sub;
+        $reordered_sub_elements = [];
+        foreach ($names_in_order as $name) {
+            $reordered_sub_elements = array_merge(
+                $reordered_sub_elements,
+                $sub_elements_by_name[$name] ?? []
+            );
         }
-        if (!$added) {
-            $new_subs[] = $sub_element;
-        }
-        $this->sub_elements = $new_subs;
+
+        $this->sub_elements = $reordered_sub_elements;
     }
 
     public function getSuperElement(): ?BaseElement

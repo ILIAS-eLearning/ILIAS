@@ -250,7 +250,7 @@ class ContentAssembler
         $signal = $modal->getShowSignal();
 
         yield ContentType::MODAL => $modal;
-        yield ContentType::JS_SOURCE => 'components/ILIAS/MetaData/js/ilMetaCopyrightListener.js';
+        yield ContentType::JS_SOURCE => 'assets/js/ilMetaCopyrightListener.js';
         yield ContentType::FORM => $this->getCopyrightSection($set, $signal);
     }
 
@@ -401,7 +401,7 @@ class ContentAssembler
             $inputs
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($vs) use ($dh) {
-                $vs = array_map(fn ($v) => is_null($v) ? $v : (int) $v, $vs);
+                $vs = array_map(fn($v) => is_null($v) ? $v : (int) $v, $vs);
                 return $dh->durationFromIntegers(...$vs);
             })
         );

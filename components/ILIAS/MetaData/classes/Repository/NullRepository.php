@@ -23,8 +23,9 @@ namespace ILIAS\MetaData\Repository;
 use ILIAS\MetaData\Elements\NullSet;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Repository\Utilities\NullScaffoldProvider;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
+use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
 
 class NullRepository implements RepositoryInterface
 {
@@ -38,13 +39,29 @@ class NullRepository implements RepositoryInterface
         return new NullSet();
     }
 
-    public function scaffolds(): ScaffoldProviderInterface
-    {
-        return new NullScaffoldProvider();
+    /**
+     * @return RessourceIDInterface[]
+     */
+    public function searchMD(
+        ClauseInterface $clause,
+        ?int $limit,
+        ?int $offset,
+        FilterInterface ...$filters
+    ): \Generator {
+        yield from [];
     }
 
     public function manipulateMD(SetInterface $set): void
     {
+    }
+
+    public function transferMD(
+        SetInterface $from_set,
+        int $to_obj_id,
+        int $to_sub_id,
+        string $to_type,
+        bool $throw_error_if_invalid
+    ): void {
     }
 
     public function deleteAllMD(int $obj_id, int $sub_id, string $type): void

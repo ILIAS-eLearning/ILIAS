@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Meta Data class (element location)
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  */
 class ilMDLocation extends ilMDBase
 {

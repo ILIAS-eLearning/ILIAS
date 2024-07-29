@@ -251,9 +251,11 @@ class ilCalendarAppointmentGUI
         $this->form->addItem($dur);
 
         // recurrence
-        $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
-        $rec->setRecurrence($this->rec);
-        $this->form->addItem($rec);
+        if (!$a_edit_single_app) {
+            $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
+            $rec->setRecurrence($this->rec);
+            $this->form->addItem($rec);
+        }
 
         // location
         $where = new ilTextInputGUI($this->lng->txt('cal_where'), 'location');
@@ -417,7 +419,7 @@ class ilCalendarAppointmentGUI
         } else {
             $this->form->setValuesByPost();
             if ($this->error->getMessage() !== '') {
-            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             }

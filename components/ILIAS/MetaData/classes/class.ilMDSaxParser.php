@@ -25,6 +25,7 @@ declare(strict_types=1);
  * Inserts Meta data from XML into ILIAS db
  * @extends ilSaxParser
  * @package ilias-core
+ * @deprecated will be removed with ILIAS 11, LOM should only be exported as a tail dependency
  */
 class ilMDSaxParser extends ilSaxParser
 {

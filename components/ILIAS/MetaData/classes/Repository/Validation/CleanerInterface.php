@@ -37,4 +37,10 @@ interface CleanerInterface
      * @throws \ilMDRepositoryException
      */
     public function checkMarkers(SetInterface $set): void;
+
+    /**
+     * Checks whether the proposed manipulations on the set via markers
+     * are valid. Replaces the offending markers by neutral ones.
+     */
+    public function cleanMarkers(SetInterface $set): void;
 }

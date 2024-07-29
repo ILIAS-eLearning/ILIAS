@@ -427,7 +427,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/chart.js/dist/chart.min.js');
+        $registry->register('assets/js/chart.umd.js');
         $registry->register('assets/js/bar.js');
     }
 
