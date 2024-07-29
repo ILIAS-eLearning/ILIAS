@@ -9,7 +9,7 @@
    1. [Pull Request to the Repositories](#pull-request-to-the-repositories)
       1. [Rules for Contributors](#rules-for-contributors)
       1. [List of Labels](#list-of-labels)
-      1. [Looking for Sheperd](#looking-for-sheperd)
+      1. [Looking for Shepherd](#looking-for-shepherd)
       1. [Rules for Community Members assigned to PRs](#rules-for-community-members-assigned-to-prs)
    1. [Want to Contribute Something else than Commits?](#want-to-contribute-something-else-than-commits)
 
@@ -107,15 +107,15 @@ be assigned by the Technical Board or Authorities:
 | javascript      | The label `javascript` has to be set for PRs changing Javascript code.                                                                                                    |
 | jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
 | kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
-| Looking for Sheperd | The label `Looking for Sheperd` has to be set for PRs which changes made for unmaintained components.                                                      |
+| Looking for Shepherd | The label `Looking for Shepherd` has to be set for PRs which changes made for unmaintained components.                                                      |
 | php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
 | roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
-<a name="looking-for-sheperd"></a>
-#### Looking for Sheperd
+<a name="looking-for-shepherd"></a>
+#### Looking for Shepherd
 
-'Looking for Shephard' is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
+'Looking for Shepherd' is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
 
 <a name="rules-for-community-members-assigned-to-prs"></a>
 #### Rules for Community Members assigned to PRs
