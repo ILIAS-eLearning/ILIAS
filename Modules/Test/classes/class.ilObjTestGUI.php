@@ -1468,6 +1468,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             }
 
             $newObj->update();
+
+            // Fix for imports from IMSm: write the import ID
+            // this is not done by update() anymore
+            ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
         }
 
 
