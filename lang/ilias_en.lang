@@ -2137,11 +2137,11 @@ auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
 auth#:#destination_after_logout#:#Destination after logout
 auth#:#destination_external_ressource#:#Show External Ressource
-auth#:#destination_external_ressource_url#:#Externe URL
+auth#:#destination_external_ressource_url#:#External URL
 auth#:#destination_internal_ressource#:#Show Internal Ressource
-auth#:#destination_internal_ressource_ref_id#:#Interne Reference Id
+auth#:#destination_internal_ressource_ref_id#:#Internal Reference Id
 auth#:#destination_login_screen#:#Show Login Screen
-auth#:#destination_login_screen_info#:#Make sure that, for example, an SSO is not addressed that leads to immediate login
+auth#:#destination_login_screen_info#:#Make sure that, for example, an SSO is not addressed that leads to immediate login.
 auth#:#destination_logout_screen#:#Show Logout Screen
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
@@ -2150,9 +2150,9 @@ auth#:#language_does_not_exist#:#The selected language does not exist.
 auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
 auth#:#logout_behaviour#:#Logout Behaviour
-auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the Internal Resource Id exists and is not in Trash
+auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the internal resource id exists and is not in trash
 auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
-auth#:#logout_behaviour_ref_id_no_access#:#Please make sure Anonymous User has Access to the ressource.
+auth#:#logout_behaviour_ref_id_no_access#:#Please make sure the "Anonymous" user has access to the defined ressource.
 auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page
