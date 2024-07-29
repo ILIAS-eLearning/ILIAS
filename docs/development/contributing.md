@@ -94,20 +94,27 @@ accidentally.
 #### List of Labels
 
 Currently, the following labels are used for Pull-Requests. These labels will
-be assigned by the Technical Board or Maintainers:
+be assigned by the Technical Board or Authorities:
 
 | Label           | Description                                                                                                                                                               |
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| authorities     | PRs with the label `authorities` has to be assigned to PRs that contain updates to the authorities of a component.
 | bugfix          | PRs with the label `bugfix` propose a solution for a reported bug in the official Bugtracker https://mantis.ilias.de                                                      |
-| improvement     | The label `improvement` is used for PRs which propose a general improvement of code or documentation which is not related to a bug.                                       |
 | dependencies    | The label `dependecies` is used for PRs which propose new or updated dependencies. Please don't forget to also add the label `jour fixe`, when proposing new dependencies.|
 | documentation   | The label `documentation` has to be assigned to PRs adding or updating documentation.                                                                                     |
-| roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
-| php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
+| improvement     | The label `improvement` is used for PRs which propose a general improvement of code or documentation which is not related to a bug.                                       |
 | javascript      | The label `javascript` has to be set for PRs changing Javascript code.                                                                                                    |
 | jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
 | kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
+| Looking for Sheperd | The label `Looking for Sheperd` has to be set for PRs which changes made for unmaintained components.                                                      |
+| php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
+| roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
+
+<a name="looking-for-sheperd"></a>
+### Looking for Sheperd
+
+'Looking for Shephard' is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
 
 <a name="rules-for-community-members-assigned-to-prs"></a>
 #### Rules for Community Members assigned to PRs
