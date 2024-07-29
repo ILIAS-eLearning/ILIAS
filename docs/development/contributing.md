@@ -9,7 +9,7 @@
    1. [Pull Request to the Repositories](#pull-request-to-the-repositories)
       1. [Rules for Contributors](#rules-for-contributors)
       1. [List of Labels](#list-of-labels)
-      1. [Looking for Sheperd](looking-for-sheperd)
+      1. [Looking for Sheperd](#looking-for-sheperd)
       1. [Rules for Community Members assigned to PRs](#rules-for-community-members-assigned-to-prs)
    1. [Want to Contribute Something else than Commits?](#want-to-contribute-something-else-than-commits)
 
