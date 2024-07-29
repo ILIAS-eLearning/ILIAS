@@ -3,6 +3,7 @@
 ## Business Rules
 
 * [Copyright Administration](docs/copyrights.md)
+* [Important Changes](docs/update_infos.md)
 
 ## Technical Documentation
 
