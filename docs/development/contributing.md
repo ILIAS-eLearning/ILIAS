@@ -113,7 +113,7 @@ be assigned by the Technical Board or Authorities:
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
 
 <a name="looking-for-sheperd"></a>
-### Looking for Sheperd
+#### Looking for Sheperd
 
 'Looking for Shephard' is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
 
