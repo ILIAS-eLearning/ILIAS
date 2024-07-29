@@ -115,7 +115,7 @@ be assigned by the Technical Board or Authorities:
 <a name="looking-for-shepherd"></a>
 #### Looking for Shepherd
 
-'Looking for Shepherd' is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
+`Looking for Shepherd` is a label in GitHub to mark PRs made for unmaintained components. As there is no developer that gets assigned such bugs due to her/his authority, pull requests with this tag can be reviewed by every ILIAS developer who can commit and decide if it is accepted and merged. We kindly ask every ILIAS developer to look into these PRs regularly and take responsibility for our shared code base.
 
 <a name="rules-for-community-members-assigned-to-prs"></a>
 #### Rules for Community Members assigned to PRs
