@@ -99,7 +99,7 @@ be assigned by the Technical Board or Authorities:
 
 | Label           | Description                                                                                                                                                               |
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| authorities     | PRs with the label `authorities` has to be assigned to PRs that contain updates to the authorities of a component.
+| authorities     | The label `authorities` has to be assigned to PRs that contain updates to the authorities of a component.
 | bugfix          | PRs with the label `bugfix` propose a solution for a reported bug in the official Bugtracker https://mantis.ilias.de                                                      |
 | dependencies    | The label `dependecies` is used for PRs which propose new or updated dependencies. Please don't forget to also add the label `jour fixe`, when proposing new dependencies.|
 | documentation   | The label `documentation` has to be assigned to PRs adding or updating documentation.                                                                                     |
