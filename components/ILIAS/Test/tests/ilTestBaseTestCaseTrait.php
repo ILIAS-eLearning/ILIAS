@@ -79,6 +79,15 @@ trait ilTestBaseTestCaseTrait
         };
     }
 
+    protected function listService(string $key, string $class): void
+    {
+        $this->services[$class] = $key;
+        $interfaces = (new ReflectionClass($class))->getInterfaces();
+        foreach ($interfaces as $interface => $reflection) {
+            $this->services[$interface] = $key;
+        }
+    }
+
     /**
      * @return ilTemplate|mixed|MockObject
      */
@@ -114,66 +123,79 @@ trait ilTestBaseTestCaseTrait
     protected function addGlobal_ilAccess(): void
     {
         $this->setGlobalVariable('ilAccess', $this->createMock(ilAccess::class));
+        $this->listService('ilAccess', ilAccess::class);
     }
 
     protected function addGlobal_dataFactory(): void
     {
         $this->setGlobalVariable('DataFactory', $this->createMock(DataFactory::class));
+        $this->listService('DataFactory', DataFactory::class);
     }
 
     protected function addGlobal_ilUser(): void
     {
         $this->setGlobalVariable('ilUser', $this->createMock(ilObjUser::class));
+        $this->listService('ilUser', ilObjUser::class);
     }
 
     protected function addGlobal_objDefinition(): void
     {
         $this->setGlobalVariable('objDefinition', $this->createMock(ilObjectDefinition::class));
+        $this->listService('objDefinition', ilObjectDefinition::class);
     }
 
     protected function addGlobal_tree(): void
     {
         $this->setGlobalVariable('tree', $this->createMock(ilTree::class));
+        $this->listService('tree', ilTree::class);
     }
 
     protected function addGlobal_ilSetting(): void
     {
         $this->setGlobalVariable('ilSetting', $this->createMock(ilSetting::class));
+        $this->listService('ilSetting', ilSetting::class);
     }
 
     protected function addGlobal_rbacsystem(): void
     {
         $this->setGlobalVariable('rbacsystem', $this->createMock(ilRbacSystem::class));
+        $this->listService('rbacsystem', ilRbacSystem::class);
     }
 
     protected function addGlobal_ilRbacAdmin(): void
     {
         $this->setGlobalVariable('rbacadmin', $this->createMock(ilRbacAdmin::class));
+        $this->listService('rbacadmin', ilRbacAdmin::class);
     }
 
     protected function addGlobal_ilCtrl(): void
     {
         $this->setGlobalVariable('ilCtrl', $this->createMock(ilCtrl::class));
+        $this->listService('ilCtrl', ilCtrl::class);
     }
 
     protected function addGlobal_lng(): void
     {
         $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
+        $this->listService('lng', ilLanguage::class);
     }
 
     protected function addGlobal_filesystem(): void
     {
         $this->setGlobalVariable('filesystem', $this->createMock(Filesystems::class));
+        $this->listService('filesystem', Filesystems::class);
     }
 
     protected function addGlobal_static_url(): void
     {
         $this->setGlobalVariable('static_url', $this->createMock(ILIAS\StaticURL\Services::class));
+        $this->listService('static_url', ILIAS\StaticURL\Services::class);
     }
 
     protected function addGlobal_upload(): void
     {
         $this->setGlobalVariable('upload', $this->createMock(FileUpload::class));
+        $this->listService('upload', FileUpload::class);
     }
 
     protected function addGlobal_ilDB(): void
@@ -193,16 +215,20 @@ trait ilTestBaseTestCaseTrait
         );
 
         $this->setGlobalVariable('ilDB', $db);
+
+        $this->listService('ilDB', ilDBInterface::class);
     }
 
     protected function addGlobal_ilBench(): void
     {
         $this->setGlobalVariable('ilBench', $this->createMock(ilBenchmark::class));
+        $this->listService('ilBench', ilBenchmark::class);
     }
 
     protected function addGlobal_ilLog(): void
     {
         $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
+        $this->listService('ilLog', ilLogger::class);
     }
 
     protected function addGlobal_ilias(): void
@@ -213,66 +239,79 @@ trait ilTestBaseTestCaseTrait
     protected function addGlobal_ilErr(): void
     {
         $this->setGlobalVariable('ilErr', $this->createMock(ilErrorHandling::class));
+        $this->listService('ilErr', ilErrorHandling::class);
     }
 
     protected function addGlobal_GlobalScreenService(): void
     {
         $this->setGlobalVariable('global_screen', $this->createMock(ILIAS\GlobalScreen\Services::class));
+        $this->listService('global_screen', ILIAS\GlobalScreen\Services::class);
     }
 
     protected function addGlobal_ilNavigationHistory(): void
     {
         $this->setGlobalVariable('ilNavigationHistory', $this->createMock(ilNavigationHistory::class));
+        $this->listService('ilNavigationHistory', ilNavigationHistory::class);
     }
 
     protected function addGlobal_ilAppEventHandler(): void
     {
         $this->setGlobalVariable('ilAppEventHandler', $this->createMock(ilAppEventHandler::class));
+        $this->listService('ilAppEventHandler', ilAppEventHandler::class);
     }
 
     protected function addGlobal_tpl(): void
     {
         $this->setGlobalVariable('tpl', $this->createMock(ilGlobalPageTemplate::class));
+        $this->listService('tpl', ilGlobalPageTemplate::class);
     }
 
     protected function addGlobal_ilComponentRepository(): void
     {
         $this->setGlobalVariable('component.repository', $this->createMock(ilComponentRepository::class));
+        $this->listService('component.repository', ilComponentRepository::class);
     }
 
     protected function addGlobal_ilComponentFactory(): void
     {
         $this->setGlobalVariable('component.factory', $this->createMock(ilComponentFactory::class));
+        $this->listService('component.factory', ilComponentFactory::class);
     }
 
     protected function addGlobal_ilTabs(): void
     {
         $this->setGlobalVariable('ilTabs', $this->createMock(ilTabsGUI::class));
+        $this->listService('ilTabs', ilTabsGUI::class);
     }
 
     protected function addGlobal_ilObjDataCache(): void
     {
         $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
+        $this->listService('ilObjDataCache', ilObjectDataCache::class);
     }
 
     protected function addGlobal_ilLocator(): void
     {
         $this->setGlobalVariable('ilLocator', $this->createMock(ilLocatorGUI::class));
+        $this->listService('ilLocator', ilLocatorGUI::class);
     }
 
     protected function addGlobal_rbacreview(): void
     {
         $this->setGlobalVariable('rbacreview', $this->createMock(ilRbacReview::class));
+        $this->listService('rbacreview', ilRbacReview::class);
     }
 
     protected function addGlobal_ilToolbar(): void
     {
         $this->setGlobalVariable('ilToolbar', $this->createMock(ilToolbarGUI::class));
+        $this->listService('ilToolbar', ilToolbarGUI::class);
     }
 
     protected function addGlobal_ilObjectCustomIconFactory(): void
     {
         $this->setGlobalVariable('object.customicons.factory', $this->createMock(ilObjectCustomIconFactory::class));
+        $this->listService('object.customicons.factory', ilObjectCustomIconFactory::class);
     }
 
     protected function addGlobal_http(): void
@@ -287,36 +326,43 @@ trait ilTestBaseTestCaseTrait
         $http_mock->method('request')
             ->willReturn($request_mock);
         $this->setGlobalVariable('http', $http_mock);
+        $this->listService('http', HTTPServices::class);
     }
 
     protected function addGlobal_ilIliasIniFile(): void
     {
         $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
+        $this->listService('ilIliasIniFile', ilIniFile::class);
     }
 
     protected function addGlobal_ilLoggerFactory(): void
     {
         $this->setGlobalVariable('ilLoggerFactory', $this->createMock(ilLoggerFactory::class));
+        $this->listService('ilLoggerFactory', ilLoggerFactory::class);
     }
 
     protected function addGlobal_ilHelp(): void
     {
         $this->setGlobalVariable('ilHelp', $this->createMock(ilHelpGUI::class));
+        $this->listService('ilHelp', ilHelpGUI::class);
     }
 
     protected function addGlobal_uiService(): void
     {
         $this->setGlobalVariable('uiService', $this->createMock(\ilUIService::class));
+        $this->listService('uiService', \ilUIService::class);
     }
 
     protected function addGlobal_uiFactory(): void
     {
         $this->setGlobalVariable('ui.factory', $this->createMock(Factory::class));
+        $this->listService('ui.factory', Factory::class);
     }
 
     protected function addGlobal_uiRenderer(): void
     {
         $this->setGlobalVariable('ui.renderer', $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+        $this->listService('ui.renderer', ILIAS\UI\Implementation\DefaultRenderer::class);
     }
 
     protected function addGlobal_refinery(): void
@@ -324,11 +370,13 @@ trait ilTestBaseTestCaseTrait
         $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
         $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
         $this->setGlobalVariable('refinery', $refineryMock);
+        $this->listService('refinery', RefineryFactory::class);
     }
 
     protected function addGlobal_skillService(): void
     {
         $this->setGlobalVariable('skill', $this->createMock(ILIAS\Skill\Service\SkillService::class));
+        $this->listService('skill', ILIAS\Skill\Service\SkillService::class);
     }
 
     protected function addGlobal_objectService(): void
@@ -338,11 +386,13 @@ trait ilTestBaseTestCaseTrait
         $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
 
         $this->setGlobalVariable('object', $object_mock);
+        $this->listService('object', \ilObjectService::class);
     }
 
     protected function addGlobal_resourceStorage(): void
     {
         $this->setGlobalVariable('resource_storage', $this->createMock(\ILIAS\ResourceStorage\Services::class));
+        $this->listService('resource_storage', \ILIAS\ResourceStorage\Services::class);
     }
 
     protected function addGlobal_fileDelivery(): void

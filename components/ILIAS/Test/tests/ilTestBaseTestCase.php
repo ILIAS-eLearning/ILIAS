@@ -35,6 +35,7 @@ class ilTestBaseTestCase extends TestCase
     protected ?Container $backup_dic = null;
     protected ?Container $dic = null;
 
+
     /**
      * @inheritdoc
      */
@@ -150,17 +151,18 @@ class ilTestBaseTestCase extends TestCase
             return new $className();
         }
 
-        $implicitParameters = [];
+        $parameters = [];
 
         foreach ($constructor->getParameters() as $constructorParameter) {
             $constructorParameterName = $constructorParameter->getName();
 
             if (isset($explicitParameters[$constructorParameterName])) {
+                $parameters[$constructorParameterName] = $explicitParameters[$constructorParameterName];
                 continue;
             }
 
             if ($constructorParameter->isDefaultValueAvailable()) {
-                $implicitParameters[$constructorParameterName] = $constructorParameter->getDefaultValue();
+                $parameters[$constructorParameterName] = $constructorParameter->getDefaultValue();
                 continue;
             }
 
@@ -169,7 +171,7 @@ class ilTestBaseTestCase extends TestCase
             }
 
             $constructorParameterTypeName = $constructorParameter->getType()?->getName();
-            $implicitParameters[$constructorParameterName] = match ($constructorParameterTypeName) {
+            $parameters[$constructorParameterName] = match ($constructorParameterTypeName) {
                 'string' => '',
                 'int' => 0,
                 'float' => 0.0,
@@ -177,10 +179,18 @@ class ilTestBaseTestCase extends TestCase
                 'false' => false,
                 'array' => [],
                 'null', 'resource' => null,
-                default => $this->createMock($constructorParameterTypeName)
+                default => $this->getOrCreateMock($constructorParameterTypeName)
             };
         }
+        return new $className(...$parameters);
+    }
 
-        return new $className(...array_merge($implicitParameters, $explicitParameters));
+    private function getOrCreateMock(string $parameterType): PHPUnit\Framework\MockObject\MockObject
+    {
+        if(isset($this->services[$parameterType])) {
+            global $DIC;
+            return $DIC[$this->services[$parameterType]];
+        }
+        return $this->createMock($parameterType);
     }
 }
