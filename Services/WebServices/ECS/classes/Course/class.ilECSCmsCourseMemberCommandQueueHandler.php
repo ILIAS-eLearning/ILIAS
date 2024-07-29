@@ -356,7 +356,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $assignment->setCmsId($course_id);
                 $assignment->setCmsSubId((int) $sub_id);
                 $assignment->setObjId($obj_id);
-                $assignment->setUid($person_id);
+                $assignment->setUid((string) $person_id);
                 $assignment->save();
             }
         }
