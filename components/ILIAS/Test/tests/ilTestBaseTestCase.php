@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/ilTestBaseTestCaseTrait.php';
 
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
@@ -135,5 +136,50 @@ class ilTestBaseTestCase extends TestCase
     public static function getNonPublicPropertyValue(object $obj, string $name): mixed
     {
         return (new ReflectionProperty($obj, $name))->getValue($obj);
+    }
+
+    /**
+     * @throws ReflectionException|Exception|MockObjectException
+     */
+    public function createInstanceOf(string $className, array $explicitParameters = []): object
+    {
+        $constructor = (new ReflectionClass($className))->getConstructor();
+
+        if (is_null($constructor)) {
+            return new $className();
+        }
+
+        $implicitParameters = [];
+
+        foreach ($constructor->getParameters() as $constructorParameter) {
+            $constructorParameterName = $constructorParameter->getName();
+
+            if (isset($explicitParameters[$constructorParameterName])) {
+                continue;
+            }
+
+            if ($constructorParameter->isDefaultValueAvailable()) {
+                $implicitParameters[$constructorParameterName] = $constructorParameter->getDefaultValue();
+                continue;
+            }
+
+            if (!$constructorParameter->hasType()) {
+                throw new Exception('Constructor parameter has no type.');
+            }
+
+            $constructorParameterTypeName = $constructorParameter->getType()?->getName();
+            $implicitParameters[$constructorParameterName] = match ($constructorParameterTypeName) {
+                'string' => '',
+                'int' => 0,
+                'float'=> 0.0,
+                'bool', 'true' => true ,
+                'false' => false,
+                'array' => [],
+                'null', 'resource' => null,
+                default => $this->createMock($constructorParameterTypeName)
+            };
+        }
+
+        return new $className(...array_merge($implicitParameters, $explicitParameters));
     }
 }
