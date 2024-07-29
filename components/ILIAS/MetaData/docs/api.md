@@ -2,7 +2,7 @@
 
 > This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 The `Metadata` component offers an API with which the [Learning Object Metadata
 (LOM)](lom_structure.md) of ILIAS objects can be read out, processed,
@@ -159,7 +159,7 @@ the search is consistent, they are ordered by their IDs.
 well optimized for any specific task. If you have a use case for the
 search that performs especially poorly, feel free to report that
 in the [ILIAS issue tracker](https://mantis.ilias.de) or contribute a
-possible improvement to the search via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+possible improvement to the search via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ### Examples
 

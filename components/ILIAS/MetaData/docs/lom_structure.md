@@ -2,7 +2,7 @@
 
 > This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 Metadata of objects in ILIAS follow the Learning Object Metadata
 (LOM) standard (for the most part, see [here](#specific-to-ilias) for

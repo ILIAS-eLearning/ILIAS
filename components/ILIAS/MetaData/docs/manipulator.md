@@ -2,7 +2,7 @@
 
 > This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 In this documentation we describe how exactly the `Manipulator` used
 in the [API](api.md) manipulates LOM sets via the method
