@@ -61,8 +61,8 @@ code please make sure:
 * that your PR has a description that tells what is changed and why - with a
   size relative to the changes
 * that your PRs is minimal - prefer to make two small PRs instead of one big PR
-* that you discuss huge PRs with the responsible maintainers in advance - this
-  will save your time if the maintainers do not agree with your proposed change
+* that you discuss huge PRs with the responsible authorities in advance - this
+  will save your time if the authorities do not agree with your proposed change
 * that you create commits of self-contained logical units with concise commit
   messages and no unnecessary whitespace - this will help reviewers to
   understand what you did
