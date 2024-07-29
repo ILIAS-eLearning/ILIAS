@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\StaticURL\Builder\URIBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -113,6 +114,11 @@ trait ilTestBaseTestCaseTrait
     protected function addGlobal_ilAccess(): void
     {
         $this->setGlobalVariable('ilAccess', $this->createMock(ilAccess::class));
+    }
+
+    protected function addGlobal_dataFactory(): void
+    {
+        $this->setGlobalVariable('DataFactory', $this->createMock(DataFactory::class));
     }
 
     protected function addGlobal_ilUser(): void
@@ -420,148 +426,48 @@ trait ilTestBaseTestCaseTrait
         return $local_dic_mock;
     }
 
-    protected function mockRbacAccess(bool $will_return): void
-    {
-        $this->dic['rbacsystem']
-            ->expects($this->any())
-            ->method("checkAccess")
-            ->willReturn($will_return);
-    }
-
-    protected function mockObjectDefinitionGetClassName(string $willReturn): void
-    {
-        $this->dic['objDefinition']
-            ->expects($this->any())
-            ->method("getClassName")
-            ->willReturn($willReturn);
-    }
-
-    protected function mockDBQuery(InvocationOrder $expects, ilDBStatement $ilDBStatement, ?string $with = null): void
-    {
-        if($with) {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("query")
-                ->with($with)
-                ->willReturn($ilDBStatement);
-        } else {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("query")
-                ->willReturn($ilDBStatement);
+    /**
+     * @throws Exception
+     */
+    protected function mockServiceMethod(
+        string $service_name,
+        string $method,
+        InvocationOrder $expects = null,
+        array $with = null,
+        mixed $will_return = ilTestBaseTestCase::MOCKED_METHOD_WITHOUT_OUTPUT,
+        callable $will_return_callback = null,
+        array $will_return_on_consecutive_calls = null,
+        Throwable $thrown_exception = null
+    ): void {
+        if(!isset($this->dic[$service_name])) {
+            throw new Exception("Service '$service_name' not found in the Dependency Injection Container.");
         }
 
-    }
+        /** @var MockObject $mock_object */
+        $mock_object = $this->dic[$service_name];
 
-    protected function mockDBFetchObject(InvocationOrder $expects, ilDBStatement $ilDBStatement, stdClass $willReturn): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("fetchObject")
-            ->with($ilDBStatement)
-            ->willReturn($willReturn);
-    }
+        $mock_object = is_null($expects) ? $mock_object : $mock_object->expects($expects);
+        $mock_object = $mock_object->method($method);
+        $mock_object = is_null($with) ? $mock_object : $mock_object->with(...$with);
 
-    protected function mockDBFetchAssoc(?array $willReturn = null, ?callable $willReturnCallable = null): void
-    {
-        if ($willReturn) {
-            $this->dic['ilDB']
-                ->expects($this->any())
-                ->method("fetchAssoc")
-                ->willReturn($willReturn);
-        } else {
-            $this->dic['ilDB']
-                ->expects($this->any())
-                ->method("fetchAssoc")
-                ->willReturnCallback($willReturnCallable);
-        }
-    }
-
-    protected function mockDBQueryF(InvocationOrder $expects, ilDBStatement $willReturn, ?string $query = null, ?array $types = null, ?array $values = null): void
-    {
-        if($query) {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("queryF")
-                ->with($query, $types, $values)
-                ->willReturn($willReturn);
-        } else {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("queryF")
-                ->willReturn($willReturn);
-        }
-    }
-
-    protected function mockDBManipulateF(InvocationOrder $expects, int $willReturn, ?string $query = null, ?array $types = null, ?array $values = null): void
-    {
-        if($query) {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("manipulateF")
-                ->with($query, $types, $values)
-                ->willReturn($willReturn);
-        } else {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("manipulateF")
-                ->willReturn($willReturn);
-        }
-    }
-
-    protected function mockDBNumRows(InvocationOrder $expects, int $willReturn, ?ilDBStatement $ilDBStatement = null): void
-    {
-        if($ilDBStatement) {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("numRows")
-                ->with($ilDBStatement)
-                ->willReturn($willReturn);
-        } else {
-            $this->dic['ilDB']
-                ->expects($expects)
-                ->method("numRows")
-                ->willReturn($willReturn);
+        if($will_return !== ilTestBaseTestCase::MOCKED_METHOD_WITHOUT_OUTPUT) {
+            $mock_object->willReturn($will_return);
+            return;
         }
 
-    }
+        if(!is_null($will_return_callback)) {
+            $mock_object->willReturnCallback($will_return_callback);
+            return;
+        }
 
-    protected function mockDBNextId(InvocationOrder $expects, string $parameter, int $willReturn): void
-    {
-        /**
-         * @var MockObject $dbMock
-         */
-        $dbMock = $this->dic['ilDB'];
-        $dbMock
-            ->expects($expects)
-            ->method("nextId")
-            ->with($parameter)
-            ->willReturn($willReturn);
-    }
+        if(!is_null($will_return_on_consecutive_calls)) {
+            $mock_object->willReturnOnConsecutiveCalls(...$will_return_on_consecutive_calls);
+            return;
+        }
 
-    protected function mockDBManipulate(InvocationOrder $expects, string $with): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("manipulate")
-            ->with($with);
-    }
-
-    protected function mockDBIn(InvocationOrder $expects, callable $call): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("in")
-            ->willReturnCallback($call);
-    }
-
-    protected function mockDBInsert(InvocationOrder $expects, string $table, array $data, int $willReturn = 0): void
-    {
-        $this->dic['ilDB']
-            ->expects($expects)
-            ->method("insert")
-            ->with($table, $data)
-            ->willReturn($willReturn);
+        if(!is_null($thrown_exception)) {
+            $mock_object->willThrowException($thrown_exception);
+        }
     }
 
     /**
@@ -632,25 +538,6 @@ trait ilTestBaseTestCaseTrait
         $this->dic['http']->method('wrapper')->willReturn(new WrapperFactory($request));
     }
 
-    protected function mockLanguageVariables(): void
-    {
-        $this->dic['lng']
-            ->method('txt')->willReturnCallback(function ($var): string {
-                return $var;
-            });
-    }
-
-    protected function setUriBuilderMock(URIBuilder $builder): void
-    {
-        $this->dic['static_url']
-            ->method('builder')->willReturn($builder);
-    }
-
-    protected function mockUIRenderFunction(string $willReturn): void
-    {
-        $this->dic['ui.renderer']
-            ->method('render')->willReturn($willReturn);
-    }
 
 
 

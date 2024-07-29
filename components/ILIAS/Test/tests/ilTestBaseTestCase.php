@@ -31,7 +31,7 @@ use ILIAS\DI\Container;
 class ilTestBaseTestCase extends TestCase
 {
     use ilTestBaseTestCaseTrait;
-
+    public const MOCKED_METHOD_WITHOUT_OUTPUT = "MOCKED_METHOD_WITHOUT_OUTPUT";
     protected ?Container $backup_dic = null;
     protected ?Container $dic = null;
 
@@ -73,6 +73,7 @@ class ilTestBaseTestCase extends TestCase
         $DIC->method('uiService')->willReturn($this->createMock(ilUIService::class));
 
         $this->addGlobal_ilAccess();
+        $this->addGlobal_dataFactory();
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilUser();
@@ -171,7 +172,7 @@ class ilTestBaseTestCase extends TestCase
             $implicitParameters[$constructorParameterName] = match ($constructorParameterTypeName) {
                 'string' => '',
                 'int' => 0,
-                'float'=> 0.0,
+                'float' => 0.0,
                 'bool', 'true' => true ,
                 'false' => false,
                 'array' => [],

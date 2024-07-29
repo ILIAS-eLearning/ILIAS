@@ -11,21 +11,6 @@ class TestGlobalSettingsRepositoryTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilias();
-        $this->addGlobal_ilErr();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilAppEventHandler();
-        $this->addGlobal_objDefinition();
-        $this->addGlobal_ilLog();
-        $this->addGlobal_ilSetting();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilObjDataCache();
-        $this->addGlobal_ilHelp();
-        $this->addGlobal_ilTabs();
-        $this->addGlobal_rbacsystem();
-        $this->addGlobal_rbacreview();
-
         $this->testObj = new TestGlobalSettingsRepository(new ilSetting("assessment"));
     }
 

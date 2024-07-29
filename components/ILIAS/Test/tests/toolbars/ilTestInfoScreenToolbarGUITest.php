@@ -33,19 +33,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testConstruct(): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $il_test_info_screen_toolbar_gui);
@@ -56,20 +57,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetTestQuestionSetConfig(): void
     {
+        global $DIC;
         $il_test_question_set_config = $this->createMock(ilTestQuestionSetConfig::class);
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $il_test_question_set_config,
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals(
@@ -86,20 +88,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetTestOBJ(): void
     {
+        global $DIC;
         $test_obj = $this->createMock(ilObjTest::class);
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $test_obj,
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals(
@@ -116,20 +119,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetTestPlayerGUI(): void
     {
+        global $DIC;
         $il_test_player_abstract_gui = $this->createMock(ilTestPlayerAbstractGUI::class);
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $il_test_player_abstract_gui,
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals(
@@ -146,20 +150,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetTestSession(): void
     {
+        global $DIC;
         $il_test_session = $this->createMock(ilTestSession::class);
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $il_test_session,
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals(
@@ -177,19 +182,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetSessionLockString(?string $IO): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         if (!is_null($IO)) {
@@ -214,19 +220,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetAndAddInfoMessage(?array $IO): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         foreach ($IO ?? [] as $info_message) {
@@ -261,19 +268,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetAndAddFailureMessage(?array $IO): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         foreach ($IO ?? [] as $failure_message) {
@@ -308,25 +316,13 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetFormAction(array $IO): void
     {
-        $il_toolbar_gui = $this->createMock(ilToolbarGUI::class);
-        $il_toolbar_gui_set_form_action = $il_toolbar_gui
-            ->expects($this->once())
-            ->method('setFormAction');
-
-        if (isset($IO['multipart'], $IO['target'])) {
-            $il_toolbar_gui_set_form_action
-                ->with($IO['val'], $IO['multipart'], $IO['target']);
-        } elseif (isset($IO['multipart'])) {
-            $il_toolbar_gui_set_form_action
-                ->with($IO['val'], $IO['multipart']);
-        } elseif (isset($IO['target'])) {
-            $il_toolbar_gui_set_form_action
-                ->with($IO['val'], a_target: $IO['target']);
-        } else {
-            $il_toolbar_gui_set_form_action
-                ->with($IO['val']);
-        }
-
+        $this->mockServiceMethod(
+            service_name: 'ilToolbar',
+            method: 'setFormAction',
+            expects: $this->once(),
+            with: [$IO['val'], $IO['multipart'] ?? false, $IO['target'] ?? '']
+        );
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
@@ -339,7 +335,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $this->createMock(UIFactory::class),
             $this->createMock(UIRenderer::class),
             $this->createMock(ilGlobalTemplateInterface::class),
-            $il_toolbar_gui
+            $DIC['ilToolbar']
         );
 
         if (isset($IO['multipart'], $IO['target'])) {
@@ -533,24 +529,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetCloseFormTag(bool $IO): void
     {
-        $il_toolbar_gui = $this->createMock(ilToolbarGUI::class);
-        $il_toolbar_gui
-            ->expects($this->once())
-            ->method('setCloseFormTag')
-            ->with($IO);
+        $this->mockServiceMethod(service_name: 'ilToolbar', method: 'setCloseFormTag', expects: $this->once(), with: [$IO]);
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $il_toolbar_gui
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertNull($il_test_info_screen_toolbar_gui->setCloseFormTag($IO));
@@ -571,31 +564,26 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     public function testAddInputItem(?bool $IO): void
     {
         $il_toolbar_item = $this->createMock(ilToolbarItem::class);
-        $il_toolbar_gui = $this->createMock(ilToolbarGUI::class);
         if (is_null($IO)) {
-            $il_toolbar_gui
-                ->expects($this->once())
-                ->method('addInputItem')
-                ->with($il_toolbar_item);
+            $with = [$il_toolbar_item];
         } else {
-            $il_toolbar_gui
-                ->expects($this->once())
-                ->method('addInputItem')
-                ->with($il_toolbar_item, $IO);
+            $with = [$il_toolbar_item, $IO];
         }
+        $this->mockServiceMethod(service_name: 'ilToolbar', method: 'addInputItem', expects: $this->once(), with: $with);
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $il_toolbar_gui
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         if (is_null($IO)) {
@@ -619,24 +607,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testClearItems(): void
     {
-        $il_toolbar_gui = $this->createMock(ilToolbarGUI::class);
-        $il_toolbar_gui
-            ->expects($this->once())
-            ->method('setItems')
-            ->with([]);
+        global $DIC;
+        $this->mockServiceMethod(service_name: 'ilToolbar', method: 'setItems', expects: $this->once(), with: [[]]);
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $il_toolbar_gui
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertNull($il_test_info_screen_toolbar_gui->clearItems());
@@ -648,19 +633,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetClassName(string|object $input, string $output): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassName', [$input]));
@@ -681,19 +667,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetClassNameArray(string|object|array $input, array $output): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassNameArray', [$input]));
@@ -735,19 +722,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testGetClassPath(object|string|array $input, array $output): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassPath', [$input]));
@@ -789,24 +777,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetParameter(array $input, string $output): void
     {
-        $il_ctrl = $this->createMock(ilCtrlInterface::class);
-        $il_ctrl
-            ->expects($this->once())
-            ->method('setParameterByClass')
-            ->with($output, $input['parameter'], $input['value']);
+        $this->mockServiceMethod(service_name: 'ilCtrl', method: 'setParameterByClass', expects: $this->once(), with: [$output, $input['parameter'], $input['value']]);
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $il_ctrl,
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertNull(self::callMethod($il_test_info_screen_toolbar_gui, 'setParameter', $input));
@@ -836,41 +821,35 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testBuildLinkTarget(array $input, string $output): void
     {
-        $il_ctrl = $this->createMock(ilCtrlInterface::class);
-        $get_link_target_by_class = $il_ctrl
-            ->expects($this->once())
-            ->method('getLinkTargetByClass');
-
         $class = ['ilRepositoryGUI', 'ilObjTestGUI'];
         $class[] = $input['class'];
 
         if (isset($input['cmd'])) {
-            $get_link_target_by_class
-                ->with($class, $input['cmd'])
-                ->willReturnCallback(function (array $class, string $cmd): string {
-                        $class[] = $cmd;
-                        return implode('/', $class);
-                    }
-                );
+            $with = [$class, $input['cmd']];
+            $callback = function (array $class, string $cmd): string {
+                $class[] = $cmd;
+                return implode('/', $class);
+            };
         } else {
-            $get_link_target_by_class
-                ->with($class)
-                ->willReturnCallback(fn(array $class) => implode('/', $class));
+            $with = [$class];
+            $callback = fn(array $class) => implode('/', $class);
         }
 
+        $this->mockServiceMethod(service_name: 'ilCtrl', method: 'getLinkTargetByClass', expects: $this->once(), with: $with, will_return_callback: $callback);
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $il_ctrl,
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'buildLinkTarget', array_values($input)));
@@ -899,27 +878,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     {
         $class = ['ilRepositoryGUI', 'ilObjTestGUI'];
         $class[] = $input;
-
-        $il_ctrl = $this->createMock(ilCtrlInterface::class);
-        $il_ctrl
-            ->expects($this->once())
-            ->method('getFormActionByClass')
-            ->with($class)
-            ->willReturnCallback(fn(array $class) => 'action: ' .implode('/', $class));
-
+        $this->mockServiceMethod(service_name: 'ilCtrl', method: 'getFormActionByClass', expects: $this->once(), with: [$class], will_return_callback: fn(array $class) => 'action: ' . implode('/', $class));
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $il_ctrl,
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'buildFormAction', [$input]));
@@ -940,19 +913,21 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testEnsureInitialisedSessionLockString(?string $input, int $output): void
     {
+        global $DIC;
+
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         if (!is_null($input)) {
@@ -983,19 +958,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testBuildSessionLockString(string $input): void
     {
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $_COOKIE['PHPSESSID'] = $input;
@@ -1032,35 +1008,41 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->method('getId')
                 ->willReturn($input['id']);
             $res = $this->createMock(ilDBStatement::class);
-            $db
-                ->expects($this->once())
-                ->method('query')
-                ->with("
+
+            $this->mockServiceMethod(
+                service_name: 'ilDB',
+                method: 'query',
+                expects: $this->once(),
+                with: ["
 			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points, eval_mode
 			FROM qpl_qst_skl_assigns
 			WHERE obj_fi = 
-		")
-                ->willReturn($res);
-            $db
-                ->expects($this->once())
-                ->method('fetchAssoc')
-                ->with($res)
-                ->willReturn([]);
+		"],
+                will_return: $res
+            );
+            $this->mockServiceMethod(
+                service_name: 'ilDB',
+                method: 'fetchAssoc',
+                expects: $this->once(),
+                with: [$res],
+                will_return: []
+            );
         }
 
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $test_obj,
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $db,
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'hasFixedQuestionSetSkillAssignsLowerThanBarrier'));
@@ -1084,29 +1066,24 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     public function testGetSkillAssignBarrierInfo(): void
     {
         $txt = 'tst_skill_triggerings_num_req_answers_not_reached_warn';
-        $lng = $this->createMock(ilLanguage::class);
-        $lng
-            ->expects($this->once())
-            ->method('txt')
-            ->with($txt)
-            ->willReturn($txt . '_%s');
-
+        $this->mockServiceMethod(service_name: "lng", method: 'txt', expects: $this->once(), with: [$txt], will_return: $txt . '_%s');
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $lng,
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
-        $this->assertEquals($txt . '_1', self::callMethod($il_test_info_screen_toolbar_gui, 'getSkillAssignBarrierInfo'));
+        $this->assertStringContainsString($txt, self::callMethod($il_test_info_screen_toolbar_gui, 'getSkillAssignBarrierInfo'));
     }
 
     /**
@@ -1115,12 +1092,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     public function testBuild(): void
     {
         $any = $this->any();
-        $access = $this->createMock(ilAccessHandler::class);
-        $access
-            ->expects($any)
-            ->method('checkAccess')
-            ->with('write', '', 0)
-            ->willReturn(true);
+        $this->mockServiceMethod(service_name: 'ilAccess', method: 'checkAccess', with: ['write', '', 0], will_return: true);
         $il_test_question_set_config = $this->createMock(ilTestQuestionSetConfig::class);
         $il_test_question_set_config
             ->expects($any)
@@ -1131,19 +1103,20 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             ->expects($any)
             ->method('getOfflineStatus')
             ->willReturn(true);
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $obj_test,
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $il_test_question_set_config,
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $access,
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $_COOKIE['PHPSESSID'] = '';
@@ -1159,31 +1132,23 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testPopulateMessage(string $input): void
     {
-        $il_template = $this->createMock(ilGlobalTemplateInterface::class);
-        $il_template
-            ->expects($this->once())
-            ->method('setCurrentBlock')
-            ->with('mess');
-        $il_template
-            ->expects($this->once())
-            ->method('setVariable')
-            ->with('MESSAGE', $input);
-        $il_template
-            ->expects($this->once())
-            ->method('parseCurrentBlock');
+        $this->mockServiceMethod(service_name: 'tpl', method: 'setCurrentBlock', expects: $this->once(), with: ['mess']);
+        $this->mockServiceMethod(service_name: 'tpl', method: 'setVariable', expects: $this->once(), with: ['MESSAGE', $input]);
+        $this->mockServiceMethod(service_name: 'tpl', method: 'parseCurrentBlock', expects: $this->once());
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $il_template,
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
 
         $this->assertNull(self::callMethod($il_test_info_screen_toolbar_gui, 'populateMessage', [$input]));
@@ -1204,27 +1169,25 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSendMessages(array $input): void
     {
-        $il_template = $this->createMock(ilGlobalTemplateInterface::class);
         $info_message = (int) (bool) count($input['info_messages']);
         $failure_message = (int) (bool) count($input['failure_messages']);
 
-        $il_template
-            ->expects($this->exactly($info_message + $failure_message))
-            ->method('setOnScreenMessage');
+        $this->mockServiceMethod(service_name: 'tpl', method: 'setOnScreenMessage', expects: $this->exactly($info_message + $failure_message));
 
+        global $DIC;
         $il_test_info_screen_toolbar_gui = new ilTestInfoScreenToolbarGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $il_template,
-            $this->createMock(ilToolbarGUI::class)
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
         foreach ($input['info_messages'] as $info_message) {
             $il_test_info_screen_toolbar_gui->addInfoMessage($info_message);

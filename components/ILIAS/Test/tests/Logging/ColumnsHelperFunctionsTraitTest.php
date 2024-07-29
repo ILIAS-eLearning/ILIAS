@@ -27,20 +27,20 @@ class ColumnsHelperFunctionsTraitTest extends ilTestBaseTestCase
         $propRepo = $this->createMock(GeneralQuestionPropertiesRepository::class);
         $propRepo->expects($this->any())->method("getForQuestionId")->willReturn($question_title ? $props : null);
 
-        $this->mockLanguageVariables();
+        $this->mockServiceMethod(service_name: "lng", method: "txt", will_return_callback: fn($var) => $var);
 
         $uri = $this->createMock(URI::class);
         $uri->expects($this->any())->method("__toString")->willReturn("action");
         $uriBuilder = $this->createMock(URIBuilder::class);
         $uriBuilder->expects($this->any())->method("build")->willReturn($uri);
 
-        $this->setUriBuilderMock($uriBuilder);
+        $this->mockServiceMethod(service_name: "static_url", method: "builder", will_return: $uriBuilder);
 
         $standard = $this->createMock(Standard::class);
         $linkFactory = $this->createMock(Factory::class);
         $linkFactory->expects($this->any())->method("standard")->willReturn($standard);
 
-        $this->mockUIRenderFunction("result");
+        $this->mockServiceMethod(service_name: "ui.renderer", method: "render", will_return: "result");
 
         $title = $this->buildQuestionTitleColumnContent($propRepo, $DIC['lng'], $DIC['static_url'], $linkFactory, $DIC['ui.renderer'], $question_id, 1);
         $this->assertSame($result, $title);
@@ -58,7 +58,7 @@ class ColumnsHelperFunctionsTraitTest extends ilTestBaseTestCase
 
         global $DIC;
 
-        $this->mockLanguageVariables();
+        $this->mockServiceMethod(service_name: "lng", method: "txt", will_return_callback: fn($var) => $var);
 
         $title = $this->buildQuestionTitleCSVContent($propRepo, $DIC['lng'], $question_id);
         $this->assertSame($result, $title);

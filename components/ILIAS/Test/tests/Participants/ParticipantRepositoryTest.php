@@ -24,14 +24,6 @@ use ilTestBaseTestCase;
 
 class ParticipantRepositoryTest extends ilTestBaseTestCase
 {
-    private ParticipantRepository $testObj;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-    }
-
     public function test_lookupTestIdByActiveId_withValidId(): void
     {
         global $DIC;
@@ -40,13 +32,13 @@ class ParticipantRepositoryTest extends ilTestBaseTestCase
 
         $test_fi = 5;
 
-        $this->mockDBFetchAssoc($this->once(), ['test_fi' => $test_fi]);
-        $this->mockDBQueryF($this->once(), $ilDBStatementMock);
-        $this->mockDBNumRows($this->once(), 1, $ilDBStatementMock);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchAssoc", expects: $this->once(), will_return: ['test_fi' => $test_fi]);
+        $this->mockServiceMethod(service_name: "ilDB", method: "queryF", expects: $this->once(), will_return: $ilDBStatementMock);
+        $this->mockServiceMethod(service_name: "ilDB", method: "numRows", expects: $this->once(), with: [$ilDBStatementMock], will_return: $test_fi);
 
-        $this->testObj = new ParticipantRepository($DIC['ilDB']);
+        $repo = new ParticipantRepository($DIC['ilDB']);
 
-        $this->assertSame($test_fi, $this->testObj->lookupTestIdByActiveId(1));
+        $this->assertSame($test_fi, $repo->lookupTestIdByActiveId(1));
     }
 
     public function test_lookupTestIdByActiveId_withInvalidId(): void
@@ -55,14 +47,12 @@ class ParticipantRepositoryTest extends ilTestBaseTestCase
 
         $ilDBStatementMock = $this->createMock(ilDBStatement::class);
 
-        $test_fi = 5;
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchAssoc", expects: $this->never());
+        $this->mockServiceMethod(service_name: "ilDB", method: "queryF", expects: $this->once(), will_return: $ilDBStatementMock);
+        $this->mockServiceMethod(service_name: "ilDB", method: "numRows", expects: $this->once(), with: [$ilDBStatementMock], will_return: 0);
 
-        $this->mockDBFetchAssoc($this->never(), ['test_fi' => $test_fi]);
-        $this->mockDBQueryF($this->once(), $ilDBStatementMock);
-        $this->mockDBNumRows($this->once(), 0, $ilDBStatementMock);
+        $repo = new ParticipantRepository($DIC['ilDB']);
 
-        $this->testObj = new ParticipantRepository($DIC['ilDB']);
-
-        $this->assertSame(-1, $this->testObj->lookupTestIdByActiveId(1));
+        $this->assertSame(-1, $repo->lookupTestIdByActiveId(1));
     }
 }

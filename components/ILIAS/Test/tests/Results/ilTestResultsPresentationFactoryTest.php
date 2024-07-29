@@ -33,42 +33,26 @@ use ReflectionException;
 
 class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 {
-    private UIFactory $ui_factory;
-    private UIRenderer $ui_renderer;
-    private Refinery $refinery;
-    private DataFactory $data_factory;
-    private HTTPService $http_service;
-    private ilLanguage $language;
-    private ilTestPassResult $ilTestPassResult;
-
-    /**
-     * @throws Exception
-     */
+    private ilTestResultsPresentationFactory $testObj;
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->ui_factory = $this->createMock(UIFactory::class);
-        $this->ui_renderer = $this->createMock(UIRenderer::class);
-        $this->refinery = $this->createMock(Refinery::class);
-        $this->data_factory = $this->createMock(DataFactory::class);
-        $this->http_service = $this->createMock(HTTPService::class);
-        $this->language = $this->createMock(ilLanguage::class);
-        $this->ilTestPassResult = $this->createMock(ilTestPassResult::class);
+        global $DIC;
+
+        $this->testObj = $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['refinery'],
+            $DIC['DataFactory'],
+            $DIC['http'],
+            $DIC['lng']
+        );
     }
 
     public function testConstruct(): void
     {
-        $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
-            $this->ui_factory,
-            $this->ui_renderer,
-            $this->refinery,
-            $this->data_factory,
-            $this->http_service,
-            $this->language
-        );
-
-        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $ilTestResultsPresentationFactory);
+        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $this->testObj);
     }
 
     /**
@@ -78,21 +62,14 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
     public function testGetPassResultsPresentationTable(?string $IO): void
     {
         $this->markTestSkipped();
-        $testResultsPresentationFactory = new ilTestResultsPresentationFactory(
-            $this->ui_factory,
-            $this->ui_renderer,
-            $this->refinery,
-            $this->data_factory,
-            $this->http_service,
-            $this->language
-        );
+
 
         if (is_null($IO)) {
-            $testPassResultsTable = $testResultsPresentationFactory->getPassResultsPresentationTable(
+            $testPassResultsTable = $this->testObj->getPassResultsPresentationTable(
                 $this->ilTestPassResult
             );
         } else {
-            $testPassResultsTable = $testResultsPresentationFactory->getPassResultsPresentationTable(
+            $testPassResultsTable = $this->testObj->getPassResultsPresentationTable(
                 $this->ilTestPassResult,
                 $IO
             );

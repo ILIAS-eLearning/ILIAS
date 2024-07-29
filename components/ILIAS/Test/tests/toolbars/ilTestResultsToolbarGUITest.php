@@ -29,18 +29,26 @@ use ILIAS\UI\Factory as UIFactory;
  */
 class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 {
+    private ilTestResultsToolbarGUI $testObj;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        global $DIC;
+
+        $this->testObj = new ilTestResultsToolbarGUI(
+            $DIC['ilCtrl'],
+            $DIC['tpl'],
+            $DIC['lng']
+        );
+    }
     /**
      * @throws Exception
      */
     public function testConstruct(): void
     {
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
-
-        $this->assertInstanceOf(ilTestResultsToolbarGUI::class, $il_test_results_toolbar_gui);
+        $this->assertInstanceOf(ilTestResultsToolbarGUI::class, $this->testObj);
     }
 
     /**
@@ -49,15 +57,9 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetCertificateLinkTarget(string $IO): void
     {
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
-
-        $this->assertNull($il_test_results_toolbar_gui->getCertificateLinkTarget());
-        $il_test_results_toolbar_gui->setCertificateLinkTarget($IO);
-        $this->assertEquals($IO, $il_test_results_toolbar_gui->getCertificateLinkTarget());
+        $this->assertNull($this->testObj->getCertificateLinkTarget());
+        $this->testObj->setCertificateLinkTarget($IO);
+        $this->assertEquals($IO, $this->testObj->getCertificateLinkTarget());
     }
 
     public static function setAndGetCertificateLinkTargetDataProvider(): array
@@ -75,15 +77,9 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetShowBestSolutionsLinkTarget(string $IO): void
     {
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
-
-        $this->assertNull($il_test_results_toolbar_gui->getShowBestSolutionsLinkTarget());
-        $il_test_results_toolbar_gui->setShowBestSolutionsLinkTarget($IO);
-        $this->assertEquals($IO, $il_test_results_toolbar_gui->getShowBestSolutionsLinkTarget());
+        $this->assertNull($this->testObj->getShowBestSolutionsLinkTarget());
+        $this->testObj->setShowBestSolutionsLinkTarget($IO);
+        $this->assertEquals($IO, $this->testObj->getShowBestSolutionsLinkTarget());
     }
 
     public static function setAndGetShowBestSolutionsLinkTargetDataProvider(): array
@@ -101,15 +97,9 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetHideBestSolutionsLinkTarget(string $IO): void
     {
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
-
-        $this->assertNull($il_test_results_toolbar_gui->getHideBestSolutionsLinkTarget());
-        $il_test_results_toolbar_gui->setHideBestSolutionsLinkTarget($IO);
-        $this->assertEquals($IO, $il_test_results_toolbar_gui->getHideBestSolutionsLinkTarget());
+        $this->assertNull($this->testObj->getHideBestSolutionsLinkTarget());
+        $this->testObj->setHideBestSolutionsLinkTarget($IO);
+        $this->assertEquals($IO, $this->testObj->getHideBestSolutionsLinkTarget());
     }
 
     public static function setAndGetHideBestSolutionsLinkTargetDataProvider(): array
@@ -127,15 +117,9 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetParticipantSelectorOptions(array $IO): void
     {
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
-
-        $this->assertEmpty($il_test_results_toolbar_gui->getParticipantSelectorOptions());
-        $il_test_results_toolbar_gui->setParticipantSelectorOptions($IO);
-        $this->assertEquals($IO, $il_test_results_toolbar_gui->getParticipantSelectorOptions());
+        $this->assertEmpty($this->testObj->getParticipantSelectorOptions());
+        $this->testObj->setParticipantSelectorOptions($IO);
+        $this->assertEquals($IO, $this->testObj->getParticipantSelectorOptions());
     }
 
     public static function setAndGetParticipantSelectorOptionsDataProvider(): array
@@ -160,21 +144,13 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
             ->withAnyParameters()
             ->willReturnOnConsecutiveCalls(...$output);
 
-        $this->setGlobalVariable('ui.factory', $this->createConfiguredMock(UIFactory::class, [
-            'link' => $link_factory
-        ]));
-
-        $il_test_results_toolbar_gui = new ilTestResultsToolbarGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilGlobalPageTemplate::class),
-            $this->createMock(ilLanguage::class)
-        );
+        $this->mockServiceMethod(service_name: 'ui.factory', method: 'link', will_return: $link_factory);
 
         if (!is_null($input)) {
-            $il_test_results_toolbar_gui->setParticipantSelectorOptions($input);
+            $this->testObj->setParticipantSelectorOptions($input);
         }
 
-        $this->assertEquals($output, $il_test_results_toolbar_gui->getParticipantSelectorLinksArray());
+        $this->assertEquals($output, $this->testObj->getParticipantSelectorLinksArray());
     }
 
     public static function getParticipantSelectorLinksArrayDataProvider(): array

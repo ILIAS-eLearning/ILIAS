@@ -26,21 +26,30 @@ use PHPUnit\Framework\MockObject\Exception;
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTestBaseTestCase
 {
+    private ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI $testObj;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        global $DIC;
+
+        $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
+            $this->createMock(ilTestRandomQuestionSetConfig::class)
+        );
+    }
+
     /**
      * @throws Exception
      */
     public function testConstruct(): void
     {
-        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
-            $this->createMock(ilTestRandomQuestionSetConfig::class)
-        );
-
         $this->assertInstanceOf(
             ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class,
-            $il_test_random_question_set_source_pool_definition_list_toolbar_gui
+            $this->testObj
         );
     }
 
@@ -49,13 +58,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
      */
     public function testBuild(): void
     {
+        global $DIC;
         $il_test_random_question_set_config_gui = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
-        $il_ctrl = $this->createMock(ilCtrlInterface::class);
-        $il_ctrl
-            ->expects($this->exactly(2))
-            ->method('getFormAction')
-            ->with($il_test_random_question_set_config_gui)
-            ->willReturn('form_action');
+        $this->mockServiceMethod(service_name: 'ilCtrl', method: 'getFormAction', expects: $this->exactly(2), with: [$il_test_random_question_set_config_gui], will_return: 'form_action');
         $il_test_random_question_set_config = $this->createMock(ilTestRandomQuestionSetConfig::class);
         $il_test_random_question_set_config
             ->expects($this->exactly(2))
@@ -63,8 +68,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
             ->willReturn(true, false);
 
         $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $il_ctrl,
-            $this->createMock(ilLanguage::class),
+            $DIC['ilCtrl'],
+            $DIC['lng'],
             $il_test_random_question_set_config_gui,
             $il_test_random_question_set_config
         );
@@ -79,17 +84,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
      */
     public function testBuildSourcePoolSelectOptionsArray(array $input, array $output): void
     {
-        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
-            $this->createMock(ilTestRandomQuestionSetConfig::class)
-        );
-
         $this->assertEquals(
             $output,
             self::callMethod(
-                $il_test_random_question_set_source_pool_definition_list_toolbar_gui,
+                $this->testObj,
                 'buildSourcePoolSelectOptionsArray',
                 [$input]
             )
@@ -116,16 +114,17 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
      */
     public function testPopulateNewQuestionSelectionRuleInputs(): void
     {
-        $il_language = $this->createMock(ilLanguage::class);
-        $il_language
-            ->expects($this->once())
-            ->method('txt')
-            ->with('tst_rnd_quest_set_tb_add_pool_btn')
-            ->willReturn('tst_rnd_quest_set_tb_add_pool_btn_x');
-        $this->setGlobalVariable('lng', $il_language);
+        global $DIC;
+        $this->mockServiceMethod(
+            service_name: 'lng',
+            method: 'txt',
+            expects: $this->once(),
+            with: ['tst_rnd_quest_set_tb_add_pool_btn'],
+            will_return: 'tst_rnd_quest_set_tb_add_pool_btn_x'
+        );
         $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $this->createMock(ilCtrlInterface::class),
-            $il_language,
+            $DIC['ilCtrl'],
+            $DIC['lng'],
             $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
             $this->createMock(ilTestRandomQuestionSetConfig::class)
         );

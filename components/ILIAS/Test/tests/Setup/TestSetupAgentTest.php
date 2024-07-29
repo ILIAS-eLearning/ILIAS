@@ -28,54 +28,53 @@ use ilTestBaseTestCase;
 
 class TestSetupAgentTest extends ilTestBaseTestCase
 {
+    private TestSetupAgent $testObj;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        global $DIC;
+        $this->testObj = new TestSetupAgent($DIC['refinery']);
+    }
     public function testConstruct(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(TestSetupAgent::class, $ilTestSetupAgentTest);
+        $this->assertInstanceOf(TestSetupAgent::class, $this->testObj);
     }
 
     public function testGetUpdateObjective(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getUpdateObjective());
+        $this->assertInstanceOf(ObjectiveCollection::class, $this->testObj->getUpdateObjective());
     }
 
     public function testGetStatusObjective(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getStatusObjective(
+        $this->assertInstanceOf(ObjectiveCollection::class, $this->testObj->getStatusObjective(
             $this->createMock(Storage::class)
         ));
     }
 
     public function testHasConfig(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertFalse($ilTestSetupAgentTest->hasConfig());
+        $this->assertFalse($this->testObj->hasConfig());
     }
 
     public function testGetArrayToConfigTransformation(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
         $this->expectException(\LogicException::class);
-        $ilTestSetupAgentTest->getArrayToConfigTransformation();
+        $this->testObj->getArrayToConfigTransformation();
     }
 
     public function testGetInstallObjective(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getInstallObjective());
+        $this->assertInstanceOf(NullObjective::class, $this->testObj->getInstallObjective());
     }
 
     public function testGetBuildArtifactObjective(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getBuildObjective());
+        $this->assertInstanceOf(NullObjective::class, $this->testObj->getBuildObjective());
     }
 
     public function testGetMigrations(): void
     {
-        $ilTestSetupAgentTest = new TestSetupAgent($this->createMock(Refinery::class));
-        $this->assertIsArray($ilTestSetupAgentTest->getMigrations());
+        $this->assertIsArray($this->testObj->getMigrations());
     }
 }

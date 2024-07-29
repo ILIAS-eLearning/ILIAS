@@ -29,10 +29,9 @@ use PHPUnit\Framework\MockObject\Exception;
 
 class ilTestResultsFactoryTest extends ilTestBaseTestCase
 {
-    private ilTestShuffler $test_shuffler;
-    private UIFactory $ui_factory;
-    private UIRenderer $ui_renderer;
     private ilObjTest $test_obj;
+
+    private ilTestResultsFactory $ilTestResultsFactory;
 
     /**
      * @throws Exception
@@ -41,21 +40,20 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->test_shuffler = $this->createMock(ilTestShuffler::class);
-        $this->ui_factory = $this->createMock(UIFactory::class);
-        $this->ui_renderer = $this->createMock(UIRenderer::class);
+        $test_shuffler = $this->createMock(ilTestShuffler::class);
         $this->test_obj = $this->createMock(ilObjTest::class);
+
+        global $DIC;
+        $this->ilTestResultsFactory = new ilTestResultsFactory(
+            $test_shuffler,
+            $DIC['ui.factory'],
+            $DIC['ui.renderer']
+        );
     }
 
     public function testConstruct(): void
     {
-        $ilTestResultsFactory = new ilTestResultsFactory(
-            $this->test_shuffler,
-            $this->ui_factory,
-            $this->ui_renderer
-        );
-
-        $this->assertInstanceOf(ilTestResultsFactory::class, $ilTestResultsFactory);
+        $this->assertInstanceOf(ilTestResultsFactory::class, $this->ilTestResultsFactory);
     }
 
     /**
@@ -63,20 +61,14 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
      */
     public function testGetPassResultsFor(array $IO): void
     {
-        $ilTestResultsFactory = new ilTestResultsFactory(
-            $this->test_shuffler,
-            $this->ui_factory,
-            $this->ui_renderer
-        );
-
         if (is_null($IO['is_user_output'])) {
-            $ilTestPassResult = $ilTestResultsFactory->getPassResultsFor(
+            $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
                 $this->test_obj,
                 $IO['active_id'],
                 $IO['pass_id'],
             );
         } else {
-            $ilTestPassResult = $ilTestResultsFactory->getPassResultsFor(
+            $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
                 $this->test_obj,
                 $IO['active_id'],
                 $IO['pass_id'],

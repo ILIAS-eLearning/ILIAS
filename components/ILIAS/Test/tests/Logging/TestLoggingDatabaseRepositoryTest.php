@@ -62,8 +62,8 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
             ->method("toStorage")
             ->willReturn($storageArray);
 
-        $this->mockDBNextId($this->once(), $table, $nextId);
-        $this->mockDBInsert($this->once(), $table, $resultArray);
+        $this->mockServiceMethod(service_name: "ilDB", method: "nextId", expects: $this->once(), with: [$table], will_return: $nextId);
+        $this->mockServiceMethod(service_name: "ilDB", method: "insert", expects: $this->once(), with: [$table, $resultArray]);
 
         global $DIC;
 
@@ -83,8 +83,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 15;
-        $this->mockDBQuery($this->once(), $statement);
-        $this->mockDBFetchObject($this->once(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", expects: $this->once(), will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->once(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -103,8 +104,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 15;
-        $this->mockDBQuery($this->never(), $statement);
-        $this->mockDBFetchObject($this->never(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", expects: $this->never(), will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->never(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -120,8 +122,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 15;
-        $this->mockDBQuery($this->never(), $statement);
-        $this->mockDBFetchObject($this->never(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", expects: $this->never(), will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->never(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -140,8 +143,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 15;
-        $this->mockDBQuery($this->once(), $statement);
-        $this->mockDBFetchObject($this->once(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", expects: $this->once(), will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->once(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -159,8 +163,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
         $statement = $this->createMock(\ilDBStatement::class);
 
         $stdclass = $this->createMock(\stdClass::class);
-        $this->mockDBQuery($this->never(), $statement);
-        $this->mockDBFetchObject($this->never(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", expects: $this->never(), will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->never(), with: [$statement], will_return: $stdclass);
 
         $this->expectExceptionMessage("Unknown Identifier Type");
 
@@ -208,7 +213,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
     {
         $factory = $this->createMock(Factory::class);
 
-        $this->mockDBNumRows($this->once(), 0);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "numRows", expects: $this->once(), will_return: 0);
+
         global $DIC;
 
         $repo = new TestLoggingDatabaseRepository($factory, $DIC['ilDB']);
@@ -222,11 +229,12 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
     public function test_getLog(string $id, string $method, string $interaction): void
     {
         $interaction = $this->createMock($interaction);
-        $this->mockDBNumRows($this->once(), 1);
         $query = $this->createMock(\ilDBStatement::class);
-        $this->mockDBQueryF($this->once(), $query);
         $stdClass = $this->createMock(\stdClass::class);
-        $this->mockDBFetchObject($this->once(), $query, $stdClass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "numRows", expects: $this->once(), will_return: 1);
+        $this->mockServiceMethod(service_name: "ilDB", method: "queryF", expects: $this->once(), will_return: $query);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->once(), with: [$query], will_return: $stdClass);
 
         $factory = $this->createMock(Factory::class);
         $factory
@@ -234,6 +242,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
             ->method($method)
             ->with($stdClass)
             ->willReturn($interaction);
+
         global $DIC;
 
         $repo = new TestLoggingDatabaseRepository($factory, $DIC['ilDB']);
@@ -281,10 +290,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $factory = $this->createMock(Factory::class);
 
-        $this->mockDBManipulate($this->once(), $with);
-        $this->mockDBIn($this->any(), function ($id, array $values, $negate, $type) {
-            return implode(", ", $values);
-        });
+        $this->mockServiceMethod(service_name: "ilDB", method: "manipulate", expects: $this->once(), with: [$with]);
+        $this->mockServiceMethod(service_name: "ilDB", method: "in", will_return_callback: fn($id, array $values, $negate, $type) => implode(", ", $values));
+
         global $DIC;
 
         $repo = new TestLoggingDatabaseRepository($factory, $DIC['ilDB']);
@@ -311,10 +319,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $factory = $this->createMock(Factory::class);
 
-        $this->mockDBManipulate($this->never(), "");
-        $this->mockDBIn($this->any(), function ($id, array $values, $negate, $type) {
-            return implode(", ", $values);
-        });
+        $this->mockServiceMethod(service_name: "ilDB", method: "manipulate", expects: $this->never());
+        $this->mockServiceMethod(service_name: "ilDB", method: "in", will_return_callback: fn($id, array $values, $negate, $type) => implode(", ", $values));
+
         global $DIC;
 
         $repo = new TestLoggingDatabaseRepository($factory, $DIC['ilDB']);
@@ -330,8 +337,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 15;
-        $this->mockDBQueryF($this->once(), $statement, 'SELECT COUNT(id) AS cnt FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]);
-        $this->mockDBFetchObject($this->once(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "queryF", with: ['SELECT COUNT(id) AS cnt FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]], will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->once(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -349,8 +357,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $stdclass = $this->createMock(\stdClass::class);
         $stdclass->cnt = 0;
-        $this->mockDBQueryF($this->once(), $statement, 'SELECT COUNT(id) AS cnt FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]);
-        $this->mockDBFetchObject($this->once(), $statement, $stdclass);
+
+        $this->mockServiceMethod(service_name: "ilDB", method: "queryF", with: ['SELECT COUNT(id) AS cnt FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]], will_return: $statement);
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchObject", expects: $this->once(), with: [$statement], will_return: $stdclass);
 
         global $DIC;
 
@@ -363,7 +372,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
         $id = 5;
         $factory = $this->createMock(Factory::class);
 
-        $this->mockDBManipulateF($this->once(), 1, 'DELETE FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]);
+        $this->mockServiceMethod(service_name: "ilDB", method: "manipulateF", expects: $this->once(), with: ['DELETE FROM tst_pax_log WHERE ref_id=%s', ['integer'], [$id]], will_return: 1);
 
         global $DIC;
 
@@ -403,7 +412,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
         $factory = $this->createMock(Factory::class);
         $statement = $this->createMock(\ilDBStatement::class);
 
-        $this->mockDBFetchAssoc(willReturnCallable: function () use (&$count) {
+        $callback = function () use (&$count) {
             if ($count < 5) {
                 $count++;
 
@@ -414,9 +423,9 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
             }
 
             return [];
-        });
-
-        $this->mockDBQuery($this->once(), $statement, "SELECT * FROM ass_log" . $where . ' ORDER BY tstamp');
+        };
+        $this->mockServiceMethod(service_name: "ilDB", method: "fetchAssoc", will_return_callback: $callback);
+        $this->mockServiceMethod(service_name: "ilDB", method: "query", with: ["SELECT * FROM ass_log" . $where . " ORDER BY tstamp"], will_return: $statement);
 
         global $DIC;
 

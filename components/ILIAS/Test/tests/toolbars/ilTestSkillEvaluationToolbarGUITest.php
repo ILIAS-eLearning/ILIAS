@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use \PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception;
 
 /**
  * Class ilTestSkillEvaluationToolbarGUITest
@@ -26,16 +26,22 @@ use \PHPUnit\Framework\MockObject\Exception;
  */
 class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 {
+    private ilTestSkillEvaluationToolbarGUI $testObj;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->testObj = new ilTestSkillEvaluationToolbarGUI(
+            $this->createMock(ilCtrlInterface::class)
+        );
+    }
     /**
      * @throws Exception
      */
     public function testConstruct(): void
     {
-        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
-        );
-
-        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $il_test_skill_evaluation_toolbar_gui);
+        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->testObj);
     }
 
     /**
@@ -44,12 +50,9 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetAvailableSkillProfiles(array $IO): void
     {
-        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
-        );
-        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($IO);
+        $this->testObj->setAvailableSkillProfiles($IO);
 
-        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getAvailableSkillProfiles());
+        $this->assertEquals($IO, $this->testObj->getAvailableSkillProfiles());
     }
 
     public static function setAndGetAvailableSkillProfilesDataProvider(): array
@@ -67,12 +70,9 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetNoSkillProfileOptionEnabled(bool $IO): void
     {
-        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
-        );
-        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($IO);
+        $this->testObj->setNoSkillProfileOptionEnabled($IO);
 
-        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->isNoSkillProfileOptionEnabled());
+        $this->assertEquals($IO, $this->testObj->isNoSkillProfileOptionEnabled());
     }
 
     public static function setAndGetNoSkillProfileOptionEnabledDataProvider(): array
@@ -89,12 +89,9 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetAndGetSelectedEvaluationMode(int $IO): void
     {
-        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
-        );
-        $il_test_skill_evaluation_toolbar_gui->setSelectedEvaluationMode($IO);
+        $this->testObj->setSelectedEvaluationMode($IO);
 
-        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getSelectedEvaluationMode());
+        $this->assertEquals($IO, $this->testObj->getSelectedEvaluationMode());
     }
 
     public static function setAndGetSelectedEvaluationModeDataProvider(): array
@@ -114,19 +111,17 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
     {
         $available_kill_profiles = $input['available_kill_profiles'];
         $no_skill_profile_option_enabled = $input['no_skill_profile_option_enabled'];
-        $il_language = $this->createMock(ilLanguage::class);
-        $il_language
-            ->expects($this->exactly(count($available_kill_profiles) + ((int) $no_skill_profile_option_enabled)))
-            ->method('txt')
-            ->willReturnCallback(fn($topic) => $topic . '_x');
-        $this->setGlobalVariable('lng', $il_language);
-        $il_test_skill_evaluation_toolbar_gui = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
+        $this->mockServiceMethod(
+            service_name: 'lng',
+            method: 'txt',
+            expects: $this->exactly(count($available_kill_profiles) + ((int) $no_skill_profile_option_enabled)),
+            will_return_callback: fn($topic) => $topic . '_x'
         );
-        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
-        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($available_kill_profiles);
 
-        $this->assertEquals($output, self::callMethod($il_test_skill_evaluation_toolbar_gui, 'buildEvaluationModeOptionsArray'));
+        $this->testObj->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
+        $this->testObj->setAvailableSkillProfiles($available_kill_profiles);
+
+        $this->assertEquals($output, self::callMethod($this->testObj, 'buildEvaluationModeOptionsArray'));
     }
 
     public static function buildEvaluationModeOptionsArrayDataProvider(): array

@@ -10,18 +10,10 @@ use ILIAS\UI\Component\Input\Field\Section;
 use ilTestBaseTestCase;
 
 use function PHPUnit\Framework\once;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class TestLoggingSettingsTest extends ilTestBaseTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->addGlobal_refinery();
-        $this->addGlobal_lng();
-
-    }
-
     /**
      * @dataProvider provideLoggingSettings
      */
@@ -41,10 +33,9 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
         $fieldFactory->expects($this->once())->method("section")->willReturn($section);
         $inputFactory = $this->createMock(\ILIAS\UI\Component\Input\Factory::class);
         $inputFactory->expects($this->exactly(3))->method("field")->willReturn($fieldFactory);
-        $uiFactory = $this->createMock(Factory::class);
-        $uiFactory->expects($this->exactly(3))->method("input")->willReturn($inputFactory);
+        $this->mockServiceMethod(service_name: "ui.factory", method: "input", expects: $this->exactly(3), will_return: $inputFactory);
 
-        $toForm = $testLoggingSettings->toForm($uiFactory, $DIC->refinery(), $DIC->language());
+        $toForm = $testLoggingSettings->toForm($DIC['ui.factory'], $DIC->refinery(), $DIC->language());
         $this->assertCount(1, $toForm);
         $this->assertInstanceOf(Section::class, $toForm["logging"]);
     }
