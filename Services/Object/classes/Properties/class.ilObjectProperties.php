@@ -40,6 +40,30 @@ class ilObjectProperties
         );
     }
 
+    public function getOwner(): int
+    {
+        return $this->core_properties->getOwner();
+    }
+
+    public function withOwner(int $owner): self
+    {
+        $clone = clone $this;
+        $clone->core_properties = $this->core_properties->withOwner($owner);
+        return $clone;
+    }
+
+    public function getImportId(): string
+    {
+        return $this->core_properties->getImportId();
+    }
+
+    public function withImportId(string $import_id): self
+    {
+        $clone = clone $this;
+        $clone->core_properties = $this->core_properties->withImportId($import_id);
+        return $clone;
+    }
+
     public function getPropertyTitleAndDescription(): ilObjectPropertyTitleAndDescription
     {
         return $this->core_properties->getPropertyTitleAndDescription();

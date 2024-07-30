@@ -99,6 +99,13 @@ class ilObjectCoreProperties
         return $this->import_id ?? '';
     }
 
+    public function withImportId(string $import_id): self
+    {
+        $clone = clone $this;
+        $clone->import_id = $import_id;
+        return $clone;
+    }
+
     public function getPropertyTitleAndDescription(): ilObjectPropertyTitleAndDescription
     {
         return $this->property_title_and_description;

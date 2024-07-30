@@ -48,10 +48,10 @@ class ilObjectDIC extends PimpleContainer
     private function init(ILIASContainer $DIC): void
     {
         $this['common_settings'] = fn($c): \ilObjectCommonSettings => new \ilObjectCommonSettings(
-            $DIC->language(),
-            $DIC->upload(),
-            $DIC->resourceStorage(),
-            $DIC->http(),
+            $DIC['lng'],
+            $DIC['upload'],
+            $DIC['resource_storage'],
+            $DIC['http'],
             $c['tile_image_stackholder'],
             $c['tile_image_flavour']
         );
