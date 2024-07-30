@@ -8500,7 +8500,6 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#execute#:#Apply
 dateplaner#:#free#:#Free
 dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
@@ -11428,7 +11427,7 @@ mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
-mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.
+mail#:#mail_operation_on_invalid_folder#:#It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator.
 mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).
