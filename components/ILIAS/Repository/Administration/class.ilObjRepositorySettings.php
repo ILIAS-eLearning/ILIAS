@@ -120,7 +120,7 @@ class ilObjRepositorySettings extends ilObject
 
             $title = $row["titles"][$usr_lng] ?? false;
             if (!$title) {
-                $title = $row["titles"][$def_lng];
+                $title = $row["titles"][$def_lng] ?? false;
             }
             if (!$title) {
                 $title = array_shift($row["titles"]);
