@@ -2349,9 +2349,9 @@ bibl#:#ris_default_y1#:#Year
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Translate
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
-blog#:#blog_abstract_image#:#Add Image To Abstract
+blog#:#blog_abstract_image#:#Add Image to Abstract
 blog#:#blog_abstract_image_height#:#Height
-blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
+blog#:#blog_abstract_image_info#:#The first image used in the post will be resized so that its longest edge matches the size entered here. This image will be displayed along with the abstract of the post’s text content. Images that are smaller than the minimum size will not be used.
 blog#:#blog_abstract_image_pixels#:#Px
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_shorten#:#Shorten Abstract
@@ -2359,98 +2359,90 @@ blog#:#blog_abstract_shorten_characters#:#Characters
 blog#:#blog_abstract_shorten_length#:#Maximum Length
 blog#:#blog_add#:#Create Blog
 blog#:#blog_add_contributor#:#Add Contributor
-blog#:#blog_add_posting#:#Add Posting
-blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Resources Administration.
-blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Resources Administration.
-blog#:#blog_allow_html#:#Allow HTML/Javascript
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
-blog#:#blog_approve#:#Approve Posting
+blog#:#blog_add_posting#:#Add Post
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature by going to ‘Administration » Personal Workspace » Personal Resources’.
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely by going to ‘Administration » Personal Workspace » Personal Resources’.
+blog#:#blog_approve#:#Approve Post
 blog#:#blog_author#:#Written by
 blog#:#blog_authors#:#Authors
 blog#:#blog_back_to_blog_owner#:#Edit Blog
 blog#:#blog_banner#:#Banner
-blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.
-blog#:#blog_change_notification_body_new#:#the following blog posting was created.
-blog#:#blog_change_notification_body_update#:#the following blog posting has been updated.
-blog#:#blog_change_notification_link#:#Link to Blog Posting
-blog#:#blog_change_notification_reason#:#You are receiving this e-mail because you activated notifications for the blog mentioned above.
-blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
+blog#:#blog_change_notification_body_approve#:#The following blog post needs approval.
+blog#:#blog_change_notification_body_comment#:#The following blog post has received a comment.
+blog#:#blog_change_notification_body_new#:#A new post has been added to the following blog.
+blog#:#blog_change_notification_body_update#:#The following blog post has been updated.
+blog#:#blog_change_notification_link#:#Link to Blog Post
+blog#:#blog_change_notification_reason#:#You have received this e-mail because you have activated notifications for the blog mentioned above.
+blog#:#blog_change_notification_subject#:#The blog "%s" has been updated.
 blog#:#blog_comments#:#Comments
-blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
-blog#:#blog_contribute_other_roles#:#Additionally to Blog-Contributors users with the role %s can write postings. They are not listed in the table below, because they get the respective permission from an encompassing object.
-blog#:#blog_contributors#:#Blog-Contributors
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to remove the following contributors?
+blog#:#blog_contribute_other_roles#:#In addition to the blog contributors listed below, users with the role(s) %s can also add posts to this blog. They are not listed in the table below, because their respective permission(s) are derived from the object (e.g. course or group) in which this blog is contained.
+blog#:#blog_contributors#:#Blog Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_download_submission#:#Download Submission
 blog#:#blog_draft#:#Draft
-blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
-blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
+blog#:#blog_draft_info#:#The post has been unpublished and is now only visible to contributors.
+blog#:#blog_draft_info_contributors#:#This draft post is currently only visible to the contributors of this blog.
 blog#:#blog_draft_text#:#Unpublished Post
 blog#:#blog_edit#:#Edit Blog
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
 blog#:#blog_edit_keywords#:#Edit Keywords
-blog#:#blog_edit_posting#:#Edit Posting
-blog#:#blog_enable_approval#:#Approve Postings
-blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
+blog#:#blog_edit_posting#:#Edit Post
+blog#:#blog_enable_approval#:#Approve Posts
+blog#:#blog_enable_approval_info#:#Posts will only be visible to other users after having being approved by a user with the ‘Edit Settings’ permission for this blog.
 blog#:#blog_enable_keywords#:#Keywords
-blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.
+blog#:#blog_enable_keywords_info#:#Keywords can be added to posts. These keywords will then be displayed in a ‘Keywords’ block in the sidebar, where they can be used to filter the blog posts accordingly.
 blog#:#blog_enable_nav_authors#:#Authors
-blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a username shows all postings of this author.
+blog#:#blog_enable_nav_authors_info#:#Display a list of all blog authors in an ‘Authors’ side block. Clicking on an author’s username will show all posts by this author in the main section of the blog.
 blog#:#blog_enable_notes#:#Public Comments
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
 blog#:#blog_est_reading_time#:#Estimated Reading Time
-blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
-blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
+blog#:#blog_est_reading_time_info#:#Add an automatically generated estimated reading time to blog posts in the repository.
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
-blog#:#blog_finalize_blog#:#Finalize and Submit Blog
-blog#:#blog_finalized#:#The Blog has been submitted.
+blog#:#blog_finalize_blog#:#Finalise and Submit Blog
+blog#:#blog_finalized#:#Your blog has been submitted.
 blog#:#blog_import#:#Import Blog
 blog#:#blog_incl_comments#:#including comments
 blog#:#blog_keyword#:#Keyword
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#Keywords
-blog#:#blog_keywords_other#:#Other Keywords
-blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
-blog#:#blog_latest_posting#:#Latest Posting
+blog#:#blog_latest_posting#:#Latest Post
 blog#:#blog_link#:#Link
-blog#:#blog_list_more#:#more
-blog#:#blog_list_num_postings#:#Number of postings
-blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
-blog#:#blog_nav_mode#:#Postings
+blog#:#blog_list_more#:#More
+blog#:#blog_list_num_postings#:#Number of Posts
+blog#:#blog_list_num_postings_info#:#The maximum number of posts displayed when viewing the blog with no specific month selected.
+blog#:#blog_nav_mode#:#Posts
 blog#:#blog_nav_mode_month_list#:#Show List of Months
-blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the ‘Postings’ block.
-blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.
-blog#:#blog_nav_mode_month_list_num_month#:#Total Number of shown months
-blog#:#blog_nav_mode_month_list_num_month_info#:#Additional months will be displayed with their total number of postings.
-blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
+blog#:#blog_nav_mode_month_list_info#:#List months with posts in the ‘Posts’ block.
+blog#:#blog_nav_mode_month_list_num_month#:#Total Number of Months Shown
+blog#:#blog_nav_mode_month_list_num_month_info#:#Limit the number of months that will be displayed in the ‘Posts’ block. The months displayed will always be the most recent and will be shown with a number indicating how many posts were made in that month as standard.
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of Months With Listed Posts
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with the titles of all of their posts in the navigation block. Additional months will be displayed with a number indicating the total number of posts made in that month.
 blog#:#blog_nav_mode_month_single#:#Show Selected Month
-blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the ‘Postings’ block. Month can be changed by drop-down.
-blog#:#blog_nav_sortorder#:#Order of Blocks
-blog#:#blog_navigation#:#Postings
-blog#:#blog_needs_approval#:#Posting is not yet approved
+blog#:#blog_nav_mode_month_single_info#:#Instead of a list of months, display a drop-down menu, containing all of the months with posts for this blog. Users can use this menu to select the month they wish to view. Only the posts of the selected month will then be shown.
+blog#:#blog_nav_sortorder#:#Block Order
+blog#:#blog_navigation#:#Posts
+blog#:#blog_needs_approval#:#Post has not yet been approved
 blog#:#blog_new#:#Create New Blog
-blog#:#blog_new_posting_info#:#The posting is published.
+blog#:#blog_new_posting_info#:#The post has been published.
 blog#:#blog_news_posting_authors#:#Contributing authors: %s
-blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
-blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s.
+blog#:#blog_news_posting_published#:#New blog post published by %s.
+blog#:#blog_news_posting_updated#:#Blog post updated by %s.
 blog#:#blog_no_keywords#:#No keywords have been entered yet.
-blog#:#blog_notification_activated#:#Notification Activated
-blog#:#blog_notification_deactivated#:#Notification Deactivated
-blog#:#blog_notification_toggle_off#:#Deactivate Notification
+blog#:#blog_notification_activated#:#Notifications Activated
+blog#:#blog_notification_deactivated#:#Notifications Deactivated
+blog#:#blog_notification_toggle_off#:#Deactivate Notifications
 blog#:#blog_notification_toggle_on#:#Activate Notification
-blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this posting
-blog#:#blog_page_type_blp#:#Blog Posting
-blog#:#blog_permanent_link#:#Permalink
-blog#:#blog_posting#:#Blog Posting
-blog#:#blog_posting_deleted#:#Posting has been deleted.
-blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following posting?
-blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
-blog#:#blog_posting_not_found#:#This blog posting is not available.
-blog#:#blog_postings#:#Postings
+blog#:#blog_number_users_notes_or_comments#:#Number of users who have attached notes or comments to this post
+blog#:#blog_posting#:#Blog Post
+blog#:#blog_posting_deleted#:#Post successfully deleted.
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following post?
+blog#:#blog_posting_edit_approval_info#:#Post needs to be approved by an editor in order to be visible. The post needs to be published before approval can take place.
+blog#:#blog_posting_not_found#:#This blog post is not available.
+blog#:#blog_postings#:#Posts
 blog#:#blog_presentation_frame#:#Blog Presentation
 blog#:#blog_presentation_overview#:#Initial Overview
 blog#:#blog_preview#:#Preview
@@ -2459,21 +2451,20 @@ blog#:#blog_preview_banner_height#:#Banner Height
 blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
 blog#:#blog_preview_banner_width#:#Banner Width
 blog#:#blog_profile_picture#:#Display Profile Picture
-blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
+blog#:#blog_profile_picture_repository_info#:#Profile pictures of authors are only shown on post pages, not on overview pages.
 blog#:#blog_properties#:#Blog Properties
-blog#:#blog_rename_posting#:#Rename Posting
-blog#:#blog_selected_pages#:#Selected Postings
+blog#:#blog_rename_posting#:#Rename Post
+blog#:#blog_selected_pages#:#Selected posts
 blog#:#blog_settings#:#Blog Administration
-blog#:#blog_settings_navigation#:#Navigation Column
-blog#:#blog_show_latest#:#Show latest postings/drafts
+blog#:#blog_settings_navigation#:#Navigation Sidebar
+blog#:#blog_show_latest#:#Show Latest Posts/Drafts
 blog#:#blog_show_print_view#:#Show Print View
 blog#:#blog_starting_page#:#Starting Page
-blog#:#blog_style#:#Blog Style
-blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
+blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
-blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_toggle_final#:#Publish Posting
-blog#:#blog_whole_blog#:#Whole Blog
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Post
+blog#:#blog_toggle_final#:#Publish Post
+blog#:#blog_whole_blog#:#Whole blog
 book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Item
@@ -5115,7 +5106,7 @@ common#:#obj_wiki_duplicate#:#Copy Wiki
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 common#:#object#:#Object
-common#:#object_added#:#Object added
+common#:#object_added#:#Object added.
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
 common#:#object_id#:#Object-ID
@@ -5582,7 +5573,7 @@ common#:#settings#:#Settings
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 common#:#settings_presentation_header#:#Presentation
-common#:#settings_saved#:#Settings saved
+common#:#settings_saved#:#Settings saved.
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Enable Shibboleth Support
 common#:#shib_city#:#Attribute for city
@@ -9208,7 +9199,7 @@ exc#:#exc_assignment_type#:#Type of Submission
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignments#:#Assignments
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.
-exc#:#exc_blog_created#:#Blog was created.
+exc#:#exc_blog_created#:#Blog successfully created.
 exc#:#exc_blog_returned#:#Assignment Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_chars_remaining#:#Characters remaining:
@@ -9223,7 +9214,7 @@ exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assi
 exc#:#exc_copy#:#Copy Exercise
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_create_blog#:#Create Blog
-exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.
+exc#:#exc_create_blog_select_info#:#Please select the resources folder in which you would like to create your blog.
 exc#:#exc_create_portfolio#:#Create Portfolio
 exc#:#exc_create_portfolio_no_template#:#Do not use template
 exc#:#exc_create_team#:#Create Team
@@ -15737,14 +15728,14 @@ style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styl
 style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue?
 style#:#sty_confirm_template_deletion#:#Confirm Template Deletion
 style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click ‘Paste Style Classes’.
-style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
+style#:#sty_copy_other_stylesheet#:#Copy Style From Local Source
 style#:#sty_copy_other_system_style#:#Copy System Style
 style#:#sty_copy_to#:#to:
 style#:#sty_create_ind_style#:#Create Individual Style
 style#:#sty_create_new_class#:#Create new style class
-style#:#sty_create_new_stylesheet#:#Create new Style
-style#:#sty_create_new_system_style#:#Create new System Style
-style#:#sty_create_new_system_sub_style#:#Create new Sub Style
+style#:#sty_create_new_stylesheet#:#Create New Style
+style#:#sty_create_new_system_style#:#Create New System Style
+style#:#sty_create_new_system_sub_style#:#Create New Sub Style
 style#:#sty_create_pgl#:#Create Page Layout
 style#:#sty_cursor#:#Cursor
 style#:#sty_custom#:#Custom
