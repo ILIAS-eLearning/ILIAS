@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 {
-
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
 

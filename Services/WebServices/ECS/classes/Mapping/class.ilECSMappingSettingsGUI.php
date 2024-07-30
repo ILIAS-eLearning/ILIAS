@@ -1000,7 +1000,7 @@ class ilECSMappingSettingsGUI
         $explorer->setPostVar('rnodes[]');
 
         // Read checked items from mapping of checked items in local explorer
-//         $active_node = $this->tree->getRootId();
+        // $active_node = $this->tree->getRootId();
         foreach ($localExplorer->getCheckedItems() as $ref_id) {
             $explorer->setCheckedItems(
                 ilECSNodeMappingAssignments::lookupMappedItemsForRefId(
@@ -1010,20 +1010,20 @@ class ilECSMappingSettingsGUI
                     $ref_id
                 )
             );
-//             $active_node = $ref_id;
+            // $active_node = $ref_id;
         }
 
-//         $cmsTree = new ilECSCmsTree((int) $_REQUEST['tid']);
-//         foreach (ilECSNodeMappingAssignments::lookupAssignmentsByRefId(
-//             $this->getServer()->getServerId(),
-//             $this->getMid(),
-//             (int) $_REQUEST['tid'],
-//             $active_node
-//         ) as $cs_id) {
-//             foreach ($cmsTree->getPathId($cs_id) as $path_id) {
-//                 #$explorer->setExpand($path_id);
-//             }
-//         }
+        // $cmsTree = new ilECSCmsTree((int) $_REQUEST['tid']);
+        // foreach (ilECSNodeMappingAssignments::lookupAssignmentsByRefId(
+        //     $this->getServer()->getServerId(),
+        //     $this->getMid(),
+        //     (int) $_REQUEST['tid'],
+        //     $active_node
+        // ) as $cs_id) {
+        //       foreach ($cmsTree->getPathId($cs_id) as $path_id) {
+        //           #$explorer->setExpand($path_id);
+        //       }
+        // }
 
         $explorer->setTargetGet('rref_id');
         $explorer->setSessionExpandVariable('rexpand');
