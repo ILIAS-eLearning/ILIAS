@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Affectation compétence / question
 assessment#:#qpl_skl_sub_tab_usages#:#Fréquence d’affectation
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#La question a été insérée depuis un autre répertoire. L’original de la question doit-il être mis à jour avec la configuration actuelle des affectations de compétence?
 assessment#:#qpl_tab_competences#:#Compétences
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###31 10 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Already entered words:
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Ajouter Contributeur
 blog#:#blog_add_posting#:#Ajouter Article
 blog#:#blog_admin_inactive_info#:#Vous pouvez activer la fonction de Blog dans l'administration du Bureau Personnel.
 blog#:#blog_admin_toggle_info#:#Vous pouvez désactiver complètement la fonction de Blog dans l'administration du Bureau personnel.
-blog#:#blog_allow_html#:#Autoriser HTML/Javascript
-blog#:#blog_allow_html_info#:#Permet aux utilisateurs d' inclure du code HTML et / ou Javascript dans leurs blogues. Cela peut conduire à  des problèmes de sécurité.
 blog#:#blog_approve#:#Approuver
 blog#:#blog_author#:#Auteur
 blog#:#blog_authors#:#Auteurs
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#including comments
 blog#:#blog_keyword#:#Mot-Clé
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#Mots-Clés
-blog#:#blog_keywords_other#:#Autres mots clés
-blog#:#blog_keywords_other_info#:#Ces mots clés ont été définis pour d’autres publications de blog.
 blog#:#blog_latest_posting#:#Dernière publication
 blog#:#blog_link#:#Link###31 10 2023 new variable
 blog#:#blog_list_more#:#plus
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#Ce paramètre n'est utilisé que si aucun m
 blog#:#blog_nav_mode#:#Publications
 blog#:#blog_nav_mode_month_list#:#Montrer la liste des mois
 blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the 'Postings' block.
-blog#:#blog_nav_mode_month_list_num_detail#:#Nombre total de publications
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Les dernières publications sont classées par date dans l'ordre chronologique inverse. Les publications plus anciennes sont disponibles via leur mois.
 blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
 blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Nombre de mois avec les publications listées
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Notification Désactivée
 blog#:#blog_notification_toggle_off#:#Désactiver Notification
 blog#:#blog_notification_toggle_on#:#Activer Notification
 blog#:#blog_number_users_notes_or_comments#:#Nombre d'utilisateurs ayant attaché des notes ou commentaires à cet article
-blog#:#blog_page_type_blp#:#Blog Posting
-blog#:#blog_permanent_link#:#Permalien
 blog#:#blog_posting#:#Article du Blog
 blog#:#blog_posting_deleted#:#L'article a été supprimé.
 blog#:#blog_posting_deletion_confirmation#:#Etes-vous sûr de vouloir supprimer l'article suivant ?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Colonne de navigation
 blog#:#blog_show_latest#:#Montrer les dernier(ière)s publications/brouillons
 blog#:#blog_show_print_view#:#Show Print View###31 10 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Style du Blog
 blog#:#blog_task_publishing_draft_title#:#Publication de brouillon "%s"
 blog#:#blog_toggle_draft#:#Enregistrer comme Brouillon
 blog#:#blog_toggle_draft_admin#:#Désactiver la Publication d'Articles
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Active l’onglet de chronologie des nouvelles
 cont#:#cont_news_timeline_landing_page#:#Page d’accueil
 cont#:#cont_news_timeline_landing_page_info#:#La page de chronologie sera la page d’accueil.
 cont#:#cont_news_timeline_tab#:#Chronologie
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Page de catalogue (cours, group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Chemin
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#m/j/A H:i
 dateplaner#:#end_date#:#Date de Fin
 dateplaner#:#err_end_before_start#:#Le rendez-vous ne doit pas commencer avant sa fin.
 dateplaner#:#err_missing_title#:#Veuillez saisir un titre de rendez-vous.
-dateplaner#:#execute#:#Valider les choix
 dateplaner#:#free#:#Libre
 dateplaner#:#group#:#Groupe
 dateplaner#:#grp_cal_end#:#Le groupe se termine
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Modifié par
 dcl#:#dcl_checked#:#Coché.
 dcl#:#dcl_comments#:#Commentaires
 dcl#:#dcl_comments_desc#:#Affiche le nombre de commentaires pour une entrée.
-dcl#:#dcl_configuration_complete#:#Configuration Complete
 dcl#:#dcl_confirm_delete_detailed_view_text#:#La vue des enregistrements de cette table sera supprimée définitivement. Les enregistrements et les champs ne seront pas modifiés.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Voulez-vous vraiment supprimer cette vue ?
 dcl#:#dcl_confirm_delete_field#:#Voulez-vous vraiment supprimer ce champ ?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 exc#:#exc_reminder_end#:#Reminder ends
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Ajouter nouvelle %s
 survey#:#svy_page_error#:#Une erreur s'est produite en répondant à une question de l'enquête.  Veuillez vous reporter à cette question pour avoir plus d'informations sur cette erreur !
 survey#:#svy_page_errors#:#Des erreurs se sont produites en répondant à des questions de l'enquête. Veuillez vous reporter aux questions pour avoir plus d'informations sur ces erreurs.
 survey#:#svy_participant#:#Participant
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Participation
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 10 2023 new variable
 survey#:#svy_print_hide_labels#:#Masquer les vignettes
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Activer l'administration des utilisate
 user#:#enable_local_user_administration_info#:#Si actif, les comptes utilisateur locaux peuvent être administrés en catégories.
 user#:#feedhash#:#Identifiant unique du flux de nouvelles
 user#:#has_role#:#Rôle
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Lorsque activé, un email est envoyé à l'utilisateur. Son contenu peut être défini dans Administration > Gestion des Utilisateurs > Paramétrages > Mail de Nouveau Compte.
 user#:#interests#:#Intérêts
 user#:#interests_general#:#Intérêts généraux

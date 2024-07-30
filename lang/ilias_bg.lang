@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Задаване на въпрос/�
 assessment#:#qpl_skl_sub_tab_usages#:#Честота на задачите
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Въпросът е вмъкнат от друг обект от хранилището. Трябва ли оригиналът на въпроса да бъде актуализиран с настоящата конфигурация на задачите за компетентност?
 assessment#:#qpl_tab_competences#:#Компетенции
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Въведени думи:
 assessment#:#qst_essay_chars_remaining#:#Оставащи символи:
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Прибавяне на сътрудник
 blog#:#blog_add_posting#:#Прибавяне на публикация
 blog#:#blog_admin_inactive_info#:# Можете да активирате функцията блог в администрацията на личния работен плот.
 blog#:#blog_admin_toggle_info#:# Можете да деактивирате напълно функцията блог в администрацията на личния работен плот.
-blog#:#blog_allow_html#:#Allow HTML/Javascript
-blog#:#blog_allow_html_info#:# Позволява на потребителите да включват HTML и/или Javascript в публикациите си в блога. Това може да доведе до проблеми със сигурността.
 blog#:#blog_approve#:#Одобряване
 blog#:#blog_author#:#Автор
 blog#:#blog_authors#:#Автори
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#включително коментарите###22 0
 blog#:#blog_keyword#:#Кейуорд
 blog#:#blog_keyword_enter#:#Напишете ключова дума и натиснете Enter.
 blog#:#blog_keywords#:#Ключови думи
-blog#:#blog_keywords_other#:#Други ключови думи
-blog#:#blog_keywords_other_info#:#Тези ключови думи са зададени за други публикации в блога.
 blog#:#blog_latest_posting#:#Най-новите публикации
 blog#:#blog_link#:#Link###31 03 2023 new variable
 blog#:#blog_list_more#:#more
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#Тази настройка се изпол
 blog#:#blog_nav_mode#:#Postings
 blog#:#blog_nav_mode_month_list#:#Показване на списък с месеци
 blog#:#blog_nav_mode_month_list_info#:#Всички месеци с публикации са изброени в блока "Публикации".
-blog#:#blog_nav_mode_month_list_num_detail#:#Общ брой публикации
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Най-новите публикации са изброени по дата в обратен хронологичен ред. По-старите публикации са достъпни през техния месец.
 blog#:#blog_nav_mode_month_list_num_month#:#Брой на изброените месеци
 blog#:#blog_nav_mode_month_list_num_month_info#:#Месеците над лимита няма да бъдат изброени и свързаните с тях публикации няма да са достъпни.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Брой на месеца с изброени публикации
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Известието е деактиви�
 blog#:#blog_notification_toggle_off#:#Деактивиране на известието
 blog#:#blog_notification_toggle_on#:#Активиране на известието
 blog#:#blog_number_users_notes_or_comments#:#Брой потребители, които са добавили бележки или коментари към този запис
-blog#:#blog_page_type_blp#:#Публикуване на блог
-blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Публикуване на блог
 blog#:#blog_posting_deleted#:#Вписването е изтрито.
 blog#:#blog_posting_deletion_confirmation#:#Със сигурност ли искате да изтриете следния запис?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Колона за навигиране
 blog#:#blog_show_latest#:#Показване на последните публикации/чертежи
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Стил на блога###22 06 2022 new variable
 blog#:#blog_task_publishing_draft_title#:#Публикуване на проект "%s"
 blog#:#blog_toggle_draft#:#Запазване като чернова
 blog#:#blog_toggle_draft_admin#:#Деактивиране на публикуването в блога
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Активира раздела "Времева
 cont#:#cont_news_timeline_landing_page#:#Страница за кацане
 cont#:#cont_news_timeline_landing_page_info#:#Страницата с графика ще бъде целевата страница.
 cont#:#cont_news_timeline_tab#:#Хронология
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Страница на хранилището (курсове, групи, ...)
 cont#:#cont_page_type_cstr#:# Начална страница на курса (изглед на целите на обучението)
 cont#:#cont_path#:#Path
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#м/д/Г Ч:м
 dateplaner#:#end_date#:#Крайна дата
 dateplaner#:#err_end_before_start#:#Споменанието не трябва да започва преди края.
 dateplaner#:#err_missing_title#:#Моля, въведете заглавие на срещата.
-dateplaner#:#execute#:#изпълнение на избраното
 dateplaner#:#free#:#свободно
 dateplaner#:#group#:#група
 dateplaner#:#grp_cal_end#:#Край на групата
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Променено от
 dcl#:#dcl_checked#:#Проверено.
 dcl#:#dcl_comments#:#Коментари
 dcl#:#dcl_comments_desc#:#Показва броя на коментарите за даден запис.
-dcl#:#dcl_configuration_complete#:#Конфигурацията е завършена###22 06 2022 new variable
 dcl#:#dcl_confirm_delete_detailed_view_text#:#Определението на изгледа на записите от тази таблица ще бъде премахнато необратимо, а самите записи и полета няма да бъдат променени.
 dcl#:#dcl_confirm_delete_detailed_view_title#:# Наистина ли искате да изтриете този изглед?
 dcl#:#dcl_confirm_delete_field#:# Наистина ли искате да изтриете това поле?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Относителна дата
 exc#:#exc_relative_date_info#:#Краен срок се задава индивидуално спрямо времето, когато потребителят е започнал заданието.
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Остатъчно време след старта
 exc#:#exc_reminder_cron_ok#:#Припомнянията са изпратени:
 exc#:#exc_reminder_end#:#Припомнянето приключва
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Добавяне на нов %s
 survey#:#svy_page_error#:#Възникна грешка при отговора на въпроса в проучването. Моля, отнесете се към въпроса, за да получите повече информация за грешката!
 survey#:#svy_page_errors#:#Възникнаха грешки при отговора на въпросите от проучването. Моля, отнесете се към въпросите, за да получите повече информация за грешките!
 survey#:#svy_participant#:#Участник
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Участие###22 06 2022 new variable
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 03 2023 new variable
 survey#:#svy_print_hide_labels#:#Скриване на етикетите
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Активиране на локалн
 user#:#enable_local_user_administration_info#:#Ако е разрешено, локалните потребителски акаунти могат да се администрират по категории.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Ако е активирано, на потребителя ще бъде изпратен имейл. Съдържанието му може да се определи в Администрация > Управление на потребителите > Настройки > Нова поща на акаунта.
 user#:#interests#:#Interests
 user#:#interests_general#:#Общи интереси

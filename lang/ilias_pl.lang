@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Przydział pytań i kompetencji
 assessment#:#qpl_skl_sub_tab_usages#:#Częstotliwość nadawania
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Pytanie zostało dodane z innych dostępnych zasobów. Czy przenieść aktualną konfigurację przyporządkowanych kompetencji na oryginalną wersję pytania?
 assessment#:#qpl_tab_competences#:#Kompetencje
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Already entered words:###07 02 2020 new variable
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new variable
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Dodaj osoby uczestniczące
 blog#:#blog_add_posting#:#Dodaj wpis
 blog#:#blog_admin_inactive_info#:#Opcję blogowania można aktywować w ustawieniach systemowych na pulpicie osobistym.
 blog#:#blog_admin_toggle_info#:#Opcję blogowania można wyłączyć w ustawieniach systemowych na pulpicie osobistym.
-blog#:#blog_allow_html#:#Zezwól na HTML/Javascript
-blog#:#blog_allow_html_info#:#Użytkownicy mogą używać HTML lub Javascript w postach na swoim blogu. To może prowadzić do problemów związanych z bezpieczeństwem.
 blog#:#blog_approve#:#Udostępnij post
 blog#:#blog_author#:#Posty od
 blog#:#blog_authors#:#Autorzy
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#including comments###30 04 2021 new variable
 blog#:#blog_keyword#:#Słowo kluczowe
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#Słowa kluczowe
-blog#:#blog_keywords_other#:#Inne słowa kluczowe
-blog#:#blog_keywords_other_info#:#Te słowa kluczowe zostały użyte w innych wpisach na blogu.
 blog#:#blog_latest_posting#:#Najnowszy wpis
 blog#:#blog_link#:#Link###31 03 2023 new variable
 blog#:#blog_list_more#:#więcej
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#To ustawienie używane jest tylko wtedy, gd
 blog#:#blog_nav_mode#:#Tryb
 blog#:#blog_nav_mode_month_list#:#Lista miesięcy
 blog#:#blog_nav_mode_month_list_info#:#Lista wszystkich miesięcy, opcjonalnie z postami
-blog#:#blog_nav_mode_month_list_num_detail#:#Liczba postów (sortowana wg daty malejącej)
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Starsze posty widoku miesięcznym.
 blog#:#blog_nav_mode_month_list_num_month#:#Łączna liczba wszystkich miesięcy
 blog#:#blog_nav_mode_month_list_num_month_info#:#Dodatkowe miesiące wyświetlane są tylko z liczbą postów.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Liczba miesięcy z wyświetlonymi wpisami
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Wyłączono powiadomienia o zmianach
 blog#:#blog_notification_toggle_off#:#Wyłącz powiadomienia o zmianach
 blog#:#blog_notification_toggle_on#:#Aktywuj powiadomienia o zmianach
 blog#:#blog_number_users_notes_or_comments#:#Liczba uczestników, którzy do tego wpisu napisali notatki lub komentarze.
-blog#:#blog_page_type_blp#:#Blog Posting###30 04 2021 new variable
-blog#:#blog_permanent_link#:#Link bezpośredni
 blog#:#blog_posting#:#Wpis
 blog#:#blog_posting_deleted#:#Wpis został usunięty.
 blog#:#blog_posting_deletion_confirmation#:#Czy naprawdę chcesz usunąć ten wpis?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Nawigacja
 blog#:#blog_show_latest#:#Pokaż najnowsze wpisy/szkice
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Styl blogu
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Cofnij opublikowanie
 blog#:#blog_toggle_draft_admin#:#Deaktywuj post
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Aktywuje zakładkę "Linia czasu" dla nowości.
 cont#:#cont_news_timeline_landing_page#:#Strona startowa
 cont#:#cont_news_timeline_landing_page_info#:#Linia czasu jako strona startowa
 cont#:#cont_news_timeline_tab#:#Linia czasu
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Ścieżka
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#m/d/R H:i
 dateplaner#:#end_date#:#Koniec terminu
 dateplaner#:#err_end_before_start#:#Termin końcowy nie może być przed terminem początkowym.
 dateplaner#:#err_missing_title#:#Podaj tytuł.
-dateplaner#:#execute#:#dokonanie wyboru
 dateplaner#:#free#:#wolny
 dateplaner#:#group#:#Grupa
 dateplaner#:#grp_cal_end#:#Grupa się zakończyła
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Ostatnio zmieniono przez
 dcl#:#dcl_checked#:#Wybrane
 dcl#:#dcl_comments#:#Komentarze
 dcl#:#dcl_comments_desc#:#Pokazuje liczbę komentarzy dla każdego wpisu
-dcl#:#dcl_configuration_complete#:#Configuration Complete###30 04 2021 new variable
 dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_confirm_delete_field#:#Czy naprawdę chcesz usunąć to pole?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 exc#:#exc_reminder_end#:#Reminder ends
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Dodaj nowe %s
 survey#:#svy_page_error#:#Wystąpił błąd przy odpowiedzi na pytanie ankiety. Zajrzyj do pytania, aby otrzymać więcej informacji o błędzie!
 survey#:#svy_page_errors#:#Wystąpiły błędy przy odpowiedzi na pytania ankiety. Zajrzyj do pytań, aby otrzymać więcej informacji o błędach!
 survey#:#svy_participant#:#Participant
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Udział
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 03 2023 new variable
 survey#:#svy_print_hide_labels#:#Ukryj etykiety
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Aktywuj zarządzanie lokalnymi użytko
 user#:#enable_local_user_administration_info#:#Jeśli ta opcja jest aktywna, wejścia użytkowników można przydzielać do kategorii i jednostek organizacyjnych i nimi zarządzać.
 user#:#feedhash#:#Feed-hash
 user#:#has_role#:#Rola
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Jeśli ta opcja jest aktywna, do użytkownika zostanie wysłana wiadomość mailowa. Jej treść można definiować w menu 'Ustawienia systemowe » Zarządzanie użytkownikami » Ustawienia » Wiadomość dotycząca nowego konta'.
 user#:#interests#:#Zainteresowania
 user#:#interests_general#:#Ogólne zainteresowania

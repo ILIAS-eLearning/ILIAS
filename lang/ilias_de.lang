@@ -2362,8 +2362,6 @@ blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_add_posting#:#Beitrag hinzufügen
 blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ aktiviert werden.
 blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ deaktiviert werden.
-blog#:#blog_allow_html#:#HTML/Javascript erlauben
-blog#:#blog_allow_html_info#:#Es kann HTML oder Javascript in Blog-Einträgen verwendet werden. Dies kann zu Sicherheitsproblemen führen.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_approve#:#Beitrag freischalten
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_authors#:#Beitragende Personen###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2411,8 +2409,6 @@ blog#:#blog_incl_comments#:#inklusive Kommentare
 blog#:#blog_keyword#:#Schlagwort
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 blog#:#blog_keywords#:#Schlagwörter
-blog#:#blog_keywords_other#:#Sonstige Schlagwörter
-blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Einträge vergeben worden.
 blog#:#blog_latest_posting#:#Neuester Beitrag
 blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#mehr
@@ -2421,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#Die maximale Anzahl von Beiträgen, die ang
 blog#:#blog_nav_mode#:#Monatsweise Navigation
 blog#:#blog_nav_mode_month_list#:#Aktuelle Monate als Liste
 blog#:#blog_nav_mode_month_list_info#:#Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden.
-blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
 blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
 blog#:#blog_nav_mode_month_list_num_month_info#:#Die Anzahl der Monate, die in dem „Beiträge“ Block gezeigt werde, wird beschränkt. Die angezeigten Monate sind immer die aktuellsten und werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
@@ -2443,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
 blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
 blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben.
-blog#:#blog_page_type_blp#:#Blogbeitrag
-blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
@@ -2468,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 blog#:#blog_show_print_view#:#Druckansicht
 blog#:#blog_starting_page#:#Startseite
-blog#:#blog_style#:#Blog-Style
 blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs „%s“
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
@@ -8500,7 +8491,6 @@ dateplaner#:#date_format#:#T.M.J H:i
 dateplaner#:#end_date#:#Termin Ende
 dateplaner#:#err_end_before_start#:#Der Endtermin darf nicht vor dem Starttermin liegen.
 dateplaner#:#err_missing_title#:#Bitte geben Sie einen Titel ein.
-dateplaner#:#execute#:#Aktionen ausführen
 dateplaner#:#free#:#frei
 dateplaner#:#group#:#Gruppe
 dateplaner#:#grp_cal_end#:#Gruppe endet

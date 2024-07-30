@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#問題/能力割り当て
 assessment#:#qpl_skl_sub_tab_usages#:#割り当て間隔
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
 assessment#:#qpl_tab_competences#:#能力
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#間違いとしてマークされた複数のテキスト要素は長すぎます。間違いとしてマークされるテキスト要素の最大数は150文字です。
 assessment#:#qst_essay_allready_written_words#:#入力した文字数:
 assessment#:#qst_essay_chars_remaining#:#残り文字数:
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#投稿者を追加
 blog#:#blog_add_posting#:#投稿を追加
 blog#:#blog_admin_inactive_info#:#パーソナルデスクトップ管理の中のブログ機能をアクティブにできます。
 blog#:#blog_admin_toggle_info#:#パーソナルデスクトップ管理のブログ機能を完全にオフする事ができます。
-blog#:#blog_allow_html#:#HTML/Javascriptを許可
-blog#:#blog_allow_html_info#:#ユーザへHTMLまたはJavascriptどちらでもブログ投稿に含む事を可能にします。セキュリティー事項を優先にできます。
 blog#:#blog_approve#:#承認
 blog#:#blog_author#:#著者
 blog#:#blog_authors#:#著者
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#コメントを含む
 blog#:#blog_keyword#:#キーワード
 blog#:#blog_keyword_enter#:#キーワードを書いて入力を押します。
 blog#:#blog_keywords#:#キーワード
-blog#:#blog_keywords_other#:#他のキーワード
-blog#:#blog_keywords_other_info#:#これらのキーワードは他のブログ投稿用に設定されました。
 blog#:#blog_latest_posting#:#最終投稿
 blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#続きを読む
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#この設定は月が特定されなかっ�
 blog#:#blog_nav_mode#:#投稿
 blog#:#blog_nav_mode_month_list#:#月のリストを表示
 blog#:#blog_nav_mode_month_list_info#:#投稿のある全ての月は'投稿'ブロック内に一覧表示されます。
-blog#:#blog_nav_mode_month_list_num_detail#:#投稿総数
-blog#:#blog_nav_mode_month_list_num_detail_info#:#最終投稿は時系列逆順の日付で一覧表示されます。過去の投稿は月をまたいで利用可能です。
 blog#:#blog_nav_mode_month_list_num_month#:#一覧表示月数
 blog#:#blog_nav_mode_month_list_num_month_info#:#上記の月は制限一覧がなく関連の投稿へはアクセスできません。
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#リストされた投稿月数
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#通知解除済み
 blog#:#blog_notification_toggle_off#:#通知を解除
 blog#:#blog_notification_toggle_on#:#通知を有効化
 blog#:#blog_number_users_notes_or_comments#:#メモもしくはこのエントリーへのコメントを添付したユーザ数
-blog#:#blog_page_type_blp#:#ブログ投稿
-blog#:#blog_permanent_link#:#パーマリンク
 blog#:#blog_posting#:#ブログ投稿
 blog#:#blog_posting_deleted#:#エントリーが削除されました。
 blog#:#blog_posting_deletion_confirmation#:#次のエントリーを本当に削除しますか?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#ナビゲーション列
 blog#:#blog_show_latest#:#最終投稿/ドラフトを表示
 blog#:#blog_show_print_view#:#印刷ビューを表示
 blog#:#blog_starting_page#:#開始ページ
-blog#:#blog_style#:#ブログスタイル
 blog#:#blog_task_publishing_draft_title#:#ドラフト "%s" の公開
 blog#:#blog_toggle_draft#:#告知を取り消す
 blog#:#blog_toggle_draft_admin#:#ブログ投稿を解除
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#ニュースタイムラインタブを有効�
 cont#:#cont_news_timeline_landing_page#:#ランディングページ
 cont#:#cont_news_timeline_landing_page_info#:#タイムラインページはランディングページになります。
 cont#:#cont_news_timeline_tab#:#タイムライン
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#リポジトリ；ページ(Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#コース開始ページ(学習オブジェクトビュー)
 cont#:#cont_path#:#Path
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#終了日
 dateplaner#:#err_end_before_start#:#予定を終了前に開始してはなりません。
 dateplaner#:#err_missing_title#:#予定タイトルを入力してください。
-dateplaner#:#execute#:#選択を実行
 dateplaner#:#free#:#フリー
 dateplaner#:#group#:#グループ
 dateplaner#:#grp_cal_end#:#グループ終了
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#更新者
 dcl#:#dcl_checked#:#チェック済
 dcl#:#dcl_comments#:#コメント
 dcl#:#dcl_comments_desc#:#エントリーのコメント数を表示します。
-dcl#:#dcl_configuration_complete#:#構成の完了
 dcl#:#dcl_confirm_delete_detailed_view_text#:#このテーブルの記録ビュー定義は非可逆的に削除されても、レコードとフィールド自体は変わりません。
 dcl#:#dcl_confirm_delete_detailed_view_title#:#このビューを本当に削除しますか?
 dcl#:#dcl_confirm_delete_field#:#本当にこのフィールドを削除しますか?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:# %s が最終
 exc#:#exc_rel_start_lead_text#:#開始後の提出日にち %s
 exc#:#exc_relative_date#:#相対日数
 exc#:#exc_relative_date_info#:#期限はユーザが課題を開始する時間に応じて個別に設定されます。
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#開始後の残り時間
 exc#:#exc_reminder_cron_ok#:#注意喚起を送信しました:
 exc#:#exc_reminder_end#:#注意喚起終了
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#新しく%sを追加
 survey#:#svy_page_error#:#質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!
 survey#:#svy_page_errors#:#質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!
 survey#:#svy_participant#:#参加者
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#参加
 survey#:#svy_please_select_unused_codes#:#未使用のコードを一つは選択してください。
 survey#:#svy_print_hide_labels#:#ラベルを非表示
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ
 user#:#has_role#:#役割
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#有効にするとユーザへメール送信されます。その内容は管理>ユーザ管理> 設定 > 新規アカウントメールの中で定義できます。
 user#:#interests#:#興味
 user#:#interests_general#:#一般的な興味

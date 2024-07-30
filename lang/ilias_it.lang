@@ -1050,6 +1050,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Assegnazione della domanda/competenz
 assessment#:#qpl_skl_sub_tab_usages#:#Frequenza assegnazione
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#La domanda è stata inserita da un altro oggetto del repository. L’originale della domanda deve essere aggiornato con l’attuale configurazione delle assegnazioni di competenze?
 assessment#:#qpl_tab_competences#:#Competenze
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Parole già inserite:
 assessment#:#qst_essay_chars_remaining#:#Caratteri rimanenti:
@@ -2360,8 +2361,6 @@ blog#:#blog_add_contributor#:#Aggiungi collaboratore
 blog#:#blog_add_posting#:#Aggiungi post
 blog#:#blog_admin_inactive_info#:#È possibile attivare la funzionalità blog nell’amministrazione del desktop personale.
 blog#:#blog_admin_toggle_info#:#È possibile disattivare completamente la funzionalità blog nell’amministrazione del desktop personale.
-blog#:#blog_allow_html#:#Consenti HTML/Javascript
-blog#:#blog_allow_html_info#:#Consente agli utenti di includere HTML e/o JavaScript nei loro messaggi sul blog. Questo può portare a problemi di sicurezza.
 blog#:#blog_approve#:#Approvare
 blog#:#blog_author#:#Autore
 blog#:#blog_authors#:#Autori
@@ -2409,8 +2408,6 @@ blog#:#blog_incl_comments#:#inclusi i commenti
 blog#:#blog_keyword#:#Parola chiave
 blog#:#blog_keyword_enter#:#Scrivi una parola chiave e premi Invio.
 blog#:#blog_keywords#:#Parole chiave
-blog#:#blog_keywords_other#:#Altre parole chiave
-blog#:#blog_keywords_other_info#:#Queste parole chiave sono state impostate per altri messaggi del blog.
 blog#:#blog_latest_posting#:#Ultimi messaggi
 blog#:#blog_link#:#Link###31 03 2023 new variable
 blog#:#blog_list_more#:#altro
@@ -2419,8 +2416,6 @@ blog#:#blog_list_num_postings_info#:#Queste impostazioni sono utilizzate se non 
 blog#:#blog_nav_mode#:#Messaggi
 blog#:#blog_nav_mode_month_list#:#Mostra lista mesi
 blog#:#blog_nav_mode_month_list_info#:#Tutti i mesi con le pubblicazioni sono elencati nel blocco "Pubblicazioni".
-blog#:#blog_nav_mode_month_list_num_detail#:#Numero totale di pubblicazioni
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Le ultime pubblicazioni sono elencate per data in ordine cronologico inverso. Le pubblicazioni datate sono disponibili tramite il loro mese.
 blog#:#blog_nav_mode_month_list_num_month#:#Numero di mesi elencati
 blog#:#blog_nav_mode_month_list_num_month_info#:#I mesi superiori al limite non verranno elencati e le pubblicazioni correlate non sono accessibili.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Numero dei mesi con registrazioni elencate
@@ -2441,8 +2436,6 @@ blog#:#blog_notification_deactivated#:#Notifica disattivata
 blog#:#blog_notification_toggle_off#:#Disattiva notifica
 blog#:#blog_notification_toggle_on#:#Attiva notifica
 blog#:#blog_number_users_notes_or_comments#:#Numero di utenti che hanno allegato note o commenti a questa voce
-blog#:#blog_page_type_blp#:#Post di blog
-blog#:#blog_permanent_link#:#Collegamento permanente
 blog#:#blog_posting#:#Messaggi blog
 blog#:#blog_posting_deleted#:#La voce è stata cancellata
 blog#:#blog_posting_deletion_confirmation#:#Sei sicuro di voler eliminare la seguente voce?
@@ -2466,7 +2459,6 @@ blog#:#blog_settings_navigation#:#Colonna di navigazione
 blog#:#blog_show_latest#:#Mostra ultimi messaggi/bozze
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Stile blog
 blog#:#blog_task_publishing_draft_title#:#Pubblicazione della Bozza "%s"
 blog#:#blog_toggle_draft#:#Salva come bozza
 blog#:#blog_toggle_draft_admin#:#Disattiva messaggi blog
@@ -6050,6 +6042,7 @@ cont#:#cont_news_timeline_info#:#Attiva scheda calendario notizie
 cont#:#cont_news_timeline_landing_page#:#Pagina di destinazione
 cont#:#cont_news_timeline_landing_page_info#:#La pagina del calendario sarà la pagina di destinazione.
 cont#:#cont_news_timeline_tab#:#Calendario
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Pagina Archivio (Corsi, Gruppi, ...)
 cont#:#cont_page_type_cstr#:#Pagina iniziale del corso (visualizzazione degli obiettivi di apprendimento)
 cont#:#cont_path#:#Percorso
@@ -8497,7 +8490,6 @@ dateplaner#:#date_format#:#M/G/A O:min (Mese/Giorno/Annoa4cifre Ore24:Minuti)
 dateplaner#:#end_date#:#Fine data
 dateplaner#:#err_end_before_start#:#L'ora d'inizio dell'appuntamento non può essere precedente all'ora di fine.
 dateplaner#:#err_missing_title#:#Per favore inserisci il titolo all'appuntamento.
-dateplaner#:#execute#:#Scelte eseguite
 dateplaner#:#free#:#libero
 dateplaner#:#group#:#Gruppo
 dateplaner#:#grp_cal_end#:#Fine del gruppo
@@ -8550,7 +8542,6 @@ dcl#:#dcl_changed_by#:#Modificato da
 dcl#:#dcl_checked#:#Controllato.
 dcl#:#dcl_comments#:#Commenti
 dcl#:#dcl_comments_desc#:#Mostra il numero dei commenti per voce.
-dcl#:#dcl_configuration_complete#:#Configurazione completata
 dcl#:#dcl_confirm_delete_detailed_view_text#:#La definizione di visualizzazione delle registrazioni di questa tabella verrà rimossa irreversibilmente, le registrazioni e i campi stessi non verranno modificati.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Vuoi veramente cancellare questa vista?
 dcl#:#dcl_confirm_delete_field#:#Vuoi davvero eliminare questo campo?
@@ -9482,6 +9473,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Data relativa
 exc#:#exc_relative_date_info#:#La scadenza è impostata individualmente rispetto al momento in cui un utente ha iniziato l'incarico.
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Tempo rimanente dopo l'avvio
 exc#:#exc_reminder_cron_ok#:#Promemoria inviati:
 exc#:#exc_reminder_end#:#Il promemoria termina
@@ -16669,6 +16661,7 @@ survey#:#svy_page_add_question#:#Aggiungi nuovo %s
 survey#:#svy_page_error#:#Si è verificato un errore durante la risposta a una domanda del sondaggio. Si prega di fare riferimento alla domanda per ottenere maggiori informazioni sull'errore!
 survey#:#svy_page_errors#:#Si sono verificati degli errori rispondendo alle domande del sondaggio. Specifica le domande se vuoi avere maggiori informazioni sugli errori!
 survey#:#svy_participant#:#Partecipante
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Adesione
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 03 2023 new variable
 survey#:#svy_print_hide_labels#:#Nascondi etichette
@@ -17214,6 +17207,7 @@ user#:#enable_local_user_administration#:#Abilita l'amministrazione di utenti lo
 user#:#enable_local_user_administration_info#:#Se abilitato, gli account degli utenti locali possono essere categorizzati.
 user#:#feedhash#:#News feed hash
 user#:#has_role#:#Ruolo
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Se attivato, verrà inviata un'email all'utente. Il suo contenuto può essere definito in Amministrazione> Gestione utenti> Impostazioni> Nuova posta account.
 user#:#interests#:#Interessi
 user#:#interests_general#:#Interessi generali

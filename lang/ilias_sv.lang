@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Fråga Kompetens Uppdrag
 assessment#:#qpl_skl_sub_tab_usages#:#Frekvens av användning
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Frågan infogades från ett annat tidningsobjekt. Ska den aktuella konfigurationen av kompetensuppdrag överföras till frågans original?
 assessment#:#qpl_tab_competences#:#Kompetens
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#Ett eller flera av de textelement som markerats som felaktiga är för långa. Den maximala längden för ett textelement som markerats som felaktigt är 150 tecken.
 assessment#:#qst_essay_allready_written_words#:#Ord som redan är skrivna
 assessment#:#qst_essay_chars_remaining#:#Andra tecken
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Lägg till bidragsgivare
 blog#:#blog_add_posting#:#Lägg till bidrag
 blog#:#blog_admin_inactive_info#:#Bloggfunktionen kan aktiveras i administrationen av "Personliga resurser".
 blog#:#blog_admin_toggle_info#:#Bloggfunktionen kan avaktiveras i administrationen för "Personliga resurser".
-blog#:#blog_allow_html#:#Tillåt #HTML/Javascript
-blog#:#blog_allow_html_info#:#HTML eller Javascript kan användas i blogginlägg. Detta kan leda till säkerhetsproblem.###Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
 blog#:#blog_approve#:#Lås upp post
 blog#:#blog_author#:#Bidrag från
 blog#:#blog_authors#:#Contributors###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#inklusive kommentarer
 blog#:#blog_keyword#:# nyckelord
 blog#:#blog_keyword_enter#:#Ange ett nyckelord och tryck på Enter.
 blog#:#blog_keywords#:#nyckelord
-blog#:#blog_keywords_other#:#Övriga nyckelord
-blog#:#blog_keywords_other_info#:#Dessa nyckelord har tilldelats andra blogginlägg.
 blog#:#blog_latest_posting#:#Nyaste inlägget
 blog#:#blog_link#:#Länk
 blog#:#blog_list_more#:#Mer
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#Denna inställning används endast om ingen
 blog#:#blog_nav_mode#:#Månadsvis navigering
 blog#:#blog_nav_mode_month_list#:#Aktuella månader som en lista
 blog#:#blog_nav_mode_month_list_info#:#Sidblocket visar en lista över månader. Antalet månader och inlägg som visas kan ställas in.
-blog#:#blog_nav_mode_month_list_num_detail#:#Antal poster (sorterade efter fallande datum)
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Äldre poster listas i månadsvyn.
 blog#:#blog_nav_mode_month_list_num_month#:#Totalt antal månader som visas
 blog#:#blog_nav_mode_month_list_num_month_info#:#Månader visas som standard endast med antalet av deras bidrag.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Antal månader med länkar till alla inlägg
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Ändringsmeddelande avaktiverat
 blog#:#blog_notification_toggle_off#:#Avaktivera meddelande om ändringar
 blog#:#blog_notification_toggle_on#:#Aktivera meddelande om ändringar
 blog#:#blog_number_users_notes_or_comments#:#Antal användare som har skrivit noteringar eller kommentarer om detta inlägg.
-blog#:#blog_page_type_blp#:#blogginlägg
-blog#:#blog_permanent_link#:#Permalänk
 blog#:#blog_posting#:#Bidrag
 blog#:#blog_posting_deleted#:#Inlägget har tagits bort.
 blog#:#blog_posting_deletion_confirmation#:#Vill du verkligen ta bort det här inlägget?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Visa senaste inlägg/utkast
 blog#:#blog_show_print_view#:# Skriv ut vy
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#bloggstil
 blog#:#blog_task_publishing_draft_title#:#Publicera utkast "%s"
 blog#:#blog_toggle_draft#:#Återkalla publicering
 blog#:#blog_toggle_draft_admin#:#Avaktivera bidrag
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Aktiverar fliken "Tidslinje" för nyheter
 cont#:#cont_news_timeline_landing_page#:#Startsida
 cont#:#cont_news_timeline_landing_page_info#:#Timeline som startsida
 cont#:#cont_news_timeline_tab#:#Tidslinje
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Magazin-sida (kurs, grupp, kategori, ...)
 cont#:#cont_page_type_cstr#:#Startpage lärande målorienterad kurs
 cont#:#cont_path#:#Stig
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#T.M.J H
 dateplaner#:#end_date#:#Datum slut
 dateplaner#:#err_end_before_start#:#Slutdatumet får inte vara före startdatumet.
 dateplaner#:#err_missing_title#:#Vänligen ange en titel.
-dateplaner#:#execute#:#Utför åtgärder
 dateplaner#:#free#:#fri
 dateplaner#:#group#:#Grupp
 dateplaner#:#grp_cal_end#:#Gruppen avslutar
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Sista ändring av
 dcl#:#dcl_checked#:#Vald
 dcl#:#dcl_comments#:#Kommentarer
 dcl#:#dcl_comments_desc#:#Visar antalet kommentarer per post.
-dcl#:#dcl_configuration_complete#:#Konfiguration slutförd
 dcl#:#dcl_confirm_delete_detailed_view_text#:#Mallen för enkel vy är oåterkalleligen borttagen. Använda fält och deras poster finns dock kvar.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Delete template for single view really?
 dcl#:#dcl_confirm_delete_field#:#Vill du verkligen ta bort det här fältet?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Relativt datum
 exc#:#exc_relative_date_info#:#Inlämningsdatumet är resultatet av den bearbetningsperiod och starttid som deltagaren har valt.
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Bearbetningsperiod efter start
 exc#:#exc_reminder_cron_ok#:#Minnen skickades
 exc#:#exc_reminder_end#:#Sista minnet
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Lägg till nya %s
 survey#:#svy_page_error#:#Ett fel uppstod när du besvarade en fråga. Du hittar felmeddelandet med den berörda frågan!
 survey#:#svy_page_errors#:#Fel uppstod när flera frågor besvarades. Du hittar felmeddelandena med de berörda frågorna!
 survey#:#svy_participant#:#Deltagare
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Deltagande
 survey#:#svy_please_select_unused_codes#:#Välj minst en oanvänd åtkomstnyckel.
 survey#:#svy_print_hide_labels#:#Dölj Etiketter
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Lokala konton
 user#:#enable_local_user_administration_info#:#I kategorier och organisatoriska enheter visas en flik "Lokala konton". Där kan lokala ILIAS-konton skapas, importeras och hanteras. Detta gör det också möjligt för personer utan tillgång till administrationen att skapa nya ILIAS-konton.
 user#:#feedhash#:#Nyhetsflöde hash
 user#:#has_role#:#Roll
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Ett meddelande kommer att skickas till den e-postadress som angetts ovan. Dess innehåll kan definieras i administrationen
 user#:#interests#:#Intressen
 user#:#interests_general#:#Allmänna intressen

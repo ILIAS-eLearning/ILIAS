@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment###30 
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency###30 08 2015 new variable
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?###30 08 2015 new variable
 assessment#:#qpl_tab_competences#:#Competences###30 08 2015 new variable
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Already entered words:###07 02 2020 new variable
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new variable
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_add_posting#:#Loo postitus
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#Ajaveebi vahendi saate muuta mitteaktiivseks oma isikliku töölaua haldusest.
-blog#:#blog_allow_html#:#Allow HTML/Javascript
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 blog#:#blog_approve#:#Approve
 blog#:#blog_author#:#Author
 blog#:#blog_authors#:#Authors
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#including comments###30 04 2021 new variable
 blog#:#blog_keyword#:#Keyword
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.###10 11 2018 new variable
 blog#:#blog_keywords#:#Keywords
-blog#:#blog_keywords_other#:#Other Keywords###30 08 2015 new variable
-blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###30 08 2015 new variable
 blog#:#blog_latest_posting#:#Latest Posting###31 08 2017 new variable
 blog#:#blog_link#:#Link###31 03 2023 new variable
 blog#:#blog_list_more#:#rohkem...
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#This setting is only used if no specific mo
 blog#:#blog_nav_mode#:#Postings
 blog#:#blog_nav_mode_month_list#:#Show List of Months
 blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the 'Postings' block.
-blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.
 blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
 blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings###31 08 2017 new variable
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Notification Deactivated
 blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_toggle_on#:#Activate Notification
 blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry
-blog#:#blog_page_type_blp#:#Blog Posting###30 04 2021 new variable
-blog#:#blog_permanent_link#:#Püsilink
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_posting_deleted#:#Kirje kustutati.
 blog#:#blog_posting_deletion_confirmation#:#Soovite kustutada järgmise kirje?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Navigation Column
 blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Blog Style
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Save As Draft
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Activates News Timeline Tab###25 10 2016 new va
 cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#Lõppkuupäev
 dateplaner#:#err_end_before_start#:#Kohtumine peab algama varem kui lõpeb.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#execute#:#Täida valikud
 dateplaner#:#free#:#Vaba
 dateplaner#:#group#:#Grupp
 dateplaner#:#grp_cal_end#:#Group ends###22 11 2017 new variable
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
 dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.###25 10 2016 new variable
-dcl#:#dcl_configuration_complete#:#Configuration Complete###30 04 2021 new variable
 dcl#:#dcl_confirm_delete_detailed_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Relative Date###10 11 2018 new variable
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.###10 11 2018 new variable
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start###10 11 2018 new variable
 exc#:#exc_reminder_cron_ok#:#Reminders sent:###10 11 2018 new variable
 exc#:#exc_reminder_end#:#Reminder ends###10 11 2018 new variable
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Lisa uus %s
 survey#:#svy_page_error#:#Küsitlusele vastamisel tekkis viga. Palun pöördu küsimuste juurde tagasi, et rohkem infot saada!
 survey#:#svy_page_errors#:#Küsitlusele vastamisel tekkis viga. Palun pöördu küsimuste juurde tagasi, et viga näha!
 survey#:#svy_participant#:#Participant###10 11 2018 new variable
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Osalus
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 03 2023 new variable
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Võimalda kohalike kasutajate haldus
 user#:#enable_local_user_administration_info#:#Võimaldamise korral on kategooriate all võimalik hallata kasutajakontosid.
 user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
 user#:#has_role#:#Role###31 08 2017 new variable
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 user#:#interests#:#Interests
 user#:#interests_general#:#General Interests

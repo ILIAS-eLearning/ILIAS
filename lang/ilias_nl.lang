@@ -1051,6 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment###30 
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency###30 08 2015 new variable
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?###30 08 2015 new variable
 assessment#:#qpl_tab_competences#:#Competences###30 08 2015 new variable
+assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
 assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
 assessment#:#qst_essay_allready_written_words#:#Already entered words:###07 02 2020 new variable
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:###07 02 2020 new variable
@@ -2361,8 +2362,6 @@ blog#:#blog_add_contributor#:#Toevoegen bijdrager
 blog#:#blog_add_posting#:#Toevoegen bericht
 blog#:#blog_admin_inactive_info#:#Je kunt deze blog functie inschakelen in Persoonlijk Scherm Beheer.
 blog#:#blog_admin_toggle_info#:#Je kunt deze blog functie volledig uitschakelen in Persoonlijk Scherm Beheer.
-blog#:#blog_allow_html#:#Allow HTML/Javascript
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
 blog#:#blog_approve#:#Goedkeuren
 blog#:#blog_author#:#Auteur
 blog#:#blog_authors#:#Auteurs
@@ -2410,8 +2409,6 @@ blog#:#blog_incl_comments#:#including comments###30 04 2021 new variable
 blog#:#blog_keyword#:#Sleutelwoord
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.###10 11 2018 new variable
 blog#:#blog_keywords#:#Sleutelwoorden
-blog#:#blog_keywords_other#:#Other Keywords###30 08 2015 new variable
-blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###30 08 2015 new variable
 blog#:#blog_latest_posting#:#Latest Posting###31 08 2017 new variable
 blog#:#blog_link#:#Link###31 03 2023 new variable
 blog#:#blog_list_more#:#meer
@@ -2420,8 +2417,6 @@ blog#:#blog_list_num_postings_info#:#Deze instelling wordt alleen gebruikt als g
 blog#:#blog_nav_mode#:#Artikelen
 blog#:#blog_nav_mode_month_list#:#Toon lijst met maanden
 blog#:#blog_nav_mode_month_list_info#:#Alle maanden met artikelen worden getoond in het 'Artikelen' blok.
-blog#:#blog_nav_mode_month_list_num_detail#:#Totaal aantal artikelen
-blog#:#blog_nav_mode_month_list_num_detail_info#:#De laatste artikelen worden getoond op de datum in aflopende volgorde. Oudere artikelen zijn beschikbaar op de maand van het artikel.
 blog#:#blog_nav_mode_month_list_num_month#:#Aantal getoonde maanden
 blog#:#blog_nav_mode_month_list_num_month_info#:#Maanden boven de limiet zullen niet worden getoond en de gerelateerde artikelen zijn niet toegankelijk.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings###31 08 2017 new variable
@@ -2442,8 +2437,6 @@ blog#:#blog_notification_deactivated#:#Berichtgeving niet actief
 blog#:#blog_notification_toggle_off#:#Berichtgeving uitschakelen
 blog#:#blog_notification_toggle_on#:#Inschakelen berichtgeving
 blog#:#blog_number_users_notes_or_comments#:#Aantal gebruikers dat commentaar heeft opgenomen bij deze invoer
-blog#:#blog_page_type_blp#:#Blog Posting###30 04 2021 new variable
-blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Blog bericht
 blog#:#blog_posting_deleted#:#Het artikel is verwijderd.
 blog#:#blog_posting_deletion_confirmation#:#Ben je zeker dat je de volgende invoer wilt verwijderen?
@@ -2467,7 +2460,6 @@ blog#:#blog_settings_navigation#:#Navigatie kolom
 blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
 blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
-blog#:#blog_style#:#Blog Stijl
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Opslaan als concept
 blog#:#blog_toggle_draft_admin#:#Uitschakelen blogartikel
@@ -6051,6 +6043,7 @@ cont#:#cont_news_timeline_info#:#Activates News Timeline Tab###25 10 2016 new va
 cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
+cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -8498,7 +8491,6 @@ dateplaner#:#date_format#:#d-m-j U:m
 dateplaner#:#end_date#:#Einddatum
 dateplaner#:#err_end_before_start#:#De afspraak moet niet beginnen voor het einde.
 dateplaner#:#err_missing_title#:#Voer een afspraaktitel in.
-dateplaner#:#execute#:#Keuzes uitvoeren
 dateplaner#:#free#:#Vrij
 dateplaner#:#group#:#Groep
 dateplaner#:#grp_cal_end#:#Group ends###22 11 2017 new variable
@@ -8551,7 +8543,6 @@ dcl#:#dcl_changed_by#:#Aangepast door
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Commentaar
 dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.###25 10 2016 new variable
-dcl#:#dcl_configuration_complete#:#Configuration Complete###30 04 2021 new variable
 dcl#:#dcl_confirm_delete_detailed_view_text#:#Het beeld waarop deze tabel wordt vertoond zal worden verwijderd. Dit kan niet ongedaan worden gemaakt. De onderliggende records en velden worden niet verwijderd.
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Wil je dit beeld echt verwijderen?
 dcl#:#dcl_confirm_delete_field#:#Wil je dit veld echt verwijderen?
@@ -9483,6 +9474,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s the Latest###30 04 2024 new variable
 exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start###30 04 2024 new variable
 exc#:#exc_relative_date#:#Relative Date###10 11 2018 new variable
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.###10 11 2018 new variable
+exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start###10 11 2018 new variable
 exc#:#exc_reminder_cron_ok#:#Reminders sent:###10 11 2018 new variable
 exc#:#exc_reminder_end#:#Reminder ends###10 11 2018 new variable
@@ -16670,6 +16662,7 @@ survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#Er was een fout beantwoordend op een onderzoeksvraag. Gelieve te verwijzen naar de vraag om meer informatie te krijgen over de fout!
 survey#:#svy_page_errors#:#Er waren fouten beantwoordend op de onderzoeksvragen. Gelieve te verwijzen naar de vragen om meer informatie te krijgen over de fouten!
 survey#:#svy_participant#:#Participant###10 11 2018 new variable
+survey#:#svy_participants#:#Participants###30 07 2024 new variable
 survey#:#svy_participation#:#Participation
 survey#:#svy_please_select_unused_codes#:#Please select at least one unused code.###31 03 2023 new variable
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
@@ -17215,6 +17208,7 @@ user#:#enable_local_user_administration#:#Lokaal gebruikersbeheer inschakelen
 user#:#enable_local_user_administration_info#:#Wanneer ingeschakeld kunnen lokale gebruiker accounts beheerd worden in categorieën
 user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
 user#:#has_role#:#Role###31 08 2017 new variable
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
 user#:#inform_user_mail_info#:#Als ingeschakeld zal een e-mail worden verstuurd naar de gebruiker. De inhoud ervan kan worden ingesteld in Beheer > Gebruikers > Instellingen > Nieuwe Account E-mail.
 user#:#interests#:#Interesses
 user#:#interests_general#:#Algemene interesse
