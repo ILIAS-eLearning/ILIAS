@@ -397,6 +397,7 @@ class ilObject
 
     final public function setImportId(string $import_id): void
     {
+        $this->object_properties = $this->getObjectProperties()->withImportId($import_id);
         $this->import_id = $import_id;
     }
 
