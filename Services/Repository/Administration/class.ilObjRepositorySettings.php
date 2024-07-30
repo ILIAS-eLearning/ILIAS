@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -141,11 +143,11 @@ class ilObjRepositorySettings extends ilObject
             if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
                 $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
 
-                $title = $row["titles"][$usr_lng];
-                if (!$title) {
-                    $title = $row["titles"][$def_lng];
+                $title = $row["titles"][$usr_lng] ?? "";
+                if ($title == "") {
+                    $title = $row["titles"][$def_lng] ?? "";
                 }
-                if (!$title) {
+                if ($title == "") {
                     $title = array_shift($row["titles"]);
                 }
                 $row["title"] = $title;
