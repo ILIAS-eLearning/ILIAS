@@ -3471,8 +3471,8 @@ common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_survey_settings#:#Survey Settings
 common#:#all#:#All
-common#:#all_global_roles#:#Global roles
-common#:#all_local_roles#:#Local roles (all)
+common#:#all_global_roles#:#Global Roles
+common#:#all_local_roles#:#Local Roles (all)
 common#:#all_objects#:#All Objects
 common#:#all_roles#:#All Roles
 common#:#all_topics#:#All Topics
@@ -3693,7 +3693,7 @@ common#:#check_web_resources#:#Check Weblinks
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked#:#Checked
 common#:#checked_files#:#Importable files
-common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
+common#:#chg_ilias_and_webfolder_password#:#Change Web Folder Password
 common#:#chg_ilias_password#:#Change ILIAS Password
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -3978,7 +3978,7 @@ common#:#enable_multi_download#:#'Download of multiple objects' enabled
 common#:#enable_multi_download_info#:#Multiple folders/files can be selected and downloaded as zip archive.
 common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
-common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
+common#:#enable_preview_info#:#Enable the display of preview images for supported file types.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
 common#:#enable_repository_dnd_upload_info#:#Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object.
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
@@ -3987,7 +3987,7 @@ common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.
 common#:#enable_trash#:#Enable Trash
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enable_webdav#:#Enable WebDAV access
-common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the ‘Open as webfolder’ action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a web folder. Users can open web folders using the ‘Open as web folder’ action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Enabled
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enter_new_name#:#Please enter a name
@@ -4082,9 +4082,9 @@ common#:#field_type#:#Field Type
 common#:#file#:#File
 common#:#file_add#:#Upload File
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
-common#:#file_added#:#File uploaded
+common#:#file_added#:#File uploaded.
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
+common#:#file_confirm_delete_all_versions#:#You have selected all file versions. Deleting all versions of this file will result in the deletion of the whole file object. Do you wish to continue?
 common#:#file_confirm_delete_versions#:#Are you sure you want to delete the following file version(s)?
 common#:#file_created#:#File has been added.
 common#:#file_edit#:#Edit File Information
@@ -4092,18 +4092,18 @@ common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_not_found#:#File Not Found
-common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked for security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 common#:#file_objects#:#File Objects
-common#:#file_rollback#:#Publish this version
-common#:#file_rollback_done#:#File version %s is now the published version.
-common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the published version.
+common#:#file_rollback#:#Publish This Version
+common#:#file_rollback_done#:#File version %s has been published, assigned a new version number and can be found at the top of the ‘Versions’ table below.
+common#:#file_rollback_select_exact_one#:#Only one file version can be published at any one time. Please select only one file version to publish.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Enter file types with suffix (separated by comma) that shall be be renamed with a ‘.sec’ when uploaded into webspace to prevent execution of this file. This is done per default for these suffixes:
-common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
-common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#file_system_clean_temp_dir_cron#:#Clean Temp Directory
+common#:#file_system_clean_temp_dir_cron_info#:#This cron job cleans the ILIAS temp-directory of files which are older than 10 days. This prevents the accumulation of unused files which would otherwise lead to the temp directory taking up too much disk space.
 common#:#file_updated#:#File has been updated.
 common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#File is valid!
@@ -4120,12 +4120,12 @@ common#:#filename_extension_missing#:#File name extension missing
 common#:#filename_hidden_backup_file#:#Hidden backup file
 common#:#filename_hidden_unix_file#:#Hidden Unix file
 common#:#filename_interoperability#:#Interoperability
-common#:#filename_special_characters#:#Due to the character / this object is not visible in webfolders
-common#:#filename_special_filename#:#Objects with names . and .. are not visible in webfolders
+common#:#filename_special_characters#:#Due to the character / this object is not visible in web folders
+common#:#filename_special_filename#:#Objects with names . and .. are not visible in web folders
 common#:#filename_visibility#:#Visibility
-common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows webfolders
-common#:#filename_windows_special_characters#:#Due to one of the characters \ / : * ? " < > | this object is not visible in Windows webfolders
-common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows webfolders
+common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows web folders
+common#:#filename_windows_special_characters#:#Due to one of the characters \ / : * ? " < > | this object is not visible in Windows web folders
+common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows web folders
 common#:#files#:#Files
 common#:#filesize#:#File Size
 common#:#filetype#:#File Type
@@ -4273,7 +4273,7 @@ common#:#header_action#:#Insert Heading - Click to insert a heading.
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#header_visible_registration#:#Visible in Registration
-common#:#header_zip#:#Upload Multiple Files as Zip-Archive
+common#:#header_zip#:#Upload Zip-Archive of Multiple Files
 common#:#height#:#Height
 common#:#help#:#Help
 common#:#hide#:#Hide
@@ -4699,7 +4699,7 @@ common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#monthly#:#monthly
 common#:#months#:#Months
-common#:#mount_webfolder#:#Open as webfolder
+common#:#mount_webfolder#:#Open as web folder
 common#:#move#:#Move
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
@@ -5968,20 +5968,20 @@ common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount I
 common#:#webdav_mount_instructions#:#Mount Instructions
 common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_problem_info_duplicate#:#There is a file with the same title as the info file.
-common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
-common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as web folder.<br />This password is only required for the web folder functionality.
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as web folder.
 common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
-common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
+common#:#webfolder_dir_info#:#You got here, because your browser can't open web folders. Read the <a href="%1$s">instructions for opening web folders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
-common#:#webfolder_instructions#:#Webfolder instructions
-common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions.
-common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Rightclick on "This PC" and select "Map network drive...".</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS]	[MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#Open as webfolder
-common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
+common#:#webfolder_instructions#:#Web folder instructions
+common#:#webfolder_instructions_info#:#The web folder instructions are shown on browsers, which can not open a web folder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions.
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Rightclick on "This PC" and select "Map network drive...".</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the web folder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS]	[MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_titletext#:#Open as web folder
+common#:#webfolder_mount_dir_with#:#Open this page as a web folder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
 common#:#webr#:#Weblink
 common#:#webr_active#:#Active
 common#:#webr_add#:#Add Weblink
@@ -9726,7 +9726,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
 file#:#de_activate_icon#:#Activate / Deactivate
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 file#:#download_ascii_filename_info#:#Only allow ASCII characters in the names of downloaded files. Non-ASCII-characters in the names of downloaded files will be replaced with a “_”. Deactivate to allow the use of all characters.
@@ -9738,18 +9738,18 @@ file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_publish#:#Publish Draft
-file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
-file#:#file_rollback_same_version#:#This is already the published version
+file#:#file_rollback_rollback_first#:#The selected version could not be published because an unpublished draft exists.
+file#:#file_rollback_same_version#:#This is already the published version!
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version Uploaded By
 file#:#file_version_draft#:#Draft Version
-file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.
+file#:#file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occurred during upload.
 file#:#important_info#:#Important Information
-file#:#important_info_byline#:#The information is displayed in the "Info" tab.
+file#:#important_info_byline#:#The information will be displayed in the ‘Info’ tab.
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
@@ -9758,7 +9758,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type
-file#:#msg_cant_unpublish#:#Action could not be executed
+file#:#msg_cant_unpublish#:#File could not be unpublished.
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot therefore be currently used.
 file#:#msg_error_active_suffixes_conflict#:#Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon.
@@ -9779,11 +9779,11 @@ file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.
 file#:#preview_persisting#:#Persistent Preview Images
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.
-file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
+file#:#publish_before_delete#:#It was not possible to delete any of the existing versions because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#service_settings#:#Additional Features
-file#:#service_settings_saved#:#Saved
+file#:#service_settings_saved#:#Changes saved.
 file#:#set_license_for_all_files#:#Set License for All Files
 file#:#show_amount_of_downloads#:#Show Number of Downloads
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.
@@ -9791,7 +9791,7 @@ file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-Specific Icons
 file#:#suffixes#:#Suffixes
 file#:#upload_files#:#Upload Files
-file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_limit#:#The maximum file size allowed is %s.
 file#:#upload_files_title#:#Upload Files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Uploads and versions can be managed in the ‘Versions’ tab.
@@ -9811,21 +9811,21 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fils#:#policy_audience#:#Audience
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.
+fils#:#policy_audience#:#Target Group
+fils#:#policy_audience_all_users_option_desc#:#Apply policy to all users.
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy to users with specific global roles.
 fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed because policy could not be found.
+fils#:#policy_deletion_successful#:#Policy successfully deleted.
 fils#:#policy_filter#:#Policy Filter
 fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
 fils#:#policy_scope#:#Scope
 fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
-fils#:#policy_title_desc#:#Descriptive title for the policy.
+fils#:#policy_title_desc#:#Descriptive title for this policy.
 fils#:#policy_upload_limit#:#Upload Limit
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.
+fils#:#policy_upload_limit_desc#:#Upload limit (in MB) imposed by this policy.
 fils#:#policy_valid_until#:#Valid Until
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.
+fils#:#policy_valid_until_desc#:#Set an optional ‘valid until’ date, after which the policy expires.
 fils#:#policy_validity#:#Validity
 fils#:#upload_limits#:#Upload Limits
 fils#:#upload_policies#:#Upload Policies
