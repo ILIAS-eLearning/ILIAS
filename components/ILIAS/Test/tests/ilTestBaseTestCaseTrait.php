@@ -476,44 +476,22 @@ trait ilTestBaseTestCaseTrait
     /**
      * @throws Exception
      */
-    protected function mockServiceMethod(
+    protected function adaptDICServiceMock(
         string $service_name,
-        string $method,
-        InvocationOrder $expects = null,
-        array $with = null,
-        mixed $will_return = ilTestBaseTestCase::MOCKED_METHOD_WITHOUT_OUTPUT,
-        callable $will_return_callback = null,
-        array $will_return_on_consecutive_calls = null,
-        Throwable $thrown_exception = null
+        callable $adapt
     ): void {
-        if(!isset($this->dic[$service_name])) {
-            throw new Exception("Service '$service_name' not found in the Dependency Injection Container.");
+        $reflection = new ReflectionFunction($adapt);
+        if ($reflection->getNumberOfParameters() !== 1 || !$reflection->getParameters()[0]?->getName() === MockObject::class) {
+            throw new Exception('Callable must have exactly one parameter of type MockObject.');
         }
 
-        /** @var MockObject $mock_object */
-        $mock_object = $this->dic[$service_name];
+        if(isset($this->services[$service_name])) {
+            global $DIC;
+            if (!isset($DIC[$this->services[$service_name]])) {
+                $DIC[$this->services[$service_name]] = $this->createMock($service_name);
+            }
 
-        $mock_object = is_null($expects) ? $mock_object : $mock_object->expects($expects);
-        $mock_object = $mock_object->method($method);
-        $mock_object = is_null($with) ? $mock_object : $mock_object->with(...$with);
-
-        if($will_return !== ilTestBaseTestCase::MOCKED_METHOD_WITHOUT_OUTPUT) {
-            $mock_object->willReturn($will_return);
-            return;
-        }
-
-        if(!is_null($will_return_callback)) {
-            $mock_object->willReturnCallback($will_return_callback);
-            return;
-        }
-
-        if(!is_null($will_return_on_consecutive_calls)) {
-            $mock_object->willReturnOnConsecutiveCalls(...$will_return_on_consecutive_calls);
-            return;
-        }
-
-        if(!is_null($thrown_exception)) {
-            $mock_object->willThrowException($thrown_exception);
+            $adapt($DIC[$this->services[$service_name]]);
         }
     }
 
