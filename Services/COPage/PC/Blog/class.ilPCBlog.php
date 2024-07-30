@@ -59,9 +59,7 @@ class ilPCBlog extends ilPageContent
         // remove all children first
         $children = $this->getChildNode()->childNodes;
         if ($children) {
-            foreach ($children as $child) {
-                $this->getChildNode()->removeChild($child);
-            }
+            $this->dom_util->deleteAllChilds($this->getChildNode());
         }
 
         if (count($a_posting_ids)) {

@@ -85,9 +85,7 @@ class ilPCTableData extends ilPageContent
             if ($td->hasAttribute("PCID")) {
                 $td->removeAttribute("PCID");
             }
-            foreach ($td->childNodes as $c) {
-                $td->removeChild($c);
-            }
+            $this->dom_util->deleteAllChilds($td);
         }
     }
 
@@ -97,9 +95,7 @@ class ilPCTableData extends ilPageContent
     public function deleteTDContent(
         DOMNode $a_td_node
     ): void {
-        foreach ($a_td_node->childNodes as $child) {
-            $a_td_node->removeChild($child);
-        }
+        $this->dom_util->deleteAllChilds($a_td_node);
     }
 
     public function deleteRow(): void
