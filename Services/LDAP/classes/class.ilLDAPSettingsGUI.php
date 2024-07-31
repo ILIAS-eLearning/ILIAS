@@ -805,7 +805,7 @@ class ilLDAPSettingsGUI
         $pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_pass'), 'bind_pass');
         $pass->setSkipSyntaxCheck(true);
         $pass->setSize(12);
-        $pass->setMaxLength(36);
+        $pass->setMaxLength(100);
         $user->addSubItem($pass);
         $binding->addOption($user);
         $this->form_gui->addItem($binding);
@@ -1369,7 +1369,7 @@ class ilLDAPSettingsGUI
         $pass->setPostVar("role_bind_pass");
         $pass->setValue($this->server->getRoleBindPassword());
         $pass->setSize(12);
-        $pass->setMaxLength(36);
+        $pass->setMaxLength(100);
         $pass->setRetype(false);
         $binding->addCombinationItem("1", $pass, $this->lng->txt('ldap_role_bind_pass'));
 
