@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest
@@ -26,68 +27,67 @@ use PHPUnit\Framework\MockObject\Exception;
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI $testObj;
+    private ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI $ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI;
 
+    /**
+     * @throws ReflectionException
+     * @throws Exception
+     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        global $DIC;
-
-        $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $DIC['ilCtrl'],
-            $DIC['lng'],
-            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
-            $this->createMock(ilTestRandomQuestionSetConfig::class)
-        );
+        $this->ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI = $this->createInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testConstruct(): void
     {
         $this->assertInstanceOf(
             ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class,
-            $this->testObj
+            $this->ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI
         );
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception|Exception
      */
     public function testBuild(): void
     {
-        global $DIC;
         $il_test_random_question_set_config_gui = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
-        $this->mockServiceMethod(service_name: 'ilCtrl', method: 'getFormAction', expects: $this->exactly(2), with: [$il_test_random_question_set_config_gui], will_return: 'form_action');
+
+        $this->adaptDICServiceMock(ilCtrl::class, function (ilCtrl|MockObject $mock) use ($il_test_random_question_set_config_gui) {
+            $mock
+                ->expects($this->exactly(2))
+                ->method('getFormAction')
+                ->with($il_test_random_question_set_config_gui)
+                ->willReturn('form_action');
+        });
+
         $il_test_random_question_set_config = $this->createMock(ilTestRandomQuestionSetConfig::class);
         $il_test_random_question_set_config
             ->expects($this->exactly(2))
             ->method('doesSelectableQuestionPoolsExist')
             ->willReturn(true, false);
 
-        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $DIC['ilCtrl'],
-            $DIC['lng'],
-            $il_test_random_question_set_config_gui,
-            $il_test_random_question_set_config
-        );
+        $ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI = $this->createInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class, [
+            'questionSetConfigGUI' => $il_test_random_question_set_config_gui,
+            'questionSetConfig' => $il_test_random_question_set_config
+        ]);
 
-        $this->assertNull($il_test_random_question_set_source_pool_definition_list_toolbar_gui->build());
-        $this->assertNull($il_test_random_question_set_source_pool_definition_list_toolbar_gui->build());
+        $this->assertNull($ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI->build());
+        $this->assertNull($ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI->build());
     }
 
     /**
      * @dataProvider buildSourcePoolSelectOptionsArrayDataProvider
-     * @throws Exception|ReflectionException
+     * @throws ReflectionException
      */
     public function testBuildSourcePoolSelectOptionsArray(array $input, array $output): void
     {
         $this->assertEquals(
             $output,
             self::callMethod(
-                $this->testObj,
+                $this->ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI,
                 'buildSourcePoolSelectOptionsArray',
                 [$input]
             )
@@ -110,28 +110,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
     }
 
     /**
-     * @throws Exception|ReflectionException
+     * @throws \Exception|ReflectionException
      */
     public function testPopulateNewQuestionSelectionRuleInputs(): void
     {
-        global $DIC;
-        $this->mockServiceMethod(
-            service_name: 'lng',
-            method: 'txt',
-            expects: $this->once(),
-            with: ['tst_rnd_quest_set_tb_add_pool_btn'],
-            will_return: 'tst_rnd_quest_set_tb_add_pool_btn_x'
-        );
-        $il_test_random_question_set_source_pool_definition_list_toolbar_gui = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-            $DIC['ilCtrl'],
-            $DIC['lng'],
-            $this->createMock(ilTestRandomQuestionSetConfigGUI::class),
-            $this->createMock(ilTestRandomQuestionSetConfig::class)
-        );
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
+            $mock
+                ->expects($this->once())
+                ->method('txt')
+                ->with('tst_rnd_quest_set_tb_add_pool_btn')
+                ->willReturn('tst_rnd_quest_set_tb_add_pool_btn_x');
+        });
 
         $this->assertNull(
             self::callMethod(
-                $il_test_random_question_set_source_pool_definition_list_toolbar_gui,
+                $this->ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI,
                 'populateNewQuestionSelectionRuleInputs'
             )
         );
@@ -146,7 +139,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
                     'class' => null
                 ]
             ],
-            $il_test_random_question_set_source_pool_definition_list_toolbar_gui->items
+            $this->ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI->items
         );
     }
 }

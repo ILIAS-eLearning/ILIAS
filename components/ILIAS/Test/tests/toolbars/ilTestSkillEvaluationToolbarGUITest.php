@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestSkillEvaluationToolbarGUITest
@@ -26,33 +27,28 @@ use PHPUnit\Framework\MockObject\Exception;
  */
 class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestSkillEvaluationToolbarGUI $testObj;
+    private ilTestSkillEvaluationToolbarGUI $ilTestSkillEvaluationToolbarGui;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestSkillEvaluationToolbarGUI(
-            $this->createMock(ilCtrlInterface::class)
-        );
+        $this->ilTestSkillEvaluationToolbarGui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
     }
-    /**
-     * @throws Exception
-     */
+
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->testObj);
+        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->ilTestSkillEvaluationToolbarGui);
     }
 
     /**
      * @dataProvider setAndGetAvailableSkillProfilesDataProvider
-     * @throws Exception
      */
     public function testSetAndGetAvailableSkillProfiles(array $IO): void
     {
-        $this->testObj->setAvailableSkillProfiles($IO);
+        $this->ilTestSkillEvaluationToolbarGui->setAvailableSkillProfiles($IO);
 
-        $this->assertEquals($IO, $this->testObj->getAvailableSkillProfiles());
+        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->getAvailableSkillProfiles());
     }
 
     public static function setAndGetAvailableSkillProfilesDataProvider(): array
@@ -66,13 +62,12 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetNoSkillProfileOptionEnabledDataProvider
-     * @throws Exception
      */
     public function testSetAndGetNoSkillProfileOptionEnabled(bool $IO): void
     {
-        $this->testObj->setNoSkillProfileOptionEnabled($IO);
+        $this->ilTestSkillEvaluationToolbarGui->setNoSkillProfileOptionEnabled($IO);
 
-        $this->assertEquals($IO, $this->testObj->isNoSkillProfileOptionEnabled());
+        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->isNoSkillProfileOptionEnabled());
     }
 
     public static function setAndGetNoSkillProfileOptionEnabledDataProvider(): array
@@ -85,13 +80,12 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetSelectedEvaluationModeDataProvider
-     * @throws Exception
      */
     public function testSetAndGetSelectedEvaluationMode(int $IO): void
     {
-        $this->testObj->setSelectedEvaluationMode($IO);
+        $this->ilTestSkillEvaluationToolbarGui->setSelectedEvaluationMode($IO);
 
-        $this->assertEquals($IO, $this->testObj->getSelectedEvaluationMode());
+        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->getSelectedEvaluationMode());
     }
 
     public static function setAndGetSelectedEvaluationModeDataProvider(): array
@@ -105,23 +99,25 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider buildEvaluationModeOptionsArrayDataProvider
-     * @throws Exception|ReflectionException
+     * @throws ReflectionException
+     * @throws \Exception
      */
     public function testBuildEvaluationModeOptionsArray(array $input, array $output): void
     {
-        $available_kill_profiles = $input['available_kill_profiles'];
+        $available_skill_profiles = $input['available_skill_profiles'];
         $no_skill_profile_option_enabled = $input['no_skill_profile_option_enabled'];
-        $this->mockServiceMethod(
-            service_name: 'lng',
-            method: 'txt',
-            expects: $this->exactly(count($available_kill_profiles) + ((int) $no_skill_profile_option_enabled)),
-            will_return_callback: fn($topic) => $topic . '_x'
-        );
 
-        $this->testObj->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
-        $this->testObj->setAvailableSkillProfiles($available_kill_profiles);
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($available_skill_profiles, $no_skill_profile_option_enabled) {
+            $mock
+                ->expects($this->exactly(count($available_skill_profiles) + ((int) $no_skill_profile_option_enabled)))
+                ->method('txt')
+                ->willReturnCallback(fn($topic) => $topic . '_x');
+        });
 
-        $this->assertEquals($output, self::callMethod($this->testObj, 'buildEvaluationModeOptionsArray'));
+        $this->ilTestSkillEvaluationToolbarGui->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
+        $this->ilTestSkillEvaluationToolbarGui->setAvailableSkillProfiles($available_skill_profiles);
+
+        $this->assertEquals($output, self::callMethod($this->ilTestSkillEvaluationToolbarGui, 'buildEvaluationModeOptionsArray'));
     }
 
     public static function buildEvaluationModeOptionsArrayDataProvider(): array
@@ -130,7 +126,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_true_empty' => [
                 [
                     'no_skill_profile_option_enabled' => true,
-                    'available_kill_profiles' => []
+                    'available_skill_profiles' => []
                 ],
                 [
                     0 => 'tst_all_test_competences_x'
@@ -139,14 +135,14 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_false_empty' => [
                 [
                     'no_skill_profile_option_enabled' => false,
-                    'available_kill_profiles' => []
+                    'available_skill_profiles' => []
                 ],
                 []
             ],
             'no_skill_profile_option_enabled_true_one' => [
                 [
                     'no_skill_profile_option_enabled' => true,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         1 => 'string'
                     ]
                 ],
@@ -158,7 +154,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_false_one' => [
                 [
                     'no_skill_profile_option_enabled' => false,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         1 => 'string'
                     ]
                 ],
@@ -169,7 +165,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_true_multiple' => [
                 [
                     'no_skill_profile_option_enabled' => true,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         1 => 'string',
                         2 => 'strING'
                     ]
@@ -183,7 +179,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_false_multiple' => [
                 [
                     'no_skill_profile_option_enabled' => false,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         1 => 'string',
                         2 => 'strING'
                     ]
@@ -196,7 +192,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_true_overwrite' => [
                 [
                     'no_skill_profile_option_enabled' => true,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         0 => 'string'
                     ]
                 ],
@@ -207,7 +203,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
             'no_skill_profile_option_enabled_false_overwrite' => [
                 [
                     'no_skill_profile_option_enabled' => false,
-                    'available_kill_profiles' => [
+                    'available_skill_profiles' => [
                         0 => 'string'
                     ]
                 ],

@@ -9,6 +9,9 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ilTestBaseTestCase;
 
+use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
+
 use function PHPUnit\Framework\once;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -16,6 +19,7 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
 {
     /**
      * @dataProvider provideLoggingSettings
+     * @throws \Exception|Exception
      */
     public function test_toForm(TestLoggingSettings $testLoggingSettings, bool $logging, bool $IPLogging): void
     {
@@ -33,7 +37,13 @@ class TestLoggingSettingsTest extends ilTestBaseTestCase
         $fieldFactory->expects($this->once())->method("section")->willReturn($section);
         $inputFactory = $this->createMock(\ILIAS\UI\Component\Input\Factory::class);
         $inputFactory->expects($this->exactly(3))->method("field")->willReturn($fieldFactory);
-        $this->mockServiceMethod(service_name: "ui.factory", method: "input", expects: $this->exactly(3), will_return: $inputFactory);
+
+        $this->adaptDICServiceMock(Factory::class, function (Factory|MockObject $mock) use ($inputFactory) {
+            $mock
+                ->expects($this->exactly(3))
+                ->method('input')
+                ->willReturn($inputFactory);
+        });
 
         $toForm = $testLoggingSettings->toForm($DIC['ui.factory'], $DIC->refinery(), $DIC->language());
         $this->assertCount(1, $toForm);

@@ -22,13 +22,30 @@ use ilDBInterface;
 use ILIAS\Test\Skills\TestSkillDBRepository;
 use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 class TestSkillDBRepositoryTest extends ilTestBaseTestCase
 {
+    private TestSkillDBRepository $testSkillDBRepository;
+
+    /**
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->testSkillDBRepository = $this->createInstanceOf(TestSkillDBRepository::class);
+    }
+
+    /**
+     * @throws Exception
+     */
     public function testConstruct(): void
     {
-        $testSkillDBRepository = new TestSkillDBRepository();
-        $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
+        $this->assertInstanceOf(TestSkillDBRepository::class, $this->testSkillDBRepository);
 
         $testSkillDBRepository = new TestSkillDBRepository($this->createMock(ilDBInterface::class));
         $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
@@ -36,29 +53,26 @@ class TestSkillDBRepositoryTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider removeForSkillDataProvider
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRemoveForSkill(array $input, string $output): void
     {
         $skill_node_id_quoted = '`' . $input['skill_node_id'] . '`';
 
-        $this->mockServiceMethod(
-            service_name: 'ilDB',
-            method: 'manipulate',
-            expects: $this->once(),
-            with:  [$this->equalTo('DELETE FROM tst_skl_thresholds  WHERE ' . $output . ' = ' . $skill_node_id_quoted)]
-        );
-        $this->mockServiceMethod(
-            service_name: 'ilDB',
-            method: 'quote',
-            expects: $this->once(),
-            with: [$this->equalTo($input['skill_node_id']), $this->equalTo('integer')],
-            will_return: $skill_node_id_quoted
-        );
+        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($input, $output, $skill_node_id_quoted) {
+            $mock
+                ->expects($this->once())
+                ->method('manipulate')
+                ->with($this->equalTo('DELETE FROM tst_skl_thresholds  WHERE ' . $output . ' = ' . $skill_node_id_quoted));
 
-        global $DIC;
+            $mock
+                ->expects($this->once())
+                ->method('quote')
+                ->with($this->equalTo($input['skill_node_id']), $this->equalTo('integer'))
+                ->willReturn($skill_node_id_quoted);
+        });
 
-        $this->assertNull((new TestSkillDBRepository($DIC['ilDB']))->removeForSkill($input['skill_node_id'], $input['is_reference']));
+        $this->testSkillDBRepository->removeForSkill($input['skill_node_id'], $input['is_reference']);
     }
 
     public static function removeForSkillDataProvider(): array
