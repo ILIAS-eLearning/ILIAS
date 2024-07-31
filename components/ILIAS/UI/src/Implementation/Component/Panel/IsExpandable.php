@@ -23,12 +23,15 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 use ILIAS\UI\Component\Panel\IsExpandable as IsExpandableInterface;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Trait for panels which are expandable
  */
 trait IsExpandable
 {
+    use JavaScriptBindable;
+
     protected bool $is_expandable = false;
     protected bool $is_expanded = false;
     protected URI | Signal | null $expand_action = null;

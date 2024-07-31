@@ -21,15 +21,13 @@ import panel from '../../../resources/js/Panel/src/panel.main';
 
 describe('Panel', () => {
   it('components are defined', () => {
+    // eslint-disable-next-line no-unused-expressions
     expect(panel).to.not.be.undefined;
   });
 
   const p = panel();
 
   it('public interface is defined on panel', () => {
-    expect(p.onCollapseCmdAction).to.be.a('function');
-    expect(p.onCollapseCmdSignal).to.be.a('function');
-    expect(p.onExpandCmdAction).to.be.a('function');
-    expect(p.onExpandCmdSignal).to.be.a('function');
+    expect(p.initExpandable).to.be.a('function');
   });
 });

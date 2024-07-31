@@ -22,7 +22,6 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Standard
@@ -32,5 +31,4 @@ class Standard extends Panel implements C\Panel\Standard
 {
     use HasViewControls;
     use IsExpandable;
-    use JavaScriptBindable;
 }

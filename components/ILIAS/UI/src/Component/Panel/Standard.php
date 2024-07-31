@@ -21,11 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
-use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Standard Panel.
  */
-interface Standard extends Panel, HasViewControls, IsExpandable, JavaScriptBindable
+interface Standard extends Panel, HasViewControls, IsExpandable
 {
 }
