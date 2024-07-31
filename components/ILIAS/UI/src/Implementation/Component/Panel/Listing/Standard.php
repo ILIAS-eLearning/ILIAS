@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 use ILIAS\UI\Implementation\Component\Panel\IsExpandable;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Panel
@@ -33,5 +32,4 @@ class Standard extends Listing implements C\Panel\Listing\Standard
 {
     use HasViewControls;
     use IsExpandable;
-    use JavaScriptBindable;
 }

@@ -130,15 +130,16 @@
 		order: 1;
 		flex-grow: 1;
 
-		.btn-bulky {
+		button {
 			background-color: $il-main-dark-bg;
 			border: none;
 			padding: 0;
+			width: 100%;
 			min-height: $il-btn-ctrl-outer-height;
 			font-size: $il-font-size-xlarge;
 			line-height: $il-line-height-large;
 			font-weight: $il-font-weight-bold;
-			justify-content: left;
+			text-align: left;
 		}
 	}
 	.panel-viewcontrols {
@@ -146,16 +147,16 @@
 			flex-grow: 0;
 		}
 	}
-	span[data-collapse-button-visibility="1"] {
+	span[data-collapse-glyph-visibility="1"] {
 		display: inline;
 	}
-	span[data-collapse-button-visibility="0"] {
+	span[data-collapse-glyph-visibility="0"] {
 		display: none;
 	}
-	span[data-expand-button-visibility="1"] {
+	span[data-expand-glyph-visibility="1"] {
 		display: inline;
 	}
-	span[data-expand-button-visibility="0"] {
+	span[data-expand-glyph-visibility="0"] {
 		display: none;
 	}
 	div[data-vc-expanded="1"] {

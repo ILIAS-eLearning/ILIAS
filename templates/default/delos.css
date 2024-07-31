@@ -7607,31 +7607,32 @@ div.alert ul > li:before {
   order: 1;
   flex-grow: 1;
 }
-.panel-expandable .panel-toggler .btn-bulky {
+.panel-expandable .panel-toggler button {
   background-color: #f9f9f9;
   border: none;
   padding: 0;
+  width: 100%;
   min-height: 2.2rem;
   font-size: 1.115rem;
   line-height: 1.33;
   font-weight: 600;
-  justify-content: left;
+  text-align: left;
 }
 @media screen and (min-width: 993px) {
   .panel-expandable .panel-viewcontrols {
     flex-grow: 0;
   }
 }
-.panel-expandable span[data-collapse-button-visibility="1"] {
+.panel-expandable span[data-collapse-glyph-visibility="1"] {
   display: inline;
 }
-.panel-expandable span[data-collapse-button-visibility="0"] {
+.panel-expandable span[data-collapse-glyph-visibility="0"] {
   display: none;
 }
-.panel-expandable span[data-expand-button-visibility="1"] {
+.panel-expandable span[data-expand-glyph-visibility="1"] {
   display: inline;
 }
-.panel-expandable span[data-expand-button-visibility="0"] {
+.panel-expandable span[data-expand-glyph-visibility="0"] {
   display: none;
 }
 .panel-expandable div[data-vc-expanded="1"] {

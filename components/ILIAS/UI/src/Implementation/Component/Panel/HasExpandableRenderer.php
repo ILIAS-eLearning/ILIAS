@@ -30,22 +30,23 @@ trait HasExpandableRenderer
 {
     protected function declareExpandable(
         C\Panel\IsExpandable $component,
+        string $component_id,
         Template $tpl
     ): Template {
-        if ($component->isExpandable()) {
-            $tpl->touchBlock("panel_expandable");
-            $tpl->setCurrentBlock("body_expandable");
-            $component->isExpanded()
-                ? $tpl->setVariable("BODY_EXPANDED", 1)
-                : $tpl->setVariable("BODY_EXPANDED", 0);
-            $tpl->parseCurrentBlock();
-        }
+        $tpl->touchBlock("panel_expandable");
+        $tpl->setCurrentBlock("body_expandable");
+        $tpl->setVariable("PANEL_ID", $component_id);
+        $component->isExpanded()
+            ? $tpl->setVariable("BODY_EXPANDED", 1)
+            : $tpl->setVariable("BODY_EXPANDED", 0);
+        $tpl->parseCurrentBlock();
 
         return $tpl;
     }
 
-    protected function parseExpandingHeader(
+    protected function parseHeader(
         C\Panel\IsExpandable $component,
+        string $component_id,
         RendererInterface $default_renderer,
         Factory $factory
     ): Template {
@@ -76,63 +77,24 @@ trait HasExpandableRenderer
             }
 
             if ($component->isExpandable()) {
-                $component_type = "standard";
-                if ($component instanceof C\Panel\Listing\Listing) {
-                    $component_type = "listing";
-                }
-
                 $tpl->setCurrentBlock("toggler");
-                $toggler_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $title, "");
-                $collapse_action = $component->getCollapseAction();
-                if ($collapse_action instanceof URI) {
-                    $toggler_collapse = $toggler_collapse->withAdditionalOnLoadCode(
-                        fn($id) => "document.getElementById('$id').addEventListener('click', (event) => {
-					    il.UI.panel.onCollapseCmdAction(event, '$id', '$component_type', '$collapse_action');
-					});"
-                    );
-                } elseif ($collapse_action instanceof C\Signal) {
-                    $collapse_signal = [
-                        "signal_id" => $collapse_action->getId(),
-                        "event" => "click",
-                        "options" => $collapse_action->getOptions()
-                    ];
-                    $collapse_signal = json_encode($collapse_signal);
-                    $toggler_collapse = $toggler_collapse->withAdditionalOnLoadCode(
-                        fn($id) => "document.getElementById('$id').addEventListener('click', (event) => {
-					    il.UI.panel.onCollapseCmdSignal(event, '$id', '$component_type', $collapse_signal);
-					});"
-                    );
-                }
-                $tpl->setVariable("COLLAPSE_BUTTON", $default_renderer->render($toggler_collapse));
-                $component->isExpanded()
-                    ? $tpl->setVariable("COLLAPSE_BUTTON_VISIBLE", 1)
-                    : $tpl->setVariable("COLLAPSE_BUTTON_VISIBLE", 0);
+                $tpl->setVariable("TITLE_TOGGLER", $title);
+                $glyph_collapse = $f->symbol()->glyph()->collapse();
+                $tpl->setVariable("COLLAPSE_GLYPH", $default_renderer->render($glyph_collapse));
+                $glyph_expand = $f->symbol()->glyph()->expand();
+                $tpl->setVariable("EXPAND_GLYPH", $default_renderer->render($glyph_expand));
 
-                $toggler_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $title, "");
-                $expand_action = $component->getExpandAction();
-                if ($expand_action instanceof URI) {
-                    $toggler_expand = $toggler_expand->withAdditionalOnLoadCode(
-                        fn($id) => "document.getElementById('$id').addEventListener('click', (event) => {
-                        il.UI.panel.onExpandCmdAction(event, '$id', '$component_type', '$expand_action');
-                    });"
-                    );
-                } elseif ($expand_action instanceof C\Signal) {
-                    $expand_signal = [
-                        "signal_id" => $expand_action->getId(),
-                        "event" => "click",
-                        "options" => $expand_action->getOptions()
-                    ];
-                    $expand_signal = json_encode($expand_signal);
-                    $toggler_expand = $toggler_expand->withAdditionalOnLoadCode(
-                        fn($id) => "document.getElementById('$id').addEventListener('click', (event) => {
-					    il.UI.panel.onExpandCmdSignal(event, '$id', '$component_type', $expand_signal);
-					});"
-                    );
+                if ($component->isExpanded()) {
+                    $tpl->setVariable("ARIA_EXPANDED", "true");
+                    $tpl->setVariable("PANEL_ID", $component_id);
+                    $tpl->setVariable("COLLAPSE_GLYPH_VISIBLE", 1);
+                    $tpl->setVariable("EXPAND_GLYPH_VISIBLE", 0);
+                } else {
+                    $tpl->setVariable("ARIA_EXPANDED", "false");
+                    $tpl->setVariable("PANEL_ID", $component_id);
+                    $tpl->setVariable("COLLAPSE_GLYPH_VISIBLE", 0);
+                    $tpl->setVariable("EXPAND_GLYPH_VISIBLE", 1);
                 }
-                $tpl->setVariable("EXPAND_BUTTON", $default_renderer->render($toggler_expand));
-                $component->isExpanded()
-                    ? $tpl->setVariable("EXPAND_BUTTON_VISIBLE", 0)
-                    : $tpl->setVariable("EXPAND_BUTTON_VISIBLE", 1);
                 $tpl->parseCurrentBlock();
             } else {
                 $tpl->setVariable("TITLE", $title);
@@ -142,5 +104,63 @@ trait HasExpandableRenderer
         }
 
         return $tpl;
+    }
+
+    protected function parseActions(
+        C\Panel\IsExpandable $component
+    ): C\Panel\IsExpandable {
+        $component_type = "standard";
+        if ($component instanceof C\Panel\Listing\Listing) {
+            $component_type = "listing";
+        }
+
+        $collapse_action = $component->getCollapseAction();
+        $collapse_action_uri = "";
+        $collapse_action_signal = false;
+        if ($collapse_action instanceof URI) {
+            $collapse_action_uri = $collapse_action;
+        } elseif ($collapse_action instanceof C\Signal) {
+            $collapse_action_signal = [
+                "signal_id" => $collapse_action->getId(),
+                "event" => "click",
+                "options" => $collapse_action->getOptions()
+            ];
+        }
+
+        $expand_action = $component->getExpandAction();
+        $expand_action_uri = "";
+        $expand_action_signal = false;
+        if ($expand_action instanceof URI) {
+            $expand_action_uri = $expand_action;
+        } elseif ($expand_action instanceof C\Signal) {
+            $expand_action_signal = [
+                "signal_id" => $expand_action->getId(),
+                "event" => "click",
+                "options" => $expand_action->getOptions()
+            ];
+        }
+
+        $collapse_action_signal = json_encode($collapse_action_signal);
+        $expand_action_signal = json_encode($expand_action_signal);
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use (
+                $component_type,
+                $collapse_action_uri,
+                $expand_action_uri,
+                $collapse_action_signal,
+                $expand_action_signal
+            ) {
+                return "il.UI.panel.initExpandable(
+                    '$id',
+                    '$component_type',
+                    '$collapse_action_uri',
+                    '$expand_action_uri',
+                    $collapse_action_signal,
+                    $expand_action_signal
+                );";
+            }
+        );
+
+        return $component;
     }
 }

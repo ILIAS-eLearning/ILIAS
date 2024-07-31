@@ -22,23 +22,22 @@ const panel = function () {
     }
   };
 
-  const performSignal = function (id, signal) {
-    const b = document.getElementById(id);
+  const performSignal = function (button, signal) {
     if (signal !== null) {
       // eslint-disable-next-line no-undef
-      $(b).trigger(signal.signal_id, {
+      $(button).trigger(signal.signal_id, {
         id: signal.signal_id,
         event: signal.event,
-        triggerer: b,
+        triggerer: button,
         options: signal.options,
       });
     }
   };
 
   const showAndHideElementsForCollapse = function (id, type) {
-    const p = document.getElementById(id).closest('.panel-expandable');
-    p.querySelector('[data-collapse-button-visibility]').dataset.collapseButtonVisibility = '0';
-    p.querySelector('[data-expand-button-visibility]').dataset.expandButtonVisibility = '1';
+    const p = document.getElementById(id);
+    p.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '0';
+    p.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '1';
     p.querySelector('.panel-viewcontrols').dataset.vcExpanded = '0';
     if (type === 'standard') {
       p.querySelector('.panel-body').dataset.bodyExpanded = '0';
@@ -47,20 +46,10 @@ const panel = function () {
     }
   };
 
-  const onCollapseCmdAction = function (event, id, type, action) {
-    showAndHideElementsForCollapse(id, type);
-    performAsync(action);
-  };
-
-  const onCollapseCmdSignal = function (event, id, type, signal) {
-    showAndHideElementsForCollapse(id, type);
-    performSignal(id, signal);
-  };
-
   const showAndHideElementsForExpand = function (id, type) {
-    const p = document.getElementById(id).closest('.panel-expandable');
-    p.querySelector('[data-expand-button-visibility]').dataset.expandButtonVisibility = '0';
-    p.querySelector('[data-collapse-button-visibility]').dataset.collapseButtonVisibility = '1';
+    const p = document.getElementById(id);
+    p.querySelector('[data-expand-glyph-visibility]').dataset.expandGlyphVisibility = '0';
+    p.querySelector('[data-collapse-glyph-visibility]').dataset.collapseGlyphVisibility = '1';
     p.querySelector('.panel-viewcontrols').dataset.vcExpanded = '1';
     if (type === 'standard') {
       p.querySelector('.panel-body').dataset.bodyExpanded = '1';
@@ -69,24 +58,41 @@ const panel = function () {
     }
   };
 
-  const onExpandCmdAction = function (event, id, type, action) {
-    showAndHideElementsForExpand(id, type);
-    performAsync(action);
-  };
-
-  const onExpandCmdSignal = function (event, id, type, signal) {
-    showAndHideElementsForExpand(id, type);
-    performSignal(id, signal);
+  const initExpandable = function (
+    id,
+    type,
+    collapseUri,
+    expandUri,
+    collapseSignal,
+    expandSignal,
+  ) {
+    const button = document.getElementById(id).querySelector('.panel-toggler').querySelector('button');
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-expanded') === 'false') {
+        button.setAttribute('aria-expanded', true);
+        showAndHideElementsForExpand(id, type);
+        if (expandUri) {
+          performAsync(expandUri);
+        } else if (expandSignal) {
+          performSignal(button, expandSignal);
+        }
+      } else {
+        button.setAttribute('aria-expanded', false);
+        showAndHideElementsForCollapse(id, type);
+        if (collapseUri) {
+          performAsync(collapseUri);
+        } else if (collapseSignal) {
+          performSignal(button, collapseSignal);
+        }
+      }
+    });
   };
 
   /**
      * Public interface
      */
   return {
-    onCollapseCmdAction,
-    onCollapseCmdSignal,
-    onExpandCmdAction,
-    onExpandCmdSignal,
+    initExpandable,
   };
 };
 

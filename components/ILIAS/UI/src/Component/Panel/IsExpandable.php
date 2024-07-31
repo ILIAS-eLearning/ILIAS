@@ -23,11 +23,12 @@ namespace ILIAS\UI\Component\Panel;
 use ILIAS\UI\Component\Component;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Trait for making Panels expandable
  */
-interface IsExpandable extends Component
+interface IsExpandable extends Component, JavaScriptBindable
 {
     /**
      * Make the Panel expandable. Set the Panel expanded or collapsed. Set optionally an expand and collapse action

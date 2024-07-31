@@ -552,27 +552,25 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-toggler">
             <h2>
-                <span data-collapse-button-visibility="1">
-                    <button class="btn btn-bulky" data-action="">
-                        <span class="glyph" role="img">
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="1">
+                            <a class="glyph" aria-label="collapse_content">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </a>
                         </span>
-                        <span class="bulky-label">Title</span>
-                    </button>
-                </span>
-                <span data-expand-button-visibility="0">
-                    <button class="btn btn-bulky" data-action="">
-                        <span class="glyph" role="img">
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                        </span>
-                        <span class="bulky-label">Title</span>
-                    </button>
-                </span>
+                        <span data-expand-glyph-visibility="0">
+                            <a class="glyph" aria-label="expand_content">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </a>
+                        </span>Title
+                    </span>
+			    </button>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-body" data-body-expanded="1"></div>
+    <div class="panel-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="1"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(
@@ -596,27 +594,25 @@ EOT;
     <div class="panel-heading ilHeader">
         <div class="panel-toggler">
             <h2>
-                <span data-collapse-button-visibility="0">
-                    <button class="btn btn-bulky" data-action="">
-                        <span class="glyph" role="img">
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="0">
+                            <a class="glyph" aria-label="collapse_content">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </a>
                         </span>
-                        <span class="bulky-label">Title</span>
-                    </button>
-                </span>
-                <span data-expand-button-visibility="1">
-                    <button class="btn btn-bulky" data-action="">
-                        <span class="glyph" role="img">
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                        </span>
-                        <span class="bulky-label">Title</span>
-                    </button>
-                </span>
+                        <span data-expand-glyph-visibility="1">
+                            <a class="glyph" aria-label="expand_content">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </a>
+                        </span>Title
+                    </span>
+			    </button>
             </h2>
         </div>
         <div class="panel-controls"></div>
     </div>
-    <div class="panel-body" data-body-expanded="0"></div>
+    <div class="panel-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="0"></div>
 </div>
 EOT;
         $this->assertHTMLEquals(

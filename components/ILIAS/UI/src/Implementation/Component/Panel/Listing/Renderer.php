@@ -51,15 +51,20 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
         $f = $this->getUIFactory();
 
+        if ($component->isExpandable()) {
+            $component = $this->parseActions($component);
+        }
         $id = $this->bindJavaScript($component);
         if ($id === null) {
             $id = $this->createId();
         }
         $tpl->setVariable("ID", $id);
 
-        $tpl_heading = $this->parseExpandingHeader($component, $default_renderer, $f);
+        $tpl_heading = $this->parseHeader($component, $id, $default_renderer, $f);
         $tpl->setVariable("HEADING", $tpl_heading->get());
-        $tpl = $this->declareExpandable($component, $tpl);
+        if ($component->isExpandable()) {
+            $tpl = $this->declareExpandable($component, $id, $tpl);
+        }
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof Group) {

@@ -8,8 +8,13 @@
 	<!-- BEGIN toggler -->
 	<div class="panel-toggler">
 		<h2>
-			<span data-collapse-button-visibility="{COLLAPSE_BUTTON_VISIBLE}">{COLLAPSE_BUTTON}</span>
-			<span data-expand-button-visibility="{EXPAND_BUTTON_VISIBLE}">{EXPAND_BUTTON}</span>
+			<button aria-expanded="{ARIA_EXPANDED}" aria-controls="body_{PANEL_ID}" id="header_{PANEL_ID}">
+				<span>
+					<span data-collapse-glyph-visibility="{COLLAPSE_GLYPH_VISIBLE}">{COLLAPSE_GLYPH}</span>
+					<span data-expand-glyph-visibility="{EXPAND_GLYPH_VISIBLE}">{EXPAND_GLYPH}</span>
+					{TITLE_TOGGLER}
+                </span>
+			</button>
 		</h2>
 	</div>
 	<!-- END toggler -->
