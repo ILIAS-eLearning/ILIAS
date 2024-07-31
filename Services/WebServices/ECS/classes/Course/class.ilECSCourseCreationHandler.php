@@ -570,7 +570,7 @@ class ilECSCourseCreationHandler
                     $group_obj->update();
                 }
             }
-            $this->addUrlEntry($this->getImportId((int)$course->lectureID, (string)$group->id));
+            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->id));
         }
     }
 

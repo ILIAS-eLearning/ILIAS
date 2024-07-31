@@ -16,7 +16,7 @@
  */
 
 declare(strict_types=1);
- /**
+/**
  * Presentation of ecs uril (http://...campusconnect/courselinks)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
