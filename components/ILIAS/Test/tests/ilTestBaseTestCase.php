@@ -41,31 +41,6 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function setUp(): void
     {
-        if (!defined("ILIAS_HTTP_PATH")) {
-            define("ILIAS_HTTP_PATH", "http://localhost");
-        }
-        if (!defined("CLIENT_DATA_DIR")) {
-            define("CLIENT_DATA_DIR", "/var/iliasdata");
-        }
-        if (!defined("ANONYMOUS_USER_ID")) {
-            define("ANONYMOUS_USER_ID", 13);
-        }
-        if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", 8);
-        }
-        if (!defined("ILIAS_LOG_ENABLED")) {
-            define("ILIAS_LOG_ENABLED", true);
-        }
-        if (!defined("ILIAS_LOG_DIR")) {
-            define("ILIAS_LOG_DIR", '/var/log');
-        }
-        if (!defined("ILIAS_LOG_FILE")) {
-            define("ILIAS_LOG_FILE", '/var/log/ilias.log');
-        }
-        if (!defined("IL_INST_ID")) {
-            define("IL_INST_ID", 'someid');
-        }
-
         global $DIC;
 
         $this->backup_dic = is_object($DIC) ? clone $DIC : $DIC;
