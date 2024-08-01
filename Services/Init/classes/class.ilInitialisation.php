@@ -1050,24 +1050,27 @@ class ilInitialisation
     protected static function initAccessHandling(): void
     {
         self::initGlobal(
-            "rbacreview",
-            "ilRbacReview",
-            "./Services/AccessControl/classes/class.ilRbacReview.php"
+            'rbacreview',
+            'ilRbacReview',
+            './Services/AccessControl/classes/class.ilRbacReview.php',
+            true
         );
 
         $rbacsystem = ilRbacSystem::getInstance();
-        self::initGlobal("rbacsystem", $rbacsystem);
+        self::initGlobal('rbacsystem', $rbacsystem, null, true);
 
         self::initGlobal(
-            "rbacadmin",
-            "ilRbacAdmin",
-            "./Services/AccessControl/classes/class.ilRbacAdmin.php"
+            'rbacadmin',
+            'ilRbacAdmin',
+            './Services/AccessControl/classes/class.ilRbacAdmin.php',
+            true
         );
 
         self::initGlobal(
-            "ilAccess",
-            "ilAccess",
-            "./Services/AccessControl/classes/class.ilAccess.php"
+            'ilAccess',
+            'ilAccess',
+            './Services/AccessControl/classes/class.ilAccess.php',
+            true
         );
     }
 
@@ -1084,18 +1087,28 @@ class ilInitialisation
     }
 
     /**
-     * Initialize global instance
-     * @param string $a_name
-     * @param string|object $a_class
-     * @param ?string $a_source_file
+     * @param object|string $a_class
      */
-    protected static function initGlobal($a_name, $a_class, $a_source_file = null): void
-    {
+    protected static function initGlobal(
+        string $a_name,
+        $a_class,
+        ?string $a_source_file = null,
+        ?bool $destroy_existing = false
+    ): void {
         global $DIC;
+
+        if ($destroy_existing) {
+            if (isset($GLOBALS[$a_name])) {
+                unset($GLOBALS[$a_name]);
+            }
+            if (isset($DIC[$a_name])) {
+                unset($DIC[$a_name]);
+            }
+        }
 
         $GLOBALS[$a_name] = is_object($a_class) ? $a_class : new $a_class();
 
-        $DIC[$a_name] = function ($c) use ($a_name) {
+        $DIC[$a_name] = static function (Container $c) use ($a_name) {
             return $GLOBALS[$a_name];
         };
     }
@@ -1197,7 +1210,11 @@ class ilInitialisation
      */
     protected static function initSession(): void
     {
-        $GLOBALS["DIC"]["ilAuthSession"] = function ($c) {
+        if (isset($GLOBALS['DIC']['ilAuthSession'])) {
+            unset($GLOBALS['DIC']['ilAuthSession']);
+        }
+
+        $GLOBALS['DIC']['ilAuthSession'] = static function (Container $c): ilAuthSession {
             $auth_session = ilAuthSession::getInstance(
                 $c['ilLoggerFactory']->getLogger('auth')
             );
@@ -1370,7 +1387,8 @@ class ilInitialisation
         self::initGlobal(
             "ilUser",
             "ilObjUser",
-            "./Services/User/classes/class.ilObjUser.php"
+            "./Services/User/classes/class.ilObjUser.php",
+            true
         );
         $ilias->account = $ilUser;
 

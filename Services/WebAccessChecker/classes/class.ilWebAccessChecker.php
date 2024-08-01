@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +16,6 @@
  *
  *********************************************************************/
 
-// declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieWrapper;
 use ILIAS\HTTP\Services;
@@ -343,12 +343,11 @@ class ilWebAccessChecker
         global $DIC;
         session_destroy();
         ilContext::init(ilContext::CONTEXT_WAC);
-        ilInitialisation::reinitILIAS();
+        ilInitialisation::reInitUser();
         /**
-         * @var $ilAuthSession \ilAuthSession
+         * @var ilAuthSession $ilAuthSession
          */
         $ilAuthSession = $DIC['ilAuthSession'];
-        $ilAuthSession->init();
         $ilAuthSession->regenerateId();
         $ilAuthSession->setUserId(ANONYMOUS_USER_ID);
         $ilAuthSession->setAuthenticated(false, ANONYMOUS_USER_ID);
