@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -41,30 +41,30 @@ class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $storage->storeStableBool(
             "is_installed",
-            $ini !== null && $client_ini !== null,
+            fn() => $ini !== null && $client_ini !== null,
             "Are there any indications an installation was performed?"
         );
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         if ($client_id) {
             $storage->storeConfigText(
                 "client_id",
-                $client_id,
+                fn() => $client_id,
                 "Id of the ILIAS client."
             );
         }
-        $settings_factory  = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings_factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         if ($settings_factory) {
             $common_settings = $settings_factory->settingsFor("common");
             $nic_enabled = $common_settings->get("nic_enabled") == "1";
             $storage->storeStableBool(
                 "nic_enabled",
-                $nic_enabled,
+                fn() => $nic_enabled,
                 "Is the installation registered at the ILIAS NIC server?"
             );
             if ($nic_enabled) {
                 $storage->storeConfigText(
                     "inst_id",
-                    $common_settings->get("inst_id"),
+                    fn() => $common_settings->get("inst_id"),
                     "The id of the installation as provided by the ILIAS NIC server."
                 );
             }

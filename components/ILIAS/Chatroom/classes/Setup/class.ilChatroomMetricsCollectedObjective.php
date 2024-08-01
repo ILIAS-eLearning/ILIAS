@@ -54,46 +54,46 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         if (count($settings) > 0) {
             $storage->storeConfigText(
                 'address',
-                $settings['address'] ?? '',
+                fn() => $settings['address'] ?? '',
                 'IP-Address/FQN of Chat Server.'
             );
             $storage->storeConfigText(
                 'port',
-                (string) ($settings['port'] ?? ''),
+                fn() => (string) ($settings['port'] ?? ''),
                 'Port of the chat server.'
             );
             $storage->storeConfigText(
                 'sub_directory',
-                $settings['sub_directory'] ?? '',
+                fn() => $settings['sub_directory'] ?? '',
                 'http(s)://[IP/Domain]/[SUB_DIRECTORY]'
             );
 
             $storage->storeConfigText(
                 'protocol',
-                $settings['protocol'] ?? '',
+                fn() => $settings['protocol'] ?? '',
                 'Protocol used for connection (http/https).'
             );
 
             if (isset($settings['protocol']) && $settings['protocol'] === 'https') {
                 $cert = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['cert'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['cert'] ?? ''
                 );
                 $key = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['key'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['key'] ?? ''
                 );
                 $dhparam = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['dhparam'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['dhparam'] ?? ''
                 );
                 $https = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COLLECTION,
-                    [
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::COLLECTION,
+                    fn() => [
                         'cert' => $cert,
                         'key' => $key,
                         'dhparam' => $dhparam,
@@ -105,30 +105,30 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
 
             $storage->storeConfigText(
                 'log',
-                (string) ($settings['log'] ?? ''),
+                fn() => (string) ($settings['log'] ?? ''),
                 "Absolute server path to the chat server's log file."
             );
             $storage->storeConfigText(
                 'log_level',
-                $settings['log_level'] ?? '',
+                fn() => $settings['log_level'] ?? '',
                 'Possible values are emerg, alert, crit error, warning, notice, info, debug, silly.'
             );
             $storage->storeConfigText(
                 'error_log',
-                $settings['error_log'] ?? '',
+                fn() => $settings['error_log'] ?? '',
                 "Absolute server path to the chat server's error log file."
             );
 
             if (isset($settings['ilias_proxy']) && $settings['ilias_proxy']) {
                 $ilias_url = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['ilias_url'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['ilias_url'] ?? ''
                 );
                 $ilias_proxy = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COLLECTION,
-                    [
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::COLLECTION,
+                    fn() => [
                         'ilias_url' => $ilias_url
                     ],
                     'Holds proxy url if ILIAS proxy is enabled.'
@@ -137,21 +137,21 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             } else {
                 $storage->storeConfigBool(
                     'ilias_proxy',
-                    false,
+                    fn() => false,
                     'Holds proxy url if ILIAS proxy is enabled.'
                 );
             }
 
             if (isset($settings['client_proxy']) && $settings['client_proxy']) {
                 $client_url = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['client_url'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['client_url'] ?? ''
                 );
                 $client_proxy = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COLLECTION,
-                    [
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::COLLECTION,
+                    fn() => [
                         'client_url' => $client_url
                     ],
                     'Holds proxy url if client proxy is enabled.'
@@ -160,31 +160,31 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             } else {
                 $storage->storeConfigBool(
                     'client_proxy',
-                    false,
+                    fn() => false,
                     'Holds proxy url if client proxy is enabled.'
                 );
             }
 
             if (isset($settings['deletion_mode']) && $settings['deletion_mode']) {
                 $deletion_unit = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['deletion_unit'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['deletion_unit'] ?? ''
                 );
                 $deletion_value = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    (string) ($settings['deletion_value'] ?? '')
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => (string) ($settings['deletion_value'] ?? '')
                 );
                 $deletion_time = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['deletion_time'] ?? ''
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::TEXT,
+                    fn() => $settings['deletion_time'] ?? ''
                 );
                 $deletion_mode = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COLLECTION,
-                    [
+                    Setup\Metrics\MetricStability::CONFIG,
+                    Setup\Metrics\MetricType::COLLECTION,
+                    fn() => [
                         'deletion_unit' => $deletion_unit,
                         'deletion_value' => $deletion_value,
                         'deletion_time' => $deletion_time,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\Metrics;
 
@@ -71,9 +71,9 @@ class ArrayStorage implements Storage
     protected function doAsMetric(array $cur): Metric
     {
         return new Metric(
-            Metric::STABILITY_MIXED,
-            Metric::TYPE_COLLECTION,
-            array_map(
+            MetricStability::MIXED,
+            MetricType::COLLECTION,
+            fn() => array_map(
                 function ($v) {
                     if (is_array($v)) {
                         return $this->doAsMetric($v);

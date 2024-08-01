@@ -98,6 +98,9 @@ system where ILIAS was not installed, for example, the output only contains the
 information that ilias is not installed. The command also reports on the configuration
 of the installation.
 
+Use the -f option to pass filtering options to the command. The command could then look like this:
+`php setup/setup.php status -f config.common`. Here only the common section under config would be output.
+
 The output of the command is formatted as YAML to be easily readable by people and
 machines. So we encourage you to use this command for monitoring your system and
 also request status information via our feature process that you are interested in.

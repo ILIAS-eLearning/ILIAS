@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup\Metrics\CollectedObjective;
 use ILIAS\Setup\Environment;
@@ -45,7 +45,7 @@ class ilTreeMetricsCollectedObjective extends CollectedObjective
 
         $storage->storeConfigText(
             'Tree Implementation',
-            $settings->get('main_tree_impl', 'ns') === 'ns' ? 'Nested Set' : 'Materialized Path',
+            fn() => $settings->get('main_tree_impl', 'ns') === 'ns' ? 'Nested Set' : 'Materialized Path',
             'The database implementation of the ILIAS repository tree.'
         );
     }

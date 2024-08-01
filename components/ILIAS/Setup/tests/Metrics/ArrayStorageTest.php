@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Setup\Metrics;
 
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Metrics\Metric as M;
+use ILIAS\Setup\Metrics\MetricType as MT;
+use ILIAS\Setup\Metrics\MetricStability as MS;
 use PHPUnit\Framework\TestCase;
 
 class ArrayStorageTest extends TestCase
@@ -35,8 +37,8 @@ class ArrayStorageTest extends TestCase
 
     public function testBasicStorage(): void
     {
-        $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
-        $m2 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc2");
+        $m1 = new M(MS::CONFIG, MT::BOOL, fn() => true, "desc1");
+        $m2 = new M(MS::CONFIG, MT::BOOL, fn() => true, "desc2");
 
         $this->storage->store("m1", $m1);
         $this->storage->store("m2", $m2);
@@ -51,8 +53,8 @@ class ArrayStorageTest extends TestCase
 
     public function testOverwrites(): void
     {
-        $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
-        $m2 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc2");
+        $m1 = new M(MS::CONFIG, MT::BOOL, fn() => true, "desc1");
+        $m2 = new M(MS::CONFIG, MT::BOOL, fn() => true, "desc2");
 
         $this->storage->store("m1", $m1);
         $this->storage->store("m1", $m2);
@@ -66,7 +68,7 @@ class ArrayStorageTest extends TestCase
 
     public function testNesting(): void
     {
-        $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
+        $m1 = new M(MS::CONFIG, MT::BOOL, fn() => true, "desc1");
 
         $this->storage->store("a.b.c", $m1);
 
@@ -83,16 +85,16 @@ class ArrayStorageTest extends TestCase
 
     public function testAsMetric(): void
     {
-        $this->storage->store("a", new M(M::STABILITY_STABLE, M::TYPE_COUNTER, 0));
-        $this->storage->store("b.c", new M(M::STABILITY_VOLATILE, M::TYPE_BOOL, true));
+        $this->storage->store("a", new M(MS::STABLE, MT::COUNTER, fn() => 0));
+        $this->storage->store("b.c", new M(MS::VOLATILE, MT::BOOL, fn() => true));
 
         $expected = new M(
-            M::STABILITY_MIXED,
-            M::TYPE_COLLECTION,
-            [
-                "a" => new M(M::STABILITY_STABLE, M::TYPE_COUNTER, 0),
-                "b" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
-                    "c" => new M(M::STABILITY_VOLATILE, M::TYPE_BOOL, true)
+            MS::MIXED,
+            MT::COLLECTION,
+            fn() => [
+                "a" => new M(MS::STABLE, MT::COUNTER, fn() => 0),
+                "b" => new M(MS::MIXED, MT::COLLECTION, fn() => [
+                    "c" => new M(MS::VOLATILE, MT::BOOL, fn() => true)
                 ])
             ]
         );

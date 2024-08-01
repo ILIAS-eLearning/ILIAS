@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Metrics\Metric;
@@ -40,30 +40,30 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         $step_reader = $environment->getResource(ilDBStepReader::class);
 
         $version = new Metric(
-            Metric::STABILITY_STABLE,
-            Metric::TYPE_TEXT,
-            (string) ($execution_log->getLastFinishedStep($this->step_class))
+            Setup\Metrics\MetricStability::STABLE,
+            Setup\Metrics\MetricType::TEXT,
+            fn() => (string) ($execution_log->getLastFinishedStep($this->step_class))
         );
 
         $available_version = new Metric(
-            Metric::STABILITY_STABLE,
-            Metric::TYPE_TEXT,
-            (string) $step_reader->getLatestStepNumber($this->step_class, self::STEP_METHOD_PREFIX)
+            Setup\Metrics\MetricStability::STABLE,
+            Setup\Metrics\MetricType::TEXT,
+            fn() => (string) $step_reader->getLatestStepNumber($this->step_class, self::STEP_METHOD_PREFIX)
         );
 
         $update_required = new Metric(
-            Metric::STABILITY_STABLE,
-            Metric::TYPE_BOOL,
-            $execution_log->getLastFinishedStep($this->step_class) !== $step_reader->getLatestStepNumber(
+            Setup\Metrics\MetricStability::STABLE,
+            Setup\Metrics\MetricType::BOOL,
+            fn() => $execution_log->getLastFinishedStep($this->step_class) !== $step_reader->getLatestStepNumber(
                 $this->step_class,
                 self::STEP_METHOD_PREFIX
             )
         );
 
         $collection = new Metric(
-            Metric::STABILITY_STABLE,
-            Metric::TYPE_COLLECTION,
-            [
+            Setup\Metrics\MetricStability::STABLE,
+            Setup\Metrics\MetricType::COLLECTION,
+            fn() => [
                 "version" => $version,
                 "available_version" => $available_version,
                 "update_required" => $update_required

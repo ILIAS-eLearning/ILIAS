@@ -40,32 +40,32 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         if ($client_ini) {
             $storage->storeConfigText(
                 "type",
-                $client_ini->readVariable("db", "type") ?? "mysql",
+                fn() => $client_ini->readVariable("db", "type") ?? "mysql",
                 "The storage backend that is used for the database."
             );
             $storage->storeConfigText(
                 "host",
-                $client_ini->readVariable("db", "host"),
+                fn() => $client_ini->readVariable("db", "host"),
                 "The host where the storage backend is located."
             );
             $storage->storeConfigText(
                 "port",
-                $client_ini->readVariable("db", "port"),
+                fn() => $client_ini->readVariable("db", "port"),
                 "The port where the storage backend is located at the host."
             );
             $storage->storeConfigText(
                 "name",
-                $client_ini->readVariable("db", "name"),
+                fn() => $client_ini->readVariable("db", "name"),
                 "The name of the database in the storage backend."
             );
             $storage->storeConfigText(
                 "user",
-                $client_ini->readVariable("db", "user"),
+                fn() => $client_ini->readVariable("db", "user"),
                 "The user to be used for the storage backend."
             );
             $storage->storeConfigText(
                 "pass",
-                PHP_SAPI === 'cli' ? $client_ini->readVariable("db", "pass") : '********',
+                fn() => PHP_SAPI === 'cli' ? $client_ini->readVariable("db", "pass") : '********',
                 "The password for the user for the storage backend."
             );
         }
@@ -138,17 +138,17 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
 
             $storage->storeStableCounter(
                 "custom_version",
-                $db_update->getCustomUpdatesCurrentVersion() ?? 0,
+                fn() => $db_update->getCustomUpdatesCurrentVersion() ?? 0,
                 "The version of the custom database schema that is currently installed."
             );
             $storage->storeStableCounter(
                 "available_custom_version",
-                $db_update->getCustomUpdatesFileVersion() ?? 0,
+                fn() => $db_update->getCustomUpdatesFileVersion() ?? 0,
                 "The version of the custom database schema that is available in the current source."
             );
             $storage->storeStableBool(
                 "custom_update_required",
-                $db_update->customUpdatesAvailable(),
+                fn() => $db_update->customUpdatesAvailable(),
                 "Does the database require a custom update?"
             );
         } finally {
