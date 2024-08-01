@@ -24,7 +24,6 @@ use ILIAS\Test\Export\CSVExportTrait;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
-use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -34,6 +33,7 @@ use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
+use Psr\Http\Message\ServerRequestInterface;
 
 class TestLogViewer
 {
@@ -45,7 +45,7 @@ class TestLogViewer
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
         private readonly GeneralQuestionPropertiesRepository $question_repository,
-        private readonly RequestInterface $request,
+        private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
         private readonly StaticURLServices $static_url,
         private readonly \ilUIService $ui_service,
