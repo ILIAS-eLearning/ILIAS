@@ -28,53 +28,53 @@ use ilTestBaseTestCase;
 
 class TestSetupAgentTest extends ilTestBaseTestCase
 {
-    private TestSetupAgent $testObj;
+    private TestSetupAgent $testSetupAgent;
     protected function setUp(): void
     {
         parent::setUp();
         global $DIC;
-        $this->testObj = new TestSetupAgent($DIC['refinery']);
+        $this->testSetupAgent = new TestSetupAgent($DIC['refinery']);
     }
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(TestSetupAgent::class, $this->testObj);
+        $this->assertInstanceOf(TestSetupAgent::class, $this->testSetupAgent);
     }
 
     public function testGetUpdateObjective(): void
     {
-        $this->assertInstanceOf(ObjectiveCollection::class, $this->testObj->getUpdateObjective());
+        $this->assertInstanceOf(ObjectiveCollection::class, $this->testSetupAgent->getUpdateObjective());
     }
 
     public function testGetStatusObjective(): void
     {
-        $this->assertInstanceOf(ObjectiveCollection::class, $this->testObj->getStatusObjective(
+        $this->assertInstanceOf(ObjectiveCollection::class, $this->testSetupAgent->getStatusObjective(
             $this->createMock(Storage::class)
         ));
     }
 
     public function testHasConfig(): void
     {
-        $this->assertFalse($this->testObj->hasConfig());
+        $this->assertFalse($this->testSetupAgent->hasConfig());
     }
 
     public function testGetArrayToConfigTransformation(): void
     {
         $this->expectException(\LogicException::class);
-        $this->testObj->getArrayToConfigTransformation();
+        $this->testSetupAgent->getArrayToConfigTransformation();
     }
 
     public function testGetInstallObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, $this->testObj->getInstallObjective());
+        $this->assertInstanceOf(NullObjective::class, $this->testSetupAgent->getInstallObjective());
     }
 
     public function testGetBuildArtifactObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, $this->testObj->getBuildObjective());
+        $this->assertInstanceOf(NullObjective::class, $this->testSetupAgent->getBuildObjective());
     }
 
     public function testGetMigrations(): void
     {
-        $this->assertIsArray($this->testObj->getMigrations());
+        $this->assertIsArray($this->testSetupAgent->getMigrations());
     }
 }

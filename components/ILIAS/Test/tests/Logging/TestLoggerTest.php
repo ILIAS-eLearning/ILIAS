@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class TestLoggerTest extends ilTestBaseTestCase
 {
-    private TestLogger $testObj;
+    private TestLogger $testLogger;
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,22 +38,22 @@ class TestLoggerTest extends ilTestBaseTestCase
         $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
         $componentLogger = $this->createMock(\ilComponentLogger::class);
 
-        $this->testObj = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
+        $this->testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
     }
 
     public function test_isLoggingEnabled(): void
     {
-        $this->assertTrue($this->testObj->isLoggingEnabled());
+        $this->assertTrue($this->testLogger->isLoggingEnabled());
     }
 
     public function test_isIPLoggingEnabled(): void
     {
-        $this->assertTrue($this->testObj->isIPLoggingEnabled());
+        $this->assertTrue($this->testLogger->isIPLoggingEnabled());
     }
 
     public function test_testHasParticipantInteractions(): void
     {
-        $this->assertTrue($this->testObj->testHasParticipantInteractions(777));
+        $this->assertTrue($this->testLogger->testHasParticipantInteractions(777));
     }
 
     public function test_deleteParticipantInteractionsForTest(): void
@@ -352,21 +352,21 @@ class TestLoggerTest extends ilTestBaseTestCase
 
     public function test_getComponentLogger(): void
     {
-        $logger = $this->testObj->getComponentLogger();
+        $logger = $this->testLogger->getComponentLogger();
         $this->assertInstanceOf(\ilComponentLogger::class, $logger);
         $this->assertInstanceOf(MockObject::class, $logger);
     }
 
     public function test_getInteractionFactory(): void
     {
-        $factory = $this->testObj->getInteractionFactory();
+        $factory = $this->testLogger->getInteractionFactory();
         $this->assertInstanceOf(Factory::class, $factory);
         $this->assertInstanceOf(MockObject::class, $factory);
     }
 
     public function test_getAdditionalInformationGenerator(): void
     {
-        $generator = $this->testObj->getAdditionalInformationGenerator();
+        $generator = $this->testLogger->getAdditionalInformationGenerator();
         $this->assertInstanceOf(AdditionalInformationGenerator::class, $generator);
         $this->assertInstanceOf(MockObject::class, $generator);
     }
@@ -381,7 +381,7 @@ class TestLoggerTest extends ilTestBaseTestCase
             'te'
         ];
 
-        $this->assertSame($result, $this->testObj->getLogEntryTypes());
+        $this->assertSame($result, $this->testLogger->getLogEntryTypes());
     }
 
     public function test_getInteractionTypes(): void
@@ -430,7 +430,7 @@ class TestLoggerTest extends ilTestBaseTestCase
                 'error_on_undefined_interaction'
             ]
         ];
-        $this->assertSame($result, $this->testObj->getInteractionTypes());
+        $this->assertSame($result, $this->testLogger->getInteractionTypes());
     }
     private function createTestLoggerWithLoggingRepository(TestLoggingRepository $loggingRepository): TestLogger
     {

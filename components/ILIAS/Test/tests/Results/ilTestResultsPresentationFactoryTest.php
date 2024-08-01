@@ -33,14 +33,14 @@ use ReflectionException;
 
 class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 {
-    private ilTestResultsPresentationFactory $testObj;
+    private ilTestResultsPresentationFactory $ilTestResultsPresentationFactory;
     protected function setUp(): void
     {
         parent::setUp();
 
         global $DIC;
 
-        $this->testObj = $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
+        $this->ilTestResultsPresentationFactory = $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $DIC['refinery'],
@@ -52,7 +52,7 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $this->testObj);
+        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $this->ilTestResultsPresentationFactory);
     }
 
     /**
@@ -65,11 +65,11 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 
 
         if (is_null($IO)) {
-            $testPassResultsTable = $this->testObj->getPassResultsPresentationTable(
+            $testPassResultsTable = $this->ilTestResultsPresentationFactory->getPassResultsPresentationTable(
                 $this->ilTestPassResult
             );
         } else {
-            $testPassResultsTable = $this->testObj->getPassResultsPresentationTable(
+            $testPassResultsTable = $this->ilTestResultsPresentationFactory->getPassResultsPresentationTable(
                 $this->ilTestPassResult,
                 $IO
             );

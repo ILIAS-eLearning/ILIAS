@@ -29,7 +29,7 @@ use PHPUnit\Framework\MockObject\Exception;
 
 class ilTestResultsFactoryTest extends ilTestBaseTestCase
 {
-    private ilObjTest $test_obj;
+    private ilObjTest $ilObjTest;
 
     private ilTestResultsFactory $ilTestResultsFactory;
 
@@ -41,7 +41,7 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
         parent::setUp();
 
         $test_shuffler = $this->createMock(ilTestShuffler::class);
-        $this->test_obj = $this->createMock(ilObjTest::class);
+        $this->ilObjTest = $this->createMock(ilObjTest::class);
 
         global $DIC;
         $this->ilTestResultsFactory = new ilTestResultsFactory(
@@ -63,13 +63,13 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
     {
         if (is_null($IO['is_user_output'])) {
             $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
-                $this->test_obj,
+                $this->ilObjTest,
                 $IO['active_id'],
                 $IO['pass_id'],
             );
         } else {
             $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
-                $this->test_obj,
+                $this->ilObjTest,
                 $IO['active_id'],
                 $IO['pass_id'],
                 $IO['is_user_output']

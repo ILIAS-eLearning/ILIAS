@@ -34,24 +34,24 @@ use ilTestBaseTestCase;
  */
 class ilObjTestFolderTest extends ilTestBaseTestCase
 {
-    private ilObjTestFolder $testObj;
+    private ilObjTestFolder $ilObjTestFolder;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilObjTestFolder();
+        $this->ilObjTestFolder = new ilObjTestFolder();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilObjTestFolder::class, $this->testObj);
+        $this->assertInstanceOf(ilObjTestFolder::class, $this->ilObjTestFolder);
     }
 
     public function test_GetterWithoutSetter(): void
     {
-        $this->assertInstanceOf(TestGlobalSettingsRepository::class, $this->testObj->getGlobalSettingsRepository());
-        $this->assertInstanceOf(TestLogViewer::class, $this->testObj->getTestLogViewer());
+        $this->assertInstanceOf(TestGlobalSettingsRepository::class, $this->ilObjTestFolder->getGlobalSettingsRepository());
+        $this->assertInstanceOf(TestLogViewer::class, $this->ilObjTestFolder->getTestLogViewer());
     }
 
     public function test_getSkillTriggerAnswerNumberBarrier(): void
@@ -61,14 +61,14 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
     public function test_enableAssessmentLogging(): void
     {
-        $this->testObj->_enableAssessmentLogging(true);
+        $this->ilObjTestFolder->_enableAssessmentLogging(true);
         $setting = new ilSetting('assessment');
         $this->assertEquals('1', $setting->get('assessment_logging'));
     }
 
     public function test_setLogLanguage(): void
     {
-        $this->testObj->_setLogLanguage('blub');
+        $this->ilObjTestFolder->_setLogLanguage('blub');
         $setting = new ilSetting('assessment');
         $this->assertEquals('blub', $setting->get('assessment_log_language'));
     }
@@ -86,32 +86,32 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
     public function test_setForbiddenQuestionTypes(): void
     {
-        $this->testObj->_setForbiddenQuestionTypes([7, 28, '19']);
+        $this->ilObjTestFolder->_setForbiddenQuestionTypes([7, 28, '19']);
         $forbiddenTypes = ilObjTestFolder::_getForbiddenQuestionTypes();
         $this->assertSame([7, 28, 19], $forbiddenTypes);
     }
 
     public function test_set_and_getManualScoring(): void
     {
-        $this->testObj->_setManualScoring([1, 5, '7', '']);
+        $this->ilObjTestFolder->_setManualScoring([1, 5, '7', '']);
         $this->assertSame([1, 5, 7], ilObjTestFolder::_getManualScoring());
 
-        $this->testObj->_setManualScoring([]);
+        $this->ilObjTestFolder->_setManualScoring([]);
         $this->assertSame([], ilObjTestFolder::_getManualScoring());
     }
 
     public function test_mananuallyScorableQuestionTypesExists(): void
     {
-        $this->testObj->_setManualScoring([1, 5, '7']);
+        $this->ilObjTestFolder->_setManualScoring([1, 5, '7']);
         $this->assertTrue(ilObjTestFolder::_mananuallyScoreableQuestionTypesExists());
 
-        $this->testObj->_setManualScoring([]);
+        $this->ilObjTestFolder->_setManualScoring([]);
         $this->assertFalse(ilObjTestFolder::_mananuallyScoreableQuestionTypesExists());
     }
 
     public function test_getManualScoringTypes(): void
     {
-        $this->testObj->_setManualScoring([]);
+        $this->ilObjTestFolder->_setManualScoring([]);
         $this->assertEmpty(ilObjTestFolder::_getManualScoringTypes());
     }
 
@@ -141,11 +141,11 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
     public function test_get_and_setAssessmentProcessLockMode(): void
     {
-        $this->assertEquals(ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE, $this->testObj->getAssessmentProcessLockMode());
+        $this->assertEquals(ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE, $this->ilObjTestFolder->getAssessmentProcessLockMode());
 
-        $this->testObj->setAssessmentProcessLockMode("blub");
+        $this->ilObjTestFolder->setAssessmentProcessLockMode("blub");
 
-        $this->assertEquals("blub", $this->testObj->getAssessmentProcessLockMode());
+        $this->assertEquals("blub", $this->ilObjTestFolder->getAssessmentProcessLockMode());
     }
 
     public function test_getValidAssessmentProcessLockModes(): void
@@ -159,24 +159,24 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
     public function test_get_and_setSkillTriggeringNumAnswersBarrier(): void
     {
-        $this->assertEquals(ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER, $this->testObj->getSkillTriggeringNumAnswersBarrier());
+        $this->assertEquals(ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER, $this->ilObjTestFolder->getSkillTriggeringNumAnswersBarrier());
 
-        $this->testObj->setSkillTriggeringNumAnswersBarrier(15);
+        $this->ilObjTestFolder->setSkillTriggeringNumAnswersBarrier(15);
 
-        $this->assertSame("15", $this->testObj->getSkillTriggeringNumAnswersBarrier());
+        $this->assertSame("15", $this->ilObjTestFolder->getSkillTriggeringNumAnswersBarrier());
     }
 
     public function test_get_and_setExportEssayQuestionsWithHtml(): void
     {
-        $this->assertEquals(false, $this->testObj->getExportEssayQuestionsWithHtml());
+        $this->assertEquals(false, $this->ilObjTestFolder->getExportEssayQuestionsWithHtml());
 
-        $this->testObj->setExportEssayQuestionsWithHtml(true);
+        $this->ilObjTestFolder->setExportEssayQuestionsWithHtml(true);
 
-        $this->assertTrue($this->testObj->getExportEssayQuestionsWithHtml());
+        $this->assertTrue($this->ilObjTestFolder->getExportEssayQuestionsWithHtml());
 
-        $this->testObj->setExportEssayQuestionsWithHtml(false);
+        $this->ilObjTestFolder->setExportEssayQuestionsWithHtml(false);
 
-        $this->assertFalse($this->testObj->getExportEssayQuestionsWithHtml());
+        $this->assertFalse($this->ilObjTestFolder->getExportEssayQuestionsWithHtml());
     }
 
     /**
@@ -184,7 +184,7 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
      */
     public function test_fetchScoringAdjustableTypes($questionTypes, $adjustableQuestionTypes): void
     {
-        $this->assertSame($adjustableQuestionTypes, $this->testObj->fetchScoringAdjustableTypes($questionTypes));
+        $this->assertSame($adjustableQuestionTypes, $this->ilObjTestFolder->fetchScoringAdjustableTypes($questionTypes));
     }
 
     public static function provideQuestionTypeArrays(): array

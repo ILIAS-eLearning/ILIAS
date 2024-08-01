@@ -5,13 +5,13 @@ use ILIAS\Test\Administration\TestLoggingSettings;
 
 class TestGlobalSettingsRepositoryTest extends ilTestBaseTestCase
 {
-    private TestGlobalSettingsRepository $testObj;
+    private TestGlobalSettingsRepository $testGlobalSettingsRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new TestGlobalSettingsRepository(new ilSetting("assessment"));
+        $this->testGlobalSettingsRepository = new TestGlobalSettingsRepository(new ilSetting("assessment"));
     }
 
     /**
@@ -19,8 +19,8 @@ class TestGlobalSettingsRepositoryTest extends ilTestBaseTestCase
      */
     public function test_get_and_storeLoggingSettings($testLoggingSettings): void
     {
-        $this->testObj->storeLoggingSettings($testLoggingSettings);
-        $settings = $this->testObj->getLoggingSettings();
+        $this->testGlobalSettingsRepository->storeLoggingSettings($testLoggingSettings);
+        $settings = $this->testGlobalSettingsRepository->getLoggingSettings();
         $this->assertEquals($testLoggingSettings->isLoggingEnabled(), $settings->isLoggingEnabled());
         $this->assertEquals($testLoggingSettings->isIPLoggingEnabled(), $settings->isIPLoggingEnabled());
     }

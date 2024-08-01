@@ -17,17 +17,17 @@ use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
-    private Factory $testObj;
+    private Factory $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new Factory();
+        $this->factory = new Factory();
     }
     public function test_buildTestAdministrationInteraction(): void
     {
-        $this->assertInstanceOf(TestAdministrationInteraction::class, $this->testObj->buildTestAdministrationInteraction(1, 2, TestAdministrationInteractionTypes::EXTRA_TIME_ADDED, []));
+        $this->assertInstanceOf(TestAdministrationInteraction::class, $this->factory->buildTestAdministrationInteraction(1, 2, TestAdministrationInteractionTypes::EXTRA_TIME_ADDED, []));
     }
 
     /**
@@ -43,10 +43,10 @@ class FactoryTest extends TestCase
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
         if(TestAdministrationInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestAdministrationInteraction::class, $this->testObj->buildTestAdministrationInteractionFromDBValues($db_values));
+            $this->assertInstanceOf(TestAdministrationInteraction::class, $this->factory->buildTestAdministrationInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->testObj->buildTestAdministrationInteractionFromDBValues($db_values);
+            $this->factory->buildTestAdministrationInteractionFromDBValues($db_values);
         }
     }
 
@@ -64,7 +64,7 @@ class FactoryTest extends TestCase
 
     public function test_buildTestQuestionAdministrationInteraction(): void
     {
-        $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->testObj->buildTestQuestionAdministrationInteraction(1, 2, 3, TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED, []));
+        $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->factory->buildTestQuestionAdministrationInteraction(1, 2, 3, TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED, []));
     }
 
     /**
@@ -81,10 +81,10 @@ class FactoryTest extends TestCase
         $db_values->modification_ts = 1;
         $db_values->id = 1;
         if(TestQuestionAdministrationInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->testObj->buildQuestionAdministrationInteractionFromDBValues($db_values));
+            $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->factory->buildQuestionAdministrationInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->testObj->buildQuestionAdministrationInteractionFromDBValues($db_values);
+            $this->factory->buildQuestionAdministrationInteractionFromDBValues($db_values);
         }
     }
 
@@ -102,7 +102,7 @@ class FactoryTest extends TestCase
 
     public function test_buildParticipantInteraction(): void
     {
-        $this->assertInstanceOf(TestParticipantInteraction::class, $this->testObj->buildParticipantInteraction(1, 2, 3, "address", TestParticipantInteractionTypes::TEST_RUN_FINISHED, []));
+        $this->assertInstanceOf(TestParticipantInteraction::class, $this->factory->buildParticipantInteraction(1, 2, 3, "address", TestParticipantInteractionTypes::TEST_RUN_FINISHED, []));
     }
 
     /**
@@ -120,10 +120,10 @@ class FactoryTest extends TestCase
         $db_values->modification_ts = 1;
         $db_values->id = 1;
         if (TestParticipantInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestParticipantInteraction::class, $this->testObj->buildParticipantInteractionFromDBValues($db_values));
+            $this->assertInstanceOf(TestParticipantInteraction::class, $this->factory->buildParticipantInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->testObj->buildParticipantInteractionFromDBValues($db_values);
+            $this->factory->buildParticipantInteractionFromDBValues($db_values);
         }
 
     }
@@ -142,7 +142,7 @@ class FactoryTest extends TestCase
 
     public function test_buildScoringInteraction(): void
     {
-        $this->assertInstanceOf(TestScoringInteraction::class, $this->testObj->buildScoringInteraction(1, 2, 3, 4, TestScoringInteractionTypes::QUESTION_GRADED, []));
+        $this->assertInstanceOf(TestScoringInteraction::class, $this->factory->buildScoringInteraction(1, 2, 3, 4, TestScoringInteractionTypes::QUESTION_GRADED, []));
     }
 
     /**
@@ -160,10 +160,10 @@ class FactoryTest extends TestCase
         $db_values->modification_ts = 1;
         $db_values->id = 1;
         if (TestScoringInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestScoringInteraction::class, $this->testObj->buildScoringInteractionFromDBValues($db_values));
+            $this->assertInstanceOf(TestScoringInteraction::class, $this->factory->buildScoringInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->testObj->buildScoringInteractionFromDBValues($db_values);
+            $this->factory->buildScoringInteractionFromDBValues($db_values);
         }
     }
 
@@ -181,7 +181,7 @@ class FactoryTest extends TestCase
 
     public function test_buildError(): void
     {
-        $this->assertInstanceOf(TestError::class, $this->testObj->buildError(1, 2, 3, 4, TestErrorTypes::ERROR_ON_PARTICIPANT_INTERACTION, "message"));
+        $this->assertInstanceOf(TestError::class, $this->factory->buildError(1, 2, 3, 4, TestErrorTypes::ERROR_ON_PARTICIPANT_INTERACTION, "message"));
     }
 
     /**
@@ -199,10 +199,10 @@ class FactoryTest extends TestCase
         $db_values->modification_ts = 1;
         $db_values->id = 1;
         if (TestErrorTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestError::class, $this->testObj->buildErrorFromDBValues($db_values));
+            $this->assertInstanceOf(TestError::class, $this->factory->buildErrorFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->testObj->buildErrorFromDBValues($db_values);
+            $this->factory->buildErrorFromDBValues($db_values);
         }
     }
 
