@@ -27,6 +27,7 @@ use ilPropertyFormGUI;
  */
 class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
+    protected bool $include_declaration = false;
     protected StandardGUIRequest $port_request;
     protected \ilLanguage $lng;
     protected \ilObjPortfolio $portfolio;
