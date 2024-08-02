@@ -43,7 +43,7 @@ class ilStudyProgrammeDIC
                 ilOrgUnitGlobalSettings::getInstance(),
                 $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
-                (int)$prg->getRefid()
+                (int) $prg->getRefid()
             );
         };
 
@@ -203,7 +203,8 @@ class ilStudyProgrammeDIC
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
                 $dic['ilStudyProgrammeCommonSettingsGUI'],
                 $DIC['ilTabs'],
-                $DIC->http()->wrapper()->query()
+                $DIC->http()->wrapper()->query(),
+                $DIC->learningObjectMetadata()
             );
         $dic['PRGMessages'] = static fn($dic) =>
             new ilPRGMessagePrinter(
