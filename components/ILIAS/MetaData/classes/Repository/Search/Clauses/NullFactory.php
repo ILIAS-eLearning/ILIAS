@@ -36,7 +36,6 @@ class NullFactory implements FactoryInterface
     public function getJoinedClauses(
         Operator $operator,
         ClauseInterface $first_clause,
-        ClauseInterface $second_clause,
         ClauseInterface ...$further_clauses
     ): ClauseInterface {
         return new NullClause();

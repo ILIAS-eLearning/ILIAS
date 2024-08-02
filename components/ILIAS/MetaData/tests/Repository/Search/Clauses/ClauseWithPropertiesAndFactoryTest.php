@@ -162,6 +162,16 @@ class ClauseWithPropertiesAndFactoryTest extends TestCase
         $this->assertNotNull($joined_clause->joinProperties());
     }
 
+    public function testGetJoinedClausesWithOneClause(): void
+    {
+        $factory = new Factory();
+        $clause_1 = new NullClause();
+        $joined_clause = $factory->getJoinedClauses(Operator::OR, $clause_1);
+
+        $this->assertSame($clause_1, $joined_clause);
+    }
+
+
     public function testGetJoinedClausesNotNegated(): void
     {
         $factory = new Factory();

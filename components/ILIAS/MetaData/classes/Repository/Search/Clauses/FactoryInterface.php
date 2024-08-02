@@ -50,11 +50,12 @@ interface FactoryInterface
      * "Find all LOM sets that have at least one keyword with
      * value 'key' and at least one keyword with value 'different key'
      * and at least one author with value 'name'."
+     *
+     * When only a single clause is passed, it is returned as is.
      */
     public function getJoinedClauses(
         Operator $operator,
         ClauseInterface $first_clause,
-        ClauseInterface $second_clause,
         ClauseInterface ...$further_clauses
     ): ClauseInterface;
 

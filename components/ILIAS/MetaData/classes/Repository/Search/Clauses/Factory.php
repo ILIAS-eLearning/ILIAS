@@ -52,16 +52,17 @@ class Factory implements FactoryInterface
     public function getJoinedClauses(
         Operator $operator,
         ClauseInterface $first_clause,
-        ClauseInterface $second_clause,
         ClauseInterface ...$further_clauses
     ): ClauseInterface {
+        if (count($further_clauses) === 0) {
+            return $first_clause;
+        }
         return new Clause(
             false,
             true,
             new JoinProperties(
                 $operator,
                 $first_clause,
-                $second_clause,
                 ...$further_clauses
             ),
             null

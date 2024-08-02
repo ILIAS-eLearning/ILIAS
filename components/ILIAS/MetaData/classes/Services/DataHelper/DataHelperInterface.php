@@ -72,4 +72,11 @@ interface DataHelperInterface
      * Note that LOM in ILIAS ignores the time part of any datetimes.
      */
     public function datetimeFromObject(\DateTimeImmutable $object): string;
+
+    /**
+     * Returns all languages that can be selected
+     * in LOM in ILIAS.
+     * @return LabelledValueInterface[]
+     */
+    public function getAllLanguages(): array;
 }

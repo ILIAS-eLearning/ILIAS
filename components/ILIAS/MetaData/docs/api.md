@@ -795,6 +795,11 @@ months, days, hours, minutes, seconds (in this order). Note that
 there is a difference between a field not being filled and being 
 filled with 0. In the former case, null is used instead of an integer.
 
-Lastly, `durationToSeconds` transforms a LOM-duration to seconds.
+`durationToSeconds` transforms a LOM-duration to seconds.
 This is only a rough estimate, as LOM-durations do not have a start
 date, so e.g.  each month is treated as 30 days.
+
+`getAllLanguages` returns all languages that are valid in LOM in ILIAS
+(see also [here](lom_structure.md#language-lang)) as pairs of value and
+label. The value is what should be actually written into LOM, and the
+label can be presented as is to the user.
