@@ -444,37 +444,6 @@ class LogTable implements Table\DataRetrieval
         return $interaction_options;
     }
 
-    protected function postOrder(array $list, \ILIAS\Data\Order $order): array
-    {
-        [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
-            return [$k, $v];
-        });
-        usort($list, static function (array $a, array $b) use ($aspect): int {
-            if (is_numeric($a[$aspect]) || is_bool($a[$aspect])) {
-                return $a[$aspect] <=> $b[$aspect];
-            }
-            if (is_array($a[$aspect])) {
-                return $a[$aspect] <=> $b[$aspect];
-            }
-
-            $aspect_a = '';
-            $aspect_b = '';
-            if ($a[$aspect] !== null) {
-                $aspect_a = $a[$aspect];
-            }
-            if ($b[$aspect] !== null) {
-                $aspect_b = $b[$aspect];
-            }
-
-            return strcmp($aspect_a, $aspect_b);
-        });
-
-        if ($direction === $order::DESC) {
-            $list = array_reverse($list);
-        }
-        return $list;
-    }
-
     private function prepareFilterData(array $filter_array): array
     {
         $from_filter = null;
