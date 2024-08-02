@@ -120,7 +120,9 @@ class ilRoleXmlExport extends ilXmlWriter
         $this->xmlStartTag('operations');
         foreach ($this->rbacreview->getAllOperationsOfRole($a_role_id, $a_rolf) as $obj_group => $operations) {
             foreach ($operations as $ops_id) {
-                $this->xmlElement('operation', array('group' => $obj_group), trim($this->operations[$ops_id]));
+                if (isset($this->operations[$ops_id])) {
+                    $this->xmlElement('operation', array('group' => $obj_group), trim($this->operations[$ops_id]));
+                }
             }
         }
         $this->xmlEndTag('operations');
