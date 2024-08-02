@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Build a view.
  */
@@ -26,15 +28,18 @@ class ilLSViewFactory
     protected ilKioskModeService $kiosk_mode_service;
     protected ilLanguage $lng;
     protected ilAccess $access;
+    protected LOMServices $lom_services;
 
     public function __construct(
         ilKioskModeService $kiosk_mode_service,
         ilLanguage $lng,
-        ilAccess $access
+        ilAccess $access,
+        LOMServices $lom_services
     ) {
         $this->kiosk_mode_service = $kiosk_mode_service;
         $this->lng = $lng;
         $this->access = $access;
+        $this->lom_services = $lom_services;
     }
 
     public function getViewFor(LSLearnerItem $item): ILIAS\KioskMode\View
@@ -58,7 +63,8 @@ class ilLSViewFactory
         return new ilLegacyKioskModeView(
             $obj,
             $this->lng,
-            $this->access
+            $this->access,
+            $this->lom_services
         );
     }
 }

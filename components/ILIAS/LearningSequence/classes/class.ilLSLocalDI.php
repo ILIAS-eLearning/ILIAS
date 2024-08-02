@@ -153,7 +153,8 @@ class ilLSLocalDI extends Container
             return new ilLSViewFactory(
                 $dic['service.kiosk_mode'],
                 $dic["lng"],
-                $dic["ilAccess"]
+                $dic["ilAccess"],
+                $dic->learningObjectMetadata()
             );
         };
 
