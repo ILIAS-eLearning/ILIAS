@@ -10089,7 +10089,7 @@ forum#:#selected_threads_closed#:#Das Thema wurde geschlossen.
 forum#:#selected_threads_reopened#:#Das Thema wurde wiedereröffnet.
 forum#:#sort_by_date#:#Nach Datum sortieren
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
-forum#:#sort_by_posts#:#Nach Beiträge sortieren
+forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
 forum#:#sticky#:#'Top-Thema'
