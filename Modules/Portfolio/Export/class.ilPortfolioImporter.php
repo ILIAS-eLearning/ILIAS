@@ -52,7 +52,7 @@ class ilPortfolioImporter extends ilXmlImporter
     ): void {
         $prttpg_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
         foreach ($prttpg_map as $prttpg_id) {
-            $prttpg_id = substr($prttpg_id, 5);
+            $prttpg_id = (int) substr($prttpg_id, 5);
             $prtt_id = ilPortfolioTemplatePage::findPortfolioForPage($prttpg_id);
             ilPortfolioTemplatePage::_writeParentId("prtt", $prttpg_id, $prtt_id);
         }
