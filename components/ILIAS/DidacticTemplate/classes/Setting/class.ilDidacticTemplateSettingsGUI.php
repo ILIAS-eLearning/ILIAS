@@ -29,6 +29,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusCollection;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\StatusType as ImportStatusType;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Settings for a single didactic template
@@ -55,6 +56,7 @@ class ilDidacticTemplateSettingsGUI
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
     private FileUpload $upload;
+    private LOMServices $lom_services;
 
     private int $ref_id;
 
@@ -75,6 +77,7 @@ class ilDidacticTemplateSettingsGUI
         $this->upload = $DIC->upload();
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     protected function initReferenceFromRequest(): void
@@ -485,8 +488,13 @@ class ilDidacticTemplateSettingsGUI
             $def = $trans[0]; // default
 
             if (count($trans) > 1) {
-                $languages = ilMDLanguageItem::_getLanguages();
-                $title->setInfo($this->lng->txt("language") . ": " . $languages[$def["lang_code"]] .
+                $language = '';
+                foreach ($this->lom_services->dataHelper()->getAllLanguages() as $lom_lang) {
+                    if ($lom_lang->value() === ($def["lang_code"] ?? '')) {
+                        $language = $lom_lang->presentableLabel();
+                    }
+                }
+                $title->setInfo($this->lng->txt("language") . ": " . $language .
                     ' <a href="' . $this->ctrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
                     '">&raquo; ' . $this->lng->txt("more_translations") . '</a>');
             }
