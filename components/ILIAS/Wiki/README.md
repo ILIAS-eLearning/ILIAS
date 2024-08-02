@@ -1,13 +1,15 @@
 # Wiki
 
-## Business Rules
-
-### Print View
+## Print View
 
 - The print process uses a modal to select the printed pages, see https://docu.ilias.de/goto_docu_wiki_wpage_6995_1357.html
 - The print view opens in a separate tab, see https://mantis.ilias.de/view.php?id=20653
 
-### Notifications
+## Notifications
 
 - Notifications can be activated for the whole wiki or for single wiki pages.
 - After a notification for a page change has been sent, ILIAS does not sent additional notifications for the same page for the next 3 hours (standard waiting time in notification service).
+
+## Page Overview
+
+- The overview block on top, container all headings, will render all formattings included in the headings to enable things like sub and sup or latex code.
