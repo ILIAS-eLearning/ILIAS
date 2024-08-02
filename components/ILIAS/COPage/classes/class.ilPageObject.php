@@ -42,6 +42,8 @@ define("IL_INSERT_CHILD", 2);
 
 */
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
@@ -66,6 +68,7 @@ abstract class ilPageObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected LOMServices $lom_services;
     protected int $id;
     public ?DOMDocument $dom = null;
     public string $xml = "";
@@ -116,6 +119,7 @@ abstract class ilPageObject
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->log = ilLoggerFactory::getLogger('copg');
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->reading_time_manager = new ILIAS\COPage\ReadingTime\ReadingTimeManager();
 
