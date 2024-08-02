@@ -46,6 +46,7 @@ const ACTIONS = {
   LINK_INTERNAL: "link.internal",
   LINK_EXTERNAL: "link.external",
   LINK_USER: "link.user",
+  LINK_ADDED: "link.added",
   SAVE_RETURN: "save.return",
   AUTO_SAVE: "save.auto",
   AUTO_INSERT_POST: "post.insert.auto",

@@ -304,7 +304,10 @@ export default class ParagraphUI {
   }
 
   addIntLink(b, e, content) {
+    const dispatch = this.dispatcher;
+    const action = this.actionFactory;
     this.addBBCode(b, e, false, content);
+    dispatch.dispatch(action.paragraph().editor().linkAdded());
   }
 
   cmdIntLink() {
@@ -380,6 +383,9 @@ export default class ParagraphUI {
     const t = this;
     il.Wiki.Edit.openLinkDialog(url, this.getSelection(), function(stag) {
       t.addBBCode(stag, "", true);
+      const dispatch = t.dispatcher;
+      const action = t.actionFactory;
+      dispatch.dispatch(action.paragraph().editor().linkAdded());
     });
   }
 

@@ -148,6 +148,10 @@ export default class ParagraphEditorActionFactory {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_USER);
   }
 
+  linkAdded() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_ADDED);
+  }
+
   /**
    * @returns {EditorAction}
    */
