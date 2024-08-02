@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -59,7 +60,7 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function roundtrip(string $title, $content, array $inputs = [], string $post_url = null): M\RoundTrip
+    public function roundtrip(string $title, Component\Component|array|null $content, array $inputs = [], string $post_url = null): M\RoundTrip
     {
         return new RoundTrip(
             $this->signal_generator,
