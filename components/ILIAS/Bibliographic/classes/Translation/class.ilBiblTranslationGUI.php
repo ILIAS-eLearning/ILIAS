@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilBiblTranslationGUI
@@ -38,6 +39,7 @@ class ilBiblTranslationGUI
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     protected \ilBiblFieldInterface $field;
     private \ilGlobalTemplateInterface $main_tpl;
+    private LOMServices $lom_services;
 
 
     /**
@@ -51,6 +53,7 @@ class ilBiblTranslationGUI
         $this->facade = $facade;
         $this->field = $field;
         $this->ctrl = $DIC['ilCtrl'];
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
 
@@ -147,7 +150,10 @@ class ilBiblTranslationGUI
         //		$form->addItem($si);
 
         // additional languages
-        $options = ilMDLanguageItem::_getLanguages();
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
         $options = array("" => $this->lng()->txt("please_select")) + $options;
         $si = new ilSelectInputGUI($this->lng()->txt("obj_additional_langs"), "additional_langs");
         $si->setOptions($options);
