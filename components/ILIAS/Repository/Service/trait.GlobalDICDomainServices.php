@@ -29,6 +29,7 @@ use ILIAS\Repository\Object\ObjectAdapterInterface;
 use ILIAS\Repository\Object\ObjectAdapter;
 use ILIAS\Repository\Profile\ProfileAdapter;
 use ILIAS\Repository\Resources\DomainService;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 trait GlobalDICDomainServices
 {
@@ -119,6 +120,11 @@ trait GlobalDICDomainServices
     public function backgroundTasks(): \ILIAS\BackgroundTasks\BackgroundTaskServices
     {
         return $this->DIC->backgroundTasks();
+    }
+
+    public function learningObjectMetadata(): LOMServices
+    {
+        return $this->DIC->learningObjectMetadata();
     }
 
     public function resources(): DomainService

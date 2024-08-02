@@ -27,14 +27,24 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use ILIAS\Data\Meta\Html\OpenGraph\Image as OGImage;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\MetaData\Services\Reader\ReaderInterface as LOMReader;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 final class RepositoryOpenGraphExposer extends AbstractModificationProvider
 {
+    private LOMServices $lom_services;
+
     private bool $fetch_tile_image = false;
 
+
+    public function __construct(\ILIAS\DI\Container $dic)
+    {
+        $this->lom_services = $dic->learningObjectMetadata();
+        parent::__construct($dic);
+    }
 
     public function isInterestedInContexts(): ContextCollection
     {
@@ -67,18 +77,14 @@ final class RepositoryOpenGraphExposer extends AbstractModificationProvider
     private function exposeObjectOpenGraphMetaData(\ilObject $object): void
     {
         $object_translation = \ilObjectTranslation::getInstance($object->getId());
-        $general_meta_data = $this->getGeneralObjectMeta($object->getId());
 
         $additional_locale_count = 0;
         $additional_locales = [];
 
-        if (null !== $general_meta_data) {
-            foreach ($general_meta_data->getLanguageIds() as $language_id) {
-                $language = $general_meta_data->getLanguage($language_id);
-                if (null !== $language && $language->getLanguageCode() !== $object_translation->getDefaultLanguage()) {
-                    $additional_locales[] = $language->getLanguageCode();
-                    $additional_locale_count++;
-                }
+        foreach ($this->getLanguageCodesFromLOM($object->getId(), $object->getType()) as $language_code) {
+            if ($language_code !== $object_translation->getDefaultLanguage()) {
+                $additional_locales[] = $language_code;
+                $additional_locale_count++;
             }
         }
 
@@ -145,16 +151,16 @@ final class RepositoryOpenGraphExposer extends AbstractModificationProvider
         );
     }
 
-    protected function getGeneralObjectMeta(int $object_id): ?\ilMDGeneral
+    /**
+     * @return string[]
+     */
+    protected function getLanguageCodesFromLOM(int $object_id, string $object_type): \Generator
     {
-        if (0 < ($meta_id = \ilMDGeneral::_getId($object_id, $object_id))) {
-            $general = new \ilMDGeneral();
-            $general->setMetaId($meta_id);
-
-            return $general;
+        $languages_path = $this->lom_services->paths()->languages();
+        $reader = $this->lom_services->read($object_id, 0, $object_type, $languages_path);
+        foreach ($reader->allData($languages_path) as $lang_data) {
+            yield $lang_data->value();
         }
-
-        return null;
     }
 
     protected function ensureRepoContext(CalledContexts $screen_context_stack): CalledContexts
