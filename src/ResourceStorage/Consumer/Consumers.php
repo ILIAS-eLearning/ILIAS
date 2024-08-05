@@ -38,7 +38,7 @@ class Consumers
     private ConsumerFactory $consumer_factory;
     private ResourceBuilder $resource_builder;
     private CollectionBuilder $collection_builder;
-    private ?SrcBuilder $src_builder = null;
+    private SrcBuilder $src_builder;
 
     /**
      * Consumers constructor.

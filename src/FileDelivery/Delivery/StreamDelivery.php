@@ -26,7 +26,6 @@ use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
 use ILIAS\Filesystem\Stream\ZIPStream;
 
@@ -40,9 +39,10 @@ final class StreamDelivery extends BaseDelivery
     public function __construct(
         private DataSigner $data_signer,
         \ILIAS\HTTP\Services $http,
-        ResponseBuilder $response_builder
+        ResponseBuilder $response_builder,
+        ResponseBuilder $fallback_response_builder,
     ) {
-        parent::__construct($http, $response_builder);
+        parent::__construct($http, $response_builder, $fallback_response_builder);
     }
 
     /**
@@ -100,7 +100,7 @@ final class StreamDelivery extends BaseDelivery
             $disposition
         );
         if ($stream instanceof ZIPStream) {
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
         }
 
         $r = $this->response_builder->buildForStream(
@@ -173,7 +173,7 @@ final class StreamDelivery extends BaseDelivery
             }
 
             // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
 
             $mime_type = $this->determineMimeType($file_inside_zip_uri);
             $r = $this->setGeneralHeaders(
