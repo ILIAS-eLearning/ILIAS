@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+use ILIAS\Setup\Metrics\CollectedObjective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Cache\Config;
+use ILIAS\Setup\Metrics\Metric;
 use ILIAS\Setup;
-use ILIAS\DI;
 
-class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
+class ilGlobalCacheMetricsCollectedObjective extends CollectedObjective
 {
-    protected function getTentativePreconditions(Setup\Environment $environment): array
+    protected function getTentativePreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -29,16 +33,16 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
+    protected function collectFrom(Environment $environment, Storage $storage): void
     {
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
 
         if (!$client_ini) {
             return;
         }
 
-        $config = (new ilGlobalCacheSettingsAdapter($client_ini, $db))->toConfig();
+        $config = (new ilGlobalCacheSettingsAdapter($client_ini, $db))->getConfig();
 
         $service = $config->getAdaptorName();
         $storage->storeConfigText(
@@ -53,30 +57,30 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
         $servers = $config->getNodes();
         if (
-            $service === ILIAS\Cache\Config::MEMCACHED &&
-            count($servers) > 0
+            $service === Config::MEMCACHED &&
+            $servers !== []
         ) {
             $server_collection = [];
             foreach ($servers as $server) {
-                $host = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
+                $host = new Metric(
+                    Metric::STABILITY_CONFIG,
+                    Metric::TYPE_TEXT,
                     $server->getHost()
                 );
-                $port = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_GAUGE,
+                $port = new Metric(
+                    Metric::STABILITY_CONFIG,
+                    Metric::TYPE_GAUGE,
                     $server->getPort()
                 );
-                $weight = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_GAUGE,
+                $weight = new Metric(
+                    Metric::STABILITY_CONFIG,
+                    Metric::TYPE_GAUGE,
                     $server->getWeight()
                 );
 
-                $server_collection[] = new Setup\Metrics\Metric(
-                    Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COLLECTION,
+                $server_collection[] = new Metric(
+                    Metric::STABILITY_CONFIG,
+                    Metric::TYPE_COLLECTION,
                     [
                         "host" => $host,
                         "port" => $port,
@@ -86,9 +90,9 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
                 );
             }
 
-            $nodes = new Setup\Metrics\Metric(
-                Setup\Metrics\Metric::STABILITY_CONFIG,
-                Setup\Metrics\Metric::TYPE_COLLECTION,
+            $nodes = new Metric(
+                Metric::STABILITY_CONFIG,
+                Metric::TYPE_COLLECTION,
                 $server_collection,
                 "Collection of configured memcached nodes."
             );
@@ -97,15 +101,15 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
         $component_activation = [];
         foreach (ilGlobalCache::getAvailableComponents() as $component) {
-            $component_activation[$component] = new Setup\Metrics\Metric(
-                Setup\Metrics\Metric::STABILITY_CONFIG,
-                Setup\Metrics\Metric::TYPE_BOOL,
+            $component_activation[$component] = new Metric(
+                Metric::STABILITY_CONFIG,
+                Metric::TYPE_BOOL,
                 $config->isComponentActivated($component)
             );
         }
-        $component_activation = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_CONFIG,
-            Setup\Metrics\Metric::TYPE_COLLECTION,
+        $component_activation = new Metric(
+            Metric::STABILITY_CONFIG,
+            Metric::TYPE_COLLECTION,
             $component_activation,
             "Which components are activated to use caching?"
         );
