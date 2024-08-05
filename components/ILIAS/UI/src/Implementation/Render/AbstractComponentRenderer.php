@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
@@ -52,6 +53,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         private DataFactory $data_factory,
         private HelpTextRetriever $help_text_retriever,
         private UploadLimitResolver $upload_limit_resolver,
+        private Transformation $escaper
     ) {
     }
 
@@ -325,6 +327,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
 
     protected function convertSpecialCharacters(string $value): string
     {
-        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+        return $this->escaper->transform($value);
     }
 }

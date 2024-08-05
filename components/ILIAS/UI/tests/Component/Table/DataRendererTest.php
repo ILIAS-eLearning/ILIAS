@@ -90,7 +90,8 @@ class DataRendererTest extends TableTestBase
             new ilImagePathResolver(),
             new \ILIAS\Data\Factory(),
             new \ILIAS\UI\Help\TextRetriever\Echoing(),
-            $this->getUploadLimitResolver()
+            $this->getUploadLimitResolver(),
+            $this->getEscaper()
         );
     }
 

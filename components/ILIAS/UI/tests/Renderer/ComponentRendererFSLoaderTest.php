@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/TestComponent.php");
 
+use ILIAS\Refinery\Encode\Transformation\HTMLSpecialCharsAsEntities;
 use ILIAS\UI\Implementation as I;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Component;
@@ -50,6 +51,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $data_factory = $this->getMockBuilder(ILIAS\Data\Factory::class)->getMock();
         $help_text_retriever = $this->createMock(ILIAS\UI\HelpTextRetriever::class);
         $upload_limit_resolver = $this->createMock(ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class);
+        $escaper = $this->createMock(HTMLSpecialCharsAsEntities::class);
 
         $default_renderer_factory = new I\Render\DefaultRendererFactory(
             $ui_factory,
@@ -60,6 +62,7 @@ class ComponentRendererFSLoaderTest extends TestCase
             $data_factory,
             $help_text_retriever,
             $upload_limit_resolver,
+            $escaper
         );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
         $this->icon_renderer = $this->createMock(I\Render\RendererFactory::class);

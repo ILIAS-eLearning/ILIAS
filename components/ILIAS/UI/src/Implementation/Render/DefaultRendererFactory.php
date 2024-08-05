@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\HelpTextRetriever;
@@ -39,6 +40,7 @@ class DefaultRendererFactory implements RendererFactory
         protected DataFactory $data_factory,
         protected HelpTextRetriever $help_text_retriever,
         protected UploadLimitResolver $upload_limit_resolver,
+        protected Transformation $escaper,
     ) {
     }
 
@@ -57,6 +59,7 @@ class DefaultRendererFactory implements RendererFactory
             $this->data_factory,
             $this->help_text_retriever,
             $this->upload_limit_resolver,
+            $this->escaper,
         );
     }
 

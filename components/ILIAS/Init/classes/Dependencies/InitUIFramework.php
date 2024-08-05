@@ -277,7 +277,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"]->encode()->htmlSpecialCharsAsEntities()
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -287,7 +288,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"]->encode()->htmlSpecialCharsAsEntities()
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
@@ -297,7 +299,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"]->encode()->htmlSpecialCharsAsEntities()
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -307,7 +310,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"]->encode()->htmlSpecialCharsAsEntities()
                         )
                     )
                 )

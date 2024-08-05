@@ -21,6 +21,7 @@ require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
 require_once(__DIR__ . '/Renderer/ilIndependentTemplate.php');
 require_once(__DIR__ . '/../../Language/classes/class.ilLanguage.php');
 
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Implementaiton\Component as I;
@@ -379,6 +380,11 @@ trait BaseUITestTrait
         return $this->createMock(UploadLimitResolver::class);
     }
 
+    public function getEscaper(): Transformation
+    {
+        return new ILIAS\Refinery\Encode\Transformation\HTMLSpecialCharsAsEntities();
+    }
+
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
@@ -407,7 +413,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getEscaper()
                     ),
                     new GlyphRendererFactory(
                         $ui_factory,
@@ -417,7 +424,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getEscaper()
                     ),
                     new IconRendererFactory(
                         $ui_factory,
@@ -427,7 +435,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getEscaper()
                     ),
                     new FieldRendererFactory(
                         $ui_factory,
@@ -437,7 +446,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getEscaper()
                     )
                 )
             )

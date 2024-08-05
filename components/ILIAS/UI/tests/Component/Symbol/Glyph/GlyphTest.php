@@ -444,7 +444,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             new ilImagePathResolver(),
             $this->createMock(DataFactory::class),
             $this->createMock(HelpTextRetriever::class),
-            $this->getUploadLimitResolver()
+            $this->getUploadLimitResolver(),
+            $this->getEscaper()
         );
         $f = $this->getCounterFactory();
 

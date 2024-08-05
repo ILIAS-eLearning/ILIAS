@@ -226,7 +226,8 @@ class ViewControlPaginationTest extends ViewControlTestBase
             $this->getImagePathResolver(),
             $this->getDataFactory(),
             $this->getHelpTextRetriever(),
-            $this->getUploadLimitResolver()
+            $this->getUploadLimitResolver(),
+            $this->getEscaper()
         );
     }
 
