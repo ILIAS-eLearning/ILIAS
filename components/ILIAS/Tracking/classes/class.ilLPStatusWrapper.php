@@ -143,7 +143,7 @@ class ilLPStatusWrapper
     /**
      * Reads Typical learning time. Mode collection is recursive for all assigned items
      */
-    public static function _getTypicalLearningTime(int $a_obj_id): int
+    public static function _getTypicalLearningTime(string $type, int $a_obj_id): int
     {
         static $cache = array();
 
@@ -152,7 +152,7 @@ class ilLPStatusWrapper
         }
 
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
-        $cache[$a_obj_id] = $class::_getTypicalLearningTime($a_obj_id);
+        $cache[$a_obj_id] = $class::_getTypicalLearningTime($type, $a_obj_id);
 
         return $cache[$a_obj_id];
     }

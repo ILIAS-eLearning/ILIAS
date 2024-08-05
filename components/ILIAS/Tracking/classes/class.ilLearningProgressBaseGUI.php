@@ -22,6 +22,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilObjUserTrackingGUI
@@ -50,6 +51,7 @@ class ilLearningProgressBaseGUI
     protected ilTree $tree;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected LOMServices $lom_services;
 
     protected bool $anonymized;
     protected int $usr_id = 0;
@@ -96,6 +98,7 @@ class ilLearningProgressBaseGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->rbacreview = $DIC->rbac()->review();
         $this->tree = $DIC->repositoryTree();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -379,14 +382,18 @@ class ilLearningProgressBaseGUI
     public function __showObjectDetails(
         ilInfoScreenGUI $info,
         int $item_id = 0,
+        string $item_type = '',
         bool $add_section = true
     ): bool {
         $details_id = $item_id ?: $this->details_id;
+        $details_type = $item_type ?: $this->details_type;
 
         $olp = ilObjectLP::getInstance($details_id);
         $mode = $olp->getCurrentMode();
-        if ($mode == ilLPObjSettings::LP_MODE_VISITS ||
-            ilMDEducational::_getTypicalLearningTimeSeconds($details_id)) {
+        if (
+            $mode == ilLPObjSettings::LP_MODE_VISITS ||
+            $this->readTypicalLearningTimeInSeconds($details_id, 0, $details_type)
+        ) {
             // Section object details
             if ($add_section) {
                 $info->addSection($this->lng->txt('details'));
@@ -399,9 +406,7 @@ class ilLearningProgressBaseGUI
                 );
             }
 
-            if ($seconds = ilMDEducational::_getTypicalLearningTimeSeconds(
-                $details_id
-            )) {
+            if ($seconds = $this->readTypicalLearningTimeInSeconds($details_id, 0, $details_type)) {
                 $info->addProperty(
                     $this->lng->txt('meta_typical_learning_time'),
                     ilDatePresentation::secondsToString($seconds)
@@ -410,6 +415,18 @@ class ilLearningProgressBaseGUI
             return true;
         }
         return false;
+    }
+
+    protected function readTypicalLearningTimeInSeconds(int $obj_id, int $sub_id, string $type): int
+    {
+        $paths = $this->lom_services->paths();
+        $data_helper = $this->lom_services->dataHelper();
+
+        $value = $this->lom_services->read($obj_id, $sub_id, $type, $paths->firstTypicalLearningTime())
+                                    ->firstData($paths->firstTypicalLearningTime())
+                                    ->value();
+
+        return $data_helper->durationToSeconds($value);
     }
 
     public function __appendLPDetails(

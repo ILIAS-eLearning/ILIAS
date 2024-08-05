@@ -4,6 +4,7 @@ declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+ * Seems to only be used for collections of LM chapters.
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ilias-tracking
  */
@@ -65,7 +66,12 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $status_info["in_progress"][$item_id] = array();
                 $status_info["completed"][$item_id] = array();
 
-                $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds(
+                /*
+                 * Seems to only be used for collections of LM chapters,
+                 * so we manually set 'st' for chapters here.
+                 */
+                $status_info["tlt"][$item_id] = parent::_getTypicalLearningTime(
+                    'st',
                     $a_obj_id,
                     $item_id
                 );

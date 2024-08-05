@@ -153,7 +153,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             $this->details_obj_id,
             $this->tracked_user->getId()
         );
-        $this->__showObjectDetails($info, $this->details_obj_id, false);
+        $this->__showObjectDetails($info, $this->details_obj_id, $this->details_type, false);
 
         // Finally set template variable
         $this->tpl->setVariable("LM_INFO", $info->getHTML());

@@ -29,7 +29,8 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $tree->setTreeTablePK("lm_id");
             foreach ($tree->getChilds($tree->readRootId()) as $child) {
                 if ($child["type"] == "st") {
-                    $child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds(
+                    $child["tlt"] = ilLPStatus::_getTypicalLearningTime(
+                        $child["type"],
                         $obj_id,
                         $child["obj_id"]
                     );

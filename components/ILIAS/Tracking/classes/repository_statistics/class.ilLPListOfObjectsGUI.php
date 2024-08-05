@@ -224,7 +224,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        $this->__showObjectDetails($info, $this->details_obj_id);
+        $this->__showObjectDetails($info, $this->details_obj_id, $this->details_type);
 
         $user_id = $this->initUserIdFromQuery();
         $this->tpl->setVariable(
@@ -258,7 +258,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        if ($this->__showObjectDetails($info, $this->details_obj_id)) {
+        if ($this->__showObjectDetails($info, $this->details_obj_id, $this->details_type)) {
             $this->tpl->setCurrentBlock("info");
             $this->tpl->setVariable("INFO_TABLE", $info->getHTML());
             $this->tpl->parseCurrentBlock();
@@ -329,7 +329,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        $this->__showObjectDetails($info, $this->details_obj_id);
+        $this->__showObjectDetails($info, $this->details_obj_id, $this->details_type);
         // $this->__appendLPDetails($info,$this->details_obj_id,$user_id);
         $this->tpl->setVariable("INFO_TABLE", $info->getHTML());
 
@@ -433,7 +433,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         );
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        if ($this->__showObjectDetails($info, $this->details_obj_id)) {
+        if ($this->__showObjectDetails($info, $this->details_obj_id, $this->details_type)) {
             $this->tpl->setCurrentBlock("info");
             $this->tpl->setVariable("INFO_TABLE", $info->getHTML());
             $this->tpl->parseCurrentBlock();
