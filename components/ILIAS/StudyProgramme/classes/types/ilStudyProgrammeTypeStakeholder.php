@@ -25,6 +25,11 @@ class ilStudyProgrammeTypeStakeholder extends AbstractResourceStakeholder
 {
     private const ID = 'PRGType';
 
+    public function __construct(
+        protected int $owner = 6
+    ) {
+    }
+
     public function getId(): string
     {
         return self::ID;
@@ -32,7 +37,7 @@ class ilStudyProgrammeTypeStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->default_owner;
+        return $this->owner;
     }
 
     public function getPreprocessors(): array

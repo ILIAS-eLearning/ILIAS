@@ -22,6 +22,13 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 class ilMDCopyrightImageStakeholder extends AbstractResourceStakeholder
 {
+    protected int $owner = 6;
+
+    public function __construct(int $owner = 6)
+    {
+        $this->owner = $owner;
+    }
+
     public function getId(): string
     {
         return 'copyright_image';
@@ -29,6 +36,6 @@ class ilMDCopyrightImageStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->default_owner;
+        return $this->owner;
     }
 }

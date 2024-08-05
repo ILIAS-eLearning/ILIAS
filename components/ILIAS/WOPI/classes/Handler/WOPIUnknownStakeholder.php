@@ -24,6 +24,10 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 class WOPIUnknownStakeholder extends AbstractResourceStakeholder
 {
+    public function __construct(protected int $owner = 6)
+    {
+    }
+
     public function getId(): string
     {
         return 'wopi_unknown';
@@ -31,7 +35,7 @@ class WOPIUnknownStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->default_owner;
+        return $this->owner;
     }
 
 }

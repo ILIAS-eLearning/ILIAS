@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,9 +16,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
-
-declare(strict_types=1);
+ ********************************************************************
+ */
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
@@ -27,13 +28,26 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilSkillProfileStorageStakeHolder extends AbstractResourceStakeholder
 {
+    protected int $owner = 6;
+
+    public function __construct(int $owner = 6)
+    {
+        $this->owner = $owner;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getId(): string
     {
         return 'skl_prof';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOwnerOfNewResources(): int
     {
-        return $this->default_owner;
+        return $this->owner;
     }
 }

@@ -26,6 +26,13 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilMMStorageStakeholder extends AbstractResourceStakeholder
 {
+    public function __construct()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getId(): string
     {
         return 'mme';
@@ -33,6 +40,6 @@ class ilMMStorageStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->default_owner;
+        return 6;
     }
 }
