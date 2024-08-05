@@ -599,7 +599,7 @@ class ilForumXMLParser extends ilSaxParser
                 $import_path = $this->contentArray['content'];
                 if ($import_path !== '') {
                     $import_path = $this->getImportDirectory() . '/' . $import_path;
-                    $filedata->importPath($import_path, (int)$this->lastHandledPostId);
+                    $filedata->importPath($import_path, (int) $this->lastHandledPostId);
                 }
                 break;
         }

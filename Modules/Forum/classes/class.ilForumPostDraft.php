@@ -79,7 +79,7 @@ class ilForumPostDraft
         $draft->setPostUserAlias((string) $row['post_user_alias']);
         $draft->setNotificationStatus((bool) $row['notify']);
         $draft->setPostNotificationStatus((bool) $row['post_notify']);
-        $draft->setRCID((string)($row['rcid']));
+        $draft->setRCID((string) ($row['rcid']));
     }
 
     public function getRCID(): string
