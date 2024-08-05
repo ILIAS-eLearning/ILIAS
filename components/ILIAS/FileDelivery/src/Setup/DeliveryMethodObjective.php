@@ -80,7 +80,7 @@ class DeliveryMethodObjective extends BuildArtifactObjective
 
     public function isApplicable(Setup\Environment $environment): bool
     {
-        return !file_exists(self::ARTIFACT);
+        return !file_exists(BuildArtifactObjective::PATH());
     }
 
 }
