@@ -18,6 +18,8 @@
 
 namespace ILIAS\Modules\File\Preview;
 
+use ILIAS\components\File\Preview\Settings;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
