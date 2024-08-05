@@ -14,7 +14,6 @@
 		<event type="raise" id="beforeLogout" />
 		<event type="raise" id="afterLogout" />
 		<event type="raise" id="expiredSessionDetected" />
-		<event type="raise" id="reachedSessionPoolLimit" />
 	</events>
 	<copage>
 		<pageobject parent_type="auth" class_name="ilLoginPage" directory="classes"/>
