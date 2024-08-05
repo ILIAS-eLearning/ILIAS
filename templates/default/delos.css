@@ -3855,7 +3855,7 @@ button .minimize, button .close {
   display: flex;
 }
 
-h4.il-divider {
+.engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
   background-color: white;
@@ -7115,7 +7115,8 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menu .c-drilldown__menulevel--trigger,
 .c-drilldown .c-drilldown__menu .btn-bulky,
 .c-drilldown .c-drilldown__menu .link-bulky,
-.c-drilldown .c-drilldown__menu hr {
+.c-drilldown .c-drilldown__menu hr,
+.c-drilldown .c-drilldown__menu .il-divider {
   display: none;
 }
 .c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
