@@ -44,6 +44,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 {
     use ilForumRequestTrait;
 
+    const DEFAULT_THREAD_SORTING = 4;
     private array $viewModeOptions = [
         ilForumProperties::VIEW_TREE => 'sort_by_posts',
         ilForumProperties::VIEW_DATE_ASC => 'sort_by_date',
@@ -85,7 +86,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     private array $modal_collection = [];
-    protected int $thread_sortation = 4;
+    protected int $thread_sortation = self::DEFAULT_THREAD_SORTING;
 
     public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
@@ -924,8 +925,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tbl->setOrderDirection($sortation_options[$sortation_value]['direction']);
             $tbl->setOrderField($sortation_options[$sortation_value]['field']);
         } else {
-            $tbl->setOrderDirection($sortation_options[4]['direction']);
-            $tbl->setOrderField($sortation_options[4]['field']);
+            $tbl->setOrderDirection($sortation_options[self::DEFAULT_THREAD_SORTING]['direction']);
+            $tbl->setOrderField($sortation_options[self::DEFAULT_THREAD_SORTING]['field']);
         }
     }
 
