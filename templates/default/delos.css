@@ -7685,7 +7685,7 @@ button.close {
 .ilToolbar label {
   font-size: 0.75rem;
 }
-h4.il-divider {
+.engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
   background-color: white;
@@ -10957,7 +10957,8 @@ footer {
 .il-drilldown li > .menulevel,
 .il-drilldown li > .btn-bulky,
 .il-drilldown li > .link-bulky,
-.il-drilldown li > hr {
+.il-drilldown li > hr,
+.il-drilldown li > h4.il-divider {
   display: none;
 }
 .il-drilldown .engaged ~ ul > li > .menulevel,
@@ -11441,7 +11442,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
