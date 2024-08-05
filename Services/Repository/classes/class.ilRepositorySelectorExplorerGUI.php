@@ -45,8 +45,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected int $cur_ref_id;
 
     /**
-     * @param object|string[] $a_parent_obj parent gui class or class array
-     * @param object|string $a_selection_gui gui class that should be called for the selection command
+     * @param object|string[] $a_parent_obj    parent gui class or class array
+     * @param object|string   $a_selection_gui gui class that should be called for the selection command
      */
     public function __construct(
         $a_parent_obj,
@@ -127,7 +127,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             $title = $lng->txt("repository");
         }
 
-        return (string)     $title;
+        return (string) $title;
     }
 
     public function getNodeIcon($a_node): string
@@ -147,7 +147,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             }
             return $lng->txt("icon") . " " . $title;
         }
-
 
         return parent::getNodeIconAlt($a_node);
     }

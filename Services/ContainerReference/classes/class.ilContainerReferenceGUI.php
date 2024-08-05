@@ -135,7 +135,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     public function saveObject(): void
     {
         $ilAccess = $this->access;
