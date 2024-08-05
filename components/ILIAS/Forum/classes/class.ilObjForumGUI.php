@@ -872,7 +872,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
-    
+
     private function getRequestedThreadSortation(): ?int
     {
         return $this->http->wrapper()->query()->retrieve(

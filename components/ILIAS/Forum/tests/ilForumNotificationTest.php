@@ -380,7 +380,7 @@ class ilForumNotificationTest extends TestCase
             })
         )->willReturnOnConsecutiveCalls($srcStatement, $targetStatement);
 
-        $consecutive_fetch= [
+        $consecutive_fetch = [
             $targetStatement,
             $targetStatement,
             $srcStatement,
