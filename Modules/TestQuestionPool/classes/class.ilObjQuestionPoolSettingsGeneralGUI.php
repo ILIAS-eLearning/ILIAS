@@ -228,6 +228,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title->setRequired(true);
+        $title->setMaxLength(255);
         $title->setValue($md_section->getTitle());
         $form->addItem($title);
 

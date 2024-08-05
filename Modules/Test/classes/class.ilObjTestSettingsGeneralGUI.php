@@ -548,6 +548,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title->setRequired(true);
+        $title->setMaxLength(255);
         if ($md_section !== null) {
             $title->setValue($md_section->getTitle());
         }
@@ -1541,8 +1542,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testOBJ->setShowFinalStatement((bool) $form->getInput('showfinalstatement'));
         $this->testOBJ->setFinalStatement($form->getInput('finalstatement') ?? '');
 
-        if ($this->formPropertyExists($form,'redirection_enabled')) {
-            if (empty($form->getInput('redirection_enabled'))){
+        if ($this->formPropertyExists($form, 'redirection_enabled')) {
+            if (empty($form->getInput('redirection_enabled'))) {
                 $this->testOBJ->setRedirectionMode(REDIRECT_NONE);
             } else {
                 $this->testOBJ->setRedirectionMode(($form->getInput('redirection_mode')));
@@ -1550,7 +1551,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         } else {
             $this->testOBJ->setRedirectionMode(REDIRECT_NONE);
         }
-        if ($this->formPropertyExists($form,'redirection_url')) {
+        if ($this->formPropertyExists($form, 'redirection_url')) {
             $this->testOBJ->setRedirectionUrl($form->getInput('redirection_url'));
         } else {
             $this->testOBJ->setRedirectionUrl(null);
