@@ -31,6 +31,7 @@ class DeliveryMethodObjective extends BuildArtifactObjective
     public const ARTIFACT = './src/FileDelivery/artifacts/delivery_method.php';
     public const SETTINGS = 'delivery_method';
     public const XSENDFILE = 'xsendfile';
+    public const XACCEL = 'xaccel';
     public const PHP = 'php';
 
     public function getArtifactPath(): string
@@ -60,7 +61,7 @@ class DeliveryMethodObjective extends BuildArtifactObjective
 
         try {
             $command_exists = shell_exec("which apache2ctl");
-            if ($command_exists === null) {
+            if ($command_exists === null || empty($command_exists)) {
                 return false;
             }
 
@@ -75,4 +76,10 @@ class DeliveryMethodObjective extends BuildArtifactObjective
         }
         return false;
     }
+
+    public function isApplicable(Setup\Environment $environment): bool
+    {
+        return !file_exists(self::ARTIFACT);
+    }
+
 }

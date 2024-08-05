@@ -30,6 +30,7 @@ use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Setup\DeliveryMethodObjective;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
+use ILIAS\FileDelivery\Delivery\ResponseBuilder\XAccelResponseBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -39,15 +40,21 @@ class Init
     public static function init(Container $c): void
     {
         $c['file_delivery.response_builder'] = static function (): ResponseBuilder {
-            $settings = (require DeliveryMethodObjective::ARTIFACT) ?? [];
+            $settings = (@include DeliveryMethodObjective::ARTIFACT) ?? [];
 
             switch ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
+                case DeliveryMethodObjective::XACCEL:
+                    return new XAccelResponseBuilder();
                 case DeliveryMethodObjective::XSENDFILE:
                     return new XSendFileResponseBuilder();
                 case DeliveryMethodObjective::PHP:
                 default:
                     return new PHPResponseBuilder();
             }
+        };
+
+        $c['file_delivery.fallback_response_builder'] = static function (): ResponseBuilder {
+            return new PHPResponseBuilder();
         };
 
         $c['file_delivery.data_signer'] = static function (): DataSigner {
@@ -75,7 +82,8 @@ class Init
             return new \ILIAS\FileDelivery\Delivery\StreamDelivery(
                 $c['file_delivery.data_signer'],
                 $c['http'],
-                $c['file_delivery.response_builder']
+                $c['file_delivery.response_builder'],
+                $c['file_delivery.fallback_response_builder']
             );
         };
 
@@ -88,7 +96,8 @@ class Init
 
             return new LegacyDelivery(
                 $c['http'],
-                $c['file_delivery.response_builder']
+                $c['file_delivery.response_builder'],
+                $c['file_delivery.fallback_response_builder']
             );
         };
 
