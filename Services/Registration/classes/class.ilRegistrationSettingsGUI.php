@@ -538,29 +538,66 @@ class ilRegistrationSettingsGUI
         $this->checkAccess('write');
         $this->initRoleAssignments();
         $form = $this->initEmailAssignmentForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        $is_valid = $form->checkInput();
+        $form->setValuesByPost();
+        if (!$is_valid) {
             $this->editEmailAssignments($form);
             return false;
         }
-        $this->assignments_obj->deleteAll();
 
-        $counter = 0;
+        $assignments_by_domain = [];
+        $problems_domains_by_field_id = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
             if ($role_id === ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $domain_input = $form->getInput("domain_$role_id");
+
             $role_assigned_input = $form->getInput("role_assigned_$role_id");
-            if (!empty($role_assigned_input)) {
-                foreach ($domain_input as $domain) {
-                    if (!empty($domain)) {
-                        $this->assignments_obj->setDomain($counter, $domain);
-                        $this->assignments_obj->setRole($counter, $role_id);
-                        $counter++;
-                    }
-                }
+            if (!$role_assigned_input) {
+                continue;
             }
+
+            $domain_input = $form->getInput("domain_$role_id");
+            foreach ($domain_input as $domain) {
+                if (!is_string($domain) || $domain === '') {
+                    continue;
+                }
+
+                if (isset($assignments_by_domain[$domain])) {
+                    if (!isset($problems_domains_by_field_id["role_assigned_$role_id"])) {
+                        $problems_domains_by_field_id["role_assigned_$role_id"] = [];
+                    }
+
+                    $problems_domains_by_field_id["domain_$role_id"][$domain] = $domain;
+                    continue;
+                }
+
+                $assignments_by_domain[$domain] = $role_id;
+            }
+        }
+
+        if ($problems_domains_by_field_id !== []) {
+            foreach ($problems_domains_by_field_id as $field_id => $domains) {
+                $domain_string = implode(', ', $domains);
+                $alert = sprintf($this->lng->txt('reg_domain_already_assigned_p'), $domain_string);
+                if (count($domains) === 1) {
+                    $alert = sprintf($this->lng->txt('reg_domain_already_assigned_s'), $domain_string);
+                }
+                $form->getItemByPostVar($field_id)->setAlert($alert);
+            }
+
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->editEmailAssignments($form);
+            return false;
+        }
+
+        $this->assignments_obj->deleteAll();
+
+        $counter = 0;
+        foreach ($assignments_by_domain as $domain => $role_id) {
+            $this->assignments_obj->setDomain($counter, $domain);
+            $this->assignments_obj->setRole($counter, $role_id);
+            $counter++;
         }
         $default_role = $form->getInput("default_role");
         $this->assignments_obj->setDefaultRole((int) $default_role);
