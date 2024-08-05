@@ -359,7 +359,7 @@ class ilSession
      */
     public static function getExpireValue(): int
     {
-            return time() + self::getIdleValue();
+        return time() + self::getIdleValue();
     }
 
     /**
