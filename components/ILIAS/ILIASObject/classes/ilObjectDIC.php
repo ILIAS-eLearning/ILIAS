@@ -59,7 +59,8 @@ class ilObjectDIC extends PimpleContainer
         $this['object_properties_agregator'] = fn($c): \ilObjectPropertiesAgregator => new \ilObjectPropertiesAgregator(
             $c['core_properties_repository'],
             $c['additional_properties_repository'],
-            $c['object_type_specific_properties_factory']
+            $c['object_type_specific_properties_factory'],
+            $DIC->learningObjectMetadata()
         );
 
         $this['core_properties_repository'] = fn($c): \ilObjectCorePropertiesRepository

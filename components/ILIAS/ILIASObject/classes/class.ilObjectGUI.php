@@ -953,13 +953,23 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $class_name = 'ilObj' . $this->obj_definition->getClassName($this->requested_new_type);
 
+        /** @var ilObjectPropertyTitleAndDescription $title_and_description_prop */
+        $title_and_description_prop = $data['title_and_description'];
+
         $new_obj = new $class_name();
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
+        /*
+         * Title and description needs to be set before calling ilObject::create
+         * at least preliminarily, because the creation of a new LOM set requires
+         * the object to have a non-null title.
+         */
+        $new_obj->setTitle($title_and_description_prop->getTitle());
+        $new_obj->setDescription($title_and_description_prop->getDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
-            $data['title_and_description']
+            $title_and_description_prop
         );
         $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
         $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());

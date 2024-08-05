@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilObject
@@ -50,6 +51,7 @@ class ilObject
     protected ilRbacReview $rbac_review;
     protected ilObjUser $user;
     protected ilLanguage $lng;
+    protected LOMServices $lom_services;
     private ilObjectDIC $object_dic;
 
     protected bool $call_by_reference;
@@ -99,6 +101,7 @@ class ilObject
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->object_dic = ilObjectDIC::dic();
 
         $this->call_by_reference = $this->referenced;
@@ -659,17 +662,17 @@ class ilObject
 
             // Update Title and description
             if ($element == 'General') {
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_gen = $md->getGeneral())) {
-                    return;
-                }
-                $this->setTitle($md_gen->getTitle());
+                $paths = $this->lom_services->paths();
+                $reader = $this->lom_services->read(
+                    $this->getId(),
+                    0,
+                    $this->getType(),
+                    $paths->custom()->withNextStep('general')->get()
+                );
 
-                foreach ($md_gen->getDescriptionIds() as $id) {
-                    $md_des = $md_gen->getDescription($id);
-                    $this->setDescription($md_des->getDescription());
-                    break;
-                }
+                $this->setTitle($reader->firstData($paths->title())->value());
+                $this->setDescription($reader->firstData($paths->descriptions())->value());
+
                 $this->update();
             }
             $this->doMDUpdateListener($element);
@@ -691,15 +694,12 @@ class ilObject
             global $DIC;
             $ilUser = $DIC["ilUser"];
 
-            $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
-            $md_creator->setTitle($this->getTitle());
-            $md_creator->setTitleLanguage($ilUser->getPref('language'));
-            $md_creator->setDescription($this->getLongDescription());
-            $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-            $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-            // see https://docu.ilias.de/goto_docu_wiki_wpage_4891_1357.html
-            //$md_creator->setLanguage($ilUser->getPref('language'));
-            $md_creator->create();
+            $this->lom_services->derive()->fromBasicProperties(
+                $this->getTitle(),
+                $this->getLongDescription(),
+                $ilUser->getPref('language')
+            )->forObject($this->getId(), 0, $this->getType());
+
             $this->doCreateMetaData();
         }
     }
@@ -716,25 +716,21 @@ class ilObject
     final public function updateMetaData(): void
     {
         if ($this->beforeUpdateMetaData()) {
-            $md = new ilMD($this->getId(), 0, $this->getType());
-            $md_gen = $md->getGeneral();
-            // BEGIN WebDAV: metadata can be missing sometimes.
-            if (!$md_gen instanceof ilMDGeneral) {
-                $this->createMetaData();
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                $md_gen = $md->getGeneral();
-            }
-            // END WebDAV: metadata can be missing sometimes.
-            $md_gen->setTitle($this->getTitle());
+            $paths = $this->lom_services->paths();
 
-            // sets first description (maybe not appropriate)
-            $md_des_ids = $md_gen->getDescriptionIds();
-            if (count($md_des_ids) > 0) {
-                $md_des = $md_gen->getDescription($md_des_ids[0]);
-                $md_des->setDescription($this->getLongDescription());
-                $md_des->update();
+            $manipulator = $this->lom_services->manipulate($this->getId(), 0, $this->getType())
+                                              ->prepareCreateOrUpdate($paths->title(), $this->getTitle());
+
+            if ($this->getDescription() !== '') {
+                $manipulator = $manipulator->prepareCreateOrUpdate(
+                    $paths->firstDescription(),
+                    $this->getLongDescription()
+                );
+            } else {
+                $manipulator = $manipulator->prepareDelete($paths->firstDescription());
             }
-            $md_gen->update();
+
+            $manipulator->execute();
             $this->doUpdateMetaData();
         }
     }
@@ -751,8 +747,7 @@ class ilObject
     final public function deleteMetaData(): void
     {
         if ($this->beforeDeleteMetaData()) {
-            $md = new ilMD($this->getId(), 0, $this->getType());
-            $md->deleteAll();
+            $this->lom_services->deleteAll($this->getId(), 0, $this->getType());
             $this->doDeleteMetaData();
         }
     }
@@ -1831,8 +1826,9 @@ class ilObject
      */
     public function cloneMetaData(ilObject $target_obj): bool
     {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md->cloneMD($target_obj->getId(), 0, $target_obj->getType());
+        $this->lom_services->derive()
+                           ->fromObject($this->getId(), 0, $this->getType())
+                           ->forObject($target_obj->getId(), 0, $target_obj->getType());
         return true;
     }
 
