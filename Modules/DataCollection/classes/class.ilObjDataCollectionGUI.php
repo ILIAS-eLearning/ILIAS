@@ -350,21 +350,30 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $access = $DIC->access();
         $tpl = $DIC->ui()->mainTemplate();
 
+        $params = explode("_", $a_target);
+        //41821: Handles old permanent links. This is deprecated and removed for ILIAS 10
+        if (count($params) > 1) {
+            $goto_string = explode('/', $DIC->http()->request()->getRequestTarget());
+            if(str_contains(end($goto_string), 'dcl_')) {
+                $view = new ilDclTableView((int) $params[1]);
+                $params = [$params[0], $view->getTableId(), $params[1] ?? null, $params[2] ?? null];
+            }
+        }
         $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
-        $values = array_combine($values, array_pad(explode("_", $a_target), count($values), null));
+        $values = array_combine($values, array_pad($params, count($values), null));
 
         $ref_id = (int) $values[self::GET_REF_ID];
 
         //load record list
         if ($access->checkAccess('read', "", $ref_id)) {
             $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
-            if ($values['table_id'] !== null) {
-                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $values['table_id']);
-                if ($values['tableview_id'] !== null) {
-                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $values['tableview_id']);
+            if ($values[self::GET_TABLE_ID] !== null) {
+                $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $values[self::GET_TABLE_ID]);
+                if ($values[self::GET_VIEW_ID] !== null) {
+                    $ilCtrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $values[self::GET_VIEW_ID]);
                 }
-                if ($values['record_id'] !== null) {
-                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $values['record_id']);
+                if ($values[self::GET_RECORD_ID] !== null) {
+                    $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $values[self::GET_RECORD_ID]);
                     $ilCtrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], "renderRecord");
                 }
             }
