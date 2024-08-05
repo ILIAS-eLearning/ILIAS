@@ -577,7 +577,17 @@ class ilMediaCreationGUI
             $form->setValuesByPost();
             $this->main_tpl->setContent($form->getHTML());
         } else {
+            $locationType = "Reference";
+            $url = $form->getInput("url");
+            $url_pi = pathinfo(basename($url));
+            $title = str_replace("_", " ", $url_pi["filename"]);
+
+            /*
+             * Creating the MediaObject also creates a LOM set for it,
+             * and a LOM set can not be created without a title.
+             */
             $mob = new ilObjMediaObject();
+            $mob->setTitle($title);
             $mob->create();
 
             //handle standard purpose
@@ -590,10 +600,6 @@ class ilMediaCreationGUI
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
             }
-            $locationType = "Reference";
-            $url = $form->getInput("url");
-            $url_pi = pathinfo(basename($url));
-            $title = str_replace("_", " ", $url_pi["filename"]);
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($url, true);
@@ -611,7 +617,6 @@ class ilMediaCreationGUI
             $mediaItem->setLocation($url);
             $mediaItem->setLocationType("Reference");
             $mediaItem->setHAlign("Left");
-            $mob->setTitle($title);
             try {
                 $mob->getExternalMetadata();
             } catch (Exception $e) {
