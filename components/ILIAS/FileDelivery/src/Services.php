@@ -58,6 +58,7 @@ class Services
         int $valid_for_at_least_hours
     ): URI {
         // a new DateTimeImmutable which is set to the end of now + $valid_for_at_least_hours hours
+        $valid_for_at_least_hours++;
         $until = new \DateTimeImmutable(
             (new \DateTimeImmutable("now +$valid_for_at_least_hours hours"))->format('Y-m-d H:00')
         );
