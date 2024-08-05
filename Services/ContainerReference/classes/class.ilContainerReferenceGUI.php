@@ -264,7 +264,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ttype->addOption($custom);
         $form->addItem($ttype);
 
-        $repo = new ilContainerReferenceRepositorySelectorInputGUI($this->lng->txt("objref_edit_ref"), "target_id");
+        $repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
         $repo->setRequired(true);
         $repo->getExplorerGUI()->setSelectableTypes([$this->getTargetType()]);
         $repo->getExplorerGUI()->setTypeWhiteList(
@@ -273,6 +273,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 ["root", "cat", "grp", "fold", "crs"]
             )
         );
+        $repo->getExplorerGUI()->setClickablePermission('visible');
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 
         if ($a_mode === self::MODE_EDIT) {
