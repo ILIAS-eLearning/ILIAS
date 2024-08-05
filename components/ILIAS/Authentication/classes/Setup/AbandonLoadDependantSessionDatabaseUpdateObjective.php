@@ -34,7 +34,8 @@ class AbandonLoadDependantSessionDatabaseUpdateObjective implements ilDatabaseUp
 
     public function step_1(): void
     {
-        $this->db->manipulate('DELETE FROM settings WHERE ' . $this->db->in(
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE ' . $this->db->in(
                 'keyword',
                 [
                     'session_handling_type',
