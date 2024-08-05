@@ -85,7 +85,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     private array $modal_collection = [];
-    protected int $thread_sortation = 1;
+    protected int $thread_sortation = 4;
 
     public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
@@ -924,8 +924,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tbl->setOrderDirection($sortation_options[$sortation_value]['direction']);
             $tbl->setOrderField($sortation_options[$sortation_value]['field']);
         } else {
-            $tbl->setOrderDirection($sortation_options[1]['direction']);
-            $tbl->setOrderField($sortation_options[1]['field']);
+            $tbl->setOrderDirection($sortation_options[4]['direction']);
+            $tbl->setOrderField($sortation_options[4]['field']);
         }
     }
 
