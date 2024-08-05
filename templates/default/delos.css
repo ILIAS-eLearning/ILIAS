@@ -386,6 +386,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  min-width: max-content;
 }
 
 .dropdown-menu {
@@ -3838,7 +3839,7 @@ button .minimize, button .close {
   display: flex;
 }
 
-h4.il-divider {
+.engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
   background-color: white;
@@ -6547,7 +6548,8 @@ footer {
 .il-drilldown li > .menulevel,
 .il-drilldown li > .btn-bulky,
 .il-drilldown li > .link-bulky,
-.il-drilldown li > hr {
+.il-drilldown li > hr,
+.il-drilldown li > h4.il-divider {
   display: none;
 }
 .il-drilldown .engaged ~ ul > li > .menulevel,

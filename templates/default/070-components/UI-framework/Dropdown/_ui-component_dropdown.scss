@@ -63,6 +63,7 @@ $cursor-disabled: not-allowed !default;
   .dropdown {
 	position: relative;
 	display: inline-block; // so dropdown can be in one line with a button
+	min-width: max-content;
   }
   
   // The dropdown menu (ul)
