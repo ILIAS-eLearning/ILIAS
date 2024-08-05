@@ -502,6 +502,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         // title
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setRequired(true);
+        $ti->setMaxLength(255);
         $this->form->addItem($ti);
 
         // description
