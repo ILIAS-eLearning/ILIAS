@@ -619,7 +619,7 @@ class ilInitialisation
             $DIC->database(),
         );
         $DIC['global_cache'] = new \ILIAS\Cache\Services(
-            $legacy_settings->toConfig()
+            $legacy_settings->getConfig()
         );
     }
 
