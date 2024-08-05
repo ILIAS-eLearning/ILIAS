@@ -32,15 +32,11 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
 
 /**
- * Class ilObjForumGUI
- * @author       Stefan Meyer <meyer@leifos.com>
- * @author       Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
  * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
- * @ingroup components\ILIASForum
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface
 {
@@ -65,7 +61,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private bool $is_moderator;
     private ?ilPropertyFormGUI $replyEditForm = null;
     private bool $hideToolbar = false;
-    private $httpRequest;
+    private \Psr\Http\Message\ServerRequestInterface $httpRequest;
     private \ILIAS\HTTP\Services $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
@@ -87,7 +83,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     private array $modal_collection = [];
-    protected int $thread_sortation = 1;
 
     public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
@@ -700,9 +695,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->getCenterColumnHTML();
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     public function getContent(): string
     {
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
@@ -785,10 +777,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return '';
     }
 
-    /**
-     * @throws ilCtrlException
-     */
-    protected function renderThreadOverview(ilForumThreadObjectTableGUI $tbl, ilForum $frm, ForumDto $frm_object): void
+    private function renderThreadOverview(ilForumThreadObjectTableGUI $tbl, ilForum $frm, ForumDto $frm_object): void
     {
         $data_objects = $tbl->setMapper($frm)->fetchDataAnReturnObject();
 
@@ -837,7 +826,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $normal_threads = $this->factory->item()->group('', $thread_group);
         }
 
-
         $url = $this->http->request()->getRequestTarget();
         $current_page = 0;
         if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
@@ -847,12 +835,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
         }
 
-        $view_control = $this->getSortationViewControl();
-        $view_control[] = $this->factory->viewControl()->pagination()
-                                        ->withTargetURL($url, ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)
-                                        ->withTotalEntries($frm_object->getTopNumThreads())
-                                        ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
-                                        ->withCurrentPage($current_page);
+        $view_controls[] = $this->getSortationViewControl();
+        $view_controls[] = $this->factory
+            ->viewControl()
+            ->pagination()
+            ->withTargetURL($url, ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)
+            ->withTotalEntries($frm_object->getTopNumThreads())
+            ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
+            ->withCurrentPage($current_page);
 
         if ($found_threads === false) {
             $vc_container = $this->factory->panel()->listing()->standard(
@@ -863,7 +853,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
                 [$top_threads, $normal_threads]
-            )->withViewControls($view_control);
+            )->withViewControls($view_controls);
         }
 
         $default_html = $this->renderer->render($vc_container);
@@ -882,28 +872,33 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
-
-    protected function getThreadSortation(): int
+    
+    private function getRequestedThreadSortation(): ?int
     {
-        if ($this->http->wrapper()->query()->has('thread_sortation')) {
-            $this->thread_sortation = $this->http->wrapper()->query()->retrieve('thread_sortation', $this->refinery->kindlyTo()->int());
-        }
-        return $this->thread_sortation;
+        return $this->http->wrapper()->query()->retrieve(
+            'thread_sortation',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
     }
 
-    protected function getThreadOffset(): int
+    private function getRequestedThreadOffset(): int
     {
-        $offset = 0;
-        if ($this->http->wrapper()->query()->has('page')) {
-            $offset = $this->http->wrapper()->query()->retrieve('page', $this->refinery->kindlyTo()->int());
-        }
-        return $offset;
+        return $this->http->wrapper()->query()->retrieve(
+            'page',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(0)
+            ])
+        );
     }
 
-    protected function initializeThreadOffsetAndLimit(ilForumThreadObjectTableGUI $tbl): void
+    private function initializeThreadOffsetAndLimit(ilForumThreadObjectTableGUI $tbl): void
     {
         $limit = ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW;
-        $offset = $this->getThreadOffset() * $limit;
+        $offset = $this->getRequestedThreadOffset() * $limit;
 
         $tbl->setOffset($offset);
         $tbl->setLimit($limit);
@@ -911,68 +906,40 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function initializeThreadSortation(ilForumThreadObjectTableGUI $tbl): void
     {
-        $sortation_value = $this->getThreadSortation();
-        $sortation_options = [
-            1 => ['direction' => 'asc', 'field' => 'thr_subject'],
-            2 => ['direction' => 'desc', 'field' => 'thr_subject'],
-            3 => ['direction' => 'asc', 'field' => 'lp_date'],
-            4 => ['direction' => 'desc', 'field' => 'lp_date'],
-            5 => ['direction' => 'asc', 'field' => 'rating'],
-            6 => ['direction' => 'desc', 'field' => 'rating'],
-        ];
-        if (array_key_exists($sortation_value, $sortation_options)) {
-            $tbl->setOrderDirection($sortation_options[$sortation_value]['direction']);
-            $tbl->setOrderField($sortation_options[$sortation_value]['field']);
-        } else {
-            $tbl->setOrderDirection($sortation_options[1]['direction']);
-            $tbl->setOrderField($sortation_options[1]['field']);
+        $sortation = ThreadSortation::tryFrom(
+            $this->getRequestedThreadSortation() ?? ThreadSortation::DEFAULT_SORTATION->value
+        );
+        if ($sortation === null) {
+            $sortation = ThreadSortation::DEFAULT_SORTATION;
         }
+        $tbl->setOrderDirection($sortation->direction());
+        $tbl->setOrderField($sortation->field());
     }
 
-    /**
-     * @return array <int, Sortation>
-     * @throws ilCtrlException
-     */
-    protected function getSortationViewControl(): array
+    private function getSortationViewControl(): \ILIAS\UI\Component\ViewControl\Sortation
     {
-        $view_controls = [];
-        $sortation = [
-           1 => 'forums_thread_sorting_asc',
-           2 => 'forums_thread_sorting_dsc',
-           3 => 'forums_last_posting_asc',
-           4 => 'forums_last_posting_dsc',
-           5 => 'forums_rating_asc',
-           6 => 'forums_rating_dsc'
-        ];
-
-        $offset = $this->getThreadOffset();
+        $offset = $this->getRequestedThreadOffset();
         if ($offset > 0) {
             $this->ctrl->setParameter($this, 'page', $offset);
         }
+
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-        $base_url = $this->ctrl->getLinkTarget(
-            $this,
-            'showThreads',
-            ''
-        );
+        $base_url = $this->ctrl->getLinkTarget($this, 'showThreads');
+
         $translationKeys = [];
-        foreach ($sortation as $sortingConstantKey => $languageKey) {
-            $this->ctrl->setParameter($this, 'thread_sortation', $sortingConstantKey);
+        foreach (ThreadSortation::cases() as $sortation) {
+            $this->ctrl->setParameter($this, 'thread_sortation', $sortation->value);
+            $url = $this->ctrl->getLinkTarget($this, 'showThreads');
 
-            $url = $this->ctrl->getLinkTarget(
-                $this,
-                'showThreads',
-                ''
-            );
-            $translationKeys[$url] = $this->lng->txt($languageKey);
-
-            $this->ctrl->clearParameters($this);
+            $translationKeys[$url] = $this->lng->txt($sortation->languageId());
         }
-        $view_controls[] = $this->factory->viewControl()->sortation(
-            $translationKeys
-        )->withTargetURL($base_url, 'thread_sortation');
-        return $view_controls;
+        $this->ctrl->clearParameters($this);
+
+        return $this->factory
+            ->viewControl()
+            ->sortation($translationKeys)
+            ->withTargetURL($base_url, 'thread_sortation');
     }
 
     /**
@@ -1000,7 +967,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     /**
      * @return array <string, string>
-     * @throws ilCtrlException
      */
     protected function getThreadProperties(ilForumTopic $forum_topic): array
     {
@@ -1059,10 +1025,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $f->button()->shy($title, $url);
     }
 
-    /**
-     * @throws ilCtrlException
-     */
-    protected function getActionsForThreadOverview(int $ref_id, ilForumTopic $forum_topic): Standard
+    private function getActionsForThreadOverview(int $ref_id, ilForumTopic $forum_topic): Standard
     {
         $f = $this->uiFactory;
 
