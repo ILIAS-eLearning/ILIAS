@@ -45,6 +45,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     use ilForumRequestTrait;
 
     const DEFAULT_THREAD_SORTING = 4;
+
     private array $viewModeOptions = [
         ilForumProperties::VIEW_TREE => 'sort_by_posts',
         ilForumProperties::VIEW_DATE_ASC => 'sort_by_date',
