@@ -154,7 +154,7 @@ class ilLSLocalDI extends Container
                 $dic['service.kiosk_mode'],
                 $dic["lng"],
                 $dic["ilAccess"],
-                $dic->learningObjectMetadata()
+                $dic['learning_object_metadata']
             );
         };
 
