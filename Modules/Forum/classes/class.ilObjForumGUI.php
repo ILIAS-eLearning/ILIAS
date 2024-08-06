@@ -839,6 +839,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ->withTargetURL($url, ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)
             ->withTotalEntries($frm_object->getTopNumThreads())
             ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
+            ->withMaxPaginationButtons(5)
             ->withCurrentPage($current_page);
 
         if ($found_threads === false) {
