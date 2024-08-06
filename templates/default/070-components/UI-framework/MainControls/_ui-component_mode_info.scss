@@ -15,7 +15,7 @@ $il-mode-info-shadow: $il-shadow--large;
 
 .c-mode-info {
   display: flex;
-  position: absolute;
+  position: fixed;
   z-index: $il-mode-info-zindex;
   width: 100%;
   align-items: start;
