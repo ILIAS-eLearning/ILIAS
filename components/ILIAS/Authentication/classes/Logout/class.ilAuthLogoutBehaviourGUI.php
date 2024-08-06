@@ -23,7 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\components\Authentication\Logout\ConfigurableLogoutService;
+use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
@@ -40,7 +40,7 @@ class ilAuthLogoutBehaviourGUI
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
     private ilGlobalTemplateInterface $tpl;
-    private ConfigurableLogoutService $configurable_logout_service;
+    private ConfigurableLogoutTarget $configurable_logout_target;
 
     public function __construct()
     {
@@ -54,7 +54,7 @@ class ilAuthLogoutBehaviourGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->lng->loadLanguageModule('auth');
         $this->settings = new ilSetting('auth');
-        $this->configurable_logout_service = new ConfigurableLogoutService(
+        $this->configurable_logout_target = new ConfigurableLogoutTarget(
             $this->ctrl,
             $this->settings,
             $DIC->access()
@@ -91,13 +91,13 @@ class ilAuthLogoutBehaviourGUI
             ->numeric($this->lng->txt('destination_internal_ressource_ref_id'))
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    fn($value) => $this->configurable_logout_service->isInRepository($value),
+                    fn($value) => $this->configurable_logout_target->isInRepository($value),
                     fn(callable $txt, $value) => $txt('logout_behaviour_invalid_ref_id', $value)
                 )
             )
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    fn($value) => $this->configurable_logout_service->isAnonymousAccessible(
+                    fn($value) => $this->configurable_logout_target->isAnonymousAccessible(
                         $value
                     ),
                     fn(callable $txt, $value) => $txt(
@@ -122,7 +122,7 @@ class ilAuthLogoutBehaviourGUI
             ->url($this->lng->txt('destination_external_ressource_url'))
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    fn($value) => $this->configurable_logout_service->isValidExternalResource(
+                    fn($value) => $this->configurable_logout_target->isValidExternalResource(
                         $value
                     ),
                     fn(callable $txt, $value) => $txt('logout_behaviour_invalid_url', $value)
@@ -179,8 +179,8 @@ class ilAuthLogoutBehaviourGUI
         $mode = $this->settings->get('logout_behaviour', 'logout_screen');
         $ref_id = (int) $this->settings->get('logout_behaviour_ref_id', '');
         $content = '';
-        if ($mode === ConfigurableLogoutService::INTERNAL_RESSOURCE &&
-            !$this->configurable_logout_service->isValidInternalResource($ref_id)) {
+        if ($mode === ConfigurableLogoutTarget::INTERNAL_RESSOURCE &&
+            !$this->configurable_logout_target->isValidInternalResource($ref_id)) {
             $content .= $this->ui_renderer->render(
                 $this->ui_factory->messageBox()->failure(
                     $this->lng->txt('logout_behaviour_ref_id_valid_status_changed')
@@ -198,8 +198,8 @@ class ilAuthLogoutBehaviourGUI
         $form = $form->withRequest($this->http->request());
         $section = $form->getInputs()['logout_behaviour'];
         $group = $section->getInputs()['logout_behaviour_settings'];
-        $ref_id = $group->getInputs()[ConfigurableLogoutService::INTERNAL_RESSOURCE]->getInputs()['ref_id'];
-        $url = $group->getInputs()[ConfigurableLogoutService::EXTERNAL_RESSOURCE]->getInputs()['url'];
+        $ref_id = $group->getInputs()[ConfigurableLogoutTarget::INTERNAL_RESSOURCE]->getInputs()['ref_id'];
+        $url = $group->getInputs()[ConfigurableLogoutTarget::EXTERNAL_RESSOURCE]->getInputs()['url'];
 
         $data = $form->getData();
         if (!$data || $form->getError() || $ref_id->getError() || $url->getError()) {
@@ -219,16 +219,16 @@ class ilAuthLogoutBehaviourGUI
             $mode = $data['logout_behaviour']['logout_behaviour_settings'][0];
 
             switch ($mode) {
-                case ConfigurableLogoutService::LOGOUT_SCREEN:
-                case ConfigurableLogoutService::LOGIN_SCREEN:
+                case ConfigurableLogoutTarget::LOGOUT_SCREEN:
+                case ConfigurableLogoutTarget::LOGIN_SCREEN:
                     break;
-                case ConfigurableLogoutService::INTERNAL_RESSOURCE:
+                case ConfigurableLogoutTarget::INTERNAL_RESSOURCE:
                     $this->settings->set(
                         'logout_behaviour_ref_id',
                         (string) ($data['logout_behaviour']['logout_behaviour_settings'][1]['ref_id'] ?? '')
                     );
                     break;
-                case ConfigurableLogoutService::EXTERNAL_RESSOURCE:
+                case ConfigurableLogoutTarget::EXTERNAL_RESSOURCE:
                     $url = $data['logout_behaviour']['logout_behaviour_settings'][1]['url'] ?? '';
                     $this->settings->set('logout_behaviour_url', (string) $url);
                     break;

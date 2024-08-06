@@ -29,7 +29,7 @@ use ILIAS\Data\URI;
 use ilCtrlInterface;
 use InvalidArgumentException;
 
-class ConfigurableLogoutService
+class ConfigurableLogoutTarget
 {
     public const LOGIN_SCREEN = 'login_screen';
     public const LOGOUT_SCREEN = 'logout_screen';
@@ -44,7 +44,7 @@ class ConfigurableLogoutService
     ) {
     }
 
-    public function afterLogout(): URI
+    public function asURI(): URI
     {
         switch ($this->settings->get('logout_behaviour', '')) {
             case self::LOGIN_SCREEN:
@@ -80,7 +80,7 @@ class ConfigurableLogoutService
         return $this->isInRepository($ref_id) && $this->isAnonymousAccessible($ref_id);
     }
 
-    public function isInRepository($ref_id): bool
+    public function isInRepository(int $ref_id): bool
     {
         return ilObject::_exists($ref_id, true) && !ilObject::_isInTrash($ref_id);
     }
