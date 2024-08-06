@@ -1292,6 +1292,7 @@ class ilInitialisation
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initLegalDocuments($GLOBALS['DIC']);
         self::initAccessibilityControlConcept($GLOBALS['DIC']);
+        self::initLearningObjectMetadata($GLOBALS['DIC']);
 
         // --- needs settings
 
@@ -1926,6 +1927,13 @@ class ilInitialisation
                 $c['ilAccess'],
                 $c['objDefinition']
             );
+        };
+    }
+
+    private static function initLearningObjectMetadata(\ILIAS\DI\Container $c): void
+    {
+        $c['learning_object_metadata'] = function ($c) {
+            return new \ILIAS\MetaData\Services\Services($c);
         };
     }
 }
