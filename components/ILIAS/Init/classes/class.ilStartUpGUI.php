@@ -1360,7 +1360,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->ctrl->setParameter($this, 'lang', $user_language);
         $handler = new ConfigurableLogoutService(
             $this->ctrl,
-            $this->setting,
+            new ilSetting('auth'),
             $this->access,
             ilUtil::_getHttpPath()
         );

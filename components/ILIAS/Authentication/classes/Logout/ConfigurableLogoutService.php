@@ -58,20 +58,21 @@ class ConfigurableLogoutService
                 if ($this->isValidInternalResource($ref_id)) {
                     return new URI(ilLink::_getStaticLink($ref_id));
                 }
-                // no break
+                break;
             case self::EXTERNAL_RESSOURCE:
                 $url = $this->settings->get('logout_behaviour_url', '');
                 if ($url && $this->isValidExternalResource($url)) {
                     return new URI($url);
                 }
-                // no break
+                break;
             case self::LOGOUT_SCREEN:
             default:
-                return new URI(
-                    $this->http_path .
-                    '/' . $this->ctrl->getLinkTargetByClass(ilStartUpGUI::class, 'showLogout')
-                );
+                break;
         }
+        return new URI(
+            $this->http_path .
+            '/' . $this->ctrl->getLinkTargetByClass(ilStartUpGUI::class, 'showLogout')
+        );
     }
 
     public function isValidInternalResource(int $ref_id): bool
@@ -96,6 +97,7 @@ class ConfigurableLogoutService
         } catch (InvalidArgumentException) {
             return false;
         }
+
         return filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 }
