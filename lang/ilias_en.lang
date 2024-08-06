@@ -2135,7 +2135,7 @@ auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to genera
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
-auth#:#destination_after_logout#:#Destination after logout
+auth#:#destination_after_logout#:#Destination After Logout
 auth#:#destination_external_ressource#:#Show External Ressource
 auth#:#destination_external_ressource_url#:#External URL
 auth#:#destination_internal_ressource#:#Show Internal Ressource
@@ -2153,6 +2153,7 @@ auth#:#logout_behaviour#:#Logout Behaviour
 auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the internal resource id exists and is not in trash
 auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
 auth#:#logout_behaviour_ref_id_no_access#:#Please make sure the "Anonymous" user has access to the defined ressource.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#The configured internal resource is no longer valid. If the resource has been deleted or access for the "Anonymous" user has been restricted, please configure a new valid internal resource. Without a valid configuration, the user will be redirected to the logout screen by default.
 auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page

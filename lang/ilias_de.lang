@@ -2152,7 +2152,8 @@ auth#:#login_pages#:#Login-Seiten
 auth#:#logout_behaviour#:#Logout-Verhalten
 auth#:#logout_behaviour_invalid_ref_id#:#Stellen sie sicher, dass die angegebene interne Resource existiert und sich nicht im Papierkorb befindet.
 auth#:#logout_behaviour_invalid_url#:#Die angegebene externe Resource ist keine gültige URL.
-auth#:#logout_behaviour_ref_id_no_access#:#Stellen sie sicher, dass die angegebene interne Resource für den "Anonymous" Nutzer zugänglich ist.
+auth#:#logout_behaviour_ref_id_no_access#:#Stellen sie sicher, dass die angegebene interne Resource für den "Anonymous"-Nutzer zugänglich ist.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#Die konfigurierte interne Ressource ist nicht mehr gültig. Falls die Ressource gelöscht wurde oder der Zugriff für den "Anonymous"-Nutzer eingeschränkt wurde, konfigurieren Sie bitte eine neue gültige interne Ressource. Ohne gültige Konfiguration wird der Benutzer standardmäßig auf den Abmeldebildschirm weitergeleitet.
 auth#:#logout_behaviour_settings#:#Einstellungen für das Logout-Verhalten
 auth#:#logout_editor#:#Logout-Seite gestalten
 auth#:#logout_page#:#Sprache der Logout-Seite

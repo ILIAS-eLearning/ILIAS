@@ -24,7 +24,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\TermsOfService\Consumer as TermsOfService;
 use ILIAS\DataProtection\Consumer as DataProtection;
-use ILIAS\components\Authentication\Logout\ConfigurableLogoutHandler;
+use ILIAS\components\Authentication\Logout\ConfigurableLogoutService;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -1358,7 +1358,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $this->ctrl->setParameter($this, 'client_id', $client_id);
         $this->ctrl->setParameter($this, 'lang', $user_language);
-        $handler = new ConfigurableLogoutHandler();
+        $handler = new ConfigurableLogoutService(
+            $this->ctrl,
+            $this->setting,
+            $this->access,
+            ilUtil::_getHttpPath()
+        );
         $url = $handler->afterLogout();
         $this->ctrl->redirectToURL((string) $url);
     }

@@ -885,10 +885,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('authentication_settings');
                 $this->tabs_gui->setSubTabActive('logout_behaviour');
 
-                $gui = new ilAuthLogoutBehaviourGUI($this->object->getRefId());
+                $gui = new ilAuthLogoutBehaviourGUI();
                 $this->ctrl->forwardCommand($gui);
-
                 break;
+
             default:
                 if (!$cmd) {
                     $cmd = 'authSettings';
