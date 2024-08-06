@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\MetaData\Elements\Data\Type as LOMType;
 
 class ilObjectProperties
 {
@@ -27,7 +29,7 @@ class ilObjectProperties
         private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalProperties $additional_properties,
         private ilObjectAdditionalPropertiesRepository $additional_properties_repository,
-        private ilMD $meta_data
+        private LOMServices $lom_services
     ) {
     }
 
@@ -186,19 +188,28 @@ class ilObjectProperties
         string $title,
         string $description
     ): void {
-        $general_metadata = $this->meta_data->getGeneral();
-        if ($general_metadata === null) {
+        $paths = $this->lom_services->paths();
+        $obj_id = $this->core_properties->getObjectId();
+        $type = $this->core_properties->getType();
+
+        /*
+         * This is a hacky solution to distinguish between
+         * objects with LOM support and without. In the future, proper
+         * infrastructure to make that distinction should be added.
+         */
+        $title_data = $this->lom_services->read($obj_id, 0, $type, $paths->title())
+                                         ->firstData($paths->title());
+        if ($title_data->type() === LOMType::NULL) {
             return;
         }
-        $general_metadata->setTitle($title);
 
-        // sets first description (maybe not appropriate)
-        $general_metadata_ids = $general_metadata->getDescriptionIds();
-        if ($general_metadata_ids !== []) {
-            $general_metadata_description = $general_metadata->getDescription($general_metadata_ids[0]);
-            $general_metadata_description->setDescription($description);
-            $general_metadata_description->update();
+        $manipulator = $this->lom_services->manipulate($obj_id, 0, $type)
+                                          ->prepareCreateOrUpdate($paths->title(), $title);
+        if ($description !== '') {
+            $manipulator = $manipulator->prepareCreateOrUpdate($paths->firstDescription(), $description);
+        } else {
+            $manipulator = $manipulator->prepareDelete($paths->firstDescription());
         }
-        $general_metadata->update();
+        $manipulator->execute();
     }
 }

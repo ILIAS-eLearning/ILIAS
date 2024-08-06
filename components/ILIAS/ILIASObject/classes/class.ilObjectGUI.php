@@ -956,13 +956,13 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj = new $class_name();
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
+        $new_obj->setTitle($data['title_and_description']->getTitle());
+        $new_obj->setDescription($data['title_and_description']->getDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
             $data['title_and_description']
         );
-        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
-        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
 
         $this->putObjectInTree($new_obj);
 
