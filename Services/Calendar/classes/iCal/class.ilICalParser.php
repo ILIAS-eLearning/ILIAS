@@ -393,6 +393,17 @@ class ilICalParser
         }
         $entry->save();
 
+        // Search exclusions
+        // Only possible after entry is saved, otherwise the id is not available
+        foreach ($this->getContainer()->getItemsByName('EXDATE', false) as $item) {
+            if (is_a($item, 'ilICalProperty')) {
+                $rec_exclusion = new ilCalendarRecurrenceExclusion();
+                $rec_exclusion->setEntryId($entry->getEntryId());
+                $rec_exclusion->setDate(new ilDate($item->getValue(), IL_CAL_DATE));
+                $rec_exclusion->save();
+            }
+        }
+
         $ass = new ilCalendarCategoryAssignments($entry->getEntryId());
         $ass->addAssignment($this->category->getCategoryID());
 
