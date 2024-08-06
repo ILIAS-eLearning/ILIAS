@@ -834,7 +834,7 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Conceptual Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Authority to Sign off on Code Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
         , [katrin.grosskopf](https://docu.ilias.de/goto_docu_usr_68340.html)
-    * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)]
+    * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)
     * Authority to (De-)Assign Authorities: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
     * Assignee for Security Reports: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
