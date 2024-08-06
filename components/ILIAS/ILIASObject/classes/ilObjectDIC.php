@@ -60,7 +60,7 @@ class ilObjectDIC extends PimpleContainer
             $c['core_properties_repository'],
             $c['additional_properties_repository'],
             $c['object_type_specific_properties_factory'],
-            $DIC->learningObjectMetadata()
+            $DIC['learning_object_metadata']
         );
 
         $this['core_properties_repository'] = fn($c): \ilObjectCorePropertiesRepository
