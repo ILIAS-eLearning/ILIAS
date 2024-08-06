@@ -204,7 +204,7 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeCommonSettingsGUI'],
                 $DIC['ilTabs'],
                 $DIC->http()->wrapper()->query(),
-                $DIC->learningObjectMetadata()
+                $DIC['learning_object_metadata']
             );
         $dic['PRGMessages'] = static fn($dic) =>
             new ilPRGMessagePrinter(
