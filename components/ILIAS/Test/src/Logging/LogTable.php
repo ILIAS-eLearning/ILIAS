@@ -55,8 +55,7 @@ class LogTable implements Table\DataRetrieval
     private const ACTION_ID_EXPORT_AS_CSV = 'export_as_csv';
     private const ACTION_ID_DELETE = 'delete';
 
-    private const FILTER_FIELD_TIME_FROM = 'from';
-    private const FILTER_FIELD_TIME_TO = 'until';
+    private const FILTER_FIELD_PERIOD = 'period';
     private const FILTER_FIELD_TEST_TITLE = 'test_title';
     private const FILTER_FIELD_QUESTION_TITLE = 'question_title';
     private const FILTER_FIELD_ADMIN = 'admin_name';
@@ -95,6 +94,7 @@ class LogTable implements Table\DataRetrieval
         private readonly \ilObjUser $current_user,
         private readonly ?int $ref_id = null
     ) {
+        $this->lng->loadLanguageModule('dateplaner');
     }
 
     public function getTable(): Table\Data
@@ -114,8 +114,9 @@ class LogTable implements Table\DataRetrieval
     {
         $field_factory = $this->ui_factory->input()->field();
         $filter_inputs = [
-            self::FILTER_FIELD_TIME_FROM => $field_factory->text($this->lng->txt('from')),
-            self::FILTER_FIELD_TIME_TO => $field_factory->text($this->lng->txt('to'))
+            self::FILTER_FIELD_PERIOD => $field_factory->duration($this->lng->txt('cal_period'))
+                ->withUseTime(true)
+                ->withFormat($this->buildUserDateTimeFormat())
         ];
         if ($this->ref_id === null) {
             $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('test'));
@@ -157,7 +158,7 @@ class LogTable implements Table\DataRetrieval
 
         $columns = [
             self::COLUMN_DATE_TIME => $f->date($this->lng->txt('date_time'), $this->buildUserDateTimeFormat()),
-            self::COLUMN_CORRESPONDING_TEST => $f->text($this->lng->txt('test'))->withIsOptional(true, true),
+            self::COLUMN_CORRESPONDING_TEST => $f->link($this->lng->txt('test'))->withIsOptional(true, true),
             self::COLUMN_ADMIN => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             self::COLUMN_PARTICIPANT => $f->text($this->lng->txt('tst_participant'))->withIsOptional(true, true)
         ];
@@ -167,7 +168,7 @@ class LogTable implements Table\DataRetrieval
         }
 
         return $columns + [
-            self::COLUMN_QUESTION => $f->text($this->lng->txt('question'))->withIsOptional(true, true),
+            self::COLUMN_QUESTION => $f->link($this->lng->txt('question'))->withIsOptional(true, true),
             self::COLUMN_LOG_ENTRY_TYPE => $f->text($this->lng->txt('log_entry_type'))->withIsOptional(true, true),
             self::COLUMN_INTERACTION_TYPE => $f->text($this->lng->txt('interaction_type'))->withIsOptional(true, true)
         ];
@@ -217,7 +218,6 @@ class LogTable implements Table\DataRetrieval
                 $this->static_url,
                 $this->question_repo,
                 $this->ui_factory,
-                $this->ui_renderer,
                 $row_builder,
                 $environment
             );
@@ -453,18 +453,18 @@ class LogTable implements Table\DataRetrieval
         $admin_filter = null;
         $question_filter = null;
 
-        if (!empty($filter_array[self::FILTER_FIELD_TIME_FROM])) {
-            try {
-                $from_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_FROM]))->getTimestamp();
-            } catch (\Exception $e) {
-            }
+        if (!empty($filter_array[self::FILTER_FIELD_PERIOD][0])) {
+            $from_filter = (new \DateTimeImmutable(
+                $filter_array[self::FILTER_FIELD_PERIOD][0],
+                new \DateTimeZone($this->current_user->getTimeZone())
+            ))->getTimestamp();
         }
 
-        if (!empty($filter_array[self::FILTER_FIELD_TIME_TO])) {
-            try {
-                $to_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
-            } catch (\Exception $e) {
-            }
+        if (!empty($filter_array[self::FILTER_FIELD_PERIOD][1])) {
+            $to_filter = (new \DateTimeImmutable(
+                $filter_array[self::FILTER_FIELD_PERIOD][1],
+                new \DateTimeZone($this->current_user->getTimeZone())
+            ))->getTimestamp();
         }
 
         if (!empty($filter_array[self::FILTER_FIELD_TEST_TITLE])) {
@@ -533,8 +533,8 @@ class LogTable implements Table\DataRetrieval
             )->colon()->seconds()->get();
         }
         return $this->data_factory->dateFormat()->amend(
-            $this->data_factory->dateFormat()->withTime12($user_format)
-        )->colon()->seconds()->get();
+            $user_format
+        )->space()->hours12()->colon()->minutes()->colon()->seconds()->meridiem()->get();
     }
 
     private function extractIdsFromUserQuery(array $response): array
