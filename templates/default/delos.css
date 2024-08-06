@@ -6307,7 +6307,7 @@ footer {
  */
 .c-mode-info {
   display: flex;
-  position: absolute;
+  position: fixed;
   z-index: 1010;
   width: 100%;
   align-items: start;
