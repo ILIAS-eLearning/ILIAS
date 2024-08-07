@@ -651,10 +651,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
     ): void {
-        $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+        /*
+         * As far as I can tell, this is not in use anymore.
+         * It followed usages up to ilObjGlossaryGUI::export
+         * and ilObjGlossary::getXMLZip, both of which are not
+         * used anywhere.
+         */
+        /*$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $a_xml_writer->appendXML($md2xml->getXML());*/
     }
 
     public function exportXMLMediaObjects(
