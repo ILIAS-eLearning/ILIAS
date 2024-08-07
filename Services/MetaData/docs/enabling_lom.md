@@ -29,12 +29,36 @@ them in your component, and set the ID-triple in `ilMD` as described
 
 ### LOM Editor
 
-In order to show the 'Metadata' tab with the LOM editor, you have to
-add the `ilObjectMetadataGUI` to your control flow, and it will take
+To give users of your object access to the LOM editor, add a 'Metadata'
+tab in your GUI class with the link given by `ilObjectMetadataGUI::getTab`
+as follows:
+
+````
+if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+    $mdgui = new ilObjectMetaDataGUI($this->object);
+    $mdtab = $mdgui->getTab();
+    if ($mdtab) {
+        $this->tabs_gui->addTab(
+            "meta_data",
+            $this->lng->txt("meta_data"),
+            $mdtab
+        );
+    }
+}
+````
+
+Add `ilObjectMetadataGUI` to your control flow, and it will take
 care of the rest: have your object's main GUI forward commands to
 `ilObjectMetadataGUI`, and activate the tab with ID `'meta_data'`
-when it does. In addition, add your object's type to the array in
-`ilObjectMetadataGUI::isLOMAvailable`. 
+when it does. If required, permissions should be checked before
+forwarding (and before showing the tab). For most objects, editing
+of LOM should be restricted to users with 'write' permission.
+
+Lastly, add your object's type to the array in
+`ilObjectMetadataGUI::isLOMAvailable`. Otherwise the 'Metadata' tab
+will not actually lead to the LOM editor. Be aware that this step
+is required even if your object already has a 'Metadata' tab, e.g.
+because it supports Custom Metadata.
 
 If your object is a repository object, you can just pass the object
 itself to the constructor of `ilObjectMetadataGUI`, and it will extract
