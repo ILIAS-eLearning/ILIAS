@@ -47,8 +47,11 @@ Dependencies and the build process is managed via maven
 
 <a name="build-java-server"></a>
 ## Build the Java RPC Server
+
+Note: If you're using ILIAS 9 or below please navigate to `Services/WebServices/RPC/lib` instead.
+
 ```shell
-> cd Services/WebServervices/RPC/lib
+> cd components/ILIAS/WebServervices/RPC/lib
 > mvn clean install
 ```
 To build/compile the jar file for older LTS release than v17, start the maven build process with the following parameters:
@@ -72,8 +75,8 @@ Create a config file readable by the webserver user/group with following content
 [Server]
 IpAddress = localhost
 Port = 11111
-IndexPath = /var/www/html/ilias/data/
-LogFile = /var/www/files/ilServer.log
+IndexPath = /var/www/html/public/data/
+LogFile = /var/ilias/logs/ilServer.log
 LogLevel = INFO 
 NumThreads = 1
 RamBufferSize = 256
@@ -82,8 +85,13 @@ IndexMaxFileSizeMB = 500
 [Client1]
 ClientId = ACMECorp
 NicId = 0
-IliasIniPath = /var/www/html/ilias/ilias.ini.php
+IliasIniPath = /var/www/html/ilias.ini.php
 ```
+
+### Important Note:
+If you want to use `one RPC Java Server for different ILIAS versions` you should configure an
+external `IndexPath` which can be used for every ILIAS version as the internal path in ILIAS 10 differs from the path of ILIAS 9 and below.
+
 ## Manage Startup using systemd
 ```shell
 > vi /etc/systemd/system/ilserver.service

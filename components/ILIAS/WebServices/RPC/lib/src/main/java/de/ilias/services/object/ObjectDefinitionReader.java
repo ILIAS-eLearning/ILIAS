@@ -45,7 +45,10 @@ public class ObjectDefinitionReader {
 	private static final HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
-	public static final String pluginPath = "Customizing/global/plugins";
+	public static final String customPluginPath = "Customizing/global/plugins";
+	public static final String componentsPath = "components";
+	public static final String modulesPath = "Modules";
+	public static final String servicesPath = "Services";
 
 
 	private final Vector<File> objectPropertyFiles = new Vector<File>();
@@ -110,21 +113,26 @@ public class ObjectDefinitionReader {
 		if(!absolutePath.isDirectory()) {
 			throw new ConfigurationException("Absolute path required. Path: " + absolutePath.getAbsolutePath());
 		}
-		
-		// Traverse through Modules
-		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
-		logger.debug("Start path is : " + start.getAbsoluteFile());
-		traverse(start);
 
-		// Traverse through Modules
-		File services = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Services");
-		logger.debug("Start path is : " + start.getAbsoluteFile());
-		traverse(services);
+		// Traverse through former modules path
+		File allModules = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.modulesPath);
+		logger.debug("Start path is : " + allModules.getAbsoluteFile());
+		traverse(allModules);
 
-		// Traverse through Plugins
-		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
+		// Traverse through former services path
+		File allServices = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.servicesPath);
+		logger.debug("Start path is : " + allServices.getAbsoluteFile());
+		traverse(allServices);
+
+		// Traverse through plugins in former custom plugin path
+		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.customPluginPath);
 		logger.debug("Start path is : " + plugin.getAbsoluteFile());
 		traverse(plugin);
+
+		// Traverse through components path including the components/PLUGINNAME path
+		File allComponents = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.componentsPath);
+		logger.debug("Start path is : " + allComponents.getAbsoluteFile());
+		traverse(allComponents);
 	}
 	
 	/**

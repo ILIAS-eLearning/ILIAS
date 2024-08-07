@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="sess">
 	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
-		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/AdvancedMetaData/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT location, tutor_name, tutor_email, tutor_phone, details 

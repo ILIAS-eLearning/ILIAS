@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="glo">
 	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT 1 as offline FROM glossary
@@ -26,7 +26,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" type="integer" name="objId"  />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="objType" type="text" name="type"  />
-			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT content FROM glossary_term
