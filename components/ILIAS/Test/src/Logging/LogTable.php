@@ -152,7 +152,7 @@ class LogTable implements Table\DataRetrieval
     }
 
 
-    public function getColums(): array
+    private function getColums(): array
     {
         $f = $this->ui_factory->table()->column();
 
