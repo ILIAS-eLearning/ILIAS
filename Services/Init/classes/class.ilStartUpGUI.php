@@ -1505,6 +1505,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function confirmRegistration(): void
     {
+        $this->lng->loadLanguageModule('registration');
+
         ilUtil::setCookie('iltest', 'cookie', false);
         $regitration_hash = trim($this->http->wrapper()->query()->retrieve(
             'rh',
