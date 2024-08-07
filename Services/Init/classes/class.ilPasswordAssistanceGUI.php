@@ -26,7 +26,7 @@ use ILIAS\HTTP\Services as HTTPServices;
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesInit
  */
-class ilPasswordAssistanceGUI
+class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
 {
     private const PERMANENT_LINK_TARGET_PW = 'pwassist';
     private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
@@ -64,6 +64,24 @@ class ilPasswordAssistanceGUI
         $this->help->setScreenIdComponent('init');
     }
 
+    private function retrieveRequestedKey(): string
+    {
+        $key = $this->http->wrapper()->query()->retrieve(
+            'key',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(
+                    $this->http->wrapper()->post()->retrieve(
+                        'key',
+                        $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+                    )
+                )
+            ])
+        );
+
+        return $key;
+    }
+
     /**
      * as replacement for "this->ilias"
      */
@@ -86,37 +104,34 @@ class ilPasswordAssistanceGUI
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
-        // Change the language, if necessary.
-        // And load the 'pwassist' language module
-        $lang = '';
-        if ($this->http->wrapper()->query()->has('lang')) {
-            $lang = $this->http->wrapper()->query()->retrieve(
-                'lang',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        $key = '';
-        if ($this->http->wrapper()->query()->has('key')) {
-            $key = $this->http->wrapper()->query()->retrieve(
-                'key',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
         $this->lng->loadLanguageModule('pwassist');
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd() ?? '';
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             default:
-                if ($cmd != '' && method_exists($this, $cmd)) {
-                    return $this->$cmd();
-                } elseif (!empty($key)) { //ToDo PHP8: This will never happen. smeyer: why? $_GET['key'] != '' && $_GET['cmd'] = ''
-                    $this->showAssignPasswordForm();
+                if ($cmd !== '' && method_exists($this, $cmd)) {
+                    $this->$cmd();
+                    return;
+                }
+
+                if ($this->retrieveRequestedKey() !== '') {
+                    $this->showAssignPasswordForm(null, $this->retrieveRequestedKey());
                 } else {
                     $this->showAssistanceForm();
                 }
                 break;
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return ['submitAssignPasswordForm'];
     }
 
     /**
