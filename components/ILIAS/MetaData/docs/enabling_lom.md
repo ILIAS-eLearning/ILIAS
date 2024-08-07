@@ -161,4 +161,4 @@ newly imported one:
 To make sure that when searching ILIAS via Lucene your object's LOM
 can also be searched, include the following line in your `LuceneObjectDefinition`:
 
-    <xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+    <xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
