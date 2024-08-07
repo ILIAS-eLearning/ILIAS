@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 enum ThreadSortation: int
 {
-    public const DEFAULT_SORTATION = self::SUBJECT_ASC;
+    public const DEFAULT_SORTATION = self::LAST_POST_DESC;
 
     case SUBJECT_ASC = 1;
     case SUBJECT_DESC = 2;
