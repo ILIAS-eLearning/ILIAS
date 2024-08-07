@@ -64,9 +64,9 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritdoc
      */
-    public function footer(array $links, string $text = ''): IMainControls\Footer
+    public function footer(): IMainControls\Footer
     {
-        return new Footer($links, $text);
+        return new Footer();
     }
 
     /**

@@ -23,16 +23,15 @@ namespace ILIAS\UI\Implementation\Component\MainControls;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Button;
-use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Link\Standard as Link;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
 
 class Footer implements MainControls\Footer
 {
     use ComponentHelper;
-
-    private string $text;
-    private array $links;
 
     /**
      * @var [Modal\RoundTrip, Button\Shy][]
@@ -40,22 +39,27 @@ class Footer implements MainControls\Footer
     private array $modalsWithTriggers = [];
     protected ?URI $permanent_url = null;
 
-    public function __construct(array $links, string $text = '')
+    /**
+     * @inheritDoc
+     */
+    public function withAdditionalLinkGroup(string $title, array $actions): MainControls\Footer
     {
-        $types = [Link::class,];
-        $this->checkArgListElements('links', $links, $types);
-        $this->links = $links;
-        $this->text = $text;
+        throw new \ILIAS\UI\NotImplementedException();
     }
 
-    public function getLinks(): array
+    public function withAdditionalLink(Link|Shy ...$actions): MainControls\Footer
     {
-        return $this->links;
+        throw new \ILIAS\UI\NotImplementedException();
     }
 
-    public function getText(): string
+    public function withAdditionalIcon(Icon $icon, Signal|URI|null $action = null): MainControls\Footer
     {
-        return $this->text;
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+
+    public function withAdditionalText(string ...$texts): MainControls\Footer
+    {
+        throw new \ILIAS\UI\NotImplementedException();
     }
 
     public function withPermanentURL(URI $url): MainControls\Footer
@@ -80,8 +84,8 @@ class Footer implements MainControls\Footer
 
     public function withAdditionalModalAndTrigger(
         Modal\RoundTrip $roundTripModal,
-        Button\Shy $shyButton
-    ): MainControls\Footer {
+        Shy $shyButton
+    ): self {
         $shyButton = $shyButton->withOnClick($roundTripModal->getShowSignal());
 
         $clone = clone $this;
