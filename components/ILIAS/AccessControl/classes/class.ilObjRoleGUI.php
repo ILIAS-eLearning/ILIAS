@@ -35,7 +35,6 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  */
 class ilObjRoleGUI extends ilObjectGUI
 {
-    private const FORM_SECTION = 'form';
     private const FORM_KEY_TITLE = 'title';
     private const FORM_KEY_DESCRIPTION = 'description';
     private const FORM_KEY_ILIAS_ID = 'ilias_id';
@@ -290,17 +289,12 @@ class ilObjRoleGUI extends ilObjectGUI
                     : $this->rbac_review->isProtected($this->obj_ref_id, $this->object->getId())
             );
 
-        $section = $ff->section(
-            $inputs,
-            $is_role_creation_form ? $this->lng->txt('role_new') : $this->lng->txt('role_edit')
-        );
-
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(
                 self::class,
                 $is_role_creation_form ? 'save' : 'update'
             ),
-            [self::FORM_SECTION => $section]
+            $inputs
         )->withSubmitLabel(
             $is_role_creation_form ? $this->lng->txt('role_new') : $this->lng->txt('save')
         );
@@ -313,9 +307,17 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('cancel'),
+            (string) $this->ctrl->getParentReturnByClass(self::class)
+        );
+
         $this->tpl->setContent(
             $this->ui_renderer->render(
-                $this->getRoleForm(true)
+                $this->ui_factory->panel()->standard(
+                    $this->lng->txt('role_new'),
+                    $this->getRoleForm(true)
+                )
             )
         );
     }
@@ -328,26 +330,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         $this->tabs_gui->activateTab('edit_properties');
 
-        $additional_content = '';
-        if ($this->object->getId() != SYSTEM_ROLE_ID) {
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
-            if ($this->rbac_review->isDeleteable($this->object->getId(), $this->obj_ref_id)) {
-                $modal = $this->buildConfirmationModal();
-                $this->toolbar->addComponent(
-                    $this->ui_factory->button()->standard(
-                        $this->lng->txt('rbac_delete_role'),
-                        $modal->getShowSignal()
-                    )
-                );
-                $additional_content = $this->ui_renderer->render($modal);
-            }
-        }
-
-        $this->tpl->setContent(
-            $this->ui_renderer->render(
-                $this->getRoleForm()
-            ) . $additional_content
-        );
+        $this->buildEditPage();
     }
 
     /**
@@ -359,23 +342,32 @@ class ilObjRoleGUI extends ilObjectGUI
         $form = $this->getRoleForm(true)->withRequest($this->request);
         $data = $form->getData();
         if ($data === null) {
+            $this->tabs_gui->setBackTarget(
+                $this->lng->txt('cancel'),
+                (string) $this->ctrl->getParentReturnByClass(self::class)
+            );
             $this->tpl->setContent(
-                $this->ui_renderer->render($form)
+                $this->ui_renderer->render(
+                    $this->ui_factory->panel()->standard(
+                        $this->lng->txt('role_new'),
+                        $form
+                    )
+                )
             );
             return;
         }
 
         $role = new ilObjRole();
-        $role->setTitle($data[self::FORM_SECTION][self::FORM_KEY_TITLE]);
-        $role->setDescription($data[self::FORM_SECTION][self::FORM_KEY_DESCRIPTION]);
-        $role->setAllowRegister($data[self::FORM_SECTION][self::FORM_KEY_ON_REGISTRATION_FORM]);
-        $role->toggleAssignUsersStatus($data[self::FORM_SECTION][self::FORM_KEY_ALLOW_LOCAL_USER_ASSIGNMENT]);
+        $role->setTitle($data[self::FORM_KEY_TITLE]);
+        $role->setDescription($data[self::FORM_KEY_DESCRIPTION]);
+        $role->setAllowRegister($data[self::FORM_KEY_ON_REGISTRATION_FORM]);
+        $role->toggleAssignUsersStatus($data[self::FORM_KEY_ALLOW_LOCAL_USER_ASSIGNMENT]);
         $role->create();
         $this->rbacadmin->assignRoleToFolder($role->getId(), $this->obj_ref_id, 'y');
         $this->rbacadmin->setProtected(
             $this->obj_ref_id,
             $role->getId(),
-            $data[self::FORM_SECTION][self::FORM_KEY_PROTECT] ? 'y' : 'n'
+            $data[self::FORM_KEY_PROTECT] ? 'y' : 'n'
         );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('role_added'), true);
         $this->ctrl->setParameter($this, 'obj_id', $role->getId());
@@ -388,33 +380,57 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     public function updateObject(): void
     {
-        $form = $this->getRoleForm(true)->withRequest($this->request);
+        $form = $this->getRoleForm()->withRequest($this->request);
         $data = $form->getData();
         if ($data === null) {
-            $this->tpl->setContent(
-                $this->ui_renderer->render($form)
-            );
+            $this->buildEditPage($form);
             return;
         }
 
-        if (isset($data[self::FORM_SECTION]['title'])) {
-            $this->object->setTitle($data[self::FORM_SECTION]['title']);
+        if (isset($data['title'])) {
+            $this->object->setTitle($data[self::FORM_KEY_TITLE]);
         }
-        if (isset($data[self::FORM_SECTION]['description'])) {
-            $this->object->setDescription($data[self::FORM_SECTION]['description']);
+        if (isset($data['description'])) {
+            $this->object->setDescription($data[self::FORM_KEY_DESCRIPTION]);
         }
-        $this->object->setAllowRegister($data[self::FORM_SECTION]['on_registration_form']);
-        $this->object->toggleAssignUsersStatus($data[self::FORM_SECTION]['allow_local_user_assignment']);
-        $this->object->create();
-        $this->rbacadmin->assignRoleToFolder($role->getId(), $this->obj_ref_id, 'y');
+        $this->object->setAllowRegister($data[self::FORM_KEY_ON_REGISTRATION_FORM]);
+        $this->object->toggleAssignUsersStatus($data[self::FORM_KEY_ALLOW_LOCAL_USER_ASSIGNMENT]);
+        $this->object->update();
         $this->rbacadmin->setProtected(
             $this->obj_ref_id,
-            $role->getId(),
-            $data[self::FORM_SECTION]['protect'] ? 'y' : 'n'
+            $this->object->getId(),
+            $data[self::FORM_KEY_PROTECT] ? 'y' : 'n'
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'edit');
+    }
+
+    private function buildEditPage(StandardForm $form = null): void
+    {
+        $page_content = [];
+        if ($this->object->getId() != SYSTEM_ROLE_ID) {
+            $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
+            if ($this->rbac_review->isDeleteable($this->object->getId(), $this->obj_ref_id)) {
+                $modal = $this->buildConfirmationModal();
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->standard(
+                        $this->lng->txt('rbac_delete_role'),
+                        $modal->getShowSignal()
+                    )
+                );
+                $page_content[] = $modal;
+            }
+        }
+
+        $page_content[] = $this->ui_factory->panel()->standard(
+            $this->lng->txt('role_edit'),
+            $form ?? $this->getRoleForm()
+        );
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render($page_content)
+        );
     }
 
     protected function permObject(bool $a_show_admin_permissions = false): void
@@ -513,18 +529,11 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->tpl->setVariable('OPTIONS_TABLE', $options->getHTML() . $additional_content);
     }
 
-    /**
-     * Show administration permissions
-     */
     protected function adminPermObject(): void
     {
         $this->permObject(true);
     }
 
-    /**
-     * Save admin permissions
-     * @return
-     */
     protected function adminPermSaveObject(): void
     {
         $this->permSaveObject(true);
@@ -915,10 +924,6 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     public function userassignmentObject(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
             $this->tpl->setOnScreenMessage(
                 $this->lng->txt("msg_no_perm_assign_user_to_role"),
@@ -934,7 +939,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // protected admin role
         if ($this->object->getId() != SYSTEM_ROLE_ID
-            || ($this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)
+            || ($this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)
                 || !ilSecuritySettings::_getInstance()->isAdminRoleProtected())) {
             // add member
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -968,7 +973,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $role_assignment_editable = true;
         if (
             $this->object->getId() == SYSTEM_ROLE_ID &&
-            !ilSecuritySettings::_getInstance()->checkAdminRoleAccessible($ilUser->getId())) {
+            !ilSecuritySettings::_getInstance()->checkAdminRoleAccessible($this->user->getId())) {
             $role_assignment_editable = false;
         }
         $ut = new ilAssignedUsersTableGUI(
@@ -991,9 +996,9 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         if ($this->requested_new_type != 'role') {
             $this->ctrl->redirect($this, 'userassignment');
-        } else {
-            $this->ctrl->redirectByClass("ilobjrolefoldergui", "view");
+            return;
         }
+        $this->ctrl->redirectByClass('ilobjrolefoldergui', 'view');
     }
 
     /**
@@ -1037,7 +1042,7 @@ class ilObjRoleGUI extends ilObjectGUI
         // not so nice (workaround for using tabs in repository)
         $this->tabs_gui->clearTargets();
 
-        $this->help->setScreenIdComponent("role");
+        $this->help->setScreenIdComponent('role');
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('btn_back'),
             (string) $this->ctrl->getParentReturn($this)
@@ -1052,8 +1057,8 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         if ($this->checkAccess('write', 'edit_permission') && $this->showDefaultPermissionSettings()) {
             $this->tabs_gui->addTarget(
-                "default_perm_settings",
-                $this->ctrl->getLinkTarget($this, "perm"),
+                'default_perm_settings',
+                $this->ctrl->getLinkTarget($this, 'perm'),
                 [],
                 get_class($this)
             );
@@ -1064,9 +1069,9 @@ class ilObjRoleGUI extends ilObjectGUI
             'edit_permission'
         ) && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->tabs_gui->addTarget(
-                "user_assignment",
-                $this->ctrl->getLinkTarget($this, "userassignment"),
-                ["deassignUser", "userassignment", "assignUser", "searchUserForm", "search"],
+                'user_assignment',
+                $this->ctrl->getLinkTarget($this, 'userassignment'),
+                ['deassignUser', 'userassignment', 'assignUser', 'searchUserForm', 'search'],
                 get_class($this)
             );
         }
@@ -1075,10 +1080,10 @@ class ilObjRoleGUI extends ilObjectGUI
             'write',
             'edit_permission'
         ) && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
-            $this->lng->loadLanguageModule("rep");
+            $this->lng->loadLanguageModule('rep');
             $this->tabs_gui->addTarget(
-                "rep_recommended_content",
-                $this->ctrl->getLinkTargetByClass("ilrecommendedcontentroleconfiggui", "")
+                'rep_recommended_content',
+                $this->ctrl->getLinkTargetByClass('ilrecommendedcontentroleconfiggui', '')
             );
         }
         if ($this->checkAccess('write', 'edit_permission')) {
