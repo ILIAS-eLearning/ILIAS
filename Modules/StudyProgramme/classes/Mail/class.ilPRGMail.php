@@ -53,7 +53,7 @@ class ilPRGMail
         string $body_template
     ): bool {
         $user_info = $assignment->getUserInformation();
-        $gender = $user_info->getGender();
+        $gender = $user_info->getGender() ?: 'anonymous';
         $name = $user_info->getFullname();
         $login = $user_info->getLogin();
 
