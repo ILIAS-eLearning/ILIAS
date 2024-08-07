@@ -111,15 +111,13 @@ class ilDataCollectionDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         foreach ($a_rec as $key => &$value) {
-            $decode = json_decode($value, true);
-            if (is_array($decode)) {
-                $value = htmlspecialchars(json_encode($decode, JSON_HEX_APOS | JSON_HEX_QUOT), ENT_SUBSTITUTE, 'utf-8');
+            $array = json_decode($value, true);
+            if ($key === 'title' || $key === 'description') {
+                $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
+            } elseif (is_array($array)) {
+                $value = json_encode($this->escapeArray($array));
             } else {
-                if ($key === 'title' || $key === 'description') {
-                    $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
-                } else {
-                    $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
-                }
+                $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
             }
         }
         switch ($a_entity) {
@@ -483,6 +481,26 @@ class ilDataCollectionDataSet extends ilDataSet
                 }
                 break;
         }
+    }
+
+    protected function escapeArray(array $array): array
+    {
+        $new = [];
+        foreach ($array as $key => $value) {
+            $newkey = $key;
+            if (is_string($key)) {
+                $newkey = htmlspecialchars($key, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+            }
+            $newvalue = $value;
+            if (is_string($value)) {
+                $newvalue = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+            }
+            if (is_array($value)) {
+                $newvalue = $this->escapeArray($value);
+            }
+            $new[$newkey] = $newvalue;
+        }
+        return $new;
     }
 
     /**
