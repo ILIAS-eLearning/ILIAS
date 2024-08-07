@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,34 +16,56 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Link\Standard as Link;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Button;
-use ILIAS\UI\Component\Link;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Modal;
 
-/**
- * This describes the Footer.
- */
 interface Footer extends Component
 {
     /**
-     * @return Link\Standard[]
+     * Get a Footer like this but add an additional, named group of links or shy-buttons to
+     * the link-group section.
+     *
+     * @param array<Link|Shy> $actions only use Shy buttons if they trigger signal(s).
      */
-    public function getLinks(): array;
-
-    public function getText(): string;
+    public function withAdditionalLinkGroup(string $title, array $actions): self;
 
     /**
-     * @return array<Modal\RoundTrip, Button\Shy>[]
+     * Get a Footer like this but add an additional link or shy-button to the links section.
+     *
+     * @param Link|Shy ...$actions only use Shy buttons if they trigger signal(s).
      */
-    public function getModals(): array;
+    public function withAdditionalLink(Link|Shy ...$actions): self;
 
-    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Button\Shy $shyButton): Footer;
+    /**
+     * Get a Footer like this but add an additional Icon to the icons section. The Icon may
+     * also trigger an action or signal to trigger a dialog.
+     */
+    public function withAdditionalIcon(Icon $icon, URI|Signal|null $action = null): self;
 
-    public function getPermanentURL(): ?URI;
+    /**
+     * Get a Footer like this but add additional text information to the meta section.
+     */
+    public function withAdditionalText(string ...$texts): self;
 
-    public function withPermanentURL(URI $url): Footer;
+    /**
+     * @deprecated injecting modals into the footer will be removed in the future.
+     *             triggers or signals can be injected using withAdditionalLinkGroup(),
+     *             withAdditionalLink(), or withAdditionalIcon().
+     */
+    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Shy $shyButton): self;
+
+    /**
+     * Get a Footer like this but with a permanent URL to the current page, which can
+     * be copied by the users.
+     */
+    public function withPermanentURL(URI $url): self;
 }
