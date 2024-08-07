@@ -638,10 +638,6 @@ class ilGlossaryTerm
         int $a_term_id,
         int $a_glossary_id
     ): int {
-        global $DIC;
-
-        $lom_services = $DIC->learningObjectMetadata();
-
         $old_term = new ilGlossaryTerm($a_term_id);
 
         // copy the term
