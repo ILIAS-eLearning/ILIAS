@@ -96,7 +96,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         );
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
-        $this->setShowTemplates(true);
 
         // see ilObjCourseGUI::addMailToMemberButton()
         $mail = new ilMail($DIC->user()->getId());

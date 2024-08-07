@@ -85,7 +85,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $this->parseTitle($this->obj_id, "trac_summary");
         $this->setLimit(9999);
-        $this->setShowTemplates(true);
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
         $this->addColumn($this->lng->txt("title"), "title");
