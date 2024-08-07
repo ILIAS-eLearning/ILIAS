@@ -185,20 +185,6 @@ class ilLearningProgressBaseGUI
                         $a_active == self::LP_ACTIVE_PROGRESS
                     );
                 }
-
-                if (ilObjUserTracking::_hasLearningProgressOtherUsers()) {
-                    $this->tabs_gui->addTarget(
-                        'trac_objects',
-                        $this->ctrl->getLinkTargetByClass(
-                            "illplistofobjectsgui",
-                            ''
-                        ),
-                        "",
-                        "",
-                        "",
-                        $a_active == self::LP_ACTIVE_OBJECTS
-                    );
-                }
                 break;
 
             case self::LP_CONTEXT_REPOSITORY:
