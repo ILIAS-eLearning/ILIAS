@@ -2164,6 +2164,9 @@ auth#:#login_page#:#Sprache der Login-Seite
 auth#:#login_page_activate#:#Seitengestaltung aktivieren
 auth#:#login_page_deactivate#:#Seitengestaltung deaktivieren
 auth#:#login_pages#:#Login-Seiten
+auth#:#logout_editor#:#Logout-Seite gestalten
+auth#:#logout_page#:#Logout Seite
+auth#:#logout_pages#:#Logout Seiten
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jetzt online
