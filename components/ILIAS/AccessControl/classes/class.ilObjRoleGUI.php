@@ -22,6 +22,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
  * Class ilObjRoleGUI
@@ -365,17 +366,18 @@ class ilObjRoleGUI extends ilObjectGUI
         if ($this->object->getId() != SYSTEM_ROLE_ID) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
             if ($this->rbac_review->isDeleteable($this->object->getId(), $this->obj_ref_id)) {
+                $modal = $this->buildConfirmationModal();
                 $this->toolbar->addComponent(
-                    $this->ui_factory->link()->standard(
+                    $this->ui_factory->button()->standard(
                         $this->lng->txt('rbac_delete_role'),
-                        $this->ctrl->getLinkTarget($this, 'confirmDeleteRole')
+                        $modal->getShowSignal()
                     )
                 );
             }
         }
         $form = $this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
         $this->readRoleProperties($this->object, $form);
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML() . $this->ui_renderer->render($modal));
     }
 
     /**
@@ -1332,5 +1334,19 @@ class ilObjRoleGUI extends ilObjectGUI
             throw new \ilObjectException($this->lng->txt('permission_denied'));
         }
         return true;
+    }
+
+    private function buildConfirmationModal(): InterruptiveModal
+    {
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('rbac_role_delete_self'),
+            $this->ctrl->getFormActionByClass(self::class, 'performDeleteRole')
+        )->withAffectedItems([
+            $this->ui_factory->modal()->interruptiveItem()->standard(
+                (string) $this->object->getId(),
+                $this->object->getTitle()
+            )
+        ]);
     }
 }
