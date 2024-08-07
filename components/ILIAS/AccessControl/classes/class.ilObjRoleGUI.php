@@ -47,7 +47,6 @@ class ilObjRoleGUI extends ilObjectGUI
     protected string $obj_obj_type = '';
     protected string $container_type = '';
     protected int $role_id = 0;
-    protected ilRbacAdmin $rbacadmin;
     protected ilHelpGUI $help;
     private ilLogger $logger;
     private GlobalHttpState $http;
@@ -64,7 +63,6 @@ class ilObjRoleGUI extends ilObjectGUI
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->rbacadmin = $DIC['rbacadmin'];
         $this->help = $DIC['ilHelp'];
         $this->logger = $DIC->logger()->ac();
 
@@ -309,7 +307,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('cancel'),
-            (string) $this->ctrl->getParentReturnByClass(self::class)
+            $this->ctrl->getParentReturnByClass(self::class)
         );
 
         $this->tpl->setContent(
@@ -344,7 +342,7 @@ class ilObjRoleGUI extends ilObjectGUI
         if ($data === null) {
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt('cancel'),
-                (string) $this->ctrl->getParentReturnByClass(self::class)
+                $this->ctrl->getParentReturnByClass(self::class)
             );
             $this->tpl->setContent(
                 $this->ui_renderer->render(
@@ -363,8 +361,8 @@ class ilObjRoleGUI extends ilObjectGUI
         $role->setAllowRegister($data[self::FORM_KEY_ON_REGISTRATION_FORM]);
         $role->toggleAssignUsersStatus($data[self::FORM_KEY_ALLOW_LOCAL_USER_ASSIGNMENT]);
         $role->create();
-        $this->rbacadmin->assignRoleToFolder($role->getId(), $this->obj_ref_id, 'y');
-        $this->rbacadmin->setProtected(
+        $this->rbac_admin->assignRoleToFolder($role->getId(), $this->obj_ref_id, 'y');
+        $this->rbac_admin->setProtected(
             $this->obj_ref_id,
             $role->getId(),
             $data[self::FORM_KEY_PROTECT] ? 'y' : 'n'
@@ -396,7 +394,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->object->setAllowRegister($data[self::FORM_KEY_ON_REGISTRATION_FORM]);
         $this->object->toggleAssignUsersStatus($data[self::FORM_KEY_ALLOW_LOCAL_USER_ASSIGNMENT]);
         $this->object->update();
-        $this->rbacadmin->setProtected(
+        $this->rbac_admin->setProtected(
             $this->obj_ref_id,
             $this->object->getId(),
             $data[self::FORM_KEY_PROTECT] ? 'y' : 'n'
@@ -652,13 +650,13 @@ class ilObjRoleGUI extends ilObjectGUI
 
         foreach (array_keys($subs) as $subtype) {
             // Delete per object type
-            $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id, $subtype);
+            $this->rbac_admin->deleteRolePermission($this->object->getId(), $this->obj_ref_id, $subtype);
         }
 
         $template_permissions = $this->retrieveTemplatePermissionsFromPost();
         foreach ($template_permissions as $key => $ops_array) {
             // sets new template permissions
-            $this->rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->obj_ref_id);
+            $this->rbac_admin->setRolePermission($this->object->getId(), $key, $ops_array, $this->obj_ref_id);
         }
 
         if ($rbac_log_active) {
@@ -681,7 +679,7 @@ class ilObjRoleGUI extends ilObjectGUI
         if (
             $this->obj_ref_id == ROLE_FOLDER_ID ||
             $this->rbac_review->isAssignable($this->object->getId(), $this->obj_ref_id)) {
-            $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
+            $this->rbac_admin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
         }
         $recursive = false;
         if ($this->http->wrapper()->post()->has('recursive')) {
@@ -775,9 +773,9 @@ class ilObjRoleGUI extends ilObjectGUI
         if ($this->object->getId() == $source) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
-            $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id);
+            $this->rbac_admin->deleteRolePermission($this->object->getId(), $this->obj_ref_id);
             $parentRoles = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);
-            $this->rbacadmin->copyRoleTemplatePermissions(
+            $this->rbac_admin->copyRoleTemplatePermissions(
                 $source,
                 $parentRoles[$source]["parent"],
                 $this->obj_ref_id,
@@ -835,7 +833,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_anonymous_cannot_be_assigned'), true);
                 return;
             }
-            $this->rbacadmin->assignUser($this->object->getId(), $user_id, false);
+            $this->rbac_admin->assignUser($this->object->getId(), $user_id, false);
         }
 
         // update object data entry (to update last modification date)
@@ -902,7 +900,7 @@ class ilObjRoleGUI extends ilObjectGUI
         // ... else perform deassignment
         foreach ($selected_users as $user) {
             if (!isset($last_role[$user])) {
-                $this->rbacadmin->deassignUser($this->object->getId(), $user);
+                $this->rbac_admin->deassignUser($this->object->getId(), $user);
             }
         }
 
@@ -986,19 +984,6 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->getAdminMode() === self::ADMIN_MODE_SETTINGS
         );
         $this->tpl->setVariable('TABLE_UA', $ut->getHTML());
-    }
-
-    /**
-     * cancelObject is called when an operation is canceled, method links back
-     * @access    public
-     */
-    public function cancelObject(): void
-    {
-        if ($this->requested_new_type != 'role') {
-            $this->ctrl->redirect($this, 'userassignment');
-            return;
-        }
-        $this->ctrl->redirectByClass('ilobjrolefoldergui', 'view');
     }
 
     /**
