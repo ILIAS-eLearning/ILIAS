@@ -308,7 +308,6 @@ class ilExSubmission
         bool $unzip = false
     ): bool {
         $ilDB = $this->db;
-
         if (!$this->canAddFile()) {
             return false;
         }
@@ -366,7 +365,6 @@ class ilExSubmission
         if (!$this->canAddFile()) {
             return false;
         }
-
         if ($this->ass_type->isSubmissionAssignedToTeam()) {
             $team_id = $this->getTeam()->getId();
             $user_id = 0;
