@@ -127,7 +127,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
                 $this->ctrl->getLinkTarget($this, 'details')
             );
         } elseif ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
-            $this->getMode() == self::LP_CONTEXT_ADMINISTRATION or
             $this->getMode() == self::LP_CONTEXT_USER_FOLDER) {
             $this->toolbar->addButton(
                 $this->lng->txt('trac_view_list'),

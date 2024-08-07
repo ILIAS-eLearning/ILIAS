@@ -285,25 +285,6 @@ class ilLearningProgressBaseGUI
                 }
                 break;
 
-            case self::LP_CONTEXT_ADMINISTRATION:
-                /*
-                $this->tabs_gui->addSubTabTarget('trac_progress',
-                                     $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-                                     "","","",$a_active == self::LP_ACTIVE_PROGRESS);
-                */
-                $this->tabs_gui->addSubTabTarget(
-                    'trac_objects',
-                    $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui",
-                        ''
-                    ),
-                    "",
-                    "",
-                    "",
-                    $a_active == self::LP_ACTIVE_OBJECTS
-                );
-                break;
-
             case self::LP_CONTEXT_USER_FOLDER:
             case self::LP_CONTEXT_ORG_UNIT:
                 // No tabs default class is lpprogressgui
