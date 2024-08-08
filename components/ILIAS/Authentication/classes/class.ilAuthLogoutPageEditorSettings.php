@@ -95,9 +95,6 @@ class ilAuthLogoutPageEditorSettings
         return $this->languages[$a_langkey] ?? false;
     }
 
-    /**
-     * Update settings
-     */
     public function update(): void
     {
         $this->getStorage()->set('mode', (string) $this->getMode());
