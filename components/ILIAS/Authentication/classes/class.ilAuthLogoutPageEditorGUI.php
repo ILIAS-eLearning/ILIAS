@@ -277,9 +277,6 @@ class ilAuthLogoutPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    /**
-     * Show ILIAS page editor summary.
-     */
     private function showIliasEditor(): void
     {
         $tbl = new \ILIAS\Authentication\LogoutPage\LogoutPageLanguagesOverviewTable(
