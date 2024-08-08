@@ -26,4 +26,12 @@ declare(strict_types=1);
  */
 class ilAuthFrontendCLI extends ilAuthFrontend implements ilAuthFrontendInterface
 {
+  /**
+   * This overwrites ilAuthFrontend::checkIp used in ilAuthFrontend::authenticate
+   * since CLI does not set $_SERVER['REMOTE_ADDR']!
+   */
+  protected function checkIp(ilObjUser $user): bool
+  {
+    return true;
+  }
 }
