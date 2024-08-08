@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilAuthLoginPageEditorGUI
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
@@ -32,10 +32,7 @@ class ilAuthLoginPageEditorGUI
     private \ILIAS\Refinery\Factory $refinery;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
-
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
-
-    //variables from requests
     private ?string $redirect_source = null;
     private ?int $key = null;
 

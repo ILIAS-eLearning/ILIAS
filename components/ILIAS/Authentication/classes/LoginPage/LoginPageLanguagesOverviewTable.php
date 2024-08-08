@@ -26,7 +26,7 @@ use ilArrayUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use ilAuthLoginPageEditorSettings;
 use ilLanguage;
-use ilCtrl;
+use ilCtrlInterface;
 
 class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
@@ -42,7 +42,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
     private ?array $records = null;
 
     public function __construct(
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
