@@ -979,6 +979,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     ''
                 );
             }
+
             if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
                 $this->tabs_gui->addSubTabTarget(
                     'logout_editor',
