@@ -220,10 +220,15 @@ class ilFileDataMail extends ilFileData
         return $files;
     }
 
-    public function storeAsAttachment(string $a_filename, string $a_content)
+    public function storeAsAttachment(string $a_filename, string $a_content): string
     {
         if (strlen($a_content) >= $this->getUploadLimit()) {
-            return 1;
+            throw new DomainException(
+                sprintf(
+                    'Mail upload limit reached for user with id %s',
+                    $this->user_id
+                )
+            );
         }
 
         $name = ilFileUtils::_sanitizeFilemame($a_filename);
@@ -233,32 +238,45 @@ class ilFileDataMail extends ilFileData
 
         $fp = fopen($abs_path, 'wb+');
         if (!is_resource($fp)) {
-            return false;
+            throw new RuntimeException(
+                sprintf(
+                    'Could not read file: %s',
+                    $abs_path
+                )
+            );
         }
 
         if (fwrite($fp, $a_content) === false) {
             fclose($fp);
-            return false;
+            throw new RuntimeException(
+                sprintf(
+                    'Could not write file: %s',
+                    $abs_path
+                )
+            );
         }
 
         fclose($fp);
-        return true;
+
+        return $name;
     }
 
     /**
      * @param array{name:string, tmp_name:string} $file
      */
-    public function storeUploadedFile(array $file): void
+    public function storeUploadedFile(array $file): string
     {
-        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
+        $sanitized_filename = ilFileUtils::_sanitizeFilemame($file['name']);
 
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
+        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $sanitized_filename);
 
         ilFileUtils::moveUploadedFile(
             $file['tmp_name'],
-            $file['name'],
-            $this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
+            $sanitized_filename,
+            $this->getMailPath() . '/' . $this->user_id . '_' . $sanitized_filename
         );
+
+        return $sanitized_filename;
     }
 
     /**
@@ -274,7 +292,7 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    public function rotateFiles(string $a_path): bool
+    private function rotateFiles(string $a_path): bool
     {
         if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
