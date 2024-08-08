@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\UserGUIRequest;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * User action administration GUI class
@@ -28,28 +31,33 @@ class ilUserActionAdminGUI
 {
     private ilRbacSystem $rbabsystem;
     private int $ref_id;
-    private UserGUIRequest $request;
+    private ServerRequestInterface $request;
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
     private ilLanguage $lng;
     private ilUserActionContext $action_context;
     private ilUserActionAdmin $user_action_admin;
 
     public function __construct(int $ref_id)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-        $this->ref_id = $ref_id;
-        $this->rbabsystem = $DIC->rbac()->system();
-        $this->lng->loadLanguageModule("usr");
-        $this->request = new UserGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->rbabsystem = $DIC['rbacsystem'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->request = $DIC['http']->request();
+
         $this->user_action_admin = new ilUserActionAdmin($DIC['ilDB']);
+
+        $this->ref_id = $ref_id;
+
+        $this->lng->loadLanguageModule('usr');
     }
 
     public function setActionContext(ilUserActionContext $a_val = null): void
@@ -65,11 +73,11 @@ class ilUserActionAdminGUI
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd("show");
+        $cmd = $this->ctrl->getCmd('show');
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, ["show", "save"])) {
+                if (in_array($cmd, ['show', 'save'])) {
                     $this->$cmd();
                 }
         }
@@ -77,55 +85,78 @@ class ilUserActionAdminGUI
 
     public function show(): void
     {
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_actions_activation_info"));
-
-        $tab = new ilUserActionAdminTableGUI(
-            $this,
-            "show",
-            $this->getActions(),
-            $this->rbabsystem->checkAccess("write", $this->ref_id)
-        );
-        $this->tpl->setContent($tab->getHTML());
-    }
-
-    /**
-     * Save !!!! note in the future this must depend on the context, currently we only have one
-     */
-    public function save(): void
-    {
-        if (!$this->rbabsystem->checkAccess("write", $this->ref_id)) {
-            $this->ctrl->redirect($this, "show");
+        if (!$this->rbabsystem->checkAccess('write', $this->ref_id)) {
+            $this->ctrl->redirect($this, 'show');
         }
 
-        $active = $this->request->getActionActive();
-        foreach ($this->getActions() as $a) {
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_actions_activation_info'));
+
+        $inputs = [];
+
+        foreach($this->getActions() as $action) {
+            $inputs["{$action['action_comp_id']}:{$action['action_type_id']}"] =
+                $this->ui_factory->input()->field()->checkbox($action["action_type_name"])
+                    ->withValue($action['active']);
+        }
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $this->buildForm()
+            )
+        );
+    }
+
+    private function buildForm(): StandardForm
+    {
+        $inputs = [];
+
+        foreach($this->getActions() as $action) {
+            $inputs["{$action['action_comp_id']}:{$action['action_type_id']}"] =
+                $this->ui_factory->input()->field()->checkbox($action["action_type_name"])
+                    ->withValue($action['active']);
+        }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormActionByClass(self::class, 'save'),
+            $inputs
+        );
+    }
+
+    public function save(): void
+    {
+        if (!$this->rbabsystem->checkAccess('write', $this->ref_id)) {
+            $this->ctrl->redirect($this, 'show');
+        }
+
+        $form = $this->buildForm()->withRequest($this->request);
+        $data = $form->getData();
+        if ($data === null) {
+            $this->tpl->setContent($this->ui_renderer->render($form));
+            return;
+        }
+
+        foreach ($this->getActions() as $action) {
             $this->user_action_admin->activateAction(
                 $this->action_context->getComponentId(),
                 $this->action_context->getContextId(),
-                $a["action_comp_id"],
-                $a["action_type_id"],
-                (bool) ($active[$a["action_comp_id"] . ":" . $a["action_type_id"]] ?? false)
+                $action['action_comp_id'],
+                $action['action_type_id'],
+                $data["{$action['action_comp_id']}:{$action['action_type_id']}"] ?? false
             );
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "show");
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->show();
     }
 
-    /**
-     * Get actions, !!!! note in the future this must depend on the context, currently we only have one
-     * @return array[]
-     */
-    public function getActions(): array
+    private function getActions(): \Generator
     {
-        $data = [];
-        $action_provider_factory = new ilUserActionProviderFactory();
-        foreach ($action_provider_factory->getProviders() as $p) {
+        foreach ((new ilUserActionProviderFactory())->getProviders() as $p) {
             foreach ($p->getActionTypes() as $id => $name) {
-                $data[] = [
-                    "action_comp_id" => $p->getComponentId(),
-                    "action_type_id" => $id,
-                    "action_type_name" => $name,
-                    "active" => $this->user_action_admin->isActionActive(
+                yield [
+                    'action_comp_id' => $p->getComponentId(),
+                    'action_type_id' => $id,
+                    'action_type_name' => $name,
+                    'active' => $this->user_action_admin->isActionActive(
                         $this->action_context->getComponentId(),
                         $this->action_context->getContextId(),
                         $p->getComponentId(),
@@ -134,6 +165,5 @@ class ilUserActionAdminGUI
                 ];
             }
         }
-        return $data;
     }
 }

@@ -102,11 +102,6 @@ class UserGUIRequest
         return $this->int('role_id');
     }
 
-    public function getActionActive(): array
-    {
-        return $this->intArray('active');
-    }
-
     public function getIds(): array
     {
         return $this->intArray('id');
