@@ -316,7 +316,7 @@ class ilAuthLogoutPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function initLogoutForm(): void
+    private function initLogoutForm(): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveLogoutInfo'));
