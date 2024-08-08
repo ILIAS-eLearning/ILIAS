@@ -123,8 +123,7 @@ class ilAuthLogoutPageEditorGUI
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
                     $this->lng->txt('back'),
-                    $this->ctrl->getLinkTarget($this, 'show'),
-                    '_top'
+                    $this->ctrl->getLinkTarget($this, 'show')
                 );
 
                 if ($this->redirect_source !== strtolower(ilInternalLinkGUI::class)) {
