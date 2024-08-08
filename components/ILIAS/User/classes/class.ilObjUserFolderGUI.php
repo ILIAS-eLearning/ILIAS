@@ -2490,7 +2490,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * @param InterestedUserFieldChangeListener[] $interested_change_listeners
      */
-    public function showFieldChangeComponentsListeningConfirmDialog(
+    private function showFieldChangeComponentsListeningConfirmDialog(
         array $interested_change_listeners
     ): void {
         $post = $this->user_request->getParsedBody();
@@ -2546,7 +2546,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * @param array<string, array>                     $field_properties => See ilUserProfile::getStandardFields()
      * @return bool
      */
-    public function handleChangeListeners(
+    private function handleChangeListeners(
         array $changed_fields,
         array $field_properties
     ): bool {
