@@ -290,7 +290,7 @@ class ilAuthLogoutPageEditorGUI
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }
 
-    protected function saveLogoutInfo(): void
+    private function saveLogoutInfo(): void
     {
         if (!$this->rbacsystem->checkAccess("write", $this->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
