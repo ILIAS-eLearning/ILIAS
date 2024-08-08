@@ -31,8 +31,8 @@ use ilAuthLogoutPageEditorSettings;
 
 class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
-    protected ServerRequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface $request;
+    private Data\Factory $data_factory;
     /**
      * @var list<array<string, mixed>>|null
      */
