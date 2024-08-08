@@ -247,7 +247,7 @@ class ilAuthLogoutPageEditorGUI
         return $lang_keys;
     }
 
-    protected function activate(): void
+    private function activate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
         $settings = ilAuthLogoutPageEditorSettings::getInstance();
