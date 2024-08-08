@@ -84,9 +84,6 @@ class ilAuthLogoutPageEditorSettings
         $this->languages[$a_langkey] = $a_status;
     }
 
-    /**
-     * Check if ilias editor is enabled for a language
-     */
     public function isIliasEditorEnabled(string $a_langkey): bool
     {
         return $this->languages[$a_langkey] ?? false;
