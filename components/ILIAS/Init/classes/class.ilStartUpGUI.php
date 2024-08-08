@@ -968,7 +968,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        // if page does not exist, return nothing
         if (!ilPageUtil::_existsAndNotEmpty('aout', ilLanguage::lookupId($active_lang))) {
             return '';
         }
