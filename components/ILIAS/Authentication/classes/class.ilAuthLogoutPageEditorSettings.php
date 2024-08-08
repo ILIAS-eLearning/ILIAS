@@ -107,9 +107,6 @@ class ilAuthLogoutPageEditorSettings
         }
     }
 
-    /**
-     * Read settings
-     */
     public function read(): void
     {
         $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
