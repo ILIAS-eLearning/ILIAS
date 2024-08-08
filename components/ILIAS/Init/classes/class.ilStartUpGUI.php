@@ -973,7 +973,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        // get page object
         $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
 
         $page_gui->setStyleId(0);
