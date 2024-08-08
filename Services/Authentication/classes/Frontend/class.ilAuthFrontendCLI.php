@@ -18,20 +18,14 @@
 
 declare(strict_types=1);
 
-/**
- * Description of class class
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class ilAuthFrontendCLI extends ilAuthFrontend implements ilAuthFrontendInterface
 {
-  /**
-   * This overwrites ilAuthFrontend::checkIp used in ilAuthFrontend::authenticate
-   * since CLI does not set $_SERVER['REMOTE_ADDR']!
-   */
-  protected function checkIp(ilObjUser $user): bool
-  {
-    return true;
-  }
+    /**
+     * This overwrites ilAuthFrontend::checkIp used in ilAuthFrontend::authenticate
+     * since CLI does not set $_SERVER['REMOTE_ADDR']!
+     */
+    protected function checkIp(ilObjUser $user): bool
+    {
+        return true;
+    }
 }
