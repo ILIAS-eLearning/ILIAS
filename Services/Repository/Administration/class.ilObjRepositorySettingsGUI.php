@@ -738,7 +738,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $grp_pos_map = [];
             foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
-                $grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
+                $grp_pos_map[$item["id"]] = str_pad((string) $item["pos"], 4, "0", STR_PAD_LEFT);
             }
 
             // update order of assigned objects

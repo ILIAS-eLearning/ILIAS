@@ -66,7 +66,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
         if ($reporting_date !== null) {
             $reporting_date = $reporting_date->setTimezone(
                 new DateTimeZone($environment['user_time_zone'])
-            )->format($environment['user_date_format']->toString() . ' H:m');
+            )->format($environment['user_date_format']->toString() . ' H:i');
         }
 
         $results_time_group = $f->switchableGroup(

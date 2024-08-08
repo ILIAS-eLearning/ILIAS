@@ -138,9 +138,6 @@ class ilObjRepositorySettings extends ilObject
 
         $set = $ilDB->query("SELECT * FROM il_new_item_grp ORDER BY pos");
         while ($row = $ilDB->fetchAssoc($set)) {
-            if ($row['titles'] === null) {
-                continue;
-            }
             if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
                 $row["titles"] = unserialize($row["titles"], ["allowed_classes" => false]);
 
