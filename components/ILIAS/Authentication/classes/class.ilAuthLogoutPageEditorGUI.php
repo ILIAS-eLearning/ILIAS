@@ -185,7 +185,7 @@ class ilAuthLogoutPageEditorGUI
     /**
      * Show current activated editor
      */
-    protected function show(): void
+    private function show(): void
     {
         switch ($this->getSettings()->getMode()) {
             case ilAuthLogoutPageEditorSettings::MODE_IPE:
