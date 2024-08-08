@@ -37,9 +37,9 @@ class ilAuthLogoutPageEditorSettings
         $this->read();
     }
 
-    public static function getInstance(): ilAuthLogoutPageEditorSettings
+    public static function getInstance(): self
     {
-        return self::$instance ?? new ilAuthLogoutPageEditorSettings();
+        return self::$instance ?? (self::$instance = new self());
     }
 
     protected function getStorage(): ilSetting
