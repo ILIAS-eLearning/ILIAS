@@ -41,7 +41,7 @@ class ilAuthLogoutPageEditorGUI
     private int $ref_id;
     private ilAuthLogoutPageEditorSettings $settings;
     private ?ilSetting $logoutSettings = null;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     //variables from requests
     private ?string $redirect_source = null;
