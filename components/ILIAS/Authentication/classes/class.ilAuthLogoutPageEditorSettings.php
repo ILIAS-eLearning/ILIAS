@@ -79,9 +79,6 @@ class ilAuthLogoutPageEditorSettings
         return '';
     }
 
-    /**
-     * Enable editor for language
-     */
     public function enableIliasEditor(string $a_langkey, bool $a_status): void
     {
         $this->languages[$a_langkey] = $a_status;
