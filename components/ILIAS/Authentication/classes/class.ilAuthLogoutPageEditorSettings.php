@@ -63,11 +63,6 @@ class ilAuthLogoutPageEditorSettings
         return $this->mode;
     }
 
-    /**
-     * Get ilias editor language
-     * @param string $a_langkey
-     * @return string
-     */
     public function getIliasEditorLanguage(string $a_langkey): string
     {
         if ($this->isIliasEditorEnabled($a_langkey)) {
