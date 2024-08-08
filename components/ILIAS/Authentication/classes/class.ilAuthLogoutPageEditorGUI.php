@@ -140,7 +140,7 @@ class ilAuthLogoutPageEditorGUI
         }
     }
 
-    protected function forwardToPageObject(): void
+    private function forwardToPageObject(): void
     {
         $keys = $this->http->wrapper()->query()->retrieve(
             'logoutpage_languages_key',
