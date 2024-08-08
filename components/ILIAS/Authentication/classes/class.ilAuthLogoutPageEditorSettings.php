@@ -111,7 +111,6 @@ class ilAuthLogoutPageEditorSettings
     {
         $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
 
-        // Language settings
         $this->languages = [];
         foreach ($this->lng->getInstalledLanguages() as $lngkey) {
             $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ""));
