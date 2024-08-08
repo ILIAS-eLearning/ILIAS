@@ -140,9 +140,6 @@ class ilAuthLogoutPageEditorGUI
         }
     }
 
-    /**
-     * Forward to page editor
-     */
     protected function forwardToPageObject(): void
     {
         $keys = $this->http->wrapper()->query()->retrieve(
