@@ -115,9 +115,6 @@ class ilAuthLogoutPageEditorGUI
         return $this->ref_id;
     }
 
-    /**
-     * ilCtrl execute command
-     */
     public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass($this)) {
