@@ -43,7 +43,6 @@ class ilAuthLogoutPageEditorGUI
     private ?ilSetting $logoutSettings = null;
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
-    //variables from requests
     private ?string $redirect_source = null;
     private ?int $key = null;
     private array $visible_languages = [];
