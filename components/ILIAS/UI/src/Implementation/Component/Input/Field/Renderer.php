@@ -522,6 +522,7 @@ class Renderer extends AbstractComponentRenderer
             'ACTION_LINK' => $this->getUIFactory()->symbol()->glyph()->link(),
             'ACTION_BOLD' => $this->getUIFactory()->symbol()->glyph()->bold(),
             'ACTION_ITALIC' => $this->getUIFactory()->symbol()->glyph()->italic(),
+            'ACTION_UNDERLINE' => $this->getUIFactory()->symbol()->glyph()->underline(),
             'ACTION_ORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->numberedlist(),
             'ACTION_UNORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->bulletlist()
         ];
@@ -1114,7 +1115,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('AVERAGE_VALUE', $average_title);
             $tpl->setVariable('AVERAGE_VALUE_PERCENT', $average / $option_count * self::CENTUM);
         }
-
 
         return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
     }

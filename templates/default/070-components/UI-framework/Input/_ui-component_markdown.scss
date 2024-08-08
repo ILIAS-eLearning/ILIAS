@@ -23,6 +23,12 @@
   color: $il-text-color-invert;
 }
 
+// missing underline glyph
+.c-input-markdown__actions .glyphicon-underline:before {
+  font-family: 'icomoon';
+  content: "\ea63";
+}
+
 .c-input-markdown__preview {
   min-height: $il-textarea-height;
   border: $il-main-border;

@@ -57,6 +57,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     protected Glyph $italic_glyph_mock;
     protected Glyph $link_glyph_mock;
     protected Glyph $bold_glyph_mock;
+    protected Glyph $underline_glyph_mock;
 
     public function setUp(): void
     {
@@ -71,6 +72,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->italic_glyph_mock = $this->getGlyphStub('italic');
         $this->link_glyph_mock = $this->getGlyphStub('link');
         $this->bold_glyph_mock = $this->getGlyphStub('bold');
+        $this->underline_glyph_mock = $this->getGlyphStub('underline');
 
         parent::setUp();
     }
@@ -148,11 +150,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
                                     </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">underline</button>
+                                    </span>
                                     <span data-action=\"insert-bullet-points\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_8\">bulletpoint</button>
                                     </span>
                                     <span data-action=\"insert-enumeration\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">numberedlist</button>
                                     </span>
                                 </div>
                             </div>
@@ -204,11 +209,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
                                     </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">underline</button>
+                                    </span>
                                     <span data-action=\"insert-bullet-points\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_8\">bulletpoint</button>
                                     </span>
                                     <span data-action=\"insert-enumeration\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">numberedlist</button>
                                     </span>
                                 </div>
                             </div>
@@ -263,11 +271,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
                                     </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">underline</button>
+                                    </span>
                                     <span data-action=\"insert-bullet-points\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_8\">bulletpoint</button>
                                     </span>
                                     <span data-action=\"insert-enumeration\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">numberedlist</button>
                                     </span>
                                 </div>
                             </div>
@@ -320,6 +331,9 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" disabled=\"disabled\">italic</button>
+                                    </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" disabled=\"disabled\">underline</button>
                                     </span>
                                     <span data-action=\"insert-bullet-points\">
                                         <button class=\"btn btn-default\" data-action=\"#\" disabled=\"disabled\">bulletpoint</button>
@@ -378,11 +392,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
                                     </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">underline</button>
+                                    </span>
                                     <span data-action=\"insert-bullet-points\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_8\">bulletpoint</button>
                                     </span>
                                     <span data-action=\"insert-enumeration\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">numberedlist</button>
                                     </span>
                                 </div>
                             </div>
@@ -437,11 +454,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     <span data-action=\"insert-italic\">
                                         <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
                                     </span>
+                                    <span data-action=\"insert-underline\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">underline</button>
+                                    </span>
                                     <span data-action=\"insert-bullet-points\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_8\">bulletpoint</button>
                                     </span>
                                     <span data-action=\"insert-enumeration\">
-                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">numberedlist</button>
                                     </span>
                                 </div>
                             </div>
@@ -472,6 +492,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
             $this->link_glyph_mock,
             $this->numberedlist_glyph_mock,
             $this->bulledpoint_glyph_mock,
+            $this->underline_glyph_mock,
         ]);
     }
 
@@ -514,6 +535,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $glyph_factory->method('link')->willReturn($this->link_glyph_mock);
         $glyph_factory->method('numberedlist')->willReturn($this->numberedlist_glyph_mock);
         $glyph_factory->method('bulletlist')->willReturn($this->bulledpoint_glyph_mock);
+        $glyph_factory->method('underline')->willReturn($this->underline_glyph_mock);
 
         $symbol_factory = $this->createMock(SymbolFactory::class);
         $symbol_factory->method('glyph')->willReturn($glyph_factory);
