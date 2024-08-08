@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilAuthLogoutPageEditorGUI
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
