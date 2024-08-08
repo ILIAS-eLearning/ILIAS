@@ -324,15 +324,17 @@ This can be done as described in the following examples:
 ```php
 $attachment = new \ilFileDataMail($senderUserId);
 
-$attachment->storeAsAttachment(
-    'appointment.ics', $someIcalString
+$attachment_filename = $attachment->storeAsAttachment(
+    'appointment.ics',
+    $some_ical_string
 );
 
 $attachment->copyAttachmentFile(
-    '/temp/hello.jpg', 'HelloWorld.jpg'
+    '/temp/hello.jpg',
+    'HelloWorld.jpg'
 );
 
-$mail = new \ilMail($senderUserId);
+$mail = new \ilMail($sender_usr_id);
 $mail->enqueue(
     $to,
     $cc,
@@ -340,14 +342,14 @@ $mail->enqueue(
     $subject,
     $message,
     [
-        'appointment.ics',
+        $attachment_filename,
         'HelloWorld.jpg'
-    ],
-    array("system")
+    ]
 );
 
-// or $attachment->unlinkFiles(['/temp/hello.jpg']);
-$attachment->unlinkFile('/temp/hello.jpg');
+// or $attachment->unlinkFiles(['HelloWorld.jpg', $attachment_filename]);
+$attachment->unlinkFile('HelloWorld.jpg');
+$attachment->unlinkFile($attachment_filename);
 ```
 
 As outlined above attachments have to be removed
