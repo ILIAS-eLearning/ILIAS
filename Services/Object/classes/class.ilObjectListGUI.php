@@ -3163,7 +3163,7 @@ class ilObjectListGUI
         if ($def_command['link'] ?? false) {
             list($def_command['link'], $def_command['frame']) =
                 $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
-            $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
+            $new_viewport = !in_array($def_command['frame'], ['', '_top', '_self', '_parent'], true);
             $link = $this->ui->factory()
                              ->link()
                              ->standard($this->getTitle(), $def_command['link'])
