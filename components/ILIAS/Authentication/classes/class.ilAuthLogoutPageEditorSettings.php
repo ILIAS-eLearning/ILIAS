@@ -20,14 +20,11 @@ declare(strict_types=1);
 
 class ilAuthLogoutPageEditorSettings
 {
-    public const MODE_IPE = 2;
+    private static ?ilAuthLogoutPageEditorSettings $instance = null;
 
     private array $languages = [];
 
-    private static ?ilAuthLogoutPageEditorSettings $instance = null;
     private ilSetting $storage;
-
-    private int $mode = 0;
 
     private ilLanguage $lng;
 
@@ -42,25 +39,12 @@ class ilAuthLogoutPageEditorSettings
 
     public static function getInstance(): ilAuthLogoutPageEditorSettings
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-        return self::$instance = new ilAuthLogoutPageEditorSettings();
+        return self::$instance ?? new ilAuthLogoutPageEditorSettings();
     }
 
     protected function getStorage(): ilSetting
     {
         return $this->storage;
-    }
-
-    public function setMode(int $a_mode): void
-    {
-        $this->mode = $a_mode;
-    }
-
-    public function getMode(): int
-    {
-        return $this->mode;
     }
 
     public function getIliasEditorLanguage(string $a_langkey): string
@@ -86,8 +70,6 @@ class ilAuthLogoutPageEditorSettings
 
     public function update(): void
     {
-        $this->getStorage()->set('mode', (string) $this->getMode());
-
         foreach ($this->languages as $lngkey => $stat) {
             $this->storage->set($lngkey, (string) $stat);
         }
@@ -95,11 +77,9 @@ class ilAuthLogoutPageEditorSettings
 
     public function read(): void
     {
-        $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
-
         $this->languages = [];
         foreach ($this->lng->getInstalledLanguages() as $lngkey) {
-            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ""));
+            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ''));
         }
     }
 }

@@ -77,29 +77,31 @@ class ilAuthLogoutPageEditorGUI
 
         $query_wrapper = $DIC->http()->wrapper()->query();
         $post_wrapper = $DIC->http()->wrapper()->post();
-        $is_post_request = $DIC->http()->request()->getMethod() === "POST";
+        $is_post_request = $DIC->http()->request()->getMethod() === 'POST';
         $refinery = $DIC->refinery();
 
-        if ($query_wrapper->has("redirectSource")) {
-            $this->redirect_source = $query_wrapper->retrieve("redirectSource", $refinery->kindlyTo()->string());
+        if ($query_wrapper->has('redirectSource')) {
+            $this->redirect_source = $query_wrapper->retrieve('redirectSource', $refinery->kindlyTo()->string());
         }
 
-        if ($post_wrapper->has("key")) {
-            $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
-        } elseif ($query_wrapper->has("key")) {
-            $this->key = $query_wrapper->retrieve("key", $refinery->kindlyTo()->int());
+        if ($post_wrapper->has('key')) {
+            $this->key = $post_wrapper->retrieve('key', $refinery->kindlyTo()->int());
+        } elseif ($query_wrapper->has('key')) {
+            $this->key = $query_wrapper->retrieve('key', $refinery->kindlyTo()->int());
         }
 
         if ($is_post_request) {
-            if ($post_wrapper->has("visible_languages")) {
+            if ($post_wrapper->has('visible_languages')) {
                 $this->visible_languages = $post_wrapper->retrieve(
-                    "visible_languages", $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
+                    'visible_languages',
+                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
                 );
             }
 
-            if ($post_wrapper->has("languages")) {
+            if ($post_wrapper->has('languages')) {
                 $this->languages = $post_wrapper->retrieve(
-                    "languages", $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
+                    'languages',
+                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
                 );
             }
         }
@@ -117,8 +119,8 @@ class ilAuthLogoutPageEditorGUI
 
     public function executeCommand(): void
     {
-        switch ($this->ctrl->getNextClass($this)) {
-            case 'illogoutpagegui':
+        switch (strtolower($this->ctrl->getNextClass($this))) {
+            case strtolower(ilLogoutPageGUI::class):
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
                     $this->lng->txt('back'),
@@ -126,7 +128,7 @@ class ilAuthLogoutPageEditorGUI
                     '_top'
                 );
 
-                if ($this->redirect_source !== 'ilinternallinkgui') {
+                if ($this->redirect_source !== strtolower(ilInternalLinkGUI::class)) {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -167,7 +169,7 @@ class ilAuthLogoutPageEditorGUI
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-        $this->ctrl->setReturnByClass('illogoutpagegui', 'edit');
+        $this->ctrl->setReturnByClass(ilLogoutPageGUI::class, 'edit');
         $page_gui = new ilLogoutPageGUI($this->key);
 
         $page_gui->setTemplateTargetVar('ADM_CONTENT');
@@ -177,19 +179,14 @@ class ilAuthLogoutPageEditorGUI
 
         $html = $this->ctrl->forwardCommand($page_gui);
 
-        if ($html !== "") {
+        if ($html !== '') {
             $this->tpl->setContent($html);
         }
     }
 
     private function show(): void
     {
-        switch ($this->getSettings()->getMode()) {
-            case ilAuthLogoutPageEditorSettings::MODE_IPE:
-            default:
-                $this->showIliasEditor();
-                break;
-        }
+        $this->showIliasEditor();
     }
 
     private function handleLogoutPageActions(): void
@@ -220,7 +217,7 @@ class ilAuthLogoutPageEditorGUI
             case 'edit':
                 $this->ctrl->setParameter($this, 'logoutpage_languages_key', current($keys));
                 $this->ctrl->setParameter($this, 'key', ilLanguage::lookupId(current($keys)));
-                $this->ctrl->redirectByClass('ilLogoutPageGUI', 'edit');
+                $this->ctrl->redirectByClass(ilLogoutPageGUI::class, 'edit');
                 break;
             default:
                 $this->ctrl->redirect($this, 'show');
@@ -292,15 +289,15 @@ class ilAuthLogoutPageEditorGUI
 
     private function saveLogoutInfo(): void
     {
-        if (!$this->rbacsystem->checkAccess("write", $this->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess('write', $this->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
         $this->initLogoutForm();
         if ($this->form->checkInput()) {
-            $this->logoutSettings = new ilSetting("logout_settings");
+            $this->logoutSettings = new ilSetting('logout_settings');
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-                $settingKey = "logout_message_" . $lang_key;
+                $settingKey = 'logout_message_' . $lang_key;
                 if ($this->form->getInput($settingKey)) {
                     $this->logoutSettings->set($settingKey, $this->form->getInput($settingKey));
                 }
@@ -310,7 +307,7 @@ class ilAuthLogoutPageEditorGUI
                 $this->setting->set('default_auth_mode', $this->form->getInput('default_auth_mode'));
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("logout_information_settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('logout_information_settings_saved'), true);
         }
 
         $this->ctrl->redirect($this, 'show');
@@ -326,7 +323,7 @@ class ilAuthLogoutPageEditorGUI
         $this->form->addCommandButton('saveLogoutInfo', $this->lng->txt('save'));
 
         if (!is_object($this->logoutSettings)) {
-            $this->logoutSettings = new ilSetting("logout_settings");
+            $this->logoutSettings = new ilSetting('logout_settings');
         }
 
         $logout_settings = $this->logoutSettings->getAll();
@@ -368,7 +365,7 @@ class ilAuthLogoutPageEditorGUI
             $textarea->setValue($message);
 
             if (!in_array($lang_key, $languages, true)) {
-                $textarea->setAlert($this->lng->txt("not_installed"));
+                $textarea->setAlert($this->lng->txt('not_installed'));
             }
 
             $this->form->addItem($textarea);
@@ -376,17 +373,14 @@ class ilAuthLogoutPageEditorGUI
     }
 
     /**
-     * returns an array of all installed languages, default language at the first position
-     * @param string $a_def_language Default language of the current installation
-     * @param array  $a_languages    Array of all installed languages
-     * @return array $languages Array of the installed languages, default language at first position or
-     *                               an empty array, if $a_a_def_language is empty
-     * @author Michael Jansen
+     * @param string        $a_def_language
+     * @param array<string> $a_languages
+     * @return array<string>
      */
     private function setDefLangFirst(string $a_def_language, array $a_languages): array
     {
         $languages = [];
-        if ($a_def_language !== "") {
+        if ($a_def_language !== '') {
             $languages[] = $a_def_language;
 
             foreach ($a_languages as $val) {
