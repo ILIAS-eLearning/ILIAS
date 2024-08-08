@@ -28,7 +28,7 @@ class ilAuthLogoutPageEditorSettings
 
     private ilLanguage $lng;
 
-    public function __construct()
+    private function __construct()
     {
         global $DIC;
         $this->lng = $DIC->language();
