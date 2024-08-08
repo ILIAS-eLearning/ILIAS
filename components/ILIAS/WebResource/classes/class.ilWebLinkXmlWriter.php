@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * XML writer for weblinks
@@ -44,13 +44,13 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     /**
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
-    public function write(): void
+    public function write(bool $skip_lom = false): void
     {
         $this->init();
         if ($this->add_header) {
             $this->buildHeader();
         }
-        $this->weblink->toXML($this);
+        $this->weblink->toXML($this, $skip_lom);
     }
 
     /**
