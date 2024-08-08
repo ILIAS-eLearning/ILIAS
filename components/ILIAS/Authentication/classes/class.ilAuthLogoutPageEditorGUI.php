@@ -225,6 +225,9 @@ class ilAuthLogoutPageEditorGUI
         }
     }
 
+    /**
+     * @return array<string>
+     */
     private function getLangKeysToUpdate(): array
     {
         $keys = $this->http->wrapper()->query()->retrieve(
