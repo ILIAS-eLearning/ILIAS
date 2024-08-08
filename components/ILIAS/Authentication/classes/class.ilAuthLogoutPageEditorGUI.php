@@ -280,7 +280,7 @@ class ilAuthLogoutPageEditorGUI
     /**
      * Show ILIAS page editor summary.
      */
-    protected function showIliasEditor(): void
+    private function showIliasEditor(): void
     {
         $tbl = new \ILIAS\Authentication\LogoutPage\LogoutPageLanguagesOverviewTable(
             $this->ctrl,
