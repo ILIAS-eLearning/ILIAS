@@ -182,9 +182,6 @@ class ilAuthLogoutPageEditorGUI
         }
     }
 
-    /**
-     * Show current activated editor
-     */
     private function show(): void
     {
         switch ($this->getSettings()->getMode()) {
