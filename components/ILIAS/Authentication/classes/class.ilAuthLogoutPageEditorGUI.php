@@ -376,7 +376,6 @@ class ilAuthLogoutPageEditorGUI
     }
 
     /**
-     * @param string        $a_def_language
      * @param array<string> $a_languages
      * @return array<string>
      */
