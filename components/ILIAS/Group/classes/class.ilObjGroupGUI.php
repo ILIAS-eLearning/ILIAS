@@ -445,12 +445,6 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        ilMDUtils::_fillHTMLMetaTags(
-            $this->object->getId(),
-            $this->object->getId(),
-            'grp'
-        );
-
         if ($this->isActiveAdministrationPanel()) {
             parent::renderObject();
             $this->addAdoptContentLinkToToolbar();
@@ -1204,12 +1198,6 @@ class ilObjGroupGUI extends ilContainerGUI
         if (!$this->checkPermissionBool('read')) {
             $this->checkPermission('visible');
         }
-
-        ilMDUtils::_fillHTMLMetaTags(
-            $this->object->getId(),
-            $this->object->getId(),
-            'grp'
-        );
 
         $info = new ilInfoScreenGUI($this);
 
