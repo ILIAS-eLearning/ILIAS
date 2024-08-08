@@ -319,9 +319,6 @@ class ilAuthLogoutPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    /**
-     * Init logout form
-     */
     protected function initLogoutForm(): void
     {
         $this->form = new ilPropertyFormGUI();
