@@ -272,7 +272,7 @@ class ilAuthLogoutPageEditorGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function deactivate(): void
+    private function deactivate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
         $settings = ilAuthLogoutPageEditorSettings::getInstance();
