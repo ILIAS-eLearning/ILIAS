@@ -37,7 +37,6 @@ class ilAuthLogoutPageEditorGUI
     private \ILIAS\Refinery\Factory $refinery;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
-
     private int $ref_id;
     private ilAuthLogoutPageEditorSettings $settings;
     private ?ilSetting $logoutSettings = null;
