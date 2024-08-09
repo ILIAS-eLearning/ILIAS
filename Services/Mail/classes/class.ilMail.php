@@ -1141,7 +1141,7 @@ class ilMail
             if ($random->int(0, 50) === 2) {
                 (new ilMailAttachmentStageCleanup(
                     $this->logger,
-                    $this->mfile
+                    $this->mail_file_data
                 ))->run();
             }
         }
