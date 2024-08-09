@@ -165,7 +165,7 @@ class ilSurveyImporter extends ilXmlImporter
             }
             $a_mapping->addMapping("components/ILIAS/Survey", "svy", (int) $a_id, $newObj->getId());
             $a_mapping->addMapping(
-                "Services/MetaData",
+                "components/ILIAS/MetaData",
                 "md",
                 $a_id . ":0:svy",
                 $newObj->getId() . ":0:svy"
