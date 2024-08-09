@@ -35,7 +35,7 @@ class ilMembershipRegistrationCodeUtils
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-        $rbac = $DIC->rbac();
+        $access = $DIC->access();
         $lng->loadLanguageModule($a_type);
         try {
             $title = ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
@@ -44,12 +44,18 @@ class ilMembershipRegistrationCodeUtils
             $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS;
             $crs = new ilObjCourse($a_ref_id, true);
             $parent_id = $tree->getParentId($a_ref_id);
+            $is_valid_type = $a_type === 'crs' || $a_type === 'grp';
+            $is_course_available =
+                $crs->isActivated() &&
+                $access->checkAccess("visible", "", $a_ref_id);
+            $is_parent_available =
+                $access->checkAccess("read", "", $parent_id) &&
+                $access->checkAccess("visible", "", $parent_id);
             # Redirect to crs parent if crs not available
             if (
-                $a_type === 'crs' &&
-                !$crs->isActivated() &&
-                $rbac->system()->checkAccess("read", $parent_id) &&
-                $rbac->system()->checkAccess("visible", $parent_id)
+                $is_valid_type &&
+                !$is_course_available &&
+                $is_parent_available
             ) {
                 $link_target = ilLink::_getLink($parent_id);
                 $message .= " " . $lng->txt("crs_access_not_possible");
@@ -57,12 +63,9 @@ class ilMembershipRegistrationCodeUtils
             }
             # Redirect to dashboard if crs and crs parent object are unavailable
             if (
-                $a_type === 'crs' &&
-                !$crs->isActivated() &&
-                (
-                    !$rbac->system()->checkAccess("read", $parent_id) ||
-                    !$rbac->system()->checkAccess("visible", $parent_id)
-                )
+                $is_valid_type &&
+                !$is_course_available &&
+                !$is_parent_available
             ) {
                 $link_target = "";
                 $message .= " " . $lng->txt("crs_access_not_possible");
