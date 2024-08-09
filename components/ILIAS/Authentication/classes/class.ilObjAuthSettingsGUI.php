@@ -842,9 +842,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             case 'ilauthloginpageeditorgui':
 
-                $this->setSubTabs("authSettings");
+                $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
-                $this->tabs_gui->setSubTabActive("auth_login_editor");
+                $this->tabs_gui->setSubTabActive('auth_login_editor');
 
                 $lpe = new ilAuthLoginPageEditorGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($lpe);
@@ -852,9 +852,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             case 'ilauthlogoutpageeditorgui':
 
-                $this->setSubTabs("authSettings");
+                $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
-                $this->tabs_gui->setSubTabActive("logout_editor");
+                $this->tabs_gui->setSubTabActive('logout_editor');
 
                 $lpe = new ilAuthLogoutPageEditorGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($lpe);
@@ -862,9 +862,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             default:
                 if (!$cmd) {
-                    $cmd = "authSettings";
+                    $cmd = 'authSettings';
                 }
-                $cmd .= "Object";
+                $cmd .= 'Object';
                 $this->$cmd();
 
                 break;

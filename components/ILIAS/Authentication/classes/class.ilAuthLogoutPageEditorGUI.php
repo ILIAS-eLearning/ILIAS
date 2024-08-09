@@ -337,7 +337,7 @@ class ilAuthLogoutPageEditorGUI
         }
 
         foreach ($logout_settings as $key => $message) {
-            $lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
+            $lang_key = substr($key, strrpos($key, '_') + 1, strlen($key) - strrpos($key, '_'));
 
             $textarea = new ilTextAreaInputGUI(
                 $this->lng->txt('meta_l_' . $lang_key),

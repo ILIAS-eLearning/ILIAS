@@ -20,20 +20,19 @@ declare(strict_types=1);
 
 class ilAuthLogoutPageEditorSettings
 {
-    private static ?ilAuthLogoutPageEditorSettings $instance = null;
+    private static ?self $instance = null;
 
     private array $languages = [];
-
     private ilSetting $storage;
-
     private ilLanguage $lng;
 
     private function __construct()
     {
         global $DIC;
-        $this->lng = $DIC->language();
 
+        $this->lng = $DIC->language();
         $this->storage = new ilSetting('logout_editor');
+
         $this->read();
     }
 

@@ -959,9 +959,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui->setPresentationTitle('');
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader('');
-        $ret = $page_gui->showPage();
 
-        return $ret;
+        return $page_gui->showPage();
     }
 
     private function getLogoutPageEditorHTML(): string
@@ -984,9 +983,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui->setPresentationTitle('');
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader('');
-        $ret = $page_gui->showPage();
 
-        return $ret;
+        return $page_gui->showPage();
     }
 
     private function showRegistrationLinks(string $page_editor_html): string
