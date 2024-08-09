@@ -448,8 +448,14 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tabs_gui->setSubTabActive('rbac_repository_permissions');
         }
 
-        $additional_content = '';
-        if ($this->object->getId() != SYSTEM_ROLE_ID) {
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.rbac_template_permissions.html',
+            'components/ILIAS/AccessControl'
+        );
+
+        if ($this->object->getId() !== SYSTEM_ROLE_ID) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
@@ -465,16 +471,9 @@ class ilObjRoleGUI extends ilObjectGUI
                         $modal->getShowSignal()
                     )
                 );
-                $additional_content = $this->ui_renderer->render($modal);
+                $this->tpl->setVariable('DELETION_MODAL', $this->ui_renderer->render($modal));
             }
         }
-
-        $this->tpl->addBlockFile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.rbac_template_permissions.html',
-            'components/ILIAS/AccessControl'
-        );
 
         $this->tpl->setVariable('PERM_ACTION', $this->ctrl->getFormAction($this));
 
@@ -524,7 +523,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         $options->parse();
-        $this->tpl->setVariable('OPTIONS_TABLE', $options->getHTML() . $additional_content);
+        $this->tpl->setVariable('OPTIONS_TABLE', $options->getHTML());
     }
 
     protected function adminPermObject(): void
@@ -1316,9 +1315,13 @@ class ilObjRoleGUI extends ilObjectGUI
 
     private function buildConfirmationModal(): InterruptiveModal
     {
+        $message = $this->lng->txt('rbac_role_delete_qst');
+        if ($this->rbac_review->isAssigned($this->user->getId(), $this->object->getId())) {
+            $message .= ('<br />' . $this->lng->txt('rbac_role_delete_self'));
+        }
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('rbac_role_delete_self'),
+            $message,
             $this->ctrl->getFormActionByClass(self::class, 'performDeleteRole')
         )->withAffectedItems([
             $this->ui_factory->modal()->interruptiveItem()->standard(
