@@ -142,9 +142,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
     {
         $items = [];
 
-        $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
-        $md_section = $md_obj->getGeneral();
-
         $title_and_description = $this->poolOBJ->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
             $this->lng,
             $this->ui_factory->input()->field(),

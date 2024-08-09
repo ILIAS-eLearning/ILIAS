@@ -48,6 +48,7 @@ use ILIAS\Test\Export\CSVExportTrait;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilObjTest
@@ -147,6 +148,8 @@ class ilObjTest extends ilObject
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
+    protected LOMServices $lom_services;
+
     /**
      * Constructor
      *
@@ -166,6 +169,7 @@ class ilObjTest extends ilObject
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
@@ -4333,22 +4337,20 @@ class ilObjTest extends ilObject
     */
     public function saveAuthorToMetadata($author = "")
     {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if (!$md_life) {
-            if (strlen($author) == 0) {
-                $author = $this->user->getFullname();
-            }
+        $path_to_lifecycle = $this->lom_services->paths()->custom()->withNextStep('lifeCycle')->get();
+        $path_to_authors = $this->lom_services->paths()->authors();
 
-            $md_life = $md->addLifecycle();
-            $md_life->save();
-            $con = $md_life->addContribute();
-            $con->setRole("Author");
-            $con->save();
-            $ent = $con->addEntity();
-            $ent->setEntity($author);
-            $ent->save();
+        $reader = $this->lom_services->read($this->getId(), 0, $this->getType(), $path_to_lifecycle);
+        if (!is_null($reader->allData($path_to_lifecycle)->current())) {
+            return;
         }
+
+        if (strlen($author) == 0) {
+            $author = $this->user->getFullname();
+        }
+        $this->lom_services->manipulate($this->getId(), 0, $this->getType())
+                           ->prepareCreateOrUpdate($path_to_authors, $author)
+                           ->execute();
     }
 
     /**
@@ -4368,23 +4370,11 @@ class ilObjTest extends ilObject
     */
     public function getAuthor(): string
     {
-        $author = [];
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if ($md_life) {
-            $ids = $md_life->getContributeIds();
-            foreach ($ids as $id) {
-                $md_cont = $md_life->getContribute($id);
-                if (strcmp($md_cont->getRole(), "Author") == 0) {
-                    $entids = $md_cont->getEntityIds();
-                    foreach ($entids as $entid) {
-                        $md_ent = $md_cont->getEntity($entid);
-                        array_push($author, $md_ent->getEntity());
-                    }
-                }
-            }
-        }
-        return join(",", $author);
+        $path_to_authors = $this->lom_services->paths()->authors();
+        $author_data = $this->lom_services->read($this->getId(), 0, $this->getType(), $path_to_authors)
+                                          ->allData($path_to_authors);
+
+        return $this->lom_services->dataHelper()->makePresentableAsList(',', ...$author_data);
     }
 
     /**
@@ -4396,23 +4386,15 @@ class ilObjTest extends ilObject
     */
     public static function _lookupAuthor($obj_id): string
     {
-        $author = [];
-        $md = new ilMD($obj_id, 0, "tst");
-        $md_life = $md->getLifecycle();
-        if ($md_life) {
-            $ids = $md_life->getContributeIds();
-            foreach ($ids as $id) {
-                $md_cont = $md_life->getContribute($id);
-                if (strcmp($md_cont->getRole(), "Author") == 0) {
-                    $entids = $md_cont->getEntityIds();
-                    foreach ($entids as $entid) {
-                        $md_ent = $md_cont->getEntity($entid);
-                        array_push($author, $md_ent->getEntity());
-                    }
-                }
-            }
-        }
-        return join(",", $author);
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+
+        $path_to_authors = $lom_services->paths()->authors();
+        $author_data = $lom_services->read($obj_id, 0, "tst", $path_to_authors)
+                                    ->allData($path_to_authors);
+
+        return $lom_services->dataHelper()->makePresentableAsList(',', ...$author_data);
     }
 
     /**
