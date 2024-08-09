@@ -143,6 +143,13 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         $this->importQuestionSkillAssignments($xmlfile, $a_mapping, $new_obj->getId());
 
         $a_mapping->addMapping("components/ILIAS/TestQuestionPool", "qpl", $a_id, (string) $new_obj->getId());
+        $a_mapping->addMapping(
+            "components/ILIAS/MetaData",
+            "md",
+            $a_id . ":0:qpl",
+            $new_obj->getId() . ":0:qpl"
+        );
+
 
         $new_obj->saveToDb();
     }

@@ -69,15 +69,8 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 break;
 
             case 'Title':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag) {
-                    $this->cdata = '';
-                }
-                break;
-
             case 'Description':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag) {
-                    $this->cdata = '';
-                }
+                $this->cdata = '';
                 break;
 
             case 'Settings':
@@ -108,7 +101,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 break;
 
             case 'Title':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
+                if (!$this->title_processed) {
                     $this->poolOBJ->setTitle($this->cdata);
                     $this->title_processed = true;
                     $this->cdata = '';
@@ -116,7 +109,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 break;
 
             case 'Description':
-                if ($this->inMetaDataTag && $this->inMdGeneralTag && !$this->description_processed) {
+                if (!$this->description_processed) {
                     $this->poolOBJ->setDescription($this->cdata);
                     $this->description_processed = true;
                     $this->cdata = '';

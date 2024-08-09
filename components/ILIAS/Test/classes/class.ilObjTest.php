@@ -4127,9 +4127,6 @@ class ilObjTest extends ilObject
     {
         $this->mob_ids = [];
 
-        // MetaData
-        $this->exportXMLMetaData($a_xml_writer);
-
         // PageObjects
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Page Objects");
         $this->bench->start("ContentObjectExport", "exportPageObjects");
@@ -4150,20 +4147,6 @@ class ilObjTest extends ilObject
         $this->exportFileItems($a_target_dir, $expLog);
         $this->bench->stop("ContentObjectExport", "exportFileItems");
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export File Items");
-    }
-
-    /**
-    * export content objects meta data to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMetaData(&$a_xml_writer)
-    {
-        $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
-        $md2xml->setExportMode(true);
-        $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
     }
 
     /**
