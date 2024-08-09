@@ -739,7 +739,7 @@ class ilMailFolderGUI
         $subject->setHtml(ilUtil::htmlencodePlainString($mailData['m_subject'] ?? '', true));
         $form->addItem($subject);
 
-        $date = new ilCustomInputGUI($this->lng->txt('date') . ':');
+        $date = new ilCustomInputGUI($this->lng->txt('mail_sent_datetime') . ':');
         $date->setHtml(ilDatePresentation::formatDate(
             new ilDateTime($mailData['send_time'], IL_CAL_DATETIME)
         ));
