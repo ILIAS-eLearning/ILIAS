@@ -60,10 +60,10 @@ final class ilMailAttachmentStageCleanup
                     $relative_path = 'mail/' . $file->getFilename();
                     if ($filesystem->has($relative_path)) {
                         $filesystem->delete($relative_path);
-                        $this->logger->info('Deleting file from attachment stage: ' . $file->getPath());
+                        $this->logger->info('Deleting file from attachment stage: ' . $file->getPathname());
                     }
                 } catch (Exception $e) {
-                    $this->logger->error('Error deleting file from attachment stage: ' . $file->getPath());
+                    $this->logger->error('Error deleting file from attachment stage: ' . $file->getPathname());
                 }
             }
         }
