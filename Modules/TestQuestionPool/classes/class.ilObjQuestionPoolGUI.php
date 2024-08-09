@@ -1131,32 +1131,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->setPreventDoubleSubmission(false);
 
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
-            $toolbar = new ilToolbarGUI();
             $btn = ilLinkButton::getInstance();
             $btn->setCaption('ass_create_question');
             $btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
             $btn->setPrimary(true);
-            $toolbar->addButtonInstance($btn);
+            $this->toolbar->addButtonInstance($btn);
 
 
             $btnImport = ilLinkButton::getInstance();
             $btnImport->setCaption('import');
             $btnImport->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
-            $toolbar->addButtonInstance($btnImport);
+            $this->toolbar->addButtonInstance($btnImport);
 
             if (ilSession::get("qpl_clipboard") != null && count(ilSession::get('qpl_clipboard'))) {
                 $btnPaste = ilLinkButton::getInstance();
                 $btnPaste->setCaption('paste');
                 $btnPaste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
-                $toolbar->addButtonInstance($btnPaste);
+                $this->toolbar->addButtonInstance($btnPaste);
             }
-
-            $this->tpl->setContent(
-                $this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
-            );
-        } else {
-            $this->tpl->setContent($this->ctrl->getHTML($table_gui));
         }
+
+        $this->tpl->setContent($this->ctrl->getHTML($table_gui));
 
         if ($this->object->getShowTaxonomies()) {
             $this->lng->loadLanguageModule('tax');
@@ -1278,8 +1273,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     public function printObject(): void
     {
-        $ilToolbar = $this->toolbar;
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
 
         $mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
         $mode->setOptions(array(
@@ -1292,9 +1286,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $mode->setValue(ilUtil::stripSlashes($output));
 
-        $ilToolbar->setFormName('printviewOptions');
-        $ilToolbar->addInputItem($mode, true);
-        $ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
+        $this->toolbar->setFormName('printviewOptions');
+        $this->toolbar->addInputItem($mode, true);
+        $this->toolbar->addFormButton($this->lng->txt('submit'), 'print');
         $table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $output);
         $data = $this->object->getPrintviewQuestions();
         $totalPoints = 0;
