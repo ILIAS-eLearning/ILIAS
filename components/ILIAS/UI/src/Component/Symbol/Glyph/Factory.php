@@ -1460,4 +1460,156 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function launch(string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Enlarge glyph indicates the possibility of enlarging the content to see more details or to improve the display.
+     *   composition: >
+     *      The Enlarge Glyph uses the glyphicon-enlarge.
+     *   effect: >
+     *      A click on the Enlarge glyph triggers an interaction that displays an enlarged version of the content just seen.
+     *      This can be a modal with an enlarged display of an image.
+     *   rivals:
+     *      Preview Glyph: >
+     *         The Preview Glyph shows a preview and therefore only a section of the content.
+     * context:
+     *    -  The Enlarge Glyph appears in close proximity to images and graphics.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Enlarge'.
+     *   usage:
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function enlarge(string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The List View Glyph displays data stacked on top of each other in a list.
+     *      The glyph is suitable for views that are read from top to bottom and where the focus is on text.
+     *   composition: >
+     *      The List View Glyph uses the glyphicon-ListView.
+     *   effect: >
+     *      Clicking on the List View glyph displays the collection of data as a list.
+     *   rivals:
+     *      TileView Glyph: >
+     *         The Tile View Glyph will display data in a grid view.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'List View'.
+     *   usage:
+     *       1: The List View Glyph SHOULD not come without a Tile View Glyph and vice versa.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function listView(string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Preview Glyph indicates the possibility to display a preview or a short preview of a
+     *      content before the user performs a final action.
+     *   composition: >
+     *      The Preview Glyph uses the glyphicon-preview.
+     *   effect: >
+     *      When a user clicks on the "Preview" icon, a preview of the content is displayed without a permanent
+     *      change or a larger display. This can be a modal with several pages of a file preview.
+     *   rivals:
+     *      Enlarge Glyph: >
+     *         The Enlarge Glyph shows more details or improve the display of an information.
+     * context:
+     *    -  The Preview Glyph appears when previewing documents, files or thumbnails.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Preview'.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function preview(string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Sort Glyph indicates the possibility of changing the order of elements within a list, table or other structured data.
+     *   composition: >
+     *      The Sort Glyph uses the glyphicon-sort.
+     *   effect: >
+     *      When a user clicks on the "Sort" icon, all possible sorting options are displayed.
+     *      The elements will be reordered based on a specific criterion, such as alphabet, date or size.
+     *      The order of the elements is thus adjusted.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Sort'.
+     *   usage:
+     *       1: The Sort Glyph SHOULD NOT be used to display the selected sort option.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function sort(string $action = null): Glyph;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Column Selection Glyph shows the option of displaying or hiding columns in a table.
+     *   composition: >
+     *      The Column Selection Glyph uses the glyphicon-columnselection.
+     *   effect: >
+     *      If a user clicks on the Colum Selection symbol, an overview is displayed showing which columns are
+     *      already visible and which are hidden.
+     * context:
+     *    -  The Column Selection Glyph appears in tables.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Column Selection'.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function columnSelection(string $action = null): Glyph;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Tile View Glyph displays data in cells arrayed in vertical and horizontal layouts.
+     *      The glyph works well for collections that are read from side-to-side and where images are the main focus.
+     *   composition: >
+     *      The Tile View Glyph uses the glyphicon-TileView.
+     *   effect: >
+     *      When you click on the glyph, the displayed data is shown in a grid view.
+     *   rivals:
+     *      ListView Glyph: >
+     *         The List View Glyph will display data in a list view.
+     * context:
+     *    -  The Tile View Glyph appears in combination with other display variants, e.g. List View.
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Grid View'.
+     *   usage:
+     *       1: The Tile View Glyph SHOULD not come without a ListView Glyph and vice versa.
+     * ---
+     * @param   string|null $action
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function tileView(string $action = null): Glyph;
 }
