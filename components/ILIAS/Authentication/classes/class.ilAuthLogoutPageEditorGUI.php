@@ -28,7 +28,6 @@ class ilAuthLogoutPageEditorGUI
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
     private ilRbacSystem $rbacsystem;
     private ilSetting $setting;
     private ilErrorHandling $ilErr;
@@ -43,8 +42,6 @@ class ilAuthLogoutPageEditorGUI
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     private ?string $redirect_source = null;
     private ?int $key = null;
-    private array $visible_languages = [];
-    private array $languages = [];
 
     public function __construct(int $a_ref_id)
     {
@@ -53,7 +50,6 @@ class ilAuthLogoutPageEditorGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->setting = $DIC->settings();
         $this->ilErr = $DIC['ilErr'];
