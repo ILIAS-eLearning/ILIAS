@@ -1029,7 +1029,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $actions = $f->dropdown()->standard([]);
 
-        if (ilForum::_isModerator($ref_id, $this->user->getId())) {
+        if ($this->is_moderator) {
             $open_close = $this->getOpenCloseActionForThread($forum_topic, $ref_id);
             $stick_or_no_stick = $this->getStickyActionForThread($forum_topic, $ref_id);
             $edit_title_modal = $this->getEditTitleModal($forum_topic);
