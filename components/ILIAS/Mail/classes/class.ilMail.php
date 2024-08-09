@@ -1142,11 +1142,11 @@ class ilMail
         }
 
         if ($this->isSystemMail()) {
-            $random = new ilRandom();
-            if ($random->int(0, 50) === 2) {
+            $random = new Random\Randomizer();
+            if ($random->getInt(0, 50) === 2) {
                 (new ilMailAttachmentStageCleanup(
                     $this->logger,
-                    $this->mfile
+                    $this->mail_file_data
                 ))->run();
             }
         }
