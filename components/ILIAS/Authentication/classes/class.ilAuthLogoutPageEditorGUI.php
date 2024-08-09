@@ -39,7 +39,7 @@ class ilAuthLogoutPageEditorGUI
     private \ILIAS\UI\Renderer $ui_renderer;
     private int $ref_id;
     private ilAuthLogoutPageEditorSettings $settings;
-    private ?ilSetting $logoutSettings = null;
+    private ?ilSetting $logout_settings = null;
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     private ?string $redirect_source = null;
     private ?int $key = null;
@@ -281,11 +281,11 @@ class ilAuthLogoutPageEditorGUI
 
         $this->initLogoutForm();
         if ($this->form->checkInput()) {
-            $this->logoutSettings = new ilSetting('logout_settings');
+            $this->logout_settings = new ilSetting('logout_settings');
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
                 $settingKey = 'logout_message_' . $lang_key;
                 if ($this->form->getInput($settingKey)) {
-                    $this->logoutSettings->set($settingKey, $this->form->getInput($settingKey));
+                    $this->logout_settings->set($settingKey, $this->form->getInput($settingKey));
                 }
             }
 
@@ -308,11 +308,11 @@ class ilAuthLogoutPageEditorGUI
 
         $this->form->addCommandButton('saveLogoutInfo', $this->lng->txt('save'));
 
-        if (!is_object($this->logoutSettings)) {
-            $this->logoutSettings = new ilSetting('logout_settings');
+        if (!is_object($this->logout_settings)) {
+            $this->logout_settings = new ilSetting('logout_settings');
         }
 
-        $logout_settings = $this->logoutSettings->getAll();
+        $logout_settings = $this->logout_settings->getAll();
         $languages = $this->lng->getInstalledLanguages();
         $def_language = $this->lng->getDefaultLanguage();
 
