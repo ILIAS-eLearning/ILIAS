@@ -22,6 +22,9 @@ class ilAuthLogoutPageEditorSettings
 {
     private static ?self $instance = null;
 
+    /**
+     * @var array<string, bool>
+     */
     private array $languages = [];
     private ilSetting $storage;
     private ilLanguage $lng;
