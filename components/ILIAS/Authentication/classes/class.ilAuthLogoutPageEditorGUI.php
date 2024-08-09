@@ -75,7 +75,6 @@ class ilAuthLogoutPageEditorGUI
 
         $query_wrapper = $DIC->http()->wrapper()->query();
         $post_wrapper = $DIC->http()->wrapper()->post();
-        $is_post_request = $DIC->http()->request()->getMethod() === 'POST';
         $refinery = $DIC->refinery();
 
         if ($query_wrapper->has('redirectSource')) {
@@ -86,22 +85,6 @@ class ilAuthLogoutPageEditorGUI
             $this->key = $post_wrapper->retrieve('key', $refinery->kindlyTo()->int());
         } elseif ($query_wrapper->has('key')) {
             $this->key = $query_wrapper->retrieve('key', $refinery->kindlyTo()->int());
-        }
-
-        if ($is_post_request) {
-            if ($post_wrapper->has('visible_languages')) {
-                $this->visible_languages = $post_wrapper->retrieve(
-                    'visible_languages',
-                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
-                );
-            }
-
-            if ($post_wrapper->has('languages')) {
-                $this->languages = $post_wrapper->retrieve(
-                    'languages',
-                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
-                );
-            }
         }
     }
 
@@ -208,14 +191,17 @@ class ilAuthLogoutPageEditorGUI
             case 'deactivate':
                 $this->deactivate();
                 break;
+
             case 'activate':
                 $this->activate();
                 break;
+
             case 'edit':
                 $this->ctrl->setParameter($this, 'logoutpage_languages_key', current($keys));
                 $this->ctrl->setParameter($this, 'key', ilLanguage::lookupId(current($keys)));
                 $this->ctrl->redirectByClass(ilLogoutPageGUI::class, 'edit');
                 break;
+
             default:
                 $this->ctrl->redirect($this, 'show');
                 break;
@@ -331,18 +317,19 @@ class ilAuthLogoutPageEditorGUI
         $def_language = $this->lng->getDefaultLanguage();
 
         foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key) {
-            $add = "";
+            $add = '';
+
             if ($lang_key === $def_language) {
-                $add = " (" . $this->lng->txt("default") . ")";
+                $add = ' (' . $this->lng->txt('default') . ')';
             }
 
             $textarea = new ilTextAreaInputGUI(
-                $this->lng->txt("meta_l_" . $lang_key) . $add,
+                $this->lng->txt('meta_l_' . $lang_key) . $add,
                 'logout_message_' . $lang_key
             );
 
             $textarea->setRows(10);
-            $msg_logout_lang = "logout_message_" . $lang_key;
+            $msg_logout_lang = 'logout_message_' . $lang_key;
 
             if (isset($logout_settings[$msg_logout_lang])) {
                 $textarea->setValue($logout_settings[$msg_logout_lang]);
@@ -350,14 +337,14 @@ class ilAuthLogoutPageEditorGUI
 
             $this->form->addItem($textarea);
 
-            unset($logout_settings["logout_message_" . $lang_key]);
+            unset($logout_settings['logout_message_' . $lang_key]);
         }
 
         foreach ($logout_settings as $key => $message) {
             $lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
 
             $textarea = new ilTextAreaInputGUI(
-                $this->lng->txt("meta_l_" . $lang_key),
+                $this->lng->txt('meta_l_' . $lang_key),
                 'logout_message_' . $lang_key
             );
 

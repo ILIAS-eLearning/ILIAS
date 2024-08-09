@@ -52,9 +52,11 @@ class ilAuthLogoutPageEditorSettings
         if ($this->isIliasEditorEnabled($a_langkey)) {
             return $a_langkey;
         }
+
         if ($this->isIliasEditorEnabled($this->lng->getDefaultLanguage())) {
             return $this->lng->getDefaultLanguage();
         }
+
         return '';
     }
 

@@ -214,6 +214,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     ]
                 );
             }
+
             $this->logger->debug('Show login page');
             if (isset($messages) && count($messages) > 0) {
                 foreach ($messages as $type => $content) {
@@ -247,15 +248,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'ext_uid',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $soapPw = $this->http->wrapper()->query()->retrieve(
             'soap_pw',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $credentials = new ilAuthFrontendCredentialsSoap(
             $GLOBALS['DIC']->http()->request(),
             $this->ctrl,
             $this->setting
         );
+
         $credentials->setUsername($extUid);
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
@@ -294,6 +298,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->lng->txt($message_key)
             );
         }
+
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
         }
@@ -1203,6 +1208,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $credentials,
             [$provider]
         );
+
         if ($frontend->migrateAccountNew()) {
             ilInitialisation::redirectToStartingPage();
         }
@@ -1255,6 +1261,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $credentials,
                     [$provider]
                 );
+
                 if ($frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])) {
                     ilInitialisation::redirectToStartingPage();
                 }
@@ -1795,6 +1802,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (isset($params['target']) && !isset($params['returnTo'])) {
             $params['returnTo'] = $params['target'];
         }
+
         if (isset($params['returnTo'])) {
             $auth->storeParam('target', $params['returnTo']);
         }
