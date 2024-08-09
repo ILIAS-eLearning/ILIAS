@@ -2667,8 +2667,8 @@ buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_link#:#Approve Request
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to his friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to their friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to their friends list.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
