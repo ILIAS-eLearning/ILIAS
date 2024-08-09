@@ -757,7 +757,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $admin->setValue((string) 1);
         $form->addItem($admin);
 
-        $check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
+        $check = new ilCheckboxInputGUI($this->lng->txt('rbac_log'), 'rbac_log');
         $check->setInfo($this->lng->txt('rbac_log_info'));
         $check->setChecked($privacy->enabledRbacLog());
         $form->addItem($check);
