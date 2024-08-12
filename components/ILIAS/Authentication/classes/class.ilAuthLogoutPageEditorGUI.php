@@ -135,7 +135,6 @@ class ilAuthLogoutPageEditorGUI
         $this->lng->loadLanguageModule('content');
 
         if (!ilLogoutPage::_exists('aout', $this->key)) {
-            // doesn't exist -> create new one
             $new_page_object = new ilLogoutPage();
             $new_page_object->setParentId($this->key);
             $new_page_object->setId($this->key);
