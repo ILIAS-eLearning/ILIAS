@@ -47,7 +47,7 @@ trait TableViewControlOrdering
         return array_key_first($sortable_visible_cols);
     }
 
-    protected function getViewControlOrdering(?int $total_count = null): Sortation|NullControl
+    protected function getViewControlOrdering(int|null $total_count): Sortation|NullControl
     {
 
         $sortable_visible_cols = array_filter(
