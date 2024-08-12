@@ -123,7 +123,7 @@ class ilAuthLogoutBehaviourGUI
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
                     fn($value) => $this->configurable_logout_target->isValidExternalResource(
-                        $value
+                        (string) $value
                     ),
                     fn(callable $txt, $value) => $txt('logout_behaviour_invalid_url', $value)
                 )

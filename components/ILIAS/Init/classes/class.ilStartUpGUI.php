@@ -1308,10 +1308,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tpl->setVariable('LPE', $this->getLogoutPageEditorHTML());
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('logout'));
-        $tpl->setVariable(
-            'TXT_LOGOUT_TEXT',
-            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText()
-        );
         $tpl->setVariable('TXT_LOGIN', $this->lng->txt('login_to_ilias'));
         $tpl->setVariable(
             'CLIENT_ID',
@@ -1365,6 +1361,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ilUtil::_getHttpPath()
         );
         $url = $target->asURI();
+        $this->mainTemplate->setOnScreenMessage(
+            $this->mainTemplate::MESSAGE_TYPE_FAILURE,
+            $this->lng->txt('logout_text'),
+            true
+        );
         $this->ctrl->redirectToURL((string) $url);
     }
 
