@@ -235,9 +235,12 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         if (strlen($this->object->getSyllabus())) {
-            $info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
-                ilUtil::makeClickable($this->object->getSyllabus(), true)
-            ));
+            $info->addProperty(
+                $this->lng->txt('crs_syllabus'),
+                $this->refinery->string()->markdown()->toHTML()->transform(
+                    $this->object->getSyllabus()
+                )
+            );
         }
         if (strlen((string) $this->object->getTargetGroup())) {
             $info->addProperty(

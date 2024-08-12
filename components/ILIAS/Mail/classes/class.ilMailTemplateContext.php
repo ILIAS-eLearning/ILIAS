@@ -55,7 +55,7 @@ abstract class ilMailTemplateContext
     /**
      * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
      */
-    private function getGenericPlaceholders(): array
+    protected function getGenericPlaceholders(): array
     {
         return [
             'mail_salutation' => [
@@ -125,7 +125,8 @@ abstract class ilMailTemplateContext
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null
+        ilObjUser $recipient = null,
+        bool $html_markup = false
     ): string {
         if ($recipient !== null) {
             $this->initLanguage($recipient);

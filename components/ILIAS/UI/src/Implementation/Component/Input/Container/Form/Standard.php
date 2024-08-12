@@ -32,7 +32,11 @@ class Standard extends Form implements C\Input\Container\Form\Standard
 {
     use HasPostURL;
 
-    protected ?string $submit_caption = null;
+    protected ?string $submit_label = null;
+    /**
+     * @var array $additional_submit_buttons [ $label => $action ]
+     */
+    protected array $additional_submit_buttons = [];
 
     public function __construct(
         FieldFactory $field_factory,
@@ -47,10 +51,10 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     /**
      * @inheritDoc
      */
-    public function withSubmitLabel(string $caption): C\Input\Container\Form\Standard
+    public function withSubmitLabel(string $label): C\Input\Container\Form\Standard
     {
         $clone = clone $this;
-        $clone->submit_caption = $caption;
+        $clone->submit_label = $label;
         return $clone;
     }
 
@@ -59,6 +63,18 @@ class Standard extends Form implements C\Input\Container\Form\Standard
      */
     public function getSubmitLabel(): ?string
     {
-        return $this->submit_caption;
+        return $this->submit_label;
+    }
+
+    public function withAdditionalSubmitButton(string $label, string $action): self
+    {
+        $clone = clone $this;
+        $clone->additional_submit_buttons[$label] = $action;
+        return $clone;
+    }
+
+    public function getAdditionalSubmitButtons(): array
+    {
+        return $this->additional_submit_buttons;
     }
 }

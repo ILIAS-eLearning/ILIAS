@@ -23,6 +23,10 @@ namespace ILIAS\Mail\Service;
 use ILIAS\DI\Container;
 use ilMailMimeTransportFactory;
 use ilMailMimeSenderFactory;
+use ilMailTemplateRepository;
+use ilMailTemplateService;
+use ilMailTemplatePlaceholderResolver;
+use ilMustacheFactory;
 
 class MimeMailService
 {
@@ -40,6 +44,29 @@ class MimeMailService
                     $c->settings(),
                     $c->mail()->mustacheFactory()
                 );
+            };
+        }
+
+        if (!isset($this->dic['mail.texttemplates.service'])) {
+            $this->dic['mail.texttemplates.service'] = static function (Container $c): ilMailTemplateService {
+                return new ilMailTemplateService(
+                    new ilMailTemplateRepository($c->database()),
+                    $c["mail.mustache.factory"]
+                );
+            };
+        }
+
+        if (!isset($this->dic['mail.template.placeholder.resolver'])) {
+            $this->dic['mail.template.placeholder.resolver'] = static function (Container $c): ilMailTemplatePlaceholderResolver {
+                return new ilMailTemplatePlaceholderResolver(
+                    $c["mail.mustache.factory"]->getBasicEngine()
+                );
+            };
+        }
+
+        if (!isset($this->dic['mail.mustache.factory'])) {
+            $this->dic['mail.mustache.factory'] = static function (Container $c): ilMustacheFactory {
+                return new ilMustacheFactory();
             };
         }
     }

@@ -90,12 +90,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->Subject = $mail->getSubject();
 
-        if ($mail->getFrom()->hasReplyToAddress() && !$this->getMailer()->addReplyTo(
-            $mail->getFrom()->getReplyToAddress(),
-            $mail->getFrom()->getReplyToName()
-        )) {
-            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
-        }
         if ($mail->getFrom()->hasEnvelopFromAddress()) {
             $this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
         }
@@ -188,5 +182,10 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         ]);
 
         return $result;
+    }
+
+    public function getErrorInformation(): string
+    {
+        return $this->getMailer()->ErrorInfo;
     }
 }

@@ -4323,6 +4323,13 @@ hr.il-divider-with-label {
   color: white;
 }
 
+.c-input-markdown__preview,
+.c-input-markdown .ui-input-textarea textarea {
+  border-radius: 0px;
+  min-height: 200px;
+  margin-bottom: 6px;
+}
+
 .c-input-markdown__preview {
   min-height: 4.56rem;
   border: 1px solid #dddddd;

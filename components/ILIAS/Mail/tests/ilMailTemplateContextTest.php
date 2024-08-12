@@ -89,7 +89,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
      * @return array<string, array{0: callable, 1: callable}>
      * @throws ReflectionException
      */
-    public static function userProvider(): array
+    public function userProvider(): array
     {
         $test_users = [];
 

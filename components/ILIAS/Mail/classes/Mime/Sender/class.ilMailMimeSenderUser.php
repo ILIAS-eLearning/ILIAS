@@ -82,7 +82,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         $placeholders = [
             'FULLNAME' => $this->user->getFullname(),
             'FIRSTNAME' => $this->user->getFirstname(),
-            'LASTNAME' => $this->user->getLastname(),
+            'LASTNAME' => $this->user->getLastname()
         ];
 
         $template = $from;

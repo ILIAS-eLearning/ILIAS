@@ -19,7 +19,7 @@ function base()
     $hidden = $ui->input()->field()->hidden()->withValue("csrf_token_or_some_other_persistent_data");
 
     //Step 2: Define the form and attach the section.
-    $form = $ui->input()->container()->form()->standard("#", [$hidden]);
+    $form = $ui->input()->container()->form()->standard("#", ['hidden_name' => $hidden]);
 
     //Step 4: Render the form with the text input field
     return $renderer->render($form);

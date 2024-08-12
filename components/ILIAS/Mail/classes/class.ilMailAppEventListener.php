@@ -27,7 +27,8 @@ use ILIAS\components\User\ChangedUserFieldAttribute;
  */
 class ilMailAppEventListener implements ilAppEventListener
 {
-    private readonly Container $dic;
+    private Container $dic;
+
     protected string $component = '';
     protected string $event = '';
     /** @var ChangedUserFieldAttribute[] */
@@ -68,7 +69,7 @@ class ilMailAppEventListener implements ilAppEventListener
 
     private function isRelevantEvent(): bool
     {
-        return $this->component === 'components/ILIAS/User'
+        return $this->component === 'Services/User'
             && $this->event === 'onUserFieldAttributesChanged';
     }
 

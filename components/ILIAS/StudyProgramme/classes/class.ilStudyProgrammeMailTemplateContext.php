@@ -24,19 +24,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
     public const ID = 'prg_context_manual';
 
-    private const TITLE = "study_programme_title";
-    private const DESCRIPTION = "study_programme_description";
-    private const TYPE = "study_programme_type";
-    private const LINK = "study_programme_link";
-    private const ORG_UNIT = "study_programme_org_units";
-    private const STATUS = "study_programme_status";
-    private const COMPLETION_DATE = "study_programme_completion_date";
-    private const COMPLETED_BY = "study_programme_completion_by";
-    private const POINTS_REQUIRED = "study_programme_points_required";
-    private const POINTS_CURRENT = "study_programme_points_current";
-    private const DEADLINE = "study_programme_deadline";
-    private const EXPIRE_DATE = "study_programme_expire_date";
-    private const VALIDITY = "study_programme_validity";
+    public const TITLE = "study_programme_title";
+    public const DESCRIPTION = "study_programme_description";
+    public const TYPE = "study_programme_type";
+    public const LINK = "study_programme_link";
+    public const ORG_UNIT = "study_programme_org_units";
+    public const STATUS = "study_programme_status";
+    public const COMPLETION_DATE = "study_programme_completion_date";
+    public const COMPLETED_BY = "study_programme_completion_by";
+    public const POINTS_REQUIRED = "study_programme_points_required";
+    public const POINTS_CURRENT = "study_programme_points_current";
+    public const DEADLINE = "study_programme_deadline";
+    public const EXPIRE_DATE = "study_programme_expire_date";
+    public const VALIDITY = "study_programme_validity";
 
     private const DATE_FORMAT = 'd.m.Y';
 
@@ -182,7 +182,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         }
 
         /** @var ilObjStudyProgramme $obj */
-        $prg = ilObjectFactory::getInstanceByRefId((int)$context_parameters['ref_id']);
+        $prg = ilObjectFactory::getInstanceByRefId((int) $context_parameters['ref_id']);
         $assignments = $prg->getAssignmentsOfSingleProgramForUser($recipient->getId());
         $latest = $this->getLatestAssignment($assignments);
         $latest_successful = $this->getLatestSuccessfulAssignment($assignments);
@@ -201,7 +201,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 }
                 break;
             case self::LINK:
-                $string = ilLink::_getLink((int)$context_parameters['ref_id'], 'prg') . ' ';
+                $string = ilLink::_getLink((int) $context_parameters['ref_id'], 'prg') . ' ';
                 break;
             case self::ORG_UNIT:
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());

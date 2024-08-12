@@ -23,23 +23,22 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Language\Language;
+use ilLanguage;
+use InvalidArgumentException;
 use ILIAS\Refinery\Transformation;
 
 class MarkdownFormattingToHTMLTest extends TestCase
 {
     private Transformation $markdown;
-    private Transformation $markdown_with_escaped_html;
 
     protected function setUp(): void
     {
-        $language = $this->getMockBuilder(Language::class)
+        $language = $this->getMockBuilder(ilLanguage::class)
                          ->disableOriginalConstructor()
                          ->getMock();
         $group = new Group(new Factory(), $language);
 
-        $this->markdown = $group->markdown(false)->toHTML();
-        $this->markdown_with_escaped_html = $group->markdown()->toHTML();
+        $this->markdown = $group->markdown()->toHTML();
     }
 
     public static function stringProvider(): array
@@ -62,35 +61,8 @@ class MarkdownFormattingToHTMLTest extends TestCase
      */
     public function testTransformationToHTML(
         string $markdown_string,
-        string $expected_html,
+        string $expected_html
     ): void {
         $this->assertEquals($expected_html, $this->markdown->transform($markdown_string));
-    }
-
-    public function testHtmlInputIsRendered(): void
-    {
-        $markdown_with_html = "lorem **ipsum**\n<ul><li>phpunit</li></ul>";
-
-        $expected = "<p>lorem <strong>ipsum</strong></p>\n<ul><li>phpunit</li></ul>\n";
-
-        $this->assertSame($expected, $this->markdown->transform($markdown_with_html));
-    }
-
-    public function testUntrustedLinksAreRemoved(): void
-    {
-        $markdown_with_html = "lorem **ipsum**\n[xss](javascript:alert(1))";
-
-        $expected = "<p>lorem <strong>ipsum</strong>\n<a>xss</a></p>\n";
-
-        $this->assertSame($expected, $this->markdown->transform($markdown_with_html));
-    }
-
-    public function testHtmlInputIsEscapedIfDesired(): void
-    {
-        $markdown_with_html = "lorem **ipsum**\n<ul><li>phpunit</li></ul>";
-
-        $expected = "<p>lorem <strong>ipsum</strong></p>\n&lt;ul&gt;&lt;li&gt;phpunit&lt;/li&gt;&lt;/ul&gt;\n";
-
-        $this->assertSame($expected, $this->markdown_with_escaped_html->transform($markdown_with_html));
     }
 }

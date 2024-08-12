@@ -21,26 +21,33 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Transformation;
+use League\CommonMark\MarkdownConverter;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
+use ILIAS\CommonMarkExtension\CommonMarkExtension\CommonMarkCoreExtension;
 
 /**
  * This class provides a transformation that converts Markdown formatting to HTML using the `CommonMark` Library
  */
 class MarkdownFormattingToHTML
 {
-    private \League\CommonMark\CommonMarkConverter $converter;
+    private MarkdownConverter $converter;
 
     public function __construct(bool $escape = true)
     {
         $config = [
+            'html_input' => 'escape',
+            'renderer' => [
+                'soft_break' => "<br/>"
+            ],
             'allow_unsafe_links' => false,
             'max_nesting_level' => 42 // https://commonmark.thephpleague.com/1.5/security/#nesting-level
         ];
 
-        if ($escape === true) {
-            $config['html_input'] = 'escape';
-        }
+        $environment = new Environment($config);
+        $environment->addExtension(new CommonMarkCoreExtension());
 
-        $this->converter = new \League\CommonMark\CommonMarkConverter($config);
+        $this->converter = new MarkDownConverter($environment);
     }
 
     /**

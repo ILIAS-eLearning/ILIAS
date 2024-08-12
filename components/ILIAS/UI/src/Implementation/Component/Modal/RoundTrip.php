@@ -246,4 +246,14 @@ class RoundTrip extends Modal implements M\RoundTrip
     {
         return $this;
     }
+
+    public function withAdditionalSubmitButton(string $label, string $action): self
+    {
+        return $this;
+    }
+
+    public function getAdditionalSubmitButtons(): array
+    {
+        return [];
+    }
 }

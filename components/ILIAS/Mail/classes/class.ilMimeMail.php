@@ -249,7 +249,7 @@ class ilMimeMail
     {
         $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
 
-        return strip_tags($maybeHTML);
+        return html_entity_decode(strip_tags($maybeHTML), ENT_QUOTES);
     }
 
     protected function buildBodyMultiParts(string $skin, string $style): void

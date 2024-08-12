@@ -28,20 +28,21 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private readonly TaskManager $taskManager;
-    private readonly TaskFactory $taskFactory;
-    private readonly ilLanguage $language;
-    private readonly ilLogger $logger;
-    private readonly ilMailValueObjectJsonService $objectJsonService;
+    private TaskManager $taskManager;
+    private TaskFactory $taskFactory;
+    private ilLanguage $language;
+    private ilLogger $logger;
+    private ilMailValueObjectJsonService $objectJsonService;
+    private int $anonymousUserId;
 
     public function __construct(
-        private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $objectJsonService = null
+        ilMailValueObjectJsonService $objectJsonService = null,
+        int $anonymousUserId = ANONYMOUS_USER_ID
     ) {
         if (null === $dic) {
             global $DIC;
@@ -72,6 +73,8 @@ class ilMassMailTaskProcessor
             $objectJsonService = new ilMailValueObjectJsonService();
         }
         $this->objectJsonService = $objectJsonService;
+
+        $this->anonymousUserId = $anonymousUserId;
     }
 
     /**
@@ -92,11 +95,11 @@ class ilMassMailTaskProcessor
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
-            throw new ilMailException('First parameter must contain at least 1 array element');
+            throw new ilException('First parameter must contain at least 1 array element');
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilMailException(
+            throw new ilException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
                     $mailsPerTask
@@ -106,9 +109,11 @@ class ilMassMailTaskProcessor
 
         foreach ($mailValueObjects as $mailValueObject) {
             if (!($mailValueObject instanceof ilMailValueObject)) {
-                throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
+                throw new ilException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
+
+        $lastTask = null;
         $taskCounter = 0;
 
         $remainingObjects = [];

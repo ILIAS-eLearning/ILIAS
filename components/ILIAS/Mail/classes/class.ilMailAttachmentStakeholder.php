@@ -18,11 +18,21 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailMimeTransport
- */
-interface ilMailMimeTransport
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+
+class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
 {
-    public function send(ilMimeMail $mail): bool;
-    public function getErrorInformation(): string;
+    public function __construct()
+    {
+    }
+
+    public function getId(): string
+    {
+        return 'mail_attachments';
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return 74;
+    }
 }

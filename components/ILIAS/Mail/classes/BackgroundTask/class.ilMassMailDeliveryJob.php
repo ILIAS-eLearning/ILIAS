@@ -32,8 +32,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-    private readonly ILIAS\DI\Container $dic;
-    private readonly ilMailValueObjectJsonService $mailJsonService;
+    private ILIAS\DI\Container $dic;
+    private ilMailValueObjectJsonService $mailJsonService;
 
     public function __construct()
     {

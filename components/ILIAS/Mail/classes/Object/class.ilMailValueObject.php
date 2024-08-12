@@ -23,28 +23,45 @@ declare(strict_types=1);
  */
 class ilMailValueObject
 {
+    private string $recipients;
+    private string $recipientsCC;
+    private string $recipientsBCC;
+    private string $subject;
+    private string $body;
     /** @var string[] */
-    private readonly array $attachments;
+    private array $attachments;
+    private bool $usePlaceholders;
+    private bool $saveInSentBox;
+    private string $from;
 
     /**
      * @param string[] $attachments
      * @throws InvalidArgumentException
      */
     public function __construct(
-        private readonly string $from,
-        private readonly string $recipients,
-        private readonly string $recipientsCC,
-        private readonly string $recipientsBCC,
-        private readonly string $subject,
-        private readonly string $body,
+        string $from,
+        string $recipients,
+        string $recipientsCC,
+        string $recipientsBCC,
+        string $subject,
+        string $body,
         array $attachments,
-        private readonly bool $usePlaceholders = false,
-        private readonly bool $saveInSentBox = false
+        bool $usePlaceholders = false,
+        bool $saveInSentBox = false
     ) {
-        $this->attachments = array_filter(array_map('trim', $attachments));
-        if (ilStr::strLen($this->subject) > 255) {
+        if (ilStr::strLen($subject) > 255) {
             throw new InvalidArgumentException('Subject must not be longer than 255 characters');
         }
+
+        $this->from = $from;
+        $this->recipients = $recipients;
+        $this->recipientsCC = $recipientsCC;
+        $this->recipientsBCC = $recipientsBCC;
+        $this->subject = $subject;
+        $this->body = $body;
+        $this->attachments = array_filter(array_map('trim', $attachments));
+        $this->usePlaceholders = $usePlaceholders;
+        $this->saveInSentBox = $saveInSentBox;
     }
 
     public function getRecipients(): string
