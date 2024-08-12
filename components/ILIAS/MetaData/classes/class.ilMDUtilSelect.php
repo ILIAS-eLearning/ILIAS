@@ -23,6 +23,7 @@ declare(strict_types=1);
  * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-core
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, please use the new API (see {@see ../docs/api.md})
  */
 class ilMDUtilSelect
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,7 +34,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
     public function __construct(protected int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
+        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 13);
     }
 
     /**

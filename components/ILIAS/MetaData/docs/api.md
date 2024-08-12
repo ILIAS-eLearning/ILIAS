@@ -2,15 +2,25 @@
 
 > This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
-`Services\Metadata` offers an API with which the [Learning Object Metadata
+The `Metadata` component offers an API with which the [Learning Object Metadata
 (LOM)](lom_structure.md) of ILIAS objects can be read out, processed,
 and manipulated. It can be obtained from the `DIC` via the method
 `learningObjectMetadata`.
 
-The API offers four different sub-services. In the following, we will
-explain what they offer and how they can be used.
+In the following, we will explain what functionality the API offers,
+and how it can be used.
+
+## Contents
+
+1. [`read`](#read)
+2. [`search`](#search)
+3. [`manipulate`](#manipulate)
+4. [`derive`](#derive)
+5. [`deleteAll`](#deleteall)
+6. [`paths`](#paths)
+7. [`dataHelper`](#datahelper)
 
 ## `read`
 
@@ -18,11 +28,17 @@ With `read`, one can read out the LOM of a specific ILIAS object.
 
 When calling `read`, the object whose metadata one wants to read out
 needs to be identified by a triple of IDs as explained [here](identifying_objects.md).
-Optionally, one can also specify metadata elements via a [path](#paths).
+Optionally, one can in addition specify metadata elements via a [path](#paths).
 In this case, not the whole metadata set is read out, but only the
-elements on the path along with all sub-elements of its last element.
+elements on the path. If the path ends at an element that has
+sub-elements, reading continues recursively.
 
-`read` returns a `Reader` object, which can then be used to access the
+> Beware that when restricting `read` to a path, filters on the path
+are ignored. Further, if the path contains steps to super elements,
+it is only followed down to the first element that the path returns
+to (see [here](#paths) for details).
+
+`read` returns a `Reader`, which can then be used to access the
 values of different elements in the (partial) set, selected via [paths](#paths).
 These values are returned as data objects, containing the actual value
 as a string, and its data type (see [here](lom_structure.md) for details
@@ -31,13 +47,12 @@ is consistent. To further process the values, see the [data
 helper](#datahelper).
 
 Note that the `Reader` returns null data objects for elements not
-carrying any data according to the [LOM standard](lom_structure.md), and when 
-requesting the `firstData` of an element that does not exist at all
-in the set of the current ILIAS object.
+carrying any data, and when requesting the `firstData` of an element
+that does not exist at all in the set of the current ILIAS object.
 
 ### Examples
 
-To read out the title of a course with `obj_id` 380, call `read` with
+To read out the title of a Course with `obj_id` 380, call `read` with
 the [appropriate IDs](identifying_objects.md), and then `firstData`
 with the right [path](#paths). Since this returns a data object, one
 then has to extract the actual value with `value`:
@@ -88,16 +103,268 @@ $title = $reader->firstData($lom->paths()->title())->value();
 
 See [here](#paths) for details on custom paths.
 
+## `search`
+
+`search` is used to find objects whose LOM matches some user-defined
+specifications. When calling `search`, a `Searcher` is
+returned. In the `Searcher`, search `Clauses` and `Filters` can be
+assembled, and using them a search can be performed. In the search
+results, objects are identified by a triple of ID as explained [here](identifying_objects.md).
+
+`Clauses` can be obtained in the `ClauseFactory` available through the
+`Searcher`. Basic `Clauses` consist of a [path](#paths) to a LOM
+element, a search `Mode`, and a value to search for. Additionally, the
+`Mode` can be negated. Searching with just the basic `Clause` then
+finds all objects whose LOM sets have at least one element specified
+by the path, and whose value fulfills the condition given by search `Mode`
+and value (or does not fulfill the condition, in the case
+of the `Mode` being negated).
+
+The search does take into account path filters, with the exception
+of those of type `INDEX`. For more information on paths, see [here](#paths).
+
+>The search is not built to check the (non-)existence of elements
+which do not carry any value. Searches of this nature will not give
+accurate or reliable results.
+
+Multiple `Clauses` can be joined logically into a single `Clause`
+using `AND` or `OR` `Operators`. These joined `Clauses` then can further
+be joined, such that arbitrarily complicated search criteria can be
+assembled from the basic `Clauses`.
+
+Further, `Clauses` can be negated. Negating a basic `Clause` will then
+lead to a search that finds objects with LOM sets that  have **no**
+elements that fulfill the conditions. Note that this can lead to different
+results than negating the `Mode` of the basic `Clause`! Negating joined
+`Clauses` will negate the whole assembled logical statement.
+
+Searches will return a `RessourceID` object for each search result,
+and each `RessourceID` identifies an object in ILIAS by a [triple of IDs](identifying_objects.md).
+
+The `Searcher` can also generate `Filters`. These `Filters` can be passed
+to the `execute` method in the `Searcher` in addition to a clause to restrict
+the objects the search will return. Each `Filter` object carries the
+same [triple of IDs](identifying_objects.md) as is returned by the search. Each ID can
+either be a specific value, or a `Placeholder`. Using `Placeholders`, the
+filter can be configured to allow either any value for an ID, or only allow
+values that match the value of one of the other IDs. Multiple values in
+the same filter are joined with a logical AND, and multiple filters in the same
+search with a logical OR.
+
+Finally, a limit and offset can also be applied to the search. Both parameters
+can be set independently of each other. The order of results returned by
+the search is consistent, they are ordered by their IDs. 
+
+>The search was built to be versatile, and is as such not particulary
+well optimized for any specific task. If you have a use case for the
+search that performs especially poorly, feel free to report that
+in the [ILIAS issue tracker](https://mantis.ilias.de) or contribute a
+possible improvement to the search via [Pull Request](../../../../docs/development/contributing.md#pull-request-to-the-repositories).
+
+### Examples
+
+To find all objects in ILIAS that have a keyword with value 'Great Content',
+build an according basic `Clause` and pass it to `Searcher::search` with
+limit and offset set to `null`:
+
+````
+$clause = $lom->search()->getClauseFactory()->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::EQUALS,
+    'Great Content'
+);
+
+$results = $lom->search()->execute($clause, null, null);
+````
+
+By negating the search `Mode` in the basic `Clause` one can find e.g.
+all objects in ILIAS that have a keyword that does not start with 'Great':
+
+````
+$clause = $lom->search()->getClauseFactory()->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::STARTS_WITH,
+    'Great',
+    true
+);
+
+$results = $lom->search()->execute($clause, null, null);
+````
+
+On the other hand, by negating the whole basic `Clause` one can find
+e.g. all objects that have no keyword ending in 'Content'. Note that 
+because a LOM set can have multiple keywords, this is different to
+searching for all objects that have a keyword that does **not** end with
+content! If an object has a keyword 'Great Content' and a keyword
+'Great Styling', it would be returned in the second search but not in
+the first.
+
+````
+$clause_factory = $lom->search()->getClauseFactory();
+$clause = $clause_factory->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::ENDS_WITH,
+    'Content'
+);
+$clause = $clause_factory->getNegatedClause($clause);
+
+$results = $lom->search()->execute($clause, null, null);
+````
+
+Joining `Clauses` allows for more specific searches. The following finds
+all objects with a keyword containing 'great', and with an author
+'Dr. Doom':
+
+````
+$clause_factory = $lom->search()->getClauseFactory();
+$keyword_clause = $clause_factory->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::CONTAINS,
+    'great'
+);
+$author_clause = $clause_factory->getBasicClause(
+    $lom->paths()->authors(),
+    Mode::EQUALS,
+    'Dr. Doom'
+);
+$clause = $clause_factory->getJoinedClauses(
+    Operator::AND,
+    $keyword_clause,
+    $author_clause
+);
+
+$results = $lom->search()->execute($clause, null, null);
+````
+
+Joining clauses even further, one can find e.g. all objects with a
+keyword containing 'great', and with an author 'Dr. Doom' or
+'Dr. House':
+
+````
+$clause_factory = $lom->search()->getClauseFactory();
+$keyword_clause = $clause_factory->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::CONTAINS,
+    'great'
+);
+$doom_clause = $clause_factory->getBasicClause(
+    $lom->paths()->authors(),
+    Mode::EQUALS,
+    'Dr. Doom'
+);
+$house_clause = $clause_factory->getBasicClause(
+    $lom->paths()->authors(),
+    Mode::EQUALS,
+    'Dr. House'
+);
+$clause = $clause_factory->getJoinedClauses(
+    Operator::AND,
+    $keyword_clause,
+    $clause_factory->getJoinedClauses(
+        Operator::OR,
+        $doom_clause,
+        $house_clause
+    )
+);
+
+$results = $lom->search()->execute($clause, null, null);
+````
+
+To find specifically all Courses with keyword 'Great Content', `Filters`
+can be used to only search for objects which have `'crs'` as the type in
+their [triple of IDs](identifying_objects.md). Since the other two parameters do not need
+to be restricted, one can set them to `Placeholder::ANY`:
+
+````
+$clause = $lom->search()->getClauseFactory()->getBasicClause(
+    $lom->paths()->keywords(),
+    Mode::EQUALS,
+    'Great Content'
+);
+$filter = $lom->search()->getFilter(
+    Placeholder::ANY,
+    Placeholder::ANY,
+    'crs'
+);
+
+$results = $lom->search()->execute($clause, null, null, $filter);
+````
+
+Analogously, one can also search for a specific repository object and
+its subobjects. To only find e.g. the Learning Module with `obj_id` 123
+and its chapters and pages:
+
+````
+$filter = $lom->search()->getFilter(
+    123,
+    Placeholder::ANY,
+    Placeholder::ANY
+);
+
+$results = $lom->search()->execute($clause, null, null, $filter);
+````
+
+Multiple filters are joined with a logical OR, so to search in two different
+Learning Modules with `obj_id`s 123 and 456 simultaneously:
+
+````
+$filter_123 = $lom->search()->getFilter(
+    123,
+    Placeholder::ANY,
+    Placeholder::ANY
+);
+$filter_456 = $lom->search()->getFilter(
+    456,
+    Placeholder::ANY,
+    Placeholder::ANY
+);
+
+$results = $lom->search()->execute(
+    $clause,
+    null,
+    null,
+    $filter_123,
+    $filter_456
+);
+````
+
+`Filters` can also be used to only search repository objects, and not
+their sub-objects. To this end, use placeholders to set the `sub_id` equal
+to the `obj_id`:
+
+````
+$filter = $lom->search()->getFilter(
+    Placeholder::ANY,
+    Placeholder::OBJ_ID,
+    Placeholder::ANY
+);
+
+$results = $lom->search()->execute($clause, null, null, $filter);
+````
+
+Alternatively, one can also filter for objects with `sub_id` equal to 0.
+See [here](identifying_objects.md) for information on how repository objects are indentified
+in the `Metadata` component.
+
+Lastly, limit and offset can be used to e.g. sequentially search through
+objects. The following will first fetch the first five results, then the
+next five, and lastly all remaining results:
+
+````
+$first_five_results = $lom->search()->execute($clause, 5, null);
+$next_five_results = $lom->search()->execute($clause, 5, 5);
+$remaining_results = $lom->search()->execute($clause, null, 10);
+````
+
 ## `manipulate`
 
 With `manipulate`, one can edit an ILIAS object's LOM by deleting
-elements, changing their value or adding new ones.
+elements, changing their value or adding new elements.
 
-When calling `manipulate`, an object needs to be identified by a triple
-of IDs as explained [here](identifying_objects.md). A `Manipulator`
-object is returned.
+When calling `manipulate`, the object in question needs to be identified
+by a triple of IDs as explained [here](identifying_objects.md). A `Manipulator` is returned.
 
-The `Manipulator` offers a few `prepare` methods, with which changes
+The `Manipulator` offers a few `prepare` methods, with which the changes
 one wants to make to the metadata can be collected. Upon calling
 `execute`, all changes registered to the `Manipulator` are carried
 out simultaneously.
@@ -109,22 +376,22 @@ there are less elements than provided values, new elements will be set
 to be created according to the path to hold the leftover values.<br>
 If one of the provided values is not valid for the data type of the
 selected elements, or if it is not possible to add enough elements to the
-LOM set to fit all values, an error will be thrown (either by this method
-or by `execute`). Make sure that you are not trying to give multiple 
-values to unique elements (see [here](lom_structure.md) for details).<br>
+LOM set to fit all values, an exception will be thrown (either by this method
+or when calling `execute`). Make sure that you are not trying to give
+multiple values to unique elements (see [here](lom_structure.md) for details).<br>
 For further details on how the `Manipulator` works see [here](manipulator.md).
 - `prepareForceCreate`: This behaves identically to the above, but will
 always create new elements, and never update existing ones.<br>
 The warning given above goes double here; if not enough of the requested
-elements can be created, an error will be thrown. We recommend only using
+elements can be created, an exception will be thrown. We recommend only using
 this method over `prepareCreateOrUpdate` when absolutely necessary, and
-if at all possible only for non-unique elements.
+only for non-unique elements.
 - `prepareDelete`: All elements selected by a [path](#paths) are set to
-be deleted, along with their sub-elements.
+be deleted. All their sub-elements are recursively deleted as well.
 
 ### Examples
 
-To update the title in the LOM metadata of a course with `obj_id`
+To update the title in the LOM metadata of a Course with `obj_id`
 380, call `manipulate` with the [appropriate IDs](identifying_objects.md),
 then `prepareCreateOrUpdate` with the right [path](#paths), and
 finally `execute`:
@@ -136,7 +403,7 @@ $lom->manipulate(380, 380, 'crs')
 ````
 
 Note that adding a second value to `prepareCreateOrUpdate` would lead
-to an error. The manipulator would try to create a second `title` element
+to an exception. The manipulator would try to create a second `title` element
 to hold the additional value, but this is not possible since `title`
 is unique.
 
@@ -281,6 +548,85 @@ $lom->manipulate(380, 380, 'crs')
 The custom path ensures, that even when the `structure` element does
 not already exist, it will be created with the right source.
 
+## `derive`
+
+`derive` can be used to derive a LOM set for a target from that of a
+source. This encompasses copying between ILIAS objects and creating
+a LOM set for an object from basic properties, depending on the chosen
+type of source and target.
+
+In the future, XML might be supported as source and target to also allow
+import and export of LOM sets via the API.
+
+When calling `derive`, a `SourceSelector` is returned. There,
+either an ILIAS object can be identified as a source by a triple of 
+IDs as explained [here](identifying_objects.md), or a LOM set can be created from basic
+fields. A `Derivator` is returned, where an object can be chosen
+analogously as the target.
+
+When a target is chosen, the `Derivator` reads out the LOM set from the
+source, and writes it to the target. Currently, the two use cases
+are:
+
+- **Creation:** When the target is an ILIAS object and title, description
+and language are given as the source, a new LOM set is created for the
+object containing the given data. Note that description and language are
+optional, but title is not. Any previous LOM of the target object
+is deleted before copying.
+- **Copying:** When both source and target are ILIAS objects, the `Derivator` creates
+a LOM set for the target by copying the LOM of the source. Any previous
+LOM of the target object is deleted before copying.
+
+### Examples
+
+To create a new LOM set for a course with `obj_id` 380, pass its title,
+description and language as basic properties, and choose the course as
+the target:
+
+````
+$lom->derive()
+    ->fromBasicProperties(
+        'title',
+        'description',
+        'en'
+    )
+    ->forObject(380, 380, 'crs');
+````
+
+To copy the LOM of a chapter with `obj_id` 2 in a Learning Module with
+`obj_id` 325 to the course, choose those objects as target and source
+with the appropriate IDs:
+
+````
+$lom->derive()
+    ->fromObject(325, 2, 'st')
+    ->forObject(380, 380, 'crs');
+````
+
+## `deleteAll`
+
+`deleteAll` simply deletes all LOM of an ILIAS object, the object being
+by identified by a triple of IDs as explained [here](identifying_objects.md).
+
+Note that consistency of the LOM set is not checked before deletion,
+all occurences of the given object will be scrubbed indiscriminately
+from the LOM tables.
+
+### Examples
+
+To delete all LOM of a Course with `obj_id` 380, call `deleteAll` with
+the [appropriate IDs](identifying_objects.md):
+
+````
+$lom->deleteAll(380, 380, 'crs');
+````
+
+or for a chapter with `obj_id` 2 in a Learning Module with `obj_id` 325:
+
+````
+$lom->deleteAll(325, 2, 'st');
+````
+
 ## `paths`
 
 Elements in LOM can not to be identified by name alone, but rather by
@@ -300,17 +646,17 @@ or one only wants to select an element if it fulfills a certain condition),
 one can attach one or multiple filters to a step. Filters will be explained
 in more detail below.
 
-Lastly, steps can also lead to the super-elements (or parent) of
-the current elements. This is useful if one only wants to select elements
-that contain certain sub-elements. Especially in combination with filters,
-this makes paths a powerful tool for working with the `Reader` and
-`Manipulator`. See the examples for possible ways to make use of this.
+Lastly, steps can also lead to the super-elements of the current elements.
+This is useful if one only wants to select elements that contain certain
+sub-elements. Especially in combination with filters, this makes paths a
+powerful tool for working with e.g. the `Reader` and `Manipulator`. See the
+examples for possible ways to make use of this.
 
 ### Filters
 
 There are three types of filters:
 
-- `'id'`: Filters elements by their ID from the `Services\Metadata`
+- `'id'`: Filters elements by their ID from the `Metadata`
 tables. This is primarily used internally, the API does not expose
 these IDs.
 - `'index`: Filters elements by their index in order, starting from 0.
@@ -338,8 +684,8 @@ $lom->paths()
 ````
 
 Note that it does not stop at the element `title`, since that element
-consists  not only of the `string`, can also contain a `language` sub-element.
-Many elements work similarly, often times one needs to go one step
+consists  not only of the `string`, but can also contain a `language` sub-element.
+Many elements work similarly, often one needs to go one step
 further than one would think to get to the data-carrying element. If
 in doubt, consult the [LOM Standard](lom_structure.md).
 
@@ -432,7 +778,7 @@ $lom->paths()
 ## `dataHelper`
 
 `dataHelper` is used to transform the data-values of LOM elements from
-various LOM-internal formats into more useful forms.
+various LOM-internal formats into something more useful.
 
 `makePresentable` returns the value of a data-object as something
 that can be shown to the user: vocabulary values and languages will be
@@ -449,6 +795,11 @@ months, days, hours, minutes, seconds (in this order). Note that
 there is a difference between a field not being filled and being 
 filled with 0. In the former case, null is used instead of an integer.
 
-Lastly, `durationToSeconds` transforms a LOM-duration to seconds.
+`durationToSeconds` transforms a LOM-duration to seconds.
 This is only a rough estimate, as LOM-durations do not have a start
 date, so e.g.  each month is treated as 30 days.
+
+`getAllLanguages` returns all languages that are valid in LOM in ILIAS
+(see also [here](lom_structure.md#language-lang)) as pairs of value and
+label. The value is what should be actually written into LOM, and the
+label can be presented as is to the user.

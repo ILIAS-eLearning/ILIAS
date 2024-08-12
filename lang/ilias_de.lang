@@ -2401,7 +2401,7 @@ bibl#:#translate#:#Übersetzen
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
 blog#:#blog_abstract_image#:#Erstes Bild anzeigen
 blog#:#blog_abstract_image_height#:#Höhe
-blog#:#blog_abstract_image_info#:#Das erste Bild des Beitrags wird auf die hier festgelegte Größe verkleinert. Bilder, die kleiner sind als die festgelegte Größe, werden nicht angezeigt.
+blog#:#blog_abstract_image_info#:#Das erste im Beitrag verwendete Bild wird in der Größe so angepasst, dass seine längste Kante der hier eingegebenen Wert entspricht. Dieses Bild wird zusammen mit der Zusammenfassung des Textinhalts des Beitrags angezeigt. Bilder, die kleiner als die Mindestgröße sind, werden nicht angezeigt.
 blog#:#blog_abstract_image_pixels#:#Px
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
@@ -2410,8 +2410,8 @@ blog#:#blog_abstract_shorten_length#:#Maximale Länge
 blog#:#blog_add#:#Blog anlegen
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_add_posting#:#Beitrag hinzufügen
-blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ aktiviert werden.
-blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ deaktiviert werden.
+blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ aktiviert werden.
+blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration unter „Administration » Persönlicher Arbeitsraum » Persönliche Ressourcen“ deaktiviert werden.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Es kann HTML oder Javascript in Blog-Einträgen verwendet werden. Dies kann zu Sicherheitsproblemen führen.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_approve#:#Beitrag freischalten
@@ -2433,7 +2433,7 @@ blog#:#blog_contributors#:#Mitwirkende
 blog#:#blog_copy#:#Blog kopieren
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 blog#:#blog_draft#:#Entwurf
-blog#:#blog_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
+blog#:#blog_draft_info#:#Die Veröffentlichung dieses Beitrags wurde zurückgenommen. Dieser Beitrag ist jetzt nur für Mitwirkende sichtbar.
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 blog#:#blog_edit#:#Blog bearbeiten
@@ -2451,7 +2451,7 @@ blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_enable_rss#:#RSS aktivieren
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Rechten.
 blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
-blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
+blog#:#blog_est_reading_time_info#:#Eine automatisch geschätzte Lesezeit wird allen Blog-Beiträge im Magazin hinzugefügt.
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit „%s“ in der Übung „%s“ zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
 blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
@@ -2467,18 +2467,18 @@ blog#:#blog_latest_posting#:#Neuester Beitrag
 blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#mehr
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
-blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
+blog#:#blog_list_num_postings_info#:#Die maximale Anzahl von Beiträgen, die angezeigt werden, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_nav_mode#:#Monatsweise Navigation
 blog#:#blog_nav_mode_month_list#:#Aktuelle Monate als Liste
 blog#:#blog_nav_mode_month_list_info#:#Der Seitenblock zeigt eine Liste der Monate. Die Anzahl angezeigter Monate und Beiträge kann festgelegt werden.
 blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
 blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
-blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_info#:#Die Anzahl der Monate, die in dem „Beiträge“ Block gezeigt werde, wird beschränkt. Die angezeigten Monate sind immer die aktuellsten und werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktueller Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktueller Monate werden im Seitenblock Links zu allen Beiträgen angezeigt. Weitere Monate werden mit einer Zahl angezeigt, die die Gesamtzahl der Beiträge in diesem Monat angibt.
 blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
-blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
+blog#:#blog_nav_mode_month_single_info#:#Anstelle einer Liste wird im Seitenblock ein Dropdown-Menü gezeigt, das alle Monate zur Auswahl anbietet. Nur Beiträge der gewählten Monat werden aufgelistet.
 blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
 blog#:#blog_navigation#:#Beiträge
 blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
@@ -2498,7 +2498,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
-blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch die Blog-Redaktion freigeschaltet werden.
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
@@ -5384,7 +5384,6 @@ common#:#question#:#Frage
 common#:#question_message#:#Frage
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
-common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online sind, ist erreicht. Bitte versuchen Sie es später noch einmal.
 common#:#read#:#Lesezugriff
 common#:#readcount_anonymous_users#:#Lesezugriffe anonymer Benutzer
 common#:#readcount_users#:#Lesezugriffe registrierter Benutzer
@@ -5568,22 +5567,11 @@ common#:#server_disabled#:#Der Chat ist deaktiviert
 common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
-common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
-common#:#sess_mode#:#Session-Modus
-common#:#sess_new#:#Neue Sitzung anlegen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“
 common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in „%s“ zur Sitzung „%s“
 common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s“ für die Sitzung „%s“
-common#:#session_max_count#:#Maximale Anzahl aktiver Sessions
-common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
-common#:#session_max_idle#:#Maximale Leerlaufzeit einer Session (in Minuten)
-common#:#session_max_idle_after_first_request#:#Minimale Leerlaufzeit einer Session nach der ersten Anfrage (in Minuten)
-common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
-common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
-common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
-common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
@@ -10123,7 +10111,7 @@ forum#:#selected_threads_closed#:#Das Thema wurde geschlossen.
 forum#:#selected_threads_reopened#:#Das Thema wurde wiedereröffnet.
 forum#:#sort_by_date#:#Nach Datum sortieren
 forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt.
-forum#:#sort_by_posts#:#Nach Beiträge sortieren
+forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#sort_by_posts_desc#:#Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting#:#Sortierung
 forum#:#sticky#:#'Top-Thema'
@@ -11497,6 +11485,7 @@ mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_send_html#:#HTML-Rahmen
 mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden.
+mail#:#mail_sent_datetime#:#Datum
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
@@ -11610,8 +11599,8 @@ mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit aktuellen Browsern nicht benötigt.
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
 mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
@@ -14707,6 +14696,8 @@ registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
 registration#:#reg_disabled#:#Keine Registrierung möglich
 registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de')
+registration#:#reg_domain_already_assigned_p#:#Die Domänen '%s' wurdem bereits für die Zuweisung einer anderen Rolle gewählt.
+registration#:#reg_domain_already_assigned_s#:#Die Domäne '%s' wurde bereits für die Zuweisung einer anderen Rolle gewählt.
 registration#:#reg_email#:#Automatische Rollenzuweisung
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
@@ -16958,8 +16949,6 @@ trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_average#:#Durchschnitt
 trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_idle#:#Leerlaufzeit
-trac#:#trac_closed_idle_first#:#Leerlaufzeit (1. Anfrage)
 trac#:#trac_closed_login#:#Anonym zu Login
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Sonstige
@@ -17003,7 +16992,6 @@ trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_last_aggregation#:#Stand
-trac#:#trac_last_maxed_out_sessions#:#Letzte Volllast
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_settings_info#:#Erweiterte Daten aktivieren
@@ -17030,8 +17018,6 @@ trac#:#trac_manual_is_displayed#:#Bestimmt Lernfortschritt
 trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
 trac#:#trac_mark#:#Note
 trac#:#trac_matrix#:#Matrixansicht
-trac#:#trac_maxed_out_counter#:#Abgewiesene Benutzer
-trac#:#trac_maxed_out_time#:#Vollauslastung [min]
 trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:

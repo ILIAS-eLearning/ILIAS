@@ -2392,9 +2392,9 @@ bibl#:#ris_default_y1#:#Year
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Translate
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
-blog#:#blog_abstract_image#:#Add Image To Abstract
+blog#:#blog_abstract_image#:#Add Image to Abstract
 blog#:#blog_abstract_image_height#:#Height
-blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
+blog#:#blog_abstract_image_info#:#The first image used in the post will be resized so that its longest edge matches the size entered here. This image will be displayed along with the abstract of the post’s text content. Images that are smaller than the minimum size will not be used.
 blog#:#blog_abstract_image_pixels#:#Px
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_shorten#:#Shorten Abstract
@@ -2402,98 +2402,90 @@ blog#:#blog_abstract_shorten_characters#:#Characters
 blog#:#blog_abstract_shorten_length#:#Maximum Length
 blog#:#blog_add#:#Create Blog
 blog#:#blog_add_contributor#:#Add Contributor
-blog#:#blog_add_posting#:#Add Posting
-blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Resources Administration.
-blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Resources Administration.
-blog#:#blog_allow_html#:#Allow HTML/Javascript
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
-blog#:#blog_approve#:#Approve Posting
+blog#:#blog_add_posting#:#Add Post
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature by going to ‘Administration » Personal Workspace » Personal Resources’.
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely by going to ‘Administration » Personal Workspace » Personal Resources’.
+blog#:#blog_approve#:#Approve Post
 blog#:#blog_author#:#Written by
 blog#:#blog_authors#:#Authors
 blog#:#blog_back_to_blog_owner#:#Edit Blog
 blog#:#blog_banner#:#Banner
-blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented.
-blog#:#blog_change_notification_body_new#:#the following blog posting was created.
-blog#:#blog_change_notification_body_update#:#the following blog posting has been updated.
-blog#:#blog_change_notification_link#:#Link to Blog Posting
-blog#:#blog_change_notification_reason#:#You are receiving this e-mail because you activated notifications for the blog mentioned above.
-blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
+blog#:#blog_change_notification_body_approve#:#The following blog post needs approval.
+blog#:#blog_change_notification_body_comment#:#The following blog post has received a comment.
+blog#:#blog_change_notification_body_new#:#A new post has been added to the following blog.
+blog#:#blog_change_notification_body_update#:#The following blog post has been updated.
+blog#:#blog_change_notification_link#:#Link to Blog Post
+blog#:#blog_change_notification_reason#:#You have received this e-mail because you have activated notifications for the blog mentioned above.
+blog#:#blog_change_notification_subject#:#The blog "%s" has been updated.
 blog#:#blog_comments#:#Comments
-blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
-blog#:#blog_contribute_other_roles#:#Additionally to Blog-Contributors users with the role %s can write postings. They are not listed in the table below, because they get the respective permission from an encompassing object.
-blog#:#blog_contributors#:#Blog-Contributors
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to remove the following contributors?
+blog#:#blog_contribute_other_roles#:#In addition to the blog contributors listed below, users with the role(s) %s can also add posts to this blog. They are not listed in the table below, because their respective permission(s) are derived from the object (e.g. course or group) in which this blog is contained.
+blog#:#blog_contributors#:#Blog Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_download_submission#:#Download Submission
 blog#:#blog_draft#:#Draft
-blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
-blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.
+blog#:#blog_draft_info#:#The post has been unpublished and is now only visible to contributors.
+blog#:#blog_draft_info_contributors#:#This draft post is currently only visible to the contributors of this blog.
 blog#:#blog_draft_text#:#Unpublished Post
 blog#:#blog_edit#:#Edit Blog
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
 blog#:#blog_edit_keywords#:#Edit Keywords
-blog#:#blog_edit_posting#:#Edit Posting
-blog#:#blog_enable_approval#:#Approve Postings
-blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
+blog#:#blog_edit_posting#:#Edit Post
+blog#:#blog_enable_approval#:#Approve Posts
+blog#:#blog_enable_approval_info#:#Posts will only be visible to other users after having being approved by a user with the ‘Edit Settings’ permission for this blog.
 blog#:#blog_enable_keywords#:#Keywords
-blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.
+blog#:#blog_enable_keywords_info#:#Keywords can be added to posts. These keywords will then be displayed in a ‘Keywords’ block in the sidebar, where they can be used to filter the blog posts accordingly.
 blog#:#blog_enable_nav_authors#:#Authors
-blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a username shows all postings of this author.
+blog#:#blog_enable_nav_authors_info#:#Display a list of all blog authors in an ‘Authors’ side block. Clicking on an author’s username will show all posts by this author in the main section of the blog.
 blog#:#blog_enable_notes#:#Public Comments
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
 blog#:#blog_est_reading_time#:#Estimated Reading Time
-blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
-blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
+blog#:#blog_est_reading_time_info#:#Add an automatically generated estimated reading time to blog posts in the repository.
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
-blog#:#blog_finalize_blog#:#Finalize and Submit Blog
-blog#:#blog_finalized#:#The Blog has been submitted.
+blog#:#blog_finalize_blog#:#Finalise and Submit Blog
+blog#:#blog_finalized#:#Your blog has been submitted.
 blog#:#blog_import#:#Import Blog
 blog#:#blog_incl_comments#:#including comments
 blog#:#blog_keyword#:#Keyword
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 blog#:#blog_keywords#:#Keywords
-blog#:#blog_keywords_other#:#Other Keywords
-blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
-blog#:#blog_latest_posting#:#Latest Posting
+blog#:#blog_latest_posting#:#Latest Post
 blog#:#blog_link#:#Link
-blog#:#blog_list_more#:#more
-blog#:#blog_list_num_postings#:#Number of postings
-blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
-blog#:#blog_nav_mode#:#Postings
+blog#:#blog_list_more#:#More
+blog#:#blog_list_num_postings#:#Number of Posts
+blog#:#blog_list_num_postings_info#:#The maximum number of posts displayed when viewing the blog with no specific month selected.
+blog#:#blog_nav_mode#:#Posts
 blog#:#blog_nav_mode_month_list#:#Show List of Months
-blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the ‘Postings’ block.
-blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.
-blog#:#blog_nav_mode_month_list_num_month#:#Total Number of shown months
-blog#:#blog_nav_mode_month_list_num_month_info#:#Additional months will be displayed with their total number of postings.
-blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
+blog#:#blog_nav_mode_month_list_info#:#List months with posts in the ‘Posts’ block.
+blog#:#blog_nav_mode_month_list_num_month#:#Total Number of Months Shown
+blog#:#blog_nav_mode_month_list_num_month_info#:#Limit the number of months that will be displayed in the ‘Posts’ block. The months displayed will always be the most recent and will be shown with a number indicating how many posts were made in that month as standard.
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of Months With Listed Posts
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with the titles of all of their posts in the navigation block. Additional months will be displayed with a number indicating the total number of posts made in that month.
 blog#:#blog_nav_mode_month_single#:#Show Selected Month
-blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the ‘Postings’ block. Month can be changed by drop-down.
-blog#:#blog_nav_sortorder#:#Order of Blocks
-blog#:#blog_navigation#:#Postings
-blog#:#blog_needs_approval#:#Posting is not yet approved
+blog#:#blog_nav_mode_month_single_info#:#Instead of a list of months, display a drop-down menu, containing all of the months with posts for this blog. Users can use this menu to select the month they wish to view. Only the posts of the selected month will then be shown.
+blog#:#blog_nav_sortorder#:#Block Order
+blog#:#blog_navigation#:#Posts
+blog#:#blog_needs_approval#:#Post has not yet been approved
 blog#:#blog_new#:#Create New Blog
-blog#:#blog_new_posting_info#:#The posting is published.
+blog#:#blog_new_posting_info#:#The post has been published.
 blog#:#blog_news_posting_authors#:#Contributing authors: %s
-blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
-blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s.
+blog#:#blog_news_posting_published#:#New blog post published by %s.
+blog#:#blog_news_posting_updated#:#Blog post updated by %s.
 blog#:#blog_no_keywords#:#No keywords have been entered yet.
-blog#:#blog_notification_activated#:#Notification Activated
-blog#:#blog_notification_deactivated#:#Notification Deactivated
-blog#:#blog_notification_toggle_off#:#Deactivate Notification
+blog#:#blog_notification_activated#:#Notifications Activated
+blog#:#blog_notification_deactivated#:#Notifications Deactivated
+blog#:#blog_notification_toggle_off#:#Deactivate Notifications
 blog#:#blog_notification_toggle_on#:#Activate Notification
-blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this posting
-blog#:#blog_page_type_blp#:#Blog Posting
-blog#:#blog_permanent_link#:#Permalink
-blog#:#blog_posting#:#Blog Posting
-blog#:#blog_posting_deleted#:#Posting has been deleted.
-blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following posting?
-blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.
-blog#:#blog_posting_not_found#:#This blog posting is not available.
-blog#:#blog_postings#:#Postings
+blog#:#blog_number_users_notes_or_comments#:#Number of users who have attached notes or comments to this post
+blog#:#blog_posting#:#Blog Post
+blog#:#blog_posting_deleted#:#Post successfully deleted.
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following post?
+blog#:#blog_posting_edit_approval_info#:#Post needs to be approved by an editor in order to be visible. The post needs to be published before approval can take place.
+blog#:#blog_posting_not_found#:#This blog post is not available.
+blog#:#blog_postings#:#Posts
 blog#:#blog_presentation_frame#:#Blog Presentation
 blog#:#blog_presentation_overview#:#Initial Overview
 blog#:#blog_preview#:#Preview
@@ -2502,21 +2494,20 @@ blog#:#blog_preview_banner_height#:#Banner Height
 blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
 blog#:#blog_preview_banner_width#:#Banner Width
 blog#:#blog_profile_picture#:#Display Profile Picture
-blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
+blog#:#blog_profile_picture_repository_info#:#Profile pictures of authors are only shown on post pages, not on overview pages.
 blog#:#blog_properties#:#Blog Properties
-blog#:#blog_rename_posting#:#Rename Posting
-blog#:#blog_selected_pages#:#Selected Postings
+blog#:#blog_rename_posting#:#Rename Post
+blog#:#blog_selected_pages#:#Selected posts
 blog#:#blog_settings#:#Blog Administration
-blog#:#blog_settings_navigation#:#Navigation Column
-blog#:#blog_show_latest#:#Show latest postings/drafts
+blog#:#blog_settings_navigation#:#Navigation Sidebar
+blog#:#blog_show_latest#:#Show Latest Posts/Drafts
 blog#:#blog_show_print_view#:#Show Print View
 blog#:#blog_starting_page#:#Starting Page
-blog#:#blog_style#:#Blog Style
-blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
+blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
-blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
-blog#:#blog_toggle_final#:#Publish Posting
-blog#:#blog_whole_blog#:#Whole Blog
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Post
+blog#:#blog_toggle_final#:#Publish Post
+blog#:#blog_whole_blog#:#Whole blog
 book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Item
@@ -2719,8 +2710,8 @@ buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_link#:#Approve Request
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to his friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
-buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to their friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to their friends list.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
@@ -3495,8 +3486,8 @@ common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_survey_settings#:#Survey Settings
 common#:#all#:#All
-common#:#all_global_roles#:#Global roles
-common#:#all_local_roles#:#Local roles (all)
+common#:#all_global_roles#:#Global Roles
+common#:#all_local_roles#:#Local Roles (all)
 common#:#all_objects#:#All Objects
 common#:#all_roles#:#All Roles
 common#:#all_topics#:#All Topics
@@ -3699,7 +3690,7 @@ common#:#check_web_resources#:#Check Weblinks
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked#:#Checked
 common#:#checked_files#:#Importable files
-common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
+common#:#chg_ilias_and_webfolder_password#:#Change Web Folder Password
 common#:#chg_ilias_password#:#Change ILIAS Password
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -3984,7 +3975,7 @@ common#:#enable_multi_download#:#'Download of multiple objects' enabled
 common#:#enable_multi_download_info#:#Multiple folders/files can be selected and downloaded as zip archive.
 common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
-common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
+common#:#enable_preview_info#:#Enable the display of preview images for supported file types.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
 common#:#enable_repository_dnd_upload_info#:#Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object.
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
@@ -3993,7 +3984,7 @@ common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.
 common#:#enable_trash#:#Enable Trash
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enable_webdav#:#Enable WebDAV access
-common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the ‘Open as webfolder’ action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a web folder. Users can open web folders using the ‘Open as web folder’ action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Enabled
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enter_new_name#:#Please enter a name
@@ -4088,9 +4079,9 @@ common#:#field_type#:#Field Type
 common#:#file#:#File
 common#:#file_add#:#Upload File
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
-common#:#file_added#:#File uploaded
+common#:#file_added#:#File uploaded.
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_confirm_delete_all_versions#:#You selected all file versions. This will delete the whole file object. Do you want to continue?
+common#:#file_confirm_delete_all_versions#:#You have selected all file versions. Deleting all versions of this file will result in the deletion of the whole file object. Do you wish to continue?
 common#:#file_confirm_delete_versions#:#Are you sure you want to delete the following file version(s)?
 common#:#file_created#:#File has been added.
 common#:#file_edit#:#Edit File Information
@@ -4098,18 +4089,18 @@ common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_not_found#:#File Not Found
-common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked for security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 common#:#file_objects#:#File Objects
-common#:#file_rollback#:#Publish this version
-common#:#file_rollback_done#:#File version %s is now the published version.
-common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the published version.
+common#:#file_rollback#:#Publish This Version
+common#:#file_rollback_done#:#File version %s has been published, assigned a new version number and can be found at the top of the ‘Versions’ table below.
+common#:#file_rollback_select_exact_one#:#Only one file version can be published at any one time. Please select only one file version to publish.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Enter file types with suffix (separated by comma) that shall be be renamed with a ‘.sec’ when uploaded into webspace to prevent execution of this file. This is done per default for these suffixes:
-common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
-common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#file_system_clean_temp_dir_cron#:#Clean Temp Directory
+common#:#file_system_clean_temp_dir_cron_info#:#This cron job cleans the ILIAS temp-directory of files which are older than 10 days. This prevents the accumulation of unused files which would otherwise lead to the temp directory taking up too much disk space.
 common#:#file_updated#:#File has been updated.
 common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#File is valid!
@@ -4126,12 +4117,12 @@ common#:#filename_extension_missing#:#File name extension missing
 common#:#filename_hidden_backup_file#:#Hidden backup file
 common#:#filename_hidden_unix_file#:#Hidden Unix file
 common#:#filename_interoperability#:#Interoperability
-common#:#filename_special_characters#:#Due to the character / this object is not visible in webfolders
-common#:#filename_special_filename#:#Objects with names . and .. are not visible in webfolders
+common#:#filename_special_characters#:#Due to the character / this object is not visible in web folders
+common#:#filename_special_filename#:#Objects with names . and .. are not visible in web folders
 common#:#filename_visibility#:#Visibility
-common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows webfolders
-common#:#filename_windows_special_characters#:#Due to one of the characters \ / : * ? " < > | this object is not visible in Windows webfolders
-common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows webfolders
+common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows web folders
+common#:#filename_windows_special_characters#:#Due to one of the characters \ / : * ? " < > | this object is not visible in Windows web folders
+common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows web folders
 common#:#files#:#Files
 common#:#filesize#:#File Size
 common#:#filetype#:#File Type
@@ -4279,7 +4270,7 @@ common#:#header_action#:#Insert Heading - Click to insert a heading.
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#header_visible_registration#:#Visible in Registration
-common#:#header_zip#:#Upload Multiple Files as Zip-Archive
+common#:#header_zip#:#Upload Zip-Archive of Multiple Files
 common#:#height#:#Height
 common#:#help#:#Help
 common#:#hide#:#Hide
@@ -4705,7 +4696,7 @@ common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#monthly#:#monthly
 common#:#months#:#Months
-common#:#mount_webfolder#:#Open as webfolder
+common#:#mount_webfolder#:#Open as web folder
 common#:#move#:#Move
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
@@ -5118,7 +5109,7 @@ common#:#obj_wiki_duplicate#:#Copy Wiki
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 common#:#object#:#Object
-common#:#object_added#:#Object added
+common#:#object_added#:#Object added.
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
 common#:#object_id#:#Object-ID
@@ -5370,7 +5361,6 @@ common#:#question#:#Question
 common#:#question_message#:#Question
 common#:#quit#:#Quit
 common#:#quote#:#Quote
-common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 common#:#read#:#Read
 common#:#readcount_anonymous_users#:#Number of anonymous read accesses
 common#:#readcount_users#:#Number of non-anonymous read accesses
@@ -5554,22 +5544,11 @@ common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Server Software
 common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
-common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
-common#:#sess_mode#:#Session Mode
-common#:#sess_new#:#New Session
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
-common#:#session_max_count#:#Max Number of Active Sessions
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Set the value to ‘0’ to disable the feature.
-common#:#session_max_idle#:#Maximum Session Idle (in minutes)
-common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
-common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
-common#:#session_min_idle#:#Max Session Idle (in Minutes) When Max Number of Active Sessions Reached
-common#:#session_min_idle_info#:#If a user has been idle for at least this period of time and the maximum number of active sessions allowed has been reached, then their session will be automatically ended when a different user starts a new session.
 common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
@@ -5587,7 +5566,7 @@ common#:#settings#:#Settings
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 common#:#settings_presentation_header#:#Presentation
-common#:#settings_saved#:#Settings saved
+common#:#settings_saved#:#Settings saved.
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Enable Shibboleth Support
 common#:#shib_city#:#Attribute for city
@@ -5974,20 +5953,20 @@ common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount I
 common#:#webdav_mount_instructions#:#Mount Instructions
 common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_problem_info_duplicate#:#There is a file with the same title as the info file.
-common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
-common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as web folder.<br />This password is only required for the web folder functionality.
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as web folder.
 common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:
 common#:#webdav_tbl_docs_head_title#:#Dokument title
 common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
 common#:#webdav_upload_instructions#:#Upload Instructions
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
-common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
+common#:#webfolder_dir_info#:#You got here, because your browser can't open web folders. Read the <a href="%1$s">instructions for opening web folders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
-common#:#webfolder_instructions#:#Webfolder instructions
-common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions.
-common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Rightclick on "This PC" and select "Map network drive...".</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS]	[MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#Open as webfolder
-common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
+common#:#webfolder_instructions#:#Web folder instructions
+common#:#webfolder_instructions_info#:#The web folder instructions are shown on browsers, which can not open a web folder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions.
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Rightclick on "This PC" and select "Map network drive...".</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the web folder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS]	[MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_titletext#:#Open as web folder
+common#:#webfolder_mount_dir_with#:#Open this page as a web folder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
 common#:#webr#:#Weblink
 common#:#webr_active#:#Active
 common#:#webr_add#:#Add Weblink
@@ -8500,7 +8479,6 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
-dateplaner#:#execute#:#Apply
 dateplaner#:#free#:#Free
 dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
@@ -8973,7 +8951,7 @@ ecs#:#ecs_connection_settings#:#Connection Settings
 ecs#:#ecs_consent_modal_title#:#Consent for data transfer
 ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
-ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only possible, if ECS server is configured in administration at 'Extending ILIAS » ECS'.
+ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be carried out according to the schedule settings. This will only take place if an ECS server has been configured via ‘Administration » Extending ILIAS » ECS’.
 ecs#:#ecs_crs_alloc#:#Course Allocation
 ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation
 ecs#:#ecs_crs_export#:#Course Releases
@@ -9217,7 +9195,7 @@ exc#:#exc_assignment_type#:#Type of Submission
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignments#:#Assignments
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.
-exc#:#exc_blog_created#:#Blog was created.
+exc#:#exc_blog_created#:#Blog successfully created.
 exc#:#exc_blog_returned#:#Assignment Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_chars_remaining#:#Characters remaining:
@@ -9232,7 +9210,7 @@ exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assi
 exc#:#exc_copy#:#Copy Exercise
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_create_blog#:#Create Blog
-exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.
+exc#:#exc_create_blog_select_info#:#Please select the resources folder in which you would like to create your blog.
 exc#:#exc_create_portfolio#:#Create Portfolio
 exc#:#exc_create_portfolio_no_template#:#Do not use template
 exc#:#exc_create_team#:#Create Team
@@ -9735,7 +9713,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
-file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
+file#:#could_not_create_file_objs#:#An error occurred while creating your file objects. Please contact the administrators of this platform.
 file#:#de_activate_icon#:#Activate / Deactivate
 file#:#download_ascii_filename#:#Allow Only ASCII Characters in Downloaded Filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -9747,18 +9725,18 @@ file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_publish#:#Publish Draft
-file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
-file#:#file_rollback_same_version#:#This is already the published version
+file#:#file_rollback_rollback_first#:#The selected version could not be published because an unpublished draft exists.
+file#:#file_rollback_same_version#:#This is already the published version!
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version Uploaded By
 file#:#file_version_draft#:#Draft Version
-file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.
+file#:#file_version_draft_info#:#The latest version of this file has the status ‘Draft’. As long as this version has not been published, no new versions can be created. People with read permission for the file get the most recent previously published version.
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occurred during upload.
 file#:#important_info#:#Important Information
-file#:#important_info_byline#:#The information is displayed in the "Info" tab.
+file#:#important_info_byline#:#The information will be displayed in the ‘Info’ tab.
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
@@ -9767,7 +9745,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type
-file#:#msg_cant_unpublish#:#Action could not be executed
+file#:#msg_cant_unpublish#:#File could not be unpublished.
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot therefore be currently used.
 file#:#msg_error_active_suffixes_conflict#:#Error: It is not possible to have multiple icons activated for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with those of this icon.
@@ -9788,11 +9766,11 @@ file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.
 file#:#preview_persisting#:#Persistent Preview Images
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.
-file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
+file#:#publish_before_delete#:#It was not possible to delete any of the existing versions because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#service_settings#:#Additional Features
-file#:#service_settings_saved#:#Saved
+file#:#service_settings_saved#:#Changes saved.
 file#:#set_license_for_all_files#:#Set License for All Files
 file#:#show_amount_of_downloads#:#Show Number of Downloads
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.
@@ -9800,7 +9778,7 @@ file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-Specific Icons
 file#:#suffixes#:#Suffixes
 file#:#upload_files#:#Upload Files
-file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_limit#:#The maximum file size allowed is %s.
 file#:#upload_files_title#:#Upload Files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Uploads and versions can be managed in the ‘Versions’ tab.
@@ -9820,21 +9798,21 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fils#:#policy_audience#:#Audience
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.
+fils#:#policy_audience#:#Target Group
+fils#:#policy_audience_all_users_option_desc#:#Apply policy to all users.
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy to users with specific global roles.
 fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed because policy could not be found.
+fils#:#policy_deletion_successful#:#Policy successfully deleted.
 fils#:#policy_filter#:#Policy Filter
 fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
 fils#:#policy_scope#:#Scope
 fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
-fils#:#policy_title_desc#:#Descriptive title for the policy.
+fils#:#policy_title_desc#:#Descriptive title for this policy.
 fils#:#policy_upload_limit#:#Upload Limit
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.
+fils#:#policy_upload_limit_desc#:#Upload limit (in MB) imposed by this policy.
 fils#:#policy_valid_until#:#Valid Until
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.
+fils#:#policy_valid_until_desc#:#Set an optional ‘valid until’ date, after which the policy expires.
 fils#:#policy_validity#:#Validity
 fils#:#upload_limits#:#Upload Limits
 fils#:#upload_policies#:#Upload Policies
@@ -11454,7 +11432,7 @@ mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
-mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.
+mail#:#mail_operation_on_invalid_folder#:#It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator.
 mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).
@@ -11480,6 +11458,7 @@ mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
 mail#:#mail_send_html_info#:#Embed the body of external e-mails in an HTML frame. The corresponding template can be customised by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/[STYLE]/Services/Mail/tpl.html_mail_template.html'.
+mail#:#mail_sent_datetime#:#Date
 mail#:#mail_serial_letter_placeholders#:#Mail Merge Placeholders
 mail#:#mail_settings_external_frm_head#:#External E-Mails
 mail#:#mail_settings_external_tab#:#External
@@ -11593,8 +11572,8 @@ mathjax#:#mathjax_limiter#:#Inline Delimiters
 mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
-mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
 mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
 mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
@@ -14691,6 +14670,8 @@ registration#:#reg_direct#:#Direct Registration
 registration#:#reg_direct_info#:#New user registration requests are automatically approved.
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
@@ -15761,14 +15742,14 @@ style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styl
 style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue?
 style#:#sty_confirm_template_deletion#:#Confirm Template Deletion
 style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click ‘Paste Style Classes’.
-style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
+style#:#sty_copy_other_stylesheet#:#Copy Style From Local Source
 style#:#sty_copy_other_system_style#:#Copy System Style
 style#:#sty_copy_to#:#to:
 style#:#sty_create_ind_style#:#Create Individual Style
 style#:#sty_create_new_class#:#Create new style class
-style#:#sty_create_new_stylesheet#:#Create new Style
-style#:#sty_create_new_system_style#:#Create new System Style
-style#:#sty_create_new_system_sub_style#:#Create new Sub Style
+style#:#sty_create_new_stylesheet#:#Create New Style
+style#:#sty_create_new_system_style#:#Create New System Style
+style#:#sty_create_new_system_sub_style#:#Create New Sub Style
 style#:#sty_create_pgl#:#Create Page Layout
 style#:#sty_cursor#:#Cursor
 style#:#sty_custom#:#Custom
@@ -16855,8 +16836,6 @@ trac#:#trac_assigned#:#Assigned
 trac#:#trac_average#:#Average
 trac#:#trac_begin_at#:#Start date
 trac#:#trac_closed_expire#:#Timeout
-trac#:#trac_closed_idle#:#Idle Time
-trac#:#trac_closed_idle_first#:#Idle Time (1st Request)
 trac#:#trac_closed_login#:#Anonymous To Login
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
@@ -16900,7 +16879,6 @@ trac#:#trac_in_progress#:#In Progress
 trac#:#trac_info_edited#:#Set the status to ‘Completed’ if you think you have processed all content.
 trac#:#trac_last_access#:#Last Access
 trac#:#trac_last_aggregation#:#Last Aggregation
-trac#:#trac_last_maxed_out_sessions#:#Last Full Load
 trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_settings_info#:#Activate extended data
@@ -16927,8 +16905,6 @@ trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_mark#:#Mark
 trac#:#trac_matrix#:#Matrix View
-trac#:#trac_maxed_out_counter#:#Rejected Users
-trac#:#trac_maxed_out_time#:#Full Load [min]
 trac#:#trac_measure#:#Figure
 trac#:#trac_members_short#:#Members
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:

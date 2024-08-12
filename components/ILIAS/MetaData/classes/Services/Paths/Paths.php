@@ -51,6 +51,16 @@ class Paths implements PathsInterface
                     ->get();
     }
 
+    public function firstDescription(): PathInterface
+    {
+        return $this->custom()
+                    ->withNextStep('general')
+                    ->withNextStep('description')
+                    ->withAdditionalFilterAtCurrentStep(FilterType::INDEX, '0')
+                    ->withNextStep('string')
+                    ->get();
+    }
+
     public function keywords(): PathInterface
     {
         return $this->custom()

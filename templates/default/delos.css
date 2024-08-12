@@ -377,6 +377,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  min-width: max-content;
 }
 
 .dropdown-menu {
@@ -3855,7 +3856,7 @@ button .minimize, button .close {
   display: flex;
 }
 
-h4.il-divider {
+.engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
   background-color: white;
@@ -4205,6 +4206,9 @@ hr.il-divider-with-label {
 .il-filter-input-section .il-input-multiselect {
   margin: 0.8em;
 }
+.il-filter-input-section .c-input--duration {
+  margin: 12px;
+}
 
 .il-filter-field {
   cursor: text;
@@ -4228,7 +4232,7 @@ hr.il-divider-with-label {
   width: 100%;
 }
 
-.il-input-duration .form-group.row {
+.c-input--duration .form-group.row {
   width: 50%;
   float: left;
 }
@@ -6303,7 +6307,7 @@ footer {
  */
 .c-mode-info {
   display: flex;
-  position: absolute;
+  position: fixed;
   z-index: 1010;
   width: 100%;
   align-items: start;
@@ -7112,7 +7116,8 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menu .c-drilldown__menulevel--trigger,
 .c-drilldown .c-drilldown__menu .btn-bulky,
 .c-drilldown .c-drilldown__menu .link-bulky,
-.c-drilldown .c-drilldown__menu hr {
+.c-drilldown .c-drilldown__menu hr,
+.c-drilldown .c-drilldown__menu .il-divider {
   display: none;
 }
 .c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * TableGUI class for title/description translations
  *
@@ -26,6 +28,7 @@ declare(strict_types=1);
 class ilObjectTranslationTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
+    protected LOMServices $lom_services;
 
     protected bool $incl_desc;
     protected string $base_cmd;
@@ -38,7 +41,9 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         string $base_cmd = "HeaderTitle"
     ) {
         global $DIC;
+
         $this->access = $DIC->access();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         parent::__construct($parent_obj, $parent_cmd);
         $this->incl_desc = $incl_desc;
@@ -86,7 +91,10 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         $this->tpl->setVariable("NR", $this->nr);
 
         // lang selection
-        $languages = ilMDLanguageItem::_getLanguages();
+        $languages = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $languages[$language->value()] = $language->presentableLabel();
+        }
         $this->tpl->setVariable(
             "LANG_SELECT",
             ilLegacyFormElementsUtil::formSelect(

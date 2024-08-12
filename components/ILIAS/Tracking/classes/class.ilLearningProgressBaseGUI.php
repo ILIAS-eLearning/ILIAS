@@ -185,20 +185,6 @@ class ilLearningProgressBaseGUI
                         $a_active == self::LP_ACTIVE_PROGRESS
                     );
                 }
-
-                if (ilObjUserTracking::_hasLearningProgressOtherUsers()) {
-                    $this->tabs_gui->addTarget(
-                        'trac_objects',
-                        $this->ctrl->getLinkTargetByClass(
-                            "illplistofobjectsgui",
-                            ''
-                        ),
-                        "",
-                        "",
-                        "",
-                        $a_active == self::LP_ACTIVE_OBJECTS
-                    );
-                }
                 break;
 
             case self::LP_CONTEXT_REPOSITORY:
@@ -297,25 +283,6 @@ class ilLearningProgressBaseGUI
                         $a_active == self::LP_ACTIVE_SETTINGS
                     );
                 }
-                break;
-
-            case self::LP_CONTEXT_ADMINISTRATION:
-                /*
-                $this->tabs_gui->addSubTabTarget('trac_progress',
-                                     $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-                                     "","","",$a_active == self::LP_ACTIVE_PROGRESS);
-                */
-                $this->tabs_gui->addSubTabTarget(
-                    'trac_objects',
-                    $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui",
-                        ''
-                    ),
-                    "",
-                    "",
-                    "",
-                    $a_active == self::LP_ACTIVE_OBJECTS
-                );
                 break;
 
             case self::LP_CONTEXT_USER_FOLDER:

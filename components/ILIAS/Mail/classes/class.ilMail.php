@@ -1141,6 +1141,16 @@ class ilMail
             $this->deleteMails([$internalMessageId]);
         }
 
+        if ($this->isSystemMail()) {
+            $random = new Random\Randomizer();
+            if ($random->getInt(0, 50) === 2) {
+                (new ilMailAttachmentStageCleanup(
+                    $this->logger,
+                    $this->mail_file_data
+                ))->run();
+            }
+        }
+
         return array_values($errors);
     }
 

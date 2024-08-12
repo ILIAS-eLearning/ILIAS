@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Mail;
+namespace ILIAS\Services\Mail;
 
 use ILIAS\components\User\UserFieldAttributesChangeListener;
 use ILIAS\DI\Container;

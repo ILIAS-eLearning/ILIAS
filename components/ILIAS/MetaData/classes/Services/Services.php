@@ -30,13 +30,30 @@ use ILIAS\MetaData\Services\Reader\Reader;
 use ILIAS\MetaData\Services\Paths\Paths;
 use ILIAS\MetaData\Services\Manipulator\Manipulator;
 use ILIAS\DI\Container as GlobalContainer;
+use ILIAS\MetaData\Services\Derivation\SourceSelectorInterface;
+use ILIAS\MetaData\Services\Derivation\SourceSelector;
+use ILIAS\MetaData\Services\Search\SearcherInterface;
+use ILIAS\MetaData\Services\Search\Searcher;
+use ILIAS\MetaData\Services\Reader\FactoryInterface as ReaderFactoryInterface;
+use ILIAS\MetaData\Services\Reader\Factory as ReaderFactory;
+use ILIAS\MetaData\Services\Manipulator\FactoryInterface as ManipulatorFactoryInterface;
+use ILIAS\MetaData\Services\Manipulator\Factory as ManipulatorFactory;
+use ILIAS\MetaData\Repository\RepositoryInterface;
+use ILIAS\MetaData\Services\Derivation\Creation\Creator;
+use ILIAS\MetaData\Elements\Scaffolds\ScaffoldFactory;
+use ILIAS\MetaData\Elements\Data\DataFactory;
+use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactory;
 
 class Services implements ServicesInterface
 {
     protected InternalServices $internal_services;
 
+    protected ReaderFactoryInterface $reader_factory;
+    protected ManipulatorFactoryInterface $manipulator_factory;
     protected PathsInterface $paths;
     protected DataHelperInterface $data_helper;
+    protected SourceSelectorInterface $derivation_source_selector;
+    protected SearcherInterface $searcher;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -53,26 +70,61 @@ class Services implements ServicesInterface
             $sub_id = $obj_id;
         }
 
-        $repo = $this->internal_services->repository()->repository();
+        $repo = $this->repository();
         if (isset($limited_to)) {
             $set = $repo->getMDOnPath($limited_to, $obj_id, $sub_id, $type);
         } else {
             $set = $repo->getMD($obj_id, $sub_id, $type);
         }
-        return new Reader(
-            $this->internal_services->paths()->navigatorFactory(),
-            $set
+        return $this->readerFactory()->get($set);
+    }
+
+    public function search(): SearcherInterface
+    {
+        if (isset($this->searcher)) {
+            return $this->searcher;
+        }
+        return $this->searcher = new Searcher(
+            $this->internal_services->repository()->SearchClauseFactory(),
+            $this->internal_services->repository()->SearchFilterFactory(),
+            $this->internal_services->repository()->repository()
         );
     }
 
     public function manipulate(int $obj_id, int $sub_id, string $type): ManipulatorInterface
     {
-        $repo = $this->internal_services->repository()->repository();
+        if ($sub_id === 0) {
+            $sub_id = $obj_id;
+        }
+
+        $repo = $this->repository();
         $set = $repo->getMD($obj_id, $sub_id, $type);
-        return new Manipulator(
-            $this->internal_services->manipulator()->manipulator(),
-            $set
+        return $this->manipulatorFactory()->get($set);
+    }
+
+    public function derive(): SourceSelectorInterface
+    {
+        if (isset($this->derivation_source_selector)) {
+            return $this->derivation_source_selector;
+        }
+        return $this->derivation_source_selector = new SourceSelector(
+            $this->internal_services->repository()->repository(),
+            new Creator(
+                $this->internal_services->manipulator()->manipulator(),
+                $this->internal_services->paths()->pathFactory(),
+                $this->internal_services->manipulator()->scaffoldProvider()
+            )
         );
+    }
+
+    public function deleteAll(int $obj_id, int $sub_id, string $type): void
+    {
+        if ($sub_id === 0) {
+            $sub_id = $obj_id;
+        }
+
+        $repo = $this->repository();
+        $repo->deleteAllMD($obj_id, $sub_id, $type);
     }
 
     public function paths(): PathsInterface
@@ -80,7 +132,7 @@ class Services implements ServicesInterface
         if (isset($this->paths)) {
             return $this->paths;
         }
-        return new Paths(
+        return $this->paths = new Paths(
             $this->internal_services->paths()->pathFactory()
         );
     }
@@ -90,9 +142,35 @@ class Services implements ServicesInterface
         if (isset($this->data_helper)) {
             return $this->data_helper;
         }
-        return new DataHelper(
+        return $this->data_helper = new DataHelper(
             $this->internal_services->dataHelper()->dataHelper(),
             $this->internal_services->presentation()->data()
         );
+    }
+
+    protected function readerFactory(): ReaderFactoryInterface
+    {
+        if (isset($this->reader_factory)) {
+            return $this->reader_factory;
+        }
+        return $this->reader_factory = new ReaderFactory(
+            $this->internal_services->paths()->navigatorFactory()
+        );
+    }
+
+    protected function manipulatorFactory(): ManipulatorFactoryInterface
+    {
+        if (isset($this->manipulator_factory)) {
+            return $this->manipulator_factory;
+        }
+        return $this->manipulator_factory = new ManipulatorFactory(
+            $this->internal_services->manipulator()->manipulator(),
+            $this->internal_services->repository()->repository()
+        );
+    }
+
+    protected function repository(): RepositoryInterface
+    {
+        return $this->internal_services->repository()->repository();
     }
 }

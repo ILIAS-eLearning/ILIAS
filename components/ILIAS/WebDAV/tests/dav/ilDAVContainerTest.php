@@ -23,6 +23,7 @@ use ILIAS\DI\Container;
 use Sabre\DAV\INode;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 require_once "./components/ILIAS/WebDAV/tests/webdav_overrides.php";
 require_once "./components/ILIAS/WebDAV/tests/ilWebDAVTestHelper.php";
@@ -60,6 +61,7 @@ class ilDAVContainerTest extends TestCase
         $DIC['resource_storage'] = $this->createMock(\ILIAS\ResourceStorage\Services::class);
         $DIC['refinery'] = $this->createMock(\ILIAS\Refinery\Factory::class);
         $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
+        $DIC['learning_object_metadata'] = $this->createMock(LOMServices::class);
     }
 
     protected function tearDown(): void

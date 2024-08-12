@@ -32,6 +32,7 @@ use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerierInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentFactoryInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentRowInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\Action;
+use ILIAS\MetaData\Elements\NoID;
 
 class DatabaseManipulator implements DatabaseManipulatorInterface
 {
@@ -61,21 +62,27 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
         SetInterface $set
     ): void {
         foreach ($set->getRoot()->getSubElements() as $sub) {
-            /**
-             * Note that the following is necessary here, since the function needs
-             * to run through fully before using the yielded rows, as the rows are
-             * filled after being yielded.
-             */
-            $rows = [];
-            foreach ($this->collectAssignmentsFromElementAndSubElements(
+            foreach ($this->collectRowsForManipulationFromElementAndSubElements(
                 0,
                 $sub
             ) as $row) {
-                $rows[] = $row;
-            }
-            foreach ($rows as $row) {
                 $this->querier->manipulate(
                     $set->getRessourceID(),
+                    $row
+                );
+            }
+        }
+    }
+
+    public function transferMD(SetInterface $from_set, RessourceIDInterface $to_ressource_id): void
+    {
+        foreach ($from_set->getRoot()->getSubElements() as $sub) {
+            foreach ($this->collectRowsForTransferFromElementAndSubElements(
+                0,
+                $sub
+            ) as $row) {
+                $this->querier->manipulate(
+                    $to_ressource_id,
                     $row
                 );
             }
@@ -85,28 +92,27 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
     /**
      * @return AssignmentRowInterface[]
      */
-    protected function collectAssignmentsFromElementAndSubElements(
+    protected function collectRowsForManipulationFromElementAndSubElements(
         int $depth,
         ElementInterface $element,
         AssignmentRowInterface $current_row = null,
         bool $delete_all = false
-    ): \Generator {
+    ): array {
         if ($depth > 20) {
             throw new \ilMDStructureException('LOM Structure is nested to deep.');
         }
+
+        $collected_rows = [];
+
         $marker = $this->marker($element);
         if (!isset($marker) && !$delete_all) {
-            return;
+            return [];
         }
-        $id = $element->getMDID();
+
         $tag = $this->tag($element);
-        $table = $tag?->table() ?? '';
-        if ($table && $current_row?->table() !== $table) {
-            yield $current_row = $this->assignment_factory->row(
-                $table,
-                is_int($id) ? $id : 0,
-                $current_row?->id() ?? 0
-            );
+        if (!is_null($next_row = $this->getNewRowIfNecessary($element->getMDID(), $tag, $current_row))) {
+            $current_row = $next_row;
+            $collected_rows[] = $next_row;
         }
 
         $action = $marker?->action();
@@ -116,7 +122,7 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
         switch ($action) {
             case MarkerAction::NEUTRAL:
                 if ($element->isScaffold()) {
-                    return;
+                    return [];
                 }
                 break;
 
@@ -142,13 +148,80 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
         }
 
         foreach ($element->getSubElements() as $sub) {
-            yield from $this->collectAssignmentsFromElementAndSubElements(
-                $depth + 1,
-                $sub,
-                $current_row,
-                $delete_all
+            $collected_rows = array_merge(
+                $collected_rows,
+                $this->collectRowsForManipulationFromElementAndSubElements(
+                    $depth + 1,
+                    $sub,
+                    $current_row,
+                    $delete_all
+                )
             );
         }
+        return $collected_rows;
+    }
+
+    protected function collectRowsForTransferFromElementAndSubElements(
+        int $depth,
+        ElementInterface $element,
+        AssignmentRowInterface $current_row = null
+    ): array {
+        if ($depth > 20) {
+            throw new \ilMDStructureException('LOM Structure is nested to deep.');
+        }
+
+        $collected_rows = [];
+        $marker = $this->marker($element);
+
+        if ($element->isScaffold() && $marker?->action() !== MarkerAction::CREATE_OR_UPDATE) {
+            return [];
+        }
+        $data_value = !is_null($marker?->dataValue()) ? $marker->dataValue() : $element->getData()->value();
+
+        $tag = $this->tag($element);
+        if (!is_null($next_row = $this->getNewRowIfNecessary(NoID::SCAFFOLD, $tag, $current_row))) {
+            $current_row = $next_row;
+            $collected_rows[] = $next_row;
+        }
+
+        if (!is_null($tag)) {
+            $current_row->addAction($this->assignment_factory->action(
+                Action::CREATE,
+                $tag,
+                $data_value
+            ));
+            if (!$current_row->id()) {
+                $current_row->setId($this->querier->nextID($current_row->table()));
+            }
+        }
+
+        foreach ($element->getSubElements() as $sub) {
+            $collected_rows = array_merge(
+                $collected_rows,
+                $this->collectRowsForTransferFromElementAndSubElements(
+                    $depth + 1,
+                    $sub,
+                    $current_row
+                )
+            );
+        }
+        return $collected_rows;
+    }
+
+    protected function getNewRowIfNecessary(
+        NoID|int $md_id,
+        ?TagInterface $tag,
+        ?AssignmentRowInterface $current_row
+    ): ?AssignmentRowInterface {
+        $table = $tag?->table() ?? '';
+        if ($table && $current_row?->table() !== $table) {
+            return $this->assignment_factory->row(
+                $table,
+                is_int($md_id) ? $md_id : 0,
+                $current_row?->id() ?? 0
+            );
+        }
+        return null;
     }
 
     protected function createOrUpdateElement(

@@ -141,7 +141,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             "components/ILIAS/Tracking"
         );
         $this->setEnableTitle(true);
-        $this->setShowTemplates(true);
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
         if ($first) {

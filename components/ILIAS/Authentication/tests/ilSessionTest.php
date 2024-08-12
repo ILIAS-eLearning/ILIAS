@@ -81,10 +81,6 @@ class ilSessionTest extends TestCase
         $settings = $this->getMockBuilder(ilSetting::class)->getMock();
         $settings->method('get')->willReturnCallback(
             function ($arg) {
-                if ($arg === 'session_handling_type') {
-                    return (string) ilSession::SESSION_HANDLING_FIXED;
-                }
-
                 if ($arg === 'session_statistics') {
                     return '0';
                 }

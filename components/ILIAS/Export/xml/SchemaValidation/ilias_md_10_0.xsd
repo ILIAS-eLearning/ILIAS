@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <xs:schema
+   xmlns:xs = "http://www.w3.org/2001/XMLSchema">
+
+ <!-- CharacterString -->
+ <xs:simpleType name="CharacterString">
+  <xs:restriction base="xs:string"/>
+ </xs:simpleType>
+
+ <!-- Type: LanguageCode -->
+ <xs:simpleType name="LanguageCode">
+  <xs:restriction base="CharacterString">
+   <xs:enumeration value="none"/>
+   <xs:enumeration value="aa"/>
+   <xs:enumeration value="ab"/>
+   <xs:enumeration value="af"/>
+   <xs:enumeration value="am"/>
+   <xs:enumeration value="ar"/>
+   <xs:enumeration value="as"/>
+   <xs:enumeration value="ay"/>
+   <xs:enumeration value="az"/>
+   <xs:enumeration value="ba"/>
+   <xs:enumeration value="be"/>
+   <xs:enumeration value="bg"/>
+   <xs:enumeration value="bh"/>
+   <xs:enumeration value="bi"/>
+   <xs:enumeration value="bn"/>
+   <xs:enumeration value="bo"/>
+   <xs:enumeration value="br"/>
+   <xs:enumeration value="ca"/>
+   <xs:enumeration value="co"/>
+   <xs:enumeration value="cs"/>
+   <xs:enumeration value="cy"/>
+   <xs:enumeration value="da"/>
+   <xs:enumeration value="de"/>
+   <xs:enumeration value="dz"/>
+   <xs:enumeration value="el"/>
+   <xs:enumeration value="en"/>
+   <xs:enumeration value="eo"/>
+   <xs:enumeration value="es"/>
+   <xs:enumeration value="et"/>
+   <xs:enumeration value="eu"/>
+   <xs:enumeration value="fa"/>
+   <xs:enumeration value="fi"/>
+   <xs:enumeration value="fj"/>
+   <xs:enumeration value="fo"/>
+   <xs:enumeration value="fr"/>
+   <xs:enumeration value="fy"/>
+   <xs:enumeration value="ga"/>
+   <xs:enumeration value="gd"/>
+   <xs:enumeration value="gl"/>
+   <xs:enumeration value="gn"/>
+   <xs:enumeration value="gu"/>
+   <xs:enumeration value="ha"/>
+   <xs:enumeration value="he"/>
+   <xs:enumeration value="hi"/>
+   <xs:enumeration value="hr"/>
+   <xs:enumeration value="hu"/>
+   <xs:enumeration value="hy"/>
+   <xs:enumeration value="ia"/>
+   <xs:enumeration value="ie"/>
+   <xs:enumeration value="ik"/>
+   <xs:enumeration value="id"/>
+   <xs:enumeration value="is"/>
+   <xs:enumeration value="it"/>
+   <xs:enumeration value="iu"/>
+   <xs:enumeration value="ja"/>
+   <xs:enumeration value="jv"/>
+   <xs:enumeration value="ka"/>
+   <xs:enumeration value="kk"/>
+   <xs:enumeration value="kl"/>
+   <xs:enumeration value="km"/>
+   <xs:enumeration value="kn"/>
+   <xs:enumeration value="ko"/>
+   <xs:enumeration value="ks"/>
+   <xs:enumeration value="ku"/>
+   <xs:enumeration value="ky"/>
+   <xs:enumeration value="la"/>
+   <xs:enumeration value="ln"/>
+   <xs:enumeration value="lo"/>
+   <xs:enumeration value="lt"/>
+   <xs:enumeration value="lv"/>
+   <xs:enumeration value="mg"/>
+   <xs:enumeration value="mi"/>
+   <xs:enumeration value="mk"/>
+   <xs:enumeration value="ml"/>
+   <xs:enumeration value="mn"/>
+   <xs:enumeration value="mo"/>
+   <xs:enumeration value="mr"/>
+   <xs:enumeration value="ms"/>
+   <xs:enumeration value="mt"/>
+   <xs:enumeration value="my"/>
+   <xs:enumeration value="na"/>
+   <xs:enumeration value="ne"/>
+   <xs:enumeration value="nl"/>
+   <xs:enumeration value="no"/>
+   <xs:enumeration value="oc"/>
+   <xs:enumeration value="om"/>
+   <xs:enumeration value="or"/>
+   <xs:enumeration value="pa"/>
+   <xs:enumeration value="pl"/>
+   <xs:enumeration value="ps"/>
+   <xs:enumeration value="pt"/>
+   <xs:enumeration value="qu"/>
+   <xs:enumeration value="rm"/>
+   <xs:enumeration value="rn"/>
+   <xs:enumeration value="ro"/>
+   <xs:enumeration value="ru"/>
+   <xs:enumeration value="rw"/>
+   <xs:enumeration value="sa"/>
+   <xs:enumeration value="sd"/>
+   <xs:enumeration value="sg"/>
+   <xs:enumeration value="sh"/>
+   <xs:enumeration value="si"/>
+   <xs:enumeration value="sk"/>
+   <xs:enumeration value="sl"/>
+   <xs:enumeration value="sm"/>
+   <xs:enumeration value="sn"/>
+   <xs:enumeration value="so"/>
+   <xs:enumeration value="sq"/>
+   <xs:enumeration value="sr"/>
+   <xs:enumeration value="ss"/>
+   <xs:enumeration value="st"/>
+   <xs:enumeration value="su"/>
+   <xs:enumeration value="sv"/>
+   <xs:enumeration value="sw"/>
+   <xs:enumeration value="ta"/>
+   <xs:enumeration value="te"/>
+   <xs:enumeration value="tg"/>
+   <xs:enumeration value="th"/>
+   <xs:enumeration value="ti"/>
+   <xs:enumeration value="tk"/>
+   <xs:enumeration value="tl"/>
+   <xs:enumeration value="tn"/>
+   <xs:enumeration value="to"/>
+   <xs:enumeration value="tr"/>
+   <xs:enumeration value="ts"/>
+   <xs:enumeration value="tt"/>
+   <xs:enumeration value="tw"/>
+   <xs:enumeration value="ug"/>
+   <xs:enumeration value="uk"/>
+   <xs:enumeration value="ur"/>
+   <xs:enumeration value="uz"/>
+   <xs:enumeration value="vi"/>
+   <xs:enumeration value="vo"/>
+   <xs:enumeration value="wo"/>
+   <xs:enumeration value="xh"/>
+   <xs:enumeration value="yi"/>
+   <xs:enumeration value="yo"/>
+   <xs:enumeration value="za"/>
+   <xs:enumeration value="zh"/>
+   <xs:enumeration value="zu"/>
+  </xs:restriction>
+ </xs:simpleType>
+
+ <!-- LangString -->
+ <xs:complexType name="LangString">
+  <xs:sequence>
+   <xs:element name="string">
+    <xs:complexType>
+     <xs:simpleContent>
+      <xs:extension base="CharacterString">
+       <xs:attribute name="language" type="LanguageCode" use="optional"/>
+      </xs:extension>
+     </xs:simpleContent>
+    </xs:complexType>
+   </xs:element>
+  </xs:sequence>
+ </xs:complexType>
+
+ <!-- Vocabulary -->
+ <xs:complexType name="Vocabulary">
+  <xs:sequence>
+   <xs:element name="source" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+   <xs:element name="value" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <!-- DateTime -->
+ <xs:complexType name="DateTime">
+  <xs:sequence>
+   <xs:element name="dateTime" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+   <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <!-- Duration -->
+ <xs:complexType name="Duration">
+  <xs:sequence>
+   <xs:element name="duration" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+   <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+ </xs:complexType>
+
+ <!-- MetaData -->
+ <xs:element name="lom">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="general"/>
+    <xs:element ref="lifeCycle" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="metaMetadata" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="technical" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="educational" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="rights" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="relation" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="annotation" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="classification" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- General -->
+ <xs:element name="general">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="identifier" minOccurs="1" maxOccurs="unbounded"/>
+    <xs:element name="title" type="LangString"/>
+    <xs:element name="language" type="LanguageCode" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="keyword" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="coverage" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="structure" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="aggregationLevel" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- LifeCycle -->
+ <xs:element name="lifeCycle">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="version" type="LangString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="status" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="contribute" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- MetaMetadata -->
+ <xs:element name="metaMetadata">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="contribute" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="metadataSchema" type="CharacterString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="language" type="LanguageCode" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Technical -->
+ <xs:element name="technical">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="format" type="CharacterString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="size" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="location" type="CharacterString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="requirement" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="installationRemarks" type="LangString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="otherPlatformRequirements" type="LangString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="duration" type="Duration" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Educational -->
+ <xs:element name="educational">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="interactivityType" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="learningResourceType" type="Vocabulary" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="interactivityLevel" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="semanticDensity" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="intendedEndUserRole" type="Vocabulary" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="context" type="Vocabulary" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="typicalAgeRange" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="difficulty" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="typicalLearningTime" type="Duration" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="language" type="LanguageCode" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Rights -->
+ <xs:element name="rights">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="cost" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="copyrightAndOtherRestrictions" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Relation -->
+ <xs:element name="relation">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="kind" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="resource" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Annotation -->
+ <xs:element name="annotation">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="entity" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="date" type="DateTime" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Classification -->
+ <xs:element name="classification">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="purpose" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="taxonPath" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="keyword" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- TaxonPath -->
+ <xs:element name="taxonPath">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="source" type="LangString" minOccurs="0" maxOccurs="1"/>
+    <xs:element ref="taxon" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Taxon -->
+ <xs:element name="taxon">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="id" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="entry" type="LangString" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Resource -->
+ <xs:element name="resource">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="description" type="LangString" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Requirement -->
+ <xs:element name="requirement">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="orComposite" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- orComposite -->
+ <xs:element name="orComposite">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="type" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="name" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="minimumVersion" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="maximumVersion" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Identifier -->
+ <xs:element name="identifier">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="catalog" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="entry" type="CharacterString" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <!-- Contribute -->
+ <xs:element name="contribute">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="role" type="Vocabulary" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="entity" type="CharacterString" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="date" type="DateTime" minOccurs="0" maxOccurs="1"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+</xs:schema>

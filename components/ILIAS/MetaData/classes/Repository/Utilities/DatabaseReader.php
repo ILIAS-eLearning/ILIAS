@@ -36,6 +36,8 @@ use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Vocabularies\Dictionary\LOMDictionaryInitiator as LOMVocabInitiator;
 use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerierInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Results\RowInterface;
+use ILIAS\MetaData\Paths\FactoryInterface as PathFactoryInterface;
+use ILIAS\MetaData\Paths\Steps\StepToken;
 
 class DatabaseReader implements DatabaseReaderInterface
 {
@@ -43,6 +45,7 @@ class DatabaseReader implements DatabaseReaderInterface
     protected StructureSetInterface $structure;
     protected DictionaryInterface $dictionary;
     protected NavigatorFactoryInterface $navigator_factory;
+    protected PathFactoryInterface $path_factory;
     protected DatabaseQuerierInterface $querier;
     protected \ilLogger $logger;
 
@@ -51,6 +54,7 @@ class DatabaseReader implements DatabaseReaderInterface
         StructureSetInterface $structure,
         DictionaryInterface $dictionary,
         NavigatorFactoryInterface $navigator_factory,
+        PathFactoryInterface $path_factory,
         DatabaseQuerierInterface $querier,
         \ilLogger $logger
     ) {
@@ -58,6 +62,7 @@ class DatabaseReader implements DatabaseReaderInterface
         $this->structure = $structure;
         $this->dictionary = $dictionary;
         $this->navigator_factory = $navigator_factory;
+        $this->path_factory = $path_factory;
         $this->querier = $querier;
         $this->logger = $logger;
     }
@@ -79,6 +84,8 @@ class DatabaseReader implements DatabaseReaderInterface
         PathInterface $path,
         RessourceIDInterface $ressource_id
     ): SetInterface {
+        $path = $this->shortenPath($path);
+
         $navigator = $this->navigator_factory->structureNavigator(
             $path,
             $this->structure->getRoot()
@@ -174,7 +181,7 @@ class DatabaseReader implements DatabaseReaderInterface
     }
 
     /**
-     * @return RowInterface[]
+     * @return TagInterface[]
      */
     protected function collectTagsFromSameTable(
         int $depth,
@@ -200,6 +207,40 @@ class DatabaseReader implements DatabaseReaderInterface
                 $sub
             );
         }
+    }
+
+    /**
+     * Cuts off the path at the highest starting point of sub-paths
+     * created with super steps.
+     */
+    protected function shortenPath(PathInterface $path): PathInterface
+    {
+        $depth = 0;
+        $super_step_depths = [];
+        foreach ($path->steps() as $step) {
+            if ($step->name() === StepToken::SUPER) {
+                $depth--;
+                $super_step_depths[] = $depth;
+                continue;
+            }
+            $depth++;
+        }
+
+        if (empty($super_step_depths)) {
+            return $path;
+        }
+
+        $cut_off = min($super_step_depths);
+        $depth = 0;
+        $path_builder = $this->path_factory->custom();
+        foreach ($path->steps() as $step) {
+            if ($depth === $cut_off) {
+                break;
+            }
+            $path_builder = $path_builder->withNextStepFromStep($step);
+            $depth++;
+        }
+        return $path_builder->get();
     }
 
     protected function definition(

@@ -96,7 +96,7 @@ export default class PageUI {
     toolSlate,
     pageModifier,
   ) {
-    this.debug = false;
+    this.debug = true;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
     this.model = {};
@@ -289,6 +289,11 @@ export default class PageUI {
               ));
             });
             ul.appendChild(li);
+          }
+          if (ul.style.display == 'block') {
+            ul.style.display = '';
+          } else {
+            ul.style.display = 'block';
           }
         });
       });

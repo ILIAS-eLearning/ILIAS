@@ -25,6 +25,8 @@ use ILIAS\MetaData\Services\DataHelper\DataHelperInterface;
 use ILIAS\MetaData\Services\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Services\Reader\ReaderInterface;
 use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Services\Derivation\SourceSelectorInterface;
+use ILIAS\MetaData\Services\Search\SearcherInterface;
 
 interface ServicesInterface
 {
@@ -40,8 +42,10 @@ interface ServicesInterface
      * 3. **type:** The type of the object (and not its parent's), e.g. `'crs'` or `'lm'`.
      *
      * Optionally, a path can be specified to which the reading is restricted: the reader
-     * will then only have access to elements on the path, along with all sub-elements
-     * of the last element of the path.
+     * will then only have access to elements on the path, along with recursively all
+     * sub-elements of the last element of the path.
+     * Note that path filters are ignored, and if the path contains steps to super elements,
+     * it is only followed down to the first element that the path returns to.
      */
     public function read(
         int $obj_id,
@@ -51,17 +55,28 @@ interface ServicesInterface
     ): ReaderInterface;
 
     /**
-     * Get a manipulator, which can manipulate the LOM of an ILIAS object. The object is specified
-     * with three parameters:
-     * 1. **obj_id:** The `obj_id` of the object if it is a repository object, else the
-     * `obj_id` of its parent repository object. If the object does not have
-     * a fixed parent  (e.g. MediaObject), then this parameter is 0.
-     * 2. **sub_id:** The `obj_id` of the object. If the object is a repository object by
-     * itself and not a sub-object, then you can set this parameter to 0, but
-     * we recommend passing the `obj_id` again.
-     * 3. **type:** The type of the object (and not its parent's), e.g. `'crs'` or `'lm'`.
+     * Get a searcher, in which you can assemble a search clause and filters,
+     * and use these to find objects whose LOM matches the search.
+     */
+    public function search(): SearcherInterface;
+
+    /**
+     * Get a manipulator, which can manipulate the LOM of an ILIAS object.
+     * See {@see \ILIAS\MetaData\Services\ServicesInterface::read()} for a description of the parameters.
      */
     public function manipulate(int $obj_id, int $sub_id, string $type): ManipulatorInterface;
+
+    /**
+     * Derives LOM from a target, for a source. Encompasses both copying LOM between
+     * ILIAS objects and creating LOM for an object from some basic properties.
+     */
+    public function derive(): SourceSelectorInterface;
+
+    /**
+     * Delete all LOM of an ILIAS object. See {@see \ILIAS\MetaData\Services\ServicesInterface::read()}
+     * for a description of the parameters.
+     */
+    public function deleteAll(int $obj_id, int $sub_id, string $type): void;
 
     /**
      * Elements in LOM are identified by paths to them from the root. Get a collection of

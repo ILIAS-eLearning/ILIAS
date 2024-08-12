@@ -21,8 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Services\DataHelper;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\MetaData\Services\DataHelper\DataHelper;
-use ILIAS\MetaData\DataHelper\NullDataHelper;
+use ILIAS\MetaData\DataHelper\NullDataHelper as NullInternalDataHelper;
 use ILIAS\MetaData\Presentation\NullData;
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
 use ILIAS\MetaData\Elements\Data\NullData as NullElementsData;
@@ -45,7 +44,7 @@ class DataHelperTest extends TestCase
 
     protected function getDataHelper(): DataHelper
     {
-        $internal_helper = new class () extends NullDataHelper {
+        $internal_helper = new class () extends NullInternalDataHelper {
             public function durationToIterator(string $duration): \Generator
             {
                 foreach (explode(':', $duration) as $v) {
@@ -83,12 +82,22 @@ class DataHelperTest extends TestCase
             {
                 return $object->format('Y-m-d');
             }
+
+            public function getAllLanguages(): \Generator
+            {
+                yield from ['lang1', 'lang2', 'lang3'];
+            }
         };
 
         $data_presentation = new class () extends NullData {
             public function dataValue(ElementsDataInterface $data): string
             {
                 return 'presentable ' . $data->value();
+            }
+
+            public function language(string $language): string
+            {
+                return 'translated_' . $language;
             }
         };
 
@@ -168,5 +177,20 @@ class DataHelperTest extends TestCase
             '2013-01-20',
             $helper->datetimeFromObject(new \DateTimeImmutable('2013-01-20'))
         );
+    }
+
+    public function testGetAllLanguages(): void
+    {
+        $helper = $this->getDataHelper();
+
+        $languages = $helper->getAllLanguages();
+
+        $this->assertCount(3, $languages);
+        $this->assertSame('lang1', $languages[0]->value());
+        $this->assertSame('translated_lang1', $languages[0]->presentableLabel());
+        $this->assertSame('lang2', $languages[1]->value());
+        $this->assertSame('translated_lang2', $languages[1]->presentableLabel());
+        $this->assertSame('lang3', $languages[2]->value());
+        $this->assertSame('translated_lang3', $languages[2]->presentableLabel());
     }
 }

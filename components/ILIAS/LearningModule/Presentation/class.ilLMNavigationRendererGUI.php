@@ -312,7 +312,7 @@ class ilLMNavigationRendererGUI
                         );
 
                     if ($this->user->getId() === ANONYMOUS_USER_ID &&
-                        $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
+                        $this->lm->getPublicAccessMode() === "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";

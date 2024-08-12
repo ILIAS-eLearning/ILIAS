@@ -25,12 +25,15 @@ use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 use ILIAS\MetaData\Elements\Markers\Action;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\Elements\Data\NullData;
 use ILIAS\MetaData\Structure\Definitions\NullDefinition;
+use ILIAS\MetaData\Elements\Markers\NullMarkerFactory;
+use ILIAS\MetaData\Elements\Markers\NullMarker;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\NullScaffoldProvider;
 
 class ElementTest extends TestCase
 {
@@ -44,6 +47,117 @@ class ElementTest extends TestCase
             public function name(): string
             {
                 return $this->name;
+            }
+        };
+    }
+
+    protected function getMarkerFactory(): MarkerFactoryInterface
+    {
+        return new class () extends NullMarkerFactory {
+            public function marker(Action $action, string $data_value = ''): MarkerInterface
+            {
+                return new class ($action) extends NullMarker {
+                    protected Action $action;
+
+                    public function __construct(Action $action)
+                    {
+                        $this->action = $action;
+                    }
+
+                    public function action(): Action
+                    {
+                        return $this->action;
+                    }
+
+                    public function dataValue(): string
+                    {
+                        return '';
+                    }
+                };
+            }
+        };
+    }
+
+    protected function getScaffoldProvider(bool $broken = false): ScaffoldProviderInterface
+    {
+        return new class ($broken) extends NullScaffoldProvider {
+            public function __construct(protected bool $broken)
+            {
+            }
+
+            protected function getScaffold(string $name, ElementInterface ...$elements): ElementInterface
+            {
+                $definition = new class ($name) implements DefinitionInterface {
+                    protected string $name;
+
+                    public function __construct(string $name)
+                    {
+                        $this->name = $name;
+                    }
+
+                    public function name(): string
+                    {
+                        return $this->name;
+                    }
+
+                    public function unique(): bool
+                    {
+                        return false;
+                    }
+
+                    public function dataType(): Type
+                    {
+                        return Type::NULL;
+                    }
+                };
+
+                $data = new class () implements DataInterface {
+                    public function type(): Type
+                    {
+                        return Type::STRING;
+                    }
+
+                    public function value(): string
+                    {
+                        return 'value';
+                    }
+                };
+
+                return new Element(
+                    NoID::SCAFFOLD,
+                    $definition,
+                    $data,
+                    ...$elements
+                );
+            }
+
+            public function getScaffoldsForElement(ElementInterface $element): \Generator
+            {
+                if ($this->broken) {
+                    $sub = $this->getScaffold('name');
+                    $with_sub = $this->getScaffold('with sub', $sub);
+
+                    yield '' => $with_sub;
+                    return;
+                }
+
+                $first = $this->getScaffold('first');
+                $second = $this->getScaffold('second');
+                $third = $this->getScaffold('third');
+                $fourth = $this->getScaffold('fourth');
+
+                yield $first;
+                yield $second;
+                yield $third;
+                yield $fourth;
+            }
+
+            public function getPossibleSubElementNamesForElementInOrder(ElementInterface $element): \Generator
+            {
+                yield 'first';
+                yield 'second';
+                yield 'third';
+                yield 'fourth';
             }
         };
     }
@@ -116,7 +230,7 @@ class ElementTest extends TestCase
     {
         $mark_me = $this->getElement(13);
         $stay_away = $this->getElement(7);
-        $mark_me->mark(new MockMarkerFactory(), Action::NEUTRAL);
+        $mark_me->mark($this->getMarkerFactory(), Action::NEUTRAL);
 
         $this->assertTrue($mark_me->isMarked());
         $this->assertInstanceOf(MarkerInterface::class, $mark_me->getMarker());
@@ -133,7 +247,7 @@ class ElementTest extends TestCase
         $el2 = $this->getElement(2);
         $root = $this->getElement(NoID::ROOT, $el1, $el2);
 
-        $el11->mark(new MockMarkerFactory(), Action::CREATE_OR_UPDATE);
+        $el11->mark($this->getMarkerFactory(), Action::CREATE_OR_UPDATE);
 
         $this->assertTrue($el11->isMarked());
         $this->assertSame(Action::CREATE_OR_UPDATE, $el11->getMarker()->action());
@@ -149,7 +263,7 @@ class ElementTest extends TestCase
 
     public function testMarkTwice(): void
     {
-        $marker_factory = new MockMarkerFactory();
+        $marker_factory = $this->getMarkerFactory();
         $sub = $this->getElement(11);
         $el = $this->getElement(1, $sub);
 
@@ -166,7 +280,7 @@ class ElementTest extends TestCase
 
     public function testMarkWithScaffolds(): void
     {
-        $marker_factory = new MockMarkerFactory();
+        $marker_factory = $this->getMarkerFactory();
         $sub = $this->getElement(NoID::SCAFFOLD);
         $el = $this->getElement(NoID::SCAFFOLD, $sub);
 
@@ -182,12 +296,29 @@ class ElementTest extends TestCase
         $this->assertSame(Action::NEUTRAL, $el->getMarker()->action());
     }
 
+    public function testUnmark(): void
+    {
+        $el111 = $this->getElement(111);
+        $el11 = $this->getElement(11, $el111);
+        $el1 = $this->getElement(1, $el11);
+        $root = $this->getElement(NoID::ROOT, $el1);
+
+        $el111->mark($this->getMarkerFactory(), Action::CREATE_OR_UPDATE);
+        $el11->unmark();
+
+        $this->assertTrue($root->isMarked());
+        $this->assertTrue($el1->isMarked());
+        $this->assertFalse($el11->isMarked());
+        $this->assertFalse($el111->isMarked());
+    }
+
     public function testAddScaffolds(): void
     {
         $second = $this->getElementWithName(6, 'second');
-        $el = $this->getElement(13, $second);
+        $fourth = $this->getElementWithName(6, 'fourth');
+        $el = $this->getElement(13, $second, $fourth);
 
-        $el->addScaffoldsToSubElements(new MockScaffoldProvider());
+        $el->addScaffoldsToSubElements($this->getScaffoldProvider());
 
         $subs = $el->getSubElements();
         $this->assertTrue($subs->current()->isScaffold());
@@ -201,6 +332,11 @@ class ElementTest extends TestCase
         $this->assertTrue($subs->current()->isScaffold());
         $this->assertSame('third', $subs->current()->getDefinition()->name());
         $subs->next();
+        $this->assertSame($fourth, $subs->current());
+        $subs->next();
+        $this->assertTrue($subs->current()->isScaffold());
+        $this->assertSame('fourth', $subs->current()->getDefinition()->name());
+        $subs->next();
         $this->assertNull($subs->current());
     }
 
@@ -210,7 +346,7 @@ class ElementTest extends TestCase
         $third = $this->getElementWithName(17, 'third');
         $el = $this->getElement(13, $second, $third);
 
-        $el->addScaffoldToSubElements(new MockScaffoldProvider(), 'second');
+        $el->addScaffoldToSubElements($this->getScaffoldProvider(), 'second');
 
         $subs = $el->getSubElements();
         $this->assertSame($second, $subs->current());
@@ -223,12 +359,33 @@ class ElementTest extends TestCase
         $this->assertNull($subs->current());
     }
 
+
+
+    public function testAddScaffoldByNameWithGap(): void
+    {
+        $second = $this->getElementWithName(6, 'second');
+        $fourth = $this->getElementWithName(17, 'fourth');
+        $el = $this->getElement(13, $second, $fourth);
+
+        $el->addScaffoldToSubElements($this->getScaffoldProvider(), 'second');
+
+        $subs = $el->getSubElements();
+        $this->assertSame($second, $subs->current());
+        $subs->next();
+        $this->assertTrue($subs->current()->isScaffold());
+        $this->assertSame('second', $subs->current()->getDefinition()->name());
+        $subs->next();
+        $this->assertSame($fourth, $subs->current());
+        $subs->next();
+        $this->assertNull($subs->current());
+    }
+
     public function testAddScaffoldsWithSubElementsException(): void
     {
         $el = $this->getElement(37);
 
         $this->expectException(\ilMDElementsException::class);
-        $el->addScaffoldsToSubElements(new MockBrokenScaffoldProvider());
+        $el->addScaffoldsToSubElements($this->getScaffoldProvider(true));
     }
 
     public function testAddScaffoldByNameWithSubElementsException(): void
@@ -236,105 +393,6 @@ class ElementTest extends TestCase
         $el = $this->getElement(37);
 
         $this->expectException(\ilMDElementsException::class);
-        $el->addScaffoldToSubElements(new MockBrokenScaffoldProvider(), 'with sub');
-    }
-}
-
-class MockMarkerFactory implements MarkerFactoryInterface
-{
-    public function marker(Action $action, string $data_value = ''): MarkerInterface
-    {
-        return new MockMarker($action);
-    }
-}
-
-class MockMarker implements MarkerInterface
-{
-    protected Action $action;
-
-    public function __construct(Action $action)
-    {
-        $this->action = $action;
-    }
-
-    public function action(): Action
-    {
-        return $this->action;
-    }
-
-    public function dataValue(): string
-    {
-        return '';
-    }
-}
-
-class MockScaffoldProvider implements ScaffoldProviderInterface
-{
-    protected function getScaffold(string $name, ElementInterface ...$elements): ElementInterface
-    {
-        $definition = new class ($name) implements DefinitionInterface {
-            protected string $name;
-
-            public function __construct(string $name)
-            {
-                $this->name = $name;
-            }
-
-            public function name(): string
-            {
-                return $this->name;
-            }
-
-            public function unique(): bool
-            {
-                return false;
-            }
-
-            public function dataType(): Type
-            {
-                return Type::NULL;
-            }
-        };
-
-        $data = new class () implements DataInterface {
-            public function type(): Type
-            {
-                return Type::STRING;
-            }
-
-            public function value(): string
-            {
-                return 'value';
-            }
-        };
-
-        return new Element(
-            NoID::SCAFFOLD,
-            $definition,
-            $data,
-            ...$elements
-        );
-    }
-
-    public function getScaffoldsForElement(ElementInterface $element): \Generator
-    {
-        $first = $this->getScaffold('first');
-        $second = $this->getScaffold('second');
-        $third = $this->getScaffold('third');
-
-        yield 'second' => $first;
-        yield 'third' => $second;
-        yield '' => $third;
-    }
-}
-
-class MockBrokenScaffoldProvider extends MockScaffoldProvider
-{
-    public function getScaffoldsForElement(ElementInterface $element): \Generator
-    {
-        $sub = $this->getScaffold('name');
-        $with_sub = $this->getScaffold('with sub', $sub);
-
-        yield '' => $with_sub;
+        $el->addScaffoldToSubElements($this->getScaffoldProvider(true), 'with sub');
     }
 }

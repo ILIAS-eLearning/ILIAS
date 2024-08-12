@@ -229,7 +229,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         $columns[++$i] = [
             'field' => 'send_time',
-            'txt' => $this->lng->txt('date'),
+            'txt' => $this->lng->txt('mail_sent_datetime'),
             'default' => true,
             'optional' => false,
             'sortable' => true,

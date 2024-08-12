@@ -25,6 +25,7 @@ use Psr\Http\Message\RequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * GUI class for object translation handling.
@@ -52,6 +53,7 @@ class ilObjectTranslationGUI
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected RequestInterface $request;
     protected Refinery $refinery;
+    protected LOMServices $lom_services;
 
     protected ilObjectGUI $obj_gui;
     protected ilObject $obj;
@@ -77,6 +79,7 @@ class ilObjectTranslationGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request = $DIC->http()->request();
         $this->refinery = $DIC['refinery'];
+        $this->lom_services = $DIC->learningObjectMetadata();
 
 
         $this->obj_gui = $obj_gui;
@@ -410,7 +413,10 @@ class ilObjectTranslationGUI
 
     public function getMultiLangFormInput(bool $add = false): Input
     {
-        $options = ilMDLanguageItem::_getLanguages();
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
 
         if ($add) {
             $master_lang = $this->obj_trans->getMasterLanguage();
@@ -432,7 +438,7 @@ class ilObjectTranslationGUI
         }
 
         $trafo = $this->refinery->custom()->transformation(
-            fn($v) => in_array($v, ilMDLanguageItem::_getPossibleLanguageCodes()) ? $v : $this->lng->getDefaultLanguage()
+            fn($v) => in_array($v, array_keys($options)) ? $v : $this->lng->getDefaultLanguage()
         );
 
         return $this->ui_factory->input()->field()->select(

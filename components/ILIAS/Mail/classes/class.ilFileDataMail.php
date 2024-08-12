@@ -218,10 +218,15 @@ class ilFileDataMail extends ilFileData
         return $files;
     }
 
-    public function storeAsAttachment(string $a_filename, string $a_content)
+    public function storeAsAttachment(string $a_filename, string $a_content): string
     {
         if (strlen($a_content) >= $this->getUploadLimit()) {
-            return 1;
+            throw new DomainException(
+                sprintf(
+                    'Mail upload limit reached for user with id %s',
+                    $this->user_id
+                )
+            );
         }
 
         $name = ilFileUtils::_sanitizeFilemame($a_filename);
@@ -231,16 +236,27 @@ class ilFileDataMail extends ilFileData
 
         $fp = fopen($abs_path, 'wb+');
         if (!is_resource($fp)) {
-            return false;
+            throw new RuntimeException(
+                sprintf(
+                    'Could not read file: %s',
+                    $abs_path
+                )
+            );
         }
 
         if (fwrite($fp, $a_content) === false) {
             fclose($fp);
-            return false;
+            throw new RuntimeException(
+                sprintf(
+                    'Could not write file: %s',
+                    $abs_path
+                )
+            );
         }
 
         fclose($fp);
-        return true;
+
+        return $name;
     }
 
     public function storeUploadedFile(UploadResult $result): string
@@ -270,7 +286,7 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    public function rotateFiles(string $a_path): bool
+    private function rotateFiles(string $a_path): bool
     {
         if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");

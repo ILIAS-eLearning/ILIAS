@@ -69,9 +69,9 @@ class Services
         }
 
         if (
-            !in_array($for_container->getContainerKey(), $this->config->getActivatedContainerKeys(), true)
+            $for_container->isForced() === false
             && !in_array(Config::ALL, $this->config->getActivatedContainerKeys(), true)
-            && $for_container->isForced() === false
+            && !in_array($for_container->getContainerKey(), $this->config->getActivatedContainerKeys(), true)
         ) {
             return new VoidContainer($for_container);
         }

@@ -619,7 +619,7 @@ class ilForumPost
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
-        $this->setRCID((string)($row['rcid'] ?? self::NO_RCID));
+        $this->setRCID((string) ($row['rcid'] ?? self::NO_RCID));
     }
 
     /**

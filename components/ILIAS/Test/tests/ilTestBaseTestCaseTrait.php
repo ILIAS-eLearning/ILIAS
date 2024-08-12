@@ -334,10 +334,12 @@ trait ilTestBaseTestCaseTrait
             new ILIAS\FileDelivery\Delivery\StreamDelivery(
                 $data_signer,
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             new \ILIAS\FileDelivery\Delivery\LegacyDelivery(
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             $data_signer

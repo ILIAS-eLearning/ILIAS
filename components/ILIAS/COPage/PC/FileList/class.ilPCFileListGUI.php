@@ -305,9 +305,12 @@ class ilPCFileListGUI extends ilPageContentGUI
             $form->addItem($ti);
 
             // language
-            $lang = ilMDLanguageItem::_getLanguages();
+            $languages = [];
+            foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+                $languages[$language->value()] = $language->presentableLabel();
+            }
             $si = new ilSelectInputGUI($lng->txt("language"), "flst_language");
-            $si->setOptions($lang);
+            $si->setOptions($languages);
             $form->addItem($si);
         }
 

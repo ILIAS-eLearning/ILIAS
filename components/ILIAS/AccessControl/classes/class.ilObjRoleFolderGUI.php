@@ -123,6 +123,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         return [];
     }
 
+    public function returnObject(): void
+    {
+        $this->viewObject();
+    }
+
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view');
@@ -136,7 +141,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('rolf_create_role'),
-                    $this->ctrl->getLinkTarget($this, 'create')
+                    $this->ctrl->getLinkTargetByClass(ilObjRoleGUI::class, 'create')
                 )
             );
         }
@@ -145,7 +150,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('rolf_create_rolt'),
-                    $this->ctrl->getLinkTarget($this, 'create')
+                    $this->ctrl->getLinkTargetByClass(ilObjRoleTemplateGUI::class, 'create')
                 )
             );
             $this->ctrl->clearParameters($this);
@@ -752,7 +757,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $admin->setValue((string) 1);
         $form->addItem($admin);
 
-        $check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
+        $check = new ilCheckboxInputGUI($this->lng->txt('rbac_log'), 'rbac_log');
         $check->setInfo($this->lng->txt('rbac_log_info'));
         $check->setChecked($privacy->enabledRbacLog());
         $form->addItem($check);

@@ -323,25 +323,38 @@ class ilAccountRegistrationGUI
             $form_valid = false;
         }
 
-        if ($form_valid) {
-            if (ilObjUser::_loginExists($login)) {
-                $login_obj->setAlert($this->lng->txt("login_exists"));
-                $form_valid = false;
-            } elseif ((int) $this->settings->get('allow_change_loginname') &&
-                (int) $this->settings->get('reuse_of_loginnames') === 0 &&
-                ilObjUser::_doesLoginnameExistInHistory($login)) {
-                $login_obj->setAlert($this->lng->txt('login_exists'));
-                $form_valid = false;
+        // We should use the HTTP request stretching mechanisms here, according to Mantis #32037
+        $username_checked_and_register_callback = function () use (&$form_valid, $login, $login_obj, $valid_role) {
+            if ($form_valid) {
+                if (ilObjUser::_loginExists($login)) {
+                    $login_obj->setAlert($this->lng->txt('login_exists'));
+                    $form_valid = false;
+                } elseif ((int) $this->settings->get('allow_change_loginname') &&
+                    (int) $this->settings->get('reuse_of_loginnames') === 0 &&
+                    ilObjUser::_doesLoginnameExistInHistory($login)) {
+                    $login_obj->setAlert($this->lng->txt('login_exists'));
+                    $form_valid = false;
+                }
             }
+
+            if ($form_valid) {
+                $password = $this->createUser($valid_role);
+                $this->distributeMails($password);
+            }
+        };
+
+        if (($register_duration = $this->settings->get('registration_duration')) !== null) {
+            $duration = $this->http->durations()->callbackDuration((int) $register_duration);
+            $duration->stretch($username_checked_and_register_callback);
+        } else {
+            $username_checked_and_register_callback();
         }
 
-        if (!$form_valid) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-        } else {
-            $password = $this->createUser($valid_role);
-            $this->distributeMails($password);
+        if ($form_valid) {
             return $this->login();
         }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         $this->form->setValuesByPost();
         return $this->displayForm();
     }

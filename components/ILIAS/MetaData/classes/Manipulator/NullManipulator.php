@@ -45,10 +45,6 @@ class NullManipulator implements ManipulatorInterface
         return new NullSet();
     }
 
-    public function execute(SetInterface $set): void
-    {
-    }
-
     public function prepareCreateOrUpdate(
         SetInterface $set,
         PathInterface $path,

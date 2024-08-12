@@ -247,15 +247,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             'components/ILIAS/Tracking'
         );
 
-        // Show back button
-        if ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
-            $this->getMode() == self::LP_CONTEXT_ADMINISTRATION) {
-            $this->toolbar->addButton(
-                $this->lng->txt('trac_view_list'),
-                $this->ctrl->getLinkTarget($this, 'show')
-            );
-        }
-
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
         if ($this->__showObjectDetails($info, $this->details_obj_id)) {
