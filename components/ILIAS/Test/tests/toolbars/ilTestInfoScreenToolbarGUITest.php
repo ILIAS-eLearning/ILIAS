@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -31,6 +29,9 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestInfoScreenToolbarGUI $ilTestInfoScreenToolbarGUI;
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,9 +39,6 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->ilTestInfoScreenToolbarGUI = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $this->ilTestInfoScreenToolbarGUI);
@@ -55,7 +53,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["tst_question_set_config" => $test_question_set_config]
+            ['tst_question_set_config' => $test_question_set_config]
         );
 
         $this->assertEquals(
@@ -75,7 +73,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $test_obj = $this->createMock(ilObjTest::class);
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["test_obj" => $test_obj]
+            ['test_obj' => $test_obj]
         );
 
         $this->assertEquals(
@@ -95,7 +93,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $il_test_player_abstract_gui = $this->createMock(ilTestPlayerAbstractGUI::class);
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["test_player_gui" => $il_test_player_abstract_gui]
+            ['test_player_gui' => $il_test_player_abstract_gui]
         );
 
         $this->assertEquals(
@@ -115,7 +113,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $il_test_session = $this->createMock(ilTestSession::class);
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["test_session" => $il_test_session]
+            ['test_session' => $il_test_session]
         );
 
         $this->assertEquals(
@@ -770,7 +768,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["test_obj" => $test_obj]
+            ['test_obj' => $test_obj]
         );
 
         $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'hasFixedQuestionSetSkillAssignsLowerThanBarrier'));
@@ -826,7 +824,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             ->willReturn(true);
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ["test_obj" => $obj_test, "test_question_set_config" => $il_test_question_set_config]
+            ['test_obj' => $obj_test, 'test_question_set_config' => $il_test_question_set_config]
         );
 
         $_COOKIE['PHPSESSID'] = '';
