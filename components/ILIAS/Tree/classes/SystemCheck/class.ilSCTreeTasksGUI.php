@@ -229,7 +229,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $tasks = new ilSCTreeTasks($this->getTask());
 
         if ($this->tree->getTreeImplementation() instanceof ilMaterializedPathTree) {
-            ilMaterializedPathTree::createFromParentReleation($this->db);
+            ilMaterializedPathTree::createFromParentRelation($this->db);
         } elseif ($this->tree->getTreeImplementation() instanceof ilNestedSetTree) {
             $this->tree->renumber(ROOT_FOLDER_ID);
         }
