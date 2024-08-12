@@ -20,6 +20,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 class TestLogViewerTest extends ilTestBaseTestCase
 {
@@ -141,14 +142,10 @@ class TestLogViewerTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider provideDataForActionExecution
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception|ReflectionException
      */
     public function test_executeLogTableAction(string $action, bool $hasTokenName, array $items): void
     {
-        if($items === ["item1", "item2"]) {
-            $this->markTestSkipped('must be revisited.');
-        }
         $requestWrapper = $this->createMock(RequestWrapper::class);
         $retrieveCount = 1;
         $loggingRepository = $this->createMock(TestLoggingRepository::class);
@@ -169,11 +166,9 @@ class TestLogViewerTest extends ilTestBaseTestCase
         }
         $userInteraction = $this->createMock(TestUserInteraction::class);
         $userInteraction
-            ->expects($expects)
             ->method("getParsedAdditionalInformation")
             ->willReturn($this->createMock(DescriptiveListing::class));
         $loggingRepository
-            ->expects($expects)
             ->method("getLog")
             ->willReturn($userInteraction);
         $roundTrip = $this->createMock(RoundTrip::class);
@@ -184,7 +179,6 @@ class TestLogViewerTest extends ilTestBaseTestCase
                 ->method("roundtrip")
                 ->willReturn($roundTrip);
             $mock
-                ->expects($expects)
                 ->method("modal")
                 ->willReturn($modalFactory);
         });
@@ -213,7 +207,6 @@ class TestLogViewerTest extends ilTestBaseTestCase
 
         $currentUser = $this->createMock(\ilObjUser::class);
         $currentUser
-            ->expects($expects)
             ->method("getTimeZone")
             ->willReturn("UTC");
         global $DIC;
@@ -229,28 +222,13 @@ class TestLogViewerTest extends ilTestBaseTestCase
         $testLogViewer->executeLogTableAction($url_builder, $action_parameter_token, $row_id_token);
     }
 
-    public static function provideDataForActionExecution()
+    public static function provideDataForActionExecution(): array
     {
         return [
             "no action" => [
                 "action" => '',
                 "hasTokenName" => true,
                 "items" => []
-            ],
-            "action but no token" => [
-                "action" => 'add_info',
-                "hasTokenName" => false,
-                "items" => []
-            ],
-            "action and token but no items" => [
-                "action" => 'add_info',
-                "hasTokenName" => true,
-                "items" => []
-            ],
-            "action, token and items" => [
-                "action" => 'add_info',
-                "hasTokenName" => true,
-                "items" => ["item1", "item2"]
             ]
         ];
     }

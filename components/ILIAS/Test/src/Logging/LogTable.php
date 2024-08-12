@@ -259,7 +259,7 @@ class LogTable implements Table\DataRetrieval
         array $affected_items
     ): void {
         match ($action) {
-            self::ACTION_ADDITIONAL_INFORMATION => $this->showAdditionalDetails($affected_items[0]),
+            self::ACTION_ADDITIONAL_INFORMATION => $this->showAdditionalDetails($affected_items[0] ?? ''),
             self::ACTION_EXPORT_AS_CSV => $this->exportTestUserInteractionsAsCSV($affected_items),
             self::ACTION_CONFIRM_DELETE => $this->showConfirmTestUserInteractionsDeletion($affected_items),
             self::ACTION_DELETE => $this->deleteTestUserInteractions($affected_items)

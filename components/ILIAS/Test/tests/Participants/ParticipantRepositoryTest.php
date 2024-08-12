@@ -76,13 +76,13 @@ class ParticipantRepositoryTest extends ilTestBaseTestCase
      */
     public function test_lookupTestIdByActiveId_withInvalidId(): void
     {
-        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($test_fi) {
+        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) {
             $ilDBStatementMock = $this->createMock(ilDBStatement::class);
 
             $mock
                 ->expects($this->never())
                 ->method('fetchAssoc')
-                ->willReturn(['test_fi' => $test_fi]);
+                ->willReturn(['test_fi' => 5]);
 
             $mock
                 ->expects($this->once())

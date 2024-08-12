@@ -246,7 +246,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
      * @dataProvider provideInteractionIdentifierAndFactoryMethod
      * @throws \Exception|Exception
      */
-    public function test_getLogEmpty(string $id): void
+    public function test_getLogEmpty(string $id, string $method, string $interaction): void
     {
         $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) {
             $mock

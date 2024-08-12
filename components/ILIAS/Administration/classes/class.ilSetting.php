@@ -199,14 +199,11 @@ class ilSetting implements \ILIAS\Administration\Setting
      */
     public static function _getValueType(): string
     {
-        $analyzer = new ilDBAnalyzer();
-        $info = $analyzer->getFieldInformation('settings');
+        $info = (new ilDBAnalyzer())->getFieldInformation('settings');
 
-        if ($info['value']['type'] === 'clob') {
-            return 'clob';
-        } else {
-            return 'text';
-        }
+        return isset($info['value']['type']) && $info['value']['type'] === 'clob'
+            ? 'clob'
+            : 'text';
     }
 
     /**
