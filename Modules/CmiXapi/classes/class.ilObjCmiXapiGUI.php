@@ -450,6 +450,22 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
+    protected function launch(): void
+    {
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
+        /** @var ilObjCmiXapi $obj */
+        $obj = $this->object;
+
+        if ($obj->isSourceTypeExternal() || $obj->isBypassProxyEnabled()) {
+            $this->infoScreen();
+        } else {
+            $gui = new ilCmiXapiLaunchGUI($obj, $DIC->repositoryTree()->getParentId($this->getRefId()));
+            $DIC->ctrl()->forwardCommand($gui);
+        }
+    }
+
+
     protected function setTabs(): void
     {
         global $DIC;

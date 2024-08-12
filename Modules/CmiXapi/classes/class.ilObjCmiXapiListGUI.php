@@ -104,4 +104,20 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
+
+    /**
+     * Get command target frame
+     */
+    public function getCommandFrame(string $cmd): string
+    {
+        $obj = new ilObjCmiXapi($this->ref_id);
+
+        $frame = '_self';
+
+        if (!$obj->isSourceTypeExternal() && !$obj->isBypassProxyEnabled() && $obj->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
+            $frame = 'cmix' . (string) $this->obj_id;
+        }
+        return $frame;
+    }
+
 }

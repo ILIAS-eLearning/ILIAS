@@ -34,23 +34,19 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _getCommands(): array
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $commands = array(
-            array(
+        return [
+            [
                 "permission" => "read",
-                "cmd" => "infoScreen",
-                "lang_var" => "infoScreen",
+                "cmd" => "launch",
+                "lang_var" => "show",
                 "default" => true
-            ),
-            array(
+            ],
+            [
                 'permission' => 'write',
                 'cmd' => 'ilCmiXapiSettingsGUI::show',
                 'lang_var' => ilObjCmiXapiGUI::TAB_ID_SETTINGS
-            )
-        );
-
-        return $commands;
+            ]
+        ];
     }
 
     /**

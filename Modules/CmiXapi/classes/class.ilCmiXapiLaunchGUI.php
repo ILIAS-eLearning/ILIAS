@@ -41,9 +41,12 @@ class ilCmiXapiLaunchGUI
 
     private ilCtrlInterface $ctrl;
 
-    public function __construct(ilObjCmiXapi $object)
+    protected ?int $launchedByRefId;
+
+    public function __construct(ilObjCmiXapi $object, ?int $launchedByRefId = null)
     {
         $this->object = $object;
+        $this->launchedByRefId = $launchedByRefId;
     }
 
     public function executeCommand(): void
@@ -309,7 +312,7 @@ class ilCmiXapiLaunchGUI
         $defaultStatementsUrl = $defaultLrs . "/statements";
 
         // launchedStatement
-        $launchData = json_encode($this->object->getLaunchData($this->cmixUser, $lang));
+        $launchData = json_encode($this->object->getLaunchData($this->cmixUser, $lang, $this->launchedByRefId));
         $launchedStatement = $this->object->getLaunchedStatement($this->cmixUser);
         $launchedStatementParams = [];
         $launchedStatementParams['statementId'] = $launchedStatement['id'];

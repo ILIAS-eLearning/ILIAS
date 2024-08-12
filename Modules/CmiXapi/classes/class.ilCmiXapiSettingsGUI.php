@@ -178,29 +178,17 @@ class ilCmiXapiSettingsGUI
         if ($this->object->isKeepLpStatusEnabled()) {
             $lpDeterioration->setChecked(true);
         }
+        //
+        // presentation
+        //
+        $item = new ilFormSectionHeaderGUI();
+        $item->setTitle($this->language->txt("obj_presentation"));
+        $form->addItem($item);
+
+        // tile image
+        $this->dic->object()->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         if (!$this->object->isSourceTypeExternal()) {
-            //
-            // presentation
-            //
-            $item = new ilFormSectionHeaderGUI();
-            $item->setTitle($this->language->txt("obj_presentation"));
-            $form->addItem($item);
-
-            $display = new ilRadioGroupInputGUI($this->language->txt('launch_options'), 'display');
-            $display->setRequired(true);
-            $display->setValue($this->object->getLaunchMethod());
-            $optOwnWindow = new ilRadioOption($this->language->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
-            $optOwnWindow->setInfo($this->language->txt('conf_own_window_info'));
-            $display->addOption($optOwnWindow);
-            $optAnyWindow = new ilRadioOption($this->language->txt('conf_new_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
-            $optAnyWindow->setInfo($this->language->txt('conf_new_window_info'));
-            $display->addOption($optAnyWindow);
-            $form->addItem($display);
-
-            // tile image
-            $this->dic->object()->commonSettings()->legacyForm($form, $this->object)->addTileImage();
-
 
             $item = new ilFormSectionHeaderGUI();
             $item->setTitle($this->language->txt("launch_options"));
@@ -226,6 +214,17 @@ class ilCmiXapiSettingsGUI
                 }
                 $form->addItem($item);
             }
+
+            $display = new ilRadioGroupInputGUI($this->language->txt('launch_options'), 'display');
+            $display->setRequired(true);
+            $display->setValue($this->object->getLaunchMethod());
+            $optOwnWindow = new ilRadioOption($this->language->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
+            $optOwnWindow->setInfo($this->language->txt('conf_own_window_info'));
+            $display->addOption($optOwnWindow);
+            $optAnyWindow = new ilRadioOption($this->language->txt('conf_new_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
+            $optAnyWindow->setInfo($this->language->txt('conf_new_window_info'));
+            $display->addOption($optAnyWindow);
+            $form->addItem($display);
 
             $launchMode = new ilRadioGroupInputGUI($this->language->txt('conf_launch_mode'), 'launch_mode');
             $launchMode->setRequired(true);

@@ -1366,8 +1366,9 @@ class ilObjCmiXapi extends ilObject2
      * LMS.LaunchData
      * @return array<string, mixed>
      */
-    public function getLaunchData(?ilCmiXapiUser $cmixUser = null, string $lang = 'en'): array
+    public function getLaunchData(?ilCmiXapiUser $cmixUser = null, string $lang = 'en', ?int $launchedByRefId = null): array
     {
+        global $DIC;
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
         }
@@ -1391,10 +1392,17 @@ class ilObjCmiXapi extends ilObject2
         ];
         $lmsLaunchMethod = $this->getLaunchMethod();
         if ($lmsLaunchMethod === "ownWin") {
-            $href = ilLink::_getStaticLink(
-                $this->getRefId(),
-                $this->getType()
-            );
+            if (is_int($launchedByRefId)) {
+                $href = ilLink::_getStaticLink(
+                    $launchedByRefId,
+                    ilObject::_lookupType(ilObject::_lookupObjId($launchedByRefId))
+                );
+            } else {
+                $href = ilLink::_getStaticLink(
+                    $this->getRefId(),
+                    $this->getType()
+                );
+            }
             $ctxTemplate['returnURL'] = $href;
         } else {
             $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH . "/Modules/CmiXapi/xapiexit.php?lang={$lang}";
