@@ -164,8 +164,6 @@ class ilMDCopyrightUpdateSteps implements ilDatabaseUpdateSteps
         $old_image_link = "https://licensebuttons.net/p/zero/1.0/88x31.png";
         $new_image_link = "https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg";
 
-        $next_id = $this->db->nextId('il_md_cpr_selections');
-
         $res = $this->db->query(
             'SELECT entry_id FROM il_md_cpr_selections WHERE title = ' .
             $this->db->quote($title, ilDBConstants::T_TEXT) . ' AND full_name = ' .
@@ -178,6 +176,108 @@ class ilMDCopyrightUpdateSteps implements ilDatabaseUpdateSteps
                 ['image_link' => [\ilDBConstants::T_TEXT, $new_image_link]],
                 ['entry_id' => [\ilDBConstants::T_INTEGER, $row['entry_id']]]
             );
+        }
+    }
+
+    /**
+     * Change title, description and full name of 'All rights reserved',
+     * see https://mantis.ilias.de/view.php?id=41301
+     */
+    public function step_9(): void
+    {
+        $title = "All rights reserved";
+        $old_full_name = "This work has all rights reserved by the owner.";
+        $new_full_name = "All rights reserved";
+        $new_description = "The copyright holder reserves, or holds for their own use, all the rights provided by copyright law.";
+
+        $res = $this->db->query(
+            'SELECT entry_id FROM il_md_cpr_selections WHERE title = ' .
+            $this->db->quote($title, ilDBConstants::T_TEXT) . ' AND full_name = ' .
+            $this->db->quote($old_full_name, ilDBConstants::T_TEXT) .
+            " AND COALESCE(link, '') = '' AND COALESCE(description, '') = ''"
+        );
+        if (($row = $this->db->fetchAssoc($res)) && isset($row['entry_id'])) {
+            $this->db->update(
+                'il_md_cpr_selections',
+                [
+                    'full_name' => [\ilDBConstants::T_TEXT, $new_full_name],
+                    'description' => [\ilDBConstants::T_TEXT, $new_description]
+                ],
+                ['entry_id' => [\ilDBConstants::T_INTEGER, $row['entry_id']]]
+            );
+        }
+    }
+
+    /**
+     * Change title, description and full name of 'Public Domain',
+     * see https://mantis.ilias.de/view.php?id=41301
+     */
+    public function step_10(): void
+    {
+        $title = "Public Domain";
+        $link = "http://creativecommons.org/publicdomain/zero/1.0/";
+        $old_full_name = "This work is free of known copyright restrictions.";
+        $new_full_name = "Public Domain";
+        $new_description = "Creative work to which no exclusive intellectual property rights apply.";
+
+        $res = $this->db->query(
+            'SELECT entry_id FROM il_md_cpr_selections WHERE title = ' .
+            $this->db->quote($title, ilDBConstants::T_TEXT) . ' AND full_name = ' .
+            $this->db->quote($old_full_name, ilDBConstants::T_TEXT) . ' AND link = ' .
+            $this->db->quote($link, ilDBConstants::T_TEXT) .
+            " AND COALESCE(description, '') = ''"
+        );
+        if (($row = $this->db->fetchAssoc($res)) && isset($row['entry_id'])) {
+            $this->db->update(
+                'il_md_cpr_selections',
+                [
+                    'full_name' => [\ilDBConstants::T_TEXT, $new_full_name],
+                    'description' => [\ilDBConstants::T_TEXT, $new_description]
+                ],
+                ['entry_id' => [\ilDBConstants::T_INTEGER, $row['entry_id']]]
+            );
+        }
+    }
+
+    /**
+     * Change title of CC licences, see https://mantis.ilias.de/view.php?id=41898
+     */
+    public function step_11(): void
+    {
+        $old_titles_by_link = [
+            'http://creativecommons.org/licenses/by-nc-nd/4.0/' => 'Attribution Non-commercial No Derivatives (by-nc-nd)',
+            'http://creativecommons.org/licenses/by-nc-sa/4.0/' => 'Attribution Non-commercial Share Alike (by-nc-sa)',
+            'http://creativecommons.org/licenses/by-nc/4.0/' => 'Attribution Non-commercial (by-nc)',
+            'http://creativecommons.org/licenses/by-nd/4.0/' => 'Attribution No Derivatives (by-nd)',
+            'http://creativecommons.org/licenses/by-sa/4.0/' => 'Attribution Share Alike (by-sa)',
+            'http://creativecommons.org/licenses/by/4.0/' => 'Attribution (by)'
+        ];
+        $new_titles_by_link = [
+            'http://creativecommons.org/licenses/by-nc-nd/4.0/' => 'Attribution Non-commercial No Derivatives (BY-NC-ND) 4.0',
+            'http://creativecommons.org/licenses/by-nc-sa/4.0/' => 'Attribution Non-commercial Share Alike (BY-NC-SA) 4.0',
+            'http://creativecommons.org/licenses/by-nc/4.0/' => 'Attribution Non-commercial (BY-NC) 4.0',
+            'http://creativecommons.org/licenses/by-nd/4.0/' => 'Attribution No Derivatives (BY-ND) 4.0',
+            'http://creativecommons.org/licenses/by-sa/4.0/' => 'Attribution Share Alike (BY-SA) 4.0',
+            'http://creativecommons.org/licenses/by/4.0/' => 'Attribution (BY) 4.0'
+        ];
+
+        foreach ($old_titles_by_link as $link => $old_title) {
+            $res = $this->db->query(
+                'SELECT entry_id FROM il_md_cpr_selections WHERE title = ' .
+                $this->db->quote($old_title, ilDBConstants::T_TEXT) . ' AND link = ' .
+                $this->db->quote($link, ilDBConstants::T_TEXT)
+            );
+            if (
+                ($row = $this->db->fetchAssoc($res)) &&
+                isset($row['entry_id']) &&
+                isset($new_titles_by_link[$link])
+            ) {
+                $this->db->update(
+                    'il_md_cpr_selections',
+                    ['title' => [\ilDBConstants::T_TEXT, $new_titles_by_link[$link]]],
+                    ['entry_id' => [\ilDBConstants::T_INTEGER, $row['entry_id']]]
+                );
+            }
         }
     }
 }
