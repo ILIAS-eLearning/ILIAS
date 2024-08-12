@@ -381,17 +381,15 @@ class ilCalendarMailNotification extends ilMailNotification
         $export->setAppointments([(int) $this->getAppointmentId()]);
         $export->export();
 
+        $ics_filename = 'appointment_' . (new DateTimeImmutable('now'))->format('Ymd_His_u') . '.ics';
+
         $attachment = new ilFileDataMail($this->getSender());
-        $attachment->storeAsAttachment(
-            'appointment.ics',
+        $effective_ics_filename = $attachment->storeAsAttachment(
+            $ics_filename,
             $export->getExportString()
         );
 
-        $this->setAttachments(
-            array(
-                'appointment.ics'
-            )
-        );
+        $this->setAttachments([$effective_ics_filename]);
     }
 
     protected function deleteAttachments(): void
