@@ -1593,6 +1593,8 @@ class ilObjGroupGUI extends ilContainerGUI
                 $wait->setValue('2');
             } elseif ($this->object->isWaitingListEnabled()) {
                 $wait->setValue('1');
+            } else {
+                $wait->setValue('0');
             }
 
             $lim->addSubItem($wait);
