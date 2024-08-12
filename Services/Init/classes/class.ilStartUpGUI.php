@@ -235,6 +235,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                         'username' => $this->user->getLogin()
                     )
                 );
+
+                $this->dic->user()->setId($auth_session->getUserId());
+                $this->dic->user()->read();
             }
             $this->logger->debug('Show login page');
             if (isset($messages) && count($messages) > 0) {
