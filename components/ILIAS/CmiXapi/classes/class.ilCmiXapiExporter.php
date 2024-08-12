@@ -62,6 +62,28 @@ class ilCmiXapiExporter extends ilXmlExporter
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ): array {
+        $dependencies = [];
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ":0:cmix";
+        }
+        if ($md_ids !== []) {
+            $dependencies[] = [
+                "component" => "components/ILIAS/MetaData",
+                "entity" => "md",
+                "ids" => $md_ids
+            ];
+        }
+
+        return $dependencies;
+    }
+
     /**
      * @return array<string, array<string, string|bool>>
      */
