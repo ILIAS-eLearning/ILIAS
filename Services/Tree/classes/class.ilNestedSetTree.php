@@ -955,7 +955,7 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function validateParentRelations(): array
     {
-        $query = 'select child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
+        $query = 'select ' . $this->getTree()->getTreePk() .', child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
             '( ' .
             'select child from ' . $this->getTree()->getTreeTable() . ' parent where child.parent = parent.child and (parent.lft < child.lft) and (parent.rgt > child.rgt) ' .
             ')' .
