@@ -20,9 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Elements\Data;
 
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+
 interface DataFactoryInterface
 {
-    public function data(Type $type, string $value): DataInterface;
+    public function data(
+        Type $type,
+        string $value,
+        SlotIdentifier $vocabulary_slot = SlotIdentifier::NULL
+    ): DataInterface;
 
     public function null(): DataInterface;
 }

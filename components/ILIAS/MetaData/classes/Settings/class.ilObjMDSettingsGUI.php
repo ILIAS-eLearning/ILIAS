@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI,
- * @ilCtrl_Calls ilObjMDSettingsGUI: ilMDCopyrightSelectionGUI
+ * @ilCtrl_Calls ilObjMDSettingsGUI: ilMDSettingsControllerGUI
  */
 class ilObjMDSettingsGUI extends ilObjectGUI
 {
@@ -60,31 +60,32 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case strtolower(ilMDCopyrightSelectionGUI::class):
-                $gui = new ilMDCopyrightSelectionGUI($this);
-                $ret = $this->ctrl->forwardCommand($gui);
+            case strtolower(ilMDSettingsControllerGUI::class):
+                $this->tabs_gui->activateTab('md_copyright_oer');
+                $gui = new ilMDSettingsControllerGUI($this);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case strtolower(ilAdvancedMDSettingsGUI::class):
-                $this->tabs_gui->setTabActive('md_advanced');
+                $this->tabs_gui->activateTab('md_advanced');
                 $adv_md = new ilAdvancedMDSettingsGUI(
                     ilAdvancedMDSettingsGUI::CONTEXT_ADMINISTRATION,
                     $this->ref_id
                 );
-                $ret = $this->ctrl->forwardCommand($adv_md);
+                $this->ctrl->forwardCommand($adv_md);
                 break;
 
             case strtolower(ilPermissionGUI::class):
-                $this->tabs_gui->setTabActive('perm_settings');
-
+                $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
+                $this->tabs_gui->activateTab('md_copyright_oer');
                 $this->ctrl->redirectByClass(
-                    ilMDCopyrightSelectionGUI::class,
-                    'view'
+                    ilMDSettingsControllerGUI::class,
+                    ''
                 );
                 break;
         }
@@ -107,12 +108,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             $this->access_service->hasCurrentUserReadAccess()
         ) {
             $this->tabs_gui->addTab(
-                'md_copyright',
+                'md_copyright_oer',
                 $this->lng->txt('md_copyright_admin_tab'),
-                $this->ctrl->getLinkTargetByClass(
-                    ilMDCopyrightSelectionGUI::class,
-                    'showCopyrightSettings'
-                )
+                $this->ctrl->getLinkTargetByClass(ilMDSettingsControllerGUI::class, 'esrdtfyghujk')
             );
 
             $this->tabs_gui->addTab(

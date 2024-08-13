@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Repository\Validation\Data;
 
 use ILIAS\MetaData\Elements\Data\Type;
-use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class DataValidatorService
@@ -36,7 +35,6 @@ class DataValidatorService
     protected VocabValueValidator $vocab_value;
 
     public function __construct(
-        VocabulariesInterface $vocabularies,
         DataHelperInterface $data_helper
     ) {
         $this->datetime = new DatetimeValidator($data_helper);
@@ -45,8 +43,8 @@ class DataValidatorService
         $this->non_neg_int = new NonNegIntValidator();
         $this->null = new NullValidator();
         $this->string = new StringValidator();
-        $this->vocab_source = new VocabSourceValidator($vocabularies);
-        $this->vocab_value = new VocabValueValidator($vocabularies);
+        $this->vocab_source = new VocabSourceValidator();
+        $this->vocab_value = new VocabValueValidator();
     }
 
     public function validator(Type $type): DataValidatorInterface

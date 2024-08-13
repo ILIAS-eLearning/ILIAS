@@ -111,7 +111,7 @@ class ElementTest extends TestCase
                     }
                 };
 
-                $data = new class () implements DataInterface {
+                $data = new class () extends NullData {
                     public function type(): Type
                     {
                         return Type::STRING;

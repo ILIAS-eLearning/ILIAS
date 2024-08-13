@@ -22,7 +22,7 @@ namespace ILIAS\MetaData\Services\CopyrightHelper;
 
 use ILIAS\MetaData\Services\Reader\ReaderInterface;
 use ILIAS\MetaData\Services\Manipulator\ManipulatorInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface as SearchClause;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface as SearchClause;
 use ILIAS\MetaData\Settings\SettingsInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
@@ -30,9 +30,9 @@ use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface as IdentifierHandler;
 use ILIAS\MetaData\Copyright\RepositoryInterface as CopyrightRepository;
 use ILIAS\MetaData\Copyright\EntryInterface;
 use ILIAS\MetaData\Copyright\RendererInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\FactoryInterface as SearchClauseFactory;
-use ILIAS\MetaData\Repository\Search\Clauses\Mode;
-use ILIAS\MetaData\Repository\Search\Clauses\Operator;
+use ILIAS\MetaData\Search\Clauses\FactoryInterface as SearchClauseFactory;
+use ILIAS\MetaData\Search\Clauses\Mode;
+use ILIAS\MetaData\Search\Clauses\Operator;
 
 class CopyrightHelper implements CopyrightHelperInterface
 {

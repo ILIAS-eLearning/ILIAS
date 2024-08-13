@@ -23,16 +23,14 @@ namespace ILIAS\MetaData\Copyright\Search;
 use PHPUnit\Framework\TestCase;
 use ILIAS\MetaData\Copyright\Identifiers\NullHandler;
 use ILIAS\MetaData\Paths\NullFactory as NullPathFactory;
-use ILIAS\MetaData\Repository\Search\Clauses\NullFactory as NullClauseFactory;
-use ILIAS\MetaData\Repository\Search\Filters\NullFactory as NullFilterFactory;
-use ILIAS\MetaData\Repository\NullRepository;
+use ILIAS\MetaData\Search\Clauses\NullFactory as NullClauseFactory;
+use ILIAS\MetaData\Search\Filters\NullFactory as NullFilterFactory;
 
 class FactoryTest extends TestCase
 {
     public function testGet(): void
     {
         $factory = new Factory(
-            new NullRepository(),
             new NullFilterFactory(),
             new NullClauseFactory(),
             new NullPathFactory(),

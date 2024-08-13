@@ -11865,7 +11865,13 @@ meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#md_editor_custom_input#:#Eigene Angabe
+meta#:#md_editor_from_vocab_input#:#Aus Vokabular
+meta#:#md_editor_value#:#Begriff
 meta#:#md_fields#:#Felder
+meta#:#md_import_file_vocab#:#Importdatei
+meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
 meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
@@ -11879,7 +11885,35 @@ meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
+meta#:#md_unknown_vocabulary_flag#:#(unbekanntes Vokabular)
 meta#:#md_used#:#Verwendung (Anzahl)
+meta#:#md_vocab_activate_action#:#Aktivieren
+meta#:#md_vocab_active_column#:#Aktiv
+meta#:#md_vocab_all_values_title#:#Begriffe für %s (%s)
+meta#:#md_vocab_allow_custom_input_action#:#Eigene Angaben erlauben
+meta#:#md_vocab_custom_input_column#:#Erlaubt eigene Angaben
+meta#:#md_vocab_deactivate_action#:#Deaktivieren
+meta#:#md_vocab_delete_action#:#Löschen
+meta#:#md_vocab_delete_confirmation_text#:#Sind Sie sicher, dass sie dass Vokabular %s (%s) mit den folgenden Begriffen löschen wollen?
+meta#:#md_vocab_delete_confirmation_title#:#Vokabular löschen
+meta#:#md_vocab_deletion_successful#:#Vokabular erfolgreich gelöscht.
+meta#:#md_vocab_disallow_custom_input_action#:#Keine eigenen Angaben erlauben
+meta#:#md_vocab_element_column#:#Element
+meta#:#md_vocab_element_with_condition#:#%s mit %s %s
+meta#:#md_vocab_import_invalid#:#Die Importdatei ist ungültig:<br/>%s
+meta#:#md_vocab_import_successful#:#Vokabular erfolgreich imported.
+meta#:#md_vocab_import_upload_failed#:#Das Hochladen der Importdatei ist fehlgeschlagen.
+meta#:#md_vocab_preview_column#:#Vorschau
+meta#:#md_vocab_show_all_action#:#Alle Begriffe anzeigen
+meta#:#md_vocab_source_column#:#Quelle
+meta#:#md_vocab_table_title#:#Vokabulare
+meta#:#md_vocab_type_column#:#Typ
+meta#:#md_vocab_type_controlled_string#:#Kontrollierter Text
+meta#:#md_vocab_type_controlled_vocab_value#:#Kontrollierte Auswahl
+meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_standard#:#Standard
+meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert.
+meta#:#md_vocabularies_config#:#LOM Vokabulare
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3

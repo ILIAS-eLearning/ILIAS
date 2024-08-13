@@ -28,6 +28,8 @@ use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as Const
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\DataHelper\DataHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Elements\Data\Type;
 
 class DurationFactory extends BaseFactory
 {
@@ -49,7 +51,7 @@ class DurationFactory extends BaseFactory
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        string $condition_value = ''
+        SlotIdentifier $conditional_slot = SlotIdentifier::NULL
     ): FormInput {
         $num = $this->ui_factory
             ->numeric('placeholder')
@@ -61,12 +63,20 @@ class DurationFactory extends BaseFactory
             $nums[] = (clone $num)->withLabel($label);
         }
         $dh = $this->data_helper;
-        return $this->ui_factory->group($nums)->withAdditionalTransformation(
+        $input = $this->ui_factory->group(
+            $nums,
+            $this->getInputLabelFromElement($this->presenter, $element, $context_element)
+        )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($vs) use ($dh) {
-                $vs = array_map(fn ($v) => is_null($v) ? $v : (int) $v, $vs);
+                $vs = array_map(fn($v) => is_null($v) ? $v : (int) $v, $vs);
                 return $dh->durationFromIntegers(...$vs);
             })
         );
+
+        if ($element->getData()->type() !== Type::NULL) {
+            $input = $input->withValue($this->dataValueForInput($element->getData()));
+        }
+        return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input);
     }
 
     /**
@@ -75,5 +85,20 @@ class DurationFactory extends BaseFactory
     protected function dataValueForInput(DataInterface $data): array
     {
         return iterator_to_array($this->data_helper->durationToIterator($data->value()));
+    }
+
+    public function getInput(
+        ElementInterface $element,
+        ElementInterface $context_element
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
+    }
+
+    public function getInputInCondition(
+        ElementInterface $element,
+        ElementInterface $context_element,
+        SlotIdentifier $conditional_slot
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
     }
 }

@@ -22,17 +22,16 @@ namespace ILIAS\MetaData\Copyright\Search;
 
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
 use ILIAS\MetaData\Repository\RepositoryInterface as LOMRepository;
-use ILIAS\MetaData\Repository\Search\Filters\FactoryInterface as SearchFilterFactory;
-use ILIAS\MetaData\Repository\Search\Clauses\FactoryInterface as SearchClauseFactory;
+use ILIAS\MetaData\Search\Filters\FactoryInterface as SearchFilterFactory;
+use ILIAS\MetaData\Search\Clauses\FactoryInterface as SearchClauseFactory;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface as CopyrightIdentifierHandler;
-use ILIAS\MetaData\Repository\Search\Clauses\Mode;
-use ILIAS\MetaData\Repository\Search\Clauses\Operator;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Clauses\Mode;
+use ILIAS\MetaData\Search\Clauses\Operator;
+use ILIAS\MetaData\Search\Filters\Placeholder;
 
 class Searcher implements SearcherInterface
 {
-    protected LOMRepository $lom_repository;
     protected SearchFilterFactory $search_filter_factory;
     protected SearchClauseFactory $search_clause_factory;
     protected PathFactory $path_factory;
@@ -45,13 +44,11 @@ class Searcher implements SearcherInterface
     protected bool $restricted_to_repo_objects = false;
 
     public function __construct(
-        LOMRepository $lom_repository,
         SearchFilterFactory $search_filter_factory,
         SearchClauseFactory $search_clause_factory,
         PathFactory $path_factory,
         CopyrightIdentifierHandler $copyright_identifier_handler,
     ) {
-        $this->lom_repository = $lom_repository;
         $this->search_filter_factory = $search_filter_factory;
         $this->search_clause_factory = $search_clause_factory;
         $this->path_factory = $path_factory;
@@ -61,8 +58,11 @@ class Searcher implements SearcherInterface
     /**
      * @return RessourceIDInterface[]
      */
-    public function search(int $first_entry_id, int ...$further_entry_ids): \Generator
-    {
+    public function search(
+        LOMRepository $lom_repository,
+        int $first_entry_id,
+        int ...$further_entry_ids
+    ): \Generator {
         $path_to_copyright = $this->path_factory->custom()
                                                 ->withNextStep('rights')
                                                 ->withNextStep('description')
@@ -98,7 +98,7 @@ class Searcher implements SearcherInterface
             );
         }
 
-        yield from $this->lom_repository->searchMD($full_search_clause, null, null, ...$filters);
+        yield from $lom_repository->searchMD($full_search_clause, null, null, ...$filters);
     }
 
     public function withRestrictionToRepositoryObjects(bool $restricted): SearcherInterface

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Copyright\Search;
 
+use ILIAS\MetaData\Repository\RepositoryInterface as LOMRepository;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
 
 class NullSearcher implements SearcherInterface
@@ -27,8 +28,11 @@ class NullSearcher implements SearcherInterface
     /**
      * @return RessourceIDInterface[]
      */
-    public function search(int $first_entry_id, int ...$further_entry_ids): \Generator
-    {
+    public function search(
+        LOMRepository $lom_repository,
+        int $first_entry_id,
+        int ...$further_entry_ids
+    ): \Generator {
         yield from [];
     }
 

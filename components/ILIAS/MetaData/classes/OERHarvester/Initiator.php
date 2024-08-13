@@ -59,6 +59,7 @@ class Initiator
             $this->services->OERHarvester()->statusRepository(),
             new DatabaseRepository($this->services->dic()->database()),
             $this->services->copyright()->searcherFactory(),
+            $this->services->repository()->repository(),
             new Writer(
                 $this->services->repository()->repository(),
                 $this->services->xml()->simpleDCWriter()

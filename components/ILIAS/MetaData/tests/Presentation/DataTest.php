@@ -26,19 +26,28 @@ use ILIAS\MetaData\Elements\Data\DataInterface as ElementData;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\Data\NullData;
 use ILIAS\MetaData\DataHelper\NullDataHelper;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\NullPresentation as NullVocabulariesPresentation;
+use ILIAS\MetaData\Presentation\UtilitiesInterface as PresentationUtilities;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\NullLabelledValue;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier;
 
 class DataTest extends TestCase
 {
-    protected function getElementData(Type $type, string $value): ElementData
-    {
-        return new class ($type, $value) extends NullData {
-            protected Type $type;
-            protected string $value;
-
-            public function __construct(Type $type, string $value)
-            {
+    protected function getElementData(
+        Type $type,
+        string $value,
+        SlotIdentifier $vocab_slot = SlotIdentifier::NULL
+    ): ElementData {
+        return new class ($type, $value, $vocab_slot) extends NullData {
+            public function __construct(
+                protected Type $type,
+                protected string $value,
+                protected SlotIdentifier $vocab_slot
+            ) {
                 $this->type = $type;
                 $this->value = $value;
+                $this->vocab_slot = $vocab_slot;
             }
 
             public function type(): Type
@@ -49,6 +58,11 @@ class DataTest extends TestCase
             public function value(): string
             {
                 return $this->value;
+            }
+
+            public function vocabularySlot(): SlotIdentifier
+            {
+                return $this->vocab_slot;
             }
         };
     }
@@ -97,19 +111,46 @@ class DataTest extends TestCase
             }
         };
 
-        return new Data($util, $helper);
+        $vocab_presentation = new class () extends NullVocabulariesPresentation {
+            public function presentableLabels(
+                PresentationUtilities $presentation_utilities,
+                SlotIdentifier $slot,
+                bool $with_unknown_vocab_flag,
+                string ...$values
+            ): \Generator {
+                foreach ($values as $value) {
+                    yield new class ($value, $slot, $with_unknown_vocab_flag) extends NullLabelledValue {
+                        public function __construct(
+                            protected string $value,
+                            protected SlotIdentifier $slot,
+                            protected bool $with_unknown_vocab_flag
+                        ) {
+                        }
+
+                        public function value(): string
+                        {
+                            return $this->value;
+                        }
+
+                        public function label(): string
+                        {
+                            return 'vocab ' . $this->slot->value . ' ' .
+                                $this->value . ($this->with_unknown_vocab_flag ? ' flagged' : '');
+                        }
+                    };
+                }
+            }
+        };
+
+        return new Data($util, $helper, $vocab_presentation);
     }
 
     public function testVocabularyValue(): void
     {
         $data = $this->getData();
         $this->assertSame(
-            'translated meta_some_key',
-            $data->vocabularyValue('SomeKey')
-        );
-        $this->assertSame(
-            'translated meta_subjectmatterexpert',
-            $data->vocabularyValue('subjectMatterExpert')
+            'vocab rights_cost SomeKey',
+            $data->vocabularyValue('SomeKey', SlotIdentifier::RIGHTS_COST),
         );
     }
 
@@ -144,12 +185,20 @@ class DataTest extends TestCase
     {
         $data = $this->getData();
         $this->assertSame(
-            'translated meta_some_key',
-            $data->dataValue($this->getElementData(Type::VOCAB_VALUE, 'SomeKey'))
+            'vocab rights_cost SomeKey',
+            $data->dataValue($this->getElementData(
+                Type::VOCAB_VALUE,
+                'SomeKey',
+                SlotIdentifier::RIGHTS_COST
+            ))
         );
         $this->assertSame(
-            'translated meta_subjectmatterexpert',
-            $data->dataValue($this->getElementData(Type::VOCAB_VALUE, 'subjectMatterExpert'))
+            'vocab rights_cost SomeKey',
+            $data->dataValue($this->getElementData(
+                Type::STRING,
+                'SomeKey',
+                SlotIdentifier::RIGHTS_COST
+            ))
         );
         $this->assertSame(
             'translated meta_l_key',
@@ -165,7 +214,7 @@ class DataTest extends TestCase
         );
         $this->assertSame(
             'This should just go through.',
-            $data->dataValue($this->getElementData(Type::STRING, 'This should just go through.'))
+            $data->dataValue($this->getElementData(Type::VOCAB_SOURCE, 'This should just go through.'))
         );
     }
 }

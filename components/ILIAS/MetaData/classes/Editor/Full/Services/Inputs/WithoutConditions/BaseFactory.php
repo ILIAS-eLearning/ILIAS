@@ -25,13 +25,12 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Elements\Data\DataInterface;
-use ILIAS\MetaData\Elements\Data\Type;
-use ILIAS\MetaData\Repository\Validation\Dictionary\Restriction;
-use ILIAS\MetaData\Repository\Validation\Dictionary\TagInterface as ConstraintTag;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 abstract class BaseFactory
 {
+    use InputHelper;
+
     protected UIFactory $ui_factory;
     protected PresenterInterface $presenter;
     protected ConstraintDictionary $constraint_dictionary;
@@ -46,94 +45,14 @@ abstract class BaseFactory
         $this->constraint_dictionary = $constraint_dictionary;
     }
 
-    abstract protected function rawInput(
+    abstract public function getInput(
         ElementInterface $element,
-        ElementInterface $context_element,
-        string $condition_value = ''
+        ElementInterface $context_element
     ): FormInput;
 
-    /**
-     * @return string|string[]
-     */
-    protected function dataValueForInput(
-        DataInterface $data
-    ): string|array {
-        return $data->value();
-    }
-
-    final public function getInput(
+    abstract public function getInputInCondition(
         ElementInterface $element,
         ElementInterface $context_element,
-    ): FormInput {
-        $input = $this->rawInput(
-            $element,
-            $context_element
-        );
-
-        return $this->finishInput($element, $context_element, $input);
-    }
-
-    final public function getInputInCondition(
-        ElementInterface $element,
-        ElementInterface $context_element,
-        string $condition_value
-    ): FormInput {
-        $input = $this->rawInput(
-            $element,
-            $context_element,
-            $condition_value
-        );
-
-        return $this->finishInputIgnoreValue($element, $context_element, $input);
-    }
-
-    public function finishInput(
-        ElementInterface $element,
-        ElementInterface $context_element,
-        FormInput $input
-    ): FormInput {
-        if (($data = $element->getData())->type() !== Type::NULL) {
-            $input = $input->withValue(
-                $this->dataValueForInput($data)
-            );
-        }
-
-        return $this->finishInputIgnoreValue($element, $context_element, $input);
-    }
-
-    protected function finishInputIgnoreValue(
-        ElementInterface $element,
-        ElementInterface $context_element,
-        FormInput $input
-    ): FormInput {
-        $label = $this->presenter->elements()->nameWithParents(
-            $element,
-            $context_element,
-            false
-        );
-        $input = $input->withLabel($label);
-
-        foreach ($this->constraint_dictionary->tagsForElement($element) as $tag) {
-            $input = $this->addConstraintFromTag($input, $tag);
-        }
-
-        return $input;
-    }
-
-    protected function addConstraintFromTag(
-        FormInput $input,
-        ConstraintTag $tag
-    ): FormInput {
-        switch ($tag->restriction()) {
-            case Restriction::PRESET_VALUE:
-                return $input->withValue($tag->value());
-
-            case Restriction::NOT_DELETABLE:
-                return $input->withRequired(true);
-
-            case Restriction::NOT_EDITABLE:
-                return $input->withDisabled(true);
-        }
-        return $input;
-    }
+        SlotIdentifier $conditional_slot
+    ): FormInput;
 }

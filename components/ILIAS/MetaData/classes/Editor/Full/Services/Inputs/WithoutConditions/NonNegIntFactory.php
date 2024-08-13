@@ -26,6 +26,8 @@ use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Elements\Data\Type;
 
 class NonNegIntFactory extends BaseFactory
 {
@@ -44,10 +46,10 @@ class NonNegIntFactory extends BaseFactory
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        string $condition_value = ''
+        SlotIdentifier $conditional_slot = SlotIdentifier::NULL
     ): FormInput {
-        return $this->ui_factory
-            ->numeric('placeholder')
+        $input = $this->ui_factory
+            ->numeric($this->getInputLabelFromElement($this->presenter, $element, $context_element))
             ->withAdditionalTransformation(
                 $this->refinery->int()->isGreaterThanOrEqual(0)
             )
@@ -57,5 +59,25 @@ class NonNegIntFactory extends BaseFactory
                     $this->refinery->kindlyTo()->null()
                 ])
             );
+        return $this->addConstraintsFromElement(
+            $this->constraint_dictionary,
+            $element,
+            $this->addValueFromElement($element, $input)
+        );
+    }
+
+    public function getInput(
+        ElementInterface $element,
+        ElementInterface $context_element
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
+    }
+
+    public function getInputInCondition(
+        ElementInterface $element,
+        ElementInterface $context_element,
+        SlotIdentifier $conditional_slot
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
     }
 }

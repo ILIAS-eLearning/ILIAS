@@ -30,7 +30,8 @@ class ilMDSetupAgent extends Setup\Agent\NullAgent
             false,
             new ilDatabaseUpdateStepsExecutedObjective(new ilMDLOMUpdateSteps()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilMDCopyrightUpdateSteps()),
-            new ilDatabaseUpdateStepsExecutedObjective(new ilMDUpdateSteps10())
+            new ilDatabaseUpdateStepsExecutedObjective(new ilMDUpdateSteps10()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilMDControlledVocabsUpdateSteps())
         );
     }
 
@@ -41,7 +42,8 @@ class ilMDSetupAgent extends Setup\Agent\NullAgent
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDCopyrightUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDLOMUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDUpdateSteps10())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDUpdateSteps10()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilMDControlledVocabsUpdateSteps())
         );
     }
 

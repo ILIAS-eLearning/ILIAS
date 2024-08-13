@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Elements\Data;
 
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+
 interface DataInterface
 {
     /**
@@ -31,4 +33,10 @@ interface DataInterface
      * Value of the data, in a format according to its type.
      */
     public function value(): string;
+
+    /**
+     * Vocabulary slot the data belongs to (important for
+     * making vocab values/strings presentable).
+     */
+    public function vocabularySlot(): SlotIdentifier;
 }

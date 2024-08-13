@@ -28,6 +28,7 @@ use ILIAS\MetaData\Presentation\Utilities;
 use ILIAS\MetaData\Presentation\Data;
 use ILIAS\MetaData\Presentation\Elements;
 use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
+use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
 
 class Services
 {
@@ -37,13 +38,16 @@ class Services
 
     protected GlobalContainer $dic;
     protected DataHelperServices $data_helper_services;
+    protected VocabulariesServices $vocabularies_services;
 
     public function __construct(
         GlobalContainer $dic,
-        DataHelperServices $data_helper_services
+        DataHelperServices $data_helper_services,
+        VocabulariesServices $vocabularies_services
     ) {
         $this->dic = $dic;
         $this->data_helper_services = $data_helper_services;
+        $this->vocabularies_services = $vocabularies_services;
     }
 
     public function utilities(): UtilitiesInterface
@@ -64,7 +68,8 @@ class Services
         }
         return $this->data = new Data(
             $this->utilities(),
-            $this->data_helper_services->dataHelper()
+            $this->data_helper_services->dataHelper(),
+            $this->vocabularies_services->presentation()
         );
     }
 
