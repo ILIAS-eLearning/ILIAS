@@ -67,4 +67,40 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         $this->expectException(ilTestException::class);
         $gui->build(20, 5, 'invalidContext');
     }
+
+    /**
+     * @dataProvider buildDataProvider
+     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     */
+    public function testBuild(array $input): void
+    {
+        $contextIsValid = $input[2] === 'invalid';
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($contextIsValid) {
+            $mock->expects($contextIsValid ? $this->never() : $this->exactly(3))
+                ->method('txt')
+                ->willReturnOnConsecutiveCalls('cancel', 'delete', 'conf_delete_pass');
+        });
+        $il_test_pass_deletion_confirmation_gui = $this->createInstanceOf(ilTestPassDeletionConfirmationGUI::class, ['parentGUI' => (object) []]);
+
+        if ($contextIsValid) {
+            $this->expectException(ilTestException::class);
+        }
+
+        $this->assertNull($il_test_pass_deletion_confirmation_gui->build(...$input));
+    }
+
+    public static function buildDataProvider(): array
+    {
+        return [
+            '-1_-1_contPassOverview' => [[-1, -1, 'contPassOverview']],
+            '-1_-1_contInfoScreen' => [[-1, -1, 'contInfoScreen']],
+            '-1_-1_invalid' => [[-1, -1, 'invalid']],
+            '0_0_contPassOverview' => [[0, 0, 'contPassOverview']],
+            '0_0_contInfoScreen' => [[0, 0, 'contInfoScreen']],
+            '0_0_invalid' => [[0, 0, 'invalid']],
+            '1_1_contPassOverview' => [[1, 1, 'contPassOverview']],
+            '1_1_contInfoScreen' => [[1, 1, 'contInfoScreen']],
+            '1_1_invalid' => [[1, 1, 'invalid']]
+        ];
+    }
 }
