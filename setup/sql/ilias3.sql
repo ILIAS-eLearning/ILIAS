@@ -525,7 +525,7 @@ CREATE TABLE `adv_md_values_extlink` (
   `sub_type` varchar(10) NOT NULL DEFAULT '-',
   `sub_id` int(11) NOT NULL DEFAULT 0,
   `field_id` int(11) NOT NULL DEFAULT 0,
-  `value` varchar(500) DEFAULT NULL,
+  `value` varchar(2000) DEFAULT NULL,
   `title` varchar(500) DEFAULT NULL,
   `disabled` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`sub_type`,`sub_id`,`field_id`)
@@ -7086,6 +7086,7 @@ INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',5,'2023-03-31 
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',6,'2023-04-26 17:22:12.960988','2023-04-26 17:22:12.965617');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',7,'2024-05-28 13:24:16.546038','2024-05-28 13:24:16.558934');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',8,'2024-06-25 14:05:10.427670','2024-06-25 14:05:10.428311');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps',9,'2024-08-13 13:24:47.172854','2024-08-13 13:24:47.173513');
 INSERT INTO `il_db_steps` VALUES ('ilECSDBUpdateSteps',1,'2023-03-31 13:10:08.531142','2023-03-31 13:10:08.536140');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',1,'2023-03-31 13:10:08.954044','2023-03-31 13:10:08.962950');
 INSERT INTO `il_db_steps` VALUES ('ilECSUpdateSteps8',2,'2023-03-31 13:10:08.963397','2023-03-31 13:10:08.967878');
@@ -7100,6 +7101,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Administration\\Setup\\ilAdministratio
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',1,'2023-03-31 13:10:08.047129','2023-03-31 13:10:08.053816');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',2,'2023-03-31 13:10:08.054291','2023-03-31 13:10:08.058711');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',3,'2023-03-31 13:10:08.059199','2023-03-31 13:10:08.060081');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\AdvancedMetaData\\Setup\\DBUpdateSteps8',4,'2024-08-13 13:24:47.161441','2024-08-13 13:24:47.163504');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Blog\\Setup\\BlogDBUpdateSteps',1,'2023-03-31 13:10:08.060739','2023-03-31 13:10:08.065162');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Blog\\Setup\\BlogDBUpdateSteps',2,'2023-03-31 13:10:08.065756','2023-03-31 13:10:08.066454');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',1,'2023-03-31 13:10:08.067151','2023-03-31 13:10:08.073425');
@@ -7124,6 +7126,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSte
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',5,'2023-03-31 13:10:08.154114','2023-03-31 13:10:08.159863');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-03-31 13:10:08.160591','2023-03-31 13:10:08.165094');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-03-31 13:10:08.165549','2023-03-31 13:10:08.169950');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2024-08-13 13:24:47.164868','2024-08-13 13:24:47.168986');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-03-31 13:10:08.170697','2023-03-31 13:10:08.175350');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-03-31 13:10:08.175813','2023-03-31 13:10:08.180242');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Link\\Setup\\LinkDBUpdateSteps',1,'2023-03-31 13:10:08.181194','2023-03-31 13:10:08.185521');
@@ -7149,6 +7152,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',10,'2023-03-31 13:10:08.280154','2023-03-31 13:10:08.280632');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',11,'2023-03-31 13:10:08.281066','2023-03-31 13:10:08.286593');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',12,'2023-04-26 17:22:12.948408','2023-04-26 17:22:12.959763');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2024-08-13 13:24:47.169939','2024-08-13 13:24:47.171748');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',1,'2023-03-31 13:10:08.287295','2023-03-31 13:10:08.316859');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',2,'2023-03-31 13:10:08.317370','2023-03-31 13:10:08.321696');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',3,'2023-03-31 13:10:08.322335','2023-03-31 13:10:08.333760');
@@ -7224,6 +7228,7 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',9,'2023-03-31 13:10:07
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',10,'2023-03-31 13:10:07.991955','2023-03-31 13:10:08.003472');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',11,'2023-05-17 16:34:13.517597','2023-05-17 16:34:13.532396');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',12,'2023-05-17 16:34:13.532947','2023-05-17 16:34:13.537961');
+INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',13,'2024-08-13 13:24:47.141224','2024-08-13 13:24:47.149775');
 INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-02-14 15:58:32.828596','2024-02-14 15:58:32.837435');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps8',1,'2023-05-17 16:34:13.592751','2023-05-17 16:34:13.598572');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',1,'2023-03-31 13:10:08.762867','2023-03-31 13:10:08.777841');
@@ -10592,8 +10597,7 @@ CREATE TABLE `il_resource_stkh` (
 CREATE TABLE `il_resource_stkh_u` (
   `rid` varchar(64) NOT NULL DEFAULT '',
   `stakeholder_id` varchar(64) DEFAULT NULL,
-  KEY `i1_idx` (`rid`),
-  KEY `i2_idx` (`stakeholder_id`)
+  PRIMARY KEY (`rid`)
 ) ;
 
 --
@@ -10987,7 +10991,7 @@ CREATE TABLE `ldap_server_settings` (
   `tls` int(11) NOT NULL DEFAULT 0,
   `bind_type` int(11) NOT NULL DEFAULT 0,
   `bind_user` varchar(255) DEFAULT NULL,
-  `bind_pass` varchar(32) DEFAULT NULL,
+  `bind_pass` varchar(100) DEFAULT NULL,
   `search_base` varchar(255) DEFAULT NULL,
   `user_scope` tinyint(4) NOT NULL DEFAULT 0,
   `user_attribute` varchar(255) DEFAULT NULL,
@@ -11005,7 +11009,7 @@ CREATE TABLE `ldap_server_settings` (
   `sync_per_cron` tinyint(4) NOT NULL DEFAULT 0,
   `role_sync_active` tinyint(4) NOT NULL DEFAULT 0,
   `role_bind_dn` varchar(255) DEFAULT NULL,
-  `role_bind_pass` varchar(32) DEFAULT NULL,
+  `role_bind_pass` varchar(100) DEFAULT NULL,
   `migration` tinyint(4) NOT NULL DEFAULT 0,
   `authentication` tinyint(4) NOT NULL DEFAULT 1,
   `authentication_type` tinyint(4) NOT NULL DEFAULT 0,
@@ -13132,7 +13136,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-06-25 14:05:10','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-08-13 13:24:47','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20125,7 +20129,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.13.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.14.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -22054,7 +22058,7 @@ CREATE TABLE `svy_question` (
   `questiontype_fi` int(11) NOT NULL DEFAULT 0,
   `obj_fi` int(11) NOT NULL DEFAULT 0,
   `owner_fi` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(100) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `author` varchar(100) DEFAULT NULL,
   `obligatory` varchar(1) DEFAULT '1',
@@ -25109,4 +25113,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-06-25 14:05:11
+-- Dump completed on 2024-08-13 13:24:48
