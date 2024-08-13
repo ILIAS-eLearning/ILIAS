@@ -112,7 +112,15 @@ class ilTestBaseTestCase extends TestCase
      */
     public static function getNonPublicPropertyValue(object $obj, string $name): mixed
     {
-        return (new ReflectionProperty($obj, $name))->getValue($obj);
+        $reflectionClass = new ReflectionClass($obj);
+
+        while ($reflectionClass !== false && !$reflectionClass->hasProperty($name)) {
+            $reflectionClass = $reflectionClass->getParentClass();
+        }
+
+        return $reflectionClass
+            ? $reflectionClass->getProperty($name)->getValue($obj)
+            : throw new ReflectionException('Property not found.');
     }
 
     /**
