@@ -15,7 +15,7 @@
 
 import il from 'il';
 import $ from 'jquery';
-import Modal from './modal.class';
+import Modal from './Modal';
 
 il.UI = il.UI || {};
 il.UI.modal = new Modal($);

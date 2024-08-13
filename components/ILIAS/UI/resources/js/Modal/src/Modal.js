@@ -27,13 +27,6 @@ export default class Modal {
   /**
    * @type {array}
    */
-  #defaultShowOptions = {
-    ajaxRenderUrl: '',
-  };
-
-  /**
-   * @type {array}
-   */
   #initializedModalboxes = {};
 
   /**
@@ -44,46 +37,32 @@ export default class Modal {
   }
 
   /**
-   * @param {string} id
-   * @param {array} conf
+   * @param {HTMLDialogElement} component
+   * @param {string} closeSignal
+   * @param {array} options
    * @param {array} signalData
    */
-  showModal(id, conf, signalData) {
+  showModal(component, closeSignal, options, signalData) {
+    this.#jquery(component.ownerDocument).on(
+      closeSignal,
+      () => component.close()
+    );
+
     if (this.#triggeredSignalsStorage[signalData.id] === true) {
       return;
     }
+
     this.#triggeredSignalsStorage[signalData.id] = true;
-    const options = this.#jquery.extend(this.#defaultShowOptions, conf);
 
     if (options.ajaxRenderUrl) {
-      const container = document.getElementById(id);
-      this.#jquery(container).load(options.ajaxRenderUrl, () => {
-        document.querySelector(`#${id} > dialog`).showModal();
+      this.#jquery(component).load(options.ajaxRenderUrl, () => {
+        component.querySelector('dialog').showModal();
         this.#triggeredSignalsStorage[signalData.id] = false;
       });
     } else {
-      document.getElementById(id).showModal();
+      component.showModal();
       this.#triggeredSignalsStorage[signalData.id] = false;
     }
-    this.#initializedModalboxes[signalData.id] = id;
-  }
-
-  /**
-   * @param {string} id
-   */
-  closeModal(id) {
-    document.getElementById(id).close();
-  }
-
-  /**
-   * Replace the content of the modalbox shown by the given showSignal
-   * with the data returned by the URL set in the signal options.
-   *
-   * @param {string} id
-   * @param {array} signalData
-   */
-  replaceFromSignal(id, signalData) {
-    const { url } = signalData.options;
-    il.UI.core.replaceContent(id, url, 'component');
+    this.#initializedModalboxes[signalData.id] = component.id;
   }
 }

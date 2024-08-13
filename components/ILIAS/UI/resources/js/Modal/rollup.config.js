@@ -19,7 +19,7 @@ import copyright from '../../../../../../scripts/Copyright-Checker/copyright';
 import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright';
 
 export default {
-  input: './src/modal.js',
+  input: './src/index.js',
   output: {
     file: './dist/modal.min.js',
     format: 'iife',
