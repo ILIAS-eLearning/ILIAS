@@ -264,7 +264,9 @@ class ilSCORMPackageParser extends ilSaxParser
                 if (isset($a_attribs["xml:base"])) {
                     $resource->setXmlBase($a_attribs["xml:base"]);
                 }
-                $resource->setHRef($a_attribs["href"]);
+                if (isset($a_attribs["href"])) {
+                    $resource->setHRef($a_attribs["href"]);
+                }
                 $resource->create();
                 $this->current_resource = &$resource;
                 $this->sc_tree->insertNode($resource->getId(), $this->getCurrentParent());
