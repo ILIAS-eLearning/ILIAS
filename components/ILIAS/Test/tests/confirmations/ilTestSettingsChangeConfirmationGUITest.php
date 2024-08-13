@@ -198,7 +198,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
                 $il_datetime_mock
                     ->method('get')
                     ->with(1)
-                    ->willReturn('');
+                    ->willReturn('x x');
 
                 $item_mock
                     ->method('getStart')
