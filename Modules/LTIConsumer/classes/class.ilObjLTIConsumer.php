@@ -125,7 +125,7 @@ class ilObjLTIConsumer extends ilObject2
         return $this->activationStartingTime;
     }
 
-    public function setActivationStartingTime(int $activationStartingTime): void
+    public function setActivationStartingTime(?int $activationStartingTime = null): void
     {
         $this->activationStartingTime = $activationStartingTime;
     }
@@ -135,7 +135,7 @@ class ilObjLTIConsumer extends ilObject2
         return $this->activationEndingTime;
     }
 
-    public function setActivationEndingTime(int $activationEndingTime): void
+    public function setActivationEndingTime(?int $activationEndingTime = null): void
     {
         $this->activationEndingTime = $activationEndingTime;
     }
@@ -429,11 +429,15 @@ class ilObjLTIConsumer extends ilObject2
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);
-
+                    if (!is_null($activation["timing_start"])) {
+                        $activation["timing_start"] = (int) $activation["timing_start"];
+                    }
                     $this->setActivationStartingTime($activation["timing_start"]);
-
+                    if (!is_null($activation["timing_end"])) {
+                        $activation["timing_end"] = (int) $activation["timing_end"];
+                    }
                     $this->setActivationEndingTime($activation["timing_end"]);
-                    $this->setActivationVisibility($activation["visible"]);
+                    $this->setActivationVisibility((bool) $activation["visible"]);
                     break;
 
                 default:
@@ -1289,8 +1293,8 @@ class ilObjLTIConsumer extends ilObject2
         */
         $provider->setKeyType('JWK_KEYSET');
         $provider->setLtiVersion('1.3.0');
-        $provider->setClientId((string)$tokenObj->aud); //client_id
-        $provider->setCreator((int)$tokenObj->sub); // user_id
+        $provider->setClientId((string) $tokenObj->aud); //client_id
+        $provider->setCreator((int) $tokenObj->sub); // user_id
         $provider->setAvailability(ilLTIConsumeProvider::AVAILABILITY_CREATE);
         $provider->setIsGlobal(false);
         $provider->insert();
