@@ -6020,6 +6020,7 @@ cont#:#cont_news_timeline_info#:#Aktivira zavihek "Časovnica" za novosti
 cont#:#cont_news_timeline_landing_page#:#Začetna stran
 cont#:#cont_news_timeline_landing_page_info#:#Časovnica kot začetna stran
 cont#:#cont_news_timeline_tab#:#Časovnica
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Pot
@@ -9319,6 +9320,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
 exc#:#exc_relative_date#:#Relativni datum
 exc#:#exc_relative_date_info#:#Rok za oddajo se določi na podlagi roka za urejanje in začetnega datuma, ki ga izbere udeleženec.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Rok za urejanje po začetku
 exc#:#exc_reminder_cron_ok#:#Poslani so bili opomniki
 exc#:#exc_reminder_end#:#Konec
@@ -14168,6 +14170,8 @@ registration#:#reg_direct#:#Neposredna prijava
 registration#:#reg_direct_info#:#Če je vklopljeno, se vsak na novo prijavljen uporabnik samodejno odobri.
 registration#:#reg_disabled#:#Registracija ni možna
 registration#:#reg_domain#:#Domena (npr. '@your_domain.de')
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Samodejna dodelitev vlog
 registration#:#reg_email_domains#:#Veljavni so naslednji elektronski naslovi: % s
 registration#:#reg_email_domains_code#:#Ob uporabi kode so mogoči poljubni e-poštni naslovi.
@@ -16749,6 +16753,7 @@ user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 user#:#interests#:#Interests
 user#:#interests_general#:#General Interests

@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Active l’onglet de chronologie des nouvelles
 cont#:#cont_news_timeline_landing_page#:#Page d’accueil
 cont#:#cont_news_timeline_landing_page_info#:#La page de chronologie sera la page d’accueil.
 cont#:#cont_news_timeline_tab#:#Chronologie
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Page de catalogue (cours, group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Chemin
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 exc#:#exc_reminder_end#:#Reminder ends
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Enregistrement Direct
 registration#:#reg_direct_info#:#Si cochée, toute nouvelle inscription d'utilisateur est automatiquement approuvée.
 registration#:#reg_disabled#:#Pas d'Enregistrement
 registration#:#reg_domain#:#Domaine
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Attribution Automatique de Rôle
 registration#:#reg_email_domains#:#Les domaines d'adresse email suivants sont valides : %s
 registration#:#reg_email_domains_code#:#Avec un code d'enregistrement, toutes les adresses email sont valides.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Activer l'administration des utilisate
 user#:#enable_local_user_administration_info#:#Si actif, les comptes utilisateur locaux peuvent être administrés en catégories.
 user#:#feedhash#:#Identifiant unique du flux de nouvelles
 user#:#has_role#:#Rôle
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Lorsque activé, un email est envoyé à l'utilisateur. Son contenu peut être défini dans Administration > Gestion des Utilisateurs > Paramétrages > Mail de Nouveau Compte.
 user#:#interests#:#Intérêts
 user#:#interests_general#:#Intérêts généraux

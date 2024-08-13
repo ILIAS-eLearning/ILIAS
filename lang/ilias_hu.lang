@@ -6021,6 +6021,7 @@ cont#:#cont_news_timeline_info#:#Hírek idővonal fülének bekapcsolása
 cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
 cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal fül lesz a kezdőoldal.
 cont#:#cont_news_timeline_tab#:#Idővonal
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, ...)
 cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
 cont#:#cont_path#:#Útvonal
@@ -9320,6 +9321,7 @@ exc#:#exc_rel_last_submission#:#Utolsó lehetséges beadás
 exc#:#exc_rel_last_submission_info#:#Ha ez az opcionális dátum be van állítva, eddig a határidőig az összes felhasználónak be kell adnia a megoldását.
 exc#:#exc_relative_date#:#Relatív Dátum
 exc#:#exc_relative_date_info#:#Az összes felhasználónál a feladat megkezdésétől számítjuk a határidőt.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Hátralévő idő
 exc#:#exc_reminder_cron_ok#:#Emlékeztető kiküldve:
 exc#:#exc_reminder_end#:#Emlékeztetők vége
@@ -14169,6 +14171,8 @@ registration#:#reg_direct#:#Közvetlen regisztráció
 registration#:#reg_direct_info#:#Új felhasználó regisztrációkérése automatikusan jóváhagyásra kerül.
 registration#:#reg_disabled#:#Regisztráció nem lehetséges
 registration#:#reg_domain#:#Tartomány
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Automatikus szerep-összerendelés
 registration#:#reg_email_domains#:#Az alábbi e-mail cím domain-ek érvényesek: %s
 registration#:#reg_email_domains_code#:#Regisztrációs kóddal bármely e-mail cím érvényes.
@@ -16750,6 +16754,7 @@ user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének enge
 user#:#enable_local_user_administration_info#:#A 'Helyi ILIAS-fiókok kezelése' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#feedhash#:#Hírcsatorna-hash
 user#:#has_role#:#Szabály
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Email-t küldünk a felhasználónak. Az e-mail tartalma megadható itt: Rendszerbeállítások » ILIAS-fiókok » Beállítások » Új felhasználónak levél.
 user#:#interests#:#Érdeklődési körök
 user#:#interests_general#:#Általános érdeklődési kör

@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Aktivira karticu Vremenska traka vijesti
 cont#:#cont_news_timeline_landing_page#:#Odredišna stranica
 cont#:#cont_news_timeline_landing_page_info#:#Stranica vremenske trake bit će odredišna stranica.
 cont#:#cont_news_timeline_tab#:#Vremenska traka
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 06 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 06 2021 new variable
 cont#:#cont_path#:#Staza
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission###04 06 2021 new variab
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###04 06 2021 new variable
 exc#:#exc_relative_date#:#Relativni datum
 exc#:#exc_relative_date_info#:#Kranji se rok postavlja pojedinačno u odnosu na vrijeme kada je korisnik započeo zadatak.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Preostalo vrijeme nakon početka
 exc#:#exc_reminder_cron_ok#:#Poslani podsjetnici:
 exc#:#exc_reminder_end#:#Podsjetnik završava
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Izravna registracija
 registration#:#reg_direct_info#:#Ako je ovo potvrđeno, svaki novi zahtjev za registraciju korisnika automatski se odobrava.
 registration#:#reg_disabled#:#Registracija nije moguća
 registration#:#reg_domain#:#Domena
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Automatsko dodjeljivanje uloga
 registration#:#reg_email_domains#:#Sljedeće domene adresa e-pošte su važeće: %s
 registration#:#reg_email_domains_code#:#S registracijskim kodom vrijedi bilo koja adresa e-pošte.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Enable Local User Administration###04 
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.###04 06 2021 new variable
 user#:#feedhash#:#Newsfeedhash###04 06 2021 new variable
 user#:#has_role#:#Role###04 06 2021 new variable
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.###04 06 2021 new variable
 user#:#interests#:#Interests###04 06 2021 new variable
 user#:#interests_general#:#General Interests###04 06 2021 new variable

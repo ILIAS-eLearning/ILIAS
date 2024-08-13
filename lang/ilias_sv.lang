@@ -6021,6 +6021,7 @@ cont#:#cont_news_timeline_info#:#Aktiverar fliken "Tidslinje" för nyheter
 cont#:#cont_news_timeline_landing_page#:#Startsida
 cont#:#cont_news_timeline_landing_page_info#:#Timeline som startsida
 cont#:#cont_news_timeline_tab#:#Tidslinje
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Magazin-sida (kurs, grupp, kategori, ...)
 cont#:#cont_page_type_cstr#:#Startpage lärande målorienterad kurs
 cont#:#cont_path#:#Stig
@@ -9320,6 +9321,7 @@ exc#:#exc_rel_last_submission#:#Sista möjliga tidsfrist
 exc#:#exc_rel_last_submission_info#:#Om detta datum är fastställt måste alla avgifter betalas före detta datum.
 exc#:#exc_relative_date#:#Relativt datum
 exc#:#exc_relative_date_info#:#Inlämningsdatumet är resultatet av den bearbetningsperiod och starttid som deltagaren har valt.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Bearbetningsperiod efter start
 exc#:#exc_reminder_cron_ok#:#Minnen skickades
 exc#:#exc_reminder_end#:#Sista minnet
@@ -14169,6 +14171,8 @@ registration#:#reg_direct#:#Direkt registrering
 registration#:#reg_direct_info#:#Om den är påslagen aktiveras alla nyregistrerade användare automatiskt.
 registration#:#reg_disabled#:#Ingen registrering möjlig
 registration#:#reg_domain#:#domän (t.ex. "@din_domän.de")
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Automatisk rolltilldelning
 registration#:#reg_email_domains#:#Följande domäner för e-postadresser är giltiga
 registration#:#reg_email_domains_code#:#När du använder en kod är alla e-postadresser möjliga.
@@ -16750,6 +16754,7 @@ user#:#enable_local_user_administration#:#Lokala konton
 user#:#enable_local_user_administration_info#:#I kategorier och organisatoriska enheter visas en flik "Lokala konton". Där kan lokala ILIAS-konton skapas, importeras och hanteras. Detta gör det också möjligt för personer utan tillgång till administrationen att skapa nya ILIAS-konton.
 user#:#feedhash#:#Nyhetsflöde hash
 user#:#has_role#:#Roll
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Ett meddelande kommer att skickas till den e-postadress som angetts ovan. Dess innehåll kan definieras i administrationen
 user#:#interests#:#Intressen
 user#:#interests_general#:#Allmänna intressen

@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Активира раздела "Времева
 cont#:#cont_news_timeline_landing_page#:#Страница за кацане
 cont#:#cont_news_timeline_landing_page_info#:#Страницата с графика ще бъде целевата страница.
 cont#:#cont_news_timeline_tab#:#Хронология
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Страница на хранилището (курсове, групи, ...)
 cont#:#cont_page_type_cstr#:# Начална страница на курса (изглед на целите на обучението)
 cont#:#cont_path#:#Path
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Последното възможно подав
 exc#:#exc_rel_last_submission_info#:#Ако е зададена тази незадължителна дата, всички потребители трябва да подават до достигане на този краен срок.
 exc#:#exc_relative_date#:#Относителна дата
 exc#:#exc_relative_date_info#:#Краен срок се задава индивидуално спрямо времето, когато потребителят е започнал заданието.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Остатъчно време след старта
 exc#:#exc_reminder_cron_ok#:#Припомнянията са изпратени:
 exc#:#exc_reminder_end#:#Припомнянето приключва
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Директна регистрация###22 06 2022
 registration#:#reg_direct_info#:#Ако е поставена тази отметка, всяка заявка за регистрация на нов потребител се одобрява автоматично.
 registration#:#reg_disabled#:#Не е възможно да се регистрирате###22 06 2022 new variable
 registration#:#reg_domain#:#Домейн###22 06 2022 new variable
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Автоматично присвояване на роли###22 06 2022 new variable
 registration#:#reg_email_domains#:#Следните домейни на имейл адреси са валидни: %s
 registration#:#reg_email_domains_code#:#С регистрационен код всеки имейл адрес е валиден.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Активиране на локалн
 user#:#enable_local_user_administration_info#:#Ако е разрешено, локалните потребителски акаунти могат да се администрират по категории.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Ако е активирано, на потребителя ще бъде изпратен имейл. Съдържанието му може да се определи в Администрация > Управление на потребителите > Настройки > Нова поща на акаунта.
 user#:#interests#:#Interests
 user#:#interests_general#:#Общи интереси

@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Aktivuje záložku Časová osa zpráv
 cont#:#cont_news_timeline_landing_page#:#Vstupní stránka
 cont#:#cont_news_timeline_landing_page_info#:#Stránka časové osy bude vstupní stránkou.
 cont#:#cont_news_timeline_tab#:#Časová osa
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Cesta
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission###07 02 2020 new variab
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###07 02 2020 new variable
 exc#:#exc_relative_date#:#Relativní datum
 exc#:#exc_relative_date_info#:#Konečný termín je stanoven individuálně ve vztahu k době, kdy uživatel začal s úlohou.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Zbývající čas po zahájení
 exc#:#exc_reminder_cron_ok#:#Připomenutí odeslána:
 exc#:#exc_reminder_end#:#Připomenutí končí
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Přímá registrace
 registration#:#reg_direct_info#:#Je-li vybráno, každý požadavek registrace nového uživatele je automaticky schválen.
 registration#:#reg_disabled#:#Registrace není možná
 registration#:#reg_domain#:#Doména
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Automatické přidělení role
 registration#:#reg_email_domains#:#Platí následující domény e-mailové adresy: %s
 registration#:#reg_email_domains_code#:#S registračním kódem je platná každá E-mailová adresa.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Zapnout lokální uživatelskou správ
 user#:#enable_local_user_administration_info#:#Je-li zapnuto, lokální uživatelské účty mohou být spravovány v kategoriích.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Role
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Pokud je toto aktivováno, bude uživateli zaslán e-mail. Jeho obsah lze definovat v Správa> Správa uživatelů> Nastavení> Nový účet pošty.
 user#:#interests#:#Zájmy
 user#:#interests_general#:#Obecné zájmy

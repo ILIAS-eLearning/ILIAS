@@ -6020,6 +6020,7 @@ cont#:#cont_news_timeline_info#:#Attiva scheda calendario notizie
 cont#:#cont_news_timeline_landing_page#:#Pagina di destinazione
 cont#:#cont_news_timeline_landing_page_info#:#La pagina del calendario sarà la pagina di destinazione.
 cont#:#cont_news_timeline_tab#:#Calendario
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Pagina Archivio (Corsi, Gruppi, ...)
 cont#:#cont_page_type_cstr#:#Pagina iniziale del corso (visualizzazione degli obiettivi di apprendimento)
 cont#:#cont_path#:#Percorso
@@ -9319,6 +9320,7 @@ exc#:#exc_rel_last_submission#:#Ultimo termine utile per la consegna
 exc#:#exc_rel_last_submission_info#:#Se viene impostata una data, tutte le consegne devono avvenire prima di tale termine.
 exc#:#exc_relative_date#:#Data relativa
 exc#:#exc_relative_date_info#:#La scadenza è impostata individualmente rispetto al momento in cui un utente ha iniziato l'incarico.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Tempo rimanente dopo l'avvio
 exc#:#exc_reminder_cron_ok#:#Promemoria inviati:
 exc#:#exc_reminder_end#:#Il promemoria termina
@@ -14168,6 +14170,8 @@ registration#:#reg_direct#:#Registrazione diretta
 registration#:#reg_direct_info#:#Se abilitato, ogni richiesta di registrazione di nuovo utente, è automaticamente approvato.
 registration#:#reg_disabled#:#Non è possibile registrarsi
 registration#:#reg_domain#:#Dominio
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Assegnazione automatica di Ruolo
 registration#:#reg_email_domains#:#I seguenti domini di indirizzi e-mail sono validi: %s
 registration#:#reg_email_domains_code#:#Con un codice di registrazione qualsiasi indirizzo email è valido.
@@ -16749,6 +16753,7 @@ user#:#enable_local_user_administration#:#Abilita l'amministrazione di utenti lo
 user#:#enable_local_user_administration_info#:#Se abilitato, gli account degli utenti locali possono essere categorizzati.
 user#:#feedhash#:#News feed hash
 user#:#has_role#:#Ruolo
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Se attivato, verrà inviata un'email all'utente. Il suo contenuto può essere definito in Amministrazione> Gestione utenti> Impostazioni> Nuova posta account.
 user#:#interests#:#Interessi
 user#:#interests_general#:#Interessi generali

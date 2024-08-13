@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Ativa separador da linha cronológica das notí
 cont#:#cont_news_timeline_landing_page#:#Página de desembarque
 cont#:#cont_news_timeline_landing_page_info#:#A página da linha cronológica será a página de desembarque.
 cont#:#cont_news_timeline_tab#:#Linha cronológica
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Caminho
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission###07 02 2020 new variab
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###07 02 2020 new variable
 exc#:#exc_relative_date#:#Mensagem enviada
 exc#:#exc_relative_date_info#:#O mail foi movido
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Saída para variável [MAIL_SALUTATION], se a forma de tratamento for 'Sra.'
 exc#:#exc_reminder_cron_ok#:#Mover para:
 exc#:#exc_reminder_end#:#Os meus cursos
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Registro direto
 registration#:#reg_direct_info#:#Se isto é ativado, qualquer nova solicitação de cadastro de usuário será automaticamente aprovada
 registration#:#reg_disabled#:#Nenhum registro possível
 registration#:#reg_domain#:#Domínio
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Atribuição automática de papel
 registration#:#reg_email_domains#:#The following email address domains are valid: %s
 registration#:#reg_email_domains_code#:#Com um código de registo, qualquer endereço de e-mail é válido.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Habilitar administração local de usu
 user#:#enable_local_user_administration_info#:#Se habiliatdo, contas locais de usuário podem ser administradas nas categorias.
 user#:#feedhash#:#Newsfeedhash
 user#:#has_role#:#Função
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 user#:#interests#:#Interesses
 user#:#interests_general#:#Interesses gerais

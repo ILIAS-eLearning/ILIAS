@@ -6006,6 +6006,7 @@ cont#:#cont_news_timeline_info#:#Aktywuje zakładkę "Linia czasu" dla nowości.
 cont#:#cont_news_timeline_landing_page#:#Strona startowa
 cont#:#cont_news_timeline_landing_page_info#:#Linia czasu jako strona startowa
 cont#:#cont_news_timeline_tab#:#Linia czasu
+cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Ścieżka
@@ -9305,6 +9306,7 @@ exc#:#exc_rel_last_submission#:#Last Possible Submission###07 02 2020 new variab
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###07 02 2020 new variable
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
+exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
 exc#:#exc_reminder_cron_ok#:#Reminders sent:
 exc#:#exc_reminder_end#:#Reminder ends
@@ -14154,6 +14156,8 @@ registration#:#reg_direct#:#Rejestracja bezpośrednia
 registration#:#reg_direct_info#:#Jeśli aktywne, to każde nowe żądanie rejestracji jest automatycznie zatwierdzone.
 registration#:#reg_disabled#:#Rejestracja nie jest możliwa
 registration#:#reg_domain#:#Domena
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
 registration#:#reg_email#:#Automatyczny przydział ról
 registration#:#reg_email_domains#:#Ważne są następujące domeny adresów mailowych: %s
 registration#:#reg_email_domains_code#:#Przy użyciu kodów możliwe są dowolne adresy mailowe.
@@ -16735,6 +16739,7 @@ user#:#enable_local_user_administration#:#Aktywuj zarządzanie lokalnymi użytko
 user#:#enable_local_user_administration_info#:#Jeśli ta opcja jest aktywna, wejścia użytkowników można przydzielać do kategorii i jednostek organizacyjnych i nimi zarządzać.
 user#:#feedhash#:#Feed-hash
 user#:#has_role#:#Rola
+user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
 user#:#inform_user_mail_info#:#Jeśli ta opcja jest aktywna, do użytkownika zostanie wysłana wiadomość mailowa. Jej treść można definiować w menu 'Ustawienia systemowe » Zarządzanie użytkownikami » Ustawienia » Wiadomość dotycząca nowego konta'.
 user#:#interests#:#Zainteresowania
 user#:#interests_general#:#Ogólne zainteresowania
