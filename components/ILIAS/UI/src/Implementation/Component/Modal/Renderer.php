@@ -104,7 +104,7 @@ class Renderer extends AbstractComponentRenderer
             $code =
                 "$(document).on('$show', function(event, signalData) {
                     let modal = document.getElementById('$id');
-                    il.UI.modal.showModal(modal, '$close', $options, signalData);
+                    il.UI.modal.showModal(modal, $options, signalData, '$close');
                 });";
 
             if ($replace != "") {

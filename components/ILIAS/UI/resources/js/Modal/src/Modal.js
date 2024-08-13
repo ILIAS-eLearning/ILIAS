@@ -42,11 +42,13 @@ export default class Modal {
    * @param {array} options
    * @param {array} signalData
    */
-  showModal(component, closeSignal, options, signalData) {
-    this.#jquery(component.ownerDocument).on(
-      closeSignal,
-      () => component.close(),
-    );
+  showModal(component, options, signalData, closeSignal) {
+    if (closeSignal) {
+      this.#jquery(component.ownerDocument).on(
+        closeSignal,
+        () => component.close(),
+      );
+    }
 
     if (this.#triggeredSignalsStorage[signalData.id] === true) {
       return;
