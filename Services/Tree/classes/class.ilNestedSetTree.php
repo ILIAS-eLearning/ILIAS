@@ -473,7 +473,11 @@ class ilNestedSetTree implements ilTreeImplementation
                     'integer'
                 );
             $res = $this->db->query($query);
-            $a_node = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+            $node = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+
+            if($node === null) {
+                return; //Nothing to delete. $node does not exists
+            }
 
             // delete subtree
             $query = sprintf(
@@ -481,11 +485,11 @@ class ilNestedSetTree implements ilTreeImplementation
                 'WHERE lft BETWEEN %s AND %s ' .
                 'AND rgt BETWEEN %s AND %s ' .
                 'AND ' . $this->getTree()->getTreePk() . ' = %s',
-                $this->db->quote($a_node['lft'], 'integer'),
-                $this->db->quote($a_node['rgt'], 'integer'),
-                $this->db->quote($a_node['lft'], 'integer'),
-                $this->db->quote($a_node['rgt'], 'integer'),
-                $this->db->quote($a_node[$this->getTree()->getTreePk()], 'integer')
+                $this->db->quote($node['lft'], 'integer'),
+                $this->db->quote($node['rgt'], 'integer'),
+                $this->db->quote($node['lft'], 'integer'),
+                $this->db->quote($node['rgt'], 'integer'),
+                $this->db->quote($node[$this->getTree()->getTreePk()], 'integer')
             );
             $res = $this->db->manipulate($query);
 
@@ -493,19 +497,19 @@ class ilNestedSetTree implements ilTreeImplementation
             // is not in a trash tree, and if the resulting gap will be
             // larger than twice the gap value
 
-            $diff = $a_node["rgt"] - $a_node["lft"] + 1;
+            $diff = $node["rgt"] - $node["lft"] + 1;
             if (
-                $a_node[$this->getTree()->getTreePk()] >= 0 &&
-                $a_node['rgt'] - $a_node['lft'] >= $this->getTree()->getGap() * 2
+                $node[$this->getTree()->getTreePk()] >= 0 &&
+                $node['rgt'] - $node['lft'] >= $this->getTree()->getGap() * 2
             ) {
                 if ($this->getTree()->__isMainTree()) {
                     $query = sprintf(
                         'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
                         'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, ' .
                         'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END ',
-                        $this->db->quote($a_node['lft'], 'integer'),
+                        $this->db->quote($node['lft'], 'integer'),
                         $this->db->quote($diff, 'integer'),
-                        $this->db->quote($a_node['lft'], 'integer'),
+                        $this->db->quote($node['lft'], 'integer'),
                         $this->db->quote($diff, 'integer')
                     );
                     $res = $this->db->manipulate($query);
@@ -515,11 +519,11 @@ class ilNestedSetTree implements ilTreeImplementation
                         'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, ' .
                         'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END ' .
                         'WHERE ' . $this->getTree()->getTreePk() . ' = %s ',
-                        $this->db->quote($a_node['lft'], 'integer'),
+                        $this->db->quote($node['lft'], 'integer'),
                         $this->db->quote($diff, 'integer'),
-                        $this->db->quote($a_node['lft'], 'integer'),
+                        $this->db->quote($node['lft'], 'integer'),
                         $this->db->quote($diff, 'integer'),
-                        $this->db->quote($a_node[$this->getTree()->getTreePk()], 'integer')
+                        $this->db->quote($node[$this->getTree()->getTreePk()], 'integer')
                     );
                     $res = $this->db->manipulate($query);
                 }
