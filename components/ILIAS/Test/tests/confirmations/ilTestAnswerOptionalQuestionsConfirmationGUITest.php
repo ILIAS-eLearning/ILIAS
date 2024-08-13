@@ -62,4 +62,66 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 
         $this->assertEquals($expect, $gui->getConfirmCmd());
     }
+
+    /**
+     * @dataProvider buildDataProvider
+     * @throws Exception|\PHPUnit\Framework\MockObject\Exception
+     */
+    public function testBuild(bool $input): void
+    {
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
+            $mock
+                ->expects($this->exactly(3))
+                ->method('txt')
+                ->willReturn('');
+        });
+
+        $il_test_answer_optional_questions_confirmation_gui = $this->createInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class);
+        $il_test_answer_optional_questions_confirmation_gui->setCancelCmd('');
+        $il_test_answer_optional_questions_confirmation_gui->setConfirmCmd('');
+        $this->assertNull($il_test_answer_optional_questions_confirmation_gui->build($input));
+    }
+
+    public static function buildDataProvider(): array
+    {
+        return [
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider buildHeaderTextDataProvider
+     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     */
+    public function testBuildHeaderText(bool $input, string $output): void
+    {
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($input) {
+            if ($input) {
+                $mock
+                    ->expects($this->once())
+                    ->method('txt')
+                    ->with('tst_optional_questions_confirmation_fixed_test')
+                    ->willReturn('tst_optional_questions_confirmation_fixed_test_x');
+                return;
+            }
+
+            $mock
+                ->expects($this->once())
+                ->method('txt')
+                ->with('tst_optional_questions_confirmation_non_fixed_test')
+                ->willReturn('tst_optional_questions_confirmation_non_fixed_test_x');
+        });
+
+        $il_test_answer_optional_questions_confirmation_gui = $this->createInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class);
+        $this->assertEquals($output, self::callMethod($il_test_answer_optional_questions_confirmation_gui, 'buildHeaderText', [$input]));
+    }
+
+    public static function buildHeaderTextDataProvider(): array
+    {
+        return [
+            'true' => [true, 'tst_optional_questions_confirmation_fixed_test_x'],
+            'false' => [false, 'tst_optional_questions_confirmation_non_fixed_test_x']
+        ];
+    }
 }
