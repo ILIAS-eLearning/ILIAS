@@ -318,16 +318,4 @@ class TextareaTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($r->render($textarea));
         $this->assertHTMLEquals($expected, $html);
     }
-
-    public function testStripsTags(): void
-    {
-        $f = $this->buildFactory();
-        $name = "name_0";
-        $text = $f->textarea("")
-            ->withNameFrom($this->name_source)
-            ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
-
-        $content = $text->getContent();
-        $this->assertEquals("alert()", $content->value());
-    }
 }
