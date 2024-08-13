@@ -349,7 +349,7 @@ var filter = function($) {
     $.ajax({
       type: 'GET',
       url: action + "&" + formData,
-    })
+    });
   };
 
   /**
