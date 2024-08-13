@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
@@ -330,8 +330,7 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Template $tpl
     ): void {
-        $renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
+        $tpl->setVariable("ICON_OR_GLYPH", $default_renderer->render($component->getIconOrGlyph()));
         $label = $component->getLabel();
         if ($label !== null) {
             $tpl->setVariable("LABEL", $label);

@@ -473,10 +473,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
          * do not render an a-tag around the glyph.
          * should be outdated and removed when Glyphs loose their Clickable
          */
-        $renderer = $this->ui_renderer->withAdditionalContext(
-            $this->ui_factory->button()->bulky($symbol, '', '')
-        );
+        // $renderer = $this->ui_renderer->withAdditionalContext(
+        //     $this->ui_factory->button()->bulky($symbol, '', '')
+        // );
 
-        return $renderer->render($symbol);
+        return $this->ui_renderer->render($symbol);
     }
 }

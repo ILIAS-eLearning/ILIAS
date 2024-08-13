@@ -70,12 +70,4 @@ class DefaultRendererFactory implements RendererFactory
         $parts[count($parts) - 1] = "Renderer";
         return implode("\\", $parts);
     }
-
-    /**
-     * @inheritdocs
-     */
-    public function getJSBinding(): JavaScriptBinding
-    {
-        return $this->js_binding;
-    }
 }

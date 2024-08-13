@@ -118,8 +118,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $text = $if->text('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($text));
 
         $expected = $this->brutallyTrimHTML('
@@ -144,8 +143,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $numeric = $if->numeric('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($numeric));
 
         $expected = $this->brutallyTrimHTML('
@@ -171,8 +169,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $if->select('label', $options, 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($select));
 
         $expected = $this->brutallyTrimHTML('
@@ -201,8 +198,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $multi = $if->multiSelect('label', $options, 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($multi));
 
         $expected = $this->brutallyTrimHTML('
@@ -229,8 +225,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $datetime = $if->dateTime('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
@@ -255,11 +250,10 @@ class FilterInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
+        $duration = $if->duration('label', 'byline');
         $datetime = $if->dateTime('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
-        $dr = $fr->withAdditionalContext($datetime);
+        $dr = $this->getDefaultRenderer(null, [], [$filter, $duration, $datetime]);
         $html = $this->brutallyTrimHTML($dr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
@@ -281,8 +275,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $datetime = $if->duration('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($datetime));
         $label_start = 'duration_default_label_start';
         $label_end = 'duration_default_label_end';
