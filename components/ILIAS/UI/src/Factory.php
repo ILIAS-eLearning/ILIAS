@@ -1053,21 +1053,21 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     A Dialog is used to force interaction with the user without
+     *     A Prompt is used to force interaction with the user without
      *     losing context. The interaction may consist of acknowledging an
      *     important information or requesting input via one or many
      *     (sequential) forms.
      *
      *   composition:
-     *     The Dialog provides a wrapper for Dialog Content; the content is
-     *     transmitted asynchrounously via a Dialog Response.
+     *     The Prompt provides a wrapper for Prompt Content; the content is
+     *     transmitted asynchrounously via a Prompt Response.
      *     The Response consists of a Title, contents, (additional) buttons
      *     and a command.
-     *     The Dialog will allways hold a button for closing it.
+     *     The Prompt will allways hold a button for closing it.
      *
      *   effect:
      *     All controls of the original context are inaccessible until
-     *     the Dialog is closed.
+     *     the Prompt is closed.
      *
      *   rivals:
      *     Modal: >
@@ -1077,7 +1077,7 @@ interface Factory
      *     1: >
      *       XXX
      * ---
-     * @return \ILIAS\UI\Component\Dialog\Factory
+     * @return \ILIAS\UI\Component\Prompt\Factory
      */
-    public function dialog(): C\Dialog\Factory;
+    public function prompt(): C\Prompt\Factory;
 }

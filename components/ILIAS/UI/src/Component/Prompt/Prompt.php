@@ -18,22 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Container\Form;
+namespace ILIAS\UI\Component\Prompt;
 
-use ILIAS\UI\Component\Prompt\PromptContent;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Data\URI;
 
 /**
- * This describes a standard form.
+ * This describes a Prompt.
  */
-interface Standard extends FormWithPostURL, PromptContent
+interface Prompt extends Component, JavaScriptBindable
 {
     /**
-     * Sets the label of the submit button of the form
+     * Get the signal to load and show this Prompt.
      */
-    public function withSubmitLabel(string $label): Standard;
+    public function getShowSignal(?URI $uri = null): Signal;
 
     /**
-     * Gets the submit label of the form.
+     * Get the signal to close this Prompt.
      */
-    public function getSubmitLabel(): ?string;
+    public function getCloseSignal(): Signal;
 }

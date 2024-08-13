@@ -65,7 +65,7 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function getDialogButtons(): array
+    public function getPromptButtons(): array
     {
         return [];
     }
@@ -73,7 +73,7 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function getDialogTitle(): string
+    public function getPromptTitle(): string
     {
         return '';
     }

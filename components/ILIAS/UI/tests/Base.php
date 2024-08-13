@@ -150,7 +150,7 @@ class NoUIFactory implements Factory
     public function entity(): C\Entity\Factory
     {
     }
-    public function dialog(): C\Dialog\Factory
+    public function prompt(): C\Prompt\Factory
     {
     }
 }
@@ -466,7 +466,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
@@ -477,7 +476,6 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
-                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,

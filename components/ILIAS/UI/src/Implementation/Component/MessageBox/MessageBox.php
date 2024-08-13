@@ -110,7 +110,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getDialogButtons(): array
+    public function getPromptButtons(): array
     {
         return $this->buttons;
     }
@@ -118,7 +118,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getDialogTitle(): string
+    public function getPromptTitle(): string
     {
         return $this->type;
     }

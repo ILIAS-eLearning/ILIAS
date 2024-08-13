@@ -27,13 +27,12 @@ class MessageBoxRendererFactory extends Render\DefaultRendererFactory
 {
     public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
-        if (in_array('ResponseDialog', $contexts)) {
+        if (in_array('ResponsePrompt', $contexts)) {
             return new DialogContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->refinery,
                 $this->image_path_resolver,
                 $this->data_factory,
                 $this->help_text_retriever,
@@ -45,7 +44,6 @@ class MessageBoxRendererFactory extends Render\DefaultRendererFactory
             $this->tpl_factory,
             $this->lng,
             $this->js_binding,
-            $this->refinery,
             $this->image_path_resolver,
             $this->data_factory,
             $this->help_text_retriever,

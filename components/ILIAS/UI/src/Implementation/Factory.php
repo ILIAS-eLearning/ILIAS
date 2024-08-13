@@ -56,7 +56,7 @@ class Factory implements \ILIAS\UI\Factory
         protected C\Legacy\Factory $legacy_factory,
         protected C\launcher\Factory $launcher_factory,
         protected C\Entity\Factory $entity_factory,
-        protected C\Dialog\Factory $dialog_factory,
+        protected C\Prompt\Factory $prompt_factory,
     ) {
     }
 
@@ -297,8 +297,8 @@ class Factory implements \ILIAS\UI\Factory
         return $this->entity_factory;
     }
 
-    public function dialog(): C\Dialog\Factory
+    public function prompt(): C\Prompt\Factory
     {
-        return $this->dialog_factory;
+        return $this->prompt_factory;
     }
 }

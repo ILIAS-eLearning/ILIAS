@@ -269,7 +269,7 @@ abstract class File implements FileDropzone
     /**
      * @inheritdoc
      */
-    public function getDialogButtons(): array
+    public function getPromptButtons(): array
     {
         return $this->buttons;
     }
@@ -277,7 +277,7 @@ abstract class File implements FileDropzone
     /**
      * @inheritdoc
      */
-    public function getDialogTitle(): string
+    public function getPromptTitle(): string
     {
         return $this->type;
     }

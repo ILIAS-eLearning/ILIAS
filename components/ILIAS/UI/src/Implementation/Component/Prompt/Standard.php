@@ -18,22 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Container\Form;
-
-use ILIAS\UI\Component\Prompt\PromptContent;
+namespace ILIAS\UI\Implementation\Component\Prompt;
 
 /**
- * This describes a standard form.
+ *
  */
-interface Standard extends FormWithPostURL, PromptContent
+class Standard extends Prompt
 {
-    /**
-     * Sets the label of the submit button of the form
-     */
-    public function withSubmitLabel(string $label): Standard;
-
-    /**
-     * Gets the submit label of the form.
-     */
-    public function getSubmitLabel(): ?string;
 }

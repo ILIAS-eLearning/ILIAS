@@ -26,7 +26,7 @@ use ILIAS\UI\Component;
 class FormRendererFactory extends Render\DefaultRendererFactory
 {
     public const NO_BUTTONS_FORM = [
-        'ResponseDialog',
+        'ResponsePrompt',
         'RoundTripModal',
     ];
 
@@ -40,7 +40,6 @@ class FormRendererFactory extends Render\DefaultRendererFactory
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->refinery,
                 $this->image_path_resolver,
                 $this->data_factory,
                 $this->help_text_retriever,
@@ -52,7 +51,6 @@ class FormRendererFactory extends Render\DefaultRendererFactory
             $this->tpl_factory,
             $this->lng,
             $this->js_binding,
-            $this->refinery,
             $this->image_path_resolver,
             $this->data_factory,
             $this->help_text_retriever,
