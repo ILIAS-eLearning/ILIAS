@@ -82,6 +82,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilObjectCustomIconFactory();
         $this->addGlobal_filesystem();
+        $this->addGlobal_ilLoggerFactory();
 
         $this->dic = $DIC;
 
