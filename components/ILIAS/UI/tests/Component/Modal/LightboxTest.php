@@ -90,98 +90,51 @@ class LightboxTest extends ModalBase
     protected static function getExpectedTextPageHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+				<form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true"></span></button></form>
 				<h1 class="modal-title">title</h1>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-					
-
 					<div class="carousel-inner" role="listbox">
-						
 						<div class="item active text-only" data-title="title">
 							<div class="item-content ">
-							HelloWorld
+								HelloWorld
 							</div>
-							
 						</div>
-						
 					</div>
-
-					
 
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	window.setTimeout(function() {
-		$('#id_1').on('shown.bs.modal', function() {
-			$('.modal-backdrop.in').css('opacity', '0.9');
-		});
-		$('#id_1').on('show.bs.modal', function (e) {
-			var elm = $(this).find('.carousel-inner .item.active').first();
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slide.bs.carousel', function(e) {
-			var elm = $(e.relatedTarget);
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slid.bs.carousel', function() {
-			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
-			$('#id_1').find('.modal-title').text(title);
-		});
-	}, 0);
-</script>
+</dialog>
 EOT;
     }
 
     protected static function getExpectedImagePageHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+				<form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true"></span></button></form>
 				<h1 class="modal-title">title</h1>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-					
-
 					<div class="carousel-inner" role="listbox">
-						
+
 						<div class="item active" data-title="title">
 							<div class="item-content ">
-							
-
-
-
-
-<img src="src/fake/image.jpg" class="img-responsive" alt="description" />
-
-
-
+								<img src="src/fake/image.jpg" class="img-responsive" alt="description" />
 							</div>
-							
 							<div class="carousel-caption">
 								description
 							</div>
@@ -189,98 +142,49 @@ EOT;
 						
 					</div>
 
-					
-
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	window.setTimeout(function() {
-		$('#id_1').on('shown.bs.modal', function() {
-			$('.modal-backdrop.in').css('opacity', '0.9');
-		});
-		$('#id_1').on('show.bs.modal', function (e) {
-			var elm = $(this).find('.carousel-inner .item.active').first();
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slide.bs.carousel', function(e) {
-			var elm = $(e.relatedTarget);
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slid.bs.carousel', function() {
-			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
-			$('#id_1').find('.modal-title').text(title);
-		});
-	}, 0);
-</script>
+</dialog>
 EOT;
     }
 
     protected static function getExpectedMixedPagesHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-dark" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+				<form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true"></span></button></form>
 				<h1 class="modal-title">title</h1>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-					
 					<ol class="carousel-indicators">
-						
 						<li data-target="#id_1_carousel" data-slide-to="0" class="active"></li>
-						
 						<li data-target="#id_1_carousel" data-slide-to="1" class=""></li>
-						
 					</ol>
-					
 
 					<div class="carousel-inner" role="listbox">
-						
 						<div class="item active text-only" data-title="title">
 							<div class="item-content ">
-							HelloWorld
+								HelloWorld
 							</div>
-							
 						</div>
-						
+
 						<div class="item " data-title="title">
 							<div class="item-content ">
-							
-
-
-
-
-<img src="src/fake/image.jpg" class="img-responsive" alt="description" />
-
-
-
+								<img src="src/fake/image.jpg" class="img-responsive" alt="description" />
 							</div>
-							
 							<div class="carousel-caption">
 								description
 							</div>
 						</div>
-						
 					</div>
 
-					
 					<a class="left carousel-control" href="#id_1_carousel" role="button" data-slide="prev">
 						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						<span class="sr-only">Previous</span>
@@ -289,58 +193,24 @@ EOT;
 						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 						<span class="sr-only">Next</span>
 					</a>
-					
 
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	window.setTimeout(function() {
-		$('#id_1').on('shown.bs.modal', function() {
-			$('.modal-backdrop.in').css('opacity', '0.9');
-		});
-		$('#id_1').on('show.bs.modal', function (e) {
-			var elm = $(this).find('.carousel-inner .item.active').first();
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slide.bs.carousel', function(e) {
-			var elm = $(e.relatedTarget);
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#id_1_carousel').on('slid.bs.carousel', function() {
-			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
-			$('#id_1').find('.modal-title').text(title);
-		});
-	}, 0);
-</script>
+</dialog>
 EOT;
     }
 
     private static function getExpectedCardPageHTML(): string
     {
         return <<<EOT
-<div class="modal fade il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-bright" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="close">
-					<span aria-hidden="true"></span>
-				</button>
-				<h1 class="modal-title">
-					foo
-				</h1>
+				<form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true"></span></button></form>
+				<h1 class="modal-title">foo</h1>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -353,34 +223,7 @@ EOT;
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-window.setTimeout(function() {
-	$('#id_1').on('shown.bs.modal', function() {
-		$('.modal-backdrop.in').css('opacity', '0.9');
-	});
-	$('#id_1').on('show.bs.modal', function (e) {
-		var elm = $(this).find('.carousel-inner .item.active').first();
-		if (elm.hasClass('text-only')) {
-			elm.closest('.carousel').addClass('text-only');
-		} else {
-			elm.closest('.carousel').removeClass('text-only');
-		}
-	});
-	$('#id_1_carousel').on('slide.bs.carousel', function(e) {
-		var elm = $(e.relatedTarget);
-		if (elm.hasClass('text-only')) {
-			elm.closest('.carousel').addClass('text-only');
-		} else {
-			elm.closest('.carousel').removeClass('text-only');
-		}
-	});
-	$('#id_1_carousel').on('slid.bs.carousel', function() {
-		var title = $(this).find('.carousel-inner .item.active').attr('data-title');
-		$('#id_1').find('.modal-title').text(title);
-	});
-}, 0);
-</script>
+</dialog>
 EOT;
     }
 }

@@ -45,7 +45,7 @@ export default class Modal {
   showModal(component, closeSignal, options, signalData) {
     this.#jquery(component.ownerDocument).on(
       closeSignal,
-      () => component.close()
+      () => component.close(),
     );
 
     if (this.#triggeredSignalsStorage[signalData.id] === true) {

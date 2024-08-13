@@ -298,7 +298,7 @@ class DataRendererTest extends TableTestBase
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>
@@ -372,7 +372,7 @@ EOT;
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form><button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+                    <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                 </div>
                 <div class="c-table-data__async_messageresponse modal-body"></div>
             </div>

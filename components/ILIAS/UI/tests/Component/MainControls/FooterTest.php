@@ -277,7 +277,7 @@ EOT;
                         <div class="modal-content">
                             <div class="modal-header">
                                 <form>
-                                    <button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close">
+                                    <button formmethod="dialog" class="close" aria-label="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </form>
@@ -297,7 +297,7 @@ EOT;
                         <div class="modal-content">
                             <div class="modal-header">
                                 <form>
-                                    <button formmethod="dialog" class="close" data-dismiss="modal" aria-label="close">
+                                    <button formmethod="dialog" class="close" aria-label="close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </form>
