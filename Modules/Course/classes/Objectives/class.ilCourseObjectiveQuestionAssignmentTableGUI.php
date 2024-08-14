@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +14,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * TableGUI for question assignments of course objectives
@@ -137,7 +138,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             $tmp_data = array();
             $subobjects = array();
 
-            if (!$tmp_tst = ilObjectFactory::getInstanceByRefId((int) $node['ref_id'], false)) {
+            if (!$tmp_tst = ilObjectFactory::getInstanceByRefId((int) ($node['ref_id'] ?? 0), false)) {
                 continue;
             }
 
