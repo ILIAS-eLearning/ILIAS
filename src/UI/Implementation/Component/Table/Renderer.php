@@ -186,7 +186,7 @@ class Renderer extends AbstractComponentRenderer
 
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string)$action_id, $action));
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
             if ($action->isAsync()) {
                 $signal = clone $component->getAsyncActionSignal();
                 $signal->addOption(Action::OPT_ACTIONID, $action_id);
@@ -202,10 +202,8 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
-        //TODO: Filter
-        $filter_data = [];
         [$component, $view_controls] = $component->applyViewControls(
-            $filter_data = [],
+            $component->getFilter() ?? [],
             $component->getAdditionalParameters()
         );
 
