@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
+
 /**
  * User profile info settings UI class
  * @author Alexander Killing <killing@leifos.de>
@@ -25,7 +29,7 @@ class ilUserProfileInfoSettingsGUI
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
+    protected Language $lng;
     protected ilUserProfilePromptService $user_prompt;
     protected ilProfilePromptSettings $prompt_settings;
 

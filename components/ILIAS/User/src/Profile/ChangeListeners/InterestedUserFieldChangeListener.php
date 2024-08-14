@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\ChangeListeners;
 
+use ILIAS\Language\Language;
+
 /**
  * Class InterestedUserFieldChangeListener
  * @author Marvin Beym <mbeym@databay.de>
@@ -32,7 +34,7 @@ class InterestedUserFieldChangeListener
     private array $attributes = [];
 
     public function __construct(
-        private readonly \ilLanguage $lng,
+        private readonly Language $lng,
         private readonly string $name,
         private readonly string $field_name
     ) {

@@ -18,10 +18,12 @@
 
 declare(strict_types=1);
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * User action administration GUI class
@@ -36,7 +38,7 @@ class ilUserActionAdminGUI
     private ilGlobalTemplateInterface $tpl;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilUserActionContext $action_context;
     private ilUserActionAdmin $user_action_admin;
 

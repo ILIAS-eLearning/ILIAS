@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,16 +18,26 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace ILIAS\User\Setup;
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- */
-class ilUserBaseTestCase extends TestCase
+use ILIAS\Setup;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Refinery;
+
+class Agent extends Setup\Agent\NullAgent
 {
-    protected function assertException(string $exception_class): void
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        $this->expectException($exception_class);
+        return new \ilDatabaseUpdateStepsExecutedObjective(
+            new DBUpdateSteps10()
+        );
+    }
+
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    {
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+            $storage,
+            new DBUpdateSteps10()
+        );
     }
 }

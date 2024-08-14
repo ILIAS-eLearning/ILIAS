@@ -16,13 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
+
 /**
  * Profile prompt data gateway
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserProfilePromptDataGateway
 {
-    protected ilLanguage $lng;
+    protected Language $lng;
     protected ilSetting $user_settings;
     protected ilDBInterface $db;
 

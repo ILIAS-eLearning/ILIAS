@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\User\Tests;
+
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldAttribute;
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldComponent;
 
@@ -25,14 +27,14 @@ use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldComponent;
  * Class InterestedUserFieldAttributeTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldAttributeTest extends ilUserBaseTestCase
+class InterestedUserFieldAttributeTest extends BaseTestCase
 {
     private InterestedUserFieldAttribute $interested_user_field_attribute;
 
     protected function setUp(): void
     {
         $this->interested_user_field_attribute = new InterestedUserFieldAttribute(
-            $this->createMock(ilLanguage::class),
+            $this->createMock(\ILIAS\Language\Language::class),
             'ABCD',
             'EFGH'
         );

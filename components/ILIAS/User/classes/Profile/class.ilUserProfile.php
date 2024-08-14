@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\User\Profile\DefaultFields;
 
+use ILIAS\Language\Language;
+
 /**
  * Class ilUserProfile
  * @author Alexander Killing <killing@leifos.de>
@@ -32,7 +34,7 @@ class ilUserProfile
     private int $mode = self::MODE_DESKTOP;
 
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilRbacReview $rbac_review;
 
     private array $user_fields;

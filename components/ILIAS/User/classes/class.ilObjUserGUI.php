@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+
+use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -1786,7 +1788,7 @@ class ilObjUserGUI extends ilObjectGUI
             return '';
         }
 
-        $usr_lang = new ilLanguage($this->object->getLanguage());
+        $usr_lang = new Language($this->object->getLanguage());
         $usr_lang->loadLanguageModule('crs');
         $usr_lang->loadLanguageModule('registration');
 
@@ -1838,15 +1840,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
-
-        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
-            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
-            $class = ilPersonalProfileGUI::class;
-            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
-            $ilCtrl->clearParametersByClass($class);
-            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
-            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
-        }
 
         // #10888
         if ($a_target == md5('usrdelown')) {

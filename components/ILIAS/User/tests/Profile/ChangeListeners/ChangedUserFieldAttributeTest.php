@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\User\Tests;
+
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 
 /**
  * Class ChangedUserFieldAttributeTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ChangedUserFieldAttributeTest extends ilUserBaseTestCase
+class ChangedUserFieldAttributeTest extends BaseTestCase
 {
     private ChangedUserFieldAttribute $changedUserFieldAttribute;
 
