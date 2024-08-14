@@ -841,11 +841,11 @@ class ilPropertyFormGUI extends ilFormGUI
     protected function appendOnloadCode(string $html): string
     {
         if (count($this->onload_code) > 0) {
-            $html.= "<script>";
+            $html .= "<script>";
             foreach ($this->onload_code as $code) {
-                $html.= $code . "\n";
+                $html .= $code . "\n";
             }
-            $html.= "</script>";
+            $html .= "</script>";
         }
         return $html;
     }
@@ -1030,7 +1030,7 @@ class ilPropertyFormGUI extends ilFormGUI
                         $name = $file[7];
 
                         if ($idx2 != "") {
-                            if (!isset($_FILES[$field]["tmp_name"][$idx]) || !$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                            if (!isset($_FILES[$field]["tmp_name"][$idx][$idx2])) {
                                 $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                                 $_FILES[$field]["name"][$idx][$idx2] = $name;
                                 $_FILES[$field]["type"][$idx][$idx2] = $type;
@@ -1039,7 +1039,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["is_upload"][$idx][$idx2] = false;
                             }
                         } elseif ($idx != "") {
-                            if (!isset($_FILES[$field]["tmp_name"][$idx]) || $_FILES[$field]["tmp_name"][$idx]) {
+                            if (!isset($_FILES[$field]["tmp_name"][$idx])) {
                                 $_FILES[$field]["tmp_name"][$idx] = $full_file;
                                 $_FILES[$field]["name"][$idx] = $name;
                                 $_FILES[$field]["type"][$idx] = $type;
@@ -1048,7 +1048,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["is_upload"][$idx] = false;
                             }
                         } else {
-                            if (!$_FILES[$field]["tmp_name"]) {
+                            if (!isset($_FILES[$field]["tmp_name"])) {
                                 $_FILES[$field]["tmp_name"] = $full_file;
                                 $_FILES[$field]["name"] = $name;
                                 $_FILES[$field]["type"] = $type;
