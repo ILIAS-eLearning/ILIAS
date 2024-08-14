@@ -137,7 +137,7 @@ class Data extends AbstractTable implements T\Data
         }
 
         return [
-            $table->withFilter($filter_data),
+            $table,
             $view_controls
         ];
     }
