@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\User\Profile\ilUserProfileDefaultFields;
+declare(strict_types=1);
+
+use ILIAS\User\Profile\DefaultFields;
 
 /**
  * Class ilUserProfile
@@ -48,7 +50,7 @@ class ilUserProfile
         $this->lng = $DIC['lng'];
         $this->rbac_review = $DIC['rbacreview'];
 
-        $this->user_fields = (new ilUserProfileDefaultFields())->getDefaultProfileFields();
+        $this->user_fields = (new DefaultFields())->getDefaultProfileFields();
         $this->user_settings_config = new ilUserSettingsConfig();
 
         $this->skip_groups = [];

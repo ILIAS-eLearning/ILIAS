@@ -16,10 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\User\Profile;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilProfileChecklistStatus
+class ChecklistStatus
 {
     public const STEP_PROFILE_DATA = 0;
     public const STEP_PUBLISH_OPTIONS = 1;
@@ -28,7 +32,7 @@ class ilProfileChecklistStatus
     public const STATUS_NOT_STARTED = 0;
     public const STATUS_IN_PROGRESS = 1;
     public const STATUS_SUCCESSFUL = 2;
-    protected ilPersonalProfileMode $profile_mode;
+    protected Mode $profile_mode;
     protected ilObjUser $user;
 
     protected ilLanguage $lng;
@@ -51,7 +55,7 @@ class ilProfileChecklistStatus
 
         $this->settings = $DIC->settings();
 
-        $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
+        $this->profile_mode = new Mode($this->user, $DIC->settings());
     }
 
     private function areOnScreenChatOptionsVisible(): bool

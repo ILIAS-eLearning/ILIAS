@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\components\User\InterestedUserFieldComponent;
+use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldComponent;
 
 /**
  * Class InterestedUserFieldComponentTest
