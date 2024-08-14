@@ -630,7 +630,6 @@ assessment#:#duplicate_order_values_entered#:#You have entered duplicate order v
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
 assessment#:#edit_introduction#:#Edit Introduction
-assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#List View
 assessment#:#element_height#:#Minimum Height
@@ -693,7 +692,6 @@ assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
-assessment#:#export#:#Export
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s
@@ -719,7 +717,6 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#fileDownload#:#File download
 assessment#:#file_uploads#:#File Uploads
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
-assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#All Question Types
 assessment#:#filter_all_questionpools#:#All Question Pools
 assessment#:#filter_show_question_types#:#Show Question Types
@@ -750,7 +747,6 @@ assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results.
 assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
-assessment#:#general#:#General
 assessment#:#glossary_term#:#Glossary Term
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_obligations_answered_listentry#:#Answered
@@ -760,14 +756,12 @@ assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compulsory questions.
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
-assessment#:#height#:#Height
 assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
 assessment#:#imap_line_color#:#Image Map Line Color
 assessment#:#import_question#:#Import Question(s)
-assessment#:#imported#:#imported
 assessment#:#in_range#:#Within range
 assessment#:#in_trash#:#In Trash
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
@@ -830,8 +824,6 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_example_header#:#Examples
-assessment#:#last_update#:#Updated
-assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
@@ -916,7 +908,6 @@ assessment#:#min_ip_label#:#Lowest IP With Access
 assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
-assessment#:#msg_deleted_export_files#:#Export file(s) removed
 assessment#:#msg_no_questions_selected#:#No questions were selected.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
@@ -4057,7 +4048,6 @@ common#:#exc_upload_error#:#Error uploading file
 common#:#excs#:#Exercises
 common#:#execute#:#Apply
 common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
-common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#expand_all#:#Expand All
 common#:#expand_content#:#Expand Content
@@ -4179,7 +4169,6 @@ common#:#frm_import#:#Import Forum
 common#:#frm_latest_postings#:#Latest Posts
 common#:#frm_new#:#New Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.
-common#:#frm_statistics_ranking#:#Number of Public Postings
 common#:#from#:#From
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
@@ -4308,7 +4297,7 @@ common#:#iass_new#:#Create Individual Assessment
 common#:#icon#:#Icon
 common#:#icon_settings#:#Custom Icons
 common#:#id#:#ID
-common#:#identifier#:#identifier
+common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
 common#:#ignore_on_conflict#:#Insert/Update action will be followed strictly
 common#:#ignore_required_fields#:#Ignore required fields
@@ -4327,7 +4316,6 @@ common#:#il_grp_admin#:#Group Administrator
 common#:#il_grp_member#:#Group Member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_iass_member#:#Individual Assessment Examinee
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 common#:#il_lti_instructor#:#LTI Instructor
@@ -4471,7 +4459,6 @@ common#:#learning_progress#:#Learning Progress
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
-common#:#like#:#Like
 common#:#link#:#Link
 common#:#link_action#:#Insert Link - Click to insert a link.
 common#:#link_all#:#Link all
@@ -4545,7 +4532,6 @@ common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
-common#:#lso_copy#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
 common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
@@ -8480,19 +8466,13 @@ dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#free#:#Free
-dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
 dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 dateplaner#:#grp_cal_start#:#Group starts
-dateplaner#:#hour#:#hour
 dateplaner#:#ical_export#:#iCal Export
-dateplaner#:#inbox#:#Inbox
 dateplaner#:#keep#:#Keep
 dateplaner#:#keyword#:#Keyword
-dateplaner#:#keywords#:#Keywords
-dateplaner#:#last_change#:#Last changed
-dateplaner#:#month#:#Month
 dateplaner#:#more#:#More
 dateplaner#:#of#:#of
 dateplaner#:#properties#:#Properties
@@ -9500,7 +9480,6 @@ exc#:#exc_save_all#:#Save All
 exc#:#exc_save_order#:#Save Order
 exc#:#exc_save_selected#:#Save Selected
 exc#:#exc_saved_order#:#Saved presentation order.
-exc#:#exc_schedule#:#Schedule
 exc#:#exc_select_ass#:#Select Assignment
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_blog_change#:#Use different blog
@@ -9651,11 +9630,9 @@ exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from 
 exc#:#exc_work_instructions#:#Work instructions
 exc#:#exc_x_of_y#:#of
 exc#:#exc_your_text#:#Your Text
-exc#:#feedback#:#Feedback
 exc#:#feedback_from#:#Feedback from
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback_received#:#Feedback received
-exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
 exc#:#not_yet#:#not yet
@@ -9681,12 +9658,10 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
-exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
-exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
@@ -10136,7 +10111,6 @@ glo#:#glo_flashcards_from_today_only_info#:#The box contains only flashcards alr
 glo#:#glo_flashcards_intro#:#Your goal is to correctly remember each flashcard four times in a row.<br />To begin with, all of the flashcards are in box 1.<br />Flagging a flashcard as "I got it right" will advance it to the next box.<br />Flagging a flashcard as "I was wrong" will return the card to the first box.<br />To start, select a box. This will reveal the flashcards.
 glo#:#glo_introduction#:#Introduction
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
-glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
@@ -10373,7 +10347,6 @@ help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
 iass#:#download_assessment_paper#:#Download Record file
-iass#:#general#:#General Information
 iass#:#grading#:#Grading
 iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
@@ -10872,8 +10845,7 @@ lso#:#extro_img#:#Image for Exit Page
 lso#:#failed#:#Failed
 lso#:#finished#:#Finished
 lso#:#first_access#:#First Access
-lso#:#last_access#:#Last Access
-lso#:#last_visited_step#:#Last visited Step
+lso#:#last_visited_step#:#Last Visited Step
 lso#:#learner_view#:#Overview
 lso#:#lp_not_relevant_post_cond#:#currently not relevant for continuation
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
@@ -12908,7 +12880,6 @@ orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
 orgu#:#import_xml_file#:#Import File
 orgu#:#local_other_roles#:#Additional Local Roles %s
 orgu#:#local_staff#:#Employees %s
-orgu#:#mm_organisation#:#Organisation
 orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#msg_confirm_deletion#:#Would you really like to delete the following Position?
@@ -14983,7 +14954,6 @@ scormdebug#:#debugwindow_stop_recording#:#Stop Recording
 scormdebug#:#debugwindow_submission_failed#:#Submission failed
 scormdebug#:#debugwindow_submit#:#Submit
 scormdebug#:#description_for#:#description for
-scormdebug#:#error#:#error
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
 scormdebug#:#error102#:#General Initialization Failure
@@ -15011,7 +14981,6 @@ scormdebug#:#error406#:#Data Model Element Type Mismatch
 scormdebug#:#error407#:#Data Model Element Value Out Of Range
 scormdebug#:#error408#:#Data Model Dependency Not Established
 scormdebug#:#generated#:#generated
-scormdebug#:#hide#:#hide
 scormdebug#:#i_fuchsia#:#fuchsia: tolerated value because sent value is not rejected
 scormdebug#:#i_gray#:#gray: error corrected by ILIAS
 scormdebug#:#i_green#:#green: okay
@@ -15086,8 +15055,7 @@ scormtrac#:#exportselectedinteractions#:#Basic report for interactions
 scormtrac#:#exportselectedobjectives#:#Report for objectives
 scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#exportselectedsuccess#:#Basic report for success
-scormtrac#:#id#:#ID
-scormtrac#:#identifierref#:#SCO-Identifier
+scormtrac#:#identifierref#:#SCO identifier
 scormtrac#:#interaction_description#:#Description of interaction
 scormtrac#:#interaction_id#:#ID of interaction
 scormtrac#:#interaction_value#:#Result of interaction
@@ -16161,7 +16129,6 @@ survey#:#externalmails#:#Import file
 survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient e-mail.
 survey#:#externaltext#:#Import text
 survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient e-mail.
-survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#All Question Types
 survey#:#filter_all_questionpools#:#All Question Pools
 survey#:#finished_mail_subject#:#The survey "%s" was finished
@@ -16190,9 +16157,7 @@ survey#:#invited_users#:#Selected Users
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
 survey#:#language_changed#:#Language changed
-survey#:#last_update#:#Updated
 survey#:#layout#:#Layout
-survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
 survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen
 survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
@@ -16242,7 +16207,6 @@ survey#:#minimum#:#Minimum Value
 survey#:#mode#:#Most Selected Value
 survey#:#mode_nr_of_selections#:#Nr of Selections
 survey#:#mode_text#:#Most Selected Value (Text)
-survey#:#msg_deleted_export_files#:#Export file(s) deleted
 survey#:#msg_duplicate_scale#:#Please enter unique scale values.
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid routing rule!
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
@@ -16818,7 +16782,6 @@ trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of '
 trac#:#create_date_max#:#Latest Registration
 trac#:#create_date_min#:#Earliest Registration
 trac#:#info_valid_request#:#The maximum valid time between two requests of a user.
-trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#obj_types#:#Object Types
 trac#:#read_count_avg#:#Average page views
