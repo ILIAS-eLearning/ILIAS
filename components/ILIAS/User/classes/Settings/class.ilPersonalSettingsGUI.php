@@ -224,7 +224,7 @@ class ilPersonalSettingsGUI
             $languages = $this->lng->getInstalledLanguages();
             $options = [];
             foreach ($languages as $lang_key) {
-                $options[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
+                $options[$lang_key] = $this->lng->txtlng('meta', 'meta_l_' . $lang_key, $lang_key);
             }
 
             $lang = new ilSelectInputGUI($this->lng->txt('language'), 'language');

@@ -21,10 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\User\Profile\ChangeListeners;
 
 use ILIAS\DI\Container;
+use ILIAS\Language\Language;
 
 abstract class UserFieldAttributesChangeListener
 {
-    protected \ilLanguage $lng;
+    protected Language $lng;
     protected Container $dic;
 
     public function __construct(Container $dic)

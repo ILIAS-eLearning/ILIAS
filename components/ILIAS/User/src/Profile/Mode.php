@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\Language\Language;
+
 /**
  * Personal profile publishing mode of a user
  * @author Alexander Killing <killing@leifos.de>
@@ -31,7 +33,7 @@ class Mode
     public const PROFILE_ENABLED_GLOBAL = 'g';
 
     public function __construct(
-        private readonly \ilLanguage $lng,
+        private readonly Language $lng,
         private readonly \ilSetting $settings,
         private readonly \ilObjUser $user
     ) {

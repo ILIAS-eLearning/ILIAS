@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\User\Profile\ChecklistStatus;
 use ILIAS\User\Profile\Mode as ProfileMode;
+use ILIAS\User\Profile\ChangeMailStatus;
+use ILIAS\User\Profile\ChangeMailMail;
 
+use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -29,8 +32,9 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\User\ProfileGUIRequest;
-use ILIAS\User\Profile\ProfileChangeMailTokenRepository;
-use ILIAS\User\Profile\ProfileChangeMailTokenDBRepository;
+use ILIAS\User\Profile\ChangeMailTokenRepository;
+use ILIAS\User\Profile\ChangeMailTokenDBRepository;
+use ILIAS\StaticURL\Services as StaticUrlServices;
 
 /**
  * GUI class for personal profile
@@ -49,8 +53,8 @@ class ilPersonalProfileGUI
     private ilSetting $settings;
     private ilObjUser $user;
     private ilAuthSession $auth_session;
-
-    private ilLanguage $lng;
+    private StaticUrlServices $static_url;
+    private Language $lng;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
@@ -62,15 +66,13 @@ class ilPersonalProfileGUI
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
 
-    private ProfileChangeMailTokenRepository $change_mail_token_repo;
+    private ChangeMailTokenRepository $change_mail_token_repo;
     private ProfileGUIRequest $profile_request;
 
+    private ilLogger $logger;
     private FileUpload $uploads;
     private IRSS $irss;
     private ResourceStakeholder $stakeholder;
-
-    private string $password_error = '';
-    private string $upload_error = '';
 
     private ?Interruptive $email_change_confirmation_modal = null;
 
@@ -97,10 +99,15 @@ class ilPersonalProfileGUI
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->auth_session = $DIC['ilAuthSession'];
+        $this->static_url = $DIC['static_url'];
 
+        $this->logger = ilLoggerFactory::getLogger('user');
         $this->stakeholder = new ilUserProfilePictureStakeholder();
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
-        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
+        $this->change_mail_token_repo = new ChangeMailTokenDBRepository(
+            $DIC['ilDB'],
+            $this->settings
+        );
         $this->checklist = new ilProfileChecklistGUI();
         $this->checklist_status = new ChecklistStatus(
             $this->lng,
@@ -593,10 +600,16 @@ class ilPersonalProfileGUI
     private function addEmailChangeModal(): bool
     {
         $form_id = 'form_' . self::PERSONAL_DATA_FORM_ID;
+
+        $message = $this->lng->txt('confirm_logout_for_email_change');
+        if ((int) $this->settings->get('new_registration_type', '1') === ilRegistrationSettings::IL_REG_ACTIVATION) {
+            $message .= '<br>' . $this->lng->txt('confirm_logout_for_email_change_with_confirmation');
+        }
+
         $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('confirm_logout_for_email_change'),
-            '#'
+            $message,
+            ''
         )->withActionButtonLabel($this->lng->txt('change'));
         $this->email_change_confirmation_modal = $modal->withOnLoad($modal->getShowSignal())
             ->withAdditionalOnLoadCode(
@@ -663,8 +676,14 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->auth_session->logout();
         session_unset();
-        $token = $this->change_mail_token_repo->getNewTokenForUser($this->user, $this->form->getInput('usr_email'));
-        $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . self::CHANGE_EMAIL_CMD . $token);
+        $token = $this->change_mail_token_repo->getNewTokenForUser(
+            $this->user,
+            $this->form->getInput('usr_email'),
+            time()
+        );
+        $this->ctrl->redirectToURL(
+            $token->getUriForStatus($this->static_url->builder())->__toString()
+        );
     }
 
     private function savePersonalDataForm(): void
@@ -748,23 +767,43 @@ class ilPersonalProfileGUI
 
     public function changeEmail(): void
     {
-        $token = $this->profile_request->getToken();
-        $new_email = $this->change_mail_token_repo->getNewEmailForUser($this->user, $token);
+        $token = $this->change_mail_token_repo->getTokenForTokenString(
+            $this->profile_request->getToken(),
+            $this->user
+        );
 
-        if ($new_email !== '') {
-            $this->user->setEmail($new_email);
-            $this->user->update();
-            $this->change_mail_token_repo->deleteEntryByToken($token);
-            $this->tpl->setOnScreenMessage(
-                'success',
-                $this->lng->txt('saved_successfully')
-            );
+        if ($token === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
             $this->showPublicProfile();
             return;
         }
 
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
+        if ($token->getStatus() === ChangeMailStatus::Login
+            && (int) $this->settings->get('new_registration_type', '1') === ilRegistrationSettings::IL_REG_ACTIVATION) {
+            (new ChangeMailMail(
+                $this->user,
+                $this->change_mail_token_repo->moveToNextStep($token, time())
+                        ->getUriForStatus($this->static_url->builder()),
+                $this->lng,
+                $this->logger
+            ))->send() === true
+                ? $this->tpl->setOnScreenMessage('info', $this->lng->txt('change_email_email_sent'))
+                : $this->tpl->setOnScreenMessage('failure', $this->lng->txt('change_email_email_could_not_be_sent'));
+            $this->showPublicProfile();
+            return;
+        }
+
+        $this->user->setEmail($token->getNewEmail());
+        $this->user->update();
+        $this->change_mail_token_repo->deleteEntryByToken($token->getToken());
+        $this->change_mail_token_repo->deleteExpiredEntries();
+
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->lng->txt('saved_successfully')
+        );
         $this->showPublicProfile();
+        return;
     }
 
     public function showPublicProfile(bool $a_no_init = false): void

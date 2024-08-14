@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
@@ -27,7 +28,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 
     private string $roleIdWhiteliste = '';
     private int $thresholdInDays = self::DEFAULT_CREATION_THRESHOLD;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilSetting $settings;
     private ilRbacReview $rbacreview;
     private ilObjectDataCache $objectDataCache;

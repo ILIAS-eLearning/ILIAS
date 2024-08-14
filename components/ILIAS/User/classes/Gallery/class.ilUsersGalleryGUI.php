@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Legacy\Legacy as LegacyComponent;
 use ILIAS\UI\Component\Card\Standard as StandardCard;
@@ -34,7 +35,7 @@ class ilUsersGalleryGUI
 {
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilObjUser $user;
     private ilRbacSystem $rbacsystem;
     private UIFactory $ui_factory;

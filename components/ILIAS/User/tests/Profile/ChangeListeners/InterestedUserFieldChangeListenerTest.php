@@ -18,20 +18,22 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\User\Tests;
+
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
 
 /**
  * Class InterestedUserFieldChangeListenerTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldChangeListenerTest extends ilUserBaseTestCase
+class InterestedUserFieldChangeListenerTest extends BaseTestCase
 {
     private InterestedUserFieldChangeListener $interestedUserFieldChangeListener;
 
     protected function setUp(): void
     {
         $this->interestedUserFieldChangeListener = new InterestedUserFieldChangeListener(
-            $this->createMock(ilLanguage::class),
+            $this->createMock(\ILIAS\Language\Language::class),
             'Test name',
             'Test fieldName'
         );

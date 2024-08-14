@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Language\Language;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
@@ -3026,7 +3027,7 @@ class ilObjUser extends ilObject
      * Get formatted mail body text of user profile data.
      * @throws ilDateTimeException
      */
-    public function getProfileAsString(ilLanguage $language): string
+    public function getProfileAsString(Language $language): string
     {
         global $DIC;
 

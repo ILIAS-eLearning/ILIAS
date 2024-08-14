@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\User\Profile\ChecklistStatus;
 use ILIAS\User\Profile\Mode as ProfileMode;
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Component\Input\Field\Section;
 
 /**
@@ -34,7 +35,7 @@ class ilUserPrivacySettingsGUI
     private const PROP_ENABLE_SOUND = 'osd_play_sound';
     private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
-    protected ilLanguage $lng;
+    protected Language $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilUserSettingsConfig $user_settings_config;

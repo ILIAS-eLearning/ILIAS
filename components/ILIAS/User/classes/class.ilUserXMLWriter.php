@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Language\Language;
+
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -29,7 +31,7 @@ class ilUserXMLWriter extends ilXmlWriter
 {
     private ILIAS $ilias;
     private ilDBInterface $db;
-    private ilLanguage $lng;
+    private Language $lng;
     private array $users; // Missing array type.
     private int $user_id = 0;
     private bool $attach_roles = false;

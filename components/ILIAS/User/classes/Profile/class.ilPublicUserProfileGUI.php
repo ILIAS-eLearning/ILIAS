@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\User\ProfileGUIRequest;
 
+use ILIAS\Language\Language;
+
 /**
  * GUI class for public user profile presentation.
  * @author Alexander Killing <killing@leifos.de>
@@ -41,7 +43,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
     private ilRbacSystem $rbac_system;
-    private ilLanguage $lng;
+    private Language $lng;
 
     public function __construct(int $a_user_id = 0)
     {

@@ -17071,6 +17071,10 @@ ui#:#ui_table_no_records#:#No records
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
+user#:#change_email_email_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s .
+user#:#change_email_email_could_not_be_sent#:#The email to confirm your change could not be sent.
+user#:#change_email_email_sent#:#An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes.
+user#:#change_email_email_subject#:#Confirm Email Address
 user#:#clipboard_add_btn#:#Add to Clipboard
 user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_empty_btn#:#Empty Clipboard
@@ -17079,6 +17083,7 @@ user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
 user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
+user#:#confirm_logout_for_email_change_with_confirmation#:#Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.

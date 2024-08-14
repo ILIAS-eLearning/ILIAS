@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\User\Profile\ChecklistStatus;
 use ILIAS\User\Profile\Mode as ProfileMode;
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Workflow\Step;
@@ -33,7 +34,7 @@ class ilProfileChecklistGUI
     protected UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
     protected ChecklistStatus $status;
-    protected ilLanguage $lng;
+    protected Language $lng;
 
     public function __construct()
     {

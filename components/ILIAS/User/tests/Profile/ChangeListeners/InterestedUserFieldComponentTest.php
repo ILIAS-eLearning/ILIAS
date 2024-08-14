@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\User\Tests;
+
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldComponent;
 
 /**
  * Class InterestedUserFieldComponentTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldComponentTest extends ilUserBaseTestCase
+class InterestedUserFieldComponentTest extends BaseTestCase
 {
     public function testInterestedUserFieldComponent(): void
     {
