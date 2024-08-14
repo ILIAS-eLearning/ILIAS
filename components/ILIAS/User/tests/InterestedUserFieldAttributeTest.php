@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\components\User\InterestedUserFieldAttribute;
+use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldAttribute;
 use ILIAS\DI\Container;
 
 /**

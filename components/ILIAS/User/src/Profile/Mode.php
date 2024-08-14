@@ -16,11 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\User\Profile;
+
 /**
  * Personal profile publishing mode of a user
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPersonalProfileMode
+class Mode
 {
     public const PROFILE_DISABLED = "n";
     public const PROFILE_ENABLED_LOGGED_IN_USERS = "y";

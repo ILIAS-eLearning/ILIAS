@@ -22,7 +22,7 @@ namespace ILIAS\User\Profile;
 
 use ILIAS\Services\Mail\ilMailUserFieldChangeListener;
 
-class ilUserProfileDefaultFields
+class DefaultFields
 {
     private array $default_profile_fields = [
         'username' => [

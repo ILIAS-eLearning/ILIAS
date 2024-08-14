@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\ChecklistStatus;
+
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -57,7 +59,7 @@ class ilPersonalProfileGUI
     private ilErrorHandling $error_handler;
     private ilProfileChecklistGUI $checklist;
     private ilUserSettingsConfig $user_settings_config;
-    private ilProfileChecklistStatus $checklist_status;
+    private ChecklistStatus $checklist_status;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
 
@@ -104,7 +106,7 @@ class ilPersonalProfileGUI
         $this->ctrl->saveParameter($this, 'prompted');
 
         $this->checklist = new ilProfileChecklistGUI();
-        $this->checklist_status = new ilProfileChecklistStatus();
+        $this->checklist_status = new ChecklistStatus();
 
         $this->user_settings_config = new ilUserSettingsConfig();
 
@@ -135,7 +137,7 @@ class ilPersonalProfileGUI
                 $this->setHeader();
                 $this->setTabs();
                 $this->tabs->activateTab('visibility_settings');
-                $this->showChecklist(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
+                $this->showChecklist(ChecklistStatus::STEP_VISIBILITY_OPTIONS);
                 $gui = new ilUserPrivacySettingsGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -476,7 +478,7 @@ class ilPersonalProfileGUI
         }
         $this->setHeader();
 
-        $this->showChecklist(ilProfileChecklistStatus::STEP_PROFILE_DATA);
+        $this->showChecklist(ChecklistStatus::STEP_PROFILE_DATA);
 
         if (!$a_no_init) {
             $this->initPersonalDataForm();
@@ -558,7 +560,7 @@ class ilPersonalProfileGUI
 
         $this->savePersonalDataForm();
 
-        $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
+        $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PROFILE_DATA);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
         $this->ctrl->redirect($this, 'showPublicProfile');
@@ -769,7 +771,7 @@ class ilPersonalProfileGUI
     public function showPublicProfile(bool $a_no_init = false): void
     {
         $this->tabs->activateTab('public_profile');
-        $this->showChecklist(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
+        $this->showChecklist(ChecklistStatus::STEP_PUBLISH_OPTIONS);
 
         $this->setHeader();
 
@@ -803,7 +805,7 @@ class ilPersonalProfileGUI
             // Activate public profile
             $radg = new ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
             $info = $this->lng->txt('user_activate_public_profile_info');
-            $profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
+            $profile_mode = new PersonalProfileMode($this->user, $this->settings);
             $pub_prof = $profile_mode->getMode();
             $radg->setValue($pub_prof);
             $op1 = new ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
@@ -1075,7 +1077,7 @@ class ilPersonalProfileGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-            $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
+            $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PUBLISH_OPTIONS);
 
             if (ilSession::get('orig_request_target')) {
                 $target = ilSession::get('orig_request_target');

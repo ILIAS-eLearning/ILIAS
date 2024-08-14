@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Profile\ChecklistStatus;
+
 use ILIAS\UI\Component\Listing\Workflow\Step;
 
 /**
@@ -24,7 +28,7 @@ use ILIAS\UI\Component\Listing\Workflow\Step;
 class ilProfileChecklistGUI
 {
     protected \ILIAS\DI\UIServices $ui;
-    protected ilProfileChecklistStatus $status;
+    protected ChecklistStatus $status;
     protected ilLanguage $lng;
 
     public function __construct()
@@ -32,7 +36,7 @@ class ilProfileChecklistGUI
         global $DIC;
 
         $this->ui = $DIC->ui();
-        $this->status = new ilProfileChecklistStatus();
+        $this->status = new ChecklistStatus();
         $this->lng = $DIC->language();
     }
 
@@ -71,9 +75,9 @@ class ilProfileChecklistGUI
     protected function getUIChecklistStatus(int $check_list_status): int
     {
         switch ($check_list_status) {
-            case ilProfileChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;
-            case ilProfileChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS;
-            case ilProfileChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY;
+            case ChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;
+            case ChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS;
+            case ChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY;
         }
         return 0;
     }

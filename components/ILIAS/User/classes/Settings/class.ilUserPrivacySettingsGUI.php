@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Profile\ChecklistStatus;
+use ILIAS\User\Profile\Mode as ProfileMode;
+
 use ILIAS\UI\Component\Input\Field\Section;
 
 /**
@@ -37,7 +42,7 @@ class ilUserPrivacySettingsGUI
     protected ilSetting $settings;
     protected \Psr\Http\Message\RequestInterface $request;
     protected ilProfileChecklistStatus $checklist_status;
-    protected ilPersonalProfileMode $profile_mode;
+    protected ProfileMode $profile_mode;
     private \ILIAS\UI\Factory $uiFactory;
     private \ILIAS\UI\Renderer $uiRenderer;
     private \ILIAS\Refinery\Factory $refinery;
@@ -65,8 +70,8 @@ class ilUserPrivacySettingsGUI
 
         $this->user_settings_config = new ilUserSettingsConfig();
         $this->settings = $DIC->settings();
-        $this->checklist_status = new ilProfileChecklistStatus();
-        $this->profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
+        $this->checklist_status = new ChecklistStatus();
+        $this->profile_mode = new ProfileMode($this->user, $this->settings);
     }
 
     public function executeCommand(): void
@@ -484,7 +489,7 @@ class ilUserPrivacySettingsGUI
                 }
             }
 
-            $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
+            $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_VISIBILITY_OPTIONS);
             $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'), true);
             $ctrl->redirect($this, '');
         }

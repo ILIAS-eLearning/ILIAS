@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
 use ILIAS\DI\Container as DIContainer;
-use ILIAS\components\User\UserFieldAttributesChangeListener;
-use ILIAS\components\User\InterestedUserFieldChangeListener;
-use ILIAS\components\User\ChangedUserFieldAttribute;
+use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
+use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
+use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory as UIFactory;
