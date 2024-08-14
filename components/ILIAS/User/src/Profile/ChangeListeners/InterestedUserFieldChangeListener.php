@@ -26,17 +26,16 @@ namespace ILIAS\User\Profile\ChangeListeners;
  */
 class InterestedUserFieldChangeListener
 {
-    private string $name;
-    private string $fieldName;
     /**
-     * @var InterestedUserFieldAttribute[] $attributes
+     * @var array<InterestedUserFieldAttribute> $attributes
      */
     private array $attributes = [];
 
-    public function __construct(string $name, string $fieldName)
-    {
-        $this->name = $name;
-        $this->fieldName = $fieldName;
+    public function __construct(
+        private readonly \ilLanguage $lng,
+        private readonly string $name,
+        private readonly string $field_name
+    ) {
     }
 
     public function getName(): string
@@ -46,28 +45,26 @@ class InterestedUserFieldChangeListener
 
     public function getFieldName(): string
     {
-        return $this->fieldName;
+        return $this->field_name;
     }
 
     /**
-     * @return InterestedUserFieldAttribute[]
+     * @return array<InterestedUserFieldAttribute>
      */
     public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    public function addAttribute(string $attributeName): InterestedUserFieldAttribute
+    public function addAttribute(string $attribute_name): InterestedUserFieldAttribute
     {
-        foreach ($this->attributes as $attribute) {
-            if ($attribute->getAttributeName() === $attributeName) {
-                return $attribute;
-            }
+        if (!isset($this->attributes[$attribute_name])) {
+            $this->attributes[$attribute_name] = new InterestedUserFieldAttribute(
+                $this->lng,
+                $attribute_name,
+                $this->field_name
+            );
         }
-
-        $attribute = new InterestedUserFieldAttribute($attributeName, $this->fieldName);
-        $this->attributes[] = $attribute;
-
-        return $attribute;
+        return $this->attributes[$attribute_name];
     }
 }

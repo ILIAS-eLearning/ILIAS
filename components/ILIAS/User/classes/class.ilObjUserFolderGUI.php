@@ -2568,6 +2568,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                             if ($interested_change_listener === null) {
                                 $interested_change_listener = new InterestedUserFieldChangeListener(
+                                    $this->lng,
                                     $this->getTranslationForField($field_name, $properties),
                                     $field_name
                                 );

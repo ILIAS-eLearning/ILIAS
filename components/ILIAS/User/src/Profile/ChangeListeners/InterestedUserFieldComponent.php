@@ -26,18 +26,15 @@ namespace ILIAS\User\Profile\ChangeListeners;
  */
 class InterestedUserFieldComponent
 {
-    private string $componentName;
-    private string $description;
-
-    public function __construct(string $componentName, string $description)
-    {
-        $this->componentName = $componentName;
-        $this->description = $description;
+    public function __construct(
+        private readonly string $component_name,
+        private readonly string $description
+    ) {
     }
 
     public function getComponentName(): string
     {
-        return $this->componentName;
+        return $this->component_name;
     }
 
     public function getDescription(): string

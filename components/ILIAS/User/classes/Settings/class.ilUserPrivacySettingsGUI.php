@@ -41,7 +41,7 @@ class ilUserPrivacySettingsGUI
     protected ilObjUser $user;
     protected ilSetting $settings;
     protected \Psr\Http\Message\RequestInterface $request;
-    protected ilProfileChecklistStatus $checklist_status;
+    protected ChecklistStatus $checklist_status;
     protected ProfileMode $profile_mode;
     private \ILIAS\UI\Factory $uiFactory;
     private \ILIAS\UI\Renderer $uiRenderer;
@@ -54,24 +54,30 @@ class ilUserPrivacySettingsGUI
     {
         global $DIC;
 
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->lng->loadLanguageModule("user");
-        $this->user = $DIC->user();
-        $this->refinery = $DIC->refinery();
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->main_tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->user = $DIC['ilUser'];
+        $this->refinery = $DIC['refinery'];
+        $this->uiFactory = $DIC['ui.factory'];
+        $this->uiRenderer = $DIC['ui.renderer'];
+        $this->event = $DIC['ilAppEventHandler'];
+        $this->request = $DIC->http()->request();
+
         $this->chatSettings = new ilSetting('chatroom');
         $this->notificationSettings = new ilSetting('notifications');
-        $this->event = $DIC->event();
-
-        $this->request = $DIC->http()->request();
 
         $this->user_settings_config = new ilUserSettingsConfig();
         $this->settings = $DIC->settings();
-        $this->checklist_status = new ChecklistStatus();
-        $this->profile_mode = new ProfileMode($this->user, $this->settings);
+        $this->profile_mode = new ProfileMode($this->lng, $this->settings, $this->user);
+        $this->checklist_status = new ChecklistStatus(
+            $this->lng,
+            $this->settings,
+            $this->user,
+            $this->profile_mode
+        );
+
+        $this->lng->loadLanguageModule('user');
     }
 
     public function executeCommand(): void

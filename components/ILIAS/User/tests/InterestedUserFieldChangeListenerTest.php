@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
-use ILIAS\DI\Container;
 
 /**
  * Class InterestedUserFieldChangeListenerTest
@@ -31,24 +30,17 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
-
-        $DIC = new Container();
-
-        $GLOBALS["lng"] = $this->createMock(ilLanguage::class);
-        unset($DIC["lng"]);
-        $DIC["lng"] = $GLOBALS["lng"];
-
         $this->interestedUserFieldChangeListener = new InterestedUserFieldChangeListener(
-            "Test name",
-            "Test fieldName"
+            $this->createMock(ilLanguage::class),
+            'Test name',
+            'Test fieldName'
         );
     }
 
     public function testGetName(): void
     {
         $this->assertEquals(
-            "Test name",
+            'Test name',
             $this->interestedUserFieldChangeListener->getName()
         );
     }
@@ -56,15 +48,15 @@ class InterestedUserFieldChangeListenerTest extends ilUserBaseTestCase
     public function testGetFieldName(): void
     {
         $this->assertEquals(
-            "Test fieldName",
+            'Test fieldName',
             $this->interestedUserFieldChangeListener->getFieldName()
         );
     }
 
     public function testAddGetAttribute(): void
     {
-        $interestedUserFieldAttribute = $this->interestedUserFieldChangeListener->addAttribute("ABCD");
+        $interestedUserFieldAttribute = $this->interestedUserFieldChangeListener->addAttribute('ABCD');
 
-        $this->assertEquals([$interestedUserFieldAttribute], $this->interestedUserFieldChangeListener->getAttributes());
+        $this->assertEquals(['ABCD' => $interestedUserFieldAttribute], $this->interestedUserFieldChangeListener->getAttributes());
     }
 }

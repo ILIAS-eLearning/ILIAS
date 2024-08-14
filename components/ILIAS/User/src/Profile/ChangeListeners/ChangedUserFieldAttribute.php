@@ -26,29 +26,25 @@ namespace ILIAS\User\Profile\ChangeListeners;
  */
 class ChangedUserFieldAttribute
 {
-    private string $attributeName;
-    private string $oldValue;
-    private string $newValue;
-
-    public function __construct(string $attributeName, string $oldValue, string $newValue)
-    {
-        $this->attributeName = $attributeName;
-        $this->oldValue = $oldValue;
-        $this->newValue = $newValue;
+    public function __construct(
+        private readonly string $attribute_name,
+        private readonly string $old_value,
+        private readonly string $new_value
+    ) {
     }
 
     public function getAttributeName(): string
     {
-        return $this->attributeName;
+        return $this->attribute_name;
     }
 
     public function getOldValue(): string
     {
-        return $this->oldValue;
+        return $this->old_value;
     }
 
     public function getNewValue(): string
     {
-        return $this->newValue;
+        return $this->new_value;
     }
 }

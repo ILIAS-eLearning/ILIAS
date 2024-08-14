@@ -32,206 +32,159 @@ class ChecklistStatus
     public const STATUS_NOT_STARTED = 0;
     public const STATUS_IN_PROGRESS = 1;
     public const STATUS_SUCCESSFUL = 2;
-    protected Mode $profile_mode;
-    protected ilObjUser $user;
 
-    protected ilLanguage $lng;
-    protected ilSetting $settings;
+    private \ilSetting $settings_chat;
+    private \ilSetting $settings_awareness;
 
     public function __construct(
-        ?ilLanguage $lng = null,
-        ?ilObjUser $user = null
+        private readonly \ilLanguage $lng,
+        private readonly \ilSetting $settings,
+        private readonly \ilObjUser $user,
+        private readonly Mode $profile_mode
     ) {
-        global $DIC;
-
-        $this->lng = is_null($lng)
-            ? $DIC->language()
-            : $lng;
+        $this->settings_chat = new \ilSetting('chatroom');
+        $this->settings_awareness = new \ilSetting('awrn');
 
         $this->lng->loadLanguageModule('chatroom');
-        $this->user = is_null($user)
-            ? $DIC->user()
-            : $user;
-
-        $this->settings = $DIC->settings();
-
-        $this->profile_mode = new Mode($this->user, $DIC->settings());
     }
-
-    private function areOnScreenChatOptionsVisible(): bool
-    {
-        $chatSettings = new ilSetting('chatroom');
-
-        return (
-            $chatSettings->get('chat_enabled', '0') &&
-            $chatSettings->get('enable_osc', '0') &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', '0')
-        );
-    }
-
-    private function areChatTypingBroadcastOptionsVisible(): bool
-    {
-        $chatSettings = new ilSetting('chatroom');
-
-        return (
-            $chatSettings->get('chat_enabled', '0') &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', '0')
-        );
-    }
-
     /**
      * @return array<int,string>
      */
     public function getSteps(): array
     {
-        $lng = $this->lng;
-
         $txt_visibility = $this->anyVisibilitySettings()
-            ? $lng->txt("user_visibility_settings")
-            : $lng->txt("preview");
+            ? $this->lng->txt('user_visibility_settings')
+            : $this->lng->txt('preview');
 
         return [
-            self::STEP_PROFILE_DATA => $lng->txt("user_profile_data"),
-            self::STEP_PUBLISH_OPTIONS => $lng->txt("user_publish_options"),
+            self::STEP_PROFILE_DATA => $this->lng->txt('user_profile_data'),
+            self::STEP_PUBLISH_OPTIONS => $this->lng->txt('user_publish_options'),
             self::STEP_VISIBILITY_OPTIONS => $txt_visibility
         ];
     }
 
-    /**
-     * Any visibility settings?
-     */
     public function anyVisibilitySettings(): bool
     {
-        $awrn_set = new ilSetting("awrn");
-        if (
-            $awrn_set->get("awrn_enabled", '0') ||
-            ilBuddySystem::getInstance()->isEnabled() ||
-            $this->areOnScreenChatOptionsVisible() ||
-            $this->areChatTypingBroadcastOptionsVisible()
-        ) {
-            return true;
-        }
 
-        return false;
+        return $this->settings_awareness->get('awrn_enabled', '0') !== '0'
+            || \ilBuddySystem::getInstance()->isEnabled()
+            || $this->areOnScreenChatOptionsVisible()
+            || $this->areChatTypingBroadcastOptionsVisible();
     }
 
-    /**
-     * Get status of step
-     */
     public function getStatus(int $step): int
     {
-        $status = self::STATUS_NOT_STARTED;
-        $user = $this->user;
-
         switch ($step) {
             case self::STEP_PROFILE_DATA:
-                if ($user->getPref("profile_personal_data_saved")) {
-                    $status = self::STATUS_SUCCESSFUL;
+                if ($this->user->getProfileIncomplete()) {
+                    return self::STATUS_IN_PROGRESS;
                 }
-
-                if ($user->getProfileIncomplete()) {
-                    $status = self::STATUS_IN_PROGRESS;
+                if ($this->user->getPref('profile_personal_data_saved')) {
+                    return self::STATUS_SUCCESSFUL;
                 }
                 break;
 
             case self::STEP_PUBLISH_OPTIONS:
-                if ($user->getPref("profile_publish_opt_saved")) {
-                    $status = self::STATUS_SUCCESSFUL;
+                if ($this->user->getPref('profile_publish_opt_saved')) {
+                    return self::STATUS_SUCCESSFUL;
                 }
                 break;
 
             case self::STEP_VISIBILITY_OPTIONS:
-                if ($user->getPref("profile_visibility_opt_saved") ||
-                    (!$this->anyVisibilitySettings() && $user->getPref("profile_publish_opt_saved"))) {
-                    $status = self::STATUS_SUCCESSFUL;
+                if ($this->user->getPref('profile_visibility_opt_saved')
+                        || !$this->anyVisibilitySettings()
+                            && $this->user->getPref('profile_publish_opt_saved')) {
+                    return self::STATUS_SUCCESSFUL;
                 }
                 break;
         }
 
-        return $status;
+        return self::STATUS_NOT_STARTED;
     }
 
-    /**
-     * Get status details
-     */
     public function getStatusDetails(int $step): string
     {
-        $lng = $this->lng;
-        $user = $this->user;
         $status = $this->getStatus($step);
-        $details = "";
         switch ($step) {
             case self::STEP_PROFILE_DATA:
-                if ($status == self::STATUS_SUCCESSFUL) {
-                    $details = $lng->txt("user_profile_data_checked");
-                } else {
-                    $details = $lng->txt("user_check_profile_data");
+                if ($status === self::STATUS_SUCCESSFUL) {
+                    return $this->lng->txt('user_profile_data_checked');
                 }
-                break;
+                return $this->lng->txt('user_check_profile_data');
 
             case self::STEP_PUBLISH_OPTIONS:
-                if ($status == self::STATUS_SUCCESSFUL) {
-                    $details = $this->profile_mode->getModeInfo();
-                } else {
-                    $details = $lng->txt("user_set_publishing_options");
+                if ($status === self::STATUS_SUCCESSFUL) {
+                    return $this->profile_mode->getModeInfo();
                 }
-                break;
+                return $this->lng->txt('user_set_publishing_options');
 
             case self::STEP_VISIBILITY_OPTIONS:
-                if ($status == self::STATUS_SUCCESSFUL) {
-                    $awrn_set = new ilSetting("awrn");
-                    $status = [];
-                    if ($awrn_set->get("awrn_enabled", '0')) {
-                        $show = ($user->getPref("hide_own_online_status") === "n" ||
-                            ($user->getPref("hide_own_online_status") == "" && $this->settings->get("hide_own_online_status") === "n"));
-                        $status[] = (!$show)
-                            ? $lng->txt("hide_own_online_status")
-                            : $lng->txt("show_own_online_status");
-                    }
-                    if (ilBuddySystem::getInstance()->isEnabled()) {
-                        $status[] = ($user->getPref("bs_allow_to_contact_me") !== "y")
-                            ? $lng->txt("buddy_allow_to_contact_me_no")
-                            : $lng->txt("buddy_allow_to_contact_me_yes");
-                    }
-                    if ($this->areOnScreenChatOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg'))
-                            ? $lng->txt("chat_use_osc")
-                            : $lng->txt("chat_not_use_osc");
-                    }
-                    if ($this->areChatTypingBroadcastOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'))
-                            ? $lng->txt("chat_use_typing_broadcast")
-                            : $lng->txt("chat_no_use_typing_broadcast");
-                    }
-                    $details = implode(",<br>", $status);
-                } else {
-                    if ($this->anyVisibilitySettings()) {
-                        $details = $lng->txt("user_set_visibilty_options");
-                    }
+                if ($status === self::STATUS_SUCCESSFUL) {
+                    return $this->buildStatusArrayForVisibilityOnSuccess();
+                }
+                if ($this->anyVisibilitySettings()) {
+                    return $this->lng->txt('user_set_visibilty_options');
                 }
                 break;
         }
-        return $details;
+        return '';
     }
 
-
-    /**
-     * Save step success
-     */
     public function saveStepSucess(int $step): void
     {
-        $user = $this->user;
         switch ($step) {
             case self::STEP_PROFILE_DATA:
-                $user->setPref("profile_personal_data_saved", "1");
+                $this->user->setPref('profile_personal_data_saved', '1');
                 break;
             case self::STEP_PUBLISH_OPTIONS:
-                $user->setPref("profile_publish_opt_saved", "1");
+                $this->user->setPref('profile_publish_opt_saved', '1');
                 break;
             case self::STEP_VISIBILITY_OPTIONS:
-                $user->setPref("profile_visibility_opt_saved", "1");
+                $this->user->setPref('profile_visibility_opt_saved', '1');
                 break;
         }
-        $user->update();
+        $this->user->update();
+    }
+
+    private function buildStatusArrayForVisibilityOnSuccess(): string
+    {
+        $status = [];
+        if ($this->settings_awareness->get('awrn_enabled', '0') !== '0') {
+            $show = $this->user->getPref('hide_own_online_status') === 'n'
+                || $this->user->getPref('hide_own_online_status') ?? '' === ''
+                    && $this->settings->get('hide_own_online_status') === 'n';
+            $status[] = !$show
+                ? $this->lng->txt('hide_own_online_status')
+                : $this->lng->txt('show_own_online_status');
+        }
+        if (\ilBuddySystem::getInstance()->isEnabled()) {
+            $status[] = $this->user->getPref('bs_allow_to_contact_me') !== 'y'
+                ? $this->lng->txt('buddy_allow_to_contact_me_no')
+                : $this->lng->txt('buddy_allow_to_contact_me_yes');
+        }
+        if ($this->areOnScreenChatOptionsVisible()) {
+            $status[] = $this->user->getPref('chat_osc_accept_msg') === 'y'
+                ? $this->lng->txt('chat_use_osc')
+                : $this->lng->txt('chat_not_use_osc');
+        }
+        if ($this->areChatTypingBroadcastOptionsVisible()) {
+            $status[] = $this->user->getPref('chat_broadcast_typing') === 'y'
+                ? $this->lng->txt('chat_use_typing_broadcast')
+                : $this->lng->txt('chat_no_use_typing_broadcast');
+        }
+        return implode(',<br>', $status);
+    }
+
+    private function areOnScreenChatOptionsVisible(): bool
+    {
+        return $this->settings_chat->get('chat_enabled', '0') !== '0'
+            && $this->settings_chat->get('enable_osc', '0') !== '0'
+            && $this->settings->get('usr_settings_hide_chat_osc_accept_msg', '0') === '0';
+    }
+
+    private function areChatTypingBroadcastOptionsVisible(): bool
+    {
+        return $this->settings_chat->get('chat_enabled', '0')
+            && $this->settings->get('usr_settings_hide_chat_broadcast_typing', '0') === '0';
     }
 }
