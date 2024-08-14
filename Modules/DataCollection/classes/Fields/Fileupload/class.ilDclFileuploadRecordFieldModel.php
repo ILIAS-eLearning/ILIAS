@@ -112,15 +112,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
-    {
-        if (is_array($this->getValue())) {
-            foreach ($this->getValue() as $key => $value) {
-                $confirmation->addHiddenItem('field_' . $this->field->getId() . '[' . $key . ']', $value);
-            }
-        }
-    }
-
     /**
      * Set value for record field
      * @param string|int $value
