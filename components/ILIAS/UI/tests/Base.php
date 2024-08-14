@@ -431,16 +431,6 @@ trait BaseUITestTrait
                         $help_text_retriever,
                         $this->getUploadLimitResolver()
                     ),
-                    new IconRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $image_path_resolver,
-                        $data_factory,
-                        $help_text_retriever,
-                        $this->getUploadLimitResolver()
-                    ),
                     new FieldRendererFactory(
                         $ui_factory,
                         $tpl_factory,

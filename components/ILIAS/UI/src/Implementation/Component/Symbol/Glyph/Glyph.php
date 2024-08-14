@@ -122,6 +122,13 @@ class Glyph implements C\Symbol\Glyph\Glyph
         return $this->label;
     }
 
+    public function withLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
+
     /**
      * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label

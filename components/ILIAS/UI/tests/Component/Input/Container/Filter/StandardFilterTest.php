@@ -243,7 +243,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" role="img">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -379,7 +379,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" role="img">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -515,7 +515,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" role="img">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -651,7 +651,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" role="img">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>

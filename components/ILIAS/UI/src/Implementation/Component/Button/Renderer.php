@@ -28,6 +28,7 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -85,11 +86,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("LABEL", $component->getLabel());
-        if($symbol = $component->getSymbol()) {
-            if($symbol instanceof Glyph && $symbol->getAction() !== null) {
-                $symbol = $symbol->withAction('#');
+        $symbol = $component->getSymbol();
+        if($symbol !== null) {
+            if ($component->getLabel() !== '') {
+                $symbol = $symbol->withLabel('');
             }
-            $default_renderer = $default_renderer->withAdditionalContext($component);
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
 
