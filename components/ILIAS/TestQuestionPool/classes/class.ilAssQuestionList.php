@@ -284,10 +284,99 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                         $expressions[] = $this->db->like('object_data.title', 'text', "%%$fieldValue%%");
                     }
                     break;
+                case 'taxonomy_title':
+                    if ($fieldValue !== '') {
+                        $expressions[] = $this->getTaxonomyTitleFilterExpression($fieldValue);
+                    }
+                    break;
+                case 'taxonomy_node_title':
+                    if ($fieldValue !== '') {
+                        $expressions[] = $this->getTaxonomyNodeTitleFilterExpression($fieldValue);
+                    }
+                    break;
+                case 'feedback':
+                    if ($fieldValue === 'false') {
+                        $expressions[] = 'qpl_fb_generic.question_fi IS NULL';
+                    }
+                    break;
+                case 'hints':
+                    if ($fieldValue === 'false') {
+                        $expressions[] = 'qpl_hints.qht_question_fi IS NULL';
+                    }
+                    break;
             }
         }
 
         return $expressions;
+    }
+
+    private function getTaxonomyTitleFilterExpression(string $taxonomyTitle): ?string
+    {
+        $this->join_obj_data = true;
+        return 'tax_node_assignment.tax_id IN (SELECT obj_id FROM object_data WHERE'
+            . $this->db->like('object_data.title', 'text', '%' . $taxonomyTitle . '%')
+            . ' AND type = \'tax\')'
+        ;
+    }
+
+    private function getTaxonomyNodeTitleFilterExpression(string $taxonomyNodeTitle): ?string
+    {
+        $this->join_obj_data = true;
+        return 'tax_node_assignment.node_id IN (SELECT obj_id FROM tax_node WHERE'
+            . $this->db->like('tax_node.title', 'text', '%' . $taxonomyNodeTitle . '%')
+            . ' AND type = \'taxn\')'
+        ;
+    }
+
+    private function handleTaxonomyInnerJoin(string $tableJoin): string
+    {
+        if (
+            ($this->fieldFilters['taxonomy_title'] ?? '') !== ''
+            || ($this->fieldFilters['taxonomy_node_title'] ?? '') !== ''
+        ) {
+            $SQL = 'INNER JOIN tax_node_assignment ON object_data.obj_id = tax_node_assignment.obj_id';
+            if (!str_contains($tableJoin, $SQL)) {
+                $tableJoin .= $SQL;
+            }
+        }
+
+        return $tableJoin;
+    }
+
+    private function handleFeedbackJoin(string $tableJoin): string
+    {
+        $feedback_join = match ($this->fieldFilters['feedback'] ?? null) {
+            'true' => 'INNER',
+            'false' => 'LEFT',
+            default => null
+        };
+
+        if (isset($feedback_join)) {
+            $SQL = $feedback_join . ' JOIN qpl_fb_generic ON qpl_fb_generic.question_fi = qpl_questions.question_id ';
+            if (!str_contains($tableJoin, $SQL)) {
+                $tableJoin .= $SQL;
+            }
+        }
+
+        return $tableJoin;
+    }
+
+    private function handleHintJoin(string $tableJoin): string
+    {
+        $feedback_join = match ($this->fieldFilters['hints'] ?? null) {
+            'true' => 'INNER',
+            'false' => 'LEFT',
+            default => null
+        };
+
+        if (isset($feedback_join)) {
+            $SQL = $feedback_join . ' JOIN qpl_hints ON qpl_hints.qht_question_fi = qpl_questions.question_id ';
+            if (!str_contains($tableJoin, $SQL)) {
+                $tableJoin .= $SQL;
+            }
+        }
+
+        return $tableJoin;
     }
 
     private function getTaxonomyFilterExpressions(): array
@@ -454,13 +543,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			";
         }
 
-        if ($this->getParentObjectType() === 'tst'
-            && $this->getQuestionInstanceTypeFilter() === self::QUESTION_INSTANCE_TYPE_ALL) {
-            $tableJoin .= "
-            						INNER JOIN	tst_test_question tstquest
-			ON			tstquest.question_fi = qpl_questions.question_id
-			";
+        if (
+            $this->getParentObjectType() === 'tst'
+            && $this->getQuestionInstanceTypeFilter() === self::QUESTION_INSTANCE_TYPE_ALL
+        ) {
+            $tableJoin .= " INNER JOIN tst_test_question ON tst_test_question.question_fi = qpl_questions.question_id ";
         }
+
+        $tableJoin = $this->handleTaxonomyInnerJoin($tableJoin);
+        $tableJoin = $this->handleFeedbackJoin($tableJoin);
+        $tableJoin = $this->handleHintJoin($tableJoin);
 
         if ($this->getAnswerStatusActiveId()) {
             $tableJoin .= "
