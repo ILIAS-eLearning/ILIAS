@@ -1,20 +1,17 @@
 # Lucene RPC-Server
 
-<!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
-
-1. [Apache Lucene](#apache-lucene)
-   1. [Requirements](#requirements)
-1. [Installation](#installation)
-   1. [Create a Server Configuration File](#create-a-server-configuration-file)
-   1. [Start the server:](#start-the-server)
-   1. [Creating a new Lucene index:](#creating-a-new-lucene-index)
-   1. [Updating an existing index:](#updating-an-existing-index)
-   1. [Performing a query](#performing-a-query)
-1. [Preparing ILIAS](#preparing-ilias)
-1. [Starting Lucene server at boot time](#starting-lucene-server-at-boot-time)
-   1. [SysV-Init](#sysv-init)
-
-<!-- /MarkdownTOC -->
+**Table of Contents**
+* [Apache Lucene](#apache-lucene)
+  * [Requirements](#requirements)
+* [Installation](#installation)
+  * [Build the Java RPC server](#build-the-java-rpc-server)
+  * [Confgure the server](#configure-the-java-rpc-server)
+  * [Manage Startup](#manage-startup-using-systemd)
+  * [Start the Server](#start-the-server)
+  * [Show Additional Status Info](#show-additional-status-info)
+  * [Creating a new Index](#creating-a-new-lucene-index)
+  * [Updating an existing index](#manage-startup-using-systemd)
+  * [Performing a query](#performing-a-query)
 
 <a name="apache-lucene"></a>
 # Apache Lucene
@@ -32,7 +29,7 @@ support UTF-8 encodings.
 
 PHP curl and xmlrpc are required for using the Java server features.
 
-On Debian based systems try:
+On Debian-based systems try:
 
 ````shell
 > apt-get install php-curl php-xmlrpc openjdk-17-jdk-headless
@@ -55,27 +52,28 @@ To build/compile the jar file for older LTS release than v17, start the maven bu
 ```shell
 # java 11
 > mvn clean install -Dmaven.compiler.release=11
-# java 8
-> mvn clean install -Dmaven.compiler.source=8 -Dmaven.compiler.target=8
+# java 21
+> mvn clean install -Dmaven.compiler.source=21 -Dmaven.compiler.target=21
 ```
 
 The newly generated ilServer.jar has been created in the target-directory.
-Now move the target directory to the external data directory or any other location.
+Now move the target directory to any other location and grant read/write permission to the webserver user 
 ```shell
-> mv target {PATH_TO_EXTERNAL_DATA}
+> mv target /foo/bar
+> chown -R www-data:www-data /foo/bar/target
 ```
 
 ## Configure the Java RPC Server
 Create a config file readable by the webserver user/group with following contents. E.g in the external data directory
 ```shell
-> vi {PATH_TO_EXTERNAL_DATA}/ilServer.ini
+> vi /foo/bar/ilServer.ini
 [Server]
-IpAddress = localhost
+IpAddress = 127.0.0.1
 Port = 11111
-IndexPath = /var/www/html/ilias/data/
-LogFile = /var/www/files/ilServer.log
-LogLevel = INFO 
-NumThreads = 1
+IndexPath = /var/www/files/lucene
+LogFile = /var/www/logs/ilServer.log
+LogLevel = INFO
+NumThreads = 2
 RamBufferSize = 256
 IndexMaxFileSizeMB = 500
 
@@ -84,6 +82,24 @@ ClientId = ACMECorp
 NicId = 0
 IliasIniPath = /var/www/html/ilias/ilias.ini.php
 ```
+
+- IpAddress: normally localhost is sufficient
+- Port: any free non pivileged port
+- IndexPath: any directory with read/write access for the webserver user
+- LogFile: Directory must exist. Read/write access for the webserver is required
+- LogLevel: one of INFO, DEBUG, WARN, ERROR, FATAL
+- NumThreads: The larger the number of NumThreads, the shorter the indexing time, at the expense of the overall CPU load.
+- RamBufferSize: The maximum amount of memory in MB before index data is written to the file system
+- IndexMaxFileSize: The maximum file size of ILIAS files that can be included in the index.
+
+- ClientId: ClientId of ILIAS installation
+- NicId: NicID of ILIAS installation
+- IliasIniPath: absolute path to ilias.ini.php
+
+### Configure the ILIAS RPC connection settings
+Adapt the ILIAS setup config file variables (rpc_server_host and rpc_server_port) according 
+to [documentation of the command line setup](../../../../setup/README.md)
+
 ## Manage Startup using systemd
 ```shell
 > vi /etc/systemd/system/ilserver.service
@@ -94,8 +110,8 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-ExecStart=/usr/bin/java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini start
-ExecStop=/usr/bin/java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini stop
+ExecStart=/usr/bin/java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini start
+ExecStop=/usr/bin/java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini stop
 TimeoutStopSec=10
 
 [Install]
@@ -106,7 +122,7 @@ WantedBy=multi-user.target
 <a name="start-the-server"></a>
 ## Start the Server
 ```shell
-> systemctl start ilserver.service 
+> systemctl start ilserver.service
 ```
 ## Show Additional Status Info
 ```shell
@@ -124,7 +140,7 @@ Indexing
 ## Creating a new Lucene index:
 
 ```shell
-> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex <CLIENT_INFO>
+> java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini createIndex <CLIENT_INFO>
 ```
 
 The ```<CLIENT_INFO>``` is a combination of the client id and the installation id.
@@ -142,11 +158,11 @@ config:
 
 Example:
 ```shell
-> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex default_12345678
+> java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini createIndex default_12345678
 ```
 or
 ```shell
-> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini createIndex default_0
+> java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini createIndex default_0
 ```
 if no installation id is given.
 
@@ -154,12 +170,12 @@ if no installation id is given.
 ## Updating an existing index:
 
 ```shell
-> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini updateIndex <CLIENT_INFO>
+> java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini updateIndex <CLIENT_INFO>
 ```
 
 <a name="performing-a-query"></a>
 ## Performing a query
 
 ```shell
-> java -jar {PATH_TO_EXTERNAL_DATA}/target/ilServer.jar {PATH_TO_EXTERNAL_DATA}/ilServer.ini search <CLIENT_INFO> "ilias"
+> java -jar /foo/bar/target/ilServer.jar /foo/bar/ilServer.ini search <CLIENT_INFO> "ilias"
 ```
