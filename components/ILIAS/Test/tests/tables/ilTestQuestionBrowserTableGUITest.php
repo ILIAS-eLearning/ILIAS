@@ -27,6 +27,9 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
     private ilTestQuestionBrowserTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -81,20 +84,19 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
-            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $lng_mock,
+            $ctrl_mock,
+            $mainTpl_mock,
+            $this->createMock(ilUIService::class),
+            $this->createMock(ILIAS\Data\Factory::class),
+            $this->createMock(ILIAS\Taxonomy\DomainService::class),
+            fn(int $questionPoolId) => 'testLink'
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestQuestionBrowserTableGUI::class, $this->tableGui);
-    }
-
-    public function testWriteAccess(): void
-    {
-        $this->tableGui->setWriteAccess(false);
-        $this->assertFalse($this->tableGui->hasWriteAccess());
-        $this->tableGui->setWriteAccess(true);
-        $this->assertTrue($this->tableGui->hasWriteAccess());
     }
 }

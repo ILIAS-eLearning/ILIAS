@@ -599,6 +599,7 @@ assessment#:#correct_answers#:#Richtige Antworten:
 assessment#:#counter#:#Zähler
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
+assessment#:#created#:#Erstellt
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Teilnehmer
 assessment#:#date_time#:#Datum und Uhrzeit
@@ -971,6 +972,7 @@ assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, i
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
 assessment#:#output#:#Ausgabe
 assessment#:#output_mode#:#Ausgabemodus
+assessment#:#parent_title#:#Elternobjekt Titel
 assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#participants#:#Teilnehmer
@@ -1240,6 +1242,8 @@ assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#tax_filter#:#Taxonomie
 assessment#:#tax_filter_notax#:#Fragen ohne zugeordnete Taxonomie
+assessment#:#taxonomy_node_title#:#Taxonomie Knoten Titel
+assessment#:#taxonomy_title#:#Taxonomie Titel
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
@@ -2014,6 +2018,7 @@ assessment#:#unit_placeholder#:#** Neue Einheit **
 assessment#:#units#:#Einheiten
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
+assessment#:#updated#:#Aktualisiert
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.

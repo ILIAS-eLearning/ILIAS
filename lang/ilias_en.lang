@@ -599,6 +599,7 @@ assessment#:#correct_answers#:#Correct Answers:
 assessment#:#counter#:#Counter
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#created#:#Created
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Participants
 assessment#:#date_time#:#Date and Time
@@ -971,6 +972,7 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#out_of_range#:#Out of range
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
+assessment#:#parent_title#:#Parent Object Title
 assessment#:#parseQuestion#:#Parse Question
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#participants#:#Participants
@@ -1240,6 +1242,8 @@ assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#tax_filter#:#Taxonomy
 assessment#:#tax_filter_notax#:#Questions without assigned Taxonomy
+assessment#:#taxonomy_node_title#:#Taxonomy Node Title
+assessment#:#taxonomy_title#:#Taxonomy Title
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
@@ -2014,6 +2018,7 @@ assessment#:#unit_placeholder#:#** New Unit **
 assessment#:#units#:#Units
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
+assessment#:#updated#:#Updated
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
