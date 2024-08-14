@@ -7,7 +7,7 @@ $cursor-disabled: not-allowed;
 
 button {
 	cursor: pointer;
-	@include focus.il-focus-outline-only();
+	@include t-focus.il-focus-outline-only();
 }
 
 textarea {

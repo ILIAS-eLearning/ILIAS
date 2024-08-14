@@ -36,46 +36,8 @@
 @use "_ui-component_markdown.scss";
 @use "_ui-component_rating.scss";
 @use "_ui-component_numeric.scss";
-@use "_ui-component_switchablegroup.scss";
 @use "_ui-component_optionalgroups.scss";
 
-//== Standard Form
-//
-//## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
-
-.il-standard-form{
-  background-color: $il-standard-form-bg;
-  margin-top: $il-margin-large-vertical;
-  padding: $il-standard-form-header-padding;
-
-  .il-standard-form-cmd {
-    float: right;
-    .btn {
-      display: inline-block;
-      min-width: $il-button-min-width-forms;
-      vertical-align: top;
-
-      @media (max-width: $il-grid-float-breakpoint-max){
-        min-width: 0;
-      }
-
-/// ### All input UI components
-/// This file is an entry point for all input fields of the UI framework.
-/// CSS generation only. You MUST NOT use any of their variables, functions, mixins outside local scope.
-@use "ui-component_tag";
-@use "ui-component_checkbox";
-@use "ui-component_password";
-@use "ui-component_radio";
-@use "ui-component_multiselect";
-@use "ui-component_textarea";
-@use "ui-component_filter";
-@use "ui-component_duration";
-@use "ui-component_file";
-@use "ui-component_link";
-@use "ui-component_markdown";
-@use "ui-component_rating";
-@use "ui-component_section";
-@use "ui-component_optionalgroups";
 
 /// general form container styling
 .c-form {

@@ -163,7 +163,6 @@ class Renderer extends AbstractComponentRenderer
         FormInput $component,
         string $label,
         string $input_html,
-        RendererInterface $default_renderer,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
         bool $bind_label_with_for = true,
@@ -795,7 +794,7 @@ class Renderer extends AbstractComponentRenderer
             $input,
             $input->getLabel(),
             $template->get(),
-            $default_renderer,
+            //$default_renderer,
             $js_id,
             "",
             false

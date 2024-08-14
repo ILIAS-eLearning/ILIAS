@@ -125,7 +125,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <input id="id_1" type="text" class="form-control form-control-sm" />
+                <input id="id_1" type="text" class="c-field-text" />
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -150,7 +150,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <input id="id_1" type="number" class="form-control form-control-sm c-input-numeric" />
+                <input id="id_1" type="number" class="c-field-number" />
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -232,8 +232,8 @@ class FilterInputTest extends ILIAS_UI_TestBase
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <div class="input-group date il-input-datetime">
-                    <input id="id_1" type="date" class="form-control form-control-sm" />
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
@@ -257,15 +257,16 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($dr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-                <div class="input-group date il-input-datetime">
-                    <input id="id_1" type="date" class="form-control form-control-sm" />
+        <fieldset class="c-input" data-il-ui-type="" data-il-ui-name="">
+            <label for="id_1">label</label>
+            <div class="c-input__field">
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
             </div>
-        </div>
+        </fieldset>
         ');
+        $this->assertEquals($expected, $html);
         $this->assertHTMLEquals($expected, $html);
     }
 

@@ -38,14 +38,16 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class FilterContextRenderer extends Renderer
 {
-    /**
-     * @inheritdoc
-     */
+
+    protected RendererInterface $original_default_renderer;
+
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof FilterInput) {
             $component = $this->setSignals($component);
         }
+
+        $this->original_default_renderer = $default_renderer;
 
         switch (true) {
             case ($component instanceof F\Duration):
@@ -73,6 +75,12 @@ class FilterContextRenderer extends Renderer
                 $this->cannotHandleComponent($component);
         }
     }
+
+    protected function getOriginalDefaultRenderer(): RendererInterface
+    {
+        return $this->original_default_renderer;
+    }
+
 
     protected function renderFieldGroups(Group $group, RendererInterface $default_renderer): string
     {
@@ -115,13 +123,15 @@ class FilterContextRenderer extends Renderer
 
     protected function wrapInFormContext(
         FormInput $component,
+        string $label,
         string $input_html,
-        RendererInterface $default_renderer,
+        //RendererInterface $default_renderer,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
-        bool $bind_label_with_for = true
+        bool $bind_label_with_for = true,
+        bool $wrap = true,
     ): string {
-        return $this->wrapInFilterContext($component, $input_html, $default_renderer, $id_pointing_to_input);
+        return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_pointing_to_input);
     }
 
     protected function wrapInFilterContext(
@@ -205,7 +215,7 @@ class FilterContextRenderer extends Renderer
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
+        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
     }
 
     public function registerResources(ResourceRegistry $registry): void

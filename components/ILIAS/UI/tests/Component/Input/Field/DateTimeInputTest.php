@@ -174,15 +174,15 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-                <div class="input-group date il-input-datetime">
-                    <input id="id_1" type="date" class="form-control form-control-sm" />
+        <fieldset class="c-input" data-il-ui-type="DateTimeFieldInput" data-il-ui-name="">
+            <label for="id_1">label</label>
+            <div class="c-input__field">
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
-                <div class="help-block">byline</div>
             </div>
-        </div>
+            <div class="c-input__help-byline">byline</div>
+        </fieldset>
         ');
         $this->assertEquals($expected, $html);
     }

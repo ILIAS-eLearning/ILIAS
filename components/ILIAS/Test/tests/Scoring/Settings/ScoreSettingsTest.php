@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . "/../../UI/tests/Base.php");
-require_once(__DIR__ . "/../../UI/tests/Component/Input/Field/CommonFieldRendering.php");
+require_once(__DIR__ . "/../../../../UI/tests/Base.php");
+require_once(__DIR__ . "/../../../../UI/tests/Component/Input/Field/CommonFieldRendering.php");
 
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
