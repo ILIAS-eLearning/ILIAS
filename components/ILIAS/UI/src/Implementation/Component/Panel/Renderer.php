@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\Data\URI;
 
 /**
  * Class Renderer
@@ -30,6 +32,8 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
+    use HasExpandableRenderer;
+
     /**
      * @inheritdocs
      */
@@ -69,24 +73,24 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
+        $f = $this->getUIFactory();
 
-        $view_controls = $component->getViewControls();
-        if ($view_controls) {
-            foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
-            }
+        if ($component->isExpandable()) {
+            $component = $this->parseActions($component);
         }
-
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        $id = $this->bindJavaScript($component);
+        if ($id === null) {
+            $id = $this->createId();
         }
+        $tpl->setVariable("ID", $id);
 
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl_heading = $this->parseHeader($component, $id, $default_renderer, $f);
+        $tpl->setVariable("HEADING", $tpl_heading->get());
+        if ($component->isExpandable()) {
+            $tpl = $this->declareExpandable($component, $id, $tpl);
+        }
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+
         return $tpl->get();
     }
 
@@ -129,6 +133,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("TITLE", $component->getTitle());
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
+    }
+
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/panel.js');
     }
 
     /**

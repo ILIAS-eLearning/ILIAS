@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Panel;
 
@@ -36,7 +36,9 @@ interface Factory
      *   composition: >
      *      Standard Panels consist of a title and a content section. The
      *      structure of this content might be varying from Standard
-     *      Panel to Standard Panel. Standard Panels may contain View Controls and Sub Panels.
+     *      Panel to Standard Panel. The content section can optionally be made collapsible.
+     *      Standard Panels may contain View Controls and Sub Panels. The View Controls will
+     *      be hidden when the Standard Panel is collapsed.
      *   rivals:
      *      Cards: >
      *        Often Cards are used in Decks to display multiple uniformly structured chunks of Data horizontally and vertically.
@@ -50,6 +52,12 @@ interface Factory
      *      1: Standard Panels MAY contain a Section View Control to change the current presentation of the content.
      *      2: Standard Panels MAY contain a Pagination View Control to display data in chunks.
      *      3: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+     *
+     *   interaction:
+     *      1: >
+     *         Standard Panels MAY be expandable to make the content collapsible by clicking on the title area.
+     *         Standard Panels MAY also get asynchronous expand and collapse actions to e.g. store the expanded status
+     *         of the Component in the session.
      * ---
      * @param string $title
      * @param Component[]|Component

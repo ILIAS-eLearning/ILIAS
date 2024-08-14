@@ -25,9 +25,14 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Implementation\Render\Template as Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Component\Panel\HasExpandableRenderer;
 
 class Renderer extends AbstractComponentRenderer
 {
+    use HasExpandableRenderer;
+
     /**
      * @inheritdoc
      */
@@ -44,8 +49,22 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
+        $f = $this->getUIFactory();
 
-        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+        if ($component->isExpandable()) {
+            $component = $this->parseActions($component);
+        }
+        $id = $this->bindJavaScript($component);
+        if ($id === null) {
+            $id = $this->createId();
+        }
+        $tpl->setVariable("ID", $id);
+
+        $tpl_heading = $this->parseHeader($component, $id, $default_renderer, $f);
+        $tpl->setVariable("HEADING", $tpl_heading->get());
+        if ($component->isExpandable()) {
+            $tpl = $this->declareExpandable($component, $id, $tpl);
+        }
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof Group) {
@@ -58,31 +77,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function parseHeader(
-        C\Panel\Listing\Standard $component,
-        RendererInterface $default_renderer,
-        Template $tpl
-    ): Template {
-        $title = $component->getTitle();
-        $actions = $component->getActions();
-        $view_controls = $component->getViewControls();
-
-        if ($title !== "" || $actions || $view_controls) {
-            $tpl->setVariable("TITLE", $title);
-            if ($actions) {
-                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-            }
-            if ($view_controls) {
-                foreach ($view_controls as $view_control) {
-                    $tpl->setCurrentBlock("view_controls");
-                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                    $tpl->parseCurrentBlock();
-                }
-            }
-            $tpl->setCurrentBlock("heading");
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl;
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('assets/js/panel.js');
     }
 
     /**

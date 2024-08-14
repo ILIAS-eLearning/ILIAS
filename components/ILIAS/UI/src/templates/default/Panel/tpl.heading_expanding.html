@@ -1,0 +1,26 @@
+<!-- BEGIN heading -->
+<div class="panel-heading ilHeader">
+	<!-- BEGIN title -->
+	<div class="panel-title">
+		<h2>{TITLE}</h2>
+	</div>
+	<!-- END title -->
+	<!-- BEGIN toggler -->
+	<div class="panel-toggler">
+		<h2>
+			<button aria-expanded="{ARIA_EXPANDED}" aria-controls="body_{PANEL_ID}" id="header_{PANEL_ID}">
+				<span>
+					<span data-collapse-glyph-visibility="{COLLAPSE_GLYPH_VISIBLE}">{COLLAPSE_GLYPH}</span>
+					<span data-expand-glyph-visibility="{EXPAND_GLYPH_VISIBLE}">{EXPAND_GLYPH}</span>
+					{TITLE_TOGGLER}
+                </span>
+			</button>
+		</h2>
+	</div>
+	<!-- END toggler -->
+	<!-- BEGIN vc_container -->
+	<div class="panel-viewcontrols l-bar__space-keeper"<!-- BEGIN vc_expandable --> data-vc-expanded="{VC_EXPANDED}"<!-- END vc_expandable -->><!-- BEGIN view_controls -->{VIEW_CONTROL}<!-- END view_controls --></div>
+	<!-- END vc_container -->
+	<div class="panel-controls">{ACTIONS}</div>
+</div>
+<!-- END heading -->

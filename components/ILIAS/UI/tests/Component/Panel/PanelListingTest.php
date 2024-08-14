@@ -29,6 +29,24 @@ use ILIAS\UI\Implementation as I;
  */
 class PanelListingTest extends ILIAS_UI_TestBase
 {
+    public function getUIFactory(): NoUIFactory
+    {
+        return new class () extends NoUIFactory {
+            public function button(): I\Component\Button\Factory
+            {
+                return new I\Component\Button\Factory();
+            }
+            public function symbol(): C\Symbol\Factory
+            {
+                return new I\Component\Symbol\Factory(
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
+                );
+            }
+        };
+    }
+
     public function getFactory(): C\Panel\Listing\Factory
     {
         return new I\Component\Panel\Listing\Factory();
@@ -108,9 +126,10 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
 <div class="panel-title"><h2>title</h2></div><div class="panel-controls"></div></div>
+<div class="panel-listing-body">
 <div class="il-item-group">
 <h3>Subtitle 1</h3>
 <div class="il-item-group-items">
@@ -141,6 +160,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
 </div>
 </div>
 </div>
+</div>
 EOT;
         $this->assertHTMLEquals(
             $this->brutallyTrimHTML($expected),
@@ -166,18 +186,108 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="panel panel-flex il-panel-listing-std-container clearfix">
+<div id="id_1" class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
-<ul id="id_3_menu" class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown" id="id_4"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"> <span class="caret"></span></button>
+<ul id="id_4_menu" class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">ILIAS</button></li>
+	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_3">GitHub</button></li>
 </ul>
 </div>
 </div>
 </div>
+<div class="panel-listing-body"></div>
 </div>
 EOT;
-        $this->assertHTMLEquals($expected, $html);
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithExpanded(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $uri = new ILIAS\Data\URI("http://www.ilias.de");
+        $c = $f->standard("title", [])
+            ->withExpandable(true, true, $uri, $uri);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+    <div class="panel-heading ilHeader">
+        <div class="panel-toggler">
+            <h2>
+                <button aria-expanded="true" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="1">
+                            <a class="glyph" aria-label="collapse_content">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </a>
+                        </span>
+                        <span data-expand-glyph-visibility="0">
+                            <a class="glyph" aria-label="expand_content">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </a>
+                        </span>title
+                    </span>
+			    </button>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-listing-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="1"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderWithCollapsed(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $uri = new ILIAS\Data\URI("http://www.ilias.de");
+        $c = $f->standard("title", [])
+               ->withExpandable(true, false, $uri, $uri);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div id="id_1" class="panel panel-flex panel-expandable il-panel-listing-std-container clearfix">
+    <div class="panel-heading ilHeader">
+        <div class="panel-toggler">
+            <h2>
+                <button aria-expanded="false" aria-controls="body_id_1" id="header_id_1">
+				    <span>
+                        <span data-collapse-glyph-visibility="0">
+                            <a class="glyph" aria-label="collapse_content">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </a>
+                        </span>
+                        <span data-expand-glyph-visibility="1">
+                            <a class="glyph" aria-label="expand_content">
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            </a>
+                        </span>title
+                    </span>
+			    </button>
+            </h2>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-listing-body" id="body_id_1" aria-labelledby="header_id_1" data-body-expanded="0"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
     }
 }

@@ -24,7 +24,7 @@
 		border-bottom: 1px solid transparent;
 		border: none;
 		@include border-top-radius((ls.$il-panel-border-radius - 1));
-	
+
 		>.dropdown .dropdown-toggle {
 			color: $il-btn-standard-color;
 		}
@@ -121,6 +121,55 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
+	}
+}
+
+//Expandable Panels
+.panel-expandable {
+	.panel-toggler {
+		order: 1;
+		flex-grow: 1;
+
+		button {
+			background-color: $il-main-dark-bg;
+			border: none;
+			padding: 0;
+			width: 100%;
+			min-height: $il-btn-ctrl-outer-height;
+			font-size: $il-font-size-xlarge;
+			line-height: $il-line-height-large;
+			font-weight: $il-font-weight-bold;
+			text-align: left;
+		}
+	}
+	.panel-viewcontrols {
+		@include break.on-screen-size(large) {
+			flex-grow: 0;
+		}
+	}
+	span[data-collapse-glyph-visibility="1"] {
+		display: inline;
+	}
+	span[data-collapse-glyph-visibility="0"] {
+		display: none;
+	}
+	span[data-expand-glyph-visibility="1"] {
+		display: inline;
+	}
+	span[data-expand-glyph-visibility="0"] {
+		display: none;
+	}
+	div[data-vc-expanded="1"] {
+		display: flex;
+	}
+	div[data-vc-expanded="0"] {
+		display: none;
+	}
+	div[data-body-expanded="1"] {
+		display: block;
+	}
+	div[data-body-expanded="0"] {
+		display: none;
 	}
 }
 

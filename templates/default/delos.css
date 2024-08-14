@@ -7612,6 +7612,51 @@ div.alert ul > li:before {
   order: 1;
 }
 
+.panel-expandable .panel-toggler {
+  order: 1;
+  flex-grow: 1;
+}
+.panel-expandable .panel-toggler button {
+  background-color: #f9f9f9;
+  border: none;
+  padding: 0;
+  width: 100%;
+  min-height: 2.2rem;
+  font-size: 1.115rem;
+  line-height: 1.33;
+  font-weight: 600;
+  text-align: left;
+}
+@media screen and (min-width: 993px) {
+  .panel-expandable .panel-viewcontrols {
+    flex-grow: 0;
+  }
+}
+.panel-expandable span[data-collapse-glyph-visibility="1"] {
+  display: inline;
+}
+.panel-expandable span[data-collapse-glyph-visibility="0"] {
+  display: none;
+}
+.panel-expandable span[data-expand-glyph-visibility="1"] {
+  display: inline;
+}
+.panel-expandable span[data-expand-glyph-visibility="0"] {
+  display: none;
+}
+.panel-expandable div[data-vc-expanded="1"] {
+  display: flex;
+}
+.panel-expandable div[data-vc-expanded="0"] {
+  display: none;
+}
+.panel-expandable div[data-body-expanded="1"] {
+  display: block;
+}
+.panel-expandable div[data-body-expanded="0"] {
+  display: none;
+}
+
 .panel-primary h2.ilHeader {
   font-weight: 600;
 }

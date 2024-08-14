@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +11,11 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-declare(strict_types=1);
-
-namespace ILIAS\UI\Component\Panel;
-
-use ILIAS\UI\Component\ViewControl\HasViewControls;
-
-/**
- * This describes a Standard Panel.
  */
-interface Standard extends Panel, HasViewControls, IsExpandable
-{
-}
+
+import panel from './panel.main.js';
+
+il = il || {};
+il.UI = il.UI || {};
+
+il.UI.panel = panel($);
