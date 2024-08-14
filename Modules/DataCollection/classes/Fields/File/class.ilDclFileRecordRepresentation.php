@@ -43,13 +43,17 @@ class ilDclFileRecordRepresentation extends ilDclBaseRecordRepresentation
 
     public function getHTML(bool $link = true, array $options = []): string
     {
-        $rid_string = $this->record_field->getValue();
+        $value = $this->record_field->getValue();
 
-        if ($rid_string === null || is_array($rid_string)) {
+        if ($value === null) {
             return '';
         }
 
-        $title = $this->valueToFileTitle($rid_string);
+        if (is_array($value)) {
+            return $value['name'] ?? 'undefined';
+        }
+
+        $title = $this->valueToFileTitle($value);
 
         if ($title === '') {
             return $this->lng->txt('file_not_found');
