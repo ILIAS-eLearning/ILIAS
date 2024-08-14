@@ -20,31 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\ChangeListeners;
 
-use ilLanguage;
-use ilObjUserFolderGUI;
-
 /**
  * Class InterestedUserFieldAttribute
  * @author Marvin Beym <mbeym@databay.de>
  */
 class InterestedUserFieldAttribute
 {
-    public static ?ilLanguage $lng = null;
-    private string $attributeName;
     private string $name;
     /**
-     * @var InterestedUserFieldComponent[]
+     * @var array<InterestedUserFieldComponent>
      */
     private array $components = [];
 
-    public function __construct(string $attributeName, string $fieldName)
-    {
-        $this->attributeName = $attributeName;
-        if (!self::$lng) {
-            global $DIC;
-            self::$lng = $DIC->language();
-        }
-        $this->name = $this->getNameTranslation($fieldName, $attributeName);
+    public function __construct(
+        private readonly \ilLanguage $lng,
+        private readonly string $attribute_name,
+        string $field_name
+    ) {
+        $this->name = $this->getNameTranslation($field_name, $attribute_name);
     }
 
     public function getName(): string
@@ -54,41 +47,32 @@ class InterestedUserFieldAttribute
 
     public function getAttributeName(): string
     {
-        return $this->attributeName;
+        return $this->attribute_name;
     }
 
     /**
-     * @return InterestedUserFieldComponent[]
+     * @return array<InterestedUserFieldComponent>
      */
     public function getComponents(): array
     {
         return $this->components;
     }
 
-    private function getNameTranslation(string $fieldName, string $attributeName): string
+    private function getNameTranslation(string $field_name, string $attribute_name): string
     {
-        $translationKey = str_replace("_$fieldName", "", $attributeName);
-        if (isset(ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translationKey])) {
-            return self::$lng->txt(ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translationKey]);
+        $translation_key = str_replace("_{$field_name}", '', $attribute_name);
+        if (isset(\ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translation_key])) {
+            return $this->lng->txt(ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translation_key]);
         }
 
-        return "INVALID TRANSLATION KEY";
+        return 'INVALID TRANSLATION KEY';
     }
 
-    public function addComponent(string $componentName, string $description): InterestedUserFieldComponent
+    public function addComponent(string $component_name, string $description): void
     {
-        foreach ($this->components as $component) {
-            if ($component->getComponentName() === $componentName) {
-                return $component;
-            }
-        }
-
-        $component = new InterestedUserFieldComponent(
-            $componentName,
+        $this->components[$component_name] = new InterestedUserFieldComponent(
+            $component_name,
             $description
         );
-        $this->components[] = $component;
-
-        return $component;
     }
 }

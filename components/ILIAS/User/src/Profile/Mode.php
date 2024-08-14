@@ -26,69 +26,58 @@ namespace ILIAS\User\Profile;
  */
 class Mode
 {
-    public const PROFILE_DISABLED = "n";
-    public const PROFILE_ENABLED_LOGGED_IN_USERS = "y";
-    public const PROFILE_ENABLED_GLOBAL = "g";
+    public const PROFILE_DISABLED = 'n';
+    public const PROFILE_ENABLED_LOGGED_IN_USERS = 'y';
+    public const PROFILE_ENABLED_GLOBAL = 'g';
 
-    protected ilObjUser $user;
-    protected ilSetting $settings;
-    protected ilLanguage $lng;
-
-    public function __construct(ilObjUser $user, ilSetting $settings)
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->user = $user;
-        $this->settings = $settings;
+    public function __construct(
+        private readonly \ilLanguage $lng,
+        private readonly \ilSetting $settings,
+        private readonly \ilObjUser $user
+    ) {
     }
 
     public function getMode(): string
     {
-        $user = $this->user;
-        $settings = $this->settings;
-
-        $pub_prof = isset($user->prefs["public_profile"]) && in_array($user->prefs["public_profile"], [
-            self::PROFILE_DISABLED,
-            self::PROFILE_ENABLED_LOGGED_IN_USERS,
-            self::PROFILE_ENABLED_GLOBAL
-            ])
-            ? $user->prefs["public_profile"]
-            : self::PROFILE_DISABLED;
-        if (!$settings->get('enable_global_profiles') && $pub_prof == self::PROFILE_ENABLED_GLOBAL) {
-            $pub_prof = self::PROFILE_ENABLED_LOGGED_IN_USERS;
+        $public_profile_pref = $this->user->prefs['public_profile'] ?? null;
+        if ($public_profile_pref === null
+            || !in_array(
+                $public_profile_pref,
+                [
+                    self::PROFILE_ENABLED_LOGGED_IN_USERS,
+                    self::PROFILE_ENABLED_GLOBAL
+                ]
+            )) {
+            return self::PROFILE_DISABLED;
         }
-        return $pub_prof;
+
+        if ($this->settings->get('enable_global_profiles')) {
+            return $public_profile_pref;
+        }
+        return self::PROFILE_ENABLED_LOGGED_IN_USERS;
     }
 
-    /**
-     * Is profile enabled
-     */
     public function isEnabled(): bool
     {
-        return in_array($this->getMode(), [self::PROFILE_ENABLED_LOGGED_IN_USERS,
-            self::PROFILE_ENABLED_GLOBAL
-        ]);
+        return in_array(
+            $this->getMode(),
+            [
+                self::PROFILE_ENABLED_LOGGED_IN_USERS,
+                self::PROFILE_ENABLED_GLOBAL
+            ]
+        );
     }
 
-    /**
-     * Get mode info
-     */
     public function getModeInfo(string $mode = null): string
     {
-        $lng = $this->lng;
-
-        if (is_null($mode)) {
-            $mode = $this->getMode();
-        }
-        switch ($mode) {
+        switch ($this->getMode()) {
             case self::PROFILE_DISABLED:
-                return $lng->txt("usr_public_profile_disabled");
+                return $this->lng->txt('usr_public_profile_disabled');
             case self::PROFILE_ENABLED_LOGGED_IN_USERS:
-                return $lng->txt("usr_public_profile_logged_in");
+                return $this->lng->txt('usr_public_profile_logged_in');
             case self::PROFILE_ENABLED_GLOBAL:
-                return $lng->txt("usr_public_profile_global");
+                return $this->lng->txt('usr_public_profile_global');
         }
-        return "";
+        return '';
     }
 }

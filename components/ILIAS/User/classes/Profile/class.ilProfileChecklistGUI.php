@@ -19,7 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\User\Profile\ChecklistStatus;
+use ILIAS\User\Profile\Mode as ProfileMode;
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Workflow\Step;
 
 /**
@@ -27,25 +30,32 @@ use ILIAS\UI\Component\Listing\Workflow\Step;
  */
 class ilProfileChecklistGUI
 {
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
     protected ChecklistStatus $status;
     protected ilLanguage $lng;
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->ui = $DIC->ui();
-        $this->status = new ChecklistStatus();
-        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->lng = $DIC['lng'];
+
+        $this->status = new ChecklistStatus(
+            $this->lng,
+            $DIC['ilSetting'],
+            $DIC['ilUser'],
+            new ProfileMode($this->lng, $DIC['ilSetting'], $DIC['ilUser'])
+        );
     }
 
     public function render(int $active_step): string
     {
-        $ui = $this->ui;
-        $lng = $this->lng;
         $active_step_nr = 0;
-        $workflow_factory = $ui->factory()->listing()->workflow();
+        $workflow_factory = $this->ui_factory->listing()->workflow();
         $status = $this->status;
 
         //setup steps
@@ -62,11 +72,11 @@ class ilProfileChecklistGUI
         }
 
         //setup linear workflow
-        $wf = $workflow_factory->linear($lng->txt("user_privacy_checklist"), $steps)
+        $wf = $workflow_factory->linear($this->lng->txt("user_privacy_checklist"), $steps)
             ->withActive($active_step_nr);
 
         //render
-        return $ui->renderer()->render($wf);
+        return $this->ui_renderer->render($wf);
     }
 
     /**

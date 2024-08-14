@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\ChecklistStatus;
+use ILIAS\User\Profile\ChecklistStatus;
+use ILIAS\User\Profile\Mode as ProfileMode;
 
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
@@ -45,8 +46,6 @@ class ilPersonalProfileGUI
     private ?ilUserDefinedFields $user_defined_fields = null;
     private ilAppEventHandler $eventHandler;
     private ilPropertyFormGUI $form;
-    private string $password_error;
-    private string $upload_error;
     private ilSetting $settings;
     private ilObjUser $user;
     private ilAuthSession $auth_session;
@@ -70,6 +69,9 @@ class ilPersonalProfileGUI
     private IRSS $irss;
     private ResourceStakeholder $stakeholder;
 
+    private string $password_error = '';
+    private string $upload_error = '';
+
     private ?Interruptive $email_change_confirmation_modal = null;
 
     public function __construct(
@@ -92,33 +94,30 @@ class ilPersonalProfileGUI
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->uploads = $DIC['upload'];
         $this->irss = $DIC['resource_storage'];
-        $this->stakeholder = new ilUserProfilePictureStakeholder();
-
-        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
-
-        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
-
-        $this->lng->loadLanguageModule('jsmath');
-        $this->lng->loadLanguageModule('pd');
-        $this->upload_error = '';
-        $this->password_error = '';
-        $this->lng->loadLanguageModule('user');
-        $this->ctrl->saveParameter($this, 'prompted');
-
-        $this->checklist = new ilProfileChecklistGUI();
-        $this->checklist_status = new ChecklistStatus();
-
-        $this->user_settings_config = new ilUserSettingsConfig();
-
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->auth_session = $DIC['ilAuthSession'];
-        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
 
+        $this->stakeholder = new ilUserProfilePictureStakeholder();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
+        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
+        $this->checklist = new ilProfileChecklistGUI();
+        $this->checklist_status = new ChecklistStatus(
+            $this->lng,
+            $this->settings,
+            $this->user,
+            new ProfileMode($this->lng, $this->settings, $this->user)
+        );
+        $this->user_settings_config = new ilUserSettingsConfig();
         $this->profile_request = new ProfileGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $this->lng->loadLanguageModule('jsmath');
+        $this->lng->loadLanguageModule('pd');
+        $this->lng->loadLanguageModule('user');
+        $this->ctrl->saveParameter($this, 'prompted');
     }
 
     public function executeCommand(): void
@@ -805,7 +804,7 @@ class ilPersonalProfileGUI
             // Activate public profile
             $radg = new ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
             $info = $this->lng->txt('user_activate_public_profile_info');
-            $profile_mode = new PersonalProfileMode($this->user, $this->settings);
+            $profile_mode = new ProfileMode($this->lng, $this->settings, $this->user);
             $pub_prof = $profile_mode->getMode();
             $radg->setValue($pub_prof);
             $op1 = new ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
