@@ -285,7 +285,6 @@ administration#:#obj_prfa#:#Portfolio
 administration#:#obj_prfa_desc#:#Global Portfolio Settings
 administration#:#obj_taxs#:#Taxonomy
 administration#:#obj_taxs_desc#:#Global Taxonomy Settings
-administration#:#options#:#Options
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#output_options#:#Output options
 administration#:#path_to_mkisofs#:#Path to mkisofs
@@ -985,7 +984,6 @@ assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
-assessment#:#please_select#:#-- please select --
 assessment#:#point#:#Point
 assessment#:#points#:#Points
 assessment#:#points_checked#:#Points when Checked
@@ -1002,7 +1000,6 @@ assessment#:#positive_numbers_required#:#Please enter only positive numbers.
 assessment#:#postpone_question#:#Move Question to the End###fau: testNav
 assessment#:#postponed#:#postponed
 assessment#:#precision#:#Precision
-assessment#:#preview#:#Preview
 assessment#:#previous_question#:#Previous
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
@@ -1155,7 +1152,6 @@ assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
 assessment#:#reset_definitions#:#Reset Ordering
-assessment#:#reset_filter#:#Reset Filter
 assessment#:#reset_pictures#:#Reset Picture Positions
 assessment#:#reset_terms#:#Reset Ordering
 assessment#:#result#:#Result
@@ -1192,7 +1188,6 @@ assessment#:#scored_pass#:#Scored Pass
 assessment#:#scoring#:#Scoring and Results
 assessment#:#scoringadjust#:#Corrections
 assessment#:#search_groups#:#Search Groups
-assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
@@ -2179,7 +2174,6 @@ background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Completed
 background_tasks#:#proceed_job#:#Proceed
-background_tasks#:#remove#:#Remove
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
@@ -3008,7 +3002,6 @@ chatroom#:#messages#:#Messages
 chatroom#:#no_further_users#:#No other users present
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
-chatroom#:#obj_chtr#:#Chat Room
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
 chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
@@ -5197,7 +5190,6 @@ common#:#page#:#Page
 common#:#page_count#:#Page Count
 common#:#page_layout#:#Page Layout
 common#:#page_layouts#:#Page Layouts
-common#:#pages#:#Pages
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
@@ -5256,10 +5248,10 @@ common#:#phone_home#:#Phone, Home
 common#:#phone_mobile#:#Phone, Mobile
 common#:#phone_office#:#Phone, Office
 common#:#phrase#:#Phrase
-common#:#please_choose#:#-- Select --
+common#:#please_choose#:#–– Select ––
 common#:#please_enter_target#:#Please enter a target
 common#:#please_enter_title#:#Please enter a title
-common#:#please_select#:#-- Please Select --
+common#:#please_select#:#–– Please Select ––
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!
 common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!
 common#:#please_wait#:#Please wait...
@@ -5341,7 +5333,6 @@ common#:#public_room#:#Public Chat Room
 common#:#purpose#:#Purpose
 common#:#qpl#:#Question Pool Test
 common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_copy#:#Copy Question Pool Test
 common#:#qpl_new#:#New Question Pool Test
 common#:#query_data#:#Query data
 common#:#question#:#Question
@@ -8475,8 +8466,6 @@ dateplaner#:#ical_export#:#iCal Export
 dateplaner#:#keep#:#Keep
 dateplaner#:#keyword#:#Keyword
 dateplaner#:#more#:#More
-dateplaner#:#of#:#of
-dateplaner#:#properties#:#Properties
 dateplaner#:#r_14#:#Every 14 days
 dateplaner#:#r_4_weeks#:#Every 4 weeks
 dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the web calendar is protected.
@@ -10927,7 +10916,6 @@ lso#:#members_gallery#:#Member Gallery
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#not_finished#:#Not Finished
 lso#:#notification_lso_completed_title#:#You completed the Learning Sequence %s.
-lso#:#participate#:#Subscribe
 lso#:#show_summary#:#Info
 lso#:#table_actions#:#Actions
 lso#:#table_lp_settings#:#Learning Progress Settings
@@ -15215,7 +15203,6 @@ search#:#search_no_selection#:#You made no selection.
 search#:#search_off#:#Off
 search#:#search_option_offline#:#Offline
 search#:#search_option_online#:#Online
-search#:#search_results#:#Search Results
 search#:#search_role_title#:#Role Name
 search#:#search_select_search_area#:#Select Search Area
 search#:#search_show_inactive_user#:#Show Inactive Users
@@ -15620,7 +15607,6 @@ style#:#open_documentation#:#Open Documentation
 style#:#parent#:#Parent Style
 style#:#personal#:#Personal
 style#:#personal_style_set_to#:#Your personal style has been set to:
-style#:#preview#:#Preview
 style#:#provided_scss_path#:#Provided scss path:
 style#:#red_color#:#Red Color
 style#:#red_colors#:#Red Colors
@@ -16231,7 +16217,6 @@ survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
 survey#:#obligatory#:#Compulsory
 survey#:#off#:#Off
-survey#:#offline#:#offline
 survey#:#on#:#On
 survey#:#or#:#or
 survey#:#orientation#:#Orientation
@@ -16239,8 +16224,6 @@ survey#:#other_answer#:#Other answer
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#outro#:#Concluding Remarks
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
-survey#:#please_select#:#-- please select --
-survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
@@ -16268,7 +16251,6 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#recipients#:#Recipients
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the survey?
-survey#:#reset_filter#:#Reset Filter
 survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#row_text#:#Row Text
@@ -16277,7 +16259,6 @@ survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
 survey#:#saved_messages#:#Available messages
 survey#:#scale#:#Scale
-survey#:#search_for#:#Search for
 survey#:#search_groups#:#Found Groups
 survey#:#search_term#:#Search Term
 survey#:#search_users#:#Search Users
