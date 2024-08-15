@@ -22,6 +22,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilCourseContentGUI
@@ -50,6 +51,7 @@ class ilCourseContentGUI
     protected Factory $refinery;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected LOMServices $lom_services;
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {
@@ -70,6 +72,7 @@ class ilCourseContentGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->container_gui = $container_gui_obj;
         $this->container_obj = $this->container_gui->getObject();
@@ -411,7 +414,15 @@ class ilCourseContentGUI
             $this->tpl->setVariable("DESC", $item['description']);
             $this->tpl->parseCurrentBlock();
         }
-        if ($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item['obj_id'])) {
+
+        $tlt_data = $this->lom_services->read(
+            ilObject::_lookupObjId($item['ref_id']),
+            0,
+            $item['type'],
+            $this->lom_services->paths()->firstTypicalLearningTime()
+        )->firstData($this->lom_services->paths()->firstTypicalLearningTime());
+
+        if ($tlt = $this->lom_services->dataHelper()->durationToSeconds($tlt_data->value())) {
             $this->tpl->setCurrentBlock("tlt");
             $this->tpl->setVariable("TXT_TLT", $this->lng->txt('meta_typical_learning_time'));
             $this->tpl->setVariable("TLT_VAL", ilDatePresentation::secondsToString($tlt));
