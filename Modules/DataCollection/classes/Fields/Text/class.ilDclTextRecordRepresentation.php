@@ -96,34 +96,13 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         return $html;
     }
 
-    /**
-     * This method shortens a link. The http(s):// and the www part are taken away. The rest will be shortened to sth similar to:
-     * "somelink.de/lange...gugus.html".
-     * @param string $value The link in it's original form.
-     * @return string The shortened link
-     */
     protected function shortenLink(string $value): string
     {
-        if (strlen($value) > self::LINK_MAX_LENGTH) {
-            if (substr($value, 0, 7) == "https://") {
-                $value = substr($value, 7);
-            }
-            if (substr($value, 0, 8) == "https://") {
-                $value = substr($value, 8);
-            }
-            if (substr($value, 0, 4) == "www.") {
-                $value = substr($value, 4);
-            }
-        }
-        $link = $value;
+        $value = preg_replace('/^(https?:\/\/)?(www\.)?(.)/', '', $value);
+        $half = (int) ((self::LINK_MAX_LENGTH - 4) / 2);
+        $value = preg_replace('/^(.{' . ($half + 1) . '})(.{4,})(.{' . $half . '})$/', '\1...\3', $value);
 
-        if (strlen($value) > self::LINK_MAX_LENGTH) {
-            $link = substr($value, 0, (self::LINK_MAX_LENGTH - 3) / 2);
-            $link .= "...";
-            $link .= substr($value, -(self::LINK_MAX_LENGTH - 3) / 2);
-        }
-
-        return $link;
+        return $value;
     }
 
     public function fillFormInput(ilPropertyFormGUI $form): void
