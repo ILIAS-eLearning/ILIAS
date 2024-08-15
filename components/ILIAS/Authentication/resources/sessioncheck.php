@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
 
-if (!file_exists(getcwd() . '/ilias.ini.php')) {
-    exit();
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
 }
+
+require_once '../vendor/composer/vendor/autoload.php';
 
 ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 
