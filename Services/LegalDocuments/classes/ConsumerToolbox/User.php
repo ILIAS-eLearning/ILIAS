@@ -86,6 +86,10 @@ class User
 
     public function needsToAcceptNewDocument(): bool
     {
+        if ($this->neverAgreed()) {
+            return true;
+        }
+
         $true = fn() => new Ok(true);
         $db = $this->legal_documents->history();
 

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\Refinery\Constraint;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
@@ -184,6 +185,19 @@ class WiringTest extends TestCase
         );
 
         $this->assertSame($map, $instance->hasUserManagementFields($proc)->map());
+    }
+
+    public function testHasPublicApi(): void
+    {
+        $map = $this->mock(Map::class);
+        $public_api = $this->mock(PublicApi::class);
+
+        $instance = new Wiring(
+            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
+            $this->mockMethod(Map::class, 'set', ['public-api', 'foo', $public_api], $map)
+        );
+
+        $this->assertSame($map, $instance->hasPublicApi($public_api)->map());
     }
 
     public function testMap(): void

@@ -169,6 +169,19 @@ class UserTest extends TestCase
         $this->assertTrue($instance->didNotAcceptCurrentVersion());
     }
 
+    public function testNeedsToAcceptNewDocumentWhereNeverAgreed(): void
+    {
+        $instance = new User(
+            $this->mock(ilObjUser::class),
+            $this->mock(Settings::class),
+            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => null]]),
+            $this->mock(Provide::class),
+            $this->mock(Clock::class)
+        );
+
+        $this->assertTrue($instance->needsToAcceptNewDocument());
+    }
+
     public function testNeedsToAcceptNewDocumentReturnsTrue(): void
     {
         $user = $this->mock(ilObjUser::class);
@@ -177,7 +190,7 @@ class UserTest extends TestCase
         $instance = new User(
             $user,
             $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
-            $this->mock(UserSettings::class),
+            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
             $this->mockTree(Provide::class, ['history' => $history]),
             $this->mock(Clock::class)
         );
@@ -194,7 +207,7 @@ class UserTest extends TestCase
         $instance = new User(
             $user,
             $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
-            $this->mock(UserSettings::class),
+            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
             $this->mockTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'documentMatches', [$document, $user], true),
                 'history' => $history,

@@ -126,7 +126,7 @@ The process will look like this:
 2. On the loggout page `WithdrawProcess::showValidatePasswordMessage` will be called and all returned components will be rendered.
 3. When the user is logging in again `WithdrawProcess::isOnGoing` should return `true`.
 4. As long as `WithdrawProcess::isOnGoing` returns `true` the user is redirected to a withdrawal GUI. There `WithdrawProcess::showWithdraw` will be called
-   and the returned `ILIAS\LegalDocument\PageFragemnt` will be rendered. To provide a form all commands to the given gui class will `WithdrawProcess::showWithdraw` again.
+   and the returned `ILIAS\LegalDocuments\PageFragemnt` will be rendered. To provide a form all commands to the given gui class will `WithdrawProcess::showWithdraw` again.
 5. When `WithdrawProcess::showWithdraw` calls `$DIC['legalDocuments']->provide('my-consumer')->withdrawal()->finishAndLogout()` the withdrawal is completed.
 6. After completion the user will be logged out and `WithdrawProcess::withdrawalFinished` is called on the `logout.php` page (the user is not available anymore).
 
@@ -157,7 +157,7 @@ To create the URL to the public page use: `$DIC['legalDocuments']->provide('my-c
 This is a hook. And a service.
 
 This will provide an informative page for logged out users.
-The callback will be called with a gui class and a command and must return a `ILIAS\LegalDocument\PageFragemnt` which will be rendered.
+The callback will be called with a gui class and a command and must return a `ILIAS\LegalDocuments\PageFragemnt` which will be rendered.
 
 To create the URL to the public page use: `$DIC['legalDocuments']->provide('my-consumer')->publicPage()->url()`.
 
@@ -206,28 +206,43 @@ This is a simple hook.
 The slot expects a `ILIAS\Refinery\Constraint`. The Constraint will receive a `ilObjUser`.
 When the user should not be able to use the soap API the constraint must reject the user.
 
+
+### UseSlot::hasPublicApi
+
+This is a simple hook.
+
+The slot expects an instance of `ILIAS\LegalDocuments\ConsumerSlots\PublicApi`.
+As this is the main entry point to access specific parts of the corresponding Consumer one is encouraged to add additional methods besides the ones defined in `ILIAS\LegalDocuments\ConsumerSlots\PublicApi`.
+The public API of a consumer can be accessed in the followin way:
+
+```php
+$api = $DIC['legalDocuments']->provide(Consumer::ID)->publicApi();
+```
+
+which will return the object given to `UseSlot::hasPublicApi`.
+
 ## 2. Administration
 
 The following classes can be used freely to create one's own administration:
 - `ilLegalDocumentsAdministrationGUI` A GUI to which can be redirected to.
-- `ILIAS\LegalDocument\Administration` A class which provides building blocks to create a administration
+- `ILIAS\LegalDocuments\Administration` A class which provides building blocks to create a administration
   (and which is used and accessible from and by `ilLegalDocumentsAdministrationGUI`)
-- `ILIAS\LegalDocument\Config` A wrapper to provide direct access to $DIC['legalDocuments']->provide('my-consumer')` and automatically handle write restrictions.
+- `ILIAS\LegalDocuments\Config` A wrapper to provide direct access to $DIC['legalDocuments']->provide('my-consumer')` and automatically handle write restrictions.
 
 Additionally with `ProvideDocument::table` and `ProvideHistory::table` a table can be created for the administration.
 
 ### 3. ConsumerToolbox
 
-The services TermsOfService and LegalDocument contain a lot of the same functionality.
+The services TermsOfService and LegalDocuments contain a lot of the same functionality.
 For that reason the ConsumerToolbox provides default implementations for many of the conumer slots as well as new interfaces which the default implementations require instead.
 
 The ConsumerToolbox can be used* when the service can implement the following 2 interfaces:
-- `ILIAS\LegalDocument\ConsumerToolbox\Setting`
-- `ILIAS\LegalDocument\ConsumerToolbox\UserSettings`
+- `ILIAS\LegalDocuments\ConsumerToolbox\Setting`
+- `ILIAS\LegalDocuments\ConsumerToolbox\UserSettings`
 
 (*) Parts of the ConsumerToolbox can still be used withoput these interfaces.
 
-To simplify the object creation, `ILIAS\LegalDocument\ConsumerToolbox\Blocks` can be used.
+To simplify the object creation, `ILIAS\LegalDocuments\ConsumerToolbox\Blocks` can be used.
 
 Here a dummy example to use the ConsumerToolbox to add slots:
 ```php

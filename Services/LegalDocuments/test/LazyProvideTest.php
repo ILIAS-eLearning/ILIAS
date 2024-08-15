@@ -39,10 +39,10 @@ class LazyProvideTest extends TestCase
     /**
      * @dataProvider methods
      */
-    public function testMethods(string $method): void
+    public function testMethods(string $method, $return = []): void
     {
         $called = false;
-        $provide = $this->mockTree(Provide::class, [$method => []]);
+        $provide = $this->mockTree(Provide::class, [$method => $return]);
 
         $create = function () use (&$called, $provide) {
             $called = true;
@@ -63,6 +63,8 @@ class LazyProvideTest extends TestCase
             ['document'],
             ['history'],
             ['allowEditing'],
+            ['publicApi'],
+            ['id', ''],
         ];
     }
 }
