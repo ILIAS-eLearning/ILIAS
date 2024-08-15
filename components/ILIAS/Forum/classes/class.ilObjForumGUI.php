@@ -2445,9 +2445,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ($isDraft && $this->objCurrentPost->getDepth() >= 2)
             )
         );
-        if ($quotingAllowed) {
-            $oPostGUI->addButton('ilFrmQuoteAjaxCall');
-        }
 
         $oPostGUI->removePlugin('advlink');
         $oPostGUI->removePlugin('ilimgupload');
