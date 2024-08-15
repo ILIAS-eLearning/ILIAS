@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
 
 /**
  * Class ilLPStatusWrapper
@@ -143,7 +157,7 @@ class ilLPStatusWrapper
     /**
      * Reads Typical learning time. Mode collection is recursive for all assigned items
      */
-    public static function _getTypicalLearningTime(int $a_obj_id): int
+    public static function _getTypicalLearningTime(string $type, int $a_obj_id): int
     {
         static $cache = array();
 
@@ -152,7 +166,7 @@ class ilLPStatusWrapper
         }
 
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
-        $cache[$a_obj_id] = $class::_getTypicalLearningTime($a_obj_id);
+        $cache[$a_obj_id] = $class::_getTypicalLearningTime($type, $a_obj_id);
 
         return $cache[$a_obj_id];
     }
