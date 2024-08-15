@@ -148,7 +148,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_text_count_system',
             '
-            <fieldset id="id_1" class="c-field-radio">
+            <div id="id_1" class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_1_0_opt" value="0" checked="checked" />
                     <label for="id_1_0_opt">tst_count_partial_solutions</label>
@@ -160,7 +160,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
                     <label for="id_1_1_opt">tst_count_correct_solutions</label>
                     <div class="c-input__help-byline">tst_count_correct_solutions_desc</div>
                 </div>
-            </fieldset>
+            </div>
             ',
             null,
             null,
@@ -170,7 +170,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_score_cutting',
             '
-            <fieldset id="id_2" class="c-field-radio">
+            <div id="id_2" class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_2_0_opt" value="0" checked="checked" />
                     <label for="id_2_0_opt">tst_score_cut_question</label>
@@ -182,7 +182,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
                     <label for="id_2_1_opt">tst_score_cut_test</label>
                     <div class="c-input__help-byline">tst_score_cut_test_desc</div>
                 </div>
-            </fieldset>
+            </div>
             ',
             null,
             null,
@@ -192,7 +192,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'RadioFieldInput',
             'tst_pass_scoring',
             '
-            <fieldset id="id_3" class="c-field-radio">
+            <div id="id_3" class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_3_0_opt" value="0" checked="checked" />
                     <label for="id_3_0_opt">tst_pass_last_pass</label>
@@ -204,7 +204,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
                     <label for="id_3_1_opt">tst_pass_best_pass</label>
                     <div class="c-input__help-byline">tst_pass_best_pass_desc</div>
                 </div>
-            </fieldset>
+            </div>
             ',
             null,
             null,
@@ -433,7 +433,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $fields = $this->getFormWrappedHtml(
             'RadioFieldInput',
             'tst_highscore_mode<span class="asterisk">*</span>',
-            '<fieldset id="id_2" class="c-field-radio">
+            '<div id="id_2" class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="c-input__help-byline">tst_highscore_own_table_description</div>
                 </div>
@@ -443,7 +443,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_2_3_opt" value="3" checked="checked" /><label for="id_2_3_opt">tst_highscore_all_tables</label><div class="c-input__help-byline">tst_highscore_all_tables_description</div>
                 </div>
-            </fieldset>',
+            </div>',
             null,
             null,
             ''

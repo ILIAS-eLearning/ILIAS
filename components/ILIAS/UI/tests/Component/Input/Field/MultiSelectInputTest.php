@@ -123,13 +123,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'MultiSelectFieldInput',
             $label,
-            '
-            <fieldset class="c-field-multiselect" id="id_1">
-                <ul>'
-                . $expected_options .
-                '</ul>
-            </fieldset>
-            ',
+            '<ul class="c-field-multiselect" id="id_1">'
+            . $expected_options .
+            '</ul>',
             $byline,
             null
         );
@@ -173,13 +169,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'MultiSelectFieldInput',
             $label,
-            '
-            <fieldset class="c-field-multiselect" id="id_1">
-                <ul>'
+            '<ul class="c-field-multiselect" id="id_1">'
                 . $expected_options .
-                '</ul>
-            </fieldset>
-            ',
+            '</ul>',
             $byline,
             null
         );
@@ -213,11 +205,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         <fieldset class="c-input" data-il-ui-type="MultiSelectFieldInput" data-il-ui-name="name_0" disabled="disabled">
             <label>label</label>
             <div class="c-input__field">
-                <fieldset class="c-field-multiselect" id="id_1">
-                    <ul>
-                        <li>-</li>
-                    </ul>
-                </fieldset>
+                <ul class="c-field-multiselect" id="id_1">
+                    <li>-</li>
+                </ul>
             </div>
             <div class="c-input__help-byline">byline</div>
         </fieldset>';

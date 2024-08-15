@@ -80,7 +80,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'RadioFieldInput',
             $label,
-            '<fieldset id="id_1" class="c-field-radio">' . $expected_options . '</fieldset>',
+            '<div id="id_1" class="c-field-radio">' . $expected_options . '</div>',
             $byline,
             null
         );
@@ -113,7 +113,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'RadioFieldInput',
             $label,
-            '<fieldset id="id_1" class="c-field-radio">' . $expected_options . '</fieldset>',
+            '<div id="id_1" class="c-field-radio">' . $expected_options . '</div>',
             $byline,
             null
         );

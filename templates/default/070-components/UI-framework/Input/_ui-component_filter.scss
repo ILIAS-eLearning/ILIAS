@@ -114,14 +114,14 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		padding-left: $il-standard-filter-controls-padding-left;
 	}
 
-	.c-field-multiselect ul,
-	.il-filter-add-list ul {
+	ul.c-field-multiselect,
+	.il-filter-add-list ul{
 		list-style: none;
 		margin: $il-standard-filter-add-input-popover-list-margin;
 		padding: $il-standard-filter-add-input-popover-list-padding;
 	}
 
-	.c-field-multiselect ul {
+	ul.c-field-multiselect {
 		> li > label {
 			input[type="checkbox"] {
 				margin-top: 0; // style back legacy use UI multiselect padding

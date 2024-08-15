@@ -4401,11 +4401,6 @@ hr.il-divider-with-label {
   line-height: 1.428571429;
 }
 
-.c-form .c-input[data-il-ui-type=CheckboxFieldInput] > .c-input__field > input[type=checkbox],
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > label > input[type=checkbox] {
-  display: block;
-}
-
 .c-field-password__revelation-glyph {
   float: right;
   margin-top: -21px;
@@ -4443,26 +4438,26 @@ hr.il-divider-with-label {
   width: 100%;
 }
 
-.c-form .c-field-multiselect > ul {
+.c-form ul.c-field-multiselect {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.c-form .c-field-multiselect > ul > li {
+.c-form ul.c-field-multiselect > li {
   margin-top: 3px;
 }
-.c-form .c-field-multiselect > ul > li:first-child {
+.c-form ul.c-field-multiselect > li:first-child {
   margin-top: 0;
 }
-.c-form .c-field-multiselect > ul > li label {
+.c-form ul.c-field-multiselect > li label {
   display: flex;
   flex-wrap: wrap;
 }
-.c-form .c-field-multiselect > ul > li label > input[type=checkbox] {
+.c-form ul.c-field-multiselect > li label > input[type=checkbox] {
   margin-right: 9px;
   width: auto;
 }
-.c-form .c-field-multiselect > ul > li label > .c-input__multiselect__label-text {
+.c-form ul.c-field-multiselect > li label > .c-input__multiselect__label-text {
   flex-grow: 1;
 }
 
@@ -4528,16 +4523,16 @@ hr.il-divider-with-label {
 .il-filter .il-popover-container {
   padding-left: 9px;
 }
-.il-filter .c-field-multiselect ul,
+.il-filter ul.c-field-multiselect,
 .il-filter .il-filter-add-list ul {
   list-style: none;
   margin: 0;
   padding: 3px 9px;
 }
-.il-filter .c-field-multiselect ul > li > label input[type=checkbox] {
+.il-filter ul.c-field-multiselect > li > label input[type=checkbox] {
   margin-top: 0;
 }
-.il-filter .c-field-multiselect ul li > button {
+.il-filter ul.c-field-multiselect li > button {
   padding: 6px 9px;
   display: block;
   width: 100%;
@@ -4634,22 +4629,6 @@ hr.il-divider-with-label {
   color: #6f6f6f;
 }
 
-<<<<<<< HEAD
-.il-filter-add-list ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.il-filter-add-list ul li > button {
-  padding: 6px 9px;
-  display: block;
-  width: 100%;
-}
-
-.c-input--duration .form-group.row {
-  width: 50%;
-  float: left;
-=======
 .input-group-addon {
   padding: 3px 8px;
   font-size: 0.875rem;
@@ -4660,7 +4639,6 @@ hr.il-divider-with-label {
   background-color: #f9f9f9;
   border: 1px solid #a6a6a6;
   border-radius: 0;
->>>>>>> 516d7e90ee5 (10/UI/form/input scss refactoring WIP)
 }
 
 .ui-input-file-input-dropzone {
@@ -4731,11 +4709,6 @@ hr.il-divider-with-label {
 }
 .ui-input-file-input-progress-container .ui-input-file-input-progress-indicator.error {
   background-color: #B54F00;
-}
-
-.c-form .c-input[data-il-ui-type=LinkFieldInput] > .c-input__field .c-input:hover, .c-form .c-input[data-il-ui-type=LinkFieldInput] > .c-input__field .c-input:has(:focus-visible) {
-  box-shadow: none;
-  background-color: transparent;
 }
 
 /**
@@ -4837,36 +4810,8 @@ hr.il-divider-with-label {
   width: 55%;
 }
 
-<<<<<<< HEAD
 .c-input-numeric {
   min-width: 60px;
-}
-
-.il-standard-form {
-  background-color: white;
-=======
-.c-form .c-input[data-il-ui-type=SectionFieldInput].c-input {
-  margin-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-}
-.c-form .c-input[data-il-ui-type=SectionFieldInput].c-input > label {
-  order: 1;
-  width: 100%;
-  margin-bottom: 9px;
-  font-size: 1.5rem;
-}
-.c-form .c-input[data-il-ui-type=SectionFieldInput].c-input > .c-input__help-byline {
-  width: 100%;
-  order: 2;
-}
-.c-form .c-input[data-il-ui-type=SectionFieldInput].c-input > .c-input__error-msg {
-  order: 3;
-}
-.c-form .c-input[data-il-ui-type=SectionFieldInput].c-input > .c-input__field {
-  margin-top: 12px;
-  width: 100%;
-  order: 4;
 }
 
 .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput],
@@ -4892,7 +4837,6 @@ hr.il-divider-with-label {
 }
 .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:first-child,
 .c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input:first-child {
->>>>>>> 516d7e90ee5 (10/UI/form/input scss refactoring WIP)
   margin-top: 6px;
 }
 .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:has(:focus-visible),
@@ -5085,124 +5029,6 @@ hr.il-divider-with-label {
   padding: 3px 9px;
 }
 
-/*
-//== Standard Form
-//
-//## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
-
-.il-standard-form {
-  background-color: $il-standard-form-bg;
-  margin-top: l.$il-margin-large-vertical;
-  padding: $il-standard-form-header-padding;
-
-  .il-standard-form-cmd {
-    float: right;
-
-    .btn {
-      display: inline-block;
-      min-width: $il-button-min-width-forms;
-      vertical-align: top;
-
-      @media (max-width: $il-grid-float-breakpoint-max) {
-        min-width: 0;
-      }
-    }
-
-  }
-
-  .il-standard-form-footer, .il-standard-form-header, .il-section-input-header {
-    background-color: $il-standard-form-header-bg;
-    color: $il-standard-form-header-color;
-  }
-
-  .il-standard-form-header, .il-standard-form-footer {
-    padding-right: l.$il-padding-xlarge-horizontal;
-  }
-
-  .il-standard-form-header {
-    margin-bottom: l.$il-padding-large-vertical;
-  }
-
-  .il-standard-form-header + .il-section-input > .il-section-input-header {
-    border-top: none;
-  }
-
-  .il-section-input-header {
-    padding: $il-standard-form-header-padding;
-
-    margin: $il-standard-form-header-margin;
-    border-top: $il-standard-form-header-border;
-  }
-
-  .il-standard-form-header h2, .il-section-input-header h2 {
-    font-size: $il-standard-form-header-font-size;
-    font-weight: $il-font-weight-bold;
-    padding-top: 2*l.$il-padding-large-vertical;
-    padding-bottom: l.$il-padding-small-vertical;
-
-  }
-
-  .il-standar-form-header-byline, .il-section-input-header-byline {
-    font-size: $il-standard-form-header-byline-font-size;
-  }
-
-  // Add padding if a required field is declared to avoid overlapping with the first section header title
-  .il-standard-form-required {
-    padding-bottom: 2 * l.$il-padding-xxlarge-horizontal;
-  }
-
-  //Move the first section header up, to be displayed next to the forms top button if no required field is declared
-  .il-standard-form-header + .il-section-input {
-    $button-height: $il-line-height-computed + l.$il-padding-small-vertical;
-    margin-top: -1 * ($button-height + l.$il-margin-xxxlarge-vertical + l.$il-padding-xxlarge-vertical);
-    padding: 0;
-
-    .il-section-input-header h2 {
-      margin-top: 0;
-      padding-top: 0;
-    }
-  }
-
-  .il-dependant-group {
-    background-color: $il-standard-form-dependant-group-bg;
-    padding: l.$il-padding-small-vertical 0;
-
-    .form-group {
-      margin: 0;
-    }
-  }
-
-  input[type="radio"], input[type="checkbox"] {
-    height: unset;
-    width: unset;
-    margin: 0;
-    padding: 0;
-  }
-
-}
-
-
-
-textarea.form-control {
-  max-width: 100%;
-}
-
-select.form-control {
-  width: auto;
-  max-width: 100%;
-}
-
-
-.radio .help-block {
-  padding-left: l.$il-padding-xxlarge-horizontal;
-}
-
-td.form-inline > div.form-group {
-  display: block;
-  padding: 4px 0;
-}
-
-*/
 .il-std-item-container:not(:last-child) {
   border-bottom: 1px solid #dddddd;
 }
