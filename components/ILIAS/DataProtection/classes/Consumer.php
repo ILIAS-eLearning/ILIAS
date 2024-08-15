@@ -35,6 +35,7 @@ use ILIAS\DI\Container;
 use Closure;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 
 final class Consumer implements ConsumerInterface
 {
@@ -56,18 +57,18 @@ final class Consumer implements ConsumerInterface
     {
         $blocks = new Blocks($this->id(), $this->container, $provide);
         $default = $blocks->defaultMappings();
-        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
-                     ->hasHistory();
-
         $global_settings = new Settings($blocks->selectSettingsFrom($blocks->readOnlyStore($blocks->globalStore())));
-
-        if (!$global_settings->enabled()->value()) {
-            return $slot;
-        }
-
+        $is_active = $global_settings->enabled()->value();
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings(
             $blocks->selectSettingsFrom($blocks->userStore($user))
         ), $user);
+        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
+                     ->hasHistory()
+                     ->hasPublicApi(new PublicApi($is_active, $build_user));
+
+        if (!$is_active) {
+            return $slot;
+        }
 
         $user = $build_user($this->container->user());
 

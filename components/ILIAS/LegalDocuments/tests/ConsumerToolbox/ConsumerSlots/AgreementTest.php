@@ -98,7 +98,6 @@ class AgreementTest extends TestCase
         $instance = new Agreement(
             $this->mockTree(User::class, [
                 'cannotAgree' => true,
-                'neverAgreed' => true,
                 'didNotAcceptCurrentVersion' => true,
             ]),
             $this->mock(Settings::class),
@@ -110,30 +109,12 @@ class AgreementTest extends TestCase
         $this->assertFalse($instance->needsToAgree());
     }
 
-    public function testNeverAgreed(): void
-    {
-        $instance = new Agreement(
-            $this->mockTree(User::class, [
-                'cannotAgree' => false,
-                'neverAgreed' => false,
-                'needsToAcceptNewDocument' => true,
-            ]),
-            $this->mock(Settings::class),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->fail(...)
-        );
-
-        $this->assertTrue($instance->needsToAgree());
-    }
-
     public function testDidNotAcceptCurrentVersion(): void
     {
         $instance = new Agreement(
             $this->mockTree(User::class, [
                 'cannotAgree' => false,
-                'neverAgreed' => true,
-                'needsToAcceptNewDocument' => false,
+                'needsToAcceptNewDocument' => true,
             ]),
             $this->mock(Settings::class),
             $this->mock(UI::class),
