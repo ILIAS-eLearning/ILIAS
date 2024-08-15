@@ -81,7 +81,7 @@ The database update step then looks like this:
 
 ### Database Access in the Application ###
 
-To access the ILIAS database, the classes of your component also require an instance of the global database class. If it cannot be passed as a parameter of the constructor, it should be taken from the dependency injection container of ILIAS, which is available as a global variable `$DIC`.
+To access the ILIAS database, the classes of your component also need an instance of the global database class. If it cannot be passed as a parameter of the constructor, it should be taken from the dependency injection container of ILIAS, which is available as a global variable `$DIC`.
 
 ````php
       public function __construct() 
