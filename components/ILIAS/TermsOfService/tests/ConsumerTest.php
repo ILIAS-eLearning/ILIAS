@@ -61,6 +61,7 @@ class ConsumerTest extends TestCase
         $slot = $this->mock(UseSlot::class);
         $slot->expects(self::once())->method('hasDocuments')->willReturn($slot);
         $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
+        $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 
@@ -89,6 +90,7 @@ class ConsumerTest extends TestCase
         $slot->expects(self::once())->method('onSelfRegistration')->willReturn($slot);
         $slot->expects(self::once())->method('hasOnlineStatusFilter')->willReturn($slot);
         $slot->expects(self::once())->method('hasUserManagementFields')->willReturn($slot);
+        $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 
