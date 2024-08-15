@@ -14,7 +14,7 @@ fi
 for file in $langfiles
 do
   # Find the duplicate identifiers
-  duplicate_identifiers=$(sed -n '/<!-- language file start -->/,$p' $file | awk -F '#:#' '{print tolower($2)}' | sort -f | uniq -d)
+  duplicate_identifiers=$(sed -n '/<!-- language file start -->/,$p' "$file" | awk -F '#:#' '{print tolower($2)}' | sort -f | uniq -d)
 
   if [ -n "$duplicate_identifiers" ]; then
      echo "In file ${file} are duplicates for the following identifier:"
