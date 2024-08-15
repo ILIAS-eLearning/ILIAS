@@ -30,6 +30,7 @@ use ILIAS\LegalDocuments\GotoLink\ConditionalGotoLink;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\LegalDocuments\Provide\Document;
 use ILIAS\LegalDocuments\Provide\History;
 use ILIAS\LegalDocuments\Value\Target;
@@ -138,6 +139,11 @@ class Wiring implements UseSlot
     public function hasUserManagementFields(callable $field_value): self
     {
         return $this->addTo('user-management-fields', $this->slot->id(), $field_value);
+    }
+
+    public function hasPublicApi(PublicApi $api): self
+    {
+        return $this->addTo('public-api', $this->slot->id(), $api);
     }
 
     public function map(): Map

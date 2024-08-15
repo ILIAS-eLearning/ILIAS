@@ -24,6 +24,7 @@ use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\CriterionToCondition;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component\MainControls\Footer;
 use ilObjUser;
@@ -72,4 +73,5 @@ interface UseSlot
     public function onSelfRegistration(SelfRegistration $self_registration): self;
     public function canReadInternalMails(Constraint $constraint): self;
     public function canUseSoapApi(Constraint $constraint): self;
+    public function hasPublicApi(PublicApi $api): self;
 }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\Provide\ProvidePublicPage;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
@@ -93,6 +94,16 @@ class ProvideTest extends TestCase
         $instance = new Provide('foo', $internal, $this->mock(Container::class));
         $instance->document();
         $instance->allowEditing()->document();
+    }
+
+    public function testPublicApi(): void
+    {
+        $public_api = $this->mock(PublicApi::class);
+        $internal = $this->mockMethod(Internal::class, 'get', ['public-api', 'foo'], $public_api);
+
+        $instance = new Provide('foo', $internal, $this->mock(Container::class));
+
+        $this->assertSame($public_api, $instance->publicApi());
     }
 
     public function testId(): void

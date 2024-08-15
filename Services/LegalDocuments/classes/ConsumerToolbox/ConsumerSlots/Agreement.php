@@ -85,7 +85,7 @@ final class Agreement implements AgreementInterface
     public function needsToAgree(): bool
     {
         return !$this->user->cannotAgree()
-            && ($this->user->neverAgreed() || $this->user->needsToAcceptNewDocument());
+            && $this->user->needsToAcceptNewDocument();
     }
 
     private function showDocument(): Component
