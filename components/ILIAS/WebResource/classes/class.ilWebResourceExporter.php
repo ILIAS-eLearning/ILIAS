@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Booking definition
@@ -51,7 +51,7 @@ class ilWebResourceExporter extends ilXmlExporter
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
             $this->writer->setObjId((int) $a_id);
-            $this->writer->write();
+            $this->writer->write(true);
             return $this->writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
             $this->logger->warning("Caught error: " . $e->getMessage());
@@ -74,6 +74,18 @@ class ilWebResourceExporter extends ilXmlExporter
             "entity" => "common",
             "ids" => $a_ids
         ];
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:webr';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
 
         return $deps;
     }

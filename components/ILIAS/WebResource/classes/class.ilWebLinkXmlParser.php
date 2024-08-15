@@ -56,6 +56,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     private bool $is_list = false;
     private string $list_title;
     private string $list_description;
+    private string $first_item_title;
+    private string $first_item_description;
 
     public function __construct(ilObjLinkResource $webr, string $xml)
     {
@@ -91,6 +93,11 @@ class ilWebLinkXmlParser extends ilMDSaxParser
             'il__' . $this->getMDObject()->getObjType() . '_' . $this->getMDObject()->getObjId()
         );
         $identifier->update();
+
+        // set title and description
+        $this->getWebLink()->setTitle($this->list_title ?? $this->first_item_title);
+        $this->getWebLink()->setDescription($this->list_description ?? $this->first_item_description);
+        $this->getWebLink()->update();
     }
 
     public function setWebLink(ilObjLinkResource $webl): void
@@ -381,10 +388,16 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'Title':
                 $this->current_title = trim($this->cdata);
+                if (!isset($this->first_item_title)) {
+                    $this->first_item_title = $this->current_title;
+                }
                 break;
 
             case 'Description':
                 $this->current_description = trim($this->cdata);
+                if (!isset($this->first_item_description)) {
+                    $this->first_item_description = $this->current_description;
+                }
                 break;
 
             case 'Target':
