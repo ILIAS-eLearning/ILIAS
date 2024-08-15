@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-if (!file_exists(getcwd() . '/ilias.ini.php')) {
-    exit();
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
 }
+
+require_once '../vendor/composer/vendor/autoload.php';
 
 ilInitialisation::initILIAS();
 
@@ -29,3 +31,4 @@ ilInitialisation::initILIAS();
 // $DIC->ctrl()->setCmd('confirmRegistration');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 $DIC->http()->close();
+exit();

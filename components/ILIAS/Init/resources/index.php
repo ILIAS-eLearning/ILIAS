@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * start page of ilias
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @package ilias
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
+}
 
 require_once '../vendor/composer/vendor/autoload.php';
-// jump to setup if ILIAS3 is not installed
-if (!file_exists(getcwd() . "/../ilias.ini.php")) {
-    header("Location: ./cli/setup.php");
-    exit();
-}
 
 // BEGIN WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 // We MUST block WebDAV requests on the root page of the Web-Server
@@ -29,16 +35,16 @@ if (!file_exists(getcwd() . "/../ilias.ini.php")) {
 // You can copy the file rootindex.php for this.
 
 // Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
-if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND'
-    || $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'PROPFIND'
+    || $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     $status = '404 Not Found';
     header("HTTP/1.1 $status");
     header("X-WebDAV-Status: $status", true);
-    exit;
+    exit();
 }
 // END WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 
 ilInitialisation::initILIAS();
 
-$ilCtrl->callBaseClass('ilStartUpGUI');
+$ilCtrl->callBaseClass(ilStartUpGUI::class);
 $ilBench->save();

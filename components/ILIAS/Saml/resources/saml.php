@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-if (!file_exists(getcwd() . '/ilias.ini.php')) {
-    exit();
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
 }
+
+require_once '../vendor/composer/vendor/autoload.php';
 
 ilContext::init(ilContext::CONTEXT_SAML);
 
@@ -31,3 +33,4 @@ $DIC->ctrl()->setTargetScript('ilias.php');
 // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
 // $DIC->ctrl()->setCmd('doSamlAuthentication');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+exit();
