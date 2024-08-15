@@ -145,10 +145,10 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             if ($by_reference) {
                 $info = $info_repo->getByRefId($a_id);
             } else {
-                $info = $info_repo->getByObjId($a_id);
+                $info = $info_repo->getByObjectId($a_id);
             }
 
-            return $info->getFileSize()->inBytes();
+            return (int) $info->getFileSize()->inBytes();
         } catch (Throwable $t) {
             return 0;
         }
