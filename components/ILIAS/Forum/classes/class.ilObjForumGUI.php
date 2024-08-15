@@ -2437,9 +2437,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $oPostGUI->setRequired(true);
         $oPostGUI->setRows(15);
         $oPostGUI->setUseRte(true);
-        $oPostGUI->addPlugin('latex');
-        $oPostGUI->addButton('latex');
-        $oPostGUI->addButton('pastelatex');
 
         $quotingAllowed = (
             !$this->isTopLevelReplyCommand() && (
@@ -2449,11 +2446,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             )
         );
         if ($quotingAllowed) {
-            $oPostGUI->addPlugin('ilfrmquote');
             $oPostGUI->addButton('ilFrmQuoteAjaxCall');
         }
 
         $oPostGUI->removePlugin('advlink');
+        $oPostGUI->removePlugin('ilimgupload');
+
         $oPostGUI->setRTERootBlockElement('');
         $oPostGUI->usePurifier(true);
         $oPostGUI->disableButtons([
@@ -2578,18 +2576,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->replyEditForm->addItem($hidden_draft_id);
 
         if (in_array($this->requestAction, ['showreply', 'ready_showreply', 'editdraft'])) {
-            $rtestring = ilRTE::_getRTEClassname();
-            $show_rte = $this->http->wrapper()->post()->retrieve(
-                'show_rte',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->int(), $this->refinery->always(0)])
-            );
-
-            if ($show_rte) {
-                ilObjAdvancedEditing::_setRichTextEditorUserState($show_rte);
-            }
-
-            if ((strtolower($rtestring) !== 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState()) &&
-                $quotingAllowed) {
+            if ($quotingAllowed) {
                 $this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
             }
 
