@@ -496,41 +496,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glo_ids;
     }
 
-    /**
-     * creates data directory for import files
-     * (data_dir/glo_data/glo_<id>/import, depending on data
-     * directory that is set in ILIAS setup/ini)
-     */
-    public function createImportDirectory(): void
-    {
-        $glo_data_dir = ilFileUtils::getDataDir() . "/glo_data";
-        ilFileUtils::makeDir($glo_data_dir);
-        if (!is_writable($glo_data_dir)) {
-            throw new ilGlossaryException("Glossary Data Directory (" . $glo_data_dir
-                . ") not writeable.");
-        }
-
-        // create glossary directory (data_dir/glo_data/glo_<id>)
-        $glo_dir = $glo_data_dir . "/glo_" . $this->getId();
-        ilFileUtils::makeDir($glo_dir);
-        if (!is_dir($glo_dir)) {
-            throw new ilGlossaryException("Creation of Glossary Directory failed.");
-        }
-        // create Import subdirectory (data_dir/glo_data/glo_<id>/import)
-        $import_dir = $glo_dir . "/import";
-        ilFileUtils::makeDir($import_dir);
-        if (!is_dir($import_dir)) {
-            throw new ilGlossaryException("Creation of Export Directory failed.");
-        }
-    }
-
-    public function getImportDirectory(): string
-    {
-        $export_dir = ilFileUtils::getDataDir() . "/glo_data" . "/glo_" . $this->getId() . "/import";
-
-        return $export_dir;
-    }
-
     public function createExportDirectory(string $a_type = "xml"): string
     {
         return ilExport::_createExportDirectory($this->getId(), $a_type, $this->getType());
@@ -539,14 +504,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function getExportDirectory(string $a_type = "xml"): string
     {
         return ilExport::_getExportDirectory($this->getId(), $a_type, $this->getType());
-    }
-
-    /**
-     * Get export files
-     */
-    public function getExportFiles(): array
-    {
-        return ilExport::_getExportFiles($this->getId(), array("xml", "html"), $this->getType());
     }
 
     /**
@@ -568,137 +525,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function getPublicExportFile(string $a_type): string
     {
         return $this->public_export_file[$a_type] ?? "";
-    }
-
-    public function exportXML(
-        ilXmlWriter $a_xml_writer,
-        int $a_inst,
-        string $a_target_dir,
-        ilLog $expLog
-    ): void {
-        // export glossary
-        $attrs = array();
-        $attrs["Type"] = "Glossary";
-        $a_xml_writer->xmlStartTag("ContentObject", $attrs);
-
-        // MetaData
-        $this->exportXMLMetaData($a_xml_writer);
-
-        // collect media objects
-        $terms = $this->getTermList();
-        $this->mob_ids = array();
-        $this->file_ids = array();
-        foreach ($terms as $term) {
-            $this->page_object = new ilGlossaryDefPage($term["id"]);
-            $this->page_object->buildDom();
-            $this->page_object->insertInstIntoIDs(IL_INST_ID);
-            $mob_ids = $this->page_object->collectMediaObjects(false);
-            $file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
-            foreach ($mob_ids as $mob_id) {
-                $this->mob_ids[$mob_id] = $mob_id;
-            }
-            foreach ($file_ids as $file_id) {
-                $this->file_ids[$file_id] = $file_id;
-            }
-        }
-
-        // export media objects
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Media Objects");
-        $this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export Media Objects");
-
-        // FileItems
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export File Items");
-        $this->exportFileItems($a_target_dir, $expLog);
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export File Items");
-
-        // Glossary
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Glossary Items");
-        $this->exportXMLGlossaryItems($a_xml_writer, $a_inst, $expLog);
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export Glossary Items");
-
-        $a_xml_writer->xmlEndTag("ContentObject");
-    }
-
-    public function exportXMLGlossaryItems(
-        ilXmlWriter $a_xml_writer,
-        int $a_inst,
-        ilLog $expLog
-    ): void {
-        $attrs = array();
-        $a_xml_writer->xmlStartTag("Glossary", $attrs);
-
-        // MetaData
-        $this->exportXMLMetaData($a_xml_writer);
-
-        $terms = $this->getTermList();
-
-        // export glossary terms
-        reset($terms);
-        foreach ($terms as $term) {
-            $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $term["obj_id"]);
-
-            // export xml to writer object
-            $glo_term = new ilGlossaryTerm($term["id"]);
-            $glo_term->exportXML($a_xml_writer, $a_inst);
-
-            unset($glo_term);
-        }
-
-        $a_xml_writer->xmlEndTag("Glossary");
-    }
-
-    public function exportXMLMetaData(
-        ilXmlWriter $a_xml_writer
-    ): void {
-        /*
-         * As far as I can tell, this is not in use anymore.
-         * It followed usages up to ilObjGlossaryGUI::export
-         * and ilObjGlossary::getXMLZip, both of which are not
-         * used anywhere.
-         */
-        /*$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
-        $md2xml->setExportMode(true);
-        $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());*/
-    }
-
-    public function exportXMLMediaObjects(
-        ilXmlWriter $a_xml_writer,
-        int $a_inst,
-        string $a_target_dir,
-        ilLog $expLog
-    ): void {
-        foreach ($this->mob_ids as $mob_id) {
-            $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
-            $media_obj = new ilObjMediaObject($mob_id);
-            $media_obj->exportXML($a_xml_writer, $a_inst);
-            $media_obj->exportFiles($a_target_dir);
-            unset($media_obj);
-        }
-    }
-
-    public function exportFileItems(
-        string $a_target_dir,
-        ilLog $expLog
-    ): void {
-        foreach ($this->file_ids as $file_id) {
-            $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
-            $file_obj = new ilObjFile($file_id, false);
-            $file_obj->export($a_target_dir);
-            unset($file_obj);
-        }
-    }
-
-    public function modifyExportIdentifier(
-        string $a_tag,
-        string $a_param,
-        string $a_value
-    ): string {
-        if ($a_tag == "Identifier" && $a_param == "Entry") {
-            $a_value = "il_" . IL_INST_ID . "_glo_" . $this->getId();
-        }
-        return $a_value;
     }
 
     public function delete(): bool
@@ -729,12 +555,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->deleteMetaData();
 
         return true;
-    }
-
-    public function getXMLZip(): string
-    {
-        $glo_exp = new ilGlossaryExport($this);
-        return $glo_exp->buildExportFile();
     }
 
     public static function getDeletionDependencies(int $obj_id): array

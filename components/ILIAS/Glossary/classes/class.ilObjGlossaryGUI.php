@@ -985,21 +985,13 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             "iltermdefinitioneditorgui", "ilglossarydefpagegui"), "edit");
     }
 
-    public function export(): void
-    {
-        $this->checkPermission("write");
-        $glo_exp = new ilGlossaryExport($this->getGlossary());
-        $glo_exp->buildExportFile();
-        $this->ctrl->redirectByClass("ilexportgui", "");
-    }
-
     /**
      * create html package
      */
     public function exportHTML(): void
     {
         $glo_exp = new ilGlossaryExport($this->getGlossary(), "html");
-        $glo_exp->buildExportFile();
+        $glo_exp->buildExportFileHTML();
         $this->ctrl->redirectByClass("ilexportgui", "");
     }
 
