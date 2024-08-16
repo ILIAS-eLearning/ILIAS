@@ -118,4 +118,14 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_5(): void
+    {
+        if (!$this->db->indexExistsByFields('usr_change_email_token', ['token'])) {
+            $this->db->manipulate('DELETE token1 FROM usr_change_email_token token1 '
+                . 'INNER JOIN usr_change_email_token token2 '
+                . 'WHERE token1.token = token2.token AND token1.valid_until < token2.valid_until');
+            $this->db->addPrimaryKey('usr_change_email_token', ['token']);
+        }
+    }
 }
