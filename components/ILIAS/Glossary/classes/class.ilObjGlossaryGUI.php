@@ -802,7 +802,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
         // language
         $this->lng->loadLanguageModule("meta");
-        $lang = ilMDLanguageItem::_getLanguages();
+        $lang = $this->domain->metadata()->getLOMLanguagesForSelectInputs();
         $session_lang = $this->term_manager->getSessionLang();
         if ($session_lang != "") {
             $s_lang = $session_lang;
