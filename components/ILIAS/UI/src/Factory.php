@@ -1053,29 +1053,39 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     A Prompt is used to force interaction with the user without
-     *     losing context. The interaction may consist of acknowledging an
-     *     important information or requesting input via one or many
-     *     (sequential) forms.
+     *     A Prompt requires a user to make some inputs to the system, like making
+     *     choices, acknowleding an important information or filling out a form. The
+     *     Prompt urges the user to make the input instead of simply giving the
+     *     opportunity to do so. Hence, Prompts are used to request certain user input
+     *     that is required to move on in an ongoing workflow.
      *
      *   composition:
-     *     The Prompt provides a wrapper for Prompt Content; the content is
-     *     transmitted asynchrounously via a Prompt Response.
-     *     The Response consists of a Title, contents, (additional) buttons
-     *     and a command.
-     *     The Prompt will allways hold a button for closing it.
+     *     The Prompt provides a wrapper for Prompt Content; the content is transmitted
+     *     asynchrounously via a Prompt Response. The Response consists of a Title, the
+     *     actual content, Button. The Prompt will allways hold a button for dismissing
+     *     it.
      *
      *   effect:
-     *     All controls of the original context are inaccessible until
-     *     the Prompt is closed.
-     *
+     *     All controls of the original context are inaccessible until the Prompt is
+     *     either satisfied or dismissed by the user.
      *   rivals:
      *     Modal: >
-     *       XXX
+     *       A Modal represents a specific way to bring something to a users attention. Prompt,
+     *       on the other hand, describes the logic of the component in the flow. Try to use
+     *       Prompt whenever possible, because it has stronger semantics. For a more detailed
+     *       explanation what this could mean, have a look into the item "Mark Some Components
+     *       as Internal" on the roadmap of the UI framework.
+     *
      * rules:
      *   usage:
      *     1: >
-     *       XXX
+     *       Prompts MUST NOT be used standalone.
+     *   interaction:
+     *     1: >
+     *       Prompts SHOULD take the user back to where they took of. Once the Prompt is
+     *       dismissed or completed the user should be back in the view that they saw
+     *       when starting the Prompt.
+     *
      * ---
      * @return \ILIAS\UI\Component\Prompt\Factory
      */
