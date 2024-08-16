@@ -23,13 +23,10 @@
  */
 class ilGlossaryExport
 {
-    protected ilXmlWriter $xml;
     protected string $export_dir = "";
     protected string $filename = "";
     protected string $subdir = "";
     protected string $mode;
-    protected ilSetting $settings;
-    public ilDBInterface $db;
     public ilObjGlossary $glo_obj;
     public int $inst_id;
 
