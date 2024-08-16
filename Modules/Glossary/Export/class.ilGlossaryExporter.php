@@ -134,6 +134,18 @@ class ilGlossaryExporter extends ilXmlExporter
                 "entity" => "common",
                 "ids" => $a_ids);
 
+            $md_ids = [];
+            foreach ($a_ids as $crs_id) {
+                $md_ids[] = $crs_id . ":0:glo";
+            }
+            if ($md_ids !== []) {
+                $deps[] = [
+                    "component" => "Services/MetaData",
+                    "entity" => "md",
+                    "ids" => $md_ids
+                ];
+            }
+
             return $deps;
         }
         return array();
