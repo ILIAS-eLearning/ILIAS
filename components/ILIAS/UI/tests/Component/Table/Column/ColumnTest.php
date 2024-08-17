@@ -38,7 +38,7 @@ class ColumnTest extends ILIAS_UI_TestBase
 
     public function setUp(): void
     {
-        $lng = $this->getMockBuilder(\ilLanguage::class)
+        $lng = $this->getMockBuilder(\ILIAS\Language\Language::class)
             ->disableOriginalConstructor()
             ->getMock();
         $lng->method('txt')->willReturnCallback(fn($v) => $v);

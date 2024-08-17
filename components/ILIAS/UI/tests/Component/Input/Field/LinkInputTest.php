@@ -41,7 +41,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
     protected function buildFactory(): Factory
     {
         $data_factory = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         $language->method("txt")
             ->will($this->returnArgument(0));
 

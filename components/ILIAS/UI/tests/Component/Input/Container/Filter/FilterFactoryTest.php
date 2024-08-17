@@ -39,7 +39,7 @@ class FilterFactoryTest extends AbstractFactoryTestCase
     final public function buildFactory(): Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         return new Factory(
             new SignalGenerator(),
             new \ILIAS\UI\Implementation\Component\Input\Field\Factory(

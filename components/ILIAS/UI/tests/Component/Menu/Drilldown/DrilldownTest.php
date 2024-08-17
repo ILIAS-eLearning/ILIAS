@@ -43,7 +43,6 @@ class DrilldownTest extends ILIAS_UI_TestBase
             {
                 return new Menu\Factory(
                     new I\SignalGenerator(),
-                    new ilLanguageMock()
                 );
             }
             public function button(): C\Button\Factory

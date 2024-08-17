@@ -22,11 +22,12 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\Language\Language;
 
 class TimeSpan extends Column implements C\TimeSpan
 {
     public function __construct(
-        \ilLanguage $lng,
+        Language $lng,
         string $title,
         protected DateFormat $format
     ) {

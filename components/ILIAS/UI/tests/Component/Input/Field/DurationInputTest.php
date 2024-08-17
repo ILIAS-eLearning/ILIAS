@@ -27,13 +27,14 @@ use ILIAS\UI\Component as C;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Symbol as S;
+use ILIAS\Language\Language;
 
 class DurationInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
-    protected ilLanguage $lng;
+    protected Language $lng;
 
     public function setUp(): void
     {
@@ -42,9 +43,9 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $this->factory = $this->buildFactory();
     }
 
-    protected function buildLanguage(): ilLanguage
+    protected function buildLanguage(): Language
     {
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(Language::class);
         $this->lng->method("txt")
             ->will($this->returnArgument(0));
 

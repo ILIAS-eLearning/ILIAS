@@ -55,9 +55,9 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function getLanguage(): ilLanguageMock
+    public function getLanguage(): LanguageMock
     {
-        return new class () extends ilLanguageMock {
+        return new class () extends LanguageMock {
             public function getLangKey(): string
             {
                 return 'en';
@@ -68,7 +68,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
     protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
 
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),

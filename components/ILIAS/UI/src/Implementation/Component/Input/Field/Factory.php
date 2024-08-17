@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 /**
  * Class Factory
@@ -39,14 +39,14 @@ class Factory implements I\Factory
     protected Data\Factory $data_factory;
     protected SignalGeneratorInterface $signal_generator;
     private \ILIAS\Refinery\Factory $refinery;
-    protected ilLanguage $lng;
+    protected Language $lng;
 
     public function __construct(
         UploadLimitResolver $upload_limit_resolver,
         SignalGeneratorInterface $signal_generator,
         Data\Factory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng
+        Language $lng,
     ) {
         $this->upload_limit_resolver = $upload_limit_resolver;
         $this->signal_generator = $signal_generator;

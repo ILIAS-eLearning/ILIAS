@@ -40,7 +40,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
     protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new DataFactory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(\ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),

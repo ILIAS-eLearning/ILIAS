@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
 use ILIAS\UI\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
 
 require_once(__DIR__ . "/../../../../Base.php");
@@ -58,7 +59,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
     protected SignalGenerator $signal_generator;
     protected NameSource $namesource;
     protected Refinery $refinery;
-    protected \ilLanguageMock $language;
+    protected Language $language;
 
     public function setUp(): void
     {
