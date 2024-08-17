@@ -25,11 +25,12 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Component;
+use ILIAS\Language\Language;
 
 class Boolean extends Column implements C\Boolean
 {
     public function __construct(
-        protected \ilLanguage $lng,
+        protected Language $lng,
         string $title,
         protected string|Icon|Glyph $true_option,
         protected string|Icon|Glyph $false_option

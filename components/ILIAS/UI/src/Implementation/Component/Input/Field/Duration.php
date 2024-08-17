@@ -29,7 +29,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use DateTimeImmutable;
 use Closure;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 /**
  * This implements the duration input group.
@@ -49,7 +49,7 @@ class Duration extends Group implements C\Input\Field\Duration
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng,
+        Language $lng,
         Factory $field_factory,
         string $label,
         ?string $byline

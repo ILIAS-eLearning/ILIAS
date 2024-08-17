@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Triggerer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
-use ilLanguage;
+use ILIAS\Language\Language;
 use InvalidArgumentException;
 use LogicException;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
@@ -46,7 +46,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final public function __construct(
         private Factory $ui_factory,
         private TemplateFactory $tpl_factory,
-        private ilLanguage $lng,
+        private Language $lng,
         private JavaScriptBinding $js_binding,
         private ImagePathResolver $image_path_resolver,
         private DataFactory $data_factory,

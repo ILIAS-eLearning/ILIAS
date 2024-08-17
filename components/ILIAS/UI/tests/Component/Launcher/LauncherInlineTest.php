@@ -29,7 +29,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
     protected ILIAS\Data\Factory $df;
-    protected ilLanguage $language;
+    protected ILIAS\Language\Language $language;
 
     public function setUp(): void
     {
@@ -38,7 +38,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
 
     protected function getInputFactory(): I\Input\Field\Factory
     {
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(I\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),

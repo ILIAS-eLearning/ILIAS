@@ -37,13 +37,13 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     public function setUp(): void
     {
         $this->name_source = new DefNamesource();
-        $this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(ilLanguage::class));
+        $this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(ILIAS\Language\Language::class));
     }
 
     protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),

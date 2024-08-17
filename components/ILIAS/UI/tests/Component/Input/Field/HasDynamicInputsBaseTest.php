@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ilLanguage;
+use ILIAS\Language\Language;
 use Closure;
 
 /**
@@ -36,13 +36,13 @@ class HasDynamicInputsBaseTest extends TestCase
 {
     protected HasDynamicInputsBase $input;
     protected DataFactory $data_factory;
-    protected ilLanguage $language;
+    protected Language $language;
     protected Refinery $refinery;
 
     public function setUp(): void
     {
         $this->data_factory = $this->createMock(DataFactory::class);
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(Language::class);
         $this->refinery = $this->createMock(Refinery::class);
         $this->input = new class ($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends HasDynamicInputsBase {
             public function getUpdateOnLoadCode(): Closure

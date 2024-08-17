@@ -58,7 +58,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
     protected $nested_child;
 
     /**
-     * @var ilLanguage|mixed|MockObject
+     * @var ILIAS\Language\Language|mixed|MockObject
      */
     protected $lng;
 
@@ -73,8 +73,8 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->child1 = $this->createMock(Group1::class);
         $this->child2 = $this->createMock(Group2::class);
         $this->data_factory = new Data\Factory();
-        $this->refinery = new Refinery($this->data_factory, $this->createMock(ilLanguage::class));
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->refinery = new Refinery($this->data_factory, $this->createMock(ILIAS\Language\Language::class));
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
 
         $this->nested_child
             ->method("withNameFrom")

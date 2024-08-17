@@ -108,6 +108,7 @@ namespace {
     use ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+    use ILIAS\Language\Language;
 
     class NullTemplate implements Template
     {
@@ -173,7 +174,7 @@ namespace {
     {
         protected TemplateFactoryMock $tpl_factory;
         protected NoUIFactory $ui_factory;
-        protected ilLanguageMock $lng;
+        protected Language $lng;
         protected LoggingJavaScriptBinding $js_binding;
         /**
          * @var ImagePathResolver|mixed|MockObject
@@ -186,7 +187,7 @@ namespace {
             parent::setUp();
             $this->tpl_factory = new TemplateFactoryMock();
             $this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
-            $this->lng = new ilLanguageMock();
+            $this->lng = new LanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                                               ->getMock();

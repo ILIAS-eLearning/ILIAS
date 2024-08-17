@@ -54,7 +54,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
     protected Data\Factory $data_factory;
 
     /**
-     * @var ilLanguage|mixed|MockObject
+     * @var ILIAS\Language\Language|mixed|MockObject
      */
     protected $language;
     protected Refinery $refinery;
@@ -65,7 +65,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->child1 = $this->createMock(Input1::class);
         $this->child2 = $this->createMock(Input2::class);
         $this->data_factory = new Data\Factory();
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(ILIAS\Language\Language::class);
         $this->refinery = new Refinery($this->data_factory, $this->language);
 
         $this->group = new Group(

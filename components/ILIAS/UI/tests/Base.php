@@ -160,7 +160,7 @@ class LoggingRegistry implements ResourceRegistry
     }
 }
 
-class ilLanguageMock extends ilLanguage
+class LanguageMock extends ilLanguage
 {
     public array $requested = array();
 
@@ -346,9 +346,9 @@ trait BaseUITestTrait
         return new LoggingRegistry();
     }
 
-    public function getLanguage(): ilLanguageMock
+    public function getLanguage(): LanguageMock
     {
-        return new ilLanguageMock();
+        return new LanguageMock();
     }
 
     public function getJavaScriptBinding(): LoggingJavaScriptBinding
