@@ -1026,6 +1026,8 @@ assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
+assessment#:#qpl_bulk_save_add#:#Hinzufügen
+assessment#:#qpl_bulk_save_overwrite#:#Überschreiben
 assessment#:#qpl_bulkedit_success#:#Änderungen gespeichert.
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
