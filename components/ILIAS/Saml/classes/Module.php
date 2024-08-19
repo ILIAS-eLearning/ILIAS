@@ -36,7 +36,7 @@ class Module
             global $DIC;
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
             $DIC['ilAuthSession']->logout();
-            $DIC['ilAppEventHandler']->raise('Services/Authentication', 'afterLogout', [
+            $DIC['ilAppEventHandler']->raise('components/ILIAS/Authentication', 'afterLogout', [
                 'username' => $DIC->user()->getLogin(),
             ]);
         }
