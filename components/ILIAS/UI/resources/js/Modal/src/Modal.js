@@ -43,6 +43,12 @@ export default class Modal {
    * @param {array} signalData
    */
   showModal(component, options, signalData, closeSignal) {
+    if (!component
+        || (component?.tagName !== 'DIALOG' && !options?.ajaxRenderUrl)
+    ) {
+      throw new Error('component is not a dialog (or triggers one).');
+    }
+
     if (closeSignal) {
       this.#jquery(component.ownerDocument).on(
         closeSignal,
@@ -58,7 +64,11 @@ export default class Modal {
 
     if (options.ajaxRenderUrl) {
       this.#jquery(component).load(options.ajaxRenderUrl, () => {
-        component.querySelector('dialog').showModal();
+        const dialog = component.querySelector('dialog');
+        if(!dialog) {
+          throw new Error('url did not return a dialog');
+        }
+        dialog.showModal();
         this.#triggeredSignalsStorage[signalData.id] = false;
       });
     } else {
