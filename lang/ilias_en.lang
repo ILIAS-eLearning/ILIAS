@@ -552,6 +552,9 @@ assessment#:#backtocallingpage#:#Back to the question page
 assessment#:#backtocallingpool#:#Back to the question pool
 assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
+assessment#:#bulkedit_author#:#Set Author
+assessment#:#bulkedit_lifecycle#:#Set Lifecycle
+assessment#:#bulkedit_taxonomies#:#Set Taxonomies
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
@@ -1005,6 +1008,7 @@ assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
+assessment#:#qpl_bulkedit_success#:#Modifications saved.
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to remove the following questions?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard

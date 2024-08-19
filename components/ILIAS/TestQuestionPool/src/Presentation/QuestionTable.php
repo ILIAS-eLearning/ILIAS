@@ -307,6 +307,9 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             $this->buildAction('edit_page', 'single'),
             $this->buildAction('feedback', 'single'),
             $this->buildAction('hints', 'single'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'multi'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'multi'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'multi'),
             $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }
