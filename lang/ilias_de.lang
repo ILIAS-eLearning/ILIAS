@@ -556,6 +556,9 @@ assessment#:#backtocallingpage#:#Zurück zur Fragenseite
 assessment#:#backtocallingpool#:#Zurück zum Fragenpool
 assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
+assessment#:#bulkedit_author#:#Autor ändern
+assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
+assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#by#:#nach
@@ -1023,6 +1026,7 @@ assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
+assessment#:#qpl_bulkedit_success#:#Änderungen gespeichert.
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
