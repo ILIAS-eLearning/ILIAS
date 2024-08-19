@@ -39,6 +39,7 @@ class ilBulkEditQuestionsGUI
     public const CMD_SAVELIFECYCLE = 'bulksave_lifecycle';
     public const CMD_EDITTAXONOMIES = 'bulkedit_taxonomies';
     public const CMD_SAVETAXONOMIES = 'bulksave_taxonomies';
+    public const CMD_SAVETAXONOMIESADD = 'bulksave_taxonomies_add';
 
     public function __construct(
         protected ilGlobalTemplateInterface $tpl,
@@ -90,6 +91,7 @@ class ilBulkEditQuestionsGUI
                     $out[] = $this->ui_factory->legacy($this->getFormTaxonomies()->getHTML());
                     break;
                 case self::CMD_SAVETAXONOMIES:
+                case self::CMD_SAVETAXONOMIESADD:
                     $out = array_merge($out, $this->storeTaxonomies($this->getFormTaxonomies()));
                     break;
 
@@ -215,20 +217,41 @@ class ilBulkEditQuestionsGUI
             $taxSelect->setTitle($label);
             $form->addItem($taxSelect);
         }
-        $form->addCommandButton(self::CMD_SAVETAXONOMIES, $this->lng->txt("save"));
+        $form->addCommandButton(self::CMD_SAVETAXONOMIES, $this->lng->txt("qpl_bulk_save_overwrite"));
+        $form->addCommandButton(self::CMD_SAVETAXONOMIESADD, $this->lng->txt("qpl_bulk_save_add"));
         return $form;
     }
 
     protected function storeTaxonomies(ilPropertyFormGUI $form): array
     {
-        $post = $this->request->getParsedBody();
         $questions = $this->getQuestions();
+        $post = $this->request->getParsedBody();
+        $form_cmd = array_shift($post['cmd']);
+        $overwrite = ($form_cmd === $this->lng->txt('qpl_bulk_save_overwrite'));
+
         $taxonomy_ids = \ilObjTaxonomy::getUsageOfObject($this->qpl_obj_id);
         foreach ($taxonomy_ids as $taxonomy_id) {
             $postvar = "tax_node_assign_$taxonomy_id";
-            $tax_node_assign = new ilTaxAssignInputGUI($taxonomy_id, true, '', $postvar);
             foreach($questions as $q) {
-                $tax_node_assign->saveInput("qpl", $this->qpl_obj_id, "quest", $q->getId());
+                $assignments = new ilTaxNodeAssignment(ilObject::_lookupType($q->getObjId()), $q->getObjId(), 'quest', $taxonomy_id);
+                $assigned_nodes = $assignments->getAssignmentsOfItem($q->getId());
+
+                $skip = [];
+                foreach ($assigned_nodes as $existing) {
+                    if ($overwrite && !in_array($existing["node_id"], $post[$postvar])
+                    ) {
+                        $assignments->deleteAssignment((int) $existing["node_id"], $q->getId());
+                    } else {
+                        $skip[] = (int) $existing["node_id"];
+                    }
+                }
+
+                $values = $post[$postvar];
+                foreach ($values as $value) {
+                    if (!in_array((int) $value, $skip)) {
+                        $assignments->addAssignment((int) $value, $q->getId());
+                    }
+                }
             }
         }
         $out = [];
