@@ -48,7 +48,8 @@ class Module
         $auth = (new ilSamlAuthFactory())->auth();
         $config = Configuration::getInstance();
         if ($config->getOptionalBoolean('admin.protectmetadata', false)) {
-            Auth::requireAdmin();
+            $admin = new Auth();
+            $admin->requireAdmin();
         }
 
         $xml = (new Metadata(new DefaultSimpleSamlFactory()))->buildXML($auth);
