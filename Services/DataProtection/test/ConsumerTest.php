@@ -121,6 +121,7 @@ class ConsumerTest extends TestCase
         $slot->expects(self::once())->method('hasUserManagementFields')->willReturn($slot);
         $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
         $slot->expects(self::once())->method('canReadInternalMails')->willReturn($slot);
+        $slot->expects(self::once())->method('canUseSoapApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 
