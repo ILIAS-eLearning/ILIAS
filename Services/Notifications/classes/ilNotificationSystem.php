@@ -79,7 +79,7 @@ class ilNotificationSystem
             ]
         );
 
-       if ($process_async === false) {
+        if ($process_async === false) {
             $adminConfig = ilNotificationDatabaseHandler::loadUserConfig(-1);
             $usersWithCustomConfig = ilNotificationDatabaseHandler::getUsersWithCustomConfig($users);
             $channels = ilNotificationDatabaseHandler::getAvailableChannels();
@@ -114,7 +114,7 @@ class ilNotificationSystem
                     }
                 }
             }
-            
+
             $this->logger->debug(
                 'User by handler: {user_by_handler}',
                 [
