@@ -49,7 +49,7 @@ class MarkdownFormattingToHTML
     public function toHTML(): Transformation
     {
         return new \ILIAS\Refinery\Custom\Transformation(
-            fn ($value) => $this->converter->convert($value)->getContent()
+            fn($value) => $this->converter->convert($value)->getContent()
         );
     }
 }

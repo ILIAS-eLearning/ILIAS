@@ -44,9 +44,9 @@ class BrickTest extends TestCase
         $ok->method('value')->willReturn($expected);
         $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
         $intermediate->method('done')->willReturn(true);
-        $intermediate->method('transform')->willReturnCallback(fn () => $ok);
+        $intermediate->method('transform')->willReturnCallback(fn() => $ok);
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Ok($intermediate))
         ), 'abcde');
 
@@ -61,7 +61,7 @@ class BrickTest extends TestCase
         $intermediate->expects(self::never())->method('transform');
 
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Ok($intermediate))
         ), 'abcde');
 
@@ -71,7 +71,7 @@ class BrickTest extends TestCase
     public function testAFailingParser(): void
     {
         $brick = new Brick();
-        $result = $brick->apply(static fn (Intermediate $x, Closure $cc): Result => (
+        $result = $brick->apply(static fn(Intermediate $x, Closure $cc): Result => (
             $cc(new Error('something happened'))
         ), 'abcde');
 
@@ -210,7 +210,7 @@ class BrickTest extends TestCase
         $len = (int) floor(strlen($break_me) / $x);
 
         return array_map(
-            fn ($i) => substr($break_me, $i * $len, $len),
+            fn($i) => substr($break_me, $i * $len, $len),
             range(0, $x - !(strlen($break_me) % $x))
         );
     }
@@ -277,7 +277,7 @@ class BrickTest extends TestCase
         $transformation = $this->getMockBuilder(Transformation::class)->getMock();
         $transformation->expects(self::once())->method('applyTo')->willReturn($ok);
 
-        $parser = $brick->transformation($transformation, fn ($x, $cc) => $cc(new Ok($x)));
+        $parser = $brick->transformation($transformation, fn($x, $cc) => $cc(new Ok($x)));
 
         $result = $brick->apply($parser, 'a');
 
