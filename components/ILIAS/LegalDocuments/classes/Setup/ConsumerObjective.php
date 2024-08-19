@@ -27,7 +27,6 @@ use ILIAS\Setup\ImplementationOfInterfaceFinder;
 
 class ConsumerObjective extends BuildArtifactObjective
 {
-
     public function getArtifactName(): string
     {
         return "legal_documents_consumer";
