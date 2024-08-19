@@ -68,42 +68,42 @@ class VCard
     // The filename of the vCard used when saving the vCard
     public string $filename;
 
-    public function __construct(string $version = "3.0")
+    public function __construct(string $version = '3.0')
     {
         $this->types = [
-            "FN" => "",
-            "N" => "",
-            "NICKNAME" => "",
-            "PHOTO" => [],
-            "BDAY" => "",
-            "ADR" => [],
-            "LABEL" => [],
-            "TEL" => [],
-            "EMAIL" => [],
-            "MAILER" => "",
-            "TZ" => "",
-            "GEO" => "",
-            "TITLE" => "",
-            "ROLE" => "",
-            "LOGO" => [],
-            "AGENT" => "",
-            "ORG" => "",
-            "CATEGORIES" => "",
-            "NOTE" => "",
-            "PRODID" => "",
-            "REV" => "",
-            "SORT-STRING" => "",
-            "SOUND" => [],
-            "UID" => "",
-            "URL" => "",
-            "CLASS" => "",
-            "KEY" => []
+            'FN' => '',
+            'N' => '',
+            'NICKNAME' => '',
+            'PHOTO' => [],
+            'BDAY' => '',
+            'ADR' => [],
+            'LABEL' => [],
+            'TEL' => [],
+            'EMAIL' => [],
+            'MAILER' => '',
+            'TZ' => '',
+            'GEO' => '',
+            'TITLE' => '',
+            'ROLE' => '',
+            'LOGO' => [],
+            'AGENT' => '',
+            'ORG' => '',
+            'CATEGORIES' => '',
+            'NOTE' => '',
+            'PRODID' => '',
+            'REV' => '',
+            'SORT-STRING' => '',
+            'SOUND' => [],
+            'UID' => '',
+            'URL' => '',
+            'CLASS' => '',
+            'KEY' => []
         ];
-        $this->types["VERSION"] = $version;
+        $this->types['VERSION'] = $version;
     }
 
     /**
-     * Encode data with "b" type encoding according to RFC 2045
+     * Encode data with 'b' type encoding according to RFC 2045
      */
     public function encode(string $string): string
     {
@@ -113,16 +113,16 @@ class VCard
     /**
      * Fold a string according to RFC 2425
      */
-    public function fold(string $string = ""): string
+    public function fold(string $string = ''): string
     {
-        $folded_string = "";
-        preg_match_all("/(.{1,74})/", $string, $matches);
+        $folded_string = '';
+        preg_match_all('/(.{1,74})/', $string, $matches);
         for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
             if ($i < (count($matches[1]) - 1)) {
                 $matches[1][$i] .= "\n";
             }
             if ($i > 0) {
-                $matches[1][$i] = " " . $matches[1][$i];
+                $matches[1][$i] = ' ' . $matches[1][$i];
             }
             $folded_string .= $matches[1][$i];
         }
@@ -134,10 +134,10 @@ class VCard
      */
     public function escape(string $string): string
     {
-        $string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
-        $string = preg_replace("/(?<!\\\\);/", "\\;", $string);
-        $string = preg_replace("/(?<!\\\\),/", "\\,", $string);
-        $string = preg_replace("/\n/", "\\n", $string);
+        $string = preg_replace('/(?<!\\\\)(\\\\)([^;,n\\\\])/', '\${1}\${1}\${2}', $string);
+        $string = preg_replace('/(?<!\\\\);/', '\\;', $string);
+        $string = preg_replace('/(?<!\\\\),/', '\\,', $string);
+        $string = preg_replace('/\n/', '\\n', $string);
         return $string;
     }
 
@@ -145,7 +145,7 @@ class VCard
      * Splits a variable into an array using a separator and escapes every value
      * @return array<string,string>
      */
-    public function explodeVar(string $variable, string $separator = ","): array
+    public function explodeVar(string $variable, string $separator = ','): array
     {
         $exploded = explode($separator, $variable);
         foreach ($exploded as $index => $var) {
@@ -164,384 +164,384 @@ class VCard
         $rev = $sortstring = $sound = $uid = $url = $class = $key = 0;
 
         $vcard = "BEGIN:VCARD\n";
-        $vcard .= "VERSION:" . $this->types["VERSION"] . "\n";
+        $vcard .= 'VERSION:' . $this->types['VERSION'] . "\n";
         foreach ($this->types as $type => $var) {
             ilLoggerFactory::getLogger('user')->debug(print_r($this->types, true));
 
             switch ($type) {
-                case "FN":
-                    if (strcmp($this->types["FN"], "") != 0) {
-                        $fn = $this->fold("FN:" . $this->types["FN"]) . "\n";
+                case 'FN':
+                    if (strcmp($this->types['FN'], '') != 0) {
+                        $fn = $this->fold('FN:' . $this->types['FN']) . "\n";
                     } else {
-                        $fn = "";
+                        $fn = '';
                     }
                     break;
-                case "N":
-                    if (strcmp($this->types["N"], "") != 0) {
-                        $n = $this->fold("N:" . $this->types["N"]) . "\n";
+                case 'N':
+                    if (strcmp($this->types['N'], '') != 0) {
+                        $n = $this->fold('N:' . $this->types['N']) . "\n";
                     } else {
-                        $n = "";
+                        $n = '';
                     }
                     break;
-                case "NICKNAME":
-                    if (strcmp($this->types["NICKNAME"], "") != 0) {
-                        $nickname = $this->fold("NICKNAME:" . $this->types["NICKNAME"]) . "\n";
+                case 'NICKNAME':
+                    if (strcmp($this->types['NICKNAME'], '') != 0) {
+                        $nickname = $this->fold('NICKNAME:' . $this->types['NICKNAME']) . "\n";
                     } else {
-                        $nickname = "";
+                        $nickname = '';
                     }
                     break;
-                case "PHOTO":
-                    $photo = "";
-                    if (isset($this->types["PHOTO"])) {
-                        if (strcmp(($this->types["PHOTO"]["VALUE"] ?? ""), "") != 0) {
-                            $photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
-                        } elseif (strcmp(($this->types["PHOTO"]["ENCODING"] ?? ""), "") != 0) {
-                            $photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
-                            if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0) {
-                                $photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
+                case 'PHOTO':
+                    $photo = '';
+                    if (isset($this->types['PHOTO'])) {
+                        if (strcmp(($this->types['PHOTO']['VALUE'] ?? ''), '') != 0) {
+                            $photo = $this->fold('PHOTO;VALUE=uri:' . $this->types['PHOTO']['VALUE']) . "\n";
+                        } elseif (strcmp(($this->types['PHOTO']['ENCODING'] ?? ''), '') != 0) {
+                            $photo = 'PHOTO;ENCODING=' . $this->types['PHOTO']['ENCODING'];
+                            if (strcmp($this->types['PHOTO']['TYPE'], '') != 0) {
+                                $photo .= ';TYPE=' . $this->types['PHOTO']['TYPE'];
                             }
-                            $photo .= ":" . $this->types["PHOTO"]["PHOTO"];
+                            $photo .= ':' . $this->types['PHOTO']['PHOTO'];
                             $photo = $this->fold($photo) . "\n";
                         }
                     }
                     break;
-                case "BDAY":
-                    if (strcmp($this->types["BDAY"], "") != 0) {
-                        $bday = $this->fold("BDAY:" . $this->types["BDAY"]) . "\n";
+                case 'BDAY':
+                    if (strcmp($this->types['BDAY'], '') != 0) {
+                        $bday = $this->fold('BDAY:' . $this->types['BDAY']) . "\n";
                     } else {
-                        $bday = "";
+                        $bday = '';
                     }
                     break;
-                case "ADR":
-                    if (count($this->types["ADR"])) {
-                        $addresses = "";
-                        foreach ($this->types["ADR"] as $key => $address) {
+                case 'ADR':
+                    if (count($this->types['ADR'])) {
+                        $addresses = '';
+                        foreach ($this->types['ADR'] as $key => $address) {
                             $test = implode('', $address);
-                            if (strcmp($test, "") != 0) {
-                                $adr = "ADR";
+                            if (strcmp($test, '') != 0) {
+                                $adr = 'ADR';
                                 $adr_types = [];
-                                if ($address["TYPE"] > 0) {
-                                    if (($address["TYPE"] & ADR_TYPE_DOM) > 0) {
-                                        $adr_types[] = "dom";
+                                if ($address['TYPE'] > 0) {
+                                    if (($address['TYPE'] & ADR_TYPE_DOM) > 0) {
+                                        $adr_types[] = 'dom';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_INTL) > 0) {
-                                        $adr_types[] = "intl";
+                                    if (($address['TYPE'] & ADR_TYPE_INTL) > 0) {
+                                        $adr_types[] = 'intl';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_POSTAL) > 0) {
-                                        $adr_types[] = "postal";
+                                    if (($address['TYPE'] & ADR_TYPE_POSTAL) > 0) {
+                                        $adr_types[] = 'postal';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_PARCEL) > 0) {
-                                        $adr_types[] = "parcel";
+                                    if (($address['TYPE'] & ADR_TYPE_PARCEL) > 0) {
+                                        $adr_types[] = 'parcel';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_HOME) > 0) {
-                                        $adr_types[] = "home";
+                                    if (($address['TYPE'] & ADR_TYPE_HOME) > 0) {
+                                        $adr_types[] = 'home';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_WORK) > 0) {
-                                        $adr_types[] = "work";
+                                    if (($address['TYPE'] & ADR_TYPE_WORK) > 0) {
+                                        $adr_types[] = 'work';
                                     }
-                                    if (($address["TYPE"] & ADR_TYPE_PREF) > 0) {
-                                        $adr_types[] = "pref";
+                                    if (($address['TYPE'] & ADR_TYPE_PREF) > 0) {
+                                        $adr_types[] = 'pref';
                                     }
-                                    $adr .= ";TYPE=" . implode(",", $adr_types);
+                                    $adr .= ';TYPE=' . implode(',', $adr_types);
                                 }
-                                $adr .= ":" . $address["POBOX"] . ";" . $address["EXTENDED_ADDRESS"] .
-                                    ";" . $address["STREET_ADDRESS"] . ";" . $address["LOCALITY"] .
-                                    ";" . $address["REGION"] . ";" . $address["POSTAL_CODE"] .
-                                    ";" . $address["COUNTRY"];
+                                $adr .= ':' . $address['POBOX'] . ';' . $address['EXTENDED_ADDRESS'] .
+                                    ';' . $address['STREET_ADDRESS'] . ';' . $address['LOCALITY'] .
+                                    ';' . $address['REGION'] . ';' . $address['POSTAL_CODE'] .
+                                    ';' . $address['COUNTRY'];
                                 $adr = $this->fold($adr) . "\n";
                                 $addresses .= $adr;
                             }
                         }
                         $adr = $addresses;
                     } else {
-                        $adr = "";
+                        $adr = '';
                     }
                     break;
-                case "LABEL":
-                    $label = "";
-                    if (isset($this->types["LABEL"])) {
-                        if (strcmp(($this->types["LABEL"]["LABEL"] ?? ""), "") != 0) {
-                            $label = "LABEL";
+                case 'LABEL':
+                    $label = '';
+                    if (isset($this->types['LABEL'])) {
+                        if (strcmp(($this->types['LABEL']['LABEL'] ?? ''), '') != 0) {
+                            $label = 'LABEL';
                             $adr_types = [];
-                            if ($this->types["LABEL"]["TYPE"] > 0) {
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_DOM) > 0) {
-                                    $adr_types[] = "dom";
+                            if ($this->types['LABEL']['TYPE'] > 0) {
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_DOM) > 0) {
+                                    $adr_types[] = 'dom';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_INTL) > 0) {
-                                    $adr_types[] = "intl";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_INTL) > 0) {
+                                    $adr_types[] = 'intl';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_POSTAL) > 0) {
-                                    $adr_types[] = "postal";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_POSTAL) > 0) {
+                                    $adr_types[] = 'postal';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PARCEL) > 0) {
-                                    $adr_types[] = "parcel";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_PARCEL) > 0) {
+                                    $adr_types[] = 'parcel';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_HOME) > 0) {
-                                    $adr_types[] = "home";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_HOME) > 0) {
+                                    $adr_types[] = 'home';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_WORK) > 0) {
-                                    $adr_types[] = "work";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_WORK) > 0) {
+                                    $adr_types[] = 'work';
                                 }
-                                if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PREF) > 0) {
-                                    $adr_types[] = "pref";
+                                if (($this->types['LABEL']['TYPE'] & ADR_TYPE_PREF) > 0) {
+                                    $adr_types[] = 'pref';
                                 }
-                                $label .= ";TYPE=" . implode(",", $adr_types);
+                                $label .= ';TYPE=' . implode(',', $adr_types);
                             }
-                            $label .= ":" . $this->types["LABEL"]["LABEL"];
+                            $label .= ':' . $this->types['LABEL']['LABEL'];
                             $label = $this->fold($label) . "\n";
                         }
                     }
                     break;
-                case "TEL":
-                    if (count($this->types["TEL"])) {
-                        $phonenumbers = "";
-                        foreach ($this->types["TEL"] as $key => $phone) {
-                            if (strcmp($phone["TEL"], "") != 0) {
-                                $tel = "TEL";
+                case 'TEL':
+                    if (count($this->types['TEL'])) {
+                        $phonenumbers = '';
+                        foreach ($this->types['TEL'] as $key => $phone) {
+                            if (strcmp($phone['TEL'], '') != 0) {
+                                $tel = 'TEL';
                                 $tel_types = [];
-                                if ($phone["TYPE"] > 0) {
-                                    if (($phone["TYPE"] & TEL_TYPE_HOME) > 0) {
-                                        $tel_types[] = "home";
+                                if ($phone['TYPE'] > 0) {
+                                    if (($phone['TYPE'] & TEL_TYPE_HOME) > 0) {
+                                        $tel_types[] = 'home';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_MSG) > 0) {
-                                        $tel_types[] = "msg";
+                                    if (($phone['TYPE'] & TEL_TYPE_MSG) > 0) {
+                                        $tel_types[] = 'msg';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_WORK) > 0) {
-                                        $tel_types[] = "work";
+                                    if (($phone['TYPE'] & TEL_TYPE_WORK) > 0) {
+                                        $tel_types[] = 'work';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_PREF) > 0) {
-                                        $tel_types[] = "pref";
+                                    if (($phone['TYPE'] & TEL_TYPE_PREF) > 0) {
+                                        $tel_types[] = 'pref';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_VOICE) > 0) {
-                                        $tel_types[] = "voice";
+                                    if (($phone['TYPE'] & TEL_TYPE_VOICE) > 0) {
+                                        $tel_types[] = 'voice';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_FAX) > 0) {
-                                        $tel_types[] = "fax";
+                                    if (($phone['TYPE'] & TEL_TYPE_FAX) > 0) {
+                                        $tel_types[] = 'fax';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_CELL) > 0) {
-                                        $tel_types[] = "cell";
+                                    if (($phone['TYPE'] & TEL_TYPE_CELL) > 0) {
+                                        $tel_types[] = 'cell';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_VIDEO) > 0) {
-                                        $tel_types[] = "video";
+                                    if (($phone['TYPE'] & TEL_TYPE_VIDEO) > 0) {
+                                        $tel_types[] = 'video';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_PAGER) > 0) {
-                                        $tel_types[] = "pager";
+                                    if (($phone['TYPE'] & TEL_TYPE_PAGER) > 0) {
+                                        $tel_types[] = 'pager';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_BBS) > 0) {
-                                        $tel_types[] = "bbs";
+                                    if (($phone['TYPE'] & TEL_TYPE_BBS) > 0) {
+                                        $tel_types[] = 'bbs';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_MODEM) > 0) {
-                                        $tel_types[] = "modem";
+                                    if (($phone['TYPE'] & TEL_TYPE_MODEM) > 0) {
+                                        $tel_types[] = 'modem';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_CAR) > 0) {
-                                        $tel_types[] = "car";
+                                    if (($phone['TYPE'] & TEL_TYPE_CAR) > 0) {
+                                        $tel_types[] = 'car';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_ISDN) > 0) {
-                                        $tel_types[] = "isdn";
+                                    if (($phone['TYPE'] & TEL_TYPE_ISDN) > 0) {
+                                        $tel_types[] = 'isdn';
                                     }
-                                    if (($phone["TYPE"] & TEL_TYPE_PCS) > 0) {
-                                        $tel_types[] = "pcs";
+                                    if (($phone['TYPE'] & TEL_TYPE_PCS) > 0) {
+                                        $tel_types[] = 'pcs';
                                     }
-                                    $tel .= ";TYPE=" . implode(",", $tel_types);
+                                    $tel .= ';TYPE=' . implode(',', $tel_types);
                                 }
-                                $tel .= ":" . $phone["TEL"];
+                                $tel .= ':' . $phone['TEL'];
                                 $tel = $this->fold($tel) . "\n";
                                 $phonenumbers .= $tel;
                             }
                         }
                         $tel = $phonenumbers;
                     } else {
-                        $tel = "";
+                        $tel = '';
                     }
                     break;
-                case "EMAIL":
-                    if (count($this->types["EMAIL"])) {
-                        $emails = "";
-                        foreach ($this->types["EMAIL"] as $key => $mail) {
-                            if (strcmp($mail["EMAIL"], "") != 0) {
-                                $email = "EMAIL";
+                case 'EMAIL':
+                    if (count($this->types['EMAIL'])) {
+                        $emails = '';
+                        foreach ($this->types['EMAIL'] as $key => $mail) {
+                            if (strcmp($mail['EMAIL'], '') != 0) {
+                                $email = 'EMAIL';
                                 $adr_types = [];
-                                if ($mail["TYPE"] > 0) {
-                                    if (($mail["TYPE"] & EMAIL_TYPE_INTERNET) > 0) {
-                                        $adr_types[] = "internet";
+                                if ($mail['TYPE'] > 0) {
+                                    if (($mail['TYPE'] & EMAIL_TYPE_INTERNET) > 0) {
+                                        $adr_types[] = 'internet';
                                     }
-                                    if (($mail["TYPE"] & EMAIL_TYPE_x400) > 0) {
-                                        $adr_types[] = "x400";
+                                    if (($mail['TYPE'] & EMAIL_TYPE_x400) > 0) {
+                                        $adr_types[] = 'x400';
                                     }
-                                    if (($mail["TYPE"] & EMAIL_TYPE_PREF) > 0) {
-                                        $adr_types[] = "pref";
+                                    if (($mail['TYPE'] & EMAIL_TYPE_PREF) > 0) {
+                                        $adr_types[] = 'pref';
                                     }
-                                    $email .= ";TYPE=" . implode(",", $adr_types);
+                                    $email .= ';TYPE=' . implode(',', $adr_types);
                                 }
-                                $email .= ":" . $mail["EMAIL"];
+                                $email .= ':' . $mail['EMAIL'];
                                 $email = $this->fold($email) . "\n";
                                 $emails .= $email;
                             }
                         }
                         $email = $emails;
                     } else {
-                        $email = "";
+                        $email = '';
                     }
                     break;
-                case "MAILER":
-                    if (strcmp(($this->types["MAILER"] ?? ""), "") != 0) {
-                        $mailer = $this->fold("MAILER:" . $this->types["MAILER"]) . "\n";
+                case 'MAILER':
+                    if (strcmp(($this->types['MAILER'] ?? ''), '') != 0) {
+                        $mailer = $this->fold('MAILER:' . $this->types['MAILER']) . "\n";
                     } else {
-                        $mailer = "";
+                        $mailer = '';
                     }
                     break;
-                case "TZ":
-                    if (strcmp(($this->types["TZ"] ?? ""), "") != 0) {
-                        $tz = $this->fold("TZ:" . $this->types["TZ"]) . "\n";
+                case 'TZ':
+                    if (strcmp(($this->types['TZ'] ?? ''), '') != 0) {
+                        $tz = $this->fold('TZ:' . $this->types['TZ']) . "\n";
                     } else {
-                        $tz = "";
+                        $tz = '';
                     }
                     break;
-                case "GEO":
-                    if (isset($this->types["GEO"]) and
-                        (strcmp(($this->types["GEO"]["LAT"] ?? ""), "") != 0) and
-                        (strcmp(($this->types["GEO"]["LON"] ?? ""), "") != 0)) {
+                case 'GEO':
+                    if (isset($this->types['GEO']) and
+                        (strcmp(($this->types['GEO']['LAT'] ?? ''), '') != 0) and
+                        (strcmp(($this->types['GEO']['LON'] ?? ''), '') != 0)) {
                         $geo = $this->fold(
-                            "GEO:" . $this->types["GEO"]["LAT"] . ";" . $this->types["GEO"]["LON"]
+                            'GEO:' . $this->types['GEO']['LAT'] . ';' . $this->types['GEO']['LON']
                         ) . "\n";
                     } else {
-                        $geo = "";
+                        $geo = '';
                     }
                     break;
-                case "TITLE":
-                    if (strcmp(($this->types["TITLE"] ?? ""), "") != 0) {
-                        $title = $this->fold("TITLE:" . $this->types["TITLE"]) . "\n";
+                case 'TITLE':
+                    if (strcmp(($this->types['TITLE'] ?? ''), '') != 0) {
+                        $title = $this->fold('TITLE:' . $this->types['TITLE']) . "\n";
                     } else {
-                        $title = "";
+                        $title = '';
                     }
                     break;
-                case "ROLE":
-                    if (strcmp(($this->types["ROLE"] ?? ""), "") != 0) {
-                        $role = $this->fold("ROLE:" . $this->types["ROLE"]) . "\n";
+                case 'ROLE':
+                    if (strcmp(($this->types['ROLE'] ?? ''), '') != 0) {
+                        $role = $this->fold('ROLE:' . $this->types['ROLE']) . "\n";
                     } else {
-                        $role = "";
+                        $role = '';
                     }
                     break;
-                case "LOGO":
-                    $logo = "";
-                    if (isset($this->types["LOGO"])) {
-                        if (strcmp(($this->types["LOGO"]["VALUE"] ?? ""), "") != 0) {
-                            $logo = $this->fold("LOGO;VALUE=uri:" . $this->types["LOGO"]["VALUE"]) . "\n";
-                        } elseif (strcmp(($this->types["LOGO"]["ENCODING"] ?? ""), "") != 0) {
-                            $logo = "LOGO;ENCODING=" . $this->types["LOGO"]["ENCODING"];
-                            if (strcmp($this->types["LOGO"]["TYPE"], "") != 0) {
-                                $logo .= ";TYPE=" . $this->types["LOGO"]["TYPE"];
+                case 'LOGO':
+                    $logo = '';
+                    if (isset($this->types['LOGO'])) {
+                        if (strcmp(($this->types['LOGO']['VALUE'] ?? ''), '') != 0) {
+                            $logo = $this->fold('LOGO;VALUE=uri:' . $this->types['LOGO']['VALUE']) . "\n";
+                        } elseif (strcmp(($this->types['LOGO']['ENCODING'] ?? ''), '') != 0) {
+                            $logo = 'LOGO;ENCODING=' . $this->types['LOGO']['ENCODING'];
+                            if (strcmp($this->types['LOGO']['TYPE'], '') != 0) {
+                                $logo .= ';TYPE=' . $this->types['LOGO']['TYPE'];
                             }
-                            $logo .= ":" . $this->types["LOGO"]["LOGO"];
+                            $logo .= ':' . $this->types['LOGO']['LOGO'];
                             $logo = $this->fold($logo) . "\n";
                         }
                     }
                     break;
-                case "AGENT":
-                    if (strcmp(($this->types["AGENT"] ?? ""), "") != 0) {
-                        $agent = $this->fold("AGENT:" . $this->types["AGENT"]) . "\n";
+                case 'AGENT':
+                    if (strcmp(($this->types['AGENT'] ?? ''), '') != 0) {
+                        $agent = $this->fold('AGENT:' . $this->types['AGENT']) . "\n";
                     } else {
-                        $agent = "";
+                        $agent = '';
                     }
                     break;
-                case "ORG":
-                    if (strcmp(($this->types["ORG"] ?? ""), "") != 0) {
-                        $org = $this->fold("ORG:" . $this->types["ORG"]) . "\n";
+                case 'ORG':
+                    if (strcmp(($this->types['ORG'] ?? ''), '') != 0) {
+                        $org = $this->fold('ORG:' . $this->types['ORG']) . "\n";
                     } else {
-                        $org = "";
+                        $org = '';
                     }
                     break;
-                case "CATEGORIES":
-                    if (strcmp(($this->types["CATEGORIES"] ?? ""), "") != 0) {
-                        $categories = $this->fold("CATEGORIES:" . $this->types["CATEGORIES"]) . "\n";
+                case 'CATEGORIES':
+                    if (strcmp(($this->types['CATEGORIES'] ?? ''), '') != 0) {
+                        $categories = $this->fold('CATEGORIES:' . $this->types['CATEGORIES']) . "\n";
                     } else {
-                        $categories = "";
+                        $categories = '';
                     }
                     break;
-                case "NOTE":
-                    if (strcmp(($this->types["NOTE"] ?? ""), "") != 0) {
-                        $note = $this->fold("NOTE:" . $this->types["NOTE"]) . "\n";
+                case 'NOTE':
+                    if (strcmp(($this->types['NOTE'] ?? ''), '') != 0) {
+                        $note = $this->fold('NOTE:' . $this->types['NOTE']) . "\n";
                     } else {
-                        $note = "";
+                        $note = '';
                     }
                     break;
-                case "PRODID":
-                    if (strcmp(($this->types["PRODID"] ?? ""), "") != 0) {
-                        $prodid = $this->fold("PRODID:" . $this->types["PRODID"]) . "\n";
+                case 'PRODID':
+                    if (strcmp(($this->types['PRODID'] ?? ''), '') != 0) {
+                        $prodid = $this->fold('PRODID:' . $this->types['PRODID']) . "\n";
                     } else {
-                        $prodid = "";
+                        $prodid = '';
                     }
                     break;
-                case "REV":
-                    if (strcmp(($this->types["REV"] ?? ""), "") != 0) {
-                        $rev = $this->fold("REV:" . $this->types["REV"]) . "\n";
+                case 'REV':
+                    if (strcmp(($this->types['REV'] ?? ''), '') != 0) {
+                        $rev = $this->fold('REV:' . $this->types['REV']) . "\n";
                     } else {
-                        $rev = "";
+                        $rev = '';
                     }
                     break;
-                case "SORT-STRING":
-                    if (strcmp(($this->types["SORT-STRING"] ?? ""), "") != 0) {
-                        $sortstring = $this->fold("SORT-STRING:" . $this->types["SORT-STRING"]) . "\n";
+                case 'SORT-STRING':
+                    if (strcmp(($this->types['SORT-STRING'] ?? ''), '') != 0) {
+                        $sortstring = $this->fold('SORT-STRING:' . $this->types['SORT-STRING']) . "\n";
                     } else {
-                        $sortstring = "";
+                        $sortstring = '';
                     }
                     break;
-                case "SOUND":
-                    $sound = "";
-                    if (isset($this->types["SOUND"])) {
-                        if (strcmp(($this->types["SOUND"]["VALUE"] ?? ""), "") != 0) {
-                            $sound = $this->fold("SOUND;VALUE=uri:" . $this->types["SOUND"]["VALUE"]) . "\n";
-                        } elseif (strcmp(($this->types["SOUND"]["ENCODING"] ?? ""), "") != 0) {
-                            $sound = "SOUND;ENCODING=" . $this->types["SOUND"]["ENCODING"];
-                            if (strcmp($this->types["SOUND"]["TYPE"], "") != 0) {
-                                $sound .= ";TYPE=" . $this->types["SOUND"]["TYPE"];
+                case 'SOUND':
+                    $sound = '';
+                    if (isset($this->types['SOUND'])) {
+                        if (strcmp(($this->types['SOUND']['VALUE'] ?? ''), '') != 0) {
+                            $sound = $this->fold('SOUND;VALUE=uri:' . $this->types['SOUND']['VALUE']) . "\n";
+                        } elseif (strcmp(($this->types['SOUND']['ENCODING'] ?? ''), '') != 0) {
+                            $sound = 'SOUND;ENCODING=' . $this->types['SOUND']['ENCODING'];
+                            if (strcmp($this->types['SOUND']['TYPE'], '') != 0) {
+                                $sound .= ';TYPE=' . $this->types['SOUND']['TYPE'];
                             }
-                            $sound .= ":" . $this->types["SOUND"]["SOUND"];
+                            $sound .= ':' . $this->types['SOUND']['SOUND'];
                             $sound = $this->fold($sound) . "\n";
                         }
                     }
                     break;
-                case "UID":
-                    $uid = "";
-                    if (isset($this->types["UID"])) {
-                        if (strcmp(($this->types["UID"]["UID"] ?? ""), "") != 0) {
-                            $uid = "UID";
-                            if (strcmp($this->types["UID"]["TYPE"], "") != 0) {
-                                $uid .= ";TYPE=" . $this->types["UID"]["TYPE"];
+                case 'UID':
+                    $uid = '';
+                    if (isset($this->types['UID'])) {
+                        if (strcmp(($this->types['UID']['UID'] ?? ''), '') != 0) {
+                            $uid = 'UID';
+                            if (strcmp($this->types['UID']['TYPE'], '') != 0) {
+                                $uid .= ';TYPE=' . $this->types['UID']['TYPE'];
                             }
-                            $uid .= ":" . $this->types["UID"]["UID"];
+                            $uid .= ':' . $this->types['UID']['UID'];
                             $uid = $this->fold($uid) . "\n";
                         }
                     }
                     break;
-                case "URL":
-                    if (strcmp(($this->types["URL"] ?? ""), "") != 0) {
-                        $url = $this->fold("URL:" . $this->types["URL"]) . "\n";
+                case 'URL':
+                    if (strcmp(($this->types['URL'] ?? ''), '') != 0) {
+                        $url = $this->fold('URL:' . $this->types['URL']) . "\n";
                     } else {
-                        $url = "";
+                        $url = '';
                     }
                     break;
-                case "KEY":
-                    $key = "";
-                    if (isset($this->types["KEY"])) {
-                        if (strcmp(($this->types["KEY"]["KEY"] ?? ""), "") != 0) {
-                            $key = "KEY";
-                            if (strcmp($this->types["KEY"]["TYPE"], "") != 0) {
-                                $key .= ";TYPE=" . $this->types["KEY"]["TYPE"];
+                case 'KEY':
+                    $key = '';
+                    if (isset($this->types['KEY'])) {
+                        if (strcmp(($this->types['KEY']['KEY'] ?? ''), '') != 0) {
+                            $key = 'KEY';
+                            if (strcmp($this->types['KEY']['TYPE'], '') != 0) {
+                                $key .= ';TYPE=' . $this->types['KEY']['TYPE'];
                             }
-                            if (strcmp($this->types["KEY"]["ENCODING"], "") != 0) {
-                                $key .= ";ENCODING=" . $this->types["KEY"]["ENCODING"];
+                            if (strcmp($this->types['KEY']['ENCODING'], '') != 0) {
+                                $key .= ';ENCODING=' . $this->types['KEY']['ENCODING'];
                             }
-                            $key .= ":" . $this->types["KEY"]["KEY"];
+                            $key .= ':' . $this->types['KEY']['KEY'];
                             $key = $this->fold($key) . "\n";
                         }
                     }
                     break;
-                case "CLASS":
-                    if (strcmp(($this->types["CLASS"] ?? ""), "") != 0) {
-                        $class = $this->fold("CLASS:" . $this->types["CLASS"]) . "\n";
+                case 'CLASS':
+                    if (strcmp(($this->types['CLASS'] ?? ''), '') != 0) {
+                        $class = $this->fold('CLASS:' . $this->types['CLASS']) . "\n";
                     } else {
-                        $class = "";
+                        $class = '';
                     }
                     break;
             }
@@ -559,29 +559,29 @@ class VCard
     public function quoted_printable_encode(string $input, int $line_max = 76): string
     {
         $hex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
-        $lines = preg_split("/(\r\n|\r|\n)/", $input);
+        $lines = preg_split('/(\r\n|\r|\n)/', $input);
         $eol = "\r\n";
-        $linebreak = "=0D=0A";
-        $escape = "=";
-        $output = "";
+        $linebreak = '=0D=0A';
+        $escape = '=';
+        $output = '';
 
         for ($j = 0, $jMax = count($lines); $j < $jMax; $j++) {
             $line = $lines[$j];
             $linlen = strlen($line);
-            $newline = "";
+            $newline = '';
             for ($i = 0; $i < $linlen; $i++) {
                 $c = substr($line, $i, 1);
                 $dec = ord($c);
                 if (($dec == 32) && ($i == ($linlen - 1))) { // convert space at eol only
-                    $c = "=20";
-                } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
+                    $c = '=20';
+                } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode '\t', which is *not* required
                     $h2 = floor($dec / 16);
                     $h1 = floor($dec % 16);
                     $c = $escape . $hex[(string) $h2] . $hex[(string) $h1];
                 }
                 if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
-                    $output .= $newline . $escape . $eol; // soft line break; " =\r\n" is okay
-                    $newline = "    ";
+                    $output .= $newline . $escape . $eol; // soft line break; ' =\r\n' is okay
+                    $newline = '    ';
                 }
                 $newline .= $c;
             } // end of for
@@ -608,7 +608,7 @@ class VCard
      */
     public function setFormattedName(string $formatted_name): void
     {
-        $this->types["FN"] = $this->escape($formatted_name);
+        $this->types['FN'] = $this->escape($formatted_name);
     }
 
     /**
@@ -635,10 +635,10 @@ class VCard
      */
     public function setName(
         string $family_name,
-        string $given_name = "",
-        string $additional_names = "",
-        string $honorific_prefixes = "",
-        string $honorific_suffixes = ""
+        string $given_name = '',
+        string $additional_names = '',
+        string $honorific_prefixes = '',
+        string $honorific_suffixes = ''
     ): void {
         $familynames = $this->explodeVar($family_name);
         $givennames = $this->explodeVar($given_name);
@@ -646,21 +646,21 @@ class VCard
         $prefixes = $this->explodeVar($honorific_prefixes);
         $suffixes = $this->explodeVar($honorific_suffixes);
 
-        $this->types["N"] =
-            implode(",", $familynames) .
-            ";" .
-            implode(",", $givennames) .
-            ";" .
-            implode(",", $addnames) .
-            ";" .
-            implode(",", $prefixes) .
-            ";" .
-            implode(",", $suffixes);
+        $this->types['N'] =
+            implode(',', $familynames) .
+            ';' .
+            implode(',', $givennames) .
+            ';' .
+            implode(',', $addnames) .
+            ';' .
+            implode(',', $prefixes) .
+            ';' .
+            implode(',', $suffixes);
 
-        $this->filename = $given_name . "_" . $family_name . ".vcf";
-        if (strcmp($this->types["FN"], "") === 0) {
+        $this->filename = $given_name . '_' . $family_name . '.vcf';
+        if (strcmp($this->types['FN'], '') === 0) {
             $fn = trim("$honorific_prefixes $given_name $additional_names $family_name $honorific_suffixes");
-            $fn = preg_replace("/\s{2,10}/", " ", $fn);
+            $fn = preg_replace('/\s{2,10}/', ' ', $fn);
             $this->setFormattedName($fn);
         }
     }
@@ -681,7 +681,7 @@ class VCard
     public function setNickname(string $nickname): void
     {
         $nicknames = $this->explodeVar($nickname);
-        $this->types["NICKNAME"] = implode(",", $nicknames);
+        $this->types['NICKNAME'] = implode(',', $nicknames);
     }
 
     /**
@@ -695,15 +695,15 @@ class VCard
      * PHOTO;ENCODING=b;TYPE=JPEG:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcN
      *   AQEEBQAwdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENvbW11bm
      *   ljYXRpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
-     * <...remainder of "B" encoded binary data...>
-     * Type encoding: The encoding MUST be reset to "b" using the ENCODING
+     * <...remainder of 'B' encoded binary data...>
+     * Type encoding: The encoding MUST be reset to 'b' using the ENCODING
      * parameter in order to specify inline, encoded binary data. If the
      * value is referenced by a URI value, then the default encoding of 8bit
      * is used and no explicit ENCODING parameter is needed.
      * Type value: A single value. The default is binary value. It can also
      * be reset to uri value. The uri value can be used to specify a value
      * outside of this MIME entity.
-     * Type special notes: The type can include the type parameter "TYPE" to
+     * Type special notes: The type can include the type parameter 'TYPE' to
      * specify the graphic image format type. The TYPE parameter values MUST
      * be one of the IANA registered image formats or a non-standard image
      * format.
@@ -712,21 +712,21 @@ class VCard
      */
     public function setPhoto(
         string $photo,
-        string $type = ""
+        string $type = ''
     ): void {
-        $value = "";
-        $encoding = "";
-        if (preg_match("/^http/", $photo)) {
+        $value = '';
+        $encoding = '';
+        if (preg_match('/^http/', $photo)) {
             $value = $this->encode($photo);
         } else {
-            $encoding = "b";
+            $encoding = 'b';
             $photo = base64_encode($photo);
         }
-        $this->types["PHOTO"] = [
-            "VALUE" => $value,
-            "TYPE" => $type,
-            "ENCODING" => $encoding,
-            "PHOTO" => $photo
+        $this->types['PHOTO'] = [
+            'VALUE' => $value,
+            'TYPE' => $type,
+            'ENCODING' => $encoding,
+            'PHOTO' => $photo
         ];
     }
 
@@ -747,9 +747,9 @@ class VCard
     public function setBirthday(int $year, int $month, int $day): void
     {
         if (($year < 1) or ($day < 1) or ($month < 1)) {
-            $this->types["BDAY"] = "";
+            $this->types['BDAY'] = '';
         } else {
-            $this->types["BDAY"] = sprintf("%04d-%02d-%02d", $year, $month, $day);
+            $this->types['BDAY'] = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
     }
 
@@ -774,24 +774,24 @@ class VCard
      * specified.
      * The text components are separated by the SEMI-COLON character (ASCII
      * decimal 59). Where it makes semantic sense, individual text
-     * components can include multiple text values (e.g., a "street"
+     * components can include multiple text values (e.g., a 'street'
      * component with multiple lines) separated by the COMMA character
      * (ASCII decimal 44).
-     * The type can include the type parameter "TYPE" to specify the
-     * delivery address type. The TYPE parameter values can include "dom" to
-     * indicate a domestic delivery address; "intl" to indicate an
-     * international delivery address; "postal" to indicate a postal
-     * delivery address; "parcel" to indicate a parcel delivery address;
-     * "home" to indicate a delivery address for a residence; "work" to
-     * indicate delivery address for a place of work; and "pref" to indicate
+     * The type can include the type parameter 'TYPE' to specify the
+     * delivery address type. The TYPE parameter values can include 'dom' to
+     * indicate a domestic delivery address; 'intl' to indicate an
+     * international delivery address; 'postal' to indicate a postal
+     * delivery address; 'parcel' to indicate a parcel delivery address;
+     * 'home' to indicate a delivery address for a residence; 'work' to
+     * indicate delivery address for a place of work; and 'pref' to indicate
      * the preferred delivery address when more than one address is
      * specified. These type parameter values can be specified as a
-     * parameter list (i.e., "TYPE=dom;TYPE=postal") or as a value list
-     * (i.e., "TYPE=dom,postal"). This type is based on semantics of the
+     * parameter list (i.e., 'TYPE=dom;TYPE=postal') or as a value list
+     * (i.e., 'TYPE=dom,postal'). This type is based on semantics of the
      * X.520 geographical and postal addressing attributes. The default is
-     * "TYPE=intl,postal,parcel,work". The default can be overridden to some
+     * 'TYPE=intl,postal,parcel,work'. The default can be overridden to some
      * other set of values by specifying one or more alternate values. For
-     * example, the default can be reset to "TYPE=dom,postal,work,home" to
+     * example, the default can be reset to 'TYPE=dom,postal,work,home' to
      * specify a domestic delivery address for postal delivery to a
      * residence that is also used for work.
      * @param string $po_box           Post office box
@@ -805,34 +805,34 @@ class VCard
      * @access    public
      */
     public function setAddress(
-        string $po_box = "",
-        string $extended_address = "",
-        string $street_address = "",
-        string $locality = "",
-        string $region = "",
-        string $postal_code = "",
-        string $country = "",
+        string $po_box = '',
+        string $extended_address = '',
+        string $street_address = '',
+        string $locality = '',
+        string $region = '',
+        string $postal_code = '',
+        string $country = '',
         int $type = ADR_TYPE_NONE
     ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
-        $po_box = implode(",", $this->explodeVar($po_box));
-        $extended_address = implode(",", $this->explodeVar($extended_address));
-        $street_address = implode(",", $this->explodeVar($street_address));
-        $locality = implode(",", $this->explodeVar($locality));
-        $region = implode(",", $this->explodeVar($region));
-        $postal_code = implode(",", $this->explodeVar($postal_code));
-        $country = implode(",", $this->explodeVar($country));
-        $this->types["ADR"][] = [
-            "POBOX" => $po_box,
-            "EXTENDED_ADDRESS" => $extended_address,
-            "STREET_ADDRESS" => $street_address,
-            "LOCALITY" => $locality,
-            "REGION" => $region,
-            "POSTAL_CODE" => $postal_code,
-            "COUNTRY" => $country,
-            "TYPE" => $type
+        $po_box = implode(',', $this->explodeVar($po_box));
+        $extended_address = implode(',', $this->explodeVar($extended_address));
+        $street_address = implode(',', $this->explodeVar($street_address));
+        $locality = implode(',', $this->explodeVar($locality));
+        $region = implode(',', $this->explodeVar($region));
+        $postal_code = implode(',', $this->explodeVar($postal_code));
+        $country = implode(',', $this->explodeVar($country));
+        $this->types['ADR'][] = [
+            'POBOX' => $po_box,
+            'EXTENDED_ADDRESS' => $extended_address,
+            'STREET_ADDRESS' => $street_address,
+            'LOCALITY' => $locality,
+            'REGION' => $region,
+            'POSTAL_CODE' => $postal_code,
+            'COUNTRY' => $country,
+            'TYPE' => $type
         ];
     }
 
@@ -847,35 +847,35 @@ class VCard
      *   \nU.S.A.
      * Type special notes: The type value is formatted text that can be used
      * to present a delivery address label for the vCard object. The type
-     * can include the type parameter "TYPE" to specify delivery label type.
-     * The TYPE parameter values can include "dom" to indicate a domestic
-     * delivery label; "intl" to indicate an international delivery label;
-     * "postal" to indicate a postal delivery label; "parcel" to indicate a
-     * parcel delivery label; "home" to indicate a delivery label for a
-     * residence; "work" to indicate delivery label for a place of work; and
-     * "pref" to indicate the preferred delivery label when more than one
+     * can include the type parameter 'TYPE' to specify delivery label type.
+     * The TYPE parameter values can include 'dom' to indicate a domestic
+     * delivery label; 'intl' to indicate an international delivery label;
+     * 'postal' to indicate a postal delivery label; 'parcel' to indicate a
+     * parcel delivery label; 'home' to indicate a delivery label for a
+     * residence; 'work' to indicate delivery label for a place of work; and
+     * 'pref' to indicate the preferred delivery label when more than one
      * label is specified. These type parameter values can be specified as a
-     * parameter list (i.e., "TYPE=dom;TYPE=postal") or as a value list
-     * (i.e., "TYPE=dom,postal"). This type is based on semantics of the
+     * parameter list (i.e., 'TYPE=dom;TYPE=postal') or as a value list
+     * (i.e., 'TYPE=dom,postal'). This type is based on semantics of the
      * X.520 geographical and postal addressing attributes. The default is
-     * "TYPE=intl,postal,parcel,work". The default can be overridden to some
+     * 'TYPE=intl,postal,parcel,work'. The default can be overridden to some
      * other set of values by specifying one or more alternate values. For
-     * example, the default can be reset to "TYPE=intl,post,parcel,home" to
+     * example, the default can be reset to 'TYPE=intl,post,parcel,home' to
      * specify an international delivery label for both postal and parcel
      * delivery to a residential location.
      * @param string $label The address label
      * @param int    $type  The address type (can be combined with the + operator)
      */
     public function setLabel(
-        string $label = "",
+        string $label = '',
         int $type = ADR_TYPE_NONE
     ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
-        $this->types["LABEL"] = [
-            "LABEL" => $this->escape($label),
-            "TYPE" => $type
+        $this->types['LABEL'] = [
+            'LABEL' => $this->escape($label),
+            'TYPE' => $type
         ];
     }
 
@@ -894,37 +894,37 @@ class VCard
      * canonical form in order to specify an unambiguous representation of
      * the globally unique telephone endpoint. This type is based on the
      * X.500 Telephone Number attribute.
-     * The type can include the type parameter "TYPE" to specify intended
+     * The type can include the type parameter 'TYPE' to specify intended
      * use for the telephone number. The TYPE parameter values can include:
-     * "home" to indicate a telephone number associated with a residence,
-     * "msg" to indicate the telephone number has voice messaging support,
-     * "work" to indicate a telephone number associated with a place of
-     * vwork, "pref" to indicate a preferred-use telephone number, "voice" to
-     * indicate a voice telephone number, "fax" to indicate a facsimile
-     * telephone number, "cell" to indicate a cellular telephone number,
-     * "video" to indicate a video conferencing telephone number, "pager" to
-     * indicate a paging device telephone number, "bbs" to indicate a
-     * bulletin board system telephone number, "modem" to indicate a MODEM
-     * connected telephone number, "car" to indicate a car-phone telephone
-     * number, "isdn" to indicate an ISDN service telephone number, "pcs" to
+     * 'home' to indicate a telephone number associated with a residence,
+     * 'msg' to indicate the telephone number has voice messaging support,
+     * 'work' to indicate a telephone number associated with a place of
+     * vwork, 'pref' to indicate a preferred-use telephone number, 'voice' to
+     * indicate a voice telephone number, 'fax' to indicate a facsimile
+     * telephone number, 'cell' to indicate a cellular telephone number,
+     * 'video' to indicate a video conferencing telephone number, 'pager' to
+     * indicate a paging device telephone number, 'bbs' to indicate a
+     * bulletin board system telephone number, 'modem' to indicate a MODEM
+     * connected telephone number, 'car' to indicate a car-phone telephone
+     * number, 'isdn' to indicate an ISDN service telephone number, 'pcs' to
      * indicate a personal communication services telephone number. The
-     * default type is "voice". These type parameter values can be specified
-     * as a parameter list (i.e., "TYPE=work;TYPE=voice") or as a value list
-     * (i.e., "TYPE=work,voice"). The default can be overridden to another
+     * default type is 'voice'. These type parameter values can be specified
+     * as a parameter list (i.e., 'TYPE=work;TYPE=voice') or as a value list
+     * (i.e., 'TYPE=work,voice'). The default can be overridden to another
      * set of values by specifying one or more alternate values. For
-     * example, the default TYPE of "voice" can be reset to a WORK and HOME,
+     * example, the default TYPE of 'voice' can be reset to a WORK and HOME,
      * VOICE and FAX telephone number by the value list
-     * "TYPE=work,home,voice,fax".
+     * 'TYPE=work,home,voice,fax'.
      * @param string $number The phone number
      * @param int    $type   The address type (can be combined with the + operator)
      */
     public function setPhone(
-        string $number = "",
+        string $number = '',
         int $type = TEL_TYPE_VOICE
     ): void {
-        $this->types["TEL"][] = [
-            "TEL" => $this->escape($number),
-            "TYPE" => $type
+        $this->types['TEL'][] = [
+            'TEL' => $this->escape($number),
+            'TYPE' => $type
         ];
     }
 
@@ -937,24 +937,24 @@ class VCard
      * EMAIL;TYPE=internet:jqpublic@xyz.dom1.com
      * EMAIL;TYPE=internet:jdoe@isp.net
      * EMAIL;TYPE=internet,pref:jane_doe@abc.com
-     * Type special notes: The type can include the type parameter "TYPE" to
+     * Type special notes: The type can include the type parameter 'TYPE' to
      * specify the format or preference of the electronic mail address. The
-     * TYPE parameter values can include: "internet" to indicate an Internet
-     * addressing type, "x400" to indicate a X.400 addressing type or "pref"
+     * TYPE parameter values can include: 'internet' to indicate an Internet
+     * addressing type, 'x400' to indicate a X.400 addressing type or 'pref'
      * to indicate a preferred-use email address when more than one is
      * specified. Another IANA registered address type can also be
-     * specified. The default email type is "internet". A non-standard value
+     * specified. The default email type is 'internet'. A non-standard value
      * can also be specified.
      * @param string $address The email address
      * @param int    $type    The address type (can be combined with the + operator)
      */
     public function setEmail(
-        string $address = "",
+        string $address = '',
         int $type = EMAIL_TYPE_INTERNET
     ): void {
-        $this->types["EMAIL"][] = [
-            "EMAIL" => $this->escape($address),
-            "TYPE" => $type
+        $this->types['EMAIL'][] = [
+            'EMAIL' => $this->escape($address),
+            'TYPE' => $type
         ];
     }
 
@@ -972,9 +972,9 @@ class VCard
      * agent products.
      * @param string $name The mailer name
      */
-    public function setMailer(string $name = ""): void
+    public function setMailer(string $name = ''): void
     {
-        $this->types["MAILER"] = $this->escape($name);
+        $this->types['MAILER'] = $this->escape($name);
     }
 
     // Geographical Types
@@ -993,9 +993,9 @@ class VCard
      * Type special notes: The type value consists of a single value.
      * @param string $zone The timezone as utc-offset value
      */
-    public function setTimezone(string $zone = ""): void
+    public function setTimezone(string $zone = ''): void
     {
-        $this->types["TZ"] = $this->escape($zone);
+        $this->types['TZ'] = $this->escape($zone);
     }
 
     /**
@@ -1009,7 +1009,7 @@ class VCard
      * separated by the SEMI-COLON character (ASCII decimal 59).
      * Type special notes: This type specifies information related to the
      * global position of the object associated with the vCard. The value
-     * specifies latitude and longitude, in that order (i.e., "LAT LON"
+     * specifies latitude and longitude, in that order (i.e., 'LAT LON'
      * ordering). The longitude represents the location east and west of the
      * prime meridian as a positive or negative real number, respectively.
      * The latitude represents the location north and south of the equator
@@ -1024,11 +1024,11 @@ class VCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = ""): void
+    public function setPosition(string $latitude = '', string $longitude = ''): void
     {
-        $this->types["GEO"] = [
-            "LAT" => $latitude,
-            "LON" => $longitude
+        $this->types['GEO'] = [
+            'LAT' => $latitude,
+            'LON' => $longitude
         ];
     }
 
@@ -1047,9 +1047,9 @@ class VCard
      * Type special notes: This type is based on the X.520 Title attribute.
      * @param string $title Job title
      */
-    public function setTitle(string $title = ""): void
+    public function setTitle(string $title = ''): void
     {
-        $this->types["TITLE"] = $this->escape($title);
+        $this->types['TITLE'] = $this->escape($title);
     }
 
     /**
@@ -1066,9 +1066,9 @@ class VCard
      * intended.
      * @param string $role Role title
      */
-    public function setRole(string $role = ""): void
+    public function setRole(string $role = ''): void
     {
-        $this->types["ROLE"] = $this->escape($role);
+        $this->types['ROLE'] = $this->escape($role);
     }
 
     /**
@@ -1081,36 +1081,36 @@ class VCard
      * LOGO;ENCODING=b;TYPE=JPEG:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcN
      *   AQEEBQAwdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENvbW11bm
      *   ljYXRpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
-     *   <...the remainder of "B" encoded binary data...>
-     * Type encoding: The encoding MUST be reset to "b" using the ENCODING
+     *   <...the remainder of 'B' encoded binary data...>
+     * Type encoding: The encoding MUST be reset to 'b' using the ENCODING
      * parameter in order to specify inline, encoded binary data. If the
      * value is referenced by a URI value, then the default encoding of 8bit
      * is used and no explicit ENCODING parameter is needed.
      * Type value: A single value. The default is binary value. It can also
      * be reset to uri value. The uri value can be used to specify a value
      * outside of this MIME entity.
-     * Type special notes: The type can include the type parameter "TYPE" to
+     * Type special notes: The type can include the type parameter 'TYPE' to
      * specify the graphic image format type. The TYPE parameter values MUST
      * be one of the IANA registered image formats or a non-standard image
      * format.
      * @param string $logo A binary string containing the logo or an uri
      * @param string $type The IANA type of the image format
      */
-    public function setLogo(string $logo, string $type = ""): void
+    public function setLogo(string $logo, string $type = ''): void
     {
-        $value = "";
-        $encoding = "";
-        if (preg_match("/^http/", $logo)) {
+        $value = '';
+        $encoding = '';
+        if (preg_match('/^http/', $logo)) {
             $value = $this->encode($logo);
         } else {
-            $encoding = "b";
+            $encoding = 'b';
             $logo = base64_encode($logo);
         }
-        $this->types["LOGO"] = [
-            "VALUE" => $value,
-            "TYPE" => $type,
-            "ENCODING" => $encoding,
-            "LOGO" => $logo
+        $this->types['LOGO'] = [
+            'VALUE' => $value,
+            'TYPE' => $type,
+            'ENCODING' => $encoding,
+            'LOGO' => $logo
         ];
     }
 
@@ -1134,9 +1134,9 @@ class VCard
      * represents somebody or something that is separately addressable.
      * @param string $agent Agent type
      */
-    public function setAgent(string $agent = ""): void
+    public function setAgent(string $agent = ''): void
     {
-        $this->types["AGENT"] = $this->escape($agent);
+        $this->types['AGENT'] = $this->escape($agent);
     }
 
     /**
@@ -1153,10 +1153,10 @@ class VCard
      * of organizational unit names.
      * @param string $organization Organization description
      */
-    public function setOrganization(string $organization = ""): void
+    public function setOrganization(string $organization = ''): void
     {
-        $organization = implode(";", $this->explodeVar($organization, ";"));
-        $this->types["ORG"] = $organization;
+        $organization = implode(';', $this->explodeVar($organization, ';'));
+        $this->types['ORG'] = $organization;
     }
 
     // Explanatory Types
@@ -1176,8 +1176,8 @@ class VCard
      */
     public function setCategories(string $categories): void
     {
-        $categories = implode(",", $this->explodeVar($categories));
-        $this->types["CATEGORIES"] = $categories;
+        $categories = implode(',', $this->explodeVar($categories));
+        $this->types['CATEGORIES'] = $categories;
     }
 
     /**
@@ -1192,9 +1192,9 @@ class VCard
      * attribute.
      * @param string $note A note or comment
      */
-    public function setNote(string $note = ""): void
+    public function setNote(string $note = ''): void
     {
-        $this->types["NOTE"] = $this->escape($note);
+        $this->types['NOTE'] = $this->escape($note);
     }
 
     /**
@@ -1209,9 +1209,9 @@ class VCard
      * the text value is unique.
      * @param string $product_id Product identifier
      */
-    public function setProductId(string $product_id = ""): void
+    public function setProductId(string $product_id = ''): void
     {
-        $this->types["PRODID"] = $this->escape($product_id);
+        $this->types['PRODID'] = $this->escape($product_id);
     }
 
     /**
@@ -1228,9 +1228,9 @@ class VCard
      * information.
      * @param string $revision_date Revision date
      */
-    public function setRevision(string $revision_date = ""): void
+    public function setRevision(string $revision_date = ''): void
     {
-        $this->types["REV"] = $this->escape($revision_date);
+        $this->types['REV'] = $this->escape($revision_date);
     }
 
     /**
@@ -1265,9 +1265,9 @@ class VCard
      * for sorting the vCard.
      * @param string $string Sort string
      */
-    public function setSortString(string $string = ""): void
+    public function setSortString(string $string = ''): void
     {
-        $this->types["SORT-STRING"] = $this->escape($string);
+        $this->types['SORT-STRING'] = $this->escape($string);
     }
 
     /**
@@ -1282,35 +1282,35 @@ class VCard
      * SOUND;TYPE=BASIC;ENCODING=b:MIICajCCAdOgAwIBAgICBEUwDQYJKoZIhvcN
      *   AQEEBQAwdzELMAkGA1UEBhMCVVMxLDAqBgNVBAoTI05ldHNjYXBlIENvbW11bm
      *   ljYXRpb25zIENvcnBvcmF0aW9uMRwwGgYDVQQLExNJbmZvcm1hdGlvbiBTeXN0
-     *   <...the remainder of "B" encoded binary data...>
-     * Type encoding: The encoding MUST be reset to "b" using the ENCODING
+     *   <...the remainder of 'B' encoded binary data...>
+     * Type encoding: The encoding MUST be reset to 'b' using the ENCODING
      * parameter in order to specify inline, encoded binary data. If the
      * value is referenced by a URI value, then the default encoding of 8bit
      * is used and no explicit ENCODING parameter is needed.
      * Type value: A single value. The default is binary value. It can also
      * be reset to uri value. The uri value can be used to specify a value
      * outside of this MIME entity.
-     * Type special notes: The type can include the type parameter "TYPE" to
+     * Type special notes: The type can include the type parameter 'TYPE' to
      * specify the audio format type. The TYPE parameter values MUST be one
      * of the IANA registered audio formats or a non-standard audio format.
      * @param string $sound Binary string containing the sound
      * @param string $type  The IANA registered sound type
      */
-    public function setSound(string $sound = "", string $type = ""): void
+    public function setSound(string $sound = '', string $type = ''): void
     {
-        $value = "";
-        $encoding = "";
-        if (preg_match("/^http/", $sound)) {
+        $value = '';
+        $encoding = '';
+        if (preg_match('/^http/', $sound)) {
             $value = $this->encode($sound);
         } else {
-            $encoding = "b";
+            $encoding = 'b';
             $sound = base64_encode($sound);
         }
-        $this->types["SOUND"] = [
-            "VALUE" => $value,
-            "TYPE" => $type,
-            "ENCODING" => $encoding,
-            "SOUND" => $sound
+        $this->types['SOUND'] = [
+            'VALUE' => $value,
+            'TYPE' => $type,
+            'ENCODING' => $encoding,
+            'SOUND' => $sound
         ];
     }
 
@@ -1325,18 +1325,18 @@ class VCard
      * Type value: A single text value.
      * Type special notes: The type is used to uniquely identify the object
      * that the vCard represents.
-     * The type can include the type parameter "TYPE" to specify the format
+     * The type can include the type parameter 'TYPE' to specify the format
      * of the identifier. The TYPE parameter value should be an IANA
      * registered identifier format. The value can also be a non-standard
      * format.
      * @param string $uid  Globally unique identifier
      * @param string $type IANA registered identifier format
      */
-    public function setUID(string $uid = "", string $type = ""): void
+    public function setUID(string $uid = '', string $type = ''): void
     {
-        $this->types["UID"] = [
-            "UID" => $this->escape($uid),
-            "TYPE" => $type
+        $this->types['UID'] = [
+            'UID' => $this->escape($uid),
+            'TYPE' => $type
         ];
     }
 
@@ -1350,9 +1350,9 @@ class VCard
      * Type value: A single text value.
      * @param string $uri URL
      */
-    public function setURL(string $uri = ""): void
+    public function setURL(string $uri = ''): void
     {
-        $this->types["URL"] = $this->escape($uri);
+        $this->types['URL'] = $this->escape($uri);
     }
 
     /**
@@ -1362,12 +1362,12 @@ class VCard
      * Type example:
      * VERSION:3.0
      * Type special notes: The property MUST be present in the vCard object.
-     * The value MUST be "3.0" if the vCard corresponds to the vCard 3.0 specification.
+     * The value MUST be '3.0' if the vCard corresponds to the vCard 3.0 specification.
      * @param string $version Version string
      */
-    public function setVersion(string $version = "3.0"): void
+    public function setVersion(string $version = '3.0'): void
     {
-        $this->types["VERSION"] = $version;
+        $this->types['VERSION'] = $version;
     }
 
     // Security Types
@@ -1390,9 +1390,9 @@ class VCard
      * object.
      * @param string $classification Classification string
      */
-    public function setClassification(string $classification = ""): void
+    public function setClassification(string $classification = ''): void
     {
-        $this->types["CLASS"] = $this->escape($classification);
+        $this->types['CLASS'] = $this->escape($classification);
     }
 
     /**
@@ -1416,7 +1416,7 @@ class VCard
      *   mx93HGp0Kgyx1jIVMyNgsemeAwBM+MSlhMfcpbTrONwNjZYW8vJDSoi//y
      *   rZlVt9bJbs7MNYZVsyF1unsqaln4/vy6Uawfg8VUMk1U7jt8LYpo4YULU7
      *   UZHPYVUaSgVttImOHZIKi4hlPXBOhcUQ==
-     * Type encoding: The encoding MUST be reset to "b" using the ENCODING
+     * Type encoding: The encoding MUST be reset to 'b' using the ENCODING
      * parameter in order to specify inline, encoded binary data. If the
      * value is a text value, then the default encoding of 8bit is used and
      * no explicit ENCODING parameter is needed.
@@ -1431,21 +1431,21 @@ class VCard
      * @param string $key  Public key
      * @param string $type IANA registered public key or authentication certificate format
      */
-    public function setKey(string $key = "", string $type = ""): void
+    public function setKey(string $key = '', string $type = ''): void
     {
-        $encoding = "b";
+        $encoding = 'b';
         $key = base64_encode($key);
-        $this->types["KEY"] = [
-            "KEY" => $key,
-            "TYPE" => $type,
-            "ENCODING" => $encoding
+        $this->types['KEY'] = [
+            'KEY' => $key,
+            'TYPE' => $type,
+            'ENCODING' => $encoding
         ];
     }
 
     public function getFilename(): string
     {
-        if (strcmp($this->filename, "") == 0) {
-            return "vcard.vcf";
+        if (strcmp($this->filename, '') == 0) {
+            return 'vcard.vcf';
         } else {
             return $this->filename;
         }
@@ -1453,6 +1453,6 @@ class VCard
 
     public function getMimetype(): string
     {
-        return "text/x-vcard";
+        return 'text/x-vcard';
     }
 }
