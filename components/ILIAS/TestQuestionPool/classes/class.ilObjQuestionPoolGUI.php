@@ -660,6 +660,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 if (!in_array($cmd, ['save', 'saveReturn'])) {
                     $question_gui->$cmd();
+                    return;
                 }
 
                 if (!$question_gui->saveQuestion()) {
