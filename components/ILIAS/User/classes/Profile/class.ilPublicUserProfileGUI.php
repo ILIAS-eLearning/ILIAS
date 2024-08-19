@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\ProfileGUIRequest;
+use ILIAS\User\Profile\VCard;
 
 use ILIAS\Language\Language;
 
@@ -632,7 +633,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         $user = new ilObjUser($this->getUserId());
 
-        $vcard = new ilvCard();
+        $vcard = new VCard();
 
         // ilsharedresourceGUI: embedded in shared portfolio
         if ($user->getPref('public_profile') != 'y' &&
@@ -686,16 +687,16 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                         $adr[6] = $user->$key();
                         break;
                     case 'phone_office':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_WORK);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_WORK);
                         break;
                     case 'phone_home':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_HOME);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_HOME);
                         break;
                     case 'phone_mobile':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_CELL);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_CELL);
                         break;
                     case 'fax':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_FAX);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_FAX);
                         break;
                     case 'email':
                         $vcard->setEmail($user->$key());

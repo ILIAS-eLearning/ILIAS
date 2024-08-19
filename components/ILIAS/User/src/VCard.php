@@ -16,45 +16,49 @@
  *
  *********************************************************************/
 
-// Address values for the ADR type
-const ADR_TYPE_NONE = 0;
-const ADR_TYPE_DOM = 1;
-const ADR_TYPE_INTL = 2;
-const ADR_TYPE_POSTAL = 4;
-const ADR_TYPE_PARCEL = 8;
-const ADR_TYPE_HOME = 16;
-const ADR_TYPE_WORK = 32;
-const ADR_TYPE_PREF = 64;
+declare(strict_types=1);
 
-// Communication values for the TEL type
-const TEL_TYPE_NONE = 0;
-const TEL_TYPE_HOME = 1;
-const TEL_TYPE_MSG = 2;
-const TEL_TYPE_WORK = 4;
-const TEL_TYPE_PREF = 8;
-const TEL_TYPE_VOICE = 16;
-const TEL_TYPE_FAX = 32;
-const TEL_TYPE_CELL = 64;
-const TEL_TYPE_VIDEO = 128;
-const TEL_TYPE_PAGER = 256;
-const TEL_TYPE_BBS = 512;
-const TEL_TYPE_MODEM = 1024;
-const TEL_TYPE_CAR = 2048;
-const TEL_TYPE_ISDN = 4096;
-const TEL_TYPE_PCS = 8192;
-
-// Communication values for the EMAIL type
-const EMAIL_TYPE_NONE = 0;
-const EMAIL_TYPE_INTERNET = 1;
-const EMAIL_TYPE_x400 = 2;
-const EMAIL_TYPE_PREF = 4;
+namespace ILIAS\User\Profile;
 
 /**
  * RFC 2426 vCard MIME Directory Profile 3.0 class
  * @author Helmut Schottmüller <hschottm@tzi.de>
  */
-class ilvCard
+class VCard
 {
+    // Address values for the ADR type
+    public const ADR_TYPE_NONE = 0;
+    public const ADR_TYPE_DOM = 1;
+    public const ADR_TYPE_INTL = 2;
+    public const ADR_TYPE_POSTAL = 4;
+    public const ADR_TYPE_PARCEL = 8;
+    public const ADR_TYPE_HOME = 16;
+    public const ADR_TYPE_WORK = 32;
+    public const ADR_TYPE_PREF = 64;
+
+    // Communication values for the TEL type
+    public const TEL_TYPE_NONE = 0;
+    public const TEL_TYPE_HOME = 1;
+    public const TEL_TYPE_MSG = 2;
+    public const TEL_TYPE_WORK = 4;
+    public const TEL_TYPE_PREF = 8;
+    public const TEL_TYPE_VOICE = 16;
+    public const TEL_TYPE_FAX = 32;
+    public const TEL_TYPE_CELL = 64;
+    public const TEL_TYPE_VIDEO = 128;
+    public const TEL_TYPE_PAGER = 256;
+    public const TEL_TYPE_BBS = 512;
+    public const TEL_TYPE_MODEM = 1024;
+    public const TEL_TYPE_CAR = 2048;
+    public const TEL_TYPE_ISDN = 4096;
+    public const TEL_TYPE_PCS = 8192;
+
+    // Communication values for the EMAIL type
+    public const EMAIL_TYPE_NONE = 0;
+    public const EMAIL_TYPE_INTERNET = 1;
+    public const EMAIL_TYPE_x400 = 2;
+    public const EMAIL_TYPE_PREF = 4;
+
     /**
      * An array containing the vCard types
      * @var array<string,mixed>
