@@ -722,7 +722,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $cmd = 'showThreads';
             }
         }
-        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId(), '', '_top');
+        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
         $ref_id = $this->retrieveRefId();
 
         // Create topic button
@@ -3609,8 +3609,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->setPermanentLink(
             $this->object->getType(),
             $this->object->getRefId(),
-            '_' . $this->objCurrentTopic->getId(),
-            '_top'
+            (string) $this->objCurrentTopic->getId()
         );
 
         $this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
