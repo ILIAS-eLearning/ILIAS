@@ -82,9 +82,9 @@ class UTFNormal
     protected function getNormalizer($form): Transformation
     {
         if ($this->normalizerExists()) {
-            $normalizer = fn ($from) => NativeNormalizer::normalize($from, $form);
+            $normalizer = fn($from) => NativeNormalizer::normalize($from, $form);
         } else {
-            $normalizer = fn ($from) => PolyfillNormalizer::normalize($from, $form);
+            $normalizer = fn($from) => PolyfillNormalizer::normalize($from, $form);
         }
 
         return new \ILIAS\Refinery\Custom\Transformation($normalizer);
