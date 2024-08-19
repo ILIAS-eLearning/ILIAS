@@ -57,15 +57,17 @@ class Consumer implements ConsumerInterface
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings($user, $blocks->selectSettingsFrom(
             $blocks->userStore($user)
         ), $this->container->refinery()), $user);
+        $public_api = new PublicApi($is_active, $build_user);
         $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
                      ->hasHistory()
-                     ->hasPublicApi(new PublicApi($is_active, $build_user));
+                     ->hasPublicApi($public_api);
 
         if (!$is_active) {
             return $slot;
         }
 
         $user = $build_user($this->container->user());
+        $constraint = $this->container->refinery()->custom()->constraint(...);
 
         return $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
                     ->hasAgreement($blocks->slot()->agreement($user, $global_settings), 'agreement')
@@ -74,7 +76,8 @@ class Consumer implements ConsumerInterface
                     ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                     ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                     ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'tos_agree_date', 'tos'))
-                    ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user));
+                    ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
+                    ->canUseSoapApi($constraint($public_api->agreed(...), 'TOS not accepted.'));
     }
 
     private function userHasWithdrawn(): void

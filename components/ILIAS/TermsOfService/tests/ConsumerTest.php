@@ -91,9 +91,11 @@ class ConsumerTest extends TestCase
         $slot->expects(self::once())->method('hasOnlineStatusFilter')->willReturn($slot);
         $slot->expects(self::once())->method('hasUserManagementFields')->willReturn($slot);
         $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
+        $slot->expects(self::once())->method('canReadInternalMails')->willReturn($slot);
+        $slot->expects(self::once())->method('canUseSoapApi')->willReturn($slot);
 
         $instance = new Consumer($container);
 
-        $instance->uses($slot, $this->mock(LazyProvide::class));
+        $this->assertSame($slot, $instance->uses($slot, $this->mock(LazyProvide::class)));
     }
 }

@@ -62,9 +62,10 @@ final class Consumer implements ConsumerInterface
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings(
             $blocks->selectSettingsFrom($blocks->userStore($user))
         ), $user);
+        $public_api = new PublicApi($is_active, $build_user);
         $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
                      ->hasHistory()
-                     ->hasPublicApi(new PublicApi($is_active, $build_user));
+                     ->hasPublicApi($public_api);
 
         if (!$is_active) {
             return $slot;
@@ -75,6 +76,7 @@ final class Consumer implements ConsumerInterface
         $slot = $slot->showOnLoginPage($blocks->slot()->showOnLoginPage());
 
         $agreement = $blocks->slot()->agreement($user, $global_settings);
+        $constraint = $this->container->refinery()->custom()->constraint(...);
 
         if ($global_settings->noAcceptance()->value()) {
             $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks->ui(), $provide))
@@ -86,7 +88,8 @@ final class Consumer implements ConsumerInterface
                          ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                          ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                          ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'dpro_agree_date', 'dpro'))
-                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user));
+                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
+                         ->canUseSoapApi($constraint($public_api->agreed(...), 'Data Protection not agreed.'));
         }
 
         return $slot;
