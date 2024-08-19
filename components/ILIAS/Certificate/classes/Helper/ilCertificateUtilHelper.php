@@ -99,7 +99,6 @@ class ilCertificateUtilHelper
                            ->withOverwrite($overwrite)
                            ->withZipOutputPath($zip_output_path)
                            ->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
-
         );
     }
 
