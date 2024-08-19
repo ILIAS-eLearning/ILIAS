@@ -69,7 +69,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $mathJaxHelper->method('fillXlsFoContent')
             ->willReturn('<xml> Some filled XML content </xml>');
-        
+
         $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
