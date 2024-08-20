@@ -293,7 +293,7 @@ class ilPersonalSettingsGUI
             );
             $session_reminder->setDisabled(!$this->workWithUserSetting('session_reminder'));
             $session_reminder->setValue(
-                (string) $session_reminder_object->getIndividualSessionLeadTime()
+                (string) $session_reminder_object->getEffectiveLeadTime()
             );
             $session_reminder->setSize(3);
             $session_reminder->setMinValue(0);

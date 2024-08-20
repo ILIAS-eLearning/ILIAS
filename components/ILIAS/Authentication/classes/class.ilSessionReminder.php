@@ -91,7 +91,7 @@ class ilSessionReminder
         );
     }
 
-    public function getIndividualSessionLeadTime(): int
+    public function getEffectiveLeadTime(): int
     {
         return $this->buildValidLeadTime(
             (int) ilObjUser::_lookupPref(
@@ -103,7 +103,7 @@ class ilSessionReminder
 
     public function isIndividuallySet(): bool
     {
-        return $this->getIndividualSessionLeadTime() > 0;
+        return $this->getEffectiveLeadTime() > 0;
     }
 
     public function getMaxPossibleLeadTime(): int
@@ -116,7 +116,7 @@ class ilSessionReminder
     private function init(): void
     {
         $this->setLeadTime(
-            $this->getIndividualSessionLeadTime() * 60
+            $this->getEffectiveLeadTime() * 60
         );
 
         $this->setExpirationTime(ilSession::getIdleValue() + $this->clock->now()->getTimestamp());
