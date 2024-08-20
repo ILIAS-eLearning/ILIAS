@@ -2925,7 +2925,7 @@
 
 		<!-- svg -->
 		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
-			<embed style="width:100%">
+			<embed style="width:100%; display:block;">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:if test="$width != ''">
