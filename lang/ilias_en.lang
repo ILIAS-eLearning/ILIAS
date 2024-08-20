@@ -5562,11 +5562,11 @@ common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
-common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
+common#:#session_reminder_input#:#Session Reminder (in Minutes)
 common#:#session_reminder_lead_time#:#Leadtime
-common#:#session_reminder_lead_time_info#:#Please specify the lead time for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s.
+common#:#session_reminder_lead_time_info#:#Please specify how many minutes before the expiration of a session you would like to receive a reminder.<br / >The function is deactivated when the value is '%s'. Recommended value is %s.<br / >Your current length of a session is %s.
 common#:#session_reminder_session_duration#:#(Session duration: %s).
 common#:#set#:#Set
 common#:#setSystemLanguage#:#Set System Language
