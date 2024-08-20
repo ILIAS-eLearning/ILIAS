@@ -278,13 +278,15 @@ class ilPersonalSettingsGUI
 
         if ($this->userSettingVisible('session_reminder')) {
             $session_reminder = new ilNumberInputGUI(
-                $this->lng->txt('session_reminder'),
+                $this->lng->txt('session_reminder_input'),
                 'session_reminder_lead_time'
             );
             $expires = ilSession::getSessionExpireValue();
             $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
+                    0,
+                    ilSessionReminder::SUGGESTED_LEAD_TIME,
                     ilDatePresentation::secondsToString($expires, true)
                 )
             );
