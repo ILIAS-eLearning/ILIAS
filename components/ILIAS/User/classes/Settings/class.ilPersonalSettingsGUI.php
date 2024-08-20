@@ -281,6 +281,7 @@ class ilPersonalSettingsGUI
                 $this->lng->txt('session_reminder_input'),
                 'session_reminder_lead_time'
             );
+            $session_reminder_object = ilSessionReminder::byLoggedInUser();
             $expires = ilSession::getSessionExpireValue();
             $session_reminder->setInfo(
                 sprintf(
@@ -292,11 +293,11 @@ class ilPersonalSettingsGUI
             );
             $session_reminder->setDisabled(!$this->workWithUserSetting('session_reminder'));
             $session_reminder->setValue(
-                (string) ilSessionReminder::getLocalSessionLeadTime($this->user->getId())
+                (string) $session_reminder_object->getIndividualSessionLeadTime()
             );
             $session_reminder->setSize(3);
             $session_reminder->setMinValue(0);
-            $session_reminder->setMaxValue(ilSessionReminder::getMaxLeadTime());
+            $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
             $this->form->addItem($session_reminder);
         }
 
