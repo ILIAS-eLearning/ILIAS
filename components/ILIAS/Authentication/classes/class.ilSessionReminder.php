@@ -18,14 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Clock\ClockInterface;
+use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminder
 {
     public const MIN_LEAD_TIME = 2;
     public const SUGGESTED_LEAD_TIME = 5;
-
     private ClockInterface $clock;
     private ilObjUser $user;
     private int $lead_time = self::SUGGESTED_LEAD_TIME;
@@ -53,14 +52,47 @@ class ilSessionReminder
         return $reminder;
     }
 
-    public static function isGloballyActivated(): bool
+    public static function getGlobalSessionReminderLeadTime(): int
     {
-        /** @var ilSetting $ilSetting */
         global $DIC;
-
         $ilSetting = $DIC['ilSetting'];
 
-        return (bool) $ilSetting->get('session_reminder_enabled');
+        return self::getAcceptableLeadTime(
+            (int) $ilSetting->get('session_reminder_lead_time')
+        );
+    }
+
+    private static function getAcceptableLeadTime(int $lead_time): int
+    {
+        $min_value = 0;
+        $max_value = self::getMaxLeadTime();
+
+        if ($lead_time < $min_value || $lead_time > $max_value) {
+            $lead_time = self::SUGGESTED_LEAD_TIME;
+        }
+
+        return min(
+            max(
+                $min_value,
+                $lead_time
+            ),
+            $max_value
+        );
+    }
+
+    public static function getLocalSessionLeadTime(int $user_id): int
+    {
+        return self::getAcceptableLeadTime(
+            (int) ilObjUser::_lookupPref(
+                $user_id,
+                'session_reminder_lead_time'
+            ) ?: self::getGlobalSessionReminderLeadTime()
+        );
+    }
+
+    public static function isLocallyActivated(int $user_id): bool
+    {
+        return self::getLocalSessionLeadTime($user_id) > 0;
     }
 
     public static function getMaxLeadTime(): int
@@ -114,13 +146,12 @@ class ilSessionReminder
 
     public function isActive(): bool
     {
-        return (
-            self::isGloballyActivated() &&
+        return
             !$this->getUser()->isAnonymous() &&
             $this->getUser()->getId() > 0 &&
-            (int) $this->getUser()->getPref('session_reminder_enabled') &&
+            self::isLocallyActivated($this->getUser()->getId()) &&
             $this->isEnoughTimeLeftForReminder()
-        );
+        ;
     }
 
     public function setUser(ilObjUser $user): self
