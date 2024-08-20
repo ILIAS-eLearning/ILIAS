@@ -189,24 +189,10 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     break;
                 case 'session_reminder_lead_time':
                     $this->tpl->setCurrentBlock('def_input');
-                    $expires = ilSession::getSessionExpireValue();
-                    $min_value = ilSessionReminder::MIN_LEAD_TIME;
-                    $max_value = ilSessionReminder::getMaxLeadTime();
 
-                    $current_user_value = $ilSetting->get('session_reminder');
-                    if ($current_user_value < $min_value || $current_user_value > $max_value) {
-                        $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
-                    }
-                    $value = min(
-                        max(
-                            $min_value,
-                            $current_user_value
-                        ),
-                        $max_value
-                    );
                     $this->tpl->setVariable('PROFILE_OPTION_DEFAULT_VALUE', 'default_' . $field);
-                    $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', $value);
-                    $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', $max_value);
+                    $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', ilSessionReminder::getGlobalSessionReminderLeadTime());
+                    $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', ilSessionReminder::getMaxLeadTime());
 
                     $this->tpl->parseCurrentBlock();
 

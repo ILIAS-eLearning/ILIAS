@@ -276,7 +276,7 @@ class ilPersonalSettingsGUI
         $lv->setValue($last_visited);
         $this->form->addItem($lv);
 
-        if (ilSessionReminder::isGloballyActivated()) {
+        if ($this->userSettingVisible('session_reminder')) {
             $session_reminder = new ilNumberInputGUI(
                 $this->lng->txt('session_reminder'),
                 'session_reminder_lead_time'
@@ -289,27 +289,12 @@ class ilPersonalSettingsGUI
                 )
             );
             $session_reminder->setDisabled(!$this->workWithUserSetting('session_reminder'));
-
-            $min_value = ilSessionReminder::MIN_LEAD_TIME;
-            $max_value = ilSessionReminder::getMaxLeadTime();
-
-            $current_user_value = $this->user->getPref('session_reminder_lead_time') ?: $this->settings->get('session_reminder');
-            if ($current_user_value < $min_value || $current_user_value > $max_value) {
-                $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
-            }
-            $value = min(
-                max(
-                    $min_value,
-                    $current_user_value
-                ),
-                $max_value
-            );
             $session_reminder->setValue(
-                (string) $value
+                (string) ilSessionReminder::getLocalSessionLeadTime($this->user->getId())
             );
             $session_reminder->setSize(3);
-            $session_reminder->setMinValue($min_value);
-            $session_reminder->setMaxValue($max_value);
+            $session_reminder->setMinValue(0);
+            $session_reminder->setMaxValue(ilSessionReminder::getMaxLeadTime());
             $this->form->addItem($session_reminder);
         }
 
@@ -429,7 +414,7 @@ class ilPersonalSettingsGUI
                 }
             }
 
-            if (ilSessionReminder::isGloballyActivated() && $this->workWithUserSetting('session_reminder')) {
+            if ($this->workWithUserSetting('session_reminder')) {
                 $this->user->setPref(
                     'session_reminder_lead_time',
                     (string) $this->form->getInput('session_reminder_lead_time')
