@@ -23,15 +23,28 @@ use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminder
 {
-    public const MIN_LEAD_TIME = 2;
+    public const MIN_LEAD_TIME = 1;
     public const SUGGESTED_LEAD_TIME = 5;
     private ClockInterface $clock;
     private ilObjUser $user;
+    private ilSetting $settings;
     private int $lead_time = self::SUGGESTED_LEAD_TIME;
     private int $expiration_time = 0;
     private int $current_time = 0;
     private int $seconds_until_expiration = 0;
     private int $seconds_until_reminder = 0;
+
+    public function __construct(
+        ilObjUser $user,
+        ClockInterface $clock,
+        ilSetting $settings
+    ) {
+        $this->user = $user;
+        $this->clock = $clock;
+        $this->settings = $settings;
+
+        $this->init();
+    }
 
     public static function byLoggedInUser(): self
     {
@@ -46,26 +59,24 @@ class ilSessionReminder
 
         $reminder = new self(
             $user,
-            (new DataFactory())->clock()->utc()
+            (new DataFactory())->clock()->utc(),
+            $DIC->settings()
         );
 
         return $reminder;
     }
 
-    public static function getGlobalSessionReminderLeadTime(): int
+    public function getGlobalSessionReminderLeadTime(): int
     {
-        global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-
-        return self::getAcceptableLeadTime(
-            (int) $ilSetting->get('session_reminder_lead_time')
+        return $this->getEffectiveLeadTime(
+            (int) $this->settings->get('session_reminder_lead_time')
         );
     }
 
-    private static function getAcceptableLeadTime(int $lead_time): int
+    private function getEffectiveLeadTime(int $lead_time): int
     {
-        $min_value = 0;
-        $max_value = self::getMaxLeadTime();
+        $min_value = self::MIN_LEAD_TIME;
+        $max_value = $this->getMaxPossibleLeadTime();
 
         if ($lead_time < $min_value || $lead_time > $max_value) {
             $lead_time = self::SUGGESTED_LEAD_TIME;
@@ -80,47 +91,32 @@ class ilSessionReminder
         );
     }
 
-    public static function getLocalSessionLeadTime(int $user_id): int
+    public function getIndividualSessionLeadTime(): int
     {
-        return self::getAcceptableLeadTime(
+        return $this->getEffectiveLeadTime(
             (int) ilObjUser::_lookupPref(
-                $user_id,
+                $this->getUser()->getId(),
                 'session_reminder_lead_time'
-            ) ?: self::getGlobalSessionReminderLeadTime()
+            ) ?: $this->getGlobalSessionReminderLeadTime()
         );
     }
 
-    public static function isLocallyActivated(int $user_id): bool
+    public function isIndividuallySet(): bool
     {
-        return self::getLocalSessionLeadTime($user_id) > 0;
+        return $this->getIndividualSessionLeadTime() > 0;
     }
 
-    public static function getMaxLeadTime(): int
+    public function getMaxPossibleLeadTime(): int
     {
         $expires = ilSession::getSessionExpireValue();
+
         return max(self::MIN_LEAD_TIME, ($expires / 60) - 1);
-    }
-
-    public function __construct(ilObjUser $user, ClockInterface $clock)
-    {
-        $this->user = $user;
-        $this->clock = $clock;
-
-        $this->init();
     }
 
     private function init(): void
     {
-        /** @var ilSetting $ilSetting */
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         $this->setLeadTime(
-            ((int) max(
-                self::MIN_LEAD_TIME,
-                (float) $this->getUser()->getPref('session_reminder_lead_time') ?: $ilSetting->get('session_reminder')
-            )) * 60
+            $this->getIndividualSessionLeadTime($this->getUser()->getId()) * 60
         );
 
         $this->setExpirationTime(ilSession::getIdleValue() + $this->clock->now()->getTimestamp());
@@ -150,9 +146,8 @@ class ilSessionReminder
         return
             !$this->getUser()->isAnonymous() &&
             $this->getUser()->getId() > 0 &&
-            self::isLocallyActivated($this->getUser()->getId()) &&
-            $this->isEnoughTimeLeftForReminder()
-        ;
+            $this->isIndividuallySet($this->getUser()->getId()) &&
+            $this->isEnoughTimeLeftForReminder();
     }
 
     public function setUser(ilObjUser $user): self
