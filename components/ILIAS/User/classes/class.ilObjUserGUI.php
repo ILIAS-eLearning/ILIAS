@@ -890,7 +890,9 @@ class ilObjUserGUI extends ilObjectGUI
 
         $data['language'] = $this->object->getLanguage();
         $data['skin_style'] = $this->object->skin . ':' . $this->object->prefs['style'];
-        $data['session_reminder_lead_time'] = $this->object->prefs['session_reminder_lead_time'] ?? ilSessionReminder::getGlobalSessionReminderLeadTime();
+        $data['session_reminder_lead_time'] =
+            $this->object->prefs['session_reminder_lead_time'] ??
+            ilSessionReminder::byLoggedInUser()->getGlobalSessionReminderLeadTime();
         $data['hide_own_online_status'] = $this->object->prefs['hide_own_online_status'] ?? '';
         $data['bs_allow_to_contact_me'] = ($this->object->prefs['bs_allow_to_contact_me'] ?? '') == 'y';
         $data['chat_osc_accept_msg'] = ($this->object->prefs['chat_osc_accept_msg'] ?? '') == 'y';
@@ -1355,6 +1357,7 @@ class ilObjUserGUI extends ilObjectGUI
                 'session_reminder_lead_time'
             );
             $expires = ilSession::getSessionExpireValue();
+            $session_reminder_object = ilSessionReminder::byLoggedInUser();
             $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
@@ -1364,11 +1367,11 @@ class ilObjUserGUI extends ilObjectGUI
                 )
             );
             $session_reminder->setValue(
-                (string) ilSessionReminder::getGlobalSessionReminderLeadTime()
+                (string) $session_reminder_object->getGlobalSessionReminderLeadTime()
             );
             $session_reminder->setSize(3);
             $session_reminder->setMinValue(0);
-            $session_reminder->setMaxValue(ilSessionReminder::getMaxLeadTime());
+            $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
             $this->form_gui->addItem($session_reminder);
         }
 

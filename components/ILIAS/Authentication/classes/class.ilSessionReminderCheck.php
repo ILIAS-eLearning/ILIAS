@@ -112,10 +112,8 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $reminderTime = $expirationTime - ((int) max(
-            ilSessionReminder::MIN_LEAD_TIME,
-            (float) $ilUser->getPref('session_reminder_lead_time') ?: $this->settings->get('session_reminder')
-        )) * 60;
+        $session_reminder = ilSessionReminder::byLoggedInUser();
+        $reminderTime = $expirationTime - ($session_reminder->getIndividualSessionLeadTime() * 60);
         if ($reminderTime > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes
             $response['message'] = 'Lead time not reached, yet. Current time: ' .
