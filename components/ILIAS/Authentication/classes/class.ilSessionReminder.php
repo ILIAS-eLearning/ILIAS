@@ -100,6 +100,7 @@ class ilSessionReminder
         $expires = ilSession::getSessionExpireValue();
         return max(self::MIN_LEAD_TIME, ($expires / 60) - 1);
     }
+
     public function __construct(ilObjUser $user, ClockInterface $clock)
     {
         $this->user = $user;
