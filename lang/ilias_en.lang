@@ -17201,7 +17201,8 @@ user#:#user_profile_info_text_info#:#This text is presented on top of the form f
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 user#:#user_profile_preview#:#Preview of Profile
-user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+user#:#user_profile_prompt_text#:#Prompt Text
+user#:#user_profile_prompt_text_info#:#This texts replace the default info text shown when a user is prompted to complete the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
 user#:#user_prompt_once_after_login#:#Once, a specific number of days after first login

@@ -16,24 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\User\Profile\Prompt;
+
 /**
- * User prompt dates
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilProfileUserPrompt
+class Prompt
 {
-    protected ?string $last_prompt = null;	// timestamp
-    protected ?string $first_login = null; // timestamp
-    protected int $user_id;
-
     public function __construct(
-        int $user_id,
-        ?string $last_prompt,
-        ?string $first_login
+        private readonly int $user_id,
+        private readonly ?\DateTimeImmutable $last_prompt,
+        private readonly ?\DateTimeImmutable $first_login
     ) {
-        $this->user_id = $user_id;
-        $this->last_prompt = $last_prompt;
-        $this->first_login = $first_login;
     }
 
     public function getUserId(): int
@@ -41,12 +37,12 @@ class ilProfileUserPrompt
         return $this->user_id;
     }
 
-    public function getLastPrompt(): ?string
+    public function getLastPrompt(): ?\DateTimeImmutable
     {
         return $this->last_prompt;
     }
 
-    public function getFirstLogin(): ?string
+    public function getFirstLogin(): ?\DateTimeImmutable
     {
         return $this->first_login;
     }
