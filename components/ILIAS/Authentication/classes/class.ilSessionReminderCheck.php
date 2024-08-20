@@ -113,7 +113,7 @@ class ilSessionReminderCheck
         }
 
         $session_reminder = ilSessionReminder::byLoggedInUser();
-        $reminderTime = $expirationTime - ($session_reminder->getIndividualSessionLeadTime() * 60);
+        $reminderTime = $expirationTime - ($session_reminder->getEffectiveLeadTime() * 60);
         if ($reminderTime > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes
             $response['message'] = 'Lead time not reached, yet. Current time: ' .
