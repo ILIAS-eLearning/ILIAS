@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\ProfileGUIRequest;
+use ILIAS\User\Profile\GUIRequest;
 use ILIAS\User\Profile\VCard;
 
 use ILIAS\Language\Language;
@@ -32,7 +32,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {
     private bool $offline = false;
     private ilUserDefinedFields $user_defined_fields;
-    private ProfileGUIRequest $profile_request;
+    private GUIRequest $profile_request;
     private int $userid = 0;
     private string $backurl = '';
     private array $additional = []; // Missing array type.
@@ -60,7 +60,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $this->rbac_system = $DIC['rbacsystem'];
         $this->lng = $DIC['lng'];
 
-        $this->profile_request = new ProfileGUIRequest(
+        $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );

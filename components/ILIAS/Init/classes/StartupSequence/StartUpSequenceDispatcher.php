@@ -26,7 +26,7 @@ use ilSession;
 use ilTermsOfServiceAcceptanceStartUpStep;
 use ilForcedUserPasswordChangeStartUpStep;
 use ilTermsOfServiceWithdrawalStartUpStep;
-use ilUserProfileStartUpStep;
+use ILIAS\User\Profile\Prompt\StartUpStep as ProfilePromptStartUpStep;
 use SplQueue;
 use ILIAS\LegalDocuments\StartUpStep;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
@@ -55,9 +55,13 @@ class StartUpSequenceDispatcher
             $this->dic->ctrl(),
             $this->dic['legalDocuments']
         ));
-        $this->sequence->push(new ilUserProfileStartUpStep(
+        $this->sequence->push(new ProfilePromptStartUpStep(
             $this->dic->user(),
-            $this->dic->ctrl()
+            $this->dic->ctrl(),
+            $this->dic->database(),
+            $this->dic->language(),
+            $this->dic->http(),
+            $this->dic->refinery()
         ));
         $this->sequence->push(new ilForcedUserPasswordChangeStartUpStep(
             $this->dic->user(),

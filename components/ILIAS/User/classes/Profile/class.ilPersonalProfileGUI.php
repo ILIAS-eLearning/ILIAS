@@ -22,6 +22,10 @@ use ILIAS\User\Profile\ChecklistStatus;
 use ILIAS\User\Profile\Mode as ProfileMode;
 use ILIAS\User\Profile\ChangeMailStatus;
 use ILIAS\User\Profile\ChangeMailMail;
+use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
+use ILIAS\User\Profile\GUIRequest;
+use ILIAS\User\Profile\ChangeMailTokenRepository;
+use ILIAS\User\Profile\ChangeMailTokenDBRepository;
 
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
@@ -31,9 +35,6 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Modal\Interruptive;
-use ILIAS\User\ProfileGUIRequest;
-use ILIAS\User\Profile\ChangeMailTokenRepository;
-use ILIAS\User\Profile\ChangeMailTokenDBRepository;
 use ILIAS\StaticURL\Services as StaticUrlServices;
 
 /**
@@ -67,7 +68,8 @@ class ilPersonalProfileGUI
     private UIRenderer $ui_renderer;
 
     private ChangeMailTokenRepository $change_mail_token_repo;
-    private ProfileGUIRequest $profile_request;
+    private PromptRepository $prompt_repository;
+    private GUIRequest $profile_request;
 
     private ilLogger $logger;
     private FileUpload $uploads;
@@ -115,8 +117,13 @@ class ilPersonalProfileGUI
             $this->user,
             new ProfileMode($this->lng, $this->settings, $this->user)
         );
+        $this->prompt_repository = new PromptRepository(
+            $DIC['ilDB'],
+            $this->lng,
+            new ilSetting('user')
+        );
         $this->user_settings_config = new ilUserSettingsConfig();
-        $this->profile_request = new ProfileGUIRequest(
+        $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -456,32 +463,9 @@ class ilPersonalProfileGUI
     public function showPersonalData(
         bool $a_no_init = false
     ): void {
-        $prompt_service = new ilUserProfilePromptService();
-
         $this->tabs->activateTab('personal_data');
 
-        $it = '';
-        if ($this->profile_request->getPrompted() == 1) {
-            $it = $prompt_service->data()->getSettings()->getPromptText($this->user->getLanguage());
-        }
-        if ($it === '') {
-            $it = $prompt_service->data()->getSettings()->getInfoText($this->user->getLanguage());
-        }
-        if (trim($it) !== '') {
-            $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
-                ? $this->user->prefs['public_profile']
-                : 'n';
-            $box = $this->ui_factory->messageBox()->info($it);
-            if ($pub_prof === 'n') {
-                $box = $box->withLinks(
-                    [$this->ui_factory->link()->standard(
-                        $this->lng->txt('user_make_profile_public'),
-                        $this->ctrl->getLinkTarget($this, 'showPublicProfile')
-                    )]
-                );
-            }
-            $it = $this->ui_renderer->render($box);
-        }
+
         $this->setHeader();
 
         $this->showChecklist(ChecklistStatus::STEP_PROFILE_DATA);
@@ -499,9 +483,37 @@ class ilPersonalProfileGUI
             $modal = $this->ui_renderer->render($this->email_change_confirmation_modal);
         }
 
-        $this->tpl->setContent($it . $this->form->getHTML() . $modal);
+        $this->tpl->setContent($this->buildInfoText() . $this->form->getHTML() . $modal);
 
         $this->tpl->printToStdout();
+    }
+
+    private function buildInfoText(): string
+    {
+        $it = '';
+        if ($this->profile_request->getPrompted() === 1) {
+            $it = $this->prompt_repository->getSettings()->getPromptText($this->user->getLanguage());
+        }
+        if ($it === '') {
+            $it = $this->prompt_repository->getSettings()->getInfoText($this->user->getLanguage());
+        }
+        if (trim($it) === '') {
+            return '';
+        }
+
+        $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
+            ? $this->user->prefs['public_profile']
+            : 'n';
+        $box = $this->ui_factory->messageBox()->info($it);
+        if ($pub_prof === 'n') {
+            $box = $box->withLinks(
+                [$this->ui_factory->link()->standard(
+                    $this->lng->txt('user_make_profile_public'),
+                    $this->ctrl->getLinkTarget($this, 'showPublicProfile')
+                )]
+            );
+        }
+        return $this->ui_renderer->render($box);
     }
 
     public function initPersonalDataForm(): void
@@ -512,9 +524,7 @@ class ilPersonalProfileGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setId(self::PERSONAL_DATA_FORM_ID);
 
-        // user defined fields
         $user_defined_data = $this->user->getUserDefinedData();
-
 
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             $value = $user_defined_data['f_' . $field_id] ?? '';

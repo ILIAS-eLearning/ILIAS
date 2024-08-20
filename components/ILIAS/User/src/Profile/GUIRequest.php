@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User;
+namespace ILIAS\User\Profile;
 
 use ILIAS\HTTP\Services as RequestServices;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
-class ProfileGUIRequest
+class GUIRequest
 {
     private WrapperFactory $wrapper;
     /**
@@ -120,7 +120,7 @@ class ProfileGUIRequest
 
     /**
      * @todo 2023-06-05 sk: This is not what we want, but in order to avoid
-     * having a RequestInterface and a ProfileGUIRequest as class attributes
+     * having a RequestInterface and a GUIRequest as class attributes
      */
     public function getParsedBody(): array
     {

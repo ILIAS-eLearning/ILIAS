@@ -17208,7 +17208,8 @@ user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeform
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
 user#:#user_profile_preview#:#Vorschau des Profils
-user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
+user#:#user_profile_prompt_text#:#Text bei Aufforderung zur Profilveröffentlichung
+user#:#user_profile_prompt_text_info#:#Diese Texte ersetzen den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
 user#:#user_prompt_incomplete#:#Nie
 user#:#user_prompt_incomplete_info#:#Der Benutzer wird niemals zur Veröffentlichung seines Profils aufgefordert.
 user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
@@ -17216,7 +17217,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_prompting_recurrence#:#Häufigkeit
-user#:#user_prompting_settings#:#Aufforderung Profilveröffentlichung
+user#:#user_prompting_settings#:#Aufforderung zur Profilveröffentlichung
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_role_selection#:#Rollenauswahl
