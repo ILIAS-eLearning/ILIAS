@@ -191,8 +191,9 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('def_input');
 
                     $this->tpl->setVariable('PROFILE_OPTION_DEFAULT_VALUE', 'default_' . $field);
-                    $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', ilSessionReminder::getGlobalSessionReminderLeadTime());
-                    $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', ilSessionReminder::getMaxLeadTime());
+                    $session_reminder = ilSessionReminder::byLoggedInUser();
+                    $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', $session_reminder->getGlobalSessionReminderLeadTime());
+                    $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', $session_reminder->getMaxPossibleLeadTime());
 
                     $this->tpl->parseCurrentBlock();
 
