@@ -792,6 +792,8 @@ class Renderer extends AbstractComponentRenderer
             $file_preview_template
         );
 
+        $this->setHelpBlockForFileField($template, $input);
+
         $input = $this->initClientsideFileInput($input);
         $input = $this->initClientsideRenderer($input, $file_preview_template->get('block_file_preview'));
 
@@ -1082,5 +1084,22 @@ class Renderer extends AbstractComponentRenderer
 
 
         return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
+    }
+
+    private function setHelpBlockForFileField(Template $template, FI\File $input): void
+    {
+        $template->setCurrentBlock('HELP_BLOCK');
+
+        $template->setCurrentBlock('MAX_FILE_SIZE');
+        $template->setVariable('FILE_SIZE_LABEL', $this->txt('file_notice'));
+        $template->setVariable('FILE_SIZE_VALUE', new DataSize($input->getMaxFileSize(), DataSize::Byte));
+        $template->parseCurrentBlock();
+
+        $template->setCurrentBlock('MAX_FILES');
+        $template->setVariable('FILES_LABEL', $this->txt('ui_file_upload_max_nr'));
+        $template->setVariable('FILES_VALUE', $input->getMaxFiles());
+        $template->parseCurrentBlock();
+
+        $template->parseCurrentBlock();
     }
 }
