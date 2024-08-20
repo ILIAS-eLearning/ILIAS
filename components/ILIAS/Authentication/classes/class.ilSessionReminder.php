@@ -101,11 +101,6 @@ class ilSessionReminder
         );
     }
 
-    public function isIndividuallySet(): bool
-    {
-        return $this->getEffectiveLeadTime() > 0;
-    }
-
     public function getMaxPossibleLeadTime(): int
     {
         $expires = ilSession::getSessionExpireValue();
@@ -146,7 +141,7 @@ class ilSessionReminder
         return
             !$this->getUser()->isAnonymous() &&
             $this->getUser()->getId() > 0 &&
-            $this->isIndividuallySet() &&
+            $this->getEffectiveLeadTime() > 0 &&
             $this->isEnoughTimeLeftForReminder();
     }
 
