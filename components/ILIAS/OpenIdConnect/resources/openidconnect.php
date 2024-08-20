@@ -29,8 +29,7 @@ ilInitialisation::initILIAS();
 
 global $DIC;
 
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $DIC->ctrl()->setCmd('doOpenIdConnectAuthentication');
+ilStartUpGUI::setForcedCommand('doOpenIdConnectAuthentication');
 $DIC->ctrl()->setTargetScript('ilias.php');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 exit();
