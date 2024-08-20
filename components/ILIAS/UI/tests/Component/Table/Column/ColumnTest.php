@@ -28,13 +28,14 @@ use ILIAS\UI\Implementation\Component\Listing;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph as GlyphInterface;
+use ILIAS\Language\Language;
 
 /**
  * Basic Tests for Table-Columns.
  */
 class ColumnTest extends ILIAS_UI_TestBase
 {
-    protected ilLanguage $lng;
+    protected Language $lng;
 
     public function setUp(): void
     {
