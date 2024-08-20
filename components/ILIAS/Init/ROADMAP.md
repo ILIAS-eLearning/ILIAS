@@ -1,22 +1,35 @@
 # Roadmap
 
-## Long Term
+## Mid Term
 
-### Reduce endpoints located in the ilias root directory
+### Get rid of `ilStartupGUI::setForcedCommand` calls in *.php endpoint scripts
 
-In the future the amount of endpoints (.php classes) located in the ILIAS root directory   
-should be reduced and the existing code moved to the existing ilCtrl structure.  
-Just the ``index.php`` as the only endpoint may remain.
+In order to address the issues resulting from the application of
+[PR 6628](https://github.com/ILIAS-eLearning/ILIAS/pull/6628) (as a successor
+of [PR 5100](https://github.com/ILIAS-eLearning/ILIAS/pull/5100)), a new static
+method `ilStartupGUI::setForcedCommand` has been introduced as a bugfix
+(not supported with any/appropriate funding) to provide a new way to force `ilStartupGUI`
+to execute a specific command depending on the context of the requested
+PHP endpoint script, e.g. ...
 
-(With possible exceptions for things like **sso** or **cli**)
+* login.php
+* logout.php
+* confirmReg.php
+* pwassist.php
+* register.php
+* saml.php
+* openidconnect.php
+* sso/index.php
+* ...
 
-Examples: 
-- login.php
-- logout.php
-- error.php
-- register.php
-- ...
+. To solve the routing problems we also considered a different approach by looking a
+dozens and dozens of code references to these different PHP endpoints. Due to the sheer amount of
+of changes and conflicts with other mechanisms in the "Init/Authentication Process"
+(to name it: handling `cmd=force_login`, even if the forced command of these
+endpoints differs from "force_login"), we decided to go with
+the `ilStartupGUI::setForcedCommand` approach for now.
 
-Current Problems:
-- Current concepts like the redirecting to ``login.php?cmd=force_login`` have to be adjusted   
-  to no longer use the ilCtrl->getCmd() method and additionally check if the cmd is set to ``force_login`` in the POST var.
+Of course the endgame should be to get rid of these static calls in the PHP endpoint scripts,
+or even better, to get reduce the number of PHP endpoints generally.
+But all this will have impacts on other components (e.g. the "Routing") sooner or later and
+should be part of a dedicated project.
