@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 /**
  * Export class for tests
  *
@@ -29,7 +31,7 @@ declare(strict_types=1);
  *
  * @ingroup components\ILIASTest
  */
-abstract class ilTestExport
+abstract class Export
 {
     private string $export_dir;
     private string $subdir;
@@ -37,22 +39,22 @@ abstract class ilTestExport
     private string $filename;
     private string $resultsfile;
 
-    private ?ilXmlWriter $xml;
-    private ilLanguage $lng;
+    private ?\ilXmlWriter $xml;
+    private \ilLanguage $lng;
 
-    protected bool $resultExportingEnabledForTestExport = false;
+    protected bool $result_exporting_enabled = false;
 
-    protected ?ilTestParticipantList $forcedAccessFilteredParticipantList = null;
-    protected ilBenchmark $bench;
+    protected ?\ilTestParticipantList $forced_access_filtered_participant_list = null;
+    protected \ilBenchmark $bench;
 
-    protected ilErrorHandling $err;
-    protected ilDBInterface $db;
-    protected ILIAS $ilias;
+    protected \ilErrorHandling $err;
+    protected \ilDBInterface $db;
+    protected \ILIAS $ilias;
 
     protected string $inst_id;
 
     public function __construct(
-        public ilObjTest $test_obj,
+        public \ilObjTest $test_obj,
         public string $mode = "xml"
     ) {
         global $DIC;
@@ -91,27 +93,27 @@ abstract class ilTestExport
 
     public function isResultExportingEnabledForTestExport(): bool
     {
-        return $this->resultExportingEnabledForTestExport;
+        return $this->result_exporting_enabled;
     }
 
     public function setResultExportingEnabledForTestExport(bool $resultExprtingEnabledForTestExport): void
     {
-        $this->resultExportingEnabledForTestExport = $resultExprtingEnabledForTestExport;
+        $this->result_exporting_enabled = $resultExprtingEnabledForTestExport;
     }
 
-    public function getForcedAccessFilteredParticipantList(): ?ilTestParticipantList
+    public function getForcedAccessFilteredParticipantList(): ?\ilTestParticipantList
     {
-        return $this->forcedAccessFilteredParticipantList;
+        return $this->forced_access_filtered_participant_list;
     }
 
-    public function setForcedAccessFilteredParticipantList(ilTestParticipantList $forcedAccessFilteredParticipantList): void
+    public function setForcedAccessFilteredParticipantList(\ilTestParticipantList $forcedAccessFilteredParticipantList): void
     {
-        $this->forcedAccessFilteredParticipantList = $forcedAccessFilteredParticipantList;
+        $this->forced_access_filtered_participant_list = $forcedAccessFilteredParticipantList;
     }
 
-    public function getAccessFilteredParticipantList(): ?ilTestParticipantList
+    public function getAccessFilteredParticipantList(): ?\ilTestParticipantList
     {
-        if ($this->getForcedAccessFilteredParticipantList() instanceof ilTestParticipantList) {
+        if ($this->getForcedAccessFilteredParticipantList() instanceof \ilTestParticipantList) {
             return $this->getForcedAccessFilteredParticipantList();
         }
 
@@ -154,19 +156,14 @@ abstract class ilTestExport
 
         // make_directories
         $this->test_obj->createExportDirectory();
-        ilFileUtils::makeDir($this->export_dir);
+        \ilFileUtils::makeDir($this->export_dir);
 
-        $expLog = new ilLog($expDir, "export.log");
+        $expLog = new \ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Of Results");
 
-        $data = (new ilCSVTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', false))->withAllResults()->getContent();
-        $file = fopen($this->export_dir . "/" . $this->filename, "wb");
-        fwrite($file, $data);
-        fclose($file);
-
-        $worksheet = (new ilExcelTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+        $worksheet = (new ResultsExportExcel($this->lng, $this->test_obj, \ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
@@ -187,7 +184,7 @@ abstract class ilTestExport
 
         $this->initXmlExport();
 
-        $this->xml = new ilXmlWriter();
+        $this->xml = new \ilXmlWriter();
 
         // set dtd definition
         $this->xml->xmlSetDtdDef("<!DOCTYPE Test SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
@@ -203,12 +200,12 @@ abstract class ilTestExport
 
         // create directories
         $this->test_obj->createExportDirectory();
-        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
-        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        \ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        \ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->test_obj->getExportDirectory();
-        $expLog = new ilLog($expDir, "export.log");
+        $expLog = new \ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
@@ -241,7 +238,7 @@ abstract class ilTestExport
         $this->bench->stop("TestExport", "buildExportFile_dumpToFile");
 
         if ($this->isResultExportingEnabledForTestExport()) {
-            $resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
+            $resultwriter = new \ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start("TestExport", "buildExportFile_results");
             $resultwriter->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->resultsfile, false);
@@ -255,7 +252,7 @@ abstract class ilTestExport
 
         // zip the file
         $this->bench->start("TestExport", "buildExportFile_zipFile");
-        ilFileUtils::zip(
+        \ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );
@@ -270,7 +267,7 @@ abstract class ilTestExport
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
 
-    abstract protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter);
+    abstract protected function populateQuestionSetConfigXml(\ilXmlWriter $xmlWriter);
 
     protected function getQtiXml()
     {
@@ -302,30 +299,30 @@ abstract class ilTestExport
 
     public function exportXHTMLMediaObjects($a_export_dir): void
     {
-        $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
+        $mobs = \ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
 
         $intro_page_id = $this->test_obj->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
         if ($intro_page_id !== null) {
-            $mobs += ilObjMediaObject::_getMobsOfObject("tst:pg", $intro_page_id);
+            $mobs += \ilObjMediaObject::_getMobsOfObject("tst:pg", $intro_page_id);
         }
 
         $concluding_remarks_page_id = $this->test_obj->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
         if ($concluding_remarks_page_id !== null) {
-            $mobs += ilObjMediaObject::_getMobsOfObject("tst:pg", $concluding_remarks_page_id);
+            $mobs += \ilObjMediaObject::_getMobsOfObject("tst:pg", $concluding_remarks_page_id);
         }
 
         foreach ($mobs as $mob) {
-            if (ilObjMediaObject::_exists($mob)) {
-                $mob_obj = new ilObjMediaObject($mob);
+            if (\ilObjMediaObject::_exists($mob)) {
+                $mob_obj = new \ilObjMediaObject($mob);
                 $mob_obj->exportFiles($a_export_dir);
                 unset($mob_obj);
             }
         }
         foreach ($this->getQuestionIds() as $question_id) {
-            $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
+            $mobs = \ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
             foreach ($mobs as $mob) {
-                if (ilObjMediaObject::_exists($mob)) {
-                    $mob_obj = new ilObjMediaObject($mob);
+                if (\ilObjMediaObject::_exists($mob)) {
+                    $mob_obj = new \ilObjMediaObject($mob);
                     $mob_obj->exportFiles($a_export_dir);
                     unset($mob_obj);
                 }
@@ -334,11 +331,11 @@ abstract class ilTestExport
     }
 
     protected function populateQuestionSkillAssignmentsXml(
-        ilXmlWriter $a_xml_writer,
-        ilAssQuestionSkillAssignmentList $assignmentList,
+        \ilXmlWriter $a_xml_writer,
+        \ilAssQuestionSkillAssignmentList $assignmentList,
         array $questions
     ) {
-        $skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
+        $skillQuestionAssignmentExporter = new \ilAssQuestionSkillAssignmentExporter();
         $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
         $skillQuestionAssignmentExporter->setQuestionIds($questions);
         $skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
@@ -346,23 +343,23 @@ abstract class ilTestExport
     }
 
     protected function populateSkillLevelThresholdsXml(
-        ilXmlWriter $a_xml_writer,
-        ilAssQuestionSkillAssignmentList $assignmentList
+        \ilXmlWriter $a_xml_writer,
+        \ilAssQuestionSkillAssignmentList $assignmentList
     ) {
-        $thresholdList = new ilTestSkillLevelThresholdList($this->db);
+        $thresholdList = new \ilTestSkillLevelThresholdList($this->db);
         $thresholdList->setTestId($this->test_obj->getTestId());
         $thresholdList->loadFromDb();
 
-        $skillLevelThresholdExporter = new ilTestSkillLevelThresholdExporter();
+        $skillLevelThresholdExporter = new \ilTestSkillLevelThresholdExporter();
         $skillLevelThresholdExporter->setXmlWriter($a_xml_writer);
         $skillLevelThresholdExporter->setAssignmentList($assignmentList);
         $skillLevelThresholdExporter->setThresholdList($thresholdList);
         $skillLevelThresholdExporter->export();
     }
 
-    protected function buildQuestionSkillAssignmentList(): ilAssQuestionSkillAssignmentList
+    protected function buildQuestionSkillAssignmentList(): \ilAssQuestionSkillAssignmentList
     {
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+        $assignmentList = new \ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->test_obj->getId());
         $assignmentList->loadFromDb();
         $assignmentList->loadAdditionalSkillData();

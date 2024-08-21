@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
@@ -27,9 +29,9 @@ use ILIAS\Test\Logging\TestLogger;
  *
  * @package components\ILIAS/Test
  */
-class ilTestExportRandomQuestionSet extends ilTestExport
+class ExportRandomQuestionSet extends Export
 {
-    protected ilTestRandomQuestionSetSourcePoolDefinitionList $src_pool_def_list;
+    protected \ilTestRandomQuestionSetSourcePoolDefinitionList $src_pool_def_list;
 
     /**
      * @var array<ilTestRandomQuestionSetStagingPoolQuestionList>
@@ -38,10 +40,10 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 
     public function __construct(
         \ilObjTest $test_obj,
-        private readonly ilLanguage $lng,
+        private readonly \ilLanguage $lng,
         private readonly TestLogger $logger,
-        private readonly ilTree $tree,
-        private readonly ilComponentRepository $component_repository,
+        private readonly \ilTree $tree,
+        private readonly \ilComponentRepository $component_repository,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
         string $mode = "xml"
     ) {
@@ -50,12 +52,12 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 
     protected function initXmlExport(): void
     {
-        $src_pool_def_factory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+        $src_pool_def_factory = new \ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->db,
             $this->test_obj
         );
 
-        $this->src_pool_def_list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+        $this->src_pool_def_list = new \ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->db,
             $this->test_obj,
             $src_pool_def_factory
@@ -67,7 +69,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $this->staging_pool_question_list_by_pool_id = [];
     }
 
-    protected function populateQuestionSetConfigXml(ilXmlWriter $xml_writer): void
+    protected function populateQuestionSetConfigXml(\ilXmlWriter $xml_writer): void
     {
         $xml_writer->xmlStartTag('RandomQuestionSetConfig');
         $this->populateCommonSettings($xml_writer);
@@ -76,9 +78,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $xml_writer->xmlEndTag('RandomQuestionSetConfig');
     }
 
-    protected function populateCommonSettings(ilXmlWriter $xml_writer)
+    protected function populateCommonSettings(\ilXmlWriter $xml_writer)
     {
-        $question_set_config = new ilTestRandomQuestionSetConfig(
+        $question_set_config = new \ilTestRandomQuestionSetConfig(
             $this->tree,
             $this->db,
             $this->lng,
@@ -97,7 +99,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         ]);
     }
 
-    protected function populateQuestionStages(ilXmlWriter $xml_writer)
+    protected function populateQuestionStages(\ilXmlWriter $xml_writer)
     {
         $xml_writer->xmlStartTag('RandomQuestionStage');
 
@@ -112,7 +114,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $xml_writer->xmlEndTag('RandomQuestionStage');
     }
 
-    protected function populateSelectionDefinitions(ilXmlWriter $xml_writer)
+    protected function populateSelectionDefinitions(\ilXmlWriter $xml_writer)
     {
         $xml_writer->xmlStartTag('RandomQuestionSelectionDefinitions');
 
@@ -176,10 +178,10 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         return $question_ids;
     }
 
-    protected function getLoadedStagingPoolQuestionList(int $pool_id): ilTestRandomQuestionSetStagingPoolQuestionList
+    protected function getLoadedStagingPoolQuestionList(int $pool_id): \ilTestRandomQuestionSetStagingPoolQuestionList
     {
         if (!isset($this->staging_pool_question_list_by_pool_id[$pool_id])) {
-            $question_list = new ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->component_repository);
+            $question_list = new \ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->component_repository);
             $question_list->setTestId($this->test_obj->getTestId());
             $question_list->setPoolId($pool_id);
             $question_list->loadQuestions();

@@ -18,37 +18,29 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
-/**
- * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package components\ILIAS/Test
- */
-class ilTestExportFactory
+class Factory
 {
     public function __construct(
-        private readonly ilObjTest $test_obj,
-        private readonly ilLanguage $lng,
+        private readonly \ilObjTest $test_obj,
+        private readonly \ilLanguage $lng,
         private readonly TestLogger $logger,
-        private readonly ilTree $tree,
-        private readonly ilComponentRepository $component_repository,
+        private readonly \ilTree $tree,
+        private readonly \ilComponentRepository $component_repository,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
-    /**
-     * @param string $mode
-     * @return ilTestExportFixedQuestionSet|ilTestExportRandomQuestionSet
-     */
-    public function getExporter($mode = "xml")
+    public function getExporter($mode = 'xml'): ExportFixedQuestionSet|ExportRandomQuestionSet
     {
         if ($this->test_obj->isFixedTest()) {
-            return new ilTestExportFixedQuestionSet($this->test_obj, $mode);
+            return new ExportFixedQuestionSet($this->test_obj, $mode);
         }
-        return new ilTestExportRandomQuestionSet(
+        return new ExportRandomQuestionSet(
             $this->test_obj,
             $this->lng,
             $this->logger,

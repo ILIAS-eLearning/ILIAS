@@ -22,6 +22,7 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\ExportImport\Factory as ExportFactory;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -89,7 +90,7 @@ class ilTestExportGUI extends ilExportGUI
      */
     public function createTestExportWithResults()
     {
-        $export_factory = new ilTestExportFactory(
+        $export_factory = new ExportFactory(
             $this->obj,
             $this->lng,
             $this->logger,
@@ -106,7 +107,7 @@ class ilTestExportGUI extends ilExportGUI
 
     public function createTestResultsExport()
     {
-        $export_factory = new ilTestExportFactory(
+        $export_factory = new ExportFactory(
             $this->obj,
             $this->lng,
             $this->logger,

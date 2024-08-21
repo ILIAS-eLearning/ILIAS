@@ -18,29 +18,20 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup components\ILIASTest
  */
-class ilTestExportFilename
+class ExportFilename
 {
-    /**
-     * @var ilObjTest
-     */
-    protected $test;
+    protected int $timestamp = 0;
 
-    /**
-     * @var int
-     */
-    protected $timestamp = 0;
-
-    /**
-     * @param ilObjTest $test
-     */
-    public function __construct(ilObjTest $test)
-    {
-        $this->test = $test;
+    public function __construct(
+        protected readonly \ilObjTest $test
+    ) {
         $this->timestamp = time();
     }
 
@@ -53,17 +44,14 @@ class ilTestExportFilename
     }
 
     /**
-     * @param string $extension
-     * @param string $additional
-     * @return string
-     * @throws ilException
+     * @throws \ilException
      */
-    public function getPathname($extension, $additional = ''): string
+    public function getPathname(string $extension, string $additional = ''): string
     {
         if (!is_string($extension) || !strlen($extension)) {
-            throw new ilException('Missing file extension! Please pass a file extension of type string.');
+            throw new \ilException('Missing file extension! Please pass a file extension of type string.');
         } elseif (substr_count($extension, '.') > 1 || (strpos($extension, '.') !== false && strpos($extension, '.') !== 0)) {
-            throw new ilException('Please use at most one dot in your file extension.');
+            throw new \ilException('Please use at most one dot in your file extension.');
         } elseif (strpos($extension, '.') === 0) {
             $extension = substr($extension, 1);
         }
@@ -71,7 +59,7 @@ class ilTestExportFilename
         if (!is_string($additional)) {
         } elseif (strlen($additional)) {
             if (strpos($additional, '__') === 0) {
-                throw new ilException('The additional file part may not contain __ at the beginning!');
+                throw new \ilException('The additional file part may not contain __ at the beginning!');
             }
 
             $additional = '__' . $additional . '_';

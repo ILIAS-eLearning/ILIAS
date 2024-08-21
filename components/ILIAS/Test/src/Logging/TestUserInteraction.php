@@ -21,7 +21,6 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\StaticURL\Services as StaticURLServices;

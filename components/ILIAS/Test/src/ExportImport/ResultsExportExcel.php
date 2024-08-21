@@ -18,23 +18,24 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
-class ilExcelTestExport extends ilTestExportAbstract
+class ResultsExportExcel extends ResultsExportAbstract
 {
-    protected ilAssExcelFormatHelper $worksheet;
+    protected \ilAssExcelFormatHelper $worksheet;
 
     public function __construct(
-        ilObjTest $test_obj,
-        string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
+        \ilLanguage $lng,
+        \ilObjTest $test_obj,
+        string $filter_key_participants = \ilTestEvaluationData::FILTER_BY_NONE,
         string $filtertext = '',
         bool $passedonly = false,
         bool $scoredonly = true,
-        ilLanguage $lng = null
     ) {
-        $this->scoredonly = $scoredonly;
-        $this->worksheet = new ilAssExcelFormatHelper();
+        $this->worksheet = new \ilAssExcelFormatHelper();
         parent::__construct($test_obj, $filter_key_participants, $filtertext, $passedonly, $scoredonly, $lng);
     }
 
@@ -73,7 +74,7 @@ class ilExcelTestExport extends ilTestExportAbstract
         return $this;
     }
 
-    public function getContent(): ilAssExcelFormatHelper
+    public function getContent(): \ilAssExcelFormatHelper
     {
         return $this->worksheet;
     }
@@ -205,7 +206,7 @@ class ilExcelTestExport extends ilTestExportAbstract
      */
     public function deliver(string $title): void
     {
-        $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $title)) . '.xlsx';
+        $testname = \ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $title)) . '.xlsx';
         $this->worksheet->sendToClient($testname);
     }
 }

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\Test\Export\CSVExportTrait;
+use ILIAS\Test\Logging\CSVExportTrait;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 

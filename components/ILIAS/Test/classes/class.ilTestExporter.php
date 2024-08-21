@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\ExportImport\Factory as ExportFactory;
 
 /**
  * Used for container export with tests
@@ -61,7 +62,7 @@ class ilTestExporter extends ilXmlExporter
     {
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $test_export_factory = new ilTestExportFactory(
+        $test_export_factory = new ExportFactory(
             $tst,
             $this->lng,
             $this->logger,

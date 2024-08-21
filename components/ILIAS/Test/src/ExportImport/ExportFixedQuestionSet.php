@@ -18,19 +18,21 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
  * @package components\ILIAS/Test
  */
-class ilTestExportFixedQuestionSet extends ilTestExport
+class ExportFixedQuestionSet extends Export
 {
     protected function initXmlExport()
     {
     }
 
-    protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+    protected function populateQuestionSetConfigXml(\ilXmlWriter $xmlWriter)
     {
     }
 
