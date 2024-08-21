@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Panel;
 
+use ILIAS\UI\Component\ViewControl\HasViewControls;
+
 /**
  * This describes how a Report could be modified during construction of UI.
  */
-interface Report extends Panel
+interface Report extends Panel, HasViewControls
 {
 }

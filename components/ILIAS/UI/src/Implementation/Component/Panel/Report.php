@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
 /**
  * Class Panel
@@ -29,6 +30,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  */
 class Report extends Panel implements C\Panel\Report
 {
+    use HasViewControls;
     use ComponentHelper;
 
     /**
