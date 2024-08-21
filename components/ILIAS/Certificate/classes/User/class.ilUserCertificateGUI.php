@@ -28,6 +28,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateGUI
 {
+    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+
     private readonly ilGlobalTemplateInterface $template;
     private readonly ilCtrlInterface $ctrl;
     private readonly ilLanguage $language;
@@ -35,15 +37,15 @@ class ilUserCertificateGUI
     private readonly ilObjUser $user;
     private readonly ServerRequestInterface $request;
     private readonly ilLogger $certificateLogger;
-    protected ilSetting $certificateSettings;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected ilAccessHandler $access;
-    protected ilHelpGUI $help;
-    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+    private readonly ilSetting $certificateSettings;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly ilAccessHandler $access;
+    private readonly ilHelpGUI $help;
+    private readonly ilDBInterface $db;
 
     /**
-     * @var array<string, string> 
+     * @var array<string, string>
      */
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
@@ -67,71 +69,25 @@ class ilUserCertificateGUI
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
         ?Filesystem $filesystem = null,
-        ?ilHelpGUI $help = null
+        ?ilHelpGUI $help = null,
+        ?ilDBInterface $db = null
     ) {
         global $DIC;
 
-        if ($template === null) {
-            $template = $DIC->ui()->mainTemplate();
-        }
-        $this->template = $template;
-
-        if ($ctrl === null) {
-            $ctrl = $DIC->ctrl();
-        }
-        $this->ctrl = $ctrl;
-
-        if ($language === null) {
-            $language = $DIC->language();
-        }
-        $this->language = $language;
-
-        if ($user === null) {
-            $user = $DIC->user();
-        }
-        $this->user = $user;
-
-        if ($request === null) {
-            $request = $DIC->http()->request();
-        }
-        $this->request = $request;
-
-        if ($certificateLogger === null) {
-            $certificateLogger = $DIC->logger()->cert();
-        }
-        $this->certificateLogger = $certificateLogger;
-
-        if ($certificateSettings === null) {
-            $certificateSettings = new ilSetting("certificate");
-        }
-        $this->certificateSettings = $certificateSettings;
-
-        if (null === $uiFactory) {
-            $uiFactory = $DIC->ui()->factory();
-        }
-        $this->uiFactory = $uiFactory;
-
-        if (null === $uiRenderer) {
-            $uiRenderer = $DIC->ui()->renderer();
-        }
-        $this->uiRenderer = $uiRenderer;
-
-        if (null === $access) {
-            $access = $DIC->access();
-        }
-        $this->access = $access;
-
-        if (null === $filesystem) {
-            $filesystem = $DIC->filesystem()->web();
-        }
-        $this->filesystem = $filesystem;
-
-        if ($userCertificateRepository === null) {
-            $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
-        }
-        $this->userCertificateRepository = $userCertificateRepository;
-
+        $this->template = $template ?? $DIC->ui()->mainTemplate();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
+        $this->user = $user ?? $DIC->user();
+        $this->language = $language ?? $DIC->language();
+        $this->request = $request ?? $DIC->http()->request();
+        $this->certificateLogger = $certificateLogger ?? $DIC->logger()->cert();
+        $this->certificateSettings = $certificateSettings ?? new ilSetting('certificate');
+        $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
+        $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
+        $this->access = $access ?? $DIC->access();
+        $this->filesystem = $filesystem ?? $DIC->filesystem()->web();
+        $this->userCertificateRepository = $userCertificateRepository ?? new ilUserCertificateRepository(null, $this->certificateLogger);
         $this->help = $help ?? $DIC->help();
+        $this->db = $db ?? $DIC->database();
 
         $this->language->loadLanguageModule('cert');
     }
@@ -164,8 +120,6 @@ class ilUserCertificateGUI
      */
     public function listCertificates(): void
     {
-        global $DIC;
-
         $this->help->setScreenIdComponent('cert');
 
         if (!$this->certificateSettings->get('active', '0')) {
@@ -173,7 +127,7 @@ class ilUserCertificateGUI
         }
 
         $provider = new ilUserCertificateTableProvider(
-            $DIC->database(),
+            $this->db,
             $this->certificateLogger,
             $this->language->txt('certificate_no_object_title')
         );
