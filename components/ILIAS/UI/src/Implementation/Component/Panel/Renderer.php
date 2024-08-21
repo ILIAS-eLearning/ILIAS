@@ -114,7 +114,15 @@ class Renderer extends AbstractComponentRenderer
     protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.report.html", true, true);
+
+        $actions = $component->getActions();
+
         $tpl->setVariable("TITLE", $component->getTitle());
+
+        if ($actions !== null) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
     }
