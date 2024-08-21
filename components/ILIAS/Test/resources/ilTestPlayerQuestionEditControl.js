@@ -16,6 +16,10 @@
 
 /* fau: testNav - new script for test player control of editable questions. */
 
+// Can't be constants because they are dynamically evaluated in ilTestPlayerAbstractGUI.
+var changed_modal_id = 'tst_next_locks_changed_modal';
+var unchanged_modal_id = 'tst_next_locks_unchanged_modal';
+
 /**
  * Test Player Control for Editable Questions
  * added and initialized by ilTestPlayerAbstractGUI::populateQuestionEditControl()
@@ -167,21 +171,21 @@ il.TestPlayerQuestionEditControl = new function() {
 
         if (config.nextQuestionLocks) {
           // handle the buttons in next locks current answer confirmation modal
-          let first_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(1)');
+          let first_child_changed = document.querySelector('#' + changed_modal_id + ' .modal-footer :nth-child(1)');
           if (first_child_changed !== null) {
               first_child_changed.addEventListener('click', saveWithNavigation);
           }
-          let second_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(2)');
+          let second_child_changed = document.querySelector('#' + changed_modal_id + ' .modal-footer :nth-child(2)');
           if (second_child_changed !== null) {
             second_child_changed.addEventListener('click', hideFollowupQuestionLocksCurrentAnswerModal);
           }
 
           // handle the buttons in next locks empty answer confirmation modal
-          let first_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(1)');
+          let first_child_unchanged = document.querySelector('#' + unchanged_modal_id + ' .modal-footer :nth-child(1)');
           if (first_child_unchanged !== null) {
             first_child_unchanged.addEventListener('click', saveWithNavigationEmptyAnswer);
           }
-          let second_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(2)');
+          let second_child_unchanged = document.querySelector('#' + unchanged_modal_id + ' .modal-footer :nth-child(2)');
           if (second_child_unchanged !== null) {
             second_child_unchanged.addEventListener('click', hideFollowupQuestionLocksEmptyAnswerModal);
           }
@@ -450,7 +454,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
             if (!answerChanged && !answered) {
                 showFollowupQuestionLocksEmptyAnswerModal();
-            } else if( $('#tst_next_locks_changed_modal').length > 0 ) {
+            } else if($('#' + changed_modal_id).length > 0 ) {
                 showFollowupQuestionLocksCurrentAnswerModal();
             } else {
                 saveWithNavigation();
@@ -518,23 +522,25 @@ il.TestPlayerQuestionEditControl = new function() {
 
     function showFollowupQuestionLocksCurrentAnswerModal()
     {
-        $('#tst_next_locks_changed_modal').modal('show');
+        $('#' + changed_modal_id).modal('show');
         $('#followup_qst_locks_prevent_confirmation').attr('checked',false);
     }
 
     function hideFollowupQuestionLocksCurrentAnswerModal()
     {
-        $('#tst_next_locks_changed_modal').modal('hide');
+        e.preventDefault();
+        $('#' + changed_modal_id).modal('hide');
     }
 
     function showFollowupQuestionLocksEmptyAnswerModal()
     {
-        $('#tst_next_locks_unchanged_modal').modal('show');
+        $('#' + unchanged_modal_id).modal('show');
     }
 
     function hideFollowupQuestionLocksEmptyAnswerModal()
     {
-        $('#tst_next_locks_unchanged_modal').modal('hide');
+        e.preventDefault();
+        $('#' + unchanged_modal_id).modal('hide');
     }
 
     /**

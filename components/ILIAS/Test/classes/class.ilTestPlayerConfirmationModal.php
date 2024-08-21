@@ -18,9 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Button\Standard as StandardButton;
-use ILIAS\UI\Implementation\Component\Button\Primary as PrimaryButton;
 
 /**
  * Class ilTestPlayerModal
@@ -32,16 +31,11 @@ use ILIAS\UI\Implementation\Component\Button\Primary as PrimaryButton;
  */
 class ilTestPlayerConfirmationModal
 {
-    protected string $modal_id = '';
     protected string $header_text = '';
     protected string $confirmation_text = '';
     protected string $confirmation_checkbox_name = '';
     protected string $confirmation_checkbox_label = '';
-
-    /**
-     * @var \ILIAS\UI\Component\Button\Standard[]
-     */
-    protected array $buttons = [];
+    protected string $action_button_label = '';
 
     /**
      * @var ilHiddenInputGUI[]
@@ -49,18 +43,9 @@ class ilTestPlayerConfirmationModal
     protected array $parameters = [];
 
     public function __construct(
-        protected UIRenderer $ui_renderer
+        protected UIRenderer $ui_renderer,
+        protected UIFactory $ui_factory
     ) {
-    }
-
-    public function getModalId(): string
-    {
-        return $this->modal_id;
-    }
-
-    public function setModalId(string $modal_id)
-    {
-        $this->modal_id = $modal_id;
     }
 
     public function getHeaderText(): string
@@ -68,9 +53,10 @@ class ilTestPlayerConfirmationModal
         return $this->header_text;
     }
 
-    public function setHeaderText(string $header_text)
+    public function setHeaderText(string $header_text): self
     {
         $this->header_text = $header_text;
+        return $this;
     }
 
     public function getConfirmationText(): string
@@ -78,9 +64,10 @@ class ilTestPlayerConfirmationModal
         return $this->confirmation_text;
     }
 
-    public function setConfirmationText(string $confirmation_text)
+    public function setConfirmationText(string $confirmation_text): self
     {
         $this->confirmation_text = $confirmation_text;
+        return $this;
     }
 
     public function getConfirmationCheckboxName(): string
@@ -88,9 +75,10 @@ class ilTestPlayerConfirmationModal
         return $this->confirmation_checkbox_name;
     }
 
-    public function setConfirmationCheckboxName(string $confirmation_checkbox_name)
+    public function setConfirmationCheckboxName(string $confirmation_checkbox_name): self
     {
         $this->confirmation_checkbox_name = $confirmation_checkbox_name;
+        return $this;
     }
 
     public function getConfirmationCheckboxLabel(): string
@@ -98,22 +86,21 @@ class ilTestPlayerConfirmationModal
         return $this->confirmation_checkbox_label;
     }
 
-    public function setConfirmationCheckboxLabel(string $confirmation_checkbox_label)
+    public function setConfirmationCheckboxLabel(string $confirmation_checkbox_label): self
     {
         $this->confirmation_checkbox_label = $confirmation_checkbox_label;
+        return $this;
     }
 
-    /**
-     * @return \ILIAS\UI\Component\Button\Standard[]
-     */
-    public function getButtons(): array
+    public function getActionButtonLabel(): string
     {
-        return $this->buttons;
+        return $this->action_button_label;
     }
 
-    public function addButton(StandardButton|PrimaryButton|ilLinkButton $button)
+    public function setActionButtonLabel(string $action_button_label): self
     {
-        $this->buttons[] = $button;
+        $this->action_button_label = $action_button_label;
+        return $this;
     }
 
     /**
@@ -124,17 +111,21 @@ class ilTestPlayerConfirmationModal
         return $this->parameters;
     }
 
-    public function addParameter(ilHiddenInputGUI $hidden_input_gui)
+    public function addParameter(ilHiddenInputGUI $hidden_input_gui): self
     {
         $this->parameters[] = $hidden_input_gui;
+        return $this;
     }
 
     public function isConfirmationCheckboxRequired(): bool
     {
-        return strlen($this->getConfirmationCheckboxName()) && strlen($this->getConfirmationCheckboxLabel());
+        return $this->getConfirmationCheckboxName() !== '' && $this->getConfirmationCheckboxLabel() !== '';
     }
 
-    public function buildBody(): string
+    /**
+     * @throws ilTemplateException
+     */
+    private function buildModalBody(): string
     {
         $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'components/ILIAS/Test');
 
@@ -151,29 +142,26 @@ class ilTestPlayerConfirmationModal
             $tpl->parseCurrentBlock();
         }
 
-        foreach ($this->getButtons() as $button) {
-            $tpl->setCurrentBlock('buttons');
-            if ($button instanceof StandardButton || $button instanceof PrimaryButton) {
-                $button_str = $this->ui_renderer->render($button);
-            } elseif ($button instanceof ilLinkButton) {
-                $button_str = $button->render();
-            }
-
-            $tpl->setVariable('BUTTON', $button_str);
-            $tpl->parseCurrentBlock();
-        }
-
         $tpl->setVariable('CONFIRMATION_TEXT', $this->getConfirmationText());
 
         return $tpl->get();
     }
 
-    public function getHTML(): string
+    /**
+     * @throws ilTemplateException
+     */
+    public function getHTML(string &$modal_id): string
     {
-        $modal = ilModalGUI::getInstance();
-        $modal->setId($this->getModalId());
-        $modal->setHeading($this->getHeaderText());
-        $modal->setBody($this->buildBody());
-        return $modal->getHTML();
+        $rendered_modal = $this->ui_renderer->render($this->ui_factory->modal()->interruptive(
+            $this->getHeaderText(),
+            $this->buildModalBody(),
+            ''
+        )->withActionButtonLabel($this->getActionButtonLabel()));
+
+        $doc = new DOMDocument();
+        @$doc->loadHTML($rendered_modal);
+        $modal_id = $doc->getElementsByTagName('div')->item(0)->attributes->getNamedItem('id')->nodeValue ?? $modal_id;
+
+        return $rendered_modal;
     }
 }
