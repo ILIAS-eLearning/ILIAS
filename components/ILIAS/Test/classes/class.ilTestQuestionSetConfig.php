@@ -44,36 +44,6 @@ abstract class ilTestQuestionSetConfig
     abstract public function cloneToDbForTestId(int $testId): void;
     abstract public function deleteFromDb(): void;
 
-    public function areDepenciesInVulnerableState(): bool
-    {
-        return false;
-    }
-
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng): string
-    {
-        return '';
-    }
-
-    public function areDepenciesBroken(): bool
-    {
-        return false;
-    }
-
-    public function getDepenciesBrokenMessage(ilLanguage $lng): string
-    {
-        return '';
-    }
-
-    public function isValidRequestOnBrokenQuestionSetDepencies(string $next_class, string $cmd): bool
-    {
-        return true;
-    }
-
-    public function getHiddenTabsOnBrokenDepencies(): array
-    {
-        return [];
-    }
-
     abstract public function isQuestionSetConfigured(): bool;
     abstract public function doesQuestionSetRelatedDataExist(): bool;
     abstract public function removeQuestionSetRelatedData(): void;

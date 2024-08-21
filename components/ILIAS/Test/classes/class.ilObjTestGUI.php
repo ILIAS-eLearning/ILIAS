@@ -264,15 +264,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
 
-        if (
-            !$this->getCreationMode()
-            && isset($this->test_question_set_config_factory)
-            && $this->test_question_set_config_factory->getQuestionSetConfig()->areDepenciesBroken()
-            && !$this->test_question_set_config_factory->getQuestionSetConfig()->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd)
-        ) {
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
-        }
-
         $this->determineObjectiveOrientedContainer();
 
         switch ($next_class) {

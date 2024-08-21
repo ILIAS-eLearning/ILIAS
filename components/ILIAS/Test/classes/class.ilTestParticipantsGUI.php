@@ -218,6 +218,48 @@ class ilTestParticipantsGUI
         return true;
     }
 
+    protected function initToolbarControls(ilTestParticipantList $participant_list): void
+    {
+        if ($this->getTestObj()->getFixedParticipants()) {
+            $this->addUserSearchControls($this->toolbar);
+        }
+
+        if ($this->getTestObj()->getFixedParticipants() && $participant_list->hasUnfinishedPasses()) {
+            $this->toolbar->addSeparator();
+        }
+
+        if ($participant_list->hasUnfinishedPasses()) {
+            $this->addFinishAllPassesButton($this->toolbar);
+        }
+    }
+
+    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
+            $DIC->language()->txt('finish_all_user_passes'),
+            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
+        );
+        $toolbar->addComponent($finish_all_user_passes_btn);
+    }
+
+    protected function saveClientIpCmd(): void
+    {
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
+
+        if ($selected_users === []) {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
+        }
+
+        foreach ($selected_users as $user_id) {
+            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
+        }
+
+        $this->ctrl->redirect($this, self::CMD_SHOW);
+    }
+
     protected function removeParticipantsCmd(): void
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
@@ -234,5 +276,32 @@ class ilTestParticipantsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
+    private function addExportActionsToToolbar(): void
+    {
+        $ilToolbar->setFormName('form_output_eval');
+        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
+        if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
+            $options = [
+                $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
+                $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+            ];
+        } else {
+            $options = [
+                $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+            ];
+        }
 
+        if (!$this->object->getAnonymity()) {
+            try {
+                $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+                if ($globalCertificatePrerequisites->validate()) {
+                    $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'exportCertificateArchive'));
+                }
+            } catch (ilException $e) {
+            }
+        }
+
+        $select = $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'));
+        $ilToolbar->addComponent($select);
+    }
 }
