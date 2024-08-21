@@ -41,6 +41,9 @@ const ClozeGlobals = {
   gap_restore: true,
 };
 
+// Can't be a constant because it is dynamically evaluated in assClozeTestGUI.
+var gap_modal_id = 'ilGapModal';
+
 let ClozeSettings = {};
 
 const ClozeQuestionGapBuilder = (function () {
@@ -119,12 +122,12 @@ const ClozeQuestionGapBuilder = (function () {
 
   pro.closeModalWithOkButton = function () {
     ClozeGlobals.gap_restore = false;
-    $('#ilGapModal').modal('hide');
+    $('#' + gap_modal_id).modal('hide');
   };
 
   pro.closeModalWithCancelButton = function () {
     pro.restoreSavedGap();
-    $('#ilGapModal').modal('hide');
+    $('#' + gap_modal_id).modal('hide');
   };
 
   pro.restoreSavedGap = function () {
@@ -1036,16 +1039,16 @@ const ClozeQuestionGapBuilder = (function () {
   pro.focusOnFormular = function (pos) {
     pro.cloneFormPart(pos[0]);
     // ToDo: fix fokus
-    $('#ilGapModal').modal('show');
+    const modal = $('#' + gap_modal_id);
+    modal.modal('show');
     ClozeGlobals.gap_restore = true;
     const gap = parseInt(pos[0], 10) - 1;
-    const lightBoxInner = $('#ilGapModal');
     $('#cloze_text').focus();
-    lightBoxInner.find(`#gap_${gap}\\[answer\\]\\[0\\]`).focus();
-    lightBoxInner.find(`#gap_${gap}_numeric`).focus();
+    modal.find(`#gap_${gap}\\[answer\\]\\[0\\]`).focus();
+    modal.find(`#gap_${gap}_numeric`).focus();
 
-    $('#ilGapModal').off('hidden.bs.modal');
-    $('#ilGapModal').on('hidden.bs.modal', () => {
+    modal.off('hidden.bs.modal');
+    modal.on('hidden.bs.modal', () => {
       pro.restoreSavedGap();
       pro.checkForm();
     });
@@ -1194,8 +1197,8 @@ const ClozeQuestionGapBuilder = (function () {
         ClozeSettings.gaps_php[0].splice(position[2], 1);
         pro.removeFromTextarea(position[2]);
         pub.paintGaps();
-        if (whereAmI == 'modal-body') {
-          $('#ilGapModal').modal('hide');
+        if (whereAmI == 'modal-body' || whereAmI == 'modal-content') {
+          $('#' + gap_modal_id).modal('hide');
         }
       }
     });

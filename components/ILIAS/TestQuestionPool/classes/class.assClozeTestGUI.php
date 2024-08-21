@@ -79,6 +79,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     });
 JS;
 
+    private const DEFAULT_MODAL_ID = 'ilGapModal';
+
     /**
     * A temporary variable to store gap indexes of ilCtrl commands in the getCommand method
     */
@@ -341,13 +343,25 @@ JS;
         }
 
         if (!$checkonly) {
-            $modal = ilModalGUI::getInstance();
-            $modal->setHeading($this->lng->txt(''));
-            $modal->setId('ilGapModal');
-            $modal->setBody('');
-            $this->renderEditForm($form, $modal->getHTML());
+            $modal_id = self::DEFAULT_MODAL_ID;
+            $modal_html = $this->getModalHtml($modal_id);
+            $this->tpl->setVariable('MY_MODAL', $modal_html);
+            $this->tpl->addOnLoadCode('gap_modal_id = "' . $modal_id . '";');
+
+            $this->renderEditForm($form, $modal_html);
         }
         return $errors;
+    }
+
+    private function getModalHtml(string &$modal_id): string
+    {
+        $modal = $this->ui_factory->modal()->interruptive('', '', '');
+        $doc = new DOMDocument();
+        @$doc->loadHTML($this->ui_renderer->render($modal));
+        $divs = $doc->getElementsByTagName('div');
+        $divs->item($divs->count() - 1)->nodeValue = '';
+        $modal_id = $divs->item(0)->attributes->getNamedItem('id')->nodeValue ?? self::DEFAULT_MODAL_ID;
+        return $doc->saveHTML();
     }
 
     private function hasErrorInGapCombinationPoints(array $gap_combinations): bool
