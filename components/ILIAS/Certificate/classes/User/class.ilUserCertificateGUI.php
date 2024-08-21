@@ -24,8 +24,6 @@ use ILIAS\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @ingroup           ServicesCertificate
- * @author            Niels Theen <ntheen@databay.de>
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
 class ilUserCertificateGUI
@@ -41,7 +39,12 @@ class ilUserCertificateGUI
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilAccessHandler $access;
+    protected ilHelpGUI $help;
     final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+
+    /**
+     * @var array<string, string> 
+     */
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
         'title_DESC' => 'cert_sortable_by_title_desc',
@@ -63,7 +66,8 @@ class ilUserCertificateGUI
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
-        ?Filesystem $filesystem = null
+        ?Filesystem $filesystem = null,
+        ?ilHelpGUI $help = null
     ) {
         global $DIC;
 
@@ -127,7 +131,8 @@ class ilUserCertificateGUI
         }
         $this->userCertificateRepository = $userCertificateRepository;
 
-        $this->language->loadLanguageModule('cert');
+        $this->help = $help ?? $DIC->help();
+
         $this->language->loadLanguageModule('cert');
     }
 
@@ -160,6 +165,8 @@ class ilUserCertificateGUI
     public function listCertificates(): void
     {
         global $DIC;
+
+        $this->help->setScreenIdComponent('cert');
 
         if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->redirect($this);
@@ -311,27 +318,22 @@ class ilUserCertificateGUI
      */
     public function download(): void
     {
-        global $DIC;
-
-        $user = $this->user;
-        $language = $DIC->language();
-
         $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository);
 
         $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== $user->getId()) {
+            if ($userCertificate->getUserId() !== $this->user->getId()) {
                 throw new ilException(sprintf(
                     'User "%s" tried to access certificate: "%s"',
-                    $user->getLogin(),
+                    $this->user->getLogin(),
                     $userCertificateId
                 ));
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
-            $this->template->setOnScreenMessage('failure', $language->txt('cert_error_no_access'));
+            $this->template->setOnScreenMessage('failure', $this->language->txt('cert_error_no_access'));
             $this->listCertificates();
             return;
         }
