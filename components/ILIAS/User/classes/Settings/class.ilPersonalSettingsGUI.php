@@ -286,7 +286,7 @@ class ilPersonalSettingsGUI
             $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
-                    0,
+                    ilSessionReminder::LEAD_TIME_DISABLED,
                     ilSessionReminder::SUGGESTED_LEAD_TIME,
                     ilDatePresentation::secondsToString($expires, true)
                 )
@@ -296,7 +296,7 @@ class ilPersonalSettingsGUI
                 (string) $session_reminder_object->getEffectiveLeadTime()
             );
             $session_reminder->setSize(3);
-            $session_reminder->setMinValue(0);
+            $session_reminder->setMinValue(ilSessionReminder::LEAD_TIME_DISABLED);
             $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
             $this->form->addItem($session_reminder);
         }
