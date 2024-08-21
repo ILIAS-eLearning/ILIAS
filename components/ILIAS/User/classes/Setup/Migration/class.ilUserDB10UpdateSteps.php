@@ -16,19 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
-use ILIAS\Refinery;
-use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
-use ILIAS\UI;
+declare(strict_types=1);
 
-/**
- * @author Fabian Schmid <fabian@sr.solutions>
- */
 class ilUserDB10UpdateSteps implements ilDatabaseUpdateSteps
 {
     private const USER_DATA_TABLE_NAME = 'usr_data';
-
     protected ilDBInterface $db;
 
     public function prepare(ilDBInterface $db): void
@@ -36,11 +28,30 @@ class ilUserDB10UpdateSteps implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-
-
     public function step_1(): void
     {
-        $query = 'DELETE FROM settings WHERE module="common" AND keyword="session_reminder";';
-        $this->db->manipulate($query);
+        $query = 'SELECT * FROM settings WHERE module = %s AND keyword = %s';
+        $result = $this->db->queryF($query, ['text', 'text'], ['common', 'session_reminder_enabled']);
+        $session_reminder = $result->numRows() ? (bool) $this->db->fetchAssoc($result)['value'] : false;
+        if ($session_reminder) {
+            $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
+            $this->db->manipulateF(
+                $query,
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+                ['common', 'session_reminder_lead_time', ilSessionReminder::SUGGESTED_LEAD_TIME]
+            );
+            $query = 'DELETE FROM settings WHERE module = %s AND keyword = %s';
+            $this->db->manipulateF(
+                $query,
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+                ['common', 'session_reminder_enabled']
+            );
+        }
+        $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
+        $this->db->manipulateF(
+            $query,
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+            ['common', 'session_reminder_lead_time', ilSessionReminder::LEAD_TIME_DISABLED]
+        );
     }
 }

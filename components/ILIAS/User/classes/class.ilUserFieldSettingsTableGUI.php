@@ -194,6 +194,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     $session_reminder = ilSessionReminder::byLoggedInUser();
                     $this->tpl->setVariable('CURRENT_OPTION_VISIBLE', $session_reminder->getGlobalSessionReminderLeadTime());
                     $this->tpl->setVariable('CURRENT_OPTION_MAXIMUM', $session_reminder->getMaxPossibleLeadTime());
+                    $this->tpl->setVariable('CURRENT_OPTION_MINIMUM', ilSessionReminder::LEAD_TIME_DISABLED);
 
                     $this->tpl->parseCurrentBlock();
 
