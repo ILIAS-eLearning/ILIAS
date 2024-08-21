@@ -62,7 +62,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
-        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
+        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_WS);
         $frontend = $frontend_factory->getFrontend(
             $GLOBALS['DIC']['ilAuthSession'],
             $status,
