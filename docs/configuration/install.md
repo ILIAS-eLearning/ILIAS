@@ -111,20 +111,20 @@ is set to `COMPACT`.
 
 The ILIAS Testserver (https://test8.ilias.de) is currently configured as follows:
 
-| Package        | Version                     |
-|----------------|-----------------------------|
-| Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.0.38                     |
-| PHP            | 8.0                         |
-| Apache2        | 2.4.18                      |
-| zip            | 3.0                         |
-| unzip          | 6.00                        |
-| JDK            | OpenJDK 8                   |
-| Node.js        | 10.23.0                     |
-| wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.26                        |
-| Imagemagick    | 6.8.9-9 Q16                 |
-| MathJax        | 2.7.9                       |
+| Package        | Version          |
+|----------------|------------------|
+| Distribution   | Ubuntu 22.04 LTS |
+| MariaDB        | 10.6.18          |
+| PHP            | 8.0              |
+| Apache2        | 2.4.52           |
+| zip            | 3.0              |
+| unzip          | 6.00             |
+| JDK            | OpenJDK 17       |
+| Node.js        | 16.20            |
+| wkhtmltopdf    | 0.12.6           |
+| Ghostscript    | 9.55             |
+| Imagemagick    | 6.9.11           |
+| MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
 ## Other Platforms or Configurations
@@ -166,7 +166,7 @@ on Debian). A minimal configuration may look as follows:
 
     DocumentRoot /var/www/html/
     <Directory /var/www/html/>
-        Options FollowSymLinks -Indexes
+        Options +FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -328,17 +328,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install zip unzip imagemagick openjdk-7-jdk
+apt-get install zip unzip imagemagick openjdk-11-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install zip unzip imagemagick openjdk-8-jdk
+apt-get install zip unzip imagemagick openjdk-11-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
+yum install zip unzip libxslt ImageMagick java-11-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
@@ -395,9 +395,15 @@ Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make
 sure that the web server is the owner of the files and directories that were created
 by changing the group and owner to www-data (on Debian/Ubuntu) or apache (on RHEL).
 
+In addition to the file folder, ILIAS also needs a place to create the log files
+(e.g. `/var/www/logs`). The 'ilias.log' can be viewed there later, as well as all
+error_log files, which are created in case of errors and are referenced in ILIAS by
+an errorcode.
+
 ```
-chown www-data:www-data `/var/www/html
-chown www-data:www-data `/var/www/files
+chown www-data:www-data /var/www/html
+chown www-data:www-data /var/www/files
+chown www-data:www-data /var/www/logs
 ```
 
 The commands above will directly serve ILIAS from the docroot.
