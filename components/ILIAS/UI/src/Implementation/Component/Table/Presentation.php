@@ -116,4 +116,18 @@ class Presentation extends Table implements T\Presentation
     {
         return $this->signal_toggle_all;
     }
+
+    public function getExpandAllSignal(): Signal
+    {
+        $option = clone $this->signal_toggle_all;
+        $option->addOption('expand', true);
+        return $option;
+    }
+
+    public function getCollapseAllSignal(): Signal
+    {
+        $option = clone $this->signal_toggle_all;
+        $option->addOption('expand', false);
+        return $option;
+    }
 }
