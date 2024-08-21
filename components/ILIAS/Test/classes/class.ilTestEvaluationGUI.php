@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\ExportImport\ResultsExportExcel;
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -93,9 +94,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 break;
 
             default:
-                if (in_array($cmd, ['excel_scored_test_run', 'excel_all_test_runs', 'csv'])) {
+                if (in_array($cmd, ['excel_scored_test_run', 'excel_all_test_runs'])) {
                     $ret = $this->exportEvaluation($cmd);
-                } elseif (in_array($cmd, ['excel_all_test_runs_a', 'csv_a'])) {
+                } elseif (in_array($cmd, ['excel_all_test_runs_a'])) {
                     $ret = $this->exportAggregatedResults($cmd);
                 } else {
                     $ret = $this->$cmd();
@@ -269,12 +270,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $options = [
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 ];
             } else {
                 $options = [
                     $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 ];
             }
 
@@ -530,7 +529,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if ($found_participants !== []) {
             $options = [
                 $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel'), $this->ctrl->getLinkTarget($this, 'excel_all_test_runs_a')),
-                $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv_a'))
             ];
 
             $select = $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'));
@@ -662,20 +660,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         switch ($cmd) {
             case "excel_scored_test_run":
-                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
+                (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, true))
                     ->withResultsPage()
                     ->withUserPages()
                     ->deliver($this->object->getTitle() . '_results');
                 break;
 
-            case "csv":
-                (new ilCSVTestExport($this->object, $filterby, $filtertext, $passedonly))
-                    ->withAllResults()
-                    ->deliver($this->object->getTitle() . '_results');
-                break;
-
             case "excel_all_test_runs":
-                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
+                (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, false))
                     ->withResultsPage()
                     ->withUserPages()
                     ->deliver($this->object->getTitle() . '_results');
@@ -696,13 +688,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         switch ($cmd) {
             case "excel_all_test_runs_a":
-                (new ilExcelTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+                (new ResultsExportExcel($this->lng, $this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
                     ->withAggregatedResultsPage()
-                    ->deliver($this->object->getTitle() . '_aggregated');
-                break;
-            case "csv_a":
-                (new ilCSVTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false))
-                    ->withAggregatedResults()
                     ->deliver($this->object->getTitle() . '_aggregated');
                 break;
         }

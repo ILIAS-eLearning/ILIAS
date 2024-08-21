@@ -18,33 +18,40 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+namespace ILIAS\Test\Tests;
+
+use ILIAS\Test\ExportImport\ExportRandomQuestionSet;
 
 /**
- * Class ilTestExportFactoryTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestExportFactoryTest extends ilTestBaseTestCase
+class ExportRandomQuestionSetTest extends \ilTestBaseTestCase
 {
-    private ilTestExportFactory $testObj;
+    private ilTestExportRandomQuestionSet $testObj;
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
-        $this->addGlobal_ilBench();
 
-        $this->testObj = new ilTestExportFactory(
-            $this->getTestObjMock(),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
-            $this->createMock(ilTree::class),
-            $this->createMock(ilComponentRepository::class),
-            $this->createMock(GeneralQuestionPropertiesRepository::class)
+        $this->addGlobal_ilBench();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+
+        $objTest = $this->getTestObjMock();
+        $test_logger = $this->createMock(\ILIAS\Test\Logging\TestLogger::class);
+        $this->testObj = new ExportRandomQuestionSet(
+            $objTest,
+            $DIC['lng'],
+            $test_logger,
+            $DIC['tree'],
+            $DIC['component.repository'],
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestExportFactory::class, $this->testObj);
+        $this->assertInstanceOf(ExportRandomQuestionSet::class, $this->testObj);
     }
 }

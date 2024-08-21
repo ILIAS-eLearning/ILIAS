@@ -18,23 +18,36 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
+use ILIAS\Test\ExportImport\Factory;
+
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
- * Class ilTestExportFilenameTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestExportFilenameTest extends ilTestBaseTestCase
+class ExportFactoryTest extends ilTestBaseTestCase
 {
-    private ilTestExportFilename $testObj;
+    private Factory $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilBench();
 
-        $this->testObj = new ilTestExportFilename($this->getTestObjMock());
+        $this->testObj = new Factory(
+            $this->getTestObjMock(),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
+            $this->createMock(ilTree::class),
+            $this->createMock(ilComponentRepository::class),
+            $this->createMock(GeneralQuestionPropertiesRepository::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestExportFilename::class, $this->testObj);
+        $this->assertInstanceOf(Factory::class, $this->testObj);
     }
 }

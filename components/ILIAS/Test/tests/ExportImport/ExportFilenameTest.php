@@ -16,18 +16,28 @@
  *
  *********************************************************************/
 
-class ilCSVTestExportTest extends ilTestBaseTestCase
+declare(strict_types=1);
+
+namespace ILIAS\Test\Tests;
+
+use ILIAS\Test\ExportImport\ExportFilename;
+
+/**
+ * @author Marvin Beym <mbeym@databay.de>
+ */
+class ExportFilenameTest extends ilTestBaseTestCase
 {
-    public function testConstruct(): void
+    private ExportFilename $test_obj;
+
+    protected function setUp(): void
     {
-        $ilCSVTestExport = new ilCSVTestExport(
-            $this->getTestObjMock(),
-            '',
-            '',
-            false,
-            false,
-            null
-        );
-        $this->assertInstanceOf(ilCSVTestExport::class, $ilCSVTestExport);
+        parent::setUp();
+
+        $this->test_obj = new ExportFilename($this->getTestObjMock());
+    }
+
+    public function test_instantiateObject_shouldReturnInstance(): void
+    {
+        $this->assertInstanceOf(ExportFilename::class, $this->test_obj);
     }
 }

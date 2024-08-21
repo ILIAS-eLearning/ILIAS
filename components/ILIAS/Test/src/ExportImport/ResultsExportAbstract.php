@@ -18,36 +18,27 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ExportImport;
+
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
-abstract class ilTestExportAbstract
+abstract class ResultsExportAbstract
 {
-    protected ilTestEvaluationData $complete_data;
-    protected array $aggregated_data;
-    protected array $additionalFields;
-    protected ilLanguage $lng;
-
     public function __construct(
-        protected ilObjTest $test_obj,
-        protected string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
+        protected \ilLanguage $lng,
+        protected \ilObjTest $test_obj,
+        protected string $filter_key_participants = \ilTestEvaluationData::FILTER_BY_NONE,
         protected string $filtertext = '',
         protected bool $passedonly = false,
-        protected bool $scoredonly = false,
-        ilLanguage $lng = null
+        protected bool $scoredonly = false
     ) {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->lng = $lng ?? $DIC['lng'];
-        $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filter_key_participants, $this->filtertext);
-        $this->aggregated_data = $this->test_obj->getAggregatedResultsData();
-        $this->additionalFields = $this->test_obj->getEvaluationAdditionalFields();
     }
 
     abstract public function deliver(string $title): void;
-    abstract public function getContent(): ilAssExcelFormatHelper|string;
+    abstract public function getContent(): \ilAssExcelFormatHelper|string;
 
-    public function getDatarows(ilObjTest $test_obj): array
+    public function getDatarows(\ilObjTest $test_obj): array
     {
         $test_obj->setAccessFilteredParticipantList(
             $test_obj->buildStatisticsAccessFilteredParticipantList()
@@ -71,7 +62,7 @@ abstract class ilTestExportAbstract
 
             $userfields = [];
             if ($userdata->getUserID() !== null) {
-                $userfields = ilObjUser::_lookupFields($userdata->getUserID());
+                $userfields = \ilObjUser::_lookupFields($userdata->getUserID());
             }
             foreach ($this->additionalFields as $fieldname) {
                 if ($fieldname === 'gender') {
@@ -112,7 +103,7 @@ abstract class ilTestExportAbstract
             $lv = $userdata->getLastVisit();
             foreach ([$fv, $lv] as $ts) {
                 if ($ts) {
-                    $visit = ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX));
+                    $visit = \ilDatePresentation::formatDate(new \ilDateTime($ts, IL_CAL_UNIX));
                     $datarow2[] = $visit;
                 } else {
                     $datarow2[] = "";
@@ -138,14 +129,14 @@ abstract class ilTestExportAbstract
 
             $datarow2[] = $userdata->getPassCount();
             $datarow2[] = $userdata->getFinishedPasses();
-            if ($test_obj->getPassScoring() === ilObjTest::SCORE_BEST_PASS) {
+            if ($test_obj->getPassScoring() === \ilObjTest::SCORE_BEST_PASS) {
                 $datarow2[] = $userdata->getBestPass() + 1;
             } else {
                 $datarow2[] = $userdata->getLastPass() + 1;
             }
             $shown_pass = 0;
             for ($pass = 0; $pass <= $userdata->getLastPass(); $pass++) {
-                $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
+                $finishdate = \ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
 
                 if ($finishdate < 1
                     || $this->scoredonly && $pass !== $userdata->getScoredPass()) {
@@ -192,7 +183,7 @@ abstract class ilTestExportAbstract
         return $rows;
     }
 
-    public function getHeaderRow(ilLanguage $lng, ilObjTest $test_obj): array
+    public function getHeaderRow(\ilLanguage $lng, \ilObjTest $test_obj): array
     {
         if ($test_obj->getAnonymity()) {
             $datarow[] = $lng->txt("counter");

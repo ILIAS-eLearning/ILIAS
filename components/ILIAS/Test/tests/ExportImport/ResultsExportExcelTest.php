@@ -16,11 +16,17 @@
  *
  *********************************************************************/
 
-class ilExcelTestExportTest extends ilTestBaseTestCase
+declare(strict_types=1);
+
+namespace ILIAS\Test\Tests;
+
+use ILIAS\Test\ExportImport\ResultsExportExcel;
+
+class ResultsExportExcelTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilExcelTestExport = new ilExcelTestExport(
+        $excel_export = new ResultsExportExcel(
             $this->getTestObjMock(),
             '',
             '',
@@ -28,6 +34,6 @@ class ilExcelTestExportTest extends ilTestBaseTestCase
             true,
             null
         );
-        $this->assertInstanceOf(ilExcelTestExport::class, $ilExcelTestExport);
+        $this->assertInstanceOf(ResultsExportExcel::class, $excel_export);
     }
 }

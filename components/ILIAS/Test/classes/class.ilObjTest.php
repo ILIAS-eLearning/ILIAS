@@ -25,6 +25,9 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
+use ILIAS\Test\ExportImport\Factory as ExportFactory;
+use ILIAS\Test\ExportImport\ResultsExportExcel;
+
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -43,7 +46,7 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
-use ILIAS\Test\Export\CSVExportTrait;
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -62,7 +65,6 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMetadata;
 class ilObjTest extends ilObject
 {
     use TestQuestionsImportTrait;
-    use CSVExportTrait;
 
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
@@ -5075,11 +5077,10 @@ class ilObjTest extends ilObject
      * returns all test results for all participants
      *
      * @param array $partipants array of user ids
-     * @param boolean if true, the result will be prepared for csv output (see processCSVRow)
      *
      * @return array of fields, see code for column titles
      */
-    public function getAllTestResults($participants, $prepareForCSV = true): array
+    public function getAllTestResults($participants): array
     {
         $results = [];
         $row = [
@@ -5130,7 +5131,7 @@ class ilObjTest extends ilObject
                     $user_rec['firstname'] = "";
                     $user_rec['lastname'] = $this->lng->txt("anonymous");
                 }
-                $row = [
+                $results[] = [
                     "user_id" => $user_rec['usr_id'],
                     "matriculation" => $user_rec['matriculation'],
                     "lastname" => $user_rec['lastname'],
@@ -5142,7 +5143,6 @@ class ilObjTest extends ilObject
                     "mark" => $mark,
                     "passed" => $user_rec['passed'] ? '1' : '0',
                 ];
-                $results[] = $prepareForCSV ? $this->processCSVRow($row, true) : $row;
             }
         }
         return $results;
@@ -6622,7 +6622,6 @@ class ilObjTest extends ilObject
      * returns all test results for all participants
      *
      * @param array $partipants array of user ids
-     * @param boolean if true, the result will be prepared for csv output (see processCSVRow)
      *
      * @return array of fields, see code for column titles
      */
@@ -6652,7 +6651,7 @@ class ilObjTest extends ilObject
                             $user_rec['firstname'] = "";
                             $user_rec['lastname'] = $this->lng->txt("anonymous");
                         }
-                        $row = [
+                        $results[] = [
                             "user_id" => $user_rec['usr_id'],
                             "matriculation" => $user_rec['matriculation'],
                             "lastname" => $user_rec['lastname'],
@@ -6664,7 +6663,6 @@ class ilObjTest extends ilObject
                             "max_points" => $max_points,
                             "passed" => $user_rec['passed'] ? '1' : '0',
                         ];
-                        $results[] = $row;
                     }
                 }
             }
@@ -6851,7 +6849,7 @@ class ilObjTest extends ilObject
     */
     public function getXMLZip(): string
     {
-        $expFactory = new ilTestExportFactory(
+        $expFactory = new ExportFactory(
             $this,
             $this->lng,
             $this->logger,
@@ -6898,8 +6896,15 @@ class ilObjTest extends ilObject
         $owner_id = $this->getOwner();
         $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
-        $worksheet = (new ilExcelTestExport($this, ilTestEvaluationData::FILTER_BY_ACTIVE_ID, (string) $active_id, false, true))
-            ->withResultsPage()
+        $worksheet = (new ResultsExportExcel(
+            $this->lng,
+            $this,
+            ilTestEvaluationData::FILTER_BY_ACTIVE_ID,
+            (string) $active_id,
+            false,
+            true
+        )
+        )->withResultsPage()
             ->withUserPages()
             ->getContent();
         $temp_file_path = ilFileUtils::ilTempnam();

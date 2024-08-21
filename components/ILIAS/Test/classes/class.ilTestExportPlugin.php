@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ExportImport\ExportFilename;
+
 /**
- * Abstract parent class for all event hook plugin classes.
+ * Abstract parent class for all test export plugin classes.
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- * @ingroup components\ILIASTest
  */
 abstract class ilTestExportPlugin extends ilPlugin
 {
@@ -107,7 +107,7 @@ abstract class ilTestExportPlugin extends ilPlugin
         }
 
         try {
-            $this->buildExportFile(new ilTestExportFilename($this->getTest()));
+            $this->buildExportFile(new ExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
                 $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
@@ -127,7 +127,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @throws ilException
      * @param string $export_path The path to store the export file
      */
-    abstract protected function buildExportFile(ilTestExportFilename $export_path): void;
+    abstract protected function buildExportFile(ExportFilename $export_path): void;
 
     /**
      * A unique identifier which describes your export type, e.g. imsm

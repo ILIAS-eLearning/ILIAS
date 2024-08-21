@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Export;
+namespace ILIAS\Test\Logging;
 
 trait CSVExportTrait
 {
