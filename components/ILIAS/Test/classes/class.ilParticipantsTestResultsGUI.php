@@ -171,18 +171,6 @@ class ilParticipantsTestResultsGUI
     {
         ilSession::clear('show_user_results');
 
-        if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
-            $this->main_tpl->setOnScreenMessage(
-                'failure',
-                $this->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lng)
-            );
-        } elseif ($this->getQuestionSetConfig()->areDepenciesInVulnerableState()) {
-            $this->main_tpl->setOnScreenMessage(
-                'info',
-                $this->getQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng)
-            );
-        }
-
         $manage_participant_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter(
             $this->getTestObj()->getRefId()
         );
@@ -203,19 +191,17 @@ class ilParticipantsTestResultsGUI
 
         $table_gui = $this->buildTableGUI();
 
-        if (!$this->getQuestionSetConfig()->areDepenciesBroken()) {
-            $table_gui->setAccessResultsCommandsEnabled(
-                $this->getTestAccess()->checkParticipantsResultsAccess()
-            );
+        $table_gui->setAccessResultsCommandsEnabled(
+            $this->getTestAccess()->checkParticipantsResultsAccess()
+        );
 
-            $table_gui->setManageResultsCommandsEnabled(
-                $this->getTestAccess()->checkManageParticipantsAccess()
-            );
+        $table_gui->setManageResultsCommandsEnabled(
+            $this->getTestAccess()->checkManageParticipantsAccess()
+        );
 
-            if ($this->test_access->checkManageParticipantsAccess()
-                && $scored_participant_list->hasScorings()) {
-                $this->addDeleteAllTestResultsButton($this->toolbar);
-            }
+        if ($this->test_access->checkManageParticipantsAccess()
+            && $scored_participant_list->hasScorings()) {
+            $this->addDeleteAllTestResultsButton($this->toolbar);
         }
 
         $table_gui->setAnonymity($this->getTestObj()->getMainSettings()->getGeneralSettings()->getAnonymity());

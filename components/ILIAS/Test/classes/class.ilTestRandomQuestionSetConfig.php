@@ -376,43 +376,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return (bool) count($this->getSelectableQuestionPools());
     }
 
-    public function areDepenciesBroken(): bool
-    {
-        return $this->test_obj->isTestFinalBroken();
-    }
-
-    public function getDepenciesBrokenMessage(ilLanguage $lng): string
-    {
-        return $lng->txt('tst_old_style_rnd_quest_set_broken');
-    }
-
-    public function isValidRequestOnBrokenQuestionSetDepencies(string $next_class, string $cmd): bool
-    {
-        switch ($next_class) {
-            case 'ilobjectmetadatagui':
-            case 'ilpermissiongui':
-
-                return true;
-
-            case 'ilobjtestgui':
-            case '':
-                if (in_array($cmd, ['infoScreen', 'participants', 'npSetFilter', 'npResetFilter'])) {
-                    return true;
-                }
-
-                break;
-        }
-
-        return false;
-    }
-
-    public function getHiddenTabsOnBrokenDepencies(): array
-    {
-        return [
-            'assQuestions', 'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
-        ];
-    }
-
     public function getCommaSeparatedSourceQuestionPoolLinks(): string
     {
         $definitionList = $this->buildSourcePoolDefinitionList($this->test_obj);

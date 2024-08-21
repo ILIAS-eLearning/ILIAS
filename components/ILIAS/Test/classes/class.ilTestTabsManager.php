@@ -690,14 +690,6 @@ class ilTestTabsManager
                 'ilpermissiongui'
             );
         }
-
-        if ($this->getTestQuestionSetConfig()->areDepenciesBroken()) {
-            $hideTabs = $this->getTestQuestionSetConfig()->getHiddenTabsOnBrokenDepencies();
-
-            foreach ($hideTabs as $tabId) {
-                $this->tabs->removeTab($tabId);
-            }
-        }
     }
 
     protected function getBrowseForQuestionsTab()
@@ -887,10 +879,6 @@ class ilTestTabsManager
         }
 
         if ($this->getTestOBJ()->getNrOfTries() != 1) {
-            return false;
-        }
-
-        if ($this->getTestQuestionSetConfig()->areDepenciesBroken()) {
             return false;
         }
 

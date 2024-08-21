@@ -256,8 +256,8 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                 }
             }
         }
-        if ($this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken()) {
-            $message = $this->lng->txt("test_is_offline");
+        if ($this->getTestOBJ()->getOfflineStatus()) {
+            $message = $this->lng->txt('test_is_offline');
 
             $links = [];
 
@@ -302,14 +302,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                 if ($this->hasFixedQuestionSetSkillAssignsLowerThanBarrier()) {
                     $this->addInfoMessage($this->getSkillAssignBarrierInfo());
                 }
-            }
-
-            if ($this->getTestQuestionSetConfig()->areDepenciesBroken()) {
-                $this->addFailureMessage($this->getTestQuestionSetConfig()->getDepenciesBrokenMessage($this->lng));
-
-                $this->clearItems();
-            } elseif ($this->getTestQuestionSetConfig()->areDepenciesInVulnerableState()) {
-                $this->addInfoMessage($this->getTestQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng));
             }
         }
     }

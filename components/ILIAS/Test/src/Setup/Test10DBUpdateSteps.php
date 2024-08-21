@@ -351,4 +351,11 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("tst_addtime", ['user_fi', 'test_fi']);
         }
     }
+
+    public function step_5(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'broken')) {
+            $this->db->dropTableColumn('tst_tests', 'broken');
+        }
+    }
 }
