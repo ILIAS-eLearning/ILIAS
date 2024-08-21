@@ -6542,7 +6542,7 @@ footer {
   font-size: 0.75rem;
   padding: 3px 12px;
 }
-.il-maincontrols-footer .il-footer-content div {
+.il-maincontrols-footer .il-footer-content div:not(.c-tooltip) {
   display: inline-block;
 }
 .il-maincontrols-footer .il-footer-links ul {

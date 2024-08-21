@@ -441,11 +441,19 @@ class Renderer extends AbstractComponentRenderer
 
         $perm_url = $component->getPermanentURL();
         if ($perm_url instanceof URI) {
-            $url = $perm_url->__toString();
-            $link = $this->getUIFactory()
-                         ->link()
-                         ->standard($this->txt('perma_link'), $url);
-            $tpl->setVariable('PERMANENT', $default_renderer->render($link));
+            $code = function (string $id) use ($perm_url): string {
+                $id = $this->jsonEncode($id);
+                $perm_url = $this->jsonEncode((string) $perm_url);
+
+                return "document.getElementById($id).addEventListener('click', e => il.Footer.permalink.copyText($perm_url)
+                            .then(() => {
+                                e.target.parentNode.classList.add('c-tooltip--visible');
+                                setTimeout(() => e.target.parentNode.classList.remove('c-tooltip--visible'), 5000);
+                            }));";
+            };
+            $button = $this->getUIFactory()->button()->shy($this->txt('copy_perma_link'), '')->withAdditionalOnLoadCode($code);
+            $tpl->setVariable('PERMANENT', $default_renderer->render($button));
+            $tpl->setVariable('PERMANENT_TOOLTIP', $this->txt('perma_link_copied'));
         }
         return $tpl->get();
     }
@@ -460,6 +468,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/MainControls/dist/maincontrols.min.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
         $registry->register('./src/UI/templates/js/MainControls/system_info.js');
+        $registry->register('./src/UI/templates/js/MainControls/dist/footer.min.js');
     }
 
     /**
@@ -474,5 +483,10 @@ class Renderer extends AbstractComponentRenderer
             ModeInfo::class,
             Component\MainControls\SystemInfo::class
         );
+    }
+
+    private function jsonEncode($value): string
+    {
+        return json_encode($value, JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_THROW_ON_ERROR);
     }
 }
