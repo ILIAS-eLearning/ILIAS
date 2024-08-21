@@ -44,7 +44,7 @@ jobs:
           GHRUN: "yes"
 
       - name: JS Unit Test
-        run: exit 0 # npm test
+        run: npm test
         env:
           GHRUN: "yes"
 

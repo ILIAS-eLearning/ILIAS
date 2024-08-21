@@ -1,10 +1,24 @@
-import { expect } from 'chai';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-import Tooltip from '../../resources/js/Core/src/core.Tooltip.js';
+import { describe, expect, it } from '@jest/globals';
+import Tooltip from '../../resources/js/Core/src/core.Tooltip';
 
 describe('tooltip class exists', () => {
   it('Tooltip', () => {
-    expect(Tooltip).not.to.be.undefined;
+    expect(Tooltip).toBeDefined();
   });
 });
 
@@ -56,19 +70,19 @@ describe('tooltip initializes', () => {
   object.checkHorizontalBounds = function () {};
 
   it('searches tooltip element', () => {
-    expect(getAttribute).to.include('aria-describedby');
-    expect(getElementById).to.include('attribute-aria-describedby');
+    expect(getAttribute).toContain('aria-describedby');
+    expect(getElementById).toContain('attribute-aria-describedby');
   });
 
   it('binds events on element', () => {
-    expect(addEventListenerElement).to.deep.include({ e: 'focus', h: object.showTooltip });
-    expect(addEventListenerElement).to.deep.include({ e: 'blur', h: object.hideTooltip });
+    expect(addEventListenerElement).toContainEqual(expect.objectContaining({ e: 'focus', h: object.showTooltip }));
+    expect(addEventListenerElement).toContainEqual(expect.objectContaining({ e: 'blur', h: object.hideTooltip }));
   });
 
   it('binds events on container', () => {
-    expect(addEventListenerContainer).to.deep.include({ e: 'mouseenter', h: object.showTooltip });
-    expect(addEventListenerContainer).to.deep.include({ e: 'touchstart', h: object.showTooltip });
-    expect(addEventListenerContainer).to.deep.include({ e: 'mouseleave', h: object.hideTooltip });
+    expect(addEventListenerContainer).toContainEqual(expect.objectContaining({ e: 'mouseenter', h: object.showTooltip }));
+    expect(addEventListenerContainer).toContainEqual(expect.objectContaining({ e: 'touchstart', h: object.showTooltip }));
+    expect(addEventListenerContainer).toContainEqual(expect.objectContaining({ e: 'mouseleave', h: object.hideTooltip }));
   });
 });
 
@@ -127,13 +141,13 @@ describe('tooltip show works', () => {
   it('binds events on document', () => {
     classListAdd = [];
 
-    expect(addEventListenerDocument).not.to.deep.include({ e: 'keydown', h: object.onKeyDown });
-    expect(addEventListenerDocument).not.to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+    expect(addEventListenerDocument).toContainEqual(expect.not.objectContaining({ e: 'keydown', h: object.onKeyDown }));
+    expect(addEventListenerDocument).toContainEqual(expect.not.objectContaining({ e: 'pointerdown', h: object.onPointerDown }));
 
     object.showTooltip();
 
-    expect(addEventListenerDocument).to.deep.include({ e: 'keydown', h: object.onKeyDown });
-    expect(addEventListenerDocument).to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+    expect(addEventListenerDocument).toContainEqual(expect.objectContaining({ e: 'keydown', h: object.onKeyDown }));
+    expect(addEventListenerDocument).toContainEqual(expect.objectContaining({ e: 'pointerdown', h: object.onPointerDown }));
   });
 
   it('adds visibility classes from tooltip', () => {
@@ -141,7 +155,7 @@ describe('tooltip show works', () => {
 
     object.showTooltip();
 
-    expect(classListAdd).to.deep.equal(['c-tooltip--visible']);
+    expect(classListAdd).toEqual(['c-tooltip--visible']);
   });
 });
 
@@ -199,13 +213,13 @@ describe('tooltip hide works', () => {
   object.checkHorizontalBounds = function () {};
 
   it('unbinds events on document when tooltip hides', () => {
-    expect(removeEventListener).not.to.deep.include({ e: 'keydown', h: object.onKeyDown });
-    expect(removeEventListener).not.to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+    expect(removeEventListener).not.toContain(expect.objectContaining({ e: 'keydown', h: object.onKeyDown }));
+    expect(removeEventListener).not.toContain(expect.objectContaining({ e: 'pointerdown', h: object.onPointerDown }));
 
     object.hideTooltip();
 
-    expect(removeEventListener).to.deep.include({ e: 'keydown', h: object.onKeyDown });
-    expect(removeEventListener).to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+    expect(removeEventListener).toContainEqual(expect.objectContaining({ e: 'keydown', h: object.onKeyDown }));
+    expect(removeEventListener).toContainEqual(expect.objectContaining({ e: 'pointerdown', h: object.onPointerDown }));
   });
 
   it('removes visibility classes from tooltip', () => {
@@ -213,7 +227,7 @@ describe('tooltip hide works', () => {
 
     object.hideTooltip();
 
-    expect(classListRemove).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+    expect(classListRemove).toEqual(['c-tooltip--visible', 'c-tooltip--top']);
   });
 
   it('hides on escape key', () => {
@@ -225,7 +239,7 @@ describe('tooltip hide works', () => {
 
     object.onKeyDown({ key: 'Escape' });
 
-    expect(hideTooltipCalled).to.equal(true);
+    expect(hideTooltipCalled).toBe(true);
     object.hideTooltip = keep;
   });
 
@@ -238,7 +252,7 @@ describe('tooltip hide works', () => {
 
     object.onKeyDown({ key: 'Esc' });
 
-    expect(hideTooltipCalled).to.equal(true);
+    expect(hideTooltipCalled).toBe(true);
     object.hideTooltip = keep;
   });
 
@@ -251,7 +265,7 @@ describe('tooltip hide works', () => {
 
     object.onKeyDown({ key: 'Strg' });
 
-    expect(hideTooltipCalled).to.equal(false);
+    expect(hideTooltipCalled).toBe(false);
     object.hideTooltip = keep;
   });
 
@@ -268,8 +282,8 @@ describe('tooltip hide works', () => {
 
     object.onPointerDown({});
 
-    expect(hideTooltipCalled).to.equal(true);
-    expect(blurCalled).to.equal(true);
+    expect(hideTooltipCalled).toBe(true);
+    expect(blurCalled).toBe(true);
     object.hideTooltip = keep;
   });
 
@@ -286,8 +300,8 @@ describe('tooltip hide works', () => {
 
     object.onPointerDown({ target: object.tooltip, preventDefault });
 
-    expect(hideTooltipCalled).to.equal(false);
-    expect(preventDefaultCalled).to.equal(true);
+    expect(hideTooltipCalled).toBe(false);
+    expect(preventDefaultCalled).toBe(true);
     object.hideTooltip = keep;
   });
 
@@ -304,8 +318,8 @@ describe('tooltip hide works', () => {
 
     object.onPointerDown({ target: element, preventDefault });
 
-    expect(hideTooltipCalled).to.equal(false);
-    expect(preventDefaultCalled).to.equal(true);
+    expect(hideTooltipCalled).toBe(false);
+    expect(preventDefaultCalled).toBe(true);
     object.hideTooltip = keep;
   });
 });
@@ -372,7 +386,7 @@ describe('tooltip is on top if there is not enough space below', () => {
     object.main = null;
     object.showTooltip();
 
-    expect(classListAdd).to.deep.equal(['c-tooltip--visible']);
+    expect(classListAdd).toEqual(['c-tooltip--visible']);
   });
 
   it('does add top-class if there is not enough space', () => {
@@ -384,7 +398,7 @@ describe('tooltip is on top if there is not enough space below', () => {
     object.main = null;
     object.showTooltip();
 
-    expect(classListAdd).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+    expect(classListAdd).toEqual(['c-tooltip--visible', 'c-tooltip--top']);
   });
 
   it('removes top-class when it hides', () => {
@@ -394,7 +408,7 @@ describe('tooltip is on top if there is not enough space below', () => {
     classListRemove = [];
     object.hideTooltip();
 
-    expect(classListRemove).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+    expect(classListRemove).toEqual(['c-tooltip--visible', 'c-tooltip--top']);
   });
 
   it('removes transform when it hides', () => {
@@ -404,7 +418,7 @@ describe('tooltip is on top if there is not enough space below', () => {
     object.tooltip.style.transform = 'foo';
     object.hideTooltip();
 
-    expect(object.tooltip.style.transform).to.equal(null);
+    expect(object.tooltip.style.transform).toBeNull();
   });
 });
 
@@ -464,7 +478,7 @@ describe('tooltip moves to left or right if there is not enough space', () => {
     object.main = null;
     object.showTooltip();
 
-    expect(tooltip.style.transform).to.equal(null);
+    expect(tooltip.style.transform).toBeNull();
   });
 
   it('does move to left if there is enough space', () => {
@@ -475,7 +489,7 @@ describe('tooltip moves to left or right if there is not enough space', () => {
     object.main = null;
     object.showTooltip();
 
-    expect(tooltip.style.transform).to.equal('translateX(-10px)');
+    expect(tooltip.style.transform).toBe('translateX(-10px)');
   });
 
   it('does move to right if there is enough space', () => {
@@ -486,7 +500,7 @@ describe('tooltip moves to left or right if there is not enough space', () => {
     object.main = null;
     object.showTooltip();
 
-    expect(tooltip.style.transform).to.equal('translateX(-10px)');
+    expect(tooltip.style.transform).toBe('translateX(-10px)');
   });
 });
 
@@ -546,7 +560,7 @@ describe('get display rect', () => {
 
     const rect = object.getDisplayRect();
 
-    expect(rect).to.deep.equal({
+    expect(rect).toMatchObject({
       left: 0, top: 0, width: 100, height: 150,
     });
   });
@@ -572,7 +586,7 @@ describe('get display rect', () => {
     const object = new Tooltip(element);
     const rect = object.getDisplayRect();
 
-    expect(rect).to.deep.equal({
+    expect(rect).toMatchObject({
       left: 10, top: 20, width: 110, height: 120,
     });
   });

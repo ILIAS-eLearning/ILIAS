@@ -13,14 +13,14 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import { assert } from 'chai';
+import { describe, expect, it } from '@jest/globals';
 import Component from '../src/Component';
 
 describe('Docu Test Example', () => {
   it('calculate example 1', () => {
     const component = new Component();
 
-    assert.equal(3, component.calculate(1, 2));
+    expect(component.calculate(1, 2)).toBe(3);
   });
 
   it('calculate example 2', () => {
@@ -32,6 +32,6 @@ describe('Docu Test Example', () => {
     });
 
     component.calculate(0, 0);
-    assert.isTrue(isSumCalled);
+    expect(isSumCalled).toBe(true);
   });
 });

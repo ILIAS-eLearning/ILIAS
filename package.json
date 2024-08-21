@@ -4,8 +4,7 @@
   "description": "ILIAS open source e-Learning",
   "browser": "js/index.js",
   "directories": {
-    "doc": "docs",
-    "test": "tests"
+    "doc": "docs"
   },
   "dependencies": {
     "@uppy/core": "^3.8.0",
@@ -30,7 +29,7 @@
     "rollup": "^2.18.0"
   },
   "scripts": {
-    "test": "jest --config='.jestrc.json'"
+    "test": "jest --config='.jestrc.json' ./components"
   },
   "repository": {
     "type": "git",
