@@ -1361,7 +1361,7 @@ class ilObjUserGUI extends ilObjectGUI
             $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
-                    0,
+                    ilSessionReminder::LEAD_TIME_DISABLED,
                     ilSessionReminder::SUGGESTED_LEAD_TIME,
                     ilDatePresentation::secondsToString($expires, true)
                 )
@@ -1370,7 +1370,7 @@ class ilObjUserGUI extends ilObjectGUI
                 (string) $session_reminder_object->getGlobalSessionReminderLeadTime()
             );
             $session_reminder->setSize(3);
-            $session_reminder->setMinValue(0);
+            $session_reminder->setMinValue(ilSessionReminder::LEAD_TIME_DISABLED);
             $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
             $this->form_gui->addItem($session_reminder);
         }

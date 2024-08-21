@@ -23,6 +23,7 @@ use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminder
 {
+    public const LEAD_TIME_DISABLED = 0;
     public const MIN_LEAD_TIME = 1;
     public const SUGGESTED_LEAD_TIME = 5;
     private ClockInterface $clock;
@@ -82,13 +83,13 @@ class ilSessionReminder
             $lead_time = self::SUGGESTED_LEAD_TIME;
         }
 
-        return min(
+        return $lead_time !== self::LEAD_TIME_DISABLED ? min(
             max(
                 $min_value,
                 $lead_time
             ),
             $max_value
-        );
+        ) : self::LEAD_TIME_DISABLED;
     }
 
     public function getEffectiveLeadTime(): int
@@ -141,7 +142,7 @@ class ilSessionReminder
         return
             !$this->getUser()->isAnonymous() &&
             $this->getUser()->getId() > 0 &&
-            $this->getEffectiveLeadTime() > 0 &&
+            $this->getEffectiveLeadTime() !== self::LEAD_TIME_DISABLED &&
             $this->isEnoughTimeLeftForReminder();
     }
 
