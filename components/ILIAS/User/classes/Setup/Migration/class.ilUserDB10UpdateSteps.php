@@ -31,7 +31,7 @@ class ilUserDB10UpdateSteps implements ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $query = 'SELECT * FROM settings WHERE module = %s AND keyword = %s';
-        $result = $this->db->queryF($query, ['text', 'text'], ['common', 'session_reminder_enabled']);
+        $result = $this->db->queryF($query, [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT], ['common', 'session_reminder_enabled']);
         $session_reminder = $result->numRows() ? (bool) $this->db->fetchAssoc($result)['value'] : false;
         if ($session_reminder) {
             $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
