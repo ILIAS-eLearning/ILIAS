@@ -446,9 +446,9 @@ configuration might look like this afterwards:
     },
 	"systemfolder" : {
 		"contact" : {
-			"firstname" : "John",
-			"lastname" : "Doe",
-			"email" : "contact@example.com"
+			"firstname" : "Richard",
+			"lastname" : "Klees",
+			"email" : "richard.klees@concepts-and-training.de"
 		}
 	},
     "utilities" : {
