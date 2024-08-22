@@ -46,8 +46,8 @@ class ilOpenIdConnectSettings
 
     private static ?self $instance = null;
 
-    private ilSetting $storage;
-    private Filesystem $filesystem;
+    private readonly ilSetting $storage;
+    private readonly Filesystem $filesystem;
     private bool $active = false;
     private string $provider = '';
     private string $client_id = '';
@@ -59,8 +59,8 @@ class ilOpenIdConnectSettings
     private ?int $logout_scope = null;
     private bool $custom_session = false;
     private int $session_duration = 60;
-    private ?bool $allow_sync;
-    private ?int $role;
+    private ?bool $allow_sync = null;
+    private ?int $role = null;
     private string $uid = '';
     /** @var array<string, string> */
     private array $profile_map = [];

@@ -26,7 +26,7 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
     private const SESSION_TARGET = 'oidc_target';
     private const QUERY_PARAM_TARGET = 'target';
 
-    private ilOpenIdConnectSettings $settings;
+    private readonly ilOpenIdConnectSettings $settings;
     private ?string $target = null;
 
     public function __construct()
