@@ -98,7 +98,7 @@ class ProvideTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 function ($a, $b) use (&$consecutive, $document) {
-                    list($ea, $eb) = array_shift($consecutive);
+                    [$ea, $eb] = array_shift($consecutive);
                     $this->assertEquals($ea, $a);
                     $this->assertEquals($eb, $b);
                     return $document;

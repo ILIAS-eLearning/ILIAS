@@ -165,7 +165,7 @@ class Administration
      */
     public function willLinkWith($gui, array $parameters = []): Closure
     {
-        $class = is_string($gui) ? $gui : get_class($gui);
+        $class = is_string($gui) ? $gui : $gui::class;
         return function (string $cmd, ?string $method = null) use ($gui, $class, $parameters): string {
             $method ??= $class === $gui ? 'getLinkTargetByClass' : 'getLinkTarget';
             $array = $this->container->ctrl()->getParameterArrayByClass($class);

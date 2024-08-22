@@ -65,7 +65,7 @@ class StartUpStep extends StartUpSequenceStep
     public function isInFulfillment(): bool
     {
         return in_array(
-            strtolower($this->ctrl->getCmdClass()),
+            strtolower($this->ctrl->getCmdClass() ?? ''),
             $this->allInterceptingPaths(),
             true
         );

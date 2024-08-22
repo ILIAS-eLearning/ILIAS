@@ -116,7 +116,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
      */
     private function updateDocument(DocumentId $document_id, array $fields_and_values): void
     {
-        match (get_class($document_id)) {
+        match ($document_id::class) {
             HashId::class => $this->lazyDocFields($fields_and_values, $document_id->hash()),
             NumberId::class => $this->setDocFields($fields_and_values, $document_id->number()),
         };
@@ -160,7 +160,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
 
     public function findId(DocumentId $document_id): Result
     {
-        return match (get_class($document_id)) {
+        return match ($document_id::class) {
             HashId::class => $this->findHash($document_id->hash()),
             NumberId::class => $this->find($document_id->number()),
         };

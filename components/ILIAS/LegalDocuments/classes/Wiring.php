@@ -51,7 +51,7 @@ class Wiring implements UseSlot
 
     public function __construct(private readonly SlotConstructor $slot, Map $map = null)
     {
-        $this->map = null === $map ? new Map() : $map;
+        $this->map = $map ?? new Map();
     }
 
     public function afterLogin(callable $after_login): self
@@ -128,7 +128,7 @@ class Wiring implements UseSlot
 
     public function hasDocuments(array $content_as_component = [], ?SelectionMap $available_conditions = null): self
     {
-        $available_conditions = $available_conditions ?? new SelectionMap();
+        $available_conditions ??= new SelectionMap();
         $repository = $this->slot->documentRepository();
         $document = $this->slot->document($this->slot->readOnlyDocuments($repository), $available_conditions, $content_as_component);
 

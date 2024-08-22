@@ -31,7 +31,7 @@ class History
         private readonly ?Document $document,
         private readonly Edit $creation,
         private readonly array $criteria_content,
-        private DocumentContent $content
+        private readonly DocumentContent $content
     ) {
     }
 

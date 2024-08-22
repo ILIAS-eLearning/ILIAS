@@ -66,7 +66,7 @@ class Conductor
     {
         try {
             $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 
@@ -90,7 +90,7 @@ class Conductor
     {
         try {
             $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_from', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return '';
         }
 
@@ -228,7 +228,7 @@ class Conductor
     {
         try {
             $id = $this->container->http()->wrapper()->query()->retrieve('id', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return new Error('No provider ID given.');
         }
 

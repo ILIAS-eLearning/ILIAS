@@ -233,7 +233,7 @@ class UserTest extends TestCase
             $this->mock(Clock::class)
         );
 
-        $this->assertFalse($instance->doesntMatch($document, $user));
+        $this->assertFalse($instance->doesntMatch($document));
     }
 
     public function testMatchingDocument(): void
