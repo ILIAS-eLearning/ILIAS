@@ -306,13 +306,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function initCreationForms($new_type): array
-    {
-        return [
-            self::CFORM_NEW => $this->initCreateForm($new_type)
-        ];
-    }
-
     public function viewObject(): void
     {
         self::_goto((string) $this->ref_id);

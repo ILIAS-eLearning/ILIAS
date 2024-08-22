@@ -652,7 +652,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setContent($this->getCreationFormsHTML($create_form));
     }
 
-    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI $form): string
+    /**
+     * @param StandardForm|ilPropertyFormGUI|array<ilPropertyFormGUI> $form
+     */
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $form): string
     {
         $title = $this->getCreationFormTitle();
 
@@ -660,8 +663,16 @@ class ilObjectGUI implements ImplementsCreationCallback
         if ($form instanceof ilPropertyFormGUI) {
             $form->setTitle('');
             $form->setTitleIcon('');
-            $form->setTableWidth("100%");
+            $form->setTableWidth('100%');
             $content = $this->ui_factory->legacy($form->getHTML());
+        } elseif (is_array($form)) {
+            $content = $this->ui_factory->legacy(
+                array_reduce(
+                    $form,
+                    fn(string $c, ilPropertyFormGUI $v) => $c . $v->getHTML(),
+                    ''
+                )
+            );
         }
 
         $panel = $this->ui_factory->panel()->standard($title, $content);
@@ -674,7 +685,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $this->lng->txt($this->requested_new_type . '_new');
     }
 
-    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI|array
     {
         $form_fields['title_and_description'] = (new ilObject())->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
             $this->lng,

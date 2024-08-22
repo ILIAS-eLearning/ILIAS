@@ -216,14 +216,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
-                self::CFORM_IMPORT => $this->initImportForm($new_type));
-
-        return $forms;
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
         // always send a message

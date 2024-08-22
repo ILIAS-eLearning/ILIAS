@@ -339,12 +339,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         return $message;
     }
 
-
-    protected function initCreationForms(string $new_type): array
-    {
-        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
-    }
-
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $ilSetting = $this->settings;
