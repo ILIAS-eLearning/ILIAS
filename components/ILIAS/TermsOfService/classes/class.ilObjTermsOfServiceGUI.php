@@ -77,8 +77,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         $this->prepareOutput();
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
 
         switch (strtolower($next_class)) {
             case strtolower(ilLegalDocumentsAdministrationGUI::class):
@@ -220,7 +220,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $in = $this->dic->database()->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
         $this->dic->database()->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
         $this->tos_settings->lastResetDate()->update((new DataFactory())->clock()->system()->now());
-        $this->dic->ctrl()->redirectByClass([self::class, get_class($this->legal_documents)], 'documents');
+        $this->dic->ctrl()->redirectByClass([self::class, $this->legal_documents::class], 'documents');
     }
 
     private function createSettings(): Settings
