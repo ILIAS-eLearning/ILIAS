@@ -33,8 +33,8 @@ use ILIAS\HTTP\GlobalHttpState;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
-    private ServerRequestInterface $request;
-    private Data\Factory $data_factory;
+    private readonly ServerRequestInterface $request;
+    private readonly Data\Factory $data_factory;
     /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
