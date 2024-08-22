@@ -42,7 +42,7 @@ class ilMailingListsGUI
     private ilPropertyFormGUI $form_gui;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
-    private ilTabsGUI $tabs;
+    private readonly ilTabsGUI $tabs;
 
     public function __construct()
     {
@@ -122,15 +122,10 @@ class ilMailingListsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'confirmDeleteMembers':
-                $this->confirmDeleteMembers();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showMailingLists');
-                break;
-        }
+        match ($action) {
+            'confirmDeleteMembers' => $this->confirmDeleteMembers(),
+            default => $this->ctrl->redirect($this, 'showMailingLists'),
+        };
     }
 
     private function handleMailingListActions(): void
@@ -142,27 +137,13 @@ class ilMailingListsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'mailToList':
-                $this->mailToList();
-                break;
-
-            case 'confirmDelete':
-                $this->confirmDelete();
-                break;
-
-            case 'showMembersList':
-                $this->showMembersList();
-                break;
-
-            case 'showForm':
-                $this->showForm();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showMailingLists');
-                break;
-        }
+        match ($action) {
+            'mailToList' => $this->mailToList(),
+            'confirmDelete' => $this->confirmDelete(),
+            'showMembersList' => $this->showMembersList(),
+            'showForm' => $this->showForm(),
+            default => $this->ctrl->redirect($this, 'showMailingLists'),
+        };
     }
 
     /**

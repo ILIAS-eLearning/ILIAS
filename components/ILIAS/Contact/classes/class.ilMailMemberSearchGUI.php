@@ -34,10 +34,10 @@ class ilMailMemberSearchGUI
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilAccessHandler $access;
-    private \ILIAS\UI\Factory $ui_factory;
-    private Services $http;
-    private Renderer $ui_renderer;
-    private Factory $refinery;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly Services $http;
+    private readonly Renderer $ui_renderer;
+    private readonly Factory $refinery;
 
     /**
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
@@ -75,15 +75,10 @@ class ilMailMemberSearchGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showSelectableUsers');
-                break;
-        }
+        match ($action) {
+            'sendMailToSelectedUsers' => $this->sendMailToSelectedUsers(),
+            default => $this->ctrl->redirect($this, 'showSelectableUsers'),
+        };
     }
 
     public function executeCommand(): bool
