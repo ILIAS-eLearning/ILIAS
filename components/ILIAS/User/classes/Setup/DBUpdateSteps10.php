@@ -37,6 +37,6 @@ class DBUpdateSteps10 implements ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->manipulate('DELETE FROM usr_pref WHERE keyword = \'hits_per_page\'');
-        $this->db->manipulate('DELETE FROM settings WHERE keyword LIKE \'%hits_per_page%\'');
+        $this->db->manipulate('DELETE FROM settings WHERE ' . $this->db->like('keyword', 'hits_per_page'));
     }
 }
