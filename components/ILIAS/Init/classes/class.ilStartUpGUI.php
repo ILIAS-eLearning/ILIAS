@@ -101,6 +101,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $cmd = self::$forced_cmd;
             self::$forced_cmd = '';
         }
+
         return $cmd;
     }
 
