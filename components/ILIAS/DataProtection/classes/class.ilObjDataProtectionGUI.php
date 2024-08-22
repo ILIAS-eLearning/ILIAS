@@ -77,7 +77,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         $this->container->language()->loadLanguageModule('dpro');
         $this->container->language()->loadLanguageModule('ldoc');
 
-        $next_class = $this->ctrl->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
         $cmd = $this->ctrl->getCmd('settings');
 
         switch (strtolower($next_class)) {
@@ -96,6 +96,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
                     case 'documents':
                         $this->ctrl->redirectByClass(ilLegalDocumentsAdministrationGUI::class, 'documents');
                         break;
+
                     default:
                         $reflection = new ReflectionClass(self::class);
                         if (!$reflection->hasMethod($cmd) || !$reflection->getMethod($cmd)->isPublic()) {
