@@ -33,7 +33,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
     private array $collection_cache = [];
     private array $posting_cache = [];
     private readonly ilForumPostingFileStakeholder $stakeholder;
-    private int $draft_id;
+    private readonly int $draft_id;
 
     public function __construct(private readonly int $obj_id = 0, private int $pos_id = 0)
     {
