@@ -37,7 +37,6 @@ class ilUserCertificateGUI
     private readonly ilObjUser $user;
     private readonly ServerRequestInterface $request;
     private readonly ilLogger $certificateLogger;
-    private readonly ilSetting $certificateSettings;
     private readonly Factory $uiFactory;
     private readonly Renderer $uiRenderer;
     private readonly ilAccessHandler $access;
@@ -64,7 +63,7 @@ class ilUserCertificateGUI
         ?ilUserCertificateRepository $userCertificateRepository = null,
         ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
-        ?ilSetting $certificateSettings = null,
+        private readonly ilSetting $certificateSettings = new ilSetting('certificate'),
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
@@ -80,7 +79,6 @@ class ilUserCertificateGUI
         $this->language = $language ?? $DIC->language();
         $this->request = $request ?? $DIC->http()->request();
         $this->certificateLogger = $certificateLogger ?? $DIC->logger()->cert();
-        $this->certificateSettings = $certificateSettings ?? new ilSetting('certificate');
         $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
         $this->access = $access ?? $DIC->access();

@@ -30,9 +30,9 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
  */
 class ilCertificateUtilHelper
 {
-    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
-    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
-    private \ILIAS\FileDelivery\Services $delivery;
+    private readonly \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+    private readonly \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private readonly \ILIAS\FileDelivery\Services $delivery;
 
     public function __construct()
     {

@@ -102,7 +102,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
-        $command = $this->ctrl->getCmd();
+        $command = $this->ctrl->getCmd() ?? '';
 
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
