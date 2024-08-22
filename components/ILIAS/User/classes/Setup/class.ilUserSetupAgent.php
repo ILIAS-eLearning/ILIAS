@@ -63,7 +63,7 @@ class ilUserSetupAgent implements Setup\Agent
                 new ilUserDB90()
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
-                new ilUser10DBUpdateSteps()
+                new DBUpdateSteps10()
             )
         );
     }
