@@ -23,7 +23,7 @@ namespace ILIAS\Test\ExportImport;
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
-abstract class ResultsExportAbstract
+abstract class ResultsExportAbstract implements ExportAsAttachment
 {
     public function __construct(
         protected \ilLanguage $lng,
@@ -35,10 +35,10 @@ abstract class ResultsExportAbstract
     ) {
     }
 
-    abstract public function deliver(string $title): void;
-    abstract public function getContent(): \ilAssExcelFormatHelper|string;
+    abstract public function deliver(): void;
+    abstract protected function getContent(): \ilAssExcelFormatHelper|string;
 
-    public function getDatarows(\ilObjTest $test_obj): array
+    protected function getDatarows(\ilObjTest $test_obj): array
     {
         $test_obj->setAccessFilteredParticipantList(
             $test_obj->buildStatisticsAccessFilteredParticipantList()
@@ -183,7 +183,7 @@ abstract class ResultsExportAbstract
         return $rows;
     }
 
-    public function getHeaderRow(\ilLanguage $lng, \ilObjTest $test_obj): array
+    protected function getHeaderRow(\ilLanguage $lng, \ilObjTest $test_obj): array
     {
         if ($test_obj->getAnonymity()) {
             $datarow[] = $lng->txt("counter");

@@ -54,6 +54,8 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilCtrl'],
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
+            $DIC['component.factory'],
+            $this->createMock(\ILIAS\Test\ExportImport\Factory::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );

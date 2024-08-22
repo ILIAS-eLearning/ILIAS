@@ -53,7 +53,6 @@ class ilTestExportGUI extends ilExportGUI
         private readonly UIRenderer $ui_renderer,
         private readonly ilComponentRepository $component_repository,
         private readonly IRSS $irss,
-        Generator $active_export_plugins,
         private readonly ilTestHTMLGenerator $html_generator,
         private readonly array $selected_files,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
@@ -63,17 +62,7 @@ class ilTestExportGUI extends ilExportGUI
 
         $this->addFormat('xml', $this->lng->txt('ass_create_export_file'));
         $this->addFormat('xmlres', $this->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
-        $this->addFormat('csv', $this->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
         $this->addFormat('arc', $this->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
-        foreach ($active_export_plugins as $plugin) {
-            $plugin->setTest($this->obj);
-            $this->addFormat(
-                $plugin->getFormat(),
-                $plugin->getFormatLabel(),
-                $plugin,
-                'export'
-            );
-        }
     }
 
     /**
@@ -100,22 +89,6 @@ class ilTestExportGUI extends ilExportGUI
         );
         $test_exp = $export_factory->getExporter('xml');
         $test_exp->setResultExportingEnabledForTestExport(true);
-        $test_exp->buildExportFile();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
-        $this->ctrl->redirectByClass('iltestexportgui');
-    }
-
-    public function createTestResultsExport()
-    {
-        $export_factory = new ExportFactory(
-            $this->obj,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questionrepository
-        );
-        $test_exp = $export_factory->getExporter('results');
         $test_exp->buildExportFile();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
         $this->ctrl->redirectByClass('iltestexportgui');
@@ -256,7 +229,7 @@ class ilTestExportGUI extends ilExportGUI
                         'file' => $exp_file,
                         'size' => filesize($export_dir . '/' . $exp_file),
                         'timestamp' => $file_arr[0],
-                        'type' => $this->getExportTypeFromFileName($exp_file)
+                        'type' => 'ZIP'
                     ]
                 );
             }
@@ -273,7 +246,7 @@ class ilTestExportGUI extends ilExportGUI
                     'file' => $exp_file,
                     'size' => filesize($archive_dir . '/' . $exp_file),
                     'timestamp' => $file_arr[4],
-                    'type' => $this->getExportTypeFromFileName($exp_file)
+                    'type' => 'ZIP'
                 ];
             }
         }
@@ -296,15 +269,6 @@ class ilTestExportGUI extends ilExportGUI
         $table->setData($data);
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_manual_feedback_export_info'), true);
         $this->tpl->setContent($table->getHTML());
-    }
-
-    private function getExportTypeFromFileName(string $export_file)
-    {
-        $extension = strtoupper(pathinfo($export_file, PATHINFO_EXTENSION));
-        if (in_array($extension, ['XLSX', 'CSV', 'XLS'])) {
-            return $this->lng->txt('results');
-        }
-        return $extension;
     }
 
     public function download(): void

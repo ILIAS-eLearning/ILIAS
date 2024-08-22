@@ -34,6 +34,8 @@ use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -113,6 +115,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ilTestQuestionSetConfigFactory $test_question_set_config_factory;
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
+    private ExportImportFactory $export_factory;
     private GeneralQuestionPropertiesRepository $questionrepository;
     private QPLRequestDataCollector $qplrequest;
     protected ?ilTestTabsManager $tabs_manager = null;
@@ -169,6 +172,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->qplrequest = $local_dic['question.request_data_wrapper'];
         $this->testrequest = $local_dic['request_data_collector'];
+        $this->export_factory = $local_dic['exportimport.factory'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -311,7 +315,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer,
                     $this->component_repository,
                     $this->irss,
-                    $this->component_factory->getActivePluginsInSlot('texp'),
                     new ilTestHTMLGenerator(),
                     $selected_files,
                     $this->questionrepository,
@@ -378,6 +381,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ctrl,
                     $this->tabs_gui,
                     $this->toolbar,
+                    $this->component_factory,
+                    $this->export_factory,
                     $this->test_question_set_config_factory->getQuestionSetConfig(),
                     $this->testrequest
                 );

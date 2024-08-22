@@ -38,6 +38,7 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
+        $this->addGlobal_ilComponentFactory();
 
         $this->testObj = new ilTestParticipantsGUI(
             $this->getTestObjMock(),
@@ -51,6 +52,8 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
             $DIC['ilDB'],
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
+            $DIC['component.factory'],
+            $this->createMock(\ILIAS\Test\ExportImport\Factory::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }
