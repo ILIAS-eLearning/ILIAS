@@ -32,8 +32,6 @@ class MailUserSignature implements Signature
 {
     public const MAIL_USER_SIGNATURE = 'mail_system_usr_general_signature';
 
-    private MailSignatureIliasUrlPlaceholder $placeholder_chain;
-
     public function __construct(
         private readonly ilSetting $settings,
     ) {
@@ -51,7 +49,7 @@ class MailUserSignature implements Signature
 
     public function supports(Placeholder $placeholder): bool
     {
-        return match (get_class($placeholder)) {
+        return match ($placeholder::class) {
             MailSignatureIliasUrlPlaceholder::class,
             MailSignatureInstallationNamePlaceholder::class,
             MailSignatureInstallationDescriptionPlaceholder::class,

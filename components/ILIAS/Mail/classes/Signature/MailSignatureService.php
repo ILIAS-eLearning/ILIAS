@@ -36,8 +36,6 @@ use ILIAS\Mail\Placeholder\MailSignatureUserFullnamePlaceholder;
 
 class MailSignatureService
 {
-    private Placeholder $placeholder_chain;
-
     public function __construct(
         private readonly ilMustacheFactory $mustacheFactory,
         private readonly ilIniFile $client_ini_file,

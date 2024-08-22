@@ -29,7 +29,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
     private int $currentFolderId = 0;
-    private int $root_folder_id;
+    private readonly int $root_folder_id;
     private int $root_node_id;
 
     public function __construct(ilMailGUI $parentObject, int $userId)

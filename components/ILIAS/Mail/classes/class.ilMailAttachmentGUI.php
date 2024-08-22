@@ -315,19 +315,11 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
         }
 
         $action = $query->retrieve('mail_attachments_table_action', $this->refinery->to()->string());
-        switch ($action) {
-            case 'saveAttachments':
-                $this->saveAttachments();
-                break;
-
-            case 'deleteAttachments':
-                $this->deleteAttachments();
-                break;
-
-            default:
-                $this->ctrl->redirect($this);
-                break;
-        }
+        match ($action) {
+            'saveAttachments' => $this->saveAttachments(),
+            'deleteAttachments' => $this->deleteAttachments(),
+            default => $this->ctrl->redirect($this),
+        };
     }
 
     protected function getUploadResult(): HandlerResult

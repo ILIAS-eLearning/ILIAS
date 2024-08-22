@@ -112,10 +112,10 @@ class ilMailFolderGUI
     public function executeCommand(): void
     {
         $cmd = $this->parseCommand(
-            $this->ctrl->getCmd()
+            $this->ctrl->getCmd() ?? ''
         );
 
-        $nextClass = $this->ctrl->getNextClass($this);
+        $nextClass = $this->ctrl->getNextClass($this) ?? '';
         switch (strtolower($nextClass)) {
             case strtolower(ilContactGUI::class):
                 $this->ctrl->forwardCommand(new ilContactGUI());

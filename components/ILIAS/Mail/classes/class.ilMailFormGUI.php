@@ -120,7 +120,7 @@ class ilMailFormGUI
 
     public function executeCommand(): void
     {
-        $forward_class = $this->ctrl->getNextClass($this);
+        $forward_class = $this->ctrl->getNextClass($this) ?? '';
         switch (strtolower($forward_class)) {
             case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, 'returnFromAttachments');
@@ -380,10 +380,10 @@ class ilMailFormGUI
             ilUtil::securePlainString($this->getBodyParam('search', $this->refinery->kindlyTo()->string(), ''))
         );
 
-        if (trim(ilSession::get('mail_search_search')) === '') {
+        if (trim(ilSession::get('mail_search_search') ?? '') === '') {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
-        } elseif (strlen(trim(ilSession::get('mail_search_search'))) < 3) {
+        } elseif (strlen(trim(ilSession::get('mail_search_search') ?? '')) < 3) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
             $this->searchUsers(false);
@@ -391,7 +391,7 @@ class ilMailFormGUI
             $this->ctrl->setParameterByClass(
                 ilMailSearchGUI::class,
                 'search',
-                urlencode(ilSession::get('mail_search_search'))
+                urlencode(ilSession::get('mail_search_search') ?? '')
             );
             $this->ctrl->redirectByClass(ilMailSearchGUI::class);
         }
@@ -913,7 +913,7 @@ class ilMailFormGUI
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         try {
             $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
         }        foreach ($context->getPlaceholders() as $key => $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);

@@ -62,7 +62,8 @@ final class Recipient
         if (!$this->user->checkTimeLimit()) {
             return new Error('Account expired.');
         }
-        return $this->legal_documents->userCanReadInternalMail($this->user)->applyTo(new Ok($this->user));
+
+        return $this->legal_documents->userCanReadInternalMail()->applyTo(new Ok($this->user));
     }
 
     public function userWantsToReceiveExternalMails(): bool
