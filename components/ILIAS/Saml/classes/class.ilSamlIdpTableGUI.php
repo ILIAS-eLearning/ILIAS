@@ -24,9 +24,9 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
      * @var ilSamlIdp[]
      */
     private array $idps;
-    private ILIAS\UI\URLBuilder $url_builder;
-    private ILIAS\UI\URLBuilderToken $action_parameter_token;
-    private ILIAS\UI\URLBuilderToken $row_id_token;
+    private readonly ILIAS\UI\URLBuilder $url_builder;
+    private readonly ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private readonly ILIAS\UI\URLBuilderToken $row_id_token;
 
     public function __construct(
         private readonly ilSamlSettingsGUI $parent_gui,

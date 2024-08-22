@@ -302,27 +302,13 @@ final class ilSamlSettingsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'showIdpSettings':
-                $this->showIdpSettings();
-                break;
-
-            case 'activateIdp':
-                $this->activateIdp();
-                break;
-
-            case 'deactivateIdp':
-                $this->deactivateIdp();
-                break;
-
-            case 'confirmDeleteIdp':
-                $this->confirmDeleteIdp();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, self::DEFAULT_CMD);
-                break;
-        }
+        match ($action) {
+            'showIdpSettings' => $this->showIdpSettings(),
+            'activateIdp' => $this->activateIdp(),
+            'deactivateIdp' => $this->deactivateIdp(),
+            'confirmDeleteIdp' => $this->confirmDeleteIdp(),
+            default => $this->ctrl->redirect($this, self::DEFAULT_CMD),
+        };
     }
 
     private function deactivateIdp(): void
