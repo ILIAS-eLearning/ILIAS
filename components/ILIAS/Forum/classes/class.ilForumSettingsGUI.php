@@ -25,23 +25,23 @@ declare(strict_types=1);
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
-    private ilCtrlInterface $ctrl;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilSetting $settings;
-    private ilTabsGUI $tabs;
-    private ilAccessHandler $access;
-    private ilTree $tree;
-    private \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilLanguage $lng;
+    private readonly ilSetting $settings;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilAccessHandler $access;
+    private readonly ilTree $tree;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
     private ilForumNotification $forumNotificationObj;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
-    private int $ref_id;
-    private ilObjectService $obj_service;
-    private \ILIAS\DI\Container $dic;
-    private ilErrorHandling $error;
-    private \ILIAS\UI\Factory $ui_factory;
+    private readonly int $ref_id;
+    private readonly ilObjectService $obj_service;
+    private readonly \ILIAS\DI\Container $dic;
+    private readonly ilErrorHandling $error;
+    private readonly \ILIAS\UI\Factory $ui_factory;
 
-    public function __construct(private ilObjForumGUI $parent_obj)
+    public function __construct(private readonly ilObjForumGUI $parent_obj)
     {
         global $DIC;
 

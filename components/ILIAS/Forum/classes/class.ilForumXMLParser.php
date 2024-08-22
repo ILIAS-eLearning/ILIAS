@@ -31,9 +31,9 @@ class ilForumXMLParser extends ilSaxParser
         'thr' => [],
         'pos' => []
     ];
-    private ilDBInterface $db;
-    private ilObjUser $aobject;
-    /** @var null|string|int  */
+    private readonly ilDBInterface $db;
+    private readonly ilObjUser $aobject;
+    /** @var null|string|int */
     private $import_install_id;
     private ?string $importDirectory = null;
     private ?string $schema_version = null;
@@ -58,8 +58,11 @@ class ilForumXMLParser extends ilSaxParser
 
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function __construct(private ilObjForum $forum, string $a_xml_data, private ilImportMapping $importMapping)
-    {
+    public function __construct(
+        private readonly ilObjForum $forum,
+        string $a_xml_data,
+        private readonly ilImportMapping $importMapping
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -97,11 +100,15 @@ class ilForumXMLParser extends ilSaxParser
     public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, function (XMLParser $a_xml_parser, string $a_name, array $a_attribs): void {
-            $this->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-        }, function (XMLParser $a_xml_parser, string $a_name): void {
-            $this->handlerEndTag($a_xml_parser, $a_name);
-        });
+        xml_set_element_handler(
+            $a_xml_parser,
+            function (XMLParser $a_xml_parser, string $a_name, array $a_attribs): void {
+                $this->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
+            },
+            function (XMLParser $a_xml_parser, string $a_name): void {
+                $this->handlerEndTag($a_xml_parser, $a_name);
+            }
+        );
         xml_set_character_data_handler($a_xml_parser, function (XMLParser $a_xml_parser, string $a_data): void {
             $this->handlerCharacterData($a_xml_parser, $a_data);
         });
@@ -156,7 +163,7 @@ class ilForumXMLParser extends ilSaxParser
 
         switch ($a_name) {
             case 'Forum':
-                $query_num_posts = "SELECT COUNT(pos_pk) cnt FROM frm_posts WHERE pos_top_fk = " . $this->db->quote(
+                $query_num_posts = 'SELECT COUNT(pos_pk) cnt FROM frm_posts WHERE pos_top_fk = ' . $this->db->quote(
                     $this->lastHandledForumId,
                     'integer'
                 );
@@ -164,7 +171,7 @@ class ilForumXMLParser extends ilSaxParser
                 $data_pos = $this->db->fetchAssoc($res_pos);
                 $num_posts = (int) $data_pos['cnt'];
 
-                $query_num_threads = "SELECT COUNT(thr_pk) cnt FROM frm_threads WHERE thr_top_fk = " . $this->db->quote(
+                $query_num_threads = 'SELECT COUNT(thr_pk) cnt FROM frm_threads WHERE thr_top_fk = ' . $this->db->quote(
                     $this->lastHandledForumId,
                     'integer'
                 );
@@ -182,12 +189,12 @@ class ilForumXMLParser extends ilSaxParser
                 }
 
                 $this->db->manipulateF(
-                    "UPDATE frm_data 
+                    'UPDATE frm_data 
                         SET top_last_post = %s,
                             top_num_posts = %s,
                             top_num_threads = %s,
                             top_usr_id = %s
-                    WHERE top_frm_fk = %s",
+                    WHERE top_frm_fk = %s',
                     ['text', 'integer', 'integer', 'integer', 'integer'],
                     [$update_str, $num_posts, $num_threads, $this->frm_last_mapped_top_usr_id, $this->forum_obj_id]
                 );
@@ -308,13 +315,17 @@ class ilForumXMLParser extends ilSaxParser
                     // Manipulate user object
                     // changed smeyer 28.7.16: the session id is not manipulated
                     // anymore. Instead the user is passwd ilObjForum::update()
-                    $this->forum->setTitle(ilUtil::stripSlashes((string) ($this->forumArray["Title"] ?? '')));
-                    $this->forum->setDescription(ilUtil::stripSlashes((string) ($this->forumArray["Description"] ?? '')));
+                    $this->forum->setTitle(ilUtil::stripSlashes((string) ($this->forumArray['Title'] ?? '')));
+                    $this->forum->setDescription(
+                        ilUtil::stripSlashes((string) ($this->forumArray['Description'] ?? ''))
+                    );
                     $this->forum->update();
                     $this->forum->updateModificationUserId($update_forum_array['usr_id']);
 
                     $newObjProp = ilForumProperties::getInstance($this->forum->getId());
-                    $newObjProp->setDefaultView((int) ($this->forumArray['DefaultView'] ?? ilForumProperties::VIEW_TREE));
+                    $newObjProp->setDefaultView(
+                        (int) ($this->forumArray['DefaultView'] ?? ilForumProperties::VIEW_TREE)
+                    );
                     $newObjProp->setAnonymisation((bool) ($this->forumArray['Pseudonyms'] ?? false));
                     $newObjProp->setStatisticsStatus((bool) ($this->forumArray['Statistics'] ?? false));
                     $newObjProp->setIsThreadRatingEnabled((bool) ($this->forumArray['ThreadRatings'] ?? false));
@@ -361,7 +372,7 @@ class ilForumXMLParser extends ilSaxParser
                 }
 
                 $this->db->manipulateF(
-                    "UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s",
+                    'UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s',
                     ['text', 'integer'],
                     [$update_str, $this->lastHandledThreadId]
                 );
@@ -390,7 +401,9 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumThread = new ilForumTopic();
                     $this->forumThread->setId((int) ($this->threadArray['Id'] ?? 0));
                     $this->forumThread->setForumId($this->lastHandledForumId);
-                    $this->forumThread->setSubject(ilUtil::stripSlashes((string) ($this->threadArray['Subject'] ?? '')));
+                    $this->forumThread->setSubject(
+                        ilUtil::stripSlashes((string) ($this->threadArray['Subject'] ?? ''))
+                    );
                     $this->forumThread->setSticky((bool) ($this->threadArray['Sticky'] ?? false));
                     $this->forumThread->setClosed((bool) ($this->threadArray['Closed'] ?? false));
 
@@ -561,19 +574,19 @@ class ilForumXMLParser extends ilSaxParser
                                 $importfile,
                                 false
                             );
-                            ilObjMediaObject::_saveUsage($mob->getId(), "frm:html", $this->forumPost->getId());
+                            ilObjMediaObject::_saveUsage($mob->getId(), 'frm:html', $this->forumPost->getId());
 
                             $this->forumPost->setMessage(
                                 str_replace(
                                     [
-                                        "src=\"" . $mob_attr["label"] . "\"",
-                                        "src=\"" . preg_replace(
+                                        'src="' . $mob_attr['label'] . '"',
+                                        'src="' . preg_replace(
                                             "/(il)_[\d]+_(mob)_([\d]+)/",
-                                            "$1_0_$2_$3",
-                                            $mob_attr["label"]
-                                        ) . "\""
+                                            '$1_0_$2_$3',
+                                            $mob_attr['label']
+                                        ) . '"'
                                     ],
-                                    "src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
+                                    'src="' . 'il_' . IL_INST_ID . '_mob_' . $mob->getId() . '"',
                                     $this->forumPost->getMessage()
                                 )
                             );
@@ -740,7 +753,7 @@ class ilForumXMLParser extends ilSaxParser
 
     private function getNewForumPk(): int
     {
-        $query = "SELECT top_pk FROM frm_data WHERE top_frm_fk = " . $this->db->quote(
+        $query = 'SELECT top_pk FROM frm_data WHERE top_frm_fk = ' . $this->db->quote(
             $this->forum->getId(),
             'integer'
         );
@@ -754,7 +767,7 @@ class ilForumXMLParser extends ilSaxParser
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space
-            $a_data = preg_replace("/\t+/", " ", $a_data);
+            $a_data = preg_replace("/\t+/", ' ', $a_data);
 
             $this->cdata .= $a_data;
         }

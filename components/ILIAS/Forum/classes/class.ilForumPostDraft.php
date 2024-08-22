@@ -32,7 +32,7 @@ class ilForumPostDraft
     private static array $drafts_settings_cache = [];
 
     public const NO_RCID = '-';
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $draft_id = 0;
     private int $post_id = 0;
     private int $forum_id = 0;

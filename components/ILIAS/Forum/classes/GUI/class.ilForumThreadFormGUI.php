@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilForumThreadFormGUI
- */
 class ilForumThreadFormGUI extends ilPropertyFormGUI
 {
     public const ALIAS_INPUT = 'alias';
@@ -34,12 +31,12 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     private array $input_items = [];
 
     public function __construct(
-        private ilObjForumGUI $delegatingGui,
-        private ilForumProperties $properties,
-        private bool $allowPseudonyms,
-        private bool $allowNotification,
-        private bool $isDraftContext,
-        private int $draftId
+        private readonly ilObjForumGUI $delegatingGui,
+        private readonly ilForumProperties $properties,
+        private readonly bool $allowPseudonyms,
+        private readonly bool $allowNotification,
+        private readonly bool $isDraftContext,
+        private readonly int $draftId
     ) {
         parent::__construct();
     }

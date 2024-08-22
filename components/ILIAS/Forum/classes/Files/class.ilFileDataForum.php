@@ -18,21 +18,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-
-/**
- * This class handles all operations on files for the forum object.
- * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup components\ILIASForum
- */
 class ilFileDataForum implements ilFileDataForumInterface
 {
     private array $posting_cache = [];
-    private ilFileDataForumInterface $rc_implementation;
+    private readonly ilFileDataForumInterface $rc_implementation;
 
     public function __construct(
-        private int $obj_id = 0,
-        private int $pos_id = 0
+        private readonly int $obj_id = 0,
+        private readonly int $pos_id = 0
     ) {
         $this->rc_implementation = new ilFileDataForumRCImplementation(
             $this->obj_id,
@@ -42,10 +35,9 @@ class ilFileDataForum implements ilFileDataForumInterface
 
     private function getCurrentPosting(): ilForumPost
     {
-        if (isset($this->posting_cache[$this->pos_id])) {
-            return $this->posting_cache[$this->pos_id];
-        }
-        return $this->posting_cache[$this->pos_id] = new ilForumPost($this->pos_id);
+        return $this->posting_cache[$this->pos_id] ?? ($this->posting_cache[$this->pos_id] = new ilForumPost(
+            $this->pos_id
+        ));
     }
 
     private function getImplementation(): ilFileDataForumInterface
@@ -121,7 +113,6 @@ class ilFileDataForum implements ilFileDataForumInterface
     {
         return $this->getImplementation()->unlinkFilesByMD5Filenames($hashed_filename_or_filenames);
     }
-
 
     public function deliverFile(string $file): void
     {

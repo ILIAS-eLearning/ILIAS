@@ -33,7 +33,7 @@ class ilForum
     /** @var array<int, int[]> */
     protected static array $moderators_by_ref_id_map = [];
 
-    private ilAppEventHandler $event;
+    private readonly ilAppEventHandler $event;
     private string $dbTable;
     private string $className = 'ilForum';
     private string $mdb2Query = '';
@@ -379,7 +379,7 @@ class ilForum
                     $newFrmData->getTopPk()
                 );
 
-                if (($last_post_string = $objTmpThread->getLastPostString()) !== '') {
+                if (($last_post_string = ($objTmpThread->getLastPostString() ?? '')) !== '') {
                     $last_post_string = explode('#', $last_post_string);
                     $last_post_string[0] = $newFrmData->getTopPk();
                     $last_post_string = implode('#', $last_post_string);
@@ -1727,7 +1727,7 @@ class ilForum
         ilForumNotification::mergeThreadNotifications($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
         ilObjForum::mergeForumUserRead($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
 
-        $lastPostString = $targetThreadForMerge->getLastPostString();
+        $lastPostString = $targetThreadForMerge->getLastPostString() ?? '';
         $exp = explode('#', $lastPostString);
         if (array_key_exists(2, $exp)) {
             try {

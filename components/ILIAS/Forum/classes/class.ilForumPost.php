@@ -46,7 +46,7 @@ class ilForumPost
     private int $rgt = 0;
     private int $depth = 0;
     private ?ilForumTopic $objThread = null;
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private bool $is_moderator = false;
     private ?bool $is_author_moderator = false;
     private bool $post_read = false;

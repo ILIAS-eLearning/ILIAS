@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilForumPostsTree
 {
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $pos_fk = 0;
     private int $parent_pos = 0;
     private int $lft = 0;

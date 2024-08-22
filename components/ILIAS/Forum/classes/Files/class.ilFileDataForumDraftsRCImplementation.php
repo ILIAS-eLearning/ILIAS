@@ -19,10 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\UI\NotImplementedException;
 
 /**
  * Class ilFileDataForumRCImplementation
@@ -30,14 +27,15 @@ use ILIAS\UI\NotImplementedException;
 class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 {
     public const FORUM_PATH_RCID = 'RCID';
-    private \ILIAS\ResourceStorage\Services $irss;
-    private \ILIAS\FileUpload\FileUpload $upload;
+
+    private readonly \ILIAS\ResourceStorage\Services $irss;
+    private readonly \ILIAS\FileUpload\FileUpload $upload;
     private array $collection_cache = [];
     private array $posting_cache = [];
-    private ilForumPostingFileStakeholder $stakeholder;
-    private int $draft_id = 0;
+    private readonly ilForumPostingFileStakeholder $stakeholder;
+    private int $draft_id;
 
-    public function __construct(private int $obj_id = 0, private int $pos_id = 0)
+    public function __construct(private readonly int $obj_id = 0, private int $pos_id = 0)
     {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
@@ -61,14 +59,12 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     private function getCurrentCollection(): \ILIAS\ResourceStorage\Collection\ResourceCollection
     {
-        if (isset($this->collection_cache[$this->pos_id])) {
-            return $this->collection_cache[$this->pos_id];
-        }
-        return $this->collection_cache[$this->pos_id] = $this->irss->collection()->get(
+        return $this->collection_cache[$this->pos_id] ?? ($this->collection_cache[$this->pos_id] = $this->irss->collection(
+        )->get(
             $this->irss->collection()->id(
                 $this->getCurrentDraft()->getRCID()
             )
-        );
+        ));
     }
 
     private function getResourceIdByHash(string $hash): ?ResourceIdentification

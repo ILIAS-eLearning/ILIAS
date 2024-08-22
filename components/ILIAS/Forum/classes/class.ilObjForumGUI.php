@@ -260,7 +260,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private function isTopLevelReplyCommand(): bool
     {
         return in_array(
-            strtolower($this->ctrl->getCmd()),
+            strtolower($this->ctrl->getCmd() ?? ''),
             array_map('strtolower', ['createTopLevelPost', 'saveTopLevelPost', 'saveTopLevelDraft']),
             true
         );
@@ -282,8 +282,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
 
         $exclude_cmds = [
             'viewThread',
@@ -1673,7 +1673,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 self::UI_TAB_ID_THREADS,
                 $this->ctrl->getLinkTarget($this, 'showThreads'),
                 $this->ctrl->getCmd(),
-                $this::class,
+                static::class,
                 '',
                 $force_active
             );
@@ -1692,7 +1692,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $force_active = $this->ctrl->getNextClass() === 'ilinfoscreengui' || strtolower($cmdClass) === 'ilnotegui';
             $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_INFO,
-                $this->ctrl->getLinkTargetByClass([__CLASS__, ilInfoScreenGUI::class], 'showSummary'),
+                $this->ctrl->getLinkTargetByClass([self::class, ilInfoScreenGUI::class], 'showSummary'),
                 ['showSummary', 'infoScreen'],
                 '',
                 '',
@@ -1717,7 +1717,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 self::UI_TAB_ID_MODERATORS,
                 $this->ctrl->getLinkTargetByClass(ilForumModeratorsGUI::class, 'showModerators'),
                 'showModerators',
-                $this::class
+                static::class
             );
         }
 
@@ -1744,7 +1744,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     self::UI_TAB_ID_STATS,
                     $this->ctrl->getLinkTarget($this, 'showStatistics'),
                     'showStatistics',
-                    $this::class,
+                    static::class,
                     '',
                     $force_active
                 );
@@ -1763,7 +1763,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
             $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_PERMISSIONS,
-                $this->ctrl->getLinkTargetByClass([$this::class, ilPermissionGUI::class], 'perm'),
+                $this->ctrl->getLinkTargetByClass([static::class, ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
                 'ilpermissiongui'
             );
@@ -1838,12 +1838,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     }
                 }
 
-                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', (string) ((int) $a_target));
+                $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', (string) ((int) $a_target));
                 if (is_numeric($a_thread)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'thr_pk', (string) ((int) $a_thread));
+                    $DIC->ctrl()->setParameterByClass(self::class, 'thr_pk', (string) ((int) $a_thread));
                 }
                 if (is_numeric($a_posting)) {
-                    $DIC->ctrl()->setParameterByClass(__CLASS__, 'pos_pk', (string) ((int) $a_posting));
+                    $DIC->ctrl()->setParameterByClass(self::class, 'pos_pk', (string) ((int) $a_posting));
                 }
                 $DIC->ctrl()->redirectByClass(
                     [ilRepositoryGUI::class, self::class],
