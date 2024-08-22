@@ -80,10 +80,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     /**
      * @return \ilPropertyFormGUI[]|null[]
      */
-    protected function initCreationForms(string $a_new_type): array
+    protected function initCreateForm(string $a_new_type): array
     {
         $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($a_new_type)
+            self::CFORM_NEW => $this->initNewForm($a_new_type)
         );
 
         if (ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
@@ -94,7 +94,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    protected function initCreateForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
+    protected function initNewForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -343,7 +343,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $DIC->language()->loadLanguageModule($new_type);
-        $form = $this->initShowToolConfig($new_type, (int)$provider_id);
+        $form = $this->initShowToolConfig($new_type, (int) $provider_id);
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
@@ -360,7 +360,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->language()->loadLanguageModule($new_type);
         ilSession::clear('lti_dynamic_registration_client_id');
         ilSession::clear('lti_dynamic_registration_custom_params');
-        $form = $this->initShowToolConfig($new_type, (int)$provider_id);
+        $form = $this->initShowToolConfig($new_type, (int) $provider_id);
         $form->setValuesByPost();
         if ($form->checkInput()) { // update only overridable fields
             $provider = $form->getProvider();
@@ -821,7 +821,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $newType = $this->getRequestValue('new_type');
         $refId = $this->getRequestValue('ref_id');
         if ($providerId !== null && $newType == 'lti' && $refId != null) {
-            $provider = new ilLTIConsumeProvider((int)$providerId);
+            $provider = new ilLTIConsumeProvider((int) $providerId);
             // check if post variables from contentSelectionResponse
             if ($DIC->http()->wrapper()->post()->has('JWT')) {
                 // ToDo:

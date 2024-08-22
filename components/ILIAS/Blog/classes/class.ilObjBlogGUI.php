@@ -183,18 +183,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $this->items;
     }
 
-
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = parent::initCreationForms($new_type);
-
-        if ($this->id_type === self::WORKSPACE_NODE_ID) {
-            unset($forms[self::CFORM_IMPORT], $forms[self::CFORM_CLONE]);
-        }
-
-        return $forms;
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
         $ilCtrl = $this->ctrl;

@@ -222,7 +222,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 );
                 if (!ilObjOrgUnitAccess::_checkAccessToUserLearningProgress(
                     $this->object->getRefid(),
-                    (int)$_GET['obj_id']
+                    (int) $_GET['obj_id']
                 )) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirectByClass("ilOrgUnitUserAssignmentGUI", "index");
@@ -232,7 +232,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT,
                     $this->ref_id,
-                    (int)$_GET['obj_id']
+                    (int) $_GET['obj_id']
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
@@ -406,21 +406,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
-    }
-
-    /**
-     * initCreationForms
-     * We override the method of class.ilObjectGUI because we have no copy functionality
-     * at the moment
-     */
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type),
-        );
-
-        return $forms;
     }
 
     public function showPossibleSubObjects(): void

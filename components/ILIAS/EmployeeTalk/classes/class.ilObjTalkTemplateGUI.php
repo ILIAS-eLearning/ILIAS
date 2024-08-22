@@ -171,13 +171,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         }
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        return [
-            self::CFORM_NEW => $this->initCreateForm($new_type)
-        ];
-    }
-
     public function getAdminTabs(): void
     {
         $this->getTabs();

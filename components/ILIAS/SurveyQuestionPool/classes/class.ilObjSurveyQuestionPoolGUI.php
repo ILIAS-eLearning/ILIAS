@@ -600,16 +600,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->redirect($this, "export");
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $form = $this->initImportForm($new_type);
-
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $form);
-
-        return $forms;
-    }
-
     protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
         $tpl = $this->tpl;

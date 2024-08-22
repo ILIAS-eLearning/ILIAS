@@ -198,15 +198,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
     }
 
-    protected function initCreationForms($a_new_type): array
-    {
-        $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($a_new_type)
-            );
-
-        return $forms;
-    }
-
     public function render(): void
     {
         $tpl = $this->tpl;
