@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
-class ilUser10DBUpdateSteps implements ilDatabaseUpdateSteps
+namespace ILIAS\User\Setup;
+
+use ilDatabaseUpdateSteps;
+use ilDBInterface;
+
+class DBUpdateSteps10 implements ilDatabaseUpdateSteps
 {
     private const USER_DATA_TABLE_NAME = 'usr_data';
     protected ilDBInterface $db;
