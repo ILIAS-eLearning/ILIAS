@@ -36,7 +36,7 @@ class SurveyQuestionPool implements Component\Component
             new Component\Resource\ComponentJS($this, "categorywizard.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "matrixrowwizard.js");
-        $contribute[\ILIAS\Setup\Agent::class] = fn() => new \ILIAS\SurveyQuestionPool\Setup\Agent(
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ILIAS\SurveyQuestionPool\Setup\Agent(
             $pull[\ILIAS\Refinery\Factory::class]
         );
     }

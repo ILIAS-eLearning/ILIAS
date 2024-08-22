@@ -43,7 +43,7 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropdown/dist/dropdown.js");
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropzone/File/dropzone.js");
@@ -94,11 +94,11 @@ class UI implements Component\Component
             new Component\Resource\OfComponent($this, "fonts", "assets");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "ui-examples", "assets");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.css");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("chart.js/dist/chart.umd.js");
         /*
         those are contributed by MediaObjects
@@ -119,7 +119,7 @@ class UI implements Component\Component
 
         // This is included via anonymous classes as a testament to the fact, that
         // the templates-folder should probably be moved to some component.
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "templates/default/delos.css";
@@ -129,7 +129,7 @@ class UI implements Component\Component
                 return "assets/css/delos.css";
             }
         };
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "templates/default/delos_cont.css";

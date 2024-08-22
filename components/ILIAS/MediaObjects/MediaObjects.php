@@ -32,11 +32,11 @@ class MediaObjects implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilMediaObjectSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\MediaObjects\Setup\DBUpdateAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
@@ -46,15 +46,15 @@ class MediaObjects implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ServiceMediaObjectPropWidthHeight.js");
         /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("mediaelement/build/mediaelement-and-player.min.js");
         */
         /* This is missing in the node-modules-build, but added in PHP code.
-                $contribute[Component\Resource\PublicAsset::class] = fn() =>
+                $contribute[Component\Resource\PublicAsset::class] = static fn() =>
                     new Component\Resource\NodeModule("mediaelement/build/vimeo.min.js");
         */
         /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("mediaelement/build/mediaelementplayer.min.css");
         */
     }
