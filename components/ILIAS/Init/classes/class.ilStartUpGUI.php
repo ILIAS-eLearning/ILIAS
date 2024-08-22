@@ -95,6 +95,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         self::$forced_cmd = $cmd;
     }
 
+    private function checkForcedCommand(string $cmd): string
+    {
+        if (self::$forced_cmd) {
+            $cmd = self::$forced_cmd;
+            self::$forced_cmd = '';
+        }
+        return $cmd;
+    }
+
     private function mergeValuesTrafo(): ILIAS\Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(static function (array $values): array {
@@ -133,11 +142,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd('processIndexPHP');
-        if (self::$forced_cmd) {
-            $cmd = self::$forced_cmd;
-            self::$forced_cmd = '';
-        }
+        $cmd = $this->checkForcedCommand($this->ctrl->getCmd('processIndexPHP'));
 
         $next_class = $this->ctrl->getNextClass($this) ?? '';
 
