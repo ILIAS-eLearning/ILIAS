@@ -38,6 +38,7 @@
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
    1. [DBMS](#dbms)
+   1. [ImageMagick](#imagemagick)
 1. [Connect and Contribute](#connect-and-contribute)
 
 <!-- /MarkdownTOC -->
@@ -72,7 +73,7 @@ For best results we recommend:
   * PHP 8.2
   * Apache 2.4.x with `mod_php`
   * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip, php-intl
-  * OpenJDK 11
+  * OpenJDK 17
   * Node.js: 20-LTS (and 21)
   * git
   * composer v2
@@ -109,15 +110,15 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 
 | Package        | Version          |
 |----------------|------------------|
-| Distribution   | Ubuntu 20.04 LTS |
-| MariaDB        | 10.0.38          |
+| Distribution   | Ubuntu 22.04 LTS |
+| MariaDB        | 10.6.18          |
 | PHP            | 8.2              |
-| Apache2        | 2.4.18           |
-| JDK            | OpenJDK 8        |
-| Node.js        | 10.23.0          |
-| wkhtmltopdf    | 0.12.5           |
-| Ghostscript    | 9.26             |
-| Imagemagick    | 6.9.11-60 Q16    |
+| Apache2        | 2.4.52           |
+| JDK            | OpenJDK 17       |
+| Node.js        | 16.20            |
+| wkhtmltopdf    | 0.12.6           |
+| Ghostscript    | 9.55             |
+| Imagemagick    | 6.9.11           |
 | MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
@@ -160,7 +161,7 @@ on Debian). A minimal configuration may look as follows:
 
     DocumentRoot /var/www/html/
     <Directory /var/www/html/>
-        Options FollowSymLinks -Indexes
+        Options +FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -326,17 +327,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install imagemagick openjdk-7-jdk
+apt-get install zip unzip imagemagick openjdk-17-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install imagemagick openjdk-8-jdk
+apt-get install zip unzip imagemagick openjdk-17-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install libxslt ImageMagick java-1.8.0-openjdk
+yum install libxslt ImageMagick java-17-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
@@ -399,9 +400,15 @@ Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make
 of the files and directories that were created by changing the group and owner to www-data (on Debian/Ubuntu) or
 apache (on RHEL).
 
+In addition to the file folder, ILIAS also needs a place to create the log files
+(e.g. `/var/www/logs`). The 'ilias.log' can be viewed there later, as well as all
+error_log files, which are created in case of errors and are referenced in ILIAS by
+an errorcode.
+
 ```
-chown www-data:www-data `/var/www/html
-chown www-data:www-data `/var/www/files
+chown www-data:www-data /var/www/html
+chown www-data:www-data /var/www/files
+chown www-data:www-data /var/www/logs
 ```
 
 The commands above will directly serve ILIAS from the docroot.
@@ -624,7 +631,6 @@ your ILIAS basepath (e.g. `/var/www/html/`):
 ```
 git pull
 composer install --no-dev
-npm clean-install --omit-dev --ignore-scripts
 ```
 
 if you follow a branch or
@@ -633,7 +639,6 @@ if you follow a branch or
 git fetch
 git checkout v7.1
 composer install --no-dev
-npm clean-install --omit-dev --ignore-scripts
 ```
 
 if you use tags to pin a specific ILIAS version.
@@ -751,11 +756,8 @@ each ILIAS release.
 <a name="dbms"></a>
 ## DBMS
 
-We strongly recommend using MariaDB instead of MySQL due to performance, licensing and compatibility in the future.
-
 | ILIAS Version | MySQL Version                       | MariaDB Version        |
 |---------------|-------------------------------------|------------------------|
-| 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
 | 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
 | 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |
 | 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3 |
