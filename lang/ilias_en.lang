@@ -9219,7 +9219,7 @@ exc#:#exc_create_blog_select_info#:#Please select the resources folder in which 
 exc#:#exc_create_portfolio#:#Create Portfolio
 exc#:#exc_create_portfolio_no_template#:#Do not use template
 exc#:#exc_create_team#:#Create Team
-exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
+exc#:#exc_create_team_times_up_warning#:#You cannot create or join a team anymore.
 exc#:#exc_create_wiki#:#Create Wiki
 exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
