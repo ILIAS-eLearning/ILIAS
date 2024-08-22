@@ -182,12 +182,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function jumpToRegistration(): void
     {
-        $this->ctrl->redirectByClass(ilAccountRegistrationGUI::class, '');
+        $this->ctrl->redirectByClass(ilAccountRegistrationGUI::class);
     }
 
     private function jumpToPasswordAssistance(): void
     {
-        $this->ctrl->redirectByClass(ilPasswordAssistanceGUI::class, '');
+        $this->ctrl->redirectByClass(ilPasswordAssistanceGUI::class);
     }
 
     private function showLoginPageOrStartupPage(): void
