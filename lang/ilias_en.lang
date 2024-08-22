@@ -5562,6 +5562,7 @@ common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
+common#:#session_reminder#:#Session Reminder (in Minutes)
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
 common#:#session_reminder_input#:#Session Reminder (in Minutes)
