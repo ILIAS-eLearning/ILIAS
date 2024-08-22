@@ -217,7 +217,7 @@ class ilExSubmissionTeamGUI
             if (!$submission->getAssignment()->getTeamTutor()) {
                 #23685
                 // any team member upload?
-                if (!$submission->getLastSubmission()) {
+                if (!$submission->getLastSubmission() && !$state->hasSubmissionEnded()) {
                     $button = $f->button()->standard(
                         $this->lng->txt("exc_delete_team"),
                         $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam")
@@ -273,7 +273,7 @@ class ilExSubmissionTeamGUI
                     $team_info .= '<div class="ilFormInfo">' . $lng->txt("exc_no_team_yet_info_tutor") . '</div>';
                 }
             } else {
-                $team_info = '<span class="warning">' . $lng->txt("exc_create_team_times_up_warning") . '</span>';
+                $team_info = $lng->txt("exc_create_team_times_up_warning");
             }
 
             $builder->addProperty(
