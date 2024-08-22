@@ -27,46 +27,48 @@ namespace ILIAS\Test\ExportImport;
  */
 class ExportFilename
 {
-    protected int $timestamp = 0;
+    private string $path = '';
 
     public function __construct(
-        protected readonly \ilObjTest $test
+        private int $test_id
     ) {
-        $this->timestamp = time();
     }
 
     /**
-     * @return int
-     */
-    public function getTimestamp(): int
-    {
-        return $this->timestamp;
-    }
-
-    /**
+     * @todo sk 2024-08-22: I left this in for Backward-Compatibility for the time
+     * being. We need a better solution.
      * @throws \ilException
      */
     public function getPathname(string $extension, string $additional = ''): string
     {
         if (!is_string($extension) || !strlen($extension)) {
             throw new \ilException('Missing file extension! Please pass a file extension of type string.');
-        } elseif (substr_count($extension, '.') > 1 || (strpos($extension, '.') !== false && strpos($extension, '.') !== 0)) {
+        }
+
+        if (substr_count($extension, '.') > 1 || (strpos($extension, '.') !== false && strpos($extension, '.') !== 0)) {
             throw new \ilException('Please use at most one dot in your file extension.');
-        } elseif (strpos($extension, '.') === 0) {
+        }
+
+        if (strpos($extension, '.') === 0) {
             $extension = substr($extension, 1);
         }
 
-        if (!is_string($additional)) {
-        } elseif (strlen($additional)) {
+        $corrected_additional = '_';
+        if ($additional !== '') {
             if (strpos($additional, '__') === 0) {
-                throw new \ilException('The additional file part may not contain __ at the beginning!');
+                throw new ilException('The additional file part may not contain __ at the beginning!');
             }
 
-            $additional = '__' . $additional . '_';
-        } else {
-            $additional = '_';
+            $corrected_additional = '__' . $additional . '_';
         }
 
-        return $this->test->getExportDirectory() . DIRECTORY_SEPARATOR . $this->getTimestamp() . '__' . IL_INST_ID . '__' . $this->test->getType() . $additional . $this->test->getId() . '.' . $extension;
+        $this->path = \ilFileUtils::ilTempnam() . '__' . IL_INST_ID
+            . $corrected_additional . $this->test_id . '.' . $extension;
+        return $this->path;
+    }
+
+    public function getPathForDelivery(): string
+    {
+        return $this->path;
     }
 }

@@ -18,20 +18,19 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ExportImport\ExportAsAttachment;
 use ILIAS\Test\ExportImport\ExportFilename;
+use ILIAS\FileDelivery\Services as FileDeliveryServices;
 
 /**
  * Abstract parent class for all test export plugin classes.
  * @author  Michael Jansen <mjansen@databay.de>
  */
-abstract class ilTestExportPlugin extends ilPlugin
+abstract class ilTestExportPlugin extends ilPlugin implements ExportAsAttachment
 {
-    protected ilObjTest $test;
+    protected ?ilObjTest $test = null;
     protected int $timestmap = -1;
 
-    /**
-     * @var array
-     */
     protected static $reserved_formats = [
         'xml',
         'csv'
@@ -50,7 +49,7 @@ abstract class ilTestExportPlugin extends ilPlugin
         $this->test = $test;
     }
 
-    final protected function getTest(): ilObjTest
+    final protected function getTest(): ?ilObjTest
     {
         return $this->test;
     }
@@ -94,31 +93,36 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @throws ilException
      */
-    final public function export(): void
+    final public function deliver(): void
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $main_tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ctrl = $DIC['ilCtrl'];
+        $file_delivery = $DIC['file_delivery'];
 
-        if (!$this->getTest() instanceof ilObjTest) {
+        if ($this->getTest() === null) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
         }
 
         try {
-            $this->buildExportFile(new ExportFilename($this->getTest()));
+            $export_filename = new ExportFilename($this->getTest()->getId());
+            $this->buildExportFile($export_filename);
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
                 $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
                 $main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
-            $ctrl->redirectByClass('iltestexportgui');
+            return;
         }
 
-        $main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
-        $ctrl->redirectByClass('iltestexportgui');
+        $file_delivery->legacyDelivery()->attached(
+            $export_filename->getPathForDelivery(),
+            null,
+            null,
+            true
+        );
+        $file_delivery->deliver();
     }
 
     /**

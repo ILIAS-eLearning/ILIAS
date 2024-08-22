@@ -26,28 +26,58 @@ use ILIAS\Test\Logging\TestLogger;
 class Factory
 {
     public function __construct(
-        private readonly \ilObjTest $test_obj,
         private readonly \ilLanguage $lng,
         private readonly TestLogger $logger,
         private readonly \ilTree $tree,
         private readonly \ilComponentRepository $component_repository,
+        private readonly \ilComponentFactory $component_factory,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
-    public function getExporter($mode = 'xml'): ExportFixedQuestionSet|ExportRandomQuestionSet
-    {
-        if ($this->test_obj->isFixedTest()) {
-            return new ExportFixedQuestionSet($this->test_obj, $mode);
+    public function getExporter(
+        \ilObjTest $test_obj,
+        string $export_type = 'xml'
+    ): ExportAsAttachment|ExportFixedQuestionSet|ExportRandomQuestionSet {
+        switch ($export_type) {
+            case 'scored_test_run':
+                return (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, true))
+                    ->withResultsPage()
+                    ->withUserPages();
+
+            case 'all_test_runs':
+                return (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, false))
+                    ->withResultsPage()
+                    ->withUserPages();
+
+            case 'all_test_runs_a':
+
+                return (new ResultsExportExcel($this->lng, $this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+                    ->withAggregatedResultsPage();
+
+            case 'certificate':
+                $this->exportCertificateArchive();
+                break;
+
+            default:
+                foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
+                    if ($plugin->getFormat() === $export_type) {
+                        $plugin->setTest($test_obj);
+                        return $plugin;
+                    }
+                }
+                if ($test_obj->isFixedTest()) {
+                    return new ExportFixedQuestionSet($test_obj, $export_type);
+                }
+                return new ExportRandomQuestionSet(
+                    $test_obj,
+                    $this->lng,
+                    $this->logger,
+                    $this->tree,
+                    $this->component_repository,
+                    $this->questionrepository,
+                    $export_type
+                );
         }
-        return new ExportRandomQuestionSet(
-            $this->test_obj,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questionrepository,
-            $mode
-        );
     }
 }

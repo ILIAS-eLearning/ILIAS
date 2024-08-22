@@ -204,7 +204,7 @@ class ResultsExportExcel extends ResultsExportAbstract
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function deliver(string $title): void
+    public function deliver(): void
     {
         $testname = \ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $title)) . '.xlsx';
         $this->worksheet->sendToClient($testname);

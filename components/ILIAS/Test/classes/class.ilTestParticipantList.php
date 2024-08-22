@@ -95,7 +95,7 @@ class ilTestParticipantList implements Iterator
     public function hasScorings(): bool
     {
         foreach ($this as $participant) {
-            if ($participant->getScoring() instanceof ilTestParticipantScoring) {
+            if ($participant->hasScoring()) {
                 return true;
             }
         }
