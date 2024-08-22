@@ -420,7 +420,7 @@ class ilTestQuestionNavigationGUI
         ->withAdditionalOnLoadCode(
             fn($id) => "document.getElementById('$id').addEventListener(
                 'click',
-                 ()=>$('#tst_discard_solution_modal').modal('show')
+                 ()=>$('#" . ilTestPlayerAbstractGUI::DISCARD_SOLUTION_MODAL_ID . "').modal('show')
             )"
         );
 
