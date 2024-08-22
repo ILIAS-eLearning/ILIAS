@@ -30,6 +30,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDMailBlockGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilDashboardPageGUI
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjIndividualAssessmentGUI
  */
@@ -41,7 +42,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected ilSetting $settings;
-    protected ilRbacSystem $rbacsystem;
     protected ilHelpGUI $help;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
@@ -60,7 +60,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC->help();
         $tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -243,11 +242,20 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     {
         ilBlockSetting::preloadPDBlockSettings();
 
-        $this->tpl->setTitle($this->lng->txt('dash_dashboard'));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_dshs.svg'), $this->lng->txt('dash_dashboard'));
+        $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
+
         $this->tpl->setVariable('IMG_SPACE', ilUtil::getImagePath('media/spacer.png'));
 
-        $this->tpl->setContent($this->getCenterColumnHTML());
+        $content = '';
+        if (ilDashboardPageGUI::isLanguageAvailable($this->user->getLanguage())) {
+            $content = (new ilDashboardPageGUI($this->user->getLanguage()))->showPage();
+        } elseif (ilDashboardPageGUI::isLanguageAvailable($this->lng->getDefaultLanguage())) {
+            $content = (new ilDashboardPageGUI($this->lng->getDefaultLanguage()))->showPage();
+        }
+        $content .= $this->getCenterColumnHTML();
+
+        $this->tpl->setContent($content);
         $this->tpl->setRightContent($this->getRightColumnHTML());
         $this->tpl->printToStdout();
     }
