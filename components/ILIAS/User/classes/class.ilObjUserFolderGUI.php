@@ -2399,6 +2399,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
+        if (isset($input['default_session_reminder'])) {
+            $this->ilias->setSetting(
+                'session_reminder_lead_time',
+                $input['default_session_reminder']
+            );
+        }
+
         if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
                 'usr_settings_export_preferences',
