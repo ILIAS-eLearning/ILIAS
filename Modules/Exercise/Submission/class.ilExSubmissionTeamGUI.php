@@ -176,7 +176,7 @@ class ilExSubmissionTeamGUI
                     $team_info .= '<div class="ilFormInfo">' . $lng->txt("exc_no_team_yet_info_tutor") . '</div>';
                 }
             } else {
-                $team_info = '<span class="warning">' . $lng->txt("exc_create_team_times_up_warning") . '</span>';
+                $team_info = $lng->txt("exc_create_team_times_up_warning");
             }
 
             $a_info->addProperty($lng->txt("exc_team_members"), $team_info);

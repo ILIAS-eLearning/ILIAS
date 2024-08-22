@@ -9107,7 +9107,7 @@ exc#:#exc_create_blog_select_info#:#Wählen Sie in Ihren persönlichen Ressource
 exc#:#exc_create_portfolio#:#Portfolio erstellen
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
 exc#:#exc_create_team#:#Team erstellen
-exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Tutor.
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen oder einem Team beitreten.
 exc#:#exc_create_wiki#:#Wiki erstellen
 exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
