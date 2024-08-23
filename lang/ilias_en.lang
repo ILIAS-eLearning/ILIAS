@@ -2050,7 +2050,7 @@ auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactiv
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginscreen Editor
+auth#:#auth_login_editor#:#Design Login Page
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
@@ -2139,11 +2139,14 @@ auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS a
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
 auth#:#language_does_not_exist#:#The selected language does not exist.
-auth#:#login_page#:#Login-Page
-auth#:#login_page_activate#:#Activate Page Design
-auth#:#login_page_deactivate#:#Deactivate Page Design
+auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
+auth#:#logout_editor#:#Logout-Seite gestalten
+auth#:#logout_page#:#Language of Logout-Page
+auth#:#logout_pages#:#Logout-Pages
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+auth#:#page_design_activate#:#Activate Page Design
+auth#:#page_design_deactivate#:#Deactivate Page Design
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Online Now
 awrn#:#awareness_settings#:#Settings

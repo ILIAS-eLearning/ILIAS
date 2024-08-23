@@ -28,6 +28,7 @@ use ILIAS\DataProtection\Consumer as DataProtection;
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
  * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
+ * @ilCtrl_Calls ilStartUpGUI: ilLogoutPageGUI
  */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
@@ -213,6 +214,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     ]
                 );
             }
+
             $this->logger->debug('Show login page');
             if (isset($messages) && count($messages) > 0) {
                 foreach ($messages as $type => $content) {
@@ -246,15 +248,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'ext_uid',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $soapPw = $this->http->wrapper()->query()->retrieve(
             'soap_pw',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $credentials = new ilAuthFrontendCredentialsSoap(
             $GLOBALS['DIC']->http()->request(),
             $this->ctrl,
             $this->setting
         );
+
         $credentials->setUsername($extUid);
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
@@ -293,6 +298,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->lng->txt($message_key)
             );
         }
+
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
         }
@@ -953,9 +959,32 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui->setPresentationTitle('');
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader('');
-        $ret = $page_gui->showPage();
 
-        return $ret;
+        return $page_gui->showPage();
+    }
+
+    private function getLogoutPageEditorHTML(): string
+    {
+        $lpe = ilAuthLogoutPageEditorSettings::getInstance();
+        $active_lang = $lpe->getIliasEditorLanguage($this->lng->getLangKey());
+
+        if (!$active_lang) {
+            return '';
+        }
+
+        if (!ilPageUtil::_existsAndNotEmpty('aout', ilLanguage::lookupId($active_lang))) {
+            return '';
+        }
+
+        $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
+
+        $page_gui->setStyleId(0);
+
+        $page_gui->setPresentationTitle('');
+        $page_gui->setTemplateOutput(false);
+        $page_gui->setHeader('');
+
+        return $page_gui->showPage();
     }
 
     private function showRegistrationLinks(string $page_editor_html): string
@@ -1177,6 +1206,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $credentials,
             [$provider]
         );
+
         if ($frontend->migrateAccountNew()) {
             ilInitialisation::redirectToStartingPage();
         }
@@ -1229,6 +1259,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $credentials,
                     [$provider]
                 );
+
                 if ($frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])) {
                     ilInitialisation::redirectToStartingPage();
                 }
@@ -1259,6 +1290,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl->parseCurrentBlock();
         }
 
+        $tpl->setVariable('LPE', $this->getLogoutPageEditorHTML());
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('logout'));
         $tpl->setVariable(
             'TXT_LOGOUT_TEXT',
@@ -1770,6 +1802,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (isset($params['target']) && !isset($params['returnTo'])) {
             $params['returnTo'] = $params['target'];
         }
+
         if (isset($params['returnTo'])) {
             $auth->storeParam('target', $params['returnTo']);
         }

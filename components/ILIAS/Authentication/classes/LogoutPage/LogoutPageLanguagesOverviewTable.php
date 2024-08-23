@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\LoginPage;
+namespace ILIAS\Authentication\LogoutPage;
 
 use ILIAS\Data;
 use ILIAS\UI;
@@ -26,23 +26,20 @@ use ilArrayUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use ilAuthLoginPageEditorSettings;
 use ilLanguage;
-use ilCtrlInterface;
+use ilCtrl;
+use ilAuthLogoutPageEditorSettings;
 
-class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
+class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
-    private const ACTIVATE = 'activate';
-    private const DEACTIVATE = 'deactivate';
-    private const EDIT = 'edit';
-
-    protected ServerRequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface $request;
+    private Data\Factory $data_factory;
     /**
      * @var list<array<string, mixed>>|null
      */
     private ?array $records = null;
 
     public function __construct(
-        private readonly ilCtrlInterface $ctrl,
+        private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
@@ -59,7 +56,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
 
         return $this->ui_factory
             ->table()
-            ->data($this->lng->txt('login_pages'), $columns, $this)
+            ->data($this->lng->txt('logout_pages'), $columns, $this)
             ->withActions($actions)
             ->withRequest($this->request);
     }
@@ -73,7 +70,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
             'language' => $this->ui_factory
                 ->table()
                 ->column()
-                ->text($this->lng->txt('login_page'))
+                ->text($this->lng->txt('logout_page'))
                 ->withIsSortable(false),
             'status_icon' => $this->ui_factory
                 ->table()
@@ -88,12 +85,12 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
      */
     protected function getActions(): array
     {
-        $query_params_namespace = ['loginpage', 'languages'];
+        $query_params_namespace = ['logoutpage', 'languages'];
 
         $overview_uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                \ilAuthLoginPageEditorGUI::class,
-                'handleLoginPageActions'
+                \ilAuthLogoutPageEditorGUI::class,
+                'handleLogoutPageActions'
             )
         );
 
@@ -109,19 +106,19 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
         );
 
         return [
-            self::EDIT => $this->ui_factory->table()->action()->single(
+            'edit' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
-                $overview_url_builder->withParameter($overview_action_parameter, self::EDIT),
+                $overview_url_builder->withParameter($overview_action_parameter, 'edit'),
                 $overview_row_id
             ),
-            self::ACTIVATE => $this->ui_factory->table()->action()->standard(
+            'activate' => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_activate'),
-                $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
+                $overview_url_builder->withParameter($overview_action_parameter, 'activate'),
                 $overview_row_id
             ),
-            self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
+            'deactivate' => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_deactivate'),
-                $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
+                $overview_url_builder->withParameter($overview_action_parameter, 'deactivate'),
                 $overview_row_id
             )
         ];
@@ -136,7 +133,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
             foreach ($entries as $langkey) {
                 $this->records[$i]['key'] = $langkey;
                 $this->records[$i]['id'] = ilLanguage::lookupId($langkey);
-                $status = ilAuthLoginPageEditorSettings::getInstance()->isIliasEditorEnabled(
+                $status = ilAuthLogoutPageEditorSettings::getInstance()->isIliasEditorEnabled(
                     $langkey
                 );
 
@@ -182,7 +179,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
 
         foreach ($records as $record) {
             $row_id = (string) $record['key'];
-            $deactivate_action = (bool) $record['status'] === true ? self::ACTIVATE : self::DEACTIVATE;
+            $deactivate_action = (bool) $record['status'] == true ? 'activate' : 'deactivate';
             yield $row_builder->buildDataRow($row_id, $record)->withDisabledAction($deactivate_action);
         }
     }
