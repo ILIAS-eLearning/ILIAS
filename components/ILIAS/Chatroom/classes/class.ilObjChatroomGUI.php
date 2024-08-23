@@ -310,7 +310,9 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
         $connector = $this->getConnector();
         $response = $connector->sendCreatePrivateRoom(
-            $room->getRoomId(), $new_object->getOwner(), $new_object->getTitle()
+            $room->getRoomId(),
+            $new_object->getOwner(),
+            $new_object->getTitle()
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
