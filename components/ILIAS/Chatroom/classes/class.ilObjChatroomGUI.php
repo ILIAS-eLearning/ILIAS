@@ -316,7 +316,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
-        $this->ctrl->setParameter($this, 'ref_id', $this->getRefId());
+        $this->ctrl->setParameter($this, 'ref_id', $new_object->getRefId());
         $this->ctrl->redirect($this, 'settings-general');
     }
 }
