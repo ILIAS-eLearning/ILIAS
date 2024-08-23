@@ -4,11 +4,12 @@ var filter = function($) {
   var init = function () {
     $("div.il-filter").each(function () {
       var $filter = this;
+      var $form = $($filter).find(".il-standard-form");
       var cnt_hid = 0;
       var cnt_bar = 1;
 
       //Set form action
-      $($filter).find(".il-standard-form").attr('action', window.location.pathname);
+      $form.attr('action', window.location.pathname);
 
       //Filter fields (hide hidden stuff)
       $($filter).find(".il-filter-field-status").each(function () {
@@ -67,6 +68,20 @@ var filter = function($) {
       if (empty_list) {
         $(".btn-bulky").parents(".il-popover-container").hide();
       }
+
+      // Using Return while the focus is on an Input Field imitates a click on the Apply Button
+      $form.on("keydown", ":input:not(:button)", function(event) {
+        var key = event.which;
+        if ((key === 13)) {	// 13 = Return
+          var action = $form.attr("data-cmd-apply");
+          var url = parse_url(action);
+          var url_params = url['query_params'];
+          createHiddenInputs($(this), url_params);
+          $form.attr('action', url['path']);
+          $form.submit();
+          event.preventDefault();
+        }
+      });
 
       //Accessibility for complex Input Fields
       $(".il-filter-field").keydown(function (event) {
@@ -334,7 +349,7 @@ var filter = function($) {
     $.ajax({
       type: 'GET',
       url: action + "&" + formData,
-    })
+    });
   };
 
   /**
