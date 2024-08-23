@@ -952,11 +952,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
 
         $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $this->getAuthSettingsRefId());
-        //$this->mainTemplate->setCurrentBlock('SyntaxStyle');
-        //$this->mainTemplate->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
-        //$this->mainTemplate->parseCurrentBlock();
-
-        // get page object
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
         $page_gui->setStyleId(0);
