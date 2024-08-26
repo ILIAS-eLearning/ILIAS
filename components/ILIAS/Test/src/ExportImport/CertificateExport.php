@@ -20,97 +20,111 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport;
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\FileDelivery\Services as FileDeliveryServices;
 
-class CertificateExport implements ExportAsAttachment
+class CertificateExport implements Exporter
 {
     public function __construct(
-        private readonly \ilObjTest $object,
+        private readonly Language $lng,
         private readonly \ilDBInterface $db,
-        private readonly UIFactory $ui_factory
+        private \ilGlobalTemplateInterface $tpl,
+        private FileDeliveryServices $file_delivery,
+        private readonly \ilObjTest $object
     ) {
     }
 
     public function deliver(): void
     {
-
+        if (($path = $this->write()) === null) {
+            return;
+        }
+        $this->file_delivery->legacyDelivery()->attached(
+            $path,
+            null,
+            null,
+            true
+        );
+        $this->file_delivery->deliver();
     }
 
-    private function exportCertificateArchive(): void
+    public function write(): ?string
     {
-        $global_certificate_prerequisites = new ilCertificateActiveValidator();
+        $global_certificate_prerequisites = new \ilCertificateActiveValidator();
         if (!$global_certificate_prerequisites->validate()) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            return null;
         }
 
-        $pathFactory = new ilCertificatePathFactory();
-        $objectId = $this->object->getId();
-        $zipAction = new ilUserCertificateZip(
-            $objectId,
-            $pathFactory->create($this->object)
+        $path_factory = new \ilCertificatePathFactory();
+        $obj_id = $this->object->getId();
+        $zip_action = new \ilUserCertificateZip(
+            $obj_id,
+            $path_factory->create($this->object)
         );
 
-        $archive_dir = $zipAction->createArchiveDirectory();
+        $archive_dir = $zip_action->createArchiveDirectory();
 
         $this->object->setAccessFilteredParticipantList(
             $this->object->buildStatisticsAccessFilteredParticipantList()
         );
 
-        $ilUserCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
+        $certificate_repo = new \ilUserCertificateRepository($this->db, $this->logger);
+        $pdf_generator = new \ilPdfGenerator($certificate_repo);
 
         $total_users = $this->object->evalTotalPersonsArray();
         if (count($total_users) === 0) {
-            $this->outEvaluation([
-                $this->ui_factory->messageBox()->info(
-                    $this->lng->txt('export_cert_no_users')
-                )
-            ]);
-            return;
+            $this->tpl->setOnScreenMessage(
+                'info',
+                $this->lng->txt('export_cert_no_users'),
+                true
+            );
+            return null;
         }
 
-        $certValidator = new ilCertificateDownloadValidator();
+        $cert_validator = new \ilCertificateDownloadValidator();
 
         $num_pdfs = 0;
         $ignored_usr_ids = [];
         $failed_pdf_generation_usr_ids = [];
         foreach ($total_users as $active_id => $name) {
-            $user_id = ilObjTest::_getUserIdFromActiveId($active_id);
+            $user_id = \ilObjTest::_getUserIdFromActiveId($active_id);
 
-            if (!$certValidator->isCertificateDownloadable($user_id, $objectId)) {
+            if (!$cert_validator->isCertificateDownloadable($user_id, $obj_id)) {
                 $this->logger->debug(
                     sprintf(
                         'No certificate available for user %s in test %s ' .
-                        '(Check if: ilServer is enabled / Certificates are enabled globally / ' .
+                        '(Check if: \ilServer is enabled / Certificates are enabled globally / ' .
                         'A Certificate is issued for the user)',
                         $user_id,
-                        $objectId
+                        $obj_id
                     )
                 );
                 $ignored_usr_ids[] = $user_id;
                 continue;
             }
 
-            $pdfAction = new ilCertificatePdfAction(
-                $pdfGenerator,
-                new ilCertificateUtilHelper(),
+            $pdf_action = new \ilCertificatePdfAction(
+                $pdf_generator,
+                new \ilCertificateUtilHelper(),
                 $this->lng->txt('error_creating_certificate_pdf')
             );
 
-            $pdf = $pdfAction->createPDF($user_id, $objectId);
+            $pdf = $pdf_action->createPDF($user_id, $obj_id);
             if ($pdf !== '') {
-                $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(
-                    " ",
-                    "_",
-                    ilFileUtils::getASCIIFilename($name)
-                ) . ".pdf");
+                $zip_action->addPDFtoArchiveDirectory(
+                    $pdf,
+                    $archive_dir,
+                    $user_id . '_' . str_replace(' ', '_', \ilFileUtils::getASCIIFilename($name)) . '.pdf'
+                );
                 ++$num_pdfs;
             } else {
                 $this->logger->error(
                     sprintf(
                         'The certificate service could not create a PDF for user %s and test %s',
                         $user_id,
-                        $objectId
+                        $obj_id
                     )
                 );
                 $failed_pdf_generation_usr_ids[] = $user_id;
@@ -119,54 +133,63 @@ class CertificateExport implements ExportAsAttachment
 
         $components = [];
 
+        $zip_file_dir = null;
         if ($num_pdfs > 0) {
             try {
-                $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+                $zip_file_dir = $zip_action->zipCertificatesInArchiveDirectory($archive_dir, false);
             } catch (\ILIAS\Filesystem\Exception\IOException $e) {
                 $this->logger->error($e->getMessage());
                 $this->logger->error($e->getTraceAsString());
-                $components[] = $this->ui_factory->messageBox()->failure(
-                    $this->lng->txt('error_creating_certificate_zip_empty')
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('error_creating_certificate_zip_empty'),
+                    true
                 );
             }
         }
 
         if ($ignored_usr_ids !== []) {
             $user_logins = array_map(
-                static fn($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                static fn($usr_id): string => \ilObjUser::_lookupLogin((int) $usr_id),
                 $ignored_usr_ids
             );
             if (count($ignored_usr_ids) === 1) {
-                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                $components[] = sprintf(
                     $this->lng->txt('export_cert_ignored_for_users_s'),
                     implode(', ', $user_logins)
-                ));
+                );
             } else {
-                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                $components[] = sprintf(
                     $this->lng->txt('export_cert_ignored_for_users_p'),
                     count($ignored_usr_ids),
                     implode(', ', $user_logins)
-                ));
+                );
             }
         }
 
         if ($failed_pdf_generation_usr_ids !== []) {
             $user_logins = array_map(
-                static fn($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                static fn($usr_id): string => \ilObjUser::_lookupLogin((int) $usr_id),
                 $failed_pdf_generation_usr_ids
             );
             if (count($failed_pdf_generation_usr_ids) === 1) {
-                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                $components[] = sprintf(
                     $this->lng->txt('export_cert_failed_for_users_s'),
                     implode(', ', $user_logins)
-                ));
+                );
             } else {
-                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                $components[] = sprintf(
                     $this->lng->txt('export_cert_failed_for_users_p'),
                     count($ignored_usr_ids),
                     implode(', ', $user_logins)
-                ));
+                );
             }
         }
+
+        if ($components !== []) {
+            $this->tpl->setOnScreenMessage('info', implode('<br>', $components), true);
+        }
+
+        return $zip_file_dir;
     }
 }

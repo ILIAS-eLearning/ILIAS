@@ -18,15 +18,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\ExportImport\ExportAsAttachment;
+use ILIAS\Test\ExportImport\Exporter;
 use ILIAS\Test\ExportImport\ExportFilename;
-use ILIAS\FileDelivery\Services as FileDeliveryServices;
 
 /**
  * Abstract parent class for all test export plugin classes.
  * @author  Michael Jansen <mjansen@databay.de>
  */
-abstract class ilTestExportPlugin extends ilPlugin implements ExportAsAttachment
+abstract class ilTestExportPlugin extends ilPlugin implements Exporter
 {
     protected ?ilObjTest $test = null;
     protected int $timestmap = -1;
@@ -100,24 +99,12 @@ abstract class ilTestExportPlugin extends ilPlugin implements ExportAsAttachment
         $main_tpl = $DIC['tpl'];
         $file_delivery = $DIC['file_delivery'];
 
-        if ($this->getTest() === null) {
-            throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
-        }
-
-        try {
-            $export_filename = new ExportFilename($this->getTest()->getId());
-            $this->buildExportFile($export_filename);
-        } catch (ilException $e) {
-            if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
-            } else {
-                $main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
-            }
+        if (($file_name = $this->createExportFile($main_tpl)) === null) {
             return;
         }
 
-        $file_delivery->legacyDelivery()->attached(
-            $export_filename->getPathForDelivery(),
+        $this->file_delivery->legacyDelivery()->attached(
+            $file_name,
             null,
             null,
             true
@@ -125,11 +112,36 @@ abstract class ilTestExportPlugin extends ilPlugin implements ExportAsAttachment
         $file_delivery->deliver();
     }
 
+    final public function write(): ?string
+    {
+        return $this->createExportFile();
+    }
+
+    private function createExportFile(ilGlobalTemplateInterface $main_tpl): ?string
+    {
+        if ($this->getTest() === null) {
+            throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
+        }
+
+        try {
+            $export_filename = new ExportFilename($this->getTest()->getId());
+            $this->buildExportFile($export_filename);
+            return $export_filename->getPathname();
+        } catch (ilException $e) {
+            if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
+                $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            } else {
+                $main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
+            }
+            return null;
+        }
+    }
+
     /**
      * This method is called if the user wants to export a test of YOUR export type
      * If you throw an exception of type ilException with a respective language variable, ILIAS presents a translated failure message.
      * @throws ilException
-     * @param string $export_path The path to store the export file
+     * @param ExportFilename $export_path The path to store the export file
      */
     abstract protected function buildExportFile(ExportFilename $export_path): void;
 

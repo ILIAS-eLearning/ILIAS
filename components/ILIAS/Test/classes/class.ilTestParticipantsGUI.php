@@ -24,7 +24,8 @@ use ILIAS\Test\TestDIC;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
-use ILIAS\Test\ExportImport\Factory as ImportExportFactory;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\UI\URLBuilder;
 
@@ -47,6 +48,7 @@ class ilTestParticipantsGUI
     public const CALLBACK_ADD_PARTICIPANT = 'addParticipants';
 
     private const EXPORT_TYPE_PARAMETER = 'export_type';
+    private const EXPORT_PLUGIN_TYPE_PARAMETER = 'export_plugin_type';
 
     protected ilTestObjectiveOrientedContainer $objective_parent;
     protected ilTestAccess $test_access;
@@ -68,7 +70,7 @@ class ilTestParticipantsGUI
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
         protected ilComponentFactory $component_factory,
-        protected ImportExportFactory $export_factory,
+        protected ExportImportFactory $export_factory,
         protected RequestDataCollector $testrequest
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
@@ -284,14 +286,14 @@ class ilTestParticipantsGUI
      */
     private function buildOptionsForTestWithNames(): array
     {
-        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'scored_test_run');
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::SCORED_RUN->value);
         $options = [
             $this->ui_factory->button()->shy(
                 $this->lng->txt('exp_scored_test_run'),
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
             )
         ];
-        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'all_test_runs');
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::ALL_RUNS->value);
         $options[] = $this->ui_factory->button()->shy(
             $this->lng->txt('exp_all_test_runs'),
             $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
@@ -307,7 +309,7 @@ class ilTestParticipantsGUI
     {
         try {
             if ((new ilCertificateActiveValidator())->validate()) {
-                $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'certificate');
+                $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::CERTIFICATE_ARCHIVE->value);
                 $options[] = $this->ui_factory->button()->shy(
                     $this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_certificate'),
                     $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
@@ -326,20 +328,38 @@ class ilTestParticipantsGUI
     {
         foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
             $plugin->setTest($this->getTestObj());
-            $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, $plugin->getFormat());
+            $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::PLUGIN->value);
+            $this->ctrl->setParameterByClass(self::class, self::EXPORT_PLUGIN_TYPE_PARAMETER, $plugin->getFormat());
             $options[] = $this->ui_factory->button()->shy(
                 $plugin->getFormatLabel(),
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
             );
         }
+        $this->ctrl->clearParameterByClass(self::class, self::EXPORT_PLUGIN_TYPE_PARAMETER);
         return $options;
     }
 
     public function exportResultsCmd(): void
     {
+        $export_type = ExportImportTypes::tryFrom(
+            $this->testrequest->strVal(self::EXPORT_TYPE_PARAMETER)
+        );
+
+        if ($export_type === null) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('failure'));
+            $this->showCmd();
+            return;
+        }
+
+        $plugin_type = null;
+        if ($export_type === ExportImportTypes::PLUGIN) {
+            $plugin_type = $this->testrequest->strVal(self::EXPORT_PLUGIN_TYPE_PARAMETER);
+        }
+
         $this->export_factory->getExporter(
             $this->getTestObj(),
-            $this->testrequest->strVal(self::EXPORT_TYPE_PARAMETER)
+            $export_type,
+            $plugin_type
         )->deliver();
         $this->showCmd();
     }

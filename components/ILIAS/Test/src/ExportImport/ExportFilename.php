@@ -27,21 +27,19 @@ namespace ILIAS\Test\ExportImport;
  */
 class ExportFilename
 {
-    private string $path = '';
+    private ?string $path = null;
 
     public function __construct(
         private int $test_id
     ) {
     }
 
-    /**
-     * @todo sk 2024-08-22: I left this in for Backward-Compatibility for the time
-     * being. We need a better solution.
-     * @throws \ilException
-     */
-    public function getPathname(string $extension, string $additional = ''): string
+    public function getPathname(string $extension = '', string $additional = ''): string
     {
-        if (!is_string($extension) || !strlen($extension)) {
+        if ($this->path !== null) {
+            return $this->path;
+        }
+        if ($extension === '') {
             throw new \ilException('Missing file extension! Please pass a file extension of type string.');
         }
 
@@ -64,11 +62,6 @@ class ExportFilename
 
         $this->path = \ilFileUtils::ilTempnam() . '__' . IL_INST_ID
             . $corrected_additional . $this->test_id . '.' . $extension;
-        return $this->path;
-    }
-
-    public function getPathForDelivery(): string
-    {
         return $this->path;
     }
 }

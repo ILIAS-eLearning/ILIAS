@@ -30,13 +30,11 @@ class ResultsExportExcel extends ResultsExportAbstract
     public function __construct(
         \ilLanguage $lng,
         \ilObjTest $test_obj,
-        string $filter_key_participants = \ilTestEvaluationData::FILTER_BY_NONE,
-        string $filtertext = '',
-        bool $passedonly = false,
+        string $filename = '',
         bool $scoredonly = true,
     ) {
         $this->worksheet = new \ilAssExcelFormatHelper();
-        parent::__construct($test_obj, $filter_key_participants, $filtertext, $passedonly, $scoredonly, $lng);
+        parent::__construct($lng, $test_obj, $filename, $scoredonly);
     }
 
     public function withResultsPage(): self
@@ -50,10 +48,9 @@ class ResultsExportExcel extends ResultsExportAbstract
         }
         $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord(count($header_row) + 1) . $row);
 
-        $datarows = $this->getDatarows($this->test_obj);
-        foreach ($datarows as $row => $data) {
+        foreach ($this->getDatarows($this->test_obj) as $row => $data) {
             if ($this->scoredonly && $row % 2 === 0) {
-                for ($col = 0, $colMax = count($header_row); $col < $colMax; $col++) {
+                for ($col = 0, $col_max = count($header_row); $col < $col_max; $col++) {
                     $data[$col] = "";
                 }
                 foreach ($data as $col => $value) {
@@ -86,14 +83,17 @@ class ResultsExportExcel extends ResultsExportAbstract
         $allusersheet = false;
         $pages = 0;
         // test participant result export
-        $participantcount = count($this->complete_data->getParticipants());
-        foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
-            $username = (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID $active_id";
-            $username = mb_substr($username, 0, 26);
+        $participantcount = count($this->getCompleteData()->getParticipants());
+        foreach ($this->getCompleteData()->getParticipants() as $active_id => $userdata) {
+            $username = mb_substr(
+                (!is_null($userdata) && $userdata->getName()) ? $userdata->getName() : "ID {$active_id}",
+                0,
+                26
+            );
             $username_to_lower = strtolower($username);
             if (array_key_exists($username_to_lower, $usernames)) {
                 $usernames[$username_to_lower]++;
-                $username .= " (" . $usernames[$username_to_lower] . ")";
+                $username .= ' (' . $usernames[$username_to_lower] . ')';
             } else {
                 $usernames[$username_to_lower] = 0;
             }
@@ -101,14 +101,14 @@ class ResultsExportExcel extends ResultsExportAbstract
             if ($participantcount > 250) {
                 if (!$allusersheet || ($pages - 1) < floor($row / 64000)) {
                     $this->worksheet->addSheet(
-                        $this->lng->txt("eval_all_users") . (($pages > 0) ? " (" . ($pages + 1) . ")" : "")
+                        $this->lng->txt('eval_all_users') . (($pages > 0) ? ' (' . ($pages + 1) . ')' : '')
                     );
                     $allusersheet = true;
                     $row = 1;
                     $pages++;
                 }
             } else {
-                $resultsheet = $this->worksheet->addSheet($username);
+                $this->worksheet->addSheet($username);
             }
             if ($this->scoredonly) {
                 $passes = [$userdata->getScoredPassObject()];
@@ -117,14 +117,14 @@ class ResultsExportExcel extends ResultsExportAbstract
             }
             $col = 0;
             foreach ($passes as $pass) {
-                $passCount = $pass->getPass();
+                $pass_count = $pass->getPass();
                 $row = ($allusersheet) ? $row : 1;
                 $title = sprintf(
                     $this->lng->txt("tst_result_user_name_pass"),
-                    $passCount + 1,
+                    $pass_count + 1,
                     $userdata->getName()
                 ) .
-                    (!$this->scoredonly && $userdata->getScoredPass() === $passCount ? " " .
+                    (!$this->scoredonly && $userdata->getScoredPass() === $pass_count ? " " .
                     $this->lng->txt("exp_scored_test_run") .
                     " (" . ($this->test_obj->getPassScoring() ? $this->lng->txt(
                         'tst_pass_scoring_best'
@@ -136,15 +136,15 @@ class ResultsExportExcel extends ResultsExportAbstract
                 );
                 $this->worksheet->setBold($this->worksheet->getColumnCoord($col) . $row);
                 $row += 2;
-                if (is_object($userdata) && is_array($userdata->getQuestions($passCount))) {
-                    $questions = $userdata->getQuestions($passCount);
+                if (is_object($userdata) && is_array($userdata->getQuestions($pass_count))) {
+                    $questions = $userdata->getQuestions($pass_count);
                     usort($questions, static function ($a, $b) {
                         return $a['sequence'] - $b['sequence'];
                     });
                     foreach ($questions as $question) {
-                        $question = assQuestion::instantiateQuestion((int) $question["id"]);
+                        $question = \assQuestion::instantiateQuestion((int) $question["id"]);
                         if (is_object($question)) {
-                            $row = $question->setExportDetailsXLSX($this->worksheet, $row, $col, $active_id, $passCount);
+                            $row = $question->setExportDetailsXLSX($this->worksheet, $row, $col, $active_id, $pass_count);
                         }
                     }
                 }
@@ -160,45 +160,52 @@ class ResultsExportExcel extends ResultsExportAbstract
         $this->worksheet->addSheet($this->lng->txt('tst_results_aggregated'));
 
         $row = 1;
-        $col = 0;
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('result'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('value'));
+        $col_results = 0;
+        $this->worksheet->setCell($row, $col_results++, $this->lng->txt('result'));
+        $this->worksheet->setCell($row, $col_results++, $this->lng->txt('value'));
 
-        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col_results - 1) . $row);
 
         $row++;
         foreach ($this->aggregated_data['overview'] as $key => $value) {
-            $col = 0;
-            $this->worksheet->setCell($row, $col++, $key);
-            $this->worksheet->setCell($row, $col++, $value);
+            $col_aggregated = 0;
+            $this->worksheet->setCell($row, $col_aggregated++, $key);
+            $this->worksheet->setCell($row, $col_aggregated++, $value);
             $row++;
         }
 
         $row++;
-        $col = 0;
+        $col_overview = 0;
 
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('question_id'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('question_title'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('average_reached_points'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('points'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('percentage'));
-        $this->worksheet->setCell($row, $col++, $this->lng->txt('number_of_answers'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('question_id'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('question_title'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('average_reached_points'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('points'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('percentage'));
+        $this->worksheet->setCell($row, $col_overview++, $this->lng->txt('number_of_answers'));
 
-        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col - 1) . $row);
+        $this->worksheet->setBold('A' . $row . ':' . $this->worksheet->getColumnCoord($col_overview - 1) . $row);
 
         $row++;
         foreach ($this->aggregated_data['questions'] as $key => $value) {
             $col = 0;
-            $this->worksheet->setCell($row, $col++, $key);
-            $this->worksheet->setCell($row, $col++, $value[0]);
-            $this->worksheet->setCell($row, $col++, $value[4]);
-            $this->worksheet->setCell($row, $col++, $value[5]);
-            $this->worksheet->setCell($row, $col++, $value[6]);
-            $this->worksheet->setCell($row, $col++, $value[3]);
+            $this->worksheet->setCell($row, $col_overview++, $key);
+            $this->worksheet->setCell($row, $col_overview++, $value[0]);
+            $this->worksheet->setCell($row, $col_overview++, $value[4]);
+            $this->worksheet->setCell($row, $col_overview++, $value[5]);
+            $this->worksheet->setCell($row, $col_overview++, $value[6]);
+            $this->worksheet->setCell($row, $col_overview++, $value[3]);
             $row++;
         }
 
         return $this;
+    }
+
+    public function write(): ?string
+    {
+        $path = \ilFileUtils::ilTempnam() . $this->filename;
+        $this->worksheet->writeToFile($path);
+        return $path;
     }
 
     /**
@@ -206,7 +213,6 @@ class ResultsExportExcel extends ResultsExportAbstract
      */
     public function deliver(): void
     {
-        $testname = \ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $title)) . '.xlsx';
-        $this->worksheet->sendToClient($testname);
+        $this->worksheet->sendToClient($this->filename);
     }
 }

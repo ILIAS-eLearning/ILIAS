@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Logging\TestLogger;
-
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -37,18 +34,6 @@ class ExportRandomQuestionSet extends Export
      * @var array<ilTestRandomQuestionSetStagingPoolQuestionList>
      */
     protected $staging_pool_question_list_by_pool_id;
-
-    public function __construct(
-        \ilObjTest $test_obj,
-        private readonly \ilLanguage $lng,
-        private readonly TestLogger $logger,
-        private readonly \ilTree $tree,
-        private readonly \ilComponentRepository $component_repository,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        string $mode = "xml"
-    ) {
-        parent::__construct($test_obj, $mode);
-    }
 
     protected function initXmlExport(): void
     {

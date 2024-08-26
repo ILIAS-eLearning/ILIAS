@@ -32,19 +32,19 @@ class ExportFixedQuestionSet extends Export
     {
     }
 
-    protected function populateQuestionSetConfigXml(\ilXmlWriter $xmlWriter)
+    protected function populateQuestionSetConfigXml(\ilXmlWriter $xml_writer)
     {
     }
 
     protected function getQuestionsQtiXml(): string
     {
-        $questionQtiXml = '';
+        $question_qti_xml = '';
 
-        foreach ($this->test_obj->questions as $questionId) {
-            $questionQtiXml .= $this->getQuestionQtiXml($questionId);
+        foreach ($this->test_obj->questions as $question_id) {
+            $question_qti_xml .= $this->getQuestionQtiXml($question_id);
         }
 
-        return $questionQtiXml;
+        return $question_qti_xml;
     }
 
     protected function getQuestionIds(): array

@@ -22,7 +22,8 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Scoring\Manual\TestScoring;
-use ILIAS\Test\ExportImport\Factory as ExportFactory;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -45,6 +46,7 @@ class ilTestExportGUI extends ilExportGUI
     public function __construct(
         ilObjTestGUI $parent_gui,
         private readonly ilDBInterface $db,
+        private readonly ExportImportFactory $export_factory,
         private readonly TestLogger $logger,
         private readonly ilObjectDataCache $obj_cache,
         private readonly ilObjUser $user,
@@ -52,6 +54,7 @@ class ilTestExportGUI extends ilExportGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly ilComponentRepository $component_repository,
+        private readonly ilComponentFactory $component_factory,
         private readonly IRSS $irss,
         private readonly ilTestHTMLGenerator $html_generator,
         private readonly array $selected_files,
@@ -79,17 +82,8 @@ class ilTestExportGUI extends ilExportGUI
      */
     public function createTestExportWithResults()
     {
-        $export_factory = new ExportFactory(
-            $this->obj,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questionrepository
-        );
-        $test_exp = $export_factory->getExporter('xml');
-        $test_exp->setResultExportingEnabledForTestExport(true);
-        $test_exp->buildExportFile();
+        $test_exp = $this->export_factory->getExporter($this->obj, ExportImportTypes::XML_WITH_RESULTS);
+        $test_exp->write();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
         $this->ctrl->redirectByClass('iltestexportgui');
     }
@@ -144,6 +138,7 @@ class ilTestExportGUI extends ilExportGUI
                 $this->refinery,
                 $this->access,
                 $this->irss,
+                $this->questionrepository,
                 $this->testrequest,
                 $test_id,
                 $test_ref
