@@ -563,6 +563,11 @@ class ilForum
             );
         }
 
+        $this->deletePostFiles(array_merge(
+            $this->getSubPathIdsForNode($post),
+            [$post->getId()]
+        ));
+
         $affected_user_ids[] = $post->getPosAuthorId();
         $deleted_post_ids = $this->deletePostTree($p_node);
 
@@ -575,8 +580,6 @@ class ilForum
         foreach ($deleted_post_ids as $post_id) {
             ilObjForum::_deleteReadEntries($post_id);
         }
-
-        $this->deletePostFiles($deleted_post_ids);
 
         $dead_pos = count($deleted_post_ids);
         $dead_thr = 0;
@@ -1320,6 +1323,25 @@ class ilForum
     }
 
     /**
+     * @return list<int> A list of post ids
+     */
+    public function getSubPathIdsForNode(ilForumPost $post): array
+    {
+        $res = $this->db->queryF(
+            'SELECT pos_fk FROM frm_posts_tree WHERE lft BETWEEN %s AND %s AND thr_fk = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$post->getLft(), $post->getRgt(), $post->getTreeId()]
+        );
+
+        $post_ids = [];
+        while ($post_tree_data = $this->db->fetchAssoc($res)) {
+            $post_ids[] = (int) $post_tree_data['pos_fk'];
+        }
+
+        return $post_ids;
+    }
+
+    /**
      * @return int[] An list of deleted post ids
      */
     public function deletePostTree(array $a_node): array
@@ -1478,9 +1500,8 @@ class ilForum
      */
     private function deletePostFiles(array $a_ids): void
     {
-        $forumFiles = new ilFileDataForum($this->getForumId());
         foreach ($a_ids as $pos_id) {
-            $forumFiles->setPosId($pos_id);
+            $forumFiles = new ilFileDataForum($this->getForumId(), $pos_id);
             $files = $forumFiles->getFilesOfPost();
             foreach ($files as $file) {
                 $forumFiles->unlinkFile($file['name']);
