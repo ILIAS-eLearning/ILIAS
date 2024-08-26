@@ -83,11 +83,6 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         return null;
     }
 
-    private function getResourceIdByName(string $filename): ?ResourceIdentification
-    {
-        return $this->getFileDataByMD5Filename(md5($filename));
-    }
-
     public function getObjId(): int
     {
         return $this->obj_id;
@@ -187,10 +182,13 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
 
     public function unlinkFile(string $filename): bool
     {
-        $rid = $this->getResourceIdByName($filename);
-        if ($rid !== null) {
-            $this->irss->manage()->remove($rid, $this->stakeholder);
+        foreach ($this->getCurrentCollection()->getResourceIdentifications() as $identification) {
+            $revision = $this->irss->manage()->getCurrentRevision($identification);
+            if ($revision->getTitle() === md5($filename)) {
+                $this->irss->manage()->remove($identification, $this->stakeholder);
+            }
         }
+        
         return true;
     }
 
