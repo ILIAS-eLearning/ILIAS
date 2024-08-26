@@ -30,7 +30,6 @@ ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */
 $DIC->ctrl()->setTargetScript('ilias.php');
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $DIC->ctrl()->setCmd('doSamlAuthentication');
+ilStartUpGUI::setForcedCommand('doSamlAuthentication');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 exit();

@@ -58,6 +58,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private ILIAS\UI\Factory $ui_factory;
     private ILIAS\UI\Renderer $ui_renderer;
 
+    private static $forced_cmd = '';
+
     public function __construct(
         ilObjUser $user = null,
         ilGlobalTemplateInterface $mainTemplate = null,
@@ -87,6 +89,21 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->ctrl->saveParameter($this, ['rep_ref_id', 'lang', 'target', 'client_id']);
         $this->user->setLanguage($this->lng->getLangKey());
         $this->help->setScreenIdComponent('init');
+    }
+
+    public static function setForcedCommand(string $cmd): void
+    {
+        self::$forced_cmd = $cmd;
+    }
+
+    private function checkForcedCommand(string $cmd): string
+    {
+        if (self::$forced_cmd) {
+            $cmd = self::$forced_cmd;
+            self::$forced_cmd = '';
+        }
+
+        return $cmd;
     }
 
     private function mergeValuesTrafo(): ILIAS\Refinery\Transformation
@@ -127,7 +144,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd('processIndexPHP');
+        $cmd = $this->checkForcedCommand($this->ctrl->getCmd('processIndexPHP'));
+
         $next_class = $this->ctrl->getNextClass($this) ?? '';
 
         switch (strtolower($next_class)) {
@@ -166,18 +184,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function jumpToRegistration(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass(ilAccountRegistrationGUI::class);
-        // $this->ctrl->setCmd('');
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilAccountRegistrationGUI::class);
     }
 
     private function jumpToPasswordAssistance(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass(ilPasswordAssistanceGUI::class);
-        // $this->ctrl->setCmd('');
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilPasswordAssistanceGUI::class);
     }
 
     private function showLoginPageOrStartupPage(): void

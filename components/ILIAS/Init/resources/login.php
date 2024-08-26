@@ -26,8 +26,7 @@ require_once '../vendor/composer/vendor/autoload.php';
 
 ilInitialisation::initILIAS();
 
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $ilCtrl->setCmd('showLoginPageOrStartupPage');
+ilStartUpGUI::setForcedCommand('showLoginPageOrStartupPage');
 $ilCtrl->callBaseClass(ilStartUpGUI::class);
 $ilBench->save();
 exit();

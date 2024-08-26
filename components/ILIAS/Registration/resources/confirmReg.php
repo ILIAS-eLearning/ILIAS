@@ -27,8 +27,7 @@ require_once '../vendor/composer/vendor/autoload.php';
 ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $DIC->ctrl()->setCmd('confirmRegistration');
+ilStartUpGUI::setForcedCommand('confirmRegistration');
 $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 $DIC->http()->close();
 exit();
