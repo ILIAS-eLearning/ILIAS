@@ -85,7 +85,7 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
 
     public function getDraftId(): int
     {
-        $this->getImplementation()->getDraftId();
+        return $this->getImplementation()->getDraftId();
     }
 
     public function getForumPath(): string
@@ -151,12 +151,5 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
     public function deliverZipFile(): bool
     {
         return $this->getImplementation()->deliverZipFile();
-    }
-
-    public function importPath(string $path_to_file, int $posting_id): void
-    {
-        // Importing is only possible for IRSS based files
-        $this->setPosId($posting_id);
-        $this->rc_implementation->importFileToCollection($path_to_file, $this->getCurrentDraft());
     }
 }

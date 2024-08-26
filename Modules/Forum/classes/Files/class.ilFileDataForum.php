@@ -149,4 +149,13 @@ class ilFileDataForum implements ilFileDataForumInterface
         $this->setPosId($posting_id);
         $this->rc_implementation->importFileToCollection($path_to_file, $this->getCurrentPosting());
     }
+
+    public function getDraftId(): int
+    {
+        return 0;
+    }
+
+    public function setDraftId(int $draft_id): void
+    {
+    }
 }
