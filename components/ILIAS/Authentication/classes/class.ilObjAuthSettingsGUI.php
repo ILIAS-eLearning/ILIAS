@@ -865,12 +865,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI implements ilContentPageObjectCon
                 $lpe = new ilAuthLogoutPageEditorGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($lpe);
                 break;
+
             case strtolower(ilObjectContentStyleSettingsGUI::class):
-                $this->checkPermission("write");
+                $this->checkPermission('write');
                 $this->setTitleAndDescription();
-                $this->setSubTabs("authSettings");
+                $this->setSubTabs('authSettings');
                 $this->tabs_gui->activateTab('authentication_settings');
-                $this->tabs_gui->activateSubTab("style");
+                $this->tabs_gui->activateSubTab('style');
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -878,6 +879,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI implements ilContentPageObjectCon
                     );
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
+
             default:
                 if (!$cmd) {
                     $cmd = 'authSettings';
@@ -1009,7 +1011,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI implements ilContentPageObjectCon
                 $this->tabs_gui->addSubTab(
                     self::UI_TAB_ID_STYLE,
                     $this->lng->txt('cont_style'),
-                    $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class, "")
+                    $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
                 );
             }
         }
