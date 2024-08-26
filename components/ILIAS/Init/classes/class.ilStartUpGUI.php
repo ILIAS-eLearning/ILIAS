@@ -951,11 +951,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $auth_settings_objects = ilObject::_getObjectsByType('auth');
-        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
-        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
-        $auth_settings_ref_id = (int) reset($auth_settings_ref_ids);
-        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, ilObjAuthSettings::getAuthSettingsRefId());
 
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
@@ -981,11 +977,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $auth_settings_objects = ilObject::_getObjectsByType('auth');
-        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
-        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
-        $auth_settings_ref_id = (int) reset($auth_settings_ref_ids);
-        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, ilObjAuthSettings::getAuthSettingsRefId());
 
         $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
 
