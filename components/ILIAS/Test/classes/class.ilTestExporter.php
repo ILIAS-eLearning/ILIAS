@@ -21,7 +21,8 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\ExportImport\Factory as ExportFactory;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 
 /**
  * Used for container export with tests
@@ -33,6 +34,7 @@ use ILIAS\Test\ExportImport\Factory as ExportFactory;
 class ilTestExporter extends ilXmlExporter
 {
     private readonly ilLanguage $lng;
+    private readonly ExportImportFactory $export_factory;
     private readonly TestLogger $logger;
     private readonly ilTree $tree;
     private readonly ilComponentRepository $component_repository;
@@ -43,6 +45,7 @@ class ilTestExporter extends ilXmlExporter
         global $DIC;
         $this->lng = $DIC['lng'];
         $local_dic = TestDIC::dic();
+        $this->export_factory = $local_dic['exportimport.factory'];
         $this->logger = $local_dic['logging.logger'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->tree = $DIC['tree'];
@@ -62,16 +65,8 @@ class ilTestExporter extends ilXmlExporter
     {
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $test_export_factory = new ExportFactory(
-            $tst,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questionrepository
-        );
-        $test_export = $test_export_factory->getExporter('xml');
-        $zip = $test_export->buildExportFile();
+        $zip = $this->export_factory->getExporter($tst, ExportImportTypes::XML)
+            ->write();
 
         $this->logger->info(__METHOD__ . ': Created zip file ' . $zip);
         return ''; // Sagt mjansen

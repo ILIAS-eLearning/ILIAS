@@ -23,20 +23,48 @@ namespace ILIAS\Test\ExportImport;
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
  */
-abstract class ResultsExportAbstract implements ExportAsAttachment
+abstract class ResultsExportAbstract implements Exporter
 {
+    protected array $aggregated_data;
+    protected array $additional_fields;
+    protected ?\ilTestEvaluationData $complete_data = null;
+    /**
+     * @var array<string filter_field, mixed filter_value>
+     */
+    protected array $filter = [];
+
     public function __construct(
         protected \ilLanguage $lng,
         protected \ilObjTest $test_obj,
-        protected string $filter_key_participants = \ilTestEvaluationData::FILTER_BY_NONE,
-        protected string $filtertext = '',
-        protected bool $passedonly = false,
+        protected string $filename,
         protected bool $scoredonly = false
     ) {
+        $this->aggregated_data = $test_obj->getAggregatedResultsData();
+        $this->additional_fields = $test_obj->getEvaluationAdditionalFields();
     }
 
     abstract public function deliver(): void;
+    abstract public function write(): ?string;
     abstract protected function getContent(): \ilAssExcelFormatHelper|string;
+
+    public function withFilterByActiveId(int $active_id): void
+    {
+        $this->filter[\ilTestEvaluationData::FILTER_BY_ACTIVE_ID] = $active_id;
+    }
+
+    protected function getCompleteData(): \ilTestEvaluationData
+    {
+        if ($this->complete_data === null) {
+            $filter_key = \ilTestEvaluationData::FILTER_BY_NONE;
+            $filter_text = '';
+            if ($this->filter !== []) {
+                $filter_key = key($this->filter);
+                $filter_text = current($this->filter);
+            }
+            $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $filter_key, $filter_text);
+        }
+        return $this->complete_data;
+    }
 
     protected function getDatarows(\ilObjTest $test_obj): array
     {
@@ -47,11 +75,9 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
         $headerrow = $this->getHeaderRow($this->lng, $test_obj);
         $counter = 1;
         $rows = [];
-        foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
+        foreach ($this->getCompleteData()->getParticipants() as $active_id => $userdata) {
             $datarow = $headerrow;
-            if ($this->passedonly && !$userdata->getPassed()) {
-                continue;
-            }
+
             $datarow2 = [];
             if ($test_obj->getAnonymity()) {
                 $datarow2[] = $counter;
@@ -64,7 +90,7 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
             if ($userdata->getUserID() !== null) {
                 $userfields = \ilObjUser::_lookupFields($userdata->getUserID());
             }
-            foreach ($this->additionalFields as $fieldname) {
+            foreach ($this->additional_fields as $fieldname) {
                 if ($fieldname === 'gender') {
                     $datarow2[] = isset($userfields[$fieldname]) && $userfields[$fieldname] !== ''
                         ? $this->lng->txt('gender_' . $userfields[$fieldname])
@@ -89,7 +115,7 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
             $time_minutes = floor($time_seconds / 60);
             $time_seconds -= $time_minutes * 60;
             $datarow2[] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
-            $time = $userdata->getQuestionsWorkedThrough() ? $this->complete_data->getParticipant(
+            $time = $userdata->getQuestionsWorkedThrough() ? $this->getCompleteData()->getParticipant(
                 $active_id
             )->getTimeOfWork() / $userdata->getQuestionsWorkedThrough() : 0;
             $time_seconds = $time;
@@ -110,8 +136,8 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
                 }
             }
 
-            $median = $this->complete_data->getStatistics()->getStatistics()->median();
-            $pct = $userdata->getMaxpoints() ? $median / $this->complete_data->getParticipant(
+            $median = $this->getCompleteData()->getStatistics()->getStatistics()->median();
+            $pct = $userdata->getMaxpoints() ? $median / $this->getCompleteData()->getParticipant(
                 $active_id
             )->getMaxpoints() * 100.0 : 0;
             $mark = $test_obj->getMarkSchema()->getMatchingMark($pct);
@@ -120,11 +146,11 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
                 $mark_short_name = $mark->getShortName();
             }
             $datarow2[] = $mark_short_name;
-            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank(
+            $datarow2[] = $this->getCompleteData()->getStatistics()->getStatistics()->rank(
                 $userdata->getReached()
             );
-            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank_median();
-            $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->count();
+            $datarow2[] = $this->getCompleteData()->getStatistics()->getStatistics()->rank_median();
+            $datarow2[] = $this->getCompleteData()->getStatistics()->getStatistics()->count();
             $datarow2[] = $median;
 
             $datarow2[] = $userdata->getPassCount();
@@ -165,7 +191,7 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
                             $question_data = ['reached' => 0];
                         }
                         $datarow2[] = $question_data["reached"];
-                        $datarow[] = preg_replace("/<.*?>/", "", $this->complete_data->getQuestionTitle($question["id"]));
+                        $datarow[] = preg_replace("/<.*?>/", "", $this->getCompleteData()->getQuestionTitle($question["id"]));
                     }
                 }
                 if (($counter === 1 && $shown_pass === 0) || $test_obj->isRandomTest()) {
@@ -191,8 +217,8 @@ abstract class ResultsExportAbstract implements ExportAsAttachment
             $datarow[] = $lng->txt("name");
             $datarow[] = $lng->txt("login");
         }
-        if (count($this->additionalFields)) {
-            foreach ($this->additionalFields as $fieldname) {
+        if (count($this->additional_fields)) {
+            foreach ($this->additional_fields as $fieldname) {
                 if (strcmp($fieldname, "exam_id") === 0) {
                     $datarow[] = $lng->txt('exam_id_label');
                     continue;

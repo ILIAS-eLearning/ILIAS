@@ -18,7 +18,8 @@
 
 namespace ILIAS\Test\ExportImport;
 
-interface ExportAsAttachment
+interface Exporter
 {
     public function deliver(): void;
+    public function write(): ?string;
 }

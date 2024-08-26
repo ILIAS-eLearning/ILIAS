@@ -22,62 +22,87 @@ namespace ILIAS\Test\ExportImport;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\FileDelivery\Services as FileDeliveryServices;
 
 class Factory
 {
     public function __construct(
         private readonly \ilLanguage $lng,
+        private readonly \ilDBInterface $db,
+        private readonly \ilBenchmark $bench,
+        private \ilGlobalTemplateInterface $tpl,
         private readonly TestLogger $logger,
         private readonly \ilTree $tree,
         private readonly \ilComponentRepository $component_repository,
         private readonly \ilComponentFactory $component_factory,
+        private readonly FileDeliveryServices $file_delivery,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
     public function getExporter(
         \ilObjTest $test_obj,
-        string $export_type = 'xml'
-    ): ExportAsAttachment|ExportFixedQuestionSet|ExportRandomQuestionSet {
+        Types $export_type,
+        ?string $plugin_type = null
+    ): Exporter {
         switch ($export_type) {
-            case 'scored_test_run':
-                return (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, true))
+            case Types::SCORED_RUN:
+                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_results', true))
                     ->withResultsPage()
                     ->withUserPages();
 
-            case 'all_test_runs':
-                return (new ResultsExportExcel($this->lng, $this->object, $filterby, $filtertext, $passedonly, false))
+            case Types::ALL_RUNS:
+                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_results', false))
                     ->withResultsPage()
                     ->withUserPages();
 
-            case 'all_test_runs_a':
-
-                return (new ResultsExportExcel($this->lng, $this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+            case Types::ALL_RUNS_AGGREGATED:
+                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_aggregated', true))
                     ->withAggregatedResultsPage();
 
-            case 'certificate':
-                $this->exportCertificateArchive();
-                break;
-
-            default:
-                foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
-                    if ($plugin->getFormat() === $export_type) {
-                        $plugin->setTest($test_obj);
-                        return $plugin;
-                    }
-                }
-                if ($test_obj->isFixedTest()) {
-                    return new ExportFixedQuestionSet($test_obj, $export_type);
-                }
-                return new ExportRandomQuestionSet(
-                    $test_obj,
+            case Types::CERTIFICATE_ARCHIVE:
+                return new CertificateExport(
                     $this->lng,
+                    $this->db,
+                    $this->tpl,
+                    $this->file_delivery,
+                    $test_obj
+                );
+
+            case Types::XML:
+            case Types::XML_WITH_RESULTS:
+                $export_class = ExportFixedQuestionSet::class;
+                if (!$test_obj->isFixedTest()) {
+                    $export_class = ExportRandomQuestionSet::class;
+                }
+
+                $export = new $export_class(
+                    $this->lng,
+                    $this->db,
+                    $this->bench,
                     $this->logger,
                     $this->tree,
                     $this->component_repository,
                     $this->questionrepository,
-                    $export_type
+                    $this->file_delivery,
+                    $test_obj
                 );
+
+                if ($export_type === Types::XML_WITH_RESULTS) {
+                    return $export->withResultExportingEnabled(true);
+                }
+                return $export;
+
+            case Types::PLUGIN:
+                if ($plugin_type === null) {
+                    throw new \Exception('No Plugin Type given!');
+                }
+                foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
+                    if ($plugin->getFormat() === $plugin_type) {
+                        $plugin->setTest($test_obj);
+                        return $plugin;
+                    }
+                }
         }
     }
 }

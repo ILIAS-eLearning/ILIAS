@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +19,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests;
+namespace ILIAS\Test\ExportImport;
 
-use ILIAS\Test\ExportImport\ResultsExportExcel;
-
-class ResultsExportExcelTest extends ilTestBaseTestCase
+enum Types: string
 {
-    public function testConstruct(): void
-    {
-        $excel_export = new ResultsExportExcel(
-            $this->getTestObjMock(),
-            '',
-            null
-        );
-        $this->assertInstanceOf(ResultsExportExcel::class, $excel_export);
-    }
+    case SCORED_RUN = 'scored_test_run';
+    case ALL_RUNS = 'all_test_runs';
+    case ALL_RUNS_AGGREGATED = 'aggregated';
+    case CERTIFICATE_ARCHIVE = 'certificate';
+    case XML = 'xml';
+    case XML_WITH_RESULTS = 'xml_with_results';
+    case PLUGIN = 'plugin';
 }

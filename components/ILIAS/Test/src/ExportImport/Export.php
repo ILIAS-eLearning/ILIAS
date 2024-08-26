@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ExportImport;
 
+use ILIAS\Test\Logging\TestLogger;
+
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
+use ILIAS\Language\Language;
+use ILIAS\FileDelivery\Services as FileDeliveryServices;
+
 /**
  * Export class for tests
  *
@@ -31,7 +38,7 @@ namespace ILIAS\Test\ExportImport;
  *
  * @ingroup components\ILIASTest
  */
-abstract class Export
+abstract class Export implements Exporter
 {
     private string $export_dir;
     private string $subdir;
@@ -39,276 +46,195 @@ abstract class Export
     private string $filename;
     private string $resultsfile;
 
-    private ?\ilXmlWriter $xml;
-    private \ilLanguage $lng;
+    private ?\ilXmlWriter $xml = null;
 
     protected bool $result_exporting_enabled = false;
 
     protected ?\ilTestParticipantList $forced_access_filtered_participant_list = null;
-    protected \ilBenchmark $bench;
-
-    protected \ilErrorHandling $err;
-    protected \ilDBInterface $db;
-    protected \ILIAS $ilias;
 
     protected string $inst_id;
 
     public function __construct(
-        public \ilObjTest $test_obj,
-        public string $mode = "xml"
+        protected readonly Language $lng,
+        protected readonly \ilDBInterface $db,
+        protected readonly \ilBenchmark $bench,
+        protected readonly TestLogger $logger,
+        protected readonly \ilTree $tree,
+        protected readonly \ilComponentRepository $component_repository,
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository,
+        protected readonly FileDeliveryServices $file_delivery,
+        protected readonly \ilObjTest $test_obj
     ) {
-        global $DIC;
-        $this->err = $DIC['ilErr'];
-        $this->ilias = $DIC['ilias'];
-        $this->db = $DIC['ilDB'];
-        $this->lng = $DIC['lng'];
-        $this->bench = $DIC['ilBench'];
-
         $this->inst_id = (string) IL_INST_ID;
 
         $date = time();
-        $this->export_dir = $this->test_obj->getExportDirectory();
-
-        switch ($this->mode) {
-            case "results":
-                $this->subdir = $date . "__" . $this->inst_id . "__" .
-                    "tst__results_" . $this->test_obj->getId();
-                break;
-            case "aggregated":
-                $this->subdir = $date . "__" . $this->inst_id . "__" .
-                    "test__aggregated__results_" . $this->test_obj->getId();
-                break;
-            default:
-                $this->subdir = $date . "__" . $this->inst_id . "__" .
-                    "tst" . "_" . $this->test_obj->getId();
-                $this->filename = $this->subdir . ".xml";
-                $this->resultsfile = $date . "__" . $this->inst_id . "__" .
-                    "results" . "_" . $this->test_obj->getId() . ".xml";
-                $this->qti_filename = $date . "__" . $this->inst_id . "__" .
-                    "qti" . "_" . $this->test_obj->getId() . ".xml";
-                break;
-        }
-        $this->filename = $this->subdir . "." . $this->getExtension();
+        $this->export_dir = $test_obj->getExportDirectory();
+        $this->subdir = "{$date}__{$this->inst_id}__tst_{$this->test_obj->getId()}";
+        $this->filename = $this->subdir . '.xml';
+        $this->resultsfile = "{$date}__{$this->inst_id}__results_{$this->test_obj->getId()}.xml";
+        $this->qti_filename = "{$date}__{$this->inst_id}__qti_{$this->test_obj->getId()}.xml";
+        $this->filename = $this->subdir . '.xml';
     }
 
-    public function isResultExportingEnabledForTestExport(): bool
+    abstract protected function initXmlExport();
+    abstract protected function getQuestionIds();
+    abstract protected function populateQuestionSetConfigXml(\ilXmlWriter $xmlWriter);
+    abstract protected function getQuestionsQtiXml();
+
+    private function isResultExportingEnabled(): bool
     {
         return $this->result_exporting_enabled;
     }
 
-    public function setResultExportingEnabledForTestExport(bool $resultExprtingEnabledForTestExport): void
+    public function withResultExportingEnabled(bool $enable): self
     {
-        $this->result_exporting_enabled = $resultExprtingEnabledForTestExport;
+        $clone = clone $this;
+        $clone->result_exporting_enabled = $enable;
+        return $clone;
     }
 
-    public function getForcedAccessFilteredParticipantList(): ?\ilTestParticipantList
+    public function write(): ?string
     {
-        return $this->forced_access_filtered_participant_list;
-    }
-
-    public function setForcedAccessFilteredParticipantList(\ilTestParticipantList $forcedAccessFilteredParticipantList): void
-    {
-        $this->forced_access_filtered_participant_list = $forcedAccessFilteredParticipantList;
-    }
-
-    public function getAccessFilteredParticipantList(): ?\ilTestParticipantList
-    {
-        if ($this->getForcedAccessFilteredParticipantList() instanceof \ilTestParticipantList) {
-            return $this->getForcedAccessFilteredParticipantList();
-        }
-
-        return $this->test_obj->buildStatisticsAccessFilteredParticipantList();
-    }
-
-    public function getExtension(): string
-    {
-        switch ($this->mode) {
-            case "results":
-                return "csv";
-                break;
-            default:
-                return "xml";
-                break;
-        }
-    }
-
-    public function getInstId()
-    {
-        return $this->inst_id;
-    }
-
-    public function buildExportFile(): string
-    {
-        switch ($this->mode) {
-            case "results":
-                return $this->buildExportResultFile();
-                break;
-            default:
-                return $this->buildExportFileXML();
-                break;
-        }
-    }
-
-    public function buildExportResultFile(): string
-    {
-        //get Log File
-        $expDir = $this->test_obj->getExportDirectory();
-
-        // make_directories
-        $this->test_obj->createExportDirectory();
-        \ilFileUtils::makeDir($this->export_dir);
-
-        $expLog = new \ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Of Results");
-
-        $worksheet = (new ResultsExportExcel($this->lng, $this->test_obj, \ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
-            ->withResultsPage()
-            ->withUserPages()
-            ->getContent();
-        $worksheet->writeToFile($this->export_dir . "/" . str_replace($this->getExtension(), "xlsx", $this->filename));
-        // end
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export of Results");
-
-        return $this->export_dir . "/" . $this->filename;
-    }
-
-    abstract protected function initXmlExport();
-
-    abstract protected function getQuestionIds();
-
-    public function buildExportFileXML(): string
-    {
-        $this->bench->start("TestExport", "buildExportFile");
+        $this->bench->start('TestExport', 'write');
 
         $this->initXmlExport();
 
         $this->xml = new \ilXmlWriter();
 
         // set dtd definition
-        $this->xml->xmlSetDtdDef("<!DOCTYPE Test SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
+        $this->xml->xmlSetDtdDef('<!DOCTYPE Test SYSTEM "http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd">');
 
         // set generated comment
-        $this->xml->xmlSetGenCmt("Export of ILIAS Test " .
-            $this->test_obj->getId() . " of installation " . $this->inst_id . ".");
+        $this->xml->xmlSetGenCmt('Export of ILIAS Test '
+            . "{$this->test_obj->getId()} of installation {$this->inst_id}");
 
         // set xml header
         $this->xml->xmlHeader();
 
-        $this->xml->xmlStartTag("ContentObject", ['Type' => 'Test']);
+        $this->xml->xmlStartTag('ContentObject', ['Type' => 'Test']);
 
         // create directories
         $this->test_obj->createExportDirectory();
-        \ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
-        \ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        \ilFileUtils::makeDir($this->export_dir . '/' . $this->subdir);
+        \ilFileUtils::makeDir($this->export_dir . '/' . $this->subdir . '/objects');
 
-        // get Log File
-        $expDir = $this->test_obj->getExportDirectory();
-        $expLog = new \ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
+        $exp_log = new \ilLog(
+            $this->test_obj->getExportDirectory(),
+            'export.log'
+        );
+        $exp_log->delete();
+        $exp_log->setLogFormat('');
+        $exp_log->write(date('[y-m-d H:i:s] ') . 'Start Export');
 
         // write qti file
-        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->qti_filename, "wb");
+        $qti_file = fopen($this->export_dir . '/' . $this->subdir . '/' . $this->qti_filename, 'wb');
         fwrite($qti_file, $this->getQtiXml());
         fclose($qti_file);
 
         // get xml content
-        $this->bench->start("TestExport", "buildExportFile_getXML");
+        $this->bench->start('TestExport', 'write_getXML');
         $this->test_obj->exportPagesXML(
             $this->xml,
             $this->inst_id,
-            $this->export_dir . "/" . $this->subdir,
-            $expLog
+            $this->export_dir . '/' . $this->subdir,
+            $exp_log
         );
-        $this->bench->stop("TestExport", "buildExportFile_getXML");
+        $this->bench->stop('TestExport', 'write_getXML');
 
         $this->populateQuestionSetConfigXml($this->xml);
 
-        $assignmentList = $this->buildQuestionSkillAssignmentList();
-        $this->populateQuestionSkillAssignmentsXml($this->xml, $assignmentList, $this->getQuestionIds());
-        $this->populateSkillLevelThresholdsXml($this->xml, $assignmentList);
+        $assignment_list = $this->buildQuestionSkillAssignmentList();
+        $this->populateQuestionSkillAssignmentsXml($this->xml, $assignment_list, $this->getQuestionIds());
+        $this->populateSkillLevelThresholdsXml($this->xml, $assignment_list);
 
-        $this->xml->xmlEndTag("ContentObject");
+        $this->xml->xmlEndTag('ContentObject');
 
-        $this->bench->start("TestExport", "buildExportFile_dumpToFile");
-        $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
-        $this->bench->stop("TestExport", "buildExportFile_dumpToFile");
+        $this->bench->start('TestExport', 'write_dumpToFile');
+        $this->xml->xmlDumpFile($this->export_dir . '/' . $this->subdir . '/' . $this->filename, false);
+        $this->bench->stop('TestExport', 'write_dumpToFile');
 
-        if ($this->isResultExportingEnabledForTestExport()) {
+        if ($this->isResultExportingEnabled()) {
             $resultwriter = new \ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
-            $this->bench->start("TestExport", "buildExportFile_results");
-            $resultwriter->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->resultsfile, false);
-            $this->bench->stop("TestExport", "buildExportFile_results");
+            $this->bench->start('TestExport', 'write_results');
+            $resultwriter->xmlDumpFile($this->export_dir . '/' . $this->subdir . '/' . $this->resultsfile, false);
+            $this->bench->stop('TestExport', 'write_results');
         }
 
         // add media objects which were added with tiny mce
-        $this->bench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
-        $this->exportXHTMLMediaObjects($this->export_dir . "/" . $this->subdir);
-        $this->bench->stop("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
+        $this->bench->start('QuestionpoolExport', 'write_saveAdditionalMobs');
+        $this->exportXHTMLMediaObjects($this->export_dir . '/' . $this->subdir);
+        $this->bench->stop('QuestionpoolExport', 'write_saveAdditionalMobs');
 
         // zip the file
-        $this->bench->start("TestExport", "buildExportFile_zipFile");
+        $this->bench->start('TestExport', 'write_zipFile');
         \ilFileUtils::zip(
-            $this->export_dir . "/" . $this->subdir,
-            $this->export_dir . "/" . $this->subdir . ".zip"
+            $this->export_dir . '/' . $this->subdir,
+            $this->export_dir . '/' . $this->subdir . '.zip'
         );
-        $this->bench->stop("TestExport", "buildExportFile_zipFile");
+        $this->bench->stop('TestExport', 'write_zipFile');
 
         // destroy writer object
         $this->xml = null;
 
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-        $this->bench->stop("TestExport", "buildExportFile");
+        $exp_log->write(date('[y-m-d H:i:s] ') . 'Finished Export');
+        $this->bench->stop('TestExport', 'write');
 
-        return $this->export_dir . "/" . $this->subdir . ".zip";
+        return $this->export_dir . '/' . $this->subdir . '.zip';
     }
 
-    abstract protected function populateQuestionSetConfigXml(\ilXmlWriter $xmlWriter);
+    public function deliver(): void
+    {
+        if (($path = $this->write()) === null) {
+            return;
+        }
+        $this->file_delivery->legacyDelivery()->attached(
+            $path,
+            null,
+            null,
+            true
+        );
+        $this->file_delivery->deliver();
+    }
 
     protected function getQtiXml()
     {
-        $tstQtiXml = $this->test_obj->toXML();
-        $qstQtiXml = $this->getQuestionsQtiXml();
+        $tst_qti_xml = $this->test_obj->toXML();
+        $qst_qti_xml = $this->getQuestionsQtiXml();
 
-        if (strpos($tstQtiXml, "</section>") !== false) {
-            $qtiXml = str_replace("</section>", "$qstQtiXml</section>", $tstQtiXml);
+        if (strpos($tst_qti_xml, '</section>') !== false) {
+            $qti_xml = str_replace('</section>', "{$qst_qti_xml}</section>", $tst_qti_xml);
         } else {
-            $qtiXml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n$qstQtiXml</section>", $tstQtiXml);
+            $qti_xml = str_replace("<section ident=\"1\"/>", "<section ident=\"1\">\n{$qst_qti_xml}</section>", $tst_qti_xml);
         }
 
-        return $qtiXml;
+        return $qti_xml;
     }
 
-    abstract protected function getQuestionsQtiXml();
-
-    protected function getQuestionQtiXml($questionId): string
+    protected function getQuestionQtiXml(int $question_id): string
     {
-        $questionOBJ = assQuestion::instantiateQuestion($questionId);
-        $xml = $questionOBJ->toXML(false);
+        $question_obj = \assQuestion::instantiateQuestion($question_id);
+        $xml = $question_obj->toXML(false);
 
         // still neccessary? there is an include header flag!?
-        $xml = preg_replace("/<questestinterop>/", "", $xml);
-        $xml = preg_replace("/<\/questestinterop>/", "", $xml);
+        $xml = preg_replace('/<questestinterop>/', '', $xml);
+        $xml = preg_replace('/<\/questestinterop>/', '', $xml);
 
         return $xml;
     }
 
     public function exportXHTMLMediaObjects($a_export_dir): void
     {
-        $mobs = \ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
+        $mobs = \ilObjMediaObject::_getMobsOfObject('tst:html', $this->test_obj->getId());
 
         $intro_page_id = $this->test_obj->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
         if ($intro_page_id !== null) {
-            $mobs += \ilObjMediaObject::_getMobsOfObject("tst:pg", $intro_page_id);
+            $mobs += \ilObjMediaObject::_getMobsOfObject('tst:pg', $intro_page_id);
         }
 
         $concluding_remarks_page_id = $this->test_obj->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
         if ($concluding_remarks_page_id !== null) {
-            $mobs += \ilObjMediaObject::_getMobsOfObject("tst:pg", $concluding_remarks_page_id);
+            $mobs += \ilObjMediaObject::_getMobsOfObject('tst:pg', $concluding_remarks_page_id);
         }
 
         foreach ($mobs as $mob) {
@@ -319,7 +245,7 @@ abstract class Export
             }
         }
         foreach ($this->getQuestionIds() as $question_id) {
-            $mobs = \ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
+            $mobs = \ilObjMediaObject::_getMobsOfObject('qpl:html', $question_id);
             foreach ($mobs as $mob) {
                 if (\ilObjMediaObject::_exists($mob)) {
                     $mob_obj = new \ilObjMediaObject($mob);
@@ -332,38 +258,38 @@ abstract class Export
 
     protected function populateQuestionSkillAssignmentsXml(
         \ilXmlWriter $a_xml_writer,
-        \ilAssQuestionSkillAssignmentList $assignmentList,
+        \ilAssQuestionSkillAssignmentList $assignment_list,
         array $questions
     ) {
-        $skillQuestionAssignmentExporter = new \ilAssQuestionSkillAssignmentExporter();
-        $skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
-        $skillQuestionAssignmentExporter->setQuestionIds($questions);
-        $skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
-        $skillQuestionAssignmentExporter->export();
+        $skill_question_assignment_exporter = new \ilAssQuestionSkillAssignmentExporter();
+        $skill_question_assignment_exporter->setXmlWriter($a_xml_writer);
+        $skill_question_assignment_exporter->setQuestionIds($questions);
+        $skill_question_assignment_exporter->setAssignmentList($assignment_list);
+        $skill_question_assignment_exporter->export();
     }
 
     protected function populateSkillLevelThresholdsXml(
         \ilXmlWriter $a_xml_writer,
-        \ilAssQuestionSkillAssignmentList $assignmentList
+        \ilAssQuestionSkillAssignmentList $assignment_list
     ) {
-        $thresholdList = new \ilTestSkillLevelThresholdList($this->db);
-        $thresholdList->setTestId($this->test_obj->getTestId());
-        $thresholdList->loadFromDb();
+        $threshold_list = new \ilTestSkillLevelThresholdList($this->db);
+        $threshold_list->setTestId($this->test_obj->getTestId());
+        $threshold_list->loadFromDb();
 
-        $skillLevelThresholdExporter = new \ilTestSkillLevelThresholdExporter();
-        $skillLevelThresholdExporter->setXmlWriter($a_xml_writer);
-        $skillLevelThresholdExporter->setAssignmentList($assignmentList);
-        $skillLevelThresholdExporter->setThresholdList($thresholdList);
-        $skillLevelThresholdExporter->export();
+        $skill_level_threshold_exporter = new \ilTestSkillLevelThresholdExporter();
+        $skill_level_threshold_exporter->setXmlWriter($a_xml_writer);
+        $skill_level_threshold_exporter->setAssignmentList($assignment_list);
+        $skill_level_threshold_exporter->setThresholdList($threshold_list);
+        $skill_level_threshold_exporter->export();
     }
 
     protected function buildQuestionSkillAssignmentList(): \ilAssQuestionSkillAssignmentList
     {
-        $assignmentList = new \ilAssQuestionSkillAssignmentList($this->db);
-        $assignmentList->setParentObjId($this->test_obj->getId());
-        $assignmentList->loadFromDb();
-        $assignmentList->loadAdditionalSkillData();
+        $assignment_list = new \ilAssQuestionSkillAssignmentList($this->db);
+        $assignment_list->setParentObjId($this->test_obj->getId());
+        $assignment_list->loadFromDb();
+        $assignment_list->loadAdditionalSkillData();
 
-        return $assignmentList;
+        return $assignment_list;
     }
 }

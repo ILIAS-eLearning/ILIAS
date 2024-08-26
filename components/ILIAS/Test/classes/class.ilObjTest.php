@@ -25,11 +25,8 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-use ILIAS\Test\ExportImport\Factory as ExportFactory;
-use ILIAS\Test\ExportImport\ResultsExportExcel;
-
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -46,6 +43,9 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
+
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
@@ -141,6 +141,8 @@ class ilObjTest extends ilObject
     protected TestLogViewer $log_viewer;
     protected ilTestQuestionSetConfigFactory $question_set_config_factory;
 
+    protected ExportImportFactory $export_factory;
+
     private ilComponentRepository $component_repository;
     private ilComponentFactory $component_factory;
     private Filesystem $filesystem_web;
@@ -179,7 +181,11 @@ class ilObjTest extends ilObject
         $this->marks_repository = $local_dic['marks.repository'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
+<<<<<<< HEAD
         $this->participant_repository = $local_dic['participant.repository'];
+=======
+        $this->export_factory = $local_dic['exportimport.factory'];
+>>>>>>> cd5b55adc8b (Test: Move To Enum For Export Types)
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -2737,7 +2743,7 @@ class ilObjTest extends ilObject
         return ["count" => 0, "points" => 0];
     }
 
-    public function &getCompleteEvaluationData($withStatistics = true, $filterby = "", $filtertext = ""): ilTestEvaluationData
+    public function getCompleteEvaluationData($withStatistics = true, $filterby = '', $filtertext = ''): ilTestEvaluationData
     {
         $data = $this->getUnfilteredEvaluationData();
         if ($withStatistics) {
@@ -2753,7 +2759,7 @@ class ilObjTest extends ilObject
     * @return array An associated array containing the results
     * @access public
     */
-    public function &evalResultsOverview(): array
+    public function evalResultsOverview(): array
     {
         return $this->_evalResultsOverview($this->getTestId());
     }
@@ -2764,7 +2770,7 @@ class ilObjTest extends ilObject
     * @return array An associated array containing the results
     * @access public
     */
-    public function &_evalResultsOverview($test_id): array
+    public function _evalResultsOverview($test_id): array
     {
         $result = $this->db->queryF(
             "SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
@@ -2809,7 +2815,7 @@ class ilObjTest extends ilObject
     * @return array An associated array containing the results
     * @access public
     */
-    public function &evalResultsOverviewOfParticipant($active_id): array
+    public function evalResultsOverviewOfParticipant($active_id): array
     {
         $result = $this->db->queryF(
             "SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
@@ -6770,7 +6776,7 @@ class ilObjTest extends ilObject
     */
     public function getAggregatedResultsData(): array
     {
-        $data = &$this->getCompleteEvaluationData();
+        $data = $this->getCompleteEvaluationData();
         $foundParticipants = $data->getParticipants();
         $results = ["overview" => [], "questions" => []];
         if (count($foundParticipants)) {
@@ -6845,16 +6851,8 @@ class ilObjTest extends ilObject
     */
     public function getXMLZip(): string
     {
-        $expFactory = new ExportFactory(
-            $this,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questionrepository
-        );
-        $test_exp = $expFactory->getExporter('xml');
-        return $test_exp->buildExportFile();
+        return $this->export_factory->getExporter($this, 'xml')
+            ->write();
     }
 
     public function getMailNotification(): int
@@ -6892,22 +6890,17 @@ class ilObjTest extends ilObject
         $owner_id = $this->getOwner();
         $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 
-        $worksheet = (new ResultsExportExcel(
-            $this->lng,
+        $path = $this->export_factory->getExporter(
             $this,
-            ilTestEvaluationData::FILTER_BY_ACTIVE_ID,
-            (string) $active_id,
-            false,
-            true
-        )
-        )->withResultsPage()
+            ExportImportTypes::SCORED_RUN
+        )->withFilterByActiveId($active_id)
+            ->withResultsPage()
             ->withUserPages()
-            ->getContent();
-        $temp_file_path = ilFileUtils::ilTempnam();
+            ->write();
+
         $delivered_file_name = 'result_' . $active_id . '.xlsx';
-        $worksheet->writeToFile($temp_file_path);
         $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($temp_file_path . '.xlsx', $delivered_file_name);
+        $fd->copyAttachmentFile($path, $delivered_file_name);
         $file_names[] = $delivered_file_name;
 
         $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
@@ -6915,7 +6908,7 @@ class ilObjTest extends ilObject
         if (count($file_names)) {
             $fd->unlinkFiles($file_names);
             unset($fd);
-            @unlink($temp_file_path . 'xlsx');
+            @unlink($path);
         }
     }
 

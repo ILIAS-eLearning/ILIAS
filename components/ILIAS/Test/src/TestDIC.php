@@ -152,10 +152,14 @@ class TestDIC extends PimpleContainer
         $dic['exportimport.factory'] = static fn($c): ExportImportFactory =>
             new ExportImportFactory(
                 $DIC['lng'],
+                $DIC['ilDB'],
+                $DIC['ilBench'],
+                $DIC['tpl'],
                 $c['logging.logger'],
                 $DIC['tree'],
                 $DIC['component.repository'],
                 $DIC['component.factory'],
+                $DIC['file_delivery'],
                 $c['question.general_properties.repository']
             );
 
