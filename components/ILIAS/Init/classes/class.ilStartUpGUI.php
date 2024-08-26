@@ -951,7 +951,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $this->getAuthSettingsRefId());
+        $auth_settings_ref_id = (int) $this->dic->database()->fetchAssoc(
+            $this->dic->database()->queryF(
+                "SELECT ref_id FROM object_reference WHERE obj_id = (SELECT obj_id FROM object_data WHERE type = %s)",
+                [ilDBConstants::T_TEXT],
+                ['auth']
+            )
+        )['ref_id'];
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
         //$this->mainTemplate->setCurrentBlock('SyntaxStyle');
         //$this->mainTemplate->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
         //$this->mainTemplate->parseCurrentBlock();
@@ -981,7 +988,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $this->getAuthSettingsRefId());
+        $auth_settings_ref_id = (int) $this->dic->database()->fetchAssoc(
+            $this->dic->database()->queryF(
+                "SELECT ref_id FROM object_reference WHERE obj_id = (SELECT obj_id FROM object_data WHERE type = %s)",
+                [ilDBConstants::T_TEXT],
+                ['auth']
+            )
+        )['ref_id'];
+
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
 
         $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
 
@@ -992,19 +1007,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui->setHeader('');
 
         return $page_gui->showPage();
-    }
-
-    private function getAuthSettingsRefId(): int
-    {
-        $auth_settings_obj_data = $this->dic->database()->fetchAssoc(
-            $this->dic->database()->queryF(
-                "SELECT ref_id FROM object_reference WHERE obj_id = (SELECT obj_id FROM object_data WHERE type = %s)",
-                [ilDBConstants::T_TEXT],
-                ['auth']
-            )
-        );
-
-        return (int) $auth_settings_obj_data['ref_id'];
     }
 
     private function showRegistrationLinks(string $page_editor_html): string
