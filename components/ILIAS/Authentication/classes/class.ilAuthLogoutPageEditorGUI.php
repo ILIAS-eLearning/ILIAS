@@ -79,6 +79,7 @@ class ilAuthLogoutPageEditorGUI
         $post_wrapper = $DIC->http()->wrapper()->post();
         $refinery = $DIC->refinery();
 
+        $this->redirect_source = '';
         if ($query_wrapper->has('redirectSource')) {
             $this->redirect_source = $query_wrapper->retrieve('redirectSource', $refinery->kindlyTo()->string());
         }
