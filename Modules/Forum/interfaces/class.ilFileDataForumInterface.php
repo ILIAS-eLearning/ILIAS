@@ -29,6 +29,10 @@ interface ilFileDataForumInterface
 
     public function setPosId(int $posting_id): void;
 
+    public function getDraftId(): int;
+
+    public function setDraftId(int $draft_id): void;
+
     public function getForumPath(): string;
     /**
      * @return array<string, array{path: string, md5: string, name: string, size: int, ctime: string}>
@@ -43,6 +47,7 @@ interface ilFileDataForumInterface
 
     public function storeUploadedFiles(): bool;
 
+    // @deprecated This is only for the lagacy file handling and should be removed in upcoming release
     public function unlinkFile(string $filename): bool;
 
     /**

@@ -82,11 +82,6 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         return null;
     }
 
-    private function getResourceIdByName(string $filename): ?ResourceIdentification
-    {
-        return $this->getFileDataByMD5Filename(md5($filename));
-    }
-
     public function getObjId(): int
     {
         return $this->obj_id;
@@ -189,10 +184,6 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     public function unlinkFile(string $filename): bool
     {
-        $rid = $this->getResourceIdByName($filename);
-        if ($rid !== null) {
-            $this->irss->manage()->remove($rid, $this->stakeholder);
-        }
         return true;
     }
 
@@ -256,23 +247,13 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         return true;
     }
 
-    public function importFileToCollection(string $path_to_file, ilForumPostDraft $post): void
+    public function getDraftId(): int
     {
-        if ($post->getRCID() === ilForumPost::NO_RCID || empty($post->getRCID())) {
-            $rcid = $this->irss->collection()->id();
-            $post->setRCID($rcid->serialize());
-            $post->update();
-        } else {
-            $rcid = $this->irss->collection()->id($post->getRCID());
-        }
+        return $this->draft_id;
+    }
 
-        $collection = $this->irss->collection()->get($rcid);
-        $rid = $this->irss->manage()->stream(
-            Streams::ofResource(fopen($path_to_file, 'rb')),
-            $this->stakeholder,
-            md5(basename($path_to_file))
-        );
-        $collection->add($rid);
-        $this->irss->collection()->store($collection);
+    public function setDraftId(int $draft_id): void
+    {
+        $this->draft_id = $draft_id;
     }
 }

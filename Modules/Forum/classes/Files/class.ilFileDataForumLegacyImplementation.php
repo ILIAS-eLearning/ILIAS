@@ -318,4 +318,13 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
 
         return $zip_file;
     }
+
+    public function getDraftId(): int
+    {
+        return 0;
+    }
+
+    public function setDraftId(int $draft_id): void
+    {
+    }
 }
