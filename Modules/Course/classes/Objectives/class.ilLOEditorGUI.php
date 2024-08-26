@@ -434,7 +434,9 @@ class ilLOEditorGUI
         $type_qa->addSubItem($start_q);
 
         $passed_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_passed_mode'), 'passed_mode');
-        $passed_mode->setValue((string) $this->getSettings()->getPassedObjectiveMode());
+        $passed_mode->setValue(
+            (string) ($this->getSettings()->getPassedObjectiveMode() ?: ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
+        );
 
         $passed_mode->addOption(
             new ilRadioOption(
