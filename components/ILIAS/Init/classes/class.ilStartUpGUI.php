@@ -951,14 +951,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $auth_settings_ref_id = (int) $this->dic->database()->fetchAssoc(
-            $this->dic->database()->queryF(
-                "SELECT ref_id FROM object_reference WHERE obj_id = (SELECT obj_id FROM object_data WHERE type = %s)",
-                [ilDBConstants::T_TEXT],
-                ['auth']
-            )
-        )['ref_id'];
-        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $this->getAuthSettingsRefId());
+        $auth_settings_objects = ilObject::_getObjectsByType('auth');
+        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
+        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
+        $auth_settings_ref_id = (int) reset($auth_settings_ref_ids);
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
+
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
         $page_gui->setStyleId(0);
@@ -983,14 +981,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        $auth_settings_ref_id = (int) $this->dic->database()->fetchAssoc(
-            $this->dic->database()->queryF(
-                "SELECT ref_id FROM object_reference WHERE obj_id = (SELECT obj_id FROM object_data WHERE type = %s)",
-                [ilDBConstants::T_TEXT],
-                ['auth']
-            )
-        )['ref_id'];
-
+        $auth_settings_objects = ilObject::_getObjectsByType('auth');
+        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
+        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
+        $auth_settings_ref_id = (int) reset($auth_settings_ref_ids);
         $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, $auth_settings_ref_id);
 
         $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
