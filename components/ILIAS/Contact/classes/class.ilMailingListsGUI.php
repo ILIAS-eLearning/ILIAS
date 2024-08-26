@@ -147,7 +147,7 @@ class ilMailingListsGUI
     }
 
     /**
-     * @return int[]|string[]
+     * @return list<int>|list<string>
      */
     private function getMailingListIdsFromRequest(): array
     {
@@ -187,7 +187,9 @@ class ilMailingListsGUI
         if ((string) current($ml_ids) === 'ALL_OBJECTS') {
             $entries = $this->mlists->getAll();
         } else {
-            $entries = $this->mlists->getSelected($ml_ids);
+            $entries = $this->mlists->getSelected(
+                array_map(intval(...), $ml_ids)
+            );
         }
 
         $c_gui = new ilConfirmationGUI();
@@ -271,12 +273,14 @@ class ilMailingListsGUI
             foreach ($entries as $entry) {
                 $ml_ids[] = $entry->getId();
             }
+        } else {
+            $ml_ids = array_map(intval(...), $ml_ids);
         }
 
         $mail_data = $this->umail->retrieveFromStage();
         $lists = [];
         foreach ($ml_ids as $id) {
-            if ($this->mlists->isOwner((int) $id, $this->user->getId()) &&
+            if ($this->mlists->isOwner($id, $this->user->getId()) &&
                 !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists['#il_ml_' . $id] = '#il_ml_' . $id;
             }
@@ -298,7 +302,7 @@ class ilMailingListsGUI
             );
         }
 
-        ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+        ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=search_res');
 
         return true;
     }
@@ -540,6 +544,8 @@ class ilMailingListsGUI
             foreach ($assigned_entries as $entry) {
                 $requested_record_ids[] = $entry['a_id'];
             }
+        } else {
+            $requested_record_ids = array_map(intval(...), $requested_record_ids);
         }
 
         $c_gui = new ilConfirmationGUI();

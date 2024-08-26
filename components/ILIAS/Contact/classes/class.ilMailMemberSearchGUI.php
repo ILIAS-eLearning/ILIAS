@@ -264,15 +264,17 @@ class ilMailMemberSearchGUI
             foreach ($entries as $entry) {
                 $selected_user_ids[] = (int) $entry['user_id'];
             }
+        } else {
+            $selected_user_ids = array_map(intval(...), $selected_user_ids);
         }
 
         $rcps = [];
         foreach ($selected_user_ids as $usr_id) {
-            $rcps[] = ilObjUser::_lookupLogin((int) $usr_id);
+            $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
         if (array_filter($rcps) === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
             $this->showSelectableUsers();
             return;
         }
