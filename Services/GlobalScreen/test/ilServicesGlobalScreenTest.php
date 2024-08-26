@@ -1,24 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 class ilServicesGlobalScreenTest extends TestCase
@@ -131,8 +132,8 @@ class ilServicesGlobalScreenTest extends TestCase
                       ->willReturn('1');
 
         $access_mock->expects($this->once())
-                    ->method('checkAccess')
-                    ->with('read', '', $this->ROOT_FOLDER_ID)
+                    ->method('checkAccessOfUser')
+                    ->with($this->isType('integer'), 'read', '', $this->ROOT_FOLDER_ID)
                     ->willReturn(true);
 
         $this->assertTrue($class->isRepositoryReadable()());
@@ -171,7 +172,7 @@ class ilServicesGlobalScreenTest extends TestCase
                       ->willReturn('0');
 
         $access_mock->expects($this->never())
-                    ->method('checkAccess');
+                    ->method('checkAccessOfUser');
 
         $this->assertFalse($class->isRepositoryReadable()());
         $this->assertFalse(
