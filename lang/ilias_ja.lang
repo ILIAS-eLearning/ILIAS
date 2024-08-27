@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#テストとアセスメント設定
 common#:#adve_frm_post_settings#:#フォーラム投稿
 common#:#adve_general_settings#:#全体設定
 common#:#adve_survey_settings#:#サーベイ設定
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All
 common#:#all_global_roles#:#グローバルの役割
 common#:#all_local_roles#:#ローカルの役割 (全て)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#直接登録
 registration#:#reg_direct_info#:#有効にすると、すべての新規ユーザ登録リクエストは自動承認となります。
 registration#:#reg_disabled#:#登録不可
 registration#:#reg_domain#:#ドメイン
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#自動割当て
 registration#:#reg_email_domains#:#次のemailアドレスドメインは有効です:%s
 registration#:#reg_email_domains_code#:#登録コード付きのメールアドレスは有効

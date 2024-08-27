@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Testimise&hindamise seaded
 common#:#adve_frm_post_settings#:#Foorumi postitused
 common#:#adve_general_settings#:#Üldised seaded
 common#:#adve_survey_settings#:#Küsitluse seaded
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Üldised rollid
 common#:#all_local_roles#:#Kohalikud rollid (kõik)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Kohene registreerumine
 registration#:#reg_direct_info#:#Märgistuse korral kinnitatakse iga avaldus automaatselt.
 registration#:#reg_disabled#:#Registreerimine pole võimalik
 registration#:#reg_domain#:#Domain
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Rolli määramine automaatselt
 registration#:#reg_email_domains#:#The following email address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.

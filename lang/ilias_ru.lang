@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Настройки тестов и упра�
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_survey_settings#:#Survey Settings
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Глобальные статусы
 common#:#all_local_roles#:#Локальные роли (все)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Direct Registration
 registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following email address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.

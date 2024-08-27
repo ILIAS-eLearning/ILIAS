@@ -3459,6 +3459,7 @@ common#:#adve_assessment_settings#:#Nastavitve testov in ocen
 common#:#adve_frm_post_settings#:#Objave na forumu
 common#:#adve_general_settings#:#Splošne nastavitve
 common#:#adve_survey_settings#:#Nastavitve ankete
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#Vsi
 common#:#all_global_roles#:#Globalne vloge
 common#:#all_local_roles#:#Lokalne vloge (vse)
@@ -14653,6 +14654,8 @@ registration#:#reg_direct#:#Neposredna prijava
 registration#:#reg_direct_info#:#Če je vklopljeno, se vsak na novo prijavljen uporabnik samodejno odobri.
 registration#:#reg_disabled#:#Registracija ni možna
 registration#:#reg_domain#:#Domena (npr. '@your_domain.de')
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Samodejna dodelitev vlog
 registration#:#reg_email_domains#:#Veljavni so naslednji elektronski naslovi: % s
 registration#:#reg_email_domains_code#:#Ob uporabi kode so mogoči poljubni e-poštni naslovi.

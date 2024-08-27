@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Настройки на тестовете �
 common#:#adve_frm_post_settings#:#Публикации във форума
 common#:#adve_general_settings#:#Общи настройки
 common#:#adve_survey_settings#:#Настройки на проучването
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All
 common#:#all_global_roles#:#Глобални роли
 common#:#all_local_roles#:#Локални роли (всички)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Директна регистрация###22 06 2022
 registration#:#reg_direct_info#:#Ако е поставена тази отметка, всяка заявка за регистрация на нов потребител се одобрява автоматично.
 registration#:#reg_disabled#:#Не е възможно да се регистрирате###22 06 2022 new variable
 registration#:#reg_domain#:#Домейн###22 06 2022 new variable
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Автоматично присвояване на роли###22 06 2022 new variable
 registration#:#reg_email_domains#:#Следните домейни на имейл адреси са валидни: %s
 registration#:#reg_email_domains_code#:#С регистрационен код всеки имейл адрес е валиден.

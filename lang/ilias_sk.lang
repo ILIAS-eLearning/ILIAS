@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
 common#:#adve_frm_post_settings#:#Zasílání fóra
 common#:#adve_general_settings#:#Obecná nastavení
 common#:#adve_survey_settings#:#Nastavení ankety
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Globální role
 common#:#all_local_roles#:#Lokální role (všechny)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Přímá registrace
 registration#:#reg_direct_info#:#Je-li vybráno, každý požadavek registrace nového uživatele je automaticky schválen.
 registration#:#reg_disabled#:#Registrace není možná
 registration#:#reg_domain#:#Doména
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatické přidělení role
 registration#:#reg_email_domains#:#The following email address domains are valid: %s###28 08 2012 new variable
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.###24 10 2013 new variable

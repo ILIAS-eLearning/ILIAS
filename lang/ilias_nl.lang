@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Toets&Beoordeling instellingen
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Algemene instellingen
 common#:#adve_survey_settings#:#Enquête instellingen
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Globale rollen
 common#:#all_local_roles#:#Lokale rollen(allemaal)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Onmiddellijke registratie
 registration#:#reg_direct_info#:#Als dit gekozen is, worden alle nieuwe registraties automatisch bevestigd.
 registration#:#reg_disabled#:#Registratie niet mogelijk
 registration#:#reg_domain#:#Domein
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatische roltoewijzing
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#Met een registratiecode is ieder e-mailadres geldig.

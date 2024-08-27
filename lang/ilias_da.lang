@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Test & evalueringsindstillinger
 common#:#adve_frm_post_settings#:#Forumindlæg
 common#:#adve_general_settings#:#Generelle indstillinger
 common#:#adve_survey_settings#:#Afstemningsindstillinger
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Globale roller
 common#:#all_local_roles#:#Lokale roller (alle)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Direkte registrering
 registration#:#reg_direct_info#:#Brugeren kan oprette sig selv via 'Opret konto' funktionalitet fra forsiden. Brugeren vil typisk blive tildelt 'Guest' rollen.
 registration#:#reg_disabled#:#Registrering ikke mulig
 registration#:#reg_domain#:#Domæne
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatisk rolletildeling
 registration#:#reg_email_domains#:#Følgende email-domæner er tilladt: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.###16 09 2013 new variable

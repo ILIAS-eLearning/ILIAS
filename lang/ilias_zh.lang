@@ -3460,6 +3460,7 @@ common#:#adve_assessment_settings#:#测试&评估设置
 common#:#adve_frm_post_settings#:#论坛帖子
 common#:#adve_general_settings#:#常规设置
 common#:#adve_survey_settings#:#调查设置
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#全球角色
 common#:#all_local_roles#:#本地角色（所有）
@@ -14654,6 +14655,8 @@ registration#:#reg_direct#:#直接注册
 registration#:#reg_direct_info#:#如果勾选，任何新用户注册请求都将自动批准。
 registration#:#reg_disabled#:#没可能注册
 registration#:#reg_domain#:#域
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#自动角色分配
 registration#:#reg_email_domains#:#以下电子邮件地址域是有效的：%s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.###24 10 2013 new variable

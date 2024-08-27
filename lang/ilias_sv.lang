@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Inställningar för test och bedömning
 common#:#adve_frm_post_settings#:#Inlägg i forumet
 common#:#adve_general_settings#:#Allmänna inställningar
 common#:#adve_survey_settings#:#Inställningar för undersökningar
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#Alla
 common#:#all_global_roles#:#Globala roller
 common#:#all_local_roles#:#Lokala roller (alla)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Direkt registrering
 registration#:#reg_direct_info#:#Om den är påslagen aktiveras alla nyregistrerade användare automatiskt.
 registration#:#reg_disabled#:#Ingen registrering möjlig
 registration#:#reg_domain#:#domän (t.ex. "@din_domän.de")
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatisk rolltilldelning
 registration#:#reg_email_domains#:#Följande domäner för e-postadresser är giltiga
 registration#:#reg_email_domains_code#:#När du använder en kod är alla e-postadresser möjliga.

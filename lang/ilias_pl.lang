@@ -3461,6 +3461,7 @@ common#:#adve_assessment_settings#:#Ustawienia testów i oceniania
 common#:#adve_frm_post_settings#:#Wpisy na forum
 common#:#adve_general_settings#:#Ustawienia ogólne
 common#:#adve_survey_settings#:#Ustawienia ankiet
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Globalne role
 common#:#all_local_roles#:#Lokalne role (wszystkie)
@@ -14655,6 +14656,8 @@ registration#:#reg_direct#:#Rejestracja bezpośrednia
 registration#:#reg_direct_info#:#Jeśli aktywne, to każde nowe żądanie rejestracji jest automatycznie zatwierdzone.
 registration#:#reg_disabled#:#Rejestracja nie jest możliwa
 registration#:#reg_domain#:#Domena
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Automatyczny przydział ról
 registration#:#reg_email_domains#:#Ważne są następujące domeny adresów mailowych: %s
 registration#:#reg_email_domains_code#:#Przy użyciu kodów możliwe są dowolne adresy mailowe.

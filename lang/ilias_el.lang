@@ -3462,6 +3462,7 @@ common#:#adve_assessment_settings#:#Ρυθμίσεις Διαγωνίσματο�
 common#:#adve_frm_post_settings#:#Forum Posts###24 07 2009 new variable
 common#:#adve_general_settings#:#Γενικές ρυθμίσεις
 common#:#adve_survey_settings#:#Ρυθμίσεις έρευνας
+common#:#agree_date#:#Agreed on###27 08 2024 new variable
 common#:#all#:#All###07 02 2020 new variable
 common#:#all_global_roles#:#Καθολικοί ρόλοι
 common#:#all_local_roles#:#Τοπικοί ρόλοι (όλοι)
@@ -14656,6 +14657,8 @@ registration#:#reg_direct#:#Άμεση εγγραφή
 registration#:#reg_direct_info#:#Αν είναι επιλεγμένο, κάθε νέα αίτηση εγγραφής χρήστη εγκρίνεται αυτόματα.
 registration#:#reg_disabled#:#Δεν είναι δυνατή η εγγραφή
 registration#:#reg_domain#:#(Περιοχή αρμοδιότητας) Domain
+registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
 registration#:#reg_email#:#Αυτόματη ανάθεση ρόλου
 registration#:#reg_email_domains#:#The following email address domains are valid: %s###28 08 2012 new variable
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.###24 10 2013 new variable
