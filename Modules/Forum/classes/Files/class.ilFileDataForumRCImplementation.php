@@ -19,27 +19,23 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\UI\NotImplementedException;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
-/**
- * Class ilFileDataForumRCImplementation
- *
- * @author Fabian Schmid <fabian@sr.solutions>
- */
 class ilFileDataForumRCImplementation implements ilFileDataForumInterface
 {
     public const FORUM_PATH_RCID = 'RCID';
+
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\FileUpload\FileUpload $upload;
+    /** @var array<int, ResourceCollection>  */
     private array $collection_cache = [];
+    /** @var array<int, ilForumPost>  */
     private array $posting_cache = [];
     private ilForumPostingFileStakeholder $stakeholder;
 
 
-    public function __construct(private int $obj_id = 0, private int $pos_id = 0)
+    public function __construct(private readonly int $obj_id = 0, private int $pos_id = 0)
     {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
@@ -57,14 +53,16 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         if ($use_cache && isset($this->posting_cache[$posting_id])) {
             return $this->posting_cache[$posting_id];
         }
+
         return $this->posting_cache[$posting_id] = new ilForumPost($posting_id);
     }
 
-    private function getCurrentCollection(): \ILIAS\ResourceStorage\Collection\ResourceCollection
+    private function getCurrentCollection(): ResourceCollection
     {
         if (isset($this->collection_cache[$this->pos_id])) {
             return $this->collection_cache[$this->pos_id];
         }
+
         return $this->collection_cache[$this->pos_id] = $this->irss->collection()->get(
             $this->irss->collection()->id(
                 $this->getCurrentPosting()->getRCID()
@@ -80,6 +78,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 return $identification;
             }
         }
+
         return null;
     }
 
@@ -137,11 +136,16 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         $new_posting = $this->getPostingById($new_posting_id);
         $new_posting->setRCID($new_collection_id->serialize());
         $new_posting->update();
+
         return true;
     }
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
+        if ($posting_ids_to_delete === null) {
+            return true;
+        }
+
         foreach ($posting_ids_to_delete as $post_id) {
             $this->irss->collection()->remove(
                 $this->irss->collection()->id(
@@ -151,6 +155,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 true
             );
         }
+
         return true;
     }
 
@@ -188,7 +193,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 $this->irss->manage()->remove($identification, $this->stakeholder);
             }
         }
-        
+
         return true;
     }
 
@@ -227,9 +232,9 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 $this->irss->manage()->remove($identification, $this->stakeholder);
             }
         }
+
         return true;
     }
-
 
     public function deliverFile(string $file): void
     {
@@ -250,6 +255,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         $this->irss->consume()->downloadCollection($rcid, $zip_filename)
             ->useRevisionTitlesForFileNames(false)
             ->run();
+
         return true;
     }
 

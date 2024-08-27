@@ -16,11 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * This class handles all operations on files for the forum object.
- * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup   ModulesForum
- */
 interface ilFileDataForumInterface
 {
     public function getObjId(): int;
@@ -39,6 +34,9 @@ interface ilFileDataForumInterface
 
     public function ilClone(int $new_obj_id, int $new_posting_id): bool;
 
+    /**
+     * @param list<int>|null $posting_ids_to_delete
+     */
     public function delete(array $posting_ids_to_delete = null): bool;
 
     public function storeUploadedFiles(): bool;

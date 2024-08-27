@@ -427,10 +427,11 @@ class ilForumPostDraft
 
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
+
         $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
             'draft_id',
             $draft_ids,
@@ -452,10 +453,11 @@ class ilForumPostDraft
     {
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
+
         $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
             'draft_id',
             $draft_ids,
@@ -488,10 +490,10 @@ class ilForumPostDraft
 
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
-
-            $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
-            $objFileDataForumDrafts->delete();
         }
+
+        $objFileDataForumDrafts = new ilFileDataForumDrafts();
+        $objFileDataForumDrafts->delete($draft_ids);
 
         $ilDB->manipulate('DELETE FROM frm_drafts_history WHERE ' . $ilDB->in(
             'draft_id',

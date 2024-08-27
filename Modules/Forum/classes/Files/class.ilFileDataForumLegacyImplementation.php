@@ -18,19 +18,15 @@
 
 declare(strict_types=1);
 
-/**
- * This class handles all operations on files for the forum object.
- * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup   ModulesForum
- */
 class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDataForumInterface
 {
     private const FORUM_PATH = 'forum';
+
     private string $forum_path;
     private ilErrorHandling $error;
     private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(private int $obj_id = 0, private int $pos_id = 0)
+    public function __construct(private readonly int $obj_id = 0, private int $pos_id = 0)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -162,11 +158,16 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
                 $this->getForumPath() . '/' . $new_obj_id . '_' . $new_posting_id . '_' . $file['name']
             );
         }
+
         return true;
     }
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
+        if ($posting_ids_to_delete === null) {
+            return true;
+        }
+
         foreach ($this->getFiles() as $file) {
             if (is_file($this->getForumPath() . '/' . $this->getObjId() . '_' . $file['name'])) {
                 unlink($this->getForumPath() . '/' . $this->getObjId() . '_' . $file['name']);
@@ -178,7 +179,7 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
 
     public function storeUploadedFiles(): bool
     {
-        throw new ilException('ilFileDataForumLegacyImplementation::storeUploadedFiles() is not implemented.');
+        throw new DomainException('Not implemented');
     }
 
     public function unlinkFile(string $filename): bool
@@ -261,14 +262,6 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
         }
     }
 
-    private function rotateFiles(string $a_path): void
-    {
-        if (is_file($a_path)) {
-            $this->rotateFiles($a_path . '.old');
-            ilFileUtils::rename($a_path, $a_path . '.old');
-        }
-    }
-
     public function deliverFile(string $file): void
     {
         global $DIC;
@@ -294,10 +287,11 @@ class ilFileDataForumLegacyImplementation extends ilFileData implements ilFileDa
         ilFileDelivery::deliverFileLegacy($zip_file, $post->getSubject() . '.zip', '', false, true, false);
         ilFileUtils::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
         $DIC->http()->close();
+
         return true; // never
     }
 
-    protected function createZipFile(): ?string
+    private function createZipFile(): ?string
     {
         $filesOfPost = $this->getFilesOfPost();
         ksort($filesOfPost);

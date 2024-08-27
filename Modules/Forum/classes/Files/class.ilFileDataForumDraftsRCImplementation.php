@@ -18,32 +18,28 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\UI\NotImplementedException;
 
-/**
- * Class ilFileDataForumRCImplementation
- */
 class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 {
     public const FORUM_PATH_RCID = 'RCID';
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\FileUpload\FileUpload $upload;
+    /** @var array<int, ResourceCollection> */
     private array $collection_cache = [];
+    /** @var array<int, ilForumPostDraft> */
     private array $posting_cache = [];
     private ilForumPostingFileStakeholder $stakeholder;
-    private int $draft_id = 0;
 
-    public function __construct(private int $obj_id = 0, private int $pos_id = 0)
-    {
+    public function __construct(
+        private readonly int $obj_id = 0,
+        private int $draft_id = 0
+    ) {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
         $this->upload = $DIC->upload();
         $this->stakeholder = new ilForumPostingFileStakeholder();
-        $this->draft_id = $this->pos_id;
     }
 
     private function getCurrentDraft(bool $use_cache = true): ilForumPostDraft
@@ -56,15 +52,17 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         if ($use_cache && isset($this->posting_cache[$draft_id])) {
             return $this->posting_cache[$draft_id];
         }
+
         return $this->posting_cache[$draft_id] = ilForumPostDraft::newInstanceByDraftId($draft_id);
     }
 
-    private function getCurrentCollection(): \ILIAS\ResourceStorage\Collection\ResourceCollection
+    private function getCurrentCollection(): ResourceCollection
     {
-        if (isset($this->collection_cache[$this->pos_id])) {
-            return $this->collection_cache[$this->pos_id];
+        if (isset($this->collection_cache[$this->draft_id])) {
+            return $this->collection_cache[$this->draft_id];
         }
-        return $this->collection_cache[$this->pos_id] = $this->irss->collection()->get(
+
+        return $this->collection_cache[$this->draft_id] = $this->irss->collection()->get(
             $this->irss->collection()->id(
                 $this->getCurrentDraft()->getRCID()
             )
@@ -79,12 +77,8 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
                 return $identification;
             }
         }
-        return null;
-    }
 
-    private function getResourceIdByName(string $filename): ?ResourceIdentification
-    {
-        return $this->getFileDataByMD5Filename(md5($filename));
+        return null;
     }
 
     public function getObjId(): int
@@ -94,12 +88,12 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     public function getPosId(): int
     {
-        return $this->pos_id;
+        return $this->draft_id;
     }
 
     public function setPosId(int $posting_id): void
     {
-        $this->pos_id = $posting_id;
+        $this->draft_id = $posting_id;
     }
 
     public function getForumPath(): string
@@ -138,26 +132,30 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
     {
         $current_collection_id = $this->getCurrentCollection()->getIdentification();
         $new_collection_id = $this->irss->collection()->clone($current_collection_id);
-        $new_posting = $this->getDraftById($new_posting_id);
-        $new_posting->setRCID($new_collection_id->serialize());
-        $new_posting->update();
+        $new_draft = $this->getDraftById($new_posting_id);
+        $new_draft->setRCID($new_collection_id->serialize());
+        $new_draft->update();
+
         return true;
     }
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
-        if ($posting_ids_to_delete == null) {
+        // Each element of $posting_ids_to_delete represents a "Draft Id", NOT a "Posting Id"
+        if ($posting_ids_to_delete === null) {
             return true;
         }
-        foreach ($posting_ids_to_delete as $post_id) {
+
+        foreach ($posting_ids_to_delete as $draft_id) {
             $this->irss->collection()->remove(
                 $this->irss->collection()->id(
-                    $this->getDraftById($post_id)->getRCID()
+                    $this->getDraftById($draft_id)->getRCID()
                 ),
                 $this->stakeholder,
                 true
             );
         }
+
         return true;
     }
 
@@ -180,20 +178,16 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
             $collection->add($rid);
         }
         $this->irss->collection()->store($collection);
-        $posting = $this->getCurrentDraft(false);
-        $posting->setRCID($collection->getIdentification()->serialize());
-        $posting->update();
+        $draft = $this->getCurrentDraft(false);
+        $draft->setRCID($collection->getIdentification()->serialize());
+        $draft->update();
 
         return true;
     }
 
     public function unlinkFile(string $filename): bool
     {
-        $rid = $this->getResourceIdByName($filename);
-        if ($rid !== null) {
-            $this->irss->manage()->remove($rid, $this->stakeholder);
-        }
-        return true;
+        throw new DomainException('Not implemented');
     }
 
     /**
@@ -253,26 +247,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         $this->irss->consume()->downloadCollection($rcid, $zip_filename)
                    ->useRevisionTitlesForFileNames(false)
                    ->run();
+
         return true;
-    }
-
-    public function importFileToCollection(string $path_to_file, ilForumPostDraft $post): void
-    {
-        if ($post->getRCID() === ilForumPost::NO_RCID || empty($post->getRCID())) {
-            $rcid = $this->irss->collection()->id();
-            $post->setRCID($rcid->serialize());
-            $post->update();
-        } else {
-            $rcid = $this->irss->collection()->id($post->getRCID());
-        }
-
-        $collection = $this->irss->collection()->get($rcid);
-        $rid = $this->irss->manage()->stream(
-            Streams::ofResource(fopen($path_to_file, 'rb')),
-            $this->stakeholder,
-            md5(basename($path_to_file))
-        );
-        $collection->add($rid);
-        $this->irss->collection()->store($collection);
     }
 }

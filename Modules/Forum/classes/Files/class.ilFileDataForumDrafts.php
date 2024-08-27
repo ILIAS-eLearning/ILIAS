@@ -18,22 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-
-/**
- * This class handles all operations on files for the forum object.
- * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup   ModulesForum
- */
 class ilFileDataForumDrafts implements ilFileDataForumInterface
 {
-    private array $posting_cache = [];
-    private ilFileDataForumInterface $legacy_implementation;
-    private ilFileDataForumInterface $rc_implementation;
+    /** @var array<int, ilForumPostDraft> */
+    private array $draft_cache = [];
+    private ilFileDataForumDraftsLegacyImplementation $legacy_implementation;
+    private ilFileDataForumDraftsRCImplementation $rc_implementation;
 
     public function __construct(
-        private int $obj_id = 0,
-        private int $draft_id = 0
+        private readonly int $obj_id = 0,
+        private readonly int $draft_id = 0
     ) {
         $this->legacy_implementation = new ilFileDataForumDraftsLegacyImplementation(
             $this->obj_id,
@@ -45,18 +39,19 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
         );
     }
 
-    private function getCurrentPosting(): ilForumPostDraft
+    private function getCurrentDraft(): ilForumPostDraft
     {
-        if (isset($this->posting_cache[$this->draft_id])) {
-            return $this->posting_cache[$this->draft_id];
+        if (isset($this->draft_cache[$this->draft_id])) {
+            return $this->draft_cache[$this->draft_id];
         }
-        return $this->posting_cache[$this->draft_id] = ilForumPostDraft::newInstanceByDraftId($this->draft_id);
+
+        return $this->draft_cache[$this->draft_id] = ilForumPostDraft::newInstanceByDraftId($this->draft_id);
     }
 
     private function getImplementation(): ilFileDataForumInterface
     {
-        $posting = $this->getCurrentPosting();
-        if ($posting->getRCID() !== ilForumPost::NO_RCID) {
+        $draft = $this->getCurrentDraft();
+        if ($draft->getRCID() !== ilForumPost::NO_RCID) {
             return $this->rc_implementation;
         }
 
@@ -75,17 +70,7 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
 
     public function setPosId(int $posting_id): void
     {
-        $this->getImplementation()->setPosId($posting_id);
-    }
-
-    public function setDraftId(int $draft_id): void
-    {
-        $this->getImplementation()->setDraftId($draft_id);
-    }
-
-    public function getDraftId(): int
-    {
-        $this->getImplementation()->getDraftId();
+        throw new DomainException('Not implemented');
     }
 
     public function getForumPath(): string
@@ -142,7 +127,6 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
         return $this->getImplementation()->unlinkFilesByMD5Filenames($hashed_filename_or_filenames);
     }
 
-
     public function deliverFile(string $file): void
     {
         $this->getImplementation()->deliverFile($file);
@@ -151,12 +135,5 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
     public function deliverZipFile(): bool
     {
         return $this->getImplementation()->deliverZipFile();
-    }
-
-    public function importPath(string $path_to_file, int $posting_id): void
-    {
-        // Importing is only possible for IRSS based files
-        $this->setPosId($posting_id);
-        $this->rc_implementation->importFileToCollection($path_to_file, $this->getCurrentDraft());
     }
 }

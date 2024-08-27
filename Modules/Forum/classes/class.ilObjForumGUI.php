@@ -4070,9 +4070,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
                 $this->deleteMobsOfDraft($draft->getDraftId(), $draft->getPostMessage());
 
-                $draftFileData = new ilFileDataForumDrafts(0, $draft->getDraftId());
-                $draftFileData->delete();
-
                 $GLOBALS['ilAppEventHandler']->raise(
                     'Modules/Forum',
                     'deletedDraft',
@@ -4082,6 +4079,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         'is_file_upload_allowed' => $this->objProperties->isFileUploadAllowed(),
                     ]
                 );
+
+                $draftFileData = new ilFileDataForumDrafts();
+                $draftFileData->delete([$draft->getDraftId()]);
 
                 $draft->deleteDraft();
             }
@@ -5402,7 +5402,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->objProperties->isAnonymized()
                 );
 
-                // generateDraft
                 $update_draft = new ilForumPostDraft(
                     $this->user->getId(),
                     $this->objCurrentPost->getId(),
@@ -5534,8 +5533,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->deleteMobsOfDraft($draft_obj->getDraftId(), $draft_obj->getPostMessage());
 
-        $objFileDataForumDrafts = new ilFileDataForumDrafts($this->object->getId(), $draft_obj->getDraftId());
-        $objFileDataForumDrafts->delete();
+        $objFileDataForumDrafts = new ilFileDataForumDrafts($this->object->getId());
+        $objFileDataForumDrafts->delete([$draft_obj->getDraftId()]);
 
         if (ilForumPostDraft::isSavePostDraftAllowed()) {
             $GLOBALS['ilAppEventHandler']->raise(

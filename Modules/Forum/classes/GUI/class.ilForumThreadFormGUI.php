@@ -125,6 +125,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             if ($this->isDraftContext && $this->draftId > 0) {
                 $threadDraft = ilForumPostDraft::newInstanceByDraftId($this->draftId);
                 if ($threadDraft->getDraftId() > 0) {
+                    //
                     $draftFileData = new ilFileDataForumDrafts(0, $threadDraft->getDraftId());
                     if ($draftFileData->getFilesOfPost() !== []) {
                         $existingFileSelection = new ilCheckboxGroupInputGUI(

@@ -18,22 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
-
-/**
- * This class handles all operations on files for the forum object.
- * @author    Stefan Meyer <meyer@leifos.com>
- * @ingroup   ModulesForum
- */
 class ilFileDataForum implements ilFileDataForumInterface
 {
+    /** @var array<int, ilForumPost> */
     private array $posting_cache = [];
-    private ilFileDataForumInterface $legacy_implementation;
-    private ilFileDataForumInterface $rc_implementation;
+    private ilFileDataForumLegacyImplementation $legacy_implementation;
+    private ilFileDataForumRCImplementation $rc_implementation;
 
     public function __construct(
-        private int $obj_id = 0,
-        private int $pos_id = 0
+        private readonly int $obj_id = 0,
+        private readonly int $pos_id = 0
     ) {
         $this->legacy_implementation = new ilFileDataForumLegacyImplementation(
             $this->obj_id,
@@ -50,6 +44,7 @@ class ilFileDataForum implements ilFileDataForumInterface
         if (isset($this->posting_cache[$this->pos_id])) {
             return $this->posting_cache[$this->pos_id];
         }
+
         return $this->posting_cache[$this->pos_id] = new ilForumPost($this->pos_id);
     }
 
