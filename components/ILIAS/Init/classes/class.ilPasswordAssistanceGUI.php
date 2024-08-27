@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 
-class ilPasswordAssistanceGUI
+class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
 {
     private const PERMANENT_LINK_TARGET_PW = 'pwassist';
     private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
@@ -64,6 +64,24 @@ class ilPasswordAssistanceGUI
         $this->help->setScreenIdComponent('init');
     }
 
+    private function retrieveRequestedKey(): string
+    {
+        $key = $this->http->wrapper()->query()->retrieve(
+            'key',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(
+                    $this->http->wrapper()->post()->retrieve(
+                        'key',
+                        $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+                    )
+                )
+            ])
+        );
+
+        return $key;
+    }
+
     private function getClientId(): string
     {
         return CLIENT_ID;
@@ -85,11 +103,6 @@ class ilPasswordAssistanceGUI
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
-        // And load the 'pwassist' language module
-        $key = $this->http->wrapper()->query()->retrieve(
-            'key',
-            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-        );
         $this->lng->loadLanguageModule('pwassist');
         $cmd = $this->ctrl->getCmd() ?? '';
         $next_class = $this->ctrl->getNextClass($this);
@@ -101,13 +114,23 @@ class ilPasswordAssistanceGUI
                     return;
                 }
 
-                if ($key !== '') {
-                    $this->showAssignPasswordForm();
+                if ($this->retrieveRequestedKey() !== '') {
+                    $this->showAssignPasswordForm(null, $this->retrieveRequestedKey());
                 } else {
                     $this->showAssistanceForm();
                 }
                 break;
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return ['submitAssignPasswordForm'];
     }
 
     private function getBaseUrl(): string
@@ -496,10 +519,7 @@ class ilPasswordAssistanceGUI
         $this->help->setSubScreenId('password_input');
 
         if ($pwassist_id === '') {
-            $pwassist_id = $this->http->wrapper()->query()->retrieve(
-                'key',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-            );
+            $pwassist_id = $this->retrieveRequestedKey();
         }
 
         require_once 'cli/inc.pwassist_session_handler.php';
