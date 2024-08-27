@@ -99,7 +99,9 @@ try {
 
 function send($response): void
 {
-    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
+    if (isset($_SERVER["HTTP_ORIGIN"]) && $_SERVER["HTTP_ORIGIN"] != "") {
+        header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
+    }
     header('Access-Control-Allow-Credentials: true');
     header('Content-type:application/json;charset=utf-8');
     echo json_encode($response);
