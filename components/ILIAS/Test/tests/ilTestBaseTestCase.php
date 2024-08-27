@@ -31,13 +31,14 @@ use ILIAS\DI\Container;
 class ilTestBaseTestCase extends TestCase
 {
     use ilTestBaseTestCaseTrait;
-    public const MOCKED_METHOD_WITHOUT_OUTPUT = "MOCKED_METHOD_WITHOUT_OUTPUT";
+
+    public const MOCKED_METHOD_WITHOUT_OUTPUT = 'MOCKED_METHOD_WITHOUT_OUTPUT';
     protected ?Container $backup_dic = null;
     protected ?Container $dic = null;
 
-
     /**
      * @inheritdoc
+     * @throws MockObjectException
      */
     protected function setUp(): void
     {
@@ -169,6 +170,9 @@ class ilTestBaseTestCase extends TestCase
         return new $className(...$parameters);
     }
 
+    /**
+     * @throws MockObjectException
+     */
     private function getOrCreateMock(string $parameterType): PHPUnit\Framework\MockObject\MockObject
     {
         if(isset($this->services[$parameterType])) {
