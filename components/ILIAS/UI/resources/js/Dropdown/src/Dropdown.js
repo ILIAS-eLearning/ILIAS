@@ -78,8 +78,23 @@ export default class Dropdown {
     this.hide();
   };
 
+  #align = () => {
+    const availableWidth = this.#document.documentElement.clientWidth;
+    const buttonPosition = this.#button.getBoundingClientRect().left;
+    const listWidth = this.#list.getBoundingClientRect().width;
+    if (buttonPosition + listWidth > availableWidth) {
+      this.#list.classList.remove('dropdown-menu__right');
+      this.#list.classList.add('dropdown-menu__left');
+    } else {
+      this.#list.classList.remove('dropdown-menu__left');
+      this.#list.classList.add('dropdown-menu__right');
+      
+    }
+  };
+
   show() {
     this.#list.style.display = 'block';
+    this.#align();
     this.#button.setAttribute('aria-expanded', 'true');
     this.#document.addEventListener('keydown', this.#hideOnEscape);
     this.#document.addEventListener('click', this.#hideOnClick);
