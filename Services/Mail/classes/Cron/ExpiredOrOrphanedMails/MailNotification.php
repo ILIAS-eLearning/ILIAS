@@ -89,7 +89,7 @@ class MailNotification extends ilMimeMailNotification
             $this->appendBody($this->buildFolderTitle($folder_object) . ':');
             $this->appendBody("\n");
             foreach ($folder_object->getOrphanedMailObjects() as $mail_object) {
-                $this->appendBody('- ' . $mail_object->getMailSubject() ?? $this->getLanguage()->txt('not_available'));
+                $this->appendBody('- ' . ($mail_object->getMailSubject() ?? $this->getLanguage()->txt('not_available')));
                 $this->appendBody("\n");
             }
 
