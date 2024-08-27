@@ -322,11 +322,29 @@ class ilObjExercise extends ilObject
         if (!parent::delete()) {
             return false;
         }
-        // put here course specific stuff
-        $ilDB->manipulate("DELETE FROM exc_data " .
-            "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
 
-        ilExcCriteriaCatalogue::deleteByParent($this->getId());
+        $obj_id = $ilDB->quote($this->getId(), "integer");
+        $queries = [];
+        $queries[] = "DELETE FROM exc_mem_ass_status WHERE ass_id IN (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_assignment_peer WHERE ass_id IN (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_ass_wiki_team WHERE id IN (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_idl WHERE ass_id IN (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_members WHERE obj_id = $obj_id";
+        $queries[] = "DELETE FROM exc_returned WHERE obj_id = $obj_id";
+        $queries[] = "DELETE FROM exc_usr_tutor WHERE obj_id = $obj_id";
+        $queries[] = "DELETE FROM exc_crit WHERE parent in (SELECT id FROM exc_crit_cat WHERE parent = $obj_id)";
+        $queries[] = "DELETE FROM exc_crit_cat WHERE parent = $obj_id";
+        $queries[] = "DELETE FROM exc_ass_reminders WHERE ass_id in (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_ass_file_order WHERE assignment_id in (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM il_exc_team_log WHERE team_id in (select team_id from il_exc_team WHERE ass_id in (SELECT id FROM exc_assignment WHERE exc_id = $obj_id))";
+        $queries[] = "DELETE FROM il_exc_team WHERE ass_id IN (SELECT id FROM exc_assignment WHERE exc_id = $obj_id)";
+        $queries[] = "DELETE FROM exc_assignment WHERE exc_id = $obj_id";
+        $queries[] = "DELETE FROM exc_data WHERE obj_id = $obj_id";
+
+        foreach($queries as $query) {
+            $this->obj_log->debug($query);
+            $ilDB->manipulate($query);
+        }
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
