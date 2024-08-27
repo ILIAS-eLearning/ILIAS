@@ -267,13 +267,13 @@ class ilForumMailNotification extends ilMailNotification
 
         $posting_link = sprintf(
             $language_text,
-            ilUtil::_getHttpPath() . '/goto.php?target=frm_' . $forum_parameters . '&client_id=' . CLIENT_ID
+            rtrim(ilUtil::_getHttpPath(), '/') . '/goto.php?target=frm_' . $forum_parameters . '&client_id=' . CLIENT_ID
         ) . "\n\n";
 
         $posting_link .= sprintf(
             $this->getLanguageText('forums_notification_intro'),
             $ilClientIniFile->readVariable('client', 'name'),
-            ilUtil::_getHttpPath() . '/?client_id=' . CLIENT_ID
+            rtrim(ilUtil::_getHttpPath(), '/') . '/?client_id=' . CLIENT_ID
         ) . "\n\n";
 
         $this->logger->debug(
