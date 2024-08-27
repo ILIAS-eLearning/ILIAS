@@ -20,31 +20,43 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
+use ilAccess;
+use ilCertificateFormRepository;
+use ilCertificateGUI;
+use ilCertificatePlaceholderDescription;
+use ilCertificateSettingsFormRepository;
+use ilCtrlInterface;
+use ilDatabaseException;
+use ilException;
+use ilLanguage;
+use ilPropertyFormGUI;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ilToolbarGUI;
+use ilWACException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class CertificateSettingsTestFormRepository implements \ilCertificateFormRepository
+class CertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private readonly \ilCertificateSettingsFormRepository $settings_form_factory;
+    private readonly ilCertificateSettingsFormRepository $settings_form_factory;
 
     public function __construct(
         int $object_id,
         string $certificate_path,
         bool $has_additional_elements,
-        \ilLanguage $language,
-        \ilCtrlInterface $ctrl,
-        \ilAccess $access,
-        \ilToolbarGUI $toolbar,
-        \ilCertificatePlaceholderDescription $placeholder_description_object,
-        ?\ilCertificateSettingsFormRepository $settings_form_repository = null
+        ilLanguage $language,
+        ilCtrlInterface $ctrl,
+        ilAccess $access,
+        ilToolbarGUI $toolbar,
+        ilCertificatePlaceholderDescription $placeholder_description_object,
+        ?ilCertificateSettingsFormRepository $settings_form_repository = null
     ) {
         global $DIC;
 
-        $this->settings_form_factory = $settings_form_repository ?? new \ilCertificateSettingsFormRepository(
+        $this->settings_form_factory = $settings_form_repository ?? new ilCertificateSettingsFormRepository(
             $object_id,
             $certificate_path,
             $has_additional_elements,
@@ -59,21 +71,14 @@ class CertificateSettingsTestFormRepository implements \ilCertificateFormReposit
     }
 
     /**
-     * @throws FileAlreadyExistsException
-     * @throws FileNotFoundException
-     * @throws IOException
-     * @throws \ilDatabaseException
-     * @throws \ilException
-     * @throws \ilWACException
+     * @throws FileAlreadyExistsException|FileNotFoundException|IOException|ilDatabaseException|ilException|ilWACException
      */
-    public function createForm(\ilCertificateGUI $certificateGUI): \ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         return $this->settings_form_factory->createForm($certificateGUI);
     }
 
-    public function save(array $formFields): void
-    {
-    }
+    public function save(array $formFields): void {}
 
     /**
      * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}

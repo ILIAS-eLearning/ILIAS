@@ -20,156 +20,82 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use PHPUnit\Framework\TestCase;
+use ilCertificateGUI;
+use ilCertificateSettingsFormRepository;
+use ilPropertyFormGUI;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class CertificateSettingsTestFormRepositoryTest extends TestCase
+class CertificateSettingsTestFormRepositoryTest extends ilTestBaseTestCase
 {
-    public function testCreate(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        $form_mock = $this->getMockBuilder(\ilPropertyFormGUI::class)
+        $certificate_settings_test_form_repository = $this->createInstanceOf(CertificateSettingsTestFormRepository::class);
+        $this->assertInstanceOf(CertificateSettingsTestFormRepository::class, $certificate_settings_test_form_repository);
+    }
+
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testCreateForm(): void
+    {
+        $form_mock = $this->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $language = $this->getMockBuilder(\ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $controller = $this->getMockBuilder(\ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(\ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $toolbar = $this->getMockBuilder(\ilToolbarGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $placeholder_description_object = $this->getMockBuilder(\ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $settings_form_factory = $this->getMockBuilder(\ilCertificateSettingsFormRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $settings_form_factory = $this->createMock(ilCertificateSettingsFormRepository::class);
         $settings_form_factory
             ->expects($this->once())
             ->method('createForm')
             ->willReturn($form_mock);
+        $il_certificate_gui = $this->createMock(ilCertificateGUI::class);
 
-        $repository = new CertificateSettingsTestFormRepository(
-            100,
-            '/some/where/',
-            false,
-            $language,
-            $controller,
-            $access,
-            $toolbar,
-            $placeholder_description_object,
-            $settings_form_factory
-        );
+        $certificate_settings_test_form_repository = $this->createInstanceOf(CertificateSettingsTestFormRepository::class, [
+            'settings_form_repository' => $settings_form_factory
+        ]);
 
-        $gui_mock = $this->getMockBuilder(\ilCertificateGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $result = $repository->createForm($gui_mock);
-
-        $this->assertSame($form_mock, $result);
+        $this->assertEquals($form_mock, $certificate_settings_test_form_repository->createForm($il_certificate_gui));
     }
 
     /**
-     * @doesNotPerformAssertions
+     * @throws ReflectionException|Exception
      */
     public function testSave(): void
     {
-        $language = $this->getMockBuilder(\ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $controller = $this->getMockBuilder(\ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(\ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $toolbar = $this->getMockBuilder(\ilToolbarGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $placeholderDescriptionObject = $this->getMockBuilder(\ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $settingsFormFactory = $this->getMockBuilder(\ilCertificateSettingsFormRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        new CertificateSettingsTestFormRepository(
-            100,
-            '/some/where/',
-            false,
-            $language,
-            $controller,
-            $access,
-            $toolbar,
-            $placeholderDescriptionObject,
-            $settingsFormFactory
-        );
+        $this->assertNull($this->createInstanceOf(CertificateSettingsTestFormRepository::class)->save([]));
     }
 
-    public function testFormFieldData(): void
+    /**
+     * @dataProvider fetchFormFieldDataProvider
+     * @throws Exception|ReflectionException
+     */
+    public function testFetchFormFieldData(string $input, array $output): void
     {
-        $language = $this->getMockBuilder(\ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $controller = $this->getMockBuilder(\ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(\ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $toolbar = $this->getMockBuilder(\ilToolbarGUI::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $placeholderDescriptionObject = $this->getMockBuilder(\ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $settingsFormFactory = $this->getMockBuilder(\ilCertificateSettingsFormRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $settingsFormFactory
+        $settings_form_factory = $this->createMock(ilCertificateSettingsFormRepository::class);
+        $settings_form_factory
             ->expects($this->once())
             ->method('fetchFormFieldData')
-            ->willReturn(['something' => 'value']);
+            ->with($input)
+            ->willReturn($output);
+        $certificate_settings_test_form_repository = $this->createInstanceOf(CertificateSettingsTestFormRepository::class, [
+            'settings_form_repository' => $settings_form_factory
+        ]);
 
-        $repository = new CertificateSettingsTestFormRepository(
-            100,
-            '/some/where/',
-            false,
-            $language,
-            $controller,
-            $access,
-            $toolbar,
-            $placeholderDescriptionObject,
-            $settingsFormFactory
-        );
+        $this->assertEquals($output, $certificate_settings_test_form_repository->fetchFormFieldData($input));
+    }
 
-        $result = $repository->fetchFormFieldData('SomeContent');
-
-        $this->assertSame(['something' => 'value'], $result);
+    public static function fetchFormFieldDataProvider(): array
+    {
+        return [
+            'empty' => ['', []],
+            'string' => ['string', ['string']],
+            'strING' => ['strING', ['strING']]
+        ];
     }
 }
