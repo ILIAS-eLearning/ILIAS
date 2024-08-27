@@ -72,7 +72,7 @@ class ilCmiXapiSettingsGUI
             $this->dic->tabs()->addSubTab(
                 self::SUBTAB_ID_CERTIFICATE,
                 $this->language->txt(self::SUBTAB_ID_CERTIFICATE),
-                $this->dic->ctrl()->getLinkTargetByClass(ilCertificateGUI::class, 'certificateEditor')
+                $this->dic->ctrl()->getLinkTargetByClass([ilCmiXapiSettingsGUI::class,ilCertificateGUI::class], 'certificateEditor')
             );
         }
     }
