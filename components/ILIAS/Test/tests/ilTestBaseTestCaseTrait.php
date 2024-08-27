@@ -108,6 +108,9 @@ trait ilTestBaseTestCaseTrait
         if (!defined("IL_INST_ID")) {
             define("IL_INST_ID", 'someid');
         }
+        if (!defined("CLIENT_WEB_DIR")) {
+            define("CLIENT_WEB_DIR", './public/data');
+        }
     }
 
     /**
