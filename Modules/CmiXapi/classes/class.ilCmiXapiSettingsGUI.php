@@ -181,6 +181,16 @@ class ilCmiXapiSettingsGUI
             $lpDeterioration->setChecked(true);
         }
 
+        //
+        // presentation
+        //
+        $item = new ilFormSectionHeaderGUI();
+        $item->setTitle($this->language->txt("obj_presentation"));
+        $form->addItem($item);
+
+        // tile image
+        $this->dic->object()->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
         if (!$this->object->isSourceTypeExternal()) {
             $item = new ilFormSectionHeaderGUI();
             $item->setTitle($this->language->txt("launch_options"));
@@ -669,6 +679,9 @@ class ilCmiXapiSettingsGUI
             $this->object->setHighscoreMode((int) $form->getInput('highscore_mode'));
             $this->object->setHighscoreTopNum((int) $form->getInput('highscore_top_num'));
         }
+
+        // tile image
+        $this->dic->object()->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         $this->object->update();
     }
