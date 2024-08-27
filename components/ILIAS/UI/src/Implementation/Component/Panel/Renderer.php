@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Panel;
 
@@ -114,7 +114,15 @@ class Renderer extends AbstractComponentRenderer
     protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.report.html", true, true);
+
+        $actions = $component->getActions();
+
         $tpl->setVariable("TITLE", $component->getTitle());
+
+        if ($actions !== null) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
     }
