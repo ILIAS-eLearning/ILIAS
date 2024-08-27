@@ -7147,6 +7147,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',2,'2
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',3,'2023-12-12 16:39:38.886720','2023-12-12 16:39:38.887276');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2024-08-27 13:48:37.202984','2024-08-27 13:48:37.207786');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-12-12 16:39:38.907450','2023-12-12 16:39:38.912966');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-12-12 16:39:38.913604','2023-12-12 16:39:38.919087');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LegalDocuments\\Setup\\UpdateSteps',1,'2023-12-12 16:39:38.920097','2023-12-12 16:39:38.970055');
@@ -7255,6 +7256,9 @@ INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',5,'2023-12-12 16:39
 INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',6,'2023-12-12 16:39:40.651967','2023-12-12 16:39:40.657337');
 INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',7,'2023-12-12 16:39:40.658051','2023-12-12 16:39:40.659947');
 INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',8,'2023-12-12 16:39:40.660599','2023-12-12 16:39:40.662327');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',9,'2024-08-27 13:48:37.211327','2024-08-27 13:48:37.211612');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',10,'2024-08-27 13:48:37.211956','2024-08-27 13:48:37.212429');
+INSERT INTO `il_db_steps` VALUES ('ilMDCopyrightUpdateSteps',11,'2024-08-27 13:48:37.212704','2024-08-27 13:48:37.213194');
 INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',1,'2023-12-12 16:39:40.476845','2023-12-12 16:39:40.482604');
 INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',2,'2023-12-12 16:39:40.483210','2023-12-12 16:39:40.493505');
 INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',3,'2023-12-12 16:39:40.494133','2023-12-12 16:39:40.504527');
@@ -7368,6 +7372,7 @@ INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',1,'2023-12-12 16:39:41.
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',2,'2023-12-12 16:39:41.393125','2023-12-12 16:39:41.414590');
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',3,'2023-12-12 16:39:41.415252','2023-12-12 16:39:41.420387');
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',4,'2024-01-31 14:38:25.421546','2024-01-31 14:38:25.426800');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',5,'2024-08-27 13:48:37.218362','2024-08-27 13:48:37.221598');
 INSERT INTO `il_db_steps` VALUES ('ilUserDB90',1,'2023-12-12 16:39:41.421460','2023-12-12 16:39:41.427774');
 INSERT INTO `il_db_steps` VALUES ('ilUserDB90',2,'2023-12-12 16:39:41.428399','2023-12-12 16:39:41.440313');
 INSERT INTO `il_db_steps` VALUES ('ilUserDB90',3,'2023-12-12 16:39:41.441020','2023-12-12 16:39:41.446411');
@@ -8253,7 +8258,7 @@ INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (by-nd)
 INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (by-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
 INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (by)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
 INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','','This work has all rights reserved by the owner.','en',0,1,1,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (8,'Public Domain','',NULL,NULL,0,1,0,0,1,'This work is free of known copyright restrictions.','http://creativecommons.org/publicdomain/zero/1.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg','CC0',1,'');
+INSERT INTO `il_md_cpr_selections` VALUES (8,'Public Domain','Creative work to which no exclusive intellectual property rights apply.',NULL,NULL,0,1,0,0,1,'Public Domain','http://creativecommons.org/publicdomain/zero/1.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg','CC0',1,'');
 
 --
 -- Table structure for table `il_md_cpr_selections_seq`
@@ -11255,7 +11260,7 @@ CREATE TABLE `ldap_server_settings` (
   `tls` int(11) NOT NULL DEFAULT 0,
   `bind_type` int(11) NOT NULL DEFAULT 0,
   `bind_user` varchar(255) DEFAULT NULL,
-  `bind_pass` varchar(32) DEFAULT NULL,
+  `bind_pass` varchar(100) DEFAULT NULL,
   `search_base` varchar(255) DEFAULT NULL,
   `user_scope` tinyint(4) NOT NULL DEFAULT 0,
   `user_attribute` varchar(255) DEFAULT NULL,
@@ -11273,7 +11278,7 @@ CREATE TABLE `ldap_server_settings` (
   `sync_per_cron` tinyint(4) NOT NULL DEFAULT 0,
   `role_sync_active` tinyint(4) NOT NULL DEFAULT 0,
   `role_bind_dn` varchar(255) DEFAULT NULL,
-  `role_bind_pass` varchar(32) DEFAULT NULL,
+  `role_bind_pass` varchar(100) DEFAULT NULL,
   `migration` tinyint(4) NOT NULL DEFAULT 0,
   `authentication` tinyint(4) NOT NULL DEFAULT 1,
   `authentication_type` tinyint(4) NOT NULL DEFAULT 0,
@@ -13583,7 +13588,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-07-30 14:37:06','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-08-27 13:48:37','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20398,7 +20403,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','9.3.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','9.4.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -23942,9 +23947,10 @@ CREATE TABLE `usr_account_codes_seq` (
 --
 
 CREATE TABLE `usr_change_email_token` (
-  `token` varchar(32) DEFAULT NULL,
+  `token` varchar(32) NOT NULL,
   `new_email` varchar(256) DEFAULT NULL,
-  `valid_until` bigint(20) DEFAULT NULL
+  `valid_until` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`token`)
 ) ;
 
 --
@@ -25117,4 +25123,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-07-30 14:37:07
+-- Dump completed on 2024-08-27 13:48:38
