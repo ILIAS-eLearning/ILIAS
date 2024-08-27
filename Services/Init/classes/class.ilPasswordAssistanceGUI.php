@@ -519,10 +519,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         $this->help->setSubScreenId('password_input');
 
         if ($pwassist_id === '') {
-            $pwassist_id = $this->http->wrapper()->query()->retrieve(
-                'key',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-            );
+            $pwassist_id = $this->retrieveRequestedKey();
         }
 
         require_once 'include/inc.pwassist_session_handler.php';
