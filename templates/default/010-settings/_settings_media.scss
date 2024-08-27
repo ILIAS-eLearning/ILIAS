@@ -1,2 +1,4 @@
 //** if left unchanged, you have to copy all the background images to your skin/images folder. To use the delos background images in your skin, please change this value (in custom less data or in variables.scss of your custom skin) to "../../../../templates/default/images/"
 $il-background-images-path: "./images/" !default;
+//** this should point to bootstrap's glyphicon-halfling font
+$il-icon-font-path: "./fonts/bootstrap/" !default;

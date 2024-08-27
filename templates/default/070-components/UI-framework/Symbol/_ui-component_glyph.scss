@@ -1,7 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
 
-$il-icon-font-path: "./fonts/bootstrap/";
 $il-glyph-color: $il-link-color;
 $il-glyph-hover-color: $il-link-hover-color;
 $il-glyph-highlighted-color: $il-warning-color;
@@ -40,7 +39,7 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
   }
-  
+
   // Individual icons
   .glyphicon-asterisk               { &:before { content: "\002a"; } }
   .glyphicon-plus                   { &:before { content: "\002b"; } }
