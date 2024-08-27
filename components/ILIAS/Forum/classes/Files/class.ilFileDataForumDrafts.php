@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilFileDataForumDrafts implements ilFileDataForumInterface
 {
-    private readonly ilFileDataForumInterface $rc_implementation;
+    private readonly ilFileDataForumDraftsRCImplementation $rc_implementation;
 
     public function __construct(
         private readonly int $obj_id = 0,
@@ -32,39 +32,24 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
         );
     }
 
-    private function getImplementation(): ilFileDataForumInterface
-    {
-        return $this->rc_implementation;
-    }
-
     public function getObjId(): int
     {
-        return $this->getImplementation()->getObjId();
+        return $this->rc_implementation->getObjId();
     }
 
     public function getPosId(): int
     {
-        return $this->getImplementation()->getPosId();
+        return $this->rc_implementation->getPosId();
     }
 
     public function setPosId(int $posting_id): void
     {
-        $this->getImplementation()->setPosId($posting_id);
-    }
-
-    public function setDraftId(int $draft_id): void
-    {
-        $this->getImplementation()->setDraftId($draft_id);
-    }
-
-    public function getDraftId(): int
-    {
-        $this->getImplementation()->getDraftId();
+        throw new DomainException('Not implemented');
     }
 
     public function getForumPath(): string
     {
-        return $this->getImplementation()->getForumPath();
+        return $this->rc_implementation->getForumPath();
     }
 
     /**
@@ -72,32 +57,32 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
      */
     public function getFilesOfPost(): array
     {
-        return $this->getImplementation()->getFilesOfPost();
+        return $this->rc_implementation->getFilesOfPost();
     }
 
     public function moveFilesOfPost(int $new_frm_id = 0): bool
     {
-        return $this->getImplementation()->moveFilesOfPost($new_frm_id);
+        return $this->rc_implementation->moveFilesOfPost($new_frm_id);
     }
 
     public function ilClone(int $new_obj_id, int $new_posting_id): bool
     {
-        return $this->getImplementation()->ilClone($new_obj_id, $new_posting_id);
+        return $this->rc_implementation->ilClone($new_obj_id, $new_posting_id);
     }
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
-        return $this->getImplementation()->delete($posting_ids_to_delete);
+        return $this->rc_implementation->delete($posting_ids_to_delete);
     }
 
     public function storeUploadedFiles(): bool
     {
-        return $this->getImplementation()->storeUploadedFiles();
+        return $this->rc_implementation->storeUploadedFiles();
     }
 
     public function unlinkFile(string $filename): bool
     {
-        return $this->getImplementation()->unlinkFile($filename);
+        return $this->rc_implementation->unlinkFile($filename);
     }
 
     /**
@@ -105,7 +90,7 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
      */
     public function getFileDataByMD5Filename(string $hashed_filename): ?array
     {
-        return $this->getImplementation()->getFileDataByMD5Filename($hashed_filename);
+        return $this->rc_implementation->getFileDataByMD5Filename($hashed_filename);
     }
 
     /**
@@ -113,23 +98,16 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
      */
     public function unlinkFilesByMD5Filenames($hashed_filename_or_filenames): bool
     {
-        return $this->getImplementation()->unlinkFilesByMD5Filenames($hashed_filename_or_filenames);
+        return $this->rc_implementation->unlinkFilesByMD5Filenames($hashed_filename_or_filenames);
     }
 
     public function deliverFile(string $file): void
     {
-        $this->getImplementation()->deliverFile($file);
+        $this->rc_implementation->deliverFile($file);
     }
 
     public function deliverZipFile(): bool
     {
-        return $this->getImplementation()->deliverZipFile();
-    }
-
-    public function importPath(string $path_to_file, int $posting_id): void
-    {
-        // Importing is only possible for IRSS based files
-        $this->setPosId($posting_id);
-        $this->rc_implementation->importFileToCollection($path_to_file, $this->getCurrentDraft());
+        return $this->rc_implementation->deliverZipFile();
     }
 }

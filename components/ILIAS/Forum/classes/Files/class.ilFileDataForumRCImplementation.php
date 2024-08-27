@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 class ilFileDataForumRCImplementation implements ilFileDataForumInterface
 {
@@ -27,7 +28,9 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
 
     private readonly \ILIAS\ResourceStorage\Services $irss;
     private readonly \ILIAS\FileUpload\FileUpload $upload;
+    /** @var array<int, ResourceCollection> */
     private array $collection_cache = [];
+    /** @var array<int, ilForumPost>  */
     private array $posting_cache = [];
     private readonly ilForumPostingFileStakeholder $stakeholder;
 
@@ -49,10 +52,11 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         if ($use_cache && isset($this->posting_cache[$posting_id])) {
             return $this->posting_cache[$posting_id];
         }
+
         return $this->posting_cache[$posting_id] = new ilForumPost($posting_id);
     }
 
-    private function getCurrentCollection(): \ILIAS\ResourceStorage\Collection\ResourceCollection
+    private function getCurrentCollection(): ResourceCollection
     {
         return $this->collection_cache[$this->pos_id] ?? ($this->collection_cache[$this->pos_id] = $this->irss->collection(
         )->get(
@@ -70,6 +74,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 return $identification;
             }
         }
+
         return null;
     }
 
@@ -127,11 +132,16 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         $new_posting = $this->getPostingById($new_posting_id);
         $new_posting->setRCID($new_collection_id->serialize());
         $new_posting->update();
+
         return true;
     }
 
     public function delete(array $posting_ids_to_delete = null): bool
     {
+        if ($posting_ids_to_delete === null) {
+            return true;
+        }
+
         foreach ($posting_ids_to_delete as $post_id) {
             $this->irss->collection()->remove(
                 $this->irss->collection()->id(
@@ -141,6 +151,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 true
             );
         }
+
         return true;
     }
 
@@ -178,7 +189,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 $this->irss->manage()->remove($identification, $this->stakeholder);
             }
         }
-        
+
         return true;
     }
 
@@ -217,6 +228,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
                 $this->irss->manage()->remove($identification, $this->stakeholder);
             }
         }
+
         return true;
     }
 
@@ -236,9 +248,12 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         );
         $rcid = $this->getCurrentCollection()->getIdentification();
 
-        $this->irss->consume()->downloadCollection($rcid, $zip_filename)
-                   ->useRevisionTitlesForFileNames(false)
-                   ->run();
+        $this->irss
+            ->consume()
+            ->downloadCollection($rcid, $zip_filename)
+            ->useRevisionTitlesForFileNames(false)
+            ->run();
+
         return true;
     }
 
