@@ -43,7 +43,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function key(): string
+    public function key(): int|string
     {
         return key($this->files);
     }
