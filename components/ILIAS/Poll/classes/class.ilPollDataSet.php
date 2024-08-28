@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 class ilPollDataSet extends ilDataSet
 {
+    protected const ENTITY = "poll";
     protected \ILIAS\Notes\Service $notes;
 
     public function __construct()
@@ -54,7 +55,7 @@ class ilPollDataSet extends ilDataSet
      */
     protected function getTypes(string $a_entity, string $a_version): array
     {
-        if ($a_entity === "poll") {
+        if ($a_entity === self::ENTITY) {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -111,7 +112,7 @@ class ilPollDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        if ($a_entity === "poll") {
+        if ($a_entity === self::ENTITY) {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description," .
@@ -162,13 +163,12 @@ class ilPollDataSet extends ilDataSet
 
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
-        if ($a_entity === "poll") {
+        if ($a_entity === self::ENTITY) {
             $dir = ilObjPoll::initStorage((int) $a_set["Id"]);
             $a_set["Dir"] = $dir;
 
             $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
-
         return $a_set;
     }
 

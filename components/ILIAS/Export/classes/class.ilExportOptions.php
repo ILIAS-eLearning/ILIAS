@@ -143,14 +143,65 @@ class ilExportOptions
 
         $query = 'INSERT INTO export_options (export_id,keyword,ref_id,obj_id,value,pos) ' .
             'VALUES( ' .
-            $this->db->quote($this->getExportId(), 'integer') . ', ' .
-            $this->db->quote($a_keyword, 'integer') . ', ' .
-            $this->db->quote($a_ref_id, 'integer') . ', ' .
-            $this->db->quote($a_obj_id, 'integer') . ', ' .
-            $this->db->quote($a_value, 'integer') . ', ' .
-            $this->db->quote($pos, 'integer') . ' ' .
+            $this->db->quote($this->getExportId(), ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($a_keyword, ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($a_obj_id, ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($a_value, ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($pos, ilDBConstants::T_INTEGER) . ' ' .
             ')';
         $this->db->manipulate($query);
+    }
+
+    public function addOptions(
+        int $parent_ref_id,
+        ilObjectDefinition $object_definition,
+        ilAccessHandler $il_access,
+        array $child_nodes,
+        array $cp_options
+    ): bool {
+        global $DIC;
+        $items_selected = false;
+        foreach ($child_nodes as $node) {
+            if ($node['type'] === 'rolf') {
+                continue;
+            }
+            if ((int) $node['ref_id'] === $parent_ref_id) {
+                $this->addOption(
+                    ilExportOptions::KEY_ITEM_MODE,
+                    (int) $node['ref_id'],
+                    (int) $node['obj_id'],
+                    ilExportOptions::EXPORT_BUILD
+                );
+                continue;
+            }
+            // no export available or no access
+            if (!$object_definition->allowExport($node['type']) || !$il_access->checkAccess(
+                'write',
+                '',
+                (int) $node['ref_id']
+            )) {
+                $this->addOption(
+                    ilExportOptions::KEY_ITEM_MODE,
+                    (int) $node['ref_id'],
+                    (int) $node['obj_id'],
+                    ilExportOptions::EXPORT_OMIT
+                );
+                continue;
+            }
+
+            $mode = $cp_options[$node['ref_id']]['type'] ?? ilExportOptions::EXPORT_OMIT;
+            $this->addOption(
+                ilExportOptions::KEY_ITEM_MODE,
+                (int) $node['ref_id'],
+                (int) $node['obj_id'],
+                $mode
+            );
+            if ($mode != ilExportOptions::EXPORT_OMIT) {
+                $items_selected = true;
+            }
+        }
+        return $items_selected;
     }
 
     /**
@@ -187,7 +238,7 @@ class ilExportOptions
     public function delete(): void
     {
         $query = "DELETE FROM export_options " .
-            "WHERE export_id = " . $this->db->quote($this->getExportId(), 'integer');
+            "WHERE export_id = " . $this->db->quote($this->getExportId(), ilDBConstants::T_INTEGER);
         $this->db->manipulate($query);
     }
 
@@ -198,7 +249,7 @@ class ilExportOptions
         $this->ref_options = array();
 
         $query = "SELECT * FROM export_options " .
-            "WHERE export_id = " . $this->db->quote($this->getExportId(), 'integer') . ' ' .
+            "WHERE export_id = " . $this->db->quote($this->getExportId(), ilDBConstants::T_INTEGER) . ' ' .
             "ORDER BY pos";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

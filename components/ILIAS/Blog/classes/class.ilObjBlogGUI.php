@@ -510,15 +510,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 break;
 
             case 'ilexportgui':
-                $this->prepareOutput();
-                $ilTabs->activateTab("export");
-                $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", "", $this, "buildExportFile"); // #13419
-                if (ilObjBlogAccess::isCommentsExportPossible($this->object->getId())) {
-                    $exp_gui->addFormat("html_comments", "HTML (" . $this->lng->txt("blog_incl_comments") . ")", $this, "buildExportFile");
-                }
-                $ilCtrl->forwardCommand($exp_gui);
+                $this->showExportGUI();
                 break;
 
             case "ilobjectcontentstylesettingsgui":
@@ -609,6 +601,30 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 parent::executeCommand();
         }
+    }
+
+    protected function showExportGUI(): void
+    {
+        $this->prepareOutput();
+        $this->tabs->activateTab("export");
+        $exp_gui = new ilExportGUI($this);
+        $this->ctrl->forwardCommand($exp_gui);
+    }
+
+    protected function createExportFileWithComments(): void
+    {
+        $this->buildExportFile(true);
+        $this->prepareOutput();
+        $this->tabs->activateTab("export");
+        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
+    }
+
+    protected function createExportFile(): void
+    {
+        $this->buildExportFile();
+        $this->prepareOutput();
+        $this->tabs->activateTab("export");
+        $this->ctrl->redirectByClass(ilExportGUI::class, ilExportGUI::CMD_LIST_EXPORT_FILES);
     }
 
     protected function triggerAssignmentTool(): void

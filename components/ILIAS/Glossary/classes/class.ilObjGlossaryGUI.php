@@ -252,19 +252,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $this->tabs->activateTab("export");
                 $this->setLocator();
                 $exp_gui = new ilExportGUI($this);
-                //$exp_gui->addFormat("xml", "", $this, "export");
-                $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", "", $this, "exportHTML");
-                $exp_gui->addCustomColumn(
-                    $this->lng->txt("cont_public_access"),
-                    $this,
-                    "getPublicAccessColValue"
-                );
-                $exp_gui->addCustomMultiCommand(
-                    $this->lng->txt("cont_public_access"),
-                    $this,
-                    "publishExportFile"
-                );
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 

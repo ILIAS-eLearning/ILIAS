@@ -9666,6 +9666,7 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
+exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
@@ -9674,10 +9675,21 @@ exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
 exp#:#export_files_deleted#:#The selected export files have been deleted.
+exp#:#export_options#:#Export Options
+exp#:#export_type#:#Export Type
+export#:#exp_export_dropdown#:#Export
+export#:#exp_file#:#File Name
+export#:#exp_public_access#:#Public Access
+export#:#exp_size#:#File Size (MB)
+export#:#exp_timestamp#:#Creation Date
+export#:#exp_toggle_public_access#:#Toggle Public Access
+export#:#exp_type#:#Type
 export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
+export#:#export_info_public_access#:#Public Access Export
+export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
 export#:#export_last_file#:#Last File
@@ -12198,6 +12210,7 @@ meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_identifier_plural#:#Identifiers
 meta#:#meta_index#:#Index
+meta#:#meta_info_licence_section#:#Licence and Use
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (but not media objects or learning module pages).
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Notes

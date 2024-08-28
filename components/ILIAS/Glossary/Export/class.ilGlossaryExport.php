@@ -27,6 +27,8 @@ class ilGlossaryExport
     protected string $filename = "";
     protected string $subdir = "";
     protected string $mode;
+    protected ilSetting $settings;
+    protected ilDBInterface $db;
     public ilObjGlossary $glo_obj;
     public int $inst_id;
 
