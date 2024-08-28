@@ -14,18 +14,18 @@ var horizontal = function() {
   return {
     init: init
   };
-}
+};
 
 function determineXLabels(preferences, xLabels) {
   // Replace labels on x-axes with custom values if defined. If not, use default numeric values.
   if (Object.keys(xLabels).length != 0) {
     preferences.scales.x.ticks.callback = function (value, index, values) {
       return xLabels[index];
-    }
+    };
   } else {
     preferences.scales.x.ticks.callback = function (value, index, values) {
       return value;
-    }
+    };
   }
 }
 
@@ -45,7 +45,7 @@ function determineToolTipXLabels(preferences, axisLabels, tooltips) {
       label = label + context.formattedValue;
     }
     return label;
-  }
+  };
 }
 
 export default horizontal;
