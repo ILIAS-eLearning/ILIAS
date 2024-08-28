@@ -29,6 +29,7 @@ use ILIAS\Repository\StandardGUIRequest;
  */
 class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 {
+    private string $clickable_permission = 'read';
     protected ilObjectDefinition $obj_definition;
     protected array $type_grps = [];
     protected array $session_materials = [];
@@ -44,8 +45,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected int $cur_ref_id;
 
     /**
-     * @param object|string[] $a_parent_obj parent gui class or class array
-     * @param object|string $a_selection_gui gui class that should be called for the selection command
+     * @param object|string[] $a_parent_obj    parent gui class or class array
+     * @param object|string   $a_selection_gui gui class that should be called for the selection command
      */
     public function __construct(
         $a_parent_obj,
@@ -126,7 +127,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             $title = $lng->txt("repository");
         }
 
-        return (string)     $title;
+        return (string) $title;
     }
 
     public function getNodeIcon($a_node): string
@@ -146,7 +147,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             }
             return $lng->txt("icon") . " " . $title;
         }
-
 
         return parent::getNodeIconAlt($a_node);
     }
@@ -252,11 +252,16 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
 
+    public function setClickablePermission(string $rbac_perm): void
+    {
+        $this->clickable_permission = $rbac_perm;
+    }
+
     public function isNodeClickable($a_node): bool
     {
         $ilAccess = $this->access;
 
-        if (!$ilAccess->hasUserRBACorAnyPositionAccess("read", $a_node["child"])) {
+        if (!$ilAccess->hasUserRBACorAnyPositionAccess($this->clickable_permission, $a_node["child"])) {
             return false;
         }
 
