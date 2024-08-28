@@ -42,6 +42,7 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function setUp(): void
     {
+        error_reporting(E_ALL);
         $this->defineGlobalConstants();
 
         global $DIC;
@@ -172,9 +173,17 @@ class ilTestBaseTestCase extends TestCase
                 'false' => false,
                 'array' => [],
                 'null', 'resource' => null,
-                default => $this->getOrCreateMock($constructorParameterTypeName)
+                default => (function($constructorParameterTypeName) {
+                    if (enum_exists($constructorParameterTypeName)) {
+                        $enumCases = $constructorParameterTypeName::cases();
+                        return array_shift($enumCases);
+                    }
+
+                    return $this->getOrCreateMock($constructorParameterTypeName);
+                })($constructorParameterTypeName)
             };
         }
+
         return new $className(...$parameters);
     }
 
