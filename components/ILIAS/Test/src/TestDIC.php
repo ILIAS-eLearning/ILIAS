@@ -160,6 +160,8 @@ class TestDIC extends PimpleContainer
                 $DIC['component.repository'],
                 $DIC['component.factory'],
                 $DIC['file_delivery'],
+                new DataFactory(),
+                $DIC['ilUser'],
                 $c['question.general_properties.repository']
             );
 

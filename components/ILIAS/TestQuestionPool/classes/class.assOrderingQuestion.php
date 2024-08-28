@@ -291,25 +291,22 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->isImageOrderingType();
     }
 
-    /**
-     * @param $forceCorrectSolution
-     * @param $activeId
-     * @param $passIndex
-     * @return ilAssOrderingElementList
-     */
-    public function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex): ilAssOrderingElementList
-    {
-        if ($forceCorrectSolution || !$activeId || $passIndex === null) {
+    public function getOrderingElementListForSolutionOutput(
+        bool $force_correct_solution,
+        int $active_id,
+        int $pass_index
+    ): ilAssOrderingElementList {
+        if ($force_correct_solution || !$active_id || $pass_index === null) {
             return $this->getOrderingElementList();
         }
 
-        $solutionValues = $this->getSolutionValues($activeId, $passIndex);
+        $solution_values = $this->getSolutionValues($active_id, $pass_index);
 
-        if (!count($solutionValues)) {
+        if (!count($solution_values)) {
             return $this->getShuffledOrderingElementList();
         }
 
-        return $this->getSolutionOrderingElementList($this->fetchIndexedValuesFromValuePairs($solutionValues));
+        return $this->getSolutionOrderingElementList($this->fetchIndexedValuesFromValuePairs($solution_values));
     }
 
     /**
@@ -344,66 +341,63 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param string $value2
      * @return ilAssOrderingElement
      */
-    protected function getSolutionValuePairBrandedOrderingElementByRandomIdentifier($value1, $value2): ilAssOrderingElement
-    {
-        $value2 = explode(':', $value2);
+    protected function getSolutionValuePairBrandedOrderingElementByRandomIdentifier(
+        int $value1,
+        string $value2
+    ): ilAssOrderingElement {
+        $value = explode(':', $value2);
 
-        $randomIdentifier = $value2[0];
-        $selectedPosition = $value1;
-        $selectedIndentation = $value2[1];
+        $random_identifier = (int) $value[0];
+        $selected_position = $value1;
+        $selected_indentation = (int) $value[1];
 
-        $element = $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier)->getClone();
+        $element = $this->getOrderingElementList()->getElementByRandomIdentifier($random_identifier)->getClone();
 
-        $element->setPosition($selectedPosition);
-        $element->setIndentation($selectedIndentation);
+        $element->setPosition($selected_position);
+        $element->setIndentation($selected_indentation);
+
+        return $element;
+    }
+
+    protected function getSolutionValuePairBrandedOrderingElementBySolutionIdentifier(
+        string $value1,
+        string $value2
+    ): ilAssOrderingElement {
+        $solution_identifier = $value1;
+        $selected_position = ($value2 - 1);
+        $selected_indentation = 0;
+
+        $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($solution_identifier)->getClone();
+
+        $element->setPosition($selected_position);
+        $element->setIndentation($selected_indentation);
 
         return $element;
     }
 
     /**
-     * @param string $value1
-     * @param string $value2
-     * @return ilAssOrderingElement
-     */
-    protected function getSolutionValuePairBrandedOrderingElementBySolutionIdentifier($value1, $value2): ilAssOrderingElement
-    {
-        $solutionIdentifier = $value1;
-        $selectedPosition = ($value2 - 1);
-        $selectedIndentation = 0;
-
-        $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($solutionIdentifier)->getClone();
-
-        $element->setPosition($selectedPosition);
-        $element->setIndentation($selectedIndentation);
-
-        return $element;
-    }
-
-    /**
-     * @param array $valuePairs
-     * @return ilAssOrderingElementList
      * @throws ilTestQuestionPoolException
      */
-    public function getSolutionOrderingElementList($indexedSolutionValues): ilAssOrderingElementList
+    public function getSolutionOrderingElementList(array $indexed_solution_values): ilAssOrderingElementList
     {
-        $solutionOrderingList = new ilAssOrderingElementList();
-        $solutionOrderingList->setQuestionId($this->getId());
+        $solution_ordering_list = new ilAssOrderingElementList();
+        $solution_ordering_list->setQuestionId($this->getId());
 
-        foreach ($indexedSolutionValues as $value1 => $value2) {
+        foreach ($indexed_solution_values as $value1 => $value2) {
             if ($this->isOrderingTypeNested()) {
                 $element = $this->getSolutionValuePairBrandedOrderingElementByRandomIdentifier($value1, $value2);
             } else {
                 $element = $this->getSolutionValuePairBrandedOrderingElementBySolutionIdentifier($value1, $value2);
             }
 
-            $solutionOrderingList->addElement($element);
+            $solution_ordering_list->addElement($element);
         }
 
-        if (!$this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($solutionOrderingList)) {
+        if (!$this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($solution_ordering_list)) {
             throw new ilTestQuestionPoolException('inconsistent solution values given');
         }
 
-        return $solutionOrderingList;
+        return $solution_ordering_list;
     }
 
     /**
@@ -792,37 +786,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->getOrderingElementList()->getRandomIdentifierIndexedElements();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-        $sol = [];
-        foreach ($solutions as $solution) {
-            $sol[$solution["value1"]] = $solution["value2"];
-        }
-        asort($sol);
-        $sol = array_keys($sol);
-
-        $i = 1;
-        foreach ($sol as $idx) {
-            foreach ($solutions as $solution) {
-                if ($solution["value1"] == $idx) {
-                    $worksheet->setCell($startrow + $i, $col, $solution["value2"]);
-                    $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-                }
-            }
-            $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($idx);
-            $worksheet->setCell($startrow + $i, $col + 2, $element->getContent());
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
     public function getElementHeight(): ?int
     {
         return $this->element_height;
@@ -1001,21 +964,21 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function buildNestedOrderingElementInputGui(): ilAssNestedOrderingElementsInputGUI
     {
-        $formDataConverter = $this->buildNestedOrderingFormDataConverter();
+        $form_data_converter = $this->buildNestedOrderingFormDataConverter();
 
-        $orderingElementInput = new ilAssNestedOrderingElementsInputGUI(
-            $formDataConverter,
+        $ordering_element_input = new ilAssNestedOrderingElementsInputGUI(
+            $form_data_converter,
             self::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
         );
 
-        $orderingElementInput->setUniquePrefix($this->getId());
-        $orderingElementInput->setOrderingType($this->getOrderingType());
-        $orderingElementInput->setElementImagePath($this->getImagePathWeb());
-        $orderingElementInput->setThumbPrefix($this->getThumbPrefix());
+        $ordering_element_input->setUniquePrefix($this->getId());
+        $ordering_element_input->setOrderingType($this->getOrderingType());
+        $ordering_element_input->setElementImagePath($this->getImagePathWeb());
+        $ordering_element_input->setThumbPrefix($this->getThumbPrefix());
 
-        $this->initOrderingElementFormFieldLabels($orderingElementInput);
+        $this->initOrderingElementFormFieldLabels($ordering_element_input);
 
-        return $orderingElementInput;
+        return $ordering_element_input;
     }
 
 
@@ -1055,10 +1018,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $solutionOrderingElementList;
     }
 
-    /**
-     * @var ilAssOrderingElementList
-     */
-    private $postSolutionOrderingElementList = null;
+    private ?ilAssOrderingElementList $postSolutionOrderingElementList = null;
 
     /**
      * @return ilAssOrderingElementList
@@ -1216,12 +1176,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * @return array
      */
-    public function fetchSolutionSubmit($formSubmissionDataStructure): array
+    public function fetchSolutionSubmit(array $form_submission_data_structure): array
     {
-        $solutionSubmit = [];
+        $solution_submit = [];
 
-        if (isset($formSubmissionDataStructure['orderresult'])) {
-            $orderresult = $formSubmissionDataStructure['orderresult'];
+        if (isset($form_submission_data_structure['orderresult'])) {
+            $orderresult = $form_submission_data_structure['orderresult'];
 
             if (strlen($orderresult)) {
                 $orderarray = explode(":", $orderresult);
@@ -1232,7 +1192,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                         $randomid = $idmatch[1];
                         foreach ($this->getOrderingElementList() as $answeridx => $answer) {
                             if ($answer->getRandomIdentifier() == $randomid) {
-                                $solutionSubmit[$answeridx] = $ordervalue;
+                                $solution_submit[$answeridx] = $ordervalue;
                                 $ordervalue++;
                             }
                         }
@@ -1241,23 +1201,23 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         } elseif ($this->getOrderingType() == OQ_NESTED_TERMS || $this->getOrderingType() == OQ_NESTED_PICTURES) {
             $index = 0;
-            foreach ($formSubmissionDataStructure['content'] as $randomId => $content) {
-                $indentation = $formSubmissionDataStructure['indentation'];
+            foreach ($form_submission_data_structure['content'] as $randomId => $content) {
+                $indentation = $form_submission_data_structure['indentation'];
 
                 $value1 = $index++;
                 $value2 = implode(':', [$randomId, $indentation]);
 
-                $solutionSubmit[$value1] = $value2;
+                $solution_submit[$value1] = $value2;
             }
         } else {
-            foreach ($formSubmissionDataStructure as $key => $value) {
+            foreach ($form_submission_data_structure as $key => $value) {
                 $matches = null;
                 if (preg_match("/^order_(\d+)/", $key, $matches)) {
                     if (!(preg_match("/initial_value_\d+/", $value))) {
                         if (strlen($value)) {
                             foreach ($this->getOrderingElementList() as $answeridx => $answer) {
                                 if ($answer->getRandomIdentifier() == $matches[1]) {
-                                    $solutionSubmit[$answeridx] = $value;
+                                    $solution_submit[$answeridx] = $value;
                                 }
                             }
                         }
@@ -1266,7 +1226,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
 
-        return $solutionSubmit;
+        return $solution_submit;
     }
 
     /**
@@ -1303,9 +1263,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     protected function buildOrderingTextsFormDataConverter(): ilAssOrderingFormValuesObjectsConverter
     {
-        $formDataConverter = $this->buildOrderingElementFormDataConverter();
-        $formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
-        return $formDataConverter;
+        $form_data_converter = $this->buildOrderingElementFormDataConverter();
+        $form_data_converter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_ELEMENT_TEXT);
+        return $form_data_converter;
     }
 
     /**
@@ -1313,16 +1273,16 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     protected function buildNestedOrderingFormDataConverter(): ilAssOrderingFormValuesObjectsConverter
     {
-        $formDataConverter = $this->buildOrderingElementFormDataConverter();
-        $formDataConverter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
+        $form_data_converter = $this->buildOrderingElementFormDataConverter();
+        $form_data_converter->setContext(ilAssOrderingFormValuesObjectsConverter::CONTEXT_MAINTAIN_HIERARCHY);
 
         if ($this->getOrderingType() === self::OQ_NESTED_PICTURES) {
-            $formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
-            $formDataConverter->setImageUrlPath($this->getImagePathWeb());
-            $formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
+            $form_data_converter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
+            $form_data_converter->setImageUrlPath($this->getImagePathWeb());
+            $form_data_converter->setThumbnailPrefix($this->getThumbPrefix());
         }
 
-        return $formDataConverter;
+        return $form_data_converter;
     }
 
     public function toLog(AdditionalInformationGenerator $additional_info): array
@@ -1373,27 +1333,58 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $answers_gui->getHTML();
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
-    ): string {
-        $solution_values_by_id = array_reduce(
-            $solution_values,
-            static function (array $c, array $v): array {
-                $c[$v['value1']] = $v['value2'];
-                return $c;
-            },
-            []
+    ): array {
+        return $this->getElementArrayWithIdentationsForTextOutput(
+            $this->getSolutionOrderingElementList(
+                $this->fetchIndexedValuesFromValuePairs($solution_values)
+            )->getElements()
         );
-        asort($solution_values_by_id);
-        $solution_ids = array_keys($solution_values_by_id);
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        if ($solution_values === []) {
+            return [];
+        }
+        return $this->getElementArrayWithIdentationsForTextOutput(
+            $this->getSolutionOrderingElementList(
+                $this->fetchIndexedValuesFromValuePairs($solution_values)
+            )->getElements()
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return $this->getElementArrayWithIdentationsForTextOutput(
+            $this->getOrderingElementList()->getElements()
+        );
+    }
+
+    /**
+     *
+     * @param array<ilAssOrderingElement> $elements
+     * @return array
+     */
+    private function getElementArrayWithIdentationsForTextOutput(array $elements): array
+    {
+        usort(
+            $elements,
+            static fn(ilAssOrderingElement $a, ilAssOrderingElement $b): int
+                => $a->getPosition() - $b->getPosition()
+        );
 
         return array_map(
-            function (string $v) use ($solution_values_by_id): string {
-                $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($v);
-                return "{$solution_values_by_id[$v]}: {$element->getContent()}";
+            function (ilAssOrderingElement $v): string {
+                $indentation = '';
+                for ($i = 0;$i < $v->getIndentation();$i++) {
+                    $indentation .= ' |';
+                }
+                return $indentation . $v->getContent();
             },
-            $solution_ids
+            $elements
         );
     }
 }

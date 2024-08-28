@@ -176,7 +176,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     {
         $nr = 215;
         $this->testObj->setQuestionsWorkedThrough($nr);
-        $this->assertEquals($nr, $this->testObj->questionsWorkedThrough);
+        $this->assertEquals($nr, $this->testObj->getQuestionsWorkedThrough());
     }
 
     public function testGetNumberOfQuestions(): void
@@ -194,7 +194,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     {
         $nr = 215;
         $this->testObj->setNumberOfQuestions($nr);
-        $this->assertEquals($nr, $this->testObj->numberOfQuestions);
+        $this->assertEquals($nr, $this->testObj->nr_of_questions);
     }
 
     public function testGetQuestionsWorkedThroughInPercent(): void
@@ -225,14 +225,14 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
             $data2
         ];
 
-        $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOfWork());
+        $this->assertEquals($workingtime1 + $workingtime2, $this->testObj->getTimeOnTask());
     }
 
     public function testSetTimeOfWork(): void
     {
         $time_of_work = '215';
-        $this->testObj->setTimeOfWork($time_of_work);
-        $this->assertEquals($time_of_work, $this->testObj->timeOfWork);
+        $this->testObj->setTimeOnTask($time_of_work);
+        $this->assertEquals($time_of_work, $this->testObj->time_on_task);
     }
 
     public function testFirstVisit(): void

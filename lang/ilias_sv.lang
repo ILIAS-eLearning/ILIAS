@@ -686,7 +686,7 @@ assessment#:#exp_all_test_runs#:#All test runs###21 11 2023 new variable
 assessment#:#exp_eval_data#:#Exportera utvärderingsdata som
 assessment#:#exp_file_created#:#Exportfil genererad.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
-assessment#:#exp_scored_test_run#:#Scored test run###21 11 2023 new variable
+assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Kommaseparerade värden (CSV)
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Rank tilldelad medianen
 assessment#:#tst_stat_result_rank_participant#:#Rank av deltagaren
 assessment#:#tst_stat_result_resultsmarks#:#Testresultat som klass
 assessment#:#tst_stat_result_resultspoints#:#Testresultat i punkter
-assessment#:#tst_stat_result_timeofwork#:#Bearbetningstid
+assessment#:#tst_stat_result_timeontask#:#Bearbetningstid
 assessment#:#tst_stat_result_total_participants#:#Totalt antal deltagare
 assessment#:#tst_submit_results#:#YES, jag bekräftar härmed att mina svar har skickats
 assessment#:#tst_tab_competences#:#Kompetens

@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordináták
 assessment#:#copy_and_link_to_questionpool#:#Hozzáadás kérdésgyűjteményhez
 assessment#:#copy_no_questions_selected#:#Válasszon ki legalább egy kérdést a másoláshoz!
 assessment#:#copy_questions_success#:#A kérdés(eke)t másolta.
-assessment#:#correct_answers#:#Helyes válaszok:
+assessment#:#correct_answers#:#Helyes válaszok
 assessment#:#counter#:#Számláló
 assessment#:#create_gaps#:#Kitöltendő helyek létrehozása és frissítése
 assessment#:#create_new#:#új létrehozása
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#A mediánhoz rendelhető helyezés
 assessment#:#tst_stat_result_rank_participant#:#A résztvevő helyezése
 assessment#:#tst_stat_result_resultsmarks#:#Teszteredmények érdemjegyben kifejezve
 assessment#:#tst_stat_result_resultspoints#:#Teszteredmények pontban kifejezve
-assessment#:#tst_stat_result_timeofwork#:#Munkaidő
+assessment#:#tst_stat_result_timeontask#:#Munkaidő
 assessment#:#tst_stat_result_total_participants#:#Résztvevők teljes száma
 assessment#:#tst_submit_results#:#Igen, megerősítem elküldési szándékom.
 assessment#:#tst_tab_competences#:#Kompetenciák

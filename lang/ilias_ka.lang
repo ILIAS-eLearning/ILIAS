@@ -592,7 +592,7 @@ assessment#:#coordinates#:#უკავშირდება
 assessment#:#copy_and_link_to_questionpool#:#კითხვების ნაკადში დამატება
 assessment#:#copy_no_questions_selected#:#გთხოვთ მონიშნოთ სულ მცირე ერთი კითხვა ასლის გასაკეთებლად
 assessment#:#copy_questions_success#:#კითხვის ასლი გაკეთებულია
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#მთვლელი
 assessment#:#create_gaps#:#ნაპრალების შექმნა
 assessment#:#create_new#:#ახალის შექმნა
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#მედიანის წოდე
 assessment#:#tst_stat_result_rank_participant#:#მონაწილის წოდება
 assessment#:#tst_stat_result_resultsmarks#:#ტესტის შედეგები ნიშნებში
 assessment#:#tst_stat_result_resultspoints#:#ტესტის შედეგები ქულებში
-assessment#:#tst_stat_result_timeofwork#:#მუშაობის დრო
+assessment#:#tst_stat_result_timeontask#:#მუშაობის დრო
 assessment#:#tst_stat_result_total_participants#:#მონაწილეთა მთლიანი რაოდენობა
 assessment#:#tst_submit_results#:#დიახ , მე ვდასტურებ რომ მსურს ჩაბარება
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

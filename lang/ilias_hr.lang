@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordinate
 assessment#:#copy_and_link_to_questionpool#:#Dodaj u bazen pitanja
 assessment#:#copy_no_questions_selected#:#Molimo odaberite najmanje jedno pitanje za kopiranje.
 assessment#:#copy_questions_success#:#Pitanje(a) je(su) kopirano(a).
-assessment#:#correct_answers#:#Točni odgovori:
+assessment#:#correct_answers#:#Točni odgovori
 assessment#:#counter#:#Brojač
 assessment#:#create_gaps#:#Generiraj i ažuriraj praznine
 assessment#:#create_new#:#Kreiraj novo
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Prosječan rang
 assessment#:#tst_stat_result_rank_participant#:#Rang sudionika
 assessment#:#tst_stat_result_resultsmarks#:#Rezultati testa u obliku ocjene
 assessment#:#tst_stat_result_resultspoints#:#Rezultati testa u bodovima
-assessment#:#tst_stat_result_timeofwork#:#Vrijeme obrade
+assessment#:#tst_stat_result_timeontask#:#Vrijeme obrade
 assessment#:#tst_stat_result_total_participants#:#Ukupan broj sudionika
 assessment#:#tst_submit_results#:#Da, potvrđujem predaju testa.
 assessment#:#tst_tab_competences#:#Kompetencije

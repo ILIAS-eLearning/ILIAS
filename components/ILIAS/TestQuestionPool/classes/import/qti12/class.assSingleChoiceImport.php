@@ -260,7 +260,7 @@ class assSingleChoiceImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
-        $answers = &$this->object->getAnswers();
+        $answers = $this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];

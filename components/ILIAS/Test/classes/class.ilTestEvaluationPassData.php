@@ -41,6 +41,8 @@ class ilTestEvaluationPassData
     private int $questioncount;
     private float $maxpoints;
     private float $reachedpoints;
+    private string $mark;
+    private string $mark_official;
     private int $nrOfAnsweredQuestions;
     private int $pass;
     private ?int $requestedHintsCount = null;
@@ -94,6 +96,31 @@ class ilTestEvaluationPassData
         $this->maxpoints = $maxpoints;
     }
 
+    public function getReachedPointsInPercent(): float
+    {
+        return $this->getMaxPoints() ? $this->getReachedPoints() / $this->getMaxPoints() * 100.0 : 0.0;
+    }
+
+    public function getMark(): string
+    {
+        return $this->mark;
+    }
+
+    public function setMark(string $mark): void
+    {
+        $this->mark = $mark;
+    }
+
+    public function setMarkOfficial(string $a_mark_official): void
+    {
+        $this->mark_official = $a_mark_official;
+    }
+
+    public function getMarkOfficial(): string
+    {
+        return $this->mark_official;
+    }
+
     public function getQuestionCount(): int
     {
         return $this->questioncount;
@@ -138,11 +165,11 @@ class ilTestEvaluationPassData
         int $manual = 0
     ): void {
         $this->answeredQuestions[] = [
-            "id" => $question_id,
-            "points" => round($max_points, 2),
-            "reached" => round($reached_points, 2),
+            'id' => $question_id,
+            'points' => round($max_points, 2),
+            'reached' => round($reached_points, 2),
             'isAnswered' => $is_answered,
-            "sequence" => $sequence,
+            'sequence' => $sequence,
             'manual' => $manual
         ];
     }
@@ -159,7 +186,7 @@ class ilTestEvaluationPassData
     public function getAnsweredQuestionByQuestionId(int $question_id): ?array
     {
         foreach ($this->answeredQuestions as $question) {
-            if ($question["id"] == $question_id) {
+            if ($question['id'] == $question_id) {
                 return $question;
             }
         }

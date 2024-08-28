@@ -598,7 +598,7 @@ assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
 assessment#:#copy_questions_success#:#Die Fragen wurden kopiert.
-assessment#:#correct_answers#:#Richtige Antworten:
+assessment#:#correct_answers#:#Richtige Antworten
 assessment#:#counter#:#Zähler
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
@@ -692,7 +692,7 @@ assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
 assessment#:#exp_grammar_as#:#als
-assessment#:#exp_scored_test_run#:#Bewerteter Durchlauf
+assessment#:#exp_scored_test_attempt#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
@@ -1955,7 +1955,7 @@ assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Start
 assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Ab diesem Moment ist das Klicken des Buttons „Test starten“ möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
+assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer pro Frage
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
 assessment#:#tst_stat_result_mark_median#:#Dem Median zugeordnete Note
@@ -1967,8 +1967,9 @@ assessment#:#tst_stat_result_rank_median#:#Dem Median zugeordneter Rang
 assessment#:#tst_stat_result_rank_participant#:#Rang der Teilnehmerin
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
-assessment#:#tst_stat_result_timeofwork#:#Bearbeitungsdauer
+assessment#:#tst_stat_result_timeontask#:#Bearbeitungsdauer
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmer
+assessment#:#tst_stat_result_total_timeontask#:#Totale Bearbeitungsdauer (Alle Durchgänge)
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#tst_tab_results_objective_oriented#:#Testergebnisse nach Lernzielen

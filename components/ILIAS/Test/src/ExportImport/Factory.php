@@ -23,6 +23,7 @@ namespace ILIAS\Test\ExportImport;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
+use ILIAS\Data\Factory as DataFactory;
 
 class Factory
 {
@@ -36,6 +37,8 @@ class Factory
         private readonly \ilComponentRepository $component_repository,
         private readonly \ilComponentFactory $component_factory,
         private readonly FileDeliveryServices $file_delivery,
+        private readonly DataFactory $data_factory,
+        private readonly \ilObjUser $current_user,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
@@ -47,18 +50,16 @@ class Factory
     ): Exporter {
         switch ($export_type) {
             case Types::SCORED_RUN:
-                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_results', true))
+                return (new ResultsExportExcel($this->lng, $this->data_factory, $this->current_user, $test_obj, $test_obj->getTitle() . '_results', true))
+                    ->withAggregatedResultsPage()
                     ->withResultsPage()
                     ->withUserPages();
 
             case Types::ALL_RUNS:
-                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_results', false))
+                return (new ResultsExportExcel($this->lng, $this->data_factory, $this->current_user, $test_obj, $test_obj->getTitle() . '_results', false))
+                    ->withAggregatedResultsPage()
                     ->withResultsPage()
                     ->withUserPages();
-
-            case Types::ALL_RUNS_AGGREGATED:
-                return (new ResultsExportExcel($this->lng, $test_obj, $test_obj->getTitle() . '_aggregated', true))
-                    ->withAggregatedResultsPage();
 
             case Types::CERTIFICATE_ARCHIVE:
                 return new CertificateExport(

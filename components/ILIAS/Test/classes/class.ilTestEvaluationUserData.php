@@ -32,20 +32,20 @@ declare(strict_types=1);
 class ilTestEvaluationUserData
 {
     private $questionTitles;
-    public string $name;
-    public string $login = '';
-    public ?int $user_id = null;
-    protected bool $submitted;
-    public float $reached;
-    public float $maxpoints;
-    public string $mark;
-    public string $mark_official;
-    public int $questionsWorkedThrough;
-    public int $numberOfQuestions;
-    public string $timeOfWork;
-    public int $firstVisit;
-    public int $lastVisit;
-    public bool $passed;
+    private string $name;
+    private string $login = '';
+    private ?int $user_id = null;
+    private bool $submitted;
+    private float $reached;
+    private float $maxpoints;
+    private string $mark;
+    private string $mark_official;
+    private int $questions_worked_through;
+    private int $nr_of_questions;
+    private string $time_on_task;
+    private int $first_visit;
+    private int $last_visit;
+    private bool $passed;
 
     /**
     * @var array<int, ilTestEvaluationPassData>
@@ -146,7 +146,7 @@ class ilTestEvaluationUserData
 
     public function getReachedPointsInPercent(): float
     {
-        return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0;
+        return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0.0;
     }
 
     public function getMark(): string
@@ -154,9 +154,9 @@ class ilTestEvaluationUserData
         return $this->mark;
     }
 
-    public function setMark(string $a_mark): void
+    public function setMark(string $mark): void
     {
-        $this->mark = $a_mark;
+        $this->mark = $mark;
     }
 
     public function getQuestionsWorkedThrough(): int
@@ -173,7 +173,7 @@ class ilTestEvaluationUserData
 
     public function setQuestionsWorkedThrough(int $nr): void
     {
-        $this->questionsWorkedThrough = $nr;
+        $this->questions_worked_through = $nr;
     }
 
     public function getNumberOfQuestions(): int
@@ -190,7 +190,7 @@ class ilTestEvaluationUserData
 
     public function setNumberOfQuestions(int $nr): void
     {
-        $this->numberOfQuestions = $nr;
+        $this->nr_of_questions = $nr;
     }
 
     public function getQuestionsWorkedThroughInPercent(): float
@@ -198,7 +198,7 @@ class ilTestEvaluationUserData
         return $this->getNumberOfQuestions() ? $this->getQuestionsWorkedThrough() / $this->getNumberOfQuestions() * 100.0 : 0;
     }
 
-    public function getTimeOfWork(): int
+    public function getTimeOnTask(): int
     {
         $time = 0;
         foreach ($this->passes as $pass) {
@@ -207,29 +207,29 @@ class ilTestEvaluationUserData
         return $time;
     }
 
-    public function setTimeOfWork(string $time_of_work): void
+    public function setTimeOnTask(string $time_of_work): void
     {
-        $this->timeOfWork = $time_of_work;
+        $this->time_on_task = $time_of_work;
     }
 
     public function getFirstVisit(): int
     {
-        return $this->firstVisit;
+        return $this->first_visit;
     }
 
     public function setFirstVisit(int $time): void
     {
-        $this->firstVisit = $time;
+        $this->first_visit = $time;
     }
 
     public function getLastVisit(): int
     {
-        return $this->lastVisit;
+        return $this->last_visit;
     }
 
     public function setLastVisit(int $time): void
     {
-        $this->lastVisit = $time;
+        $this->last_visit = $time;
     }
 
     public function getPasses(): array
@@ -445,14 +445,14 @@ class ilTestEvaluationUserData
 
     public function getExamIdFromScoredPass(): string
     {
-        $examId = '';
-        $scoredPass = $this->getScoredPass();
+        $exam_id = '';
+        $scored_pass = $this->getScoredPass();
 
-        if (isset($this->passes[$scoredPass]) && $this->passes[$scoredPass] instanceof ilTestEvaluationPassData) {
-            $examId = $this->passes[$scoredPass]->getExamId();
+        if (isset($this->passes[$scored_pass]) && $this->passes[$scored_pass] instanceof ilTestEvaluationPassData) {
+            $exam_id = $this->passes[$scored_pass]->getExamId();
         }
 
-        return $examId;
+        return $exam_id;
     }
 
     /**

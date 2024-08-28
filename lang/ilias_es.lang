@@ -594,7 +594,7 @@ assessment#:#coordinates#:#Coordenadas
 assessment#:#copy_and_link_to_questionpool#:#Copiar al banco de preguntas y enlazar
 assessment#:#copy_no_questions_selected#:#Por favor, seleccione al menos una pregunta a copiar
 assessment#:#copy_questions_success#:#La pregunta(s) ha sido copiada(s)
-assessment#:#correct_answers#:#Respuetas correctas:
+assessment#:#correct_answers#:#Respuetas correctas
 assessment#:#counter#:#Contador
 assessment#:#create_gaps#:#Crear huecos
 assessment#:#create_new#:#Crear nueva
@@ -1929,7 +1929,7 @@ assessment#:#tst_stat_result_rank_median#:#Ranking de mediana
 assessment#:#tst_stat_result_rank_participant#:#Ranking de participantes
 assessment#:#tst_stat_result_resultsmarks#:#Resultados del Test en notas
 assessment#:#tst_stat_result_resultspoints#:#Resultados del Test en puntos
-assessment#:#tst_stat_result_timeofwork#:#Tiempo de trabajo
+assessment#:#tst_stat_result_timeontask#:#Tiempo de trabajo
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes
 assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_tab_competences#:#Competencias

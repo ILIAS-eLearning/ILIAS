@@ -231,7 +231,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
                     $evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
                     $evaluationrow['number_of_questions'] = $userdata->getNumberOfQuestions();
-                    $time_seconds = $userdata->getTimeOfWork();
+                    $time_seconds = $userdata->getTimeOnTask();
                     $time_hours = floor($time_seconds / 3600);
                     $time_seconds -= $time_hours * 3600;
                     $time_minutes = floor($time_seconds / 60);
@@ -313,7 +313,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $resultPoints->setValue($data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")");
         $form->addItem($resultPoints);
 
-        if (strlen($data->getParticipant($active_id)->getMark())) {
+        if ($data->getParticipant($active_id)->getMark() !== '') {
             $resultMarks = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_resultsmarks'));
             $resultMarks->setValue($data->getParticipant($active_id)->getMark());
             $form->addItem($resultMarks);
@@ -325,13 +325,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $form->addItem($requestHints);
         }
 
-        $time_seconds = $data->getParticipant($active_id)->getTimeOfWork();
+        $time_seconds = $data->getParticipant($active_id)->getTimeOnTask();
         $atime_seconds = $data->getParticipant($active_id)->getNumberOfQuestions() ? $time_seconds / $data->getParticipant($active_id)->getNumberOfQuestions() : 0;
         $time_hours = floor($time_seconds / 3600);
         $time_seconds -= $time_hours * 3600;
         $time_minutes = floor($time_seconds / 60);
         $time_seconds -= $time_minutes * 60;
-        $timeOfWork = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_timeofwork'));
+        $timeOfWork = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_timeontask'));
         $timeOfWork->setValue(sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
         $form->addItem($timeOfWork);
 
@@ -364,7 +364,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         $form->addItem($scoredPass);
 
-        $median = $data->getStatistics()->getStatistics()->median();
+        $median = $data->getStatistics()->median();
         $pct = $data->getParticipant($active_id)->getMaxpoints() ? ($median / $data->getParticipant($active_id)->getMaxpoints()) * 100.0 : 0;
         $mark = $this->object->getMarkSchema()->getMatchingMark($pct);
         if ($mark !== null) {
@@ -374,15 +374,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $rankParticipant = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_rank_participant'));
-        $rankParticipant->setValue($data->getStatistics()->getStatistics()->rank($data->getParticipant($active_id)->getReached()));
+        $rankParticipant->setValue($data->getStatistics()->rank($data->getParticipant($active_id)->getReached()));
         $form->addItem($rankParticipant);
 
         $rankMedian = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_rank_median'));
-        $rankMedian->setValue($data->getStatistics()->getStatistics()->rank_median());
+        $rankMedian->setValue($data->getStatistics()->rankMedian());
         $form->addItem($rankMedian);
 
         $totalParticipants = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_total_participants'));
-        $totalParticipants->setValue($data->getStatistics()->getStatistics()->count());
+        $totalParticipants->setValue($data->getStatistics()->count());
         $form->addItem($totalParticipants);
 
         $medianField = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_median'));
@@ -529,7 +529,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $total_passed++;
                     $total_passed_reached += $userdata->getReached();
                     $total_passed_max += $userdata->getMaxpoints();
-                    $total_passed_time += $userdata->getTimeOfWork();
+                    $total_passed_time += $userdata->getTimeOnTask();
                 }
             }
             $average_passed_reached = $total_passed ? $total_passed_reached / $total_passed : 0;

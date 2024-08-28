@@ -356,7 +356,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return count($this->answers);
     }
 
-    public function getAnswer(int $index = 0): ?object
+    public function getAnswer(int $index = 0): ?ASS_AnswerImagemap
     {
         if ($index < 0) {
             return null;
@@ -593,36 +593,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $text .= $this->feedbackOBJ->getSpecificAnswerFeedbackContent($this->getId(), 0, $index);
         }
         return $text;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, $col, $answer->getArea() . ': ' . $answer->getCoords());
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-
-            $cellValue = 0;
-            foreach ($solution as $solIndex => $sol) {
-                if ($sol['value1'] === $id) {
-                    $cellValue = 1;
-                    break;
-                }
-            }
-
-            $worksheet->setCell($startrow + $i, $col + 2, $cellValue);
-
-            $i++;
-        }
-
-        return $startrow + $i + 1;
     }
 
     /**
@@ -889,7 +859,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -902,8 +872,35 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     break;
                 }
             }
-            $parsed_solution["{$answer->getArea()}': '{$answer->getCoords()}"] = $value;
+            $parsed_solution["{$answer->getArea()}: {$answer->getCoords()}"] = $value;
         }
         return $parsed_solution;
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        $parsed_solution = [];
+        foreach ($this->getAnswers() as $id => $answer) {
+            $value = $this->lng->txt('unchecked');
+            foreach ($solution_values as $solution) {
+                if ($solution['value1'] == $id) {
+                    $value = $this->lng->txt('checked');
+                    break;
+                }
+            }
+            $parsed_solution[] = "{$answer->getArea()}: {$answer->getCoords()} ({$value})";
+        }
+        return $parsed_solution;
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_map(
+            fn(ASS_AnswerImagemap $v): string => "{$v->getArea()}: {$v->getCoords()}"
+                . "({$this->lng->txt('points')} "
+                . "{$this->lng->txt('checked')}: {$v->getPoints()}, "
+                . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
+            $this->getAnswers()
+        );
     }
 }

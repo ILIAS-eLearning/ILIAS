@@ -247,7 +247,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access private
     * @see $answers
     */
-    public function &getAvailableAnswers(): array
+    public function getAvailableAnswers(): array
     {
         $available_answers = [];
         foreach ($this->answers as $answer) {
@@ -354,23 +354,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->calculateReachedPointsForSolution($enteredTexts);
     }
 
-    /**
-    * Sets the number of correct answers needed to solve the question
-    *
-    * @param integer $a_correct_anwers The number of correct answers
-    * @access public
-    */
     public function setCorrectAnswers(int $a_correct_answers): void
     {
         $this->correctanswers = $a_correct_answers;
     }
 
-    /**
-    * Returns the number of correct answers needed to solve the question
-    *
-    * @return integer The number of correct answers
-    * @access public
-    */
     public function getCorrectAnswers(): int
     {
         return $this->correctanswers;
@@ -526,24 +514,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function getRTETextWithMediaObjects(): string
     {
         return parent::getRTETextWithMediaObjects();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, $col + 2, $solution["value1"]);
-            $i++;
-        }
-
-        return $startrow + $i + 1;
     }
 
     public function getAnswers(): array
@@ -763,13 +733,26 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
-    ): string {
+    ): array {
         return array_map(
             static fn(array $v): string => $v['value1'],
             $solution_values
         );
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        return array_map(
+            static fn(array $v): string => $v['value1'],
+            $solution_values
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return $this->getAvailableAnswers();
     }
 }

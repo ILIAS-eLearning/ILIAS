@@ -592,7 +592,7 @@ assessment#:#coordinates#:#مختصات
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
 assessment#:#copy_questions_success#:#The question(s) has been copied.
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Counter
 assessment#:#create_gaps#:#ایجاد شکاف
 assessment#:#create_new#:#Create New
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Rank of Median
 assessment#:#tst_stat_result_rank_participant#:#Rank of Participant
 assessment#:#tst_stat_result_resultsmarks#:#Test Results in Marks
 assessment#:#tst_stat_result_resultspoints#:#Test Results in Points
-assessment#:#tst_stat_result_timeofwork#:#Time of Work
+assessment#:#tst_stat_result_timeontask#:#Time of Work
 assessment#:#tst_stat_result_total_participants#:#Total Number of Participants
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

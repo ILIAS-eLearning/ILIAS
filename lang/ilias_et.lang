@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordinaadid
 assessment#:#copy_and_link_to_questionpool#:#Kopeeri ja lingi küsimuste varamusse
 assessment#:#copy_no_questions_selected#:#Vali kopeerimiseks vähemalt üks küsimus.
 assessment#:#copy_questions_success#:#Küsimus(ed) on kopeeritud.
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Loendur
 assessment#:#create_gaps#:#Koosta lünk
 assessment#:#create_new#:#loo uus küsimus:
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Aritmeetilise keskmise tase
 assessment#:#tst_stat_result_rank_participant#:#Koht osalejate pingereas
 assessment#:#tst_stat_result_resultsmarks#:#Testi tulemus hindena
 assessment#:#tst_stat_result_resultspoints#:#Testi tulemus punktides
-assessment#:#tst_stat_result_timeofwork#:#Tööaeg
+assessment#:#tst_stat_result_timeontask#:#Tööaeg
 assessment#:#tst_stat_result_total_participants#:#Osalejate koguarv
 assessment#:#tst_submit_results#:#Jah, kinnitan saatmise.
 assessment#:#tst_tab_competences#:#Competences

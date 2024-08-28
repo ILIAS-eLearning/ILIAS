@@ -516,35 +516,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
-        $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-
-        $assessment_folder = new ilObjTestFolder();
-
-        $string_escaping_org_value = $worksheet->getStringEscaping();
-        if ($assessment_folder->getExportEssayQuestionsWithHtml()) {
-            $worksheet->setStringEscaping(false);
-        }
-
-        if (array_key_exists(0, $solutions) && strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, $col + 2, html_entity_decode($solutions[0]["value1"]));
-        }
-        $i++;
-
-        $worksheet->setStringEscaping($string_escaping_org_value);
-        return $startrow + $i + 1;
-    }
-
-    /**
     * Returns a JSON representation of the question
     */
     public function toJSON(): string
@@ -585,8 +556,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $order = 0,
         $answerimage = ""
     ): void {
-        $answer = new ASS_AnswerMultipleResponseImage($answertext, $points);
-        $this->answers[] = $answer;
+        $this->answers[] = new ASS_AnswerMultipleResponseImage($answertext, $points);
     }
 
     /**
@@ -607,7 +577,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function getAnswer($index = 0): ?object
+    public function getAnswer($index = 0): ?ASS_AnswerMultipleResponseImage
     {
         if ($index < 0) {
             return null;
@@ -868,16 +838,38 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): string {
-        if (!array_key_exists(0, $solution_values) ||
-            !array_key_exists('value1', $solution_values[0])) {
+        if (!array_key_exists(0, $solution_values)
+            || !array_key_exists('value1', $solution_values[0])) {
             return '';
         }
         return $this->refinery->string()->stripTags()->transform(
             html_entity_decode($solution_values[0]['value1'])
         );
+    }
+
+    public function solutionValuesToText(array $solution_values): string
+    {
+        if (!array_key_exists(0, $solution_values)
+            || !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+        return $solution_values[0]['value1'];
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        switch ($this->getKeywordRelation()) {
+            case self::SCORING_MODE_KEYWORD_RELATION_NONE:
+                return '';
+            default:
+                return array_map(
+                    static fn(ASS_AnswerMultipleResponseImage $v): string => $v->getAnswertext(),
+                    $this->getAnswers()
+                );
+        }
     }
 }

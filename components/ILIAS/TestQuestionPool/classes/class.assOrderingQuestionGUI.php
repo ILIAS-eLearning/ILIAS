@@ -427,7 +427,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         bool $show_question_text = true,
         bool $show_inline_feedback = true
     ): string {
-        $solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
+        $solution_ordering_list = $this->object->getOrderingElementListForSolutionOutput(
             $show_correct_solution,
             $active_id,
             $pass
@@ -442,12 +442,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $answers_gui->setInteractionEnabled(false);
-        $answers_gui->setElementList($solutionOrderingList);
+        $answers_gui->setElementList($solution_ordering_list);
         if ($graphical_output) {
             $answers_gui->setShowCorrectnessIconsEnabled(true);
         }
         $answers_gui->setCorrectnessTrueElementList(
-            $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
+            $solution_ordering_list->getParityTrueElementList($this->object->getOrderingElementList())
         );
         $solution_html = $answers_gui->getHTML();
 
@@ -469,7 +469,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            if (strlen($feedback)) {
+            if ($feedback !== '') {
                 $cssClass = (
                     $this->hasCorrectSolution($active_id, $pass) ?
                     ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG

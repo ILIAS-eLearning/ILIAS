@@ -14,35 +14,36 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- * ******************************************************************* */
+ *********************************************************************/
 
 declare(strict_types=1);
 
-/**
- * Constants for the handling of elements which are not a number
- */
+namespace ILIAS\Test\Statistics;
 
-
-/**
-* This class provides mathematical functions for statistics.
-* It works on an array of numeric values.
-*
-* @author Helmut Schottmüller <hschottm@tzi.de>
-* @version $Id$
- */
-class ilStatistics
+class Statistics
 {
-    public array $stat_data = [];
+    private array $stat_data = [];
+    private \ilTestEvaluationUserData $median_user;
 
-    public function setData(array $stat_data): void
+    public function __construct(\ilTestEvaluationData $eval_data)
     {
-        $this->stat_data = array_values($stat_data);
+        $median_array = [];
+
+        foreach ($eval_data->getParticipants() as $active_id => $participant) {
+            $median_array[$active_id] = $participant->getReached();
+        }
+
+        $this->stat_data = $median_array;
         $this->removeNonNumericValues();
+
+        $this->median_user = $eval_data->getParticipant(
+            array_search($this->median(), $median_array)
+        );
     }
 
-    public function getData(): array
+    public function getEvaluationDataOfMedianUser(): \ilTestEvaluationUserData
     {
-        return $this->stat_data;
+        return $this->median_user;
     }
 
     public function min(): ?float
@@ -139,7 +140,7 @@ class ilStatistics
     * Arithmetic mean of the data values
     * xbar = (1/n)*∑x_i
     */
-    public function arithmetic_mean(): ?float
+    public function arithmeticMean(): ?float
     {
         $sum = $this->sum();
         if ($sum === null) {
@@ -161,7 +162,7 @@ class ilStatistics
     * the members of the set, raised to a power equal to the reciprocal of the number
     * of members.
     */
-    public function geometric_mean(): ?float
+    public function geometricMean(): ?float
     {
         $prod = $this->product(1);
         if (($prod === null) || ($prod === 0)) {
@@ -178,7 +179,7 @@ class ilStatistics
     * Harmonic mean of the data values
     * harmonic_mean = n/(1/x_1 + 1/x_2 + ... + 1/x_n)
     */
-    public function harmonic_mean(): ?float
+    public function harmonicMean(): ?float
     {
         $min = $this->min();
         if (($min === null) or ($min === 0)) {
@@ -204,7 +205,6 @@ class ilStatistics
             return null;
         }
 
-        $median = 0.0;
         $count = $this->count();
         if ((count($this->stat_data) % 2) === 0) {
             return ($this->stat_data[($count / 2) - 1] + $this->stat_data[($count / 2)]) / 2;
@@ -233,7 +233,7 @@ class ilStatistics
     * be the arithmetic mean of the two middle values when the data size is even.
     * In this case the median could a value which is not part of the data set.
     */
-    public function rank_median(): ?float
+    public function rankMedian(): ?float
     {
         $count = $this->count();
         if ($count === 0) {

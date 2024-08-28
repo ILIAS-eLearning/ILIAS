@@ -23,7 +23,7 @@
 class ilAssExcelFormatHelper extends ilExcel
 {
     public const escapeString = true;
-    private const EXCEL_BACKGROUND_COLOR = "C0C0C0";
+    public const EXCEL_BACKGROUND_COLOR = "C0C0C0";
 
     protected $stringEscaping = self::escapeString;
 
@@ -65,17 +65,17 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCell($a_row, $a_col, $a_value, $datatype = null): void
+    public function setCell($row, $col, $value, $datatype = null): void
     {
-        if (is_string($a_value) && !is_numeric($a_value)) {
-            $coordinate = $this->getCoordByColumnAndRow($a_col, $a_row);
+        if (is_string($value) && !is_numeric($value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
-                $coordinate,
-                $this->prepareValue($a_value),
-                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+                $coordinate = $this->getCoordByColumnAndRow($col, $row),
+                $this->prepareValue($value),
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
+                true
             );
         } else {
-            parent::setCell($a_row, $a_col, $a_value);
+            parent::setCell($row, --$col, $value);
         }
     }
 

@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Souřadnice
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###12 06 2011 new variable
 assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2011 new variable
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Počitadlo
 assessment#:#create_gaps#:#Vytvořit mezery
 assessment#:#create_new#:#Vytvořit nový
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Úroveň mediánu
 assessment#:#tst_stat_result_rank_participant#:#Úroveň účastníka
 assessment#:#tst_stat_result_resultsmarks#:#Výsledky testu ve známkách
 assessment#:#tst_stat_result_resultspoints#:#Výsledky testů v bodech
-assessment#:#tst_stat_result_timeofwork#:#Doba práce
+assessment#:#tst_stat_result_timeontask#:#Doba práce
 assessment#:#tst_stat_result_total_participants#:#Celkový počet účastníků
 assessment#:#tst_submit_results#:#Ano, potvrzuji odeslání.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

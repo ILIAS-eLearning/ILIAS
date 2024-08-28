@@ -17,6 +17,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Statistics\Statistics;
+
 /**
 * Class ilTestEvaluationData
 *
@@ -36,13 +38,13 @@ class ilTestEvaluationData
     public const FILTER_BY_COURSE = 'course';
     public const FILTER_BY_ACTIVE_ID = 'active_id';
 
-    public array $question_titles;
+    public array $question_titles = [];
 
     /**
     * @var array<ilTestEvaluationUserData>
     */
-    protected $participants;
-    protected $statistics;
+    protected array $participants = [];
+    protected ?Statistics $statistics = null;
     protected ?array $arr_filter = null;
     protected int $datasets;
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
@@ -56,8 +58,6 @@ class ilTestEvaluationData
         protected ilDBInterface $db,
         protected ?ilObjTest $test = null
     ) {
-        $this->participants = [];
-        $this->question_titles = [];
         if ($test !== null) {
             if ($this->getTest()->getAccessFilteredParticipantList()) {
                 $this->setAccessFilteredParticipantList(
@@ -228,16 +228,11 @@ class ilTestEvaluationData
         return '';
     }
 
-    public function calculateStatistics(): void
-    {
-        $this->statistics = new ilTestStatistics($this);
-    }
-
     public function getTotalFinishedParticipants(): int
     {
         $finishedParticipants = 0;
 
-        foreach ($this->participants as $active_id => $participant) {
+        foreach ($this->participants as $participant) {
             if (!$participant->isSubmitted()) {
                 continue;
             }
@@ -355,8 +350,11 @@ class ilTestEvaluationData
         unset($this->participants[$active_id]);
     }
 
-    public function getStatistics(): object
+    public function getStatistics(): Statistics
     {
+        if ($this->statistics === null) {
+            $this->statistics = new Statistics($this);
+        }
         return $this->statistics;
     }
 

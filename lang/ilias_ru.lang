@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Координаты
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
 assessment#:#copy_questions_success#:#The question(s) has been copied.
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Счетчик
 assessment#:#create_gaps#:#Создать и обновить пропуски
 assessment#:#create_new#:#Создать новый
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Ранг медианы
 assessment#:#tst_stat_result_rank_participant#:#Ранг участника
 assessment#:#tst_stat_result_resultsmarks#:#Результаты теста в виде оценки
 assessment#:#tst_stat_result_resultspoints#:#Результаты теста в баллах
-assessment#:#tst_stat_result_timeofwork#:#Время работы
+assessment#:#tst_stat_result_timeontask#:#Время работы
 assessment#:#tst_stat_result_total_participants#:#Общее число участников
 assessment#:#tst_submit_results#:#Нет, я подтверждаю отправку.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordinater
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###12 06 2011 new variable
 assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2011 new variable
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Tæller
 assessment#:#create_gaps#:#Opret huller
 assessment#:#create_new#:#Opret ny
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Rang af median
 assessment#:#tst_stat_result_rank_participant#:#Rang af deltager
 assessment#:#tst_stat_result_resultsmarks#:#Test resultat i karakterer
 assessment#:#tst_stat_result_resultspoints#:#Test resultat i point
-assessment#:#tst_stat_result_timeofwork#:#Tid brugt på arbejde
+assessment#:#tst_stat_result_timeontask#:#Tid brugt på arbejde
 assessment#:#tst_stat_result_total_participants#:#Total antal af deltagere
 assessment#:#tst_submit_results#:#Ja, jeg vil sende.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable
