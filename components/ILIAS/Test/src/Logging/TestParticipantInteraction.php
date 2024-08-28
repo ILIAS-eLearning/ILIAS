@@ -20,16 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use DateTimeImmutable;
+use ilDBConstants;
+use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
+use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
+use ILIAS\UI\Component\Table\DataRow;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
-use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Component\Table\DataRow;
+use ilLanguage;
+use ilUserUtil;
+use ilWACException;
 
 class TestParticipantInteraction implements TestUserInteraction
 {
@@ -40,9 +43,6 @@ class TestParticipantInteraction implements TestUserInteraction
 
     private int $id;
 
-    /**
-    * @param array<string label_lang_var => mixed value> $additional_data
-    */
     public function __construct(
         private readonly int $test_ref_id,
         private readonly ?int $question_id,
@@ -52,7 +52,6 @@ class TestParticipantInteraction implements TestUserInteraction
         private readonly int $modification_timestamp,
         private readonly array $additional_data
     ) {
-
     }
 
     public function getUniqueIdentifier(): ?string
@@ -67,8 +66,11 @@ class TestParticipantInteraction implements TestUserInteraction
         return $clone;
     }
 
+    /**
+     * @throws ilWACException
+     */
     public function getLogEntryAsDataTableRow(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
@@ -76,7 +78,7 @@ class TestParticipantInteraction implements TestUserInteraction
         array $environment
     ): DataRow {
         $values = [
-            'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+            'date_and_time' => DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
             'corresponding_test' => $this->buildTestTitleColumnContent(
                 $lng,
@@ -85,7 +87,7 @@ class TestParticipantInteraction implements TestUserInteraction
                 $this->test_ref_id
             ),
             'admin' => '',
-            'participant' => \ilUserUtil::getNamePresentation(
+            'participant' => ilUserUtil::getNamePresentation(
                 $this->pax_id,
                 false,
                 false,
@@ -125,8 +127,11 @@ class TestParticipantInteraction implements TestUserInteraction
         return $additional_info->parseForTable($this->additional_data, $environment);
     }
 
+    /**
+     * @throws ilWACException
+     */
     public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         GeneralQuestionPropertiesRepository $properties_repository,
         AdditionalInformationGenerator $additional_info,
         array $environment
@@ -140,7 +145,7 @@ class TestParticipantInteraction implements TestUserInteraction
                         ->format($environment['date_format']),
                     $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
                     '',
-                    \ilUserUtil::getNamePresentation(
+                    ilUserUtil::getNamePresentation(
                         $this->pax_id,
                         false,
                         false,
@@ -164,13 +169,13 @@ class TestParticipantInteraction implements TestUserInteraction
     public function toStorage(): array
     {
         return [
-            'ref_id' => [\ilDBConstants::T_INTEGER , $this->test_ref_id],
-            'qst_id' => [\ilDBConstants::T_INTEGER , $this->question_id],
-            'pax_id' => [\ilDBConstants::T_INTEGER , $this->pax_id],
-            'source_ip' => [\ilDBConstants::T_TEXT , $this->source_ip],
-            'interaction_type' => [\ilDBConstants::T_TEXT , $this->interaction_type->value],
-            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
-            'additional_data' => [\ilDBConstants::T_CLOB , json_encode($this->additional_data)]
+            'ref_id' => [ilDBConstants::T_INTEGER, $this->test_ref_id],
+            'qst_id' => [ilDBConstants::T_INTEGER, $this->question_id],
+            'pax_id' => [ilDBConstants::T_INTEGER, $this->pax_id],
+            'source_ip' => [ilDBConstants::T_TEXT, $this->source_ip],
+            'interaction_type' => [ilDBConstants::T_TEXT, $this->interaction_type->value],
+            'modification_ts' => [ilDBConstants::T_INTEGER, $this->modification_timestamp],
+            'additional_data' => [ilDBConstants::T_CLOB, json_encode($this->additional_data)]
         ];
     }
 }
