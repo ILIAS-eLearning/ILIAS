@@ -5,7 +5,7 @@
 @use "sass:math";
 
 .c-form {
-	[data-il-ui-type="TextareaFieldInput"] .c-input__field textarea {
+	[data-il-ui-component="textarea-field-input"] .c-input__field textarea {
 
 	}
 }

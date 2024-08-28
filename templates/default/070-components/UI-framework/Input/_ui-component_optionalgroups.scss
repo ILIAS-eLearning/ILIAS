@@ -17,8 +17,8 @@
 }
 
 
-.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"],
-.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"] > .c-input__field > .c-input {
+.c-form .c-input[data-il-ui-component="optional-group-field-input"],
+.c-form .c-input[data-il-ui-component="switchable-group-field-input"] > .c-input__field > .c-input {
 	display: grid;
 	grid-template-columns: l-form.$form__label-column__width l-form.$form__field-column__width;
 
@@ -57,7 +57,7 @@
 
 }
 
-.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"] {
+.c-form .c-input[data-il-ui-component="switchable-group-field-input"] {
 	> .c-input__field > .c-input {
 		grid-template-areas: 	"group-head group-head"
 								"error error"
@@ -70,7 +70,7 @@
 	}
 }
 
-.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"] {
+.c-form .c-input[data-il-ui-component="optional-group-field-input"] {
 	grid-template-areas: 	"group-head group-head"
 							"error error"
 							"blank group-help"
@@ -96,8 +96,8 @@
 }
 
 @include brk.on-screen-size(small) {
-	.c-form .c-input[data-il-ui-type="SwitchableGroupFieldInput"],
-	.c-form .c-input[data-il-ui-type="OptionalGroupFieldInput"] {
+	.c-form .c-input[data-il-ui-component="switchable-group-field-input"],
+	.c-form .c-input[data-il-ui-component="optional-group-field-input"] {
 		grid-template-columns: 100%;
 		grid-template-areas:  "group-head"
 							"error"
@@ -112,8 +112,8 @@
 }
 
 // animate expanding of group by animating grid rows - collapsed state
-.c-input[data-il-ui-type="OptionalGroupFieldInput"]:not(:has(> label input:checked)),
-.c-input[data-il-ui-type="SwitchableGroupFieldInput"]> .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
+.c-input[data-il-ui-component="optional-group-field-input"]:not(:has(> label input:checked)),
+.c-input[data-il-ui-component="switchable-group-field-input"]> .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
 	grid-template-rows: repeat(3, max-content) 0fr; // 0fr must target the group content row
 	> .c-input__field {
 		display: none;

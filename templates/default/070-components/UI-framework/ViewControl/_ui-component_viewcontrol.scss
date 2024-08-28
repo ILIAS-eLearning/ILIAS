@@ -116,7 +116,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // strip normal form column layout from apply offest viewcontrol
-.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-type="NumericFieldInput"] {
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component="numeric-field-input"] {
 	border-radius: $il-border-radius-secondary-large;
 	label {
 		text-align: right;

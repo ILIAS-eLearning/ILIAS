@@ -61,7 +61,7 @@
 }
 
 /// standard grid layout
-.c-input[data-il-ui-type] {
+.c-input[data-il-ui-component] {
   display: grid;
   grid-template-columns: l-form.$form__label-column__width l-form.$form__field-column__width;
   grid-template-areas:  "label field"
@@ -106,7 +106,7 @@
 /// styling shared by multiple input elements
 
 // hover/focus extends beyond box without pushing it
-.c-input:not([data-il-ui-type="SectionFieldInput"]) {
+.c-input:not([data-il-ui-component="section-field-input"]) {
   &:hover {
     box-shadow: 0px 0px 0px l.$il-margin-base-horizontal $il-main-dark-bg;
     background-color: $il-main-dark-bg;
@@ -122,7 +122,7 @@
     margin-top: l.$il-margin-large-vertical;
     margin-bottom: 0; // overrides alert default
   }
-  .c-input[data-il-ui-type] input:invalid {
+  .c-input[data-il-ui-component] input:invalid {
     background-color: $il-alert-danger-bg;
     border: 1px solid $il-alert-danger-border;
   }
@@ -137,30 +137,30 @@
     }
     margin-bottom: 0; // overrides alert default
   }
-  .c-input[data-il-ui-type]:not([data-il-ui-type="SectionFieldInput"]):has(> .c-input__error-msg) {
+  .c-input[data-il-ui-component]:not([data-il-ui-component="section-field-input"]):has(> .c-input__error-msg) {
     border-inline-start: 6px solid $il-alert-danger-border;
     padding-left: l.$il-padding-base-horizontal;
   }
-  [data-il-ui-type="TextareaFieldInput"] .c-input__field textarea,
-  [data-il-ui-type="MarkdownFieldInput"] .c-input__field .c-field-markdown textarea {
+  [data-il-ui-component="textarea-field-input"] .c-input__field textarea,
+  [data-il-ui-component="markdown-field-input"] .c-input__field .c-field-markdown textarea {
 		height: l-form.$il-textarea-height;
 		max-width: 100%; // otherwise textarea size can be dragged beyond mainspacekeeper in many browers
   }
-  [data-il-ui-type="TextFieldInput"] .c-input__field input,
-  [data-il-ui-type="PasswordFieldInput"] .c-input__field .c-field-password input,
-  [data-il-ui-type="TextareaFieldInput"] .c-input__field textarea,
-  [data-il-ui-type="MarkdownFieldInput"] > .c-input__field .c-field-markdown textarea,
-  [data-il-ui-type="UrlFieldInput"] .c-input__field input {
+  [data-il-ui-component="text-field-input"] .c-input__field input,
+  [data-il-ui-component="password-field-input"] .c-input__field .c-field-password input,
+  [data-il-ui-component="textarea-field-input"] .c-input__field textarea,
+  [data-il-ui-component="markdown-field-input"] > .c-input__field .c-field-markdown textarea,
+  [data-il-ui-component="url-field-input"] .c-input__field input {
     width: 100%;
     padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
     font-size: $il-standard-form-font-size;
   }
-  [data-il-ui-type="DateTimeFieldInput"] .c-input__field input,
-  [data-il-ui-type="NumericFieldInput"] .c-input__field input {
+  [data-il-ui-component="datetime-field-input"] .c-input__field input,
+  [data-il-ui-component="numeric-field-input"] .c-input__field input {
     padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
     font-size: $il-standard-form-font-size;
   }
-  [data-il-ui-type="SelectFieldInput"] .c-input__field select {
+  [data-il-ui-component="select-field-input"] .c-input__field select {
     padding: l.$il-padding-base-vertical l.$il-padding-base-horizontal;
   }
 }

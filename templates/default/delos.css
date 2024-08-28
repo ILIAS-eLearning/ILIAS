@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -687,8 +690,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -896,9 +900,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2021,6 +2022,9 @@ th {
     display: none !important;
   }
 }
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2445,8 +2449,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -4814,8 +4819,8 @@ hr.il-divider-with-label {
   min-width: 60px;
 }
 
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput],
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input {
+.c-form .c-input[data-il-ui-component=optional-group-field-input],
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-rows: repeat(3, max-content) 1fr;
@@ -4823,103 +4828,103 @@ hr.il-divider-with-label {
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field {
   grid-area: group;
   display: block;
   overflow: hidden;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input {
   margin: 0;
   padding: 12px 15px;
   background-color: #f9f9f9;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:first-child,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input:first-child {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:first-child,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:first-child {
   margin-top: 6px;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input:has(:focus-visible),
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input:hover,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input:has(:focus-visible) {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:has(:focus-visible),
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:has(:focus-visible) {
   box-shadow: none;
   background-color: #f0f0f0;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input .c-input:hover,
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field > .c-input .c-input:has(:focus-visible),
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:hover,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:has(:focus-visible) {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input .c-input:has(:focus-visible),
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:has(:focus-visible) {
   box-shadow: none;
   background-color: transparent;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__help-byline,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__help-byline {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__help-byline,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__help-byline {
   grid-area: group-help;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__error-msg,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__error-msg {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__error-msg,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__error-msg {
   grid-area: error;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > .c-input__field,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > .c-input__field {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field {
   transition-property: display;
   transition-duration: 0.3s;
   transition-behavior: allow-discrete;
 }
 
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input {
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input {
   grid-template-areas: "group-head group-head" "error error" "group-help group-help" "group group";
 }
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input > label {
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > label {
   grid-area: group-head;
 }
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input:has(:focus-visible) {
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input:has(:focus-visible) {
   box-shadow: none;
   background-color: transparent;
 }
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input .c-input:hover,
-.c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > .c-input .c-input:has(:focus-visible) {
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input .c-input:has(:focus-visible) {
   box-shadow: none;
   background-color: transparent;
 }
 
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] {
   grid-template-areas: "group-head group-head" "error error" "blank group-help" "group group";
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > label {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label {
   grid-area: group-head;
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-areas: "group-label group-field";
   padding-right: 0;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > label input[type=checkbox] {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label input[type=checkbox] {
   grid-area: group-field;
   justify-self: start;
 }
-.c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > label label {
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label label {
   display: block;
   grid-area: group-label;
 }
 
 @media screen and (max-width: 768px) {
-  .c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput],
-  .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] {
+  .c-form .c-input[data-il-ui-component=switchable-group-field-input],
+  .c-form .c-input[data-il-ui-component=optional-group-field-input] {
     grid-template-columns: 100%;
     grid-template-areas: "group-head" "error" "group-help" "group";
   }
-  .c-form .c-input[data-il-ui-type=SwitchableGroupFieldInput] > label,
-  .c-form .c-input[data-il-ui-type=OptionalGroupFieldInput] > label {
+  .c-form .c-input[data-il-ui-component=switchable-group-field-input] > label,
+  .c-form .c-input[data-il-ui-component=optional-group-field-input] > label {
     grid-template-columns: 100%;
     grid-template-areas: "group-label" "group-field";
   }
 }
-.c-input[data-il-ui-type=OptionalGroupFieldInput]:not(:has(> label input:checked)),
-.c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
+.c-input[data-il-ui-component=optional-group-field-input]:not(:has(> label input:checked)),
+.c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
   grid-template-rows: repeat(3, max-content) 0fr;
 }
-.c-input[data-il-ui-type=OptionalGroupFieldInput]:not(:has(> label input:checked)) > .c-input__field,
-.c-input[data-il-ui-type=SwitchableGroupFieldInput] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) > .c-input__field {
+.c-input[data-il-ui-component=optional-group-field-input]:not(:has(> label input:checked)) > .c-input__field,
+.c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) > .c-input__field {
   display: none;
 }
 
@@ -4941,44 +4946,44 @@ hr.il-divider-with-label {
   margin-top: 12px;
 }
 
-.c-input[data-il-ui-type] {
+.c-input[data-il-ui-component] {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-areas: "label field" "label error" "label help";
   margin-top: 12px;
 }
-.c-input[data-il-ui-type]:first-child {
+.c-input[data-il-ui-component]:first-child {
   margin-top: 0;
 }
-.c-input[data-il-ui-type] > label {
+.c-input[data-il-ui-component] > label {
   display: block;
   grid-area: label;
   padding-right: 12px;
 }
-.c-input[data-il-ui-type] > .c-input__field {
+.c-input[data-il-ui-component] > .c-input__field {
   grid-area: field;
 }
-.c-input[data-il-ui-type] > .c-input__help-byline {
+.c-input[data-il-ui-component] > .c-input__help-byline {
   grid-area: help;
 }
-.c-input[data-il-ui-type] > .c-input__error-msg {
+.c-input[data-il-ui-component] > .c-input__error-msg {
   grid-area: error;
 }
 @media screen and (max-width: 768px) {
-  .c-input[data-il-ui-type] {
+  .c-input[data-il-ui-component] {
     grid-template-columns: 100%;
     grid-template-areas: "label" "field" "error" "help";
   }
-  .c-input[data-il-ui-type] > .c-input__field {
+  .c-input[data-il-ui-component] > .c-input__field {
     margin-top: 3px;
   }
 }
 
-.c-input:not([data-il-ui-type=SectionFieldInput]):hover {
+.c-input:not([data-il-ui-component=section-field-input]):hover {
   box-shadow: 0px 0px 0px 9px #f9f9f9;
   background-color: #f9f9f9;
 }
-.c-input:not([data-il-ui-type=SectionFieldInput]):has(:focus-visible) {
+.c-input:not([data-il-ui-component=section-field-input]):has(:focus-visible) {
   box-shadow: 0px 0px 0px 9px #e2e8ef;
   background-color: #e2e8ef;
 }
@@ -4987,7 +4992,7 @@ hr.il-divider-with-label {
   margin-top: 6px;
   margin-bottom: 0;
 }
-.c-form .c-input[data-il-ui-type] input:invalid {
+.c-form .c-input[data-il-ui-component] input:invalid {
   background-color: #ffd7d7;
   border: 1px solid #d00;
 }
@@ -5002,30 +5007,30 @@ hr.il-divider-with-label {
 .c-form .c-input__error-msg:first-child {
   margin-top: 0;
 }
-.c-form .c-input[data-il-ui-type]:not([data-il-ui-type=SectionFieldInput]):has(> .c-input__error-msg) {
+.c-form .c-input[data-il-ui-component]:not([data-il-ui-component=section-field-input]):has(> .c-input__error-msg) {
   border-inline-start: 6px solid #d00;
   padding-left: 9px;
 }
-.c-form [data-il-ui-type=TextareaFieldInput] .c-input__field textarea,
-.c-form [data-il-ui-type=MarkdownFieldInput] .c-input__field .c-field-markdown textarea {
+.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea,
+.c-form [data-il-ui-component=markdown-field-input] .c-input__field .c-field-markdown textarea {
   height: 100px;
   max-width: 100%;
 }
-.c-form [data-il-ui-type=TextFieldInput] .c-input__field input,
-.c-form [data-il-ui-type=PasswordFieldInput] .c-input__field .c-field-password input,
-.c-form [data-il-ui-type=TextareaFieldInput] .c-input__field textarea,
-.c-form [data-il-ui-type=MarkdownFieldInput] > .c-input__field .c-field-markdown textarea,
-.c-form [data-il-ui-type=UrlFieldInput] .c-input__field input {
+.c-form [data-il-ui-component=text-field-input] .c-input__field input,
+.c-form [data-il-ui-component=password-field-input] .c-input__field .c-field-password input,
+.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea,
+.c-form [data-il-ui-component=markdown-field-input] > .c-input__field .c-field-markdown textarea,
+.c-form [data-il-ui-component=url-field-input] .c-input__field input {
   width: 100%;
   padding: 3px 9px;
   font-size: 0.75rem;
 }
-.c-form [data-il-ui-type=DateTimeFieldInput] .c-input__field input,
-.c-form [data-il-ui-type=NumericFieldInput] .c-input__field input {
+.c-form [data-il-ui-component=datetime-field-input] .c-input__field input,
+.c-form [data-il-ui-component=numeric-field-input] .c-input__field input {
   padding: 3px 9px;
   font-size: 0.75rem;
 }
-.c-form [data-il-ui-type=SelectFieldInput] .c-input__field select {
+.c-form [data-il-ui-component=select-field-input] .c-input__field select {
   padding: 3px 9px;
 }
 
@@ -10713,16 +10718,17 @@ td.c-table-data__cell--highlighted {
   cursor: default;
 }
 
-.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-type=NumericFieldInput] {
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] {
   border-radius: 10px;
 }
-.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-type=NumericFieldInput] label {
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] label {
   text-align: right;
 }
-.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-type=NumericFieldInput] .c-field-number {
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] .c-field-number {
   width: 100%;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -11415,6 +11421,7 @@ div.il_info {
   border-color: #dddddd;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -12047,6 +12054,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -19436,13 +19444,6 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
-/*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
