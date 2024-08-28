@@ -37,7 +37,6 @@ class DateTimeFilterContextRenderer extends FilterContextRenderer
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
         bool $bind_label_with_for = true,
-        bool $wrap = true,
     ): string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 

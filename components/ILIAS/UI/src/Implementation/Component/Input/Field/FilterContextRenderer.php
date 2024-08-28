@@ -38,7 +38,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class FilterContextRenderer extends Renderer
 {
-
     protected RendererInterface $original_default_renderer;
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
@@ -125,11 +124,9 @@ class FilterContextRenderer extends Renderer
         FormInput $component,
         string $label,
         string $input_html,
-        //RendererInterface $default_renderer,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
-        bool $bind_label_with_for = true,
-        bool $wrap = true,
+        bool $bind_label_with_for = true
     ): string {
         return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_pointing_to_input);
     }

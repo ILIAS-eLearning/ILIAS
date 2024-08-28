@@ -165,8 +165,7 @@ class Renderer extends AbstractComponentRenderer
         string $input_html,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
-        bool $bind_label_with_for = true,
-        bool $wrap = true,
+        bool $bind_label_with_for = true
     ): string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
@@ -179,9 +178,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $type = str_replace(' ', '', $component->getCanonicalName());
-        $tpl->setVariable("TYPE", $type);
-        $tpl->setVariable("NAME", $component->getName());
+        $ui_component = $this->getComponentCanonicalNameAttribute($component);
+        $tpl->setVariable("UI_COMPONENT", $ui_component);
+        $tpl->setVariable("INPUT_NAME", $component->getName());
 
 
         $byline = $component->getByline();
@@ -201,9 +200,12 @@ class Renderer extends AbstractComponentRenderer
         $error = $component->getError();
         if ($error) {
             $tpl->setVariable("ERROR", $error);
-            $tpl->setVariable("ERROR_FOR_ID", $id_pointing_to_input);
+            if ($id_pointing_to_input) {
+                $tpl->setVariable("ERROR_FOR_ID", $id_pointing_to_input);
+            }
         }
-        if(trim($dependant_group_html) !== '') {
+
+        if($dependant_group_html !== '') {
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
@@ -331,7 +333,15 @@ class Renderer extends AbstractComponentRenderer
             $input_html .= $default_renderer->render($input);
         }
 
-        return $this->wrapInFormContext($component, $label, $input_html, $id);
+        return $this->wrapInFormContext(
+            $component,
+            $label,
+            $input_html,
+            //$id,
+            '',
+            '',
+            false
+        );
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
@@ -341,7 +351,6 @@ class Renderer extends AbstractComponentRenderer
             list($value, ) = $component->getValue();
         }
 
-        $id = $this->bindJavaScript($component) ?? $this->createId();
 
         $input_html = '';
         foreach ($component->getInputs() as $key => $group) {
@@ -349,8 +358,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('LABEL', $group->getLabel());
             $tpl->setVariable("NAME", $component->getName());
             $tpl->setVariable("VALUE", $key);
-            $opt_id = $id . '_' . $key . '_opt';
-            $tpl->setVariable('OPTIONID', $opt_id);
 
             if ($key == $value) {
                 $tpl->setVariable("CHECKED", 'checked="checked"');
@@ -359,11 +366,21 @@ class Renderer extends AbstractComponentRenderer
             $input_html .= $this->wrapInFormContext(
                 $group,
                 $tpl->get(),
-                $default_renderer->render($group),
-                //TODO: id for group?
+                $default_renderer->render($group)
             );
         }
-        return $this->wrapInFormContext($component, $component->getLabel(), $input_html, $id);
+
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+
+        return $this->wrapInFormContext(
+            $component,
+            $component->getLabel(),
+            $input_html,
+            //$id,
+            '',
+            '',
+            false
+        );
     }
 
     protected function renderTagField(F\Tag $component, RendererInterface $default_renderer): string
@@ -710,14 +727,14 @@ class Renderer extends AbstractComponentRenderer
         $input = array_shift($inputs); //from
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $first_input_id = $this->bindJSandApplyId($input, $tpl);
-        $input_html = $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $first_input_id, '', true, false);
+        $input_html = $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $first_input_id);
 
         $input = array_shift($inputs) //until
             ->withAdditionalPickerconfig(['useCurrent' => false]);
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $first_input_id = $this->bindJSandApplyId($input, $tpl);
 
-        $input_html .= $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $first_input_id, '', true, false);
+        $input_html .= $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $first_input_id);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $id = $this->bindJSandApplyId($component, $tpl);
