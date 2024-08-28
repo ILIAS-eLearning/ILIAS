@@ -297,25 +297,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutionvalue = "";
-        $solutions = $this->getSolutionValues($active_id, $pass);
-        if (array_key_exists(0, $solutions)) {
-            $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
-        }
-        $i = 1;
-        $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue);
-        $i++;
-
-        return $startrow + $i + 1;
-    }
-
-    /**
     * Returns the best solution for a given pass of a participant
     *
     * @return array An associated array containing the best solution
@@ -566,7 +547,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         ];
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): string {
@@ -576,5 +557,20 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
 
         return str_replace("{::}", " ", $solution_values[0]['value1']);
+    }
+
+    public function solutionValuesToText(array $solution_values): string
+    {
+        if (!array_key_exists(0, $solution_values) ||
+            !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+
+        return str_replace("{::}", " ", $solution_values[0]['value1']);
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
+    {
+        return $this->getOrderText();
     }
 }

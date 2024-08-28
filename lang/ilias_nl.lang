@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Coördinaten
 assessment#:#copy_and_link_to_questionpool#:#Voeg toe aan vragenpool
 assessment#:#copy_no_questions_selected#:#Selecteer minimaal een vraag om te kopieeren.
 assessment#:#copy_questions_success#:#De vra(a)g(en) zijn gekopieerd.
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Teller
 assessment#:#create_gaps#:#Gaten aanmaken
 assessment#:#create_new#:#Aanmaken van een nieuwe
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Aan de Mediaan toegekende rang
 assessment#:#tst_stat_result_rank_participant#:#Rang van de deelnemer
 assessment#:#tst_stat_result_resultsmarks#:#toets resultaten
 assessment#:#tst_stat_result_resultspoints#:#toets resultaten in punten
-assessment#:#tst_stat_result_timeofwork#:#Verwerkingstijd
+assessment#:#tst_stat_result_timeontask#:#Verwerkingstijd
 assessment#:#tst_stat_result_total_participants#:#Totaal aantal deelnemers
 assessment#:#tst_submit_results#:#Ja, ik bevestig
 assessment#:#tst_tab_competences#:#Competenties

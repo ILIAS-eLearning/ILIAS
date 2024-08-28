@@ -2287,7 +2287,7 @@ class ilObjTest extends ilObject
     * @return array The total point values
     * @access public
     */
-    public function &getTotalPointsPassedArray(): array
+    public function getTotalPointsPassedArray(): array
     {
         $totalpoints_array = [];
         $all_users = $this->evalTotalParticipantsArray();
@@ -2547,17 +2547,17 @@ class ilObjTest extends ilObject
                 continue;
             }
 
-            $participantObject = $data->getParticipant($row["active_fi"]);
-            $passObject = $participantObject->getPass($row["pass"]);
+            $participant_object = $data->getParticipant($row["active_fi"]);
+            $pass_object = $participant_object->getPass($row["pass"]);
 
-            if (!($passObject instanceof ilTestEvaluationPassData)) {
+            if (!($pass_object instanceof ilTestEvaluationPassData)) {
                 continue;
             }
 
-            $passObject->addAnsweredQuestion(
-                $row["question_fi"],
-                $row["maxpoints"],
-                $row["points"],
+            $pass_object->addAnsweredQuestion(
+                $row['question_fi'],
+                $row['maxpoints'],
+                $row['points'],
                 (bool) $row['answered'],
                 null,
                 $row['manual']
@@ -2660,23 +2660,35 @@ class ilObjTest extends ilObject
         }
 
         foreach (array_keys($data->getParticipants()) as $active_id) {
-            $tst_user_data = $data->getParticipant($active_id);
-            $percentage = $tst_user_data->getReachedPointsInPercent();
-            $mark = $this->getMarkSchema()->getMatchingMark($percentage);
+            $user_data = $data->getParticipant($active_id);
+            $mark = $this->getMarkSchema()->getMatchingMark(
+                $user_data->getReachedPointsInPercent()
+            );
 
             if ($mark !== null) {
-                $tst_user_data->setMark($mark->getShortName());
-                $tst_user_data->setMarkOfficial($mark->getOfficialName());
+                $user_data->setMark($mark->getShortName());
+                $user_data->setMarkOfficial($mark->getOfficialName());
 
-                $tst_user_data->setPassed(
-                    $mark->getPassed() && $tst_user_data->areObligationsAnswered()
+                $user_data->setPassed(
+                    $mark->getPassed() && $user_data->areObligationsAnswered()
                 );
+            }
+
+            for ($i = 0;$i < $user_data->getPassCount();$i++) {
+                $pass_data = $user_data->getPass($i);
+                $mark = $this->getMarkSchema()->getMatchingMark(
+                    $pass_data->getReachedPointsInPercent()
+                );
+                if ($mark !== null) {
+                    $pass_data->setMark($mark->getShortName());
+                    $pass_data->setMarkOfficial($mark->getOfficialName());
+                }
             }
 
             $visiting_time = $this->getVisitTimeOfParticipant($active_id);
 
-            $tst_user_data->setFirstVisit($visiting_time["firstvisit"]);
-            $tst_user_data->setLastVisit($visiting_time["lastvisit"]);
+            $user_data->setFirstVisit($visiting_time["firstvisit"]);
+            $user_data->setLastVisit($visiting_time["lastvisit"]);
         }
 
         return $data;
@@ -2743,12 +2755,9 @@ class ilObjTest extends ilObject
         return ["count" => 0, "points" => 0];
     }
 
-    public function getCompleteEvaluationData($withStatistics = true, $filterby = '', $filtertext = ''): ilTestEvaluationData
+    public function getCompleteEvaluationData($filterby = '', $filtertext = ''): ilTestEvaluationData
     {
         $data = $this->getUnfilteredEvaluationData();
-        if ($withStatistics) {
-            $data->calculateStatistics();
-        }
         $data->setFilter($filterby, $filtertext);
         return $data;
     }
@@ -2882,7 +2891,7 @@ class ilObjTest extends ilObject
         return $name;
     }
 
-    public function evalTotalStartedAverageTime(?array $active_ids_to_filter = null): float
+    public function evalTotalStartedAverageTime(?array $active_ids_to_filter = null): int
     {
         $query = "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi";
 
@@ -2919,16 +2928,14 @@ class ilObjTest extends ilObject
         }
         $max_time = 0;
         $counter = 0;
-        foreach ($times as $key => $value) {
+        foreach ($times as $value) {
             $max_time += $value;
             $counter++;
         }
-        if ($counter) {
-            $average_time = round($max_time / $counter);
-        } else {
-            $average_time = 0;
+        if ($counter === 0) {
+            return 0;
         }
-        return $average_time;
+        return (int) round($max_time / $counter);
     }
 
     /**
@@ -6769,81 +6776,82 @@ class ilObjTest extends ilObject
         return $foundusers;
     }
 
-    /**
-    * Returns the aggregated test results
-    *
-    * @access public
-    */
     public function getAggregatedResultsData(): array
     {
         $data = $this->getCompleteEvaluationData();
-        $foundParticipants = $data->getParticipants();
-        $results = ["overview" => [], "questions" => []];
-        if (count($foundParticipants)) {
-            $results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
+        $found_participants = $data->getParticipants();
+        $results = ['overview' => [], 'questions' => []];
+        if ($found_participants !== []) {
+            $results['overview']['tst_stat_result_mark_median'] = $data->getStatistics()->getEvaluationDataOfMedianUser()->getMark();
+            $results['overview']['tst_stat_result_rank_median'] = $data->getStatistics()->rankMedian();
+            $results['overview']['tst_stat_result_total_participants'] = $data->getStatistics()->count();
+            $results['overview']['tst_stat_result_median'] = $data->getStatistics()->median();
+            $results['overview']['tst_eval_total_persons'] = count($found_participants);
             $total_finished = $data->getTotalFinishedParticipants();
-            $results["overview"][$this->lng->txt("tst_eval_total_finished")] = $total_finished;
-            $average_time = $this->evalTotalStartedAverageTime($data->getParticipantIds());
-            $diff_seconds = $average_time;
-            $diff_hours = floor($diff_seconds / 3600);
-            $diff_seconds -= $diff_hours * 3600;
-            $diff_minutes = floor($diff_seconds / 60);
-            $diff_seconds -= $diff_minutes * 60;
-            $results["overview"][$this->lng->txt("tst_eval_total_finished_average_time")] = sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds);
+            $results['overview']['tst_eval_total_finished'] = $total_finished;
+            $results['overview']['tst_eval_total_finished_average_time'] =
+                $this->secondsToHoursMinutesSecondsString(
+                    $this->evalTotalStartedAverageTime($data->getParticipantIds())
+                );
             $total_passed = 0;
             $total_passed_reached = 0;
             $total_passed_max = 0;
             $total_passed_time = 0;
-            foreach ($foundParticipants as $userdata) {
+            foreach ($found_participants as $userdata) {
                 if ($userdata->getPassed()) {
                     $total_passed++;
                     $total_passed_reached += $userdata->getReached();
                     $total_passed_max += $userdata->getMaxpoints();
-                    $total_passed_time += $userdata->getTimeOfWork();
+                    $total_passed_time += $userdata->getTimeOnTask();
                 }
             }
             $average_passed_reached = $total_passed ? $total_passed_reached / $total_passed : 0;
             $average_passed_max = $total_passed ? $total_passed_max / $total_passed : 0;
             $average_passed_time = $total_passed ? $total_passed_time / $total_passed : 0;
-            $results["overview"][$this->lng->txt("tst_eval_total_passed")] = $total_passed;
-            $results["overview"][$this->lng->txt("tst_eval_total_passed_average_points")] = sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max);
-            $average_time = $average_passed_time;
-            $diff_seconds = $average_time;
-            $diff_hours = floor($diff_seconds / 3600);
-            $diff_seconds -= $diff_hours * 3600;
-            $diff_minutes = floor($diff_seconds / 60);
-            $diff_seconds -= $diff_minutes * 60;
-            $results["overview"][$this->lng->txt("tst_eval_total_passed_average_time")] = sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds);
+            $results['overview']['tst_eval_total_passed'] = $total_passed;
+            $results['overview']['tst_eval_total_passed_average_points'] = sprintf('%2.2f', $average_passed_reached)
+                . ' ' . strtolower('of') . ' ' . sprintf('%2.2f', $average_passed_max);
+            $results['overview']['tst_eval_total_passed_average_time'] =
+                $this->secondsToHoursMinutesSecondsString($average_passed_time);
         }
 
         foreach ($data->getQuestionTitles() as $question_id => $question_title) {
             $answered = 0;
             $reached = 0;
             $max = 0;
-            foreach ($foundParticipants as $userdata) {
+            foreach ($found_participants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
                         $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
-                            $reached += $question["reached"];
-                            $max += $question["points"];
+                            $reached += $question['reached'];
+                            $max += $question['points'];
                         }
                     }
                 }
             }
             $percent = $max ? $reached / $max * 100.0 : 0;
-            $results["questions"][$question_id] = [
+            $results['questions'][$question_id] = [
                 $question_title,
-                sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
-                sprintf("%.2f", $percent) . "%",
+                sprintf('%.2f', $answered ? $reached / $answered : 0) . ' ' . strtolower($this->lng->txt('of')) . ' ' . sprintf('%.2f', $answered ? $max / $answered : 0),
+                sprintf('%.2f', $percent) . '%',
                 $answered,
-                sprintf("%.2f", $answered ? $reached / $answered : 0),
-                sprintf("%.2f", $answered ? $max / $answered : 0),
+                sprintf('%.2f', $answered ? $reached / $answered : 0),
+                sprintf('%.2f', $answered ? $max / $answered : 0),
                 $percent / 100.0
             ];
         }
         return $results;
+    }
+
+    protected function secondsToHoursMinutesSecondsString(int $seconds): string
+    {
+        $diff_hours = floor($seconds / 3600);
+        $seconds -= $diff_hours * 3600;
+        $diff_minutes = floor($seconds / 60);
+        $seconds -= $diff_minutes * 60;
+        return sprintf('%02d:%02d:%02d', $diff_hours, $diff_minutes, $seconds);
     }
 
     /**

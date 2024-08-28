@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordinatat
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###12 06 2011 new variable
 assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2011 new variable
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Numërues
 assessment#:#create_gaps#:#Krijo zbrazëtirë
 assessment#:#create_new#:#Krijo të re
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Rangu i mesatares
 assessment#:#tst_stat_result_rank_participant#:#Rangu i participantëve
 assessment#:#tst_stat_result_resultsmarks#:#Rezultatet e testit të shprehur në nota
 assessment#:#tst_stat_result_resultspoints#:#Rezultatet e testeve në pikë
-assessment#:#tst_stat_result_timeofwork#:#Kohëzgjatja e përpunimit
+assessment#:#tst_stat_result_timeontask#:#Kohëzgjatja e përpunimit
 assessment#:#tst_stat_result_total_participants#:#Numri i total i pjesmarrsëve
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

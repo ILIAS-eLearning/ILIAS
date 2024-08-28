@@ -93,7 +93,7 @@ class MarkSchema
         float $percentage
     ): ?Mark {
         $reached = round($percentage, 2);
-        foreach ($this->mark_steps as $step) {
+        foreach (array_reverse($this->mark_steps) as $step) {
             $level = round($step->getMinimumLevel(), 2);
             if ($reached >= $level) {
                 return $step;

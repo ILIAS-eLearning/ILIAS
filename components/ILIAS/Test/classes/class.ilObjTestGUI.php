@@ -1366,7 +1366,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED
             || file_exists($this->buildResultsFilePath($importdir, $subdir))) {
-            $this->importVerifiedFileObject();
+            $this->importVerifiedFileObject(true);
             return;
         }
 
@@ -1462,8 +1462,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     /**
     * imports question(s) into the questionpool (after verification)
     */
-    public function importVerifiedFileObject()
-    {
+    public function importVerifiedFileObject(
+        bool $skip_retrieve_selected_questions = false
+    ): void {
         $file_to_import = ilSession::get('path_to_import_file');
         $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
@@ -1476,12 +1477,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $new_obj->putInTree($this->testrequest->getRefId());
         $new_obj->setPermissions($this->testrequest->getRefId());
 
-        $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
-            'importVerifiedFile',
-            $importdir,
-            $qtifile,
-            $this->request
-        );
+        $selected_questions = [];
+        if (!$skip_retrieve_selected_questions) {
+            $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+                'importVerifiedFile',
+                $importdir,
+                $qtifile,
+                $this->request
+            );
+        }
 
         if (is_file($importdir . DIRECTORY_SEPARATOR . "/manifest.xml")) {
             $new_obj->saveToDb();

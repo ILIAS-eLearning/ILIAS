@@ -327,8 +327,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
         while ($data = $this->db->fetchAssoc($result)) {
-            if (strcmp($data["value1"], "") != 0) {
-                array_push($found_values, $data["value1"]);
+            if ($data['value1'] !== '') {
+                array_push($found_values, $data['value1']);
             }
         }
         $points = 0.0;
@@ -646,7 +646,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public function getRTETextWithMediaObjects(): string
     {
         $text = parent::getRTETextWithMediaObjects();
-        foreach ($this->answers as $index => $answer) {
+        foreach (array_keys($this->answers) as $index) {
             $text .= $this->feedbackOBJ->getSpecificAnswerFeedbackContent($this->getId(), 0, $index);
             $answer_obj = $this->answers[$index];
             $text .= $answer_obj->getAnswertext();
@@ -657,7 +657,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
     * Returns a reference to the answers array
     */
-    public function &getAnswers(): array
+    public function getAnswers(): array
     {
         return $this->answers;
     }
@@ -665,36 +665,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public function setAnswers(array $answers): void
     {
         $this->answers = $answers;
-    }
-
-    public function setExportDetailsXLSX(
-        ilAssExcelFormatHelper $worksheet,
-        int $startrow,
-        int $col,
-        int $active_id,
-        int $pass
-    ): int {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-        $i = 1;
-        foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, $col, $answer->getAnswertext());
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            if (
-                count($solution) > 0 &&
-                isset($solution[0]) &&
-                is_array($solution[0]) &&
-                strlen($solution[0]['value1']) > 0 && $id == $solution[0]['value1']
-            ) {
-                $worksheet->setCell($startrow + $i, $col + 2, 1);
-            } else {
-                $worksheet->setCell($startrow + $i, $col + 2, 0);
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
     }
 
     protected function lmMigrateQuestionTypeSpecificContent(
@@ -946,7 +916,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): string {
@@ -957,5 +927,31 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         return $this->getAnswer((int) $solution_values[0]['value1'])->getAnswertext();
+    }
+
+    public function solutionValuesToText(array $solution_values): string
+    {
+        if ($solution_values === []
+            || !array_key_exists(0, $solution_values)
+            || !is_array($solution_values[0])) {
+            return '';
+        }
+
+        return $this->getAnswer((int) $solution_values[0]['value1'])->getAnswertext();
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_reduce(
+            $this->getAnswers(),
+            function (array $c, ASS_AnswerBinaryStateImage $v): array {
+                if ($v->getPoints() > 0.0) {
+                    $c[] = $v->getAnswertext()
+                        . "({$this->lng->txt('points')}: {$v->getPoints()})";
+                }
+                return $c;
+            },
+            []
+        );
     }
 }

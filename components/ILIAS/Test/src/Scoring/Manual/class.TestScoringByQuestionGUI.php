@@ -84,7 +84,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         }
 
         if ($selected_question_data !== null && is_numeric($pass_nr)) {
-            $data = $this->object->getCompleteEvaluationData(false);
+            $data = $this->object->getCompleteEvaluationData();
             $participants = $data->getParticipants();
             $participant_data = new \ilTestParticipantData($this->db, $this->lng);
             $participant_data->setActiveIdsFilter(array_keys($data->getParticipants()));
@@ -394,7 +394,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->http->close(); // illegal ajax call
         }
 
-        $data = $this->object->getCompleteEvaluationData(false);
+        $data = $this->object->getCompleteEvaluationData();
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
         $tmp_tpl = new \ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'components/ILIAS/Test');

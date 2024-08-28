@@ -262,7 +262,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             'type' => $this->lng->txt('type'),
             'answers' => $this->lng->txt('answers'),
             'answer_options' => $this->lng->txt('answer_options'),
-            'correct_answers' => $this->lng->txt('correct_answers'),
+            'correct_answers' => $this->lng->txt('correct_answers') . ':',
             'add_answers' => '[' . $this->lng->txt('add_answers') . ']',
             'manual_editing' => $this->lng->txt('manual_editing')
         ];

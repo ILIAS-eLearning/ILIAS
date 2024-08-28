@@ -665,36 +665,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, $col, $answer->getAnswertext());
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            $checked = false;
-            foreach ($solution as $solutionvalue) {
-                if ($id == $solutionvalue["value1"]) {
-                    $checked = true;
-                }
-            }
-            if ($checked) {
-                $worksheet->setCell($startrow + $i, $col + 2, 1);
-            } else {
-                $worksheet->setCell($startrow + $i, $col + 2, 0);
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
-    /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
     protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator): void
@@ -1033,7 +1003,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -1051,5 +1021,35 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 ->getCheckedUncheckedTagForBool($checked);
         }
         return $parsed_solutions;
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        $solution_ids = array_map(
+            static fn(array $v): string => $v['value1'],
+            $solution_values
+        );
+
+        return array_map(
+            function (ASS_AnswerMultipleResponseImage $v) use ($solution_ids): string {
+                $checked = 'unchecked';
+                if (in_array($v->getId(), $solution_ids)) {
+                    $checked = 'checked';
+                }
+                return "{$v->getAnswertext()} ({$this->lng->txt($checked)})";
+            },
+            $this->getAnswers()
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_map(
+            fn(ASS_AnswerMultipleResponseImage $v): string => $v->getAnswertext()
+                . "({$this->lng->txt('points')} "
+                . "{$this->lng->txt('checked')}: {$v->getPointsChecked()}, "
+                . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
+            $this->getAnswers()
+        );
     }
 }

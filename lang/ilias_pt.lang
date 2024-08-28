@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Coordenadas
 assessment#:#copy_and_link_to_questionpool#:#Adicionar ao banco de perguntas
 assessment#:#copy_no_questions_selected#:#Selecione pelo menos uma pergunta para copiar.
 assessment#:#copy_questions_success#:#A(s) pergunta(s) foi(foram) copiada(s).
-assessment#:#correct_answers#:#Respostas corretas:
+assessment#:#correct_answers#:#Respostas corretas
 assessment#:#counter#:#Contador
 assessment#:#create_gaps#:#Criar e atualizar espaços
 assessment#:#create_new#:#Criar novo
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Classificação de mediano
 assessment#:#tst_stat_result_rank_participant#:#Classificação do participante
 assessment#:#tst_stat_result_resultsmarks#:#Para reativar a sua conta pode usar um código de conta ILIAS.
 assessment#:#tst_stat_result_resultspoints#:#Código de conta
-assessment#:#tst_stat_result_timeofwork#:#A sua conta foi reativada. Faça novamente login por razões de segurança.
+assessment#:#tst_stat_result_timeontask#:#A sua conta foi reativada. Faça novamente login por razões de segurança.
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes
 assessment#:#tst_submit_results#:#Sim, eu confirmo a submissão.
 assessment#:#tst_tab_competences#:#Competências

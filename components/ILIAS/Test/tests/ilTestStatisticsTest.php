@@ -16,22 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\Test\Tests;
+
+use ILIAS\Test\Statistics\Statistics;
+
 class ilTestStatisticsTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilTestStatistics = new ilTestStatistics($this->createMock(ilTestEvaluationData::class));
-        $this->assertInstanceOf(ilTestStatistics::class, $ilTestStatistics);
-        $this->assertInstanceOf(ilStatistics::class, $ilTestStatistics->statistics);
-    }
-
-    public function testGetStatistics(): void
-    {
-        $ilTestStatistics = new ilTestStatistics($this->createMock(ilTestEvaluationData::class));
-        $this->assertInstanceOf(ilTestStatistics::class, $ilTestStatistics);
-        $this->assertInstanceOf(ilStatistics::class, $ilTestStatistics->getStatistics());
-        $object = (object) [];
-        $ilTestStatistics->statistics = $object;
-        $this->assertEquals($object, $ilTestStatistics->getStatistics());
+        $ilTestStatistics = new Statistics($this->createMock(\ilTestEvaluationData::class));
+        $this->assertInstanceOf(Statistics::class, $ilTestStatistics);
     }
 }

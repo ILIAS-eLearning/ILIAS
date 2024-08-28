@@ -85,7 +85,7 @@ class ilTestToplistGUI
         // BH: this really is the "mark of median" ??!
         $activeId = $this->test_obj->getActiveIdOfUser($this->user->getId());
         $data = $this->test_obj->getCompleteEvaluationData();
-        $median = $data->getStatistics()->getStatistics()->median();
+        $median = $data->getStatistics()->median();
         $pct = $data->getParticipant($activeId)->getMaxpoints() ? ($median / $data->getParticipant($activeId)->getMaxpoints()) * 100.0 : 0;
         $mark = $this->test_obj->getMarkSchema()->getMatchingMark($pct);
         $content = $mark->getShortName();

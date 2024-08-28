@@ -25,7 +25,6 @@ enum Types: string
 {
     case SCORED_RUN = 'scored_test_run';
     case ALL_RUNS = 'all_test_runs';
-    case ALL_RUNS_AGGREGATED = 'aggregated';
     case CERTIFICATE_ARCHIVE = 'certificate';
     case XML = 'xml';
     case XML_WITH_RESULTS = 'xml_with_results';

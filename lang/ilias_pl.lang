@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordynaty
 assessment#:#copy_and_link_to_questionpool#:#Dodaj do puli pytań
 assessment#:#copy_no_questions_selected#:#Wybierz co najmniej jedno pytanie do kopiowania.
 assessment#:#copy_questions_success#:#Pytanie(a) skopiowano.
-assessment#:#correct_answers#:#Prawidłowe odpowiedzi:
+assessment#:#correct_answers#:#Prawidłowe odpowiedzi
 assessment#:#counter#:#Licznik
 assessment#:#create_gaps#:#Twórz i odświeżaj odstępy
 assessment#:#create_new#:#Twórz nowe
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Stopień średniej
 assessment#:#tst_stat_result_rank_participant#:#Stopień uczestnika
 assessment#:#tst_stat_result_resultsmarks#:#Wynik testu słownie
 assessment#:#tst_stat_result_resultspoints#:#Wynik testu w punktach
-assessment#:#tst_stat_result_timeofwork#:#Czas pracy
+assessment#:#tst_stat_result_timeontask#:#Czas pracy
 assessment#:#tst_stat_result_total_participants#:#Liczba uczestników
 assessment#:#tst_submit_results#:#Tak, zatwierdzam test do oceny.
 assessment#:#tst_tab_competences#:#Kompetencje

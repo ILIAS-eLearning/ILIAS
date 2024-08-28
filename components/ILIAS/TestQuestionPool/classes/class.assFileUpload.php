@@ -793,28 +793,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return parent::getRTETextWithMediaObjects();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $i = 1;
-        $solutions = $this->getSolutionValues($active_id, $pass);
-        foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, $col, $this->lng->txt('result'));
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            if (strlen($solution['value1'])) {
-                $worksheet->setCell($startrow + $i, $col + 2, $solution['value1']);
-                $worksheet->setCell($startrow + $i, $col + 3, $solution['value2']);
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
     public function getBestSolution($active_id, $pass): array
     {
         $user_solution = [];
@@ -964,7 +942,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         ];
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -972,5 +950,18 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             static fn(array $v): string => "{$v['value1']} - {$v['value2']}",
             $solution_values
         );
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        return array_map(
+            static fn(array $v): string => "{$v['value1']} - {$v['value2']}",
+            $solution_values
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return '';
     }
 }

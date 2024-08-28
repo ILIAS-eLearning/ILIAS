@@ -358,30 +358,6 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return parent::getRTETextWithMediaObjects();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
-        $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-
-        $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-        if (array_key_exists(0, $solutions) &&
-            array_key_exists('value1', $solutions[0]) &&
-            strlen($solutions[0]["value1"])) {
-            $worksheet->setCell($startrow + $i, $col + 2, $solutions[0]["value1"]);
-        }
-        $i++;
-
-        return $startrow + $i + 1;
-    }
-
     public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -461,7 +437,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         ];
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): string {
@@ -470,5 +446,19 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             return '';
         }
         return $solution_values[0]['value1'];
+    }
+
+    public function solutionValuesToText(array $solution_values): string
+    {
+        if (!array_key_exists(0, $solution_values) ||
+            !array_key_exists('value1', $solution_values[0])) {
+            return '';
+        }
+        return $solution_values[0]['value1'];
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
+    {
+        return "{$this->getLowerLimit()}-{$this->getUpperLimit()}";
     }
 }

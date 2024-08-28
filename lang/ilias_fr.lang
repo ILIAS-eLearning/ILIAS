@@ -577,7 +577,7 @@ assessment#:#coordinates#:#Coordonnées
 assessment#:#copy_and_link_to_questionpool#:#Ajouter à une banque de questions
 assessment#:#copy_no_questions_selected#:#Veuillez choisir au moins une question à  copier.
 assessment#:#copy_questions_success#:#Question(s) copiée(s).
-assessment#:#correct_answers#:#Bonnes réponses:
+assessment#:#correct_answers#:#Bonnes réponses
 assessment#:#counter#:#Compteur
 assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
@@ -671,7 +671,7 @@ assessment#:#exp_all_test_runs#:#All test runs###31 10 2023 new variable
 assessment#:#exp_eval_data#:#Exporter les résultats
 assessment#:#exp_file_created#:#Fichier d'export créé.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
-assessment#:#exp_scored_test_run#:#Scored test run###31 10 2023 new variable
+assessment#:#exp_scored_test_attempt#:#Scored test Attempt
 assessment#:#exp_type_certificate#:#Certificat (PDF)
 assessment#:#exp_type_excel#:# Excel
 assessment#:#exp_type_spss#:#  SPSS
@@ -1912,7 +1912,7 @@ assessment#:#tst_stat_result_rank_median#:#Rang médian
 assessment#:#tst_stat_result_rank_participant#:#Rang du participant
 assessment#:#tst_stat_result_resultsmarks#:#Appréciation
 assessment#:#tst_stat_result_resultspoints#:#Points
-assessment#:#tst_stat_result_timeofwork#:#Durée totale
+assessment#:#tst_stat_result_timeontask#:#Durée totale
 assessment#:#tst_stat_result_total_participants#:#Nombre total de participants
 assessment#:#tst_submit_results#:#Oui, je confirme l'envoi des réponses.
 assessment#:#tst_tab_competences#:#Compétences

@@ -78,7 +78,7 @@ class TestScoring
 
     public function recalculateSolutions(): void
     {
-        $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
+        $participants = $this->test->getCompleteEvaluationData()->getParticipants();
         if (is_array($participants)) {
             foreach ($participants as $active_id => $userdata) {
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
@@ -93,7 +93,7 @@ class TestScoring
     {
         $user_data = $this
             ->test
-            ->getCompleteEvaluationData(false)
+            ->getCompleteEvaluationData()
             ->getParticipant($active_id);
 
         $this->recalculatePass(

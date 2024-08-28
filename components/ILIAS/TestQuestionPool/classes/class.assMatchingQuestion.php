@@ -1028,48 +1028,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Returns the matchingpairs array
     */
-    public function &getMatchingPairs(): array
+    public function getMatchingPairs(): array
     {
         return $this->matchingpairs;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solutions = $this->getSolutionValues($active_id, $pass);
-
-        $imagepath = $this->getImagePath();
-        $i = 1;
-        foreach ($solutions as $solution) {
-            $matches_written = false;
-            foreach ($this->getMatchingPairs() as $idx => $pair) {
-                if (!$matches_written) {
-                    $worksheet->setCell($startrow + $i, $col + 1, $this->lng->txt("matches"));
-                }
-                $matches_written = true;
-                if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
-                    if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getText());
-                    } else {
-                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getPicture());
-                    }
-                }
-                if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
-                    if (strlen($pair->getTerm()->getText())) {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getText());
-                    } else {
-                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getPicture());
-                    }
-                }
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
     }
 
     /**
@@ -1443,10 +1404,15 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
+        return $this->solutionValuesToText($solution_values);
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
         $reducer = static function (array $c, assAnswerMatchingTerm|assAnswerMatchingDefinition $v): array {
             $c[$v->getIdentifier()] = $v->getText() !== ''
                 ? $v->getPicture()
@@ -1467,9 +1433,18 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         return array_map(
-            static fn(array $v): string => $definitions_by_identifier['value2']
-                . ':' . $terms_by_identifier['value1'],
+            static fn(array $v): string => $definitions_by_identifier[$v['value2']]
+                . ':' . $terms_by_identifier[$v['value1']],
             $solution_values
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_map(
+            fn(assAnswerMatchingPair $v): string => $v->getDefinition()->getText() . ': '
+                . $v->getTerm()->getText(),
+            $this->getMatchingPairs()
         );
     }
 }

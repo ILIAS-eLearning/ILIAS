@@ -180,10 +180,34 @@ abstract class assQuestion implements Question
     abstract public function getAdditionalTableName(): string;
     abstract public function getAnswerTableName(): string|array;
 
+    /**
+     * MUST return an array of the question settings that can
+     * be stored in the log. Language variables must be generated through the
+     * corresponding functions in the AdditionalInformationGenerator. If an array
+     * is returned it will be rendered into a line per array entry in the format
+     * "key: value". If the key exists as a language variable, it will be
+     * translated.
+     */
     abstract public function toLog(AdditionalInformationGenerator $additional_info): array;
 
-    abstract public function solutionValuesToLog(
+    /**
+     * MUST convert the given solution values into an array or a string that can
+     * be stored in the log. Language variables must be generated through the
+     * corresponding functions in the AdditionalInformationGenerator. If an array
+     * is returned it will be rendered into a line per array entry in the format
+     * "key: value". If the key exists as a language variable, it will be
+     * translated.
+     */
+    abstract protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array|string;
+
+    /**
+     * MUST convert the given solution values into text. If the text has
+     * multiple lines each line MUST be placed as an entry in an array.
+     */
+    abstract protected function solutionValuesToText(
         array $solution_values
     ): array|string;
 
@@ -1625,7 +1649,7 @@ abstract class assQuestion implements Question
                 break;
         }
         if ($resolved_link !== null) {
-            return $resolved_link;
+            return (string) $resolved_link;
         }
         return $internal_link;
     }
@@ -2190,14 +2214,6 @@ abstract class assQuestion implements Question
         $question_gui->setObject($question);
 
         return $question_gui;
-    }
-
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $startrow, $this->lng->txt($this->getQuestionType()));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col + 1) . $startrow, $this->getTitle());
-
-        return $startrow;
     }
 
     public function getNrOfTries(): int
@@ -2954,15 +2970,15 @@ abstract class assQuestion implements Question
         return $valuePairs;
     }
 
-    public function fetchIndexedValuesFromValuePairs(array $valuePairs): array
+    public function fetchIndexedValuesFromValuePairs(array $value_pairs): array
     {
-        $indexedValues = [];
+        $indexed_values = [];
 
-        foreach ($valuePairs as $valuePair) {
-            $indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
+        foreach ($value_pairs as $valuePair) {
+            $indexed_values[$valuePair['value1']] = $valuePair['value2'];
         }
 
-        return $indexedValues;
+        return $indexed_values;
     }
 
     public function areObligationsToBeConsidered(): bool
@@ -3079,8 +3095,33 @@ abstract class assQuestion implements Question
             AdditionalInformationGenerator::KEY_REACHED_POINTS => $this->getReachedPoints($active_id, $pass),
             AdditionalInformationGenerator::KEY_PAX_ANSWER => $this->solutionValuesToLog(
                 $additional_info,
-                $this->getSolutionValues($active_id)
+                $this->getSolutionValues($active_id, $pass)
             )
         ];
+    }
+
+    public function getSolutionForTextOutput(
+        int $active_id,
+        int $pass
+    ): array|string {
+        return $this->solutionValuesToText(
+            $this->getSolutionValues($active_id, $pass)
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(
+        int $active_id,
+        int $pass
+    ): array|string {
+        return $this->solutionValuesToText(
+            $this->getSolutionValues($active_id, $pass)
+        );
+    }
+
+    public function getVariablesAsTextArray(
+        int $active_id,
+        int $pass
+    ): array {
+        return [];
     }
 }

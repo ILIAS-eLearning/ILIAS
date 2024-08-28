@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Koordinatlar
 assessment#:#copy_and_link_to_questionpool#:#Soru havuzu ekle
 assessment#:#copy_no_questions_selected#:#Kopyalamak için en az bir soru seçiniz.
 assessment#:#copy_questions_success#:#Soru(lar) kopyalandı.
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Sayaç
 assessment#:#create_gaps#:#Boşluklar Oluştur
 assessment#:#create_new#:#Yeni Oluştur
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Ortalama Derece
 assessment#:#tst_stat_result_rank_participant#:#Katılımcı Derecesi
 assessment#:#tst_stat_result_resultsmarks#:#Notlar
 assessment#:#tst_stat_result_resultspoints#:#Puana Göre Test Sonucu
-assessment#:#tst_stat_result_timeofwork#:#Çalışma Saat
+assessment#:#tst_stat_result_timeontask#:#Çalışma Saat
 assessment#:#tst_stat_result_total_participants#:#Katılımcı Sayısı
 assessment#:#tst_submit_results#:#Evet, teslim onaylamak yapmak.
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

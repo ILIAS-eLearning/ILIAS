@@ -265,7 +265,7 @@ class ilTestParticipantsGUI
             $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'all_test_runs_a');
             $options = [
                 $this->ui_factory->button()->shy(
-                    $this->lng->txt('exp_scored_test_run'),
+                    $this->lng->txt('exp_scored_test_attempt'),
                     $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
                 )
             ];
@@ -289,7 +289,7 @@ class ilTestParticipantsGUI
         $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::SCORED_RUN->value);
         $options = [
             $this->ui_factory->button()->shy(
-                $this->lng->txt('exp_scored_test_run'),
+                $this->lng->txt('exp_scored_test_attempt'),
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
             )
         ];

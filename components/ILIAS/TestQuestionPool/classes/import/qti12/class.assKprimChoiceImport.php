@@ -281,7 +281,10 @@ class assKprimChoiceImport extends assQuestionImport
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($answers as $key => $value) {
-                    $answer_obj = &$answers[$key];
+                    $answer_obj = $answers[$key];
+                    if ($answer_obj->getAnswertext() === null) {
+                        continue;
+                    }
                     $answer_obj->setAnswertext(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $answer_obj->getAnswertext()));
                 }
                 foreach ($feedbacks as $ident => $material) {
@@ -294,7 +297,10 @@ class assKprimChoiceImport extends assQuestionImport
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
         foreach ($answers as $key => $value) {
-            $answer_obj = &$answers[$key];
+            $answer_obj = $answers[$key];
+            if ($answer_obj->getAnswertext() === null) {
+                continue;
+            }
             $answer_obj->setAnswertext(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 1));
         }
         foreach ($feedbacks as $ident => $material) {

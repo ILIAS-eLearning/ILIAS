@@ -592,7 +592,7 @@ assessment#:#coordinates#:#座標
 assessment#:#copy_and_link_to_questionpool#:#問題集へ追加
 assessment#:#copy_no_questions_selected#:#コピーするには問題のどれかひとつを選択してください。
 assessment#:#copy_questions_success#:#問題がコピーされました。
-assessment#:#correct_answers#:#正解:
+assessment#:#correct_answers#:#正解
 assessment#:#counter#:#カウンター
 assessment#:#create_gaps#:#穴埋め作成
 assessment#:#create_new#:#新規作成
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Medianランク
 assessment#:#tst_stat_result_rank_participant#:#受験者順位
 assessment#:#tst_stat_result_resultsmarks#:#テスト結果マーク
 assessment#:#tst_stat_result_resultspoints#:#テスト点数結果
-assessment#:#tst_stat_result_timeofwork#:#解答時間
+assessment#:#tst_stat_result_timeontask#:#解答時間
 assessment#:#tst_stat_result_total_participants#:#受験者総数
 assessment#:#tst_submit_results#:#はい、提出を確認します。
 assessment#:#tst_tab_competences#:#能力

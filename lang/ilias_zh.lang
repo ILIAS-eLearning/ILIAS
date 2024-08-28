@@ -591,7 +591,7 @@ assessment#:#coordinates#:#匹配
 assessment#:#copy_and_link_to_questionpool#:#复制到题目池并创建链接
 assessment#:#copy_no_questions_selected#:#请至少选择一个要复制的题目。
 assessment#:#copy_questions_success#:#题目已复制
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#计数器
 assessment#:#create_gaps#:#创建间隔
 assessment#:#create_new#:#新创建
@@ -1926,7 +1926,7 @@ assessment#:#tst_stat_result_rank_median#:#Rank of median
 assessment#:#tst_stat_result_rank_participant#:#参与者排名
 assessment#:#tst_stat_result_resultsmarks#:#标记的测试成绩
 assessment#:#tst_stat_result_resultspoints#:#以分数为单位的测试成绩
-assessment#:#tst_stat_result_timeofwork#:#工作时间
+assessment#:#tst_stat_result_timeontask#:#工作时间
 assessment#:#tst_stat_result_total_participants#:#参与者总数
 assessment#:#tst_submit_results#:#是的，我确定要提交。
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable

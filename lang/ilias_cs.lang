@@ -592,7 +592,7 @@ assessment#:#coordinates#:#Souřadnice
 assessment#:#copy_and_link_to_questionpool#:#Přidat do zásobníku otázek
 assessment#:#copy_no_questions_selected#:#Vyberte prosím alespoň jednu otázku ke zkopírování.
 assessment#:#copy_questions_success#:#Otázky byly zkopírovány.
-assessment#:#correct_answers#:#Správné odpovědi:
+assessment#:#correct_answers#:#Správné odpovědi
 assessment#:#counter#:#Počitadlo
 assessment#:#create_gaps#:#Vytvořit mezery
 assessment#:#create_new#:#Vytvořit nový
@@ -1927,7 +1927,7 @@ assessment#:#tst_stat_result_rank_median#:#Úroveň mediánu
 assessment#:#tst_stat_result_rank_participant#:#Úroveň účastníka
 assessment#:#tst_stat_result_resultsmarks#:#Výsledky testu ve známkách
 assessment#:#tst_stat_result_resultspoints#:#Výsledky testů v bodech
-assessment#:#tst_stat_result_timeofwork#:#Doba práce
+assessment#:#tst_stat_result_timeontask#:#Doba práce
 assessment#:#tst_stat_result_total_participants#:#Celkový počet účastníků
 assessment#:#tst_submit_results#:#Ano, potvrzuji odeslání.
 assessment#:#tst_tab_competences#:#Způsobilosti

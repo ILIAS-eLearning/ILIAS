@@ -458,8 +458,6 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 
             $this->getGlobalTpl()->addJavaScript('assets/js/jquery.nestable.min.js');
             $this->renderJsInit();
-
-            return $this->renderMainList();
         }
 
         return $this->renderMainList();
