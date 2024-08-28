@@ -20,16 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Questions;
 
+use ilAccessHandler;
+use ilCtrl;
+use ilCtrlException;
+use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Link\Link;
+use ilLanguage;
+use ilObject;
+use ilObjQuestionPoolGUI;
+use ilObjTestGUI;
 
 trait QuestionPoolLinkedTitleBuilder
 {
+    /**
+     * @throws ilCtrlException
+     */
     public function buildPossiblyLinkedTestTitle(
-        \ilCtrl $ctrl,
-        \ilAccessHandler $access,
-        \ilLanguage $lng,
+        ilCtrl $ctrl,
+        ilAccessHandler $access,
+        ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
         int $test_id,
@@ -43,31 +53,33 @@ trait QuestionPoolLinkedTitleBuilder
             $ui_renderer,
             $test_id,
             $title,
-            \ilObjTestGUI::class
+            ilObjTestGUI::class
         );
     }
 
-    public function buildPossiblyLinkedQuestonPoolTitle(
-        \ilCtrl $ctrl,
-        \ilAccessHandler $access,
-        \ilLanguage $lng,
+    /**
+     * @throws ilCtrlException
+     */
+    public function buildPossiblyLinkedQuestionPoolTitle(
+        ilCtrl $ctrl,
+        ilAccessHandler $access,
+        ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
         ?int $qpl_id,
         string $title,
         bool $reference = false
     ): string {
-        if ($qpl_id === null) {
+        if (is_null($qpl_id)) {
             return $title;
         }
 
-        if (\ilObject::_lookupType($qpl_id, $reference) !== 'qpl') {
+        if (ilObject::_lookupType($qpl_id, $reference) !== 'qpl') {
             return $lng->txt('tst_question_not_from_pool_info');
         }
 
-        $qpl_obj_id = $qpl_id;
         if ($reference) {
-            $qpl_obj_id = \ilObject::_lookupObjId($qpl_id);
+            $qpl_obj_id = ilObject::_lookupObjId($qpl_id);
         }
 
         return $this->buildPossiblyLinkedTitle(
@@ -76,17 +88,20 @@ trait QuestionPoolLinkedTitleBuilder
             $lng,
             $ui_factory,
             $ui_renderer,
-            $qpl_obj_id,
+            $qpl_obj_id ?? $qpl_id,
             $title,
-            \ilObjQuestionPoolGUI::class,
+            ilObjQuestionPoolGUI::class,
             $reference
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function buildPossiblyLinkedTitle(
-        \ilCtrl $ctrl,
-        \ilAccessHandler $access,
-        \ilLanguage $lng,
+        ilCtrl $ctrl,
+        ilAccessHandler $access,
+        ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
         int $obj_id,
@@ -98,10 +113,10 @@ trait QuestionPoolLinkedTitleBuilder
             $access,
             $reference,
             $obj_id,
-            \ilObject::_getAllReferences($obj_id)
+            ilObject::_getAllReferences($obj_id)
         );
 
-        if ($ref_id === null) {
+        if (is_null($ref_id)) {
             return $title . ' (' . $lng->txt('status_no_permission') . ')';
         }
 
@@ -110,8 +125,11 @@ trait QuestionPoolLinkedTitleBuilder
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function getLinkedTitle(
-        \ilCtrl $ctrl,
+        ilCtrl $ctrl,
         UIFactory $ui_factory,
         int $ref_id,
         string $title,
@@ -120,16 +138,15 @@ trait QuestionPoolLinkedTitleBuilder
         $ctrl->setParameterByClass($target_class_type, 'ref_id', $ref_id);
         $linked_title = $ui_factory->link()->standard(
             $title,
-            $ctrl->getLinkTargetByClass(
-                [$target_class_type]
-            )
+            $ctrl->getLinkTargetByClass([$target_class_type])
         );
         $ctrl->clearParametersByClass($target_class_type);
+
         return $linked_title;
     }
 
     private function getFirstReferenceWithCurrentUserAccess(
-        \ilAccessHandler $access,
+        ilAccessHandler $access,
         bool $reference,
         int $obj_id,
         array $all_ref_ids
@@ -140,13 +157,15 @@ trait QuestionPoolLinkedTitleBuilder
 
         $references_with_access = array_filter(
             array_values($all_ref_ids),
-            function ($ref_id) use ($access) {
+            static function ($ref_id) use ($access) {
                 return $access->checkAccess('read', '', $ref_id);
             }
         );
+
         if ($references_with_access !== []) {
             return array_shift($references_with_access);
         }
+
         return null;
     }
 }

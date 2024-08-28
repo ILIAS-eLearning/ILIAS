@@ -123,7 +123,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
         $this->tpl->setVariable(
             'SOURCE_POOL_LABEL',
-            $this->buildPossiblyLinkedQuestonPoolTitle(
+            $this->buildPossiblyLinkedQuestionPoolTitle(
                 $this->ctrl,
                 $this->access,
                 $this->lng,
