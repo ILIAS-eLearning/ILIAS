@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Setup;
 
-use ilDatabaseUpdateSteps;
+use ilDBConstants;
 use ilDBInterface;
+use ilDatabaseUpdateSteps;
 
 class DBUpdateSteps10 implements ilDatabaseUpdateSteps
 {
@@ -33,10 +34,11 @@ class DBUpdateSteps10 implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-
     public function step_1(): void
     {
-        $this->db->manipulate('DELETE FROM usr_pref WHERE keyword = \'hits_per_page\'');
-        $this->db->manipulate('DELETE FROM settings WHERE ' . $this->db->like('keyword', 'hits_per_page'));
+        $this->db->manipulate(
+            'DELETE FROM usr_pref WHERE keyword = ' . $this->db->quote('hits_per_page', ilDBConstants::T_TEXT)
+        );
+        $this->db->manipulate('DELETE FROM settings WHERE ' . $this->db->like('keyword', '%hits_per_page%'));
     }
 }
