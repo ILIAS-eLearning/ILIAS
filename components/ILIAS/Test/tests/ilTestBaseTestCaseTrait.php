@@ -100,7 +100,8 @@ trait ilTestBaseTestCaseTrait
         ilLocatorGUI::class => 'ilLocator',
         ilToolbarGUI::class => 'ilToolbar',
         ilObjectCustomIconFactory::class => 'object.customicons.factory',
-        Filesystems::class => 'filesystem'
+        Filesystems::class => 'filesystem',
+        ilObjTest::class => 'ilObjTest'
     ];
 
     protected function defineGlobalConstants(): void
@@ -131,6 +132,9 @@ trait ilTestBaseTestCaseTrait
         }
         if (!defined('CLIENT_WEB_DIR')) {
             define('CLIENT_WEB_DIR', './public/data');
+        }
+        if (!defined('CLIENT_DATA_DIR')) {
+            define('CLIENT_DATA_DIR', './external_data');
         }
     }
 
@@ -514,9 +518,30 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('resource_storage', $this->createMock(Services::class));
     }
 
+    /**
+     * @throws Exception
+     */
     protected function addGlobal_fileDelivery(): void
     {
         $this->setGlobalVariable('file_delivery', $this->getFileDelivery());
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function addGlobal_requestDataCollector(): void
+    {
+        $this->setGlobalVariable('request_data_collector', $this->createMock(RequestDataCollector::class));
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function addGlobal_ilObjTest(): void
+    {
+        $this->setGlobalVariable('ilObjTest', $this->createConfiguredMock(ilObjTest::class, [
+            'getLocalDIC' => $this->buildLocalDICMock()
+        ]));
     }
 
     /**
