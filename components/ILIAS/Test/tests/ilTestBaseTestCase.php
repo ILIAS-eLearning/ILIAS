@@ -174,6 +174,7 @@ class ilTestBaseTestCase extends TestCase
                 'false' => false,
                 'array' => [],
                 'null', 'resource' => null,
+                'Closure' => (static fn() => null),
                 default => (function($constructorParameterTypeName) {
                     if (enum_exists($constructorParameterTypeName)) {
                         $enumCases = $constructorParameterTypeName::cases();
