@@ -66,7 +66,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $tags = ["lorem", "ipsum", "dolor",];
         $tag = $f->tag($label, $tags, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TagFieldInput',
+            'tag-field-input',
             $label,
             '
             <div id="container-id_1" class="c-field-tag__wrapper">

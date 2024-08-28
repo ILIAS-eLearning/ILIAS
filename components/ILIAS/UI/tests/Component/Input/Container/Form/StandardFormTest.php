@@ -101,7 +101,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     protected function getTextFieldHtml(): string
     {
         return $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             'label',
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
@@ -263,7 +263,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                 </div>
             </div>
             <div class="c-form__error-msg alert alert-danger" role="alert">testing error message</div>
-            <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name="form_0/input_1"><label
+            <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="form_0/input_1"><label
                     for="id_1">label</label>
                 <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
                 <div class="c-input__error-msg alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
@@ -317,7 +317,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
 
         $field_html = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             'label',
             '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text" />',
             'byline',
@@ -353,7 +353,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $field_html = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             'label<span class="asterisk">*</span>',
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',

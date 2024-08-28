@@ -47,7 +47,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $byline = 'section byline';
         $section = $f->section($inputs, $label, $byline)->withNameFrom($this->name_source);
         $f1 = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             'input1',
             '<input id="id_1" type="text"  name="name_0/name_1" class="c-field-text" />',
             'in 1',
@@ -55,7 +55,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             'name_0/name_1'
         );
         $f2 = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             'input2',
             '<input id="id_2" type="text"  name="name_0/name_2" class="c-field-text" />',
             'in 2',
@@ -63,7 +63,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             'name_0/name_2'
         );
         $expected = $this->getFormWrappedHtml(
-            'SectionFieldInput',
+            'section-field-input',
             $label,
             $f1 . $f2,
             $byline,

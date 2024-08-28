@@ -251,6 +251,11 @@ class TestDefaultRenderer extends DefaultRenderer
     {
         return $this->getContexts();
     }
+
+    public function getComponentCanonicalNameAttribute(IComponent $component): string
+    {
+        return str_replace(' ', '-', strtolower($component->getCanonicalName()));
+    }
 }
 
 class TestDummyRenderer implements Render\ComponentRenderer

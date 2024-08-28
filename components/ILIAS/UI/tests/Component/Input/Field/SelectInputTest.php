@@ -121,7 +121,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'SelectFieldInput',
+            'select-field-input',
             $label,
             '
             <select id="id_1" name="name_0">
@@ -145,7 +145,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source)->withValue("one");
         $expected = $this->getFormWrappedHtml(
-            'SelectFieldInput',
+            'select-field-input',
             $label,
             '
             <select id="id_1" name="name_0">

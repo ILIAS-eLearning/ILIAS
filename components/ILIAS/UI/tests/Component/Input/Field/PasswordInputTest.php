@@ -85,7 +85,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $name = "name_0";
         $pwd = $f->password($label, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'PasswordFieldInput',
+            'password-field-input',
             $label,
             '
             <div class="c-field-password" id="id_1_container">
@@ -117,7 +117,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $name = "name_0";
         $pwd = $f->password($label)->withValue($value)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'PasswordFieldInput',
+            'password-field-input',
             $label,
             '
             <div class="c-field-password" id="id_1_container">

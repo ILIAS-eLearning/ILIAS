@@ -121,7 +121,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $byline = "byline";
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TextareaFieldInput',
+            'textarea-field-input',
             $label,
             '
             <textarea id="id_1" class="c-field-textarea" name="name_0"></textarea>
@@ -151,7 +151,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $byline = "This is just a byline Min: " . $min;
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TextareaFieldInput',
+            'textarea-field-input',
             $label,
             '
             <textarea id="id_1" class="c-field-textarea" name="name_0" minlength="5"></textarea>
@@ -169,7 +169,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $byline = "This is just a byline Max: " . $max;
         $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TextareaFieldInput',
+            'textarea-field-input',
             $label,
             '
                 <textarea id="id_1" class="c-field-textarea" name="name_0" maxlength="20"></textarea>

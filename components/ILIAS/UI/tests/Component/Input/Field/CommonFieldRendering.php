@@ -50,7 +50,7 @@ trait CommonFieldRendering
     protected function testWithError(FormInput $component): void
     {
         $error = "an_error";
-        $expected = '<div class="c-input__error-msg alert alert-danger" aria-describedby="';
+        $expected = '<div class="c-input__error-msg alert alert-danger"';
         $expected2 = '" role="alert">' . $error . '</div>';
         $html = $this->render($component->withError($error));
         $this->assertStringContainsString($expected, $html);
@@ -71,8 +71,8 @@ trait CommonFieldRendering
 
     protected function testWithDisabled(FormInput $component): void
     {
-        $type = str_replace(' ', '', $component->getCanonicalName());
-        $expected = '<fieldset class="c-input" data-il-ui-type="' . $type . '" data-il-ui-name="name_0" disabled="disabled">';
+        $type = $this->getDefaultRenderer()->getComponentCanonicalNameAttribute($component);
+        $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="name_0" disabled="disabled">';
         $this->assertStringContainsString($expected, $this->render($component->withDisabled(true)));
     }
 
@@ -86,7 +86,7 @@ trait CommonFieldRendering
     ): string {
         $id = $id ? " for=\"$id\"" : '';
         $html = '
-        <fieldset class="c-input" data-il-ui-type="' . $type . '" data-il-ui-name="' . $name . '">
+        <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '">
             <label' . $id . '>' . $label . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;

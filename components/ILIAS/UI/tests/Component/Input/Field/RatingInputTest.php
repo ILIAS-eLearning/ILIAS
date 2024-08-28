@@ -62,7 +62,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
     {
         $rating = $this->buildRating();
         $expected = $this->getFormWrappedHtml(
-            'RatingFieldInput',
+            'rating-field-input',
             'label',
             '
             <fieldset class="input-group il-input-rating" id="id_1">
@@ -106,7 +106,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
             ->withCurrentAverage(3);
 
         $expected = $this->brutallyTrimHTML(
-            '<fieldset class="c-input" data-il-ui-type="RatingFieldInput" data-il-ui-name="name_0" disabled="disabled">
+            '<fieldset class="c-input" data-il-ui-component="rating-field-input" data-il-ui-input-name="name_0" disabled="disabled">
             <label>label</label>
             <div class="c-input__field">
 

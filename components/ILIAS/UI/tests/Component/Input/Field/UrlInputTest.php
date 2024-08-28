@@ -57,7 +57,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $byline = "Test Byline";
         $url = $factory->url($label, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'UrlFieldInput',
+            'url-field-input',
             $label,
             '<input id="id_1" type="url" name="name_0" class="c-field-url" />',
             $byline
@@ -73,7 +73,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $url = $factory->url($label)->withValue($value)
             ->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'UrlFieldInput',
+            'url-field-input',
             $label,
             '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="c-field-url" />',
         );

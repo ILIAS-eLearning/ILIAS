@@ -257,7 +257,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($dr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <fieldset class="c-input" data-il-ui-type="" data-il-ui-name="">
+        <fieldset class="c-input" data-il-ui-component="" data-il-ui-input-name="">
             <label for="id_1">label</label>
             <div class="c-input__field">
                 <div class="c-input-group">

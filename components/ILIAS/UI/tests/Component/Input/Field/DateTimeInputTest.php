@@ -174,7 +174,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <fieldset class="c-input" data-il-ui-type="DateTimeFieldInput" data-il-ui-name="">
+        <fieldset class="c-input" data-il-ui-component="date-time-field-input" data-il-ui-input-name="">
             <label for="id_1">label</label>
             <div class="c-input__field">
                 <div class="c-input-group">

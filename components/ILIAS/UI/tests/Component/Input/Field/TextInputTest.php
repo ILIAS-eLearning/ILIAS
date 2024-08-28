@@ -57,7 +57,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $byline = "byline";
         $text = $f->text($label, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             $label,
             '<input id="id_1" type="text" name="name_0" class="c-field-text" />',
             $byline
@@ -84,7 +84,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $value = "value";
         $text = $f->text($label)->withValue($value)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             $label,
             '<input id="id_1" type="text" value="value" name="name_0" class="c-field-text" />'
         );
@@ -114,7 +114,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $text = $f->text($label)->withNameFrom($this->name_source)->withMaxLength(8);
         $expected = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             $label,
             '<input id="id_1" type="text" name="name_0" maxlength="8" class="c-field-text" />'
         );

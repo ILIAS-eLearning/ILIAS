@@ -168,7 +168,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $label_end = 'duration_default_label_end';
 
         $f1 = $this->getFormWrappedHtml(
-            'DateTimeFieldInput',
+            'date-time-field-input',
             $label_start,
             '<div class="c-input-group">
                 <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
@@ -179,7 +179,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
             'name_0/start_1'
         );
         $f2 = $this->getFormWrappedHtml(
-            'DateTimeFieldInput',
+            'date-time-field-input',
             $label_end,
             '<div class="c-input-group">
                 <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
@@ -191,7 +191,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->getFormWrappedHtml(
-            'DurationFieldInput',
+            'duration-field-input',
             'label',
             '<div class="c-field-duration" id="id_3">' . $f1 . $f2 . '</div>',
             'byline',
@@ -212,7 +212,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $duration = $duration->withLabels($other_start_label, $other_end_label);
 
         $f1 = $this->getFormWrappedHtml(
-            'DateTimeFieldInput',
+            'date-time-field-input',
             $other_start_label,
             '<div class="c-input-group">
                 <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
@@ -223,7 +223,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
             'name_0/start_1'
         );
         $f2 = $this->getFormWrappedHtml(
-            'DateTimeFieldInput',
+            'date-time-field-input',
             $other_end_label,
             '<div class="c-input-group">
                 <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
@@ -235,7 +235,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->getFormWrappedHtml(
-            'DurationFieldInput',
+            'duration-field-input',
             'label',
             '<div class="c-field-duration" id="id_3">' . $f1 . $f2 . '</div>',
             'byline',

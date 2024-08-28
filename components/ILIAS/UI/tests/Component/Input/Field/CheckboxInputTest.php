@@ -58,7 +58,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $byline = "byline";
         $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source);
         $expected = $this->getFormWrappedHtml(
-            'CheckboxFieldInput',
+            'checkbox-field-input',
             $label,
             '<input type="checkbox" id="id_1" value="checked" name="name_0" class="c-field-checkbox" />',
             $byline

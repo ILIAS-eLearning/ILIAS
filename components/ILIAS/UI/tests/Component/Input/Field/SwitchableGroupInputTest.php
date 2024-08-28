@@ -428,31 +428,31 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         );
 
         $expected = <<<EOT
-<fieldset class="c-input" data-il-ui-type="SwitchableGroupFieldInput" data-il-ui-name="">
-    <label for="id_1">label</label>
+<fieldset class="c-input" data-il-ui-component="switchable-group-field-input" data-il-ui-input-name="">
+    <label>label</label>
     <div class="c-input__field">
-        <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name="">
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
             <label>
-                <input type="radio" id="id_1_g1_opt" value="g1" />
-                <label for="id_1_g1_opt"></label>
+                <input type="radio" value="g1" />
+                <span></span>
             </label>
             <div class="c-input__field">
-                <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name=""><label
-                        for="id_2">f</label>
-                    <div class="c-input__field"><input id="id_2" type="text" class="c-field-text" /></div>
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name=""><label
+                        for="id_1">f</label>
+                    <div class="c-input__field"><input id="id_1" type="text" class="c-field-text" /></div>
                     <div class="c-input__help-byline">some field</div>
                 </fieldset>
             </div>
         </fieldset>
-        <fieldset class="c-input" data-il-ui-type="GroupFieldInput" data-il-ui-name="">
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
             <label>
-                <input type="radio" id="id_1_g2_opt" value="g2" />
-                <label for="id_1_g2_opt"></label>
+                <input type="radio" value="g2" />
+                <span></span>
             </label>
             <div class="c-input__field">
-                <fieldset class="c-input" data-il-ui-type="TextFieldInput" data-il-ui-name=""><label
-                        for="id_3">f2</label>
-                    <div class="c-input__field"><input id="id_3" type="text" class="c-field-text" /></div>
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name=""><label
+                        for="id_2">f2</label>
+                    <div class="c-input__field"><input id="id_2" type="text" class="c-field-text" /></div>
                     <div class="c-input__help-byline">some other field</div>
                 </fieldset>
             </div>
@@ -475,7 +475,7 @@ EOT;
     {
         $r = $this->getDefaultRenderer();
         $html = $this->render($sg->withValue('g2'));
-        $expected = '<label><input type="radio" id="id_1_g2_opt" value="g2" checked="checked" />';
+        $expected = '<label><input type="radio" value="g2" checked="checked" />';
         $this->assertStringContainsString($expected, $this->render($sg->withValue('g2')));
     }
 
@@ -497,7 +497,7 @@ EOT;
 
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
 
-        $expected = '<label><input type="radio" id="id_1_1_opt" value="1" checked="checked" />';
+        $expected = '<label><input type="radio" value="1" checked="checked" />';
         $this->assertStringContainsString($expected, $this->render($sg->withValue('1')));
     }
 }

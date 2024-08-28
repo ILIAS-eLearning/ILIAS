@@ -57,7 +57,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $link = $factory->link($label, $byline)->withNameFrom($this->name_source);
 
         $f1 = $this->getFormWrappedHtml(
-            'TextFieldInput',
+            'text-field-input',
             '',
             '<input id="id_1" type="text" name="name_0/label_1" class="c-field-text" />',
             null,
@@ -65,7 +65,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
             'name_0/label_1'
         );
         $f2 = $this->getFormWrappedHtml(
-            'UrlFieldInput',
+            'url-field-input',
             '',
             '<input id="id_2" type="url" name="name_0/url_2" class="c-field-url" />',
             null,
@@ -74,7 +74,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->getFormWrappedHtml(
-            'LinkFieldInput',
+            'link-field-input',
             $label,
             $f1 . $f2,
             $byline,
