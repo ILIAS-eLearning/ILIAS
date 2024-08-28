@@ -136,6 +136,9 @@ trait ilTestBaseTestCaseTrait
         if (!defined('CLIENT_DATA_DIR')) {
             define('CLIENT_DATA_DIR', './external_data');
         }
+        if (!defined('CLIENT_ID')) {
+            define('CLIENT_ID', 'default');
+        }
     }
 
     /**
@@ -164,15 +167,19 @@ trait ilTestBaseTestCaseTrait
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getIliasMock(): ILIAS
     {
-        $mock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
+        $mock = $this->createMock(ILIAS::class);
 
         $account = new stdClass();
         $account->id = 6;
         $account->fullname = 'Esther Tester';
 
         $mock->account = $account;
+        $mock->ini_ilias = $this->createMock(ilIniFile::class);
 
         return $mock;
     }
@@ -316,6 +323,9 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
     }
 
+    /**
+     * @throws Exception
+     */
     protected function addGlobal_ilias(): void
     {
         $this->setGlobalVariable('ilias', $this->getIliasMock());
