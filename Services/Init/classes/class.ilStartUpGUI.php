@@ -268,20 +268,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $this->getLogger()->debug('Showing login page');
 
-        $extUid = '';
-        if ($this->http->wrapper()->query()->has('ext_uid')) {
-            $extUid = $this->http->wrapper()->query()->retrieve(
-                'ext_uid',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        $soapPw = '';
-        if ($this->http->wrapper()->query()->has('soap_pw')) {
-            $extUid = $this->http->wrapper()->query()->retrieve(
-                'soap_pw',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $extUid = $this->http->wrapper()->query()->retrieve(
+            'ext_uid',
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
+        $soapPw = $this->http->wrapper()->query()->retrieve(
+            'soap_pw',
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
         $credentials = new ilAuthFrontendCredentialsSoap(
             $GLOBALS['DIC']->http()->request(),
             $this->ctrl,
