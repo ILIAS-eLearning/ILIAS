@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/ilTestBaseTestCaseTrait.php';
 
+use ILIAS\DI\Container;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\TestCase;
-use ILIAS\DI\Container;
 
 /**
  * Class ilTestBaseClass
@@ -33,8 +33,8 @@ class ilTestBaseTestCase extends TestCase
     use ilTestBaseTestCaseTrait;
 
     public const MOCKED_METHOD_WITHOUT_OUTPUT = 'MOCKED_METHOD_WITHOUT_OUTPUT';
-    protected ?Container $backup_dic = null;
     protected ?Container $dic = null;
+    protected ?Container $backup_dic = null;
 
     /**
      * @inheritdoc
@@ -42,13 +42,33 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function setUp(): void
     {
+        $this->defineGlobalConstants();
+
+        global $DIC;
+        $this->backup_dic = is_object($DIC) ? clone $DIC : $DIC;
+        $DIC = $this->getMockBuilder(Container::class)->onlyMethods([])->getMock();
+
+        $this->addGlobals();
+
+        $this->dic = $DIC;
+
+        parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
         global $DIC;
 
-        $this->backup_dic = is_object($DIC) ? clone $DIC : $DIC;
+        $DIC = $this->backup_dic;
 
-        $DIC = $this->getMockBuilder(Container::class)->onlyMethods(['uiService'])->getMock();
-        $DIC->method('uiService')->willReturn($this->createMock(ilUIService::class));
+        parent::tearDown();
+    }
 
+    /**
+     * @throws MockObjectException
+     */
+    private function addGlobals(): void
+    {
         $this->addGlobal_ilAccess();
         $this->addGlobal_dataFactory();
         $this->addGlobal_tpl();
@@ -84,21 +104,9 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilObjectCustomIconFactory();
         $this->addGlobal_filesystem();
         $this->addGlobal_ilLoggerFactory();
-
-        $this->dic = $DIC;
-
-        $this->defineGlobalConstants();
-
-        parent::setUp();
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-
-        $DIC = $this->backup_dic;
-
-        parent::tearDown();
+        $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_ilObjTest();
     }
 
     /**
