@@ -20,16 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use DateTimeImmutable;
+use ilDBConstants;
+use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Table\DataRow;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\StaticURL\Services as StaticURLServices;
-use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Component\Table\DataRow;
+use ilLanguage;
+use ilUserUtil;
+use ilWACException;
 
 class TestError implements TestUserInteraction
 {
@@ -49,7 +52,6 @@ class TestError implements TestUserInteraction
         private readonly int $modification_timestamp,
         private readonly string $error_message
     ) {
-
     }
 
     public function getUniqueIdentifier(): ?string
@@ -64,19 +66,19 @@ class TestError implements TestUserInteraction
         return $clone;
     }
 
+    /**
+     * @throws ilWACException
+     */
     public function getLogEntryAsDataTableRow(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
-        $admin = $this->getUserForPresentation($this->admin_id);
-        $pax = $this->getUserForPresentation($this->pax_id);
-
         $values = [
-            'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+            'date_and_time' => DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
             'corresponding_test' => $this->buildTestTitleColumnContent(
                 $lng,
@@ -84,8 +86,8 @@ class TestError implements TestUserInteraction
                 $ui_factory->link(),
                 $this->test_ref_id
             ),
-            'admin' => $admin,
-            'participant' => $pax,
+            'admin' => $this->getUserForPresentation($this->admin_id),
+            'participant' => $this->getUserForPresentation($this->pax_id),
             'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
             'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
         ];
@@ -115,25 +117,25 @@ class TestError implements TestUserInteraction
         return $ui_factory->legacy($this->error_message);
     }
 
+    /**
+     * @throws ilWACException
+     */
     public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         GeneralQuestionPropertiesRepository $properties_repository,
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): string {
-        $admin = $this->getUserForPresentation($this->admin_id);
-        $pax = $this->getUserForPresentation($this->pax_id);
-
         return implode(
             ';',
             $this->processCSVRow(
                 [
-                    \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                    DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                         ->setTimezone($environment['timezone'])
                         ->format($environment['date_format']),
                     $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
-                    $admin,
-                    $pax,
+                    $this->getUserForPresentation($this->admin_id),
+                    $this->getUserForPresentation($this->pax_id),
                     '',
                     $this->buildQuestionTitleCSVContent(
                         $properties_repository,
@@ -151,22 +153,22 @@ class TestError implements TestUserInteraction
     public function toStorage(): array
     {
         return [
-            'ref_id' => [\ilDBConstants::T_INTEGER , $this->test_ref_id],
-            'qst_id' => [\ilDBConstants::T_INTEGER , $this->question_id],
-            'admin_id' => [\ilDBConstants::T_INTEGER , $this->admin_id],
-            'pax_id' => [\ilDBConstants::T_INTEGER , $this->pax_id],
-            'interaction_type' => [\ilDBConstants::T_TEXT , $this->interaction_type->value],
-            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
-            'error_message' => [\ilDBConstants::T_TEXT , $this->error_message]
+            'ref_id' => [ilDBConstants::T_INTEGER, $this->test_ref_id],
+            'qst_id' => [ilDBConstants::T_INTEGER, $this->question_id],
+            'admin_id' => [ilDBConstants::T_INTEGER, $this->admin_id],
+            'pax_id' => [ilDBConstants::T_INTEGER, $this->pax_id],
+            'interaction_type' => [ilDBConstants::T_TEXT, $this->interaction_type->value],
+            'modification_ts' => [ilDBConstants::T_INTEGER, $this->modification_timestamp],
+            'error_message' => [ilDBConstants::T_TEXT, $this->error_message]
         ];
     }
 
+    /**
+     * @throws ilWACException
+     */
     private function getUserForPresentation(?int $user_id): string
     {
-        if ($user_id === null) {
-            return '';
-        }
-        return \ilUserUtil::getNamePresentation(
+        return is_null($user_id) ? '' : ilUserUtil::getNamePresentation(
             $user_id,
             false,
             false,
