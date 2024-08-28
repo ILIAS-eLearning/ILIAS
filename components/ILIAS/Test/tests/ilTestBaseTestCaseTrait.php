@@ -38,6 +38,9 @@ trait ilTestBaseTestCaseTrait
         if (!defined("CLIENT_DATA_DIR")) {
             define("CLIENT_DATA_DIR", "/var/iliasdata");
         }
+        if (!defined('ILIAS_INST_ID')) {
+            define('ILIAS_INST_ID', '0');
+        }
         if (!defined("ANONYMOUS_USER_ID")) {
             define("ANONYMOUS_USER_ID", 13);
         }
