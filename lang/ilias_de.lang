@@ -2890,8 +2890,8 @@ chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeic
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
+chatroom#:#chat_connection_disconnected#:##username# hat den Chatraum verlassen.
+chatroom#:#chat_connection_established#:##username# hat den Chatraum betreten.
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
 chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
@@ -2923,7 +2923,6 @@ chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
-chatroom#:#chat_message_to_all#:#An alle
 chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
@@ -3017,7 +3016,7 @@ chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as 
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#messages#:#Nachrichten
-chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
+chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend.
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
@@ -3036,17 +3035,17 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen des Chats
-chatroom#:#speak_to#:#<b>#user#</b> ansprechen
+chatroom#:#start_private_chat#:#Privaten Chat starten
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
+chatroom#:#user_banned#:#Der Benutzer #user# wurde aus dem Chatraum gebannt.
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
-chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
-chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
+chatroom#:#user_invited_self#:#Sie wurden von #user# in den Chatraum #room# eingeladen.
+chatroom#:#user_kicked#:#Der Benutzer #user# wurde aus dem Chatraum geworfen.
 chatroom#:#users#:#Benutzer
-chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
-chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#welcome_to_chat#:#Willkommen im Chatraum.
 chatroom#:#write_message#:#Neue Nachricht
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren

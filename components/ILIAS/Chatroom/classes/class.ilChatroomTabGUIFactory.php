@@ -293,7 +293,7 @@ class ilChatroomTabGUIFactory
 
         $config = [
             'view' => [
-                'lng' => 'view',
+                'lng' => 'obj_chtr',
                 'link' => $DIC->ctrl()->getLinkTarget($this->gui, 'view'),
                 'permission' => 'read'
             ],

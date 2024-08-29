@@ -57,7 +57,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    private function handleTableActions(): void
+    public function handleTableActions(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'chat_ban_table_action',
@@ -159,6 +159,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             $room->disconnectUser($userToBan);
         }
 
-        $this->sendResponse($response);
+        $this->sendResponse($response, 'application/json');
     }
 }

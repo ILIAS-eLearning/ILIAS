@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,18 +14,17 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+export default url => (action, getParameters = {}) => {
+  const target = new URL(url.replace(/postMessage/, action));
+  Object.entries(getParameters).forEach(kv => set(target.searchParams, ...kv));
 
-/**
- * Class ilChatroomPostMessageGUI
- * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- * @ingroup components\ILIASChatroom
- */
-class ilChatroomPollGUI extends ilChatroomGUIHandler
-{
-    public function executeDefault(string $requestedMethod): void
-    {
-        $this->sendJSONResponse(['success' => true]);
-    }
+  return fetch(target);
 }
+
+function set(s, k, v) {
+  if (typeof v === 'object' && v !== null) {
+    Object.entries(v).forEach(([nk, nv]) => set(s, k + '[' + nk + ']', nv));
+  } else {
+    s.set(k, v);
+  }
+};

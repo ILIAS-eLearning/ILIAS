@@ -41,6 +41,6 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
         $connector = $this->gui->getConnector();
         $response = $connector->sendClearMessages($room->getRoomId(), $chat_user->getUserId());
 
-        $this->sendResponse($response);
+        $this->sendResponse($response, 'application/json');
     }
 }

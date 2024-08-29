@@ -2877,7 +2877,7 @@ chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
 chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
-chatroom#:#banned#:#You have been banned from this chat room
+chatroom#:#banned#:#You have been banned from this chat room.
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
@@ -2885,8 +2885,8 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
+chatroom#:#chat_connection_disconnected#:##username# left the chat room.
+chatroom#:#chat_connection_established#:##username# has entered chat room.
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
 chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
@@ -2918,7 +2918,6 @@ chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_display#:#Options
 chatroom#:#chat_message_options#:#Display
-chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
@@ -3008,11 +3007,11 @@ chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from chat?
-chatroom#:#kicked#:#You have been kicked from this chat room
+chatroom#:#kicked#:#You have been kicked from this chat room.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
 chatroom#:#messages#:#Messages
-chatroom#:#no_further_users#:#No other users present
+chatroom#:#no_further_users#:#No other users present.
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
@@ -3031,17 +3030,17 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Settings
-chatroom#:#speak_to#:#Speak to <b>#user#</b>
+chatroom#:#start_private_chat#:#Start Private Chat
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 chatroom#:#unban#:#Unban
+chatroom#:#user_banned#:#The user #user# has been banned.
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#user_in_room#:#Invite user from current chat room
 chatroom#:#user_invited#:#The user has been invited.
-chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#room#</b>.
-chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
+chatroom#:#user_invited_self#:##user# invited you to the chat room #room#.
+chatroom#:#user_kicked#:#The user #user# has been kicked.
 chatroom#:#users#:#Users
-chatroom#:#welcome_to_chat#:#Welcome to the chat room
-chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#welcome_to_chat#:#Welcome to the chat room.
 chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat

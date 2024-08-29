@@ -32,15 +32,20 @@ class Chatroom implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ilChatroomSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "chatroom.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "iliaschat.jquery.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentCSS($this, "chatroom.css");
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ilChatroomSetupAgent($pull[\ILIAS\Refinery\Factory::class]);
+
+        $files = [
+            '../chat/node_modules/socket.io-client/dist/socket.io.min.js',
+            'js/dist/Chatroom.min.js',
+        ];
+
+        $type = ['js' => Component\Resource\ComponentJS::class, 'css' => Component\Resource\ComponentCSS::class];
+
+        foreach ($files as $file) {
+            $class = $type[substr($file, strrpos($file, '.') + 1)];
+            if (file_exists(__DIR__ . '/resources/' . $file)) {
+                $contribute[Component\Resource\PublicAsset::class] = fn() => new $class($this, $file);
+            }
+        }
     }
 }
