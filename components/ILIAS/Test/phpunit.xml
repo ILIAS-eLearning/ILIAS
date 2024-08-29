@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" backupGlobals="false" bootstrap="./tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-    <coverage>
-        <include>
-            <directory suffix=".php">classes</directory>
-            <directory suffix=".php">exceptions</directory>
-            <directory suffix=".php">interfaces</directory>
-        </include>
-        <report>
-            <html outputDirectory="build/coverage" highLowerBound="80"/>
-        </report>
-    </coverage>
-    <testsuite name="ilModulesTestSuite">
-        <file>./tests/ilModulesTestSuite.php</file>
-    </testsuite>
-    <logging>
-        <testdoxHtml outputFile="build/dox.html"/>
-    </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" bootstrap="../../../vendor/composer/vendor/autoload.php" colors="true" beStrictAboutOutputDuringTests="true" beStrictAboutTestsThatDoNotTestAnything="true" failOnRisky="true" failOnWarning="true" backupGlobals="true" executionOrder="random">
+  <testsuite name="ilModulesTestSuite">
+    <file>./tests/ilModulesTestSuite.php</file>
+  </testsuite>
+  <source>
+    <include>
+      <directory suffix=".php">classes</directory>
+      <directory suffix=".php">exceptions</directory>
+      <directory suffix=".php">src</directory>
+    </include>
+    <exclude>
+      <file>src/Setup/Test9DBUpdateSteps.php</file>
+      <file>src/Setup/Test10DBUpdateSteps.php</file>
+    </exclude>
+  </source>
 </phpunit>
