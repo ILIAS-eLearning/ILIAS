@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+use ILIAS\UI\Factory;
 
 use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 
@@ -27,6 +28,12 @@ trait ilObjFileCopyrightInput
 {
     public function getCopyrightSelectionInput(string $lang_var_title): Radio
     {
+        static $copyright_input;
+        // we chache the input field to avoid multiple creation in lists
+        if ($copyright_input !== null) {
+            return $copyright_input;
+        }
+
         $copyright_input = $this->getUIFactory()->input()->field()->radio($this->getLanguage()->txt($lang_var_title));
         $copyright_options = ilMDCopyrightSelectionEntry::_getEntries();
         $default_entry_id = ilMDCopyrightSelectionEntry::getDefault();
@@ -48,7 +55,7 @@ trait ilObjFileCopyrightInput
         return $copyright_input;
     }
 
-    abstract protected function getUIFactory(): ILIAS\UI\Factory;
+    abstract protected function getUIFactory(): Factory;
 
     abstract protected function getLanguage(): \ilLanguage;
 }
