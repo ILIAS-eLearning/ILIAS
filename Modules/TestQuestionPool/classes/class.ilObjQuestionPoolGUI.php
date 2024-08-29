@@ -1263,38 +1263,30 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             );
         }
 
-        $out = [];
-
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
-            $toolbar = new ilToolbarGUI();
             $btn = $this->ui_factory->button()->primary(
                 $this->lng->txt('ass_create_question'),
                 $this->ctrl->getLinkTarget($this, 'createQuestionForm')
             );
-            $toolbar->addComponent($btn);
+            $this->toolbar->addComponent($btn);
 
             $btn_import = $this->ui_factory->button()->standard(
                 $this->lng->txt('import'),
                 $this->ctrl->getLinkTarget($this, 'importQuestions')
             );
-            $toolbar->addComponent($btn_import);
+            $this->toolbar->addComponent($btn_import);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
                 $btn_paste = $this->ui_factory->button()->standard(
                     $this->lng->txt('paste'),
                     $this->ctrl->getLinkTarget($this, 'paste')
                 );
-                $toolbar->addComponent($btn_paste);
+                $this->toolbar->addComponent($btn_paste);
             }
-
-            $this->tpl->setContent(
-                $out[] = $this->ctrl->getHTML($toolbar)
-            );
         }
 
         $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
-        $out[] = $this->getTable();
-        $this->tpl->setContent(implode('', $out));
+        $this->tpl->setContent($this->getTable());
     }
 
     protected function fetchAuthoringQuestionIdParamater(): int
