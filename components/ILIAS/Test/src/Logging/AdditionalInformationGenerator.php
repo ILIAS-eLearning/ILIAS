@@ -303,7 +303,7 @@ class AdditionalInformationGenerator
         );
     }
 
-    public function parseForCSV(
+    public function parseForRowArray(
         array $additional_info,
         array $environment
     ): string {
@@ -366,8 +366,7 @@ class AdditionalInformationGenerator
                     true
                 );
             case self::KEY_USERS:
-                $this->buildListOfUsers($value);
-                // no break
+                return $this->buildListOfUsers($value);
             case self::KEY_QUESTION_TYPE:
                 return $this->lng->txt($value);
             case self::KEY_QUESTIONS:
