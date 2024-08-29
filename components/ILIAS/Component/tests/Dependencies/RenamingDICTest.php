@@ -25,7 +25,7 @@ use ILIAS\Component\Dependencies\RenamingDIC;
 
 class RenamingDICTest extends TestCase
 {
-    public function testRenaming()
+    public function testRenaming(): void
     {
         $wrapped = new class () implements \ArrayAccess {
             public array $data = [];
@@ -35,10 +35,10 @@ class RenamingDICTest extends TestCase
                 $this->data[] = [$id, $value];
             }
 
-            public function offsetGet($id): null
+            public function offsetGet($id): mixed
             {
             }
-            public function offsetExists($id): false
+            public function offsetExists($id): bool
             {
             }
             public function offsetUnset($id): void
