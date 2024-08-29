@@ -181,11 +181,8 @@ class ilObjTest extends ilObject
         $this->marks_repository = $local_dic['marks.repository'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
-<<<<<<< HEAD
         $this->participant_repository = $local_dic['participant.repository'];
-=======
         $this->export_factory = $local_dic['exportimport.factory'];
->>>>>>> cd5b55adc8b (Test: Move To Enum For Export Types)
 
         parent::__construct($id, $a_call_by_reference);
 
