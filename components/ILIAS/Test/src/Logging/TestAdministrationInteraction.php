@@ -131,7 +131,7 @@ class TestAdministrationInteraction implements TestUserInteraction
                     '',
                     $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                     $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
-                    $additional_info->parseForCSV($this->additional_data, $environment)
+                    $additional_info->parseForRowArray($this->additional_data, $environment)
                 ]
             )
         ) . "\n";
