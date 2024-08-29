@@ -1,35 +1,39 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+use PHPUnit\Framework\MockObject\MockObject;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 class ilServicesGlobalScreenTest extends TestCase
 {
     private ?Container $dic_backup = null;
     /**
-     * @var ilRbacSystem|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilRbacSystem|MockObject
+     * @readonly
      */
     private ilRbacSystem $rbacsystem_mock;
     /**
-     * @var ilObjUser|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilObjUser|MockObject
+     * @readonly
      */
     private ilObjUser $user_mock;
     private int $SYSTEM_FOLDER_ID;
@@ -101,9 +105,7 @@ class ilServicesGlobalScreenTest extends TestCase
                   ->with('visible', $this->SYSTEM_FOLDER_ID)
                   ->willReturn(true);
 
-        $closure_returning_false = function (): bool {
-            return false;
-        };
+        $closure_returning_false = fn(): bool => false;
 
         $this->assertTrue($class->hasAdministrationAccess()());
         $this->assertFalse(
@@ -131,8 +133,8 @@ class ilServicesGlobalScreenTest extends TestCase
                       ->willReturn('1');
 
         $access_mock->expects($this->once())
-                    ->method('checkAccess')
-                    ->with('read', '', $this->ROOT_FOLDER_ID)
+                    ->method('checkAccessOfUser')
+                    ->with($this->isType('integer'), 'read', '', $this->ROOT_FOLDER_ID)
                     ->willReturn(true);
 
         $this->assertTrue($class->isRepositoryReadable()());
@@ -140,14 +142,10 @@ class ilServicesGlobalScreenTest extends TestCase
             $class->isRepositoryReadable()()
         ); // second call to check caching, see expectation $this->once()
         $this->assertTrue(
-            $class->isRepositoryReadable(function (): bool {
-                return true;
-            })()
+            $class->isRepositoryReadable(fn(): bool => true)()
         );
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return false;
-            })()
+            $class->isRepositoryReadable(fn(): bool => false)()
         );
     }
 
@@ -171,21 +169,17 @@ class ilServicesGlobalScreenTest extends TestCase
                       ->willReturn('0');
 
         $access_mock->expects($this->never())
-                    ->method('checkAccess');
+                    ->method('checkAccessOfUser');
 
         $this->assertFalse($class->isRepositoryReadable()());
         $this->assertFalse(
             $class->isRepositoryReadable()()
         ); // second call to check caching, see expectation $this->once()
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return true;
-            })()
+            $class->isRepositoryReadable(fn(): bool => true)()
         );
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return false;
-            })()
+            $class->isRepositoryReadable(fn(): bool => false)()
         );
     }
 
@@ -220,14 +214,10 @@ class ilServicesGlobalScreenTest extends TestCase
             $class->isRepositoryReadable()()
         ); // second call to check caching, see expectation $this->once()
         $this->assertTrue(
-            $class->isRepositoryReadable(function (): bool {
-                return true;
-            })()
+            $class->isRepositoryReadable(fn(): bool => true)()
         );
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return false;
-            })()
+            $class->isRepositoryReadable(fn(): bool => false)()
         );
     }
 
@@ -262,14 +252,10 @@ class ilServicesGlobalScreenTest extends TestCase
             $class->isRepositoryReadable()()
         ); // second call to check caching, see expectation $this->once()
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return true;
-            })()
+            $class->isRepositoryReadable(fn(): bool => true)()
         );
         $this->assertFalse(
-            $class->isRepositoryReadable(function (): bool {
-                return false;
-            })()
+            $class->isRepositoryReadable(fn(): bool => false)()
         );
     }
 }

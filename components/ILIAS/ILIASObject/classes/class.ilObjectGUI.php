@@ -1173,7 +1173,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     return null;
                 }
                 if (!isset($vs[1])) {
-                    return [self::UPLOAD_TYPE_LOCAL => $vs[0][0]];
+                    return [self::UPLOAD_TYPE_LOCAL => $vs[0]];
                 } elseif ((int) $vs[1][0] === self::UPLOAD_TYPE_LOCAL) {
                     return [self::UPLOAD_TYPE_LOCAL => $vs[1][0][0]];
                 } else {

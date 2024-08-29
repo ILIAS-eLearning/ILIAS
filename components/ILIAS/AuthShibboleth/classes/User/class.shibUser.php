@@ -24,22 +24,26 @@ class shibUser extends ilObjUser
 {
     protected shibServerData $shibServerData;
 
-
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilObjectTypeMismatchException
+     * @throws ilSystemStyleException
+     */
     public static function buildInstance(shibServerData $shibServerData): shibUser
     {
-        $shibUser = new self();
-        $shibUser->setLastPasswordChangeToNow();
-        $shibUser->shibServerData = $shibServerData;
-        $ext_id = $shibUser->shibServerData->getLogin();
-        $shibUser->setExternalAccount($ext_id);
+        $shib_user = new self();
+        $shib_user->setLastPasswordChangeToNow();
+        $shib_user->shibServerData = $shibServerData;
+        $ext_id = $shib_user->shibServerData->getLogin();
+        $shib_user->setExternalAccount($ext_id);
         $existing_usr_id = self::getUsrIdByExtId($ext_id);
         if ($existing_usr_id !== null) {
-            $shibUser->setId($existing_usr_id);
-            $shibUser->read();
+            $shib_user->setId($existing_usr_id);
+            $shib_user->read();
         }
-        $shibUser->setAuthMode('shibboleth');
+        $shib_user->setAuthMode('shibboleth');
 
-        return $shibUser;
+        return $shib_user;
     }
 
     public function updateFields(): void
@@ -131,14 +135,17 @@ class shibUser extends ilObjUser
         $this->setActive(true);
     }
 
+    /**
+     * @throws ilUserException
+     */
     public function create(): int
     {
         $c = shibConfig::getInstance();
         $registration_settings = new ilRegistrationSettings();
-        $recipients = array_filter($registration_settings->getApproveRecipients(), function ($v) {
+        $recipients = array_filter($registration_settings->getApproveRecipients(), static function ($v) {
             return is_int($v);
         });
-        if ($c->isActivateNew() && $recipients !== []) {
+        if ($recipients !== [] && $c->isActivateNew()) {
             $this->setActive(false);
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
@@ -156,7 +163,7 @@ class shibUser extends ilObjUser
 
     protected function returnNewLoginName(): ?string
     {
-        $login = substr($this->cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
+        $login = substr($this->cleanName($this->getFirstname()), 0, 1) . '.' . $this->cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
         $login = preg_replace('/\s+/', '', $login);
         $appendix = null;
@@ -189,28 +196,28 @@ class shibUser extends ilObjUser
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $db = $DIC->database();
 
-        $query = 'SELECT usr_id FROM usr_data WHERE login = ' . $ilDB->quote($login, 'text');
-        $query .= ' AND usr_id != ' . $ilDB->quote($usr_id, 'integer');
+        $query = 'SELECT usr_id FROM usr_data WHERE login = ' . $db->quote($login, 'text');
+        $query .= ' AND usr_id != ' . $db->quote($usr_id, 'integer');
 
-        return $ilDB->numRows($ilDB->query($query)) > 0;
+        return $db->numRows($db->query($query)) > 0;
     }
 
     protected static function getUsrIdByExtId(string $ext_id): ?int
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $db = $DIC->database();
 
-        $query = 'SELECT usr_id FROM usr_data WHERE ext_account = ' . $ilDB->quote($ext_id, 'text');
-        $a_set = $ilDB->query($query);
-        if ($ilDB->numRows($a_set) === 0) {
+        $query = 'SELECT usr_id FROM usr_data WHERE ext_account = ' . $db->quote($ext_id, 'text');
+        $a_set = $db->query($query);
+        if ($db->numRows($a_set) === 0) {
             return null;
         }
 
-        $usr = $ilDB->fetchObject($a_set);
+        $usr = $db->fetchObject($a_set);
 
-        return isset($usr->usr_id) ? (int) $usr->usr_id : null;
+        return ($usr !== null && isset($usr->usr_id)) ? (int) $usr->usr_id : null;
     }
 }

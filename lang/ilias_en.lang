@@ -3987,6 +3987,7 @@ common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Reason: Wrong parameter count
+common#:#err_disabled#:#Account creation via Shibboleth has been disabled. Please contact the system administrator for further information.
 common#:#err_double_entries#:#Reason: Duplicate Entries
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
@@ -15317,8 +15318,14 @@ sess#:#sess_users_added#:#Registered selected users for the session.
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.
-shib#:#shib_activate_new#:#New Accounts with Approval
-shib#:#shib_activate_new_info#:#Newly-created accounts are inactive until they have been approved by an administrator.
+shib#:#shib_account_creation#:#Account Creation
+shib#:#shib_account_creation_disabled#:#Disabled
+shib#:#shib_account_creation_disabled_info#:#No new account is created.
+shib#:#shib_account_creation_enabled#:#Enabled
+shib#:#shib_account_creation_enabled_info#:#An active new account is created.
+shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.
+shib#:#shib_account_creation_with_approval#:#With approval
+shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.
 shib#:#shib_add_missing#:#Assign Missing Roles
 shib#:#shib_add_remove#:#Add/Remove Roles
 shib#:#shib_assignment_type#:#Kind of Assignment
