@@ -308,4 +308,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     {
         return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
     }
+
+    public function getComponentCanonicalNameAttribute(Component $component): string
+    {
+        return str_replace(' ', '-', strtolower($component->getCanonicalName()));
+    }
 }

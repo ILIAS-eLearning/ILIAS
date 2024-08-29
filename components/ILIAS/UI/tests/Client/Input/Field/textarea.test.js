@@ -25,12 +25,10 @@ const test_input_id = 'test_input_id';
 function initMockedDom() {
   const dom = new JSDOM(
     `
-            <div class="ui-input-textarea">
-                <textarea id="${test_input_id}" class="form-control form-control-sm" name="test_input_1"></textarea>
-                <div class="help-block">
+                <textarea id="${test_input_id}" class="c-field-textarea" name="test_input_1"></textarea>
+                <div class="c-input__help-byline">
                     Characters remaining: <span data-action="remainder">0</span>
                 </div>
-            </div>
         `,
     {
       url: 'https://localhost',

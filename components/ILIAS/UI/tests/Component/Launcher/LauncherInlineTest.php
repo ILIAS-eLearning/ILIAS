@@ -229,14 +229,14 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         <h1 class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">$msg_html
-                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
-                            <div class="form-group row">
-                                <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
-                                <div class="col-sm-8 col-md-9 col-lg-10">
-                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="form-control form-control-sm" />
-                                    <div class="help-block">ok</div>
+                        <form id="id_3" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
+                            <fieldset class="c-input" data-il-ui-component="checkbox-field-input" data-il-ui-input-name="form/input_0">
+                                <label for="id_2">Understood</label>
+                                <div class="c-input__field">
+                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="c-field-checkbox" />
                                 </div>
-                            </div>
+                                <div class="c-input__help-byline">ok</div>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="modal-footer">

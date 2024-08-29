@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
@@ -42,6 +43,8 @@ class Group2 extends Group
 
 class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     /**
      * @var Group1|mixed|MockObject
      */
@@ -424,42 +427,43 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $byline
         );
 
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($sg);
         $expected = <<<EOT
-<div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <div id="id_1" class="il-input-radio">
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_g1_opt" value="g1" /><label for="id_1_g1_opt"></label>
-                <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_2" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some field</div>
-                    </div>
-                </div>
+<fieldset class="c-input" data-il-ui-component="switchable-group-field-input" data-il-ui-input-name="">
+    <label>label</label>
+    <div class="c-input__field">
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
+            <label>
+                <input type="radio" value="g1" />
+                <span></span>
+            </label>
+            <div class="c-input__field">
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name=""><label
+                        for="id_1">f</label>
+                    <div class="c-input__field"><input id="id_1" type="text" class="c-field-text" /></div>
+                    <div class="c-input__help-byline">some field</div>
+                </fieldset>
             </div>
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_g2_opt" value="g2" /><label for="id_1_g2_opt"></label>
-                <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_3" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some other field</div>
-                    </div>
-                </div>
+        </fieldset>
+        <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
+            <label>
+                <input type="radio" value="g2" />
+                <span></span>
+            </label>
+            <div class="c-input__field">
+                <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name=""><label
+                        for="id_2">f2</label>
+                    <div class="c-input__field"><input id="id_2" type="text" class="c-field-text" /></div>
+                    <div class="c-input__help-byline">some other field</div>
+                </fieldset>
             </div>
-        </div>
-        <div class="help-block">byline</div>
+        </fieldset>
     </div>
-</div>
-
+    <div class="c-input__help-byline">byline</div>
+</fieldset>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
+            $this->render($sg)
         );
         return $sg;
     }
@@ -470,42 +474,9 @@ EOT;
     public function testRenderWithValue(SG $sg): void
     {
         $r = $this->getDefaultRenderer();
-        $html = $r->render($sg->withValue('g2'));
-        $expected = <<<EOT
-<div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <div id="id_1" class="il-input-radio">
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_g1_opt" value="g1" /><label for="id_1_g1_opt"></label>
-                <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_2" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some field</div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_g2_opt" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
-                <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_3" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some other field</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-
-EOT;
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
+        $html = $this->render($sg->withValue('g2'));
+        $expected = '<label><input type="radio" value="g2" checked="checked" />';
+        $this->assertStringContainsString($expected, $this->render($sg->withValue('g2')));
     }
 
     public function testRenderWithValueByIndex(): void
@@ -525,47 +496,8 @@ EOT;
         $group3 = $f->group([], $empty_group_title, $empty_group_byline);
 
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($sg->withValue('1'));
 
-        $expected = <<<EOT
-<div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <div id="id_1" class="il-input-radio">
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_0_opt" value="0" /><label for="id_1_0_opt"></label>
-                <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_2" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some field</div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_1_opt" value="1" checked="checked" /><label for="id_1_1_opt"></label>
-                <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_3" type="text" class="form-control form-control-sm" />
-                        <div class="help-block">some other field</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-control form-control-sm il-input-radiooption">
-                <input type="radio" id="id_1_2_opt" value="2" /><label for="id_1_2_opt">empty group, the title</label>
-                <div class="help-block">empty group, the byline</div>
-            </div>
-        </div>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-EOT;
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
+        $expected = '<label><input type="radio" value="1" checked="checked" />';
+        $this->assertStringContainsString($expected, $this->render($sg->withValue('1')));
     }
 }

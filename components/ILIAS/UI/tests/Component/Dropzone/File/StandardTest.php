@@ -47,7 +47,7 @@ class StandardTest extends FileTestBase
 			<div class="modal-content">
 				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
 				<div class="modal-body">
-					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
+					<form id="id_2" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
 				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
 			</div>
@@ -116,7 +116,7 @@ class StandardTest extends FileTestBase
 			<div class="modal-content">
 				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
 				<div class="modal-body">
-					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
+					<form id="id_2" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
 				<div class="modal-footer"><button class="btn btn-default" id="id_3">save</button><button class="btn btn-default" data-dismiss="modal">cancel</button></div>
 			</div>
