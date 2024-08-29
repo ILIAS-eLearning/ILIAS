@@ -41,16 +41,16 @@ interface TestUserInteraction
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow;
+    public function getLogEntryAsExportRow(
+        \ilLanguage $lng,
+        GeneralQuestionPropertiesRepository $properties_repository,
+        AdditionalInformationGenerator $additional_info,
+        array $environment
+    ): array;
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
         UIFactory $ui_factory,
         array $environment
     ): DescriptiveListing|Legacy;
-    public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        AdditionalInformationGenerator $additional_info,
-        array $environment
-    ): string;
     public function toStorage(): array;
 }
