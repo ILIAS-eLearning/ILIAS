@@ -111,7 +111,7 @@ export default class ChatMessageArea {
       notice: () => {
         const node = createDiv(['separator', 'system-message']);
         const content = createDiv([], 'p');
-        content.innerHTML = this.#txt(message.content, message.data);
+        content.textContent = this.#txt(message.content, message.data);
         node.appendChild(content);
         this.#pane.appendChild(node);
       },
@@ -128,7 +128,7 @@ export default class ChatMessageArea {
   }
 
   clearMessages() {
-    this.#pane.innerHTML = '';
+    this.#pane.textContent = '';
     this.#lastUser = null;
     this.#lastDate = remeberLastDate();
 
@@ -227,7 +227,7 @@ const link = (() => {
 
 function actualMessage(message) {
   const messageSpan = createDiv([], 'p');
-  messageSpan.innerHTML = message.content;
+  messageSpan.textContent = message.content;
   link(messageSpan);
 
   return messageSpan;

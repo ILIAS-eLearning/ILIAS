@@ -160,8 +160,8 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                     );
 
                     $roomTpl->setCurrentBlock('message_line');
-                    $roomTpl->setVariable('MESSAGECONTENT', $message['message']->content); // oops... it is a message? ^^
-                    $roomTpl->setVariable('MESSAGESENDER', $message['message']->from->username);
+                    $roomTpl->setVariable('MESSAGECONTENT', htmlspecialchars($message['message']->content, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')); // oops... it is a message? ^^
+                    $roomTpl->setVariable('MESSAGESENDER', htmlspecialchars($message['message']->from->username, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8'));
                     $roomTpl->parseCurrentBlock();
 
                     $roomTpl->setCurrentBlock('row');
