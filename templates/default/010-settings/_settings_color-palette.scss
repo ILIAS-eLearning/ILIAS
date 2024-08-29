@@ -27,6 +27,8 @@ $il-neutral-light-color: #737373 !default;
 
 //** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
 $il-main-bg: white !default;
+//** Page background color
+$il-page-bg: $il-main-bg !default;
 //** Title area of various components such as Panels. Used as e.g. in containers as bg. Used to be $il-secondary-bg
 $il-main-dark-bg: #f9f9f9 !default;
 //** Background of subelements like subforms. Used mainly on the main-dark-bg.
