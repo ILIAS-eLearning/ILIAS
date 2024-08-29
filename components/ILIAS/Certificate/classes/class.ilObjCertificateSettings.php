@@ -109,7 +109,7 @@ class ilObjCertificateSettings extends ilObject
             if (!is_file($new_image_path) || !file_exists($new_image_path)) {
                 // Something went wrong converting the file. Use the original file and hope, that PDF can work with it.
                 $this->cert_logger->error(sprintf(
-                    "Could not convert certificate background image from '%s' as JPEG to '%s', trying fallbacj ...",
+                    "Could not convert certificate background image from '%s' as JPEG to '%s', trying fallback ...",
                     $this->getDefaultBackgroundImageTempFilePath($extension),
                     $new_image_path
                 ));
