@@ -1859,7 +1859,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
 
-        $testSession = new ilTestSession();
+        $testSession = new ilTestSession(
+            $this->db,
+            $this->user
+        );
         $testSession->loadFromDb($active_id);
 
         if ($testSession->isSubmitted()) {
