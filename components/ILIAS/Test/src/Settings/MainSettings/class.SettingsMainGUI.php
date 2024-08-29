@@ -20,32 +20,56 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\Settings\TestSettingsGUI;
-use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
-use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
-use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Input\Field\Checkbox;
-use ILIAS\UI\Component\Input\Field\OptionalGroup;
-use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use DateTimeImmutable;
+use DateTimeZone;
+use Exception;
+use ilAccessHandler;
+use ilCalendarSettings;
+use ilComponentRepository;
+use ilCtrlException;
+use ilCtrlInterface;
+use ilDBInterface;
+use ilECSTestSettings;
+use ilGlobalTemplateInterface;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation as TransformationInterface;
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Settings\TestSettingsGUI;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\UI\Component\Input\Container\Container as StandardForm;
+use ILIAS\UI\Component\Input\Field\Checkbox;
+use ILIAS\UI\Component\Input\Field\OptionalGroup;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ilLanguage;
+use ilObject;
+use ilObjectDataCache;
+use ilObjectProperties;
+use ilObjTest;
+use ilObjTestGUI;
+use ilObjUser;
+use ilOrgUnitGlobalSettings;
+use ilOrgUnitObjectPositionSetting;
+use ilSetting;
+use ilSkillManagementSettings;
+use ilTabsGUI;
+use ilTestException;
+use ilTestQuestionSetConfigFactory;
+use ilTestTabsManager;
+use ilToolbarGUI;
+use ilTree;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\Refinery\Constraint;
 
 /**
- *
  * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilConfirmationGUI
  * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilTestSettingsChangeConfirmationGUI
- *
  */
 class SettingsMainGUI extends TestSettingsGUI
 {
@@ -70,44 +94,44 @@ class SettingsMainGUI extends TestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-    protected \ilObjectProperties $object_properties;
+    protected ilObjectProperties $object_properties;
     protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
 
-    private \ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
+    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
     public function __construct(
-        protected readonly \ilGlobalTemplateInterface $tpl,
-        protected readonly \ilTabsGUI $tabs,
-        protected readonly \ilToolbarGUI $toolbar,
-        protected readonly \ilCtrlInterface $ctrl,
-        protected readonly \ilAccessHandler $access,
-        protected readonly \ilLanguage $lng,
-        protected readonly \ilTree $tree,
-        protected readonly \ilDBInterface $db,
-        protected readonly \ilObjectDataCache $object_data_cache,
-        protected readonly \ilSetting $settings,
+        protected readonly ilGlobalTemplateInterface $tpl,
+        protected readonly ilTabsGUI $tabs,
+        protected readonly ilToolbarGUI $toolbar,
+        protected readonly ilCtrlInterface $ctrl,
+        protected readonly ilAccessHandler $access,
+        protected readonly ilLanguage $lng,
+        protected readonly ilTree $tree,
+        protected readonly ilDBInterface $db,
+        protected readonly ilObjectDataCache $object_data_cache,
+        protected readonly ilSetting $settings,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly Refinery $refinery,
         protected readonly ServerRequestInterface $request,
-        protected readonly \ilComponentRepository $component_repository,
-        protected readonly \ilObjUser $active_user,
-        protected readonly \ilObjTestGUI $test_gui,
+        protected readonly ilComponentRepository $component_repository,
+        protected readonly ilObjUser $active_user,
+        protected readonly ilObjTestGUI $test_gui,
         protected readonly TestLogger $logger,
-        protected readonly GeneralQuestionPropertiesRepository $questionrepository
+        protected readonly GeneralQuestionPropertiesRepository $question_repository
     ) {
         $this->object_properties = $this->test_gui->getTestObject()->getObjectProperties();
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
         $this->main_settings_repository = $this->test_gui->getTestObject()->getMainSettingsRepository();
-        $this->testQuestionSetConfigFactory = new \ilTestQuestionSetConfigFactory(
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
             $this->lng,
             $this->logger,
             $this->component_repository,
             $this->test_gui->getTestObject(),
-            $this->questionrepository
+            $this->question_repository
         );
 
         $this->lng->loadLanguageModule('validation');
@@ -117,8 +141,9 @@ class SettingsMainGUI extends TestSettingsGUI
 
     /**
      * Command Execution
+     * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
@@ -130,10 +155,13 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
         $this->test_gui->prepareOutput();
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
-        $this->tabs->activateSubTab(\ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
+        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateSubTab(ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showOldIntroduction(): void
     {
         $this->toolbar->addComponent(
@@ -148,6 +176,9 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showOldConcludingRemarks(): void
     {
         $this->toolbar->addComponent(
@@ -162,9 +193,12 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function showForm(StandardForm $form = null, InterruptiveModal $modal = null): void
     {
-        if ($form === null) {
+        if (is_null($form)) {
             $form = $this->buildForm();
         }
 
@@ -186,19 +220,20 @@ class SettingsMainGUI extends TestSettingsGUI
             );
         }
 
-        $rendered_modal = '';
-        if ($modal !== null) {
-            $rendered_modal = $this->ui_renderer->render($modal);
-        }
-
-        $this->tpl->setContent($this->ui_renderer->render($form) . $rendered_modal);
+        $this->tpl->setContent(
+            $this->ui_renderer->render($form)
+            . (is_null($modal) ? '' : $this->ui_renderer->render($modal))
+        );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function confirmedSaveForm(): void
     {
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
-        if ($data === null) {
+        if (is_null($data)) {
             $this->showForm($form);
             return;
         }
@@ -211,11 +246,14 @@ class SettingsMainGUI extends TestSettingsGUI
     }
 
 
+    /**
+     * @throws ilCtrlException|ilTestException
+     */
     private function saveForm(): void
     {
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
-        if ($data === null) {
+        if (is_null($data)) {
             $this->showForm($form);
             return;
         }
@@ -243,6 +281,9 @@ class SettingsMainGUI extends TestSettingsGUI
         $this->finalizeSave($data);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function finalizeSave(array $data): void
     {
         $this->performSaveForm($data);
@@ -297,11 +338,11 @@ class SettingsMainGUI extends TestSettingsGUI
         $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
         $from = $this->test_object->getActivationStartingTime() === null
             ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
+            : DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
                 ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
         $until = $this->test_object->getActivationEndingTime() === null
             ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
+            : DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
                 ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
 
         $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = [
@@ -315,6 +356,9 @@ class SettingsMainGUI extends TestSettingsGUI
         return $log_array;
     }
 
+    /**
+     * @throws ilCtrlException|Exception
+     */
     private function buildForm(): StandardForm
     {
         $lng = $this->lng;
@@ -323,7 +367,7 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $data_factory = new DataFactory();
         $user_format = $this->active_user->getDateFormat();
-        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+        if ($this->active_user->getTimeFormat() === (string) ilCalendarSettings::TIME_FORMAT_24) {
             $user_format = $data_factory->dateFormat()->withTime24($user_format);
         } else {
             $user_format = $data_factory->dateFormat()->withTime12($user_format);
@@ -363,16 +407,16 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
-                if ($vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === true
-                    && $vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']) {
-                    return false;
-                }
-                return true;
+                return !($vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === true
+                    && $vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']);
             },
             $this->lng->txt('tst_settings_conflict_postpone_and_lock')
         );
     }
 
+    /**
+     * @throws ilCtrlException|ilTestException
+     */
     private function populateConfirmationModal(
         ?string $current_question_set_type,
         ?string $new_question_set_type,
@@ -380,7 +424,7 @@ class SettingsMainGUI extends TestSettingsGUI
     ): InterruptiveModal {
         $message = '';
 
-        if ($current_question_set_type !== null) {
+        if (!is_null($current_question_set_type)) {
             $message .= sprintf(
                 $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
                 $this->test_object->getQuestionSetTypeTranslation($this->lng, $current_question_set_type),
@@ -388,7 +432,7 @@ class SettingsMainGUI extends TestSettingsGUI
             );
         }
 
-        if ($current_question_set_type === \ilObjTest::QUESTION_SET_TYPE_FIXED
+        if ($current_question_set_type === ilObjTest::QUESTION_SET_TYPE_FIXED
             && $this->test_object->hasQuestionsWithoutQuestionpool()) {
             $message .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
         }
@@ -415,7 +459,7 @@ class SettingsMainGUI extends TestSettingsGUI
         return $modal->withOnLoad($modal->getShowSignal());
     }
 
-    private function performSaveForm(array $data)
+    private function performSaveForm(array $data): void
     {
         $old_online_status = $this->test_object->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
         $this->test_object->getObjectProperties()->storePropertyTitleAndDescription(
@@ -498,9 +542,6 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     private function getGeneralSettingsForStorage(array $section): SettingsGeneral
     {
         if ($this->test_object->participantDataExist()) {
@@ -512,12 +553,15 @@ class SettingsMainGUI extends TestSettingsGUI
             ->withAnonymity($section['anonymity']);
     }
 
+    /**
+     * @throws Exception
+     */
     private function getAvailabilitySettingsSection(): Section
     {
         $input_factory = $this->ui_factory->input();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
-        $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
+        $inputs['timebased_availability'] = $this->getTimeBasedAvailabilityInputs();
 
         return $input_factory->field()->section(
             $inputs,
@@ -536,7 +580,7 @@ class SettingsMainGUI extends TestSettingsGUI
         $is_online = $this->test_object->getObjectProperties()->getPropertyIsOnline()
             ->toForm($this->lng, $field_factory, $this->refinery);
 
-        if (sizeof(\ilObject::_getAllReferences($this->test_object->getId())) > 1) {
+        if (count(ilObject::_getAllReferences($this->test_object->getId())) > 1) {
             $is_online = $is_online->withByline(
                 $is_online->getByline() . ' ' . $this->lng->txt('rep_activation_online_object_info')
             );
@@ -551,7 +595,10 @@ class SettingsMainGUI extends TestSettingsGUI
         return $is_online;
     }
 
-    private function getTimebasedAvailabilityInputs(): OptionalGroup
+    /**
+     * @throws Exception
+     */
+    private function getTimeBasedAvailabilityInputs(): OptionalGroup
     {
         $field_factory = $this->ui_factory->input()->field();
 
@@ -583,7 +630,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         return $this->refinery->custom()->transformation(
             static function (?array $vs): array {
-                if ($vs === null) {
+                if (is_null($vs)) {
                     return [
                         'is_activation_limited' => false,
                         'activation_starting_time' => null,
@@ -605,20 +652,23 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
+    /**
+     * @throws Exception
+     */
     private function getValueForActivationLimitedOptionalGroup(): ?array
     {
         $value = null;
         if ($this->test_object->isActivationLimited()) {
             $value = [
                 'time_span' => [
-                    \DateTimeImmutable::createFromFormat(
+                    DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                    \DateTimeImmutable::createFromFormat(
+                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
+                    DateTimeImmutable::createFromFormat(
                         'U',
                         (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
+                    )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())),
                 ],
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
@@ -628,13 +678,13 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $timebased_availability = $section['timebased_availability'];
+        $time_based_availability = $section['timebased_availability'];
         if ($this->test_object->participantDataExist()) {
-            $timebased_availability['is_activation_limited'] = $this->test_object->isActivationLimited();
-            $timebased_availability['activation_starting_time'] = $this->test_object->getActivationStartingTime();
+            $time_based_availability['is_activation_limited'] = $this->test_object->isActivationLimited();
+            $time_based_availability['activation_starting_time'] = $this->test_object->getActivationStartingTime();
         }
 
-        $this->test_object->storeActivationSettings($timebased_availability);
+        $this->test_object->storeActivationSettings($time_based_availability);
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -645,7 +695,7 @@ class SettingsMainGUI extends TestSettingsGUI
         $custom_icon_input = $this->test_object->getObjectProperties()->getPropertyIcon()
             ->toForm($this->lng, $input_factory->field(), $this->refinery);
 
-        if ($custom_icon_input !== null) {
+        if (!is_null($custom_icon_input)) {
             $inputs['custom_icon'] = $custom_icon_input;
         }
         $inputs['tile_image'] = $this->test_object->getObjectProperties()->getPropertyTileImage()
@@ -765,13 +815,13 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $sections = [];
 
-        $ecs = new \ilECSTestSettings($this->test_object);
+        $ecs = new ilECSTestSettings($this->test_object);
         $ecs_section = $ecs->getSettingsSection(
             $this->ui_factory->input()->field(),
             $this->refinery
         );
 
-        if ($ecs_section !== null) {
+        if (!is_null($ecs_section)) {
             $sections[self::ECS_FUNCTIONALITY_SETTINGS_LABEL] = $ecs_section;
         }
 
@@ -784,7 +834,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $environment
         );
 
-        $inputs = array_filter($inputs, fn($v) => $v !== null);
+        $inputs = array_filter($inputs, static fn($v) => !is_null($v));
 
         if (count($inputs) > 0) {
             $sections[self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL] = $this->ui_factory->input()->field()
@@ -796,7 +846,7 @@ class SettingsMainGUI extends TestSettingsGUI
 
     protected function getOrganisationalUnitsActivationInput(): ?Checkbox
     {
-        $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+        $position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
             $this->test_object->getType()
         );
         if (!$position_settings->isActive()) {
@@ -808,7 +858,7 @@ class SettingsMainGUI extends TestSettingsGUI
                 $this->lng->txt('obj_orgunit_positions'),
                 $this->lng->txt('obj_orgunit_positions_info')
             )->withValue(
-                (new \ilOrgUnitObjectPositionSetting($this->test_object->getId()))->isActive()
+                (new ilOrgUnitObjectPositionSetting($this->test_object->getId()))->isActive()
             );
         if (!$position_settings->isChangeableForObject()) {
             return $enable_organisational_units_access->withDisabled(true);
@@ -819,7 +869,7 @@ class SettingsMainGUI extends TestSettingsGUI
     protected function saveAdditionalFunctionalitySettingsSection(array $sections): void
     {
         if (array_key_exists(self::ECS_FUNCTIONALITY_SETTINGS_LABEL, $sections)) {
-            $ecs = new \ilECSTestSettings($this->test_object);
+            $ecs = new ilECSTestSettings($this->test_object);
             $ecs->saveSettingsSection($sections[self::ECS_FUNCTIONALITY_SETTINGS_LABEL]);
         }
 
@@ -835,16 +885,14 @@ class SettingsMainGUI extends TestSettingsGUI
 
     protected function saveOrganisationalUnitsActivation(bool $activation): void
     {
-        $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+        $position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
             $this->test_object->getType()
         );
 
         if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
-            $orgu_object_settings = new \ilOrgUnitObjectPositionSetting($this->test_object->getId());
-            $orgu_object_settings->setActive(
-                $activation
-            );
-            $orgu_object_settings->update();
+            $org_unit_object_position_settings = new ilOrgUnitObjectPositionSetting($this->test_object->getId());
+            $org_unit_object_position_settings->setActive($activation);
+            $org_unit_object_position_settings->update();
         }
     }
 
@@ -856,7 +904,7 @@ class SettingsMainGUI extends TestSettingsGUI
             return $additional_settings;
         }
 
-        if (!(new \ilSkillManagementSettings())->isActivated()) {
+        if (!(new ilSkillManagementSettings())->isActivated()) {
             return $additional_settings->withSkillsServiceEnabled(false);
         }
 
