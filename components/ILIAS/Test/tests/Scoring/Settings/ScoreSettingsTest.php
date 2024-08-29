@@ -216,7 +216,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'test_scoring',
             $i1 . $i2 . $i3,
             null,
-            'id_4',
+            '',
             ''
         );
         $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
@@ -367,7 +367,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'test_results',
             $i1,
             null,
-            'id_8',
+            '',
             ''
         );
         $this->assertEquals($expected, $this->brutallyTrimSignals($actual));
@@ -416,7 +416,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'tst_results_details_options',
             $options,
             null,
-            'id_8',
+            '',
             ''
         );
         $this->assertEquals($expected, $this->brutallyTrimSignals($actual));
@@ -494,7 +494,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'tst_results_gamification',
             $group,
             null,
-            'id_10',
+            '',
             ''
         );
         $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
