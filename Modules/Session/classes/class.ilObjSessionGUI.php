@@ -19,17 +19,16 @@
 declare(strict_types=1);
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
-* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI, ilPropertyFormGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilBookingGatewayGUI
-*
-* @ingroup ModulesSession
-*/
+ *
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
+ * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjSessionGUI: ilBookingGatewayGUI
+ *
+ * @ingroup      ModulesSession
+ */
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
     protected \ILIAS\DI\UIServices $ui;
@@ -57,7 +56,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected int $container_obj_id = 0;
     protected array $files = [];
     protected ?ilPropertyFormGUI $form = null;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected ?ilEventRecurrence $rec = null;
     protected ?ilEventItems $event_items = null;
     protected ?ilEventParticipants $event_part = null;
