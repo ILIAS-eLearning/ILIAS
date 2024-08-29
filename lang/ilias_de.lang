@@ -4941,6 +4941,8 @@ common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mail-Einstellungen
+common#:#obj_mailr#:#Gelesene Mail
+common#:#obj_mailu#:#Ungelesene Mail
 common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Mediacast kopieren
 common#:#obj_mcts#:#Mediacast
