@@ -353,8 +353,8 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         if ($this->db->indexExistsByFields('il_resource_stkh_u', ['rid'])) {
             $this->db->dropIndexByFields('il_resource_stkh_u', ['rid']);
         }
-        if (!$this->db->primaryExistsByFields('il_resource_stkh_u', ['rid'])) {
-            $this->db->addPrimaryKey('il_resource_stkh_u', ['rid']);
+        if (!$this->db->primaryExistsByFields('il_resource_stkh_u', ['rid', 'stakeholder_id'])) {
+            $this->db->addPrimaryKey('il_resource_stkh_u', ['rid', 'stakeholder_id']);
         }
     }
 }
