@@ -34,8 +34,6 @@ module.exports = function(roomId)
 		var messageSubscriber = 'welcome_to_chat';
 		var noticeSubscriber = Notice.create(messageSubscriber, roomId, subscriber);
 
-		namespace.getDatabase().addHistory(noticeRoom);
-
 		this.emit('notice', noticeSubscriber);
 		this.broadcast.in(serverRoomId).emit('notice', noticeRoom);
 	}

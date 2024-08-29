@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,18 +14,24 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+export default class Logger {
+  logServerResponse(message) {
+    this.#log('Server-Response', message);
+  };
 
-/**
- * Class ilChatroomPostMessageGUI
- * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- * @ingroup components\ILIASChatroom
- */
-class ilChatroomPollGUI extends ilChatroomGUIHandler
-{
-    public function executeDefault(string $requestedMethod): void
-    {
-        $this->sendJSONResponse(['success' => true]);
-    }
+  logServerRequest(message) {
+    this.#log('Server-Request', message);
+  }
+
+  logILIASResponse(message) {
+    this.#log('ILIAS-Response', message);
+  }
+
+  logILIASRequest(message) {
+    this.#log('ILIAS-Request', message);
+  }
+
+  #log(type, message) {
+    console.log(type, message);
+  }
 }

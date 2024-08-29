@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,18 +14,14 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+import il from 'il';
+import bus from './bus';
+import { expandableTextarea } from './expandableTextarea';
+import run, { runReadOnly } from './run';
 
-/**
- * Class ilChatroomPostMessageGUI
- * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- * @ingroup components\ILIASChatroom
- */
-class ilChatroomPollGUI extends ilChatroomGUIHandler
-{
-    public function executeDefault(string $requestedMethod): void
-    {
-        $this->sendJSONResponse(['success' => true]);
-    }
-}
+il.Chatroom = {
+  run,
+  runReadOnly,
+  bus,
+  expandableTextarea,
+};

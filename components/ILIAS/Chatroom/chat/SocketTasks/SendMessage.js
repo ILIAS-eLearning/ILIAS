@@ -20,8 +20,7 @@ module.exports = function (data, roomId) {
 		return;
 	}
 
-	var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
-
+        var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName(), profile_picture_visible: this.subscriber.isProfilePictureVisible()};
 	data.content = HTMLEscape.escape(data.content);
 
 	var message = {};

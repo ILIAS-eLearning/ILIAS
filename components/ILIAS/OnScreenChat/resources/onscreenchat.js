@@ -292,7 +292,7 @@
 				getModule().closeWindowWithLongestInactivity();
 			}
 
-			resizeTextareas[conversation.id] = expandableTextarea(
+			resizeTextareas[conversation.id] = il.Chatroom.expandableTextarea(
 				'.panel-footer-for-shadow',
 				'[data-onscreenchat-window="' + conversation.id + '"] [data-onscreenchat-message]',
 				MAX_CHAT_LINES
@@ -1606,111 +1606,4 @@
         }
         return result;
     }
-    function freeze(thunk){
-        let thaw = function(){
-            const value = thunk();
-            thaw = function(){return value;};
-            return value;
-        };
-
-        return function(){
-            return thaw();
-        };
-    }
-
-    function expandableTextareaFromNodes(shadowBox, textarea, maxLines){
-        const shadow = document.createElement('textarea');
-        const updateHeight = (function(){
-            /** Prevent style update if style is already set. */
-            let currentHeight = '';
-            return function(newHeight){
-                if (newHeight !== currentHeight){
-                    textarea.style.height = newHeight;
-                    currentHeight = newHeight;
-                }
-            };
-        })();
-        shadow.style.height = window.getComputedStyle(textarea).height;
-        shadow.setAttribute('area-hidden', 'true');
-        shadow.readOnly = true;
-        shadow.disabled = true;
-
-        const syncShadow = function(){
-            const relevantStyles = 'padding-top padding-bottom padding-left padding-right margin-left margin-right margin-top margin-bottom width font-size font-family font-style font-weight line-height font-variant text-transform letter-spacing border box-sizing display';
-            const style = window.getComputedStyle(textarea);
-            relevantStyles.split(' ').forEach(function(name){
-                shadow.style[name] = style[name];
-            });
-        };
-
-        /** Return the height which would be added on newline. */
-        const calculateLineHeight = function(){
-            const value = shadow.value;
-            shadow.value = '';
-            const height = shadow.scrollHeight;
-            shadow.value = '\n';
-            const lineHeight = shadow.scrollHeight - height;
-            shadow.value = value;
-            return lineHeight;
-        };
-
-        const lineHeight = freeze(calculateLineHeight);
-
-        /**
-         * Max height of the textarea.
-         * !! This is not equal to maxLines * lineHeight() because it includes the base height.
-         */
-        const maxTextareaHeight = freeze(function(){
-            const value = shadow.value;
-            shadow.value = '\n'.repeat(maxLines - 1);
-            const lineHeight = shadow.scrollHeight;
-            shadow.value = value;
-            return lineHeight;
-        });
-
-        const lines = function(initial, currentHeight){
-            return parseInt(((currentHeight - initial) / lineHeight()) + 1);
-        };
-
-        const resize = function(){
-            shadow.value = '';
-            const init = shadow.scrollHeight;
-            const height = textarea.clientHeight;
-            shadow.value = textarea.value;
-            const scroll = shadow.scrollHeight;
-            const currentLines = lines(init, scroll);
-            if(scroll > init)
-            {
-                if(currentLines <= maxLines)
-                {
-                    updateHeight(scroll + 'px');
-                }
-                else
-                {
-                    updateHeight(maxTextareaHeight() + 'px');
-                }
-            }
-            else if(scroll < height)
-            {
-                updateHeight('');
-            }
-        };
-
-        return function(){
-            shadowBox.appendChild(shadow);
-            syncShadow();
-            resize();
-            shadow.remove();
-        };
-    }
-
-    function expandableTextarea(shadowBoxSelector, textareaSelector, maxLines){
-        const select = function(selector){
-            const node = document.querySelector(selector);
-            console.assert(node !== null, 'Could not find selector ' + JSON.stringify(selector));
-            return node;
-        };
-        return expandableTextareaFromNodes(select(shadowBoxSelector), select(textareaSelector), maxLines);
-    }
-
 })(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);
