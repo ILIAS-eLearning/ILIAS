@@ -30,12 +30,12 @@ class NullDIC implements \ArrayAccess
     {
     }
 
-    public function offsetGet($id): null
+    public function offsetGet($id): mixed
     {
         return null;
     }
 
-    public function offsetExists($id): false
+    public function offsetExists($id): bool
     {
         return false;
     }
