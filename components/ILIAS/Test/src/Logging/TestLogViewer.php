@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\Test\Logging\CSVExportTrait;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -37,8 +35,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class TestLogViewer
 {
-    use CSVExportTrait;
-
     private DataFactory $data_factory;
 
     public function __construct(
@@ -141,6 +137,8 @@ class TestLogViewer
         $log_table->executeAction($action, $affected_items);
     }
 
+    /* The following functions will be removed with ILIAS 11 */
+
     public function getLegacyLogExportForObjId(?int $obj_id = null): string
     {
         $log_output = $this->logging_repository->getLegacyLogsForObjId($obj_id);
@@ -185,5 +183,38 @@ class TestLogViewer
             $csvoutput .= implode($separator, $row) . "\n";
         }
         return $csvoutput;
+    }
+
+    private function processCSVRow(
+        mixed $row,
+        bool $quote_all = false,
+        string $separator = ";"
+    ): array {
+        $resultarray = [];
+        foreach ($row as $rowindex => $entry) {
+            $surround = false;
+            if ($quote_all) {
+                $surround = true;
+            }
+            if (is_string($entry) && strpos($entry, "\"") !== false) {
+                $entry = str_replace("\"", "\"\"", $entry);
+                $surround = true;
+            }
+            if (is_string($entry) && strpos($entry, $separator) !== false) {
+                $surround = true;
+            }
+
+            if (is_string($entry)) {
+                // replace all CR LF with LF (for Excel for Windows compatibility
+                $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            }
+
+            if ($surround) {
+                $entry = "\"" . $entry . "\"";
+            }
+
+            $resultarray[$rowindex] = $entry;
+        }
+        return $resultarray;
     }
 }

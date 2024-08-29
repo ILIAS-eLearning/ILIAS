@@ -39,9 +39,9 @@ class AdditionalInformationGenerator
     public const KEY_EVAL_FINALIZED = 'evaluation_finalized';
     public const KEY_FEEDBACK = 'tst_feedback';
     public const KEY_MANDATORY_QUESTIONS = 'mandatory_questions';
-    public const KEY_QUESTION_TITLE = 'title';
-    public const KEY_QUESTION_TEXT = 'question';
-    public const KEY_QUESTION_TYPE = 'type';
+    public const KEY_QUESTION_TITLE = 'question_title';
+    public const KEY_QUESTION_TEXT = 'tst_question';
+    public const KEY_QUESTION_TYPE = 'tst_question_type';
     public const KEY_HOMOGENEOUS_SCORING = 'tst_inp_all_quest_points_equal_per_pool_desc';
     public const KEY_QUESTION_AMOUNT_TYPE = 'tst_inp_quest_amount_cfg_mode';
     public const KEY_QUESTION_AMOUNT_PER_TEST = 'tst_inp_quest_amount_per_test';
@@ -50,7 +50,7 @@ class AdditionalInformationGenerator
     public const KEY_SOURCE_TAXONOMY_FILTER = 'tst_inp_source_pool_filter_tax';
     public const KEY_SOURCE_TYPE_FILTER = 'tst_filter_question_type';
     public const KEY_SOURCE_LIFECYCLE_FILTER = 'qst_lifecycle';
-    public const KEY_REACHED_POINTS = 'points';
+    public const KEY_REACHED_POINTS = 'tst_reached_points';
     public const KEY_MARK_SHORT_NAME = 'tst_mark_short_form';
     public const KEY_MARK_OFFICIAL_NAME = 'tst_mark_official_form';
     public const KEY_MARK_MINIMUM_LEVEL = 'tst_mark_minimum_level';
@@ -303,14 +303,14 @@ class AdditionalInformationGenerator
         );
     }
 
-    public function parseForRowArray(
+    public function parseForExport(
         array $additional_info,
         array $environment
     ): string {
         return implode(
             '; ',
             array_map(
-                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k], $environment)}",
+                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k] ?? '', $environment)}",
                 array_keys($additional_info)
             )
         );

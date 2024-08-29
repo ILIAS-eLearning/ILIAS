@@ -30,7 +30,6 @@ use ILIAS\UI\Component\Table\DataRow;
 
 class TestParticipantInteraction implements TestUserInteraction
 {
-    use CSVExportTrait;
     use ColumnsHelperFunctionsTrait;
 
     public const IDENTIFIER = 'pi';
@@ -114,48 +113,43 @@ class TestParticipantInteraction implements TestUserInteraction
         );
     }
 
+    public function getLogEntryAsExportRow(
+        \ilLanguage $lng,
+        GeneralQuestionPropertiesRepository $properties_repository,
+        AdditionalInformationGenerator $additional_info,
+        array $environment
+    ): array {
+        return  [
+            \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                ->setTimezone($environment['timezone'])
+                ->format($environment['date_format']),
+            $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
+            '',
+            \ilUserUtil::getNamePresentation(
+                $this->pax_id,
+                false,
+                false,
+                '',
+                true
+            ),
+            $this->source_ip,
+            $this->buildQuestionTitleCSVContent(
+                $properties_repository,
+                $lng,
+                $this->question_id
+            ),
+            $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+            $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
+            $additional_info->parseForExport($this->additional_data, $environment)
+        ];
+    }
+
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
         UIFactory $ui_factory,
         array $environment
     ): DescriptiveListing {
         return $additional_info->parseForTable($this->additional_data, $environment);
-    }
-
-    public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        AdditionalInformationGenerator $additional_info,
-        array $environment
-    ): string {
-        return implode(
-            ';',
-            $this->processCSVRow(
-                [
-                    \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
-                        ->setTimezone($environment['timezone'])
-                        ->format($environment['date_format']),
-                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
-                    '',
-                    \ilUserUtil::getNamePresentation(
-                        $this->pax_id,
-                        false,
-                        false,
-                        '',
-                        true
-                    ),
-                    $this->source_ip,
-                    $this->buildQuestionTitleCSVContent(
-                        $properties_repository,
-                        $lng,
-                        $this->question_id
-                    ),
-                    $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
-                    $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
-                    $additional_info->parseForRowArray($this->additional_data, $environment)
-                ]
-            )
-        ) . "\n";
     }
 
     public function toStorage(): array

@@ -28,7 +28,7 @@ use ILIAS\Data\DateFormat\DateFormat;
  */
 class ResultsExportExcel implements Exporter
 {
-    private DateFormat $user_data_format;
+    private DateFormat $user_date_format;
     private array $aggregated_data;
     private ?\ilTestEvaluationData $complete_data = null;
     /**
@@ -46,7 +46,7 @@ class ResultsExportExcel implements Exporter
         private readonly string $filename = '',
         private readonly bool $scoredonly = true,
     ) {
-        $this->user_data_format = $this->buildUserFormat($data_factory);
+        $this->user_date_format = $this->buildUserFormat($data_factory);
         $this->aggregated_data = $test_obj->getAggregatedResultsData();
         $this->worksheet = new \ilAssExcelFormatHelper();
     }
@@ -524,7 +524,7 @@ class ResultsExportExcel implements Exporter
 
         return (new \DateTimeImmutable("@{$linux_ts}"))
             ->setTimezone(new \DateTimeZone($this->current_user->getTimeZone()))
-            ->format($this->user_data_format->toString());
+            ->format($this->user_date_format->toString());
     }
 
     private function buildUserFormat(DataFactory $data_factory): DateFormat
