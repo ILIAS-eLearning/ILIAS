@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
+use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Uri as GuzzleURI;
 use ILIAS\Administration\Setting;
 use ILIAS\Data\Factory as DataFactory;
-use Pimple\Container;
 use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\ResponseBuilder;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
@@ -52,7 +52,9 @@ use ILIAS\UI\Implementation\Factory as ImplementationFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 trait ilTestBaseTestCaseTrait
 {
@@ -435,17 +437,26 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('object.customicons.factory', $this->createMock(ilObjectCustomIconFactory::class));
     }
 
+    /**
+     * @throws Exception
+     */
     protected function addGlobal_http(): void
     {
-        $request_mock = $this->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $request_mock->method('getUri')
-            ->willReturn(new GuzzleURI('http://wwww.ilias.de'));
+        $extended_request = new class('GET', '') extends ServerRequest {
+            public static function getUriFromGlobals(): UriInterface
+            {
+              return new GuzzleURI('http://wwww.ilias.de');
+            }
+
+            public function getUri(): UriInterface
+            {
+              return new GuzzleURI('http://wwww.ilias.de');
+            }
+        };
         $http_mock = $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()
             ->getMock();
         $http_mock->method('request')
-            ->willReturn($request_mock);
+            ->willReturn($extended_request);
         $this->setGlobalVariable('http', $http_mock);
     }
 
