@@ -33,6 +33,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
     public const TABLE_ID = 'cmix_lrs_types_table';
 
     private \ILIAS\DI\Container $dic;
+    private bool $writePermission;
 
     public function __construct(ilObjCmiXapiAdministrationGUI $a_parent_obj, string $a_parent_cmd)
     {
@@ -41,6 +42,8 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
 
         $this->setId(self::TABLE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->writePermission = $this->dic->rbac()->system()->checkAccess('write', $a_parent_obj->getRefId());
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate('tpl.cmix_lrs_types_table_row.html', 'Modules/CmiXapi');
@@ -64,7 +67,9 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LRS_TYPE_TITLE', $a_set['title']);
         $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel((string) $a_set['availability']));
         $this->tpl->setVariable('LRS_TYPE_USAGES', $a_set['usages'] ? $a_set['usages'] : '');
-        $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set));
+        if ($this->writePermission) {
+            $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set));
+        }
     }
 
     protected function getAvailabilityLabel(string $availability): string
