@@ -67,7 +67,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             $label,
             $f1 . $f2,
             $byline,
-            'id_3'
+            ''
         );
         $this->assertEquals($expected, $this->render($section));
     }

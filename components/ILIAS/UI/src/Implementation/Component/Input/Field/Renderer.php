@@ -749,7 +749,7 @@ class Renderer extends AbstractComponentRenderer
             $inputs_html .= $default_renderer->render($input);
         }
         $id = $this->bindJavaScript($section) ?? $this->createId();
-        return $this->wrapInFormContext($section, $section->getLabel(), $inputs_html, $id);
+        return $this->wrapInFormContext($section, $section->getLabel(), $inputs_html, $id, '', false);
     }
 
     protected function renderUrlField(F\Url $component, RendererInterface $default_renderer): string
