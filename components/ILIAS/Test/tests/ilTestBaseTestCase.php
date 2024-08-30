@@ -34,6 +34,7 @@ class ilTestBaseTestCase extends TestCase
 
     public const MOCKED_METHOD_WITHOUT_OUTPUT = 'MOCKED_METHOD_WITHOUT_OUTPUT';
     public const DYNAMIC_CLASS = 'DynamicClass';
+    protected static int $DYNAMIC_CLASS_COUNT = 0;
     protected ?Container $dic = null;
     protected ?Container $backup_dic = null;
 
@@ -195,7 +196,7 @@ class ilTestBaseTestCase extends TestCase
     public function createTraitInstanceOf(string $className, array $explicitParameters = []): object
     {
         if (trait_exists($className)) {
-            $dynamicClassName = self::DYNAMIC_CLASS;
+            $dynamicClassName = self::DYNAMIC_CLASS . ++self::$DYNAMIC_CLASS_COUNT;
             eval("class $dynamicClassName{use $className;}");
             return $this->createInstanceOf($dynamicClassName, $explicitParameters);
         }
