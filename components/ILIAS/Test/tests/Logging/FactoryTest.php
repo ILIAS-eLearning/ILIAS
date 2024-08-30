@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 namespace Logging;
 
 use ILIAS\Test\Logging\Factory;
@@ -42,7 +60,7 @@ class FactoryTest extends TestCase
         $db_values->ref_id = 1;
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
-        if(TestAdministrationInteractionTypes::tryFrom($type) !== null) {
+        if (TestAdministrationInteractionTypes::tryFrom($type) !== null) {
             $this->assertInstanceOf(TestAdministrationInteraction::class, $this->factory->buildTestAdministrationInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
@@ -80,7 +98,7 @@ class FactoryTest extends TestCase
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
         $db_values->id = 1;
-        if(TestQuestionAdministrationInteractionTypes::tryFrom($type) !== null) {
+        if (TestQuestionAdministrationInteractionTypes::tryFrom($type) !== null) {
             $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->factory->buildQuestionAdministrationInteractionFromDBValues($db_values));
         } else {
             $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);

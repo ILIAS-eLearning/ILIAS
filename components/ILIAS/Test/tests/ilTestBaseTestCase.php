@@ -209,7 +209,7 @@ class ilTestBaseTestCase extends TestCase
      */
     private function getOrCreateMock(string $parameterType): PHPUnit\Framework\MockObject\MockObject
     {
-        if(isset($this->services[$parameterType])) {
+        if (isset($this->services[$parameterType])) {
             global $DIC;
             if (!isset($DIC[$this->services[$parameterType]])) {
                 $DIC[$this->services[$parameterType]] = $this->createMock($parameterType);
@@ -217,6 +217,7 @@ class ilTestBaseTestCase extends TestCase
 
             return $DIC[$this->services[$parameterType]];
         }
+
         return $this->createMock($parameterType);
     }
 }

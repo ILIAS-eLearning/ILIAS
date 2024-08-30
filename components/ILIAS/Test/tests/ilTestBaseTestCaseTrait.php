@@ -577,10 +577,12 @@ trait ilTestBaseTestCaseTrait
             new StreamDelivery(
                 $data_signer,
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             new LegacyDelivery(
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             $data_signer
@@ -636,7 +638,7 @@ trait ilTestBaseTestCaseTrait
             throw new \Exception('Callable must have exactly one parameter of type MockObject.');
         }
 
-        if(isset($this->services[$service_name])) {
+        if (isset($this->services[$service_name])) {
             global $DIC;
             if (!isset($DIC[$this->services[$service_name]])) {
                 $DIC[$this->services[$service_name]] = $this->createMock($service_name);
