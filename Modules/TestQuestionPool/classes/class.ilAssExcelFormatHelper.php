@@ -56,8 +56,7 @@ class ilAssExcelFormatHelper extends ilExcel
             $this->workbook->getActiveSheet()->setCellValueExplicit(
                 $a_coords,
                 $this->prepareValue($a_value),
-                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
-                true
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
             );
         } else {
             parent::setCellByCoordinates($a_coords, $a_value);
@@ -70,12 +69,11 @@ class ilAssExcelFormatHelper extends ilExcel
     public function setCell($a_row, $a_col, $a_value, $datatype = null): void
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
-            $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-                $a_col + 1,
-                $a_row,
+            $coordinate = $this->getCoordByColumnAndRow($a_col, $a_row);
+            $this->workbook->getActiveSheet()->setCellValueExplicit(
+                $coordinate,
                 $this->prepareValue($a_value),
-                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,
-                true
+                \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
             );
         } else {
             parent::setCell($a_row, $a_col, $a_value);
