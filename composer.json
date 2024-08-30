@@ -498,6 +498,9 @@
 			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
+			},
+			"phpoffice/phpspreadsheet": {
+				"ILIAS PHPSpreadsheet Patches": "./libs/composer/patches/phpspreadsheet.patch"
 			}
 		}
 	}
