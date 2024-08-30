@@ -324,8 +324,8 @@ class ilSearchResult
     public function filter(
         int $a_root_node,
         bool $check_and,
-        ilDate $creation_filter_date = null,
-        int $creation_filter_operator = null
+        ilDate $creation_filter_date_start = null,
+        ilDate $creation_filter_date_end = null
     ): bool {
         // get ref_ids and check access
         $counter = 0;
@@ -356,7 +356,7 @@ class ilSearchResult
              * (Re-)check creation date, needed for searches on other tables than obj_data (35275)
              * Before- and after-operators also allow matching datetimes, see ilObjectSearch::performSearch.
              */
-            if (!is_null($creation_filter_date) && !is_null($creation_filter_operator)) {
+            if (!is_null($creation_filter_date_start) || !is_null($creation_filter_date_end)) {
                 if (
                     !ilObject::_exists($entry['obj_id']) ||
                     ($creation_date_string = ilObject::_lookupCreationDate($entry['obj_id'])) === ''
@@ -368,24 +368,18 @@ class ilSearchResult
                     IL_CAL_DATE
                 );
 
-                switch ($creation_filter_operator) {
-                    case ilObjectSearch::CDATE_OPERATOR_AFTER:
-                        if (ilDate::_before($creation_date, $creation_filter_date)) {
-                            continue 2;
-                        }
-                        break;
-
-                    case ilObjectSearch::CDATE_OPERATOR_BEFORE:
-                        if (ilDate::_after($creation_date, $creation_filter_date)) {
-                            continue 2;
-                        }
-                        break;
-
-                    case ilObjectSearch::CDATE_OPERATOR_ON:
-                        if (!ilDate::_equals($creation_date, $creation_filter_date)) {
-                            continue 2;
-                        }
-                        break;
+                if ($creation_filter_date_start && is_null($creation_filter_date_end)) {
+                    if (!ilDate::_after($creation_date, $creation_filter_date_start)) {
+                        continue;
+                    }
+                } elseif ($creation_filter_date_end && is_null($creation_filter_date_start)) {
+                    if (!ilDate::_before($creation_date, $creation_filter_date_end)) {
+                        continue;
+                    }
+                } else {
+                    if (!ilDate::_within($creation_date, $creation_filter_date_start, $creation_filter_date_end)) {
+                        continue;
+                    }
                 }
             }
 
@@ -455,7 +449,7 @@ class ilSearchResult
         $tmp_results = $this->getResults();
         $this->results = array();
         foreach ($tmp_results as $result) {
-            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) && $this->tree->isInTree($result['ref_id'])) {
+            if (isset($result['ref_id']) && $this->tree->isGrandChild($a_root_node, $result['ref_id']) && $this->tree->isInTree($result['ref_id'])) {
                 $this->addResult($result['ref_id'], $result['obj_id'], $result['type']);
                 $this->__updateResultChilds($result['ref_id'], $result['child'] ?? []);
             }

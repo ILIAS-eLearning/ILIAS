@@ -27,7 +27,6 @@ use ILIAS\UI\Renderer as UIRenderer;
 * @author Stefan Meyer <meyer@leifos.com>
 *
 * @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchControllerGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilPropertyFormGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjStudyProgrammeGUI
@@ -58,14 +57,15 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     {
         global $DIC;
 
+        parent::__construct();
         $this->tabs = $DIC->tabs();
         $this->help = $DIC->help();
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
-        parent::__construct();
         $this->fields = ilLuceneAdvancedSearchFields::getInstance();
+        $this->initFilter(self::SEARCH_FORM_LUCENE);
         $this->initUserSearchCache();
     }
 
@@ -78,16 +78,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-            case "ilpropertyformgui":
-                /*$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
-                $ilCtrl->setReturn($this, 'storeRoot');
-                $ilCtrl->forwardCommand($this->form);*/
-                $form = $this->getSearchAreaForm();
-                $this->prepareOutput();
-                $this->ctrl->setReturn($this, 'storeRoot');
-                $this->ctrl->forwardCommand($form);
-                break;
-
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
@@ -97,7 +87,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
             default:
                 $this->prepareOutput();
-                $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
                 if (!$cmd) {
                     $cmd = "showSavedResults";
                 }
@@ -222,18 +211,15 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function search(): void
     {
-        if (!$this->form->checkInput()) {
-            $this->search_cache->deleteCachedEntries();
-            // Reset details
-            ilSubItemListGUI::resetDetails();
-            $this->showSearchForm();
-            return;
-        }
         ilSession::clear('max_page');
-        $this->search_cache->deleteCachedEntries();
 
         // Reset details
         ilSubItemListGUI::resetDetails();
+        $this->performSearch();
+    }
+
+    protected function performSearchFilter(): void
+    {
         $this->performSearch();
     }
 
@@ -242,6 +228,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch(): void
     {
+        $this->search_cache->deleteCachedEntries();
         ilSession::clear('vis_references');
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
@@ -324,23 +311,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     }
 
     /**
-     * Store new root node
-     */
-    protected function storeRoot(): void
-    {
-        $form = $this->getSearchAreaForm();
-
-        $this->root_node = $form->getItemByPostVar('area')->getValue();
-        $this->search_cache->setRoot($this->root_node);
-        $this->search_cache->save();
-        $this->search_cache->deleteCachedEntries();
-
-        ilSubItemListGUI::resetDetails();
-
-        $this->performSearch();
-    }
-
-    /**
      * get tabs
      */
     protected function getTabs(): void
@@ -372,51 +342,81 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
         $page_number = $this->initPageNumberFromQuery();
 
-        $item_filter_enabled = false;
-        if ($this->http->wrapper()->post()->has('item_filter_enabled')) {
-            $item_filter_enabled = $this->http->wrapper()->post()->retrieve(
-                'item_filter_enabled',
-                $this->refinery->kindlyTo()->bool()
+        if ($this->http->wrapper()->post()->has('cmd')) {
+            $requested_cmd = (array) $this->http->wrapper()->post()->retrieve('cmd', $this->getStringArrayTransformation());
+        } elseif ($this->http->wrapper()->query()->has('cmd')) {
+            $requested_cmd = (array) $this->http->wrapper()->query()->retrieve(
+                'cmd',
+                $this->refinery->kindlyTo()->string()
             );
+            $requested_cmd = [$requested_cmd[0] => "Search"];
+        } else {
+            $requested_cmd = [];
         }
-        $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
+        $new_search = (bool) ($requested_cmd["performSearch"] ?? false);
+        $new_filter = (bool) ($requested_cmd["performSearchFilter"] ?? false);
+        $new_search_or_filter = $new_search || $new_filter;
+
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $filter_scope = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } else {
+            $filter_scope = (int) ($this->search_filter_data["search_scope"] ?? ROOT_FOLDER_ID);
+        }
+
+        $filter_type_active = (is_null($this->search_filter_data["search_type"] ?? null))
+            ? false
+            : true;
+        $requested_filter_type = (array) ($this->search_filter_data["search_type"] ?? []);
+        $requested_filter_type = array_flip($requested_filter_type);
+        $requested_filter_type = array_fill_keys(array_keys($requested_filter_type), "1");
+
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
+
         if ($this->http->wrapper()->post()->has('term')) {
             $term = $this->http->wrapper()->post()->retrieve(
                 'term',
                 $this->refinery->kindlyTo()->string()
             );
-            $this->search_cache->setQuery($term);
-            if ($item_filter_enabled) {
-                $filtered = array();
-                foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type] ?? false) {
-                        $filtered[$type] = 1;
-                    }
-                }
-                $this->search_cache->setItemFilter($filtered);
+        } else {
+            $term = $this->search_cache->getQuery();
+        }
+        $this->search_cache->setQuery($term);
 
-                // Mime filter
-                $mime = array();
-                foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type] ?? false) {
-                        $mime[$type] = 1;
-                    }
+        if ($filter_type_active) {
+            $filtered = [];
+            foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
+                if ($requested_filter_type[$type] ?? false) {
+                    $filtered[$type] = 1;
                 }
-                $this->search_cache->setMimeFilter($mime);
             }
-            $this->search_cache->setCreationFilter($this->loadCreationFilter());
-            if (!$item_filter_enabled) {
-                // @todo: keep item filter settings
-                $this->search_cache->setItemFilter(array());
-                $this->search_cache->setMimeFilter(array());
+            $this->search_cache->setItemFilter($filtered);
+
+            // Mime filter
+            $mime = [];
+            foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
+                if ($requested_filter_type[$type] ?? false) {
+                    $mime[$type] = 1;
+                }
             }
-            $post_screation = (array) ($this->http->request()->getParsedBody()['screation'] ?? []);
-            if (!count($post_screation)) {
-                $this->search_cache->setCreationFilter([]);
-            }
+            $this->search_cache->setMimeFilter($mime);
+        }
+        $this->search_cache->setCreationFilter($this->loadCreationFilter());
+        if (!$filter_type_active) {
+            // @todo: keep item filter settings?
+            $this->search_cache->setItemFilter([]);
+            $this->search_cache->setMimeFilter([]);
+        }
+        if (!isset($this->search_filter_data["search_date"])) {
+            $this->search_cache->setCreationFilter([]);
+        }
+
+        if ($new_filter) {
+            $this->search_cache->setRoot($filter_scope);
         }
     }
 
@@ -526,49 +526,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function showSearchForm(): void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_search.html', 'components/ILIAS/Search');
-
-        ilOverlayGUI::initJavascript();
-        $this->tpl->addJavascript("assets/js/Search.js");
-
-        $filter_glyph = $this->ui_renderer->render(
-            $this->ui_factory->symbol()->glyph()->filter()
-        );
-
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
-        $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($this->search_cache->getQuery()));
-        $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
-        $btn = ilSubmitButton::getInstance();
-        $btn->setCommand("performSearch");
-        $btn->setCaption("search");
-        $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
-        $this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
-        $this->tpl->setVariable("ARR_IMG", $filter_glyph);
-        $this->tpl->setVariable("TXT_COMBINATION", $this->lng->txt("search_term_combination"));
-        $this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $this->lng->txt('search_all_words') : $this->lng->txt('search_any_word'));
-        $this->tpl->setVariable("TXT_AREA", $this->lng->txt("search_area"));
-
-        if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
-            $this->tpl->setCurrentBlock("type_sel");
-            $this->tpl->setVariable('TXT_TYPE_DEFAULT', $this->lng->txt("search_off"));
-            $this->tpl->setVariable("ARR_IMGT", $filter_glyph);
-            $this->tpl->setVariable("TXT_FILTER_BY_TYPE", $this->lng->txt("search_filter_by_type"));
-            $this->tpl->setVariable('FORM', $this->form->getHTML());
-            $this->tpl->parseCurrentBlock();
-        }
-
-        // search area form
-        $this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
-        $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-
-        if (ilSearchSettings::getInstance()->isDateFilterEnabled()) {
-            // begin-patch creation_date
-            $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
-            $this->tpl->setVariable('TXT_CD_OFF', $this->lng->txt('search_off'));
-            $this->tpl->setVariable('FORM_CD', $this->getCreationDateForm()->getHTML());
-            $this->tpl->setVariable("ARR_IMG_CD", $filter_glyph);
-            // end-patch creation_date
-        }
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'components/ILIAS/Search');
+        $this->renderSearch($this->search_cache->getQuery(), $this->search_cache->getRoot());
     }
 
 
@@ -579,26 +538,28 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     {
         $options = $this->search_cache->getCreationFilter();
 
-        if (!($options['enabled'] ?? false)) {
+        if (!($options['date_start'] ?? false) && !($options['date_end'] ?? false)) {
             return '';
         }
-        $limit = new ilDate($options['date'], IL_CAL_UNIX);
 
-        switch ($options['ontype']) {
-            case 1:
-                // after
-                $limit->increment(IL_CAL_DAY, 1);
-                $now = new ilDate(time(), IL_CAL_UNIX);
-                return '+(cdate:[' . $limit->get(IL_CAL_DATE) . ' TO ' . $now->get(IL_CAL_DATE) . '*]) ';
-
-            case 2:
-                // before
-                return '+(cdate:[* TO ' . $limit->get(IL_CAL_DATE) . ']) ';
-
-            case 3:
-                // on
-                return '+(cdate:' . $limit->get(IL_CAL_DATE) . '*) ';
+        $start = null;
+        $end = null;
+        if (($options['date_start'] ?? false)) {
+            $start = new ilDate($options['date_start'] ?? "", IL_CAL_DATE);
         }
+        if (($options['date_end'] ?? false)) {
+            $end = new ilDate($options['date_end'] ?? "", IL_CAL_DATE);
+        }
+
+        if ($start && is_null($end)) {
+            $now = new ilDate(time(), IL_CAL_UNIX);
+            return '+(cdate:[' . $start->get(IL_CAL_DATE) . ' TO ' . $now->get(IL_CAL_DATE) . '*]) ';
+        } elseif ($end && is_null($start)) {
+            return '+(cdate:[* TO ' . $end->get(IL_CAL_DATE) . ']) ';
+        } else {
+            return '+(cdate:[' . $start->get(IL_CAL_DATE) . ' TO ' . $end->get(IL_CAL_DATE) . '*]) ';
+        }
+
         return '';
     }
     // end-patch creation_date

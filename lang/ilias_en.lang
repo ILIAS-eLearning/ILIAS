@@ -5463,6 +5463,7 @@ common#:#save_settings#:#Save Settings
 common#:#save_user_related_data#:#Save user related access data
 common#:#saved_successfully#:#Saved Successfully
 common#:#saving#:#Saving...
+common#:#scope#:#Scope
 common#:#scorm_create_export_file_html#:#Create Export File (HTML)
 common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
@@ -14631,7 +14632,7 @@ registration#:#reg_direct_info#:#New user registration requests are automaticall
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
