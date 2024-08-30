@@ -24,6 +24,7 @@
  * @description
  * @version 2.0.7
  */
+#[\AllowDynamicProperties]
 abstract class ActiveRecord
 {
     protected bool $ar_safe_read = true;
@@ -721,13 +722,13 @@ abstract class ActiveRecord
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/_([a-z])/', fn ($c): string => strtoupper($c[1]), $str);
+        return preg_replace_callback('/_([a-z])/', fn($c): string => strtoupper($c[1]), $str);
     }
 
     protected static function fromCamelCase(string $str): ?string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', fn ($c): string => "_" . strtolower($c[1]), $str);
+        return preg_replace_callback('/([A-Z])/', fn($c): string => "_" . strtolower($c[1]), $str);
     }
 }
