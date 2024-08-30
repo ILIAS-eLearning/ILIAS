@@ -59,7 +59,7 @@
 		"ralouphie/getallheaders": "^3.0",
 		"league/flysystem": "^3.0",
 		"james-heinrich/getid3": "^1.9.23",
-		"phpoffice/phpspreadsheet": "^1.29.0",
+		"phpoffice/phpspreadsheet": "^2.2",
 		"jumbojett/openid-connect-php": "^1.0.0",
 		"sabre/dav": "^4.1",
 		"symfony/console" : "^5.0",
@@ -394,11 +394,11 @@
 		},
 		"phpoffice/phpspreadsheet" : {
 			"source" : "https://github.com/PHPOffice/PhpSpreadsheet",
-			"used_version" : "v1.29.0",
+			"used_version" : "v2.2.2",
 			"wrapped_by" : "Services/Excel",
 			"added_by" : "Jesús López <lopez@leifos.com>",
-			"last_update" : "2023-10-26",
-			"last_update_by" : "Alex Killing <killing@leifos.com>",
+			"last_update" : "2024-08-30",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-01-22"
 		},
