@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -31,7 +31,6 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
-    use QuestionPoolLinkedTitleBuilder;
     public const IDENTIFIER = 'tstRndPools';
     private bool $definitionEditModeEnabled = false;
     private bool $questionAmountColumnEnabled = false;
@@ -41,9 +40,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     public function __construct(
         ilTestRandomQuestionSetConfigGUI $parent_obj,
         string $parent_cmd,
-        private ilAccess $access,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
+        private TitleColumnsBuilder $title_builder,
         private array $defined_order,
         private array $question_amount
     ) {
@@ -123,15 +122,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
         $this->tpl->setVariable(
             'SOURCE_POOL_LABEL',
-            $this->buildPossiblyLinkedQuestonPoolTitle(
-                $this->ctrl,
-                $this->access,
-                $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
-                $a_set['ref_id'],
-                $a_set['source_pool_label'],
-                true
+            $this->ui_renderer->render(
+                $this->title_builder->buildAccessCheckedQuestionpoolTitleAsLink(
+                    $a_set['ref_id'],
+                    $a_set['source_pool_label'],
+                    true
+                )
             )
         );
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -27,7 +29,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
@@ -40,10 +41,10 @@ class TestLogViewer
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repository,
         private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
-        private readonly StaticURLServices $static_url,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
@@ -65,13 +66,13 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this->title_builder,
             $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
             $this->tpl,
-            $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
@@ -95,13 +96,13 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this->title_builder,
             $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
             $this->tpl,
-            $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,

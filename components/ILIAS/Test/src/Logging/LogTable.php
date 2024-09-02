@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
@@ -28,7 +30,6 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
@@ -72,7 +73,6 @@ class LogTable implements Table\DataRetrieval
     private const EXPORT_FILE_NAME = '_test_log_export';
 
     /**
-     *
      * @var array<string, string|array>
      */
     private array $filter_data;
@@ -80,13 +80,13 @@ class LogTable implements Table\DataRetrieval
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly DataFactory $data_factory,
         private readonly \ilLanguage $lng,
         private \ilGlobalTemplateInterface $tpl,
-        private readonly StaticURLServices $static_url,
         private readonly URLBuilder $url_builder,
         private readonly URLBuilderToken $action_parameter_token,
         private readonly URLBuilderToken $row_id_token,
@@ -215,9 +215,7 @@ class LogTable implements Table\DataRetrieval
         ) as $interaction) {
             yield $interaction->getLogEntryAsDataTableRow(
                 $this->lng,
-                $this->static_url,
-                $this->question_repo,
-                $this->ui_factory,
+                $this->title_builder,
                 $row_builder,
                 $environment
             );
@@ -346,7 +344,7 @@ class LogTable implements Table\DataRetrieval
         foreach ($interactions as $interaction) {
             $content[] = $interaction->getLogEntryAsExportRow(
                 $this->lng,
-                $this->question_repo,
+                $this->title_builder,
                 $this->logger->getAdditionalInformationGenerator(),
                 $environment
             );

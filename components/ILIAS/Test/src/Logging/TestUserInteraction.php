@@ -18,12 +18,11 @@
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
@@ -35,15 +34,13 @@ interface TestUserInteraction
     public function withId(int $id): self;
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repo,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow;
     public function getLogEntryAsExportRow(
         \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
+        TitleColumnsBuilder $title_builder,
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): array;

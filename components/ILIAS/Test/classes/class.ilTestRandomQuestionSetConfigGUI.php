@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -83,6 +84,7 @@ class ilTestRandomQuestionSetConfigGUI
         private readonly ilObjectDataCache $obj_cache,
         private ilTestProcessLockerFactory $processLockerFactory,
         private readonly RequestDataCollector $testrequest,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->question_set_config = new ilTestRandomQuestionSetConfig(
@@ -446,9 +448,9 @@ class ilTestRandomQuestionSetConfigGUI
         $table = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
             $this,
             self::CMD_SHOW_SRC_POOL_DEF_LIST,
-            $this->access,
             $this->ui_factory,
             $this->ui_renderer,
+            $this->title_builder,
             $this->testrequest->raw('def_order') ?? [],
             $this->testrequest->raw('quest_amount') ?? []
         );

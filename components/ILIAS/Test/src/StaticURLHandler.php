@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test;
+
 use ILIAS\StaticURL\Handler\Handler;
 use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Context;
@@ -25,13 +27,14 @@ use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
 
-class TestStaticURLHandler extends BaseHandler implements Handler
+class StaticURLHandler extends BaseHandler implements Handler
 {
+    public const NAMESPACE = 'tst';
     public const QUESTION_OPERATIONS = 'qst';
 
     public function getNamespace(): string
     {
-        return 'tst';
+        return self::NAMESPACE;
     }
 
     public function handle(
@@ -51,7 +54,7 @@ class TestStaticURLHandler extends BaseHandler implements Handler
         return $response_factory->can($uri);
     }
 
-    private function buildQuestionURL(string $q_id, ilCtrl $ctrl): string
+    private function buildQuestionURL(string $q_id, \ilCtrl $ctrl): string
     {
         $ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $q_id);
         $link = $ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilAssQuestionPreviewGUI::class], ilAssQuestionPreviewGUI::CMD_SHOW);

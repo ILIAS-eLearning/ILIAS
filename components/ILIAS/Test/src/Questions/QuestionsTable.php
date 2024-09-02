@@ -20,22 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Questions;
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\Modal\Interruptive;
+use ILIAS\Language\Language;
 
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
-use ILIAS\Data\URI;
-use ILIAS\HTTP\Services as HTTPService;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
 
-use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -69,13 +64,14 @@ class QuestionsTable
     public function __construct(
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
+        protected \ilGlobalTemplateInterface $tpl,
         protected ServerRequestInterface $request,
         protected QuestionsTableQuery $commands,
-        protected \ilLanguage $lng,
+        protected Language $lng,
         protected \ilCtrl $ctrl,
         protected \ilObjTest $test_obj,
         protected GeneralQuestionPropertiesRepository $questionrepository,
-        protected \Closure $qpl_link_builder,
+        protected TitleColumnsBuilder $title_builder
     ) {
         $this->table_id = (string) $test_obj->getId();
     }
@@ -124,7 +120,7 @@ class QuestionsTable
             $data,
             $this->lng,
             $this->getTitleLinkBuilder($title_link_action),
-            $this->qpl_link_builder,
+            $this->title_builder,
             $this->context,
             $this->question_editing,
         );
@@ -133,11 +129,11 @@ class QuestionsTable
     protected function getTitleLinkBuilder(string $title_link_action): \Closure
     {
         list($url_builder, $row_id_token) = $this->commands->getRowBoundURLBuilder($title_link_action);
-        return fn(string $title, string $question_id): Link\Standard =>
+        return fn(string $title, int $question_id): Link\Standard =>
             $this->ui_factory->link()->standard(
                 $title,
                 $url_builder
-                    ->withParameter($row_id_token, $question_id)
+                    ->withParameter($row_id_token, (string) $question_id)
                     ->buildURI()
                     ->__toString()
             );
@@ -150,23 +146,23 @@ class QuestionsTable
     {
         $f = $this->ui_factory;
         $columns = [
-            'question_id' => $f->table()->column()->text($this->lng->txt("question_id"))
+            'question_id' => $f->table()->column()->text($this->lng->txt('question_id'))
                 ->withIsOptional(true, false),
-            'title' => $f->table()->column()->link($this->lng->txt("tst_question_title")),
-            'description' => $f->table()->column()->text($this->lng->txt("description"))
+            'title' => $f->table()->column()->link($this->lng->txt('tst_question_title')),
+            'description' => $f->table()->column()->text($this->lng->txt('description'))
                 ->withIsOptional(true, false),
             'complete' => $f->table()->column()->boolean(
-                $this->lng->txt("question_complete_title"),
+                $this->lng->txt('question_complete_title'),
                 $f->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
                 $f->symbol()->icon()->custom('assets/images/standard/icon_alert.svg', '', 'small')
             ),
-            'type_tag' => $f->table()->column()->text($this->lng->txt("tst_question_type")),
-            'points' => $f->table()->column()->text($this->lng->txt("points")),
-            'author' => $f->table()->column()->text($this->lng->txt("author"))
+            'type_tag' => $f->table()->column()->text($this->lng->txt('tst_question_type')),
+            'points' => $f->table()->column()->text($this->lng->txt('points')),
+            'author' => $f->table()->column()->text($this->lng->txt('author'))
                 ->withIsOptional(true, false),
-            'lifecycle' => $f->table()->column()->text($this->lng->txt("qst_lifecycle"))
+            'lifecycle' => $f->table()->column()->text($this->lng->txt('qst_lifecycle'))
                 ->withIsOptional(true, false),
-            'qpl' => $f->table()->column()->text($this->lng->txt("qpl")),
+            'qpl' => $f->table()->column()->link($this->lng->txt('qpl')),
         ];
 
         if ($this->context !== self::CONTEXT_DEFAULT) {
@@ -240,13 +236,15 @@ class QuestionsTable
     public function handleCommand(
         string $cmd,
         array $row_ids,
-        \Closure $gui_call
+        \Closure $protect_by_write_protection,
+        \Closure $copy_and_link_to_questionpool
     ) {
         switch($cmd) {
             case QuestionsTable::ACTION_SAVE_ORDER:
-                $gui_call('protectByWritePermission', []);
                 $data = $this->getOrderData();
-                $gui_call('storeOrder', [array_flip($data)]);
+                $protect_by_write_protection();
+                $this->test_obj->setQuestionOrderAndObligations(array_flip($data), []);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                 break;
 
             case QuestionsTable::ACTION_PREVIEW:
@@ -310,43 +308,51 @@ class QuestionsTable
                 break;
 
             case QuestionsTable::ACTION_DELETE:
-                print $this->ui_renderer->renderAsync(
+                echo $this->ui_renderer->renderAsync(
                     $this->getDeleteConfirmation(array_filter($row_ids))
                 );
                 exit();
 
             case QuestionsTable::ACTION_DELETE_CONFIRMED:
                 $row_ids = $this->request->getParsedBody()['interruptive_items'] ?? [];
-                if (array_filter($row_ids) == []) {
-                    $gui_call('setMessage', ['failure', 'no_selection']);
+                if (array_filter($row_ids) === []) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
                     break;
                 }
-                $gui_call('confirmRemoveQuestionsObject', [$row_ids]);
+                $protect_by_write_protection();
+                $this->test_obj->removeQuestions($row_ids);
+                $this->test_obj->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_removed'), true);
                 break;
 
             case QuestionsTable::ACTION_COPY:
-                if (array_filter($row_ids) == []) {
-                    $gui_call('setMessage', ['failure', 'no_selection']);
+                if (array_filter($row_ids) === []) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
                     break;
                 }
-                $gui_call('protectByWritePermission', []);
-                $gui_call('copyQuestions', [$row_ids]);
+                $protect_by_write_protection();
+                $this->test_obj->copyQuestions($row_ids);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('copy_questions_success'), true);
                 break;
 
             case QuestionsTable::ACTION_ADD_TO_POOL:
-                if (array_filter($row_ids) == []) {
-                    $gui_call('setMessage', ['failure', 'no_selection']);
+                if (array_filter($row_ids) === []) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_no_question_selected_for_moving_to_qpl'));
                     break;
                 }
-                $gui_call('copyAndLinkToQuestionpoolObject', [$row_ids]);
+                $protect_by_write_protection();
+                if (!$this->checkQuestionParametersForCopyToPool($row_ids)) {
+                    break;
+                };
+                $copy_and_link_to_questionpool();
                 break;
 
             default:
-                throw new \InvalidArgumentException("No such table_cmd: '$cmd'.");
+                throw new \InvalidArgumentException("No such table_cmd: {$cmd}.");
         }
     }
 
-    protected function redirectWithQuestionParameters(
+    private function redirectWithQuestionParameters(
         int $question_id,
         string $target_class,
         string $cmd
@@ -365,5 +371,29 @@ class QuestionsTable
         );
 
         $this->ctrl->redirectByClass($target_class, $cmd);
+    }
+
+    /**
+     * @param array<int> $question_ids
+     */
+    private function checkQuestionParametersForCopyToPool(array $question_ids): bool
+    {
+        foreach ($question_ids as $q_id) {
+            if (!$this->questionrepository->originalQuestionExists($q_id)) {
+                continue;
+            }
+
+            $type = ilObject::_lookupType(
+                assQuestion::lookupParentObjId(
+                    $this->questionrepository->getForQuestionId($q_id)->getOriginalId()
+                )
+            );
+
+            if ($type !== 'tst') {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_link_only_unassigned'), true);
+                return false;
+            }
+        }
+        return true;
     }
 }
