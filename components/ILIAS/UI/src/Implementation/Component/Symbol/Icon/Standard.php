@@ -30,6 +30,8 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CRS,
         self::MOB,
         self::MAIL,
+        self::MAILR,
+        self::MAILU,
         self::SAHS,
         self::ADM,
         self::USRF,
