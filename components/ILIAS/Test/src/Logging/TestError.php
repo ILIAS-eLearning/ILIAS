@@ -20,18 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestError implements TestUserInteraction
 {
-    use ColumnsHelperFunctionsTrait;
-
     public const IDENTIFIER = 'te';
 
     private int $id;
@@ -62,9 +59,7 @@ class TestError implements TestUserInteraction
 
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -74,10 +69,7 @@ class TestError implements TestUserInteraction
         $values = [
             'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
-            'corresponding_test' => $this->buildTestTitleColumnContent(
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            'corresponding_test' => $title_builder->buildTestTitleAsLink(
                 $this->test_ref_id
             ),
             'admin' => $admin,
@@ -87,11 +79,7 @@ class TestError implements TestUserInteraction
         ];
 
         if ($this->question_id !== null) {
-            $values['question'] = $this->buildQuestionTitleColumnContent(
-                $properties_repository,
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            $values['question'] = $title_builder->buildQuestionTitleAsLink(
                 $this->question_id,
                 $this->test_ref_id
             );
@@ -105,7 +93,7 @@ class TestError implements TestUserInteraction
 
     public function getLogEntryAsExportRow(
         \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
+        TitleColumnsBuilder $title_builder,
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): array {
@@ -116,15 +104,11 @@ class TestError implements TestUserInteraction
             \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone'])
                 ->format($environment['date_format']),
-            $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
+            $title_builder->buildTestTitleAsText($this->test_ref_id),
             $admin,
             $pax,
             '',
-            $this->buildQuestionTitleCSVContent(
-                $properties_repository,
-                $lng,
-                $this->question_id
-            ),
+            $title_builder->buildQuestionTitleAsText($this->question_id),
             $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
             $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
             $this->error_message

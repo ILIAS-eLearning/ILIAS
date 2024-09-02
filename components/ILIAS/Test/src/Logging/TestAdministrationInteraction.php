@@ -20,18 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestAdministrationInteraction implements TestUserInteraction
 {
-    use ColumnsHelperFunctionsTrait;
-
     public const IDENTIFIER = 'tai';
 
     private int $id;
@@ -63,9 +60,7 @@ class TestAdministrationInteraction implements TestUserInteraction
 
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -74,10 +69,7 @@ class TestAdministrationInteraction implements TestUserInteraction
             [
                 'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                     ->setTimezone($environment['timezone']),
-                'corresponding_test' => $this->buildTestTitleColumnContent(
-                    $lng,
-                    $static_url,
-                    $ui_factory->link(),
+                'corresponding_test' => $title_builder->buildTestTitleAsLink(
                     $this->test_ref_id
                 ),
                 'admin' => \ilUserUtil::getNamePresentation(
@@ -98,7 +90,7 @@ class TestAdministrationInteraction implements TestUserInteraction
 
     public function getLogEntryAsExportRow(
         \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
+        TitleColumnsBuilder $title_builder,
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): array {
@@ -106,7 +98,7 @@ class TestAdministrationInteraction implements TestUserInteraction
             \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone'])
                 ->format($environment['date_format']),
-            $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
+            $title_builder->buildTestTitleAsText($this->test_ref_id),
             \ilUserUtil::getNamePresentation(
                 $this->admin_id,
                 false,

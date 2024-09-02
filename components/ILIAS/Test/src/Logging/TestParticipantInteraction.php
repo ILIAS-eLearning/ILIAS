@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
@@ -30,8 +32,6 @@ use ILIAS\UI\Component\Table\DataRow;
 
 class TestParticipantInteraction implements TestUserInteraction
 {
-    use ColumnsHelperFunctionsTrait;
-
     public const IDENTIFIER = 'pi';
 
     private int $id;
@@ -65,19 +65,14 @@ class TestParticipantInteraction implements TestUserInteraction
 
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
         $values = [
             'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
-            'corresponding_test' => $this->buildTestTitleColumnContent(
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            'corresponding_test' => $this->buildTestTitleAsLink(
                 $this->test_ref_id
             ),
             'admin' => '',
@@ -94,11 +89,7 @@ class TestParticipantInteraction implements TestUserInteraction
         ];
 
         if ($this->question_id !== null) {
-            $values['question'] = $this->buildQuestionTitleColumnContent(
-                $properties_repository,
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            $values['question'] = $this->buildQuestionTitleAsLink(
                 $this->question_id,
                 $this->test_ref_id
             );
@@ -115,7 +106,7 @@ class TestParticipantInteraction implements TestUserInteraction
 
     public function getLogEntryAsExportRow(
         \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
+        TitleColumnsBuilder $title_builder,
         AdditionalInformationGenerator $additional_info,
         array $environment
     ): array {
@@ -123,7 +114,7 @@ class TestParticipantInteraction implements TestUserInteraction
             \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone'])
                 ->format($environment['date_format']),
-            $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
+            $this->buildTestTitleAsText($lng, $this->test_ref_id),
             '',
             \ilUserUtil::getNamePresentation(
                 $this->pax_id,
@@ -133,7 +124,7 @@ class TestParticipantInteraction implements TestUserInteraction
                 true
             ),
             $this->source_ip,
-            $this->buildQuestionTitleCSVContent(
+            $this->buildQuestionTitleAsText(
                 $properties_repository,
                 $lng,
                 $this->question_id

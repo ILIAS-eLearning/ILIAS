@@ -569,7 +569,7 @@ class ilObjTest extends ilObject
         }
         // delete existing category relations
         $this->db->manipulateF(
-            "DELETE FROM tst_test_question WHERE test_fi = %s",
+            'DELETE FROM tst_test_question WHERE test_fi = %s',
             ['integer'],
             [$this->getTestId()]
         );
@@ -590,6 +590,42 @@ class ilObjTest extends ilObject
                 'obligatory' => ['integer', $obligatoryQuestionState[$value]],
                 'tstamp' => ['integer', time()]
             ]);
+        }
+    }
+
+    /**
+     * @param array<int> $question_ids
+     */
+    public function copyQuestions(array $question_ids): void
+    {
+        $copy_count = 0;
+        $question_titles = $this->getQuestionTitles();
+
+        foreach ($question_ids as $id) {
+            $question = assQuestion::instantiateQuestionGUI($id);
+            if ($question) {
+                $title = $question->getObject()->getTitle();
+                $i = 2;
+                while (in_array($title . ' (' . $i . ')', $question_titles)) {
+                    $i++;
+                }
+
+                $title .= ' (' . $i . ')';
+
+                $question_titles[] = $title;
+
+                $new_id = $question->getObject()->duplicate(false, $title);
+
+                $clone = assQuestion::instantiateQuestionGUI($new_id);
+                $question = $clone->getObject();
+                $question->setObjId($this->getId());
+                $clone->setObject($question);
+                $clone->getObject()->saveToDb();
+
+                $this->insertQuestion($new_id, true);
+
+                $copy_count++;
+            }
         }
     }
 
@@ -1363,24 +1399,19 @@ class ilObjTest extends ilObject
         return $duplicate_id;
     }
 
-    /**
-    * Returns the titles of the test questions in question sequence
-    *
-    * @return array The question titles
-    * @access public
-    * @see $questions
-    */
-    public function &getQuestionTitles(): array
+    private function getQuestionTitles(): array
     {
         $titles = [];
-        if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
+        if ($this->getQuestionSetType() === self::QUESTION_SET_TYPE_FIXED) {
             $result = $this->db->queryF(
-                "SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+                'SELECT qpl_questions.title FROM tst_test_question, qpl_questions '
+                . 'WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id '
+                . 'ORDER BY tst_test_question.sequence',
                 ['integer'],
                 [$this->getTestId()]
             );
             while ($row = $this->db->fetchAssoc($result)) {
-                array_push($titles, $row["title"]);
+                array_push($titles, $row['title']);
             }
         }
         return $titles;
@@ -1398,7 +1429,10 @@ class ilObjTest extends ilObject
         $titles = [];
         if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
             $result = $this->db->queryF(
-                "SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+                'SELECT qpl_questions.title, qpl_questions.question_id '
+                . 'FROM tst_test_question, qpl_questions '
+                . 'WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id '
+                . 'ORDER BY tst_test_question.sequence',
                 ['integer'],
                 [$this->getTestId()]
             );
