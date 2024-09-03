@@ -31,7 +31,7 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\MarksDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
-use ILIAS\Test\Administration\TestGlobalSettingsRepository;
+use ILIAS\Test\Administration\GlobalSettingsRepository;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLoggingRepository;
 use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
@@ -114,8 +114,8 @@ class TestDIC extends PimpleContainer
         $dic['response_handler'] = static fn($c): ResponseHandler =>
             new ResponseHandler($DIC['http'], );
 
-        $dic['settings.global.repository'] = static fn($c): TestGlobalSettingsRepository =>
-                new TestGlobalSettingsRepository(new \ilSetting('assessment'));
+        $dic['settings.global.repository'] = static fn($c): GlobalSettingsRepository =>
+                new GlobalSettingsRepository(new \ilSetting('assessment'));
 
         $dic['logging.settings'] = static fn($c): TestLoggingSettings =>
             $c['settings.global.repository']->getLoggingSettings();

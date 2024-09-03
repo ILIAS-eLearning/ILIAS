@@ -28,6 +28,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Administration\GlobalSettingsRepository;
 
 class QuestionPoolDIC extends PimpleContainer
 {
@@ -64,6 +65,8 @@ class QuestionPoolDIC extends PimpleContainer
 
         $dic['participant_repository'] = static fn($c): ParticipantRepository =>
             new ParticipantRepository($DIC['ilDB']);
+        $dic['global_settings_repository'] = static fn($c): GlobalSettingsRepository =>
+            new GlobalSettingsRepository($DIC['ilSetting']);
 
         return $dic;
     }

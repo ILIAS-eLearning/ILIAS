@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Administration\TestGlobalSettingsRepository;
+use ILIAS\Test\Administration\GlobalSettingsRepository;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\TestDIC;
 
@@ -40,7 +40,7 @@ class ilObjTestFolder extends ilObject
     private const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
     public const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = '1';
 
-    private TestGlobalSettingsRepository $global_settings_repository;
+    private GlobalSettingsRepository $global_settings_repository;
     private ?TestLogViewer $test_log_viewer = null;
 
     public ilSetting $setting;
@@ -56,7 +56,7 @@ class ilObjTestFolder extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function getGlobalSettingsRepository(): TestGlobalSettingsRepository
+    public function getGlobalSettingsRepository(): GlobalSettingsRepository
     {
         return $this->global_settings_repository;
     }
@@ -74,55 +74,6 @@ class ilObjTestFolder extends ilObject
             self::SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER,
             self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
-    }
-
-    public function _enableAssessmentLogging(bool $a_enable): void
-    {
-        $setting = new \ilSetting('assessment');
-
-        $setting->set('assessment_logging', (string) ((int) $a_enable));
-    }
-
-    public function _setLogLanguage(string $a_language): void
-    {
-        $setting = new \ilSetting('assessment');
-
-        $setting->set('assessment_log_language', $a_language);
-    }
-
-    /**
-     * Returns the forbidden questiontypes for ILIAS
-     * @return int[]
-     */
-    public static function _getForbiddenQuestionTypes(): array
-    {
-        $setting = new \ilSetting('assessment');
-        $types = $setting->get('forbidden_questiontypes', '');
-        $result = [];
-
-        if ($types === '') {
-            $result = [];
-        } else {
-            $result = unserialize($types, ['allowed_classes' => false]);
-        }
-
-        return array_filter(array_map('intval', $result));
-    }
-
-    /**
-     * Sets the forbidden questiontypes for ILIAS
-     * @param int[] $typeIds An array containing the database ID's of the forbidden question types
-     */
-    public function _setForbiddenQuestionTypes(array $typeIds): void
-    {
-        $setting = new \ilSetting('assessment');
-
-        $types = '';
-        if ($typeIds !== []) {
-            $types = serialize(array_map('intval', $typeIds));
-        }
-
-        $setting->set('forbidden_questiontypes', $types);
     }
 
     /**
@@ -169,20 +120,6 @@ class ilObjTestFolder extends ilObject
     }
 
     /**
-     * Set the manual scoring settings
-     * @param int[] $type_ids An array containing the database ids of the question types which could be scored manually
-     */
-    public function _setManualScoring(array $type_ids): void
-    {
-        $setting = new \ilSetting('assessment');
-        if ($type_ids === []) {
-            $setting->delete('assessment_manual_scoring');
-        } else {
-            $setting->set('assessment_manual_scoring', implode(',', $type_ids));
-        }
-    }
-
-    /**
      * @return int[]
      */
     public static function getScoringAdjustableQuestions(): array
@@ -193,30 +130,10 @@ class ilObjTestFolder extends ilObject
         return array_filter(array_map('intval', explode(',', $types)));
     }
 
-    /**
-     * @param int[] $type_ids
-     * @return void
-     */
-    public static function setScoringAdjustableQuestions(array $type_ids): void
-    {
-        $setting = new \ilSetting('assessment');
-        if ($type_ids === []) {
-            $setting->delete('assessment_scoring_adjustment');
-        } else {
-            $setting->set('assessment_scoring_adjustment', implode(',', $type_ids));
-        }
-    }
-
     public static function getScoringAdjustmentEnabled(): bool
     {
         $setting = new \ilSetting('assessment');
         return (bool) $setting->get('assessment_adjustments_enabled', '0');
-    }
-
-    public static function setScoringAdjustmentEnabled(bool $active): void
-    {
-        $setting = new \ilSetting('assessment');
-        $setting->set('assessment_adjustments_enabled', (string) ((int) $active));
     }
 
     /**
@@ -235,44 +152,12 @@ class ilObjTestFolder extends ilObject
         return (bool) $isPageEditorEnabled;
     }
 
-    public function getAssessmentProcessLockMode(): string
-    {
-        return $this->setting->get('ass_process_lock_mode', self::ASS_PROC_LOCK_MODE_NONE);
-    }
-
-    public function setAssessmentProcessLockMode(string $lockMode): void
-    {
-        $this->setting->set('ass_process_lock_mode', $lockMode);
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getValidAssessmentProcessLockModes(): array
-    {
-        return [
-            self::ASS_PROC_LOCK_MODE_NONE,
-            self::ASS_PROC_LOCK_MODE_FILE,
-            self::ASS_PROC_LOCK_MODE_DB
-        ];
-    }
-
     public function getSkillTriggeringNumAnswersBarrier(): string
     {
         return $this->setting->get(
             'ass_skl_trig_num_answ_barrier',
             self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
-    }
-
-    public function setSkillTriggeringNumAnswersBarrier(int $skillTriggeringNumAnswersBarrier): void
-    {
-        $this->setting->set('ass_skl_trig_num_answ_barrier', (string) $skillTriggeringNumAnswersBarrier);
-    }
-
-    public function setExportEssayQuestionsWithHtml(bool $value): void
-    {
-        $this->setting->set('export_essay_qst_with_html', (string) ((int) $value));
     }
 
     public function getExportEssayQuestionsWithHtml(): bool

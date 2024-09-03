@@ -41,12 +41,7 @@ class TestLoggingSettings
         \ilLanguage $lng
     ): array {
         $trafo = $refinery->custom()->transformation(
-            function ($vs): self {
-                return new self(
-                    $vs['activation'],
-                    $vs['ip_logging']
-                );
-            }
+            static fn($vs): self => new self($vs['activation'], $vs['ip_logging'])
         );
         return [
             'logging' => $ui_factory->input()->field()->section(
