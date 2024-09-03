@@ -32,7 +32,6 @@ class QuestionsTableBinding implements Table\OrderingBinding
         protected \ilLanguage $lng,
         protected \Closure $title_link_builder,
         protected TitleColumnsBuilder $title_builder,
-        protected string $context,
         protected bool $editing_enabled,
     ) {
     }
@@ -52,15 +51,13 @@ class QuestionsTableBinding implements Table\OrderingBinding
 
             $default_and_edit = !($this->context === QuestionsTable::CONTEXT_DEFAULT && $this->editing_enabled);
             yield $row_builder->buildOrderingRow((string) $record['question_id'], $record)
-                ->withDisabledAction(QuestionsTable::ACTION_DELETE, $default_and_edit && $this->context !== QuestionsTable::CONTEXT_CORRECTIONS)
-                ->withDisabledAction(QuestionsTable::ACTION_COPY, $default_and_edit)
-                ->withDisabledAction(QuestionsTable::ACTION_ADD_TO_POOL, $default_and_edit)
-                ->withDisabledAction(QuestionsTable::ACTION_PREVIEW, !($this->context === QuestionsTable::CONTEXT_DEFAULT))
-                ->withDisabledAction(QuestionsTable::ACTION_CORRECTION, !($this->context === QuestionsTable::CONTEXT_CORRECTIONS))
-                ->withDisabledAction(QuestionsTable::ACTION_EDIT_QUESTION, $default_and_edit)
-                ->withDisabledAction(QuestionsTable::ACTION_EDIT_PAGE, $default_and_edit)
-                ->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $default_and_edit)
-                ->withDisabledAction(QuestionsTable::ACTION_HINTS, $default_and_edit);
+                ->withDisabledAction(QuestionsTable::ACTION_DELETE, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_COPY, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_ADD_TO_POOL, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_EDIT_QUESTION, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_EDIT_PAGE, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $this->editing_enabled)
+                ->withDisabledAction(QuestionsTable::ACTION_HINTS, $this->editing_enabled);
         }
     }
 

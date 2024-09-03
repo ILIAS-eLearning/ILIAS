@@ -49,8 +49,8 @@ class QuestionsTableQuery
         $url_builder = $this->getUrlBuilder();
         list($url_builder, $action_token, $row_id_token) = $url_builder->acquireParameters(
             $namespace,
-            "action",
-            "ids"
+            'action',
+            'ids'
         );
         $this->url_builder = $url_builder;
         $this->action_token = $action_token;
