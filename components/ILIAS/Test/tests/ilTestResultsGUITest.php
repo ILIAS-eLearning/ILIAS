@@ -41,6 +41,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $this->createMock(ilTestQuestionSetConfig::class),
             $DIC['ilCtrl'],
             $DIC['ilAccess'],
+            $this->createMock(ilTestAccess::class),
             $DIC['ilDB'],
             $DIC['refinery'],
             $DIC['ilUser'],
@@ -48,6 +49,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $DIC['component.repository'],
             $DIC['ilTabs'],
+            $this->createMock(ilTestTabsManager::class),
             $DIC['ilToolbar'],
             $DIC['tpl'],
             $DIC['ui.factory'],
@@ -55,54 +57,14 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
             $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
-            $DIC['http']
+            $DIC['http'],
+            $this->createMock(ilTestSession::class),
+            $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestResultsGUI::class, $this->testObj);
-    }
-
-    public function testObjectiveParent(): void
-    {
-        $mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
-        $this->testObj->setObjectiveParent($mock);
-        $this->assertEquals($mock, $this->testObj->getObjectiveParent());
-    }
-
-    public function testTestObj(): void
-    {
-        $mock = $this->getTestObjMock();
-        $this->testObj->setTestObj($mock);
-        $this->assertEquals($mock, $this->testObj->getTestObj());
-    }
-
-    public function testQuestionSetConfig(): void
-    {
-        $mock = $this->createMock(ilTestQuestionSetConfig::class);
-        $this->testObj->setQuestionSetConfig($mock);
-        $this->assertEquals($mock, $this->testObj->getQuestionSetConfig());
-    }
-
-    public function testTestAccess(): void
-    {
-        $mock = $this->createMock(ilTestAccess::class);
-        $this->testObj->setTestAccess($mock);
-        $this->assertEquals($mock, $this->testObj->getTestAccess());
-    }
-
-    public function testTestSession(): void
-    {
-        $mock = $this->createMock(ilTestSession::class);
-        $this->testObj->setTestSession($mock);
-        $this->assertEquals($mock, $this->testObj->getTestSession());
-    }
-
-    public function testTestTabs(): void
-    {
-        $mock = $this->createMock(ilTestTabsManager::class);
-        $this->testObj->setTestTabs($mock);
-        $this->assertEquals($mock, $this->testObj->getTestTabs());
     }
 }

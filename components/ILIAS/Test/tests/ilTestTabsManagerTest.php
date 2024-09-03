@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Presentation\TabsManager;
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Class ilTestTabsManagerTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestTabsManagerTest extends ilTestBaseTestCase
+class TabsManagerTest extends ilTestBaseTestCase
 {
-    private ilTestTabsManager $testObj;
+    private TabsManager $testObj;
 
     protected function setUp(): void
     {
@@ -38,31 +38,31 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilCtrl();
 
-        $this->testObj = new ilTestTabsManager(
-            $this->createMock(ilObjUser::class),
+        $this->testObj = new TabsManager(
             $DIC['ilTabs'],
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
-            $this->createMock(ilRbacReview::class),
             $this->createMock(ilAccess::class),
             $this->createMock(ilTestAccess::class),
-            $this->createMock(ilTestObjectiveOrientedContainer::class)
+            $this->createMock($this->createTestObjMock()),
+            $this->createMock(ilTestObjectiveOrientedContainer::class),
+            $this->createMock(ilTestSession::class)
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestTabsManager::class, $this->testObj);
+        $this->assertInstanceOf(TabsManager::class, $this->testObj);
     }
 
     public function testActivateTab(): void
     {
         global $DIC;
         $DIC['ilTabs']->expects($this->exactly(2))->method('activateTab');
-        $this->testObj->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
-        $this->testObj->activateTab(ilTestTabsManager::TAB_ID_RESULTS);
+        $this->testObj->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->testObj->activateTab(TabsManager::TAB_ID_RESULTS);
         $this->testObj->activateTab('randomString');
     }
 
@@ -71,39 +71,18 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         global $DIC;
         $DIC['ilTabs']->expects($this->exactly(10))->method('activateSubTab');
 
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_RESULTS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_LO_RESULTS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_HIGHSCORE);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-        $this->testObj->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
-        $this->testObj->activateSubTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_TIME_EXTENSION);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_MY_RESULTS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_LO_RESULTS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_HIGHSCORE);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_SKILL_RESULTS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_MY_SOLUTIONS);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
+        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_PAGE_VIEW);
+        $this->testObj->activateSubTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
         $this->testObj->activateSubTab('randomString');
-    }
-
-    public function testTestOBJ(): void
-    {
-        $mock = $this->getTestObjMock();
-        $this->testObj->setTestOBJ($mock);
-        $this->assertEquals($mock, $this->testObj->getTestOBJ());
-    }
-
-    public function testTestSession(): void
-    {
-        $mock = $this->createMock(ilTestSession::class);
-        $this->testObj->setTestSession($mock);
-        $this->assertEquals($mock, $this->testObj->getTestSession());
-    }
-
-    public function testTestQuestionSetConfig(): void
-    {
-        $mock = $this->createMock(ilTestQuestionSetConfig::class);
-        $this->testObj->setTestQuestionSetConfig($mock);
-        $this->assertEquals($mock, $this->testObj->getTestQuestionSetConfig());
     }
 
     public function testParentBackLabel(): void

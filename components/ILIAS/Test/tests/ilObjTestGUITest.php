@@ -113,14 +113,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
     }
 
-    public function testGetTabsManager(): void
-    {
-        $testTabsManager_mock = $this->createMock(ilTestTabsManager::class);
-
-        $this->testObj->setTabsManager($testTabsManager_mock);
-        $this->assertEquals($testTabsManager_mock, $this->testObj->getTabsManager());
-    }
-
     public function testRunObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
