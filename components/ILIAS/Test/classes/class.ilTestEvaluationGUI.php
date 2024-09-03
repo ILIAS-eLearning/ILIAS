@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\ExportImport\ResultsExportExcel;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -145,7 +145,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_STATISTICS);
 
         $table_gui = new ilEvaluationAllTableGUI(
             $this,
@@ -279,7 +279,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_STATISTICS);
 
         $active_id = $this->testrequest->int('active_id');
 
@@ -487,7 +487,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_STATISTICS);
 
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "components/ILIAS/Test");
 
@@ -1209,7 +1209,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->buildStatisticsAccessFilteredParticipantList()
         );
 
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_STATISTICS);
 
         $data = $this->object->getCompleteEvaluationData();
         $counter = 0;

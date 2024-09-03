@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ilInfoScreenGUI;
@@ -47,7 +48,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
     protected function showManScoringByQuestionParticipantsTable(): void
     {
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_MANUAL_SCORING);
+        $this->tabs->activateTab(TabsManager::TAB_ID_MANUAL_SCORING);
 
         if (!$this->test_access->checkScoreParticipantsAccess()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);

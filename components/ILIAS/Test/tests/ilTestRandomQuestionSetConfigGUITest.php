@@ -33,7 +33,6 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
 
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilUser();
-        $this->addGlobal_ilTabs();
         $this->addGlobal_tree();
         $this->addGlobal_ilObjDataCache();
 
@@ -45,7 +44,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
             $DIC['ilAccess'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
-            $DIC['ilTabs'],
+            $this->createMock(\ILIAS\Test\Presentation\TabsManager::class),
             $DIC['lng'],
             $test_logger,
             $DIC['tpl'],

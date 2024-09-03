@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Presentation;
+
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
@@ -28,11 +30,8 @@ use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package		Modules/Test
  */
-class ilTestTabsManager
+class TabsManager
 {
     /**
      * (Sub-)Tab ID constants
@@ -75,65 +74,37 @@ class ilTestTabsManager
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
     private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
 
-    /**
-     * @var ilObjTest
-     */
-    protected $test_object;
-
-    /**
-     * @var ilTestSession
-     */
-    protected $test_session;
-
-    /**
-     * @var ilTestQuestionSetConfig
-     */
-    protected $test_question_set_config;
-
-    /**
-     * @var string|null
-     */
-    protected $parent_back_href;
-
-    /**
-     * @var string|null
-     */
-    protected $parent_back_label;
+    protected ?string $parent_back_href = null;
+    protected ?string $parent_back_label = null;
 
     public function __construct(
-        private ilObjUser $user,
-        private ilTabsGUI $tabs,
-        private ilLanguage $lng,
-        private ilCtrlInterface $ctrl,
-        private RequestWrapper $wrapper,
-        private Refinery $refinery,
-        private ilRbacReview $rbac_review,
-        private ilAccess $access,
-        private ilTestAccess $test_access,
-        private ilTestObjectiveOrientedContainer $objective_parent
+        private readonly \ilTabsGUI $tabs,
+        private readonly \ilLanguage $lng,
+        private readonly \ilCtrlInterface $ctrl,
+        private readonly RequestWrapper $wrapper,
+        private readonly Refinery $refinery,
+        private readonly \ilAccess $access,
+        private readonly \ilTestAccess $test_access,
+        private readonly \ilObjTest $test_object,
+        private readonly \ilTestObjectiveOrientedContainer $objective_parent,
+        private readonly \ilTestSession $test_session
     ) {
     }
 
-    /**
-     * @param string $tabId
-     */
-    public function activateTab($tabId)
+    public function activateTab(string $tab_id): void
     {
-        switch ($tabId) {
+        switch ($tab_id) {
             case self::TAB_ID_EXAM_DASHBOARD:
             case self::TAB_ID_RESULTS:
             case self::TAB_ID_SETTINGS:
 
-                $this->tabs->activateTab($tabId);
+                $this->tabs->activateTab($tab_id);
         }
     }
 
-    /**
-     * @param string $subTabId
-     */
-    public function activateSubTab($subTabId)
+    public function activateSubTab(string $sub_tab_id): void
     {
-        switch ($subTabId) {
+        switch ($sub_tab_id) {
             case self::SUBTAB_ID_FIXED_PARTICIPANTS:
             case self::SUBTAB_ID_TIME_EXTENSION:
 
@@ -154,101 +125,37 @@ class ilTestTabsManager
             case self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE:
             case self::SETTINGS_SUBTAB_ID_CERTIFICATE:
             case self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS:
-
-                $this->tabs->activateSubTab($subTabId);
+                $this->tabs->activateSubTab($sub_tab_id);
         }
     }
 
-    /**
-     * @return ilObjTest
-     */
-    public function getTestOBJ(): ilObjTest
-    {
-        return $this->test_object;
-    }
-
-    /**
-     * @param ilObjTest $test_object
-     */
-    public function setTestOBJ(ilObjTest $test_object)
-    {
-        $this->test_object = $test_object;
-    }
-
-    /**
-     * @return ilTestSession
-     */
-    public function getTestSession(): ilTestSession
-    {
-        return $this->test_session;
-    }
-
-    /**
-     * @param ilTestSession $test_session
-     */
-    public function setTestSession($test_session)
-    {
-        $this->test_session = $test_session;
-    }
-
-    /**
-     * @return ilTestQuestionSetConfig
-     */
-    public function getTestQuestionSetConfig(): ilTestQuestionSetConfig
-    {
-        return $this->test_question_set_config;
-    }
-
-    /**
-     * @param ilTestQuestionSetConfig $test_question_set_config
-     */
-    public function setTestQuestionSetConfig(ilTestQuestionSetConfig $test_question_set_config)
-    {
-        $this->test_question_set_config = $test_question_set_config;
-    }
-
-    /**
-     * @return null|string
-     */
     public function getParentBackLabel(): ?string
     {
         return $this->parent_back_label;
     }
 
-    /**
-     * @param null|string $parent_back_label
-     */
-    public function setParentBackLabel($parent_back_label)
+    public function setParentBackLabel(?string $parent_back_label)
     {
         $this->parent_back_label = $parent_back_label;
     }
 
-    /**
-     * @return null|string
-     */
     public function getParentBackHref(): ?string
     {
         return $this->parent_back_href;
     }
 
-    /**
-     * @param null|string $parent_back_href
-     */
-    public function setParentBackHref($parent_back_href)
+    public function setParentBackHref(?string $parent_back_href): void
     {
         $this->parent_back_href = $parent_back_href;
     }
 
-    /**
-     * @return null|string
-     */
-    public function hasParentBackLink()
+    public function hasParentBackLink(): bool
     {
-        if (!is_string($this->getParentBackHref()) || !strlen($this->getParentBackHref())) {
+        if ($this->getParentBackHref() === null) {
             return false;
         }
 
-        if (!is_string($this->getParentBackLabel()) || !strlen($this->getParentBackLabel())) {
+        if ($this->getParentBackLabel() === null) {
             return false;
         }
 
@@ -257,40 +164,34 @@ class ilTestTabsManager
 
     protected function isReadAccessGranted(): bool
     {
-        return $this->access->checkAccess('read', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('read', '', $this->test_object->getRefId());
     }
 
     protected function isWriteAccessGranted(): bool
     {
-        return $this->access->checkAccess('write', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('write', '', $this->test_object->getRefId());
     }
 
     protected function isStatisticsAccessGranted(): bool
     {
-        return $this->access->checkAccess('tst_statistics', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('tst_statistics', '', $this->test_object->getRefId());
     }
 
     protected function isHistoryAccessGranted(): bool
     {
-        return $this->access->checkAccess('tst_history_read', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('tst_history_read', '', $this->test_object->getRefId());
     }
 
     protected function isPermissionsAccessGranted(): bool
     {
-        return $this->access->checkAccess('edit_permission', '', $this->getTestOBJ()->getRefId());
+        return $this->access->checkAccess('edit_permission', '', $this->test_object->getRefId());
     }
 
-    /**
-     * @return bool
-     */
     protected function isLpAccessGranted(): bool
     {
-        return ilLearningProgressAccess::checkAccess($this->getTestOBJ()->getRefId());
+        return \ilLearningProgressAccess::checkAccess($this->test_object->getRefId());
     }
 
-    /**
-     * @return bool
-     */
     protected function checkDashboardTabAccess(): bool
     {
         if ($this->test_access->checkManageParticipantsAccess()) {
@@ -300,25 +201,17 @@ class ilTestTabsManager
         return false;
     }
 
-    /**
-     * @return bool
-     */
     protected function checkScoreParticipantsTabAccess(): bool
     {
         return $this->test_access->checkScoreParticipantsAccess();
     }
 
-    /**
-     * @return bool
-     */
     protected function checkStatisticsTabAccess(): bool
     {
         return $this->test_access->checkStatisticsAccess();
     }
 
-    /**
-     */
-    public function perform()
+    public function perform(): void
     {
         if ($this->isTabsConfigSetupRequired()) {
             $this->setupTabsGuiConfig();
@@ -348,7 +241,7 @@ class ilTestTabsManager
         return true;
     }
 
-    protected function setupTabsGuiConfig()
+    protected function setupTabsGuiConfig(): void
     {
         if ($this->hasParentBackLink()) {
             $this->tabs->setBack2Target($this->getParentBackLabel(), $this->getParentBackHref());
@@ -452,7 +345,7 @@ class ilTestTabsManager
                 $this->lng->txt('test'),
                 $this->ctrl->getLinkTargetByClass(
                     [
-                    ilObjTestGUI::class, TestScreenGUI::class],
+                    \ilObjTestGUI::class, TestScreenGUI::class],
                     TestScreenGUI::DEFAULT_CMD
                 )
             );
@@ -469,14 +362,14 @@ class ilTestTabsManager
 
             $force_active = ($up || $down || $browse) ? true : false;
 
-            if ($this->getTestOBJ()->isFixedTest()) {
+            if ($this->test_object->isFixedTest()) {
                 $target = $this->ctrl->getLinkTargetByClass(
-                    ilObjTestGUI::class,
-                    ilObjTestGUI::SHOW_QUESTIONS_CMD
+                    \ilObjTestGUI::class,
+                    \ilObjTestGUI::SHOW_QUESTIONS_CMD
                 );
             }
 
-            if ($this->getTestOBJ()->isRandomTest()) {
+            if ($this->test_object->isRandomTest()) {
                 $target = $this->ctrl->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
             }
 
@@ -499,7 +392,7 @@ class ilTestTabsManager
         }
 
         // info tab
-        if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
+        if ($this->isReadAccessGranted() && !$this->test_object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
                 $this->ctrl->getLinkTargetByClass(
@@ -524,14 +417,14 @@ class ilTestTabsManager
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
             ];
 
-            $reflection = new ReflectionClass(SettingsMainGUI::class);
+            $reflection = new \ReflectionClass(SettingsMainGUI::class);
             foreach ($reflection->getConstants() as $name => $value) {
                 if (substr($name, 0, 4) === 'CMD_') {
                     $settingsCommands[] = $value;
                 }
             }
 
-            $reflection = new ReflectionClass(SettingsScoringGUI::class);
+            $reflection = new \ReflectionClass(SettingsScoringGUI::class);
             foreach ($reflection->getConstants() as $name => $value) {
                 if (substr($name, 0, 4) === 'CMD_') {
                     $settingsCommands[] = $value;
@@ -542,7 +435,7 @@ class ilTestTabsManager
 
             $this->tabs->addTarget(
                 'settings',
-                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsMainGUI::class]),
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, SettingsMainGUI::class]),
                 $settingsCommands,
                 [
                     'ilmarkschemagui',
@@ -554,10 +447,10 @@ class ilTestTabsManager
             );
 
             // skill service
-            if ($this->getTestOBJ()->isSkillServiceToBeConsidered()) {
+            if ($this->test_object->isSkillServiceToBeConsidered()) {
                 $link = $this->ctrl->getLinkTargetByClass(
                     ['ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'],
-                    ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+                    \ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
                 );
 
                 $this->tabs->addTarget('tst_tab_competences', $link, [], []);
@@ -583,7 +476,7 @@ class ilTestTabsManager
         if ($this->isLpAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_LEARNING_PROGRESS,
-                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilLearningProgressGUI::class], ''),
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilLearningProgressGUI::class], ''),
                 '',
                 [
                     'illplistofobjectsgui',
@@ -595,13 +488,13 @@ class ilTestTabsManager
         }
 
         if ($this->checkScoreParticipantsTabAccess()) {
-            $scoring = ilObjTestFolder::_getManualScoring();
+            $scoring = \ilObjTestFolder::_getManualScoring();
             if (count($scoring)) {
                 // scoring tab
                 $this->tabs->addTarget(
                     self::TAB_ID_MANUAL_SCORING,
                     $this->ctrl->getLinkTargetByClass(
-                        [ilObjTestGUI::class, TestScoringByQuestionGUI::class],
+                        [\ilObjTestGUI::class, TestScoringByQuestionGUI::class],
                         'showManScoringByQuestionParticipantsTable'
                     ),
                     [
@@ -620,13 +513,13 @@ class ilTestTabsManager
         }
 
         // NEW CORRECTIONS TAB
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         $scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', '0');
         if ($this->isWriteAccessGranted() && $scoring_adjust_active) {
             $this->tabs->addTab(
                 self::TAB_ID_CORRECTION,
                 $this->lng->txt(self::TAB_ID_CORRECTION),
-                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestCorrectionsGUI::class])
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestCorrectionsGUI::class])
             );
         }
 
@@ -635,7 +528,7 @@ class ilTestTabsManager
             $this->tabs->addTarget(
                 self::TAB_ID_STATISTICS,
                 $this->ctrl->getLinkTargetByClass(
-                    [ilRepositoryGUI::class, ilObjTestGUI::class, ilTestEvaluationGUI::class],
+                    [\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilTestEvaluationGUI::class],
                     'outEvaluation'
                 ),
                 [
@@ -663,8 +556,8 @@ class ilTestTabsManager
         }
 
         if ($this->isWriteAccessGranted()) {
-            $mdgui = new ilObjectMetaDataGUI($this->getTestOBJ());
-            $mdtab = $mdgui->getTab(ilObjTestGUI::class);
+            $mdgui = new \ilObjectMetaDataGUI($this->test_object);
+            $mdtab = $mdgui->getTab(\ilObjTestGUI::class);
             if ($mdtab) {
                 $this->tabs->addTarget(
                     self::TAB_ID_META_DATA,
@@ -676,7 +569,7 @@ class ilTestTabsManager
 
             $this->tabs->addTarget(
                 self::TAB_ID_EXPORT,
-                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestExportGUI::class], ''),
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestExportGUI::class], ''),
                 '',
                 ['iltestexportgui']
             );
@@ -692,14 +585,14 @@ class ilTestTabsManager
         }
     }
 
-    protected function getBrowseForQuestionsTab()
+    protected function getBrowseForQuestionsTab(): void
     {
         if ($this->isWriteAccessGranted()) {
             $this->ctrl->saveParameterByClass($this->ctrl->getCmdClass(), 'q_id');
             // edit page
             $this->tabs->setBackTarget(
                 $this->lng->txt('backtocallingtest'),
-                $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), ilObjTestGUI::SHOW_QUESTIONS_CMD)
+                $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), \ilObjTestGUI::SHOW_QUESTIONS_CMD)
             );
             $this->tabs->addTarget(
                 'tst_browse_for_questions',
@@ -712,13 +605,13 @@ class ilTestTabsManager
         }
     }
 
-    protected function getRandomQuestionsTab()
+    protected function getRandomQuestionsTab(): void
     {
         if ($this->isWriteAccessGranted()) {
             // edit page
             $this->tabs->setBackTarget(
                 $this->lng->txt('backtocallingtest'),
-                $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD)
+                $this->ctrl->getLinkTargetByClass(ilTestRandomQuestionSetConfigGUI, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
             );
             $this->tabs->addTarget(
                 'random_selection',
@@ -730,38 +623,42 @@ class ilTestTabsManager
         }
     }
 
-    public function getQuestionsSubTabs()
+    public function getQuestionsSubTabs(): void
     {
+        if (!$this->isWriteAccessGranted()) {
+            return;
+        }
+
         $this->tabs->activateTab(self::TAB_ID_QUESTIONS);
+
+        if ($this->test_object->isRandomTest()) {
+            $this->tabs->addSubTab(
+                'tstRandQuestSetGeneralConfig',
+                $this->lng->txt('tst_rnd_quest_cfg_tab_general'),
+                $this->ctrl->getLinkTargetByClass(
+                    \ilTestRandomQuestionSetConfigGUI::class,
+                    \ilTestRandomQuestionSetConfigGUI::CMD_SHOW_GENERAL_CONFIG_FORM
+                )
+            );
+
+            $this->tabs->addSubTab(
+                'tstRandQuestSetPoolConfig',
+                $this->lng->txt('tst_rnd_quest_cfg_tab_pool'),
+                $this->ctrl->getLinkTargetByClass(
+                    \ilTestRandomQuestionSetConfigGUI::class,
+                    \ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST
+                )
+            );
+        }
 
         $this->tabs->addSubTab(
             self::SUBTAB_ID_QST_LIST_VIEW,
             $this->lng->txt('edit_test_questions'),
-            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, ilObjTestGUI::SHOW_QUESTIONS_CMD)
+            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
         );
-
-        // print view subtab
-        if (!$this->getTestOBJ()->isRandomTest()) {
-            $this->tabs->addSubTabTarget(
-                'print_view',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'print'),
-                'print',
-                '',
-                '',
-                $this->ctrl->getCmd() == 'print'
-            );
-            $this->tabs->addSubTabTarget(
-                'review_view',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'review'),
-                'review',
-                '',
-                '',
-                $this->ctrl->getCmd() == 'review'
-            );
-        }
     }
 
-    protected function getStatisticsSubTabs()
+    protected function getStatisticsSubTabs(): void
     {
         $this->tabs->addSubTabTarget(
             'eval_all_users',
@@ -790,45 +687,45 @@ class ilTestTabsManager
         );
     }
 
-    public function getSettingsSubTabs()
+    public function getSettingsSubTabs(): void
     {
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_GENERAL,
-            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsMainGUI::class]),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, SettingsMainGUI::class]),
             '',
             [SettingsMainGUI::class]
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_MARK_SCHEMA,
-            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, MarkSchemaGUI::class], 'showMarkSchema'),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, MarkSchemaGUI::class], 'showMarkSchema'),
             '',
             [MarkSchemaGUI::class]
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_SCORING,
-            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsScoringGUI::class]),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, SettingsScoringGUI::class]),
             '',
             [SettingsScoringGUI::class]
         );
 
-        $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'introductionpage');
+        $this->ctrl->setParameterByClass(\ilTestPageGUI::class, 'page_type', 'introductionpage');
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE,
-            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestPageGUI::class], 'preview'),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestPageGUI::class], 'preview'),
             ['iltestpagegui']
         );
 
-        $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'concludingremarkspage');
+        $this->ctrl->setParameterByClass(\ilTestPageGUI::class, 'page_type', 'concludingremarkspage');
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE,
-            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestPageGUI::class], 'preview'),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestPageGUI::class], 'preview'),
             ['iltestpagegui']
         );
-        $this->ctrl->clearParameterByClass(ilTestPageGUI::class, 'page_type');
+        $this->ctrl->clearParameterByClass(\ilTestPageGUI::class, 'page_type');
 
-        $validator = new ilCertificateActiveValidator();
+        $validator = new \ilCertificateActiveValidator();
         if ($validator->validate() === true) {
             $this->tabs->addSubTabTarget(
                 self::SETTINGS_SUBTAB_ID_CERTIFICATE,
@@ -846,20 +743,17 @@ class ilTestTabsManager
             ['', 'ilobjtestgui', 'ilcertificategui']
         );
 
-        $lti_settings = new ilLTIProviderObjectSettingGUI($this->test_object->getRefId());
+        $lti_settings = new \ilLTIProviderObjectSettingGUI($this->test_object->getRefId());
         if ($lti_settings->hasSettingsAccess()) {
             $this->tabs->addSubTabTarget(
                 'lti_provider',
-                $this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+                $this->ctrl->getLinkTargetByClass(\ilLTIProviderObjectSettingGUI::class),
                 '',
-                [ilLTIProviderObjectSettingGUI::class]
+                [\ilLTIProviderObjectSettingGUI::class]
             );
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function needsDashboardTab(): bool
     {
         if (!$this->checkDashboardTabAccess()) {
@@ -869,31 +763,25 @@ class ilTestTabsManager
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected function needsTimeExtensionSubTab(): bool
     {
-        if (!($this->getTestOBJ()->getProcessingTimeInSeconds() > 0)) {
+        if (!($this->test_object->getProcessingTimeInSeconds() > 0)) {
             return false;
         }
 
-        if ($this->getTestOBJ()->getNrOfTries() != 1) {
+        if ($this->test_object->getNrOfTries() != 1) {
             return false;
         }
 
         return true;
     }
 
-    /**
-     * @return string
-     */
     protected function getDashboardTabTarget(): string
     {
-        return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestDashboardGUI::class, ilTestParticipantsGUI::class]);
+        return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestDashboardGUI::class, \ilTestParticipantsGUI::class]);
     }
 
-    public function getDashboardSubTabs()
+    public function getDashboardSubTabs(): void
     {
         if (!$this->test_access->checkManageParticipantsAccess()) {
             return;
@@ -916,32 +804,26 @@ class ilTestTabsManager
 
     protected function getDashbardParticipantsSubTabLabel(): string
     {
-        if ($this->getTestOBJ()->getFixedParticipants()) {
+        if ($this->test_object->getFixedParticipants()) {
             return $this->lng->txt('fixedparticipants_subtab');
         }
 
         return $this->lng->txt('autoparticipants_subtab');
     }
 
-    /**
-     * @return bool
-     */
     protected function needsResultsTab(): bool
     {
         return $this->needsParticipantsResultsSubTab() || $this->test_object->isScoreReportingEnabled() || $this->needsMySolutionsSubTab();
     }
 
-    /**
-     * @return string
-     */
     protected function getResultsTabTarget(): string
     {
         if ($this->needsParticipantsResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class]);
+            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilParticipantsTestResultsGUI::class]);
         }
 
         if ($this->needsLoResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestResultsGUI::class, ilTestEvalObjectiveOrientedGUI::class]);
+            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class]);
         }
 
         if ($this->needsMyResultsSubTab()) {
@@ -955,17 +837,11 @@ class ilTestTabsManager
         return $this->ctrl->getLinkTargetByClass('ilTestResultsGUI');
     }
 
-    /**
-     * @return bool
-     */
     public function needsMyResultsSubTab(): bool
     {
-        return $this->getTestSession()->reportableResultsAvailable($this->getTestOBJ());
+        return $this->test_session->reportableResultsAvailable($this->test_object);
     }
 
-    /**
-     * @return bool
-     */
     public function needsLoResultsSubTab(): bool
     {
         if (!$this->needsMyResultsSubTab()) {
@@ -975,9 +851,6 @@ class ilTestTabsManager
         return $this->objective_parent->isObjectiveOrientedPresentationRequired();
     }
 
-    /**
-     * @return bool
-     */
     public function needsParticipantsResultsSubTab(): bool
     {
         if ($this->test_access->checkParticipantsResultsAccess()) {
@@ -987,36 +860,30 @@ class ilTestTabsManager
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function needsHighSoreSubTab(): bool
     {
         if (!$this->needsMyResultsSubTab()) {
             return false;
         }
 
-        return $this->getTestOBJ()->getHighscoreEnabled();
+        return $this->test_object->getHighscoreEnabled();
     }
 
-    /**
-     * @return bool
-     */
     public function needsSkillResultsSubTab(): bool
     {
         if (!$this->needsMyResultsSubTab()) {
             return false;
         }
 
-        return $this->getTestOBJ()->isSkillServiceToBeConsidered();
+        return $this->test_object->isSkillServiceToBeConsidered();
     }
 
     public function needsMySolutionsSubTab(): bool
     {
-        return $this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId());
+        return $this->test_object->canShowSolutionPrintview($this->test_session->getUserId());
     }
 
-    public function getResultsSubTabs()
+    public function getResultsSubTabs(): void
     {
         if ($this->needsParticipantsResultsSubTab()) {
             $this->tabs->addSubTab(

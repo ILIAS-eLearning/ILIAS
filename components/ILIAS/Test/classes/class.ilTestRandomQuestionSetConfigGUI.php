@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -73,7 +74,7 @@ class ilTestRandomQuestionSetConfigGUI
         private readonly ilAccessHandler $access,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly ilTabsGUI $tabs,
+        private readonly TabsManager $tabs_manager,
         private readonly ilLanguage $lng,
         private readonly TestLogger $logger,
         private readonly ilGlobalTemplateInterface $tpl,
@@ -143,11 +144,11 @@ class ilTestRandomQuestionSetConfigGUI
             $this->ctrl->redirect($this);
         }
 
-        $this->handleTabs();
+        $this->tabs_manager->getQuestionsSubTabs();
+        $this->activateTabs();
+        $next_class = $this->ctrl->getNextClass();
 
-        $nextClass = $this->ctrl->getNextClass();
-
-        switch ($nextClass) {
+        switch ($next_class) {
             case 'iltestrandomquestionsetpooldefinitionformgui':
                 $this->question_set_config->loadFromDb();
                 $pool_id = $this->fetchQuestionPoolIdParameter();
@@ -193,43 +194,33 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function isManipulationCommand(): bool
     {
-        switch ($this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM)) {
-            case self::CMD_SAVE_GENERAL_CONFIG_FORM:
-            case self::CMD_SAVE_SRC_POOL_DEF_LIST:
-            case self::CMD_DELETE_SINGLE_SRC_POOL_DEF:
-            case self::CMD_DELETE_MULTI_SRC_POOL_DEFS:
-            case self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM:
-            case self::CMD_SAVE_EDIT_SRC_POOL_DEF_FORM:
-            case self::CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM:
-            case self::CMD_BUILD_QUESTION_STAGE:
-
-                return true;
+        if (in_array(
+            $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM),
+            [
+                self::CMD_SAVE_GENERAL_CONFIG_FORM,
+                self::CMD_SAVE_SRC_POOL_DEF_LIST,
+                self::CMD_DELETE_SINGLE_SRC_POOL_DEF,
+                self::CMD_DELETE_MULTI_SRC_POOL_DEFS,
+                self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM,
+                self::CMD_SAVE_EDIT_SRC_POOL_DEF_FORM,
+                self::CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM,
+                self::CMD_BUILD_QUESTION_STAGE
+            ]
+        )) {
+            return true;
         }
 
         return false;
     }
 
-    private function handleTabs(): void
+    private function activateTabs(): void
     {
-        $this->tabs->activateTab('assQuestions');
-
-        $this->tabs->addSubTab(
-            'tstRandQuestSetGeneralConfig',
-            $this->getGeneralConfigTabLabel(),
-            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_GENERAL_CONFIG_FORM)
-        );
-
-        $this->tabs->addSubTab(
-            'tstRandQuestSetPoolConfig',
-            $this->getPoolConfigTabLabel(),
-            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SRC_POOL_DEF_LIST)
-        );
+        $this->tabs_manager->activateTab('assQuestions');
 
         switch ($this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM)) {
             case self::CMD_SHOW_GENERAL_CONFIG_FORM:
             case self::CMD_SAVE_GENERAL_CONFIG_FORM:
-
-                $this->tabs->activateSubTab('tstRandQuestSetGeneralConfig');
+                $this->tabs_manager->activateSubTab('tstRandQuestSetGeneralConfig');
                 break;
 
             case self::CMD_SHOW_SRC_POOL_DEF_LIST:
@@ -240,11 +231,8 @@ class ilTestRandomQuestionSetConfigGUI
             case self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM:
             case self::CMD_SHOW_EDIT_SRC_POOL_DEF_FORM:
             case self::CMD_SAVE_EDIT_SRC_POOL_DEF_FORM:
-
-                $this->tabs->activateSubTab('tstRandQuestSetPoolConfig');
+                $this->tabs_manager->activateSubTab('tstRandQuestSetPoolConfig');
                 break;
-
-            default: $this->tabs->activateSubTab('nonTab');
         }
     }
 
@@ -879,31 +867,6 @@ class ilTestRandomQuestionSetConfigGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
-    /**
-     * @return string
-     */
-    private function getGeneralModificationSuccessMessage(): string
-    {
-        return $this->lng->txt("tst_msg_random_question_set_config_modified");
-    }
-
-    /**
-     * @return string
-     */
-    public function getGeneralConfigTabLabel(): string
-    {
-        return $this->lng->txt('tst_rnd_quest_cfg_tab_general');
-    }
-
-    /**
-     * @return string
-     */
-    public function getPoolConfigTabLabel(): string
-    {
-        return $this->lng->txt('tst_rnd_quest_cfg_tab_pool');
-    }
-
-
     protected function preventFormBecauseOfSync(): bool
     {
         $return = false;
@@ -948,11 +911,11 @@ class ilTestRandomQuestionSetConfigGUI
         if ($this->testrequest->isset('modified')) {
             $action = $this->testrequest->raw('modified');
             if ($action === 'save') {
-                $success_message = $this->ui_factory->messageBox()->success($this->getGeneralModificationSuccessMessage());
+                $success_message = $this->ui_factory->messageBox()->success($this->lng->txt('tst_msg_random_question_set_config_modified'));
             } elseif ($action === 'remove') {
-                $success_message = $this->ui_factory->messageBox()->success($this->lng->txt("tst_msg_source_pool_definitions_deleted"));
+                $success_message = $this->ui_factory->messageBox()->success($this->lng->txt('tst_msg_source_pool_definitions_deleted'));
             } elseif ($action === 'sync') {
-                $success_message = $this->ui_factory->messageBox()->success($this->lng->txt("tst_msg_random_question_set_synced"));
+                $success_message = $this->ui_factory->messageBox()->success($this->lng->txt('tst_msg_random_question_set_synced'));
             }
             $message .= $this->ui_renderer->render(
                 $success_message

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 
@@ -83,7 +84,7 @@ class MarkSchemaGUI
 
     public function executeCommand(): void
     {
-        $this->tabs->activateSubTab(\ilTestTabsManager::SETTINGS_SUBTAB_ID_MARK_SCHEMA);
+        $this->tabs->activateSubTab(TabsManager::SETTINGS_SUBTAB_ID_MARK_SCHEMA);
         $cmd = $this->ctrl->getCmd(self::DEFAULT_CMD);
         $this->$cmd();
     }

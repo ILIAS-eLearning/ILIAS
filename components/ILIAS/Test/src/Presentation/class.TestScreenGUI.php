@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
@@ -102,7 +103,7 @@ class TestScreenGUI
 
     public function testScreen(): void
     {
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_TEST);
+        $this->tabs->activateTab(TabsManager::TAB_ID_TEST);
         $this->tpl->setPermanentLink($this->object->getType(), $this->ref_id);
 
         $elements = [];

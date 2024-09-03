@@ -46,6 +46,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $this->getTestObjMock(),
             $DIC['ilUser'],
             $DIC['ilAccess'],
+            $this->createMock(ilTestAccess::class),
             $DIC['tpl'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
@@ -56,8 +57,9 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilToolbar'],
             $DIC['component.factory'],
             $this->createMock(\ILIAS\Test\ExportImport\Factory::class),
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class),
             $this->createMock(ilTestQuestionSetConfig::class),
-            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+            $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
     }
 
@@ -71,33 +73,5 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
         $obj_test_mock = $this->getTestObjMock();
         $this->testObj->setTestObj($obj_test_mock);
         $this->assertEquals($obj_test_mock, $this->testObj->getTestObj());
-    }
-
-    public function testQuestionSetConfig(): void
-    {
-        $testQuestionSetConfig_mock = $this->createMock(ilTestQuestionSetConfig::class);
-        $this->testObj->setQuestionSetConfig($testQuestionSetConfig_mock);
-        $this->assertEquals($testQuestionSetConfig_mock, $this->testObj->getQuestionSetConfig());
-    }
-
-    public function testTestAccess(): void
-    {
-        $testAccess_mock = $this->createMock(ilTestAccess::class);
-        $this->testObj->setTestAccess($testAccess_mock);
-        $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
-    }
-
-    public function testTestTabs(): void
-    {
-        $testTabsManager_mock = $this->createMock(ilTestTabsManager::class);
-        $this->testObj->setTestTabs($testTabsManager_mock);
-        $this->assertEquals($testTabsManager_mock, $this->testObj->getTestTabs());
-    }
-
-    public function testObjectiveParent(): void
-    {
-        $objectiveParent_mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
-        $this->testObj->setObjectiveParent($objectiveParent_mock);
-        $this->assertEquals($objectiveParent_mock, $this->testObj->getObjectiveParent());
     }
 }

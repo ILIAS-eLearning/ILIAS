@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -131,8 +132,8 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
         $this->test_gui->prepareOutput();
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
-        $this->tabs->activateSubTab(\ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateSubTab(TabsManager::SUBTAB_ID_GENERAL_SETTINGS);
     }
 
     private function showOldIntroduction(): void

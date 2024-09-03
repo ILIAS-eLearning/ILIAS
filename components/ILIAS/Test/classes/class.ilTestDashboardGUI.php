@@ -18,12 +18,13 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\RequestDataCollector;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
-use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
-use ILIAS\Test\RequestDataCollector;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilTestDashboardGUI
@@ -38,14 +39,11 @@ use ILIAS\Test\RequestDataCollector;
  */
 class ilTestDashboardGUI
 {
-    protected ilTestAccess $test_access;
-    protected ilTestTabsManager $tabs_manager;
-    protected ilTestObjectiveOrientedContainer $objective_parent;
-
     public function __construct(
         protected ilObjTest $test_obj,
         protected readonly ilObjUser $user,
         protected readonly ilAccess $access,
+        protected readonly ilTestAccess $test_access,
         protected ilGlobalTemplateInterface $main_tpl,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
@@ -55,80 +53,32 @@ class ilTestDashboardGUI
         protected readonly ilDBInterface $db,
         protected readonly ilCtrl $ctrl,
         protected ilTabsGUI $tabs,
+        protected TabsManager $tabs_manager,
         protected ilToolbarGUI $toolbar,
         protected readonly \ilComponentFactory $component_factory,
         protected readonly ExportImportFactory $export_factory,
+        protected readonly RequestDataCollector $testrequest,
         protected ilTestQuestionSetConfig $question_set_config,
-        protected readonly RequestDataCollector $testrequest
+        protected ilTestObjectiveOrientedContainer $objective_parent
     ) {
-    }
-
-    public function getTestObj(): ilObjTest
-    {
-        return $this->test_obj;
-    }
-
-    public function setTestObj(ilObjTest $test_obj)
-    {
-        $this->test_obj = $test_obj;
-    }
-
-    public function getQuestionSetConfig(): ilTestQuestionSetConfig
-    {
-        return $this->question_set_config;
-    }
-
-    public function setQuestionSetConfig(ilTestQuestionSetConfig $question_set_config): void
-    {
-        $this->question_set_config = $question_set_config;
-    }
-
-    public function getTestAccess(): ilTestAccess
-    {
-        return $this->test_access;
-    }
-
-    public function setTestAccess(ilTestAccess $test_access): void
-    {
-        $this->test_access = $test_access;
-    }
-
-    public function getTestTabs(): ilTestTabsManager
-    {
-        return $this->tabs_manager;
-    }
-
-    public function setTestTabs(ilTestTabsManager $tabs_manager): void
-    {
-        $this->tabs_manager = $tabs_manager;
-    }
-
-    public function getObjectiveParent(): ilTestObjectiveOrientedContainer
-    {
-        return $this->objective_parent;
-    }
-
-    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent)
-    {
-        $this->objective_parent = $objective_parent;
     }
 
     public function executeCommand(): void
     {
-        if (!$this->getTestAccess()->checkManageParticipantsAccess()) {
+        if (!$this->test_access->checkManageParticipantsAccess()) {
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        $this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
-        $this->getTestTabs()->getDashboardSubTabs();
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->tabs_manager->getDashboardSubTabs();
 
         switch ($this->ctrl->getNextClass()) {
             case 'iltestparticipantsgui':
-                $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
+                $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
 
                 $gui = new ilTestParticipantsGUI(
-                    $this->getTestObj(),
-                    $this->getQuestionSetConfig(),
+                    $this->test_obj,
+                    $this->question_set_config,
                     $this->access,
                     $this->main_tpl,
                     $this->ui_factory,
@@ -144,16 +94,16 @@ class ilTestDashboardGUI
                     $this->export_factory,
                     $this->testrequest
                 );
-                $gui->setTestAccess($this->getTestAccess());
-                $gui->setObjectiveParent($this->getObjectiveParent());
+                $gui->setTestAccess($this->test_access);
+                $gui->setObjectiveParent($this->objective_parent);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'iltestparticipantstimeextensiongui':
-                $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
+                $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_TIME_EXTENSION);
 
                 $gui = new ilTestParticipantsTimeExtensionGUI(
-                    $this->getTestObj(),
+                    $this->test_obj,
                     $this->user,
                     $this->ctrl,
                     $this->lng,

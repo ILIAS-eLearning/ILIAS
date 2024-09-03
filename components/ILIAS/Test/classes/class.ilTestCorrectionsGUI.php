@@ -21,11 +21,12 @@ declare(strict_types=1);
 use ILIAS\Test\Scoring\Manual\TestScoring;
 
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Questions\QuestionsTable;
+use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\RequestDataCollector;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -90,7 +91,7 @@ class ilTestCorrectionsGUI
 
     protected function showQuestionList()
     {
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
+        $this->tabs->activateTab(TabsManager::TAB_ID_CORRECTION);
 
         if ($this->test_obj->isFixedTest()) {
             $rendered_gui_component = $this->ui_renderer->render(
@@ -341,7 +342,7 @@ class ilTestCorrectionsGUI
 
     protected function confirmQuestionRemoval()
     {
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
+        $this->tabs->activateTab(TabsManager::TAB_ID_CORRECTION);
 
         $confirmation = sprintf(
             $this->language->txt('tst_corrections_qst_remove_confirmation'),
