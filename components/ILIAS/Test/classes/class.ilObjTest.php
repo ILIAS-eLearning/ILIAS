@@ -48,7 +48,7 @@ use ILIAS\Test\Export\CSVExportTrait;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\MetaData\Services\ServicesInterface as LOMetadata;
 
 /**
  * Class ilObjTest
@@ -148,7 +148,7 @@ class ilObjTest extends ilObject
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
-    protected LOMServices $lom_services;
+    protected LOMetadata $lo_metadata;
 
     /**
      * Constructor
@@ -169,7 +169,7 @@ class ilObjTest extends ilObject
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
-        $this->lom_services = $DIC->learningObjectMetadata();
+        $this->lo_metadata = $DIC->learningObjectMetadata();
 
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
@@ -4337,20 +4337,20 @@ class ilObjTest extends ilObject
     */
     public function saveAuthorToMetadata($author = "")
     {
-        $path_to_lifecycle = $this->lom_services->paths()->custom()->withNextStep('lifeCycle')->get();
-        $path_to_authors = $this->lom_services->paths()->authors();
+        $path_to_lifecycle = $this->lo_metadata->paths()->custom()->withNextStep('lifeCycle')->get();
+        $path_to_authors = $this->lo_metadata->paths()->authors();
 
-        $reader = $this->lom_services->read($this->getId(), 0, $this->getType(), $path_to_lifecycle);
+        $reader = $this->lo_metadata->read($this->getId(), 0, $this->getType(), $path_to_lifecycle);
         if (!is_null($reader->allData($path_to_lifecycle)->current())) {
             return;
         }
 
-        if (strlen($author) == 0) {
+        if ($author === '') {
             $author = $this->user->getFullname();
         }
-        $this->lom_services->manipulate($this->getId(), 0, $this->getType())
-                           ->prepareCreateOrUpdate($path_to_authors, $author)
-                           ->execute();
+        $this->lo_metadata->manipulate($this->getId(), 0, $this->getType())
+                          ->prepareCreateOrUpdate($path_to_authors, $author)
+                          ->execute();
     }
 
     /**
@@ -4370,11 +4370,11 @@ class ilObjTest extends ilObject
     */
     public function getAuthor(): string
     {
-        $path_to_authors = $this->lom_services->paths()->authors();
-        $author_data = $this->lom_services->read($this->getId(), 0, $this->getType(), $path_to_authors)
-                                          ->allData($path_to_authors);
+        $path_to_authors = $this->lo_metadata->paths()->authors();
+        $author_data = $this->lo_metadata->read($this->getId(), 0, $this->getType(), $path_to_authors)
+                                         ->allData($path_to_authors);
 
-        return $this->lom_services->dataHelper()->makePresentableAsList(',', ...$author_data);
+        return $this->lo_metadata->dataHelper()->makePresentableAsList(',', ...$author_data);
     }
 
     /**
@@ -4388,13 +4388,13 @@ class ilObjTest extends ilObject
     {
         global $DIC;
 
-        $lom_services = $DIC->learningObjectMetadata();
+        $lo_metadata = $DIC->learningObjectMetadata();
 
-        $path_to_authors = $lom_services->paths()->authors();
-        $author_data = $lom_services->read($obj_id, 0, "tst", $path_to_authors)
+        $path_to_authors = $lo_metadata->paths()->authors();
+        $author_data = $lo_metadata->read($obj_id, 0, "tst", $path_to_authors)
                                     ->allData($path_to_authors);
 
-        return $lom_services->dataHelper()->makePresentableAsList(',', ...$author_data);
+        return $lo_metadata->dataHelper()->makePresentableAsList(',', ...$author_data);
     }
 
     /**
