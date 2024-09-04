@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
@@ -39,6 +40,7 @@ class ilTestAccess
     protected MainSettingsDatabaseRepository $main_settings_repository;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
+    protected ParticipantRepository $participant_repository;
 
     public function __construct(
         protected int $ref_id
@@ -48,6 +50,7 @@ class ilTestAccess
         $this->db = $DIC['ilDB'];
         $this->lng = $DIC['lng'];
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
+        $this->participant_repository = TestDIC::dic()['participant.repository'];
         $this->access = $DIC->access();
         $this->main_settings_repository = TestDIC::dic()['settings.main.repository'];
     }
@@ -180,7 +183,7 @@ class ilTestAccess
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        $allowed_by_individual_ip = $this->isPartipipantWithIpAllowedToAccessTest(
+        $allowed_by_individual_ip = $this->isParticipantWithIpAllowedToAccessTest(
             $user_id,
             $ip,
             $access_settings
@@ -201,38 +204,33 @@ class ilTestAccess
         return ParticipantAccess::ALLOWED;
     }
 
-    private function isPartipipantWithIpAllowedToAccessTest(
+    private function isParticipantWithIpAllowedToAccessTest(
         int $user_id,
         string $ip,
         SettingsAccess $access_settings
     ): ?bool {
-        $assigned_users_result = $this->db->queryF(
-            "SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-            ['integer','integer'],
-            [$access_settings->getTestId(), $user_id]
+        $participant = $this->participant_repository->getParticipantByUserId(
+            ilObjTest::_getTestIDFromObjectID(
+                ilObjTest::_lookupObjId($this->getRefId())
+            ),
+            $user_id
         );
 
-        if ($this->db->numRows($assigned_users_result) !== 1) {
-            return null;
+        if (!$participant) {
+            return false;
         }
 
-        $row = $this->db->fetchObject($assigned_users_result);
-        if ($row->clientip === null || trim($row->clientip) === '') {
-            return null;
+        $range_start = $participant->getClientIpFrom();
+        $range_end = $participant->getClientIpTo();
+
+        if ($this->isIpTypeOf(FILTER_FLAG_IPV4, $ip, $range_start, $range_end)) {
+            return $this->isIpv4Between($ip, $range_start, $range_end);
         }
 
-        $clientip = str_replace(
-            ['.', '?','*',','],
-            ['\\.', '[0-9]','[0-9]*','|'],
-            preg_replace(
-                '/[^0-9.?*,:]+/',
-                '',
-                $row->clientip
-            )
-        );
-        if (preg_match('/^' . $clientip . '$/', $ip)) {
-            return true;
+        if ($this->isIpTypeOf(FILTER_FLAG_IPV6, $ip, $range_start, $range_end)) {
+            return $this->isIpv6Between($ip, $range_start, $range_end);
         }
+
         return false;
     }
 
@@ -247,20 +245,33 @@ class ilTestAccess
         $range_start = $access_settings->getIpRangeFrom();
         $range_end = $access_settings->getIpRangeTo();
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false
-            && filter_var($range_start, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false
-            && filter_var($range_end, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
-            return ip2long($range_start) <= ip2long($ip)
-                && ip2long($ip) <= ip2long($range_end);
+        if ($this->isIpTypeOf(FILTER_FLAG_IPV4, $ip, $range_start, $range_end)) {
+            return $this->isIpv4Between($ip, $range_start, $range_end);
         }
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false
-           && filter_var($range_start, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false
-           && filter_var($range_end, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
-            return bin2hex(inet_pton($range_start)) <= bin2hex(inet_pton($ip))
-                && bin2hex(inet_pton($ip)) <= bin2hex(inet_pton($range_end));
+        if ($this->isIpTypeOf(FILTER_FLAG_IPV6, $ip, $range_start, $range_end)) {
+            return $this->isIpv6Between($ip, $range_start, $range_end);
         }
 
         return false;
+    }
+
+    private function isIpTypeOf(int $ip_type_flag, string $ip, string $range_start, string $range_end): bool
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, $ip_type_flag) !== false
+            && filter_var($range_start, FILTER_VALIDATE_IP, $ip_type_flag) !== false
+            && filter_var($range_end, FILTER_VALIDATE_IP, $ip_type_flag) !== false;
+    }
+
+    private function isIpv4Between(string $ip, string $range_start, string $range_end): bool
+    {
+        return ip2long($range_start) <= ip2long($ip)
+            && ip2long($ip) <= ip2long($range_end);
+    }
+
+    private function isIpv6Between(string $ip, string $range_start, string $range_end): bool
+    {
+        return bin2hex(inet_pton($range_start)) <= bin2hex(inet_pton($ip))
+            && bin2hex(inet_pton($ip)) <= bin2hex(inet_pton($range_end));
     }
 }

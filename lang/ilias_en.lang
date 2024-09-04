@@ -435,6 +435,7 @@ assessment#:#add_gap#:#Add Gap Text
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
+assessment#:#add_users#:#Add Users
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
 assessment#:#advanced_rating#:#Advanced Rating
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units.
@@ -443,6 +444,7 @@ assessment#:#all_participants#:#All participants
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions#:#Allowed File Extensions
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
+assessment#:#already_added_extra_time#:#already added: %s min
 assessment#:#analyze_errortext#:#Analyze Error Text
 assessment#:#answer#:#Answer
 assessment#:#answer_characters#:# characters allowed, entered number of characters:
@@ -573,6 +575,7 @@ assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
+assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
@@ -702,7 +705,13 @@ assessment#:#export_cert_no_users#:#A certificate archive cannot be created due 
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren
+assessment#:#extra_time_byline#:#Put in extra time in minutes. Already entered extra time is added up.
+assessment#:#extra_time_for_all_participants#:#You are adding some extra time to all participants.
+assessment#:#extra_time_for_selected_participants#:#You are adding extra time to the selected participants.
+assessment#:#extra_time_for_selected_participants_different#:#You have selected participants with different additional times.
+assessment#:#extra_time_for_single_participant#:#Your are adding extra time to the following participant:
 assessment#:#extratime#:#Extra Time
+assessment#:#extratime_added#:#The extra time has been added to the selected participants.
 assessment#:#factor#:#Factor
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
@@ -734,8 +743,16 @@ assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish th
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test attempt for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Finish Test
+assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?
+assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?
+assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
 assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
+assessment#:#finished#:#Finished
+assessment#:#finished_by_administrator#:#Finished by Administrator
+assessment#:#finished_by_cronjob#:#Finished by Cronjob
+assessment#:#finished_by_duration#:#Finished by time limit
+assessment#:#finished_by_participant#:#Finished by Participant
 assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings.
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#flashfile#:#Flash File
@@ -776,8 +793,13 @@ assessment#:#internal_links#:#Internal Links
 assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#invalid_ip#:#Invalid IP
+assessment#:#ip_range_byline#:#Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses.
+assessment#:#ip_range_for_all_participants#:#You are changing the IP Range of all participants
+assessment#:#ip_range_for_selected_participants#:#You are changing the IP Range of the following participant.
+assessment#:#ip_range_for_single_participant#:#You are changing the IP Range of the selected participants.
 assessment#:#ip_range_info#:#Only clients with an IP in the provided range will be able to access the test.
 assessment#:#ip_range_label#:#IP Range
+assessment#:#ip_range_updated#:#The IP-Range has been update for the selected participants.
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
 assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
@@ -826,6 +848,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_example_header#:#Examples
+assessment#:#list_of_participants#:#Participants
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
@@ -889,6 +912,7 @@ assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for 
 assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
+assessment#:#manual_entry#:#Manual Entry
 assessment#:#mark_schema#:#Grading System
 assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
 assessment#:#matches#:#matches
@@ -931,8 +955,10 @@ assessment#:#no_selection#:#--- No Selection ---
 assessment#:#no_selection_for_move#:#No question selected for moving
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
+assessment#:#no_valid_participant_selection#:#No valid Participants selected
 assessment#:#not_all_obligations_answered#:#You must answer all compulsory questions before you can finish the test.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#not_started#:#Not started yet
 assessment#:#not_yet_accessed#:#Not yet accessed
 assessment#:#nr_of_correct_answers#:#Number of Requested Answers
 assessment#:#number_of_answers#:#Number of Answers
@@ -1151,6 +1177,7 @@ assessment#:#redirect_always#:#always to the webpage specified below
 assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
+assessment#:#remaining_duration#:#Remaining Duration
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_gap#:#Remove Gap
 assessment#:#remove_question#:#Remove
@@ -1180,6 +1207,7 @@ assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
 assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
 assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
+assessment#:#running#:#Running
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
 assessment#:#save_and_next#:#Save and Continue
@@ -1223,12 +1251,15 @@ assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next
+assessment#:#solution#:#Solution
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#solution_hint#:#Assigned Content for Recapitulation
+assessment#:#solutions#:#Solutions
 assessment#:#start_tag#:#Start Tag
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
+assessment#:#status_of_attempt#:#Status of Attempt
 assessment#:#submit_and_check#:#Save and Check Answer
 assessment#:#submit_answer#:#Save Answer
 assessment#:#suggest_range#:#Suggest Range
@@ -1244,6 +1275,7 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
 assessment#:#terms#:#Terms
+assessment#:#test_attempts_finished#:#The test pass has been finished for the selected participants.
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
@@ -1290,6 +1322,8 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
 assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Working Time
+assessment#:#total_attempts#:#Total Attempts
+assessment#:#total_duration#:#Total Duration
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
@@ -2029,7 +2063,9 @@ assessment#:#variables#:#Variables
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
 assessment#:#warning_question_not_complete#:#Question is incomplete!
 assessment#:#width#:#Width
+assessment#:#with_solution#:#Participants with solution
 assessment#:#with_solutions_participants#:#Participants with solutions
+assessment#:#without_solution#:#Participants without solution
 assessment#:#without_solutions_participants#:#Participants without solutions
 assessment#:#worked_through#:#Worked Through
 assessment#:#working_time#:#Working Time

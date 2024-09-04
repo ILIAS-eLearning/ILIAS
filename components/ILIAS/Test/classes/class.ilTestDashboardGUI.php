@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -47,6 +48,8 @@ class ilTestDashboardGUI
         protected ilGlobalTemplateInterface $main_tpl,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
+        protected readonly ilUIService $ui_service,
+        protected readonly DataFactory $data_factory,
         protected readonly ilLanguage $lng,
         protected readonly ilDBInterface $db,
         protected readonly ilCtrl $ctrl,
@@ -127,6 +130,8 @@ class ilTestDashboardGUI
                     $this->main_tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
+                    $this->ui_service,
+                    $this->data_factory,
                     $this->lng,
                     $this->ctrl,
                     $this->db,
