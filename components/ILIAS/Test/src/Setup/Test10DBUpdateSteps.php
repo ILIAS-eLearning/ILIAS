@@ -281,4 +281,34 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['ref_id'], 'rid');
         }
     }
+
+    public function step_4(): void
+    {
+        if (!$this->db->tableColumnExists('tst_invited_user', 'ip_range_from')) {
+            $this->db->addTableColumn(
+                'tst_invited_user',
+                'ip_range_from',
+                [
+                    'type' => 'text',
+                    'length' => 39
+                ]
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_invited_user', 'ip_range_to')) {
+            $this->db->addTableColumn(
+                'tst_invited_user',
+                'ip_range_to',
+                [
+                    'type' => 'text',
+                    'length' => 39
+                ]
+            );
+        }
+
+        //       @TODO migrate all client ip data.
+        //        if($this->db->tableColumnExists('tst_invited_user', 'clientip')) {
+        //            $this->db->manipulate('UPDATE tst_invited_user SET ip_range_from = clientip, ip_range_to = clientip WHERE ip_range_from IS NULL AND ip_range_to IS NULL');
+        //            $this->db->dropTableColumn('tst_invited_user', 'clientip');
+        //        }
+    }
 }

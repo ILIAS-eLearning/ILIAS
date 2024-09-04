@@ -34,11 +34,9 @@ use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
-
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -126,6 +124,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilDBInterface $db;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected ilUIService $ui_service;
     protected HTTPServices $http;
     protected ilHelpGUI $help;
     protected GlobalScreen $global_screen;
@@ -153,6 +152,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->component_factory = $DIC['component.factory'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->ui_service = $DIC->uiService();
         $this->http = $DIC['http'];
         $this->error = $DIC['ilErr'];
         $this->db = $DIC['ilDB'];
@@ -363,8 +363,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
-                $this->prepareOutput();
-                $this->addHeaderAction();
+
+                if (!$this->ctrl->isAsynch()) {
+                    $this->prepareOutput();
+                    $this->addHeaderAction();
+                }
 
                 $gui = new ilTestDashboardGUI(
                     $this->getTestObject(),
@@ -373,6 +376,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
+                    $this->ui_service,
+                    $this->data_factory,
                     $this->lng,
                     $this->db,
                     $this->ctrl,

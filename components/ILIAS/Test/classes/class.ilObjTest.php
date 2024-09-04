@@ -23,10 +23,8 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -44,7 +42,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -4964,6 +4961,8 @@ class ilObjTest extends ilObject
     *
     * @param integer $user_id The database id of the disinvited user
     * @access public
+     *
+     * @deprecated
     */
     public function disinviteUser($user_id)
     {
@@ -4979,6 +4978,8 @@ class ilObjTest extends ilObject
     *
     * @param integer $user_id The database id of the invited user
     * @access public
+     *
+     * @deprecated
     */
     public function inviteUser($user_id, $client_ip = "")
     {
@@ -7735,6 +7736,7 @@ class ilObjTest extends ilObject
     {
         return $this->getMainSettings()->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion();
     }
+
 
     public static function isParticipantsLastPassActive(int $test_ref_id, int $user_id): bool
     {

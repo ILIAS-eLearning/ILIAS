@@ -20,9 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Participants\ParticipantTable;
+use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
+use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
+use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
-
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -36,7 +40,6 @@ use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\Factory as InteractionFactory;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 
@@ -93,6 +96,9 @@ class TestDIC extends PimpleContainer
                 $DIC['http'],
                 $DIC['refinery']
             );
+
+        $dic['response_handler'] = static fn($c): ResponseHandler =>
+            new ResponseHandler($DIC['http'], );
 
         $dic['settings.global.repository'] = static fn($c): TestGlobalSettingsRepository =>
                 new TestGlobalSettingsRepository(new \ilSetting('assessment'));
@@ -153,6 +159,57 @@ class TestDIC extends PimpleContainer
                 $DIC->http(),
                 $DIC['refinery'],
                 $DIC['upload']
+            );
+
+        $dic['participant.repository'] = static fn($c): ParticipantRepository =>
+            new ParticipantRepository($DIC['ilDB']);
+
+        $dic['participant.table'] = static fn($c): ParticipantTable =>
+            new ParticipantTable(
+                $DIC['ui.factory'],
+                $DIC->uiService(),
+                $DIC['lng'],
+                new DataFactory(),
+                $c['request_data_collector'],
+                $c['participant.access_filter.factory'],
+                $c['participant.repository']
+            );
+
+        $dic['participant.action.ip_range'] = static fn($c): ParticipantTableIpRangeAction =>
+            new ParticipantTableIpRangeAction(
+                $DIC['ilCtrl'],
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['refinery'],
+                $c['request_data_collector'],
+                $c['response_handler'],
+                $c['participant.repository']
+            );
+
+        $dic['participant.action.extra_time'] = static fn($c): ParticipantTableExtraTimeAction =>
+            new ParticipantTableExtraTimeAction(
+                $DIC['ilCtrl'],
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['refinery'],
+                $c['request_data_collector'],
+                $c['response_handler'],
+                $c['participant.repository'],
+                $DIC['ilUser'],
+            );
+
+        $dic['participant.action.finish_test'] = static fn($c): ParticipantTableFinishTestAction =>
+            new ParticipantTableFinishTestAction(
+                $DIC['ilCtrl'],
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['refinery'],
+                $c['request_data_collector'],
+                $c['response_handler'],
+                $c['participant.repository'],
             );
 
         return $dic;

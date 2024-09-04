@@ -83,8 +83,10 @@ class Renderer extends AbstractComponentRenderer
             static function (string $id) use ($component): string {
                 return "
                     // @TODO: we need to refactor the signal-management to prevent using jQuery here.
+                    console.log('{$component->getSubmitSignal()}', '$id');
                     $(document).on('{$component->getSubmitSignal()}', function () {
                         let form = document.getElementById('$id');
+                        console.log(form);
                         if (!form instanceof HTMLFormElement) {
                             throw new Error(`Element '$id' is not an instance of HTMLFormElement.`);
                         }

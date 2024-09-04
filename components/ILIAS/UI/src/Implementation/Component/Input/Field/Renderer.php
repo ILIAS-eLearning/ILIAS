@@ -38,6 +38,8 @@ use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\Data\FiveStarRatingScale;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 
+use function dump;
+
 /**
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Input
@@ -205,7 +207,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        if($dependant_group_html !== '') {
+        if ($dependant_group_html !== '') {
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
@@ -404,6 +406,7 @@ class Renderer extends AbstractComponentRenderer
             function ($id) use ($configuration, $value) {
                 $encoded = json_encode($configuration);
                 $value = json_encode($value);
+
                 return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
             }
         );
@@ -470,7 +473,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if(!($value && $component->isRequired())) {
+        if (!($value && $component->isRequired())) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -1057,7 +1060,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if(!$component->isRequired()) {
+        if (!$component->isRequired()) {
             $tpl->setVariable('NEUTRAL_ID', $id . '-0');
             $tpl->setVariable('NEUTRAL_NAME', $component->getName());
             $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));

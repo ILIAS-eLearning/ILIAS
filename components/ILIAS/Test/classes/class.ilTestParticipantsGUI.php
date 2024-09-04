@@ -18,10 +18,25 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Test\Participants\ParticipantFilter;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Participants\ParticipantTable;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
+use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
+use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
+use ILIAS\Test\Participants\UI\ParticipantUIService;
+use ILIAS\Test\TestDIC;
+use ILIAS\UI\Component\Dropdown\Dropdown;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Modal\Interruptive;
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\UI\URLBuilder;
 
 /**
  * Class ilTestParticipantsGUI
@@ -38,9 +53,6 @@ use ILIAS\Test\RequestDataCollector;
 class ilTestParticipantsGUI
 {
     public const CMD_SHOW = 'show';
-    public const CMD_SET_FILTER = 'setFilter';
-    public const CMD_RESET_FILTER = 'resetFilter';
-    public const CMD_SAVE_CLIENT_IP = 'saveClientIp';
 
     public const CALLBACK_ADD_PARTICIPANT = 'addParticipants';
 
@@ -56,6 +68,8 @@ class ilTestParticipantsGUI
         protected ilGlobalTemplateInterface $main_tpl,
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
+        protected ilUIService $ui_service,
+        protected DataFactory $data_factory,
         protected ilLanguage $lng,
         protected ilCtrlInterface $ctrl,
         protected ilDBInterface $db,
@@ -141,183 +155,191 @@ class ilTestParticipantsGUI
         }
     }
 
+    public function showCmd(): void
+    {
+        $manually_user_entry_modal = $this->getManuallyEntryModal();
+        $add_user_dropdown = $this->getAddUserDropdown($manually_user_entry_modal);
+
+        $components = $this->getParticipantTable()->getComponents(
+            $this->getTableActionUrlBuilder()
+        );
+
+        $this->toolbar->addComponent($add_user_dropdown);
+        $this->main_tpl->setContent(
+            $this->ui_renderer->render(array_merge(
+                $components,
+                [$manually_user_entry_modal]
+            ))
+        );
+    }
+
+    public function executeTableActionCmd(): void
+    {
+        $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
+    }
+
+    private function getManuallyEntryModal(): RoundTrip|Standard
+    {
+        $ajax_url = $this->ctrl->getLinkTargetByClass(
+            [ilTestParticipantsGUI::class, ilRepositorySearchGUI::class],
+            'doUserAutoComplete',
+            '',
+            true
+        );
+
+        return $this->ui_factory->modal()->roundtrip(
+            'manual_entry',
+            [],
+            [
+                $this->ui_factory->input()->field()->tag('async_tags', [])
+                    ->withSuggestionsStartAfter(2)
+                    ->withUserCreatedTagsAllowed(false)
+                    ->withAdditionalOnLoadCode($this->getAsyncAutocompleteOnLoadCode($ajax_url))
+            ],
+            '#'
+        )->withSubmitLabel($this->lng->txt('add_users'));
+    }
+
+    private function getAddUserDropdown(Modal $manually_user_entry_modal): Dropdown
+    {
+        return $this->ui_factory->dropdown()->standard([
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('manual_entry'),
+                $manually_user_entry_modal->getShowSignal()
+            ),
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('paste'),
+                $this->ctrl->getLinkTargetByClass(
+                    [ilTestParticipantsGUI::class, ilRepositorySearchGUI::class],
+                    'showClipboard'
+                )
+            ),
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('search'),
+                $this->ctrl->getLinkTargetByClass(
+                    [ilTestParticipantsGUI::class, ilRepositorySearchGUI::class],
+                    'start'
+                )
+            )
+        ])->withLabel($this->lng->txt('add_users'));
+    }
+
+    private function getParticipantTable(): ParticipantTable
+    {
+        $test_dic = TestDIC::dic();
+
+        return $test_dic['participant.table']
+            ->withTableAction($test_dic['participant.action.ip_range'])
+            ->withTableAction($test_dic['participant.action.extra_time'])
+            ->withTableAction($test_dic['participant.action.finish_test'])
+            ->withTestObject($this->getTestObj());
+    }
+
+    private function getTableActionUrlBuilder(): URLBuilder
+    {
+        $uri = $this->ctrl->getLinkTargetByClass(ilTestParticipantsGUI::class, 'executeTableAction', "", true);
+        return new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri));
+    }
+
+    private function getAsyncAutocompleteOnLoadCode(string $ajax_url): callable
+    {
+        return static function (string $id) use ($ajax_url) {
+            return "
+                const registerAutoload = (function() {
+                    const ajax_url = '{$ajax_url}';
+                    const dialog = document.getElementById('{$id}').closest('dialog');
+                    const tagify = il.UI.Input.tagInput.getTagifyInstance('{$id}');
+                    
+                    tagify.settings.dropdown.appendTarget = dialog;
+                    tagify.settings.dropdown.position = 'manual';
+                    
+                    tagify.on('input', onInput);
+                    tagify.on('dropdown:show', (e, node) => {
+                        tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown)
+                    });
+                    
+                    let controller;
+                    function onInput( e ){
+                      var value = e.detail.value;
+                      tagify.whitelist = null // reset the whitelist
+
+                      if(value.trim().length <= 2) {
+                        return;
+                      }
+
+                      controller && controller.abort('new input');
+                      controller = new AbortController();
+                    
+                      // show loading animation.
+                      tagify.loading(true);
+                    
+                      const url = new URL(window.location.protocol + '//' + window.location.host + '/' + ajax_url);
+                      url.searchParams.set('term', value);
+                      fetch(url, {signal:controller.signal})
+                        .then(RES => RES.json())
+                        .then(function(newWhitelist){
+                          tagify.whitelist = newWhitelist.items.map((item) => ({
+                            display: item.label,
+                            value: item.value,
+                            id: item.id,
+                          }));
+                          
+                          // render the suggestions dropdown
+                          tagify.loading(false).dropdown.show(value);
+                        }).catch((error) => error)
+                    }
+                });
+                // This is necessary because the the original tag input on load code is applied later in the rendering.
+                // With the timeout the execution is put on the end of the event loop.
+                setTimeout(registerAutoload, 0);
+            ";
+        };
+    }
+
     public function addParticipants($user_ids = []): ?bool
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $filtered_user_ids = $filter_closure($user_ids);
 
-        $countusers = 0;
         foreach ($filtered_user_ids as $user_id) {
-            $client_ip = $_POST["client_ip"][$countusers] ?? '';
-            $this->getTestObj()->inviteUser($user_id, $client_ip);
-            $countusers++;
+            $user = new ilObjUser($user_id);
+            $session = new ilTestSession($this->db, $user);
+            $session->setUserId($user_id);
+            $session->setTestId($this->getTestObj()->getTestId());
+            $session->saveToDb();
         }
 
-        $message = "";
-        if ($countusers) {
-            $message = $this->lng->txt("tst_invited_selected_users");
-        }
-        if (strlen($message)) {
-            $this->main_tpl->setOnScreenMessage('info', $message, true);
-        } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
-            return false;
-        }
-
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-        return null;
+        return true;
     }
 
-    protected function buildTableGUI(): ilTestParticipantsTableGUI
-    {
-        $table_gui = new ilTestParticipantsTableGUI($this, self::CMD_SHOW, $this->ui_factory, $this->ui_renderer);
 
-        $table_gui->setParticipantHasSolutionsFilterEnabled(
-            $this->getTestObj()->getFixedParticipants()
-        );
-
-        if ($this->getTestObj()->getFixedParticipants()) {
-            $table_gui->setTitle($this->lng->txt('tst_tbl_invited_users'));
-        } else {
-            $table_gui->setTitle($this->lng->txt('tst_tbl_participants'));
-        }
-
-        return $table_gui;
-    }
-
-    protected function setFilterCmd(): void
-    {
-        $table_gui = $this->buildTableGUI();
-        $table_gui->initFilter($this->getTestObj()->getFixedParticipants());
-        $table_gui->writeFilterToSession();
-        $table_gui->resetOffset();
-        $this->showCmd();
-    }
-
-    protected function resetFilterCmd(): void
-    {
-        $table_gui = $this->buildTableGUI();
-        $table_gui->resetFilter();
-        $table_gui->resetOffset();
-        $this->showCmd();
-    }
-
-    public function showCmd(): void
-    {
-        $table_gui = $this->buildTableGUI();
-
-        if (!$this->getQuestionSetConfig()->areDepenciesBroken()) {
-            if ($this->getTestObj()->getFixedParticipants()) {
-                $participant_list = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
-                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
-                );
-
-                $table_gui->setData($this->applyFilterCriteria($participant_list->getParticipantsTableRows()));
-                $table_gui->setRowKeyDataField('usr_id');
-                $table_gui->setManageInviteesCommandsEnabled(true);
-                $table_gui->setDescription($this->lng->txt("fixed_participants_hint"));
-            } else {
-                $participant_list = $this->getTestObj()->getActiveParticipantList()->getAccessFilteredList(
-                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
-                );
-
-                $table_gui->setData($participant_list->getParticipantsTableRows());
-                $table_gui->setRowKeyDataField('active_id');
-            }
-
-            $table_gui->setManageResultsCommandsEnabled(true);
-
-            $this->initToolbarControls($participant_list);
-        }
-
-        $table_gui->setAnonymity($this->getTestObj()->getAnonymity());
-
-        $table_gui->initColumns();
-        $table_gui->initCommands();
-
-        $table_gui->initFilter();
-        $table_gui->setFilterCommand(self::CMD_SET_FILTER);
-        $table_gui->setResetCommand(self::CMD_RESET_FILTER);
-
-        $this->main_tpl->setContent($this->ctrl->getHTML($table_gui));
-    }
-
-    protected function applyFilterCriteria(array $in_rows): array
-    {
-        $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId() . '_selection');
-
-        if (!is_string($selected_pax)) {
-            return $in_rows;
-        }
-
-        $filter = unserialize($selected_pax, ['allowed_classes' => false]);
-
-        if (!is_string($filter) || $filter === 'all') {
-            return $in_rows;
-        }
-
-        $rows = [];
-
-        foreach ($in_rows as $row) {
-            $query = $this->db->query(
-                'SELECT count(solution_id) count
-				FROM tst_solutions
-				WHERE active_fi = ' . $this->db->quote($row['active_id'])
-                . ' HAVING count ' . ($filter === 'withSolutions' ? '>' : '=') . ' 0'
-            );
-
-            if (is_array($this->db->fetchAssoc($query))) {
-                $rows[] = $row;
-            }
-        }
-
-        return $rows;
-    }
-
-    protected function initToolbarControls(ilTestParticipantList $participant_list): void
-    {
-        if ($this->getTestObj()->getFixedParticipants()) {
-            $this->addUserSearchControls($this->toolbar);
-        }
-
-        if ($this->getTestObj()->getFixedParticipants() && $participant_list->hasUnfinishedPasses()) {
-            $this->toolbar->addSeparator();
-        }
-
-        if ($participant_list->hasUnfinishedPasses()) {
-            $this->addFinishAllPassesButton($this->toolbar);
-        }
-    }
-
-    protected function addUserSearchControls(ilToolbarGUI $toolbar): void
-    {
-        ilRepositorySearchGUI::fillAutoCompleteToolbar(
-            $this,
-            $toolbar,
-            [
-                'auto_complete_name' => $this->lng->txt('user'),
-                'submit_name' => $this->lng->txt('add')
-            ]
-        );
-        $toolbar->addSeparator();
-
-        $search_btn = $this->ui_factory->button()->standard(
-            $this->lng->txt('tst_search_users'),
-            $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start')
-        );
-        $toolbar->addComponent($search_btn);
-    }
-
-    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('finish_all_user_passes'),
-            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
-        );
-        $toolbar->addComponent($finish_all_user_passes_btn);
-    }
+    //
+    //    public function addParticipants($user_ids = []): ?bool
+    //    {
+    //        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+    //        $filtered_user_ids = $filter_closure($user_ids);
+    //
+    //        $countusers = 0;
+    //        foreach ($filtered_user_ids as $user_id) {
+    //            $client_ip = $_POST["client_ip"][$countusers] ?? '';
+    //            $this->getTestObj()->inviteUser($user_id, $client_ip);
+    //            $countusers++;
+    //        }
+    //
+    //        $message = "";
+    //        if ($countusers) {
+    //            $message = $this->lng->txt("tst_invited_selected_users");
+    //        }
+    //        if (strlen($message)) {
+    //            $this->main_tpl->setOnScreenMessage('info', $message, true);
+    //        } else {
+    //            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
+    //            return false;
+    //        }
+    //
+    //        $this->ctrl->redirect($this, self::CMD_SHOW);
+    //        return null;
+    //    }
 
     protected function saveClientIpCmd(): void
     {
@@ -350,4 +372,6 @@ class ilTestParticipantsGUI
 
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
+
+
 }
