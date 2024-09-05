@@ -40,7 +40,7 @@ class ilPluginAdmin
     /**
      * @return ilComponentRepository
      */
-    public function getComponentRepository() : ilComponentRepository
+    public function getComponentRepository(): ilComponentRepository
     {
         return $this->component_repository;
     }
