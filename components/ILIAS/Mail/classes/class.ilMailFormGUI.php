@@ -67,7 +67,6 @@ class ilMailFormGUI
     protected ArrayBasedRequestWrapper $query;
     protected ilMailFormUploadHandlerGUI $upload_handler;
     protected ilFileDataMail $fdm;
-    protected ILIAS\ResourceStorage\Services $storage;
 
     public function __construct(
         ilMailTemplateService $templateService = null,
@@ -94,7 +93,6 @@ class ilMailFormGUI
         $this->post = new ArrayBasedRequestWrapper($this->request->getParsedBody());
         $this->query = new ArrayBasedRequestWrapper($this->request->getQueryParams());
         $this->upload_handler = new ilMailFormUploadHandlerGUI();
-        $this->storage = $DIC->resourceStorage();
         $this->fdm = new ilFileDataMail($this->user->getId());
 
         $requestMailObjId = $this->getBodyParam(
@@ -285,7 +283,10 @@ class ilMailFormGUI
         if ($errors = $this->umail->validateRecipients(
             ilUtil::securePlainString($value['rcp_to']),
             ilUtil::securePlainString($value['rcp_cc']),
-            ilUtil::securePlainString($value['rcp_bcc'])
+            ilUtil::securePlainString($value['rcp_bcc']),
+            $value['m_message'],
+            $files,
+            $value['use_placeholders']
         )) {
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
@@ -324,9 +325,33 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function searchUsers(): void
+    public function searchUsers(bool $save = true): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
+
+        if ($save) {
+            $form = $this->buildForm()->withRequest($this->request);
+            $result = $form->getInputGroup()->getInputs()[0]->getInputs();
+
+            $files = [];
+            $attachments = $result['attachments']->getValue();
+            if (count($attachments) > 0) {
+                $files = $this->handleAttachments($attachments);
+            }
+
+            $this->umail->persistToStage(
+                $this->user->getId(),
+                $files,
+                ilUtil::securePlainString($result['rcp_to']->getValue()),
+                ilUtil::securePlainString($result['rcp_cc']->getValue()),
+                ilUtil::securePlainString($result['rcp_bcc']->getValue()),
+                ilUtil::securePlainString($result['m_subject']->getValue()),
+                ilUtil::securePlainString($result['m_message']->getValue()),
+                (bool) $result['use_placeholders']->getValue(),
+                ilMailFormCall::getContextId(),
+                ilMailFormCall::getContextParameters()
+            );
+        }
 
         $form = new ilPropertyFormGUI();
         $form->setId('search_rcp');
@@ -399,6 +424,37 @@ class ilMailFormGUI
     {
         ilSession::clear('mail_search');
         $this->searchResults();
+    }
+
+    public function editAttachments(): void
+    {
+        $files = $this->getBodyParam(
+            'attachments',
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->custom()->transformation(function ($elm): string {
+                    $attachment = $this->refinery->kindlyTo()->string()->transform($elm);
+
+                    return urldecode($attachment);
+                })
+            ),
+            []
+        );
+
+        // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+        $this->umail->persistToStage(
+            $this->user->getId(),
+            $files,
+            ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
+            ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
+            ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
+            ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
+            ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
+            $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+            ilMailFormCall::getContextId(),
+            ilMailFormCall::getContextParameters()
+        );
+
+        $this->ctrl->redirectByClass(ilMailAttachmentGUI::class);
     }
 
     public function returnFromAttachments(): void
@@ -478,10 +534,10 @@ class ilMailFormGUI
         }
 
         $mailData = [];
-        $mailData['rcp_to'] = '';
-        $mailData['rcp_cc'] = '';
-        $mailData['rcp_bcc'] = '';
-        $mailData['attachments'] = [];
+        $mailData["rcp_to"] = '';
+        $mailData["rcp_cc"] = '';
+        $mailData["rcp_bcc"] = '';
+        $mailData["attachments"] = [];
         $mailData["m_subject"] = '';
         $mailData["m_message"] = '';
 
@@ -535,6 +591,10 @@ class ilMailFormGUI
                 ilSession::clear('mail_search_results_to');
                 ilSession::clear('mail_search_results_cc');
                 ilSession::clear('mail_search_results_bcc');
+                break;
+
+            case self::MAIL_FORM_TYPE_ATTACH:
+                $mailData = $this->umail->retrieveFromStage();
                 break;
 
             case self::MAIL_FORM_TYPE_DRAFT:
@@ -658,12 +718,13 @@ class ilMailFormGUI
         }
 
         $this->tpl->parseCurrentBlock();
+
         $this->addToolbarButtons();
+
         if ($form === null) {
             $form = $this->buildForm($mailData);
         }
         $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
-        $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
     }
 
@@ -736,7 +797,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($result['rcp_bcc']->getValue()),
             ilUtil::securePlainString($result['m_subject']->getValue()),
             ilUtil::securePlainString($result['m_message']->getValue()),
-            $result['use_placeholders']->getValue(),
+            (bool) $result['use_placeholders']->getValue(),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -788,10 +849,11 @@ class ilMailFormGUI
         $rcp_bcc = $ff->text($this->lng->txt('mail_bcc'))
                       ->withValue($mailData["rcp_bcc"] ?? '');
 
+        $has_files = !empty($mailData["attachments"]);
         $attachments = $ff->file(
             $this->upload_handler,
             $this->lng->txt('attachments')
-        )->withMaxFiles(10);
+        )->withValue($has_files ? $mailData['attachments'] : [])->withMaxFiles(10);
 
         $template_chb = null;
         $signal = null;
@@ -859,8 +921,7 @@ class ilMailFormGUI
             new ilUIMarkdownPreviewGUI(),
             $this->lng->txt('message_content')
         )
-                        ->withValue($mailData["m_message"] ?? '')
-                        ->withRequired(true);
+                        ->withValue($mailData["m_message"] ?? '');
 
         $use_placeholders = $ff->hidden()->withValue('0');
         $placeholders = [];

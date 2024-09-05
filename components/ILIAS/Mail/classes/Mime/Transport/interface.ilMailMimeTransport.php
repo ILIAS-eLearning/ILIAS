@@ -24,5 +24,4 @@ declare(strict_types=1);
 interface ilMailMimeTransport
 {
     public function send(ilMimeMail $mail): bool;
-    public function getErrorInformation(): string;
 }

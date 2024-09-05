@@ -28,11 +28,11 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private TaskManager $taskManager;
-    private TaskFactory $taskFactory;
-    private ilLanguage $language;
-    private ilLogger $logger;
-    private ilMailValueObjectJsonService $objectJsonService;
+    private readonly TaskManager $taskManager;
+    private readonly TaskFactory $taskFactory;
+    private readonly ilLanguage $language;
+    private readonly ilLogger $logger;
+    private readonly ilMailValueObjectJsonService $objectJsonService;
     private int $anonymousUserId;
 
     public function __construct(
@@ -95,11 +95,11 @@ class ilMassMailTaskProcessor
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
-            throw new ilException('First parameter must contain at least 1 array element');
+            throw new ilMailException('First parameter must contain at least 1 array element');
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilException(
+            throw new ilMailException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
                     $mailsPerTask
@@ -109,7 +109,7 @@ class ilMassMailTaskProcessor
 
         foreach ($mailValueObjects as $mailValueObject) {
             if (!($mailValueObject instanceof ilMailValueObject)) {
-                throw new ilException('Array MUST contain ilMailValueObjects ONLY');
+                throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
 

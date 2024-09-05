@@ -33,6 +33,6 @@ class ilMailAttachmentStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return 74;
+        return 6;
     }
 }

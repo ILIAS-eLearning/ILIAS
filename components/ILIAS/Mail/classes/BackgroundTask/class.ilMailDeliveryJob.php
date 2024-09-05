@@ -67,7 +67,7 @@ class ilMailDeliveryJob extends AbstractJob
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
-            ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
+            ->withContextParameters($context_parameters);
 
         $mail_data = new MailDeliveryData(
             (string) $input[1]->getValue(), // To

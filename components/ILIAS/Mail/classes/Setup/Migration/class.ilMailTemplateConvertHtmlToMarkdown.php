@@ -32,6 +32,10 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
 {
     public const NUMBER_OF_STEPS = 10000;
     public const TRANLSATION_TABLE = "mail_man_tpl";
+
+    /**
+     * @var list<string>
+     */
     protected $tags = [
         '</b>', '</strong>', '</i>', '</em>', '</u>',
         '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>',
@@ -39,7 +43,7 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
         '<br>', '<br/>', '<br />', '</p>'
     ];
 
-    protected ilDBInterface $db;
+    private ilDBInterface $db;
 
     public function getLabel(): string
     {
@@ -100,9 +104,9 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
      * Gets the next dataset that contains any of the
      * tags in ilMailTemplateConvertHtmlToMarkdown::tags
      *
-     * @returns [string|int]
+     * @returns array{tpl_id: int, lang: string, m_message: string}|array{}
      */
-    protected function getNextObject(): array
+    private function getNextObject(): array
     {
         if (!$this->db->tableExists(self::TRANLSATION_TABLE)) {
             return [];
@@ -131,7 +135,7 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
      * Converts all HTML tags in ilMailTemplateConvertHtmlToMarkdown::tags to markdown
      * and removes all other HTML tags
      */
-    protected function convert(string $html): string
+    private function convert(string $html): string
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
@@ -308,7 +312,7 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
     /**
      * Remove empty lines in lists for better readability
      */
-    protected function remove_empty_lines($string): string
+    private function remove_empty_lines($string): string
     {
         $lines = explode("\n", str_replace(array("\r\n", "\r"), "\n", $string));
         $lines = array_filter($lines, function ($value) {
@@ -320,7 +324,7 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
     /**
      * Get the inner HTML of a DOMNode
      */
-    protected function innerHTML(\DOMNode $n, $include_target_tag = true): string
+    private function innerHTML(\DOMNode $n, $include_target_tag = true): string
     {
         $doc = new \DOMDocument();
         $doc->appendChild($doc->importNode($n, true));

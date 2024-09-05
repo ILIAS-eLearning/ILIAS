@@ -23,16 +23,16 @@ declare(strict_types=1);
  */
 class ilMailValueObject
 {
-    private string $recipients;
-    private string $recipientsCC;
-    private string $recipientsBCC;
-    private string $subject;
-    private string $body;
+    private readonly string $recipients;
+    private readonly string $recipientsCC;
+    private readonly string $recipientsBCC;
+    private readonly string $subject;
+    private readonly string $body;
     /** @var string[] */
-    private array $attachments;
-    private bool $usePlaceholders;
-    private bool $saveInSentBox;
-    private string $from;
+    private readonly array $attachments;
+    private readonly bool $usePlaceholders;
+    private readonly bool $saveInSentBox;
+    private readonly string $from;
 
     /**
      * @param string[] $attachments
