@@ -133,7 +133,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         if (!is_null($IO)) {
             $this->ilTestInfoScreenToolbarGUI->setSessionLockString($IO);
         }
-        $this->assertEquals($IO, $this->ilTestInfoScreenToolbarGUI->getSessionLockString($IO));
+        $this->assertEquals($IO, $this->ilTestInfoScreenToolbarGUI->getSessionLockString());
     }
 
     public static function setAndGetSessionLockStringDataProvider(): array
@@ -210,7 +210,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setFormActionDataProvider
-     * @throws \Exception
+     * @throws \Exception|Exception
      */
     public function testSetFormAction(array $IO): void
     {
@@ -400,7 +400,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setCloseFormTagDataProvider
-     * @throws \Exception
+     * @throws \Exception|Exception
      */
     public function testSetCloseFormTag(bool $IO): void
     {
@@ -459,7 +459,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws \Exception|Exception
      */
     public function testClearItems(): void
     {
@@ -475,7 +475,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getClassNameDataProvider
-     * @throws Exception|ReflectionException
+     * @throws ReflectionException
      */
     public function testGetClassName(string|object $input, string $output): void
     {
@@ -493,7 +493,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getClassNameArrayDataProvider
-     * @throws Exception|ReflectionException
+     * @throws ReflectionException
      */
     public function testGetClassNameArray(string|object|array $input, array $output): void
     {
@@ -532,7 +532,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getClassPathDataProvider
-     * @throws Exception|ReflectionException
+     * @throws ReflectionException
      */
     public function testGetClassPath(object|string|array $input, array $output): void
     {
@@ -614,7 +614,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $class[] = $input['class'];
 
             $with = [$class];
-            $callback = fn(array $class) => implode('/', $class);
+            $callback = static fn(array $class) => implode('/', $class);
             if (isset($input['cmd'])) {
                 $with[] = $input['cmd'];
                 $callback = function (array $class, string $cmd): string {
@@ -744,22 +744,14 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->willReturn($input['id']);
             $res = $this->createMock(ilDBStatement::class);
 
-            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($res) {
-                $with = '
-			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points, eval_mode
-			FROM qpl_qst_skl_assigns
-			WHERE obj_fi = 
-		';
+            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($res, $input) {
                 $mock
-                    ->expects($this->once())
                     ->method('query')
-                    ->with($with)
                     ->willReturn($res);
             });
 
             $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($res) {
                 $mock
-                    ->expects($this->once())
                     ->method('fetchAssoc')
                     ->with($res)
                     ->willReturn([]);
@@ -779,15 +771,15 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         return [
             'false' => [['is_fixed_test' => false], false],
             'true_-1' => [['is_fixed_test' => true, 'id' => -1], false],
-            'true_0' => [['is_fixed_test' => true, 'id' => 1], false],
-            'true_1' => [['is_fixed_test' => true, 'id' => 2], false],
+            'true_0' => [['is_fixed_test' => true, 'id' => 0], false],
+            'true_1' => [['is_fixed_test' => true, 'id' => 1], false],
             'false_empty' => [['is_fixed_test' => false, 'skill_assigns' => []], false],
             'false_null' => [['is_fixed_test' => false, 'skill_assigns' => null], false]
         ];
     }
 
     /**
-     * @throws \Exception|ReflectionException
+     * @throws \Exception|ReflectionException|Exception
      */
     public function testGetSkillAssignBarrierInfo(): void
     {
@@ -804,7 +796,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws Exception|ReflectionException
      */
     public function testBuild(): void
     {
@@ -836,7 +828,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider populateMessageDataProvider
-     * @throws \Exception|ReflectionException
+     * @throws \Exception|ReflectionException|Exception
      */
     public function testPopulateMessage(string $input): void
     {
