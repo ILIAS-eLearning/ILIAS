@@ -251,6 +251,14 @@ class ilDclFieldEditGUI
         $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
 
         if ($a_mode === 'edit') {
+            //check plugin field type for validity
+            if ($this->field_obj->getDatatypeId() === ilDclDatatype::INPUTFORMAT_PLUGIN) {
+                $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                $pluginIterator = $ilPluginAdmin->getComponentRepository()->getPluginSlotById("dclfth")->getPlugins();
+                if (iterator_count($pluginIterator) === 0) {
+                    $this->main_tpl->setOnScreenMessage('info', "no plugins installed - field '" . $this->field_obj->getTitle() . "' cannot be edited", true);
+                }
+            }
             $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
             $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject(), $a_mode);
             $edit_datatype->setDisabled(true);
