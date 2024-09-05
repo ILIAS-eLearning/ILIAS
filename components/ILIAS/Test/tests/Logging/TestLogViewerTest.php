@@ -34,6 +34,7 @@ use ILIAS\UI\Component\Modal\Factory as ModalFactory;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Component\Table\Factory as TableFactory;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\Duration;
 use ILIAS\UI\Implementation\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Component\Input\Field\Text;
 use ILIAS\UI\Implementation\Component\Table\Data;
@@ -62,8 +63,17 @@ class TestLogViewerTest extends ilTestBaseTestCase
             'admin_name' => $this->createMock(Text::class),
             'participant_name' => $this->createMock(Text::class),
             'ip' => $this->createMock(Text::class),
-            'question_title' => $this->createMock(Text::class),
-            'period' => $this->createMock(Text::class)
+            'question_title' => $this->createMock(Text::class)
+        ];
+        $duration_stub = $this->createStub(Duration::class);
+        $duration_stub
+            ->method('withUseTime')
+            ->willReturn($duration_stub);
+        $duration_stub
+            ->method('withFormat')
+            ->willReturn($duration_stub);
+        $durations = [
+            'period' => $duration_stub
         ];
         $multiSelects = [
             'log_entry_type' => $this->createMock(MultiSelect::class),
@@ -81,7 +91,7 @@ class TestLogViewerTest extends ilTestBaseTestCase
                 ->willReturnCallback(fn(string $text) => $text);
         });
 
-        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($texts, $multiSelects, $tableData) {
+        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($texts, $durations, $multiSelects, $tableData) {
             $fieldFactory = $this->createMock(FieldFactory::class);
             $fieldFactory
                 ->method('text')
@@ -89,6 +99,9 @@ class TestLogViewerTest extends ilTestBaseTestCase
             $fieldFactory
                 ->method('multiSelect')
                 ->willReturnOnConsecutiveCalls(...$multiSelects);
+            $fieldFactory
+                ->method('duration')
+                ->willReturnOnConsecutiveCalls(...$durations);
             $inputFactory = $this->createMock(InputFactory::class);
             $inputFactory
                 ->expects($this->once())
@@ -113,8 +126,8 @@ class TestLogViewerTest extends ilTestBaseTestCase
                 ->willReturn($tableFactory);
         });
         $standard = $this->createMock(Standard::class);
-        $this->adaptDICServiceMock(ilUIService::class, function (ilUIService|MockObject $mock) use ($url, $texts, $multiSelects, $standard) {
-            $filterInputs = array_merge($texts, $multiSelects);
+        $this->adaptDICServiceMock(ilUIService::class, function (ilUIService|MockObject $mock) use ($url, $texts, $durations, $multiSelects, $standard) {
+            $filterInputs = array_merge($texts, $durations, $multiSelects);
             $active = array_fill(0, count($filterInputs), true);
             $filterData = ['filter'];
             $uiFilter = $this->createMock(ilUIFilterService::class);
