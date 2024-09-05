@@ -72,6 +72,10 @@ class ilDclTableView extends ActiveRecord
      * @var ilDclBaseFieldModel[]
      */
     protected array $visible_fields_cache = [];
+    /**
+     * @var ilGlobalTemplateInterface
+     */
+    private ilGlobalTemplateInterface $main_tpl;
 
     /**
      * @return string
@@ -223,7 +227,10 @@ class ilDclTableView extends ActiveRecord
      */
     public function getVisibleFields(): array
     {
-        if (!$this->visible_fields_cache) {
+       global $DIC;
+       $this->main_tpl = $DIC->ui()->mainTemplate();
+
+       if (!$this->visible_fields_cache) {
             $visible = ilDclTableViewFieldSetting::where(
                 [
                     "tableview_id" => $this->id,
@@ -238,6 +245,16 @@ class ilDclTableView extends ActiveRecord
             )->orderBy('il_dcl_tfield_set.field_order')->get();
             $fields = [];
             foreach ($visible as $field_rec) {
+                //mantis #0041510: field type 'Plugin': hide field if no plugins available
+                $model = new ilDclBaseFieldModel((int) $field_rec->getField());
+                if ($model->getDatatypeId() === ilDclDatatype::INPUTFORMAT_PLUGIN) {
+                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                    $pluginIterator = $ilPluginAdmin->getComponentRepository()->getPluginSlotById("dclfth")->getPlugins();
+                    if (iterator_count($pluginIterator) === 0) {
+                        $this->main_tpl->setOnScreenMessage('info', "no plugins installed - field '" . $model->getTitle() . "' will be ignored", true);
+                        continue;
+                    }
+                }
                 $fields[] = $field_rec->getFieldObject();
             }
             $this->visible_fields_cache = $fields;

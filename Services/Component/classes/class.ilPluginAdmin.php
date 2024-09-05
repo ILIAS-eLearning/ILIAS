@@ -37,6 +37,14 @@ class ilPluginAdmin
         $this->component_repository = $component_repository;
     }
 
+    /**
+     * @return ilComponentRepository
+     */
+    public function getComponentRepository() : ilComponentRepository
+    {
+        return $this->component_repository;
+    }
+
     protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname): \ilPluginInfo
     {
         return $this->component_repository
