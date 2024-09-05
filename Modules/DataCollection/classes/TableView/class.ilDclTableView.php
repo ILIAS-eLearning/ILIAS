@@ -227,10 +227,10 @@ class ilDclTableView extends ActiveRecord
      */
     public function getVisibleFields(): array
     {
-       global $DIC;
-       $this->main_tpl = $DIC->ui()->mainTemplate();
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
-       if (!$this->visible_fields_cache) {
+        if (!$this->visible_fields_cache) {
             $visible = ilDclTableViewFieldSetting::where(
                 [
                     "tableview_id" => $this->id,
