@@ -78,7 +78,9 @@ class CertificateSettingsTestFormRepository implements ilCertificateFormReposito
         return $this->settings_form_factory->createForm($certificateGUI);
     }
 
-    public function save(array $formFields): void {}
+    public function save(array $formFields): void
+    {
+    }
 
     /**
      * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}

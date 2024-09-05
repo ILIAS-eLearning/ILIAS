@@ -26,7 +26,9 @@ class MarksDatabaseRepository implements MarksRepository
 {
     private const DB_TABLE = 'tst_mark';
 
-    public function __construct(private readonly ilDBInterface $db) {}
+    public function __construct(private readonly ilDBInterface $db)
+    {
+    }
 
     public function getMarkSchemaFor(int $test_id): MarkSchema
     {
