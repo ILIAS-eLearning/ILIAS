@@ -779,8 +779,6 @@ class PropertyAndActionBuilderUI
         $feedback_id = $this->submission->getFeedbackId();
         $lng = $this->lng;
 
-        //$storage = new \ilFSStorageExercise($ass->getExerciseId(), $ass->getId());
-        //$cnt_files = $storage->countFeedbackFiles($feedback_id);
         $feedback_file_manager = $this->domain->assignment()->tutorFeedbackFile($ass->getId());
         $cnt_files = $feedback_file_manager->count($this->user_id);
 

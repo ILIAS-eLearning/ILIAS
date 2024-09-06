@@ -23,6 +23,7 @@ namespace ILIAS\Exercise\InstructionFile;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Exercise\IRSS\ResourceInformation;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\Filesystem\Stream\FileStream;
 
 class InstructionFileManager
 {
@@ -105,22 +106,21 @@ class InstructionFileManager
                     'order' => 0 // sorting is currently not supported
                 ];
             }, iterator_to_array($this->repo->getCollectionResourcesInfo($this->ass_id)));
-        } else {
-            $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-            $storage = new \ilFSWebStorageExercise($exc_id, $this->ass_id);
-            return $storage->getFiles();
         }
+        return [];
     }
 
     public function deliver(string $full_path, string $file): void
     {
         if ($this->repo->hasCollection($this->ass_id)) {
             $this->repo->deliverFile($this->ass_id, $file);
-        } else {
-            // deliver file
-            \ilFileDelivery::deliverFileLegacy($full_path, $file);
-            exit();
         }
+    }
+
+    public function getStream(
+        string $rid
+    ): ?FileStream {
+        return $this->repo->getStream($this->ass_id, $rid);
     }
 
     public function cloneTo(

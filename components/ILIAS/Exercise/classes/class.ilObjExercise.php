@@ -448,17 +448,18 @@ class ilObjExercise extends ilObject
 
         $body .= ilLink::_getLink($this->getRefId(), "exc");
 
-
-        // files
-        $file_names = array();
-        $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
-        $files = $storage->getFiles();
-        $mfile_obj = null;
-        if ($files !== []) {
+        // instruction files
+        $if = $this->service->domain()->assignment()->instructionFiles($a_ass->getId());
+        $files = $if->getFiles();
+        $file_names = [];
+        if (count($files) > 0) {
             $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-            foreach ($files as $file) {
-                $mfile_obj->copyAttachmentFile($file["fullpath"], $file["name"]);
+            foreach ($if->getFiles() as $file) {
                 $file_names[] = $file["name"];
+                $mfile_obj->storeAsAttachment(
+                    $file["name"],
+                    $if->getStream($file["rid"])->getContents()
+                );
             }
         }
 

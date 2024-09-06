@@ -91,6 +91,25 @@ class TeamDBRepository
         }
     }
 
+    /**
+     * @return int[]
+     */
+    public function getMemberIds(int $team_id): array
+    {
+        $set = $this->db->queryF(
+            "SELECT user_id FROM il_exc_team " .
+            " WHERE id = %s ",
+            ["integer"],
+            [$team_id]
+        );
+        $ids = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $ids[] = (int) $rec["user_id"];
+        }
+        return $ids;
+    }
+
+
     public function getTeamForMember(int $ass_id, int $user_id): ?int
     {
         $set = $this->db->queryF(

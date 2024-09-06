@@ -455,13 +455,14 @@ class ilExSubmissionTeamGUI
             ? "returnToParent"
             : "submissionScreenTeam");
 
-        $files = $this->submission->getFiles();
+        $subs = $this->domain->submission($this->assignment->getId())
+                             ->getSubmissionsOfUser($this->submission->getUserId());
 
         foreach ($ids as $id) {
             $details = array();
-            foreach ($files as $file) {
-                if ($file["owner_id"] == $id) {
-                    $details[] = $file["filetitle"];
+            foreach ($subs as $sub) {
+                if ($sub->getUserId() === $id) {
+                    $details[] = $sub->getTitle();
                 }
             }
             $uname = ilUserUtil::getNamePresentation($id);

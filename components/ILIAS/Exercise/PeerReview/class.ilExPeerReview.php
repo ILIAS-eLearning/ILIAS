@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution;
+use ILIAS\Exercise\InternalDomainService;
 
 /**
  * Exercise peer review
@@ -26,6 +27,7 @@ use ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution;
  */
 class ilExPeerReview
 {
+    protected InternalDomainService $domain;
     protected ilDBInterface $db;
     protected ilObjUser $user;
     protected ilExAssignment$assignment;
@@ -42,6 +44,7 @@ class ilExPeerReview
         $this->assignment = $a_assignment;
         $this->assignment_id = $a_assignment->getId();
         $this->log = ilLoggerFactory::getLogger("exc");
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     public function hasPeerReviewGroups(): bool
@@ -72,20 +75,7 @@ class ilExPeerReview
      */
     protected function getValidPeerReviewUsers(): array
     {
-        $ilDB = $this->db;
-
-        $user_ids = array();
-
-        // returned / assigned ?!
-        $set = $ilDB->query("SELECT DISTINCT(user_id)" .
-            " FROM exc_returned" .
-            " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer") .
-            " AND (filename IS NOT NULL OR atext IS NOT NULL)");
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $user_ids[] = (int) $row["user_id"];
-        }
-
-        return $user_ids;
+        return $this->domain->submission($this->assignment_id)->getUsersWithSubmission();
     }
 
     public function initPeerReviews(): bool
@@ -434,15 +424,7 @@ class ilExPeerReview
 
     protected function getMaxPossibleFeedbacks(): int
     {
-        $ilDB = $this->db;
-
-        // check if number of returned assignments is lower than assignment peer min
-        $set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt" .
-            " FROM exc_returned" .
-            " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
-        $cnt = $ilDB->fetchAssoc($set);
-        $cnt = (int) $cnt["cnt"];
-        return $cnt - 1;
+        return (count($this->domain->submission($this->assignment_id)->getUsersWithSubmission()) - 1);
     }
 
     public function getNumberOfMissingFeedbacksForReceived(): int

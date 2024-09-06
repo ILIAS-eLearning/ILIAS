@@ -34,6 +34,9 @@ trait ilExAssignmentTypeGUIBase
      */
     protected $exercise;
 
+    protected int $ass_id = 0;
+    protected int $user_id = 0;
+
     /**
      * Set submission
      *
@@ -42,6 +45,8 @@ trait ilExAssignmentTypeGUIBase
     public function setSubmission(ilExSubmission $a_val)
     {
         $this->submission = $a_val;
+        $this->ass_id = $a_val->getAssignment()->getId();
+        $this->user_id = $a_val->getUserId();
     }
 
     /**

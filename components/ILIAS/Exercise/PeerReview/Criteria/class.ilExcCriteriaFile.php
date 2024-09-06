@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager;
+
 /**
  * Class ilExcCriteriaFile
  *
@@ -24,6 +26,7 @@
  */
 class ilExcCriteriaFile extends ilExcCriteria
 {
+    protected \ILIAS\Exercise\PeerReview\DomainService $peer_review;
     protected string $requested_file_hash = "";
 
     public function __construct()
@@ -35,6 +38,7 @@ class ilExcCriteriaFile extends ilExcCriteria
 
         $request = $DIC->exercise()->internal()->gui()->request();
         $this->requested_file_hash = $request->getFileHash();
+        $this->peer_review = $DIC->exercise()->internal()->domain()->peerReview();
     }
 
     public function getType(): string
@@ -42,24 +46,23 @@ class ilExcCriteriaFile extends ilExcCriteria
         return "file";
     }
 
-    protected function initStorage(): string
-    {
-        $storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
-        return $storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId());
-    }
-
+    /**
+     * @return \ILIAS\Exercise\PeerReview\Criteria\CriteriaFile[]
+     */
     public function getFiles(): array
     {
-        $path = $this->initStorage();
-        return (array) glob($path . "*.*");
+        $file_manager = $this->peer_review->criteriaFile($this->ass->getId());
+        $file = $file_manager->getFile($this->giver_id, $this->peer_id, $this->getId());
+        $files = $file ? [$file]
+            : [];
+        return $files;
     }
 
     public function resetReview(): void
     {
-        $storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
-        $storage->deleteDirectory($storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId()));
+        $this->peer_review->criteriaFile($this->ass->getId())
+            ->delete($this->giver_id, $this->peer_id, $this->getId());
     }
-
 
     // PEER REVIEW
 
@@ -67,9 +70,8 @@ class ilExcCriteriaFile extends ilExcCriteria
     {
         $existing = array();
         foreach ($this->getFiles() as $file) {
-            $existing[] = basename($file);
+            $existing[] = $file->getTitle();
         }
-
         $files = new ilFileInputGUI($this->getTitle(), "prccc_file_" . $this->getId());
         $files->setInfo($this->getDescription());
         $files->setRequired($this->isRequired());
@@ -83,22 +85,20 @@ class ilExcCriteriaFile extends ilExcCriteria
      */
     public function importFromPeerReviewForm(): void
     {
-        $path = $this->initStorage();
-
+        $file_manager = $this->peer_review->criteriaFile($this->ass->getId());
         if ($this->form->getItemByPostVar("prccc_file_" . $this->getId())->getDeletionFlag()) {
-            ilFileUtils::delDir($path);
+            $file_manager->delete($this->giver_id, $this->peer_id, $this->getId());
             $this->form->getItemByPostVar("prccc_file_" . $this->getId())->setValue("");
         }
 
         $incoming = $_FILES["prccc_file_" . $this->getId()];
         if ($incoming["tmp_name"]) {
             $org_name = basename($incoming["name"]);
-
-            ilFileUtils::moveUploadedFile(
-                $incoming["tmp_name"],
-                $org_name,
-                $path . $org_name,
-                false
+            $file_manager->addFromLegacyUpload(
+                $incoming,
+                $this->giver_id,
+                $this->peer_id,
+                $this->getId()
             );
         }
     }
@@ -132,7 +132,7 @@ class ilExcCriteriaFile extends ilExcCriteria
         $hash = trim($this->requested_file_hash);
         if ($hash != "") {
             foreach ($this->getFiles() as $file) {
-                if (md5($file) == $hash) {
+                if (md5($file->getTitle()) == $hash) {
                     return $file;
                 }
             }
@@ -146,11 +146,15 @@ class ilExcCriteriaFile extends ilExcCriteria
 
         $crit_id = $this->getId()
             ?: "file";
-        $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fu", $this->giver_id . "__" . $this->peer_id . "__" . $crit_id);
+        $ilCtrl->setParameterByClass(
+            "ilExPeerReviewGUI",
+            "fu",
+            $this->giver_id . "__" . $this->peer_id . "__" . $crit_id
+        );
 
         $files = array();
         foreach ($this->getFiles() as $file) {
-            $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fuf", md5($file));
+            $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fuf", md5($file->getTitle()));
             $dl = $ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "downloadPeerReview");
             $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fuf", "");
 
