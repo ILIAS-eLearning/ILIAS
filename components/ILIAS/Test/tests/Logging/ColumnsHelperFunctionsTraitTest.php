@@ -22,7 +22,7 @@ namespace Logging;
 
 use ILIAS\Data\URI;
 use ILIAS\StaticURL\Builder\URIBuilder;
-use ILIAS\StaticURL\Services;
+use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Test\Logging\ColumnsHelperFunctionsTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -36,51 +36,27 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ColumnsHelperFunctionsTraitTest extends ilTestBaseTestCase
 {
-    use ColumnsHelperFunctionsTrait;
-
     /**
-     * @dataProvider BuildQuestionTitleCSVContentAndBuildQuestionTitleColumnContentDataProvider
+     * @dataProvider buildQuestionTitleColumnContentAndTestBuildQuestionTitleCSVContentDataProvider
      * @throws \Exception|Exception
      */
-    public function testBuildQuestionTitleColumnContent(int $question_id, bool $question_title): void
+    public function testBuildQuestionTitleColumnContent(array $input, string $output): void
     {
-        $props = $this->createMock(GeneralQuestionProperties::class);
-        $props
+        $general_question_properties = $this->createMock(GeneralQuestionProperties::class);
+        $general_question_properties
             ->method('getTitle')
             ->willReturn('title');
 
-        $propRepo = $this->createMock(GeneralQuestionPropertiesRepository::class);
-        $propRepo
+        $general_question_properties_repository = $this->createMock(GeneralQuestionPropertiesRepository::class);
+        $general_question_properties_repository
             ->method('getForQuestionId')
-            ->willReturn($question_title ? $props : null);
+            ->willReturn($input['question_title'] ? $general_question_properties : null);
 
-        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
-            $mock
-                ->method('txt')
-                ->willReturnCallback(static fn($var) => $var);
-        });
-
-        $this->adaptDICServiceMock(Services::class, function (Services|MockObject $mock) {
-            $uri = $this->createMock(URI::class);
-            $uri
-                ->method('__toString')
-                ->willReturn('action');
-
-            $uriBuilder = $this->createMock(URIBuilder::class);
-            $uriBuilder
-                ->method('build')
-                ->willReturn($uri);
-
-            $mock
-                ->method('builder')
-                ->willReturn($uriBuilder);
-        });
-
-        $standard = $this->createMock(Standard::class);
-        $linkFactory = $this->createMock(Factory::class);
-        $linkFactory
+        $link_standard = $this->createMock(Standard::class);
+        $link_factory = $this->createMock(Factory::class);
+        $link_factory
             ->method('standard')
-            ->willReturn($standard);
+            ->willReturn($link_standard);
 
         $this->adaptDICServiceMock(Renderer::class, function (Renderer|MockObject $mock) {
             $mock
@@ -88,66 +64,119 @@ class ColumnsHelperFunctionsTraitTest extends ilTestBaseTestCase
                 ->willReturn('result');
         });
 
-        global $DIC;
+        $il_language = $this->createMock(ilLanguage::class);
+        $il_language
+            ->method('txt')
+            ->willReturnCallback(static fn($var) => $var . '_x');
 
-        $output = $this->buildQuestionTitleColumnContent($propRepo, $DIC['lng'], $DIC['static_url'], $linkFactory, $question_id, 1);
-        $this->assertEquals($standard, $output);
+        $uri = $this->createMock(URI::class);
+        $uri
+            ->method('__toString')
+            ->willReturn('action');
+
+        $uri_builder = $this->createMock(URIBuilder::class);
+        $uri_builder
+            ->method('build')
+            ->willReturn($uri);
+
+        $static_url_services = $this->createMock(StaticURLServices::class);
+        $static_url_services
+            ->method('builder')
+            ->willReturn($uri_builder);
+
+        $columns_helper_functions_trait = $this->createTraitInstanceOf(ColumnsHelperFunctionsTrait::class);
+
+        $this->assertEquals($link_standard, self::callMethod(
+            $columns_helper_functions_trait,
+            'buildQuestionTitleColumnContent',
+            [
+                $general_question_properties_repository,
+                $il_language,
+                $static_url_services,
+                $link_factory,
+                $input['question_id'],
+                1
+            ]
+        ));
     }
 
     /**
-     * @dataProvider BuildQuestionTitleCSVContentAndBuildQuestionTitleColumnContentDataProvider
+     * @dataProvider buildQuestionTitleColumnContentAndTestBuildQuestionTitleCSVContentDataProvider
      * @throws \Exception|Exception
      */
-    public function testBuildQuestionTitleCSVContent(int $question_id, bool $question_title): void
+    public function testBuildQuestionTitleCSVContent(array $input, string $output): void
     {
-        $props = $this->createMock(GeneralQuestionProperties::class);
-        $result = $question_title ? 'result' : "deleted (id: $question_id)";
-        $props
+        $general_question_properties = $this->createMock(GeneralQuestionProperties::class);
+        $general_question_properties
             ->method('getTitle')
-            ->willReturn($result);
-        $propRepo = $this->createMock(GeneralQuestionPropertiesRepository::class);
-        $propRepo
+            ->willReturn($output);
+        $general_question_properties_repository = $this->createMock(GeneralQuestionPropertiesRepository::class);
+        $general_question_properties_repository
             ->method('getForQuestionId')
-            ->willReturn($question_title ? $props : null);
+            ->willReturn($input['question_title'] ? $general_question_properties : null);
 
-        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
-            $mock
-                ->method('txt')
-                ->willReturnCallback(static fn($var) => $var);
-        });
+        $il_language = $this->createMock(ilLanguage::class);
+        $il_language
+            ->method('txt')
+            ->willReturnCallback(static fn($var) => $var . '_x');
 
-        global $DIC;
+        $columns_helper_functions_trait = $this->createTraitInstanceOf(ColumnsHelperFunctionsTrait::class);
 
-        $title = $this->buildQuestionTitleCSVContent($propRepo, $DIC['lng'], $question_id);
-        $this->assertEquals($result, $title);
+        $this->assertEquals($output, self::callMethod(
+            $columns_helper_functions_trait,
+            'buildQuestionTitleCSVContent',
+            [
+                $general_question_properties_repository,
+                $il_language,
+                $input['question_id']
+            ]
+        ));
     }
 
-    public static function BuildQuestionTitleCSVContentAndBuildQuestionTitleColumnContentDataProvider(): array
+    public static function buildQuestionTitleColumnContentAndTestBuildQuestionTitleCSVContentDataProvider(): array
     {
         return [
             'negative_one_true' => [
-                'question_id' => -1,
-                'question_title' => false
+                [
+                    'question_id' => -1,
+                    'question_title' => false
+                ],
+                'deleted_x (id_x: -1)'
             ],
             'negative_one_false' => [
-                'question_id' => -1,
-                'question_title' => false
+                [
+                    'question_id' => -1,
+                    'question_title' => false
+                ],
+                'deleted_x (id_x: -1)'
             ],
             'zero_true' => [
-                'question_id' => 0,
-                'question_title' => false
+                [
+                    'question_id' => 0,
+                    'question_title' => false
+                ],
+                'deleted_x (id_x: 0)'
             ],
             'zero_false' => [
-                'question_id' => 0,
-                'question_title' => false
+                [
+                    'question_id' => 0,
+                    'question_title' => false
+                ],
+                'deleted_x (id_x: 0)'
             ],
             'one_true' => [
-                'question_id' => 1,
-                'question_title' => true
+                [
+                    'question_id' => 1,
+                    'question_title' => true
+                ],
+                ''
             ],
             'one_false' => [
-                'question_id' => 1,
-                'question_title' => false
+                [
+                    'question_id' => 1,
+                    'question_title' => false
+                ],
+                'deleted_x (id_x: 1)'
             ]
         ];
     }

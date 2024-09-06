@@ -24,10 +24,11 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\TestError;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Factory as UIFactory;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
 use ReflectionException;
 
-class TestErrorTest extends \ilTestBaseTestCase
+class TestErrorTest extends ilTestBaseTestCase
 {
     /**
      * @throws ReflectionException|Exception

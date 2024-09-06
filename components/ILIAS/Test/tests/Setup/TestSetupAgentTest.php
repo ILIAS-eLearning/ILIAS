@@ -16,65 +16,86 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Test\test;
-
 use ILIAS\Setup\Metrics\Storage;
-use ILIAS\Test\Setup\TestSetupAgent;
-
-use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
-use ilTestBaseTestCase;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Test\Setup\TestSetupAgent;
+use PHPUnit\Framework\MockObject\Exception;
 
 class TestSetupAgentTest extends ilTestBaseTestCase
 {
-    private TestSetupAgent $testSetupAgent;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        global $DIC;
-        $this->testSetupAgent = new TestSetupAgent($DIC['refinery']);
-    }
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(TestSetupAgent::class, $this->testSetupAgent);
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertInstanceOf(TestSetupAgent::class, $test_setup_agent);
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetUpdateObjective(): void
     {
-        $this->assertInstanceOf(ObjectiveCollection::class, $this->testSetupAgent->getUpdateObjective());
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertInstanceOf(ObjectiveCollection::class, $test_setup_agent->getUpdateObjective());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetStatusObjective(): void
     {
-        $this->assertInstanceOf(ObjectiveCollection::class, $this->testSetupAgent->getStatusObjective(
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertInstanceOf(ObjectiveCollection::class, $test_setup_agent->getStatusObjective(
             $this->createMock(Storage::class)
         ));
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testHasConfig(): void
     {
-        $this->assertFalse($this->testSetupAgent->hasConfig());
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertFalse($test_setup_agent->hasConfig());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetArrayToConfigTransformation(): void
     {
-        $this->expectException(\LogicException::class);
-        $this->testSetupAgent->getArrayToConfigTransformation();
+        $this->expectException(LogicException::class);
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $test_setup_agent->getArrayToConfigTransformation();
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetInstallObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, $this->testSetupAgent->getInstallObjective());
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertInstanceOf(NullObjective::class, $test_setup_agent->getInstallObjective());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetBuildArtifactObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, $this->testSetupAgent->getBuildObjective());
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertInstanceOf(NullObjective::class, $test_setup_agent->getBuildObjective());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetMigrations(): void
     {
-        $this->assertIsArray($this->testSetupAgent->getMigrations());
+        $test_setup_agent = $this->createInstanceOf(TestSetupAgent::class);
+        $this->assertIsArray($test_setup_agent->getMigrations());
     }
 }

@@ -40,14 +40,14 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
      */
     public function testGetRequest(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $http = $this->createMock(HTTPServices::class);
-        $http
+        $server_request = $this->createMock(ServerRequestInterface::class);
+        $http_services = $this->createMock(HTTPServices::class);
+        $http_services
             ->expects($this->once())
             ->method('request')
-            ->willReturn($request);
+            ->willReturn($server_request);
 
-        $this->assertEquals($request, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http])->getRequest());
+        $this->assertEquals($server_request, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http_services])->getRequest());
     }
 
     /**
@@ -163,18 +163,18 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
      */
     public function testGetParsedBody(?array $IO): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request
+        $server_request = $this->createMock(ServerRequestInterface::class);
+        $server_request
             ->expects($this->once())
             ->method('getParsedBody')
             ->willReturn($IO);
-        $http = $this->createMock(HTTPServices::class);
-        $http
+        $http_services = $this->createMock(HTTPServices::class);
+        $http_services
             ->expects($this->once())
             ->method('request')
-            ->willReturn($request);
+            ->willReturn($server_request);
 
-        $this->assertEquals($IO, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http])->getParsedBody());
+        $this->assertEquals($IO, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http_services])->getParsedBody());
     }
 
     public static function getParsedBodyDataProvider(): array
@@ -191,13 +191,13 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
      */
     public function testGetArrayOfIntsFromPost(string $input, ?array $output): void
     {
-        $wrapper = $this->createMock(ArrayBasedRequestWrapper::class);
-        $wrapper
+        $array_base_request_wrapper = $this->createMock(ArrayBasedRequestWrapper::class);
+        $array_base_request_wrapper
             ->expects($this->once())
             ->method('has')
             ->with($input)
             ->willReturn((bool) $input);
-        $wrapper
+        $array_base_request_wrapper
             ->expects($this->exactly((int) ((bool) $input)))
             ->method('retrieve')
             ->with($input)
@@ -206,14 +206,14 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
         $wrapper_factory
             ->expects($this->once())
             ->method('post')
-            ->willReturn($wrapper);
-        $http = $this->createMock(HTTPServices::class);
-        $http
+            ->willReturn($array_base_request_wrapper);
+        $http_services = $this->createMock(HTTPServices::class);
+        $http_services
             ->expects($this->once())
             ->method('wrapper')
             ->willReturn($wrapper_factory);
 
-        $this->assertEquals($output, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http])->getArrayOfIntsFromPost($input));
+        $this->assertEquals($output, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http_services])->getArrayOfIntsFromPost($input));
     }
 
     public static function getArrayOfIntsFromPostDataProvider(): array
@@ -232,13 +232,13 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
      */
     public function testGetArrayOfStringsFromPost(string $input, ?array $output): void
     {
-        $wrapper = $this->createMock(ArrayBasedRequestWrapper::class);
-        $wrapper
+        $array_base_request_wrapper = $this->createMock(ArrayBasedRequestWrapper::class);
+        $array_base_request_wrapper
             ->expects($this->once())
             ->method('has')
             ->with($input)
             ->willReturn((bool) $input);
-        $wrapper
+        $array_base_request_wrapper
             ->expects($this->exactly((int) ((bool) $input)))
             ->method('retrieve')
             ->with($input)
@@ -247,14 +247,14 @@ class RequestDataCollectorTest extends ilTestBaseTestCase
         $wrapper_factory
             ->expects($this->once())
             ->method('post')
-            ->willReturn($wrapper);
-        $http = $this->createMock(HTTPServices::class);
-        $http
+            ->willReturn($array_base_request_wrapper);
+        $http_services = $this->createMock(HTTPServices::class);
+        $http_services
             ->expects($this->once())
             ->method('wrapper')
             ->willReturn($wrapper_factory);
 
-        $this->assertEquals($output, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http])->getArrayOfStringsFromPost($input));
+        $this->assertEquals($output, $this->createInstanceOf(RequestDataCollector::class, ['http' => $http_services])->getArrayOfStringsFromPost($input));
     }
 
     public static function getArrayOfStringsFromPostDataProvider(): array

@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace Logging;
 
+use ilFileDelivery;
 use ILIAS\Data\URI;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLoggingRepository;
@@ -42,6 +44,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ilLanguage;
+use ilObjUser;
 use ilTestBaseTestCase;
 use ilUIFilterService;
 use ilUIService;
@@ -75,76 +78,76 @@ class TestLogViewerTest extends ilTestBaseTestCase
         $durations = [
             'period' => $duration_stub
         ];
-        $multiSelects = [
+        $multi_selects = [
             'log_entry_type' => $this->createMock(MultiSelect::class),
             'interaction_type' => $this->createMock(MultiSelect::class)
         ];
-        $tableData = $this->createMock(Data::class);
-        $tableData
+        $table_data = $this->createMock(Data::class);
+        $table_data
             ->expects($this->once())
             ->method('withRequest')
-            ->willReturn($tableData);
+            ->willReturn($table_data);
 
         $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
             $mock
                 ->method('txt')
-                ->willReturnCallback(fn(string $text) => $text);
+                ->willReturnCallback(fn(string $text) => $text . '_x');
         });
 
-        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($texts, $durations, $multiSelects, $tableData) {
-            $fieldFactory = $this->createMock(FieldFactory::class);
-            $fieldFactory
+        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($texts, $durations, $multi_selects, $table_data) {
+            $field_factory = $this->createMock(FieldFactory::class);
+            $field_factory
                 ->method('text')
                 ->willReturnOnConsecutiveCalls(...$texts);
-            $fieldFactory
+            $field_factory
                 ->method('multiSelect')
-                ->willReturnOnConsecutiveCalls(...$multiSelects);
-            $fieldFactory
+                ->willReturnOnConsecutiveCalls(...$multi_selects);
+            $field_factory
                 ->method('duration')
                 ->willReturnOnConsecutiveCalls(...$durations);
-            $inputFactory = $this->createMock(InputFactory::class);
-            $inputFactory
+            $input_factory = $this->createMock(InputFactory::class);
+            $input_factory
                 ->expects($this->once())
                 ->method('field')
-                ->willReturn($fieldFactory);
+                ->willReturn($field_factory);
             $mock
                 ->expects($this->once())
                 ->method('input')
-                ->willReturn($inputFactory);
+                ->willReturn($input_factory);
             $data = $this->createMock(Data::class);
             $data
                 ->expects($this->once())
                 ->method('withActions')
-                ->willReturn($tableData);
+                ->willReturn($table_data);
 
-            $tableFactory = $this->createMock(TableFactory::class);
-            $tableFactory
+            $table_factory = $this->createMock(TableFactory::class);
+            $table_factory
                 ->method('data')
                 ->willReturn($data);
             $mock
                 ->method('table')
-                ->willReturn($tableFactory);
+                ->willReturn($table_factory);
         });
         $standard = $this->createMock(Standard::class);
-        $this->adaptDICServiceMock(ilUIService::class, function (ilUIService|MockObject $mock) use ($url, $texts, $durations, $multiSelects, $standard) {
-            $filterInputs = array_merge($texts, $durations, $multiSelects);
-            $active = array_fill(0, count($filterInputs), true);
-            $filterData = ['filter'];
-            $uiFilter = $this->createMock(ilUIFilterService::class);
-            $uiFilter
+        $this->adaptDICServiceMock(ilUIService::class, function (ilUIService|MockObject $mock) use ($url, $texts, $durations, $multi_selects, $standard) {
+            $filter_inputs = array_merge($texts, $durations, $multi_selects);
+            $active = array_fill(0, count($filter_inputs), true);
+            $filter_data = ['filter'];
+            $ui_filter = $this->createMock(ilUIFilterService::class);
+            $ui_filter
                 ->expects($this->once())
                 ->method('standard')
-                ->with('log_table_filter_id', $url, $filterInputs, $active, true, true)
+                ->with('log_table_filter_id', $url, $filter_inputs, $active, true, true)
                 ->willReturn($standard);
-            $uiFilter
+            $ui_filter
                 ->expects($this->once())
                 ->method('getData')
                 ->with($standard)
-                ->willReturn($filterData);
+                ->willReturn($filter_data);
             $mock
                 ->expects($this->exactly(2))
                 ->method('filter')
-                ->willReturn($uiFilter);
+                ->willReturn($ui_filter);
         });
         $uri = $this->createMock(URI::class);
         $uri
@@ -156,102 +159,101 @@ class TestLogViewerTest extends ilTestBaseTestCase
             ->willReturn($uri);
         $action_parameter_token = $this->createMock(URLBuilderToken::class);
         $row_id_token = $this->createMock(URLBuilderToken::class);
-        $testLogger = $this->createMock(TestLogger::class);
-        $testLogger
+        $test_logger = $this->createMock(TestLogger::class);
+        $test_logger
             ->method('getLogEntryTypes')
             ->willReturn(['logType1', 'logType2']);
-        $testLogger
+        $test_logger
             ->method('getInteractionTypes')
             ->willReturn([['intType1'], ['intType2', 'intType3']]);
         global $DIC;
-        $testLogViewer = $this->createInstanceOf(TestLogViewer::class, [
-            'logger' => $testLogger,
+        $test_log_viewer = $this->createInstanceOf(TestLogViewer::class, [
+            'logger' => $test_logger,
             'stream_delivery' => $DIC['file_delivery']->delivery()
         ]);
-        $result = $testLogViewer->getLogTable($url_builder, $action_parameter_token, $row_id_token);
-        $this->assertEquals([$standard, $tableData], $result);
+        $result = $test_log_viewer->getLogTable($url_builder, $action_parameter_token, $row_id_token);
+        $this->assertEquals([$standard, $table_data], $result);
     }
 
     /**
      * @dataProvider provideDataForActionExecution
      * @throws Exception|ReflectionException
      */
-    public function testExecuteLogTableAction(string $action, bool $hasTokenName, array $items): void
+    public function testExecuteLogTableAction(string $action, bool $has_token_name, array $items): void
     {
-        $requestWrapper = $this->createMock(RequestWrapper::class);
-        $retrieveCount = 1;
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
+        $request_wrapper = $this->createMock(RequestWrapper::class);
+        $retrieve_count = 1;
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
         $expects = $this->never();
         if ($action === '') {
-            $requestWrapper
+            $request_wrapper
                 ->expects($this->never())
                 ->method('has');
         } else {
-            $requestWrapper
+            $request_wrapper
                 ->expects($this->once())
                 ->method('has')
-                ->willReturn($hasTokenName);
-            if ($hasTokenName) {
+                ->willReturn($has_token_name);
+            if ($has_token_name) {
                 $expects = $this->any();
-                $retrieveCount++;
+                $retrieve_count++;
             }
         }
-        $userInteraction = $this->createMock(TestUserInteraction::class);
-        $userInteraction
+        $user_interaction = $this->createMock(TestUserInteraction::class);
+        $user_interaction
             ->method('getParsedAdditionalInformation')
             ->willReturn($this->createMock(DescriptiveListing::class));
-        $loggingRepository
+        $logging_repository
             ->method('getLog')
-            ->willReturn($userInteraction);
-        $roundTrip = $this->createMock(RoundTrip::class);
-        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($expects, $roundTrip) {
-            $modalFactory = $this->createMock(ModalFactory::class);
-            $modalFactory
+            ->willReturn($user_interaction);
+        $round_trip = $this->createMock(RoundTrip::class);
+        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($expects, $round_trip) {
+            $modal_factory = $this->createMock(ModalFactory::class);
+            $modal_factory
                 ->expects($expects)
                 ->method('roundtrip')
-                ->willReturn($roundTrip);
+                ->willReturn($round_trip);
             $mock
                 ->method('modal')
-                ->willReturn($modalFactory);
+                ->willReturn($modal_factory);
         });
-        $this->adaptDICServiceMock(UIRenderer::class, function (UIRenderer|MockObject $mock) use ($expects, $roundTrip) {
+        $this->adaptDICServiceMock(UIRenderer::class, function (UIRenderer|MockObject $mock) use ($expects, $round_trip) {
             $mock
                 ->expects($expects)
                 ->method('renderAsync')
-                ->with($roundTrip)
+                ->with($round_trip)
                 ->willReturn('string');
         });
-        $requestWrapper
-            ->expects($this->exactly($retrieveCount))
+        $request_wrapper
+            ->expects($this->exactly($retrieve_count))
             ->method('retrieve')
             ->willReturnOnConsecutiveCalls($action, $items);
         $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) {
             $mock
                 ->method('txt')
-                ->willReturnCallback(function (string $text) {
-                    return $text;
-                });
+                ->willReturnCallback(static fn (string $text) => $text . '_x');
         });
 
         $url_builder = $this->createMock(URLBuilder::class);
         $action_parameter_token = $this->createMock(URLBuilderToken::class);
         $row_id_token = $this->createMock(URLBuilderToken::class);
 
-        $currentUser = $this->createMock(\ilObjUser::class);
-        $currentUser
+        $current_user = $this->createMock(ilObjUser::class);
+        $current_user
             ->method('getTimeZone')
             ->willReturn('UTC');
-        global $DIC;
-        $testLogViewer = $this->createInstanceOf(TestLogViewer::class, [
-            'logging_repository' => $loggingRepository,
-            'stream_delivery' => $DIC['file_delivery']->delivery(),
-            'request_wrapper' => $requestWrapper,
-            'current_user' => $currentUser
+
+
+        $test_log_viewer = $this->createInstanceOf(TestLogViewer::class, [
+            'logging_repository' => $logging_repository,
+            'stream_delivery' => $this->getFileDelivery()->delivery(),
+            'request_wrapper' => $request_wrapper,
+            'current_user' => $current_user
         ]);
-        if ($action === 'add_info' && (($hasTokenName && $items === []) || !$hasTokenName)) {
+        if ($action === 'add_info' && (($has_token_name && $items === []) || !$has_token_name)) {
             $this->expectException(TypeError::class);
         }
-        $testLogViewer->executeLogTableAction($url_builder, $action_parameter_token, $row_id_token);
+        $test_log_viewer->executeLogTableAction($url_builder, $action_parameter_token, $row_id_token);
     }
 
     public static function provideDataForActionExecution(): array
@@ -259,12 +261,12 @@ class TestLogViewerTest extends ilTestBaseTestCase
         return [
             'empty_true_empty' => [
                 'action' => '',
-                'hasTokenName' => true,
+                'has_token_name' => true,
                 'items' => []
             ],
             'empty_false_empty' => [
                 'action' => '',
-                'hasTokenName' => false,
+                'has_token_name' => false,
                 'items' => []
             ]
         ];

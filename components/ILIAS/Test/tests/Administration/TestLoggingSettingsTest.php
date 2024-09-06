@@ -20,130 +20,146 @@ declare(strict_types=1);
 
 namespace Administration;
 
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\Checkbox;
-use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Factory;
+use ilLanguage;
 use ilTestBaseTestCase;
-
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
-
-use function PHPUnit\Framework\once;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use ReflectionException;
 
 class TestLoggingSettingsTest extends ilTestBaseTestCase
 {
     /**
-     * @dataProvider provideLoggingSettings
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
+    {
+        $this->assertInstanceOf(TestLoggingSettings::class, $this->createInstanceOf(TestLoggingSettings::class));
+    }
+
+    /**
+     * @dataProvider toFormDataProvider
      * @throws \Exception|Exception
      */
-    public function test_toForm(TestLoggingSettings $testLoggingSettings, bool $logging, bool $IPLogging): void
+    public function testToForm(array $input): void
     {
-        global $DIC;
-        $formInput = $this->createMock(FormInput::class);
-        $formInput->expects($this->once())->method("withValue");
-        $checkbox = $this->createMock(Checkbox::class);
-        $checkbox->expects($this->once())->method("withByline")->willReturn($formInput);
-        $checkbox->expects($this->once())->method("withValue");
-        $erg = $this->createMock(Section::class);
-        $section = $this->createMock(Section::class);
-        $section->expects($this->once())->method("withAdditionalTransformation")->willReturn($erg);
-        $fieldFactory = $this->createMock(\ILIAS\UI\Component\Input\Field\Factory::class);
-        $fieldFactory->expects($this->exactly(2))->method("checkbox")->willReturn($checkbox);
-        $fieldFactory->expects($this->once())->method("section")->willReturn($section);
-        $inputFactory = $this->createMock(\ILIAS\UI\Component\Input\Factory::class);
-        $inputFactory->expects($this->exactly(3))->method("field")->willReturn($fieldFactory);
+        $test_logging_settings = new TestLoggingSettings($input['logging'], $input['ip_logging']);
 
-        $this->adaptDICServiceMock(Factory::class, function (Factory|MockObject $mock) use ($inputFactory) {
-            $mock
+        $form_input = $this->createMock(FormInput::class);
+        $form_input
+            ->expects($this->once())
+            ->method('withValue');
+
+        $checkbox = $this->createMock(Checkbox::class);
+        $checkbox
+            ->expects($this->once())
+            ->method('withByline')
+            ->willReturn($form_input);
+        $checkbox
+            ->expects($this->once())
+            ->method('withValue');
+
+        $section = $this->createMock(Section::class);
+        $section
+            ->expects($this->once())
+            ->method('withAdditionalTransformation')
+            ->willReturn($this->createMock(Section::class));
+
+        $field_factory = $this->createMock(FieldFactory::class);
+        $field_factory
+            ->expects($this->exactly(2))
+            ->method('checkbox')
+            ->willReturn($checkbox);
+        $field_factory
+            ->expects($this->once())
+            ->method('section')
+            ->willReturn($section);
+
+        $input_factory = $this->createMock(InputFactory::class);
+        $input_factory
+            ->expects($this->exactly(3))
+            ->method('field')
+            ->willReturn($field_factory);
+
+        $ui_factory = $this->createMock(Factory::class);
+        $ui_factory
                 ->expects($this->exactly(3))
                 ->method('input')
-                ->willReturn($inputFactory);
-        });
+                ->willReturn($input_factory);
+        $refinery = $this->createMock(Refinery::class);
+        $il_language = $this->createMock(ilLanguage::class);
 
-        $toForm = $testLoggingSettings->toForm($DIC['ui.factory'], $DIC->refinery(), $DIC->language());
-        $this->assertCount(1, $toForm);
-        $this->assertInstanceOf(Section::class, $toForm["logging"]);
+        $actual = $test_logging_settings->toForm($ui_factory, $refinery, $il_language);
+
+        $this->assertCount(1, $actual);
+        $this->assertInstanceOf(Section::class, $actual['logging']);
     }
 
-
-
-    /**
-     * @dataProvider provideLoggingSettings
-     */
-    public function test_Getter($testLoggingSettings, $logging, $IPLogging): void
-    {
-        $this->assertEquals($logging, $testLoggingSettings->isLoggingEnabled());
-        $this->assertEquals($IPLogging, $testLoggingSettings->isIPLoggingEnabled(), );
-    }
-
-    /**
-     * @dataProvider provideLoggingSettingsAndNewValue
-     */
-    public function test_withLoggingEnabled($testLoggingSettings, $newLogging): void
-    {
-        $newSettings = $testLoggingSettings->withLoggingEnabled($newLogging);
-        $this->assertEquals($newLogging, $newSettings->isLoggingEnabled());
-        $this->assertEquals($testLoggingSettings->isIPLoggingEnabled(), $newSettings->isIPLoggingEnabled());
-    }
-
-    /**
-     * @dataProvider provideLoggingSettingsAndNewValue
-     */
-    public function test_withIPLoggingEnabled($testLoggingSettings, $newLogging): void
-    {
-        $newSettings = $testLoggingSettings->withIPLoggingEnabled($newLogging);
-        $this->assertEquals($newLogging, $newSettings->isIPLoggingEnabled());
-        $this->assertEquals($testLoggingSettings->isLoggingEnabled(), $newSettings->isLoggingEnabled());
-    }
-
-    public static function provideLoggingSettings(): array
+    public static function toFormDataProvider(): array
     {
         return [
-            "dataset 1: both enabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(true, true),
-                "logging" => true,
-                "IPLogging" => true
-            ],
-            "dataset 2: only logging enabled " => [
-                "testLoggingSettings" => new TestLoggingSettings(true, false),
-                "logging" => true,
-                "IPLogging" => false
-            ],
-            "dataset 3: only ip logging enabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(false, true),
-                "logging" => false,
-                "IPLogging" => true
-            ],
-            "dataset 4: both disabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(false, false),
-                "logging" => false,
-                "IPLogging" => false
-            ]
+            'true_true' => [[
+                'logging' => true,
+                'ip_logging' => true
+            ]],
+            'true_false' => [[
+                'logging' => true,
+                'ip_logging' => false
+            ]],
+            'false_true' => [[
+                'logging' => false,
+                'ip_logging' => true
+            ]],
+            'false_false' => [[
+                'logging' => false,
+                'ip_logging' => false
+            ]]
         ];
     }
 
-    public static function provideLoggingSettingsAndNewValue(): array
+    /**
+     * @dataProvider isAndWithLoggingEnabledDataProvider
+     */
+    public function testIsAndWithLoggingEnabled(bool $IO): void
+    {
+        $test_logging_settings = new TestLoggingSettings();
+
+        $this->assertFalse($test_logging_settings->isLoggingEnabled());
+        $this->assertInstanceOf(TestLoggingSettings::class, $actual = $test_logging_settings->withLoggingEnabled($IO));
+        $this->assertEquals($IO, $actual->isLoggingEnabled());
+    }
+
+    public static function isAndWithLoggingEnabledDataProvider(): array
     {
         return [
-            "dataset 1: both enabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(true, true),
-                "newLogging" => true,
-            ],
-            "dataset 2: only logging enabled " => [
-                "testLoggingSettings" => new TestLoggingSettings(true, false),
-                "newLogging" => false,
-            ],
-            "dataset 3: only ip logging enabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(false, true),
-                "newLogging" => false,
-            ],
-            "dataset 4: both disabled" => [
-                "testLoggingSettings" => new TestLoggingSettings(false, false),
-                "newLogging" => false,
-            ]
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider isAndWithIPLoggingEnabledDataProvider
+     */
+    public function testIsAndWithIPLoggingEnabled(bool $IO): void
+    {
+        $test_logging_settings = new TestLoggingSettings();
+
+        $this->assertTrue($test_logging_settings->isIPLoggingEnabled());
+        $this->assertInstanceOf(TestLoggingSettings::class, $actual = $test_logging_settings->withIPLoggingEnabled($IO));
+        $this->assertEquals($IO, $actual->isIPLoggingEnabled());
+    }
+
+    public static function isAndWithIPLoggingEnabledDataProvider(): array
+    {
+        return [
+            'true' => [true],
+            'false' => [false]
         ];
     }
 }

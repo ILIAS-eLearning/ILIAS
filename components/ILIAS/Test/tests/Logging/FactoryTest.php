@@ -31,210 +31,285 @@ use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
-use PHPUnit\Framework\TestCase;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
+use stdClass;
 
-class FactoryTest extends TestCase
+class FactoryTest extends ilTestBaseTestCase
 {
-    private Factory $factory;
-
-    protected function setUp(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-
-        $this->factory = new Factory();
-    }
-    public function test_buildTestAdministrationInteraction(): void
-    {
-        $this->assertInstanceOf(TestAdministrationInteraction::class, $this->factory->buildTestAdministrationInteraction(1, 2, TestAdministrationInteractionTypes::EXTRA_TIME_ADDED, []));
+        $this->assertInstanceOf(Factory::class, $this->createInstanceOf(Factory::class));
     }
 
     /**
-     * @dataProvider provideInteractionType
+     * @throws ReflectionException|Exception
      */
-    public function test_buildTestAdministrationInteractionFromDBValues($type): void
+    public function testBuildTestAdministrationInteraction(): void
     {
-        $db_values = $this->createMock(\stdClass::class);
+        $factory = $this->createInstanceOf(Factory::class);
+        $this->assertInstanceOf(
+            TestAdministrationInteraction::class,
+            $factory->buildTestAdministrationInteraction(
+                1,
+                2,
+                TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
+                []
+            )
+        );
+    }
+
+    /**
+     * @dataProvider buildTestAdministrationInteractionFromDBValuesDataProvider
+     * @throws Exception|ReflectionException
+     */
+    public function testBuildTestAdministrationInteractionFromDBValues(string $type): void
+    {
+        $factory = $this->createInstanceOf(Factory::class);
+
+        $db_values = $this->createMock(stdClass::class);
         $db_values->interaction_type = $type;
         $db_values->id = 1;
-        $db_values->additional_data = "";
+        $db_values->additional_data = '';
         $db_values->ref_id = 1;
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
-        if (TestAdministrationInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestAdministrationInteraction::class, $this->factory->buildTestAdministrationInteractionFromDBValues($db_values));
-        } else {
-            $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->factory->buildTestAdministrationInteractionFromDBValues($db_values);
+
+        if ($type === 'new_test_created') {
+            $this->assertInstanceOf(TestAdministrationInteraction::class, $factory->buildTestAdministrationInteractionFromDBValues($db_values));
+            return;
         }
+
+        $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
+        $factory->buildTestAdministrationInteractionFromDBValues($db_values);
     }
 
-    public static function provideInteractionType(): array
+    public static function buildTestAdministrationInteractionFromDBValuesDataProvider(): array
     {
         return [
-            "dataset 1: valid type" => [
-                "type" => "new_test_created"
-            ],
-            "dataset 2: invalid type" => [
-                "type" => "type"
-            ]
+            'valid_type' => ['new_test_created'],
+            'invalid_type' => ['invalid_type']
         ];
     }
 
-    public function test_buildTestQuestionAdministrationInteraction(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testBuildTestQuestionAdministrationInteraction(): void
     {
-        $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->factory->buildTestQuestionAdministrationInteraction(1, 2, 3, TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED, []));
+        $factory = $this->createInstanceOf(Factory::class);
+        $this->assertInstanceOf(
+            TestQuestionAdministrationInteraction::class,
+            $factory->buildTestQuestionAdministrationInteraction(
+                1,
+                2,
+                3,
+                TestQuestionAdministrationInteractionTypes::QUESTION_MODIFIED,
+                []
+            )
+         );
     }
 
     /**
-     * @dataProvider provideQuestionInteractionType
+     * @dataProvider buildQuestionAdministrationInteractionFromDBValuesDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_buildQuestionAdministrationInteractionFromDBValues($type): void
+    public function testBuildQuestionAdministrationInteractionFromDBValues(string $type): void
     {
-        $db_values = $this->createMock(\stdClass::class);
+        $factory = $this->createInstanceOf(Factory::class);
+
+        $db_values = $this->createMock(stdClass::class);
         $db_values->interaction_type = $type;
         $db_values->qst_id = 1;
-        $db_values->additional_data = "";
+        $db_values->additional_data = '';
         $db_values->ref_id = 1;
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
         $db_values->id = 1;
-        if (TestQuestionAdministrationInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestQuestionAdministrationInteraction::class, $this->factory->buildQuestionAdministrationInteractionFromDBValues($db_values));
-        } else {
-            $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->factory->buildQuestionAdministrationInteractionFromDBValues($db_values);
+
+        if ($type === 'question_modified') {
+            $this->assertInstanceOf(
+                TestQuestionAdministrationInteraction::class,
+                $factory->buildQuestionAdministrationInteractionFromDBValues($db_values)
+            );
+            return;
         }
+
+        $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
+        $factory->buildQuestionAdministrationInteractionFromDBValues($db_values);
     }
 
-    public static function provideQuestionInteractionType(): array
+    public static function buildQuestionAdministrationInteractionFromDBValuesDataProvider(): array
     {
         return [
-            "dataset 1: valid type" => [
-                "type" => "question_modified"
-            ],
-            "dataset 2: invalid type" => [
-                "type" => "type"
-            ]
+            'valid_type' => ['question_modified'],
+            'invalid_type' => ['invalid_type']
         ];
     }
 
-    public function test_buildParticipantInteraction(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testBuildParticipantInteraction(): void
     {
-        $this->assertInstanceOf(TestParticipantInteraction::class, $this->factory->buildParticipantInteraction(1, 2, 3, "address", TestParticipantInteractionTypes::TEST_RUN_FINISHED, []));
+        $factory = $this->createInstanceOf(Factory::class);
+        $this->assertInstanceOf(
+            TestParticipantInteraction::class,
+            $factory->buildParticipantInteraction(
+                1,
+                2,
+                3,
+                'address',
+                TestParticipantInteractionTypes::TEST_RUN_FINISHED,
+                []
+            )
+        );
     }
 
     /**
-     * @dataProvider provideParticipantInteractionType
+     * @dataProvider buildParticipantInteractionFromDBValuesDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_buildParticipantInteractionFromDBValues($type): void
+    public function testBuildParticipantInteractionFromDBValues(string $type): void
     {
-        $db_values = $this->createMock(\stdClass::class);
+        $factory = $this->createInstanceOf(Factory::class);
+
+        $db_values = $this->createMock(stdClass::class);
         $db_values->interaction_type = $type;
         $db_values->qst_id = 1;
-        $db_values->additional_data = "";
+        $db_values->additional_data = '';
         $db_values->ref_id = 1;
         $db_values->pax_id = 1;
-        $db_values->source_ip = "ip";
+        $db_values->source_ip = 'ip';
         $db_values->modification_ts = 1;
         $db_values->id = 1;
-        if (TestParticipantInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestParticipantInteraction::class, $this->factory->buildParticipantInteractionFromDBValues($db_values));
-        } else {
-            $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->factory->buildParticipantInteractionFromDBValues($db_values);
+
+        if ($type === 'test_run_started') {
+            $this->assertInstanceOf(TestParticipantInteraction::class, $factory->buildParticipantInteractionFromDBValues($db_values));
+            return;
         }
 
+        $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
+        $factory->buildParticipantInteractionFromDBValues($db_values);
     }
 
-    public static function provideParticipantInteractionType(): array
+    public static function buildParticipantInteractionFromDBValuesDataProvider(): array
     {
         return [
-            "dataset 1: valid type" => [
-                "type" => "test_run_started"
-            ],
-            "dataset 2: invalid type" => [
-                "type" => "type"
-            ]
+            'valid_type' => ['test_run_started'],
+            'invalid_type' => ['invalid_type']
         ];
     }
 
-    public function test_buildScoringInteraction(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testBuildScoringInteraction(): void
     {
-        $this->assertInstanceOf(TestScoringInteraction::class, $this->factory->buildScoringInteraction(1, 2, 3, 4, TestScoringInteractionTypes::QUESTION_GRADED, []));
+        $factory = $this->createInstanceOf(Factory::class);
+        $this->assertInstanceOf(
+            TestScoringInteraction::class,
+            $factory->buildScoringInteraction(
+                1,
+                2,
+                3,
+                4,
+                TestScoringInteractionTypes::QUESTION_GRADED,
+                []
+            )
+        );
     }
 
     /**
      * @dataProvider provideScoringInteractionType
+     * @throws Exception|ReflectionException
      */
-    public function test_buildScoringInteractionFromDBValues($type): void
+    public function test_buildScoringInteractionFromDBValues(string $type): void
     {
-        $db_values = $this->createMock(\stdClass::class);
+        $factory = $this->createInstanceOf(Factory::class);
+
+        $db_values = $this->createMock(stdClass::class);
         $db_values->interaction_type = $type;
         $db_values->qst_id = 1;
-        $db_values->additional_data = "";
+        $db_values->additional_data = '';
         $db_values->ref_id = 1;
         $db_values->pax_id = 1;
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
         $db_values->id = 1;
-        if (TestScoringInteractionTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestScoringInteraction::class, $this->factory->buildScoringInteractionFromDBValues($db_values));
-        } else {
-            $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->factory->buildScoringInteractionFromDBValues($db_values);
+
+        if ($type === 'question_graded') {
+            $this->assertInstanceOf(TestScoringInteraction::class, $factory->buildScoringInteractionFromDBValues($db_values));
+            return;
         }
+
+        $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
+        $factory->buildScoringInteractionFromDBValues($db_values);
     }
 
     public static function provideScoringInteractionType(): array
     {
         return [
-            "dataset 1: valid type" => [
-                "type" => "question_graded"
-            ],
-            "dataset 2: invalid type" => [
-                "type" => "type"
-            ]
+            'valid_type' => ['question_graded'],
+            'invalid_type' => ['invalid_type']
         ];
     }
 
-    public function test_buildError(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testBuildError(): void
     {
-        $this->assertInstanceOf(TestError::class, $this->factory->buildError(1, 2, 3, 4, TestErrorTypes::ERROR_ON_PARTICIPANT_INTERACTION, "message"));
+        $factory = $this->createInstanceOf(Factory::class);
+        $this->assertInstanceOf(
+            TestError::class,
+            $factory->buildError(
+                1,
+                2,
+                3,
+                4,
+                TestErrorTypes::ERROR_ON_PARTICIPANT_INTERACTION,
+                'message'
+            )
+        );
     }
 
     /**
-     * @dataProvider provideErrorType
+     * @dataProvider buildErrorFromDBValuesDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_buildErrorFromDBValues($type): void
+    public function testBuildErrorFromDBValues($type): void
     {
-        $db_values = $this->createMock(\stdClass::class);
+        $factory = $this->createInstanceOf(Factory::class);
+
+        $db_values = $this->createMock(stdClass::class);
         $db_values->interaction_type = $type;
         $db_values->qst_id = 1;
-        $db_values->error_message = "test";
+        $db_values->error_message = 'test';
         $db_values->ref_id = 1;
         $db_values->pax_id = 1;
         $db_values->admin_id = 1;
         $db_values->modification_ts = 1;
         $db_values->id = 1;
-        if (TestErrorTypes::tryFrom($type) !== null) {
-            $this->assertInstanceOf(TestError::class, $this->factory->buildErrorFromDBValues($db_values));
-        } else {
-            $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
-            $this->factory->buildErrorFromDBValues($db_values);
+
+        if ($type === 'error_on_participant_interaction') {
+            $this->assertInstanceOf(TestError::class, $factory->buildErrorFromDBValues($db_values));
+            return;
         }
+
+        $this->expectExceptionMessage('Invalid Interaction Type in Database for id 1 with type ' . $type);
+        $factory->buildErrorFromDBValues($db_values);
     }
 
-    public static function provideErrorType(): array
+    public static function buildErrorFromDBValuesDataProvider(): array
     {
         return [
-            "dataset 1: valid type" => [
-                "type" => 'error_on_test_administration_interaction'
-            ],
-            "dataset 2: invalid type" => [
-                "type" => "type"
-            ]
+            'valid_type' => ['error_on_participant_interaction'],
+            'invalid_type' => ['invalid_type']
         ];
     }
-
-
 }

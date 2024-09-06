@@ -19,16 +19,16 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\SettingsAccess;
+use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
+use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\MainSettings\SettingsGeneral;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
-use ILIAS\Test\Settings\MainSettings\SettingsAccess;
-use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
-use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
 use ILIAS\Test\Settings\MainSettings\SettingsParticipantFunctionality;
-use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
-use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
+use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
+use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
+use ILIAS\Test\Settings\TestSettings;
 use PHPUnit\Framework\MockObject\Exception;
 
 class MainSettingsTest extends ilTestBaseTestCase

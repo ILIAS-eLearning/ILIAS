@@ -16,54 +16,27 @@
  *
  *********************************************************************/
 
-namespace Test\tests;
-
-use ilQuestionResult;
-use ilTestBaseTestCase;
+use \PHPUnit\Framework\MockObject\Exception;
 
 class ilQuestionResultTest extends ilTestBaseTestCase
 {
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testConstruct(): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertInstanceOf(ilQuestionResult::class, $questionResult);
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class);
+        $this->assertInstanceOf(ilQuestionResult::class, $il_question_result);
     }
 
     /**
      * @dataProvider getIdDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetId(int $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            $IO,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getId());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['id' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getId());
     }
 
     public static function getIdDataProvider(): array
@@ -77,25 +50,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getTypeDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetType(string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            $IO,
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getType());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['type' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getType());
     }
 
     public static function getTypeDataProvider(): array
@@ -109,25 +69,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getTitleDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetTitle(string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            $IO,
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getTitle());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['title' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getTitle());
     }
 
     public static function getTitleDataProvider(): array
@@ -141,25 +88,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getUserAnswerDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetUserAnswer(string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            $IO,
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getUserAnswer());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['usr_solution' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getUserAnswer());
     }
 
     public static function getUserAnswerDataProvider(): array
@@ -173,25 +107,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getBestSolutionDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetBestSolution(string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            $IO,
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getBestSolution());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['best_solution' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getBestSolution());
     }
 
     public static function getBestSolutionDataProvider(): array
@@ -205,25 +126,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getQuestionScoreDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetQuestionScore(float $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            $IO,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getQuestionScore());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['question_score' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getQuestionScore());
     }
 
     public static function getQuestionScoreDataProvider(): array
@@ -237,25 +145,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getUserScoreDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetUserScore(float $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            $IO,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getUserScore());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['usr_score' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getUserScore());
     }
 
     public static function getUserScoreDataProvider(): array
@@ -269,25 +164,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getUserScorePercentDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetUserScorePercent(array $input, float $output): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            $input['question_score'],
-            $input['usr_score'],
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($output, $questionResult->getUserScorePercent());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['question_score' => $input['question_score'], 'usr_score' => $input['usr_score']]);
+        $this->assertEquals($output, $il_question_result->getUserScorePercent());
     }
 
     public static function getUserScorePercentDataProvider(): array
@@ -302,25 +184,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getCorrectDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetCorrect(array $input, int $output): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            $input['question_score'],
-            $input['usr_score'],
-            '',
-            $input['best_solution'],
-            '',
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($output, $questionResult->getCorrect());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['question_score' => $input['question_score'], 'usr_score' => $input['usr_score'], 'best_solution' => $input['best_solution']]);
+        $this->assertEquals($output, $il_question_result->getCorrect());
     }
 
     public static function getCorrectDataProvider(): array
@@ -334,25 +203,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getFeedbackDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetFeedback(string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            $IO,
-            true,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getFeedback());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['feedback' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getFeedback());
     }
 
     public static function getFeedbackDataProvider(): array
@@ -366,25 +222,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider isWorkedThroughDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testIsWorkedThrough(bool $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            $IO,
-            true,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->isWorkedThrough());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['workedthrough' => $IO]);
+        $this->assertEquals($IO, $il_question_result->isWorkedThrough());
     }
 
     public static function isWorkedThroughDataProvider(): array
@@ -397,25 +240,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider isAnsweredDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testIsAnswered(bool $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            $IO,
-            0,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->isAnswered());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['answered' => $IO]);
+        $this->assertEquals($IO, $il_question_result->isAnswered());
     }
 
     public static function isAnsweredDataProvider(): array
@@ -428,25 +258,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getContentForRecapitulationDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetContentForRecapitulation(?string $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            0,
-            $IO
-        );
-
-        $this->assertEquals($IO, $questionResult->getContentForRecapitulation());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['content_for_recapitulation' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getContentForRecapitulation());
     }
 
     public static function getContentForRecapitulationDataProvider(): array
@@ -461,25 +278,12 @@ class ilQuestionResultTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getNumberOfRequestedHintsDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testGetNumberOfRequestedHints(int $IO): void
     {
-        $questionResult = new ilQuestionResult(
-            0,
-            '',
-            '',
-            0.0,
-            0.0,
-            '',
-            '',
-            '',
-            true,
-            true,
-            $IO,
-            ''
-        );
-
-        $this->assertEquals($IO, $questionResult->getNumberOfRequestedHints());
+        $il_question_result = $this->createInstanceOf(ilQuestionResult::class, ['requested_hints' => $IO]);
+        $this->assertEquals($IO, $il_question_result->getNumberOfRequestedHints());
     }
 
     public static function getNumberOfRequestedHintsDataProvider(): array

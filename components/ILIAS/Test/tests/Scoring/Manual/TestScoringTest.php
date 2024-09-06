@@ -20,11 +20,10 @@ declare(strict_types=1);
 
 namespace Scoring\Manual;
 
-use ilDBInterface;
 use ILIAS\Test\Scoring\Manual\TestScoring;
-use ilLanguage;
-use ilObjUser;
 use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 /**
  * Class TestScoringTest
@@ -32,38 +31,38 @@ use ilTestBaseTestCase;
  */
 class TestScoringTest extends ilTestBaseTestCase
 {
-    private TestScoring $testObj;
-
-    protected function setUp(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-
-        $this->testObj = new TestScoring(
-            $this->getTestObjMock(),
-            $this->createMock(ilObjUser::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class)
-        );
+        $test_scoring = $this->createInstanceOf(TestScoring::class);
+        $this->assertInstanceOf(TestScoring::class, $test_scoring);
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
-    {
-        $this->assertInstanceOf(TestScoring::class, $this->testObj);
-    }
-
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testPreserveManualScores(): void
     {
-        $this->testObj->setPreserveManualScores(false);
-        $this->assertFalse($this->testObj->getPreserveManualScores());
+        $test_scoring = $this->createInstanceOf(TestScoring::class);
 
-        $this->testObj->setPreserveManualScores(true);
-        $this->assertTrue($this->testObj->getPreserveManualScores());
+        $test_scoring->setPreserveManualScores(false);
+        $this->assertFalse($test_scoring->getPreserveManualScores());
+
+        $test_scoring->setPreserveManualScores(true);
+        $this->assertTrue($test_scoring->getPreserveManualScores());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testQuestionId(): void
     {
+        $test_scoring = $this->createInstanceOf(TestScoring::class);
+
         $questionId = 20;
-        $this->testObj->setQuestionId($questionId);
-        $this->assertEquals($questionId, $this->testObj->getQuestionId());
+        $test_scoring->setQuestionId($questionId);
+        $this->assertEquals($questionId, $test_scoring->getQuestionId());
     }
 }

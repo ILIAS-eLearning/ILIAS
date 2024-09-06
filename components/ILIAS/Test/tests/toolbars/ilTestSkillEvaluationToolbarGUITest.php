@@ -27,28 +27,25 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestSkillEvaluationToolbarGUI $ilTestSkillEvaluationToolbarGui;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->ilTestSkillEvaluationToolbarGui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
-    }
-
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->ilTestSkillEvaluationToolbarGui);
+        $il_test_skill_evaluation_toolbar_gui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
+        $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $il_test_skill_evaluation_toolbar_gui);
     }
 
     /**
      * @dataProvider setAndGetAvailableSkillProfilesDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetAvailableSkillProfiles(array $IO): void
     {
-        $this->ilTestSkillEvaluationToolbarGui->setAvailableSkillProfiles($IO);
+        $il_test_skill_evaluation_toolbar_gui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
+        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($IO);
 
-        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->getAvailableSkillProfiles());
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getAvailableSkillProfiles());
     }
 
     public static function setAndGetAvailableSkillProfilesDataProvider(): array
@@ -62,12 +59,14 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetNoSkillProfileOptionEnabledDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetNoSkillProfileOptionEnabled(bool $IO): void
     {
-        $this->ilTestSkillEvaluationToolbarGui->setNoSkillProfileOptionEnabled($IO);
+        $il_test_skill_evaluation_toolbar_gui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
+        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($IO);
 
-        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->isNoSkillProfileOptionEnabled());
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->isNoSkillProfileOptionEnabled());
     }
 
     public static function setAndGetNoSkillProfileOptionEnabledDataProvider(): array
@@ -80,12 +79,14 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetSelectedEvaluationModeDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetSelectedEvaluationMode(int $IO): void
     {
-        $this->ilTestSkillEvaluationToolbarGui->setSelectedEvaluationMode($IO);
+        $il_test_skill_evaluation_toolbar_gui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
+        $il_test_skill_evaluation_toolbar_gui->setSelectedEvaluationMode($IO);
 
-        $this->assertEquals($IO, $this->ilTestSkillEvaluationToolbarGui->getSelectedEvaluationMode());
+        $this->assertEquals($IO, $il_test_skill_evaluation_toolbar_gui->getSelectedEvaluationMode());
     }
 
     public static function setAndGetSelectedEvaluationModeDataProvider(): array
@@ -99,11 +100,11 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider buildEvaluationModeOptionsArrayDataProvider
-     * @throws ReflectionException
-     * @throws \Exception
+     * @throws ReflectionException|Exception
      */
     public function testBuildEvaluationModeOptionsArray(array $input, array $output): void
     {
+        $il_test_skill_evaluation_toolbar_gui = $this->createInstanceOf(ilTestSkillEvaluationToolbarGUI::class);
         $available_skill_profiles = $input['available_skill_profiles'];
         $no_skill_profile_option_enabled = $input['no_skill_profile_option_enabled'];
 
@@ -114,10 +115,10 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
                 ->willReturnCallback(fn($topic) => $topic . '_x');
         });
 
-        $this->ilTestSkillEvaluationToolbarGui->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
-        $this->ilTestSkillEvaluationToolbarGui->setAvailableSkillProfiles($available_skill_profiles);
+        $il_test_skill_evaluation_toolbar_gui->setNoSkillProfileOptionEnabled($no_skill_profile_option_enabled);
+        $il_test_skill_evaluation_toolbar_gui->setAvailableSkillProfiles($available_skill_profiles);
 
-        $this->assertEquals($output, self::callMethod($this->ilTestSkillEvaluationToolbarGui, 'buildEvaluationModeOptionsArray'));
+        $this->assertEquals($output, self::callMethod($il_test_skill_evaluation_toolbar_gui, 'buildEvaluationModeOptionsArray'));
     }
 
     public static function buildEvaluationModeOptionsArrayDataProvider(): array

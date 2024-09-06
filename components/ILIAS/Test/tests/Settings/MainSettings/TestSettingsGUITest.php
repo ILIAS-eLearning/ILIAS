@@ -40,9 +40,9 @@ class TestSettingsGUITest extends ilTestBaseTestCase
     {
         $il_obj_test = $this->createMock(ilObjTest::class);
         $test_settings_gui = new class($il_obj_test) extends TestSettingsGUI {};
-        $form = $this->createConfiguredMock(ilPropertyFormGUI::class, ['getItemByPostVar' => $input ? $this->createMock($input) : null]);
+        $il_property_form_gui = $this->createConfiguredMock(ilPropertyFormGUI::class, ['getItemByPostVar' => $input ? $this->createMock($input) : null]);
 
-        $this->assertEquals($output, self::callMethod($test_settings_gui, 'formPropertyExists', [$form, '']));
+        $this->assertEquals($output, self::callMethod($test_settings_gui, 'formPropertyExists', [$il_property_form_gui, '']));
     }
 
     public static function formPropertyExistsDataProvider(): array

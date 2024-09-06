@@ -21,88 +21,99 @@ declare(strict_types=1);
 namespace Export;
 
 use ILIAS\Test\Export\CSVExportTrait;
-use ILIAS\Tests\Refinery\TestCase;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
-class CSVExportTraitTest extends TestCase
+class CSVExportTraitTest extends ilTestBaseTestCase
 {
-    use CSVExportTrait;
     /**
      * @dataProvider provideRows
+     * @throws ReflectionException|Exception
      */
-    public function test_pocessCSVRow($row, $quote_all, $separator, $result): void
+    public function testProcessCSVRow(array $input, array $output): void
     {
-        $this->assertSame($result, $this->processCSVRow($row, $quote_all, $separator));
+        $csv_export_trait = $this->createTraitInstanceOf(CSVExportTrait::class);
+        $this->assertSame($output, self::callMethod($csv_export_trait, 'processCSVRow', [$input['row'], $input['quote_all'], $input['separator']]));
     }
 
     public static function provideRows(): array
     {
         return [
-            "dataset 1" => [
-                "row" => [
-                    "normalEntry",
-                    "entry;with;separator",
-                    "entry with \"",
-                    "entry with \" and ;"
+            '1' => [
+                [
+                    'row' => [
+                    'normalEntry',
+                    'entry;with;separator',
+                    'entry with "',
+                    'entry with " and ;'
+                    ],
+                    'quote_all' => true,
+                    'separator' => ';'
                 ],
-                "quote_all" => true,
-                "separator" => ";",
-                "result" => [
-                    "\"normalEntry\"",
-                    "\"entry;with;separator\"",
-                    "\"entry with \"\"\"",
-                    "\"entry with \"\" and ;\""
+                [
+                    '"normalEntry"',
+                    '"entry;with;separator"',
+                    '"entry with """',
+                    '"entry with "" and ;"'
                 ]
             ],
-            "dataset 2" => [
-                "row" => [
-                    "normalEntry",
-                    "entry;without;separator",
-                    "entry with \"",
-                    "entry with \" and :",
-                    "entry with :"
+            '2' => [
+                [
+                    'row' => [
+                    'normalEntry',
+                    'entry;without;separator',
+                    'entry with "',
+                    'entry with " and :',
+                    'entry with :'
+                    ],
+                    'quote_all' => false,
+                    'separator' => ':'
                 ],
-                "quote_all" => false,
-                "separator" => ":",
-                "result" => [
-                    "normalEntry",
-                    "entry;without;separator",
-                    "\"entry with \"\"\"",
-                    "\"entry with \"\" and :\"",
-                    "\"entry with :\""
+                [
+                    'normalEntry',
+                    'entry;without;separator',
+                    '"entry with """',
+                    '"entry with "" and :"',
+                    '"entry with :"'
                 ]
             ],
-            "dataset 3" => [
-                "row" => [
-                    "normalEntry",
-                    "entry;without;separator",
-                    "entry with \"",
-                    "entry with \" and :",
-                    "entry with :"
+            '3' => [
+                [
+                    'row' => [
+                        'normalEntry',
+                        'entry;without;separator',
+                        'entry with "',
+                        'entry with " and :',
+                        'entry with :'
+                    ],
+                    'quote_all' => true,
+                    'separator' => ':'
                 ],
-                "quote_all" => true,
-                "separator" => ":",
-                "result" => [
-                    "\"normalEntry\"",
-                    "\"entry;without;separator\"",
-                    "\"entry with \"\"\"",
-                    "\"entry with \"\" and :\"",
-                    "\"entry with :\""
+                [
+                    '"normalEntry"',
+                    '"entry;without;separator"',
+                    '"entry with """',
+                    '"entry with "" and :"',
+                    '"entry with :"'
                 ]
             ],
-            "dataset 4" => [
-                "row" => [
-                    "normalEntry",
-                    "entry;with;separator",
-                    "entry with \"",
-                    "entry with \" and ;"
+            '4' => [
+                [
+                    'row' => [
+                        'normalEntry',
+                        'entry;with;separator',
+                        'entry with "',
+                        'entry with " and ;'
+                    ],
+                    'quote_all' => false,
+                    'separator' => ';'
                 ],
-                "quote_all" => false,
-                "separator" => ";",
-                "result" => [
-                    "normalEntry",
-                    "\"entry;with;separator\"",
-                    "\"entry with \"\"\"",
-                    "\"entry with \"\" and ;\""
+                [
+                    'normalEntry',
+                    '"entry;with;separator"',
+                    '"entry with """',
+                    '"entry with "" and ;"'
                 ]
             ]
         ];

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -26,46 +27,44 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCase
 {
-    protected MockObject $lng_mock;
-
-    protected function setUp(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-        $this->lng_mock = $this->createMock(ilLanguage::class);
+        $il_test_answer_optional_questions_confirmation_gui = $this->createInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class);
+        $this->assertInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class, $il_test_answer_optional_questions_confirmation_gui);
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
-    {
-        $instance = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
-
-        $this->assertInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class, $instance);
-    }
-
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetAndSetCancelCmd(): void
     {
         $expect = 'testCancelCmd';
+        $il_test_answer_optional_questions_confirmation_gui = $this->createInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class);
 
-        $gui = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
+        $il_test_answer_optional_questions_confirmation_gui->setCancelCmd($expect);
 
-        $gui->setCancelCmd($expect);
-
-        $this->assertEquals($expect, $gui->getCancelCmd());
+        $this->assertEquals($expect, $il_test_answer_optional_questions_confirmation_gui->getCancelCmd());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testGetAndSetConfirmCmd(): void
     {
         $expect = 'testConfirmCmd';
+        $il_test_answer_optional_questions_confirmation_gui = $this->createInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class);
 
-        $gui = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
+        $il_test_answer_optional_questions_confirmation_gui->setConfirmCmd($expect);
 
-        $gui->setConfirmCmd($expect);
-
-        $this->assertEquals($expect, $gui->getConfirmCmd());
+        $this->assertEquals($expect, $il_test_answer_optional_questions_confirmation_gui->getConfirmCmd());
     }
 
     /**
      * @dataProvider buildDataProvider
-     * @throws Exception|\PHPUnit\Framework\MockObject\Exception
+     * @throws Exception|Exception|ReflectionException
      */
     public function testBuild(bool $input): void
     {
@@ -92,7 +91,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 
     /**
      * @dataProvider buildHeaderTextDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     * @throws ReflectionException|Exception|Exception
      */
     public function testBuildHeaderText(bool $input, string $output): void
     {

@@ -26,7 +26,8 @@ use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\Test\Logging\TestLogViewer;
 use ilObjTestFolder;
 use ilTestBaseTestCase;
-use ilTestQuestionPoolInvalidArgumentException;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 /**
  * Class ilObjTestFolderTest
@@ -34,43 +35,55 @@ use ilTestQuestionPoolInvalidArgumentException;
  */
 class ilObjTestFolderTest extends ilTestBaseTestCase
 {
-    private ilObjTestFolder $ilObjTestFolder;
-
-    protected function setUp(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-
-        $this->ilObjTestFolder = new ilObjTestFolder();
+        $this->assertInstanceOf(ilObjTestFolder::class, $this->createInstanceOf(ilObjTestFolder::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testGetGlobalSettingsRepository(): void
     {
-        $this->assertInstanceOf(ilObjTestFolder::class, $this->ilObjTestFolder);
+        $il_obj_test_folder = $this->createInstanceOf(ilObjTestFolder::class);
+
+        $this->assertInstanceOf(TestGlobalSettingsRepository::class, $il_obj_test_folder->getGlobalSettingsRepository());
     }
 
-    public function test_GetterWithoutSetter(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testGetTestLogViewer(): void
     {
-        $this->assertInstanceOf(TestGlobalSettingsRepository::class, $this->ilObjTestFolder->getGlobalSettingsRepository());
-        $this->assertInstanceOf(TestLogViewer::class, $this->ilObjTestFolder->getTestLogViewer());
+        $il_obj_test_folder = $this->createInstanceOf(ilObjTestFolder::class);
+
+        $this->assertInstanceOf(TestLogViewer::class, $il_obj_test_folder->getTestLogViewer());
     }
 
-    public function test_getSkillTriggerAnswerNumberBarrier(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testGetSkillTriggerAnswerNumberBarrier(): void
     {
-        $this->assertIsInt(ilObjTestFolder::getSkillTriggerAnswerNumberBarrier());
+        $il_obj_test_folder = $this->createInstanceOf(ilObjTestFolder::class);
+
+        $this->assertEquals(1, $il_obj_test_folder->getSkillTriggerAnswerNumberBarrier());
     }
 
-    public function test_getManualScoringTypes(): void
+    public function testGetManualScoringTypes(): void
     {
-        $this->ilObjTestFolder->_setManualScoring([]);
         $this->assertEmpty(ilObjTestFolder::_getManualScoringTypes());
     }
 
-    public function test_isAdditionalQuestionContentEditingModePageObjectEnabled(): void
+    public function testIsAdditionalQuestionContentEditingModePageObjectEnabled(): void
     {
         $this->assertFalse(ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled());
     }
 
-    public function test_getValidAssessmentProcessLockModes(): void
+    public function testGetValidAssessmentProcessLockModes(): void
     {
         $this->assertSame([
             ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE,
@@ -81,39 +94,40 @@ class ilObjTestFolderTest extends ilTestBaseTestCase
 
     /**
      * @dataProvider provideQuestionTypeArrays
-     * @throws ilTestQuestionPoolInvalidArgumentException
+     * @throws ReflectionException|Exception
      */
-    public function test_fetchScoringAdjustableTypes($questionTypes, $adjustableQuestionTypes): void
+    public function testFetchScoringAdjustableTypes(array $input, array $output): void
     {
-        $this->assertSame($adjustableQuestionTypes, $this->ilObjTestFolder->fetchScoringAdjustableTypes($questionTypes));
+        $il_obj_test_folder = $this->createInstanceOf(ilObjTestFolder::class);
+
+        $this->assertSame($output, $il_obj_test_folder->fetchScoringAdjustableTypes($input));
     }
 
     public static function provideQuestionTypeArrays(): array
     {
         return [
-            'dataset 1: only adjustable types' => [
-                'questionTypes' => [
+            'assNumeric' => [
+                [
                     ['type_tag' => assNumeric::class]
                 ],
-                'adjustableQuestionTypes' => [
+                [
                     ['type_tag' => assNumeric::class]
-
                 ]
             ],
-            'dataset 2: both types' => [
-                'questionTypes' => [
+            'assNumeric_assFormulaQuestion' => [
+                [
                     ['type_tag' => assNumeric::class],
                     ['type_tag' => assFormulaQuestion::class]
                 ],
-                'adjustableQuestionTypes' => [
+                [
                     ['type_tag' => assNumeric::class]
                 ]
             ],
-            'dataset 3: only not adjustable types' => [
-                'questionTypes' => [
+            'assFormulaQuestion' => [
+                [
                     ['type_tag' => assFormulaQuestion::class]
                 ],
-                'adjustableQuestionTypes' => []
+                []
             ]
         ];
     }

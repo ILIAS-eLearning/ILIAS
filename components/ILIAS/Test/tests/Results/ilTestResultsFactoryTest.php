@@ -22,63 +22,50 @@ use ilObjTest;
 use ilTestBaseTestCase;
 use ilTestPassResult;
 use ilTestResultsFactory;
-use ilTestShuffler;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class ilTestResultsFactoryTest extends ilTestBaseTestCase
 {
-    private ilObjTest $ilObjTest;
-
-    private ilTestResultsFactory $ilTestResultsFactory;
-
     /**
-     * @throws Exception
+     * @throws ReflectionException|Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $test_shuffler = $this->createMock(ilTestShuffler::class);
-        $this->ilObjTest = $this->createMock(ilObjTest::class);
-
-        global $DIC;
-        $this->ilTestResultsFactory = new ilTestResultsFactory(
-            $test_shuffler,
-            $DIC['ui.factory'],
-            $DIC['ui.renderer']
-        );
-    }
-
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestResultsFactory::class, $this->ilTestResultsFactory);
+        $this->assertInstanceOf(ilTestResultsFactory::class, $this->createInstanceOf(ilTestResultsFactory::class));
     }
 
     /**
      * @dataProvider getPassResultsForDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testGetPassResultsFor(array $IO): void
     {
-        if (is_null($IO['is_user_output'])) {
-            $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
-                $this->ilObjTest,
-                $IO['active_id'],
-                $IO['pass_id'],
+        $active_id = $IO['active_id'];
+        $pass_id = $IO['pass_id'];
+        $is_user_output = $IO['is_user_output'];
+
+        $il_test_results_factory = $this->createInstanceOf(ilTestResultsFactory::class);
+        $il_obj_test = $this->createMock(ilObjTest::class);
+
+        if (is_null($is_user_output)) {
+            $il_test_pass_result = $il_test_results_factory->getPassResultsFor(
+                $il_obj_test,
+                $active_id,
+                $pass_id,
             );
         } else {
-            $ilTestPassResult = $this->ilTestResultsFactory->getPassResultsFor(
-                $this->ilObjTest,
-                $IO['active_id'],
-                $IO['pass_id'],
-                $IO['is_user_output']
+            $il_test_pass_result = $il_test_results_factory->getPassResultsFor(
+                $il_obj_test,
+                $active_id,
+                $pass_id,
+                $is_user_output
             );
         }
 
-        $this->assertInstanceOf(ilTestPassResult::class, $ilTestPassResult);
-        $this->assertEquals($IO['active_id'], $ilTestPassResult->getActiveId());
-        $this->assertEquals($IO['pass_id'], $ilTestPassResult->getPass());
+        $this->assertInstanceOf(ilTestPassResult::class, $il_test_pass_result);
+        $this->assertEquals($active_id, $il_test_pass_result->getActiveId());
+        $this->assertEquals($pass_id, $il_test_pass_result->getPass());
     }
 
     public static function getPassResultsForDataProvider(): array

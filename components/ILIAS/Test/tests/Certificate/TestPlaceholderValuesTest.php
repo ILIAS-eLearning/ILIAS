@@ -20,14 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class TestPlaceholderValuesTest extends TestCase
+class TestPlaceholderValuesTest extends \ilTestBaseTestCase
 {
-    public function testA(): void
+    public function testGetPlaceholderValues(): void
     {
         $default_placeholder_values = $this->getMockBuilder(\ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -89,9 +87,6 @@ class TestPlaceholderValuesTest extends TestCase
         $object_helper->method('getInstanceByObjId')
             ->willReturn($test_object);
 
-        $test_object_helper = $this->getMockBuilder(CertificateTestObjectHelper::class)
-            ->getMock();
-
         $user_object_helper = $this->getMockBuilder(\ilCertificateUserObjectHelper::class)
             ->getMock();
 
@@ -124,12 +119,22 @@ class TestPlaceholderValuesTest extends TestCase
             $default_placeholder_values,
             $language,
             $object_helper,
-            $test_object_helper,
             $user_object_helper,
             $lp_status_helper,
             $util_helper,
             $date_helper
         );
+
+        $this->adaptDICServiceMock(\ilDBInterface::class, function (\ilDBInterface|\PHPUnit\Framework\MockObject\MockObject $mock) {
+            $il_db_statement = $this->createMock(\ilDBStatement::class);
+            $il_db_statement
+                ->method('numRows')
+                ->willReturn(0);
+
+            $mock
+                ->method('queryF')
+                ->willReturn($il_db_statement);
+        });
 
         $result = $placeholder_values->getPlaceholderValues(10, 200);
 
@@ -180,9 +185,6 @@ class TestPlaceholderValuesTest extends TestCase
         $object_helper->method('getInstanceByObjId')
             ->willReturn($object_mock);
 
-        $test_object_helper = $this->getMockBuilder(CertificateTestObjectHelper::class)
-            ->getMock();
-
         $user_object_helper = $this->getMockBuilder(\ilCertificateUserObjectHelper::class)
             ->getMock();
 
@@ -205,7 +207,6 @@ class TestPlaceholderValuesTest extends TestCase
             $default_placeholder_values,
             $language,
             $object_helper,
-            $test_object_helper,
             $user_object_helper,
             $lp_status_helper,
             $util_helper,

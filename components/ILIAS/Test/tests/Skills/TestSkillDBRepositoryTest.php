@@ -27,37 +27,24 @@ use ReflectionException;
 
 class TestSkillDBRepositoryTest extends ilTestBaseTestCase
 {
-    private TestSkillDBRepository $testSkillDBRepository;
-
     /**
-     * @throws ReflectionException
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->testSkillDBRepository = $this->createInstanceOf(TestSkillDBRepository::class);
-    }
-
-    /**
-     * @throws Exception
+     * @throws Exception|ReflectionException
      */
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(TestSkillDBRepository::class, $this->testSkillDBRepository);
-
-        $testSkillDBRepository = new TestSkillDBRepository($this->createMock(ilDBInterface::class));
-        $this->assertInstanceOf(TestSkillDBRepository::class, $testSkillDBRepository);
+        $test_skill_db_repository = $this->createInstanceOf(TestSkillDBRepository::class);
+        $this->assertInstanceOf(TestSkillDBRepository::class, $test_skill_db_repository);
     }
 
     /**
      * @dataProvider removeForSkillDataProvider
-     * @throws \Exception
+     * @throws \Exception|Exception
      */
     public function testRemoveForSkill(array $input, string $output): void
     {
         $skill_node_id_quoted = '`' . $input['skill_node_id'] . '`';
+
+        $test_skill_db_repository = $this->createInstanceOf(TestSkillDBRepository::class);
 
         $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($input, $output, $skill_node_id_quoted) {
             $mock
@@ -72,7 +59,7 @@ class TestSkillDBRepositoryTest extends ilTestBaseTestCase
                 ->willReturn($skill_node_id_quoted);
         });
 
-        $this->testSkillDBRepository->removeForSkill($input['skill_node_id'], $input['is_reference']);
+        $test_skill_db_repository->removeForSkill($input['skill_node_id'], $input['is_reference']);
     }
 
     public static function removeForSkillDataProvider(): array

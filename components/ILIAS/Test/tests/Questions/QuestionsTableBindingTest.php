@@ -46,7 +46,7 @@ class QuestionsTableBindingTest extends ilTestBaseTestCase
         $question_table_binding = $this->createInstanceOf(QuestionsTableBinding::class, [
             'title_link_builder' => fn($title, $question_id) => new Standard($title, $question_id)
         ]);
-        $this->assertEquals($output, self::callMethod($question_table_binding, 'getTitleLink', [$input['title'], $input['question_id']]));
+        $this->assertEquals($output, self::callMethod($question_table_binding, 'getTitleLink', $input));
     }
 
     public static function getTitleLinkDataProvider(): array

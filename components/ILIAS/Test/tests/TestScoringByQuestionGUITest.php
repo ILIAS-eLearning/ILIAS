@@ -50,6 +50,6 @@ class TestScoringByQuestionGUITest extends ilTestBaseTestCase
     public function testActiveSubTabId(): void
     {
         $test_scoring_by_question_gui = $this->createInstanceOf(TestScoringByQuestionGUI::class);
-        $this->assertEquals('man_scoring_by_qst',  self::callMethod($test_scoring_by_question_gui, 'getActiveSubTabId'));
+        $this->assertEquals('man_scoring_by_qst', self::callMethod($test_scoring_by_question_gui, 'getActiveSubTabId'));
     }
 }

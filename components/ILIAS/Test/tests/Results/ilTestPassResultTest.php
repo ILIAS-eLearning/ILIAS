@@ -31,14 +31,14 @@ class ilTestPassResultTest extends ilTestBaseTestCase
      */
     public function testGetSettings(ilTestPassResultsSettings $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $il_test_pass_result = new ilTestPassResult(
             $IO,
             0,
             0,
             []
         );
 
-        $this->assertEquals($IO, $ilTestPassResult->getSettings());
+        $this->assertEquals($IO, $il_test_pass_result->getSettings());
     }
 
     public static function getSettingsDataProvider(): array
@@ -53,20 +53,20 @@ class ilTestPassResultTest extends ilTestBaseTestCase
      */
     public function testGetActiveId(int $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $il_test_pass_result = new ilTestPassResult(
             new ilTestPassResultsSettings(),
             $IO,
             0,
             []
         );
 
-        $this->assertEquals($IO, $ilTestPassResult->getActiveId());
+        $this->assertEquals($IO, $il_test_pass_result->getActiveId());
     }
 
     public static function getActiveIdDataProvider(): array
     {
         return [
-            'minus_one' => [-1],
+            'negative_one' => [-1],
             'zero' => [0],
             'one' => [1]
         ];
@@ -77,20 +77,20 @@ class ilTestPassResultTest extends ilTestBaseTestCase
      */
     public function testGetPass(int $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $il_test_pass_result = new ilTestPassResult(
             new ilTestPassResultsSettings(),
             0,
             $IO,
             []
         );
 
-        $this->assertEquals($IO, $ilTestPassResult->getPass());
+        $this->assertEquals($IO, $il_test_pass_result->getPass());
     }
 
     public static function getPassDataProvider(): array
     {
         return [
-            'minus_one' => [-1],
+            'negative_one' => [-1],
             'zero' => [0],
             'one' => [1]
         ];
@@ -102,25 +102,26 @@ class ilTestPassResultTest extends ilTestBaseTestCase
     public function testGetQuestionResults(Closure $IO): void
     {
         $IO = $IO($this);
-        $ilTestPassResult = new ilTestPassResult(
+        $il_test_pass_result = new ilTestPassResult(
             new ilTestPassResultsSettings(),
             0,
             0,
             $IO
         );
-        $this->assertEquals($IO, $ilTestPassResult->getQuestionResults());
+
+        $this->assertEquals($IO, $il_test_pass_result->getQuestionResults());
     }
 
     public static function getQuestionResultsDataProvider(): array
     {
         return [
-            'empty_array' => [static fn(self $test_case): array => []],
+            'empty' => [static fn(self $test_case): array => []],
             'one_question_result' => [static fn(self $test_case): array => [
                 $test_case->createMock(ilQuestionResult::class)
             ]],
             'multiple_question_results' => [static fn(self $test_case): array => [
                 $test_case->createMock(ilQuestionResult::class),
-                $test_case->createMock(ilQuestionResult::class),
+                $test_case->createMock(ilQuestionResult::class)
             ]]
         ];
     }

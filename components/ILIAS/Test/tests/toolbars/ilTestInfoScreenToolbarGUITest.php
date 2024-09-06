@@ -27,21 +27,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestInfoScreenToolbarGUI $ilTestInfoScreenToolbarGUI;
-
     /**
      * @throws ReflectionException|Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->ilTestInfoScreenToolbarGUI = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
-    }
-
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $this->ilTestInfoScreenToolbarGUI);
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+        $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $il_test_info_screen_toolbar_gui);
     }
 
     /**
@@ -127,13 +119,16 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetSessionLockStringDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testSetAndGetSessionLockString(?string $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         if (!is_null($IO)) {
-            $this->ilTestInfoScreenToolbarGUI->setSessionLockString($IO);
+            $il_test_info_screen_toolbar_gui->setSessionLockString($IO);
         }
-        $this->assertEquals($IO, $this->ilTestInfoScreenToolbarGUI->getSessionLockString());
+        $this->assertEquals($IO, $il_test_info_screen_toolbar_gui->getSessionLockString());
     }
 
     public static function setAndGetSessionLockStringDataProvider(): array
@@ -148,14 +143,17 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getAndAddInfoMessageDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testGetAndAddInfoMessage(?array $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         foreach ($IO ?? [] as $info_message) {
-            $this->ilTestInfoScreenToolbarGUI->addInfoMessage($info_message);
+            $il_test_info_screen_toolbar_gui->addInfoMessage($info_message);
         }
 
-        $this->assertEquals($IO ?? [], $this->ilTestInfoScreenToolbarGUI->getInfoMessages());
+        $this->assertEquals($IO ?? [], $il_test_info_screen_toolbar_gui->getInfoMessages());
     }
 
     public static function getAndAddInfoMessageDataProvider(): array
@@ -179,14 +177,17 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getAndAddFailureMessageDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testGetAndAddFailureMessage(?array $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         foreach ($IO ?? [] as $failure_message) {
-            $this->ilTestInfoScreenToolbarGUI->addFailureMessage($failure_message);
+            $il_test_info_screen_toolbar_gui->addFailureMessage($failure_message);
         }
 
-        $this->assertEquals($IO ?? [], $this->ilTestInfoScreenToolbarGUI->getFailureMessages());
+        $this->assertEquals($IO ?? [], $il_test_info_screen_toolbar_gui->getFailureMessages());
     }
 
     public static function getAndAddFailureMessageDataProvider(): array
@@ -210,10 +211,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setFormActionDataProvider
-     * @throws \Exception|Exception
+     * @throws Exception|ReflectionException
      */
     public function testSetFormAction(array $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilToolbarGUI::class, function (ilToolbarGUI|MockObject $mock) use ($IO) {
             $mock
                 ->expects($this->once())
@@ -222,7 +225,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         });
 
         if (isset($IO['multipart'], $IO['target'])) {
-            $this->ilTestInfoScreenToolbarGUI->setFormAction(
+            $il_test_info_screen_toolbar_gui->setFormAction(
                 $IO['val'],
                 $IO['multipart'],
                 $IO['target']
@@ -231,7 +234,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         }
 
         if (isset($IO['multipart'])) {
-            $this->ilTestInfoScreenToolbarGUI->setFormAction(
+            $il_test_info_screen_toolbar_gui->setFormAction(
                 $IO['val'],
                 $IO['multipart']
             );
@@ -239,14 +242,14 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         }
 
         if (isset($IO['target'])) {
-            $this->ilTestInfoScreenToolbarGUI->setFormAction(
+            $il_test_info_screen_toolbar_gui->setFormAction(
                 $IO['val'],
                 a_target: $IO['target']
             );
             return;
         }
 
-        $this->ilTestInfoScreenToolbarGUI->setFormAction(
+        $il_test_info_screen_toolbar_gui->setFormAction(
             $IO['val']
         );
     }
@@ -400,10 +403,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setCloseFormTagDataProvider
-     * @throws \Exception|Exception
+     * @throws Exception|ReflectionException
      */
     public function testSetCloseFormTag(bool $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilToolbarGUI::class, function (ilToolbarGUI|MockObject $mock) use ($IO) {
             $mock
                 ->expects($this->once())
@@ -411,7 +416,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->with($IO);
         });
 
-        $this->ilTestInfoScreenToolbarGUI->setCloseFormTag($IO);
+        $il_test_info_screen_toolbar_gui->setCloseFormTag($IO);
     }
 
     public static function setCloseFormTagDataProvider(): array
@@ -424,10 +429,11 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider addInputItemDataProvider
-     * @throws Exception|\Exception
+     * @throws Exception|ReflectionException
      */
     public function testAddInputItem(?bool $IO): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
         $il_toolbar_item = $this->createMock(ilToolbarItem::class);
 
         $this->adaptDICServiceMock(ilToolbarGUI::class, function (ilToolbarGUI|MockObject $mock) use ($IO, $il_toolbar_item) {
@@ -443,10 +449,10 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         });
 
         if (is_null($IO)) {
-            $this->ilTestInfoScreenToolbarGUI->addInputItem($il_toolbar_item);
+            $il_test_info_screen_toolbar_gui->addInputItem($il_toolbar_item);
             return;
         }
-        $this->ilTestInfoScreenToolbarGUI->addInputItem($il_toolbar_item, $IO);
+        $il_test_info_screen_toolbar_gui->addInputItem($il_toolbar_item, $IO);
     }
 
     public static function addInputItemDataProvider(): array
@@ -459,10 +465,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     }
 
     /**
-     * @throws \Exception|Exception
+     * @throws Exception|ReflectionException
      */
     public function testClearItems(): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilToolbarGUI::class, function (ilToolbarGUI|MockObject $mock) {
             $mock
                 ->expects($this->once())
@@ -470,16 +478,17 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->with([]);
         });
 
-        $this->ilTestInfoScreenToolbarGUI->clearItems();
+        $il_test_info_screen_toolbar_gui->clearItems();
     }
 
     /**
      * @dataProvider getClassNameDataProvider
-     * @throws ReflectionException
+     * @throws Exception|ReflectionException
      */
     public function testGetClassName(string|object $input, string $output): void
     {
-        $this->assertEquals($output, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'getClassName', [$input]));
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+        $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassName', [$input]));
     }
 
     public static function getClassNameDataProvider(): array
@@ -493,11 +502,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getClassNameArrayDataProvider
-     * @throws ReflectionException
+     * @throws Exception|ReflectionException
      */
     public function testGetClassNameArray(string|object|array $input, array $output): void
     {
-        $this->assertEquals($output, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'getClassNameArray', [$input]));
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+        $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassNameArray', [$input]));
     }
 
     public static function getClassNameArrayDataProvider(): array
@@ -532,11 +542,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getClassPathDataProvider
-     * @throws ReflectionException
+     * @throws Exception|ReflectionException
      */
     public function testGetClassPath(object|string|array $input, array $output): void
     {
-        $this->assertEquals($output, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'getClassPath', [$input]));
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+        $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'getClassPath', [$input]));
     }
 
     public static function getClassPathDataProvider(): array
@@ -575,6 +586,8 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSetParameter(array $input, string $output): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilCtrl::class, function (ilCtrl|MockObject $mock) use ($output, $input) {
             $mock
                 ->expects($this->once())
@@ -582,7 +595,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->with($output, $input['parameter'], $input['value']);
         });
 
-        self::callMethod($this->ilTestInfoScreenToolbarGUI, 'setParameter', $input);
+        self::callMethod($il_test_info_screen_toolbar_gui, 'setParameter', $input);
     }
 
     public static function setParameterDataProvider(): array
@@ -609,6 +622,8 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testBuildLinkTarget(array $input, string $output): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilCtrl::class, function (ilCtrl|MockObject $mock) use ($input) {
             $class = ['ilRepositoryGUI', 'ilObjTestGUI'];
             $class[] = $input['class'];
@@ -630,7 +645,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->willReturnCallback($callback);
         });
 
-        $this->assertEquals($output, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'buildLinkTarget', array_values($input)));
+        $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'buildLinkTarget', array_values($input)));
     }
 
     public static function buildLinkTargetDataProvider(): array
@@ -650,10 +665,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider buildFormActionDataProvider
-     * @throws Exception|\Exception|ReflectionException
+     * @throws Exception|ReflectionException
      */
     public function testBuildFormAction(string $input, string $output): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilCtrl::class, function (ilCtrl|MockObject $mock) use ($input) {
             $class = ['ilRepositoryGUI', 'ilObjTestGUI', $input];
 
@@ -664,7 +681,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->willReturnCallback(fn(array $class) => 'action: ' . implode('/', $class));
         });
 
-        $this->assertEquals($output, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'buildFormAction', [$input]));
+        $this->assertEquals($output, self::callMethod($il_test_info_screen_toolbar_gui, 'buildFormAction', [$input]));
     }
 
     public static function buildFormActionDataProvider(): array
@@ -682,14 +699,16 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testEnsureInitialisedSessionLockString(?string $input, int $output): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         if (!is_null($input)) {
-            $this->ilTestInfoScreenToolbarGUI->setSessionLockString($input);
+            $il_test_info_screen_toolbar_gui->setSessionLockString($input);
         }
 
         $_COOKIE['PHPSESSID'] = '';
 
-        self::callMethod($this->ilTestInfoScreenToolbarGUI, 'ensureInitialisedSessionLockString');
-        $this->assertEquals($output, strlen(self::getNonPublicPropertyValue($this->ilTestInfoScreenToolbarGUI, 'sessionLockString')));
+        self::callMethod($il_test_info_screen_toolbar_gui, 'ensureInitialisedSessionLockString');
+        $this->assertEquals($output, strlen(self::getNonPublicPropertyValue($il_test_info_screen_toolbar_gui, 'sessionLockString')));
 
         unset($_COOKIE['PHPSESSID']);
     }
@@ -706,13 +725,15 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider buildSessionLockStringDataProvider
-     * @throws ReflectionException
+     * @throws Exception|ReflectionException
      */
     public function testBuildSessionLockString(string $input): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $_COOKIE['PHPSESSID'] = $input;
 
-        $this->assertEquals(md5($input . time()), self::callMethod($this->ilTestInfoScreenToolbarGUI, 'buildSessionLockString'));
+        $this->assertEquals(md5($input . time()), self::callMethod($il_test_info_screen_toolbar_gui, 'buildSessionLockString'));
 
         unset($_COOKIE['PHPSESSID']);
     }
@@ -742,18 +763,18 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->expects($this->once())
                 ->method('getId')
                 ->willReturn($input['id']);
-            $res = $this->createMock(ilDBStatement::class);
+            $il_db_statement = $this->createMock(ilDBStatement::class);
 
-            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($res, $input) {
+            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($il_db_statement) {
                 $mock
                     ->method('query')
-                    ->willReturn($res);
+                    ->willReturn($il_db_statement);
             });
 
-            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($res) {
+            $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($il_db_statement) {
                 $mock
                     ->method('fetchAssoc')
-                    ->with($res)
+                    ->with($il_db_statement)
                     ->willReturn([]);
             });
         }
@@ -779,10 +800,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     }
 
     /**
-     * @throws \Exception|ReflectionException|Exception
+     * @throws Exception|ReflectionException
      */
     public function testGetSkillAssignBarrierInfo(): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $txt = 'tst_skill_triggerings_num_req_answers_not_reached_warn';
         $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($txt) {
             $mock
@@ -792,7 +815,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->willReturn($txt . '_%s');
         });
 
-        $this->assertStringContainsString($txt, self::callMethod($this->ilTestInfoScreenToolbarGUI, 'getSkillAssignBarrierInfo'));
+        $this->assertStringContainsString($txt, self::callMethod($il_test_info_screen_toolbar_gui, 'getSkillAssignBarrierInfo'));
     }
 
     /**
@@ -810,13 +833,13 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $il_test_question_set_config
             ->method('areDepenciesBroken')
             ->willReturn(false);
-        $obj_test = $this->createMock(ilObjTest::class);
-        $obj_test
+        $il_obj_test = $this->createMock(ilObjTest::class);
+        $il_obj_test
             ->method('getOfflineStatus')
             ->willReturn(true);
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(
             ilTestInfoScreenToolbarGUI::class,
-            ['test_obj' => $obj_test, 'test_question_set_config' => $il_test_question_set_config]
+            ['test_obj' => $il_obj_test, 'test_question_set_config' => $il_test_question_set_config]
         );
 
         $_COOKIE['PHPSESSID'] = '';
@@ -828,10 +851,12 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider populateMessageDataProvider
-     * @throws \Exception|ReflectionException|Exception
+     * @throws Exception|ReflectionException
      */
     public function testPopulateMessage(string $input): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $this->adaptDICServiceMock(ilGlobalTemplateInterface::class, function (ilGlobalTemplateInterface|MockObject $mock) {
             $mock
                 ->expects($this->once())
@@ -851,7 +876,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->method('parseCurrentBlock');
         });
 
-        self::callMethod($this->ilTestInfoScreenToolbarGUI, 'populateMessage', [$input]);
+        self::callMethod($il_test_info_screen_toolbar_gui, 'populateMessage', [$input]);
     }
 
     public static function populateMessageDataProvider(): array
@@ -869,6 +894,8 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     public function testSendMessages(array $input): void
     {
+        $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
+
         $info_message = (int) (bool) count($input['info_messages']);
         $failure_message = (int) (bool) count($input['failure_messages']);
 
@@ -879,14 +906,14 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         });
 
         foreach ($input['info_messages'] as $info_message) {
-            $this->ilTestInfoScreenToolbarGUI->addInfoMessage($info_message);
+            $il_test_info_screen_toolbar_gui->addInfoMessage($info_message);
         }
 
         foreach ($input['failure_messages'] as $failure_message) {
-            $this->ilTestInfoScreenToolbarGUI->addFailureMessage($failure_message);
+            $il_test_info_screen_toolbar_gui->addFailureMessage($failure_message);
         }
 
-        $this->ilTestInfoScreenToolbarGUI->sendMessages();
+        $il_test_info_screen_toolbar_gui->sendMessages();
     }
 
     public static function sendMessagesDataProvider(): array

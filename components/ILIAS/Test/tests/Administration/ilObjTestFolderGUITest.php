@@ -37,12 +37,16 @@ class ilObjTestFolderGUITest extends ilTestBaseTestCase
     public function testConstruct(): void
     {
         $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) {
-            $ilDBStatement = $this->createMock(ilDBStatement::class);
-            $ilDBStatement->method('numRows')->willReturn(1);
-            $ilDBStatement->method('fetchRow')->willReturnOnConsecutiveCalls(
-                (object) ['type' => 'xxx', 'obj_id' => 1, 'log_level' => '1', 'component_id' => 1],
-                null
-            );
+            $il_db_statement = $this->createMock(ilDBStatement::class);
+            $il_db_statement
+                ->method('numRows')
+                ->willReturn(1);
+            $il_db_statement
+                ->method('fetchRow')
+                ->willReturnOnConsecutiveCalls(
+                    (object) ['type' => 'xxx', 'obj_id' => 1, 'log_level' => '1', 'component_id' => 1],
+                    null
+                );
 
             $array = [
                 'id' => 1,
@@ -64,7 +68,7 @@ class ilObjTestFolderGUITest extends ilTestBaseTestCase
 
             $mock
                 ->method('query')
-                ->willReturn($ilDBStatement);
+                ->willReturn($il_db_statement);
         });
 
         $this->adaptDICServiceMock(ilObjectDefinition::class, function (ilObjectDefinition|MockObject $mock) {

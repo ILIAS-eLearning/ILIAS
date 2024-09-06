@@ -115,7 +115,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @throws ReflectionException
      */
-    public static function callMethod($obj, $name, array $args = []): mixed
+    public static function callMethod(string|object $obj, string $name, array $args = []): mixed
     {
         return (new ReflectionClass($obj))->getMethod($name)->invokeArgs($obj, $args);
     }
@@ -125,49 +125,49 @@ class ilTestBaseTestCase extends TestCase
      */
     public static function getNonPublicPropertyValue(object $obj, string $name): mixed
     {
-        $reflectionClass = new ReflectionClass($obj);
+        $reflection_class = new ReflectionClass($obj);
 
-        while ($reflectionClass !== false && !$reflectionClass->hasProperty($name)) {
-            $reflectionClass = $reflectionClass->getParentClass();
+        while ($reflection_class !== false && !$reflection_class->hasProperty($name)) {
+            $reflection_class = $reflection_class->getParentClass();
         }
 
-        return $reflectionClass
-            ? $reflectionClass->getProperty($name)->getValue($obj)
+        return $reflection_class
+            ? $reflection_class->getProperty($name)->getValue($obj)
             : throw new ReflectionException('Property not found.');
     }
 
     /**
      * @throws ReflectionException|Exception|MockObjectException
      */
-    public function createInstanceOf(string $className, array $explicitParameters = []): object
+    public function createInstanceOf(string $class_name, array $explicit_parameters = []): object
     {
-        $constructor = (new ReflectionClass($className))->getConstructor();
+        $constructor = (new ReflectionClass($class_name))->getConstructor();
 
         if (is_null($constructor)) {
-            return new $className();
+            return new $class_name();
         }
 
         $parameters = [];
 
-        foreach ($constructor->getParameters() as $constructorParameter) {
-            $constructorParameterName = $constructorParameter->getName();
+        foreach ($constructor->getParameters() as $constructor_parameter) {
+            $constructor_parameter_name = $constructor_parameter->getName();
 
-            if (isset($explicitParameters[$constructorParameterName])) {
-                $parameters[$constructorParameterName] = $explicitParameters[$constructorParameterName];
+            if (isset($explicit_parameters[$constructor_parameter_name])) {
+                $parameters[$constructor_parameter_name] = $explicit_parameters[$constructor_parameter_name];
                 continue;
             }
 
-            if ($constructorParameter->isDefaultValueAvailable()) {
-                $parameters[$constructorParameterName] = $constructorParameter->getDefaultValue();
+            if ($constructor_parameter->isDefaultValueAvailable()) {
+                $parameters[$constructor_parameter_name] = $constructor_parameter->getDefaultValue();
                 continue;
             }
 
-            if (!$constructorParameter->hasType()) {
+            if (!$constructor_parameter->hasType()) {
                 throw new Exception('Constructor parameter has no type.');
             }
 
-            $constructorParameterTypeName = $constructorParameter->getType()?->getName();
-            $parameters[$constructorParameterName] = match ($constructorParameterTypeName) {
+            $constructor_parameter_type_name = $constructor_parameter->getType()?->getName();
+            $parameters[$constructor_parameter_name] = match ($constructor_parameter_type_name) {
                 'string' => '',
                 'int' => 0,
                 'float' => 0.0,
@@ -176,48 +176,49 @@ class ilTestBaseTestCase extends TestCase
                 'array' => [],
                 'null', 'resource' => null,
                 'Closure' => (static fn() => null),
-                default => (function($constructorParameterTypeName) {
-                    if (enum_exists($constructorParameterTypeName)) {
-                        $enumCases = $constructorParameterTypeName::cases();
-                        return array_shift($enumCases);
+                'object' => (object) [],
+                default => (function($constructor_parameter_type_name) {
+                    if (enum_exists($constructor_parameter_type_name)) {
+                        $enum_cases = $constructor_parameter_type_name::cases();
+                        return array_shift($enum_cases);
                     }
 
-                    return $this->getOrCreateMock($constructorParameterTypeName);
-                })($constructorParameterTypeName)
+                    return $this->getOrCreateMock($constructor_parameter_type_name);
+                })($constructor_parameter_type_name)
             };
         }
 
-        return new $className(...$parameters);
+        return new $class_name(...$parameters);
     }
 
     /**
      * @throws ReflectionException|MockObjectException
      */
-    public function createTraitInstanceOf(string $className, array $explicitParameters = []): object
+    public function createTraitInstanceOf(string $class_name, array $explicit_parameters = []): object
     {
-        if (trait_exists($className)) {
-            $dynamicClassName = self::DYNAMIC_CLASS . ++self::$DYNAMIC_CLASS_COUNT;
-            eval("class $dynamicClassName{use $className;}");
-            return $this->createInstanceOf($dynamicClassName, $explicitParameters);
+        if (trait_exists($class_name)) {
+            $dynamic_class_name = self::DYNAMIC_CLASS . ++self::$DYNAMIC_CLASS_COUNT;
+            eval("class $dynamic_class_name{use $class_name;}");
+            return $this->createInstanceOf($dynamic_class_name, $explicit_parameters);
         }
 
-        return $this->createInstanceOf($className, $explicitParameters);
+        return $this->createInstanceOf($class_name, $explicit_parameters);
     }
 
     /**
      * @throws MockObjectException
      */
-    private function getOrCreateMock(string $parameterType): PHPUnit\Framework\MockObject\MockObject
+    private function getOrCreateMock(string $parameter_type): PHPUnit\Framework\MockObject\MockObject
     {
-        if (isset($this->services[$parameterType])) {
+        if (isset($this->services[$parameter_type])) {
             global $DIC;
-            if (!isset($DIC[$this->services[$parameterType]])) {
-                $DIC[$this->services[$parameterType]] = $this->createMock($parameterType);
+            if (!isset($DIC[$this->services[$parameter_type]])) {
+                $DIC[$this->services[$parameter_type]] = $this->createMock($parameter_type);
             }
 
-            return $DIC[$this->services[$parameterType]];
+            return $DIC[$this->services[$parameter_type]];
         }
 
-        return $this->createMock($parameterType);
+        return $this->createMock($parameter_type);
     }
 }

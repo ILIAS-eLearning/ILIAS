@@ -19,9 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component\Link\Standard as Link;
 use PHPUnit\Framework\MockObject\Exception;
-use ILIAS\UI\Factory as UIFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -30,32 +30,25 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 {
-    private ilTestResultsToolbarGUI $ilTestResultsToolbarGUI;
-
     /**
-     * @throws ReflectionException
-     * @throws Exception
+     * @throws ReflectionException|Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->ilTestResultsToolbarGUI = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
-    }
-
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestResultsToolbarGUI::class, $this->ilTestResultsToolbarGUI);
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+        $this->assertInstanceOf(ilTestResultsToolbarGUI::class, $il_test_results_toolbar_gui);
     }
 
     /**
      * @dataProvider setAndGetCertificateLinkTargetDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetCertificateLinkTarget(string $IO): void
     {
-        $this->assertNull($this->ilTestResultsToolbarGUI->getCertificateLinkTarget());
-        $this->ilTestResultsToolbarGUI->setCertificateLinkTarget($IO);
-        $this->assertEquals($IO, $this->ilTestResultsToolbarGUI->getCertificateLinkTarget());
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+        $this->assertNull($il_test_results_toolbar_gui->getCertificateLinkTarget());
+        $il_test_results_toolbar_gui->setCertificateLinkTarget($IO);
+        $this->assertEquals($IO, $il_test_results_toolbar_gui->getCertificateLinkTarget());
     }
 
     public static function setAndGetCertificateLinkTargetDataProvider(): array
@@ -69,12 +62,14 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetShowBestSolutionsLinkTargetDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetShowBestSolutionsLinkTarget(string $IO): void
     {
-        $this->assertNull($this->ilTestResultsToolbarGUI->getShowBestSolutionsLinkTarget());
-        $this->ilTestResultsToolbarGUI->setShowBestSolutionsLinkTarget($IO);
-        $this->assertEquals($IO, $this->ilTestResultsToolbarGUI->getShowBestSolutionsLinkTarget());
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+        $this->assertNull($il_test_results_toolbar_gui->getShowBestSolutionsLinkTarget());
+        $il_test_results_toolbar_gui->setShowBestSolutionsLinkTarget($IO);
+        $this->assertEquals($IO, $il_test_results_toolbar_gui->getShowBestSolutionsLinkTarget());
     }
 
     public static function setAndGetShowBestSolutionsLinkTargetDataProvider(): array
@@ -88,12 +83,14 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetHideBestSolutionsLinkTargetDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetHideBestSolutionsLinkTarget(string $IO): void
     {
-        $this->assertNull($this->ilTestResultsToolbarGUI->getHideBestSolutionsLinkTarget());
-        $this->ilTestResultsToolbarGUI->setHideBestSolutionsLinkTarget($IO);
-        $this->assertEquals($IO, $this->ilTestResultsToolbarGUI->getHideBestSolutionsLinkTarget());
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+        $this->assertNull($il_test_results_toolbar_gui->getHideBestSolutionsLinkTarget());
+        $il_test_results_toolbar_gui->setHideBestSolutionsLinkTarget($IO);
+        $this->assertEquals($IO, $il_test_results_toolbar_gui->getHideBestSolutionsLinkTarget());
     }
 
     public static function setAndGetHideBestSolutionsLinkTargetDataProvider(): array
@@ -107,12 +104,14 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider setAndGetParticipantSelectorOptionsDataProvider
+     * @throws ReflectionException|Exception
      */
     public function testSetAndGetParticipantSelectorOptions(array $IO): void
     {
-        $this->assertEmpty($this->ilTestResultsToolbarGUI->getParticipantSelectorOptions());
-        $this->ilTestResultsToolbarGUI->setParticipantSelectorOptions($IO);
-        $this->assertEquals($IO, $this->ilTestResultsToolbarGUI->getParticipantSelectorOptions());
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+        $this->assertEmpty($il_test_results_toolbar_gui->getParticipantSelectorOptions());
+        $il_test_results_toolbar_gui->setParticipantSelectorOptions($IO);
+        $this->assertEquals($IO, $il_test_results_toolbar_gui->getParticipantSelectorOptions());
     }
 
     public static function setAndGetParticipantSelectorOptionsDataProvider(): array
@@ -126,11 +125,13 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider getParticipantSelectorLinksArrayDataProvider
-     * @throws \Exception|Exception
+     * @throws Exception|ReflectionException
      */
     public function testGetParticipantSelectorLinksArray(?array $input, array $output): void
     {
-        $this->adaptDICServiceMock(\ILIAS\UI\Factory::class, function (\ILIAS\UI\Factory|MockObject $mock) use ($input, $output) {
+        $il_test_results_toolbar_gui = $this->createInstanceOf(ilTestResultsToolbarGUI::class);
+
+        $this->adaptDICServiceMock(UIFactory::class, function (UIFactory|MockObject $mock) use ($input, $output) {
             $link_factory = $this->createMock(LinkFactory::class);
             $link_factory
                 ->expects($this->exactly(count($input ?? [])))
@@ -144,10 +145,10 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
         });
 
         if (!is_null($input)) {
-            $this->ilTestResultsToolbarGUI->setParticipantSelectorOptions($input);
+            $il_test_results_toolbar_gui->setParticipantSelectorOptions($input);
         }
 
-        $this->assertEquals($output, $this->ilTestResultsToolbarGUI->getParticipantSelectorLinksArray());
+        $this->assertEquals($output, $il_test_results_toolbar_gui->getParticipantSelectorLinksArray());
     }
 
     public static function getParticipantSelectorLinksArrayDataProvider(): array

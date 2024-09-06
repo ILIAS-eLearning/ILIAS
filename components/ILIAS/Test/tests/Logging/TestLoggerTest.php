@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace Logging;
 
+use ilComponentLogger;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\Factory;
@@ -30,366 +31,406 @@ use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 class TestLoggerTest extends ilTestBaseTestCase
 {
-    private TestLogger $testLogger;
+    private TestLogger $test_logger;
+
+    /**
+     * @throws Exception|ReflectionException
+     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->method('isLoggingEnabled')
             ->willReturn(true);
-        $loggingSettings
+        $logging_settings
             ->method('isIPLoggingEnabled')
             ->willReturn(true);
 
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->method('testHasParticipantInteractions')
             ->willReturn(true);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-
-        $this->testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
+        $this->test_logger = $this->createInstanceOf(
+            TestLogger::class,
+            [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository
+            ]
+        );
     }
 
-    public function test_isLoggingEnabled(): void
+    public function testIsLoggingEnabled(): void
     {
-        $this->assertTrue($this->testLogger->isLoggingEnabled());
+        $this->assertTrue($this->test_logger->isLoggingEnabled());
     }
 
-    public function test_isIPLoggingEnabled(): void
+    public function testIsIPLoggingEnabled(): void
     {
-        $this->assertTrue($this->testLogger->isIPLoggingEnabled());
+        $this->assertTrue($this->test_logger->isIPLoggingEnabled());
     }
 
-    public function test_testHasParticipantInteractions(): void
+    public function testTestHasParticipantInteractions(): void
     {
-        $this->assertTrue($this->testLogger->testHasParticipantInteractions(777));
+        $this->assertTrue($this->test_logger->testHasParticipantInteractions(777));
     }
 
-    public function test_deleteParticipantInteractionsForTest(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testDeleteParticipantInteractionsForTest(): void
     {
         $arg = 777;
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
             ->method('deleteParticipantInteractionsForTest')
             ->with($arg);
 
-        $testLogger = $this->createTestLoggerWithLoggingRepository($loggingRepository);
-        $testLogger->deleteParticipantInteractionsForTest($arg);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['logging_repository' => $logging_repository]);
+        $test_logger->deleteParticipantInteractionsForTest($arg);
     }
 
-    public function test_logTestAdministrationInteraction(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testLogTestAdministrationInteraction(): void
     {
         $arg = $this->createMock(TestAdministrationInteraction::class);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
             ->method('storeTestAdministrationInteraction')
             ->with($arg);
 
-        $testLogger = $this->createTestLoggerWithLoggingRepository($loggingRepository);
-        $testLogger->logTestAdministrationInteraction($arg);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['logging_repository' => $logging_repository]);
+        $test_logger->logTestAdministrationInteraction($arg);
     }
 
-    public function test_logQuestionAdministrationInteraction(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testLogQuestionAdministrationInteraction(): void
     {
         $arg = $this->createMock(TestQuestionAdministrationInteraction::class);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
             ->method('storeQuestionAdministrationInteraction')
             ->with($arg);
 
-        $testLogger = $this->createTestLoggerWithLoggingRepository($loggingRepository);
-        $testLogger->logQuestionAdministrationInteraction($arg);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['logging_repository' => $logging_repository]);
+        $test_logger->logQuestionAdministrationInteraction($arg);
     }
 
-    public function test_logParticipantInteraction(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testLogParticipantInteraction(): void
     {
         $arg = $this->createMock(TestParticipantInteraction::class);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
             ->method('storeParticipantInteraction')
             ->with($arg);
 
-        $testLogger = $this->createTestLoggerWithLoggingRepository($loggingRepository);
-        $testLogger->logParticipantInteraction($arg);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['logging_repository' => $logging_repository]);
+        $test_logger->logParticipantInteraction($arg);
     }
 
-    public function test_logScoringInteraction(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testLogScoringInteraction(): void
     {
         $arg = $this->createMock(TestScoringInteraction::class);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
             ->method('storeScoringInteraction')
             ->with($arg);
 
-        $testLogger = $this->createTestLoggerWithLoggingRepository($loggingRepository);
-        $testLogger->logScoringInteraction($arg);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['logging_repository' => $logging_repository]);
+        $test_logger->logScoringInteraction($arg);
     }
 
     /**
-     * @dataProvider provideMethodNameEmergencyAlertCritical
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @dataProvider emergencyAlertCriticalWithLoggingDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_emergency_alert_critical_withLogging(string $method): void
+    public function testEmergencyAlertCriticalWithLogging(string $input): void
     {
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(true);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
-            ->method($method)
+            ->method($input)
             ->with($message, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-
-        $testLogger->$method($message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->$input($message, $context);
     }
 
     /**
-     * @dataProvider provideMethodNameEmergencyAlertCritical
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @dataProvider emergencyAlertCriticalWithLoggingDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_emergency_alert_critical_WithoutLogging(string $method): void
+    public function testEmergencyAlertCriticalWithoutLogging(string $input): void
     {
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(false);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
-            ->method($method)
+            ->method($input)
             ->with($message, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->never())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-        $testLogger->$method($message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->$input($message, $context);
     }
 
-    public static function provideMethodNameEmergencyAlertCritical(): array
+    public static function emergencyAlertCriticalWithLoggingDataProvider(): array
     {
         return [
-            "emergency" => ["method" => "emergency"],
-            "alert" => ["method" => "alert"],
-            "critical" => ["method" => "critical"]
+            'emergency' => ['emergency'],
+            'alert' => ['alert'],
+            'critical' => ['critical']
         ];
     }
 
-    public function test_log_withLogging(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testLogWithLogging(): void
     {
         $level = 400;
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(true);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
-            ->method("log")
+            ->method('log')
             ->with($message, $level, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-
-        $testLogger->log($level, $message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->log($level, $message, $context);
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws Exception|ReflectionException
      */
-    public function test_log_WithoutLogging(): void
+    public function testLogWithoutLogging(): void
     {
         $level = 400;
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(false);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
-            ->method("log")
+            ->method('log')
             ->with($message, $level, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->never())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-        $testLogger->log($level, $message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->log($level, $message, $context);
     }
 
-    public function test_error_withLogging(): void
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testErrorWithLogging(): void
     {
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(true);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
-            ->method("error")
+            ->method('error')
             ->with($message, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->once())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-
-        $testLogger->error($message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->error($message, $context);
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws Exception|ReflectionException
      */
-    public function test_error_WithoutLogging(): void
+    public function testErrorWithoutLogging(): void
     {
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingSettings
+        $logging_settings = $this->createMock(TestLoggingSettings::class);
+        $logging_settings
             ->expects($this->once())
-            ->method("isLoggingEnabled")
+            ->method('isLoggingEnabled')
             ->willReturn(false);
 
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->never())
-            ->method("error")
+            ->method('error')
             ->with($message, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
-        $loggingRepository
+        $logging_repository = $this->createMock(TestLoggingRepository::class);
+        $logging_repository
             ->expects($this->never())
-            ->method("storeError");
+            ->method('storeError');
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-        $testLogger->error($message, $context);
-
+        $test_logger = $this->createInstanceOf(
+            TestLogger::class, [
+                'logging_settings' => $logging_settings,
+                'logging_repository' => $logging_repository,
+                'component_logger' => $component_logger
+            ]
+        );
+        $test_logger->error($message, $context);
     }
 
     /**
-     * @dataProvider provideMethodNameWarningNoticeInfoDebug
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @dataProvider warningNoticeInfoDebugDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function test_warning_notice_info_debug(string $method): void
+    public function testWarningNoticeInfoDebug(string $method): void
     {
-        $message = "message";
-        $context = ["ref_id" => 1];
+        $message = 'message';
+        $context = ['ref_id' => 1];
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-        $componentLogger
+        $component_logger = $this->createMock(ilComponentLogger::class);
+        $component_logger
             ->expects($this->once())
             ->method($method)
             ->with($message, $context);
-        $loggingRepository = $this->createMock(TestLoggingRepository::class);
 
-        $testLogger = new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
-        $testLogger->$method($message, $context);
+        $test_logger = $this->createInstanceOf(TestLogger::class, ['component_logger' => $component_logger]);
+        $test_logger->$method($message, $context);
     }
 
-    public static function provideMethodNameWarningNoticeInfoDebug(): array
+    public static function warningNoticeInfoDebugDataProvider(): array
     {
         return [
-            "warning" => ["method" => "warning"],
-            "notice" => ["method" => "notice"],
-            "info" => ["method" => "info"],
-            "debug" => ["method" => "debug"]
+            'warning' => ['warning'],
+            'notice' => ['notice'],
+            'info' => ['info'],
+            'debug' => ['debug']
         ];
     }
 
-    public function test_getComponentLogger(): void
+    public function testGetComponentLogger(): void
     {
-        $logger = $this->testLogger->getComponentLogger();
-        $this->assertInstanceOf(\ilComponentLogger::class, $logger);
+        $logger = $this->test_logger->getComponentLogger();
+        $this->assertInstanceOf(ilComponentLogger::class, $logger);
         $this->assertInstanceOf(MockObject::class, $logger);
     }
 
-    public function test_getInteractionFactory(): void
+    public function testGetInteractionFactory(): void
     {
-        $factory = $this->testLogger->getInteractionFactory();
+        $factory = $this->test_logger->getInteractionFactory();
         $this->assertInstanceOf(Factory::class, $factory);
         $this->assertInstanceOf(MockObject::class, $factory);
     }
 
-    public function test_getAdditionalInformationGenerator(): void
+    public function testGetAdditionalInformationGenerator(): void
     {
-        $generator = $this->testLogger->getAdditionalInformationGenerator();
+        $generator = $this->test_logger->getAdditionalInformationGenerator();
         $this->assertInstanceOf(AdditionalInformationGenerator::class, $generator);
         $this->assertInstanceOf(MockObject::class, $generator);
     }
 
-    public function test_getLogEntryTypes(): void
+    public function testGetLogEntryTypes(): void
     {
         $result = [
             'tai',
@@ -399,10 +440,10 @@ class TestLoggerTest extends ilTestBaseTestCase
             'te'
         ];
 
-        $this->assertSame($result, $this->testLogger->getLogEntryTypes());
+        $this->assertSame($result, $this->test_logger->getLogEntryTypes());
     }
 
-    public function test_getInteractionTypes(): void
+    public function testGetInteractionTypes(): void
     {
         $result = [
             'tai' => [
@@ -425,7 +466,7 @@ class TestLoggerTest extends ilTestBaseTestCase
             ],
             'qai' => [
                 'question_modified',
-                'question_modified_in_corrections',
+                'question_modified_in_corrections'
             ],
             'pi' => [
                 'wrong_test_password_provided',
@@ -448,16 +489,7 @@ class TestLoggerTest extends ilTestBaseTestCase
                 'error_on_undefined_interaction'
             ]
         ];
-        $this->assertSame($result, $this->testLogger->getInteractionTypes());
-    }
-    private function createTestLoggerWithLoggingRepository(TestLoggingRepository $loggingRepository): TestLogger
-    {
 
-        $loggingSettings = $this->createMock(TestLoggingSettings::class);
-        $loggingFactory = $this->createMock(Factory::class);
-        $infoGenerator = $this->createMock(AdditionalInformationGenerator::class);
-        $componentLogger = $this->createMock(\ilComponentLogger::class);
-
-        return new TestLogger($loggingSettings, $loggingRepository, $loggingFactory, $infoGenerator, $componentLogger);
+        $this->assertSame($result, $this->test_logger->getInteractionTypes());
     }
 }

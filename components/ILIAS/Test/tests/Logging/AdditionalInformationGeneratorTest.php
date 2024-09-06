@@ -21,51 +21,92 @@ declare(strict_types=1);
 namespace Logging;
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class AdditionalInformationGeneratorTest extends ilTestBaseTestCase
 {
-    private AdditionalInformationGenerator $additionalInformationGenerator;
-
-    protected function setUp(): void
+    /**
+     * @dataProvider getTrueFalseTagForBoolDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetTrueFalseTagForBool(bool $input, string $output): void
     {
-        parent::setUp();
-        global $DIC;
-        $mustacheEngine = $this->createMock(\Mustache_Engine::class);
-        $questionsRepo = $this->createMock(GeneralQuestionPropertiesRepository::class);
-
-        $this->additionalInformationGenerator = new AdditionalInformationGenerator($mustacheEngine, $DIC['lng'], $DIC['ui.factory'], $DIC['refinery'], $questionsRepo);
+        $additional_information_generator = $this->createInstanceOf(AdditionalInformationGenerator::class);
+        $this->assertEquals($output, $additional_information_generator->getTrueFalseTagForBool($input));
     }
 
-    public function test_getTrueFalseTagForBool(): void
+    public static function getTrueFalseTagForBoolDataProvider(): array
     {
-        $this->assertSame('{{ true }}', $this->additionalInformationGenerator->getTrueFalseTagForBool(true));
-        $this->assertSame('{{ false }}', $this->additionalInformationGenerator->getTrueFalseTagForBool(false));
+        return [
+            'true' => [true, '{{ true }}'],
+            'false' => [false, '{{ false }}']
+        ];
     }
 
-    public function test_getEnabledDisabledTagForBool(): void
+    /**
+     * @dataProvider getEnabledDisabledTagForBoolDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetEnabledDisabledTagForBool(bool $input, string $output): void
     {
-        $this->assertSame('{{ enabled }}', $this->additionalInformationGenerator->getEnabledDisabledTagForBool(true));
-        $this->assertSame('{{ disabled }}', $this->additionalInformationGenerator->getEnabledDisabledTagForBool(false));
+        $additional_information_generator = $this->createInstanceOf(AdditionalInformationGenerator::class);
+        $this->assertEquals($output, $additional_information_generator->getEnabledDisabledTagForBool($input));
     }
 
-    public function test_getNoneTag(): void
+    public static function getEnabledDisabledTagForBoolDataProvider(): array
     {
-        $this->assertSame('{{ none }}', $this->additionalInformationGenerator->getNoneTag());
+        return [
+            'true' => [true, '{{ enabled }}'],
+            'false' => [false, '{{ disabled }}']
+        ];
     }
 
-    public function test_getTagForLangVar(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testGetNoneTag(): void
     {
-        $this->assertSame('{{ testvar }}', $this->additionalInformationGenerator->getTagForLangVar("testvar"));
-        $this->assertSame('{{ testvar2 }}', $this->additionalInformationGenerator->getTagForLangVar("testvar2"));
+        $additional_information_generator = $this->createInstanceOf(AdditionalInformationGenerator::class);
+        $this->assertEquals('{{ none }}', $additional_information_generator->getNoneTag());
     }
 
-    public function test_getCheckedUncheckedTagForBool(): void
+    /**
+     * @dataProvider getTagForLangVarDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetTagForLangVar(string $input, string $output): void
     {
-        $this->assertSame('{{ checked }}', $this->additionalInformationGenerator->getCheckedUncheckedTagForBool(true));
-        $this->assertSame('{{ unchecked }}', $this->additionalInformationGenerator->getCheckedUncheckedTagForBool(false));
+        $additional_information_generator = $this->createInstanceOf(AdditionalInformationGenerator::class);
+        $this->assertEquals($output, $additional_information_generator->getTagForLangVar($input));
     }
 
+    public static function getTagForLangVarDataProvider(): array
+    {
+        return [
+            'empty' => ['', '{{  }}'],
+            'string' => ['string', '{{ string }}'],
+            'strING' => ['strING', '{{ strING }}'],
+            'STRING' => ['STRING', '{{ STRING }}']
+        ];
+    }
 
+    /**
+     * @dataProvider getCheckedUncheckedTagForBoolDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetCheckedUncheckedTagForBool(bool $input, string $output): void
+    {
+        $additional_information_generator = $this->createInstanceOf(AdditionalInformationGenerator::class);
+        $this->assertEquals($output, $additional_information_generator->getCheckedUncheckedTagForBool($input));
+    }
+
+    public static function getCheckedUncheckedTagForBoolDataProvider(): array
+    {
+        return [
+            'true' => [true, '{{ checked }}'],
+            'false' => [false, '{{ unchecked }}']
+        ];
+    }
 }

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -26,52 +27,50 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 {
-    private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
-        );
-    }
-
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testSetAndGetOldQuestionSetType(): void
     {
         $expect = 'testType';
+        $test_settings_change_confirmation_gui = $this->createInstanceOf(ilTestSettingsChangeConfirmationGUI::class);
+        $test_settings_change_confirmation_gui->setOldQuestionSetType($expect);
 
-        $this->testSettingsChangeConfirmationGUI->setOldQuestionSetType($expect);
-
-        $this->assertEquals($expect, $this->testSettingsChangeConfirmationGUI->getOldQuestionSetType());
+        $this->assertEquals($expect, $test_settings_change_confirmation_gui->getOldQuestionSetType());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testSetAndGetNewQuestionSetType(): void
     {
         $expect = 'testType';
+        $test_settings_change_confirmation_gui = $this->createInstanceOf(ilTestSettingsChangeConfirmationGUI::class);
+        $test_settings_change_confirmation_gui->setNewQuestionSetType($expect);
 
-        $this->testSettingsChangeConfirmationGUI->setNewQuestionSetType($expect);
-
-        $this->assertEquals($expect, $this->testSettingsChangeConfirmationGUI->getNewQuestionSetType());
+        $this->assertEquals($expect, $test_settings_change_confirmation_gui->getNewQuestionSetType());
     }
 
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testSetAndIsQuestionLossInfoEnabled(): void
     {
         $expect = true;
+        $test_settings_change_confirmation_gui = $this->createInstanceOf(ilTestSettingsChangeConfirmationGUI::class);
+        $test_settings_change_confirmation_gui->setQuestionLossInfoEnabled($expect);
 
-        $this->testSettingsChangeConfirmationGUI->setQuestionLossInfoEnabled($expect);
-
-        $this->assertEquals($expect, $this->testSettingsChangeConfirmationGUI->isQuestionLossInfoEnabled());
+        $this->assertEquals($expect, $test_settings_change_confirmation_gui->isQuestionLossInfoEnabled());
     }
 
     /**
      * @dataProvider buildHeaderTextDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     * @throws ReflectionException|Exception
      */
     public function testBuildHeaderText(bool $input, string $output): void
     {
-        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mockObject) use ($input) {
-            $mockObject
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock_object) use ($input) {
+            $mock_object
                 ->expects($this->exactly($input ? 2 : 1))
                 ->method('txt')
                 ->willReturnCallback(function (string $key) {
@@ -96,12 +95,12 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider buildDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     * @throws ReflectionException|Exception|Exception
      */
     public function testBuild(bool $input, string $output): void
     {
-        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mockObject) use ($input) {
-            $mockObject
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock_object) use ($input) {
+            $mock_object
                 ->expects($this->exactly($input ? 2 : 1))
                 ->method('txt')
                 ->willReturnCallback(function (string $key) {
@@ -127,12 +126,12 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider populateParametersFromPostDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception
+     * @throws ReflectionException|Exception
      */
     public function testPopulateParametersFromPost(array $input, array $output): void
     {
         $il_test_settings_change_confirmation_gui = $this->createInstanceOf(ilTestSettingsChangeConfirmationGUI::class);
-        $_POST = $input;
+        $_POST = $input; // Needed
 
         $this->assertNull($il_test_settings_change_confirmation_gui->populateParametersFromPost());
         $this->assertEquals($output, self::getNonPublicPropertyValue($il_test_settings_change_confirmation_gui, 'hidden_item'));
@@ -151,7 +150,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 
     /**
      * @dataProvider populateParametersFromPropertyFormDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception
+     * @throws ReflectionException|Exception
      */
     public function testPopulateParametersFromPropertyForm(array $input): void
     {

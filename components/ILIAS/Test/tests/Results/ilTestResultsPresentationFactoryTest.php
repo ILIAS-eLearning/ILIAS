@@ -22,62 +22,45 @@ use ilTestBaseTestCase;
 use ilTestPassResult;
 use ilTestPassResultsTable;
 use ilTestResultsPresentationFactory;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPService;
-use ILIAS\Data\Factory as DataFactory;
-use ilLanguage;
 use PHPUnit\Framework\MockObject\Exception;
 use ReflectionException;
 
 class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 {
-    private ilTestResultsPresentationFactory $ilTestResultsPresentationFactory;
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        global $DIC;
-
-        $this->ilTestResultsPresentationFactory = $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
-            $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $DIC['refinery'],
-            $DIC['DataFactory'],
-            $DIC['http'],
-            $DIC['lng']
-        );
-    }
-
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $this->ilTestResultsPresentationFactory);
+        $il_test_results_presentation_factory = $this->createInstanceOf(ilTestResultsPresentationFactory::class);
+        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $il_test_results_presentation_factory);
     }
 
     /**
      * @dataProvider getPassResultsPresentationTableDataProvider
-     * @throws ReflectionException
+     * @throws ReflectionException|Exception
      */
     public function testGetPassResultsPresentationTable(?string $IO): void
     {
         $this->markTestSkipped();
 
+        $il_test_results_presentation_factory = $this->createInstanceOf(ilTestResultsPresentationFactory::class);
+        $il_test_pass_result = $this->createInstanceOf(ilTestPassResult::class);
 
         if (is_null($IO)) {
-            $testPassResultsTable = $this->ilTestResultsPresentationFactory->getPassResultsPresentationTable(
-                $this->ilTestPassResult
+            $test_pass_results_table = $il_test_results_presentation_factory->getPassResultsPresentationTable(
+                $il_test_pass_result
             );
         } else {
-            $testPassResultsTable = $this->ilTestResultsPresentationFactory->getPassResultsPresentationTable(
-                $this->ilTestPassResult,
+            $test_pass_results_table = $il_test_results_presentation_factory->getPassResultsPresentationTable(
+                $il_test_pass_result,
                 $IO
             );
         }
 
-        $this->assertInstanceOf(ilTestPassResultsTable::class, $testPassResultsTable);
-        $this->assertEquals($this->ilTestPassResult, $testPassResultsTable);
-        $this->assertEquals($IO ?? '', $testPassResultsTable, self::getNonPublicPropertyValue($testPassResultsTable, 'title'));
+        $this->assertInstanceOf(ilTestPassResultsTable::class, $test_pass_results_table);
+        $this->assertEquals($il_test_pass_result, $test_pass_results_table);
+        $this->assertEquals($IO ?? '', $test_pass_results_table, self::getNonPublicPropertyValue($test_pass_results_table, 'title'));
     }
 
     public static function getPassResultsPresentationTableDataProvider(): array
@@ -86,7 +69,8 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
             'default' => [null],
             'empty' => [''],
             'string' => ['string'],
-            'strING' => ['strING']
+            'strING' => ['strING'],
+            'STRING' => ['STRING']
         ];
     }
 }

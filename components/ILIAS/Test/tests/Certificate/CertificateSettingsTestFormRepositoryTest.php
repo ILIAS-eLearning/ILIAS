@@ -28,7 +28,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use ReflectionException;
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
+ * @author Niels Theen <ntheen@databay.de>
  */
 class CertificateSettingsTestFormRepositoryTest extends ilTestBaseTestCase
 {

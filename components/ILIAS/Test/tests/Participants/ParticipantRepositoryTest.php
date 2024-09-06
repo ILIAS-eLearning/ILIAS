@@ -24,78 +24,51 @@ use ILIAS\Test\Participants\ParticipantRepository;
 use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use ReflectionException;
 
 class ParticipantRepositoryTest extends ilTestBaseTestCase
 {
-    private ParticipantRepository $participantRepository;
-
     /**
-     * @throws ReflectionException
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->participantRepository = $this->createInstanceOf(ParticipantRepository::class);
-    }
-
-    /**
+     * @dataProvider lookupTestIdByActiveIdDataProvider
      * @throws \Exception|Exception
      */
-    public function test_lookupTestIdByActiveId_withValidId(): void
+    public function testLookupTestIdByActiveId_withValidId(array $input, int $output): void
     {
-        $test_fi = 5;
+        $test_fi = $input['active_id'];
+        $valid = $input['valid'];
 
-        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($test_fi) {
-            $ilDBStatementMock = $this->createMock(ilDBStatement::class);
+        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($test_fi, $valid) {
+            $il_db_statement_mock = $this->createMock(ilDBStatement::class);
 
             $mock
-                ->expects($this->once())
+                ->expects($valid && $test_fi >= 1 ? $this->once() : $this->never())
                 ->method('fetchAssoc')
                 ->willReturn(['test_fi' => $test_fi]);
 
             $mock
                 ->expects($this->once())
                 ->method('queryF')
-                ->willReturn($ilDBStatementMock);
+                ->willReturn($il_db_statement_mock);
 
             $mock
                 ->expects($this->once())
                 ->method('numRows')
-                ->with($ilDBStatementMock)
-                ->willReturn($test_fi);
+                ->with($il_db_statement_mock)
+                ->willReturn($valid ? $test_fi : 0);
         });
 
-        $this->assertSame($test_fi, $this->participantRepository->lookupTestIdByActiveId(1));
+        $participant_repository = $this->createInstanceOf(ParticipantRepository::class);
+        $this->assertEquals($output, $participant_repository->lookupTestIdByActiveId($test_fi));
     }
 
-    /**
-     * @throws \Exception|Exception
-     */
-    public function test_lookupTestIdByActiveId_withInvalidId(): void
+    public static function lookupTestIdByActiveIdDataProvider(): array
     {
-        $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) {
-            $ilDBStatementMock = $this->createMock(ilDBStatement::class);
-
-            $mock
-                ->expects($this->never())
-                ->method('fetchAssoc')
-                ->willReturn(['test_fi' => 5]);
-
-            $mock
-                ->expects($this->once())
-                ->method('queryF')
-                ->willReturn($ilDBStatementMock);
-
-            $mock
-                ->expects($this->once())
-                ->method('numRows')
-                ->with($ilDBStatementMock)
-                ->willReturn(0);
-        });
-
-        $this->assertSame(-1, $this->participantRepository->lookupTestIdByActiveId(1));
+        return [
+            'negative_one_true' => [['active_id' => -1, 'valid' => true], -1],
+            'negative_one_false' => [['active_id' => -1, 'valid' => false], -1],
+            'zero_true' => [['active_id' => 0, 'valid' => true], -1],
+            'zero_false' => [['active_id' => 0, 'valid' => false], -1],
+            'one_true' => [['active_id' => 1, 'valid' => true], 1],
+            'one_false' => [['active_id' => 1, 'valid' => false], -1]
+        ];
     }
 }

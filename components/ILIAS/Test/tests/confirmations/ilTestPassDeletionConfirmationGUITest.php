@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -26,63 +27,30 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-    private MockObject $testEvaluationGUI_mock;
-
-    private MockObject $lng_mock;
-
-    private MockObject $ctrl_mock;
-
-    protected function setUp(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        parent::setUp();
-        $this->testEvaluationGUI_mock = $this->createMock(ilTestEvaluationGUI::class);
-        $this->lng_mock = $this->createMock(ilLanguage::class);
-        $this->ctrl_mock = $this->createMock(ilCtrl::class);
-    }
-
-    public function test_instantiateObject_shouldReturnInstance(): void
-    {
-        $instance = new ilTestPassDeletionConfirmationGUI(
-            $this->ctrl_mock,
-            $this->lng_mock,
-            $this->testEvaluationGUI_mock
-        );
-
-        $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);
-    }
-
-    public function testConstructor(): void
-    {
-        $this->ctrl_mock
-            ->expects($this->once())
-            ->method('getFormAction')
-            ->with($this->testEvaluationGUI_mock);
-
-        new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
-    }
-
-    public function testBuildFailsWithWrongContext(): void
-    {
-        $gui = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
-        $this->expectException(ilTestException::class);
-        $gui->build(20, 5, 'invalidContext');
+        $il_test_pass_deletion_confirmation_gui = $this->createInstanceOf(ilTestPassDeletionConfirmationGUI::class);
+        $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $il_test_pass_deletion_confirmation_gui);
     }
 
     /**
      * @dataProvider buildDataProvider
-     * @throws ReflectionException|\PHPUnit\Framework\MockObject\Exception|Exception
+     * @throws ReflectionException|Exception
      */
     public function testBuild(array $input): void
     {
-        $contextIsValid = $input[2] === 'invalid';
-        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($contextIsValid) {
-            $mock->expects($contextIsValid ? $this->never() : $this->exactly(3))
+        $context_is_valid = $input[2] === 'invalid';
+        $this->adaptDICServiceMock(ilLanguage::class, function (ilLanguage|MockObject $mock) use ($context_is_valid) {
+            $mock->expects($context_is_valid ? $this->never() : $this->exactly(3))
                 ->method('txt')
                 ->willReturnOnConsecutiveCalls('cancel', 'delete', 'conf_delete_pass');
         });
-        $il_test_pass_deletion_confirmation_gui = $this->createInstanceOf(ilTestPassDeletionConfirmationGUI::class, ['parentGUI' => (object) []]);
+        $il_test_pass_deletion_confirmation_gui = $this->createInstanceOf(ilTestPassDeletionConfirmationGUI::class);
 
-        if ($contextIsValid) {
+        if ($context_is_valid) {
             $this->expectException(ilTestException::class);
         }
 
