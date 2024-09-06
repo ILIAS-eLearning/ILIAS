@@ -82,7 +82,7 @@
 			"ILIAS\\Scripts\\" : "./scripts"
 		},
 		"classmap": [
-			"./Customizing/global/plugins",
+			"./public/Customizing/plugins",
 			"./components/ILIAS",
 			"./vendor/ilias",
 			"./components/ILIAS/soap",
@@ -92,6 +92,7 @@
 			"./components/ILIAS/Migration",
 			"./*/*/lib",
 			"./Customizing/**/vendor",
+			"./public/Customizing/**/vendor",
 			"./components/ILIAS/setup_/sql",
 			"./cli/setup.php",
 			"./components/ILIAS/setup_/client.master.ini.php",

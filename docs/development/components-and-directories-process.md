@@ -5,7 +5,7 @@ This document describes the implementation of the new Components and Directories
 1. [Creation of root directories](#1-creation-of-root-directories)
 2. [dicto](#2-dicto)
 3. [Modules and Services](#3-modules-and-services)
-4. [Customizing > global > plugin](#4-customizingglobalplugin)
+4. [public > Customizing > plugins](#4-publiccustomizingplugins)
 5. [include](#5-include)
 6. [CI](#6-ci)
 7. [sso](#7-sso)
@@ -237,9 +237,9 @@ The following new structure won't implemented in the first PR / process step:
 
 -----------
 
-## 4. ./Customizing/global/plugin
+## 4. ./public/Customizing/plugins
 
-The plugin directory stays at `Customizing/global/plugin` for now and will later on moved to
+The plugin directory stays at `public/Customizing/plugins` for now and will later on moved to
 `components/{SERVICE_PROVIDER}`.
 The name {SERVICE_PROVIDER} will be a placeholder for unique provider, who will create their own plugins.
 

@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 interface ilComponentRepository
 {
-    public const PLUGIN_BASE_PATH = "Customizing/global/plugins";
+    public const PLUGIN_BASE_PATH = "public/Customizing/plugins";
 
     /**
      * Check if a component exists.
