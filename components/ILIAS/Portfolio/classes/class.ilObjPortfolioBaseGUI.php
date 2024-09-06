@@ -241,19 +241,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_form->addItem($ppic);
 
         $prfa_set = new ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $dimensions = " (" . $prfa_set->get("banner_width") . "x" .
-                $prfa_set->get("banner_height") . ")";
-
-            $img = new ilImageFileInputGUI($this->lng->txt("prtf_banner") . $dimensions, "banner");
-            $a_form->addItem($img);
-
-            // show existing file
-            $file = $this->object->getImageFullPath(true);
-            if ($file) {
-                $img->setImage(ilWACSignedPath::signFile($file));
-            }
-        }
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('obj_features'));
@@ -286,18 +273,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         $this->object->setPublicComments($form->getInput("comments"));
         $this->object->setProfilePicture($form->getInput("ppic"));
-        /*
-        $this->object->setBackgroundColor($a_form->getInput("bg_color"));
-        $this->object->setFontcolor($a_form->getInput("font_color"));
-        */
-
         $prfa_set = new ilSetting("prfa");
-
-        if (isset($_FILES["banner"]) && $_FILES["banner"]["tmp_name"]) {
-            $this->object->uploadImage($_FILES["banner"]);
-        } elseif ($prfa_set->get('banner') && $form->getItemByPostVar("banner")->getDeletionFlag()) {
-            $this->object->deleteImage();
-        }
     }
 
 
@@ -861,9 +837,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * Render banner, user name
-     */
     public static function renderFullscreenHeader(
         ilObjPortfolioBase $a_portfolio,
         ilGlobalTemplateInterface $a_tpl,
@@ -888,17 +861,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $name = ilObjUser::_lookupName($a_user_id);
         $name = $name["lastname"] . ", " . (($t = $name["title"]) ? $t . " " : "") . $name["firstname"];
 
-        // show banner?
-        $banner = $banner_width = $banner_height = false;
         $prfa_set = new ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $banner = ilWACSignedPath::signFile($a_portfolio->getImageFullPath());
-            $banner_width = $prfa_set->get("banner_width");
-            $banner_height = $prfa_set->get("banner_height");
-            if ($a_export) {
-                $banner = basename($banner);
-            }
-        }
 
         // profile picture
         $ppic = null;
@@ -912,7 +875,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_tpl->resetHeaderBlock(false);
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
-        $a_tpl->setBanner($banner);
         $a_tpl->setTitleIcon((string) $ppic);
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());

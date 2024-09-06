@@ -106,35 +106,6 @@ class PortfolioHtmlExport
         ilFileUtils::makeDir($this->target_dir);
     }
 
-    /**
-     * Export banner
-     */
-    protected function exportBanner(): void
-    {
-        // banner
-        $prfa_set = new \ilSetting("prfa");
-        if ($prfa_set->get("banner")) {
-            $banner = $this->portfolio->getImageFullPath();
-            if ($banner) { // #16096
-                copy($banner, $this->target_dir . "/" . basename($banner));
-            }
-        }
-        // page element: profile picture
-        \ilObjUser::copyProfilePicturesToDirectory($this->portfolio->getOwner(), $this->target_dir);
-        /*
-        $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "big", true, true);
-        if ($ppic) {
-            $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }
-        // header image: profile picture
-        $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "xsmall", true, true);
-        if ($ppic) {
-            $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }*/
-    }
-
 
     /**
      * Build export file
@@ -150,8 +121,6 @@ class PortfolioHtmlExport
             $this->portfolio->getType()
         );
 
-        $this->exportBanner();
-
         // export pages
         if ($this->print_version) {
             $this->exportHTMLPagesPrint();
@@ -160,6 +129,7 @@ class PortfolioHtmlExport
         }
 
         $this->exportUserImages();
+        \ilObjUser::copyProfilePicturesToDirectory($this->portfolio->getOwner(), $this->target_dir);
 
         // add js/images/file to zip
         // note: only files are still used for certificate files
