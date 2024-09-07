@@ -119,13 +119,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 ""
             );
             $this->tabs_gui->addSubTabTarget(
-                "adve_survey_settings",
-                $this->ctrl->getLinkTarget($this, "survey"),
-                array("survey", "saveSurveySettings"),
-                "",
-                ""
-            );
-            $this->tabs_gui->addSubTabTarget(
                 "adve_frm_post_settings",
                 $this->ctrl->getLinkTarget($this, "frmPost"),
                 array("frmPost", "saveFrmPostSettings"),
@@ -168,7 +161,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "adve_rte_settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings","assessment", "survey", "frmPost"),
+                array("settings","assessment", "frmPost"),
                 "",
                 ""
             );
@@ -246,30 +239,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             "advanced_editing_assessment_settings"
         );
         if (!$this->saveTags("assessment", "assessment", $form)) {
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
-        }
-    }
-
-    public function surveyObject(): void
-    {
-        $form = $this->initTagsForm(
-            "survey",
-            "saveSurveySettings",
-            "advanced_editing_survey_settings"
-        );
-
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function saveSurveySettingsObject(): void
-    {
-        $form = $this->initTagsForm(
-            "survey",
-            "saveSurveySettings",
-            "advanced_editing_survey_settings"
-        );
-        if (!$this->saveTags("survey", "survey", $form)) {
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
         }
