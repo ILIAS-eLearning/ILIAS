@@ -132,13 +132,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 "",
                 ""
             );
-            $this->tabs_gui->addSubTabTarget(
-                "adve_excass_settings",
-                $this->ctrl->getLinkTarget($this, "excass"),
-                array("excass", "saveExcAssSettings"),
-                "",
-                ""
-            );
         }
     }
 
@@ -175,7 +168,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "adve_rte_settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings","assessment", "survey", "frmPost", "excass"),
+                array("settings","assessment", "survey", "frmPost"),
                 "",
                 ""
             );
@@ -305,31 +298,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $this->tpl->setContent($form->getHTML());
         }
     }
-
-    public function excAssObject(): void
-    {
-        $form = $this->initTagsForm(
-            "exc_ass",
-            "saveExcAssSettings",
-            "advanced_editing_excass_settings"
-        );
-
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function saveExcAssSettingsObject(): void
-    {
-        $form = $this->initTagsForm(
-            "exc_ass",
-            "saveExcAssSettings",
-            "advanced_editing_excass_settings"
-        );
-        if (!$this->saveTags("exc_ass", "excAss", $form)) {
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
-        }
-    }
-
 
     protected function initTagsForm(
         string $a_id,
