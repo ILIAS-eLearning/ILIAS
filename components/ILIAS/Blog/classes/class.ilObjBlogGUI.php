@@ -356,29 +356,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         $blga_set = new ilSetting("blga");
-        if ($blga_set->get("banner")) {
-            $dimensions = " (" . $blga_set->get("banner_width") . "x" .
-                $blga_set->get("banner_height") . ")";
-
-            $img = new ilImageFileInputGUI($lng->txt("blog_banner") . $dimensions, "banner");
-            $a_form->addItem($img);
-
-            // show existing file
-            $file = $this->object->getImageFullPath(true);
-            if ($file) {
-                $img->setImage(ilWACSignedPath::signFile($file));
-            }
-        }
 
         $this->reading_time_gui->addSettingToForm($a_form);
 
-        /* #15000
-        $bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
-        $a_form->addItem($bg_color);
-
-        $font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
-        $a_form->addItem($font_color);
-        */
 
         // presentation (overview)
 
@@ -432,11 +412,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_values["keywords"] = $this->object->hasKeywords();
         $a_values["notes"] = $this->object->getNotesStatus();
         $a_values["ppic"] = $this->object->hasProfilePicture();
-        /*
-        $a_values["bg_color"] = $this->object->getBackgroundColor();
-        $a_values["font_color"] = $this->object->getFontColor();
-        */
-        $a_values["banner"] = $this->object->getImage();
         $a_values["rss"] = $this->object->hasRSS();
         $a_values["abss"] = $this->object->hasAbstractShorten();
         $a_values["absi"] = $this->object->hasAbstractImage();
@@ -489,15 +464,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
         $this->object->setOrder($order);
-        // banner field is optional
-        $banner = $form->getItemByPostVar("banner");
-        if ($banner) {
-            if ($_FILES["banner"]["tmp_name"]) {
-                $this->object->uploadImage($_FILES["banner"]);
-            } elseif ($banner->getDeletionFlag()) {
-                $this->object->deleteImage();
-            }
-        }
     }
 
     protected function setTabs(): void
@@ -1270,9 +1236,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $tpl->setRightContent($a_navigation);
     }
 
-    /**
-     * Render banner, user name
-     */
     public function renderFullscreenHeader(
         ilGlobalTemplateInterface $a_tpl,
         int $a_user_id,
@@ -1294,20 +1257,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         if ($this->id_type !== self::REPOSITORY_NODE_ID) {
             $name = ilObjUser::_lookupName($a_user_id);
             $name = $name["lastname"] . ", " . $name["firstname"];
-        }
-
-        // show banner?
-        $banner = "";
-        $blga_set = new ilSetting("blga");
-        $banner_width = "";
-        $banner_height = "";
-        if ($blga_set->get("banner")) {
-            $banner = ilWACSignedPath::signFile($this->object->getImageFullPath());
-            $banner_width = $blga_set->get("banner_width");
-            $banner_height = $blga_set->get("banner_height");
-            if ($a_export) {
-                $banner = basename($banner);
-            }
         }
 
         $ppic = "";
@@ -1334,7 +1283,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
         $a_tpl->resetHeaderBlock(false);
-        $a_tpl->setBanner($banner);
         $a_tpl->setTitleIcon($ppic);
         $a_tpl->setTitle($this->object->getTitle());
         if ($this->id_type === self::REPOSITORY_NODE_ID) {

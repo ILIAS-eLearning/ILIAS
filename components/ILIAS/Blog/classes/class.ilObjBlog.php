@@ -89,7 +89,6 @@ class ilObjBlog extends ilObject2
         $this->setProfilePicture((bool) $row["ppic"]);
         $this->setBackgroundColor((string) $row["bg_color"]);
         $this->setFontColor((string) $row["font_color"]);
-        $this->setImage((string) $row["img"]);
         $this->setRSS((bool) $row["rss_active"]);
         $this->setApproval((bool) $row["approval"]);
         $this->setAbstractShorten((bool) $row["abs_shorten"]);
@@ -144,8 +143,6 @@ class ilObjBlog extends ilObject2
     {
         $ilDB = $this->db;
 
-        $this->deleteImage();
-
         ilBlogPosting::deleteAllBlogPostings($this->id);
 
         // remove all notifications
@@ -164,7 +161,6 @@ class ilObjBlog extends ilObject2
                     " SET ppic = " . $ilDB->quote($this->hasProfilePicture(), "integer") .
                     ",bg_color = " . $ilDB->quote($this->getBackgroundColor(), "text") .
                     ",font_color = " . $ilDB->quote($this->getFontColor(), "text") .
-                    ",img = " . $ilDB->quote($this->getImage(), "text") .
                     ",rss_active = " . $ilDB->quote($this->hasRSS(), "integer") .
                     ",approval = " . $ilDB->quote($this->hasApproval(), "integer") .
                     ",abs_shorten = " . $ilDB->quote($this->hasAbstractShorten(), "integer") .
@@ -192,16 +188,6 @@ class ilObjBlog extends ilObject2
     protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjBlog);
-        // banner?
-        $img = $this->getImage();
-        if ($img) {
-            $new_obj->setImage($img);
-
-            $source = self::initStorage($this->getId());
-            $target = $new_obj->initStorage($new_obj->getId());
-
-            copy($source . $img, $target . $img);
-        }
 
         $new_obj->setNotesStatus($this->getNotesStatus());
         $new_obj->setProfilePicture($this->hasProfilePicture());
@@ -264,117 +250,6 @@ class ilObjBlog extends ilObject2
     public function setFontColor(string $a_value): void
     {
         $this->font_color = $a_value;
-    }
-
-    public function getImage(): string
-    {
-        return $this->img;
-    }
-
-    public function setImage(string $a_value): void
-    {
-        $this->img = $a_value;
-    }
-
-    public function getImageFullPath(
-        bool $a_as_thumb = false
-    ): string {
-        if ($this->img) {
-            $path = self::initStorage($this->id);
-            if (!$a_as_thumb) {
-                return $path . $this->img;
-            }
-
-            return $path . "thb_" . $this->img;
-        }
-        return "";
-    }
-
-    public function deleteImage(): void
-    {
-        if ($this->id) {
-            $storage = new ilFSStorageBlog($this->id);
-            $storage->delete();
-
-            $this->setImage("");
-
-            $this->handleQuotaUpdate();
-        }
-    }
-
-    /**
-     * Init file system storage
-     */
-    public static function initStorage(
-        int $a_id,
-        string $a_subdir = null
-    ): string {
-        $storage = new ilFSStorageBlog($a_id);
-        $storage->create();
-
-        $path = $storage->getAbsolutePath() . "/";
-
-        if ($a_subdir) {
-            $path .= $a_subdir . "/";
-
-            if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
-            }
-        }
-
-        return $path;
-    }
-
-    /**
-     * Upload new image file
-     */
-    public function uploadImage(array $a_upload): bool
-    {
-        if (!$this->id) {
-            return false;
-        }
-
-        $this->deleteImage();
-
-        // #10074
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
-
-        $path = self::initStorage($this->id);
-        $original = "org_" . $this->id . "_" . $clean_name;
-        $thumb = "thb_" . $this->id . "_" . $clean_name;
-        $processed = $this->id . "_" . $clean_name;
-
-        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
-            chmod($path . $original, 0770);
-
-            $blga_set = new ilSetting("blga");
-
-            // as banner height should overflow, we only handle width (otherwise resizeToFixedSize could be used)
-            $banner_width = (int)$blga_set->get("banner_width");
-            // $banner_height = (int)$blga_set->get("banner_height");
-
-            $this->image_conversion->croppedSquare(
-                $path . $original,
-                $path . $thumb,
-                100,
-                ImageOutputOptions::FORMAT_KEEP
-            );
-
-            $this->image_conversion->resizeByWidth(
-                $path . $original,
-                $path . $processed,
-                $banner_width,
-                ImageOutputOptions::FORMAT_KEEP,
-                100
-            );
-
-            $this->setImage($processed);
-
-            $this->handleQuotaUpdate();
-
-            return true;
-        }
-        return false;
     }
 
     public function hasRSS(): bool

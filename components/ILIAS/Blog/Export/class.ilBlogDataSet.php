@@ -312,9 +312,6 @@ class ilBlogDataSet extends ilDataSet
         if ($a_entity === "blog") {
             $style = $this->content_style_domain->styleForObjId((int) $a_set["Id"]);
 
-            $dir = ilObjBlog::initStorage($a_set["Id"]);
-            $a_set["Dir"] = $dir;
-
             $a_set["Style"] = $style->getStyleId();
 
             // #14734
@@ -351,7 +348,6 @@ class ilBlogDataSet extends ilDataSet
                 $newObj->setProfilePicture((bool) ($a_rec["Ppic"] ?? false));
                 $newObj->setRSS((bool) ($a_rec["RssActive"] ?? false));
                 $newObj->setApproval((bool) ($a_rec["Approval"] ?? false));
-                $newObj->setImage($a_rec["Img"] ?? "");
 
                 $newObj->setAbstractShorten((bool) ($a_rec["AbsShorten"] ?? false));
                 $newObj->setAbstractShortenLength((int) ($a_rec["AbsShortenLen"] ?? 0));
@@ -382,16 +378,6 @@ class ilBlogDataSet extends ilDataSet
                 $newObj->setOverviewPostings($ov_post);
 
                 $newObj->update();
-
-                // handle image(s)
-                if ($a_rec["Img"] ?? false) {
-                    $dir = str_replace("..", "", $a_rec["Dir"]);
-                    if ($dir !== "" && $this->getImportDirectory() !== "") {
-                        $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = ilObjBlog::initStorage($newObj->getId());
-                        ilFileUtils::rCopy($source_dir, $target_dir);
-                    }
-                }
 
                 if ($a_rec["Style"] ?? false) {
                     self::$style_map[$a_rec["Style"]][] = $newObj->getId();
