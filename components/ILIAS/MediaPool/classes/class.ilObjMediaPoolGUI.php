@@ -31,7 +31,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  */
@@ -390,37 +390,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->tpl->printToStdout();
                 break;
 
-            case "ilfilesystemgui":
-                $this->checkPermission("write");
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $ilTabs->clearTargets();
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "listMedia")
-                );
-                $mset = new ilSetting("mobs");
-                $import_directory_factory = new ilImportDirectoryFactory();
-                $mob_import_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
-                if ($mob_import_directory->exists()) {
-                    $fs_gui = new ilFileSystemGUI($mob_import_directory->getAbsolutePath());
-                    $fs_gui->setPostDirPath(true);
-                    $fs_gui->setTableId("mepud" . $this->object->getId());
-                    $fs_gui->setAllowFileCreation(false);
-                    $fs_gui->setAllowDirectoryCreation(false);
-                    $fs_gui->clearCommands();
-                    $fs_gui->addCommand(
-                        $this,
-                        "selectUploadDirFiles",
-                        $this->lng->txt("mep_sel_upload_dir_files"),
-                        false,
-                        true
-                    );
-                    $this->ctrl->forwardCommand($fs_gui);
-                }
-                $this->tpl->printToStdout();
-                break;
-
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -662,15 +631,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $lng->txt("mep_create_folder"),
                 $ilCtrl->getLinkTarget($this, "createFolderForm")
             );
-
-            $upload_factory = new ilImportDirectoryFactory();
-            $media_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
-            if ($media_upload->exists() && $this->rbac_system->checkAccess("visible", SYSTEM_FOLDER_ID)) {
-                $ilToolbar->addButton(
-                    $lng->txt("mep_create_from_upload_dir"),
-                    $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
-                );
-            }
 
             $ilToolbar->addButton(
                 $lng->txt("mep_bulk_upload"),

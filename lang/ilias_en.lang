@@ -2397,7 +2397,6 @@ blog#:#blog_approve#:#Approve Post
 blog#:#blog_author#:#Written by
 blog#:#blog_authors#:#Authors
 blog#:#blog_back_to_blog_owner#:#Edit Blog
-blog#:#blog_banner#:#Banner
 blog#:#blog_change_notification_body_approve#:#The following blog post needs approval.
 blog#:#blog_change_notification_body_comment#:#The following blog post has received a comment.
 blog#:#blog_change_notification_body_new#:#A new post has been added to the following blog.
@@ -2477,10 +2476,6 @@ blog#:#blog_postings#:#Posts
 blog#:#blog_presentation_frame#:#Blog Presentation
 blog#:#blog_presentation_overview#:#Initial Overview
 blog#:#blog_preview#:#Preview
-blog#:#blog_preview_banner#:#Custom Banner
-blog#:#blog_preview_banner_height#:#Banner Height
-blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
-blog#:#blog_preview_banner_width#:#Banner Width
 blog#:#blog_profile_picture#:#Display Profile Picture
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of authors are only shown on post pages, not on overview pages.
 blog#:#blog_properties#:#Blog Properties
@@ -11675,7 +11670,6 @@ mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is 
 mep#:#mep_copy_to_mep#:#Copy to Media Pool
 mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_create_folder#:#Create Folder
-mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory
 mep#:#mep_create_media_files#:#Create Media Objects
 mep#:#mep_create_mob#:#Create Media Object
 mep#:#mep_default_height#:#Default Height
@@ -11700,7 +11694,6 @@ mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_page_properties#:#Page Properties
 mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_sel_upload_dir_files#:#Select Files/Directories
 mep#:#mep_thumbnail#:#Thumbnail
 mep#:#mep_title_and_description#:#Title and Description
 mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
@@ -13438,7 +13431,6 @@ prtf#:#prtf_allow_my_courses#:#Page Element ‘My Courses’
 prtf#:#prtf_allow_my_courses_info#:#Portfolios may include a list showing which courses the user is currently a member of.
 prtf#:#prtf_author#:#Author
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
-prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_blog_page_created#:#Blog has been added.
 prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
 prtf#:#prtf_copy_page#:#Copy Page(s)
@@ -13491,10 +13483,6 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 prtf#:#prtf_portfolios#:#Portfolios
-prtf#:#prtf_preview_banner#:#Custom Banner
-prtf#:#prtf_preview_banner_height#:#Banner Height
-prtf#:#prtf_preview_banner_info#:#Default size is 1370x100 pixels.
-prtf#:#prtf_preview_banner_width#:#Banner Width
 prtf#:#prtf_print_options#:#Options
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_profile_picture#:#Display Profile Picture
