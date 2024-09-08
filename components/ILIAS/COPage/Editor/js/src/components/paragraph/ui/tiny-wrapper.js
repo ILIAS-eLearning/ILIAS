@@ -213,7 +213,7 @@ export default class TinyWrapper {
         smart_paste: false,
         save_onsavecallback: 'saveParagraph',
         mode: 'exact',
-        elements: this.id,
+        selector: `#${this.id}`,
         content_css: this.content_css,
         fix_list_elements: true,
         valid_elements: 'p,br[_moz_dirty],span[class],code,sub[class],sup[class],ul[class],ol[class],li[class]',
@@ -337,7 +337,7 @@ export default class TinyWrapper {
         cb();
       });
 
-      if (ev.key === "Escape") {
+      if (ev.key === 'Escape') {
         wrapper.getCallbacks(CB.ESCAPE).forEach((cb) => {
           cb();
         });

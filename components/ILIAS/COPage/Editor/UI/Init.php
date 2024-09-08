@@ -103,8 +103,10 @@ class Init
 ></span>
 EOT;
 
+        $debug = "";
+        //$debug = ".";
         $module_tag = <<<EOT
-<script type="module" src="./components/ILIAS/COPage/Editor/js/src/editor.js"></script>
+<script type="module" src="$debug./components/ILIAS/COPage/Editor/js/src/editor.js"></script>
 EOT;
         return $init_span . $module_tag;
     }
