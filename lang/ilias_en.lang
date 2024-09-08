@@ -13412,10 +13412,6 @@ prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrele
 prg#:#will_not_update_cert_for_unsuccessful_progress#:#No certificate for unsuccessful programme
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_assignment#:#Add Assignment
-prtf#:#prtf_add_blog#:#Add Blog
-prtf#:#prtf_add_existing_blog#:#Use Existing Blog
-prtf#:#prtf_add_new_blog#:#Add New Blog
-prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_add_portfolio#:#Add Portfolio
 prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template

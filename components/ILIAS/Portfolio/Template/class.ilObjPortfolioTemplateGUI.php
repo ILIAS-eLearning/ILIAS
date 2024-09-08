@@ -453,55 +453,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
 
     //
-    // BLOG
-    //
-
-    /**
-     * Init blog template page form
-     */
-    protected function initBlogForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        $obj = new ilTextInputGUI($this->lng->txt("title"), "blog");
-        $obj->setRequired(true);
-        $form->addItem($obj);
-
-        // save and cancel commands
-        $form->setTitle($this->lng->txt("prtf_add_blog") . ": " .
-            $this->object->getTitle());
-        $form->addCommandButton("saveBlog", $this->lng->txt("save"));
-        $form->addCommandButton("view", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
-    protected function saveBlog(): void
-    {
-        $form = $this->initBlogForm();
-        if ($form->checkInput() && $this->checkPermissionBool("write")) {
-            $page = $this->getPageInstance();
-            $page->setType(ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE);
-            $page->setTitle($form->getInput("blog"));
-            $page->create(false);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_blog_page_created"), true);
-            $this->ctrl->redirect($this, "view");
-        }
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-
-    //
     // TRANSMOGRIFIER
     //
 

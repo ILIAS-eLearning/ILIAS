@@ -320,7 +320,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $pskills = array_keys($skill_personal_service->getSelectedUserSkills($ilUser->getId()));
 
         // copy pages
-        $blog_count = 0;
         $page_map = array();
         foreach (ilPortfolioPage::getAllPortfolioPages($source_id) as $page) {
             $page_id = $page["id"];
@@ -348,43 +347,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
             $valid = false;
             switch ($page_type) {
-                // blog => blog template
-                case ilPortfolioPage::TYPE_BLOG:
-                    if ($direction === "p2t") {
-                        $page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
-                        $page_title = $lng->txt("obj_blog") . " " . (++$blog_count);
-                        $valid = true;
-                    }
-                    break;
-
-                    // blog template => blog (needs recipe)
-                case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                    if ($direction === "t2p" && (is_array($page_recipe) || $copy_all)) {
-                        $page_type = ilPortfolioPage::TYPE_BLOG;
-                        if ($copy_all) {
-                            $page_title = self::createBlogInPersonalWorkspace($page_title);
-                            $valid = true;
-                        } elseif ($page_recipe[0] == "blog") {
-                            switch ($page_recipe[1]) {
-                                case "create":
-                                    $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
-                                    $valid = true;
-                                    break;
-
-                                case "reuse":
-                                    $page_title = $page_recipe[2];
-                                    $valid = true;
-                                    break;
-
-                                case "ignore":
-                                    // do nothing
-                                    break;
-                            }
-                        }
-                    }
-                    break;
-
-                    // page editor
+                // page editor
                 default:
                     $target_page->setXMLContent(
                         $source_page->copyXmlContent(
@@ -461,37 +424,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         foreach ($nodes as $node) {
             $node->setAttribute($a_attr_id, $a_attr_value);
         }
-    }
-
-    protected static function createBlogInPersonalWorkspace(string $a_title): int
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        static $ws_access = null;
-
-        $blog = new ilObjBlog();
-        $blog->setType("blog");
-        $blog->setTitle($a_title);
-        $blog->create();
-
-        if (!$ws_access) {
-            $tree = new ilWorkspaceTree($ilUser->getId());
-
-            // #13235
-            if (!$tree->getRootId()) {
-                $tree->createTreeForUser($ilUser->getId());
-            }
-
-            $ws_access = new ilWorkspaceAccessHandler($tree);
-        }
-
-        $tree = $ws_access->getTree();
-        $node_id = $tree->insertObject($tree->getRootId(), $blog->getId());
-        $ws_access->setPermissions($tree->getRootId(), $node_id);
-
-        return $blog->getId();
     }
 
     /**

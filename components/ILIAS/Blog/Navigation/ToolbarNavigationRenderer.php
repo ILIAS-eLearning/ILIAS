@@ -29,7 +29,6 @@ class ToolbarNavigationRenderer
     protected array $items;
     protected InternalGUIService $gui;
     protected int $portfolio_page;
-    protected bool $prtf_embed;
     protected int $blog_page;
     protected \ILIAS\Blog\Presentation\Util $util;
     protected $current_month;
@@ -51,25 +50,18 @@ class ToolbarNavigationRenderer
         array $a_items,
         int $blog_page,
         bool $single_posting,
-        bool $prtf_embed,
         $month,
         int $portfolio_page
     ): void {
 
         $this->blog_access = $blog_acces;
-        $toolbar = $this->gui->toolbar();
-        $lng = $this->domain->lng();
         $this->ctrl = $ctrl = $this->gui->ctrl();
-        $f = $this->gui->ui()->factory();
         $this->items = $a_items;
         $this->current_month = $month;
         $this->blog_page = $blog_page;
-        $this->prtf_embed = $prtf_embed;
         $this->portfolio_page = $portfolio_page;
 
-        $cmd = ($prtf_embed)
-            ? "previewEmbedded"
-            : "previewFullscreen";
+        $cmd = "previewFullscreen";
 
         if ($single_posting) {	// single posting view
             $next_posting = $this->getNextPosting($blog_page);
@@ -139,9 +131,6 @@ class ToolbarNavigationRenderer
 
         if ($single_posting && $this->blog_access->mayContribute() && $this->blog_access->mayEditPosting($this->blog_page)) {
             $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", $this->blog_page);
-            if ($this->prtf_embed) {
-                $ctrl->setParameterByClass(\ilObjPortfolioGUI::class, "ppage", $this->portfolio_page);
-            }
             $link = $ctrl->getLinkTargetByClass(\ilBlogPostingGUI::class, "edit");
             $actions[] = $f->button()->shy(
                 $lng->txt("blog_edit_posting"),

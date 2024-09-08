@@ -111,9 +111,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         if ($this->page_id > 0) {
             $page = $this->getPageInstance($this->page_id);
             $title = $page->getTitle();
-            if ($page->getType() === ilPortfolioPage::TYPE_BLOG) {
-                $title = ilObject::_lookupTitle($title);
-            }
             $this->ctrl->setParameterByClass($this->getPageGUIClassName(), "ppage", $this->page_id);
             $ilLocator->addItem(
                 $title,
@@ -312,13 +309,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "addPage")
         )->toToolbar(true);
 
-        if (!$ilSetting->get('disable_wsp_blogs')) {
-            $this->gui->button(
-                $this->lng->txt("prtf_add_blog"),
-                $this->ctrl->getLinkTarget($this, "addBlog")
-            )->toToolbar(true);
-        }
-
 
         // #16571
         $modal_html = "";
@@ -490,30 +480,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     }
 
     /**
-     * Show portfolio blog page creation form
-     */
-    protected function addBlog(): void
-    {
-        $ilHelp = $this->help;
-
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-
-        $ilHelp->setScreenIdComponent("prtf");
-        $ilHelp->setScreenId("add_blog");
-
-        $form = $this->initBlogForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    abstract protected function initBlogForm(): ilPropertyFormGUI;
-
-    abstract protected function saveBlog(): void;
-
-    /**
      * Save ordering of portfolio pages
      */
     public function savePortfolioPagesOrdering(): void
@@ -571,9 +537,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 }
 
                 $title = $page->getTitle();
-                if ($page->getType() === ilPortfolioPage::TYPE_BLOG) {
-                    $title = $this->lng->txt("obj_blog") . ": " . ilObject::_lookupTitle((int) $title);
-                }
                 $cgui->addItem("prtf_pages[]", $id, $title);
             }
 
@@ -658,17 +621,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         }
 
         // render tabs
-        $current_blog = null;
         if (count($pages) > 1) {
             foreach ($pages as $p) {
-                if ($p["type"] == ilPortfolioPage::TYPE_BLOG) {
-                    // needed for blog comments (see below)
-                    if ($p["id"] == $current_page) {
-                        $current_blog = (int) $p["title"];
-                    }
-                    $p["title"] = ilObjBlog::_lookupTitle($p["title"]);
-                }
-
                 $this->ctrl->setParameter($this, "user_page", $p["id"]);
                 $this->tabs_gui->addTab(
                     "user_page_" . $p["id"],
@@ -687,7 +641,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // note: notes must be handled before the $this->ctrl->getHTML below, since
         // this messes up the path since ILIAS 8
         $notes = "";
-        if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
+        if ($a_show_notes && $this->object->hasPublicComments() && $current_page) {
             $comment_gui = $this->getCommentGUI();
             $next_class = $this->ctrl->getNextClass($this);
             if ($next_class === "ilcommentgui") {
@@ -740,14 +694,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ctrl->setParameter($this, "user_page", $this->page_id);
 
         // blog pages do their own (page) style handling
-        if (!$current_blog) {
-            $content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">' .
-                '<div class="ilc_page_Page">' .
-                    $content .
-                '</div></div>';
+        $content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">' .
+            '<div class="ilc_page_Page">' .
+                $content .
+            '</div></div>';
 
-            $this->setContentStyleSheet($this->tpl);
-        }
+        $this->setContentStyleSheet($this->tpl);
 
         $this->showEditButton($current_page);
 

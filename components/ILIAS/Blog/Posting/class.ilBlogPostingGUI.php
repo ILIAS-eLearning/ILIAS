@@ -216,15 +216,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             ));
         }
         // permanent link
-        if ($a_mode !== "embedded") {
-            $append = ($this->blpg > 0)
-                ? "_" . $this->blpg
-                : "";
-            if ($this->isInWorkspace()) {
-                $append .= "_wsp";
-            }
-            $tpl->setPermanentLink("blog", $this->node_id, $append);
+        $append = ($this->blpg > 0)
+            ? "_" . $this->blpg
+            : "";
+        if ($this->isInWorkspace()) {
+            $append .= "_wsp";
         }
+        $tpl->setPermanentLink("blog", $this->node_id, $append);
 
         $wtpl->setVariable("PAGE", parent::preview());
 
@@ -235,13 +233,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $wtpl->get();
     }
 
-    /**
-     * Needed for portfolio/blog handling
-     */
-    public function previewEmbedded(): string
-    {
-        return $this->preview("embedded");
-    }
 
     /**
      * Needed for portfolio/blog handling
