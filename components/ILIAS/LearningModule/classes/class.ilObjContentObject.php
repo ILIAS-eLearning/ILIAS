@@ -40,7 +40,6 @@ class ilObjContentObject extends ilObject
     protected bool $numbering = false;
     protected bool $toc_active = false;
     protected bool $lm_menu_active = false;
-    protected string $public_access_mode = '';
     protected string $toc_mode = '';
     protected bool $restrict_forw_nav = false;
     protected bool $store_tries = false;
@@ -728,14 +727,6 @@ class ilObjContentObject extends ilObject
     }
 
     /**
-     * get public access mode ("complete" | "selected")
-     */
-    public function getPublicAccessMode(): string
-    {
-        return $this->public_access_mode;
-    }
-
-    /**
      * set toc mode
      * @param string $a_toc_mode		"chapters" | "pages"
      */
@@ -852,11 +843,6 @@ class ilObjContentObject extends ilObject
         $this->user_comments = $a_comm;
     }
 
-    public function setPublicAccessMode(string $a_mode): void
-    {
-        $this->public_access_mode = $a_mode;
-    }
-
     public function isActiveHistoryUserComments(): bool
     {
         return $this->user_comments;
@@ -905,7 +891,6 @@ class ilObjContentObject extends ilObject
         $this->setHeaderPage((int) $lm_rec["header_page"]);
         $this->setFooterPage((int) $lm_rec["footer_page"]);
         $this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
-        $this->setPublicAccessMode((string) $lm_rec["public_access_mode"]);
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
@@ -944,7 +929,6 @@ class ilObjContentObject extends ilObject
             " downloads_public_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text") . "," .
             " clean_frames = " . $ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text") . "," .
             " hist_user_comments = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments()), "text") . "," .
-            " public_access_mode = " . $ilDB->quote($this->getPublicAccessMode(), "text") . "," .
             " public_xml_file = " . $ilDB->quote($this->getPublicExportFile("xml"), "text") . "," .
             " public_html_file = " . $ilDB->quote($this->getPublicExportFile("html"), "text") . "," .
             " header_page = " . $ilDB->quote($this->getHeaderPage(), "integer") . "," .
@@ -1951,7 +1935,6 @@ class ilObjContentObject extends ilObject
         $new_obj->setPublicNotes($this->publicNotes());
         $new_obj->setCleanFrames($this->cleanFrames());
         $new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
-        $new_obj->setPublicAccessMode($this->getPublicAccessMode());
         $new_obj->setPageHeader($this->getPageHeader());
         $new_obj->setRating($this->hasRating());
         $new_obj->setRatingPages($this->hasRatingPages());

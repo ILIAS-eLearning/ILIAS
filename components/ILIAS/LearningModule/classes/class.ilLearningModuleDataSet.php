@@ -194,6 +194,37 @@ class ilLearningModuleDataSet extends ilDataSet
                         "StyleId" => "integer",
                         "EstimatedReadingTime" => "integer"
                     );
+
+                case "10.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "DefaultLayout" => "text",
+                        "PageHeader" => "text",
+                        "TocActive" => "text",
+                        "LMMenuActive" => "text",
+                        "TOCMode" => "text",
+                        "PrintViewActive" => "text",
+                        "NoGloAppendix" => "text",
+                        "Numbering" => "text",
+                        "HistUserComments" => "text",
+                        "PubNotes" => "text",
+                        "HeaderPage" => "integer",
+                        "FooterPage" => "integer",
+                        "LayoutPerPage" => "integer",
+                        "Rating" => "integer",
+                        "HideHeadFootPrint" => "integer",
+                        "DisableDefFeedback" => "integer",
+                        "RatingPages" => "integer",
+                        "ProgrIcons" => "integer",
+                        "StoreTries" => "integer",
+                        "RestrictForwNav" => "integer",
+                        "Comments" => "integer",
+                        "ForTranslation" => "integer",
+                        "StyleId" => "integer",
+                        "EstimatedReadingTime" => "integer"
+                    );
             }
         }
 
@@ -215,6 +246,19 @@ class ilLearningModuleDataSet extends ilDataSet
                         "Layout" => "text",
                         "ImportId" => "text"
                     );
+                case "10.0":
+                    return array(
+                        "LmId" => "integer",
+                        "Child" => "integer",
+                        "Parent" => "integer",
+                        "Depth" => "integer",
+                        "Type" => "text",
+                        "Title" => "text",
+                        "ShortTitle" => "text",
+                        "Active" => "text",
+                        "Layout" => "text",
+                        "ImportId" => "text"
+                    );
             }
         }
 
@@ -223,6 +267,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
+                case "10.0":
                     return array(
                             "LmId" => "integer",
                             "LinkType" => "text",
@@ -239,6 +284,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
+                case "10.0":
                     return array(
                             "Id" => "integer",
                             "Lang" => "text",
@@ -279,6 +325,14 @@ class ilLearningModuleDataSet extends ilDataSet
                             $q = "SELECT id, title, description," .
                                 " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
                                 " hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
+                                " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
+                                " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
+                                " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
+                            break;
+                        case "10.0":
+                            $q = "SELECT id, title, description," .
+                                " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
+                                " hist_user_comments, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
                                 " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
                                 " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
                                 " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
@@ -365,6 +419,55 @@ class ilLearningModuleDataSet extends ilDataSet
                         $this->data[] = $tmp;
                     }
                     break;
+                case "10.0":
+                    // the order by lft is very important, this ensures that parent nodes are written before
+                    // their childs and that the import can add nodes simply with a "add at last child" target
+                    $q = "SELECT lm_tree.lm_id, child, parent, depth, type, title, short_title, active, layout, import_id" .
+                        " FROM lm_tree JOIN lm_data ON (lm_tree.child = lm_data.obj_id)" .
+                        " WHERE " . $ilDB->in("lm_tree.lm_id", $a_ids, false, "integer") .
+                        " ORDER BY lft";
+
+                    $set = $ilDB->query($q);
+                    $this->data = array();
+                    $obj_ids = array();
+                    while ($rec = $ilDB->fetchAssoc($set)) {
+                        $set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = " . $ilDB->quote($rec["lm_id"], "integer"));
+                        $rec2 = $ilDB->fetchAssoc($set2);
+                        if (!$rec2["for_translation"]) {
+                            $rec["import_id"] = "il_" . IL_INST_ID . "_" . $rec["type"] . "_" . $rec["child"];
+                        }
+                        $tmp = array();
+                        foreach ($rec as $k => $v) {
+                            $tmp[$this->convertToLeadingUpper($k)]
+                                = $v;
+                        }
+                        $rec = $tmp;
+                        $obj_ids[] = $rec["Child"];
+                        $this->data[] = $rec;
+                    }
+
+                    // add free pages #18976
+                    $set3 = $ilDB->query($q = "SELECT lm_id, type, title, short_title, active, layout, import_id, obj_id child FROM lm_data " .
+                        "WHERE " . $ilDB->in("lm_id", $a_ids, false, "integer") .
+                        " AND " . $ilDB->in("obj_id", $obj_ids, true, "integer") .
+                        " AND type = " . $ilDB->quote("pg", "text"));
+                    while ($rec3 = $ilDB->fetchAssoc($set3)) {
+                        $set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = " . $ilDB->quote($rec3["lm_id"], "integer"));
+                        $rec2 = $ilDB->fetchAssoc($set2);
+                        if (!$rec2["for_translation"]) {
+                            $rec3["import_id"] = "il_" . IL_INST_ID . "_pg_" . $rec3["child"];
+                        }
+                        $rec3["type"] = "free_pg";
+                        $rec3["depth"] = 0;
+                        $rec3["parent"] = 0;
+                        $tmp = array();
+                        foreach ($rec3 as $k => $v) {
+                            $tmp[$this->convertToLeadingUpper($k)]
+                                = $v;
+                        }
+                        $this->data[] = $tmp;
+                    }
+                    break;
             }
         }
 
@@ -373,6 +476,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active" .
                             " FROM lm_menu " .
                             " WHERE " . $ilDB->in("lm_id", $a_ids, false, "integer"));
@@ -385,6 +489,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id, lang, title, short_title" .
                             " FROM lm_data_transl " .
                             " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
@@ -455,7 +560,6 @@ class ilLearningModuleDataSet extends ilDataSet
                 $newObj->setActivePreventGlossaryAppendix(ilUtil::yn2tf($a_rec["NoGloAppendix"]));
                 $newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
                 $newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
-                $newObj->setPublicAccessMode($a_rec["PublicAccessMode"]);
                 $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"] ?? "n"));
                 // Header Page/ Footer Page ???
                 $newObj->setLayoutPerPage($a_rec["LayoutPerPage"]);

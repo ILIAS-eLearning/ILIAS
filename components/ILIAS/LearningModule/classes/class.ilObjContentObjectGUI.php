@@ -1929,16 +1929,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 ""
             );
 
-            if ($ilSetting->get("pub_section")) {
-                // public section
-                $ilTabs->addSubTabTarget(
-                    "public_section",
-                    $this->ctrl->getLinkTarget($this, 'editPublicSection'),
-                    "",
-                    ""
-                );
-            }
-
             $ilTabs->addSubTabTarget(
                 "obj_multilinguality",
                 $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
@@ -1954,101 +1944,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             $ilTabs->setSubTabActive($a_active);
         }
-    }
-
-    public function editPublicSection(): void
-    {
-        $ilTabs = $this->tabs;
-        $ilToolbar = $this->toolbar;
-        $ilAccess = $this->access;
-
-
-        if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->lm->getRefId())) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_anonymous_user_missing_perm"));
-        }
-
-        $this->setTabs();
-        $this->setSubTabs("public_section");
-        $ilTabs->setTabActive("settings");
-
-        $this->tpl->addBlockFile(
-            "ADM_CONTENT",
-            "adm_content",
-            "tpl.lm_public_selector.html",
-            "components/ILIAS/LearningModule"
-        );
-
-        // get learning module object
-        $this->lm_obj = new ilObjLearningModule($this->ref_id, true);
-
-
-        // public mode
-        $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $si = new ilSelectInputGUI($this->lng->txt("choose_public_mode"), "lm_public_mode");
-        $si->setOptions($modes);
-        $si->setValue($this->lm->getPublicAccessMode());
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton($this->lng->txt("save"), "savePublicSectionAccess");
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "savePublicSectionAccess"));
-
-        if ($this->lm->getPublicAccessMode() == "selected") {
-            $this->tpl->setCurrentBlock("select_pages");
-            $this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
-
-            $tree = new ilPublicSectionExplorerGUI(
-                $this,
-                "editPublicSection",
-                $this->lm_obj,
-                $this->edit_request->getTranslation()
-            );
-            $tree->setSelectMode("pages", true);
-            $tree->setSkipRootNode(true);
-
-            $this->tpl->setVariable("EXPLORER", $tree->getHTML());
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-            $this->tpl->parseCurrentBlock();
-        }
-    }
-
-    public function savePublicSection(): void
-    {
-        $this->lm->setPublicAccessMode(
-            $this->edit_request->getLMPublicMode()
-        );
-        $this->lm->updateProperties();
-        ilLMObject::_writePublicAccessStatus(
-            $this->edit_request->getPublicPages(),
-            $this->lm->getId()
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
-    }
-
-    /**
-     * Saves lm access mode
-     */
-    public function savePublicSectionAccess(): void
-    {
-        $this->lm->setPublicAccessMode(
-            $this->edit_request->getLMPublicMode()
-        );
-        $this->lm->updateProperties();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
-    }
-
-    /**
-     * Saves public lm pages
-     */
-    public function savePublicSectionPages(): void
-    {
-        ilLMObject::_writePublicAccessStatus(
-            $this->edit_request->getPublicPages(),
-            $this->lm->getId()
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "editPublicSection");
     }
 
     public function history(): void
