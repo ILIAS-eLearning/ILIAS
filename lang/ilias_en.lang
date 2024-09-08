@@ -6073,8 +6073,6 @@ contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
 content#:#all_pages#:#Entire Learning Module
-content#:#choose_public_mode#:#Access for Users not logged-in
-content#:#choose_public_pages#:#Choose public accessible pages
 content#:#citate#:#Citate
 content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
@@ -7287,7 +7285,6 @@ content#:#scplayer_suspendall#:#Suspend All
 content#:#selectFooter#:#Select As Footer
 content#:#selectHeader#:#Select As Header
 content#:#select_a_file#:#Please select a file.
-content#:#selected_pages_only#:#Only Selected Pages
 content#:#seq_close#:#Please close the player-window.
 content#:#seq_endsession#:#The current course session has ended.
 content#:#seq_error#:#An internal error in the sequencer occurred.
