@@ -13488,8 +13488,6 @@ prtf#:#prtf_role_title#:#Role
 prtf#:#prtf_save_status_and_titles#:#Save Status and Titles
 prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.
 prtf#:#prtf_selected_pages#:#Selected Pages
-prtf#:#prtf_set_as_default#:#Set As My Profile
-prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
 prtf#:#prtf_set_offline#:#Set Offline
