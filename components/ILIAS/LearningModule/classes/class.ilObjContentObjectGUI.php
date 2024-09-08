@@ -593,11 +593,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->form->addItem($pub_nodes);
         }
 
-        // history user comments
-        $com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
-        $com->setInfo($this->lng->txt("enable_hist_user_comments_desc"));
-        $this->form->addItem($com);
-
         // rating
         $this->lng->loadLanguageModule('rating');
         $rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
@@ -653,9 +648,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         if ($this->lm->cleanFrames()) {
             $values["cobj_clean_frames"] = true;
         }
-        if ($this->lm->isActiveHistoryUserComments()) {
-            $values["cobj_user_comments"] = true;
-        }
         //$values["layout_per_page"] = $this->lm->getLayoutPerPage();
         $values["rating"] = $this->lm->hasRating();
         $values["rating_pages"] = $this->lm->hasRatingPages();
@@ -707,7 +699,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             if (!$ilSetting->get('disable_comments')) {
                 $this->lm->setPublicNotes($form->getInput("cobj_pub_notes"));
             }
-            $this->lm->setHistoryUserComments((bool) $form->getInput("cobj_user_comments"));
             $this->lm->setRating((bool) $form->getInput("rating"));
             $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
             $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
@@ -1256,14 +1247,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
                     $obj->setLMId($this->lm->getId());
-
-                    ilHistory::_createEntry(
-                        $this->lm->getId(),
-                        "delete_" . $obj->getType(),
-                        array(ilLMObject::_lookupTitle($id), $id),
-                        $this->lm->getType()
-                    );
-
                     $obj->delete();
                 }
                 if ($tree->isInTree($id)) {
@@ -1747,12 +1730,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilCtrl->getLinkTarget($this, "listLinks")
         );
 
-        $ilTabs->addSubTab(
-            "history",
-            $lng->txt("history"),
-            $this->ctrl->getLinkTarget($this, "history")
-        );
-
         // maintenance
         $ilTabs->addSubTab(
             "maintenance",
@@ -1944,23 +1921,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             $ilTabs->setSubTabActive($a_active);
         }
-    }
-
-    public function history(): void
-    {
-        $this->setTabs("content");
-        $this->setContentSubTabs("history");
-
-        $hist_gui = new ilHistoryTableGUI(
-            $this,
-            "history",
-            $this->lm->getId(),
-            $this->lm->getType()
-        );
-        $hist_gui->initTable();
-        $hist_gui->setCommentVisibility($this->lm->isActiveHistoryUserComments());
-
-        $this->tpl->setContent($hist_gui->getHTML());
     }
 
     public function __initLMMenuEditor(): void

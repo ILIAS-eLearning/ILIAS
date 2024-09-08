@@ -85,7 +85,6 @@ class ilPageObjectGUI
     public bool $output2template = false;
     public string $link_params = "";
     public string $sourcecode_download_script = "";
-    public bool $change_comments = false;
     public bool $activation = false;
     public bool $activated = true;
     public bool $editpreview = false;
@@ -214,7 +213,6 @@ class ilPageObjectGUI
         $this->output2template = true;
 
         $this->template_output_var = "PAGE_CONTENT";
-        $this->change_comments = false;
         $this->page_back_title = $this->lng->txt("page");
         $this->lng->loadLanguageModule("content");
         $this->lng->loadLanguageModule("copg");
@@ -524,16 +522,6 @@ class ilPageObjectGUI
     public function setIntLinkReturn(string $a_return): void
     {
         $this->int_link_return = $a_return;
-    }
-
-    public function enableChangeComments(bool $a_enabled): void
-    {
-        $this->change_comments = $a_enabled;
-    }
-
-    public function isEnabledChangeComments(): bool
-    {
-        return $this->change_comments;
     }
 
     public function enableNotes(bool $a_enabled, int $a_parent_id): void
@@ -1096,13 +1084,6 @@ class ilPageObjectGUI
             $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "components/ILIAS/COPage");
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
-
-            // user comment
-            if ($this->isEnabledChangeComments()) {
-                $tpl->setCurrentBlock("change_comment");
-                $tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
-                $tpl->parseCurrentBlock();
-            }
 
             if ($this->getPageConfig()->getUsePageContainer()) {
                 $tpl->setVariable("PAGE_CONTAINER_CLASS", "ilc_page_cont_PageContainer");

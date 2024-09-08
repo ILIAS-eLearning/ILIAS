@@ -208,7 +208,6 @@ class ilLearningModuleDataSet extends ilDataSet
                         "PrintViewActive" => "text",
                         "NoGloAppendix" => "text",
                         "Numbering" => "text",
-                        "HistUserComments" => "text",
                         "PubNotes" => "text",
                         "HeaderPage" => "integer",
                         "FooterPage" => "integer",
@@ -559,7 +558,6 @@ class ilLearningModuleDataSet extends ilDataSet
                 $newObj->setActivePrintView(ilUtil::yn2tf($a_rec["PrintViewActive"]));
                 $newObj->setActivePreventGlossaryAppendix(ilUtil::yn2tf($a_rec["NoGloAppendix"]));
                 $newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
-                $newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
                 $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"] ?? "n"));
                 // Header Page/ Footer Page ???
                 $newObj->setLayoutPerPage($a_rec["LayoutPerPage"]);

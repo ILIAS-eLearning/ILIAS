@@ -408,14 +408,6 @@ class ilLMObject
             ", " . $ilDB->now() . ")";
         $ilDB->manipulate($query);
 
-        // create history entry
-        ilHistory::_createEntry(
-            $this->getId(),
-            "create",
-            [],
-            $this->content_object->getType() . ":" . $this->getType()
-        );
-
         if (!$a_upload) {
             $this->createMetaData();
         }
