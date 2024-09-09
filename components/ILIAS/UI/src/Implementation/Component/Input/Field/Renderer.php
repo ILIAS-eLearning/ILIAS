@@ -324,8 +324,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue()) {
             $tpl->setVariable("CHECKED", 'checked="checked"');
         }
-        $id = $this->bindJavaScript($component) ?? $this->createId();
-        $tpl->setVariable("OPTIONID", $id);
         $label = $tpl->get();
 
         $input_html = '';
@@ -350,7 +348,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue() !== null) {
             list($value, ) = $component->getValue();
         }
-
 
         $input_html = '';
         foreach ($component->getInputs() as $key => $group) {

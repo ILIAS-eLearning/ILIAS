@@ -97,6 +97,7 @@ trait CommonFieldRendering
             <div class="c-input__help-byline">' . $byline . '</div>';
         }
         $html .= '
+            <div class="c-input__value_representation"></div>
         </fieldset>
         ';
         return $this->brutallyTrimHTML($html);

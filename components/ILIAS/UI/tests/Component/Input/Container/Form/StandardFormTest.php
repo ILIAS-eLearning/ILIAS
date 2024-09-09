@@ -124,7 +124,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($form);
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+        <form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
            </div>'
@@ -169,7 +169,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+        <form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
            <div class="c-form__header">
               <div class="c-form__actions"><button class="btn btn-default" data-action="">create</button></div>
            </div>'
@@ -196,7 +196,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-        <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+        <form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
             <div class="c-form__header">
                 <div class="c-form__actions">
                     <button class="btn btn-default" data-action="">save</button>
@@ -256,7 +256,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+            <form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
             <div class="c-form__header">
                 <div class="c-form__actions">
                     <button class="btn btn-default" data-action="">save</button>
@@ -268,6 +268,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                 <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
                 <div class="c-input__error-msg alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
                 <div class="c-input__help-byline">byline</div>
+                <div class="c-input__value_representation"></div>
             </fieldset>
             <div class="c-form__footer">
                 <div class="c-form__actions">
@@ -327,7 +328,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+            <form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
                 <div class="c-form__header">
                     <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
@@ -362,7 +363,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         );
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+<form role="form" id="id_2" class="c-form c-form--horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
     <div class="c-form__header">
         <div class="c-form__actions"><button class="btn btn-default" data-action="">save</button></div>
         <div class="c-form__required">
