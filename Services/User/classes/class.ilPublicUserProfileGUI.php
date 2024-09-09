@@ -153,9 +153,15 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $tpl->loadStandardTemplate();
 
         switch ($next_class) {
+            case 'ilbuddysystemgui':
+                $gui = new ilBuddySystemGUI();
+                $ilCtrl->setReturn($this, 'view');
+                $ilCtrl->forwardCommand($gui);
+                break;
             case "ilobjportfoliogui":
                 $portfolio_id = $this->getProfilePortfolio();
-                if ($portfolio_id) {
+                if ($portfolio_id
+                    && $cmd !== 'deliverVCard') {
                     $gui = new ilObjPortfolioGUI($portfolio_id); // #11876
                     $gui->setAdditional($this->getAdditional());
                     $gui->setPermaLink($this->getUserId(), "usr");
@@ -163,11 +169,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     break;
                 }
                 // no break
-            case 'ilbuddysystemgui':
-                $gui = new ilBuddySystemGUI();
-                $ilCtrl->setReturn($this, 'view');
-                $ilCtrl->forwardCommand($gui);
-                break;
             default:
                 $ret = $this->$cmd();
                 $tpl->setContent($ret);
