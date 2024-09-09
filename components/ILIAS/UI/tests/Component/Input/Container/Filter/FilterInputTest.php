@@ -268,6 +268,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                     <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
             </div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
         ');
         $this->assertEquals($expected, $html);

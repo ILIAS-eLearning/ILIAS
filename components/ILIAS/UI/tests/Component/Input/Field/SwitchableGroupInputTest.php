@@ -441,8 +441,10 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         for="id_2">f</label>
                     <div class="c-input__field"><input id="id_2" type="text" class="c-field-text" /></div>
                     <div class="c-input__help-byline">some field</div>
+                    <div class="c-input__value_representation"></div>
                 </fieldset>
             </div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
         <fieldset class="c-input" data-il-ui-component="group-field-input" data-il-ui-input-name="">
             <label for="id_3">
@@ -454,11 +456,14 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         for="id_4">f2</label>
                     <div class="c-input__field"><input id="id_4" type="text" class="c-field-text" /></div>
                     <div class="c-input__help-byline">some other field</div>
+                    <div class="c-input__value_representation"></div>
                 </fieldset>
             </div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
     </div>
     <div class="c-input__help-byline">byline</div>
+    <div class="c-input__value_representation"></div>
 </fieldset>
 EOT;
         $this->assertEquals(

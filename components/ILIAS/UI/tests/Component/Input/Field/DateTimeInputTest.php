@@ -185,6 +185,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
                 </div>
             </div>
             <div class="c-input__help-byline">byline</div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
         ');
         $this->assertEquals($expected, $html);

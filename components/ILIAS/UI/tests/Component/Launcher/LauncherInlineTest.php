@@ -234,6 +234,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                                     <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="c-field-checkbox" />
                                 </div>
                                 <div class="c-input__help-byline">ok</div>
+                                <div class="c-input__value_representation"></div>
                             </fieldset>
                         </form>
                     </div>

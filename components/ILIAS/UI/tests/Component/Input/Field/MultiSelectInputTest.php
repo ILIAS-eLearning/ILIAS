@@ -211,6 +211,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 </ul>
             </div>
             <div class="c-input__help-byline">byline</div>
+            <div class="c-input__value_representation"></div>
         </fieldset>';
 
         $this->assertHTMLEquals($expected, $r->render($ms));
