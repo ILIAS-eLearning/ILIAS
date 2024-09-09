@@ -26,6 +26,7 @@ use ErrorException;
 use RecursiveIteratorIterator;
 use LibXMLError;
 use Throwable;
+use DOMNode;
 
 class ValidHTML
 {

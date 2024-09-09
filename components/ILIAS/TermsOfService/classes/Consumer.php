@@ -34,7 +34,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 class Consumer implements ConsumerInterface
 {
     private readonly Container $container;
-    private readonly Closure $lazy_users;
 
     public const ID = 'tos';
 
@@ -70,7 +69,7 @@ class Consumer implements ConsumerInterface
         $constraint = $this->container->refinery()->custom()->constraint(...);
 
         return $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
-                    ->hasAgreement($blocks->slot()->agreement($user, $global_settings), 'agreement')
+                    ->hasAgreement($blocks->slot()->agreement($user), 'agreement')
                     ->showInFooter($blocks->slot()->modifyFooter($user))
                     ->showOnLoginPage($blocks->slot()->showOnLoginPage())
                     ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))

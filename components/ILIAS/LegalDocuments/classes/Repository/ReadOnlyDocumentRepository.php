@@ -86,7 +86,7 @@ class ReadOnlyDocumentRepository implements DocumentRepository, DocumentReposito
     public function findId(DocumentId $document_id): Result
     {
         $this->checkAccess(__FUNCTION__);
-        return $this->repository->findId($id);
+        return $this->repository->findId($document_id);
     }
 
     public function createDocument(string $title, DocumentContent $content): void

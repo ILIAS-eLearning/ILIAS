@@ -43,7 +43,6 @@ class AgreementTest extends TestCase
     {
         $this->assertInstanceOf(Agreement::class, new Agreement(
             $this->mock(User::class),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             $this->fail(...)
@@ -54,7 +53,6 @@ class AgreementTest extends TestCase
     {
         $instance = new Agreement(
             $this->mockTree(User::class, ['matchingDocument' => new Ok($this->mock(Document::class))]),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             $this->fail(...)
@@ -67,7 +65,6 @@ class AgreementTest extends TestCase
     {
         $instance = new Agreement(
             $this->mockTree(User::class, ['matchingDocument' => new Ok($this->mock(Document::class))]),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             fn() => $this->mock(Component::class)
@@ -84,7 +81,6 @@ class AgreementTest extends TestCase
                 'neverAgreed' => false,
                 'didNotAcceptCurrentVersion' => false,
             ]),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             $this->fail(...)
@@ -100,7 +96,6 @@ class AgreementTest extends TestCase
                 'cannotAgree' => true,
                 'didNotAcceptCurrentVersion' => true,
             ]),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             $this->fail(...)
@@ -116,7 +111,6 @@ class AgreementTest extends TestCase
                 'cannotAgree' => false,
                 'needsToAcceptNewDocument' => true,
             ]),
-            $this->mock(Settings::class),
             $this->mock(UI::class),
             $this->mock(Routing::class),
             $this->fail(...)

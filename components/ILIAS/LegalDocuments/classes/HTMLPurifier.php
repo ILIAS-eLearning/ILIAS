@@ -35,6 +35,7 @@ class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
     private readonly Closure $create_config;
 
     /**
+     * @param list<string> $allowed_tags
      * @param null|Closure(): HTMLPurifier_Config $create_config
      */
     public function __construct(

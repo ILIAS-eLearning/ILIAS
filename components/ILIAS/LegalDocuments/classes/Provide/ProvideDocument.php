@@ -56,9 +56,8 @@ class ProvideDocument
     private readonly Closure $create_table_gui;
 
     /**
+     * @param array<string, Closure(DocumentContent): Component> $content_as_component
      * @param null|Closure(object, string, TableInterface): Table $create_table_gui
-     * @param array<ConditionDefinition> $conditions
-     * @param array<string, Closure(CriterionContent): Component $content_as_component
      */
     public function __construct(
         private readonly string $id,

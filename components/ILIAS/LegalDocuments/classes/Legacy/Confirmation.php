@@ -38,7 +38,7 @@ class Confirmation
     }
 
     /**
-     * @param array<string, string> $items
+     * @param array<int|string, string> $items
      */
     public function render(string $link, string $command, string $cancel_command, string $message, array $items = []): string
     {

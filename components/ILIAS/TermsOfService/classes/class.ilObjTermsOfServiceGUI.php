@@ -26,6 +26,7 @@ use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\Blocks;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -44,7 +45,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     private readonly UI $ui;
     private readonly Settings $tos_settings;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
@@ -122,7 +123,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
     }
 
-    public function form(): ILIAS\UI\Component\Input\Container\Form\Standard
+    public function form(): Form
     {
         $read_only = !$this->rbac_system->checkAccess('write', $this->object->getRefId());
 
