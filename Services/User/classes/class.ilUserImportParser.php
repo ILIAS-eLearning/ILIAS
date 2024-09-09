@@ -575,7 +575,7 @@ class ilUserImportParser extends ilSaxParser
                 $this->containedTags = [];
                 $this->userObj = new ilObjUser();
                 $this->userObj->setLanguage($a_attribs["Language"] ?? '');
-                $this->userObj->setImportId($a_attribs["Id"]);
+                $this->userObj->setImportId($a_attribs["Id"] ?? '');
                 $this->currentPrefKey = null;
                 // if we have an object id, store it
                 $this->user_id = -1;
