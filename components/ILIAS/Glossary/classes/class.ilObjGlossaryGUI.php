@@ -917,7 +917,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         );
         $modal = $this->ui_fac->modal()->roundtrip(
             $this->lng->txt("glo_add_to_collection"),
-            $this->ui_fac->legacy(!$exp->handleCommand() ? $exp->getHTML() : "")
+            $this->ui_fac->legacy(!$exp->handleCommand() ? $exp->getHTML(true) : "")
         );
 
         return $modal;

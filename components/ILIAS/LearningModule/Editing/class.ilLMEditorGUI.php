@@ -186,9 +186,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $this->tool_context->current()->addAdditionalData(ilLMEditGSToolProvider::SHOW_TREE, true);
 
         $exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
-        if (!$exp->handleCommand()) {
-//            $tpl->setLeftNavContent($exp->getHTML());
-        }
+        $exp->handleCommand();
     }
 
     /**

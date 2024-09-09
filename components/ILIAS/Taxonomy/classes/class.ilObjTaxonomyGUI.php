@@ -617,7 +617,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             );
             if (!$tax_exp->handleCommand()) {
                 //$tpl->setLeftNavContent($tax_exp->getHTML());
-                $tpl->setContent($tax_exp->getHTML() . "&nbsp;");
+                $tpl->setContent($tax_exp->getHTML(true) . "&nbsp;");
             }
         }
     }
