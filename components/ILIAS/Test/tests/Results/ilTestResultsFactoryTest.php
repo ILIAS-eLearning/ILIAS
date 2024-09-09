@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Results;
+namespace ILIAS\Tests\Tests\Results;
 
 use ilObjTest;
 use ilTestBaseTestCase;
@@ -48,7 +48,7 @@ class ilTestResultsFactoryTest extends ilTestBaseTestCase
         $il_test_results_factory = $this->createInstanceOf(ilTestResultsFactory::class);
         $il_obj_test = $this->createMock(ilObjTest::class);
 
-        if (is_null($is_user_output)) {
+        if ($is_user_output === null) {
             $il_test_pass_result = $il_test_results_factory->getPassResultsFor(
                 $il_obj_test,
                 $active_id,

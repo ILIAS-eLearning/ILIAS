@@ -18,7 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
+use ilCtrl;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
+use TestStaticURLHandler;
 
 class TestStaticURLHandlerTest extends ilTestBaseTestCase
 {

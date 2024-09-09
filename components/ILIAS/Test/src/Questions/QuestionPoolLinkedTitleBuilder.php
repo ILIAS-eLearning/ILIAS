@@ -70,7 +70,7 @@ trait QuestionPoolLinkedTitleBuilder
         string $title,
         bool $reference = false
     ): string {
-        if (is_null($qpl_id)) {
+        if ($qpl_id === null) {
             return $title;
         }
 
@@ -116,7 +116,7 @@ trait QuestionPoolLinkedTitleBuilder
             ilObject::_getAllReferences($obj_id)
         );
 
-        if (is_null($ref_id)) {
+        if ($ref_id === null) {
             return $title . ' (' . $lng->txt('status_no_permission') . ')';
         }
 
@@ -162,10 +162,6 @@ trait QuestionPoolLinkedTitleBuilder
             }
         );
 
-        if ($references_with_access !== []) {
-            return array_shift($references_with_access);
-        }
-
-        return null;
+        return array_shift($references_with_access);
     }
 }

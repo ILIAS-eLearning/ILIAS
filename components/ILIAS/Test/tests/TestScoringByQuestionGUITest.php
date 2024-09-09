@@ -18,8 +18,12 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 /**
  * Class TestScoringByQuestionGUITest

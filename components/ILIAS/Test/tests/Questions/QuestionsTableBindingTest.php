@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Questions;
+namespace ILIAS\Test\Tests\Questions;
 
 use ILIAS\Test\Questions\QuestionsTableBinding;
 use ILIAS\UI\Implementation\Component\Link\Standard;

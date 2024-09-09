@@ -143,7 +143,7 @@ class ilTestBaseTestCase extends TestCase
     {
         $constructor = (new ReflectionClass($class_name))->getConstructor();
 
-        if (is_null($constructor)) {
+        if ($constructor === null) {
             return new $class_name();
         }
 

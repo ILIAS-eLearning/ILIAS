@@ -18,8 +18,15 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Confirmations;
+
+use ilLanguage;
+use ilTestBaseTestCase;
+use ilTestException;
+use ilTestPassDeletionConfirmationGUI;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 /**
  * Class ilTestPassDeletionConfirmationGUITest

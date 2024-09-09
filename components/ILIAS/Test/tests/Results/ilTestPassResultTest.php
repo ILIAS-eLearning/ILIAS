@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Results;
+namespace ILIAS\Test\Tests\Results;
 
 use Closure;
 use ilQuestionResult;

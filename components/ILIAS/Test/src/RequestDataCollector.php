@@ -43,12 +43,12 @@ class RequestDataCollector
 
     public function isset(string $key): bool
     {
-        return !is_null($this->raw($key));
+        return $this->raw($key) !== null;
     }
 
     public function hasRefId(): bool
     {
-        return !is_null($this->raw('ref_id'));
+        return $this->raw('ref_id') !== null;
     }
 
     public function getRefId(): int
@@ -66,7 +66,7 @@ class RequestDataCollector
 
     public function hasQuestionId(): bool
     {
-        return !is_null($this->raw('q_id'));
+        return $this->raw('q_id') !== null;
     }
 
     public function getQuestionId(): int

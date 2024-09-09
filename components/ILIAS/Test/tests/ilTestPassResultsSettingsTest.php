@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Access\test;
+namespace ILIAS\Test\Tests;
 
 use ilTestBaseTestCase;
 use ilTestPassResultsSettings;
@@ -42,7 +42,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetShowHiddenQuestions(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_hidden_questions' => $IO]);
 
@@ -64,7 +64,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetShowOptionalQuestions(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_optional_questions' => $IO]);
 
@@ -86,7 +86,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetShowBestSolution(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_best_solution' => $IO]);
 
@@ -108,7 +108,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetShowFeedback(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_feedback' => $IO]);
 
@@ -130,7 +130,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetQuestionTextOnly(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['question_text_only' => $IO]);
 
@@ -152,7 +152,7 @@ class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
      */
     public function testGetShowRecapitulation(?bool $IO): void
     {
-        $test_pass_results_settings = is_null($IO)
+        $test_pass_results_settings = $IO === null
             ? $this->createInstanceOf(ilTestPassResultsSettings::class)
             : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_recapitulation' => $IO]);
 

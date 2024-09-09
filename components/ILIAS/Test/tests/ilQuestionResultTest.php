@@ -16,7 +16,12 @@
  *
  *********************************************************************/
 
-use \PHPUnit\Framework\MockObject\Exception;
+namespace ILIAS\Test\Tests;
+
+use ilQuestionResult;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class ilQuestionResultTest extends ilTestBaseTestCase
 {

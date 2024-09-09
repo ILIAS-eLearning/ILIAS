@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Logging;
+namespace ILIAS\Test\Tests\Logging;
 
 use ilDBInterface;
 use ilDBStatement;
@@ -350,7 +350,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
         $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($std_class, $output) {
             $query = $this->createMock(ilDBStatement::class);
 
-            $exactly = is_null($output) ? $this->never() : $this->exactly(2);
+            $exactly = $output === null ? $this->never() : $this->exactly(2);
 
             $mock
                 ->method('numRows')
@@ -370,7 +370,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $factory = $this->createMock(Factory::class);
 
-        if (!is_null($output)) {
+        if ($output !== null) {
             $interaction = $this->createMock($output);
             $factory
                 ->expects($this->once())
@@ -383,7 +383,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
             'factory' => $factory
         ]);
 
-        if (is_null($output)) {
+        if ($output === null) {
             $this->assertNull($test_logging_database_repository->getLog($input['unique_id']));
             return;
         }
@@ -415,7 +415,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
 
         $this->adaptDICServiceMock(ilDBInterface::class, function (ilDBInterface|MockObject $mock) use ($with) {
             $mock
-                ->expects(is_null($with) ? $this->never(): $this->once())
+                ->expects($with === null ? $this->never(): $this->once())
                 ->method('manipulate')
                 ->with($with);
 
@@ -424,7 +424,7 @@ class TestLoggingDatabaseRepositoryTest extends ilTestBaseTestCase
                 ->willReturnCallback(fn($id, array $values, $negate, $type) => implode(', ', $values));
         });
 
-        if (is_null($with)) {
+        if ($with === null) {
             $this->expectExceptionMessage('Unknown Identifier Type');
         }
 

@@ -18,12 +18,16 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Test\RequestDataCollector;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionException;
 
 class RequestDataCollectorTest extends ilTestBaseTestCase
 {

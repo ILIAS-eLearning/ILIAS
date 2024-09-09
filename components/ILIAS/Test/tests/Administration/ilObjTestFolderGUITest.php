@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Administration;
+namespace ILIAS\Test\Tests\Administration;
 
 use ilDBInterface;
 use ilDBStatement;

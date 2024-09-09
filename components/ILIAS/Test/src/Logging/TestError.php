@@ -29,7 +29,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ilLanguage;
 use ilUserUtil;
 use ilWACException;
@@ -168,7 +167,7 @@ class TestError implements TestUserInteraction
      */
     private function getUserForPresentation(?int $user_id): string
     {
-        return is_null($user_id) ? '' : ilUserUtil::getNamePresentation(
+        return $user_id === null ? '' : ilUserUtil::getNamePresentation(
             $user_id,
             false,
             false,

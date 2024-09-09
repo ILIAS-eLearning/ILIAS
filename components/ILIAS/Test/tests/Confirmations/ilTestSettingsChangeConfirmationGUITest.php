@@ -18,8 +18,25 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Confirmations;
+
+use ilCheckboxGroupInputGUI;
+use ilCheckboxInputGUI;
+use ilDate;
+use ilDateDurationInputGUI;
+use ilDateTime;
+use ilDateTimeInputGUI;
+use ilDurationInputGUI;
+use ilFormSectionHeaderGUI;
+use ilHiddenInputGUI;
+use ilLanguage;
+use ilPropertyFormGUI;
+use ilSelectInputGUI;
+use ilTestBaseTestCase;
+use ilTestSettingsChangeConfirmationGUI;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 /**
  * Class ilTestSettingsChangeConfirmationGUITest

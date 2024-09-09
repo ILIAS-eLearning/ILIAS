@@ -37,17 +37,15 @@ class QuestionsTableBinding implements OrderingBinding
         protected Closure $title_link_builder,
         protected Closure $qpl_link_builder,
         protected string $context,
-        protected bool $editing_enabled,
+        protected bool $editing_enabled
     ) {
     }
 
     /**
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function getRows(
-        OrderingRowBuilder $row_builder,
-        array $visible_column_ids
-    ): Generator {
+    public function getRows(OrderingRowBuilder $row_builder, array $visible_column_ids): Generator
+    {
         foreach ($this->records as $record) {
             $row_id = (string) $record['question_id'];
             $record['title'] = $this->getTitleLink($record['title'], $row_id);

@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
+use ilTestArchiver;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class ilTestArchiverTest extends ilTestBaseTestCase
 {

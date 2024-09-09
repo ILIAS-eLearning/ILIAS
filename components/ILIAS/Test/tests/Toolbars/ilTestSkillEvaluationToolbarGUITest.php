@@ -18,8 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Toolbars;
+
+use ilLanguage;
+use ilTestBaseTestCase;
+use ilTestSkillEvaluationToolbarGUI;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 /**
  * Class ilTestSkillEvaluationToolbarGUITest
@@ -53,7 +59,8 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
         return [
             'empty' => [[]],
             'array_string' => [['string']],
-            'array_strING' => [['strING']]
+            'array_strING' => [['strING']],
+            'array_STRING' => [['STRING']]
         ];
     }
 
@@ -92,7 +99,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
     public static function setAndGetSelectedEvaluationModeDataProvider(): array
     {
         return [
-            'minus_one' => [-1],
+            'negative_one' => [-1],
             'zero' => [0],
             'one' => [1]
         ];

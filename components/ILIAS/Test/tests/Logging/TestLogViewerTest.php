@@ -18,11 +18,9 @@
 
 declare(strict_types=1);
 
-namespace Logging;
+namespace ILIAS\Test\Tests\Logging;
 
-use ilFileDelivery;
 use ILIAS\Data\URI;
-use ILIAS\FileDelivery\Delivery\StreamDelivery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLoggingRepository;

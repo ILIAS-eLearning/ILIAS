@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests;
+
+use ilTestBaseTestCase;
+use PassPresentedVariablesRepo;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class PassPresentedVariablesRepoTest extends ilTestBaseTestCase
 {

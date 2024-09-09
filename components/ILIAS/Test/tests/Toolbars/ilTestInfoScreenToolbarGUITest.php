@@ -18,8 +18,28 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Toolbars;
+
+use ilAccess;
+use ilCtrl;
+use ilDBInterface;
+use ilDBStatement;
+use ilGlobalTemplateInterface;
+use ilLanguage;
+use ilObjTest;
+use ilObjTestGUI;
+use ilRepositoryGUI;
+use ilTestBaseTestCase;
+use ilTestInfoScreenToolbarGUI;
+use ilTestPlayerAbstractGUI;
+use ilTestQuestionSetConfig;
+use ilTestSession;
+use ilToolbarGUI;
+use ilToolbarItem;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
+use stdClass;
 
 /**
  * Class ilTestInfoScreenToolbarGUITest
@@ -125,7 +145,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     {
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
 
-        if (!is_null($IO)) {
+        if ($IO !== null) {
             $il_test_info_screen_toolbar_gui->setSessionLockString($IO);
         }
         $this->assertEquals($IO, $il_test_info_screen_toolbar_gui->getSessionLockString());
@@ -438,7 +458,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
         $this->adaptDICServiceMock(ilToolbarGUI::class, function (ilToolbarGUI|MockObject $mock) use ($IO, $il_toolbar_item) {
             $with = [$il_toolbar_item];
-            if (!is_null($IO)) {
+            if ($IO !== null) {
                 $with[] = $IO;
             }
 
@@ -448,10 +468,11 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
                 ->with(...$with);
         });
 
-        if (is_null($IO)) {
+        if ($IO === null) {
             $il_test_info_screen_toolbar_gui->addInputItem($il_toolbar_item);
             return;
         }
+
         $il_test_info_screen_toolbar_gui->addInputItem($il_toolbar_item, $IO);
     }
 
@@ -632,7 +653,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $callback = static fn(array $class) => implode('/', $class);
             if (isset($input['cmd'])) {
                 $with[] = $input['cmd'];
-                $callback = function (array $class, string $cmd): string {
+                $callback = static function (array $class, string $cmd): string {
                     $class[] = $cmd;
                     return implode('/', $class);
                 };
@@ -701,7 +722,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
     {
         $il_test_info_screen_toolbar_gui = $this->createInstanceOf(ilTestInfoScreenToolbarGUI::class);
 
-        if (!is_null($input)) {
+        if ($input !== null) {
             $il_test_info_screen_toolbar_gui->setSessionLockString($input);
         }
 

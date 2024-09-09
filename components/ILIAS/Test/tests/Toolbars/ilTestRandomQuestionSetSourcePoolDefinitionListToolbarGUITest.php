@@ -18,8 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Toolbars;
+
+use ilCtrl;
+use ilLanguage;
+use ilTestBaseTestCase;
+use ilTestRandomQuestionSetConfig;
+use ilTestRandomQuestionSetConfigGUI;
+use ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 /**
  * Class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest

@@ -16,9 +16,13 @@
  *
  *********************************************************************/
 
-use Psr\Http\Message\ServerRequestInterface;
+namespace ILIAS\Test\Tests\Settings\ScoreReporting;
+
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
-use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
+use ilObjTestGUI;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 /**
  * Class SettingsScoringGUITest
@@ -27,52 +31,17 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
  */
 class SettingsScoringGUITest extends ilTestBaseTestCase
 {
-    protected function getUIComponents(): array
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testConstruct(): void
     {
-        $test_helper = new UITestHelper();
+        $il_obj_test_gui = $this->createConfiguredMock(ilObjTestGUI::class, [
+            'getObject' => $this->getTestObjMock()
+        ]);
 
-        return [
-            $test_helper->factory(),
-            $test_helper->renderer(),
-            $this->createMock(ServerRequestInterface::class),
-            $this->getMockBuilder(\ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock(),
-            $test_helper->mainTemplate(),
-            $this->createMock(ilTabsGUI::class)
-        ];
-    }
+        $settings_scoring_gui = $this->createInstanceOf(SettingsScoringGUI::class, ['test_gui' => $il_obj_test_gui]);
 
-
-    public function testScoringResultsGUIConstruct(): void
-    {
-        $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
-        $objTestGui_mock->expects(
-            $this->any()
-        )->method('getObject')->willReturn(
-            $this->getTestObjMock()
-        );
-
-        [$ui_factory, $ui_renderer, $request, $refinery, $main_template, $tabs_gui] = $this->getUIComponents();
-
-        $testObj = new SettingsScoringGUI(
-            $this->createMock(ilCtrl::class),
-            $this->createMock(ilAccessHandler::class),
-            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilComponentRepository::class),
-            $objTestGui_mock,
-            $main_template,
-            $tabs_gui,
-            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
-            $this->createMock(ScoreSettingsRepository::class),
-            -123,
-            $ui_factory,
-            $ui_renderer,
-            $refinery,
-            $request,
-            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
-        );
-
-        $this->assertInstanceOf(SettingsScoringGUI::class, $testObj);
+        $this->assertInstanceOf(SettingsScoringGUI::class, $settings_scoring_gui);
     }
 }

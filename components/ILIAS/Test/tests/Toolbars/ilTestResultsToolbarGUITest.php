@@ -18,11 +18,16 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Toolbars;
+
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component\Link\Standard as Link;
+use ilTestBaseTestCase;
+use ilTestResultsToolbarGUI;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionException;
 
 /**
  * Class ilTestResultsToolbarGUITest
@@ -56,7 +61,8 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
         return [
             'empty' => [''],
             'string' => ['string'],
-            'strING' => ['strING']
+            'strING' => ['strING'],
+            'STRING' => ['STRING']
         ];
     }
 
@@ -77,7 +83,8 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
         return [
             'empty' => [''],
             'string' => ['string'],
-            'strING' => ['strING']
+            'strING' => ['strING'],
+            'STRING' => ['STRING']
         ];
     }
 
@@ -98,7 +105,8 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
         return [
             'empty' => [''],
             'string' => ['string'],
-            'strING' => ['strING']
+            'strING' => ['strING'],
+            'STRING' => ['STRING']
         ];
     }
 
@@ -119,7 +127,8 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
         return [
             'empty' => [[]],
             'array_string' => [['string']],
-            'array_strING' => [['strING']]
+            'array_strING' => [['strING']],
+            'array_STRING' => [['STRING']]
         ];
     }
 
@@ -144,7 +153,7 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
                 ->willReturn($link_factory);
         });
 
-        if (!is_null($input)) {
+        if ($input !== null) {
             $il_test_results_toolbar_gui->setParticipantSelectorOptions($input);
         }
 
@@ -158,6 +167,7 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
             'empty' => [[], []],
             'array_string' => [['label' => 'string'], [new Link('label', 'string')]],
             'array_strING' => [['label' => 'strING'], [new Link('label', 'strING')]],
+            'array_STRING' => [['label' => 'STRING'], [new Link('label', 'STRING')]],
             'array_string_string' => [
                 ['label_1' => 'string', 'label_2' => 'string'],
                 [new Link('label', 'string'), new Link('label', 'string')]
@@ -166,13 +176,33 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
                 ['label_1' => 'strING', 'label_2' => 'strING'],
                 [new Link('label', 'strING'), new Link('label', 'strING')]
             ],
+            'array_STRING_STRING' => [
+                ['label_1' => 'STRING', 'label_2' => 'STRING'],
+                [new Link('label', 'STRING'), new Link('label', 'STRING')]
+            ],
             'array_string_strING' => [
                 ['label_1' => 'string', 'label_2' => 'strING'],
                 [new Link('label', 'string'), new Link('label', 'strING')]
             ],
+            'array_string_STRING' => [
+                ['label_1' => 'string', 'label_2' => 'STRING'],
+                [new Link('label', 'string'), new Link('label', 'STRING')]
+            ],
             'array_strING_string' => [
                 ['label_1' => 'strING', 'label_2' => 'string'],
                 [new Link('label', 'strING'), new Link('label', 'string')]
+            ],
+            'array_strING_STRING' => [
+                ['label_1' => 'strING', 'label_2' => 'STRING'],
+                [new Link('label', 'strING'), new Link('label', 'STRING')]
+            ],
+            'array_STRING_string' => [
+                ['label_1' => 'STRING', 'label_2' => 'string'],
+                [new Link('label', 'STRING'), new Link('label', 'string')]
+            ],
+            'array_STRING_strING' => [
+                ['label_1' => 'STRING', 'label_2' => 'strING'],
+                [new Link('label', 'STRING'), new Link('label', 'strING')]
             ]
         ];
     }

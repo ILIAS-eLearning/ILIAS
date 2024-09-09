@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Logging;
+namespace ILIAS\Test\Tests\Logging;
 
 use ilComponentLogger;
 use ILIAS\Test\Administration\TestLoggingSettings;

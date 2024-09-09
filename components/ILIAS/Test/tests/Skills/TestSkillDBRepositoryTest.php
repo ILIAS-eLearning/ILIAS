@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Skills;
+namespace ILIAS\Test\Tests\Skills;
 
 use ilDBInterface;
 use ILIAS\Test\Skills\TestSkillDBRepository;

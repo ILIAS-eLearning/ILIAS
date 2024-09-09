@@ -18,10 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Certificate;
+namespace ILIAS\Test\Tests\Certificate;
 
 use ilCertificateGUI;
 use ilCertificateSettingsFormRepository;
+use ILIAS\Test\Certificate\CertificateSettingsTestFormRepository;
 use ilPropertyFormGUI;
 use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;

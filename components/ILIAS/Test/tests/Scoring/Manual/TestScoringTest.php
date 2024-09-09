@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Scoring\Manual;
+namespace ILIAS\Test\Tests\Scoring\Manual;
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ilTestBaseTestCase;

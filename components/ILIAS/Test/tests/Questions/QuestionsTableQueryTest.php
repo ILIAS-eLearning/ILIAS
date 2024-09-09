@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Questions;
+namespace ILIAS\Test\Tests\Questions;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Settings\MainSettings;
+
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\MainSettings\SettingsAccess;
@@ -29,7 +31,10 @@ use ILIAS\Test\Settings\MainSettings\SettingsParticipantFunctionality;
 use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
 use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
 use ILIAS\Test\Settings\TestSettings;
+use ilTestBaseTestCase;
+use LogicException;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class MainSettingsTest extends ilTestBaseTestCase
 {

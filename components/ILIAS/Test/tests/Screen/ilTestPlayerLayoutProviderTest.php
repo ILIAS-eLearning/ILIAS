@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Screen;
+namespace ILIAS\Test\Tests\Screen;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;

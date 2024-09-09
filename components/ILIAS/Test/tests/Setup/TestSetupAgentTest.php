@@ -16,11 +16,16 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Test\Tests\Setup;
+
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Test\Setup\TestSetupAgent;
+use ilTestBaseTestCase;
+use LogicException;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class TestSetupAgentTest extends ilTestBaseTestCase
 {

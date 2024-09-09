@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Export;
+namespace ILIAS\Test\Tests\Export;
 
 use ILIAS\Test\Export\CSVExportTrait;
 use ilTestBaseTestCase;

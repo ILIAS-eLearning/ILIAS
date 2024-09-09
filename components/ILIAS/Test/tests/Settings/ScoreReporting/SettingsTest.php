@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ScoreReporting;
+namespace ILIAS\Test\Tests\Settings\ScoreReporting;
 
 use ILIAS\Test\Scoring\Settings\Settings;
 use ilTestBaseTestCase;

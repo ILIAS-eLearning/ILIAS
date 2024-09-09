@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Settings\MainSettings;
+namespace ILIAS\Test\Tests\Settings\MainSettings;
 
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
@@ -50,12 +50,18 @@ class SettingsMainGUITest extends ilTestBaseTestCase
             ->expects($this->once())
             ->method('getMainSettingsRepository')
             ->willReturn($this->createMock(MainSettingsRepository::class));
-        $test_gui = $this->createMock(ilObjTestGUI::class);
-        $test_gui
+        $il_obj_test_gui = $this->createMock(ilObjTestGUI::class);
+        $il_obj_test_gui
             ->expects($this->exactly(5))
             ->method('getTestObject')
             ->willReturn($il_obj_test);
 
-        $this->assertInstanceOf(SettingsMainGUI::class, $this->createInstanceOf(SettingsMainGUI::class, ['test_gui' => $test_gui]));
+        $this->assertInstanceOf(
+            SettingsMainGUI::class,
+            $this->createInstanceOf(
+                SettingsMainGUI::class,
+                ['test_gui' => $il_obj_test_gui]
+            )
+        );
     }
 }

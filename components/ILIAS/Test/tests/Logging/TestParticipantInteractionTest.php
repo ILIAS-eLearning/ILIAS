@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
-namespace Logging;
+namespace ILIAS\Test\Tests\Logging;
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\UI\Factory as UIFactory;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
 use ReflectionException;
 
-class TestParticipantInteractionTest extends \ilTestBaseTestCase
+class TestParticipantInteractionTest extends ilTestBaseTestCase
 {
     /**
      * @throws ReflectionException|Exception

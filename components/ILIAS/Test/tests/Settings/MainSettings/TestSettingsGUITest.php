@@ -16,8 +16,15 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Test\Tests\Settings\MainSettings;
+
+use ilFormPropertyGUI;
 use ILIAS\Test\Settings\TestSettingsGUI;
+use ilObjTest;
+use ilPropertyFormGUI;
+use ilTestBaseTestCase;
 use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class TestSettingsGUITest extends ilTestBaseTestCase
 {

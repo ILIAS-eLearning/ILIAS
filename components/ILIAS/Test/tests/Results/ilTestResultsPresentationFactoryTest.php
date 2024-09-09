@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Results;
+namespace ILIAS\Tests\Tests\Results;
 
 use ilTestBaseTestCase;
 use ilTestPassResult;
@@ -47,7 +47,7 @@ class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
         $il_test_results_presentation_factory = $this->createInstanceOf(ilTestResultsPresentationFactory::class);
         $il_test_pass_result = $this->createInstanceOf(ilTestPassResult::class);
 
-        if (is_null($IO)) {
+        if ($IO === null) {
             $test_pass_results_table = $il_test_results_presentation_factory->getPassResultsPresentationTable(
                 $il_test_pass_result
             );

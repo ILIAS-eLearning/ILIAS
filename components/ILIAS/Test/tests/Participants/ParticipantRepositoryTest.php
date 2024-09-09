@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace Participants;
+namespace ILIAS\Test\Tests\Participants;
 
 use ilDBInterface;
 use ilDBStatement;
