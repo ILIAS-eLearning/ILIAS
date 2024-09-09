@@ -147,6 +147,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
             </div>
             <div class="c-input__help-byline">byline</div>
+            <div class="c-input__value_representation"></div>
         </fieldset>'
         );
 

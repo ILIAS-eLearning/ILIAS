@@ -26,12 +26,15 @@ use ILIAS\UI\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\PostDataFromServerRequest;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between all forms.
  */
 abstract class Form extends Container implements C\Input\Container\Form\Form
 {
+    use JavaScriptBindable;
+
     /**
      * @param C\Input\Container\Form\FormInput[] $inputs
      */

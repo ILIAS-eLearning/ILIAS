@@ -317,6 +317,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 <div class="c-input__field">
                                     <input id="id_1" type="text" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
+                                <div class="c-input__value_representation"></div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
                         </div>
@@ -424,6 +425,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 <div class="c-input__field">
                                     <input id="id_1" type="text" value="test" name="name_0[input_1][]" class="c-field-text"/>
                                 </div>
+                                <div class="c-input__value_representation"></div>
                             </fieldset>
                             <input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>
                         </div>
