@@ -41,6 +41,7 @@ class ilPathGUI
 
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected ilCtrlInterface $ctrl;
     protected ilObjectDefinition $objectDefinition;
 
     /**
@@ -54,6 +55,7 @@ class ilPathGUI
         $this->endnode = (int) ROOT_FOLDER_ID;
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
+        $this->ctrl = $DIC['ilCtrl'];
         $this->objectDefinition = $DIC['objDefinition'];
     }
 
@@ -203,7 +205,7 @@ class ilPathGUI
 
                 if (!$this->tree->isDeleted($ref_id)) {
                     $tpl->setCurrentBlock('locator_item');
-                    $tpl->setVariable('LINK_ITEM', ilLink::_getLink($ref_id, $type));
+                    $tpl->setVariable('LINK_ITEM', $this->buildLink($ref_id, $type));
                     $tpl->setVariable('ITEM', $title);
                     $tpl->parseCurrentBlock();
                 } else {
@@ -226,6 +228,15 @@ class ilPathGUI
             return $this->lng->txt('obj_' . $type);
         }
         return ilObject::_lookupTitle($a_obj_id);
+    }
+
+    protected function buildLink(int $ref_id, string $type): string
+    {
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'ref_id', $ref_id);
+            return $this->ctrl->getLinkTargetByClass(ilAdministrationGUI::class, 'jump');
+        }
+        return ilLink::_getLink($ref_id, $type);
     }
 
     /**
