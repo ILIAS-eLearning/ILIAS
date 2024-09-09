@@ -199,14 +199,14 @@ class ilMDRights extends ilMDBase
             [
                 'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ],
-            ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription())
+            ilMDCopyrightSelectionEntry::_lookupCopyrightForExport($this->getDescription())
         );
         $writer->xmlEndTag('Rights');
     }
 
     public function parseDescriptionFromImport(string $a_description): void
     {
-        $entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightByText($a_description);
+        $entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightFromImport($a_description);
         if (!$entry_id) {
             $this->setDescription($a_description);
         } else {

@@ -136,46 +136,58 @@ class ilMDCopyrightSelectionEntry
         return self::renderCopyrightFromRow($row);
     }
 
-    public static function lookupCopyrightByText(string $copyright_text): int
+    public static function _lookupCopyrightForExport(string $a_cp_string): string
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        if (!$entry_id = self::_extractEntryId($a_cp_string)) {
+            return $a_cp_string;
+        }
+
+        $query = "SELECT full_name, link, image_link, alt_text FROM il_md_cpr_selections " .
+            "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
+        $res = $ilDB->query($query);
+        $row = $ilDB->fetchObject($res);
+
+        $data = self::getCopyrightDataFromRow($row);
+
+        return (string) ($data->link() ?? $data->fullName());
+    }
+
+    public static function lookupCopyrightFromImport(string $copyright_text): int
     {
         global $DIC;
 
         $db = $DIC->database();
-        $full_name = '';
-        $link = '';
-        $image_link = '';
-        $alt_text = '';
 
-        //find the image
-        if (preg_match('/<\s*img((?:.|\n)*?)\/>/i', $copyright_text, $img_matches)) {
-            if (preg_match('/src\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $src_matches)) {
-                $image_link = strip_tags($src_matches[1]);
-            }
-            if (preg_match('/alt\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $alt_matches)) {
-                $alt_text = strip_tags($alt_matches[1]);
-            }
-        }
+        // url should be made to match regardless of scheme
+        $normalized_copyright = str_replace('https://', 'http://', $copyright_text);
+        $matches_by_name = null;
 
-        //find the link
-        if (preg_match('/<\s*a((?:.|\n)[^<]*?)<\s*\/a>/i', $copyright_text, $link_matches)) {
-            if (preg_match('/href\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $link_matches[1], $name_matches)) {
-                $link = strip_tags($name_matches[1]);
-            }
-            if (preg_match('/>((?:\n|.)*)/i', $link_matches[1], $href_matches)) {
-                $full_name = strip_tags($href_matches[1]);
-            }
-        } else {
-            $full_name = strip_tags($copyright_text);
-        }
-
-        $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
-            'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
-            ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT) .
-            ' AND image_link = ' . $db->quote($image_link, ilDBConstants::T_TEXT) .
-            ' AND alt_text = ' . $db->quote($alt_text, ilDBConstants::T_TEXT);
+        $query = 'SELECT entry_id, full_name, link, image_link, alt_text FROM il_md_cpr_selections';
         $res = $db->query($query);
         while ($row = $db->fetchObject($res)) {
-            return (int) $row->entry_id;
+            $entry_id = (int) $row->entry_id;
+            $data = self::getCopyrightDataFromRow($row);
+
+            $entry_link = (string) $data->link();
+            $normalized_link = str_replace('https://', 'http://', $entry_link);
+            if ($normalized_link !== '' && str_contains($normalized_copyright, $normalized_link)) {
+                return $entry_id;
+            }
+
+            if (
+                is_null($matches_by_name) &&
+                trim($copyright_text) === trim($data->fullName())
+            ) {
+                $matches_by_name = $entry_id;
+            }
+        }
+
+        if (!is_null($matches_by_name)) {
+            return $matches_by_name;
         }
         return 0;
     }
