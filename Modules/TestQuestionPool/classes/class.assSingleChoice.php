@@ -188,7 +188,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $ext = 'JPEG';
                     break;
             }
-            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string)$this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, (string) $this->getThumbSize());
         }
     }
 
@@ -213,7 +213,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle((string) $data["title"]);
+            $this->setTitle($data["title"] ?? '');
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setComment($data["description"] ?? '');
             $this->setOriginalId($data["original_id"]);
