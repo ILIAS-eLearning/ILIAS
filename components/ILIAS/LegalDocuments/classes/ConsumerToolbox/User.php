@@ -31,6 +31,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Setting\BooleanSetting;
 use ILIAS\LegalDocuments\Provide;
 use ilAuthUtils;
 use ILIAS\Data\Clock\ClockInterface as Clock;
+use DateTimeImmutable;
 
 class User
 {

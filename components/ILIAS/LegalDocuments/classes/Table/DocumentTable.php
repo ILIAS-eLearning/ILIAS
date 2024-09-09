@@ -39,14 +39,14 @@ use DateTimeImmutable;
 
 class DocumentTable implements Table
 {
-    /** @var Closure(class-string): object<class-string> */
+    /** @var Closure(class-string, ... $constructor_args): object<class-string> */
     private readonly Closure $create;
     /** @var Closure(DateTimeImmutable): string */
     private readonly Closure $format_date;
 
     /**
      * @param Closure(CriterionContent): Component $criterion_as_component
-     * @param null|Closure(class-string): object<class-string> $create
+     * @param null|Closure(class-string, ... $constructor_args): object<class-string> $create
      * @param Closure(DateTimeImmutable): string $format_date
      */
     public function __construct(
@@ -109,6 +109,7 @@ class DocumentTable implements Table
 
     /**
      * @param Closure(Criterion): list<Component> $proc
+     * @return string|list<Component>
      */
     public function showCriteria(Document $document, Closure $proc)
     {

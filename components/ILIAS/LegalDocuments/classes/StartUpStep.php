@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
+use ILIAS\LegalDocuments\Intercept;
 use ILIAS\LegalDocuments\Intercept\LazyIntercept;
 use ILIAS\LegalDocuments\Intercept\NullIntercept;
 use ILIAS\Data\Result;
@@ -82,7 +83,7 @@ class StartUpStep extends StartUpSequenceStep
         );
     }
 
-    private function findCurrent()
+    private function findCurrent(): Intercept
     {
         return $this->find(
             fn($x) => $x->intercept(),
@@ -92,7 +93,14 @@ class StartUpStep extends StartUpSequenceStep
         )->value();
     }
 
-    private function find($predicate, $array)
+    /**
+     * @template A
+     * @param Closure(A): bool $predicate
+     * @param A[] $array
+     *
+     * @return Result<A>
+     */
+    private function find(Closure $predicate, array $array): Result
     {
         foreach ($array as $x) {
             if ($predicate($x)) {

@@ -30,11 +30,12 @@ use ILIAS\UI\Component\Input\Field\Group;
 use ilObjectDataCache;
 use ilRbacReview;
 use Closure;
+use ILIAS\UI\Component\Input\Field\Radio;
 
 class RoleDefinition implements ConditionDefinition
 {
     /**
-     * @param Closure(array<string, mixed>): Constraint $required
+     * @param Closure(array<int|string, mixed>): Constraint $required
      */
     public function __construct(
         private readonly UI $ui,
@@ -75,9 +76,9 @@ class RoleDefinition implements ConditionDefinition
     }
 
     /**
-     * @param array<string, string> $options
+     * @param array<string|int, string> $options
      */
-    private function radio($lang_key, array $options, $value)
+    private function radio(string $lang_key, array $options, $value): Radio
     {
         $field = $this->ui->create()->input()->field()->radio($lang_key);
         foreach ($options as $key => $label) {

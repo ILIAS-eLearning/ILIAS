@@ -75,7 +75,7 @@ final class Consumer implements ConsumerInterface
 
         $slot = $slot->showOnLoginPage($blocks->slot()->showOnLoginPage());
 
-        $agreement = $blocks->slot()->agreement($user, $global_settings);
+        $agreement = $blocks->slot()->agreement($user);
         $constraint = $this->container->refinery()->custom()->constraint(...);
 
         if ($global_settings->noAcceptance()->value()) {

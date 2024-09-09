@@ -151,12 +151,12 @@ class Wiring implements UseSlot
         return $this->map;
     }
 
-    private function error($message): void
+    private function error(string $message): void
     {
         throw new Exception($message);
     }
 
-    private function addTo(string $name, $id_or_value, $value = null)
+    private function addTo(string $name, $id_or_value, $value = null): self
     {
         $map = $this->map;
         if ($value !== null) {
@@ -172,6 +172,9 @@ class Wiring implements UseSlot
     }
 
     /**
+     * @template A
+     * @template B
+     *
      * @param Closure(A ...): B $to_be_protected
      * @param Closure(): bool $protector
      * @return Closure(A ...): Result<B>
@@ -181,6 +184,9 @@ class Wiring implements UseSlot
         return static fn(...$args): Result => $protector() ? new Ok($to_be_protected(...$args)) : new Error('Not available.');
     }
 
+    /**
+     * @return string[]
+     */
     private function path(string $class): array
     {
         return [ilDashboardGUI::class, ilPersonalProfileGUI::class, $class];

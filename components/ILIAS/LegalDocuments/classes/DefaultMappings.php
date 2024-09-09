@@ -26,6 +26,8 @@ use ILIAS\LegalDocuments\Condition\Definition\UserLanguageDefinition;
 use ILIAS\LegalDocuments\Condition\Definition\UserCountryDefinition;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\DI\Container;
+use ILIAS\UI\Component\Component;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 
 class DefaultMappings
 {
@@ -62,6 +64,9 @@ class DefaultMappings
         ], 'usr_country');
     }
 
+    /**
+     * @return array<string|int, callable(DocumentContent): Component>
+     */
     public function contentAsComponent(): array
     {
         return [

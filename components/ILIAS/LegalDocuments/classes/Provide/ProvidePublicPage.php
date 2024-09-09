@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\Provide;
 
-use ilCtrl;
+use ilCtrlInterface;
 use ilStartUpGUI;
 
 class ProvidePublicPage
 {
     public function __construct(
         private readonly string $id,
-        private readonly ilCtrl $ctrl
+        private readonly ilCtrlInterface $ctrl
     ) {
     }
 

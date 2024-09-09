@@ -166,6 +166,9 @@ class Conductor
         )->map(fn($goto_link) => $goto_link->target());
     }
 
+    /**
+     * @return list<Intercept>
+     */
     public function intercepting(): array
     {
         return $this->internal->all('intercept');
@@ -176,6 +179,9 @@ class Conductor
         return new Bundle($this->internal->all('self-registration'));
     }
 
+    /**
+     * @return array<string|int, string>
+     */
     public function userManagementFields(ilObjUser $user): array
     {
         return array_reduce(

@@ -75,7 +75,7 @@ class Table extends ilTable2GUI implements TableSelection
         parent::setMaxCount($a_max_count);
     }
 
-    public function setSelectableColumns(...$names): void
+    public function setSelectableColumns(string ...$names): void
     {
         $this->sel = array_merge($this->sel, $names);
     }
