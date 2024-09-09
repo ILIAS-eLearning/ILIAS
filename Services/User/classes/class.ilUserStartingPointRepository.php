@@ -420,7 +420,7 @@ class ilUserStartingPointRepository
                 )
             )
         ) {
-            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $this->log->root()->debug(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = self::START_REPOSITORY;
         }
 
@@ -433,7 +433,7 @@ class ilUserStartingPointRepository
             || $starting_point['type'] === self::START_PD_CALENDAR
                 && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
-            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $this->log->root()->debug(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = $this->getFallbackStartingPointType();
         }
 
