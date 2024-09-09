@@ -1457,11 +1457,6 @@ class ilObjUserGUI extends ilObjectGUI
         } else {
             $store_file = 'usr_' . $this->object->getId() . '.' . 'jpg';
 
-
-            // Store profile picture
-            // This part can be changed when using new Inputs: Currently we map the $_FILES array to get the 'correct' upload as it was before
-            $this->uploads->process();
-
             $rid = $this->moveFileToStorage();
 
             if ($rid === null) {
