@@ -24,20 +24,21 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
 
     public function parse(): void
     {
-        if ($this->getFields()) {
+        if (!empty($this->getFields())) {
             $queried_fields = [];
             $token_operator = ' OR ';
             if (ilSearchSettings::getInstance()->getDefaultOperator() === ilSearchSettings::OPERATOR_AND) {
                 $token_operator = ' AND ';
             }
 
-            foreach ($this->getFields() as $field => $status) {
-                if (!$status) {
+            // ILIAS 10: each filter field has now its own query string
+            foreach ($this->getFields() as $field => $query_string) {
+                if (empty($query_string)) {
                     continue;
                 }
 
                 $field_query = '';
-                $tokens = array_map(trim(...), explode(' ', $this->query_string));
+                $tokens = array_map(trim(...), explode(' ', $query_string));
                 foreach ($tokens as $token) {
                     if ($field_query !== '') {
                         $field_query .= $token_operator;
@@ -57,11 +58,22 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
         parent::parse();
     }
 
+    /**
+     * Set the fields to query for
+     * ILIAS 10: the values are not boolean, but different query strings for the fields
+     *
+     * @param array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}  $fields
+     */
     public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
 
+    /**
+     * Get the fields to query for
+     * ILIAS 10 the values are not boolean, but different query strings for the fields
+     * @return array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}
+     */
     public function getFields(): array
     {
         return $this->fields;
