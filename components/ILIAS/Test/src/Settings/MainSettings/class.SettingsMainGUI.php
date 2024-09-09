@@ -198,7 +198,7 @@ class SettingsMainGUI extends TestSettingsGUI
      */
     private function showForm(StandardForm $form = null, InterruptiveModal $modal = null): void
     {
-        if (is_null($form)) {
+        if ($form === null) {
             $form = $this->buildForm();
         }
 
@@ -222,7 +222,7 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $this->tpl->setContent(
             $this->ui_renderer->render($form)
-            . (is_null($modal) ? '' : $this->ui_renderer->render($modal))
+            . ($modal === null ? '' : $this->ui_renderer->render($modal))
         );
     }
 
@@ -233,7 +233,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
-        if (is_null($data)) {
+        if ($data === null) {
             $this->showForm($form);
             return;
         }
@@ -253,7 +253,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $form = $this->buildForm()->withRequest($this->request);
         $data = $form->getData();
-        if (is_null($data)) {
+        if ($data === null) {
             $this->showForm($form);
             return;
         }
@@ -424,7 +424,7 @@ class SettingsMainGUI extends TestSettingsGUI
     ): InterruptiveModal {
         $message = '';
 
-        if (!is_null($current_question_set_type)) {
+        if ($current_question_set_type !== null) {
             $message .= sprintf(
                 $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
                 $this->test_object->getQuestionSetTypeTranslation($this->lng, $current_question_set_type),
@@ -630,7 +630,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         return $this->refinery->custom()->transformation(
             static function (?array $vs): array {
-                if (is_null($vs)) {
+                if ($vs === null) {
                     return [
                         'is_activation_limited' => false,
                         'activation_starting_time' => null,
@@ -695,7 +695,7 @@ class SettingsMainGUI extends TestSettingsGUI
         $custom_icon_input = $this->test_object->getObjectProperties()->getPropertyIcon()
             ->toForm($this->lng, $input_factory->field(), $this->refinery);
 
-        if (!is_null($custom_icon_input)) {
+        if ($custom_icon_input !== null) {
             $inputs['custom_icon'] = $custom_icon_input;
         }
         $inputs['tile_image'] = $this->test_object->getObjectProperties()->getPropertyTileImage()
@@ -821,7 +821,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $this->refinery
         );
 
-        if (!is_null($ecs_section)) {
+        if ($ecs_section !== null) {
             $sections[self::ECS_FUNCTIONALITY_SETTINGS_LABEL] = $ecs_section;
         }
 
@@ -834,7 +834,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $environment
         );
 
-        $inputs = array_filter($inputs, static fn($v) => !is_null($v));
+        $inputs = array_filter($inputs, static fn($v) => $v !== null);
 
         if (count($inputs) > 0) {
             $sections[self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL] = $this->ui_factory->input()->field()
