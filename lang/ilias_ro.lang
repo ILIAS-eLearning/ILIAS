@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#activate_logging#:#Activati log-ul de Testare si Evaluare
-assessment#:#activate_manual_scoring#:#Activate Manual Scoring for###29 11 2006 new variable
-assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
 assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Question ### 2006-8-11 --- Add new translation here.
 assessment#:#ass_size#:#Marime
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Use existing question pool###12 06 2011 new variable
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
 assessment#:#assessment_new_pool#:#Create new question pool###12 06 2011 new variable
 assessment#:#assessment_no_pool#:#Do not use question pool###12 06 2011 new variable
 assessment#:#assessment_pool_selection#:#Pool Selection###12 06 2011 new variable

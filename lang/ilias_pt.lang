@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Usar b/i/u em vez de str/emp/imp
 adve#:#adve_use_physical_info#:#Esta definição substitui os botões da classe de estilo semântico sobre intensidade, enfatizar e importante por botões de atributos físicos n (negrito), i (itálico) e s (sublinhado). Note que isso pode resultar em inconsistências, se o editor de estilo for usado e se forem atribuídos outros atributos físicos às classes de estilo intensidade/enfatizar/importante.
 adve#:#adve_use_tiny_mce#:#Ativar TinyMCE para a edição WYSIWYG
 assessment#:#activate_logging#:#Novas notificações de correio
-assessment#:#activate_manual_scoring#:#Vista predefinida do repositório
-assessment#:#activate_manual_scoring_desc#:#Se a pontuação manual estiver ativada para um tipo de pergunta, todas as perguntas deste tipo de pergunta podem ser manualmente pontuadas por um autor do teste. Tenha cuidado com estas definições porque uma pontuação manual tardia dos tipos de pergunta automaticamente pontuadas pode causar problemas judiciais!
 assessment#:#addSuggestedSolution#:#Adicionar conteúdo para recapitulação
 assessment#:#add_answers#:#Adicionar respostas
 assessment#:#add_circle#:#Adicionar área de círculo
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Pergunta
 assessment#:#ass_size#:#Tamanho
 assessment#:#ass_skl_import_fails_remove_btn#:#Remover esta sugestão
 assessment#:#assessment_existing_pool#:#Usar banco de perguntas existente
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipos de perguntas disponíveis em ajuste
-assessment#:#assessment_log_scoring_adjustment_desc#:#Os tipos de perguntas selecionados aqui estão disponíveis em ajuste. Esta definição não depende da capacidade atual dos tipos de perguntas, p. ex. uma pergunta que não suporta o ajuste continua a ser aqui apresentada.
 assessment#:#assessment_new_pool#:#Criar novo banco de perguntas
 assessment#:#assessment_no_pool#:#Não use o banco de perguntas
 assessment#:#assessment_pool_selection#:#Seleção de banco

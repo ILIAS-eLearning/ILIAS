@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
 assessment#:#activate_logging#:#テストとアセスメントログを使用可能にする
-assessment#:#activate_manual_scoring#:#手動採点を可能にする
-assessment#:#activate_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#ass_skl_import_fails_remove_btn#:#このヒントを削除
 assessment#:#assessment_existing_pool#:#既存の演習問題集を使用
-assessment#:#assessment_log_scoring_adjustment_activate#:#調整利用可能な問題タイプ
-assessment#:#assessment_log_scoring_adjustment_desc#:#チェックされた問題タイプは調整可能です。この設定は問題タイプの現在の能力に関係しません。例　調整をサポートしない問題はここへ表示されます。
 assessment#:#assessment_new_pool#:#新しい問題集を作成する
 assessment#:#assessment_no_pool#:#問題集を使用しない
 assessment#:#assessment_pool_selection#:#問題集選択

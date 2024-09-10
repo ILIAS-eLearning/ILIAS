@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Utilizzare b/i/u invece di str/emp/imp
 adve#:#adve_use_physical_info#:#Questa impostazione sostituisce i semantici pulsanti di stile "strong", "emphatic" e "important" con "b" (grassetto), "i" (corsivo) e "u" (sottolineato). Si prega di notare, che questo potrebbe causare incoerenze se l'editor di stile è utilizzato e altri attributi fisici sono assegnati alle classi di stile strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Abilita TinyMCE come Editor WYSIWYG (What You See Is What You Get)
 assessment#:#activate_logging#:#Attiva il logging del Test e Valutazione
-assessment#:#activate_manual_scoring#:#Attiva Punteggio Manuale per
-assessment#:#activate_manual_scoring_desc#:#Se e' attivato il punteggio manuale per un tipo di domande, tutte le domande di questo tipo possono essere attribuite manualmente da un test author. Presta molta attenzione a queste impostazioni perche' la post-attribuzione dei punteggi automatici potrebbe causare problemi di giudizio!
 assessment#:#addSuggestedSolution#:#Aggiungi soluzione suggerita
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Aggiungi area circolare
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Domanda
 assessment#:#ass_size#:#Dimensioni
 assessment#:#ass_skl_import_fails_remove_btn#:#Rimuovi questo suggerimento
 assessment#:#assessment_existing_pool#:#Usa la libreria di domande esistente
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipi di domane disponibili nella correzione
-assessment#:#assessment_log_scoring_adjustment_desc#:#I tipi di domanda controllati qui sono disponibili nella correzione. Questa impostazione è indipendente della capacità dei tipi di domande, per esempio, una domanda che non supporta la correzione viene ancora mostrata.
 assessment#:#assessment_new_pool#:#Crea una nuova libreria di domande
 assessment#:#assessment_no_pool#:#Non usare una libreria di domande pool
 assessment#:#assessment_pool_selection#:#Selezione libreria

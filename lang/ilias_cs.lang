@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Použít b/i/u namísto str/emp/imp
 adve#:#adve_use_physical_info#:#Toto nastavení nahrazuje tlačítka sémantické třídy stylu pro silné (strong),  zdůrazněné (emphatic) a důležité (important) tlačítky fyzikálních atributů b (bold-tučné), i (italic-kurzíva) a u (underline-podtržené). Povšimněte si prosím, že to může mít za následek nekonzistence, pokud je použit tento editor stylu a jiné fyzické atributy jsou přiřazeny třídám stylu strong/emphatic/important.
 adve#:#adve_use_tiny_mce#:#Zapnout TinyMCE pro editaci WYSIWYG
 assessment#:#activate_logging#:#Aktivovat záznam Test a Hodnocení
-assessment#:#activate_manual_scoring#:#Aktivovat manuální bodování pro
-assessment#:#activate_manual_scoring_desc#:#Pokud je manuální bodování aktivováno pro typ otázky, všechny otázky tohoto typu otázek mohou být manuálně bodovány autorem testu. Buďte prosím opatrný(á) s těmito nastaveními, protože pozdější manuální bodování automaticky bodovaného typu otázek může způsobit dokonce právní problémy!
 assessment#:#addSuggestedSolution#:#Přidat doporučené řešení
 assessment#:#add_answers#:#Přidat odpovědi
 assessment#:#add_circle#:#Přidat kruhovou plochu
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Otázka
 assessment#:#ass_size#:#Velikost
 assessment#:#ass_skl_import_fails_remove_btn#:#Odstranit tuto nápovědu
 assessment#:#assessment_existing_pool#:#Použít existující zásobník otázek
-assessment#:#assessment_log_scoring_adjustment_activate#:#Typy otázek dostupných v nastavení
-assessment#:#assessment_log_scoring_adjustment_desc#:#Zaškrtnuté typy otázek jsou dostupné v nastavení. Toto nastavení je bez ohledu na aktuální schopnosti typů otázek, tzn. že otázky které nepodporují nastavení jsou zde stále zobrazeny.
 assessment#:#assessment_new_pool#:#Vytvořit nový zásobník otázek
 assessment#:#assessment_no_pool#:#Nepoužívat zásobník otázek
 assessment#:#assessment_pool_selection#:#Výběr zásobníku

@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Aktiviraj protokol testov in ocen
-assessment#:#activate_manual_scoring#:#Aktiviraj ročno ocenjevanje za
-assessment#:#activate_manual_scoring_desc#:#Če je za določeno vrsto vprašanja aktivirano ročno ocenjevanje, lahko avtor testa ročno oceni vsa vprašanja tega tipa. Bodite previdni pri teh nastavitvah, saj lahko naknadno spreminjanje rezultatov vprašanj povzroči tudi pravne težave!
 assessment#:#addSuggestedSolution#:#Vsebine za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
 assessment#:#add_circle#:#Dodaj krog
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Vprašanje
 assessment#:#ass_size#:#Velikost
 assessment#:#ass_skl_import_fails_remove_btn#:#Odstrani to sporočilo
 assessment#:#assessment_existing_pool#:#Uporabi obstoječo skupino vprašanj
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipi vprašanj, ki so na voljo za način naknadnega popravljanja
-assessment#:#assessment_log_scoring_adjustment_desc#:#Izbrani tipi vprašanj so na voljo v načinu naknadnega popravljanja Ta nastavitev ne upošteva, ali je vprašanje mogoče urediti v načinu naknadnega popravljanja
 assessment#:#assessment_new_pool#:#Ustvari in uporabi novo skupino vprašanj
 assessment#:#assessment_no_pool#:#Ne uporabi nobene skupine vprašanj
 assessment#:#assessment_pool_selection#:#Izbira skupine

@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#b/i/u használata str/emp/imp helyett
 adve#:#adve_use_physical_info#:#Ez a beállítás lecseréli a félkövér, dőlt, aláhúzott (strong, emphatic, important) szemantikus stílusosztályokhoz tartozó gombokat b (bold), i (italic), u (underline) fizikai attribútumok gombjaira. Ne feledje, hogy ez inkonzisztenciát okozhat, ha a stílusszerkesztőt használ és más fizikai attribútumokat rendelt a strong/emphatic/important stílusosztályokhoz.
 adve#:#adve_use_tiny_mce#:#TinyMCE engedélyezése WYSIWYG szerkesztéshez
 assessment#:#activate_logging#:#Teszt és értékelés naplózásának bekapcsolása
-assessment#:#activate_manual_scoring#:#Manuálisan pontozandó
-assessment#:#activate_manual_scoring_desc#:#Ha be van kapcsolva a manuális pontozás egy kérdéstípushoz, a kérdéstípus minden kérdését manuálisan pontozhatja a teszt szerzője. Legyen óvatos ezekkel a beállításokkal, mert az automatikusan pontozott kérdéstípusok későbbi manuális pontozása problémákat okozhat!
 assessment#:#addSuggestedSolution#:#Ismétlő összefoglaláshoz tartalom hozzáadása
 assessment#:#add_answers#:#Válasz hozzáadása
 assessment#:#add_circle#:#Kör alakú terület hozzáadása
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Kérdés
 assessment#:#ass_size#:#Méret
 assessment#:#ass_skl_import_fails_remove_btn#:#Ezen tipp törlése
 assessment#:#assessment_existing_pool#:#Már meglévő kérdésgyűjtemény használata
-assessment#:#assessment_log_scoring_adjustment_activate#:#A korrekcióban elérhető kérdéstípusok
-assessment#:#assessment_log_scoring_adjustment_desc#:#Az itt kiválasztott kérdéstípusok lesznek elérhetőek a korrekcióban. Ez a beállítás független a kérdéstípusok jelenlegi beállításától, például a korrekciót nem támogató kérdéstípusok is megjelennek itt.
 assessment#:#assessment_new_pool#:#Új kérdésgyűjtemény létrehozása
 assessment#:#assessment_no_pool#:#Ne használjon kérdésgyűjteményt
 assessment#:#assessment_pool_selection#:#Gyűjtemény kiválasztása

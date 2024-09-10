@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Kasuta b/i/u str/emp/imp asemel
 adve#:#adve_use_physical_info#:#See seadistus asendab semantilise stiiliklassi nupud strong, emphatic ja important füüsiliste atribuutnuppudega b (bold), i (italic) ja u (underline). Pane tähele, et see võib põhjustada vastuolusid, kui stiili toimetit on kasutatud ja teis füüsilisi atribuute kasutatud strong/emphatic/important stiiliklasside jaoks.
 adve#:#adve_use_tiny_mce#:#Võimalda TinyMCE WYSIWYG toimetamiseks
 assessment#:#activate_logging#:#aktiveeri testi ja hindamise logimine
-assessment#:#activate_manual_scoring#:#Aktiveeri käsitsi hindamine:
-assessment#:#activate_manual_scoring_desc#:#Kui käsitsi hindamine on aktiveeritud, saab kõiki neid küsimuste tüüpe testi autori poolt ka käsitsi hinnata ning tagasisidestada. Kuid olge antud seadega ettevaatlikud kuna automaatse puntkisumma käsitsi muutmine võib tekitada isegi juriidilisi probleeme!
 assessment#:#addSuggestedSolution#:#Lisa soovituslik lahendus
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Lisa ringiala
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Küsimus
 assessment#:#ass_size#:#Suurus
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Kasuta olemasolevat küsimuste varamut
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#assessment_new_pool#:#Loo uus küsimuste varamu
 assessment#:#assessment_no_pool#:#Ära kasuta küsimuste varamut
 assessment#:#assessment_pool_selection#:#Varamu valimine

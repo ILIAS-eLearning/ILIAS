@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Ersätt #str|emp|imp med <u>B|I|U</u>
 adve#:#adve_use_physical_info#:#Inställningen ersätter knapparna i de semantiska stilklasserna för stark, eftertrycklig och viktig med de fast definierade distinktionerna <b>B</b> (fet), <i>I</i> (kursiv) och <u>U</u> (understruken). Uppmärksamhet
 adve#:#adve_use_tiny_mce#:#Aktivera TinyMCE för WYSIWYG-redigering
 assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
-assessment#:#activate_manual_scoring#:#Aktivera manuell bedömning för
-assessment#:#activate_manual_scoring_desc#:#Alla frågor av den valda frågetypen kan poängsättas manuellt. Uppmärksamhet
 assessment#:#addSuggestedSolution#:#Innehåll för repetition
 assessment#:#add_answers#:#Lägg till svar
 assessment#:#add_circle#:#Lägg till cirkel
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Fråga
 assessment#:#ass_size#:#Storlek
 assessment#:#ass_skl_import_fails_remove_btn#:#Ta bort detta meddelande
 assessment#:#assessment_existing_pool#:#Använda befintlig frågepool
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tillgängliga frågetyper för läget efter korrigering
-assessment#:#assessment_log_scoring_adjustment_desc#:#Valda frågetyper är tillgängliga i efterkorrigeringsläge. Den här inställningen tar inte hänsyn till om frågan kan redigeras i efterkorrigeringsläget.
 assessment#:#assessment_new_pool#:#Skapa och använd en ny frågepool
 assessment#:#assessment_no_pool#:#Använd inte en frågepool
 assessment#:#assessment_pool_selection#:#Val av pool
