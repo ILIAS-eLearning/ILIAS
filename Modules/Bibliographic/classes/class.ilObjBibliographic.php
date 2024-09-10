@@ -90,7 +90,9 @@ class ilObjBibliographic extends ilObject2
      */
     private function handleUpload(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
     {
-        $this->upload_service->process();
+        if (!$this->upload_service->hasBeenProcessed()) {
+            $this->upload_service->process();
+        }
         $array_result = $this->upload_service->getResults();
         $result = reset($array_result); // FileUpload is the first element
         if (!$result->isOK()) {
@@ -115,7 +117,7 @@ class ilObjBibliographic extends ilObject2
      * @param bool $clone_mode*/
     protected function doCreate(bool $clone_mode = false): void
     {
-        if ($this->upload_service->hasUploads() && !$this->upload_service->hasBeenProcessed()) {
+        if ($this->upload_service->hasUploads()) {
             $this->setResourceId($this->handleUpload());
         }
 
