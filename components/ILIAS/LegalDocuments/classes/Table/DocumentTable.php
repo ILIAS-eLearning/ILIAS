@@ -18,118 +18,159 @@
 
 declare(strict_types=1);
 
+
 namespace ILIAS\LegalDocuments\Table;
 
-use ILIAS\LegalDocuments\Value\CriterionContent;
 use Closure;
-use ILIAS\LegalDocuments\TableConfig;
-use ILIAS\LegalDocuments\Table;
-use ILIAS\LegalDocuments\Table\DocumentModal;
-use ILIAS\LegalDocuments\Value\Document;
-use ILIAS\LegalDocuments\Value\Criterion;
-use ILIAS\LegalDocuments\Repository\DocumentRepository;
-use ILIAS\LegalDocuments\ConsumerToolbox\UI;
-use ILIAS\UI\Component\Component;
-use ILIAS\LegalDocuments\TableSelection;
-use ilLanguage;
+use DateTimeImmutable;
+use Generator;
+use ilCtrl;
+use ilCtrlInterface;
 use ilDatePresentation;
 use ilDateTime;
-use ilNumberInputGUI;
-use DateTimeImmutable;
+use ILIAS\Data\Factory;
+use ILIAS\Data\URI;
+use ILIAS\LegalDocuments\ConsumerToolbox\UI;
+use ILIAS\LegalDocuments\EditLinks;
+use ILIAS\LegalDocuments\Repository\DocumentRepository;
+use ILIAS\LegalDocuments\Value\Criterion;
+use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Action\Single;
+use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRowBuilder;
+use ILIAS\UI\Implementation\Component\Table\Action\Multi;
+use ILIAS\UI\Implementation\Component\Table\Ordering;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-class DocumentTable implements Table
+class DocumentTable implements OrderingBinding
 {
-    /** @var Closure(class-string): object<class-string> */
-    private readonly Closure $create;
-    /** @var Closure(DateTimeImmutable): string */
-    private readonly Closure $format_date;
+    public const CMD_EDIT_DOCUMENT = 'editDocument';
+    public const CMD_DELETE_DOCUMENT = 'deleteDocument';
+    public const CMD_DELETE_DOCUMENTS = 'deleteDocuments';
+    public const CMD_ADD_CRITERION = 'addCriterion';
 
+    private readonly ServerRequestInterface|RequestInterface $request;
+    private readonly Factory $data_factory;
+    private readonly ilCtrl|ilCtrlInterface $ctrl;
+    private readonly Ordering $table;
+    private readonly Renderer $ui_renderer;
     /**
-     * @param Closure(CriterionContent): Component $criterion_as_component
-     * @param null|Closure(class-string): object<class-string> $create
-     * @param Closure(DateTimeImmutable): string $format_date
+     * @var Document[]
      */
+    private array $records;
+
     public function __construct(
-        private readonly Closure $criterion_as_component,
-        private readonly DocumentRepository $repository,
-        private readonly UI $ui,
-        private readonly DocumentModal $modal,
-        ?Closure $create = null,
-        ?Closure $format_date = null
-    ) {
-        $this->create = $create ?? fn($class, ...$args) => new $class(...$args);
-        $this->format_date = $format_date ?? fn(DateTimeImmutable $date) => ilDatePresentation::formatDate(new ilDateTime($date->getTimestamp(), IL_CAL_UNIX));
+        private readonly Closure                     $criterion_as_component,
+        private readonly DocumentRepository          $repository,
+        private readonly UI                          $ui,
+        private readonly DocumentModal               $modal,
+        private readonly object                      $gui,
+        private readonly ?EditLinks                  $edit_links = null,
+        ServerRequestInterface|RequestInterface|null $request = null,
+        ?Factory                                     $data_factory = null,
+        ?ilCtrl                                      $ctrl = null,
+        ?Renderer                                    $ui_renderer = null,
+    )
+    {
+        global $DIC;
+        $this->request = $request ?: $DIC->http()->request();
+        $this->data_factory = $data_factory ?: new Factory();
+        $this->ctrl = $ctrl ?: $DIC->ctrl();
+        $this->ui_renderer = $ui_renderer ?: $DIC->ui()->renderer();
+
+        $this->table = $this->buildTable();
+        $this->records = $this->repository->all();
     }
 
-    public function columns(): array
+    private function buildTable(): Ordering
     {
-        return [
-            'order' => [$this->ui->txt('tbl_docs_head_sorting'), '', '5%'],
-            'title' => [$this->ui->txt('tbl_docs_head_title'), '', '25%'],
-            'created' => [$this->ui->txt('tbl_docs_head_created')],
-            'change' => [$this->ui->txt('tbl_docs_head_last_change')],
-            'criteria' => [$this->ui->txt('tbl_docs_head_criteria')],
-        ];
-    }
+        $uiTable = $this->ui->create()->table();
+        $table = $uiTable->ordering(
+            $this->ui->txt('tbl_docs_title'),
+            [
+                'title' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_title')),
+                'created' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_created')),
+                'change' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_last_change')),
+                'criteria' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_criteria')),
+            ],
+            $this,
+            (new URI((string) $this->request->getUri()))->withParameter("cmd", "saveOrder")
+        )
+            ->withId('legalDocsTable')
+            ->withRequest($this->request);
 
-    public function config(TableConfig $config): void
-    {
-        $config->setTitle($this->ui->txt('tbl_docs_title'));
-        $config->setSelectableColumns('created', 'change');
-    }
-
-    public function rows(TableSelection $select): array
-    {
-        return $this->mapSelection($this->row(...), $select);
-    }
-
-    public function mapSelection(Closure $proc, TableSelection $select): array
-    {
-        $step = $this->step();
-        return array_map(fn($x) => $proc($x, $step()), $this->select($select));
-    }
-
-    public function select(TableSelection $select): array
-    {
-        return $this->repository->all();
-    }
-
-    public function row(Document $document, int $sorting): array
-    {
-        $render_order = $this->orderInputGui($document, $sorting);
-
-        return [
-            'order' => fn() => $render_order->render(),
-            'title' => $this->modal->create($document->content()),
-            'created' => ($this->format_date)($document->meta()->creation()->time()),
-            'change' => ($this->format_date)($document->meta()->lastModification()->time()),
-            'criteria' => $this->showCriteria($document, $this->showCriterion(...)),
-        ];
-    }
-
-    /**
-     * @param Closure(Criterion): list<Component> $proc
-     */
-    public function showCriteria(Document $document, Closure $proc)
-    {
-        if ([] === $document->criteria()) {
-            return $this->ui->txt('tbl_docs_cell_not_criterion');
+        if ($this->edit_links) {
+            $table = $table->withActions($this->buildTableActions());
         }
-        return array_merge(...array_map(
-            $proc,
-            $document->criteria()
-        ));
+        return $table;
+    }
+
+    public function getRows(
+        OrderingRowBuilder $row_builder,
+        array              $visible_column_ids
+    ): Generator
+    {
+        foreach ($this->buildTableRows($this->records) as $row) {
+            $row['created'] = $this->formatDateRow($row['created']);
+            $row['change'] = $this->formatDateRow($row['change']);
+
+            yield $row_builder->buildOrderingRow((string) $row['id'], $row);
+        }
     }
 
     /**
-     * @return list<Component>
+     * @param Document[] $documents
+     * @return array
      */
-    public function showCriterion(Criterion $criterion): array
+    private function buildTableRows(array $documents): array
     {
-        return [
-            $this->criterionName($criterion),
-            $this->ui->create()->legacy('<br/>'),
-        ];
+        $table_rows = [];
+
+        foreach ($documents as $document) {
+            $criterion_components = [];
+            foreach ($document->criteria() as $criterion) {
+                $criterion_components[] = $this->ui->create()->legacy('<div style="display: flex; gap: 1rem;">');
+                $criterion_components[] = $this->criterionName($criterion);
+
+                if ($this->edit_links) {
+                    $delete_modal = $this->ui->create()->modal()->interruptive(
+                        $this->ui->txt('doc_detach_crit_confirm_title'),
+                        $this->ui->txt('doc_sure_detach_crit'),
+                        $this->edit_links->deleteCriterion($document, $criterion)
+                    );
+
+                    $dropdown = $this->ui->create()->dropdown()->standard([
+                        $this->ui->create()->button()->shy(
+                            $this->ui->txt('edit'),
+                            $this->edit_links->editCriterion($document, $criterion)
+                        ),
+                        $this->ui->create()->button()->shy(
+                            $this->ui->txt('delete'),
+                            ''
+                        )->withOnClick($delete_modal->getShowSignal())
+                    ]);
+
+                    $criterion_components[] = $delete_modal;
+                    $criterion_components[] = $dropdown;
+                }
+
+                $criterion_components[] = $this->ui->create()->legacy('</div>');
+            }
+
+            $table_rows[] = [
+                'id' => $document->id(),
+                'title' => $this->ui_renderer->render($this->modal->create($document->content())),
+                'created' => $document->meta()->creation()->time(),
+                'change' => $document->meta()->lastModification()->time(),
+                'criteria' => $this->ui_renderer->render($criterion_components),
+            ];
+        }
+        return $table_rows;
     }
 
     public function criterionName(Criterion $criterion): Component
@@ -137,33 +178,66 @@ class DocumentTable implements Table
         return ($this->criterion_as_component)($criterion->content());
     }
 
-    public function orderInputGui(Document $document, int $sorting): ilNumberInputGUI
+    private function formatDateRow(DateTimeImmutable $date): string
     {
-        $input = ($this->create)(ilNumberInputGUI::class, '', 'order[' . $document->id() . ']');
-        $input->setValue((string) $sorting);
-        $input->setMaxLength(4);
-        $input->setSize(2);
-        $input->setDisabled(true);
-
-        return $input;
+        return ilDatePresentation::formatDate(new ilDateTime($date->getTimestamp(), IL_CAL_UNIX));
     }
 
-    public function step(): Closure
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        $step = 0;
-        return static function () use (&$step): int {
-            $step += 10;
-            return $step;
-        };
+        return $this->repository->countAll();
     }
 
-    public function ui(): UI
+    public function render(): string
     {
-        return $this->ui;
+        return $this->ui_renderer->render($this->table);
     }
 
-    public function name(): string
+    private function buildTableActions(): array
     {
-        return self::class;
+        return [
+            self::CMD_DELETE_DOCUMENTS => $this->buildTableAction(self::CMD_DELETE_DOCUMENTS, $this->ui->txt('delete'), true),
+            self::CMD_EDIT_DOCUMENT => $this->buildTableAction(self::CMD_EDIT_DOCUMENT, $this->ui->txt('edit')),
+            self::CMD_ADD_CRITERION => $this->buildTableAction(
+                self::CMD_ADD_CRITERION,
+                $this->ui->txt('tbl_docs_action_add_criterion')
+            ),
+            self::CMD_DELETE_DOCUMENT => $this->buildTableAction(self::CMD_DELETE_DOCUMENT, $this->ui->txt('delete')),
+        ];
+    }
+
+    private function buildTableAction(string $cmd, string $title, bool $multi = false): Single|Multi
+    {
+        $uri = $this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this->gui, $cmd)
+        );
+
+        /**
+         * @var URLBuilder $url_builder
+         * @var URLBuilderToken $action_parameter_token ,
+         * @var URLBuilderToken $row_id_token
+         */
+        [
+            $url_builder,
+            $action_parameter_token,
+            $row_id_token
+        ] = (new URLBuilder($uri))->acquireParameters(
+            ['legal_document'],
+            'action',
+            'id'
+        );
+
+        if ($multi) {
+            return $this->ui->create()->table()->action()->multi(
+                $title,
+                $url_builder->withParameter($action_parameter_token, $cmd),
+                $row_id_token
+            );
+        }
+        return $this->ui->create()->table()->action()->single(
+            $title,
+            $url_builder->withParameter($action_parameter_token, $cmd),
+            $row_id_token
+        );
     }
 }

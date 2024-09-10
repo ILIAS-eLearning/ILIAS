@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Administration;
 use ILIAS\LegalDocuments\Config;
@@ -130,22 +132,37 @@ class AdministrationTest extends TestCase
             $this->mockMethod(ProvideDocument::class, 'repository', [], $repository)
         ));
 
-        $query_params = ['doc_id' => '459', 'criterion_id' => '98'];
+        $query_params = ['legal_document_id' => ['459'], 'criterion_id' => '98'];
+
+        $query = $this->mock(ArrayBasedRequestWrapper::class);
+
+        $query
+            ->expects($this->exactly(2))
+            ->method('retrieve')
+            ->willReturnCallback(function ($parameter1) {
+                return match ([$parameter1]) {
+                    ['legal_document_id'] => [459],
+                    ['doc_id'] => null,
+                };
+            });
+
+        $httpWrapper = $this->mockMethod(WrapperFactory::class, 'query', [], $query, $this->exactly(2));
 
         $http = $this->mockMethod(HTTPServices::class, 'request', [], $this->mockMethod(
             ServerRequestInterface::class,
             'getQueryParams',
             [],
             $query_params,
-            self::exactly(2)
-        ), self::exactly(2));
+            self::exactly(1)
+        ), self::exactly(1));
+        $http->method('wrapper')->willReturn($httpWrapper);
 
         $refinery = $this->mockMethod(Refinery::class, 'kindlyTo', [], $this->mockMethod(KindlyToGroup::class, 'int', [], $this->mockMethod(
             Transformation::class,
             'applyTo',
             [new Ok('459')],
             new Ok(459)
-        )));
+        ), $this->exactly(3)), $this->exactly(4));
 
         $container->method('http')->willReturn($http);
         $container->method('refinery')->willReturn($refinery);
