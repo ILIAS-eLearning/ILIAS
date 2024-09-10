@@ -425,7 +425,7 @@ class ilUserImportParser extends ilSaxParser
                 if (isset($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
-                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
+                    } elseif (($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID)) > 0) {
                         $this->user_id = $id;
                     }
                 }
