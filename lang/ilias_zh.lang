@@ -425,8 +425,6 @@ adve#:#adve_use_physical#:#使用 b/i/u 而不是 str/emp/imp
 adve#:#adve_use_physical_info#:#为strong、emphatic和重要的物理属性按钮b(bold)、i(italic)和 u(underline)设置替代语义样式类。请注意，如果样式编辑器已在使用，并且其他物理属性已分配给strong/emphatic/important 样式类，这可能导致不一致的结果。
 adve#:#adve_use_tiny_mce#:#为所见即所得编辑启用TinyMCE。
 assessment#:#activate_logging#:#激测试 & 评估日志
-assessment#:#activate_manual_scoring#:#激活手动评分
-assessment#:#activate_manual_scoring_desc#:#如果一个题目类型的手动评分被激活，这个题目类型中的所有题目都能由测试的作者手动评分。请小心调整这些设置，因为已自动评分的题目类型最后弄成手动评分很有可能会造成无法裁决的问题！
 assessment#:#addSuggestedSolution#:#添加建议解决方案
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#添加圆区域
@@ -530,8 +528,6 @@ assessment#:#ass_question#:#问题
 assessment#:#ass_size#:#大小
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#使用现有的题目池
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
 assessment#:#assessment_new_pool#:#创建新的题目池
 assessment#:#assessment_no_pool#:#不使用题目池
 assessment#:#assessment_pool_selection#:#池选择

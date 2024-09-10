@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
 assessment#:#activate_logging#:#Inschakelen Toets&Beoordeling logging
-assessment#:#activate_manual_scoring#:#Inschakelen handmatige score voor
-assessment#:#activate_manual_scoring_desc#:#Als het handmatige noteren voor een vraagtype wordt ingeschakeld, zouden alle vragen van dit vraagtype manueel door een toetsauteur kunnen worden genoteerd. Gelieve zorgvuldig te zijn met deze instellingen, omdat late handmatig noteren van  genoteerde vraagtypes zelfs gerechtelijke problemen kan veroorzaken!
 assessment#:#addSuggestedSolution#:#Voeg voorgestelde oplossing toe
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Voeg cirkel gebied toe
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Vraag
 assessment#:#ass_size#:#Grootte
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Gebruik bestaande vragenpool
-assessment#:#assessment_log_scoring_adjustment_activate#:#Vraagtypes beschikbaar in aanpassing
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#assessment_new_pool#:#Maak nieuwe vragenpool
 assessment#:#assessment_no_pool#:#Gebruik geen vragenpool
 assessment#:#assessment_pool_selection#:#Selecteren van vragenpool

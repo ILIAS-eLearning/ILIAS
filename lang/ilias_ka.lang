@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#გამოიყენეთ b/i/u,     str/emp/imp
 adve#:#adve_use_physical_info#:#ეს პარამეტრი ცვლის სემანტიკური სტილის კლასის ღილაკებს, ძლიერი, განსაკუთრებული და მნიშვნელოვანი ფიზიკური დახმარების ღილაკებით b (bold), i (italic) and u (underline). გთხოვთ გაითვალისწინოთ ამან შეიძლება გამოიწვიოს შეუსაბამობა, თუ სტილის რედაქტირება გამოიყენება სხვა ფიზიკური დამხარებებით რომლებიც დანიშნულია ძლიერ/განსაკუთრებულ/მნიშვნელოვან სტილის კლასზე.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#ტესტისა და შეფასების ჩატვირთვის გააქტიურება
-assessment#:#activate_manual_scoring#:#ხელით შეფასების აქტივაცია
-assessment#:#activate_manual_scoring_desc#:#თუ ხელით შეფასება გააქტიურებულია კითხვის სახეიობისთვის, ყველა ამ ტიპის კითხვა შეიძლება ავტორის მიერ ხელიტ შეფასდეს. გთხოვთ ყურადღება მიაქციოთ პარამტრებს, რადგან ავტომატურად შეფასებულ კითხვების გვიანი ხელით შეფასებამ შეიძლება იურიდული პრობლემებიც კი გამოიწვიოს!
 assessment#:#addSuggestedSolution#:#დაამატეთ შემოთავაზებული ამოხსნა
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#დაამატეთ წრის სივრცე
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#კითხვა
 assessment#:#ass_size#:#ზომა
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#გამოიყენეთ არსებული კითხვის ნაკადი
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
 assessment#:#assessment_new_pool#:#ახალი კითხვების ნაკადის შექმნა
 assessment#:#assessment_no_pool#:#არ გამოიყენოთ კითხვის ნაკადი
 assessment#:#assessment_pool_selection#:#ნაკადის მონიშვნა

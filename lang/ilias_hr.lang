@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Aktivirajte protokoliranje testa i procjene
-assessment#:#activate_manual_scoring#:#Aktivirajte ručno bodovanje za
-assessment#:#activate_manual_scoring_desc#:#Ako je za neki tip pitanja aktivirano ručno bodovanje, autor testa može ručno bodovati sva pitanja ovog tipa. Budite oprezni s ovim postavkama, jer naknadno ručno bodovanje automatski bodovanih tipova pitanja može prouzročiti eventualno i pravne probleme!
 assessment#:#addSuggestedSolution#:#Sadržaji za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
 assessment#:#add_circle#:#Dodaj krug
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Pitanje
 assessment#:#ass_size#:#Veličina
 assessment#:#ass_skl_import_fails_remove_btn#:#Ukloni ovu poruku
 assessment#:#assessment_existing_pool#:#Koristite postojeći bazen pitanja
-assessment#:#assessment_log_scoring_adjustment_activate#:#Dostupne vrste pitanja za način naknadne korekcije
-assessment#:#assessment_log_scoring_adjustment_desc#:#Odabrane vrste pitanja dostupne su u načinu naknadne korekcije. Ova postavka ne uzima u obzir može li se pitanje urediti u načinu naknadne korekcije.
 assessment#:#assessment_new_pool#:#Izrada i korištenje novog bazena pitanja
 assessment#:#assessment_no_pool#:#Ne koristi bazen pitanja
 assessment#:#assessment_pool_selection#:#Odabir bazena

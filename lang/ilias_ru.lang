@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Использовать b/i/u вместо str/emp/i
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Активировать тестирование
-assessment#:#activate_manual_scoring#:#Разрешить ручную проверку для
-assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Добавить предполагаемое решение
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Добавить зону в виде круга
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Вопрос
 assessment#:#ass_size#:#Размер
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Use existing question pool
-assessment#:#assessment_log_scoring_adjustment_activate#:#Типя вопросов доступные для корректировки
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#assessment_new_pool#:#Create new question pool
 assessment#:#assessment_no_pool#:#Do not use question pool
 assessment#:#assessment_pool_selection#:#Pool Selection

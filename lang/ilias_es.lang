@@ -428,8 +428,6 @@ adve#:#adve_use_physical#:#Use b/i/u en lugar de str/emp/imp
 adve#:#adve_use_physical_info#:#Esta configuración reemplaza los botones de etiquetas semánticas para negrilla, cursiva y subrayado con los botones de atributos físicos b (negrita), i(itálica) y u(subrayado). Tenga en cuenta que esto puede dar lugar a incoherencias si se utiliza el editor de estilo y se asignan otros atributos a las clases de estilo strong/emphasis/important
 adve#:#adve_use_tiny_mce#:#Habilitar TinyMCE para edición WYSIWYG
 assessment#:#activate_logging#:#Activar informes de LOG de la herramienta de Tests
-assessment#:#activate_manual_scoring#:#Activar puntuación manual para
-assessment#:#activate_manual_scoring_desc#:#Si se activa la Puntuación Manual para un tipo de pregunta, todas las preguntas de este tipo podrían ser puntuadas de forma manual por un autor. Por favor, sea consciente de esta configuración, porque puntuar de forma manual preguntas que son puntuadas de forma automática podría causar incluso problemas de tipo legal.
 assessment#:#addSuggestedSolution#:#Añadir solución recomendada
 assessment#:#add_answers#:#Añadir respuetas
 assessment#:#add_circle#:#Añadir circulo
@@ -533,8 +531,6 @@ assessment#:#ass_question#:#Pregunta
 assessment#:#ass_size#:#Tamaño
 assessment#:#ass_skl_import_fails_remove_btn#:#Quitar esta sugerencia
 assessment#:#assessment_existing_pool#:#Usar banco de preguntas existente
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipos de preguntas disponibles en la configuración
-assessment#:#assessment_log_scoring_adjustment_desc#:#Los tipos de preguntas que se marcan aquí están disponibles en la configuración. Esta configuración es independiente de la posibilidad de modificar individualmente cada tipo de pregunta. P.e. Una pregunta que no admita ajustes también se muestra
 assessment#:#assessment_new_pool#:#Crear nuevo banco de preguntas
 assessment#:#assessment_no_pool#:#No usar el banco de preguntas
 assessment#:#assessment_pool_selection#:#Selección del banco

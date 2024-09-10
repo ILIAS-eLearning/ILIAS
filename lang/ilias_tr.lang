@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#str / emp / imp yerine b / i / u kullan
 adve#:#adve_use_physical_info#:#Bu ayar anlamsal stil sınıfı butonları (strong,emphatic,important) yerine b (bold), i (italic) and u (underline) butonlarını koyar. Eğer stil editörü strong/emphatic/important stil sınıflarına atanmış başka fiziksel öznitelikler kullanıyorsa tutarsızlıklar oluşabilir.
 adve#:#adve_use_tiny_mce#:#WYSIWYG düzenleme için TinyMCE kullan
 assessment#:#activate_logging#:#Test ve Değerlendirme Günlüğünü Aktif Yap
-assessment#:#activate_manual_scoring#:#için Manuel Puanlama etkinleştirin
-assessment#:#activate_manual_scoring_desc#:#Manuel Puanlama Bir soru tipi aktif ise bu soruyu türdeki tüm soruları manuel bir test yazar tarafından atılır olabilir. Otomatik attı soru tipleri geç manuel skorlama hatta hukuksal sorunlara neden olabilir, çünkü bu ayarlar ile dikkatli olun!
 assessment#:#addSuggestedSolution#:#Önerilen çözüm ekle
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Daire alanı ekle
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Soru
 assessment#:#ass_size#:#Boyut
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Mevcut soru havuzunu kullan
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
 assessment#:#assessment_new_pool#:#Yeni soru havuzu oluştur
 assessment#:#assessment_no_pool#:#Soru havuzu kullanma
 assessment#:#assessment_pool_selection#:#Havuz Seçimi

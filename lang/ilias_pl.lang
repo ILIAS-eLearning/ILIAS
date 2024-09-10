@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U<
 adve#:#adve_use_physical_info#:#To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości.
 adve#:#adve_use_tiny_mce#:#Aktywuj TinyMCE do edytowania WYSIWYG
 assessment#:#activate_logging#:#Aktywuj śledzenie testów i oceniania
-assessment#:#activate_manual_scoring#:#Aktywuj ręczne punktowanie dla
-assessment#:#activate_manual_scoring_desc#:#Jeśli jest aktywowana ręczna punktacja dla typu pytania, to wszystkie pytania tego typu mogą być ręcznie punktowane przez autora testu. Ostrożnie używaj tego ustawienia, ponieważ późniejsza ręczna punktacja typów pytań automatycznie punktowanych może spowodować nieprawidłową ocenę!
 assessment#:#addSuggestedSolution#:#Pokaż sugerowane rozwiązanie
 assessment#:#add_answers#:#Dodaj odpowiedzi
 assessment#:#add_circle#:#Dodaj krąg
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Pytanie
 assessment#:#ass_size#:#Rozmiar
 assessment#:#ass_skl_import_fails_remove_btn#:#Usuń ten komunikat
 assessment#:#assessment_existing_pool#:#Użyj istniejącej puli pytań
-assessment#:#assessment_log_scoring_adjustment_activate#:#Dostępne typy pytań dla trybu dodatkowej korekty
-assessment#:#assessment_log_scoring_adjustment_desc#:#Wybrane typy pytań dostępne są w trybie dodatkowej korekty. To ustawienie nie uwzględnia tego, czy pytanie może być edytowane w trybie dodatkowej korekty.
 assessment#:#assessment_new_pool#:#Utwórz nową pulę pytań
 assessment#:#assessment_no_pool#:#Nie używaj puli pytań
 assessment#:#assessment_pool_selection#:#Wybór puli

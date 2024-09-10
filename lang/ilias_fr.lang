@@ -411,8 +411,6 @@ adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
 assessment#:#activate_logging#:#Activer le Suivi des Tests et Evaluations
-assessment#:#activate_manual_scoring#:#Activer la Notation Manuelle pour
-assessment#:#activate_manual_scoring_desc#:#Lorsque la notation manuelle est activée pour un type de question, toutes les questions de ce type pourront être évaluées manuellement par l'auteur du test. Veuillez être attentif à ce paramètre car la modification d'une note attribuée automatiquement pourrait provoquer un contentieux !
 assessment#:#addSuggestedSolution#:#Ajouter solution suggérée
 assessment#:#add_answers#:#Add Antworten
 assessment#:#add_circle#:#Ajouter Zone Circulaire
@@ -516,8 +514,6 @@ assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Taille
 assessment#:#ass_skl_import_fails_remove_btn#:#Retirer cet indice
 assessment#:#assessment_existing_pool#:#Utiliser le réservoir de questions existant
-assessment#:#assessment_log_scoring_adjustment_activate#:#Types de questions disponibles dans les ajustements
-assessment#:#assessment_log_scoring_adjustment_desc#:#Les questions cochées ici sont disponibles dans les ajustements.
 assessment#:#assessment_new_pool#:#Créer un nouveau réservoir de questions
 assessment#:#assessment_no_pool#:#Ne pas utiliser le réservoir de questions
 assessment#:#assessment_pool_selection#:#Choix d'un réservoir
