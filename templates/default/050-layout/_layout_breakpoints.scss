@@ -6,7 +6,7 @@
 
 // Extra small screen / phone
 //** Deprecated `$screen-xs` as of v3.0.1
-$screen-xs:                  480px !default;
+$screen-xs:                  0px !default;
 //** Deprecated `$screen-xs-min` as of v3.2.0
 $screen-xs-min:              $screen-xs !default;
 //** Deprecated `$screen-phone` as of v3.0.1
@@ -56,6 +56,7 @@ $grid-breakpoints: (
   } @else if $size == medium {
     @media screen and (min-width: $screen-sm + 1px) { @content; };
   } @else if $size == large {
+    @warn "You SHOULD NOT use on-screen-size(large) for big layout changes. Please consider using on-screen-size(medium) as your largest breakpoint if possible.";
     @media screen and (min-width: $screen-md + 1px) { @content; };
   } @else {
     @error("Invalid input for on-screen-size mixin.");
