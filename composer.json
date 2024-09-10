@@ -389,11 +389,11 @@
 		},
 		"phpoffice/phpspreadsheet" : {
 			"source" : "https://github.com/PHPOffice/PhpSpreadsheet",
-			"used_version" : "v1.18.0",
+			"used_version" : "v1.29.1",
 			"wrapped_by" : "Services/Excel",
 			"added_by" : "Jesús López <lopez@leifos.com>",
-			"last_update" : "2021-06-19",
-			"last_update_by" : "Alex Killing <killing@leifos.com>",
+			"last_update" : "2024-09-10",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-01-22"
 		},
@@ -498,9 +498,6 @@
 			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
-			},
-			"phpoffice/phpspreadsheet": {
-				"ILIAS PHPSpreadsheet Patches": "./libs/composer/patches/phpspreadsheet.patch"
 			}
 		}
 	}
