@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Container filter service factory.
  *
@@ -31,11 +33,13 @@ class ilContainerFilterService
     protected ilLanguage $lng;
     protected ?ilContainerFilterFieldData $field_data;
     protected ilContainerFilterAdvMDAdapter $adv_adapter;
+    protected LOMServices $lom_services;
 
     public function __construct(
         ilLanguage $lng = null,
         ilContainerFilterAdvMDAdapter $adv_adapter = null,
-        ilContainerFilterFieldData $container_field_data = null
+        ilContainerFilterFieldData $container_field_data = null,
+        LOMServices $lom_services = null
     ) {
         global $DIC;
 
@@ -50,11 +54,15 @@ class ilContainerFilterService
         $this->field_data = (is_null($container_field_data))
             ? new ilContainerFilterFieldData()
             : $container_field_data;
+
+        $this->lom_services = (is_null($lom_services))
+            ? $DIC->learningObjectMetadata()
+            : $lom_services;
     }
 
     public function util(): ilContainerFilterUtil
     {
-        return new ilContainerFilterUtil($this, $this->adv_adapter, $this->lng);
+        return new ilContainerFilterUtil($this, $this->adv_adapter, $this->lng, $this->lom_services);
     }
 
     public function advancedMetadata(): ilContainerFilterAdvMDAdapter
