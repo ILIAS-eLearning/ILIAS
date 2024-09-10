@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.2](https://github.com/inspect-js/object-inspect/compare/v1.13.1...v1.13.2) - 2024-06-21
+
+### Commits
+
+- [readme] update badges [`8a51e6b`](https://github.com/inspect-js/object-inspect/commit/8a51e6bedaf389ec40cc4659e9df53e8543d176e)
+- [Dev Deps] update `@ljharb/eslint-config`, `tape` [`ef05f58`](https://github.com/inspect-js/object-inspect/commit/ef05f58c9761a41416ab907299bf0fa79517014b)
+- [Dev Deps] update `error-cause`, `has-tostringtag`, `tape` [`c0c6c26`](https://github.com/inspect-js/object-inspect/commit/c0c6c26c44cee6671f7c5d43d2b91d27c5c00d90)
+- [Fix] Don't throw when `global` is not defined [`d4d0965`](https://github.com/inspect-js/object-inspect/commit/d4d096570f7dbd0e03266a96de11d05eb7b63e0f)
+- [meta] add missing `engines.node` [`17a352a`](https://github.com/inspect-js/object-inspect/commit/17a352af6fe1ba6b70a19081674231eb1a50c940)
+- [Dev Deps] update `globalthis` [`9c08884`](https://github.com/inspect-js/object-inspect/commit/9c08884aa662a149e2f11403f413927736b97da7)
+- [Dev Deps] update `error-cause` [`6af352d`](https://github.com/inspect-js/object-inspect/commit/6af352d7c3929a4cc4c55768c27bf547a5e900f4)
+- [Dev Deps] update `npmignore` [`94e617d`](https://github.com/inspect-js/object-inspect/commit/94e617d38831722562fa73dff4c895746861d267)
+- [Dev Deps] update `mock-property` [`2ac24d7`](https://github.com/inspect-js/object-inspect/commit/2ac24d7e58cd388ad093c33249e413e05bbfd6c3)
+- [Dev Deps] update `tape` [`46125e5`](https://github.com/inspect-js/object-inspect/commit/46125e58f1d1dcfb170ed3d1ea69da550ea8d77b)
+
 ## [v1.13.1](https://github.com/inspect-js/object-inspect/compare/v1.13.0...v1.13.1) - 2023-10-19
 
 ### Commits
