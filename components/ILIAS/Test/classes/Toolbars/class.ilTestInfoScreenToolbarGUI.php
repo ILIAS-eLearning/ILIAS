@@ -229,7 +229,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     {
         return sprintf(
             $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
-            ilObjTestFolder::getSkillTriggerAnswerNumberBarrier()
+            $this->getTestOBJ()->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
         );
     }
 

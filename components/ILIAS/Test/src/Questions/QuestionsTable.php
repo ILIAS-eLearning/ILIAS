@@ -121,7 +121,6 @@ class QuestionsTable
             $this->lng,
             $this->getTitleLinkBuilder($title_link_action),
             $this->title_builder,
-            $this->context,
             $this->question_editing,
         );
     }

@@ -120,7 +120,9 @@ class ilTestService
      */
     public function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
-        $man_scoring_question_types = ilObjTestFolder::_getManualScoring();
+        if (!$this->object->getGlobalSettings()->isManualScoringEnabled()) {
+            return [];
+        }
 
         $test_result_data = $this->object->getTestResult($active_id, $pass);
 
@@ -136,10 +138,6 @@ class ilTestService
             }
 
             $question_gui = $this->object->createQuestionGUI("", $question_data['qid']);
-
-            if (!in_array($question_gui->getObject()->getQuestionTypeID(), $man_scoring_question_types)) {
-                continue;
-            }
 
             $man_scoring_question_gui_list[ $question_data['qid'] ] = $question_gui;
         }

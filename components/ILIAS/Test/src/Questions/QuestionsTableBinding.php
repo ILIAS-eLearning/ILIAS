@@ -49,7 +49,6 @@ class QuestionsTableBinding implements Table\OrderingBinding
                 $record['orig_obj_fi']
             );
 
-            $default_and_edit = !($this->context === QuestionsTable::CONTEXT_DEFAULT && $this->editing_enabled);
             yield $row_builder->buildOrderingRow((string) $record['question_id'], $record)
                 ->withDisabledAction(QuestionsTable::ACTION_DELETE, $this->editing_enabled)
                 ->withDisabledAction(QuestionsTable::ACTION_COPY, $this->editing_enabled)

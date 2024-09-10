@@ -33,30 +33,28 @@ class GlobalSettingsRepository
     private const SETTINGS_KEY_DISABLED_QUESTION_TYPES = 'disabled_question_types';
     private const SETTINGS_KEY_MANUAL_SCORING_ENABLED = 'manual_scoring';
     private const SETTINGS_KEY_ADJUSTING_QUESTIONS_WITH_RESULTS_ALLOWED = 'assessment_adjustments_enabled';
+    private const SETTINGS_KEY_PAGE_EDITOR_ENABLED = 'enable_tst_page_edit';
 
     private const SETTINGS_KEY_LOGGING_ENABLED = 'assessment_logging';
     private const SETTINGS_KEY_IP_LOGGING_ENABLED = 'assessment_logging_ip';
+
+    private ?GlobalTestSettings $global_test_settings = null;
+    private ?TestLoggingSettings $test_logging_settings = null;
 
     public function __construct(
         private \ilSetting $settings
     ) {
     }
 
-    public function getLoggingSettings(): TestLoggingSettings
-    {
-        return new TestLoggingSettings(
-            $this->settings->get(self::SETTINGS_KEY_LOGGING_ENABLED) === '1',
-            $this->settings->get(self::SETTINGS_KEY_IP_LOGGING_ENABLED) !== '0'
-        );
-    }
-
-    public function storeLoggingSettings(TestLoggingSettings $logging_settings): void
-    {
-        $this->settings->set(self::SETTINGS_KEY_LOGGING_ENABLED, $logging_settings->isLoggingEnabled() ? '1' : '0');
-        $this->settings->set(self::SETTINGS_KEY_IP_LOGGING_ENABLED, $logging_settings->isIPLoggingEnabled() ? '1' : '0');
-    }
-
     public function getGlobalSettings(): GlobalTestSettings
+    {
+        if ($this->global_test_settings === null) {
+            $this->global_test_settings = $this->buildGlobalTestSettings();
+        }
+        return $this->global_test_settings;
+    }
+
+    private function buildGlobalTestSettings(): GlobalTestSettings
     {
         $global_settings = new GlobalTestSettings();
 
@@ -103,7 +101,11 @@ class GlobalSettingsRepository
         }
 
         if (($adjusting_questions_with_results_allowed = $this->settings->get(self::SETTINGS_KEY_ADJUSTING_QUESTIONS_WITH_RESULTS_ALLOWED)) !== null) {
-            $global_settings = $global_settings->withAdjustingQuestionsWithResultsAllowed($adjusting_questions_with_results_allowed === '');
+            $global_settings = $global_settings->withAdjustingQuestionsWithResultsAllowed($adjusting_questions_with_results_allowed === '1');
+        }
+
+        if (($page_editor_enabled = $this->settings->get(self::SETTINGS_KEY_PAGE_EDITOR_ENABLED)) !== null) {
+            $global_settings = $global_settings->withPageEditorEnabled($page_editor_enabled === '1');
         }
 
         return $global_settings;
@@ -119,6 +121,25 @@ class GlobalSettingsRepository
         $this->settings->set(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES, implode(',', $global_settings->getDisabledQuestionTypes()));
         $this->settings->set(self::SETTINGS_KEY_MANUAL_SCORING_ENABLED, $global_settings->isManualScoringEnabled() ? '1' : '0');
         $this->settings->set(self::SETTINGS_KEY_ADJUSTING_QUESTIONS_WITH_RESULTS_ALLOWED, $global_settings->isAdjustingQuestionsWithResultsAllowed() ? '1' : '0');
+
+        $this->global_test_settings = $global_settings;
+    }
+
+    public function getLoggingSettings(): TestLoggingSettings
+    {
+        if ($this->test_logging_settings === null) {
+            $this->test_logging_settings = new TestLoggingSettings(
+                $this->settings->get(self::SETTINGS_KEY_LOGGING_ENABLED) === '1',
+                $this->settings->get(self::SETTINGS_KEY_IP_LOGGING_ENABLED) !== '0'
+            );
+        }
+        return $this->test_logging_settings;
+    }
+
+    public function storeLoggingSettings(TestLoggingSettings $logging_settings): void
+    {
+        $this->settings->set(self::SETTINGS_KEY_LOGGING_ENABLED, $logging_settings->isLoggingEnabled() ? '1' : '0');
+        $this->settings->set(self::SETTINGS_KEY_IP_LOGGING_ENABLED, $logging_settings->isIPLoggingEnabled() ? '1' : '0');
     }
 
     private function migrateLegacyQuestionTypes(string $legacy_types): void
