@@ -98,7 +98,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 
     protected function shortenLink(string $value): string
     {
-        $value = preg_replace('/^(https?:\/\/)?(www\.)?(.)/', '', $value);
+        $value = preg_replace('/^(https?:\/\/)?(www\.)?/', '', $value);
         $half = (int) ((self::LINK_MAX_LENGTH - 4) / 2);
         $value = preg_replace('/^(.{' . ($half + 1) . '})(.{4,})(.{' . $half . '})$/', '\1...\3', $value);
 
