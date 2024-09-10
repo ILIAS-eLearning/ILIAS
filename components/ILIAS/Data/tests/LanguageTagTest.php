@@ -52,6 +52,10 @@ class LanguageTagTest extends TestCase
         $this->testParse($input, $isOk);
     }
 
+    /**
+     * @return list<array{0: string, 1: bool}>
+     */
+
     public static function saveToRun(): array
     {
         return [
@@ -139,10 +143,13 @@ class LanguageTagTest extends TestCase
         ];
     }
 
+    /**
+     * @return list<array{0: string, 1: bool}>
+     */
     public static function risky(): array
     {
         if (function_exists('xdebug_info') && ((int) ini_get('xdebug.max_nesting_level')) < 780) {
-            $this->markTestSkipped(sprintf(
+            self::markTestSkipped(sprintf(
                 'You are running under Xdebug. To be able to run all tests xdebug.max_nesting_level must be at least 780 (Currently %d).',
                 (int) ini_get('xdebug.max_nesting_level')
             ));
