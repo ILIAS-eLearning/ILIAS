@@ -13,6 +13,7 @@
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerDeprecations="true"
          displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnSkippedTests="true"
          backupGlobals="true"
          executionOrder="random"
          cacheResultFile=".phpunit.cache/test-results">
