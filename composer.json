@@ -7,9 +7,10 @@
 		"optimize-autoloader": true,
 		"vendor-dir": "./vendor/composer/vendor",
 		"allow-plugins": {
-			"simplesamlphp/composer-module-installer": true,
 			"cweagans/composer-patches": true,
-			"captainhook/plugin-composer": true
+			"captainhook/plugin-composer": true,
+			"simplesamlphp/composer-module-installer": false,
+			"simplesamlphp/composer-xmlprovider-installer": false
 		}
 	},
 	"scripts": {
@@ -66,7 +67,8 @@
 		"symfony/console": "^6.4",
 		"simplesamlphp/simplesamlphp": "^2.2.0",
 		"phpunit/phpunit": "^10.5",
-		"monolog/monolog": "^2.9.3"
+		"monolog/monolog": "^2.9.3",
+		"phpoffice/phpspreadsheet": "^2.2"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
