@@ -1797,28 +1797,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function insertQuestionsObject(array $selected_array = null): void
     {
-        $selected_array = $selected_array ?? $this->testrequest->getQuestionIds();
-        if (!count($selected_array)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
+        if (($selected_array ?? $this->testrequest->getQuestionIds()) === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_insert_missing_question'), true);
             $this->ctrl->redirect($this, 'browseForQuestions');
         }
 
-        $manscoring = false;
-        foreach ($selected_array as $value) {
-            $this->getTestObject()->insertQuestion(
-                $this->test_question_set_config_factory->getQuestionSetConfig(),
-                $value
-            );
-            if (!$manscoring) {
-                $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
-            }
-        }
         $this->getTestObject()->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
-        if ($manscoring) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('manscoring_hint'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_inserted'), true);
-        }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_inserted'), true);
         $this->ctrl->redirect($this, self::SHOW_QUESTIONS_CMD);
         return;
     }
@@ -1900,7 +1885,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function buildInputEditingType(): Input
     {
-        if (!ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (!$this->getTestObject()->getGlobalSettings()->isPageEditorEnabled()) {
             return $this->ui_factory->input()->field()->hidden()->withValue(
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
             );

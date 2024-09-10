@@ -177,23 +177,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
         $test_question_set_config = $this->buildTestQuestionSetConfig();
 
-        $manscoring = false;
-
-        foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->test_obj->insertQuestion($value);
-
-            if (!$manscoring) {
-                $manscoring |= assQuestion::_needsManualScoring($value);
-            }
-        }
-
         $this->test_obj->saveCompleteStatus($test_question_set_config);
 
-        if ($manscoring) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
-        } else {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
-        }
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_inserted'), true);
 
         $this->ctrl->redirectByClass($this->getBackTargetCmdClass(), $this->getBackTargetCommand());
     }

@@ -34,6 +34,8 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\Administration\GlobalSettingsRepository;
+use ILIAS\Test\Administration\GlobalTestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
@@ -132,6 +134,7 @@ class ilObjTest extends ilObject
     protected ilBenchmark $bench;
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
+    protected GlobalSettingsRepository $global_settings_repo;
     protected ?MainSettings $main_settings = null;
     protected ?MainSettingsRepository $main_settings_repo = null;
     protected ?ScoreSettings $score_settings = null;
@@ -178,6 +181,7 @@ class ilObjTest extends ilObject
         $this->test_man_scoring_done_helper = $local_dic['scoring.manual.done_helper'];
         $this->logger = $local_dic['logging.logger'];
         $this->log_viewer = $local_dic['logging.viewer'];
+        $this->global_settings_repo = $local_dic['settings.global.repository'];
         $this->marks_repository = $local_dic['marks.repository'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
@@ -4827,16 +4831,14 @@ class ilObjTest extends ilObject
     public function getTestParticipantsForManualScoring($filter = null): array
     {
         $scoring = ilObjTestFolder::_getManualScoring();
-        if (count($scoring) == 0) {
+        if (!$this->getGlobalSettings()->isManualScoringEnabled()) {
             return [];
         }
 
         $participants = &$this->getTestParticipants();
         $filtered_participants = [];
         foreach ($participants as $active_id => $participant) {
-            $qstType_IN_manScoreableQstTypes = $this->db->in('qpl_questions.question_type_fi', $scoring, false, 'integer');
-
-            $queryString = "
+            $queryString = '
 				SELECT		tst_test_result.manual
 
 				FROM		tst_test_result
@@ -4845,12 +4847,11 @@ class ilObjTest extends ilObject
 				ON			tst_test_result.question_fi = qpl_questions.question_id
 
 				WHERE		tst_test_result.active_fi = %s
-				AND			$qstType_IN_manScoreableQstTypes
-			";
+			';
 
             $result = $this->db->queryF(
                 $queryString,
-                ["integer"],
+                ['integer'],
                 [$active_id]
             );
 
@@ -4875,7 +4876,7 @@ class ilObjTest extends ilObject
                         // partially scored participants
                         $found = 0;
                         while ($row = $this->db->fetchAssoc($result)) {
-                            if ($row["manual"]) {
+                            if ($row['manual']) {
                                 $found++;
                             }
                         }
@@ -7822,21 +7823,14 @@ class ilObjTest extends ilObject
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 
-    public function getScoreSettings(): ScoreSettings
+    public function getGeneralQuestionPropertiesRepository(): GeneralQuestionPropertiesRepository
     {
-        if (!$this->score_settings) {
-            $this->score_settings = $this->getScoreSettingsRepository()
-                ->getFor($this->getTestId());
-        }
-        return $this->score_settings;
+        return $this->questionrepository;
     }
 
-    public function getScoreSettingsRepository(): ScoreSettingsRepository
+    public function getGlobalSettings(): GlobalTestSettings
     {
-        if (!$this->score_settings_repo) {
-            $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
-        }
-        return $this->score_settings_repo;
+        return $this->global_settings_repo->getGlobalSettings();
     }
 
     public function getMainSettings(): MainSettings
@@ -7854,6 +7848,23 @@ class ilObjTest extends ilObject
             $this->main_settings_repo = new MainSettingsDatabaseRepository($this->db);
         }
         return $this->main_settings_repo;
+    }
+
+    public function getScoreSettings(): ScoreSettings
+    {
+        if (!$this->score_settings) {
+            $this->score_settings = $this->getScoreSettingsRepository()
+                ->getFor($this->getTestId());
+        }
+        return $this->score_settings;
+    }
+
+    public function getScoreSettingsRepository(): ScoreSettingsRepository
+    {
+        if (!$this->score_settings_repo) {
+            $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
+        }
+        return $this->score_settings_repo;
     }
 
     public function updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $process_locker = null): void

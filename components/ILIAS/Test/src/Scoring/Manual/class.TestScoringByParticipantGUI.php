@@ -120,7 +120,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             \ilObjTestGUI::accessViolationRedirect();
         }
 
-        if (!\ilObjTestFolder::_mananuallyScoreableQuestionTypesExists()) {
+        if (!$this->object->getGlobalSettings()->isManualScoringEnabled()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);

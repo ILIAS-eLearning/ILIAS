@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Manual;
 
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Administration\GlobalTestSettings;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -39,6 +40,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
     private ?float $curQuestionMaxPoints = null;
     protected RequestDataCollector $testrequest;
     protected GeneralQuestionPropertiesRepository $questionrepository;
+    protected GlobalTestSettings $global_test_settings;
 
     protected bool $first_row_rendered = false;
 
@@ -47,8 +49,8 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
 
     public function __construct(TestScoringByQuestionGUI $parent_obj, private \ilAccess $access)
     {
-        $local_dic = $parent_obj->getObject()->getLocalDIC();
-        $this->questionrepository = $local_dic['question.general_properties.repository'];
+        $this->global_test_settings = $parent_obj->getObject()->getGlobalSettings();
+        $this->questionrepository = $parent_obj->getObject()->getGeneralQuestionPropertiesRepository();
 
         $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
 
@@ -94,30 +96,13 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
         $this->setDisableFilterHiding(true);
 
         $available_questions = new \ilSelectInputGUI($this->lng->txt('question'), 'question');
-        $select_questions = [];
         if (!$this->getParentObject()->getObject()->isRandomTest()) {
             $questions = $this->getParentObject()->getObject()->getTestQuestions();
         } else {
             $questions = $this->getParentObject()->getObject()->getPotentialRandomTestQuestions();
         }
-        $scoring = \ilObjTestFolder::_getManualScoring();
-        foreach ($questions as $data) {
-            $info = $this->questionrepository->getForQuestionId($data['question_id']);
-            $type = $info->getTypeId();
-            if (in_array($type, $scoring)) {
-                $maxpoints = $info->getMaximumPoints();
-                if ($maxpoints == 1) {
-                    $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
-                } else {
-                    $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
-                }
 
-                $select_questions[$data["question_id"]] = $data['title'] . $maxpoints . ' [' . $this->lng->txt('question_id_short') . ': ' . $data["question_id"] . ']';
-            }
-        }
-        if (!$select_questions) {
-            $select_questions[0] = $this->lng->txt('tst_no_scorable_qst_available');
-        }
+        $select_questions = $this->buildSelectableQuestionsArray($questions);
         $available_questions->setOptions(['' => $this->lng->txt('please_choose')] + $select_questions);
         $this->addFilterItem($available_questions);
         $available_questions->readFromSession();
@@ -137,7 +122,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
         $only_answered = new \ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
         $this->addFilterItem($only_answered);
         $only_answered->readFromSession();
-        ;
+
         $this->filter['only_answered'] = $only_answered->getChecked();
 
         $correction = new \ilSelectInputGUI(
@@ -153,6 +138,29 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
         $this->addFilterItem($correction);
         $correction->readFromSession();
         $this->filter['finalize_evaluation'] = $correction->getValue();
+    }
+
+    private function buildSelectableQuestionsArray(array $questions): array
+    {
+        if (!$this->global_test_settings->isManualScoringEnabled()) {
+            return [
+                $this->lng->txt('tst_no_scorable_qst_available')
+            ];
+        }
+
+        return array_reduce(
+            $questions,
+            function (array $c, array $v): array {
+                $maxpoints = $this->questionrepository->getForQuestionId($v['question_id'])->getMaximumPoints();
+                $lang_var = $maxpoints === 1.0 ? $this->lng->txt('point') : $this->lng->txt('points');
+                $maxpoints_text = ' (' . $maxpoints . ' ' . $lang_var . ')';
+
+                $c[$v['question_id']] = $v['title'] . $maxpoints_text . ' ['
+                    . $this->lng->txt('question_id_short') . ': ' . $v['question_id'] . ']';
+                return $c;
+            },
+            []
+        );
     }
 
     public function fillRow(array $a_set): void

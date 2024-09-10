@@ -2132,18 +2132,6 @@ abstract class assQuestion implements Question
         return $instances;
     }
 
-    public static function _needsManualScoring(int $question_id): bool
-    {
-        $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
-        $questiontype = $questionrepository->getForQuestionId($question_id)->getClassName();
-        $scoring = ilObjTestFolder::_getManualScoringTypes();
-        if (in_array($questiontype, $scoring)) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
     * Returns the user id and the test id for a given active id
     *

@@ -36,7 +36,8 @@ class GlobalTestSettings
         private bool $export_essay_questions_as_html = false,
         private array $disabled_question_types = [],
         private bool $manual_scoring_enabled = false,
-        private bool $adjusting_questions_with_results_allowed = false
+        private bool $adjusting_questions_with_results_allowed = false,
+        private bool $page_editor_enabled = false
     ) {
     }
 
@@ -172,6 +173,18 @@ class GlobalTestSettings
     {
         $clone = clone $this;
         $clone->adjusting_questions_with_results_allowed = $adjusting_questions_with_results_allowed;
+        return $clone;
+    }
+
+    public function isPageEditorEnabled(): bool
+    {
+        return $this->page_editor_enabled;
+    }
+
+    public function withPageEditorEnabled(bool $page_editor_enabled): self
+    {
+        $clone = clone $this;
+        $clone->page_editor_enabled = $page_editor_enabled;
         return $clone;
     }
 

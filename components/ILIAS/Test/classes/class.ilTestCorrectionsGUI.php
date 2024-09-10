@@ -546,28 +546,26 @@ class ilTestCorrectionsGUI
         return $solution_rows;
     }
 
-    /**
-     * @return array
-     */
     protected function getQuestions(): array
     {
-        $questions = [];
 
-        foreach ($this->test_obj->getTestQuestions() as $question_data) {
-            $question_gui = $this->getQuestionGUI($question_data['question_id']);
-
-            if (!$this->supportsAdjustment($question_gui)) {
-                continue;
-            }
-
-            if (!$this->allowedInAdjustment($question_gui)) {
-                continue;
-            }
-
-            $questions[] = $question_data;
+        if ($this->test_obj->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()) {
+            return [];
         }
 
-        return $questions;
+        return array_reduce(
+            $this->test_obj->getTestQuestions(),
+            function (array $c, array $v): array {
+                $question_gui = $this->getQuestionGUI($v['question_id']);
+
+                if (!$this->supportsAdjustment($question_gui)) {
+                    return $c;
+                }
+
+                $c[] = $v;
+            },
+            []
+        );
     }
 
     /**
@@ -583,27 +581,5 @@ class ilTestCorrectionsGUI
                 || $question_object instanceof ilGuiAnswerScoringAdjustable)
             && ($question_object->getObject() instanceof ilObjQuestionScoringAdjustable
                 || $question_object->getObject() instanceof ilObjAnswerScoringAdjustable);
-    }
-
-    /**
-     * Returns if the question type is allowed for adjustments in the global test administration.
-     *
-     * @param assQuestionGUI $question_object
-     * @return bool
-     */
-    protected function allowedInAdjustment(\assQuestionGUI $question_object): bool
-    {
-        $setting = new ilSetting('assessment');
-        $types = explode(',', $setting->get('assessment_scoring_adjustment'));
-        $type_def = [];
-        foreach ($types as $type) {
-            $type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);
-        }
-
-        $type = $question_object->getQuestionType();
-        if (in_array($type, $type_def)) {
-            return true;
-        }
-        return false;
     }
 }

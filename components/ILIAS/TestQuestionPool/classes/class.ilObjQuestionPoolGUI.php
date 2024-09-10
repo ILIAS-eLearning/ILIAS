@@ -22,6 +22,9 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
+use ILIAS\Test\Administration\GlobalTestSettings;
+
 use ILIAS\Taxonomy\Service;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Select;
@@ -86,6 +89,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     protected RequestDataCollector $qplrequest;
     protected GeneralQuestionPropertiesRepository $questionrepository;
+    protected GlobalTestSettings $global_test_settings;
 
     public function __construct()
     {
@@ -110,6 +114,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $local_dic = QuestionPoolDIC::dic();
         $this->qplrequest = $local_dic['request_data_collector'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
+        $this->global_test_settings = $local_dic['global_test_settings'];
 
         parent::__construct('', $this->qplrequest->getRefId(), true, false);
 
@@ -1167,7 +1172,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     private function createQuestionFormObject(Form $form = null): void
     {
         $this->help->setScreenId('assQuestions');
-        if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if ($this->global_test_settings->isPageEditorEnabled()) {
             $this->help->setSubScreenId('createQuestion_editMode');
         } else {
             $this->help->setSubScreenId('createQuestion');
@@ -1213,7 +1218,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     private function buildInputEditingType(): Input
     {
-        if (!ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+        if (!$this->global_test_settings->isPageEditorEnabled()) {
             return $this->ui_factory->input()->field()->hidden()->withValue(
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
             );
