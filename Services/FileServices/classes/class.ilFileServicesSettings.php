@@ -66,6 +66,7 @@ class ilFileServicesSettings
     {
         global $DIC;
         return $DIC->isDependencyAvailable('rbac')
+            && isset($DIC["rbacsystem"])
             && $DIC->rbac()->system()->checkAccess(
                 'upload_blacklisted_files',
                 $this->file_admin_ref_id
