@@ -232,6 +232,7 @@ class MailBoxQuery
         while ($row = $this->db->fetchAssoc($res)) {
             $ids[] = (int) $row['mail_id'];
         }
+
         return $ids;
     }
 
