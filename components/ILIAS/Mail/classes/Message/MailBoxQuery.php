@@ -48,6 +48,7 @@ class MailBoxQuery
     private ?bool $has_attachment = null;
     private ?DateTimeImmutable $period_start = null;
     private ?DateTimeImmutable $period_end = null;
+    /** @var int[]|null */
     private ?array $filtered_ids = null;
     private int $limit = 999999;
     private int $offset = 0;
@@ -171,7 +172,7 @@ class MailBoxQuery
     public function withOrderColumn(?MailBoxOrderColumn $order_column): MailBoxQuery
     {
         $clone = clone $this;
-        if (isset($order_column)) {
+        if ($order_column !== null) {
             $clone->order_column = $order_column;
         } else {
             $clone->order_column = self::DEFAULT_ORDER_COLUMN;
@@ -350,17 +351,15 @@ class MailBoxQuery
         ];
 
         foreach ($text_conditions as $cond) {
-            if (!empty($cond[0])) {
-                $parts[] = $this->db->like(
-                    $cond[1],
-                    ilDBConstants::T_TEXT,
-                    '%%' . $cond[0] . '%%',
-                    false
-                );
-            }
+            $parts[] = $this->db->like(
+                $cond[1],
+                ilDBConstants::T_TEXT,
+                '%%' . $cond[0] . '%%',
+                false
+            );
         }
 
-        if (isset($this->folder_id)) {
+        if ($this->folder_id !== null) {
             $parts[] = 'm.folder_id = ' . $this->db->quote($this->folder_id, ilDBConstants::T_INTEGER);
         }
 

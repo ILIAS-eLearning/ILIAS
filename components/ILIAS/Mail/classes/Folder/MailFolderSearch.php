@@ -39,6 +39,7 @@ class MailFolderSearch
     private MailBoxQuery $mailbox_query;
     private ?ilMailLuceneSearcher $lucene_searcher = null;
     private ?ilMailSearchResult $lucene_result = null;
+    /** @var int[]|null $filtered_ids */
     private ?array $filtered_ids = null;
     private ?int $count = null;
     private ?int $unread = null;
@@ -89,7 +90,7 @@ class MailFolderSearch
      */
     public function getCount(): int
     {
-        if (!isset($this->count)) {
+        if ($this->count === null) {
             $this->count = $this->mailbox_query->withFilteredIds($this->getFilteredIds())->count();
         }
 
@@ -101,7 +102,7 @@ class MailFolderSearch
      */
     public function getUnread(): int
     {
-        if (!isset($this->unread)) {
+        if ($this->unread === null) {
             $this->unread = $this->mailbox_query->withFilteredIds($this->getFilteredIds())->countUnread();
         }
 
@@ -156,9 +157,9 @@ class MailFolderSearch
      */
     private function getFilteredIds(): ?array
     {
-        if (!isset($this->filtered_ids) &&
-            isset($this->lucene_result) &&
-            isset($this->lucene_searcher)) {
+        if ($this->filtered_ids === null &&
+            $this->lucene_result !== null &&
+            $this->lucene_searcher !== null) {
             $this->lucene_searcher->search($this->folder->getUserId(), $this->folder->getFolderId());
             $this->filtered_ids = $this->lucene_result->getIds();
         }

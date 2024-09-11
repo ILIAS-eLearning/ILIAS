@@ -142,6 +142,6 @@ class MailRecordData
 
     public function hasPersonalSender(): bool
     {
-        return isset($this->sender_id) && $this->sender_id !== ANONYMOUS_USER_ID;
+        return $this->sender_id !== null && $this->sender_id !== ANONYMOUS_USER_ID;
     }
 }

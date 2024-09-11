@@ -215,7 +215,6 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         ];
 
         foreach ($this->user_folders as $target_folder) {
-            // todo: probably check further moving restrictions (e.g. to/from drafts)
             if ($target_folder->getFolderId() !== $this->current_folder->getFolderId()) {
                 $actions[self::ACTION_MOVE_TO . (string) $target_folder->getFolderId()] = $this->ui_factory->table()->action()->multi(
                     $this->lng->txt('mail_move_to') . ' ' . $target_folder->getTitle()
@@ -328,15 +327,15 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 $this->search->getUnread(),
                 $this->lng->txt('unread')
             );
-        } else {
-            return sprintf(
-                '%s: %s',
-                $this->current_folder->getTitle(),
-                $this->search->getCount() === 1
-                    ? $this->lng->txt('mail_1')
-                    : sprintf($this->lng->txt('mail_s'), $this->search->getCount()),
-            );
         }
+
+        return sprintf(
+            '%s: %s',
+            $this->current_folder->getTitle(),
+            $this->search->getCount() === 1
+                ? $this->lng->txt('mail_1')
+                : sprintf($this->lng->txt('mail_s'), $this->search->getCount()),
+        );
     }
 
     private function getAvatar(MailRecordData $record): string
