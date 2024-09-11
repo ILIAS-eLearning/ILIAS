@@ -303,6 +303,7 @@ class ilObjectMetaDataGUI
                 "tst",
                 "qpl",
                 ":mob",
+                'mcst',
                 "webr",
                 "htlm",
                 "lm",

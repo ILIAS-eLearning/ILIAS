@@ -28,6 +28,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI, McstImageGalleryGUI, McstPodcastGUI, ilCommentGUI
+ * @ilCtrl_Calls ilObjMediaCastGUI: ilObjectMetaDataGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -189,6 +190,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
             case strtolower(ilCommentGUI::class):
                 $this->ctrl->forwardCommand($this->getCommentGUI());
+                break;
+
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission("write");
+                $ilTabs->activateTab("meta_data");
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
@@ -1011,6 +1019,7 @@ EOT;
 
         $info = new ilInfoScreenGUI($this);
 
+        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         $info->enablePrivateNotes();
 
         // general information
@@ -1079,6 +1088,18 @@ EOT;
                 $lng->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'), '')
             );
+        }
+
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTab(
+                    "meta_data",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
+                );
+            }
         }
 
         // export

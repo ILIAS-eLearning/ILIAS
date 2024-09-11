@@ -237,6 +237,12 @@ class ilMediaCastDataSet extends ilDataSet
                     $a_rec["Id"] . ":mcst:0:",
                     $newObj->getId() . ":mcst:0:"
                 );
+                $a_mapping->addMapping(
+                    "components/ILIAS/MetaData",
+                    "md",
+                    $a_rec["Id"] . ":0:mcst",
+                    $newObj->getId() . ":0:mcst"
+                );
                 break;
         }
     }

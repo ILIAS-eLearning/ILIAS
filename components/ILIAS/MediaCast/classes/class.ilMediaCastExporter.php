@@ -60,6 +60,18 @@ class ilMediaCastExporter extends ilXmlExporter
             "entity" => "common",
             "ids" => $a_ids);
 
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:mcst';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
         return $deps;
     }
 
