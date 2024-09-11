@@ -157,6 +157,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         } else {
             unset($columns['recipients']);
         }
+
         return $columns;
     }
 
