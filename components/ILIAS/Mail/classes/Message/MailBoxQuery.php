@@ -121,6 +121,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->has_attachment = $has_attachment;
+
         return $clone;
     }
 
