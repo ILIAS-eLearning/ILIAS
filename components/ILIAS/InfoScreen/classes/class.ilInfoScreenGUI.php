@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\InfoScreen\StandardGUIRequest;
-use ILIAS\MetaData\Services\Services as Metadata;
+use ILIAS\MetaData\Services\ServicesInterface as Metadata;
 
 /**
  * Class ilInfoScreenGUI
