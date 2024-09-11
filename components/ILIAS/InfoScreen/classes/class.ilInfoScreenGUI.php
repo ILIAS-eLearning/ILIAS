@@ -326,6 +326,7 @@ class ilInfoScreenGUI
         $md_reader = $this->metadata->read($a_rep_obj_id, $a_obj_id, $a_type);
         $md_paths = $this->metadata->paths();
         $md_data_helper = $this->metadata->dataHelper();
+        $md_cp_helper = $this->metadata->copyrightHelper();
 
         // general
         $description = $md_reader->firstData($md_paths->descriptions())->value();
@@ -341,11 +342,12 @@ class ilInfoScreenGUI
         $author = $md_data_helper->makePresentableAsList(', ', ...$author_data);
 
         // copyright
-        $copyright_description = $md_reader->firstData($md_paths->copyright())->value();
-        if ($copyright_description) {
-            $copyright = ilMDUtils::_parseCopyright($copyright_description);
+        if ($md_cp_helper->hasPresetCopyright($md_reader)) {
+            $copyright = $this->ui->renderer()->render(
+                $md_cp_helper->readPresetCopyright($md_reader)->presentAsUIComponents()
+            );
         } else {
-            $copyright = ilMDUtils::_getDefaultCopyright();
+            $copyright = $md_cp_helper->readCustomCopyright($md_reader);
         }
 
         // learning time
