@@ -74,7 +74,6 @@ class ilMailFolderGUI
     private readonly Renderer $ui_renderer;
     private readonly ilUIService $ui_service;
     private readonly DataFactory $data_factory;
-
     private ilMail $umail;
     private ilMailbox $mbox;
     private MailFolderData $folder;
