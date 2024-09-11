@@ -295,6 +295,7 @@ class MailBoxQuery
                 isset($row['tpl_ctx_params']) ? (string) $row['tpl_ctx_params'] : null
             );
         }
+
         return $set;
     }
 
