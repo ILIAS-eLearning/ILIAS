@@ -154,10 +154,9 @@ class MailFolderSearch
      */
     private function getFilteredIds(): ?array
     {
-        if (!isset($this->filtered_ids)
-            && isset($this->lucene_result)
-            && isset($this->lucene_searcher)
-        ) {
+        if (!isset($this->filtered_ids) &&
+            isset($this->lucene_result) &&
+            isset($this->lucene_searcher)) {
             $this->lucene_searcher->search($this->folder->getUserId(), $this->folder->getFolderId());
             $this->filtered_ids = $this->lucene_result->getIds();
         }
