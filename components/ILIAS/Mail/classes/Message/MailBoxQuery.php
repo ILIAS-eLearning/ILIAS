@@ -51,7 +51,6 @@ class MailBoxQuery
     private ?array $filtered_ids = null;
     private int $limit = 999999;
     private int $offset = 0;
-
     private MailBoxOrderColumn $order_column = self::DEFAULT_ORDER_COLUMN;
     private string $order_direction = self::DEFAULT_ORDER_DIRECTION;
 
