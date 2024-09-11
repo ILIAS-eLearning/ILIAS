@@ -162,6 +162,7 @@ class MailFolderSearch
             $this->lucene_searcher->search($this->folder->getUserId(), $this->folder->getFolderId());
             $this->filtered_ids = $this->lucene_result->getIds();
         }
+
         return $this->filtered_ids;
     }
 
