@@ -207,6 +207,7 @@ class MailBoxQuery
         if ($row = $this->db->fetchAssoc($res)) {
             return (int) $row['cnt'];
         }
+
         return 0;
     }
 
