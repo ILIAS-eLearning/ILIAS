@@ -597,6 +597,7 @@ class ilMailFolderGUI
                 }
             }
         }
+
         return [];
     }
 
