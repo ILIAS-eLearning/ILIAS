@@ -113,6 +113,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->is_system = $is_system;
+
         return $clone;
     }
 
