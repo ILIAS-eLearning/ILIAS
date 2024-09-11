@@ -28,5 +28,4 @@ enum MailBoxOrderColumn: string
     case SEND_TIME = 'send_time';
     case RCP_TO = 'rcp_to';
     case ATTACHMENTS = 'attachments';
-
 }
