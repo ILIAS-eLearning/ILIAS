@@ -147,6 +147,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->limit = $limit;
+
         return $clone;
     }
 
