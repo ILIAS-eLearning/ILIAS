@@ -81,6 +81,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->recipients = $recipients;
+
         return $clone;
     }
 
