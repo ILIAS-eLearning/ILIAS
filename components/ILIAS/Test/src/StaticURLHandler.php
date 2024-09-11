@@ -44,11 +44,11 @@ class StaticURLHandler extends BaseHandler implements Handler
     ): Response {
         $ref_id = $request->getReferenceId()?->toInt() ?? 0;
         $additional_params = $request->getAdditionalParameters();
-        $context->ctrl()->setParameterByClass(ilObjTestGUI::class, 'ref_id', $ref_id);
+        $context->ctrl()->setParameterByClass(\ilObjTestGUI::class, 'ref_id', $ref_id);
 
         $uri = match ($additional_params[0] ?? 'default') {
             self::QUESTION_OPERATIONS => $this->buildQuestionURL($additional_params[1], $context->ctrl()),
-            default => $context->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class]),
+            default => $context->ctrl()->getLinkTargetByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class]),
         };
 
         return $response_factory->can($uri);
@@ -56,9 +56,9 @@ class StaticURLHandler extends BaseHandler implements Handler
 
     private function buildQuestionURL(string $q_id, \ilCtrl $ctrl): string
     {
-        $ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $q_id);
-        $link = $ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilAssQuestionPreviewGUI::class], ilAssQuestionPreviewGUI::CMD_SHOW);
-        $ctrl->clearParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id');
+        $ctrl->setParameterByClass(\ilAssQuestionPreviewGUI::class, 'q_id', $q_id);
+        $link = $ctrl->getLinkTargetByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilAssQuestionPreviewGUI::class], \ilAssQuestionPreviewGUI::CMD_SHOW);
+        $ctrl->clearParameterByClass(\ilAssQuestionPreviewGUI::class, 'q_id');
         return $link;
     }
 }
