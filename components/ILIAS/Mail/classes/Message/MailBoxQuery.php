@@ -155,6 +155,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->offset = $offset;
+
         return $clone;
     }
 
