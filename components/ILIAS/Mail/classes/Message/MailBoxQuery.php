@@ -65,6 +65,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->folder_id = $folder_id;
+
         return $clone;
     }
 
