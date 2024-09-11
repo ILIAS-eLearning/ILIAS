@@ -324,7 +324,7 @@ class MailBoxQuery
 
         // sender conditions have to respect searchability and visibility of profile fields
         $sender_conditions = [];
-        if (!empty($this->sender)) {
+        if (($this->sender ?? '') !== '') {
             $sender_conditions[] = $this->db->like('u.login', ilDBConstants::T_TEXT, '%%' . $this->sender . '%%');
 
             if (ilUserSearchOptions::_isEnabled('firstname')) {
@@ -351,12 +351,14 @@ class MailBoxQuery
         ];
 
         foreach ($text_conditions as $cond) {
-            $parts[] = $this->db->like(
-                $cond[1],
-                ilDBConstants::T_TEXT,
-                '%%' . $cond[0] . '%%',
-                false
-            );
+            if (($cond[0] ?? '') !== '') {
+                $parts[] = $this->db->like(
+                    $cond[1],
+                    ilDBConstants::T_TEXT,
+                    '%%' . $cond[0] . '%%',
+                    false
+                );
+            }
         }
 
         if ($this->folder_id !== null) {
@@ -383,7 +385,7 @@ class MailBoxQuery
                             . '  OR m.attachments = ' . $this->db->quote(serialize([]), ilDBConstants::T_TEXT) . ')';
         }
 
-        if (!empty($this->period_start)) {
+        if ($this->period_start !== null) {
             $parts[] = 'm.send_time >= ' . $this->db->quote(
                 // convert to server time zone (set by ilias initialisation)
                 $this->period_start->setTimezone(new DateTimeZone(date_default_timezone_get()))
@@ -392,7 +394,7 @@ class MailBoxQuery
             );
         }
 
-        if (!empty($this->period_end)) {
+        if ($this->period_end !== null) {
             $parts[] = 'm.send_time <= ' . $this->db->quote(
                 // convert to server time zone (set by ilias initialisation)
                 $this->period_end->setTimezone(new DateTimeZone(date_default_timezone_get()))

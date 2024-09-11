@@ -114,20 +114,20 @@ class MailFilterUI
         }
 
         $start = null;
-        if (!empty($data['period'][0])) {
+        if (($data['period'][0] ?? '') !== '') {
             $start = new DateTimeImmutable($data['period'][0] . ' 00:00:00', $this->user_time_zone);
         }
         $end = null;
-        if (!empty($data['period'][1])) {
+        if (($data['period'][1] ?? '') !== '') {
             $end = new DateTimeImmutable($data['period'][1] . ' 23:59:59', $this->user_time_zone);
         }
 
         return new MailFilterData(
-            empty($data['sender']) ? null : (string) $data['sender'],
-            empty($data['recipients']) ? null : (string) $data['recipients'],
-            empty($data['subject']) ? null : (string) $data['subject'],
-            empty($data['body']) ? null : $data['body'],
-            empty($data['attachment']) ? null : (string) $data['attachment'],
+            ($data['sender'] ?? '') === '' ? null : (string) $data['sender'],
+            ($data['recipients'] ?? '') === '' ? null : (string) $data['recipients'],
+            ($data['subject'] ?? '') === '' ? null : (string) $data['subject'],
+            ($data['body'] ?? '') === '' ? null : $data['body'],
+            ($data['attachment'] ?? '') === '' ? null : (string) $data['attachment'],
             $start,
             $end,
             $is_unread,

@@ -64,11 +64,11 @@ class MailFolderSearch
             ->withHasAttachment($this->filter->hasAttachment());
 
         if ($this->lucene_enabled && (
-            !empty($this->filter->getSender()) ||
-                !empty($this->filter->getRecipients()) ||
-                !empty($this->filter->getSubject()) ||
-                !empty($this->filter->getBody()) ||
-                !empty($this->filter->getAttachment())
+            ($this->filter->getSender() ?? '') !== '' ||
+                ($this->filter->getRecipients() ?? '') !== '' ||
+                ($this->filter->getSubject() ?? '') !== '' ||
+                ($this->filter->getBody() ?? '') !== '' ||
+                ($this->filter->getAttachment() ?? '') !== ''
         )) {
             $query_parser = new ilMailLuceneQueryParser('');
             $query_parser->setFields([
