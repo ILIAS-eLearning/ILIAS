@@ -137,6 +137,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->period_end = $period_end;
+
         return $clone;
     }
 
