@@ -101,7 +101,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return TableColumn[]
+     * @return array<string, TableColumn>
      */
     private function getColumnDefinition(): array
     {
