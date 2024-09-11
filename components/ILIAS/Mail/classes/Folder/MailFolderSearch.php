@@ -92,6 +92,7 @@ class MailFolderSearch
         if (!isset($this->count)) {
             $this->count = $this->mailbox_query->withFilteredIds($this->getFilteredIds())->count();
         }
+
         return $this->count;
     }
 
