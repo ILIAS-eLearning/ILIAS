@@ -182,7 +182,6 @@ class MailBoxQuery
         return $clone;
     }
 
-
     /**
      * Count the number of unread mails with applied filter
      */
