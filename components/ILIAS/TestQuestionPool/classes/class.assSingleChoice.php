@@ -776,11 +776,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return 'feedback_correct_sc_mc';
     }
 
-    public static function isObligationPossible(int $question_id): bool
-    {
-        return true;
-    }
-
     public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);

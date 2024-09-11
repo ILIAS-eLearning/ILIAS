@@ -112,7 +112,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
-        $this->ensureNoInvalidObligation($this->getId());
         parent::saveToDb($original_id);
     }
 
@@ -777,87 +776,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public function getSpecificFeedbackAllCorrectOptionLabel(): string
     {
         return 'feedback_correct_sc_mc';
-    }
-
-    /**
-     * returns boolean wether it is possible to set
-     * this question type as obligatory or not
-     * considering the current question configuration
-     *
-     * (overwrites method in class assQuestion)
-     *
-     * @param integer $questionId
-     *
-     * @return boolean $obligationPossible
-     */
-    public static function isObligationPossible(int $questionId): bool
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "
-			SELECT SUM(points) points_for_checked_answers
-			FROM qpl_a_mc
-			WHERE question_fi = %s AND points > 0
-		";
-
-        $res = $ilDB->queryF($query, ['integer'], [$questionId]);
-
-        $row = $ilDB->fetchAssoc($res);
-
-        return $row['points_for_checked_answers'] > 0;
-    }
-
-    /**
-     * ensures that no invalid obligation is saved for the question used in test
-     *
-     * when points can be reached ONLY by NOT check any answer
-     * a possibly still configured obligation will be removed
-     */
-    public function ensureNoInvalidObligation(int $question_id): void
-    {
-        $query = "
-			SELECT		SUM(qpl_a_mc.points) points_for_checked_answers,
-						test_question_id
-
-			FROM		tst_test_question
-
-			INNER JOIN	qpl_a_mc
-			ON			qpl_a_mc.question_fi = tst_test_question.question_fi
-
-			WHERE		tst_test_question.question_fi = %s
-			AND			tst_test_question.obligatory = 1
-
-			GROUP BY	test_question_id
-		";
-
-        $res = $this->db->queryF($query, ['integer'], [$question_id]);
-
-        $updateTestQuestionIds = [];
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            if ($row['points_for_checked_answers'] <= 0) {
-                $updateTestQuestionIds[] = $row['test_question_id'];
-            }
-        }
-
-        if (count($updateTestQuestionIds)) {
-            $test_question_id__IN__updateTestQuestionIds = $this->db->in(
-                'test_question_id',
-                $updateTestQuestionIds,
-                false,
-                'integer'
-            );
-
-            $query = "
-				UPDATE tst_test_question
-				SET obligatory = 0
-				WHERE $test_question_id__IN__updateTestQuestionIds
-			";
-
-            $this->db->manipulate($query);
-        }
     }
 
     protected function getSolutionSubmit(): array

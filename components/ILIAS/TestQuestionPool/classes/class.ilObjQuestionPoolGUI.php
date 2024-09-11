@@ -23,7 +23,7 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
-use ILIAS\Test\Administration\GlobalTestSettings;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 
 use ILIAS\Taxonomy\Service;
 use ILIAS\UI\Component\Input\Container\Form\Form;

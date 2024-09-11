@@ -774,11 +774,6 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return 'feedback_correct_kprim';
     }
 
-    public static function isObligationPossible(int $questionId): bool
-    {
-        return true;
-    }
-
     public function moveAnswerDown($position): bool
     {
         if ($position < 0 || $position >= (self::NUM_REQUIRED_ANSWERS - 1)) {

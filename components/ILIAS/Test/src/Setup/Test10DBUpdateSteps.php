@@ -358,4 +358,23 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_tests', 'broken');
         }
     }
+
+    public function step_5(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'obligations_enabled')) {
+            $this->db->dropTableColumn('tst_tests', 'obligations_enabled');
+        }
+
+        if ($this->db->tableColumnExists('tst_pass_result', 'obligations_answered')) {
+            $this->db->dropTableColumn('tst_pass_result', 'obligations_answered');
+        }
+
+        if ($this->db->tableColumnExists('tst_test_question', 'obligatory')) {
+            $this->db->dropTableColumn('tst_test_question', 'obligatory');
+        }
+
+        if ($this->db->tableColumnExists('tst_result_cache', 'obligations_answered')) {
+            $this->db->dropTableColumn('tst_result_cache', 'obligations_answered');
+        }
+    }
 }

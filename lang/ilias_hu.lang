@@ -744,11 +744,6 @@ assessment#:#gap#:#Kitöltendő hely
 assessment#:#gap_combination#:#Kitöltéskombináció
 assessment#:#glossary_term#:#Fogalomtár fogalma
 assessment#:#grading_mark_msg#:#Érdemjegye: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Megválaszoltak
-assessment#:#grading_obligations_answered_msg#:#Mindegyik kötelező kérdést megválaszolta.
-assessment#:#grading_obligations_listlabel#:#Kötelező kérdések
-assessment#:#grading_obligations_missing_listentry#:#Megnyitottak
-assessment#:#grading_obligations_missing_msg#:#Nem mindegyik kötelező kérdést válaszolta meg.
 assessment#:#grading_status_failed_msg#:#Sajnáljuk, <b>nem teljesítette</b> a tesztet.
 assessment#:#grading_status_passed_msg#:#Gratulálunk, <b>sikeresen teljesítette</b> a tesztet.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Nincs kiválasztva ---
 assessment#:#no_selection_for_move#:#Nincs kiválasztva kérdés a mozgatáshoz
 assessment#:#no_target_selected_for_move#:#Ki kell választania egy célpozíciót!
 assessment#:#no_user_or_group_selected#:#Jelöljön ki egy beállítást, amelyet keres (felhasználók/csoportok)!
-assessment#:#not_all_obligations_answered#:#Az összes kötelező kérdést meg kell válaszolnia a teszt befejezése előtt.
 assessment#:#not_evaluated_users#:#Még nem értékelt felhasználók
 assessment#:#not_yet_accessed#:#Még nem volt belépés
 assessment#:#nr_of_correct_answers#:#Elvárt válaszok száma
 assessment#:#number_of_answers#:#Válaszok száma
 assessment#:#numeric_gap#:#Számszerű hely
-assessment#:#obligations_summary#:#Kötelező kérdések listája
-assessment#:#obligatory#:#Kötelező
 assessment#:#option_label#:#Választható címkék
 assessment#:#option_label_adequate#:#adekvát
 assessment#:#option_label_adequate_or_not#:#adekvát / nem adekvát
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Kérdések elhalaszthatók a tesztkitölté
 assessment#:#tst_sequence_properties#:#Teszt felügyelete: Felhasználók számára elérhető funkcionalitások
 assessment#:#tst_session_settings#:#Munkamenet-beállítások
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#A teszt offline lett, mert a teszt-mód beállítása megváltozott. Új teszt-módot szükséges beállítani a kérdésbeállításnak megfelelően, mielőtt a teszt ismét online-ra állítható.
-assessment#:#tst_setting_enable_obligations_info#:#Az összes kötelező kérdés megválaszolás után lehet a tesztet befejezni. A kötelező kérdéseket a 'Listanézetben' határozhatja meg. Célszerű a résztvevőknek bekapcsolni a 'Kérdéslista megjelenítése' opciót.
-assessment#:#tst_setting_enable_obligations_label#:#Kötelező kérdések
 assessment#:#tst_setting_offer_hints_info#:#A résztvevők a kérdés megválaszolásához segítségeket kérhetnek. A megszerezhető pontszám minden segítségkéréssel csökken.
 assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manuálisan kiválasztott résztvevők
 assessment#:#tst_tbl_participants#:#Résztevők
 assessment#:#tst_tbl_results_grades#:#Eredmények és érdemjegyek
-assessment#:#tst_test_contains_obligatory_questions#:#A teszt befejezéséhez az összes kötelező kérdést(*) meg kell megválaszolnia.
 assessment#:#tst_test_result#:#Teszt végeredmények
 assessment#:#tst_text_count_system#:#Pontozási szisztéma
 assessment#:#tst_threshold#:#Küszöbértékek (itt: %)
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#A Tanulási célkitűzés Z
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Válaszát egy korábbi próbálkozásból elfogadtuk.
 assessment#:#tst_wf_info_answer_not_adopted#:#Korábbi próbálkozásaiból válaszát nem tudjuk elfogadni, így dolgoznia kell még a kérdés megválaszolásán, mert különben tanulási céljának eredményét le kell, hogy rontsuk.
 assessment#:#tst_wf_info_optional_question#:#Ez a kérdés egy már korábban teljesített tanulási célhoz tartozik.
-assessment#:#tst_you_have_to_answer_this_question#:#A teszt befejezéséhez ezt a kérdést meg kell válaszolnia.
 assessment#:#tst_your_answer_was#:#Az Ön által adott válasz a következő volt
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#un_add_category#:#Kategória hozzáadása

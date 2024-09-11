@@ -207,40 +207,39 @@ class ilTestService
         return $virtualPassResults;
     }
 
-    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, bool $obligationsFilterEnabled): array
+    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $test_sequence): array
     {
-        $result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
+        $result_array = $test_sequence->getSequenceSummary();
 
         $marked_questions = [];
 
         if ($this->object->getShowMarker()) {
-            $marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
+            $marked_questions = ilObjTest::_getSolvedQuestions($test_sequence->getActiveId());
         }
 
         $data = [];
-        $firstQuestion = true;
+        $first_question = true;
 
-        foreach ($result_array as $key => $value) {
-            $disableLink = (
-                $this->object->isFollowupQuestionAnswerFixationEnabled()
-                && !$value['presented'] && !$firstQuestion
-            );
+        foreach ($result_array as $value) {
+            $disable_link = $this->object->isFollowupQuestionAnswerFixationEnabled()
+                && !$value['presented']
+                && !$first_question;
 
-            $description = "";
+            $description = '';
             if ($this->object->getListOfQuestionsDescription()) {
-                $description = $value["description"];
+                $description = $value['description'];
             }
 
-            $points = "";
+            $points = '';
             if (!$this->object->getTitleOutput()) {
-                $points = $value["points"];
+                $points = $value['points'];
             }
 
             $marked = false;
             if (count($marked_questions)) {
-                if (array_key_exists($value["qid"], $marked_questions)) {
-                    $obj = $marked_questions[$value["qid"]];
-                    if ($obj["solved"] == 1) {
+                if (array_key_exists($value['qid'], $marked_questions)) {
+                    $obj = $marked_questions[$value['qid']];
+                    if ($obj['solved'] === 1) {
                         $marked = true;
                     }
                 }
@@ -250,20 +249,19 @@ class ilTestService
 
             // fau: testNav - add number parameter for getQuestionTitle()
             $data[] = [
-                'order' => $value["nr"],
-                'title' => $this->object->getQuestionTitle($value["title"], $value["nr"], $value["points"]),
+                'order' => $value['nr'],
+                'title' => $this->object->getQuestionTitle($value['title'], $value['nr'], $value['points']),
                 'description' => $description,
-                'disabled' => $disableLink,
-                'worked_through' => $value["worked_through"],
-                'postponed' => $value["postponed"],
+                'disabled' => $disable_link,
+                'worked_through' => $value['worked_through'],
+                'postponed' => $value['postponed'],
                 'points' => $points,
                 'marked' => $marked,
-                'sequence' => $value["sequence"],
-                'obligatory' => $value['obligatory'],
+                'sequence' => $value['sequence'],
                 'isAnswered' => $value['isAnswered']
             ];
 
-            $firstQuestion = false;
+            $first_question = false;
             // fau.
         }
 

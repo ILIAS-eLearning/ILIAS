@@ -744,11 +744,6 @@ assessment#:#gap#:#Intervalo
 assessment#:#gap_combination#:#Combinação de intervalo
 assessment#:#glossary_term#:#Termo do glossário
 assessment#:#grading_mark_msg#:#A sua marca é: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Respondido
-assessment#:#grading_obligations_answered_msg#:#Preencheu todas as perguntas obrigatórias.
-assessment#:#grading_obligations_listlabel#:#Perguntas obrigatórias
-assessment#:#grading_obligations_missing_listentry#:#Aberto
-assessment#:#grading_obligations_missing_msg#:#Não preencheu todas as perguntas obrigatórias.
 assessment#:#grading_status_failed_msg#:#Lamentamos, mas <b>falhou</b> no teste.
 assessment#:#grading_status_passed_msg#:#Parabéns, <b>passou</b> no teste.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Nenhuma seleção ---
 assessment#:#no_selection_for_move#:#Nenhuma pergunta selecionada para mover
 assessment#:#no_target_selected_for_move#:#Tem de selecionar uma posição de destino!
 assessment#:#no_user_or_group_selected#:#Marque uma opção sobre o que está a procurar (utilizadores e/ou grupos)!
-assessment#:#not_all_obligations_answered#:#Tem de responder a todas as perguntas obrigatórias antes de poder terminar o teste.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Ainda não acedido
 assessment#:#nr_of_correct_answers#:#Número de respostas pedidas
 assessment#:#number_of_answers#:#Número de respostas
 assessment#:#numeric_gap#:#Intervalo numérico
-assessment#:#obligations_summary#:#Lista de perguntas obrigatórias
-assessment#:#obligatory#:#Obrigatório
 assessment#:#option_label#:#Opção etiquetas
 assessment#:#option_label_adequate#:#adequado
 assessment#:#option_label_adequate_or_not#:#adequado/não adequado
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#As perguntas podem ser adiadas para o fim d
 assessment#:#tst_sequence_properties#:#Conteúdo para recapitulação
 assessment#:#tst_session_settings#:#Se houver conteúdo para recapitulação atribuído às perguntas do teste, este conteúdo será apresentado na ‘Tabela dos resultados detalhados do teste’. Os participantes têm a oportunidade de uma aprendizagem corretiva. Para efetivar essa opção tem de ativar ‘Tabela dos resultados detalhados do teste’ em ‘Acesso aos resultados de teste’.
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#O teste foi definido para online porque as definições do modo de teste foram alteradas. Tem de definir um novo modo de teste relacionado com a configuração das perguntas antes de o teste poder ser definido para online novamente.
-assessment#:#tst_setting_enable_obligations_info#:#Mostrar classificação
-assessment#:#tst_setting_enable_obligations_label#:#Mistura a sequência das perguntas para cada participante e cada tentativa de teste.
 assessment#:#tst_setting_offer_hints_info#:#Configurar limites de competência
 assessment#:#tst_setting_offer_hints_label#:#Banco de perguntas
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Editor do ecrã login
 assessment#:#tst_tbl_participants#:#Codificação dos caracteres
 assessment#:#tst_tbl_results_grades#:#Selecione a codificação dos caracteres para a comunicação com o servidor Radius. Se não tiver a certeza, selecione UTF-8.
-assessment#:#tst_test_contains_obligatory_questions#:#Sincronização usando LDAP
 assessment#:#tst_test_result#:#Resultado de teste
 assessment#:#tst_text_count_system#:#Se estiver ativada, a sincronização das contas do utilizador e das atribuições das funções é efetuada usando uma configuração LDAP existente.
 assessment#:#tst_threshold#:#Criação automática de contas de utilizador
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Usar o editor Rich-Text
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Foi adotada a sua resposta de uma tentativa anterior.
 assessment#:#tst_wf_info_answer_not_adopted#:#Número máximo de itens na lista ‘Quem está online?’. Esta definição tem apenas uma influência mínima no desempenho quando apresenta a ferramenta na barra superior.
 assessment#:#tst_wf_info_optional_question#:#Tarefas secundárias
-assessment#:#tst_you_have_to_answer_this_question#:#Tem de responder a esta pergunta para terminar o teste.
 assessment#:#tst_your_answer_was#:#A sua resposta foi
 assessment#:#tst_your_answers#:#Estas são as respostas que deu nas seguintes perguntas.
 assessment#:#un_add_category#:#Adicionar categoria

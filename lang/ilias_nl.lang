@@ -744,11 +744,6 @@ assessment#:#gap#:#Gat
 assessment#:#gap_combination#:#Gap Combinatie
 assessment#:#glossary_term#:#Verklarende term
 assessment#:#grading_mark_msg#:#Je resultaat is: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
-assessment#:#grading_obligations_answered_msg#:#Je hebt alle verplichte vragen beantwoord.
-assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
-assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
-assessment#:#grading_obligations_missing_msg#:#Je hebt niet alle verplichte vragen beantwoord.
 assessment#:#grading_status_failed_msg#:#Helaas, je bent <b>niet geslaagd</b> voor de toets.
 assessment#:#grading_status_passed_msg#:#Gefeliciteerd, je bent <b>geslaagd</b> voor de toets.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Geen Keuze ---
 assessment#:#no_selection_for_move#:#Geen vragen geselecteerd om te verplaatsen.
 assessment#:#no_target_selected_for_move#:#Je moet een doelpositie selecteren!
 assessment#:#no_user_or_group_selected#:#Aanvinken waar je naar zoekt (gebruikers, rollen,  groepen, enz.)!
-assessment#:#not_all_obligations_answered#:#Je moet alle verplichte vragen beantwoorden voor je de toets kunt afmaken.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Nog niet toegangkelijk
 assessment#:#nr_of_correct_answers#:#Aantal verplichten antwoorden
 assessment#:#number_of_answers#:#Aantal antwoorden
 assessment#:#numeric_gap#:#Numerieke periode
-assessment#:#obligations_summary#:#Lijst met verplichte vragen.
-assessment#:#obligatory#:#Verplicht
 assessment#:#option_label#:#Optie Labels
 assessment#:#option_label_adequate#:#adequaat
 assessment#:#option_label_adequate_or_not#:#adequaat/ niet adequaat
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Vragen mogen uitgesteld worden tot het eind
 assessment#:#tst_sequence_properties#:#Volgorde eigenschappen
 assessment#:#tst_session_settings#:#Sessie instellingen
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###06 02 2015 new variable
-assessment#:#tst_setting_enable_obligations_info#:#Als aangevinkt kunnen vragen in de toets verplicht worden gemaakt (*). Alle verplichte vragen moeten juist worden beantwoord om voor de toets te slagen. Je kunt vragen als verplicht aanmerken in het "lijst beeld". We suggereren om ook de instelling "Toon lijst met vragen" in te schakelen  als je verplichte vragen gebuikt.
-assessment#:#tst_setting_enable_obligations_label#:#Verplichte vragen
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
 assessment#:#tst_setting_offer_hints_label#:#Vraag-specifieke Hints
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants###10 11 2018 new variable
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades###10 11 2018 new variable
-assessment#:#tst_test_contains_obligatory_questions#:#Om voor deze toets te slagen, moet je tenminste alle verplichte vragen (*) juist beantwoorden.
 assessment#:#tst_test_result#:#Toets Resultaten
 assessment#:#tst_text_count_system#:#Score systeem
 assessment#:#tst_threshold#:#Drempel
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.###30 08 2015 new variable
 assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.###30 08 2015 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#Je moet deze vraag beantwoorden om de toets te kunnen voltooien
 assessment#:#tst_your_answer_was#:#Je antwoord was
 assessment#:#tst_your_answers#:#Dit zijn de antwoorden die je hebt gegeven op de volgende vragen
 assessment#:#un_add_category#:#Toevoegen Categorie

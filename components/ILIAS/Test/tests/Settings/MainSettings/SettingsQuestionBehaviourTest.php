@@ -271,23 +271,4 @@ class SettingsQuestionBehaviourTest extends ilTestBaseTestCase
             [true]
         ];
     }
-
-    /**
-     * @dataProvider getAndWithCompulsoryQuestionsEnabledDataProvider
-     */
-    public function testGetAndWithCompulsoryQuestionsEnabled(bool $io): void
-    {
-        $Settings_question_behaviour = $this->getTestInstance()->withCompulsoryQuestionsEnabled($io);
-
-        $this->assertInstanceOf(SettingsQuestionBehaviour::class, $Settings_question_behaviour);
-        $this->assertEquals($io, $Settings_question_behaviour->getCompulsoryQuestionsEnabled());
-    }
-
-    public static function getAndWithCompulsoryQuestionsEnabledDataProvider(): array
-    {
-        return [
-            [false],
-            [true]
-        ];
-    }
 }

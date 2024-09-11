@@ -744,11 +744,6 @@ assessment#:#gap#:#穴埋め
 assessment#:#gap_combination#:#ギャップ連結
 assessment#:#glossary_term#:#索引
 assessment#:#grading_mark_msg#:#結果: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#回答数
-assessment#:#grading_obligations_answered_msg#:#全ての必須問題を解答しました。
-assessment#:#grading_obligations_listlabel#:#必須問題
-assessment#:#grading_obligations_missing_listentry#:#オープン
-assessment#:#grading_obligations_missing_msg#:#必須問題に全てに解答していません。
 assessment#:#grading_status_failed_msg#:#残念ながらテストに <b>不合格です。</b>
 assessment#:#grading_status_passed_msg#:#おめでとうございます。テスト <b>合格です。</b>
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- 未選択 ---
 assessment#:#no_selection_for_move#:#移動するための問題が選択されていません
 assessment#:#no_target_selected_for_move#:#目標位置の選択が必要です!
 assessment#:#no_user_or_group_selected#:#何(ユーザ、グループ、役割）を検索するかオプションをチェックしてください!
-assessment#:#not_all_obligations_answered#:#テストを終了するには全必須問題に解答する必要があります。
 assessment#:#not_evaluated_users#:#未採点ユーザ
 assessment#:#not_yet_accessed#:#未接続
 assessment#:#nr_of_correct_answers#:#要求する解答数
 assessment#:#number_of_answers#:#解答数
 assessment#:#numeric_gap#:#数値穴埋め
-assessment#:#obligations_summary#:#必須問題一覧
-assessment#:#obligatory#:#必須
 assessment#:#option_label#:#オプションラベル
 assessment#:#option_label_adequate#:#適切
 assessment#:#option_label_adequate_or_not#:#適切/不適切
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#試験問題の解答を後回し可能
 assessment#:#tst_sequence_properties#:#テスト管理:受験者が利用可能な機能
 assessment#:#tst_session_settings#:#セッション設定
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#テストモード設定が変更されたためテストはオフラインになっています。テストを再度オンラインにする前に問題に関係する新規のテストモード構成を設定する必要があります。
-assessment#:#tst_setting_enable_obligations_info#:#必須問題全てに解答する場合のみテストを終了できます。必須問題は"リストビュー"内に定義できます。受験者はオプション"問題リストを表示"有効にする必要があります。
-assessment#:#tst_setting_enable_obligations_label#:#必須問題
 assessment#:#tst_setting_offer_hints_info#:#受験者は問題解答のヒントを要求します。表示される各ヒントは最高点が減るようになります。
 assessment#:#tst_setting_offer_hints_label#:#ヒント
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variab
 assessment#:#tst_tbl_invited_users#:#手動で選択の受験者
 assessment#:#tst_tbl_participants#:#受験者
 assessment#:#tst_tbl_results_grades#:#結果と評価
-assessment#:#tst_test_contains_obligatory_questions#:#このテストを終了するには全必須問題(*)に解答する必要があります。
 assessment#:#tst_test_result#:#テスト結果
 assessment#:#tst_text_count_system#:#採点システム
 assessment#:#tst_threshold#:#しきい値
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#学習目標に対する資
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#前に試みた回答が適合されました。
 assessment#:#tst_wf_info_answer_not_adopted#:#以前適合を試みた回答がありませんので学習目標を下方修正するにはこの問題を完了する必要があります。
 assessment#:#tst_wf_info_optional_question#:#この問題はすでにパスした学習目標に関係します。
-assessment#:#tst_you_have_to_answer_this_question#:#この問題はすでにパスした学習目標に関係します。
 assessment#:#tst_your_answer_was#:#解答
 assessment#:#tst_your_answers#:#次の問題に対する答案があります。
 assessment#:#un_add_category#:#カテゴリを追加

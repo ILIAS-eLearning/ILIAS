@@ -100,7 +100,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             . 'force_inst_fb,' . PHP_EOL
             . 'inst_fb_answer_fixation,' . PHP_EOL
             . 'follow_qst_answer_fixation,' . PHP_EOL
-            . 'obligations_enabled,' . PHP_EOL
             . 'use_previous_answers,' . PHP_EOL
             . 'suspend_test_allowed,' . PHP_EOL
             . 'sequence_settings,' . PHP_EOL
@@ -184,8 +183,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['instant_verification'],
                 (bool) $row['force_inst_fb'],
                 (bool) $row['inst_fb_answer_fixation'],
-                (bool) $row['follow_qst_answer_fixation'],
-                (bool) $row['obligations_enabled']
+                (bool) $row['follow_qst_answer_fixation']
             ),
             new SettingsParticipantFunctionality(
                 $test_id,

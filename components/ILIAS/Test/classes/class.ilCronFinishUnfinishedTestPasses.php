@@ -256,7 +256,6 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
             $test->updateTestPassResults(
                 $active_id,
                 $test_session->getPass(),
-                $test->areObligationsEnabled(),
                 null,
                 $obj_id
             );

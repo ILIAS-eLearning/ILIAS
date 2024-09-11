@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Administration;
+namespace ILIAS\Test\Settings\GlobalSettings;
 
-class GlobalSettingsRepository
+class Repository
 {
     private const SETTINGS_KEY_DISABLED_QUESTION_TYPES_LEGACY = 'forbidden_questiontypes';
     private const SETTINGS_KEY_MANUAL_SCORING_LEGACY = 'assessment_manual_scoring';

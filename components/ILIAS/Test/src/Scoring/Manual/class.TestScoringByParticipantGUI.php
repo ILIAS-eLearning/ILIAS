@@ -263,8 +263,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                     $reached_points,
                     $maxPointsByQuestionId[$question_id],
                     $pass,
-                    true,
-                    $this->object->areObligationsEnabled()
+                    true
                 );
             }
 

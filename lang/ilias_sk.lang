@@ -744,11 +744,6 @@ assessment#:#gap#:#Mezera
 assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
 assessment#:#glossary_term#:#Pojem glosáře
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
-assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
-assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.###26 09 2014 new variable
-assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
-assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
-assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.###26 09 2014 new variable
 assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
 assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Žádný výběr ---
 assessment#:#no_selection_for_move#:#No question selected for moving###28 08 2012 new variable
 assessment#:#no_target_selected_for_move#:#Musíte vybrat cílové umístění!
 assessment#:#no_user_or_group_selected#:#Nastavte volby pro vyhledávání (účastníků a/nebo skupin)!
-assessment#:#not_all_obligations_answered#:#You must answer all obligatory questions before you can finish the test.###28 08 2012 new variable
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Dosud nenavštíveno
 assessment#:#nr_of_correct_answers#:#Počet požadovaných odpovědí
 assessment#:#number_of_answers#:#Počet odpovědí
 assessment#:#numeric_gap#:#Číselná mezera
-assessment#:#obligations_summary#:#List of Obligatory Questions###28 08 2012 new variable
-assessment#:#obligatory#:#Obligatory###28 08 2012 new variable
 assessment#:#option_label#:#Option Labels###26 09 2014 new variable
 assessment#:#option_label_adequate#:#adequate###26 09 2014 new variable
 assessment#:#option_label_adequate_or_not#:#adequate / not adequate###26 09 2014 new variable
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Otázky mohou být odloženy na konec průc
 assessment#:#tst_sequence_properties#:#Vlastnosti sekvence
 assessment#:#tst_session_settings#:#Nastavení lekce
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###24 10 2013 new variable
-assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.###28 08 2012 new variable
-assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants###10 11 2018 new variable
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades###10 11 2018 new variable
-assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.###28 08 2012 new variable
 assessment#:#tst_test_result#:#Test Result###26 09 2014 new variable
 assessment#:#tst_text_count_system#:#Systém hodnocení
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.###30 08 2015 new variable
 assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.###30 08 2015 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###07 11 2014 new variable
 assessment#:#tst_your_answer_was#:#Vaše odpověď byla
 assessment#:#tst_your_answers#:#Toto jsou Vaše odpovědi dané na následující otázky.
 assessment#:#un_add_category#:#Add Category###06 11 2013 new variable

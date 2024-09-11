@@ -743,11 +743,6 @@ assessment#:#gap#:#间隔
 assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
 assessment#:#glossary_term#:#术语表
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
-assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
-assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.###26 09 2014 new variable
-assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
-assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
-assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.###26 09 2014 new variable
 assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
 assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -923,14 +918,11 @@ assessment#:#no_selection#:#--- 没有选择 ---
 assessment#:#no_selection_for_move#:#没有选择要移动的题目。
 assessment#:#no_target_selected_for_move#:#您必须选择一个目标点!
 assessment#:#no_user_or_group_selected#:#请勾选一个您搜索的选项(用户和/或用户组)!
-assessment#:#not_all_obligations_answered#:#您能完成这个测试之前，必需回答所有必修题目。
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#尚未被访问
 assessment#:#nr_of_correct_answers#:#被要求的答案数
 assessment#:#number_of_answers#:#答案数
 assessment#:#numeric_gap#:#Numeric Gap
-assessment#:#obligations_summary#:#必修题目列表
-assessment#:#obligatory#:#必修
 assessment#:#option_label#:#Option Labels###26 09 2014 new variable
 assessment#:#option_label_adequate#:#adequate###26 09 2014 new variable
 assessment#:#option_label_adequate_or_not#:#adequate / not adequate###26 09 2014 new variable
@@ -1850,8 +1842,6 @@ assessment#:#tst_sequence_postpone#:#题目可能被延迟到一个测试过程�
 assessment#:#tst_sequence_properties#:#序列属性
 assessment#:#tst_session_settings#:#会话设置
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###24 10 2013 new variable
-assessment#:#tst_setting_enable_obligations_info#:#如果勾选，测试的题目可以被标记为必修(*)。所有必修题目必需被填写才能通过这个测试。在这个“列表视图”中，您可以设置必修题目。我们建议，当必修题目已定义时，也激活“显示题目列表”。
-assessment#:#tst_setting_enable_obligations_label#:#必修题目
 assessment#:#tst_setting_offer_hints_info#:#如果启用，已有题目指定提示将被提供。
 assessment#:#tst_setting_offer_hints_label#:#题目指定提示
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1942,7 +1932,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants###10 11 2018 new variable
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades###10 11 2018 new variable
-assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.###10 07 2013 new variable
 assessment#:#tst_test_result#:#Test Result###26 09 2014 new variable
 assessment#:#tst_text_count_system#:#评分系统
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
@@ -1968,7 +1957,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.###30 08 2015 new variable
 assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.###30 08 2015 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###07 11 2014 new variable
 assessment#:#tst_your_answer_was#:#您的答案是
 assessment#:#tst_your_answers#:#这些都是您为以下题目所给出的答案。
 assessment#:#un_add_category#:#Add Category###06 11 2013 new variable

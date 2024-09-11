@@ -254,8 +254,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                         (float) $reached_points,
                         $max_points_by_question_id[$question_id],
                         $pass,
-                        true,
-                        $this->object->areObligationsEnabled()
+                        true
                     );
                 }
             }

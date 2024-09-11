@@ -61,8 +61,6 @@ class ilTestPlayerCommands
     public const SHOW_REQUESTED_HINTS_LIST = 'showRequestedHintList';
 
     public const QUESTION_SUMMARY = 'outQuestionSummary';
-    public const QUESTION_SUMMARY_INC_OBLIGATIONS = 'outQuestionSummaryWithObligationsInfo';
-    public const QUESTION_SUMMARY_OBLIGATIONS_ONLY = 'outObligationsOnlySummary';
     public const TOGGLE_SIDE_LIST = 'toggleSideList';
 
     public const SHOW_QUESTION_SELECTION = 'showQuestionSelection';

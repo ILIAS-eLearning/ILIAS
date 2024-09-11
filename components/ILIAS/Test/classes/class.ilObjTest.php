@@ -34,8 +34,8 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Manual\TestScoring;
-use ILIAS\Test\Administration\GlobalSettingsRepository;
-use ILIAS\Test\Administration\GlobalTestSettings;
+use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalSettingsRepository;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
@@ -106,9 +106,6 @@ class ilObjTest extends ilObject
      * contains the test sequence data
      */
     public $test_sequence = false;
-
-    private ?bool $has_obligations = null;
-    private ?bool $current_user_all_obliations_answered = null;
 
     private int $template_id = 0;
 
@@ -564,34 +561,18 @@ class ilObjTest extends ilObject
 
     public function saveQuestionsToDb(): void
     {
-        // workaround for lost obligations
-        // this method is called if a question is removed
-        $currentQuestionsObligationsQuery = 'SELECT question_fi, obligatory FROM tst_test_question WHERE test_fi = %s';
-        $rset = $this->db->queryF($currentQuestionsObligationsQuery, ['integer'], [$this->getTestId()]);
-        while ($row = $this->db->fetchAssoc($rset)) {
-            $obligatoryQuestionState[$row['question_fi']] = $row['obligatory'];
-        }
-        // delete existing category relations
         $this->db->manipulateF(
             'DELETE FROM tst_test_question WHERE test_fi = %s',
             ['integer'],
             [$this->getTestId()]
         );
-        // create new category relations
         foreach ($this->questions as $key => $value) {
-            // workaround for import witout obligations information
-            if (!isset($obligatoryQuestionState[$value]) || is_null($obligatoryQuestionState[$value])) {
-                $obligatoryQuestionState[$value] = 0;
-            }
-
-            // insert question
             $next_id = $this->db->nextId('tst_test_question');
             $this->db->insert('tst_test_question', [
                 'test_question_id' => ['integer', $next_id],
                 'test_fi' => ['integer', $this->getTestId()],
                 'question_fi' => ['integer', $value],
                 'sequence' => ['integer', $key],
-                'obligatory' => ['integer', $obligatoryQuestionState[$value]],
                 'tstamp' => ['integer', time()]
             ]);
         }
@@ -1862,7 +1843,6 @@ class ilObjTest extends ilObject
         $result = $this->db->query($query);
         $unordered = [];
         $key = 1;
-        $obligationsAnswered = true;
         while ($row = $this->db->fetchAssoc($result)) {
             if (!isset($arrResults[ $row['question_id'] ])) {
                 $percentvalue = 0.0;
@@ -1891,10 +1871,6 @@ class ilObjTest extends ilObject
                 'answered' => $arrResults[$row['question_id']]['answered'] ?? 0,
                 'finalized_evaluation' => $arrResults[$row['question_id']]['finalized_evaluation'] ?? 0,
             ];
-
-            if (!isset($arrResults[ $row['question_id'] ]['answered']) || !$arrResults[ $row['question_id'] ]['answered']) {
-                $obligationsAnswered = false;
-            }
 
             $unordered[ $row['question_id'] ] = $data;
             $key++;
@@ -1936,7 +1912,6 @@ class ilObjTest extends ilObject
         $found['pass']['total_requested_hints'] = $pass_requested_hints;
         $found['pass']['total_hint_points'] = $pass_hint_points;
         $found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
-        $found['pass']['obligationsAnswered'] = $obligationsAnswered;
         $found['pass']['num_workedthrough'] = $numWorkedThrough;
         $found['pass']['num_questions_total'] = $numQuestionsTotal;
 
@@ -1946,7 +1921,6 @@ class ilObjTest extends ilObject
         $found["test"]["total_hint_points"] = $results['hint_points'];
         $found["test"]["result_pass"] = $results['pass'];
         $found['test']['result_tstamp'] = $results['tstamp'];
-        $found['test']['obligations_answered'] = $results['obligations_answered'];
 
         if ((!$found['pass']['total_reached_points']) or (!$found['pass']['total_max_points'])) {
             $percentage = 0.0;
@@ -2275,15 +2249,13 @@ class ilObjTest extends ilObject
             $atimeofwork = $max_time / $qworkedthrough;
         }
 
-        $obligationsAnswered = $test_result["test"]["obligations_answered"];
-
         $result_mark = "";
         $passed = "";
 
         if ($mark_obj !== null) {
             $result_mark = $mark_obj->getShortName();
 
-            if ($mark_obj->getPassed() && $obligationsAnswered) {
+            if ($mark_obj->getPassed()) {
                 $passed = 1;
             } else {
                 $passed = 0;
@@ -2333,12 +2305,8 @@ class ilObjTest extends ilObject
             $percentage = $total != 0 ? $reached / $total : 0;
             $mark = $this->getMarkSchema()->getMatchingMark($percentage * 100.0);
 
-            $obligationsAnswered = $test_result["test"]["obligations_answered"];
-
-            if ($mark !== null) {
-                if ($mark->getPassed() && $obligationsAnswered) {
-                    array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
-                }
+            if ($mark !== null && $mark->getPassed()) {
+                array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
             }
         }
         return $totalpoints_array;
@@ -2704,9 +2672,7 @@ class ilObjTest extends ilObject
                 $user_data->setMark($mark->getShortName());
                 $user_data->setMarkOfficial($mark->getOfficialName());
 
-                $user_data->setPassed(
-                    $mark->getPassed() && $user_data->areObligationsAnswered()
-                );
+                $user_data->setPassed($mark->getPassed());
             }
 
             for ($i = 0;$i < $user_data->getPassCount();$i++) {
@@ -3527,9 +3493,6 @@ class ilObjTest extends ilObject
                 case 'offer_question_hints':
                     $question_behaviour_settings = $question_behaviour_settings->withQuestionHintsEnabled((bool) $metadata['entry']);
                     break;
-                case 'obligations_enabled':
-                    $question_behaviour_settings = $question_behaviour_settings->withCompulsoryQuestionsEnabled((bool) $metadata['entry']);
-                    break;
                 case 'show_summary':
                     $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled(($metadata['entry'] & 1) > 0)
                         ->withUsrPassOverviewMode((int) $metadata['entry']);
@@ -4054,11 +4017,6 @@ class ilObjTest extends ilObject
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_answer_fixation");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "obligations_enabled");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getCompulsoryQuestionsEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5595,7 +5553,6 @@ class ilObjTest extends ilObject
             $row['title'] = $tags_trafo->transform($row['title']);
             $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
             $row['author'] = $tags_trafo->transform($row['author']);
-            $row['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
 
             $questions[] = $row;
         }
@@ -5668,17 +5625,7 @@ class ilObjTest extends ilObject
             [$this->getTestId()]
         );
 
-        $questions = [];
-
-        while ($row = $this->db->fetchAssoc($query_result)) {
-            $question = $row;
-
-            $question['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
-
-            $questions[] = $question;
-        }
-
-        return $questions;
+        return $this->db->fetchAll($query_result);
     }
 
     public function getShuffleQuestions(): bool
@@ -6149,7 +6096,6 @@ class ilObjTest extends ilObject
             'force_inst_fb' => (int) $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion(),
             'follow_qst_answer_fixation' => (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled(),
             'inst_fb_answer_fixation' => (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled(),
-            'obligations_enabled' => (int) $main_settings->getQuestionBehaviourSettings()->getCompulsoryQuestionsEnabled(),
 
             'use_previous_answers' => (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed(),
             'ShowCancel' => (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed(),
@@ -6280,7 +6226,6 @@ class ilObjTest extends ilObject
                 ->withForceInstantFeedbackOnNextQuestion((bool) $testsettings['force_inst_fb'])
                 ->withLockAnswerOnInstantFeedbackEnabled((bool) $testsettings['inst_fb_answer_fixation'])
                 ->withLockAnswerOnNextQuestionEnabled((bool) $testsettings['follow_qst_answer_fixation'])
-                ->withCompulsoryQuestionsEnabled((bool) $testsettings['obligations_enabled'])
             )
             ->withParticipantFunctionalitySettings(
                 $main_settings->getParticipantFunctionalitySettings()
@@ -7017,18 +6962,14 @@ class ilObjTest extends ilObject
         return $reindexed_sequence_position_map;
     }
 
-    public function setQuestionOrderAndObligations($orders, $obligations)
+    public function setQuestionOrder(array $order)
     {
         asort($orders);
 
         $i = 0;
 
-        foreach (array_keys($orders) as $id) {
+        foreach (array_keys($order) as $id) {
             $i++;
-
-            $obligatory = (
-                isset($obligations[$id]) && $obligations[$id] ? 1 : 0
-            );
 
             $query = "
 				UPDATE		tst_test_question
@@ -7040,7 +6981,7 @@ class ilObjTest extends ilObject
             $this->db->manipulateF(
                 $query,
                 ['integer', 'integer', 'integer'],
-                [$i, $obligatory, $id]
+                [$i, $id]
             );
         }
 
@@ -7051,8 +6992,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_MOVED,
                     [
-                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $orders,
-                        AdditionalInformationGenerator::KEY_MANDATORY_QUESTIONS => $obligations
+                        AdditionalInformationGenerator::KEY_QUESTION_ORDER => $orders
                     ]
                 )
             );
@@ -7310,81 +7250,6 @@ class ilObjTest extends ilObject
     public function getSpecificAnswerFeedback(): bool
     {
         return $this->getMainSettings()->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled();
-    }
-
-    public function areObligationsEnabled(): bool
-    {
-        return $this->getMainSettings()->getQuestionBehaviourSettings()->getCompulsoryQuestionsEnabled();
-    }
-
-    public static function isQuestionObligationPossible(int $question_id): bool
-    {
-        global $DIC;
-        $class = $DIC->testQuestion()->getGeneralQuestionProperties($question_id)->getClassName();
-        return call_user_func([$class, 'isObligationPossible'], $question_id);
-    }
-
-    public static function isQuestionObligatory(int $question_id): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', ['integer'], [$question_id]);
-
-        if ($row = $ilDB->fetchAssoc($rset)) {
-            return (bool) $row['obligatory'];
-        }
-
-        return false;
-    }
-
-    /**
-     * checks wether all questions marked as obligatory were answered
-     * within the test pass with given testId, activeId and pass index
-     *
-     * @static
-     * @access public
-     * @global ilDBInterface $ilDB
-     * @param integer $test_id
-     * @param integer $active_id
-     * @param integer $pass
-     * @return boolean $allObligationsAnswered
-     */
-    public function allObligationsAnswered(): bool
-    {
-        if (!$this->hasObligations()) {
-            return true;
-        }
-
-        if ($this->current_user_all_obliations_answered === null) {
-            $active_id = $this->getActiveIdOfUser();
-            $rset = $this->db->queryF(
-                'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
-                ['integer', 'integer'],
-                [$active_id, self::_getPass($active_id)]
-            );
-
-            if ($row = $this->db->fetchAssoc($rset)) {
-                $this->current_user_all_obliations_answered = (bool) ($row['obligations_answered'] ?? 0);
-            }
-        }
-
-        return $this->current_user_all_obliations_answered;
-    }
-
-    public function hasObligations(): bool
-    {
-        if ($this->has_obligations === null) {
-            $rset = $this->db->queryF(
-                'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
-                ['integer'],
-                [$this->getTestId()]
-            );
-            $row = $this->db->fetchAssoc($rset);
-            $this->has_obligations = $row['cnt'] > 0;
-        }
-
-        return $this->has_obligations;
     }
 
     public function getAutosave(): bool
@@ -7894,15 +7759,13 @@ class ilObjTest extends ilObject
             $reached = (float) ($test_pass_result_row['points'] ?? 0);
             $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
-            $obligations_answered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
-
             $mark = $this->getMarkSchema()->getMatchingMark($percentage);
             $is_passed = (bool) $mark->getPassed();
 
             $hint_count = $test_pass_result_row['hint_count'] ?? 0;
             $hint_points = $test_pass_result_row['hint_points'] ?? 0.0;
 
-            $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $obligations_answered, $hint_count, $hint_points, $mark) {
+            $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $hint_count, $hint_points, $mark) {
                 $passed_once_before = 0;
                 $query = 'SELECT passed_once FROM tst_result_cache WHERE active_fi = %s';
                 $res = $this->db->queryF($query, ['integer'], [$active_id]);
@@ -7942,8 +7805,7 @@ class ilObjTest extends ilObject
                         'failed' => ['integer', (int) !$is_passed],
                         'tstamp' => ['integer', time()],
                         'hint_count' => ['integer', $hint_count],
-                        'hint_points' => ['float', $hint_points],
-                        'obligations_answered' => ['integer', $obligations_answered]
+                        'hint_points' => ['float', $hint_points]
                     ]
                 );
             };
@@ -7959,7 +7821,6 @@ class ilObjTest extends ilObject
     public function updateTestPassResults(
         int $active_id,
         int $pass,
-        bool $obligations_enabled = false,
         ilAssQuestionProcessLocker $process_locker = null,
         int $test_obj_id = null
     ): array {
@@ -7981,37 +7842,6 @@ class ilObjTest extends ilObject
         );
 
         if ($result->numRows() > 0) {
-            if ($obligations_enabled) {
-                $query = '
-					SELECT		answered answ
-					FROM		tst_test_question
-					  INNER JOIN	tst_active
-						ON			active_id = %s
-						AND			tst_test_question.test_fi = tst_active.test_fi
-					LEFT JOIN	tst_test_result
-						ON			tst_test_result.active_fi = %s
-						AND			tst_test_result.pass = %s
-						AND			tst_test_question.question_fi = tst_test_result.question_fi
-					WHERE		obligatory = 1';
-
-                $result_obligatory = $this->db->queryF(
-                    $query,
-                    ['integer','integer','integer'],
-                    [$active_id, $active_id, $pass]
-                );
-
-                $obligations_answered = 1;
-
-                while ($row_obligatory = $this->db->fetchAssoc($result_obligatory)) {
-                    if (!(int) $row_obligatory['answ']) {
-                        $obligations_answered = 0;
-                        break;
-                    }
-                }
-            } else {
-                $obligations_answered = 1;
-            }
-
             $row = $this->db->fetchAssoc($result);
 
             if ($row['reachedpoints'] === null) {
@@ -8026,7 +7856,7 @@ class ilObjTest extends ilObject
 
             $exam_identifier = ilObjTest::buildExamId($active_id, $pass, $test_obj_id);
 
-            $update_pass_result_callback = function () use ($data, $active_id, $pass, $row, $time, $obligations_answered, $exam_identifier) {
+            $update_pass_result_callback = function () use ($data, $active_id, $pass, $row, $time, $exam_identifier) {
                 $this->db->replace(
                     'tst_pass_result',
                     [
@@ -8042,7 +7872,6 @@ class ilObjTest extends ilObject
                         'tstamp' => ['integer', time()],
                         'hint_count' => ['integer', $row['hint_count']],
                         'hint_points' => ['float', $row['hint_points']],
-                        'obligations_answered' => ['integer', $obligations_answered],
                         'exam_id' => ['text', $exam_identifier]
                     ]
                 );
@@ -8068,7 +7897,6 @@ class ilObjTest extends ilObject
             'tstamp' => time(),
             'hint_count' => $row['hint_count'],
             'hint_points' => $row['hint_points'],
-            'obligations_answered' => $obligations_answered,
             'exam_id' => $exam_identifier
         ];
     }

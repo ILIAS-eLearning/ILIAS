@@ -200,7 +200,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 if ($passedonly) {
                     $mark_obj = $this->object->getMarkSchema()->getMatchingMark($userdata->getReachedPointsInPercent());
 
-                    if ($mark_obj->getPassed() == false || !$userdata->areObligationsAnswered()) {
+                    if ($mark_obj->getPassed() === false) {
                         $remove = true;
                     }
                 }
@@ -1663,7 +1663,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->object->updateTestPassResults(
             $active_id,
             $test_session->getPass(),
-            $this->object->areObligationsEnabled(),
             null,
             $this->object->getId()
         );
@@ -1739,7 +1738,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->updateTestPassResults(
                 $participant->getActiveId(),
                 $test_session->getPass(),
-                $this->object->areObligationsEnabled(),
                 null,
                 $this->object->getId()
             );
@@ -1775,11 +1773,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     protected function redirectBackToParticipantsScreen()
     {
         $this->ctrl->redirectByClass("ilTestParticipantsGUI");
-    }
-
-    public function getObject(): ?ilObjTest
-    {
-        return $this->object;
     }
 
     protected function prepareContentForPrint(string $question_title, string $question_content): string

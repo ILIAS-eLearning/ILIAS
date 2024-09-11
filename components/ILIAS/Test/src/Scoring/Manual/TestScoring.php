@@ -233,7 +233,7 @@ class TestScoring
             $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $this->test->updateTestPassResults($active_id, $pass, $this->test->areObligationsEnabled());
+                $this->test->updateTestPassResults($active_id, $pass);
             }
 
             $this->test->updateTestResultCache($active_id);

@@ -28,7 +28,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Administration\GlobalTestSettings;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 
 class QuestionPoolDIC extends PimpleContainer
 {

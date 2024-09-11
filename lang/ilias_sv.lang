@@ -744,11 +744,6 @@ assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Cloze kombination
 assessment#:#glossary_term#:#Glossarisk term
 assessment#:#grading_mark_msg#:#Du har uppnått märket &quot;[märke]&quot;.
-assessment#:#grading_obligations_answered_listentry#:#Besvarad
-assessment#:#grading_obligations_answered_msg#:#Alla obligatoriska frågor har besvarats.
-assessment#:#grading_obligations_listlabel#:#Obligatoriska frågor
-assessment#:#grading_obligations_missing_listentry#:#Öppen
-assessment#:#grading_obligations_missing_msg#:#Alla obligatoriska frågor besvarades inte.
 assessment#:#grading_status_failed_msg#:#Synd, tyvärr <b>klarade</b> du inte testet.
 assessment#:#grading_status_passed_msg#:#Grattis! Du har <b>klarat</b> provet.
 assessment#:#hints#:#Hints###21 11 2023 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Inget urval ---
 assessment#:#no_selection_for_move#:#Ingen fråga om att flytta markerad
 assessment#:#no_target_selected_for_move#:#Du måste välja en målposition!
 assessment#:#no_user_or_group_selected#:#Välj en målgrupp där sökningen ska utföras (användare och/eller grupper)!
-assessment#:#not_all_obligations_answered#:#Du måste svara på alla obligatoriska frågor innan du kan slutföra testet.
 assessment#:#not_evaluated_users#:#Not yet rated users
 assessment#:#not_yet_accessed#:#Ingen åtkomst ännu
 assessment#:#nr_of_correct_answers#:#Antal önskade svar
 assessment#:#number_of_answers#:#Antal svar
 assessment#:#numeric_gap#:#Numeriskt gap
-assessment#:#obligations_summary#:#Översikt över obligatoriska frågor
-assessment#:#obligatory#:#Åtagande
 assessment#:#option_label#:#Namn på alternativ
 assessment#:#option_label_adequate#:#adekvat
 assessment#:#option_label_adequate_or_not#:#tillräcklig / inte tillräcklig
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Frågor kan skjutas upp till slutet av en t
 assessment#:#tst_sequence_properties#:#Utförande
 assessment#:#tst_session_settings#:#Utförande
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Testet har satts offline eftersom inställningen för val av testfrågor har ändrats. Tilldela frågor till testet igen. Du kan sedan sätta testet online igen.
-assessment#:#tst_setting_enable_obligations_info#:#Obligatoriska frågor definieras i "Listvyn". Ett test kan endast skickas in efter att alla obligatoriska frågor har besvarats. För detta ändamål bör alternativet "Visa frågelista och bearbetningsstatus" aktiveras.###Modifierad som en del av jämställdhets
-assessment#:#tst_setting_enable_obligations_label#:#Obligatoriska frågor
 assessment#:#tst_setting_offer_hints_info#:#Deltagare kan begära ledtrådar för att svara på en fråga. För varje ledtråd som ges minskas poängen för det korrekta svaret.
 assessment#:#tst_setting_offer_hints_label#:#Tips på lösningar
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###21 11 2023 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Startade körningar
 assessment#:#tst_tbl_invited_users#:#Utvalda deltagare
 assessment#:#tst_tbl_participants#:#Deltagare
 assessment#:#tst_tbl_results_grades#:#Resultat och betyg
-assessment#:#tst_test_contains_obligatory_questions#:#För att kunna genomföra testet måste du besvara alla obligatoriska frågor (*).
 assessment#:#tst_test_result#:#Testresultat
 assessment#:#tst_text_count_system#:#Bedömningsregel
 assessment#:#tst_threshold#:#Tröskelvärde (i %)
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Kvalificerande resultat fö
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ditt svar från ett tidigare försök har tagits över.
 assessment#:#tst_wf_info_answer_not_adopted#:#Inget svar hämtades från tidigare försök. Därför måste du arbeta med den här frågan, annars kommer ditt resultat för lärandemålet att försämras.
 assessment#:#tst_wf_info_optional_question#:#Den här frågan hör till ett inlärningsmål som redan har uppnåtts.
-assessment#:#tst_you_have_to_answer_this_question#:#Den här frågan måste besvaras för att testet ska kunna slutföras.
 assessment#:#tst_your_answer_was#:#Du har gett följande svar
 assessment#:#tst_your_answers#:#Det här är svaren du gav på följande frågor. Kontrollera dina svar och skicka sedan in dem.
 assessment#:#un_add_category#:#Lägg till kategori

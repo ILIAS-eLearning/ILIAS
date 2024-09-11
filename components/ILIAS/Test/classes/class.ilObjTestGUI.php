@@ -2945,38 +2945,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
     }
 
-    public function saveOrderAndObligationsObject()
-    {
-        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
-            // allow only write access
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
-        }
-
-        $order = $this->testrequest->raw('order') ?? [];
-        $obligatory_questions = $this->testrequest->raw('obligatory') ?? [];
-
-        foreach ($order as $question_id => $order) {
-            $orders[$question_id] = $order;
-        }
-
-        if ($this->getTestObject()->areObligationsEnabled()) {
-            foreach ($obligatory_questions as $question_id => $obligation) {
-                if (!ilObjTest::isQuestionObligationPossible($question_id)) {
-                    unset($obligatory_questions[$question_id]);
-                }
-            }
-        }
-
-        $this->getTestObject()->setQuestionOrderAndObligations(
-            $orders,
-            $obligatory_questions
-        );
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-        $this->ctrl->redirect($this, self::SHOW_QUESTIONS_CMD);
-    }
-
     protected function determineObjectiveOrientedContainer()
     {
         if (!ilLOSettings::isObjectiveTest($this->ref_id)) {

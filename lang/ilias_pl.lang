@@ -744,11 +744,6 @@ assessment#:#gap#:#Luka
 assessment#:#gap_combination#:#Kombinacji tekstu do uzupełnienia
 assessment#:#glossary_term#:#Hasło słownika
 assessment#:#grading_mark_msg#:#Otrzymałeś/otrzymałaś ocenę Note &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Pytania, na które udzielono odpowiedzi
-assessment#:#grading_obligations_answered_msg#:#Na wszystkie obowiązkowe pytania została udzielona odpowiedź.
-assessment#:#grading_obligations_listlabel#:#Obowiązkowe pytania
-assessment#:#grading_obligations_missing_listentry#:#Otwarte
-assessment#:#grading_obligations_missing_msg#:#Nie na wszystkie obowiązkowe pytania została udzielona odpowiedź.
 assessment#:#grading_status_failed_msg#:#Szkoda, niestety <b>nie zdałeś/zdałaś</b> testu.
 assessment#:#grading_status_passed_msg#:#Gratulacje! <b>Zdałeś/zdałaś</b> test.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Brak wyboru ---
 assessment#:#no_selection_for_move#:#Nie wybrano żadnego(nych) pytania(ń) przeznaczonego(nych) do przesunięcia
 assessment#:#no_target_selected_for_move#:#Musisz wybrać miejsce przeznaczenia!
 assessment#:#no_user_or_group_selected#:#Sprawdź opcję kryterium przeszukania (użytkownicy i/lub grupy)!
-assessment#:#not_all_obligations_answered#:#Zanim zakończysz test, musisz odpowiedzieć na wszystkie obowiązkowego pytania.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Jeszcze niedostępne
 assessment#:#nr_of_correct_answers#:#Liczba żądanych odpowiedzi
 assessment#:#number_of_answers#:#Ilość odpowiedzi
 assessment#:#numeric_gap#:#Numeryczna luka
-assessment#:#obligations_summary#:#Widok ogólny pytań obowiązkowych
-assessment#:#obligatory#:#Obowiązkowe
 assessment#:#option_label#:#Nazwy opcjonalne
 assessment#:#option_label_adequate#:#adekwatne
 assessment#:#option_label_adequate_or_not#:#adekwatne / nieadekwatne
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec t
 assessment#:#tst_sequence_properties#:#Cechy sekwencji
 assessment#:#tst_session_settings#:#Ustawienia sesji
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test jest w trybie offline, ponieważ zmieniły się ustawienia dotyczące wyboru pytań testowych. Ponownie przyporządkuj do testu pytania. Test będzie można następnie ponownie ustawić w trybie online.
-assessment#:#tst_setting_enable_obligations_info#:#Test możesz zostać oddanych tylko wtedy, gdy udzielono odpowiedzi na wszystkie obowiązkowe pytania. Autorzy definiują obowiązkowe pytania w zakładce 'Podgląd listy'. Uczestnicy powinny mieć aktywną opcję "Pokaż podsumowanie pytań".
-assessment#:#tst_setting_enable_obligations_label#:#Obowiązkowe pytania
 assessment#:#tst_setting_offer_hints_info#:#Uczestnicy mogą zażądać podpowiedzi, aby odpowiedzieć na pytanie. Każda udzielona podpowiedź zmniejsza punkty za prawidłowe rozwiązanie.
 assessment#:#tst_setting_offer_hints_label#:#Podpowiedzi
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades
-assessment#:#tst_test_contains_obligatory_questions#:#Aby móc zakończyć ten test, należy udzielić odpowiedzi na wszystkie obowiązkowe pytania (*).
 assessment#:#tst_test_result#:#Wynik testu
 assessment#:#tst_text_count_system#:#System punktacji
 assessment#:#tst_threshold#:#Wartość progowa (w %)
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Kwalifikujące wyniki dla c
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Przejęto Twoją odpowiedź z wcześniejszej próby.
 assessment#:#tst_wf_info_answer_not_adopted#:#Nie przejęto żadnej odpowiedzi z wcześniejszych prób. Musisz przetworzyć to pytanie, w przeciwnym razie Twoje wyniki związane z celami dydaktycznymi ulegną pogorszeniu.
 assessment#:#tst_wf_info_optional_question#:#To pytanie należy do już zaliczonego celu dydaktycznego.
-assessment#:#tst_you_have_to_answer_this_question#:#Na to pytanie należy udzielić odpowiedzi, aby móc zakończyć test.
 assessment#:#tst_your_answer_was#:#Twoja odpowiedź
 assessment#:#tst_your_answers#:#Oto twoje odpowiedzi udzielone na następujące pytania. Proszę sprawdź swoje odpowiedzi, a następnie je prześlij.
 assessment#:#un_add_category#:#Dodaj kategorię

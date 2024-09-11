@@ -273,14 +273,10 @@ class ilTestEvaluationUserData
         $bestpoints = 0;
         $bestpass = null;
 
-        $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
-
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if (($reached > $bestpoints
-                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
-                || !isset($bestpass)) {
+            if ($reached > $bestpoints || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
@@ -478,20 +474,18 @@ class ilTestEvaluationUserData
     public function getBestPassObject(): ilTestEvaluationPassData
     {
         $bestpoints = 0;
-        $bestpassObject = 0;
-
-        $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
+        $bestpass_bject = 0;
 
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
+            if ($reached >= $bestpoints) {
                 $bestpoints = $reached;
-                $bestpassObject = $pass;
+                $bestpass_bject = $pass;
             }
         }
 
-        return $bestpassObject;
+        return $bestpass_bject;
     }
 
     /**
@@ -511,29 +505,5 @@ class ilTestEvaluationUserData
         $lastpassObject = $this->passes[$lastpassIndex];
 
         return $lastpassObject;
-    }
-
-    /**
-     * returns the fact wether a test pass
-     * with all obligations answered exists or not
-     */
-    public function doesObligationsAnsweredPassExist(): bool
-    {
-        foreach ($this->passes as $pass) {
-            if ($pass->areObligationsAnswered()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * returns the fact wether all obligations
-     * in the scored test pass are answered or not
-     */
-    public function areObligationsAnswered(): bool
-    {
-        return $this->getScoredPassObject()->areObligationsAnswered();
     }
 }

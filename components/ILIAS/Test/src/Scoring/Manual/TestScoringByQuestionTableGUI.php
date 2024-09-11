@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Manual;
 
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\Administration\GlobalTestSettings;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
