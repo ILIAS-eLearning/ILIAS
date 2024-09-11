@@ -361,6 +361,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         if ($record->getSenderId() === ANONYMOUS_USER_ID) {
             return ilMail::_getIliasMailerName();
         }
+
         if (!empty($user = ilMailUserCache::getUserObjectById($record->getSenderId()))) {
             if ($user->hasPublicProfile()) {
                 return $this->ui_renderer->render($this->ui_factory->link()->standard(
