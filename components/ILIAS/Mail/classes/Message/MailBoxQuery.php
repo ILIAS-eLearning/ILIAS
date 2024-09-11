@@ -139,6 +139,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->filtered_ids = $filtered_ids;
+
         return $clone;
     }
 
