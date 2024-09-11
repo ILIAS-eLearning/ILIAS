@@ -371,6 +371,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                         ->buildURI()
                 ));
             }
+
             return $user->getPublicName();
         }
 
