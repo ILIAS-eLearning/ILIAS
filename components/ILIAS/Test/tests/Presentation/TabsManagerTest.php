@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Presentation;
+
 use ILIAS\Test\Presentation\TabsManager;
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -26,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 /**
  * @author Marvin Beym <mbeym@databay.de>
  */
-class TabsManagerTest extends ilTestBaseTestCase
+class TabsManagerTest extends \ilTestBaseTestCase
 {
     private TabsManager $testObj;
 
@@ -36,19 +38,18 @@ class TabsManagerTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilTabs();
-        $this->addGlobal_ilCtrl();
 
         $this->testObj = new TabsManager(
             $DIC['ilTabs'],
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ilCtrl::class),
+            $this->createMock(\ilLanguage::class),
+            $this->createMock(\ilCtrl::class),
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
-            $this->createMock(ilAccess::class),
-            $this->createMock(ilTestAccess::class),
-            $this->createMock($this->createTestObjMock()),
-            $this->createMock(ilTestObjectiveOrientedContainer::class),
-            $this->createMock(ilTestSession::class)
+            $this->createMock(\ilAccess::class),
+            $this->createMock(\ilTestAccess::class),
+            $this->getTestObjMock(),
+            $this->createMock(\ilTestObjectiveOrientedContainer::class),
+            $this->createMock(\ilTestSession::class)
         );
     }
 

@@ -30,9 +30,6 @@ class ilRandomTestROInputGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
-
         $this->testObj = new ilRandomTestROInputGUI();
     }
 

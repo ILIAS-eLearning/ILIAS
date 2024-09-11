@@ -31,8 +31,6 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
 
@@ -49,7 +47,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $DIC['component.repository'],
             $DIC['ilTabs'],
-            $this->createMock(ilTestTabsManager::class),
+            $this->createMock(ILIAS\Test\Presentation\TabsManager::class),
             $DIC['ilToolbar'],
             $DIC['tpl'],
             $DIC['ui.factory'],

@@ -31,11 +31,6 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilUser();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
-        $this->addGlobal_tpl();
-
         $this->testObj = new ilTestParticipantsTimeExtensionGUI(
             $this->getTestObjMock(),
             $DIC['ilUser'],

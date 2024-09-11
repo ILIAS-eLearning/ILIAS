@@ -31,11 +31,6 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
         $this->addGlobal_ilAccess();
-        $this->addGlobal_tpl();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilCtrl();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilComponentFactory();

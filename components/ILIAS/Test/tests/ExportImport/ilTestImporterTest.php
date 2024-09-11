@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilTestImporterTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestImporterTest extends ilTestBaseTestCase
+class ilTestImporterTest extends \ilTestBaseTestCase
 {
     private ilTestImporter $testObj;
 

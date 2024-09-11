@@ -30,6 +30,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilSetting();
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->any())
@@ -47,15 +48,11 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
 
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
-        $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable("ilSetting", $this->createMock(ilSetting::class));
         $this->setGlobalVariable("rbacreview", $this->createMock(ilRbacReview::class));
-        $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->getTestObjMock());

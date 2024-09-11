@@ -31,16 +31,9 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_tpl();
         $this->addGlobal_refinery();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilUser();
-        $this->addGlobal_ilDB();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
 
 
         $this->testObj = new ilParticipantsTestResultsGUI(

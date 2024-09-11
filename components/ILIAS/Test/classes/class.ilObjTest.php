@@ -5522,7 +5522,6 @@ class ilObjTest extends ilObject
 			SELECT		questions.*,
 						questtypes.type_tag,
 						tstquest.sequence,
-						tstquest.obligatory,
 						origquest.obj_fi orig_obj_fi
 
 			FROM		qpl_questions questions
@@ -6759,7 +6758,7 @@ class ilObjTest extends ilObject
         $found_participants = $data->getParticipants();
         $results = ['overview' => [], 'questions' => []];
         if ($found_participants !== []) {
-            $results['overview']['tst_stat_result_mark_median'] = $data->getStatistics()->getEvaluationDataOfMedianUser()->getMark();
+            $results['overview']['tst_stat_result_mark_median'] = $data->getStatistics()->getEvaluationDataOfMedianUser()?->getMark() ?? '';
             $results['overview']['tst_stat_result_rank_median'] = $data->getStatistics()->rankMedian();
             $results['overview']['tst_stat_result_total_participants'] = $data->getStatistics()->count();
             $results['overview']['tst_stat_result_median'] = $data->getStatistics()->median();
@@ -6973,8 +6972,7 @@ class ilObjTest extends ilObject
 
             $query = "
 				UPDATE		tst_test_question
-				SET			sequence = %s,
-							obligatory = %s
+				SET			sequence = %s
 				WHERE		question_fi = %s
 			";
 

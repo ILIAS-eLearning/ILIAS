@@ -31,13 +31,10 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilToolbar();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilErr();
         $this->addGlobal_GlobalScreenService();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilLog();
         $this->addGlobal_rbacsystem();

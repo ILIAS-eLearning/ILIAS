@@ -1084,8 +1084,7 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $component_factory = $DIC['component.factory'];
-        $disabled_question_types = QuestionPoolDIC::dic()['global_settings-repository']
-            ->getGlobalSettings()->getDisabledQuestionTypes();
+        $disabled_question_types = QuestionPoolDIC::dic()['global_test_settings']->getDisabledQuestionTypes();
 
         $lng->loadLanguageModule('assessment');
         $result = $ilDB->query('SELECT * FROM qpl_qst_type');

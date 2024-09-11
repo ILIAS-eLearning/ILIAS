@@ -25,11 +25,9 @@ class ilObjTestVerificationListGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilAccess();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilSetting();
         $this->addGlobal_filesystem();
         $this->addGlobal_rbacsystem();
-        $this->addGlobal_ilCtrl();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilLoggerFactory();

@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests;
+namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\ExportFilename;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ExportFilenameTest extends ilTestBaseTestCase
+class ExportFilenameTest extends \ilTestBaseTestCase
 {
     private ExportFilename $test_obj;
 
@@ -33,7 +33,7 @@ class ExportFilenameTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->test_obj = new ExportFilename($this->getTestObjMock());
+        $this->test_obj = new ExportFilename(0);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

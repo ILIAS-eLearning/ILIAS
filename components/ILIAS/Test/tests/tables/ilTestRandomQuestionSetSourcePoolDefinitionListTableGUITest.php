@@ -49,7 +49,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
             "",
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
-            $this->createMock(ILIAS\Test\LinkedQuestionPoolTitleBuilder::class),
+            $this->createMock(ILIAS\Test\Utilities\TitleColumnsBuilder::class),
             [],
             []
         );

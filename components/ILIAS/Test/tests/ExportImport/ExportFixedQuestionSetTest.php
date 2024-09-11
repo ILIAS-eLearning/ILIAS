@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Tests;
 
-use ILIAS\Test\ExportImport;
+use ILIAS\Test\ExportImport\ExportFixedQuestionSet;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
@@ -32,20 +32,21 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->addGlobal_ilBench();
 
         $this->addGlobal_ilErr();
-        $this->addGlobal_ilDB();
-        $this->addGlobal_ilBench();
         $this->addGlobal_ilias();
-        $this->addGlobal_lng();
 
-        if (!defined("IL_INST_ID")) {
-            define("IL_INST_ID", 'someid');
-        }
-
-        $objTest_mock = $this->createMock(ilObjTest::class);
-        $this->testObj = new ExportFixedQuestionSet($objTest_mock);
+        $this->testObj = new ExportFixedQuestionSet(
+            $this->createMock(\ILIAS\Language\Language::class),
+            $this->createMock(\ilDBInterface::class),
+            $this->createMock(\ilBenchmark::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
+            $this->createMock(\ilTree::class),
+            $this->createMock(\ilComponentRepository::class),
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(\ILIAS\FileDelivery\Services::class),
+            $this->createMock(\ilObjTest::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

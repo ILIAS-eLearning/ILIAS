@@ -30,11 +30,6 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
     {
         global $DIC;
         parent::setUp();
-        $this->addGlobal_ilUser();
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
-
 
         $this->testObj = new ilTestRandomQuestionSetConfigStateMessageHandler(
             $DIC['lng'],
