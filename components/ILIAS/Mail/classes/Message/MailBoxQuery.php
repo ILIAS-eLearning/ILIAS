@@ -178,6 +178,7 @@ class MailBoxQuery
         } else {
             $clone->order_direction = self::DEFAULT_ORDER_DIRECTION;
         }
+
         return $clone;
     }
 
