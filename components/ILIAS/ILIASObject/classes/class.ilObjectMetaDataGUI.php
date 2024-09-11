@@ -297,6 +297,7 @@ class ilObjectMetaDataGUI
                 "crs",
                 'grp',
                 "file",
+                'dcl',
                 "glo",
                 "svy",
                 "spl",

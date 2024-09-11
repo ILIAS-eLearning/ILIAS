@@ -28,6 +28,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjectMetaDataGUI
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
@@ -38,6 +39,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public const TAB_EDIT_DCL = 'settings';
     public const TAB_LIST_TABLES = 'dcl_tables';
+    public const TAB_META_DATA = 'meta_data';
     public const TAB_EXPORT = 'export';
     public const TAB_LIST_PERMISSIONS = 'perm_settings';
     public const TAB_INFO = 'info_short';
@@ -238,6 +240,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($form);
                 break;
 
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission('write');
+                $this->prepareOutput();
+                $this->tabs->activateTab(self::TAB_META_DATA);
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 switch ($cmd) {
                     case 'edit': // this is necessary because ilObjectGUI only calls its own editObject (why??)
@@ -419,6 +429,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, "editObject"));
             // list tables
             $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTargetByClass(ilDclTableListGUI::class, "listTables"));
+            // metadata
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            if ($mdtab = $mdgui->getTab()) {
+                $this->tabs_gui->addTab(self::TAB_META_DATA, $this->lng->txt('meta_data'), $mdtab);
+            }
             // export
             $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilDclExportGUI::class, ""));
         }
