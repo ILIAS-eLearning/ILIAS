@@ -167,7 +167,6 @@ class MailFolderSearch
     /**
      * Inject already filtered mail ids, e.g. from a selection
      * @param int[] $ids
-     * @return self
      */
     public function forMailIds(array $ids): self
     {
