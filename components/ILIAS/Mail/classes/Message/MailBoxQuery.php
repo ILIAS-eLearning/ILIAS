@@ -129,6 +129,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->period_start = $period_start;
+
         return $clone;
     }
 
