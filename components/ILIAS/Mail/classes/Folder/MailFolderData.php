@@ -88,6 +88,4 @@ class MailFolderData
     {
         return $this->isDrafts() || $this->isSent();
     }
-
-
 }
