@@ -89,6 +89,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->subject = $subject;
+
         return $clone;
     }
 
