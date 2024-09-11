@@ -380,6 +380,7 @@ class MailBoxQuery
                 ilDBConstants::T_TIMESTAMP
             );
         }
+
         if (!empty($this->period_end)) {
             $parts[] = 'm.send_time <= ' . $this->db->quote(
                 // convert to server time zone (set by ilias initialisation)
