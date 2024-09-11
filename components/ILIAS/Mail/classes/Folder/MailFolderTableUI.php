@@ -347,6 +347,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 ? $this->ui_renderer->render($user->getAvatar())
                 : '';
         }
+
         return $this->avatars[$record->getSenderId()];
     }
 
