@@ -1769,16 +1769,38 @@ class ilPageObjectGUI
         };
 
         // character styles
-        $chars = array(
-            "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
-            "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
-            "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
-            "Code" => array("code" => "code", "txt" => $f("Code", "code"))
-        );
-        foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c) {
+        $chars = [];
+        if ($a_style_id === 0) {
+            $chars = array(
+                "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
+                "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
+                "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
+                "Code" => array("code" => "code", "txt" => $f("Code", "code"))
+            );
+        }
+        foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id, true) as $c) {
+            if (in_array($c, ["Strong", "Important", "Emph"])) {
+                continue;
+            }
             if (!isset($chars[$c])) {
                 $title = $char_manager->getPresentationTitle("text_inline", $c);
-                $chars[$c] = array("code" => "", "txt" => $title);
+                switch ($c) {
+                    case "CodeInline":
+                        $chars["Code"] = array("code" => "code", "txt" => $f("Code", "code"));
+                        break;
+                    case "Comment":
+                        $chars["Comment"] = array("code" => "com", "txt" => $f("Comment", "com"));
+                        break;
+                    case "Quotation":
+                        $chars["Quotation"] = array("code" => "quot", "txt" => $f("Quotation", "quot"));
+                        break;
+                    case "Accent":
+                        $chars["Accent"] = array("code" => "acc", "txt" => $f("Accent", "acc"));
+                        break;
+                    default:
+                        $chars[$c] = array("code" => "", "txt" => $title);
+                        break;
+                }
             }
         }
         $char_formats = [];
