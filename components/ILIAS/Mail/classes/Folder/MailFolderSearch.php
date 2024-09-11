@@ -104,6 +104,7 @@ class MailFolderSearch
         if (!isset($this->unread)) {
             $this->unread = $this->mailbox_query->withFilteredIds($this->getFilteredIds())->countUnread();
         }
+
         return $this->unread;
     }
 
