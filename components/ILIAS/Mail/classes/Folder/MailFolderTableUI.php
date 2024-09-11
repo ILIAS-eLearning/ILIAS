@@ -373,6 +373,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             }
             return $user->getPublicName();
         }
+
         return trim(($record->getImportName() ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
     }
 
