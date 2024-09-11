@@ -402,6 +402,7 @@ class MailBoxQuery
         if ($parts !== []) {
             return ' WHERE ' . implode(' AND ', $parts);
         }
+
         return '';
     }
 }
