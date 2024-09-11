@@ -105,6 +105,7 @@ class MailBoxQuery
     {
         $clone = clone $this;
         $clone->is_unread = $is_unread;
+
         return $clone;
     }
 
