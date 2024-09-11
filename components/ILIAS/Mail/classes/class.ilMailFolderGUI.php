@@ -417,7 +417,8 @@ class ilMailFolderGUI
                 ->withOnClick($modal->getShowSignal()));
         }
 
-        [   $url_builder,
+        [
+            $url_builder,
             $action_token,
             $row_id_token,
             $target_token,
