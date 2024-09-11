@@ -160,10 +160,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
             );
 
             $style = new ilObjStyleSheet($a_style_id);
-            $ti_chars = $style->getCharacteristics("text_inline", false, $a_include_core);
+            /*$ti_chars = $style->getCharacteristics("text_inline", false, $a_include_core);*/
+            $ti_chars = $char_manager->getByTypes(["text_inline", "code_inline"],
+                false,
+                false
+            );
+            /** @var Style\Content\Characteristic $v */
             foreach ($ti_chars as $k => $v) {
-                if (!$char_manager->isOutdated("text_inline", $v)) {
-                    $chars[] = $v;
+                if (!$char_manager->isOutdated("text_inline", $v->getCharacteristic())) {
+                    $chars[] = $v->getCharacteristic();
                 }
             }
         } else {
