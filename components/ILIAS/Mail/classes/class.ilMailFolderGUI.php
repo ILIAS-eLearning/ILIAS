@@ -29,6 +29,7 @@ use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Message\MailBoxQuery;
 use ILIAS\Mail\Folder\MailFolderData;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @ilCtrl_Calls ilMailFolderGUI:
@@ -199,12 +200,15 @@ class ilMailFolderGUI
             if ($action === MailFolderTableUI::ACTION_DELETE) {
                 $modal = $this->ui_factory->modal()->lightbox(
                     $this->ui_factory->modal()->lightboxTextPage(
-                        $this->lng->txt('mail_select_one'),
+                        $this->ui_renderer->render($this->ui_factory->messageBox()->failure($this->lng->txt('mail_select_one'))),
                         $this->lng->txt('delete'),
                     )
                 );
-                echo $this->ui_renderer->render($modal);
-                exit;
+                $this->http->saveResponse($this->http->response()->withBody(
+                    Streams::ofString($this->ui_renderer->renderAsync($modal))
+                ));
+                $this->http->sendResponse();
+                $this->http->close();
             } else {
                 $this->tpl->setOnScreenMessage(
                     ilGlobalTemplateInterface::MESSAGE_TYPE_INFO,
@@ -251,21 +255,20 @@ class ilMailFolderGUI
 
             case MailFolderTableUI::ACTION_PROFILE:
                 $mail_data = $this->umail->getMail($mail_ids[0] ?? 0);
-                if (!empty($user = ilMailUserCache::getUserObjectById($mail_data['sender_id'] ?? 0))) {
-                    if ($user->hasPublicProfile()) {
-                        $this->ctrl->setParameter($this, self::PARAM_FOLDER_ID, (string) $this->folder->getFolderId());
-                        $this->ctrl->setParameter($this, self::PARAM_USER_ID, (string) $user->getId());
-                        $this->ctrl->redirect($this, self::CMD_SHOW_USER);
-                    }
+                if (!empty($user = ilMailUserCache::getUserObjectById($mail_data['sender_id'] ?? 0)) &&
+                    $user->hasPublicProfile()) {
+                    $this->ctrl->setParameter($this, self::PARAM_FOLDER_ID, (string) $this->folder->getFolderId());
+                    $this->ctrl->setParameter($this, self::PARAM_USER_ID, (string) $user->getId());
+                    $this->ctrl->redirect($this, self::CMD_SHOW_USER);
                 } else {
                     $this->tpl->setOnScreenMessage(
                         ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                        $this->lng->txt('permission_denied')
+                        $this->lng->txt('permission_denied'),
+                        true
                     );
-                    break;
                 }
+                break;
 
-                // no break
             case MailFolderTableUI::ACTION_MARK_READ:
                 $this->umail->markRead($mail_ids);
                 $this->tpl->setOnScreenMessage(
@@ -664,7 +667,7 @@ class ilMailFolderGUI
      * Confirm the deletion of selected mails in async modal
      * @param int[] $mail_ids
      */
-    protected function confirmDeleteMails(array $mail_ids): never
+    protected function confirmDeleteMails(array $mail_ids): void
     {
         $user_timezone = new DateTimeZone($this->user->getTimeZone());
         $records = $this->getFilteredSearch()->forMailIds($mail_ids)->getPagedRecords(10, 0, null, null);
@@ -687,8 +690,11 @@ class ilMailFolderGUI
             $this->ctrl->getFormAction($this, self::CMD_DELETE_MAILS)
         )->withAffectedItems($items);
 
-        echo $this->ui_renderer->renderAsync($modal);
-        exit;
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($this->ui_renderer->renderAsync($modal))
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function showMail(): void
