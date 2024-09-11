@@ -166,6 +166,7 @@ class MailBoxQuery
         } else {
             $clone->order_column = self::DEFAULT_ORDER_COLUMN;
         }
+
         return $clone;
     }
 
