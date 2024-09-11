@@ -18,18 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests;
+namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\ResultsExportExcel;
 
-class ResultsExportExcelTest extends ilTestBaseTestCase
+class ResultsExportExcelTest extends \ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
         $excel_export = new ResultsExportExcel(
-            $this->getTestObjMock(),
-            '',
-            null
+            $this->createMock(\ilLanguage::class),
+            $this->createMock(\ILIAS\Data\Factory::class),
+            $this->createMock(\ilObjUser::class),
+            $this->getTestObjMock()
         );
         $this->assertInstanceOf(ResultsExportExcel::class, $excel_export);
     }

@@ -23,25 +23,24 @@ namespace ILIAS\Test\Statistics;
 class Statistics
 {
     private array $stat_data = [];
-    private \ilTestEvaluationUserData $median_user;
+    private ?\ilTestEvaluationUserData $median_user = null;
 
     public function __construct(\ilTestEvaluationData $eval_data)
     {
-        $median_array = [];
-
-        foreach ($eval_data->getParticipants() as $active_id => $participant) {
-            $median_array[$active_id] = $participant->getReached();
-        }
-
-        $this->stat_data = $median_array;
-        $this->removeNonNumericValues();
-
-        $this->median_user = $eval_data->getParticipant(
-            array_search($this->median(), $median_array)
+        $median_array = array_map(
+            fn(\ilTestEvaluationUserData $v): float => $v->getReached(),
+            $eval_data->getParticipants()
         );
+
+        $this->stat_data = array_values($median_array);
+        sort($this->stat_data);
+
+        if (($median_user_id = array_search($this->median(), $median_array)) !== false) {
+            $this->median_user = $eval_data->getParticipant($median_user_id);
+        }
     }
 
-    public function getEvaluationDataOfMedianUser(): \ilTestEvaluationUserData
+    public function getEvaluationDataOfMedianUser(): ?\ilTestEvaluationUserData
     {
         return $this->median_user;
     }
@@ -201,7 +200,7 @@ class Statistics
     */
     public function median(): ?float
     {
-        if ($this->stat_data === null) {
+        if ($this->stat_data === []) {
             return null;
         }
 
@@ -271,17 +270,5 @@ class Statistics
         }
 
         return ($this->stat_data[(int) $nprod - 1] + $this->stat_data[(int) $nprod]) / 2;
-    }
-
-    private function removeNonNumericValues(): void
-    {
-
-        foreach ($this->stat_data as $key => $value) {
-            if (!is_numeric($value)) {
-                unset($this->stat_data[$key]);
-                break;
-            }
-        }
-        sort($this->stat_data);
     }
 }

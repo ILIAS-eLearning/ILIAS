@@ -31,9 +31,6 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilUser();
-
         $this->testObj = new ilTestToplistGUI(
             $this->getTestObjMock(),
             $this->createMock(ilTestTopList::class),

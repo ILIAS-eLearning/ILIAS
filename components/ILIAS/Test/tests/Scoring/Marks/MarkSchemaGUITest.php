@@ -31,8 +31,6 @@ class MarkSchemaGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_lng();
         $this->addGlobal_tpl();
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilTabs();

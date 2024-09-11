@@ -20,188 +20,101 @@ declare(strict_types=1);
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package components\ILIAS/Test
  */
 class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ?int $header_mode = null;
+    protected string $question_title = '';
+    protected float $question_points = 0.0;
+    protected int $question_position = 0;
+    protected int $question_count = 0;
+    protected bool $question_postponed = false;
+    protected string $question_related_objectives = '';
+    protected ?bool $question_answered = null;
 
-    /**
-     * @var integer
-     */
-    protected $headerMode;
-
-    /**
-     * @var string
-     */
-    protected $questionTitle;
-
-    /**
-     * @var float
-     */
-    protected $questionPoints;
-
-    /**
-     * @var integer
-     */
-    protected $questionPosition;
-
-    /**
-     * @var integer
-     */
-    protected $questionCount;
-
-    /**
-     * @var bool
-     */
-    protected $questionPostponed;
-
-    /**
-     * @var string
-     */
-    protected $questionRelatedObjectives;
-
-    // fau: testNav - answer status variable
-    /**
-     * @var boolean | null
-     */
-    protected $questionAnswered;
-    // fau.
-
-    public function __construct(ilLanguage $lng)
-    {
-        $this->lng = $lng;
-
-        $this->headerMode = null;
-        $this->questionTitle = '';
-        $this->questionPoints = 0.0;
-        $this->questionPosition = 0;
-        $this->questionCount = 0;
-        $this->questionPostponed = false;
-        $this->questionObligatory = false;
-        $this->questionRelatedObjectives = '';
+    public function __construct(
+        private readonly ilLanguage $lng
+    ) {
     }
 
-    /**
-     * @return int
-     */
     public function getHeaderMode(): ?int
     {
-        return $this->headerMode;
+        return $this->header_mode;
     }
 
-    /**
-     * @param int $headerMode
-     */
-    public function setHeaderMode($headerMode)
+    public function setHeaderMode(int $header_mode): void
     {
-        $this->headerMode = $headerMode;
+        $this->header_mode = $header_mode;
     }
 
-    /**
-     * @return string
-     */
     public function getQuestionTitle(): string
     {
-        return $this->questionTitle;
+        return $this->question_title;
     }
 
-    /**
-     * @param string $questionTitle
-     */
-    public function setQuestionTitle($questionTitle)
+    public function setQuestionTitle(string $question_title): void
     {
-        $this->questionTitle = $questionTitle;
+        $this->question_title = $question_title;
     }
 
-    /**
-     * @return float
-     */
     public function getQuestionPoints(): float
     {
-        return $this->questionPoints;
+        return $this->question_points;
     }
 
-    /**
-     * @param float $questionPoints
-     */
-    public function setQuestionPoints($questionPoints)
+    public function setQuestionPoints(float $question_points): void
     {
-        $this->questionPoints = $questionPoints;
+        $this->question_points = $question_points;
     }
 
-    // fau: testNav - setter for question answered
-    /**
-     * @param bool $questionAnswered
-     */
-    public function setQuestionAnswered($questionAnswered)
+    public function setQuestionAnswered(bool $question_answered): void
     {
-        $this->questionAnswered = $questionAnswered;
+        $this->question_answered = $question_answered;
     }
-    // fau.
-    /**
-     * @return int
-     */
+
     public function getQuestionPosition(): int
     {
-        return $this->questionPosition;
+        return $this->question_position;
     }
 
-    /**
-     * @param int $questionPosition
-     */
-    public function setQuestionPosition($questionPosition)
+    public function setQuestionPosition(int $question_position): void
     {
-        $this->questionPosition = $questionPosition;
+        $this->question_position = $question_position;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionCount(): int
     {
-        return $this->questionCount;
+        return $this->question_count;
     }
 
-    /**
-     * @param int $questionCount
-     */
-    public function setQuestionCount($questionCount)
+    public function setQuestionCount(int $question_count): void
     {
-        $this->questionCount = $questionCount;
+        $this->question_count = $question_count;
     }
 
     public function isQuestionPostponed(): bool
     {
-        return $this->questionPostponed;
+        return $this->question_postponed;
     }
 
     public function isQuestionAnswered(): ?bool
     {
-        return $this->questionAnswered;
+        return $this->question_answered;
     }
 
-    public function setQuestionPostponed(bool $questionPostponed): void
+    public function setQuestionPostponed(bool $question_postponed): void
     {
-        $this->questionPostponed = $questionPostponed;
+        $this->question_postponed = $question_postponed;
     }
 
     public function getQuestionRelatedObjectives(): string
     {
-        return $this->questionRelatedObjectives;
+        return $this->question_related_objectives;
     }
 
-    /**
-     * @param string $questionRelatedObjectives
-     */
-    public function setQuestionRelatedObjectives($questionRelatedObjectives)
+    public function setQuestionRelatedObjectives(string $question_related_objectives): void
     {
-        $this->questionRelatedObjectives = $questionRelatedObjectives;
+        $this->question_related_objectives = $question_related_objectives;
     }
 
     protected function buildQuestionPositionString(): string
@@ -211,10 +124,10 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         }
 
         if ($this->getQuestionCount()) {
-            return sprintf($this->lng->txt("tst_position"), $this->getQuestionPosition(), $this->getQuestionCount());
+            return sprintf($this->lng->txt('tst_position'), $this->getQuestionPosition(), $this->getQuestionCount());
         }
 
-        return sprintf($this->lng->txt("tst_position_without_total"), $this->getQuestionPosition());
+        return sprintf($this->lng->txt('tst_position_without_total'), $this->getQuestionPosition());
     }
 
     protected function buildQuestionPointsString(): string
@@ -244,16 +157,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         return '';
     }
-    // fau.
 
-
-    // fau: testNav - split generation of presentation title and question info
-
-    /**
-     * Get the presentation title of the question
-     * This is shown above the title line in a test run
-     * @return	string
-     */
     public function getPresentationTitle(): string
     {
         switch ($this->getHeaderMode()) {
@@ -271,12 +175,6 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         }
     }
 
-
-    /**
-     * Get the additional question info and answering status
-     * This is shown below the title line in a test run
-     * @return string		html code of the info block
-     */
     public function getQuestionInfoHTML(): string
     {
         $tpl = new ilTemplate('tpl.tst_question_info.html', true, true, 'components/ILIAS/Test');
@@ -322,7 +220,6 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         return $tpl->get();
     }
-    // fau.
 
     public function getHTML(): string
     {

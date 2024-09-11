@@ -32,13 +32,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
 
         parent::setUp();
 
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilAccess();
-        $this->addGlobal_tpl();
-        $this->addGlobal_uiFactory();
-        $this->addGlobal_uiRenderer();
-        $this->addGlobal_lng();
-        $this->addGlobal_ilCtrl();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
 
@@ -54,6 +48,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilDB'],
             $DIC['ilCtrl'],
             $DIC['ilTabs'],
+            $this->createMock(ILIAS\Test\Presentation\TabsManager::class),
             $DIC['ilToolbar'],
             $DIC['component.factory'],
             $this->createMock(\ILIAS\Test\ExportImport\Factory::class),
@@ -66,12 +61,5 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestDashboardGUI::class, $this->testObj);
-    }
-
-    public function testTestObj(): void
-    {
-        $obj_test_mock = $this->getTestObjMock();
-        $this->testObj->setTestObj($obj_test_mock);
-        $this->assertEquals($obj_test_mock, $this->testObj->getTestObj());
     }
 }

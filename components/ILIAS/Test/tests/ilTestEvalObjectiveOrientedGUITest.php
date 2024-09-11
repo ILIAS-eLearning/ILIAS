@@ -30,9 +30,6 @@ class ilTestEvalObjectiveOrientedGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilHelp();

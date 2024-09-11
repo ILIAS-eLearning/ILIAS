@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests;
+namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\Factory;
 
@@ -27,21 +27,26 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 /**
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ExportFactoryTest extends ilTestBaseTestCase
+class ExportFactoryTest extends \ilTestBaseTestCase
 {
     private Factory $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->addGlobal_ilBench();
 
         $this->testObj = new Factory(
-            $this->getTestObjMock(),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
-            $this->createMock(ilTree::class),
-            $this->createMock(ilComponentRepository::class),
+            $this->createMock(\ilLanguage::class),
+            $this->createMock(\ilDBInterface::class),
+            $this->createMock(\ilBenchmark::class),
+            $this->createMock(\ilGlobalTemplateInterface::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
+            $this->createMock(\ilTree::class),
+            $this->createMock(\ilComponentRepository::class),
+            $this->createMock(\ilComponentFactory::class),
+            $this->createMock(\ILIAS\FileDelivery\Services::class),
+            $this->createMock(\ILIAS\Data\Factory::class),
+            $this->createMock(\ilObjUser::class),
             $this->createMock(GeneralQuestionPropertiesRepository::class)
         );
     }

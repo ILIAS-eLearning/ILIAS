@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests;
+namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\ExportRandomQuestionSet;
 
@@ -27,26 +27,25 @@ use ILIAS\Test\ExportImport\ExportRandomQuestionSet;
  */
 class ExportRandomQuestionSetTest extends \ilTestBaseTestCase
 {
-    private ilTestExportRandomQuestionSet $testObj;
+    private ExportRandomQuestionSet $testObj;
 
     protected function setUp(): void
     {
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilBench();
         $this->addGlobal_ilErr();
-        $this->addGlobal_tree();
 
-        $objTest = $this->getTestObjMock();
-        $test_logger = $this->createMock(\ILIAS\Test\Logging\TestLogger::class);
         $this->testObj = new ExportRandomQuestionSet(
-            $objTest,
-            $DIC['lng'],
-            $test_logger,
-            $DIC['tree'],
+            $this->createMock(\ILIAS\Language\Language::class),
+            $this->createMock(\ilDBInterface::class),
+            $this->createmOck(\ilBenchmark::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
+            $this->createMock(\ilTree::class),
             $DIC['component.repository'],
-            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(\ILIAS\FileDelivery\Services::class),
+            $this->getTestObjMock()
         );
     }
 

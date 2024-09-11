@@ -51,10 +51,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_tree();
         $this->addGlobal_ilLocator();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilSetting();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilToolbar();

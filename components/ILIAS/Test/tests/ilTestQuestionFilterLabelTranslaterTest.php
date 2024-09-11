@@ -29,6 +29,7 @@ class ilTestQuestionFilterLabelTranslaterTest extends ilTestBaseTestCase
     {
         global $DIC;
         parent::setUp();
+        $this->addGlobal_ilSetting();
 
         $this->testObj = new ilTestQuestionFilterLabelTranslater(
             $DIC['ilDB'],

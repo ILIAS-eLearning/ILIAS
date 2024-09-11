@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\Questions;
+
 use ILIAS\Test\Questions\QuestionsTable;
 use ILIAS\Test\Questions\QuestionsTableQuery;
 
@@ -28,7 +30,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 /**
  * Class QuestionsTableTest
  */
-class QuestionsTableTest extends ilTestBaseTestCase
+class QuestionsTableTest extends \ilTestBaseTestCase
 {
     private QuestionsTable $table_gui;
 
@@ -40,14 +42,11 @@ class QuestionsTableTest extends ilTestBaseTestCase
         $this->addGlobal_refinery();
         $this->addGlobal_http();
         $this->addGlobal_lng();
-        $this->addGlobal_ilCtrl();
-
 
         $records = $this->getSomeRecords();
-        $obj_test = $this->getMockBuilder(ilObjTest::class)
+        $obj_test = $this->getMockBuilder(\ilObjTest::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $obj_test->method('getId')->willReturn(666);
 
 
         $commands = $this->getMockBuilder(QuestionsTableQuery::class)
@@ -56,10 +55,10 @@ class QuestionsTableTest extends ilTestBaseTestCase
         $commands->method('getRowBoundURLBuilder')
             ->willReturn(
                 [
-                    $this->getMockBuilder(ILIAS\UI\URLBuilder::class)
+                    $this->getMockBuilder(\ILIAS\UI\URLBuilder::class)
                         ->disableOriginalConstructor()
                         ->getMock(),
-                    $this->getMockBuilder(ILIAS\UI\URLBuilderToken::class)
+                    $this->getMockBuilder(\ILIAS\UI\URLBuilderToken::class)
                         ->disableOriginalConstructor()
                         ->getMock(),
 
@@ -72,30 +71,35 @@ class QuestionsTableTest extends ilTestBaseTestCase
             }
         };
 
+        $title_builder = $this->createMock(\ILIAS\Test\Utilities\TitleColumnsBuilder::class);
+
         $this->table_gui = new class (
             $records,
             $DIC,
             $obj_test,
             $commands,
-            $questionrepository
+            $questionrepository,
+            $title_builder
         ) extends QuestionsTable {
             public function __construct(
                 protected $data,
                 $DIC,
                 $obj_test,
                 $commands,
-                $questionrepository
+                $questionrepository,
+                $title_builder
             ) {
                 parent::__construct(
                     $DIC['ui.factory'],
                     $DIC['ui.renderer'],
+                    $DIC['tpl'],
                     $DIC['http']->request(),
                     $commands,
                     $DIC['lng'],
                     $DIC['ilCtrl'],
                     $obj_test,
                     $questionrepository,
-                    fn() => ''
+                    $title_builder
                 );
             }
             public function _getBinding()
@@ -113,7 +117,7 @@ class QuestionsTableTest extends ilTestBaseTestCase
             'title' => 'question one',
             'desc' => 'description one',
             'type_tag' => 'assOrderingQuestion',
-            'complete' => "1",
+            'complete' => '1',
             'lifecycle' => 'draft',
             'points' => 3,
             ],
@@ -136,7 +140,7 @@ class QuestionsTableTest extends ilTestBaseTestCase
     public function testQuestionsTableDefinesActions(): void
     {
         $row = $this->createMock(Table\OrderingRow::class);
-        $row->expects($this->exactly(9))
+        $row->expects($this->exactly(7))
             ->method('withDisabledAction')
             ->willReturn($row);
 

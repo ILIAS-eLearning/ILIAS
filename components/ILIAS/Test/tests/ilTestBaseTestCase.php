@@ -65,6 +65,8 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_uiService();
         $this->addGlobal_static_url();
         $this->addGlobal_upload();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilBench();
 
         $this->defineGlobalConstants();
 

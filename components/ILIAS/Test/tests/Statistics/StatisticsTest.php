@@ -16,10 +16,17 @@
  *
  *********************************************************************/
 
-class ilTestExportTest extends ilTestBaseTestCase
+declare(strict_types=1);
+
+namespace ILIAS\Test\Tests\Statistics;
+
+use ILIAS\Test\Statistics\Statistics;
+
+class StatisticsTest extends \ilTestBaseTestCase
 {
-    public function testSuppressWarning(): void
+    public function testConstruct(): void
     {
-        $this->assertTrue(true);
+        $ilTestStatistics = new Statistics($this->createMock(\ilTestEvaluationData::class));
+        $this->assertInstanceOf(Statistics::class, $ilTestStatistics);
     }
 }

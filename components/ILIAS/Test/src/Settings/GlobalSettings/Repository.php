@@ -59,7 +59,7 @@ class Repository
         $global_settings = new GlobalTestSettings();
 
         if (($process_lock_mode = ProcessLockModes::tryFrom(
-            $this->settings->get(self::SETTINGS_KEY_PROCESS_LOCK_MODE, '')
+            $this->settings->get(self::SETTINGS_KEY_PROCESS_LOCK_MODE) ?? ''
         )) !== null
         ) {
             $global_settings = $global_settings->withProcessLockMode($process_lock_mode);
@@ -70,7 +70,7 @@ class Repository
         }
 
         if (($user_identifier = UserIdentifiers::tryFrom(
-            $this->settings->get(self::SETTINGS_KEY_UNIQUE_USER_IDENTIFIER, '')
+            $this->settings->get(self::SETTINGS_KEY_UNIQUE_USER_IDENTIFIER) ?? ''
         )) !== null
         ) {
             $global_settings = $global_settings->withUserIdentifier($user_identifier);

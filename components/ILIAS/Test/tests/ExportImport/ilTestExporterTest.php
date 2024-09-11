@@ -18,24 +18,26 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Tests\ExportImport;
+
 /**
  * Class ilTestExporterTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestExporterTest extends ilTestBaseTestCase
+class ilTestExporterTest extends \ilTestBaseTestCase
 {
-    private ilTestExporter $testObj;
+    private \ilTestExporter $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestExporter();
+        $this->testObj = new \ilTestExporter();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestExporter::class, $this->testObj);
+        $this->assertInstanceOf(\ilTestExporter::class, $this->testObj);
     }
 
     public function testGetValidSchemaVersions(): void

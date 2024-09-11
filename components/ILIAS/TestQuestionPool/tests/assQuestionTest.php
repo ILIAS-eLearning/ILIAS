@@ -85,6 +85,11 @@ class assQuestionTest extends assBaseTestCase
             ): array {
                 return [];
             }
+
+            public function solutionValuesToText(array $solution_values): array|string
+            {
+                return '';
+            }
         };
     }
 

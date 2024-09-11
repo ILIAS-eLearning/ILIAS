@@ -31,33 +31,24 @@ declare(strict_types=1);
 
 class ilTestEvaluationUserData
 {
-    private $questionTitles;
+    private array $question_titles;
     private string $name;
     private string $login = '';
     private ?int $user_id = null;
     private bool $submitted;
-    private float $reached;
-    private float $maxpoints;
     private string $mark;
     private string $mark_official;
-    private int $questions_worked_through;
-    private int $nr_of_questions;
     private string $time_on_task;
     private int $first_visit;
     private int $last_visit;
-    private bool $passed;
+    private bool $passed = false;
 
     /**
     * @var array<int, ilTestEvaluationPassData>
     */
-    public array $passes;
-    public ?int $lastFinishedPass;
-    public array $questions;
-
-    /**
-    * Pass Scoring (Last pass = 0, Best pass = 1)
-    */
-    private int $passScoring;
+    private array $passes = [];
+    private ?int $last_finished_pass = null;
+    private array $questions = [];
 
     public function __sleep()
     {
@@ -66,22 +57,19 @@ class ilTestEvaluationUserData
         'name', 'passScoring'];
     }
 
-    public function __construct(int $passScoring)
-    {
-        $this->passes = [];
-        $this->questions = [];
-        $this->passed = false;
-        $this->passScoring = $passScoring;
+    public function __construct(
+        private int $pass_scoring
+    ) {
     }
 
     public function getPassScoring(): int
     {
-        return $this->passScoring;
+        return $this->pass_scoring;
     }
 
     public function setPassScoring(int $passScoring): void
     {
-        $this->passScoring = $passScoring;
+        $this->pass_scoring = $passScoring;
     }
 
     public function getPassed(): bool
@@ -129,19 +117,9 @@ class ilTestEvaluationUserData
         return $this->getReachedPoints($this->getScoredPass());
     }
 
-    public function setReached(float $reached): void
-    {
-        $this->reached = $reached;
-    }
-
     public function getMaxpoints(): float
     {
         return $this->getAvailablePoints($this->getScoredPass());
-    }
-
-    public function setMaxpoints(float $max_points): void
-    {
-        $this->maxpoints = $max_points;
     }
 
     public function getReachedPointsInPercent(): float
@@ -171,11 +149,6 @@ class ilTestEvaluationUserData
         return 0;
     }
 
-    public function setQuestionsWorkedThrough(int $nr): void
-    {
-        $this->questions_worked_through = $nr;
-    }
-
     public function getNumberOfQuestions(): int
     {
         $questionpass = $this->getScoredPass();
@@ -186,11 +159,6 @@ class ilTestEvaluationUserData
             return $this->passes[$questionpass]->getQuestionCount();
         }
         return 0;
-    }
-
-    public function setNumberOfQuestions(int $nr): void
-    {
-        $this->nr_of_questions = $nr;
     }
 
     public function getQuestionsWorkedThroughInPercent(): float
@@ -205,11 +173,6 @@ class ilTestEvaluationUserData
             $time += $pass->getWorkingTime();
         }
         return $time;
-    }
-
-    public function setTimeOnTask(string $time_of_work): void
-    {
-        $this->time_on_task = $time_of_work;
     }
 
     public function getFirstVisit(): int
@@ -303,16 +266,16 @@ class ilTestEvaluationUserData
 
     public function getLastFinishedPass(): ?int
     {
-        return $this->lastFinishedPass;
+        return $this->last_finished_pass;
     }
 
     public function setLastFinishedPass(?int $pass = null): void
     {
-        $this->lastFinishedPass = $pass;
+        $this->last_finished_pass = $pass;
     }
     public function addQuestionTitle(int $question_id, string $question_title): void
     {
-        $this->questionTitles[$question_id] = $question_title;
+        $this->question_titles[$question_id] = $question_title;
     }
 
     /**
@@ -321,7 +284,7 @@ class ilTestEvaluationUserData
      */
     public function getQuestionTitles(): array
     {
-        return $this->questionTitles;
+        return $this->question_titles;
     }
 
     public function getQuestions(int $pass = 0): ?array

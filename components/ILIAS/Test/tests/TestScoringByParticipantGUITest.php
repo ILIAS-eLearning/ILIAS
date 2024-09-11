@@ -32,8 +32,6 @@ class TestScoringByParticipantGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_tree();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilHelp();
@@ -42,7 +40,6 @@ class TestScoringByParticipantGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilNavigationHistory();
-        $this->addGlobal_ilCtrl();
 
         $this->testObj = new TestScoringByParticipantGUI($this->getTestObjMock());
     }
