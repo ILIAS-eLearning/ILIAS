@@ -744,11 +744,6 @@ assessment#:#gap#:#Mezera
 assessment#:#gap_combination#:#Kombinace mezer
 assessment#:#glossary_term#:#Pojem glosáře
 assessment#:#grading_mark_msg#:#Vaše výsledná známka je: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Zodpovězeno
-assessment#:#grading_obligations_answered_msg#:#Vyplnili jste všechny povinné otázky.
-assessment#:#grading_obligations_listlabel#:#Povinné otázky
-assessment#:#grading_obligations_missing_listentry#:#Otevřít
-assessment#:#grading_obligations_missing_msg#:#Nevyplnili jste všechny povinné otázky.
 assessment#:#grading_status_failed_msg#:#Litujeme, v testu jste <b>neuspěl/a</b>.
 assessment#:#grading_status_passed_msg#:#Gratulujeme, <b>složil/a</b> jste test.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Žádný výběr ---
 assessment#:#no_selection_for_move#:#Žádná vybraná otázka pro přesun
 assessment#:#no_target_selected_for_move#:#Musíte vybrat cílové umístění!
 assessment#:#no_user_or_group_selected#:#Nastavte volby pro vyhledávání (účastníků a/nebo skupin)!
-assessment#:#not_all_obligations_answered#:#Před ukončením tohoto testu musíte odpovědět na všechny požadované otázky.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Dosud nenavštíveno
 assessment#:#nr_of_correct_answers#:#Počet požadovaných odpovědí
 assessment#:#number_of_answers#:#Počet odpovědí
 assessment#:#numeric_gap#:#Číselná mezera
-assessment#:#obligations_summary#:#Seznam požadovaných otázek
-assessment#:#obligatory#:#Požadované
 assessment#:#option_label#:#Štítky voleb
 assessment#:#option_label_adequate#:#dostatečné
 assessment#:#option_label_adequate_or_not#:#dostatečné / nedostatečné
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Otázky mohou být odloženy na konec průc
 assessment#:#tst_sequence_properties#:#Vlastnosti sekvence
 assessment#:#tst_session_settings#:#Nastavení lekce
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Tento test byl nastaven na offline, protože nastavení módu testu bylo změněno. Musíte nastavit nový mód testu ve vztahu k nastavení otázek před tím, než bude moci test být znovu nastaven na online.
-assessment#:#tst_setting_enable_obligations_info#:#Je-li zaškrtnuto, otázky tohoto testu může být označeno jako povinné (*). Všechny povinné otázky by měly vyplněny pro úspěšný průchod tímto testem. Můžete nastavit povinné otázky v  "Zobrazení seznamu". Doporučujeme také aktivovat "Zobrazit seznam otázek" pokud jsou definovány povinné otázky.
-assessment#:#tst_setting_enable_obligations_label#:#Povinné otázky
 assessment#:#tst_setting_offer_hints_info#:#Je-li zapnuto, jsou nabízeny existijící nápovědy specifické odpovědi.
 assessment#:#tst_setting_offer_hints_label#:#Nápovědy specifické odpovědi
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manuálně vybraní účastníci
 assessment#:#tst_tbl_participants#:#Účastníci
 assessment#:#tst_tbl_results_grades#:#Výsledky a známky
-assessment#:#tst_test_contains_obligatory_questions#:#K úspěšnému průchodu tímto testem musíte správně odpovědět nejméně na všechny povinné otázky (*).
 assessment#:#tst_test_result#:#Výsledek testu
 assessment#:#tst_text_count_system#:#Systém hodnocení
 assessment#:#tst_threshold#:#Prahové hodnoty
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Výsledky kvalifikačního 
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Byla převzata vaše odpověď z předchozího pokusu.
 assessment#:#tst_wf_info_answer_not_adopted#:#Z předchozích pokusů nebyla převzata žádná odpověď, takže musíte projít tuto otázku, protože jinak se zhorší váš výsledek cíle učení.
 assessment#:#tst_wf_info_optional_question#:#Tato otázka se týká již dosaženého cíle učení.
-assessment#:#tst_you_have_to_answer_this_question#:#Musíte odpovědět na tuto otázku, abyste mohli dokončit test.
 assessment#:#tst_your_answer_was#:#Vaše odpověď byla
 assessment#:#tst_your_answers#:#Toto jsou Vaše odpovědi dané na následující otázky.
 assessment#:#un_add_category#:#Přidat kategorii

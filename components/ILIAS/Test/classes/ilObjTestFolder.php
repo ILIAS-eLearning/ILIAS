@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Administration\GlobalSettingsRepository;
+use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalSettingsRepository;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\TestDIC;
 

@@ -38,7 +38,6 @@ class AdditionalInformationGenerator
 
     public const KEY_EVAL_FINALIZED = 'evaluation_finalized';
     public const KEY_FEEDBACK = 'tst_feedback';
-    public const KEY_MANDATORY_QUESTIONS = 'mandatory_questions';
     public const KEY_QUESTION_TITLE = 'question_title';
     public const KEY_QUESTION_TEXT = 'tst_question';
     public const KEY_QUESTION_TYPE = 'tst_question_type';
@@ -92,7 +91,6 @@ class AdditionalInformationGenerator
     public const KEY_TEST_FEEDBACK_SHOW_SOLUTION = 'tst_instant_feedback_solution';
     public const KEY_TEST_FEEDBACK_TRIGGER = 'tst_instant_feedback_trigger';
     public const KEY_TEST_LOCK_ANSWERS_MODE = 'tst_answer_fixation_handling';
-    public const KEY_TEST_COMPULSORY_QUESTIONS_ENABLED = 'tst_setting_enable_obligations_label';
     public const KEY_TEST_USE_PREVIOUS_ANSWERS_ENABELD = 'tst_use_previous_answers';
     public const KEY_TEST_SUSPEND_ALLOWED = 'tst_show_cancel';
     public const KEY_TEST_POSTPONED_MOVE_TO_END = 'tst_postpone';

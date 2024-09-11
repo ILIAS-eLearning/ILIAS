@@ -18,13 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Administration;
+namespace ILIAS\Test\Settings\GlobalSettings;
 
-enum UserIdentifiers: string
+enum ProcessLockModes: string
 {
-    case USER_ID = 'usr_id';
-    case LOGIN = 'login';
-    case EMAIL = 'email';
-    case MATRICULATION = 'matriculation';
-    case EXTERNAL_ACCOUNT = 'ext_account';
+    case ASS_PROC_LOCK_MODE_NONE = 'none';
+    case ASS_PROC_LOCK_MODE_FILE = 'file';
+    case ASS_PROC_LOCK_MODE_DB = 'db';
 }

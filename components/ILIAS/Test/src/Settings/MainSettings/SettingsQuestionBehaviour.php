@@ -52,8 +52,7 @@ class SettingsQuestionBehaviour extends TestSettings
         protected bool $instant_feedback_solution_enabled,
         protected bool $force_instant_feedback_on_next_question,
         protected bool $lock_answer_on_instant_feedback,
-        protected bool $lock_answer_on_next_question,
-        protected bool $compulsory_questions_enabled
+        protected bool $lock_answer_on_next_question
     ) {
         parent::__construct($test_id);
     }
@@ -96,15 +95,6 @@ class SettingsQuestionBehaviour extends TestSettings
 
         $inputs['instant_feedback'] = $this->getInputInstantFeedback($lng, $f, $refinery, $environment);
         $inputs['lock_answers'] = $this->getInputLockAnswers($lng, $f, $refinery, $environment);
-
-        $inputs['enable_compulsory_questions'] = $f->checkbox(
-            $lng->txt('tst_setting_enable_obligations_label'),
-            $lng->txt('tst_setting_enable_obligations_info')
-        )->withValue($this->getCompulsoryQuestionsEnabled());
-
-        if ($environment['participant_data_exists']) {
-            $inputs['enable_compulsory_questions'] = $inputs['enable_compulsory_questions']->withDisabled(true);
-        }
 
         $section = $f->section($inputs, $lng->txt('tst_presentation_properties'));
         foreach ($this->getConstraintsSectionQuestionBehaviour($lng, $refinery) as $constraint) {
@@ -380,8 +370,7 @@ class SettingsQuestionBehaviour extends TestSettings
             'instant_verification' => ['integer', (int) $this->getInstantFeedbackSolutionEnabled()],
             'force_inst_fb' => ['integer', (int) $this->getForceInstantFeedbackOnNextQuestion()],
             'inst_fb_answer_fixation' => ['integer', (int) $this->getLockAnswerOnInstantFeedbackEnabled()],
-            'follow_qst_answer_fixation' => ['integer', (int) $this->getLockAnswerOnNextQuestionEnabled()],
-            'obligations_enabled' => ['integer', (int) $this->getCompulsoryQuestionsEnabled()]
+            'follow_qst_answer_fixation' => ['integer', (int) $this->getLockAnswerOnNextQuestionEnabled()]
         ];
     }
 
@@ -440,8 +429,6 @@ class SettingsQuestionBehaviour extends TestSettings
         }
         $log_array[AdditionalInformationGenerator::KEY_TEST_LOCK_ANSWERS_MODE] = $lock_answers;
 
-        $log_array[AdditionalInformationGenerator::KEY_TEST_COMPULSORY_QUESTIONS_ENABLED] = $additional_info
-            ->getEnabledDisabledTagForBool($this->getCompulsoryQuestionsEnabled());
         return $log_array;
     }
 

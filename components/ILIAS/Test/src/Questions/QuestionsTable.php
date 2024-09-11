@@ -242,7 +242,7 @@ class QuestionsTable
             case QuestionsTable::ACTION_SAVE_ORDER:
                 $data = $this->getOrderData();
                 $protect_by_write_protection();
-                $this->test_obj->setQuestionOrderAndObligations(array_flip($data), []);
+                $this->test_obj->setQuestionOrder(array_flip($data), []);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                 break;
 

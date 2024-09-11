@@ -47,7 +47,6 @@ class ilTestEvaluationPassData
     private int $pass;
     private ?int $requestedHintsCount = null;
     private ?float $deductedHintPoints = null;
-    private bool $obligationsAnswered = false;
     private string $exam_id = '';
 
     public function __sleep()
@@ -218,11 +217,6 @@ class ilTestEvaluationPassData
         $this->deductedHintPoints = $deductedHintPoints;
     }
 
-    public function setObligationsAnswered(bool $obligationsAnswered): void
-    {
-        $this->obligationsAnswered = $obligationsAnswered;
-    }
-
     public function getExamId(): string
     {
         return $this->exam_id;
@@ -231,34 +225,5 @@ class ilTestEvaluationPassData
     public function setExamId(string $exam_id): void
     {
         $this->exam_id = $exam_id;
-    }
-
-    /**
-     * getter for property obligationsAnswered.
-     * if property wasn't set yet the method is trying
-     * to determine this information by iterating
-     * over the added questions.
-     * if both wasn't possible the method throws an exception
-     */
-    public function areObligationsAnswered(): ?bool
-    {
-        if (!is_null($this->obligationsAnswered)) {
-            return $this->obligationsAnswered;
-        }
-
-        if (is_array($this->answeredQuestions) && $this->answeredQuestions !== []) {
-            foreach ($this->answeredQuestions as $question) {
-                if (!$question['isAnswered']) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        throw new ilTestEvaluationException(
-            'Neither the boolean property ilTestEvaluationPassData::obligationsAnswered was set, ' .
-            'nor the property array property ilTestEvaluationPassData::answeredQuestions contains elements!'
-        );
     }
 }

@@ -744,11 +744,6 @@ assessment#:#gap#:#Praznina
 assessment#:#gap_combination#:#Kombinacija besedila s prazninami
 assessment#:#glossary_term#:#Pojem iz glosarja
 assessment#:#grading_mark_msg#:#Vaša ocena je &quot;[mark]&quot";
-assessment#:#grading_obligations_answered_listentry#:#Odgovorjeno
-assessment#:#grading_obligations_answered_msg#:#Odgovorili ste na vsa obvezna vprašanja.
-assessment#:#grading_obligations_listlabel#:#Obvezna vprašanja
-assessment#:#grading_obligations_missing_listentry#:#Odprto
-assessment#:#grading_obligations_missing_msg#:#Niste odgovorili na vsa obvezna vprašanja.
 assessment#:#grading_status_failed_msg#:#Škoda, žal testa<b>niste opravili</b>.
 assessment#:#grading_status_passed_msg#:#Čestitamo! Test<b>ste opravili</b>.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Brez izbire ---
 assessment#:#no_selection_for_move#:#Izbrano ni bilo nobeno vprašanje za pomikanje
 assessment#:#no_target_selected_for_move#:#Izbrati morate ciljni položaj!
 assessment#:#no_user_or_group_selected#:#Izberite ciljno skupino, v kateri želite opraviti iskanje (uporabniki in/ali skupine)!
-assessment#:#not_all_obligations_answered#:#Preden lahko zaključite test, morate odgovoriti na vsa obvezna vprašanja.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#not_yet_accessed#:#Dostopa še ni
 assessment#:#nr_of_correct_answers#:#Število želenih odgovorov
 assessment#:#number_of_answers#:#Število odgovorov
 assessment#:#numeric_gap#:#Praznina za številčni odgovor
-assessment#:#obligations_summary#:#Pregled obveznih vprašanj
-assessment#:#obligatory#:#Obvezno
 assessment#:#option_label#:#Oznake možnosti
 assessment#:#option_label_adequate#:#primerno
 assessment#:#option_label_adequate_or_not#:#primerno / neprimerno
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Vprašanja lahko premaknete na zaključek o
 assessment#:#tst_sequence_properties#:#Izvedba: Funkcije za udeležence
 assessment#:#tst_session_settings#:#Izvedba
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test je bil umaknjen s spleta, ker je bila nastavitev za izbiro testnih vprašanj spremenjena. Ponovno dodelite vprašanja testu. Nato test lahko znova objavite na spletu.
-assessment#:#tst_setting_enable_obligations_info#:#Test lahko oddate le, če ste odgovorili na vsa obvezna vprašanja. Avtorji so obvezna vprašanja definirali v 'Pogledu seznama'. Za udeležence mora biti aktivirana možnost »Prikaži seznam vprašanj in stanje obdelave".
-assessment#:#tst_setting_enable_obligations_label#:#Obvezna vprašanja
 assessment#:#tst_setting_offer_hints_info#:#Udeleženci lahko zahtevajo namig za rešitev vprašanja. Ob vsakem namigu za rešitev se število točk za pravi odgovor zmanjša.
 assessment#:#tst_setting_offer_hints_label#:#Namigi za rešitev
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variab
 assessment#:#tst_tbl_invited_users#:#Izbrani udeleženci
 assessment#:#tst_tbl_participants#:#Udeleženci
 assessment#:#tst_tbl_results_grades#:#Rezultati in ocene
-assessment#:#tst_test_contains_obligatory_questions#:#Če želite zaključiti ta test, morate odgovoriti na vsa obvezna vprašanja (*).
 assessment#:#tst_test_result#:#Rezultat testa
 assessment#:#tst_text_count_system#:#Sistem ocenjevanja
 assessment#:#tst_threshold#:#Mejna vrednost (v %)
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Kvalifikacijski rezultati z
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Vaš odgovor iz prejšnjega poskusa je bil prevzet.
 assessment#:#tst_wf_info_answer_not_adopted#:#Iz prejšnjih poskusov ni bil prevzet noben odgovor. Zato morate urediti to vprašanje, sicer se bo vaš učni rezultat poslabšal.
 assessment#:#tst_wf_info_optional_question#:#To vprašanje spada k že opravljenemu učnemu cilju.
-assessment#:#tst_you_have_to_answer_this_question#:#Da zaključite test, morate odgovoriti na to vprašanje.
 assessment#:#tst_your_answer_was#:#Podali ste naslednji odgovor
 assessment#:#tst_your_answers#:#To odgovori, ki ste jih podali na naslednja vprašanja. Preverite svoje odgovore in jih nato oddajte.
 assessment#:#un_add_category#:#Dodaj kategorijo

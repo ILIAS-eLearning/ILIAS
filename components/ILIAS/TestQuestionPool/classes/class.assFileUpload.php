@@ -739,29 +739,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $previewSession->setParticipantsSolution($userSolution);
     }
 
-    protected function handleSubmission(int $active_id, int $pass, bool $obligations_answered, bool $authorized): void
-    {
-        if (!$authorized
-            || !$this->isCompletionBySubmissionEnabled()
-            || !$this->getUploadedFiles($active_id, $pass, $authorized)) {
-            return;
-        }
-
-        if ($this->isCompletionBySubmissionEnabled()) {
-            $maxpoints = $this->questionrepository->getForQuestionId($this->getId())
-                ->getMaximumPoints();
-        }
-
-        $points = $maxpoints;
-
-        assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, true, $obligations_answered);
-
-        ilLPStatusWrapper::_updateStatus(
-            ilObjTest::_getObjectIDFromActiveID((int) $active_id),
-            ilObjTestAccess::_getParticipantId((int) $active_id)
-        );
-    }
-
     public function getQuestionType(): string
     {
         return 'assFileUpload';
@@ -873,11 +850,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $this->completion_by_submission = (bool) $bool;
         return $this;
-    }
-
-    public static function isObligationPossible(int $question_id): bool
-    {
-        return true;
     }
 
     public function buildTestPresentationConfig(): ilTestQuestionConfig

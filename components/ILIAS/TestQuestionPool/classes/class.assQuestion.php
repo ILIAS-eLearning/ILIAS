@@ -108,7 +108,6 @@ abstract class assQuestion implements Question
     public int $defaultnroftries = 0;
     public string $questionActionCmd = 'handleQuestionAction';
     protected ?int $step = null;
-    private bool $obligationsToBeConsidered = false;
 
     /**
      * @var array<ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution>
@@ -568,7 +567,7 @@ abstract class assQuestion implements Question
     /**
      * Calculates the question results from a previously saved question solution
      */
-    final public function calculateResultsFromSolution(int $active_id, int $pass, bool $obligations_enabled = false): void
+    final public function calculateResultsFromSolution(int $active_id, int $pass): void
     {
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass);
@@ -579,12 +578,6 @@ abstract class assQuestion implements Question
         // adjust reached points regarding to tests scoring options
         $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
 
-        if ($obligations_enabled && ilObjTest::isQuestionObligatory($this->getId())) {
-            $isAnswered = $this->isAnswered($active_id, $pass);
-        } else {
-            $isAnswered = true;
-        }
-
         if (is_null($reached_points)) {
             $reached_points = 0.0;
         }
@@ -593,7 +586,7 @@ abstract class assQuestion implements Question
         $existing_solutions = $this->lookupForExistingSolutions($active_id, $pass);
 
         $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(
-            function () use ($active_id, $pass, $reached_points, $requests_statistic_data, $isAnswered, $existing_solutions) {
+            function () use ($active_id, $pass, $reached_points, $requests_statistic_data, $existing_solutions) {
                 $query = "
                     DELETE FROM		tst_test_result
 
@@ -626,7 +619,7 @@ abstract class assQuestion implements Question
                         'tstamp' => ['integer', time()],
                         'hint_count' => ['integer', $requests_statistic_data->getRequestsCount()],
                         'hint_points' => ['float', $requests_statistic_data->getRequestsPoints()],
-                        'answered' => ['integer', $isAnswered]
+                        'answered' => ['integer', true]
                     ];
 
                     if ($this->getStep() !== null) {
@@ -643,7 +636,7 @@ abstract class assQuestion implements Question
             $this->getObjId(),
             false
         );
-        $test->updateTestPassResults($active_id, $pass, $obligations_enabled, $this->getProcessLocker());
+        $test->updateTestPassResults($active_id, $pass, $this->getProcessLocker());
         ilCourseObjectiveResult::_updateObjectiveResult($this->current_user->getId(), $active_id, $this->getId());
     }
 
@@ -651,7 +644,7 @@ abstract class assQuestion implements Question
      * persists the working state for current testactive and testpass
      * @return bool if saving happened
      */
-    final public function persistWorkingState(int $active_id, $pass, bool $obligationsEnabled = false, bool $authorized = true): bool
+    final public function persistWorkingState(int $active_id, $pass, bool $authorized = true): bool
     {
         if (!$this instanceof QuestionPartiallySaveable && !$this->validateSolutionSubmit()) {
             return false;
@@ -659,7 +652,7 @@ abstract class assQuestion implements Question
 
         $saveStatus = false;
 
-        $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
+        $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, &$saveStatus) {
             if ($pass === null) {
                 $pass = ilObjTest::_getPass($active_id);
             }
@@ -671,7 +664,7 @@ abstract class assQuestion implements Question
                 //		the intermediate solution would set the displayed question status as "editing ..."
                 $this->removeIntermediateSolution($active_id, $pass);
                 // fau.
-                $this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+                $this->calculateResultsFromSolution($active_id, $pass);
             }
         });
 
@@ -1923,8 +1916,7 @@ abstract class assQuestion implements Question
         float $points,
         float $maxpoints,
         int $pass,
-        bool $manualscoring,
-        bool $obligationsEnabled
+        bool $manualscoring
     ): bool {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1979,7 +1971,7 @@ abstract class assQuestion implements Question
                     $test_id,
                     false
                 );
-                $test->updateTestPassResults($active_id, $pass, $obligationsEnabled);
+                $test->updateTestPassResults($active_id, $pass);
                 ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
             }
 
@@ -2389,11 +2381,6 @@ abstract class assQuestion implements Question
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
         return $numExistingSolutionRecords > 0;
-    }
-
-    public static function isObligationPossible(int $questionId): bool
-    {
-        return false;
     }
 
     protected static function getNumExistingSolutionRecords(int $activeId, int $pass, int $questionId): int
@@ -2921,7 +2908,6 @@ abstract class assQuestion implements Question
         $test->updateTestPassResults(
             $activeId,
             $pass,
-            $this->areObligationsToBeConsidered(),
             $this->getProcessLocker(),
             $this->getTestId()
         );
@@ -2967,16 +2953,6 @@ abstract class assQuestion implements Question
         }
 
         return $indexed_values;
-    }
-
-    public function areObligationsToBeConsidered(): bool
-    {
-        return $this->obligationsToBeConsidered;
-    }
-
-    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered): void
-    {
-        $this->obligationsToBeConsidered = $obligationsToBeConsidered;
     }
 
     public function updateTimestamp(): void

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Administration;
+namespace ILIAS\Test\Settings\GlobalSettings;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;

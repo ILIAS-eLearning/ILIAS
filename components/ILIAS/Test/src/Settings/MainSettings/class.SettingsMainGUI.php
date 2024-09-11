@@ -734,8 +734,7 @@ class SettingsMainGUI extends TestSettingsGUI
             ->withInstantFeedbackSolutionEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_solution'])
             ->withForceInstantFeedbackOnNextQuestion($section['instant_feedback']['feedback_on_next_question'])
             ->withLockAnswerOnInstantFeedbackEnabled($section['lock_answers']['lock_answer_on_instant_feedback'])
-            ->withLockAnswerOnNextQuestionEnabled($section['lock_answers']['lock_answer_on_next_question'])
-            ->withCompulsoryQuestionsEnabled($section['enable_compulsory_questions']);
+            ->withLockAnswerOnNextQuestionEnabled($section['lock_answers']['lock_answer_on_next_question']);
     }
 
 

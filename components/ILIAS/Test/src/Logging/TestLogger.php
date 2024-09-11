@@ -22,7 +22,7 @@ namespace ILIAS\Test\Logging;
 
 use Psr\Log\LoggerInterface;
 
-use ILIAS\Test\Administration\TestLoggingSettings;
+use ILIAS\Test\Settings\GlobalSettings\TestLoggingSettings;
 
 class TestLogger implements LoggerInterface
 {

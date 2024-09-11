@@ -729,11 +729,6 @@ assessment#:#gap#:#Trou
 assessment#:#gap_combination#:#Association de Gap
 assessment#:#glossary_term#:#Terme de glossaire
 assessment#:#grading_mark_msg#:#Votre résultat est: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Répondues
-assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.
-assessment#:#grading_obligations_listlabel#:#Questions obligatoires
-assessment#:#grading_obligations_missing_listentry#:#Ouvertes
-assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.
 assessment#:#grading_status_failed_msg#:#Désolé, vous <b>avez échoué</b> le test.
 assessment#:#grading_status_passed_msg#:#Félicitations, vous <b>avez réussi</b> le test.
 assessment#:#hints#:#Hints###31 10 2023 new variable
@@ -909,14 +904,11 @@ assessment#:#no_selection#:#--- Aucune sélection ---
 assessment#:#no_selection_for_move#:#Aucune question à déplacer
 assessment#:#no_target_selected_for_move#:#Vous devez sélectionner une position de destination
 assessment#:#no_user_or_group_selected#:#Veuillez sélectionner le type d'objets que vous cherchez (utilisateurs et/ou groupes)
-assessment#:#not_all_obligations_answered#:#Vous devez répondre à toutes les questions obligatoires avant de terminer le test.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#not_yet_accessed#:#Pas encore accédé
 assessment#:#nr_of_correct_answers#:#Nombre de Réponses Attendues
 assessment#:#number_of_answers#:#Nombre de Réponses
 assessment#:#numeric_gap#:#Numérique
-assessment#:#obligations_summary#:#Liste des questions obligatoires
-assessment#:#obligatory#:#Obligatoire
 assessment#:#option_label#:#Vignettes d’option
 assessment#:#option_label_adequate#:#adéquate
 assessment#:#option_label_adequate_or_not#:#adéquate / inadéquate
@@ -1836,8 +1828,6 @@ assessment#:#tst_sequence_postpone#:#Les questions peuvent être reportées à l
 assessment#:#tst_sequence_properties#:#Paramètres de Séquencement
 assessment#:#tst_session_settings#:#Paramètres de Session
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Le test a été mis hors-ligne car le mode de test a été modifié. Vous devez choisir une configuration avant de pouvoir mettre le test en-ligne.
-assessment#:#tst_setting_enable_obligations_info#:#Lorsque activé, certaines questions du test peuvent être marquées comme obligatoires (*). L'élève doit répondre à toutes les questions obligatoires pour que le test soit pris en compte. Il est recommandé d'afficher la liste des questions lors des questions obligatoires sont présentes dans le test.
-assessment#:#tst_setting_enable_obligations_label#:#Questions Obligatoires
 assessment#:#tst_setting_offer_hints_info#:#Lorsque activé, des indices peuvent être proposés pour certaines questions.
 assessment#:#tst_setting_offer_hints_label#:#Questions avec Indices
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###31 10 2023 new variable
@@ -1928,7 +1918,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
-assessment#:#tst_test_contains_obligatory_questions#:#Pour terminer ce test, vous devez répondre au moins à toutes les questions obligatoires (*).
 assessment#:#tst_test_result#:#Résultat du test
 assessment#:#tst_text_count_system#:#Système de Notation
 assessment#:#tst_threshold#:#Thresholds
@@ -1954,7 +1943,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Votre réponse d’une tentative précédente a été adoptée.
 assessment#:#tst_wf_info_answer_not_adopted#:#Il n'y avait aucune réponse parmi les tentatives précédentes adoptées, vous devez donc travailler sur cette question sinon votre objectif objectif d'apprentissage sera dégradé.
 assessment#:#tst_wf_info_optional_question#:#Cette question se rapporte à  un objectif d'apprentissage déjà  passé.
-assessment#:#tst_you_have_to_answer_this_question#:#Vous devez répondre à  cette question pour pouvoir terminer le test.
 assessment#:#tst_your_answer_was#:#Votre réponse était
 assessment#:#tst_your_answers#:#Ce sont vos réponses aux questions suivantes.
 assessment#:#un_add_category#:#Ajouter Catégorie

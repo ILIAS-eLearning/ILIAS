@@ -165,11 +165,6 @@ class ilTestGradingMessageBuilder
         return $this->resultData['max_points'];
     }
 
-    private function areObligationsAnswered(): bool
-    {
-        return (bool) $this->resultData['obligations_answered'];
-    }
-
     public function buildList()
     {
         $this->loadResultData();
@@ -182,19 +177,6 @@ class ilTestGradingMessageBuilder
             $this->populateListEntry(
                 $this->lng->txt('passed_status'),
                 $this->lng->txt($passedStatusLangVar)
-            );
-        }
-
-        if ($this->testOBJ->areObligationsEnabled()) {
-            if ($this->areObligationsAnswered()) {
-                $obligAnsweredStatusLangVar = 'grading_obligations_answered_listentry';
-            } else {
-                $obligAnsweredStatusLangVar = 'grading_obligations_missing_listentry';
-            }
-
-            $this->populateListEntry(
-                $this->lng->txt('grading_obligations_listlabel'),
-                $this->lng->txt($obligAnsweredStatusLangVar)
             );
         }
 

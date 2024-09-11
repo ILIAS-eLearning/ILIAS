@@ -40,11 +40,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     protected ?bool $showPointsEnabled = false;
     protected ?bool $showMarkerEnabled = false;
 
-    protected ?bool $showObligationsEnabled = false;
-    protected ?bool $obligationsFilterEnabled = false;
-
-    protected ?bool $obligationsNotAnswered = false;
-
     protected ?bool $finishTestButtonEnabled = false;
 
     public function __construct(
@@ -71,22 +66,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     public function init(): void
     {
-        // table title
-
-        if ($this->isObligationsFilterEnabled()) {
-            $this->setTitle($this->lng->txt('obligations_summary'));
-        } else {
-            $this->setTitle($this->lng->txt('question_summary'));
-        }
+        $this->setTitle($this->lng->txt('question_summary'));
 
         // columns
 
         $this->addColumn($this->lng->txt("tst_qst_order"), 'order', '');
         $this->addColumn($this->lng->txt("tst_question_title"), 'title', '');
-
-        if ($this->isShowObligationsEnabled()) {
-            $this->addColumn($this->lng->txt("obligatory"), 'obligatory', '');
-        }
 
         $this->addColumn('', 'postponed', '');
 
@@ -94,12 +79,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("tst_maximum_points"), 'points', '');
         }
 
-        #$this->addColumn($this->lng->txt("worked_through"),'worked_through', '');
         $this->addColumn($this->lng->txt("answered"), 'answered', '');
-
-        if (false && $this->isShowObligationsEnabled()) {
-            $this->addColumn($this->lng->txt("answered"), 'answered', '');
-        }
 
         if ($this->isShowMarkerEnabled()) {
             $this->addColumn($this->lng->txt("tst_question_marker"), 'marked', '');
@@ -111,7 +91,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
         );
 
-        if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
+        if ($this->isFinishTestButtonEnabled()) {
             $this->addFinishTestButton();
         }
     }
@@ -195,31 +175,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
                 $this->tpl->touchBlock('marker');
             }
         }
-        if ($this->isShowObligationsEnabled()) {
-            // obligatory answer status
-            if (false) {
-                $value = '&nbsp;';
-                if ($a_set['isAnswered']) {
-                    $value = $this->lng->txt("yes");
-                }
-                $this->tpl->setCurrentBlock('answered_col');
-                $this->tpl->setVariable('ANSWERED', $value);
-                $this->tpl->parseCurrentBlock();
-            }
-
-            // obligatory icon
-            if ($a_set["obligatory"]) {
-                $obligatory = $this->ui_renderer->render(
-                    $this->ui_factory->symbol()->icon()->custom(
-                        ilUtil::getImagePath('standard/icon_alert.svg'),
-                        $this->lng->txt('question_obligatory')
-                    )
-                );
-            } else {
-                $obligatory = '';
-            }
-            $this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
-        }
 
         $postponed = (
             $a_set['postponed'] ? $this->lng->txt('postponed') : ''
@@ -267,36 +222,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     public function setShowMarkerEnabled($showMarkerEnabled): void
     {
         $this->showMarkerEnabled = $showMarkerEnabled;
-    }
-
-    public function isShowObligationsEnabled(): bool
-    {
-        return $this->showObligationsEnabled;
-    }
-
-    public function setShowObligationsEnabled($showObligationsEnabled): void
-    {
-        $this->showObligationsEnabled = $showObligationsEnabled;
-    }
-
-    public function isObligationsFilterEnabled(): bool
-    {
-        return $this->obligationsFilterEnabled;
-    }
-
-    public function setObligationsFilterEnabled($obligationsFilterEnabled): void
-    {
-        $this->obligationsFilterEnabled = $obligationsFilterEnabled;
-    }
-
-    public function areObligationsNotAnswered(): bool
-    {
-        return $this->obligationsNotAnswered;
-    }
-
-    public function setObligationsNotAnswered($obligationsNotAnswered): void
-    {
-        $this->obligationsNotAnswered = $obligationsNotAnswered;
     }
 
     public function isFinishTestButtonEnabled(): bool

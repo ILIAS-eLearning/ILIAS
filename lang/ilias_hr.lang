@@ -744,11 +744,6 @@ assessment#:#gap#:#Praznina
 assessment#:#gap_combination#:#Kombinacija praznina
 assessment#:#glossary_term#:#Pojam iz pojmovnika
 assessment#:#grading_mark_msg#:#Vaša ocjena je. &quot;[ocjena]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Odgovoreno
-assessment#:#grading_obligations_answered_msg#:#Odgovorili ste na sva obavezna pitanja.
-assessment#:#grading_obligations_listlabel#:#Obavezna pitanja
-assessment#:#grading_obligations_missing_listentry#:#Otvoreno
-assessment#:#grading_obligations_missing_msg#:#Niste odgovorili na sva obavezna pitanja.
 assessment#:#grading_status_failed_msg#:#Nažalost ste <b>pali</b> na testu.
 assessment#:#grading_status_passed_msg#:#Čestitke, <b>prošli</b> ste na testu.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -924,14 +919,11 @@ assessment#:#no_selection#:#--- Nema izbora ---
 assessment#:#no_selection_for_move#:#Nijedno pitanje nije odabrano za pomicanje
 assessment#:#no_target_selected_for_move#:#Morate odabrati ciljnu poziciju!
 assessment#:#no_user_or_group_selected#:#Molimo odaberite ciljanu skupinu koji želite pretražiti (korisnici, skupine uloge)!
-assessment#:#not_all_obligations_answered#:#Morate odgovoriti na sva obvezna pitanja prije nego što možete završiti test.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###04 06 2021 new variable
 assessment#:#not_yet_accessed#:#Još nije izvršen pristup
 assessment#:#nr_of_correct_answers#:#Broj traženih odgovora
 assessment#:#number_of_answers#:#Broj odgovora
 assessment#:#numeric_gap#:#Numerička praznina
-assessment#:#obligations_summary#:#Popis obveznih pitanja
-assessment#:#obligatory#:#Obvezno
 assessment#:#option_label#:#Nazivi opcija
 assessment#:#option_label_adequate#:#prikladno
 assessment#:#option_label_adequate_or_not#:#prikladno / nije prikladno
@@ -1851,8 +1843,6 @@ assessment#:#tst_sequence_postpone#:#Pitanja se mogu pomaknuti na kraj prolaza t
 assessment#:#tst_sequence_properties#:#Provedba testa: Funkcionalnosti koje su dostupne sudionicim
 assessment#:#tst_session_settings#:#Postavke sesije
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test je postavljen offline, jer je postavka načina rada testa promijenjena. Morate dodijeliti pitanja za test prije nego što ga opet možete postaviti online.
-assessment#:#tst_setting_enable_obligations_info#:#Test se može završiti samo ako su dani odgovori na sva obvezna pitanja. Obvezna pitanja mogu se definirati u ‘Pregledu u obliku popisa’ (List View). Za sudionike trebala bi biti aktivirana opcija ‘Prikaži popis pitanja’.
-assessment#:#tst_setting_enable_obligations_label#:#Obavezna pitanja
 assessment#:#tst_setting_offer_hints_info#:#Sudionici mogu zatražiti savjete kako bi odgovorili na pitanje. Sa svakim savjetom smanjuju se bodovi za točan odgovor.
 assessment#:#tst_setting_offer_hints_label#:#Savjeti (hints)
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
@@ -1943,7 +1933,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Ručno odabrani sudionici
 assessment#:#tst_tbl_participants#:#Sudionici
 assessment#:#tst_tbl_results_grades#:#Rezultati i ocjene
-assessment#:#tst_test_contains_obligatory_questions#:#Kako biste mogli završiti ovaj testa morate odgovoriti na sva obvezna pitanja (*).
 assessment#:#tst_test_result#:#Rezultat testa
 assessment#:#tst_text_count_system#:#Sustav bodovanja
 assessment#:#tst_threshold#:#Pragovi (u%)
@@ -1969,7 +1958,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Kvalificiraju rezultati tes
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Vaš odgovor iz prethodnog pokušaja je usvojen.
 assessment#:#tst_wf_info_answer_not_adopted#:#Nije preuzet nijedan odgovor iz prijašnih pokušaja tako da morate riješiti ovo pitanje. U protivnom će se pogoršati vaš cilj učenja.
 assessment#:#tst_wf_info_optional_question#:#Ovo pitanje se odnosi na već položen cilj učenja.
-assessment#:#tst_you_have_to_answer_this_question#:#Morate odgovoriti na to pitanje kako biste mogli završiti test.
 assessment#:#tst_your_answer_was#:#Dali ste sljedeći odgovor
 assessment#:#tst_your_answers#:#Ovo su vaši odgovori koji ste dali na sljedeća pitanja. Molimo pregledajte svoja pitanja i onda ih pošaljite.
 assessment#:#un_add_category#:#Dodaj kategoriju

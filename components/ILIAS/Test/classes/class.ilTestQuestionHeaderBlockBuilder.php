@@ -62,11 +62,6 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     protected $questionPostponed;
 
     /**
-     * @var bool
-     */
-    protected $questionObligatory;
-
-    /**
      * @var string
      */
     protected $questionRelatedObjectives;
@@ -181,51 +176,21 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         $this->questionCount = $questionCount;
     }
 
-    /**
-     * @return boolean
-     */
     public function isQuestionPostponed(): bool
     {
         return $this->questionPostponed;
     }
 
-    // fau: testNav - get question answered status
-    /**
-     * @return boolean | null
-     */
     public function isQuestionAnswered(): ?bool
     {
         return $this->questionAnswered;
     }
-    // fau.
 
-    /**
-     * @param boolean $questionPostponed
-     */
-    public function setQuestionPostponed($questionPostponed)
+    public function setQuestionPostponed(bool $questionPostponed): void
     {
         $this->questionPostponed = $questionPostponed;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isQuestionObligatory(): bool
-    {
-        return $this->questionObligatory;
-    }
-
-    /**
-     * @param boolean $questionObligatory
-     */
-    public function setQuestionObligatory($questionObligatory)
-    {
-        $this->questionObligatory = $questionObligatory;
-    }
-
-    /**
-     * @return string
-     */
     public function getQuestionRelatedObjectives(): string
     {
         return $this->questionRelatedObjectives;
@@ -252,7 +217,6 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
         return sprintf($this->lng->txt("tst_position_without_total"), $this->getQuestionPosition());
     }
 
-    // fau: testNav - remove HTML from building strings (is now in tpl.tst_question_info.html)
     protected function buildQuestionPointsString(): string
     {
         if ($this->getQuestionPoints() == 1) {
@@ -265,16 +229,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     protected function buildQuestionPostponedString(): string
     {
         if ($this->isQuestionPostponed()) {
-            return $this->lng->txt("postponed");
-        }
-
-        return '';
-    }
-
-    protected function buildQuestionObligatoryString(): string
-    {
-        if ($this->isQuestionObligatory()) {
-            return $this->lng->txt("tst_you_have_to_answer_this_question");
+            return $this->lng->txt('postponed');
         }
 
         return '';
@@ -349,17 +304,10 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         $tpl->setVariable('TXT_POSITION_POINTS', $text);
 
-        // obligatory
-        if ($this->isQuestionObligatory() && !$this->isQuestionAnswered()) {
-            $tpl->setVariable('TXT_OBLIGATORY', $this->buildQuestionObligatoryString());
-        }
-
-        // objectives
         if (strlen($this->getQuestionRelatedObjectives())) {
             $tpl->setVariable('TXT_OBJECTIVES', $this->buildQuestionRelatedObjectivesString());
         }
 
-        // answer status
         if ($this->isQuestionAnswered()) {
             $tpl->setVariable('HIDDEN_NOT_ANSWERED', 'hidden');
         } else {
