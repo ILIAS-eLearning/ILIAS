@@ -226,16 +226,16 @@ class StructurallyCoupledTest extends TestCase
 
     public function testRead(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-string>val1</el1-string>
-                <el2-none>
-                    <el2.1-non_neg_int>val2.1</el2.1-non_neg_int>
-                    <el2.2-duration>val2.2</el2.2-duration>
-                </el2-none>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-string>val1</el1-string>
+    <el2-none>
+        <el2.1-non_neg_int>val2.1</el2.1-non_neg_int>
+        <el2.2-duration>val2.2</el2.2-duration>
+    </el2-none>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -287,16 +287,16 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWrongStructure(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-string>val1</el1-string>
-                <el2-none>
-                    <failme>val2.1</failme>
-                    <el2.2-duration>val2.2</el2.2-duration>
-                </el2-none>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-string>val1</el1-string>
+    <el2-none>
+        <failme>val2.1</failme>
+        <el2.2-duration>val2.2</el2.2-duration>
+    </el2-none>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -341,16 +341,16 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadInvalidRootException(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <incorrectroot>
-                <el1-string>val1</el1-string>
-                <el2-none>
-                    <el2.1-non_neg_int>val2.1</el2.1-non_neg_int>
-                    <el2.2-duration>val2.2</el2.2-duration>
-                </el2-none>
-            </incorrectroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<incorrectroot>
+    <el1-string>val1</el1-string>
+    <el2-none>
+        <el2.1-non_neg_int>val2.1</el2.1-non_neg_int>
+        <el2.2-duration>val2.2</el2.2-duration>
+    </el2-none>
+</incorrectroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $reader = $this->getReader();
@@ -361,12 +361,12 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLanguageNone(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el-lang>none</el-lang>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el-lang>none</el-lang>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -396,14 +396,14 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLangstring(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-langstring.10.0>
-                    <string language="br">some text</string>
-                </el1-none-langstring.10.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-langstring.10.0>
+        <string language="br">some text</string>
+    </el1-none-langstring.10.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -448,15 +448,15 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLangstringInDifferentVersion(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-langstring.4.1.0>
-                    <el1.1-string>val1.1</el1.1-string>
-                    <el1.2-lang>val1.2</el1.2-lang>
-                </el1-none-langstring.4.1.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-langstring.4.1.0>
+        <el1.1-string>val1.1</el1.1-string>
+        <el1.2-lang>val1.2</el1.2-lang>
+    </el1-none-langstring.4.1.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -501,14 +501,14 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLangstringLanguageNone(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-langstring.10.0>
-                    <string language="none">some text</string>
-                </el1-none-langstring.10.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-langstring.10.0>
+        <string language="none">some text</string>
+    </el1-none-langstring.10.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -553,14 +553,14 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLangstringNoLanguage(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-langstring.10.0>
-                    <string>some text</string>
-                </el1-none-langstring.10.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-langstring.10.0>
+        <string>some text</string>
+    </el1-none-langstring.10.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -598,14 +598,14 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithLangstringNoString(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-langstring.10.0>
-                    <string language="pl"/>
-                </el1-none-langstring.10.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-langstring.10.0>
+        <string language="pl"/>
+    </el1-none-langstring.10.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -643,16 +643,16 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithOmittedDataCarryingElement(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-string>val1</el1-string>
-                <el2-none>
-                    <el2.1-non_neg_int-omitted.10.0>val2.1</el2.1-non_neg_int-omitted.10.0>
-                    <el2.2-duration>val2.2</el2.2-duration>
-                </el2-none>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-string>val1</el1-string>
+    <el2-none>
+        <el2.1-non_neg_int-omitted.10.0>val2.1</el2.1-non_neg_int-omitted.10.0>
+        <el2.2-duration>val2.2</el2.2-duration>
+    </el2-none>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -702,16 +702,16 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithOmittedContainerElement(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-none-omitted.10.0>
-                    <el1.1-non_neg_int>val1.1</el1.1-non_neg_int>
-                    <el1.2-duration>val1.2</el1.2-duration>
-                </el1-none-omitted.10.0>
-                <el2-string>val2</el2-string>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-none-omitted.10.0>
+        <el1.1-non_neg_int>val1.1</el1.1-non_neg_int>
+        <el1.2-duration>val1.2</el1.2-duration>
+    </el1-none-omitted.10.0>
+    <el2-string>val2</el2-string>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [
@@ -746,12 +746,12 @@ class StructurallyCoupledTest extends TestCase
 
     public function testReadWithOmittedInDifferentVersion(): void
     {
-        $xml_string = /** @lang text */ <<<XML
-            <?xml version="1.0"?>
-            <correctroot>
-                <el1-string-omitted.4.1.0>val1</el1-string-omitted.4.1.0>
-            </correctroot>
-            XML;
+        $xml_string = <<<XML
+<?xml version="1.0"?>
+<correctroot>
+    <el1-string-omitted.4.1.0>val1</el1-string-omitted.4.1.0>
+</correctroot>
+XML;
         $xml = new SimpleXMLElement($xml_string);
 
         $expected_data = [

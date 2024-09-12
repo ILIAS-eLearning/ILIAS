@@ -40,7 +40,7 @@ class ilLMSlateTocRendererGUI
 
         $exp = $fac->getExplorer($this->service, "ilTOC");
         //if (!$exp->handleCommand())
-        return $exp->getHTML();
+        return $exp->getHTML(true);
     }
 
     /**

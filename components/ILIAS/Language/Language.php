@@ -34,16 +34,16 @@ class Language implements Component\Component
     ): void {
         $define[] = \ILIAS\Language\Language::class;
 
-        $implement[\ILIAS\Language\Language::class] = fn() =>
+        $implement[\ILIAS\Language\Language::class] = static fn() =>
             $internal[\ilSetupLanguage::class];
 
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilLanguageSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $internal[\ilSetupLanguage::class]
             );
 
-        $internal[\ilSetupLanguage::class] = fn() =>
+        $internal[\ilSetupLanguage::class] = static fn() =>
             new \ilSetupLanguage("en");
     }
 }

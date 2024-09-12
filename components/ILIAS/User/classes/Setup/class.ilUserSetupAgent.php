@@ -19,6 +19,7 @@
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\User\Setup\DBUpdateSteps10;
 
 /**
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
@@ -61,6 +62,9 @@ class ilUserSetupAgent implements Setup\Agent
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilUserDB90()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new DBUpdateSteps10()
             )
         );
     }

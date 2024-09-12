@@ -20,18 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\SampleSolution;
 
-use ILIAS\Exercise\IRSS\CollectionWrapper;
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\Exercise\IRSS\IRSSWrapper;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 class SampleSolutionRepository
 {
-    protected CollectionWrapper $wrapper;
-    protected CollectionWrapper $collection;
+    protected IRSSWrapper $wrapper;
     protected \ilDBInterface $db;
 
     public function __construct(
-        CollectionWrapper $wrapper,
+        IRSSWrapper $wrapper,
         \ilDBInterface $db
     ) {
         $this->db = $db;
@@ -61,6 +59,17 @@ class SampleSolutionRepository
         $rid = $this->getIdStringForAssId($ass_id);
         $this->wrapper->deliverFile($rid);
     }
+
+    public function getFilename(int $ass_id): string
+    {
+        $rid = $this->getIdStringForAssId($ass_id);
+        if ($rid !== "") {
+            $info = $this->wrapper->getResourceInfo($rid);
+            return $info->getTitle();
+        }
+        return "";
+    }
+
 
     public function importFromLegacyUpload(
         int $ass_id,

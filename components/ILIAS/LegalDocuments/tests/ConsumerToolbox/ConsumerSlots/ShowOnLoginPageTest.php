@@ -66,7 +66,7 @@ class ShowOnLoginPageTest extends TestCase
             ->method('setVariable')
             ->willReturnCallback(
                 function (string $k, string $v) use (&$expected) {
-                    list($ek, $ev) = array_shift($expected);
+                    [$ek, $ev] = array_shift($expected);
                     $this->assertEquals($ek, $k);
                     $this->assertEquals($ev, $v);
                 }

@@ -38,16 +38,15 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class FilterContextRenderer extends Renderer
 {
+    protected RendererInterface $original_default_renderer;
+
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var $component FilterInput
-         */
-        $this->checkComponent($component);
-
-        if (!$component instanceof F\Group || $component instanceof F\Duration) {
+        if ($component instanceof FilterInput) {
             $component = $this->setSignals($component);
         }
+
+        $this->original_default_renderer = $default_renderer;
 
         switch (true) {
             case ($component instanceof F\Duration):
@@ -72,9 +71,15 @@ class FilterContextRenderer extends Renderer
                 return $this->renderDateTimeField($component, $default_renderer);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
     }
+
+    protected function getOriginalDefaultRenderer(): RendererInterface
+    {
+        return $this->original_default_renderer;
+    }
+
 
     protected function renderFieldGroups(Group $group, RendererInterface $default_renderer): string
     {
@@ -117,13 +122,13 @@ class FilterContextRenderer extends Renderer
 
     protected function wrapInFormContext(
         FormInput $component,
+        string $label,
         string $input_html,
-        RendererInterface $default_renderer,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
         bool $bind_label_with_for = true
     ): string {
-        return $this->wrapInFilterContext($component, $input_html, $default_renderer, $id_pointing_to_input);
+        return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_pointing_to_input);
     }
 
     protected function wrapInFilterContext(
@@ -197,17 +202,17 @@ class FilterContextRenderer extends Renderer
         $input = array_shift($inputs); //from
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $first_input_id = $this->bindJSandApplyId($input, $tpl);
-        $input_html = $default_renderer->withAdditionalContext($input)->render($input);
+        $input_html = $default_renderer->render($input);
 
         $input = array_shift($inputs) //until
         ->withAdditionalPickerconfig(['useCurrent' => false]);
-        $input_html .= $default_renderer->withAdditionalContext($input)->render($input);
+        $input_html .= $default_renderer->render($input);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $default_renderer);
+        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
     }
 
     public function registerResources(ResourceRegistry $registry): void

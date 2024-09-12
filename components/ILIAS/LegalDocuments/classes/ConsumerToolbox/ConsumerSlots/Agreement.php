@@ -22,23 +22,18 @@ namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement as AgreementInterface;
 use ILIAS\LegalDocuments\Value\Document;
-use ILIAS\LegalDocuments\Provide;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\LegalDocuments\PageFragment\PageContent;
-use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ilLegacyFormElementsUtil;
 use ilSystemSupportContacts;
 use Psr\Http\Message\RequestInterface;
-use ilSession;
-use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
-use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
-use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use Closure;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 final class Agreement implements AgreementInterface
 {
@@ -47,7 +42,6 @@ final class Agreement implements AgreementInterface
      */
     public function __construct(
         private readonly User $user,
-        private readonly Settings $settings,
         private readonly UI $ui,
         private readonly Routing $routing,
         private readonly Closure $with_request
@@ -85,7 +79,7 @@ final class Agreement implements AgreementInterface
     public function needsToAgree(): bool
     {
         return !$this->user->cannotAgree()
-            && ($this->user->neverAgreed() || $this->user->needsToAcceptNewDocument());
+            && $this->user->needsToAcceptNewDocument();
     }
 
     private function showDocument(): Component

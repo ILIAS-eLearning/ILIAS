@@ -23,7 +23,7 @@ grid-based layout
 
 // main grid without slates
 .il-layout-page {
-	background: $il-main-bg;
+	background: $il-page-bg;
 	display: grid;
 	grid-gap: 0px;
     grid-template-columns: auto 1fr;
@@ -231,7 +231,7 @@ footer {
 @media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	// main grid without slates
 	.il-layout-page {
-		background: $il-main-bg;
+		background: $il-page-bg;
 		display: block;
 		overflow: initial;
 		width: 100%;

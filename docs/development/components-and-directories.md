@@ -248,7 +248,7 @@ to use anonymouns short closures which can access variables from the complete
 scope.
 
 ```php
-        $internal["my_internal_thingy"] = fn() => new InternalThingy($use[SomeOtherService::class]);
+        $internal["my_internal_thingy"] = static fn() => new InternalThingy($use[SomeOtherService::class]);
 
 ```
 
@@ -267,9 +267,9 @@ example provide some facility that contributes to various other components.
 `$internal` can then be used to contribute that facility to both other components:
 
 ```php
-        $internal["my_internal_thingy"] = fn() => new InternalThingy();
-        $contribute[Vendor\Component\SomeContribution::class] = fn () => $internal["my_internal_thingy"];
-        $contribute[Vendor\OtherComponent\OtherContribution::class] = fn () => $internal["my_internal_thingy"];
+        $internal["my_internal_thingy"] = static fn() => new InternalThingy();
+        $contribute[Vendor\Component\SomeContribution::class] = static fn () => $internal["my_internal_thingy"];
+        $contribute[Vendor\OtherComponent\OtherContribution::class] = static fn () => $internal["my_internal_thingy"];
 ```
 
 #### Why
@@ -409,7 +409,7 @@ class Component implements \ILIAS\Core\Component
         // ...
         array | \ArrayAccess &$internal,
     ) {
-        $internal["internal_thingy"] = fn () => new InternalThingy($use[Vendor\Component\SomeService::class]);
+        $internal["internal_thingy"] = static fn () => new InternalThingy($use[Vendor\Component\SomeService::class]);
     }
 ```
 
@@ -457,7 +457,7 @@ class Component implements \ILIAS\Core\Component
         array | \ArrayAccess &$implement,
         // ...
     ) {
-        $implement[OtherVendor\SomeComponent\SomeService::class] = fn () => new MyImplementation(/*...*/);
+        $implement[OtherVendor\SomeComponent\SomeService::class] = static fn () => new MyImplementation(/*...*/);
     }
 ```
 
@@ -507,7 +507,7 @@ class Component implements \ILIAS\Core\Component
         // ...
         array | \ArrayAccess &$internal,
     ) {
-        $internal["internal_thingy"] = fn () => new InternalThingy($seek[Vendor\Component\TypeOfContribution::class]);
+        $internal["internal_thingy"] = static fn () => new InternalThingy($seek[Vendor\Component\TypeOfContribution::class]);
     }
 ```
 
@@ -558,7 +558,7 @@ class Component implements \ILIAS\Core\Component
         array | \ArrayAccess &$contribute,
         // ...
     ) {
-        $contribute[Vendor/Component/SomeContribution::class] = fn () => new MyContribution();
+        $contribute[Vendor/Component/SomeContribution::class] = static fn () => new MyContribution();
     }
 ```
 
@@ -566,8 +566,8 @@ Components can add various contributions for the same interface. These should ju
 be added one after another:
 
 ```php
-        $contribute[Vendor/Component/SomeContribution::class] = fn () => new FirstContribution();
-        $contribute[Vendor/Component/SomeContribution::class] = fn () => new SecondContribution();
+        $contribute[Vendor/Component/SomeContribution::class] = static fn () => new FirstContribution();
+        $contribute[Vendor/Component/SomeContribution::class] = static fn () => new SecondContribution();
 ```
 
 
@@ -628,7 +628,7 @@ class Component implements \ILIAS\Core\Component
         array | \ArrayAccess &$provide,
         // ...
     ) {
-        $provide[Vendor\Component\SomeCode::class] = fn () => new Vendor\Component\SomeCode(/*...*/);
+        $provide[Vendor\Component\SomeCode::class] = static fn () => new Vendor\Component\SomeCode(/*...*/);
     }
 ```
 
@@ -698,7 +698,7 @@ class Component implements \ILIAS\Core\Component
         array | \ArrayAccess &$pull,
         // ...
     ) {
-        $internal["internal_thingy"] = fn () => new InternalThingy($pull[Vendor\Component\TypeOfContribution::class]);
+        $internal["internal_thingy"] = static fn () => new InternalThingy($pull[Vendor\Component\TypeOfContribution::class]);
     }
 ```
 

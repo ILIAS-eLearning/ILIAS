@@ -115,12 +115,12 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
                 $overview_row_id
             ),
             self::ACTIVATE => $this->ui_factory->table()->action()->standard(
-                $this->lng->txt('login_page_activate'),
+                $this->lng->txt('page_design_activate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
             ),
             self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
-                $this->lng->txt('login_page_deactivate'),
+                $this->lng->txt('page_design_deactivate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
             )

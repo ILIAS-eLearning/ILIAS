@@ -368,13 +368,6 @@ class ilTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        // hits per page selector
-        if ($this->enabled["hits"] && $this->enabled["title"]) {
-            $this->tpl->setCurrentBlock("tbl_header_hits_page");
-            $this->tpl->setVariable("HITS_PER_PAGE", $this->lng->txt("hits_per_page"));
-            $this->tpl->parseCurrentBlock();
-        }
-
         // table title
         if ($this->enabled["title"]) {
             $this->tpl->setCurrentBlock("tbl_header_title");

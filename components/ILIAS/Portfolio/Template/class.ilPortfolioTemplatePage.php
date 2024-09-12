@@ -22,8 +22,6 @@
  */
 class ilPortfolioTemplatePage extends ilPortfolioPage
 {
-    public const TYPE_BLOG_TEMPLATE = 3;
-
     public function getParentType(): string
     {
         return "prtt";

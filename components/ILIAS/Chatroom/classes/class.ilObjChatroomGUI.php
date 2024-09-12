@@ -23,13 +23,8 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Chatroom\AccessBridge;
 
 /**
- * Class ilObjChatroomGUI
- * GUI class for chatroom objects.
- * @author            Jan Posselt <jposselt at databay.de>
- * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
- * @ingroup components\ILIASChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
 {
@@ -41,9 +36,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         $this->lng->loadLanguageModule('chatroom_adm');
     }
 
-    /**
-     * @ineritdoc
-     */
     public static function _goto($params): void
     {
         global $DIC;
@@ -98,17 +90,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = parent::initCreationForms($new_type);
-
-        $forms[self::CFORM_NEW]->clearCommandButtons();
-        $forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($new_type . '_add'));
-        $forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
-
-        return $forms;
-    }
-
     protected function addLocatorItems(): void
     {
         if (is_object($this->object)) {
@@ -126,17 +107,11 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         return $this->object->getRefId();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getUnsafeGetCommands(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSafePostCommands(): array
     {
         return [
@@ -168,13 +143,13 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         if (!$this->getCreationMode()) {
             $tabFactory = new ilChatroomTabGUIFactory($this);
 
-            $baseClass = '';
-            if ($this->http->wrapper()->query()->has('baseClass')) {
-                $baseClass = $this->http->wrapper()->query()->retrieve(
-                    'baseClass',
-                    $this->refinery->kindlyTo()->string()
-                );
-            }
+            $baseClass = $this->http->wrapper()->query()->retrieve(
+                'baseClass',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always('')
+                ])
+            );
             if (strtolower($baseClass) === strtolower(ilAdministrationGUI::class)) {
                 $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
             } else {
@@ -304,88 +279,17 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         return new ilChatroomServerConnector(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
     }
 
-    /**
-     * Calls $this->prepareOutput method and sets template variable.
-     */
     public function fallback(): void
     {
         $this->prepareOutput();
         $this->tpl->setVariable('ADM_CONTENT', $this->lng->txt('invalid_operation'));
     }
 
-    /**
-     * Calls prepareOutput method.
-     */
     public function settings(): void
     {
         $this->prepareOutput();
     }
 
-    public function insertObject(): ilObjChatroom
-    {
-        $new_type = $this->type;
-        $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        $title = '';
-        if ($this->http->wrapper()->post()->has('title')) {
-            $title = ilUtil::stripSlashes(
-                $this->http->wrapper()->post()->retrieve(
-                    'title',
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
-        $desc = '';
-        if ($this->http->wrapper()->post()->has('desc')) {
-            $desc = ilUtil::stripSlashes(
-                $this->http->wrapper()->post()->retrieve(
-                    'desc',
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
-
-        // create permission is already checked in createObject.
-        // This check here is done to prevent hacking attempts
-        if (!$this->rbac_system->checkAccess('create', $refId, $new_type)) {
-            $this->ilias->raiseError(
-                $this->lng->txt('no_create_permission'),
-                $this->ilias->error_obj->MESSAGE
-            );
-        }
-
-        // create and insert object in objecttree
-        $class_name = 'ilObj' . $this->obj_definition->getClassName($new_type);
-
-        $newObj = new $class_name();
-        $newObj->setType($new_type);
-        $newObj->setTitle($title);
-        $newObj->setDescription($desc);
-        $newObj->create();
-        $newObj->createReference();
-        $newObj->putInTree($refId);
-        $newObj->setPermissions($refId);
-
-        $objId = $newObj->getId();
-
-        $room = new ilChatroom();
-        $room->saveSettings([
-            'object_id' => $objId,
-            'autogen_usernames' => 'Autogen #',
-            'display_past_msgs' => 20,
-        ]);
-
-        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
-        $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
-        ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
-
-        $this->object = $newObj;
-
-        return $newObj;
-    }
-
-    /**
-     * @param ilObjChatroom $new_object
-     */
     protected function afterImport(ilObject $new_object): void
     {
         $room = ilChatroom::byObjectId($new_object->getId());
@@ -393,5 +297,26 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         $response = $connector->sendCreatePrivateRoom($room->getRoomId(), $new_object->getOwner(), $new_object->getTitle());
 
         parent::afterImport($new_object);
+    }
+
+    protected function afterSave(ilObject $new_object): void
+    {
+        $room = new ilChatroom();
+        $room->saveSettings([
+            'object_id' => $new_object->getId(),
+            'autogen_usernames' => 'Autogen #',
+            'display_past_msgs' => 20,
+        ]);
+
+        $connector = $this->getConnector();
+        $response = $connector->sendCreatePrivateRoom(
+            $room->getRoomId(),
+            $new_object->getOwner(),
+            $new_object->getTitle()
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
+        $this->ctrl->setParameter($this, 'ref_id', $new_object->getRefId());
+        $this->ctrl->redirect($this, 'settings-general');
     }
 }

@@ -122,8 +122,7 @@ class BlogHtmlExport
             "blog"
         );
 
-        // export banner
-        $this->exportBanner();
+        \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
 
         // export pages
         if ($this->print_version) {
@@ -147,20 +146,6 @@ class BlogHtmlExport
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
             $user_export->exportUserImagesForRepObjId($this->target_dir, $this->blog->getId());
         }
-    }
-
-    protected function exportBanner(): void
-    {
-        // banner / profile picture
-        $blga_set = new \ilSetting("blga");
-        if ($blga_set->get("banner")) {
-            $banner = $this->blog->getImageFullPath();
-            if ($banner) {
-                copy($banner, $this->target_dir . "/" . basename($banner));
-            }
-        }
-        // page element: profile picture
-        \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
     }
 
     public function zipPackage(): string

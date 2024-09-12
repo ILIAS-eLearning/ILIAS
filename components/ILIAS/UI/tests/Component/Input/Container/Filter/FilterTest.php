@@ -101,10 +101,10 @@ class ConcreteFilter extends Filter
     }
 
     // TODO: DW perhaps, this can be removed
-//    public function _getInput(ServerRequestInterface $request)
-//    {
-//        return $this->getInput($request);
-//    }
+    //    public function _getInput(ServerRequestInterface $request)
+    //    {
+    //        return $this->getInput($request);
+    //    }
 }
 
 /**
@@ -123,7 +123,7 @@ class FilterTest extends ILIAS_UI_TestBase
     protected function buildInputFactory(): Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),

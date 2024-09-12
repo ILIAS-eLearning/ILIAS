@@ -408,14 +408,6 @@ class ilLMObject
             ", " . $ilDB->now() . ")";
         $ilDB->manipulate($query);
 
-        // create history entry
-        ilHistory::_createEntry(
-            $this->getId(),
-            "create",
-            [],
-            $this->content_object->getType() . ":" . $this->getType()
-        );
-
         if (!$a_upload) {
             $this->createMetaData();
         }
@@ -435,103 +427,6 @@ class ilLMObject
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
 
         $ilDB->manipulate($query);
-    }
-
-
-    /**
-     * update public access flags in lm_data for all pages of a content object
-     */
-    public static function _writePublicAccessStatus(
-        array $a_pages,
-        int $a_cont_obj_id
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
-        $ilErr = $DIC["ilErr"];
-
-        if (!is_array($a_pages)) {
-            $a_pages = array(0);
-        }
-
-        if (empty($a_cont_obj_id)) {
-            $message = 'ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_cont_obj_id is empty';
-            $ilLog->write($message, $ilLog->WARNING);
-            $ilErr->raiseError($message, $ilErr->MESSAGE);
-            return;
-        }
-
-        // update structure entries: if at least one page of a chapter is public set chapter to public too
-        $lm_tree = new ilTree($a_cont_obj_id);
-        $lm_tree->setTableNames('lm_tree', 'lm_data');
-        $lm_tree->setTreeTablePK("lm_id");
-        $lm_tree->readRootId();
-
-        // get all st entries of cont_obj
-        $q = "SELECT obj_id FROM lm_data " .
-             "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
-             "AND type = 'st'";
-        $r = $ilDB->query($q);
-
-        // add chapters with a public page to a_pages
-        while ($row = $ilDB->fetchAssoc($r)) {
-            $childs = $lm_tree->getChilds($row["obj_id"]);
-
-            foreach ($childs as $page) {
-                if ($page["type"] === "pg" and in_array($page["obj_id"], $a_pages)) {
-                    $a_pages[] = $row["obj_id"];
-                    break;
-                }
-            }
-        }
-
-        // update public access status of all pages of cont_obj
-        $q = "UPDATE lm_data SET " .
-             "public_access = CASE " .
-             "WHEN " . $ilDB->in("obj_id", $a_pages, false, "integer") . " " .
-             "THEN " . $ilDB->quote("y", "text") .
-             "ELSE " . $ilDB->quote("n", "text") .
-             "END " .
-             "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
-             "AND " . $ilDB->in("type", array("pg", "st"), false, "text");
-        $ilDB->manipulate($q);
-    }
-
-    public static function _isPagePublic(
-        int $a_node_id,
-        bool $a_check_public_mode = false
-    ): bool {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
-
-        if (empty($a_node_id)) {
-            $message = 'ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty';
-            $ilLog->write($message, $ilLog->WARNING);
-            return false;
-        }
-
-        if ($a_check_public_mode === true) {
-            $lm_id = ilLMObject::_lookupContObjID($a_node_id);
-
-            $q = "SELECT public_access_mode FROM content_object WHERE id = " .
-                $ilDB->quote($lm_id, "integer");
-            $r = $ilDB->query($q);
-            $row = $ilDB->fetchAssoc($r);
-
-            if ($row["public_access_mode"] == "complete") {
-                return true;
-            }
-        }
-
-        $q = "SELECT public_access FROM lm_data WHERE obj_id=" .
-            $ilDB->quote($a_node_id, "integer");
-        $r = $ilDB->query($q);
-        $row = $ilDB->fetchAssoc($r);
-
-        return ilUtil::yn2tf($row["public_access"]);
     }
 
     public function delete(bool $a_delete_meta_data = true): void

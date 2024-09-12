@@ -31,15 +31,12 @@ class Renderer extends AbstractComponentRenderer
         Component $component,
         RendererInterface $default_renderer
     ): string {
-        $this->checkComponent($component);
-
         if ($component instanceof ItemInterface\Standard) {
             return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof ItemInterface\KeyValue) {
             return $this->renderKeyValue($component, $default_renderer);
-        } else {
-            return '';
         }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderStandard(
@@ -75,13 +72,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ITEM_VALUE', $component->getValue());
         $tpl->setVariable('ITEM_ID', $component->getId());
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            ItemInterface\Standard::class,
-            ItemInterface\KeyValue::class
-        );
     }
 }

@@ -31,10 +31,10 @@ declare(strict_types=1);
 class ilForumXMLWriter extends ilXmlWriter
 {
     public ?int $forum_id = 0;
-    private ?string $target_dir_relative;
-    private ?string $target_dir_absolute;
+    private ?string $target_dir_relative = null;
+    private ?string $target_dir_absolute = null;
 
-    private \ILIAS\Style\Content\DomainService $content_style_domain;
+    private readonly \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct(
         string $version = '1.0',

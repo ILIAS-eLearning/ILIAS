@@ -30,6 +30,7 @@ use ILIAS\LegalDocuments\GotoLink\ConditionalGotoLink;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\LegalDocuments\Provide\Document;
 use ILIAS\LegalDocuments\Provide\History;
 use ILIAS\LegalDocuments\Value\Target;
@@ -50,7 +51,7 @@ class Wiring implements UseSlot
 
     public function __construct(private readonly SlotConstructor $slot, Map $map = null)
     {
-        $this->map = null === $map ? new Map() : $map;
+        $this->map = $map ?? new Map();
     }
 
     public function afterLogin(callable $after_login): self
@@ -127,7 +128,7 @@ class Wiring implements UseSlot
 
     public function hasDocuments(array $content_as_component = [], ?SelectionMap $available_conditions = null): self
     {
-        $available_conditions = $available_conditions ?? new SelectionMap();
+        $available_conditions ??= new SelectionMap();
         $repository = $this->slot->documentRepository();
         $document = $this->slot->document($this->slot->readOnlyDocuments($repository), $available_conditions, $content_as_component);
 
@@ -140,17 +141,22 @@ class Wiring implements UseSlot
         return $this->addTo('user-management-fields', $this->slot->id(), $field_value);
     }
 
+    public function hasPublicApi(PublicApi $api): self
+    {
+        return $this->addTo('public-api', $this->slot->id(), $api);
+    }
+
     public function map(): Map
     {
         return $this->map;
     }
 
-    private function error($message): void
+    private function error(string $message): void
     {
         throw new Exception($message);
     }
 
-    private function addTo(string $name, $id_or_value, $value = null)
+    private function addTo(string $name, $id_or_value, $value = null): self
     {
         $map = $this->map;
         if ($value !== null) {
@@ -166,6 +172,9 @@ class Wiring implements UseSlot
     }
 
     /**
+     * @template A
+     * @template B
+     *
      * @param Closure(A ...): B $to_be_protected
      * @param Closure(): bool $protector
      * @return Closure(A ...): Result<B>
@@ -175,6 +184,9 @@ class Wiring implements UseSlot
         return static fn(...$args): Result => $protector() ? new Ok($to_be_protected(...$args)) : new Error('Not available.');
     }
 
+    /**
+     * @return string[]
+     */
     private function path(string $class): array
     {
         return [ilDashboardGUI::class, ilPersonalProfileGUI::class, $class];

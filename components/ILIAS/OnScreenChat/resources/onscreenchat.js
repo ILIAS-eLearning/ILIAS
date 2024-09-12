@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 (function($, $scope, $chat, dateTimeFormatter){
 	'use strict';
 
@@ -1022,15 +1038,22 @@
 
 			let messageDate = new Date();
 			messageDate.setTime(messageObject.timestamp);
+			const placeholderClass = 'm' + new Date().getTime();
+			const placeholder = '<span class="' + n + '"></span>';
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversationByMessage(messageObject));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[time\]\]/g, dateTimeFormatter.fromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_only\]\]/g, dateTimeFormatter.format(messageObject.timestamp, 'LT'));
-			template = template.replace(/\[\[message]\]/g, message);
+			template = template.replace(/\[\[message]\]/g, placeholder);
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 			template = template.replace(/\[\[position\]\]/g, position);
+
+			template = $(template);
+			template.find('.' + placeholderClass).each(function(){
+				this.textContent = message;
+			});
 
 			let $firstHeader = chatBody.find("li.header").first(),
 				$messages = chatBody.find("li.message"),

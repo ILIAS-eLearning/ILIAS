@@ -126,7 +126,7 @@ class TransformTest extends TestCase
         });
 
         $result = $parse(new Intermediate('lorem'), static function (Result $x): Result {
-            return $x->map(static fn (Intermediate $x): array => $x->accepted());
+            return $x->map(static fn(Intermediate $x): array => $x->accepted());
         });
 
         $this->assertTrue($result->isOK());

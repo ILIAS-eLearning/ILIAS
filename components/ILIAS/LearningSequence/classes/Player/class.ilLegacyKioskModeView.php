@@ -23,6 +23,7 @@ use ILIAS\KioskMode\State;
 use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
@@ -31,15 +32,18 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     protected ilObject $object;
     protected ilLanguage $lng;
     protected ilAccess $access;
+    protected LOMServices $lom_services;
 
     public function __construct(
         ilObject $object,
         ilLanguage $lng,
-        ilAccess $access
+        ilAccess $access,
+        LOMServices $lom_services
     ) {
         $this->object = $object;
         $this->lng = $lng;
         $this->access = $access;
+        $this->lom_services = $lom_services;
     }
 
     protected function getObjectTitle(): string
@@ -154,30 +158,34 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
      */
     private function getMetadata(int $obj_id, string $type): array
     {
-        $md = new ilMD($obj_id, 0, $type);
+        $paths = $this->lom_services->paths();
+        $data_helper = $this->lom_services->dataHelper();
+        $reader = $this->lom_services->read(
+            $obj_id,
+            0,
+            $type,
+            $paths->custom()->withNextStep('general')->get()
+        );
+
         $meta_data = [];
 
-        $section = $md->getGeneral();
-        if (!$section) {
-            return [];
+        $languages = $data_helper->makePresentableAsList(
+            ', ',
+            ...$reader->allData($paths->languages())
+        );
+        if ($languages !== '') {
+            $meta_data[$this->lng->txt('language')] = $languages;
         }
 
-        $meta_data['language'] = [];
-        foreach ($section->getLanguageIds() as $id) {
-            $meta_data['language'][] = $section->getLanguage($id)->getLanguageCode();
-        }
-        $meta_data['keywords'] = [];
-        foreach ($section->getKeywordIds() as $id) {
-            $meta_data['keywords'][] = $section->getKeyword($id)->getKeyword();
+        $keywords = $data_helper->makePresentableAsList(
+            ', ',
+            ...$reader->allData($paths->keywords())
+        );
+        if ($keywords !== '') {
+            $meta_data[$this->lng->txt('keywords')] = $keywords;
         }
 
-        $md_flat = [];
-        foreach ($meta_data as $md_label => $values) {
-            if ($values !== []) {
-                $md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
-            }
-        }
-        return $md_flat;
+        return $meta_data;
     }
 
     private function getTitleByType(string $type): string

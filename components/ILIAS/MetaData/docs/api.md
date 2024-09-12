@@ -21,6 +21,7 @@ and how it can be used.
 5. [`deleteAll`](#deleteall)
 6. [`paths`](#paths)
 7. [`dataHelper`](#datahelper)
+8. [`copyrightHelper`](#copyrighthelper)
 
 ## `read`
 
@@ -803,3 +804,152 @@ date, so e.g.  each month is treated as 30 days.
 (see also [here](lom_structure.md#language-lang)) as pairs of value and
 label. The value is what should be actually written into LOM, and the
 label can be presented as is to the user.
+
+## `copyrightHelper`
+
+The LOM of an object also contains its copyright information. It 
+can be found in `rights > description > string`. The information
+might be in that element in plain text when it was manually written
+there, but the element might also just contain an identifier referencing
+one of the preset copyright licences on the installation (See
+[here](copyrights.md) for details). Information about the licence
+is then not contained directly in the LOM, and needs to be looked
+up elsewhere. To make this process easier, as well as working with
+copyright in general, `copyrightHelper`, offers a collection of helpful resources.
+
+With `isCopyrightSelectionActive` one can find out whether copyright
+selection is actually activated on the installation. If it is not,
+all copyright is treated like manually entered.
+
+`hasPresetCopyright`, `readPresetCopyright`, and `readCustomCopyright`
+can be used to read out the copyright information of an object.
+All three methods require a `Reader` for that object, see [above](#read).
+If copyright selection is active, the copyright information
+can either have been entered manually, or selected from the preset
+copyright licences. `hasPresetCopyright` decides between the two
+cases, and `readPresetCopyright` or `readCustomCopyright` then 
+allow reading out the copyright respectively.
+
+`readPresetCopyright` returns a `Copyright` object, which contains
+further information about the preset copyright licence. It also
+offers representations of the licence ready to be shown in the UI,
+either as UI Components, or in reduced form as a string. Whenever
+possible, the former should be used.
+
+Note that if copyright selection is active, objects with no copyright
+information in their LOM are treated like they are under the default
+preset copyright licence. Conversely, if copyright selection is inactive,
+all copyright information is treated as custom.
+
+
+`prepareCreateOrUpdateOfCopyrightFromPreset` and `prepareCreateOrUpdateOfCustomCopyright`
+can be used in conjunction with a `Manipulator` (see [above](#manipulate))
+to set the copyright information of an object. In the former, the identifier of the to-be-selected
+preset copyright is required, in the latter the copyright information
+can be given freely in the form of a string.
+
+`getAllCopyrightPresets` and `getNonOutdatedCopyrightPresets` can be
+used to find out which preset copyright licences are available on
+the installation. Outdated licences should not be offered for selection
+for new objects, but should not be disregarded for objects where they
+were selected previously. When copyright selection is not active, these
+methods will not return anything.
+
+Lastly, `getCopyrightSearchClause` returns a search clause to be used
+in a `Searcher` (see [above](#search)) to find objects for which one the given preset
+copyright licences is selected. The licences are given via their
+identifier. When copyright selection is active, searching with `getCopyrightSearchClause`
+for the default copyright licence also yields objects without any
+copyright information in their LOM.
+
+### Examples
+
+The copyright information of a Course with `obj_id` 380 can be
+rendered for display in the GUI as follows:
+
+````
+$copyright_helper = $lom->copyrightHelper();
+$reader = $lom->read(380, 380, 'crs');
+
+$copyright = '';
+if ($copyright_helper->hasPresetCopyright($reader)) {
+    $copyright = $ui_renderer->render(
+        $copyright_helper->readPresetCopyright($reader)->presentAsUIComponents()
+    );
+} else {
+    $copyright = $copyright_helper->readCustomCopyright($reader);
+}
+````
+
+When custom copyright information should not be displayed, this can
+be shortened. `readPresetCopyright` returns a null object when no
+preset copyright can be found, which plays nice with the UI rendering:
+
+````
+$copyright_helper = $lom->copyrightHelper();
+$reader = $lom->read(380, 380, 'crs');
+
+$copyright = $ui_renderer->render(
+    $copyright_helper->readPresetCopyright($reader)->presentAsUIComponents()
+);
+````
+
+When compiling a list of all available preset copyright licences,
+e.g. for selection in a dropdown, one can proceed as follows:
+
+````
+if ($copyright_helper->isCopyrightSelectionActive()) {
+    $copyrights_for_dropdown = [];
+    foreach ($copyright_helper->getNonOutdatedCopyrightPresets() as $copyright) {
+        $copyrights_for_dropdown[$copyright->identifier()] = $copyright->title();
+    }
+    $inputs['copyright'] = $ui_factory->input()->field()->select(
+        'Copyright',
+        $copyrights_for_dropdown
+    );
+}
+````
+
+If copyright selection is not active, the dropdown should 
+not be offered at all, and outdated licences should not be offered
+in the dropdown.
+
+To then write the selected copyright to the object's LOM, use 
+`prepareCreateOrUpdateOfCopyrightFromPreset`:
+
+````
+if ($copyright_helper->isCopyrightSelectionActive()) {
+    $copyright_helper->prepareCreateOrUpdateOfCopyrightFromPreset(
+        $lom->manipulate(380, 380, 'crs'),
+        $data['copyright']
+    )->execute();
+}
+````
+
+`getCopyrightSearchClause` can for example be used together with
+`getAllCopyrightPresets` to find all Media Objects with an outdated licence:
+
+````
+$copyright_helper = $lom->copyrightHelper();
+$searcher = $lom->search();
+
+$outdated_identifiers = [];
+foreach ($copyright_helper->getAllCopyrightPresets() as $copyright) {
+    if  (!$copyright->isOutdated()) {
+        continue;
+    }
+    $outdated_identifiers[] = $copyright->identifier();
+}
+
+$results = [];
+if (!empty($outdated_identifiers)) {
+    $results = $searcher->execute(
+        $copyright_helper->getCopyrightSearchClause(...$outdated_identifiers),
+        null,
+        null,
+        $searcher->getFilter(Placeholder::ANY, Placeholder::ANY, 'mob')
+    );
+}
+````
+
+For more details on searching, see [above](#search).

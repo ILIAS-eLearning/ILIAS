@@ -266,25 +266,6 @@ class ilPersonalSettingsGUI
         // help tooltips
         $this->help->addPersonalSettingToLegacyForm($this->form);
 
-        // hits per page
-        if ($this->userSettingVisible('hits_per_page')) {
-            $si = new ilSelectInputGUI($this->lng->txt('hits_per_page'), 'hits_per_page');
-
-            $hits_options = [10, 15, 20, 30, 40, 50, 100, 9999];
-            $options = [];
-
-            foreach ($hits_options as $hits_option) {
-                $hstr = ($hits_option === 9999)
-                    ? $this->lng->txt('no_limit')
-                    : $hits_option;
-                $options[$hits_option] = $hstr;
-            }
-            $si->setOptions($options);
-            $si->setValue($this->user->prefs['hits_per_page']);
-            $si->setDisabled((bool) $this->settings->get('usr_settings_disable_hits_per_page'));
-            $this->form->addItem($si);
-        }
-
         $lv = new ilSelectInputGUI($this->lng->txt('user_store_last_visited'), 'store_last_visited');
         $options = [
             0 => $this->lng->txt('user_lv_keep_entries'),
@@ -441,13 +422,6 @@ class ilPersonalSettingsGUI
             // language
             if ($this->workWithUserSetting('language')) {
                 $this->user->setLanguage($this->form->getInput('language'));
-            }
-
-            // hits per page
-            if ($this->workWithUserSetting('hits_per_page')) {
-                if ($this->form->getInput('hits_per_page') != '') {
-                    $this->user->setPref('hits_per_page', $this->form->getInput('hits_per_page'));
-                }
             }
 
             // help tooltips

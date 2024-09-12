@@ -34,7 +34,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
     private const APACHE_ENABLE_LDAP = 'apache_enable_ldap';
     private const APACHE_LDAP_SID = 'apache_ldap_sid';
 
-    private ilSetting $settings;
+    private readonly ilSetting $settings;
     private string $migration_account = '';
     private bool $force_new_account = false;
 
@@ -166,7 +166,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
             return false;
-        } catch (ilLDAPSynchronisationFailedException $e) {
+        } catch (ilLDAPSynchronisationFailedException) {
             $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
             return false;
         } catch (ilLDAPSynchronisationForbiddenException $e) {

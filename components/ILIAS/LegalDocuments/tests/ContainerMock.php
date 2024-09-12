@@ -60,6 +60,7 @@ trait ContainerMock
         foreach ($tree as $name => $value) {
             $type = (string) $r->getMethod($name)->getReturnType();
             $type = $type === 'self' ? $class : $type;
+            $type = preg_replace('/^\?/', '', $type);
             $mock->method($name)->willReturn(
                 class_exists($type) || interface_exists($type) ?
                 (is_array($value) ? $this->mockTree($type, $value) : $value) :

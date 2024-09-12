@@ -130,15 +130,6 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
         return $this->getValue();
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
-    {
-        if (is_array($this->getValue())) {
-            foreach ($this->getValue() as $key => $value) {
-                $confirmation->addHiddenItem('field_' . $this->field->getId() . '[' . $key . ']', $value);
-            }
-        }
-    }
-
     public function delete(): void
     {
         if (($rid = $this->valueToRID($this->value)) !== null) {

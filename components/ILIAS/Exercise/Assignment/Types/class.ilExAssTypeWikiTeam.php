@@ -86,6 +86,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
     {
         $ass = new ilExAssignment($a_ass_id);
         $submission = new ilExSubmission($ass, $a_user_id);
+        $subm = $this->domain->submission($a_ass_id);
 
         if (!$submission->canSubmit()) {
             return;
@@ -100,23 +101,22 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         if ($size) {
             $submission->deleteAllFiles();
 
-            $meta = array(
-                "name" => $a_wiki_ref_id . ".zip",
-                "tmp_name" => $file,
-                "size" => $size
+            $subm->addLocalFile(
+                $a_user_id,
+                $file,
+                $a_wiki_ref_id . ".zip"
             );
-            $submission->uploadFile($meta, true);
-
+            unlink($file);
             // print version
-            $file = $file = $exp->buildExportFile(true);
+            $file = $exp->buildExportFile(true);
             $size = filesize($file);
             if ($size) {
-                $meta = array(
-                    "name" => $a_wiki_ref_id . "print.zip",
-                    "tmp_name" => $file,
-                    "size" => $size
+                $subm->addLocalFile(
+                    $a_user_id,
+                    $file,
+                    $a_wiki_ref_id . "print.zip"
                 );
-                $submission->uploadFile($meta, true);
+                unlink($file);
             }
 
             $this->handleNewUpload($ass, $submission);

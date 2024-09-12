@@ -1,10 +1,13 @@
 @use "../010-settings/" as *;
 @use "../010-settings/legacy-settings/legacy-settings_form" as *;
-@use "../030-tools/tool_focus-outline" as focus;
+
+@use "../030-tools/tool_focus-outline" as t-focus;
+
+$cursor-disabled: not-allowed;
 
 button {
 	cursor: pointer;
-	@include focus.il-focus-outline-only();
+	@include t-focus.il-focus-outline-only();
 }
 
 textarea {
@@ -21,6 +24,39 @@ input, select {
 
 input[type="text"],
 input[type="submit"],
+input[type="datetime-local"],
+input[type="url"],
 select {
 	min-height: $il-input-min-height;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+	margin: 0;
+	padding: 0;
+	line-height: normal;
+
+  // <label>s don't inherit their parent's `cursor`.
+	&[disabled],
+	&.disabled,
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
+}
+
+// Focus for file, radio, and checkbox
+input[type="file"],
+input[type="radio"],
+input[type="checkbox"] {
+	@include t-focus.il-focus();
+}
+
+input[type="text"],
+input[type="url"],
+input[type="datetime-local"],
+input[type="password"],
+input[type="number"],
+textarea {
+	border: 1px solid $il-input-border-color;
+  	@include t-focus.il-focus-outline-only();
 }

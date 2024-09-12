@@ -24,6 +24,7 @@ use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\UI\Component\Component;
 use Closure;
+use ilTemplate;
 
 final class ShowOnLoginPage
 {

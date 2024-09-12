@@ -435,7 +435,7 @@ class GlyphTest extends ILIAS_UI_TestBase
 
     public function testDontRenderCounter(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $r = new Renderer(
             $this->getUIFactory(),
             $this->getTemplateFactory(),

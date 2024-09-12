@@ -26,6 +26,7 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use Closure;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result;
 
 class UploadHandler implements UploadHandlerInterface
 {

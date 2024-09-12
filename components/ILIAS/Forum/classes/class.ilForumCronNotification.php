@@ -40,15 +40,15 @@ class ilForumCronNotification extends ilCronJob
     /** @var array<int, ilObjCourse|ilObjGroup|null> */
     private static array $container_by_frm_ref_id = [];
 
-    private ilLanguage $lng;
-    private ilSetting $settings;
+    private readonly ilLanguage $lng;
+    private readonly ilSetting $settings;
     private ilLogger $logger;
     private ilTree $tree;
     private int $num_sent_messages = 0;
-    private ilDBInterface $ilDB;
-    private ilForumNotificationCache $notificationCache;
-    private \ILIAS\Refinery\Factory $refinery;
-    private ilCronManager $cronManager;
+    private readonly ilDBInterface $ilDB;
+    private readonly ilForumNotificationCache $notificationCache;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ilCronManager $cronManager;
 
     public function __construct(
         ilDBInterface $database = null,

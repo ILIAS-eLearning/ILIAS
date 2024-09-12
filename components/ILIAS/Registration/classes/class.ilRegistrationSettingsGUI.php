@@ -1064,7 +1064,7 @@ class ilRegistrationSettingsGUI
 
         $codes = ilRegistrationCode::getCodesForExport(
             $utab->filter["code"],
-            $utab->filter["role"] ? (int)$utab->filter["role"] : null,
+            $utab->filter["role"] ? (int) $utab->filter["role"] : null,
             $utab->filter["generated"],
             $utab->filter["alimit"]
         );

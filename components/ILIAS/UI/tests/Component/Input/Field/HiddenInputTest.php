@@ -38,7 +38,7 @@ class HiddenInputTest extends ILIAS_UI_TestBase
             new Data\Factory(),
             new Refinery(
                 new Data\Factory(),
-                $this->createMock(ilLanguage::class)
+                $this->createMock(ILIAS\Language\Language::class)
             )
         );
     }

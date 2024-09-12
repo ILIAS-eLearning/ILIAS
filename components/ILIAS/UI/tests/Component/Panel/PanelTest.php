@@ -176,6 +176,22 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $secondary);
     }
 
+    public function testReportWithActions(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->report("Title", $fp->sub("Title", array(new ComponentDummy())));
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
+        $p = $p->withActions($actions);
+
+        $this->assertEquals($p->getActions(), $actions);
+    }
+
     public function testReportGetTitle(): void
     {
         $f = $this->getPanelFactory();
@@ -193,6 +209,7 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($p->getContent(), array($sub));
     }
+
     public function testRenderStandard(): void
     {
         $f = $this->getPanelFactory();
@@ -316,10 +333,16 @@ EOT;
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
         $sub = $fp->sub("Title", array());
         $card = new I\Component\Card\Card("Card Title");
         $sub = $sub->withFurtherInformation($card);
-        $report = $fp->report("Title", $sub);
+        $report = $fp->report("Title", $sub)->withActions($actions);
 
         $html = $this->brutallyTrimHTML($r->render($report));
 
@@ -327,6 +350,14 @@ EOT;
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
         <h2>Title</h2>
+        <div class="panel-controls">
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+                <ul id="id_3_menu" class="dropdown-menu">
+                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
+                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">

@@ -22,13 +22,8 @@ final class ilMailAttachmentStageCleanup
 {
     private const OLD_FILE_MTIME_EXPRESSION = '1 day ago';
 
-    private ilLogger $logger;
-    private ilFileDataMail $mail_file_manager;
-
-    public function __construct(ilLogger $logger, ilFileDataMail $mail_file_manager)
+    public function __construct(private readonly ilLogger $logger, private readonly ilFileDataMail $mail_file_manager)
     {
-        $this->logger = $logger;
-        $this->mail_file_manager = $mail_file_manager;
     }
 
     public function run(): void
@@ -55,14 +50,14 @@ final class ilMailAttachmentStageCleanup
 
         foreach ($iter as $file) {
             /** @var SplFileInfo $file */
-            if (strpos($file->getFilename(), $this->mail_file_manager->user_id . '_') === 0) {
+            if (str_starts_with($file->getFilename(), $this->mail_file_manager->user_id . '_')) {
                 try {
                     $relative_path = 'mail/' . $file->getFilename();
                     if ($filesystem->has($relative_path)) {
                         $filesystem->delete($relative_path);
                         $this->logger->info('Deleting file from attachment stage: ' . $file->getPathname());
                     }
-                } catch (Exception $e) {
+                } catch (Exception) {
                     $this->logger->error('Error deleting file from attachment stage: ' . $file->getPathname());
                 }
             }

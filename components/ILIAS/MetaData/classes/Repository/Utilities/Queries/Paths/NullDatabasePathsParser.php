@@ -29,8 +29,10 @@ class NullDatabasePathsParser implements DatabasePathsParserInterface
         return '';
     }
 
-    public function addPathAndGetColumn(PathInterface $path): string
-    {
+    public function addPathAndGetColumn(
+        PathInterface $path,
+        bool $force_join_to_base_table
+    ): string {
         return '';
     }
 

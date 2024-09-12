@@ -22,6 +22,7 @@ namespace ILIAS\LegalDocuments\Repository;
 
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\Data\Result;
 
 interface DocumentRepositoryMeta
 {
@@ -32,4 +33,10 @@ interface DocumentRepositoryMeta
     public function documentFromRow(array $row, array $criteria): Document;
     public function documentTable(): string;
     public function exists(string $doc_id_name): string;
+
+    /**
+     * @return Result<Document>
+     */
+    public function find(int $id): Result;
+
 }

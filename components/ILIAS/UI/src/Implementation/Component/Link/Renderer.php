@@ -34,15 +34,13 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Link\Standard) {
             return $this->renderStandard($component);
         }
         if ($component instanceof Component\Link\Bulky) {
             return $this->renderBulky($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function setStandardVars(
@@ -111,8 +109,7 @@ class Renderer extends AbstractComponentRenderer
     ): string {
         $tpl_name = "tpl.bulky.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
-        $renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
+        $tpl->setVariable("SYMBOL", $default_renderer->render($component->getSymbol()));
 
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {
@@ -121,16 +118,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $this->maybeRenderWithTooltip($component, $tpl);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Link\Standard::class,
-            Component\Link\Bulky::class
-        ];
     }
 }

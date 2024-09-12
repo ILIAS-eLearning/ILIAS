@@ -110,11 +110,6 @@ class StandardGUIRequest
         return $this->int("ath");
     }
 
-    public function getPrtId(): int
-    {
-        return $this->int("prt_id");
-    }
-
     public function getAssId(): int
     {
         return $this->int("ass");

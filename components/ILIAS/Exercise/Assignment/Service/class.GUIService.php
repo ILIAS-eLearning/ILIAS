@@ -88,7 +88,10 @@ class GUIService
 
     public function types(): \ilExAssignmentTypesGUI
     {
-        return new \ilExAssignmentTypesGUI();
+        return new \ilExAssignmentTypesGUI(
+            $this->domain_service,
+            $this->gui_service
+        );
     }
 
     public function getRandomAssignmentGUI(\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI

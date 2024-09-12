@@ -36,12 +36,14 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $popover, RendererInterface $default_renderer): string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($popover);
+        if (!$component instanceof Component\Popover\Popover) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = $this->getTemplate('tpl.popover.html', true, true);
         $tpl->setVariable('FORCE_RENDERING', '');
-        /** @var Component\Popover\Popover $popover */
 
         $replacement = array(
             '"' => '\"',
@@ -51,26 +53,26 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $options = array(
-            'title' => $this->escape($popover->getTitle()),
-            'placement' => $popover->getPosition(),
+            'title' => $this->escape($component->getTitle()),
+            'placement' => $component->getPosition(),
             'multi' => true,
             'template' => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
         );
 
-        if ($popover->isFixedPosition()) {
+        if ($component->isFixedPosition()) {
             $options['style'] = "fixed";
         }
 
-        $is_async = $popover->getAsyncContentUrl();
+        $is_async = $component->getAsyncContentUrl();
         if ($is_async) {
             $options['type'] = 'async';
-            $options['url'] = $popover->getAsyncContentUrl();
+            $options['url'] = $component->getAsyncContentUrl();
         }
 
-        $show = $popover->getShowSignal();
-        $replace = $popover->getReplaceContentSignal();
+        $show = $component->getShowSignal();
+        $replace = $component->getReplaceContentSignal();
 
-        $popover = $popover->withAdditionalOnLoadCode(function ($id) use ($options, $show, $replace, $is_async) {
+        $component = $component->withAdditionalOnLoadCode(function ($id) use ($options, $show, $replace, $is_async) {
             if (!$is_async) {
                 $options["url"] = "#$id";
             }
@@ -85,19 +87,19 @@ class Renderer extends AbstractComponentRenderer
 				});";
         });
 
-        $id = $this->bindJavaScript($popover);
+        $id = $this->bindJavaScript($component);
 
-        if ($popover->getAsyncContentUrl()) {
+        if ($component->getAsyncContentUrl()) {
             return '';
         }
 
-        if ($popover instanceof Component\Popover\Standard) {
-            return $this->renderStandardPopover($popover, $default_renderer, $id);
-        } elseif ($popover instanceof Component\Popover\Listing) {
-            return $this->renderListingPopover($popover, $default_renderer, $id);
+        if ($component instanceof Component\Popover\Standard) {
+            return $this->renderStandardPopover($component, $default_renderer, $id);
+        } elseif ($component instanceof Component\Popover\Listing) {
+            return $this->renderListingPopover($component, $default_renderer, $id);
         }
 
-        return '';
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -141,13 +143,5 @@ class Renderer extends AbstractComponentRenderer
     protected function escape(string $str): string
     {
         return strip_tags(htmlentities($str, ENT_QUOTES, 'UTF-8'));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array( Component\Popover\Standard::class, Component\Popover\Listing::class );
     }
 }

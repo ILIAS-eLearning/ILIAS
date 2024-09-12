@@ -39,13 +39,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Layout\Page\Standard) {
             return $this->renderStandardPage($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderStandardPage(
@@ -205,15 +203,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/stdpage.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Layout\Page\Standard::class
-        );
     }
 }

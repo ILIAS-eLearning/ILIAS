@@ -327,11 +327,7 @@ class SettingsFormGUI
         $intro->setInfo($lng->txt("survey_introduction_info"));
         if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $intro->setUseRte(true);
-            $intro->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-            $intro->addPlugin("latex");
-            $intro->addButton("latex");
-            $intro->addButton("pastelatex");
-            $intro->setRTESupport($survey->getId(), "svy", "survey", null);
+            $intro->setRteTagSet("mini");
         }
         $form->addItem($intro);
 
@@ -454,11 +450,7 @@ class SettingsFormGUI
         $finalstatement->setCols(80);
         if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $finalstatement->setUseRte(true);
-            $finalstatement->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-            $finalstatement->addPlugin("latex");
-            $finalstatement->addButton("latex");
-            $finalstatement->addButton("pastelatex");
-            $finalstatement->setRTESupport($survey->getId(), "svy", "survey", null);
+            $finalstatement->setRteTagSet("mini");
         }
         $form->addItem($finalstatement);
 

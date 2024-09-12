@@ -46,7 +46,7 @@ class UITestHelper
 
         $tpl_fac = new ilIndependentTemplateFactory();
         $this->dic["tpl"] = $tpl_fac->getTemplate("tpl.main.html", false, false);
-        $this->dic["lng"] = new ilLanguageMock();
+        $this->dic["lng"] = new LanguageMock();
         $data_factory = new DataFactory();
         $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
         (new InitUIFramework())->init($this->dic);

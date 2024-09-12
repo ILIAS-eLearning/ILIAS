@@ -44,7 +44,9 @@ class ilExerciseSetupAgent extends Setup\Agent\NullAgent
             new ilExerciseInstructionFilesMigration(),
             new ilExerciseSampleSolutionMigration(),
             new ilExerciseTutorFeedbackFileMigration(),
-            new ilExerciseTutorTeamFeedbackFileMigration()
+            new ilExerciseTutorTeamFeedbackFileMigration(),
+            new ilExerciseSubmissionMigration(),
+            new ilExercisePeerFeedbackMigration()
         ];
     }
 }

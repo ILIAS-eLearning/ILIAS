@@ -22,7 +22,11 @@ namespace ILIAS\MetaData\XML\Copyright;
 
 interface CopyrightHandlerInterface
 {
+    public function isCopyrightSelectionActive(): bool;
+
     public function copyrightForExport(string $copyright): string;
 
     public function copyrightFromExport(string $copyright): string;
+
+    public function copyrightAsString(string $copyright): string;
 }

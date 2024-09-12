@@ -79,7 +79,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         }
 
         if ($this->tree->getSavedNodeData($this->object->getRefId())) {
-            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', $this::class);
+            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', static::class);
         }
     }
 }

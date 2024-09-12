@@ -35,7 +35,7 @@ interface TableConfig
     public function setExternalSorting(bool $a_val): void;
     public function setDefaultOrderField(string $a_defaultorderfield): void;
     public function setDefaultOrderDirection(string $a_defaultorderdirection): void;
-    public function setSelectableColumns(...$names): void;
+    public function setSelectableColumns(string ...$names): void;
 
     public function addMultiCommand(string $a_cmd, string $a_text): void;
     public function addCommandButton(

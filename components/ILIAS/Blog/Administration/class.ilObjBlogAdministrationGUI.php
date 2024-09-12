@@ -115,12 +115,8 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $banner = (bool) $form->getInput("banner");
 
             $blga_set = new ilSetting("blga");
-            $blga_set->set("banner", (string) $banner);
-            $blga_set->set("banner_width", (string) (int) $form->getInput("width"));
-            $blga_set->set("banner_height", (string) (int) $form->getInput("height"));
             $blga_set->set("mask", (string) (bool) $form->getInput("mask"));
             $blga_set->set("est_reading_time", (string) (bool) $form->getInput("est_reading_time"));
 
@@ -152,29 +148,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
 
-        $banner = new ilCheckboxInputGUI($lng->txt("blog_preview_banner"), "banner");
-        $banner->setInfo($lng->txt("blog_preview_banner_info"));
-        $form->addItem($banner);
-
-        $width = new ilNumberInputGUI($lng->txt("blog_preview_banner_width"), "width");
-        $width->setRequired(true);
-        $width->setSize(4);
-        $banner->addSubItem($width);
-
-        $height = new ilNumberInputGUI($lng->txt("blog_preview_banner_height"), "height");
-        $height->setRequired(true);
-        $height->setSize(4);
-        $banner->addSubItem($height);
-
         $blga_set = new ilSetting("blga");
-        $banner->setChecked((bool) $blga_set->get("banner", '0'));
-        if ($blga_set->get("banner")) {
-            $width->setValue($blga_set->get("banner_width"));
-            $height->setValue($blga_set->get("banner_height"));
-        } else {
-            $width->setValue("1370");
-            $height->setValue("100");
-        }
 
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("blog_est_reading_time"),

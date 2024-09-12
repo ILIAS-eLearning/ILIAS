@@ -21,14 +21,10 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Component;
-use ILIAS\Data\Result\Ok;
 
 /**
- * Forum Administration Settings.
- * @author            Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
- * @ingroup components\ILIASForum
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
@@ -37,9 +33,9 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     private const PROP_SECTION_NOTIFICATIONS = 'notifications';
     private const PROP_SECTION_DRAFTS = 'drafts';
 
-    private \ILIAS\DI\RBACServices $rbac;
-    private ilCronManager $cronManager;
-    private UIServices $ui;
+    private readonly \ILIAS\DI\RBACServices $rbac;
+    private readonly ilCronManager $cronManager;
+    private readonly UIServices $ui;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -202,7 +198,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $checkbox_with_func = function (string $name, ?string $label = null, $f = null) use (
             $checkbox
         ): \ILIAS\UI\Component\Input\Field\Checkbox {
-            $f = $f ?? static fn($x) => $x;
+            $f ??= static fn($x) => $x;
             return $f($checkbox($label ?? $name)->withValue((bool) $this->settings->get($name)));
         };
         $disable_if_no_permission = $this->checkPermissionBool('write') ? static fn(
@@ -272,7 +268,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                             ->withByLine($this->forumByLine($field))
                         )
                     ),
-                    'send_attachments_by_mail' => $checkbox_with_func('send_attachments_by_mail', 'enable_send_attachments')
+                    'send_attachments_by_mail' => $checkbox_with_func(
+                        'send_attachments_by_mail',
+                        'enable_send_attachments'
+                    )
                 ])),
                 self::PROP_SECTION_DRAFTS => $section('frm_adm_sec_drafts', $disable_if_no_permission([
                     'save_post_drafts' => $checkbox_with_func('save_post_drafts', 'adm_save_drafts'),

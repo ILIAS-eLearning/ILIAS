@@ -239,11 +239,7 @@ class ilTable2GUI extends ilTableGUI
             if ($rows > 0) {
                 $limit = $rows;
             } else {
-                if (is_object($ilUser)) {
-                    $limit = (int) $ilUser->getPref("hits_per_page");
-                } else {
-                    $limit = 40;
-                }
+                $limit = 40;
             }
         }
 
@@ -1993,11 +1989,7 @@ class ilTable2GUI extends ilTableGUI
                     !$this->rows_selector_off) { // JF, 2014-10-27
                     $actions = [];
 
-                    $hpp = ($ilUser->getPref("hits_per_page") != 9999)
-                        ? $ilUser->getPref("hits_per_page")
-                        : $lng->txt("no_limit");
-
-                    $options = array(0 => $lng->txt("default") . " (" . $hpp . ")",5 => 5, 10 => 10, 15 => 15, 20 => 20,
+                    $options = array(5 => 5, 10 => 10, 15 => 15, 20 => 20,
                                      30 => 30, 40 => 40, 50 => 50,
                                      100 => 100, 200 => 200, 400 => 400, 800 => 800);
                     foreach ($options as $k => $v) {

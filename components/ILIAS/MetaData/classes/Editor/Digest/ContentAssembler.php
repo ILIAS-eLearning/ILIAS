@@ -295,7 +295,7 @@ class ContentAssembler
             //give the option to block harvesting
             $sub_inputs = [];
             if (
-                $this->copyright_handler->doesObjectTypeSupportHarvesting($set->getRessourceID()->type()) &&
+                $this->copyright_handler->isObjectTypeHarvested($set->getRessourceID()->type()) &&
                 $this->copyright_handler->isCopyrightTemplateActive($entry)
             ) {
                 $sub_inputs[self::OER_BLOCKED] = $ff

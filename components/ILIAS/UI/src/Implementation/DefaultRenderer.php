@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use LogicException;
 
 /**
@@ -31,16 +32,15 @@ use LogicException;
  */
 class DefaultRenderer implements Renderer
 {
-    private Render\Loader $component_renderer_loader;
-
     /**
      * @var Component[]
      */
     private array $contexts = [];
 
-    public function __construct(Render\Loader $component_renderer_loader)
-    {
-        $this->component_renderer_loader = $component_renderer_loader;
+    public function __construct(
+        private Render\Loader $component_renderer_loader,
+        private JavaScriptBinding $java_script_binding,
+    ) {
     }
 
     /**
@@ -50,14 +50,20 @@ class DefaultRenderer implements Renderer
     {
         $root = $root ?? $this;
 
-        $out = '';
         if (is_array($component)) {
+            $out = '';
             foreach ($component as $_component) {
                 $out .= $root->render($_component);
             }
-        } else {
+            return $out;
+        }
+
+        try {
+            $this->pushContext($component);
             $renderer = $this->getRendererFor($component);
             $out = $renderer->render($component, $root);
+        } finally {
+            $this->popContext();
         }
 
         return $out;
@@ -76,8 +82,7 @@ class DefaultRenderer implements Renderer
                 $out .= $root->renderAsync($_component);
             }
         } else {
-            $out = $this->render($component, $root) .
-            $this->getJSCodeForAsyncRenderingFor($component);
+            $out = $this->render($component, $root) . $this->java_script_binding->getOnLoadCodeAsync();
         }
         return $out;
     }
@@ -96,37 +101,30 @@ class DefaultRenderer implements Renderer
     }
 
     /**
-     * Get JS-Code for asynchronous rendering of component.
+     * Returns the current context stack, where most recently added components are last.
+     * E.g. ["FirstComponent", "SecondComponent", "ThirdComponent", ...];
      *
-     * @param Component $component
-     * @return string
-     */
-    protected function getJSCodeForAsyncRenderingFor(Component $component)
-    {
-        return $this->component_renderer_loader
-            ->getRendererFactoryFor($component)
-            ->getJSBinding()
-            ->getOnLoadCodeAsync();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withAdditionalContext(Component $context): Renderer
-    {
-        $clone = clone $this;
-        $clone->contexts[] = $context;
-        return $clone;
-    }
-
-    /**
-     * Get the contexts that are added via withAdditionalContext where most recently
-     * added contexts come last.
-     *
-     * @return  Component[]
+     * @return Component[]
      */
     protected function getContexts(): array
     {
         return $this->contexts;
+    }
+
+    /**
+     * Adds a component to the current context stack. This mainly serves for testability.
+     */
+    protected function pushContext(Component $component): void
+    {
+        $this->contexts[] = $component;
+    }
+
+    /**
+     * Removes the most recently added component from the current context stack.
+     * This mainly serves for testability.
+     */
+    protected function popContext(): void
+    {
+        array_pop($this->contexts);
     }
 }

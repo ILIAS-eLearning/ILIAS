@@ -42,7 +42,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
     public function send(): void
     {
-        $is_message_enabled = (bool) $this->settings->get("mail_notification_message", '0');
+        $is_message_enabled = (bool) $this->settings->get('mail_notification_message', '0');
 
         $res = $this->db->queryF(
             'SELECT mail.* FROM mail_options
@@ -96,33 +96,37 @@ class ilMailSummaryNotification extends ilMailNotification
 
             $counter = 1;
             foreach ($mail_data as $mail) {
-                $this->appendBody("----------------------------------------------------------------------------------------------");
+                $this->appendBody(
+                    '----------------------------------------------------------------------------------------------'
+                );
                 $this->appendBody("\n\n");
                 $this->appendBody('#' . $counter . "\n\n");
-                $this->appendBody($user_lang->txt('date') . ": " . $mail['send_time']);
+                $this->appendBody($user_lang->txt('date') . ': ' . $mail['send_time']);
                 $this->appendBody("\n");
                 if ((int) $mail['sender_id'] === ANONYMOUS_USER_ID) {
                     $senderName = ilMail::_getIliasMailerName();
                 } else {
                     $senderName = ilObjUser::_lookupLogin((int) $mail['sender_id']);
                 }
-                $this->appendBody($user_lang->txt('sender') . ": " . $senderName);
+                $this->appendBody($user_lang->txt('sender') . ': ' . $senderName);
                 $this->appendBody("\n");
-                $this->appendBody($user_lang->txt('subject') . ": " . $mail['m_subject']);
+                $this->appendBody($user_lang->txt('subject') . ': ' . $mail['m_subject']);
                 $this->appendBody("\n\n");
 
                 if ($is_message_enabled) {
-                    $this->appendBody($user_lang->txt('message') . ": " . $mail['m_message']);
+                    $this->appendBody($user_lang->txt('message') . ': ' . $mail['m_message']);
                     $this->appendBody("\n\n");
                 }
                 ++$counter;
             }
-            $this->appendBody("----------------------------------------------------------------------------------------------");
+            $this->appendBody(
+                '----------------------------------------------------------------------------------------------'
+            );
             $this->appendBody("\n\n");
-            $this->appendBody($user_lang->txt('follow_link_to_read_mails') . " ");
+            $this->appendBody($user_lang->txt('follow_link_to_read_mails') . ' ');
             $this->appendBody("\n");
-            $mailbox_link = ilUtil::_getHttpPath();
-            $mailbox_link .= "/goto.php?target=mail&client_id=" . CLIENT_ID;
+            $mailbox_link = rtrim(ilUtil::_getHttpPath(), '/');
+            $mailbox_link .= '/goto.php?target=mail&client_id=' . CLIENT_ID;
 
             $this->appendBody($mailbox_link);
             $this->appendBody("\n\n");

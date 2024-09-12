@@ -56,7 +56,7 @@ class InternalTest extends TestCase
             $this->fail(...),
             fn() => $this->wiring(),
             [
-                get_class($this->dummyConsumer())
+                $this->dummyConsumer()::class
             ]
         );
     }

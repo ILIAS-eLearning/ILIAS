@@ -132,7 +132,7 @@ class InputTest extends ILIAS_UI_TestBase
     public function setUp(): void
     {
         $this->data_factory = new DataFactory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         $this->refinery = new Refinery($this->data_factory, $language);
         $this->input = new DefInput(
             $this->data_factory,

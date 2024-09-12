@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\UI\Component\Component;
+use ILIAS\Language\Language;
 
 abstract class Column implements C\Column
 {
@@ -39,7 +40,7 @@ abstract class Column implements C\Column
     protected ?string $desc_label = null;
 
     public function __construct(
-        protected \ilLanguage $lng,
+        protected Language $lng,
         protected string $title
     ) {
     }

@@ -52,6 +52,24 @@ class TeamManager
         return $this->repo->getTeamForMember($ass_id, $user_id);
     }
 
+    /**
+     * @return int[]
+     */
+    public function getMemberIds(int $team_id): array
+    {
+        return $this->repo->getMemberIds($team_id);
+    }
+
+    public function getTeamMemberIdsOrUserId(int $ass_id, int $user_id): array
+    {
+        $team_id = $this->getTeamForMember($ass_id, $user_id);
+        if (!is_null($team_id) && $team_id !== 0) {
+            return $this->getMemberIds(($team_id));
+        }
+        return [$user_id];
+    }
+
+
     public function getStatusForTeam(int $team_id): string
     {
         $members = iterator_to_array($this->repo->getMembers($team_id));
@@ -68,4 +86,19 @@ class TeamManager
         return $this->repo->getAssignmentForTeam($team_id);
     }
 
+    protected function getTeam(int $team_id): \ilExAssignmentTeam
+    {
+        return new \ilExAssignmentTeam($team_id);
+    }
+    public function writeLog(
+        int $team_id,
+        int $action,
+        string $content
+    ): void {
+        $team = $this->getTeam($team_id);
+        $team->writeLog(
+            $action,
+            $content
+        );
+    }
 }

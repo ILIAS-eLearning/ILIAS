@@ -24,9 +24,9 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
      * @var ilSamlIdp[]
      */
     private array $idps;
-    private ILIAS\UI\URLBuilder $url_builder;
-    private ILIAS\UI\URLBuilderToken $action_parameter_token;
-    private ILIAS\UI\URLBuilderToken $row_id_token;
+    private readonly ILIAS\UI\URLBuilder $url_builder;
+    private readonly ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private readonly ILIAS\UI\URLBuilderToken $row_id_token;
 
     public function __construct(
         private readonly ilSamlSettingsGUI $parent_gui,
@@ -162,12 +162,10 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         foreach ($this->getRecords($range, $order) as $item) {
             $record = [
                 'title' => $item->getEntityId(),
-                'active' => $this->ui_renderer->render(
-                    $this->ui_factory->symbol()->icon()->custom(
-                        ilUtil::getImagePath($item->isActive() ? 'standard/icon_ok.svg' : 'standard/icon_not_ok.svg'),
-                        $item->isActive() ? $this->lng->txt('active') : $this->lng->txt('inactive')
-                    )
-                )
+                'active' => $this->ui_factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath($item->isActive() ? 'standard/icon_ok.svg' : 'standard/icon_not_ok.svg'),
+                    $item->isActive() ? $this->lng->txt('active') : $this->lng->txt('inactive')
+                ),
             ];
 
             yield $row_builder

@@ -32,6 +32,8 @@ interface Standard extends Icon
     public const CRS = 'crs';	//Course object
     public const MOB = 'mob';	//Multimedia object
     public const MAIL = 'mail';	//Mailmodule object
+    public const MAILR = 'mailr'; //Read Mail
+    public const MAILU = 'mailu'; //Unread Mail
     public const SAHS = 'sahs';	//SCORM/AICC Learning Module
     public const ADM = 'adm';	//Administration Panel object
     public const USRF = 'usrf';	//User Folder object

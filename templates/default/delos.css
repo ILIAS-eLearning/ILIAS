@@ -383,7 +383,6 @@
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
   z-index: 1000;
   display: none;
   float: left;
@@ -403,6 +402,14 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 .dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu.dropdown-menu__right {
+  right: auto;
+  left: 0;
+}
+.dropdown-menu.dropdown-menu__left {
   right: 0;
   left: auto;
 }
@@ -1075,7 +1082,7 @@ th {
   --bs-gutter-y: 18px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 0px) {
   .col-sm {
     flex: 1 0 0%;
   }
@@ -2079,8 +2086,67 @@ button:focus-visible {
 
 input[type=text],
 input[type=submit],
+input[type=datetime-local],
+input[type=url],
 select {
   min-height: 28px;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+input[type=radio][disabled], input[type=radio].disabled, fieldset[disabled] input[type=radio],
+input[type=checkbox][disabled],
+input[type=checkbox].disabled,
+fieldset[disabled] input[type=checkbox] {
+  cursor: not-allowed;
+}
+
+input[type=file]:focus,
+input[type=radio]:focus,
+input[type=checkbox]:focus {
+  outline: none;
+  outline-offset: 0px;
+}
+input[type=file]:focus-visible,
+input[type=radio]:focus-visible,
+input[type=checkbox]:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+input[type=file]:focus-visible::after,
+input[type=radio]:focus-visible::after,
+input[type=checkbox]:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+
+input[type=text],
+input[type=url],
+input[type=datetime-local],
+input[type=password],
+input[type=number],
+textarea {
+  border: 1px solid #757575;
+}
+input[type=text]:focus-visible,
+input[type=url]:focus-visible,
+input[type=datetime-local]:focus-visible,
+input[type=password]:focus-visible,
+input[type=number]:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
 ul, ol, p {
@@ -3991,7 +4057,8 @@ hr.il-divider-with-label {
   min-width: max-content;
 }
 
-.il-input-tag {
+.c-field-tag {
+  background-color: white;
   --tags-focus-border-color: #4c6586;
   --tag-bg: #4c6586;
   --tag-hover: #4c6586;
@@ -4005,71 +4072,64 @@ hr.il-divider-with-label {
   line-height: 1.428571429;
 }
 
-.il-input-tag-container {
-  height: auto;
-  min-height: 1.428571429;
-}
-.il-input-tag-container .il-input-tag {
-  border: none;
-  box-shadow: none;
-  outline: none;
-  line-height: 1.428571429;
-  font-weight: 600 !important;
-}
-.il-input-tag-container .il-input-tag .tagify__tag {
-  margin-top: 0;
-}
-.il-input-tag-container .il-input-tag .tagify__input {
-  margin: 0;
-}
-
-.il-input-tag-container.disabled {
-  background-color: #EEEEEE;
-  cursor: not-allowed;
-}
-.il-input-tag-container.disabled .tagify__tag {
-  cursor: not-allowed;
-}
-.il-input-tag-container.disabled .form-control {
-  background-color: #EEEEEE;
-}
-
-.il-input-password .revelation-glyph {
+.c-field-password__revelation-glyph {
   float: right;
   margin-top: -21px;
   margin-right: 5px;
 }
-.il-input-password .revelation-reveal {
+.c-field-password__revelation-glyph--reveal {
   display: block;
 }
-.il-input-password .revelation-mask {
+.c-field-password__revelation-glyph--mask {
   display: none;
 }
-.il-input-password.revealed .revelation-reveal {
+.c-field-password.revealed .c-field-password__revelation-glyph--reveal {
   display: none;
 }
-.il-input-password.revealed .revelation-mask {
+.c-field-password.revealed .c-field-password__revelation-glyph--mask {
   display: block;
 }
 
-.il-input-radio .form-control.il-input-radiooption {
-  height: unset;
-  border: unset;
-  background-color: unset;
-  box-shadow: none;
+.c-field-radio > .c-field-radio__item {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.c-field-radio > .c-field-radio__item:first-child {
+  margin-top: 0;
+}
+.c-field-radio > .c-field-radio__item > input {
+  margin-right: 9px;
+  width: auto;
+}
+.c-field-radio > .c-field-radio__item > label {
+  flex-grow: 1;
+}
+.c-field-radio > .c-field-radio__item > .c-input__help-byline {
+  width: 100%;
 }
 
-.il-input-multiselect {
+.c-form ul.c-field-multiselect {
   list-style: none;
-  padding-left: 0px;
+  padding: 0;
+  margin: 0;
 }
-
-.ui-input-textarea-remainder {
-  font-size: 0.75rem;
+.c-form ul.c-field-multiselect > li {
+  margin-top: 3px;
 }
-
-.il-standard-form textarea {
-  height: 4.56rem;
+.c-form ul.c-field-multiselect > li:first-child {
+  margin-top: 0;
+}
+.c-form ul.c-field-multiselect > li label {
+  display: flex;
+  flex-wrap: wrap;
+}
+.c-form ul.c-field-multiselect > li label > input[type=checkbox] {
+  margin-right: 9px;
+  width: auto;
+}
+.c-form ul.c-field-multiselect > li label > .c-input__multiselect__label-text {
+  flex-grow: 1;
 }
 
 .il-filter .collapse.in {
@@ -4101,6 +4161,7 @@ hr.il-divider-with-label {
   background-color: white;
 }
 .il-filter .input-group input {
+  width: 100%;
   height: 33px;
 }
 .il-filter .input-group .form-control {
@@ -4108,6 +4169,7 @@ hr.il-divider-with-label {
   padding: 6px;
 }
 .il-filter .input-group .btn-bulky {
+  border: none;
   background-color: #f0f0f0;
 }
 .il-filter .btn-bulky {
@@ -4132,6 +4194,20 @@ hr.il-divider-with-label {
 .il-filter .il-popover-container {
   padding-left: 9px;
 }
+.il-filter ul.c-field-multiselect,
+.il-filter .il-filter-add-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 3px 9px;
+}
+.il-filter ul.c-field-multiselect > li > label input[type=checkbox] {
+  margin-top: 0;
+}
+.il-filter ul.c-field-multiselect li > button {
+  padding: 6px 9px;
+  display: block;
+  width: 100%;
+}
 
 .il-filter-bar {
   display: flex;
@@ -4147,6 +4223,7 @@ hr.il-divider-with-label {
 .il-filter-bar .il-filter-bar-opener .btn-bulky {
   min-height: 0px;
   width: 100%;
+  border: none;
   background-color: initial;
   font-size: 0.875rem;
   justify-content: left;
@@ -4166,9 +4243,11 @@ hr.il-divider-with-label {
 .il-filter-controls .btn-bulky {
   width: auto;
   background-color: initial;
+  border: none;
   font-size: 0.875rem;
 }
 .il-filter-controls .btn-bulky:hover {
+  border: none;
   background-color: #f0f0f0;
 }
 
@@ -4221,20 +4300,16 @@ hr.il-divider-with-label {
   color: #6f6f6f;
 }
 
-.il-filter-add-list ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.il-filter-add-list ul li > button {
-  padding: 6px 9px;
-  display: block;
-  width: 100%;
-}
-
-.c-input--duration .form-group.row {
-  width: 50%;
-  float: left;
+.input-group-addon {
+  padding: 3px 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #161616;
+  text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #a6a6a6;
+  border-radius: 0;
 }
 
 .ui-input-file-input-dropzone {
@@ -4310,7 +4385,7 @@ hr.il-divider-with-label {
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-.c-input-markdown__controls {
+.c-field-markdown__controls {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -4318,13 +4393,13 @@ hr.il-divider-with-label {
   margin-bottom: 3px;
 }
 
-.c-input-markdown__actions .glyph,
-.c-input-markdown__actions .glyph:hover {
+.c-field-markdown__actions .glyph,
+.c-field-markdown__actions .glyph:hover {
   color: white;
 }
 
-.c-input-markdown__preview {
-  min-height: 4.56rem;
+.c-field-markdown__preview {
+  min-height: 100px;
   border: 1px solid #dddddd;
   display: inline-block;
   width: 100%;
@@ -4333,7 +4408,7 @@ hr.il-divider-with-label {
   margin: 0;
 }
 
-.c-input-markdown .ui-input-textarea textarea {
+.c-field-markdown > textarea {
   font-family: Monospace, Courier;
 }
 
@@ -4410,102 +4485,219 @@ hr.il-divider-with-label {
   min-width: 60px;
 }
 
-.il-standard-form {
-  background-color: white;
+.c-form .c-input[data-il-ui-component=optional-group-field-input],
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: repeat(3, max-content) 1fr;
+  transition-property: grid-template-rows;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field {
+  grid-area: group;
+  display: block;
+  overflow: hidden;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input {
+  margin: 0;
+  padding: 12px 15px;
+  background-color: #f9f9f9;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:first-child,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:first-child {
   margin-top: 6px;
-  padding: 12px 0 12px 15px;
 }
-.il-standard-form .il-standard-form-cmd {
-  float: right;
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input:has(:focus-visible),
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input:has(:focus-visible) {
+  box-shadow: none;
+  background-color: #f0f0f0;
 }
-.il-standard-form .il-standard-form-cmd .btn {
-  display: inline-block;
-  min-width: 60px;
-  vertical-align: top;
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field > .c-input .c-input:has(:focus-visible),
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field > .c-input .c-input:has(:focus-visible) {
+  box-shadow: none;
+  background-color: transparent;
 }
-@media (max-width: 991px) {
-  .il-standard-form .il-standard-form-cmd .btn {
-    min-width: 0;
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__help-byline,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__help-byline {
+  grid-area: group-help;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__error-msg,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__error-msg {
+  grid-area: error;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > .c-input__field,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > .c-input__field {
+  transition-property: display;
+  transition-duration: 0.3s;
+  transition-behavior: allow-discrete;
+}
+
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input {
+  grid-template-areas: "group-head group-head" "error error" "group-help group-help" "group group";
+}
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input > label {
+  grid-area: group-head;
+}
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input:hover, .c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input:has(:focus-visible) {
+  box-shadow: none;
+  background-color: transparent;
+}
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input .c-input:hover,
+.c-form .c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > .c-input .c-input:has(:focus-visible) {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.c-form .c-input[data-il-ui-component=optional-group-field-input] {
+  grid-template-areas: "group-head group-head" "error error" "blank group-help" "group group";
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label {
+  grid-area: group-head;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-areas: "group-label group-field";
+  padding-right: 0;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label input[type=checkbox] {
+  grid-area: group-field;
+  justify-self: start;
+}
+.c-form .c-input[data-il-ui-component=optional-group-field-input] > label label {
+  display: block;
+  grid-area: group-label;
+}
+
+@media screen and (max-width: 768px) {
+  .c-form .c-input[data-il-ui-component=switchable-group-field-input],
+  .c-form .c-input[data-il-ui-component=optional-group-field-input] {
+    grid-template-columns: 100%;
+    grid-template-areas: "group-head" "error" "group-help" "group";
+  }
+  .c-form .c-input[data-il-ui-component=switchable-group-field-input] > label,
+  .c-form .c-input[data-il-ui-component=optional-group-field-input] > label {
+    grid-template-columns: 100%;
+    grid-template-areas: "group-label" "group-field";
   }
 }
-.il-standard-form .il-standard-form-footer, .il-standard-form .il-standard-form-header, .il-standard-form .il-section-input-header {
-  background-color: white;
-  color: #161616;
+.c-input[data-il-ui-component=optional-group-field-input]:not(:has(> label input:checked)),
+.c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) {
+  grid-template-rows: repeat(3, max-content) 0fr;
 }
-.il-standard-form .il-standard-form-header, .il-standard-form .il-standard-form-footer {
-  padding-right: 15px;
+.c-input[data-il-ui-component=optional-group-field-input]:not(:has(> label input:checked)) > .c-input__field,
+.c-input[data-il-ui-component=switchable-group-field-input] > .c-input__field > fieldset.c-input:not(:has(> label input:checked)) > .c-input__field {
+  display: none;
 }
-.il-standard-form .il-standard-form-header {
-  margin-bottom: 6px;
+
+.c-form .c-form__header,
+.c-form .c-form__footer {
+  display: grid;
+  grid-template-areas: "required actions";
+  grid-template-columns: 1fr auto;
 }
-.il-standard-form .il-standard-form-header + .il-section-input > .il-section-input-header {
-  border-top: none;
+.c-form .c-form__header .c-form__actions,
+.c-form .c-form__footer .c-form__actions {
+  grid-area: actions;
 }
-.il-standard-form .il-section-input-header {
-  padding: 12px 0 12px 15px;
-  margin: 15px 0 0 0;
-  border-top: 1px solid #dddddd;
+.c-form .c-form__header .c-form__required,
+.c-form .c-form__footer .c-form__required {
+  grid-area: required;
 }
-.il-standard-form .il-standard-form-header h2, .il-standard-form .il-section-input-header h2 {
-  font-size: 1.115rem;
-  font-weight: 600;
-  padding-top: 12px;
-  padding-bottom: 3px;
+.c-form .c-form__footer {
+  margin-top: 12px;
 }
-.il-standard-form .il-standar-form-header-byline, .il-standard-form .il-section-input-header-byline {
+
+.c-input[data-il-ui-component] {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-areas: "label field" "label error" "label help";
+  margin-top: 12px;
+}
+.c-input[data-il-ui-component]:first-child {
+  margin-top: 0;
+}
+.c-input[data-il-ui-component] > label {
+  display: block;
+  grid-area: label;
+  padding-right: 12px;
+}
+.c-input[data-il-ui-component] > .c-input__field {
+  grid-area: field;
+}
+.c-input[data-il-ui-component] > .c-input__help-byline {
+  grid-area: help;
+}
+.c-input[data-il-ui-component] > .c-input__error-msg {
+  grid-area: error;
+}
+@media screen and (max-width: 768px) {
+  .c-input[data-il-ui-component] {
+    grid-template-columns: 100%;
+    grid-template-areas: "label" "field" "error" "help";
+  }
+  .c-input[data-il-ui-component] > .c-input__field {
+    margin-top: 3px;
+  }
+}
+
+.c-input:not([data-il-ui-component=section-field-input]):hover {
+  box-shadow: 0px 0px 0px 9px #f9f9f9;
+  background-color: #f9f9f9;
+}
+.c-input:not([data-il-ui-component=section-field-input]):has(:focus-visible) {
+  box-shadow: 0px 0px 0px 9px #e2e8ef;
+  background-color: #e2e8ef;
+}
+
+.c-form .c-form__error-msg {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+.c-form .c-input[data-il-ui-component] input:invalid {
+  background-color: #ffd7d7;
+  border: 1px solid #d00;
+}
+.c-form .c-input__help-byline {
+  margin-top: 3px;
   font-size: 0.75rem;
 }
-.il-standard-form .il-standard-form-required {
-  padding-bottom: 30px;
+.c-form .c-input__error-msg {
+  margin-top: 3px;
+  margin-bottom: 0;
 }
-.il-standard-form .il-standard-form-header + .il-section-input {
-  margin-top: -50px;
-  padding: 0;
-}
-.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h2 {
+.c-form .c-input__error-msg:first-child {
   margin-top: 0;
-  padding-top: 0;
 }
-.il-standard-form .il-dependant-group {
-  background-color: #f0f0f0;
-  padding: 3px 0;
+.c-form .c-input[data-il-ui-component]:not([data-il-ui-component=section-field-input]):has(> .c-input__error-msg) {
+  border-inline-start: 6px solid #d00;
+  padding-left: 9px;
 }
-.il-standard-form .il-dependant-group .form-group {
-  margin: 0;
-}
-.il-standard-form input[type=radio], .il-standard-form input[type=checkbox] {
-  height: unset;
-  width: unset;
-}
-
-.input-group-addon {
-  padding: 3px 8px;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1;
-  color: #161616;
-  text-align: center;
-  background-color: #f9f9f9;
-  border: 1px solid #a6a6a6;
-  border-radius: 0;
-}
-
-textarea.form-control {
+.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea,
+.c-form [data-il-ui-component=markdown-field-input] .c-input__field .c-field-markdown textarea {
+  height: 100px;
   max-width: 100%;
 }
-
-select.form-control {
-  width: auto;
-  max-width: 100%;
+.c-form [data-il-ui-component=text-field-input] .c-input__field input,
+.c-form [data-il-ui-component=password-field-input] .c-input__field .c-field-password input,
+.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea,
+.c-form [data-il-ui-component=markdown-field-input] > .c-input__field .c-field-markdown textarea,
+.c-form [data-il-ui-component=url-field-input] .c-input__field input {
+  width: 100%;
+  padding: 3px 9px;
+  font-size: 0.75rem;
 }
-
-.radio .help-block {
-  padding-left: 15px;
+.c-form [data-il-ui-component=datetime-field-input] .c-input__field input,
+.c-form [data-il-ui-component=numeric-field-input] .c-input__field input {
+  padding: 3px 9px;
+  font-size: 0.75rem;
 }
-
-td.form-inline > div.form-group {
-  display: block;
-  padding: 4px 0;
+.c-form [data-il-ui-component=select-field-input] .c-input__field select {
+  padding: 3px 9px;
 }
 
 .il-std-item-container:not(:last-child) {
@@ -5805,6 +5997,7 @@ a[aria-disabled].il-link.link-bulky:hover {
   padding: 0;
   border: 0;
   border-bottom: 1px solid #dddddd;
+  border-radius: 0px;
   flex-flow: column nowrap;
   justify-content: center;
   gap: 1px;
@@ -8083,8 +8276,8 @@ div.alert ul > li:before {
 
 @font-face {
   font-family: "Glyphicons Halflings";
-  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url("./fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("./fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("./fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("./fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("./fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 .glyphicon {
   position: relative;
@@ -10065,27 +10258,14 @@ td.c-table-data__cell--highlighted {
   cursor: default;
 }
 
-.il-viewcontrol-pagination__sectioncontrol .form-group.row {
-  align-items: center;
-  height: 100%;
-  margin: 0;
-  gap: 9px;
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] {
+  border-radius: 10px;
 }
-.il-viewcontrol-pagination__sectioncontrol .form-group.row label {
-  width: fit-content;
-  margin-left: 9px;
-  margin-bottom: 0;
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] label {
+  text-align: right;
 }
-.il-viewcontrol-pagination__sectioncontrol .form-group.row label:after {
-  content: ":";
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row [class*=col-] {
-  width: auto;
-  flex-grow: 1;
-  padding: 0;
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row input[type=number] {
-  width: 5rem;
+.il-viewcontrol-pagination__sectioncontrol .c-input[data-il-ui-component=numeric-field-input] .c-field-number {
+  width: 100%;
 }
 
 /* Component parts from old delos.scss */
@@ -10168,10 +10348,10 @@ div#agreement {
 .alert-danger {
   color: #161616;
   background-color: #ffd7d7;
-  border-color: #ffd7d7;
+  border-color: #d00;
 }
 .alert-danger hr {
-  border-top-color: #ffbdbd;
+  border-top-color: #c40000;
 }
 .alert-danger .alert-link {
   color: black;
@@ -15659,8 +15839,11 @@ label {
   cursor: pointer;
   display: inline-block;
   max-width: 100%;
-  margin-bottom: 5px;
   font-weight: 400;
+}
+
+.form-horizontal label {
+  margin-bottom: 5px;
 }
 
 input[type=search] {
@@ -15671,17 +15854,9 @@ input[type=search] {
   appearance: none;
 }
 
-input[type=radio],
-input[type=checkbox] {
+.form-horizontal input[type=radio],
+.form-horizontal input[type=checkbox] {
   margin: 4px 0 0;
-  margin-top: 1px \9 ;
-  line-height: normal;
-}
-input[type=radio][disabled], input[type=radio].disabled, fieldset[disabled] input[type=radio],
-input[type=checkbox][disabled],
-input[type=checkbox].disabled,
-fieldset[disabled] input[type=checkbox] {
-  cursor: not-allowed;
 }
 
 input[type=file] {
@@ -15696,32 +15871,6 @@ input[type=range] {
 select[multiple],
 select[size] {
   height: auto;
-}
-
-input[type=file]:focus,
-input[type=radio]:focus,
-input[type=checkbox]:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-input[type=file]:focus-visible,
-input[type=radio]:focus-visible,
-input[type=checkbox]:focus-visible {
-  position: relative;
-  outline: 2px solid #FFFFFF;
-  outline-offset: 5px;
-}
-input[type=file]:focus-visible::after,
-input[type=radio]:focus-visible::after,
-input[type=checkbox]:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
 }
 
 .form-control {

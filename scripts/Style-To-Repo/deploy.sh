@@ -81,4 +81,10 @@ function deploy() {
     git -C ${DEPLOY_BASE_FOLDER} commit -m "Style changes from '${HASH}'" -m "Original message: '${MSG}'" -m "${URL}"
     git -C ${DEPLOY_BASE_FOLDER} push origin ${BRANCH}
   fi
+  if [ $? = 0 ] ; then
+    echo "[${NOW}] remote repo updated."
+  else
+    echo "[${NOW}] git commit/push failed."
+    exit $?
+  fi
 }

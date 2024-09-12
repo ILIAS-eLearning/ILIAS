@@ -525,11 +525,6 @@ class ilAccountRegistrationGUI
         global $DIC;
         $DIC['legalDocuments']->selfRegistration()->userCreation($this->userObj);
 
-        $hits_per_page = $this->settings->get("hits_per_page");
-        if ($hits_per_page < 10) {
-            $hits_per_page = 10;
-        }
-        $this->userObj->setPref("hits_per_page", $hits_per_page);
         if ($this->http->wrapper()->query()->has('target')) {
             $this->userObj->setPref(
                 'reg_target',
@@ -548,7 +543,8 @@ class ilAccountRegistrationGUI
 
         // local roles from code
         if ($this->code_was_used && is_array($code_local_roles)) {
-            foreach (array_unique($code_local_roles) as $local_role_obj_id) {
+            $code_local_roles = array_map(intval(...), array_unique($code_local_roles));
+            foreach ($code_local_roles as $local_role_obj_id) {
                 // is given role (still) valid?
                 if (ilObject::_lookupType($local_role_obj_id) === "role") {
                     $this->rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());

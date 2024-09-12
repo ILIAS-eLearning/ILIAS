@@ -37,7 +37,7 @@ class ilObjMailGUI extends ilObjectGUI
 
     private readonly ilTabsGUI $tabs;
     private readonly ilMustacheFactory $mustache_factory;
-    private MailSignatureService $mail_signature_service;
+    private readonly MailSignatureService $mail_signature_service;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -54,7 +54,7 @@ class ilObjMailGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 

@@ -285,7 +285,6 @@ administration#:#obj_prfa#:#Portfolio
 administration#:#obj_prfa_desc#:#Global Portfolio Settings
 administration#:#obj_taxs#:#Taxonomy
 administration#:#obj_taxs_desc#:#Global Taxonomy Settings
-administration#:#options#:#Options
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#output_options#:#Output options
 administration#:#path_to_mkisofs#:#Path to mkisofs
@@ -630,7 +629,6 @@ assessment#:#duplicate_order_values_entered#:#You have entered duplicate order v
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
 assessment#:#edit_introduction#:#Edit Introduction
-assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#List View
 assessment#:#element_height#:#Minimum Height
@@ -693,7 +691,6 @@ assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
-assessment#:#export#:#Export
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s
@@ -719,7 +716,6 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#fileDownload#:#File download
 assessment#:#file_uploads#:#File Uploads
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
-assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#All Question Types
 assessment#:#filter_all_questionpools#:#All Question Pools
 assessment#:#filter_show_question_types#:#Show Question Types
@@ -750,7 +746,6 @@ assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results.
 assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
-assessment#:#general#:#General
 assessment#:#glossary_term#:#Glossary Term
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_obligations_answered_listentry#:#Answered
@@ -760,14 +755,12 @@ assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compulsory questions.
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
-assessment#:#height#:#Height
 assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
 assessment#:#imap_line_color#:#Image Map Line Color
 assessment#:#import_question#:#Import Question(s)
-assessment#:#imported#:#imported
 assessment#:#in_range#:#Within range
 assessment#:#in_trash#:#In Trash
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
@@ -830,8 +823,6 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_example_header#:#Examples
-assessment#:#last_update#:#Updated
-assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
@@ -916,7 +907,6 @@ assessment#:#min_ip_label#:#Lowest IP With Access
 assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
-assessment#:#msg_deleted_export_files#:#Export file(s) removed
 assessment#:#msg_no_questions_selected#:#No questions were selected.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
@@ -994,7 +984,6 @@ assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
-assessment#:#please_select#:#-- please select --
 assessment#:#point#:#Point
 assessment#:#points#:#Points
 assessment#:#points_checked#:#Points when Checked
@@ -1011,7 +1000,6 @@ assessment#:#positive_numbers_required#:#Please enter only positive numbers.
 assessment#:#postpone_question#:#Move Question to the End###fau: testNav
 assessment#:#postponed#:#postponed
 assessment#:#precision#:#Precision
-assessment#:#preview#:#Preview
 assessment#:#previous_question#:#Previous
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
@@ -1164,7 +1152,6 @@ assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
 assessment#:#reset_definitions#:#Reset Ordering
-assessment#:#reset_filter#:#Reset Filter
 assessment#:#reset_pictures#:#Reset Picture Positions
 assessment#:#reset_terms#:#Reset Ordering
 assessment#:#result#:#Result
@@ -1201,7 +1188,6 @@ assessment#:#scored_pass#:#Scored Pass
 assessment#:#scoring#:#Scoring and Results
 assessment#:#scoringadjust#:#Corrections
 assessment#:#search_groups#:#Search Groups
-assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
@@ -2064,7 +2050,7 @@ auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactiv
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginscreen Editor
+auth#:#auth_login_editor#:#Design Login-Page
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
@@ -2153,11 +2139,14 @@ auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS a
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
 auth#:#language_does_not_exist#:#The selected language does not exist.
-auth#:#login_page#:#Login-Page
-auth#:#login_page_activate#:#Activate Page Design
-auth#:#login_page_deactivate#:#Deactivate Page Design
+auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
+auth#:#logout_editor#:#Design Logout-Page
+auth#:#logout_page#:#Language of Logout-Page
+auth#:#logout_pages#:#Logout-Pages
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+auth#:#page_design_activate#:#Activate Page Design
+auth#:#page_design_deactivate#:#Deactivate Page Design
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Online Now
 awrn#:#awareness_settings#:#Settings
@@ -2188,7 +2177,6 @@ background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Completed
 background_tasks#:#proceed_job#:#Proceed
-background_tasks#:#remove#:#Remove
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
@@ -2409,7 +2397,6 @@ blog#:#blog_approve#:#Approve Post
 blog#:#blog_author#:#Written by
 blog#:#blog_authors#:#Authors
 blog#:#blog_back_to_blog_owner#:#Edit Blog
-blog#:#blog_banner#:#Banner
 blog#:#blog_change_notification_body_approve#:#The following blog post needs approval.
 blog#:#blog_change_notification_body_comment#:#The following blog post has received a comment.
 blog#:#blog_change_notification_body_new#:#A new post has been added to the following blog.
@@ -2489,10 +2476,6 @@ blog#:#blog_postings#:#Posts
 blog#:#blog_presentation_frame#:#Blog Presentation
 blog#:#blog_presentation_overview#:#Initial Overview
 blog#:#blog_preview#:#Preview
-blog#:#blog_preview_banner#:#Custom Banner
-blog#:#blog_preview_banner_height#:#Banner Height
-blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
-blog#:#blog_preview_banner_width#:#Banner Width
 blog#:#blog_profile_picture#:#Display Profile Picture
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of authors are only shown on post pages, not on overview pages.
 blog#:#blog_properties#:#Blog Properties
@@ -2827,7 +2810,7 @@ certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name#:#Certificate file short title
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_text#:#Certificate Text
-certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.<br><br>
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
@@ -3017,7 +3000,6 @@ chatroom#:#messages#:#Messages
 chatroom#:#no_further_users#:#No other users present
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
-chatroom#:#obj_chtr#:#Chat Room
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
 chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
@@ -3485,6 +3467,7 @@ common#:#adve_assessment_settings#:#Test and Assessment Settings
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_survey_settings#:#Survey Settings
+common#:#agree_date#:#Agreed on
 common#:#all#:#All
 common#:#all_global_roles#:#Global Roles
 common#:#all_local_roles#:#Local Roles (all)
@@ -3969,8 +3952,6 @@ common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Dat
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
-common#:#enable_hist_user_comments#:#Enable user comments in history
-common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_multi_download#:#'Download of multiple objects' enabled
 common#:#enable_multi_download_info#:#Multiple folders/files can be selected and downloaded as zip archive.
 common#:#enable_password_assistance#:#Enable Password Assistance
@@ -3999,6 +3980,7 @@ common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Reason: Wrong parameter count
+common#:#err_disabled#:#Account creation via Shibboleth has been disabled. Please contact the system administrator for further information.
 common#:#err_double_entries#:#Reason: Duplicate Entries
 common#:#err_in_line#:#Error in line
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
@@ -4057,7 +4039,6 @@ common#:#exc_upload_error#:#Error uploading file
 common#:#excs#:#Exercises
 common#:#execute#:#Apply
 common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
-common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#expand_all#:#Expand All
 common#:#expand_content#:#Expand Content
@@ -4179,7 +4160,6 @@ common#:#frm_import#:#Import Forum
 common#:#frm_latest_postings#:#Latest Posts
 common#:#frm_new#:#New Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.
-common#:#frm_statistics_ranking#:#Number of Public Postings
 common#:#from#:#From
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
@@ -4289,7 +4269,6 @@ common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
 common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#History
-common#:#hits_per_page#:#Hits/Page
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
 common#:#host#:#Host
@@ -4308,7 +4287,7 @@ common#:#iass_new#:#Create Individual Assessment
 common#:#icon#:#Icon
 common#:#icon_settings#:#Custom Icons
 common#:#id#:#ID
-common#:#identifier#:#identifier
+common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
 common#:#ignore_on_conflict#:#Insert/Update action will be followed strictly
 common#:#ignore_required_fields#:#Ignore required fields
@@ -4327,7 +4306,6 @@ common#:#il_grp_admin#:#Group Administrator
 common#:#il_grp_member#:#Group Member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_iass_member#:#Individual Assessment Examinee
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 common#:#il_lti_instructor#:#LTI Instructor
@@ -4471,7 +4449,6 @@ common#:#learning_progress#:#Learning Progress
 common#:#leave_waiting_list#:#Leave Waiting List
 common#:#legend#:#Legend
 common#:#level#:#Level
-common#:#like#:#Like
 common#:#link#:#Link
 common#:#link_action#:#Insert Link - Click to insert a link.
 common#:#link_all#:#Link all
@@ -4545,7 +4522,6 @@ common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
-common#:#lso_copy#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
 common#:#lso_edit#:#Edit Learning Sequence
 common#:#lso_import#:#Import Learning Sequence
@@ -4957,6 +4933,8 @@ common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_mailr#:#Read Mail
+common#:#obj_mailu#:#Unread Mail
 common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_mcts#:#Mediacast
@@ -5210,7 +5188,6 @@ common#:#page#:#Page
 common#:#page_count#:#Page Count
 common#:#page_layout#:#Page Layout
 common#:#page_layouts#:#Page Layouts
-common#:#pages#:#Pages
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
@@ -5269,10 +5246,10 @@ common#:#phone_home#:#Phone, Home
 common#:#phone_mobile#:#Phone, Mobile
 common#:#phone_office#:#Phone, Office
 common#:#phrase#:#Phrase
-common#:#please_choose#:#-- Select --
+common#:#please_choose#:#–– Select ––
 common#:#please_enter_target#:#Please enter a target
 common#:#please_enter_title#:#Please enter a title
-common#:#please_select#:#-- Please Select --
+common#:#please_select#:#–– Please Select ––
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!
 common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!
 common#:#please_wait#:#Please wait...
@@ -5354,7 +5331,6 @@ common#:#public_room#:#Public Chat Room
 common#:#purpose#:#Purpose
 common#:#qpl#:#Question Pool Test
 common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_copy#:#Copy Question Pool Test
 common#:#qpl_new#:#New Question Pool Test
 common#:#query_data#:#Query data
 common#:#question#:#Question
@@ -6088,6 +6064,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -6095,8 +6072,6 @@ contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 content#:#Pages#:#Pages
 content#:#add_menu_entry#:#Add Menu Entry
 content#:#all_pages#:#Entire Learning Module
-content#:#choose_public_mode#:#Access for Users not logged-in
-content#:#choose_public_pages#:#Choose public accessible pages
 content#:#citate#:#Citate
 content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
@@ -7309,7 +7284,6 @@ content#:#scplayer_suspendall#:#Suspend All
 content#:#selectFooter#:#Select As Footer
 content#:#selectHeader#:#Select As Header
 content#:#select_a_file#:#Please select a file.
-content#:#selected_pages_only#:#Only Selected Pages
 content#:#seq_close#:#Please close the player-window.
 content#:#seq_endsession#:#The current course session has ended.
 content#:#seq_error#:#An internal error in the sequencer occurred.
@@ -8480,22 +8454,14 @@ dateplaner#:#end_date#:#End Date
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#free#:#Free
-dateplaner#:#group#:#Group
 dateplaner#:#grp_cal_end#:#Group ends
 dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 dateplaner#:#grp_cal_start#:#Group starts
-dateplaner#:#hour#:#hour
 dateplaner#:#ical_export#:#iCal Export
-dateplaner#:#inbox#:#Inbox
 dateplaner#:#keep#:#Keep
 dateplaner#:#keyword#:#Keyword
-dateplaner#:#keywords#:#Keywords
-dateplaner#:#last_change#:#Last changed
-dateplaner#:#month#:#Month
 dateplaner#:#more#:#More
-dateplaner#:#of#:#of
-dateplaner#:#properties#:#Properties
 dateplaner#:#r_14#:#Every 14 days
 dateplaner#:#r_4_weeks#:#Every 4 weeks
 dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the web calendar is protected.
@@ -9214,7 +9180,7 @@ exc#:#exc_create_blog_select_info#:#Please select the resources folder in which 
 exc#:#exc_create_portfolio#:#Create Portfolio
 exc#:#exc_create_portfolio_no_template#:#Do not use template
 exc#:#exc_create_team#:#Create Team
-exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
+exc#:#exc_create_team_times_up_warning#:#You cannot create or join a team anymore.
 exc#:#exc_create_wiki#:#Create Wiki
 exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
@@ -9500,7 +9466,6 @@ exc#:#exc_save_all#:#Save All
 exc#:#exc_save_order#:#Save Order
 exc#:#exc_save_selected#:#Save Selected
 exc#:#exc_saved_order#:#Saved presentation order.
-exc#:#exc_schedule#:#Schedule
 exc#:#exc_select_ass#:#Select Assignment
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_blog_change#:#Use different blog
@@ -9651,11 +9616,9 @@ exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from 
 exc#:#exc_work_instructions#:#Work instructions
 exc#:#exc_x_of_y#:#of
 exc#:#exc_your_text#:#Your Text
-exc#:#feedback#:#Feedback
 exc#:#feedback_from#:#Feedback from
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback_received#:#Feedback received
-exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#grade_evaluate#:#Grade and Evaluate
 exc#:#not_yet#:#not yet
@@ -9681,12 +9644,10 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
-exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
-exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
@@ -10136,7 +10097,6 @@ glo#:#glo_flashcards_from_today_only_info#:#The box contains only flashcards alr
 glo#:#glo_flashcards_intro#:#Your goal is to correctly remember each flashcard four times in a row.<br />To begin with, all of the flashcards are in box 1.<br />Flagging a flashcard as "I got it right" will advance it to the next box.<br />Flagging a flashcard as "I was wrong" will return the card to the first box.<br />To start, select a box. This will reveal the flashcards.
 glo#:#glo_introduction#:#Introduction
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
-glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
@@ -10373,7 +10333,6 @@ help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_topcis#:#Topics
 help#:#help_tt_text#:#Text
 iass#:#download_assessment_paper#:#Download Record file
-iass#:#general#:#General Information
 iass#:#grading#:#Grading
 iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
@@ -10872,8 +10831,7 @@ lso#:#extro_img#:#Image for Exit Page
 lso#:#failed#:#Failed
 lso#:#finished#:#Finished
 lso#:#first_access#:#First Access
-lso#:#last_access#:#Last Access
-lso#:#last_visited_step#:#Last visited Step
+lso#:#last_visited_step#:#Last Visited Step
 lso#:#learner_view#:#Overview
 lso#:#lp_not_relevant_post_cond#:#currently not relevant for continuation
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
@@ -10954,7 +10912,6 @@ lso#:#members_gallery#:#Member Gallery
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#not_finished#:#Not Finished
 lso#:#notification_lso_completed_title#:#You completed the Learning Sequence %s.
-lso#:#participate#:#Subscribe
 lso#:#show_summary#:#Info
 lso#:#table_actions#:#Actions
 lso#:#table_lp_settings#:#Learning Progress Settings
@@ -11274,6 +11231,7 @@ mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#mail_1#:#1 Mail
 mail#:#mail_absence_auto_responder_body#:#Message
 mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME].
 mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages.
@@ -11289,6 +11247,7 @@ mail#:#mail_add_folder#:#Add New Sub-Folder
 mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
 mail#:#mail_add_subfolder#:#Add Sub-Folder
 mail#:#mail_add_subject#:#Please enter a subject.
+mail#:#mail_all_in_trash#:#All in Trash
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
 mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
@@ -11312,6 +11271,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_deleted#:#Mail(s) deleted.
 mail#:#mail_deleted_entry#:#Entries deleted.
+mail#:#mail_download_attachment#:#Download Attachment
 mail#:#mail_download_zip_no_attachments#:#No attachments could be found.
 mail#:#mail_edit_tpl#:#Edit Text Template
 mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to external mail accounts.
@@ -11343,15 +11303,17 @@ mail#:#mail_files_deleted#:#File(s) deleted.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_body#:#Body
+mail#:#mail_filter_display#:#Display
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
-mail#:#mail_filter_only_unread#:#Only Unread
-mail#:#mail_filter_only_user_mails#:#Hide System Notifications
-mail#:#mail_filter_only_with_attachments#:#With Attachments
 mail#:#mail_filter_period#:#Period
-mail#:#mail_filter_period_from#:#From
-mail#:#mail_filter_period_until#:#Until
 mail#:#mail_filter_recipients#:#Recipients
 mail#:#mail_filter_sender#:#Sender
+mail#:#mail_filter_show_read#:#Show Read
+mail#:#mail_filter_show_system_mails#:#Show System Notifications
+mail#:#mail_filter_show_unread#:#Show Unread
+mail#:#mail_filter_show_user_mails#:#Show User Mails
+mail#:#mail_filter_show_with_attachments#:#Show With Attachments
+mail#:#mail_filter_show_without_attachment#:#Show Without Attachment
 mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_first_email#:#First E-Mail Address
@@ -11439,7 +11401,7 @@ mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are olde
 mail#:#mail_recipient_not_found#:#%1$s - Please correct this entry in the ‘To’ field.
 mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_roles#:#All users with one or more of the following local roles
-mail#:#mail_s#:#Mail(s)
+mail#:#mail_s#:# %s Mails
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Ms
 mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms'
@@ -11481,7 +11443,7 @@ mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text which will be prepended to the subject line of outgoing auto-generated e-mails. The usage of a prefix is recommended, as it makes it easier for users to filter messages.
 mail#:#mail_subject_too_long#:#The subject is too long.
-mail#:#mail_sure_delete#:#Are you sure you want to delete the selected mail(s)?
+mail#:#mail_sure_delete#:#Are you sure you want to delete the following mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file(s)?
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be irrevocably deleted.
@@ -11709,7 +11671,6 @@ mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is 
 mep#:#mep_copy_to_mep#:#Copy to Media Pool
 mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_create_folder#:#Create Folder
-mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory
 mep#:#mep_create_media_files#:#Create Media Objects
 mep#:#mep_create_mob#:#Create Media Object
 mep#:#mep_default_height#:#Default Height
@@ -11734,7 +11695,6 @@ mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_page_properties#:#Page Properties
 mep#:#mep_page_type_mep#:#Content Snippet
-mep#:#mep_sel_upload_dir_files#:#Select Files/Directories
 mep#:#mep_thumbnail#:#Thumbnail
 mep#:#mep_title_and_description#:#Title and Description
 mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
@@ -11817,6 +11777,7 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_admin_tab#:#Copyright & OER
 meta#:#md_copyright_alt_text#:#Text Representation
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_default#:#Default
@@ -11833,7 +11794,7 @@ meta#:#md_copyright_link#:#URL
 meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
-meta#:#md_copyright_settings#:#Copyright Settings
+meta#:#md_copyright_settings#:#Settings
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyrights_deleted#:#Copyright deleted.
 meta#:#md_days#:#Days:
@@ -11842,6 +11803,13 @@ meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
 meta#:#md_fields#:#Fields
 meta#:#md_months#:#Months:
+meta#:#md_oai_contact_mail#:#Contact E-Mail
+meta#:#md_oai_identifier_prefix#:#OAI Prefix
+meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
+meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
+meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories.
+meta#:#md_oai_repository_name#:#Repository Name
+meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
@@ -12403,9 +12371,10 @@ meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
 meta#:#meta_oer_copyright_selection#:#Copyright Selection
 meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
+meta#:#meta_oer_exposed_source#:#Category for Published OER Content
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
-meta#:#meta_oer_target#:#Category for Release OER Content
+meta#:#meta_oer_target#:#Category for Harvested OER Content
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
@@ -12908,7 +12877,6 @@ orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
 orgu#:#import_xml_file#:#Import File
 orgu#:#local_other_roles#:#Additional Local Roles %s
 orgu#:#local_staff#:#Employees %s
-orgu#:#mm_organisation#:#Organisation
 orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#msg_confirm_deletion#:#Would you really like to delete the following Position?
@@ -13459,10 +13427,6 @@ prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrele
 prg#:#will_not_update_cert_for_unsuccessful_progress#:#No certificate for unsuccessful programme
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_assignment#:#Add Assignment
-prtf#:#prtf_add_blog#:#Add Blog
-prtf#:#prtf_add_existing_blog#:#Use Existing Blog
-prtf#:#prtf_add_new_blog#:#Add New Blog
-prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_add_portfolio#:#Add Portfolio
 prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template
@@ -13473,7 +13437,6 @@ prtf#:#prtf_allow_my_courses#:#Page Element ‘My Courses’
 prtf#:#prtf_allow_my_courses_info#:#Portfolios may include a list showing which courses the user is currently a member of.
 prtf#:#prtf_author#:#Author
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
-prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_blog_page_created#:#Blog has been added.
 prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
 prtf#:#prtf_copy_page#:#Copy Page(s)
@@ -13526,10 +13489,6 @@ prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new po
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 prtf#:#prtf_portfolios#:#Portfolios
-prtf#:#prtf_preview_banner#:#Custom Banner
-prtf#:#prtf_preview_banner_height#:#Banner Height
-prtf#:#prtf_preview_banner_info#:#Default size is 1370x100 pixels.
-prtf#:#prtf_preview_banner_width#:#Banner Width
 prtf#:#prtf_print_options#:#Options
 prtf#:#prtf_print_selection#:#Page Selection
 prtf#:#prtf_profile_picture#:#Display Profile Picture
@@ -13540,8 +13499,6 @@ prtf#:#prtf_role_title#:#Role
 prtf#:#prtf_save_status_and_titles#:#Save Status and Titles
 prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.
 prtf#:#prtf_selected_pages#:#Selected Pages
-prtf#:#prtf_set_as_default#:#Set As My Profile
-prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
 prtf#:#prtf_set_offline#:#Set Offline
@@ -14983,7 +14940,6 @@ scormdebug#:#debugwindow_stop_recording#:#Stop Recording
 scormdebug#:#debugwindow_submission_failed#:#Submission failed
 scormdebug#:#debugwindow_submit#:#Submit
 scormdebug#:#description_for#:#description for
-scormdebug#:#error#:#error
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
 scormdebug#:#error102#:#General Initialization Failure
@@ -15011,7 +14967,6 @@ scormdebug#:#error406#:#Data Model Element Type Mismatch
 scormdebug#:#error407#:#Data Model Element Value Out Of Range
 scormdebug#:#error408#:#Data Model Dependency Not Established
 scormdebug#:#generated#:#generated
-scormdebug#:#hide#:#hide
 scormdebug#:#i_fuchsia#:#fuchsia: tolerated value because sent value is not rejected
 scormdebug#:#i_gray#:#gray: error corrected by ILIAS
 scormdebug#:#i_green#:#green: okay
@@ -15086,8 +15041,7 @@ scormtrac#:#exportselectedinteractions#:#Basic report for interactions
 scormtrac#:#exportselectedobjectives#:#Report for objectives
 scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#exportselectedsuccess#:#Basic report for success
-scormtrac#:#id#:#ID
-scormtrac#:#identifierref#:#SCO-Identifier
+scormtrac#:#identifierref#:#SCO identifier
 scormtrac#:#interaction_description#:#Description of interaction
 scormtrac#:#interaction_id#:#ID of interaction
 scormtrac#:#interaction_value#:#Result of interaction
@@ -15219,6 +15173,7 @@ search#:#search_filter_cd#:#Filter by Creation Date
 search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_orgu_members#:#Search for Organisational Units
+search#:#search_for_orgu_members_recursive#:#Include Subunits?
 search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for Users
 search#:#search_grp_title#:#Group Name
@@ -15246,7 +15201,6 @@ search#:#search_no_selection#:#You made no selection.
 search#:#search_off#:#Off
 search#:#search_option_offline#:#Offline
 search#:#search_option_online#:#Online
-search#:#search_results#:#Search Results
 search#:#search_role_title#:#Role Name
 search#:#search_select_search_area#:#Select Search Area
 search#:#search_show_inactive_user#:#Show Inactive Users
@@ -15357,8 +15311,14 @@ sess#:#sess_users_added#:#Registered selected users for the session.
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_warn_sess_type_changed#:#Do you really want to change the session type? All permission settings will be reset.
-shib#:#shib_activate_new#:#New Accounts with Approval
-shib#:#shib_activate_new_info#:#Newly-created accounts are inactive until they have been approved by an administrator.
+shib#:#shib_account_creation#:#Account Creation
+shib#:#shib_account_creation_disabled#:#Disabled
+shib#:#shib_account_creation_disabled_info#:#No new account is created.
+shib#:#shib_account_creation_enabled#:#Enabled
+shib#:#shib_account_creation_enabled_info#:#An active new account is created.
+shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.
+shib#:#shib_account_creation_with_approval#:#With approval
+shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.
 shib#:#shib_add_missing#:#Assign Missing Roles
 shib#:#shib_add_remove#:#Add/Remove Roles
 shib#:#shib_assignment_type#:#Kind of Assignment
@@ -15651,7 +15611,6 @@ style#:#open_documentation#:#Open Documentation
 style#:#parent#:#Parent Style
 style#:#personal#:#Personal
 style#:#personal_style_set_to#:#Your personal style has been set to:
-style#:#preview#:#Preview
 style#:#provided_scss_path#:#Provided scss path:
 style#:#red_color#:#Red Color
 style#:#red_colors#:#Red Colors
@@ -16161,7 +16120,6 @@ survey#:#externalmails#:#Import file
 survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient e-mail.
 survey#:#externaltext#:#Import text
 survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient e-mail.
-survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#All Question Types
 survey#:#filter_all_questionpools#:#All Question Pools
 survey#:#finished_mail_subject#:#The survey "%s" was finished
@@ -16190,9 +16148,7 @@ survey#:#invited_users#:#Selected Users
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
 survey#:#language_changed#:#Language changed
-survey#:#last_update#:#Updated
 survey#:#layout#:#Layout
-survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
 survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen
 survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
@@ -16242,7 +16198,6 @@ survey#:#minimum#:#Minimum Value
 survey#:#mode#:#Most Selected Value
 survey#:#mode_nr_of_selections#:#Nr of Selections
 survey#:#mode_text#:#Most Selected Value (Text)
-survey#:#msg_deleted_export_files#:#Export file(s) deleted
 survey#:#msg_duplicate_scale#:#Please enter unique scale values.
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid routing rule!
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
@@ -16266,7 +16221,6 @@ survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
 survey#:#obligatory#:#Compulsory
 survey#:#off#:#Off
-survey#:#offline#:#offline
 survey#:#on#:#On
 survey#:#or#:#or
 survey#:#orientation#:#Orientation
@@ -16274,8 +16228,6 @@ survey#:#other_answer#:#Other answer
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#outro#:#Concluding Remarks
 survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
-survey#:#please_select#:#-- please select --
-survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
@@ -16303,7 +16255,6 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#recipients#:#Recipients
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the survey?
-survey#:#reset_filter#:#Reset Filter
 survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#row_text#:#Row Text
@@ -16312,7 +16263,6 @@ survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
 survey#:#saved_messages#:#Available messages
 survey#:#scale#:#Scale
-survey#:#search_for#:#Search for
 survey#:#search_groups#:#Found Groups
 survey#:#search_term#:#Search Term
 survey#:#search_users#:#Search Users
@@ -16818,7 +16768,6 @@ trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of '
 trac#:#create_date_max#:#Latest Registration
 trac#:#create_date_min#:#Earliest Registration
 trac#:#info_valid_request#:#The maximum valid time between two requests of a user.
-trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#obj_types#:#Object Types
 trac#:#read_count_avg#:#Average page views
@@ -17108,6 +17057,7 @@ ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScri
 ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.
 ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed
 ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.
+ui#:#ui_file_upload_max_nr#:#Max Number of Files:
 ui#:#ui_invalid_url#:#Invalid URL-format
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
@@ -17258,8 +17208,8 @@ user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Interne
 user#:#usr_public_profile_logged_in#:#Visible for logged in Users
 usr#:#user_action#:#User Action
 usr#:#user_actions#:#User Actions
-usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-validation#:#datetime_required#:#Time/Date required
+usr#:#user_actions_activation_info#:#Actions will only be listed for users if the corresponding services have been activated and all preconditions are met (e.g. permissions requirements).
+validation#:#datetime_required#:#Time/date required
 validation#:#no_array#:#Given value is not an array
 validation#:#not_a_null#:#Value of type '%s' is not a null.
 validation#:#not_a_string#:#Value of type '%s' is not a string.

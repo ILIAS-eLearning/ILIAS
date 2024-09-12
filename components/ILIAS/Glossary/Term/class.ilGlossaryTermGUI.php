@@ -182,7 +182,7 @@ class ilGlossaryTermGUI
 
         $lang = new ilSelectInputGUI($this->lng->txt("language"), "term_language");
         $lang->setRequired(true);
-        $lang->setOptions(ilMDLanguageItem::_getLanguages());
+        $lang->setOptions($this->domain->metadata()->getLOMLanguagesForSelectInputs());
         $lang->setValue($this->term->getLanguage());
         $form->addItem($lang);
 

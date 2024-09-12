@@ -35,8 +35,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Toast\Toast) {
             return $this->renderToast($component, $default_renderer);
         }
@@ -44,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderContainer($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderToast(Component\Toast\Toast $component, RendererInterface $default_renderer): string
@@ -105,16 +103,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/toast.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Toast\Toast::class,
-            Component\Toast\Container::class
-        ];
     }
 }

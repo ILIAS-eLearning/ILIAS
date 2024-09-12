@@ -34,13 +34,12 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         switch(true) {
             case ($component instanceof Component\Layout\Alignment\Vertical):
                 return $this->renderAlignment($component, $default_renderer);
 
             default:
-                throw new \LogicException("Cannot render: " . get_class($component));
+                $this->cannotHandleComponent($component);
         }
     }
 
@@ -56,15 +55,5 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->touchBlock('alignment_vertical');
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Layout\Alignment\Vertical::class,
-        ];
     }
 }

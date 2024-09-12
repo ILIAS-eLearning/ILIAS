@@ -517,23 +517,6 @@ class ilPageEditorGUI
     }
 
     /**
-     * add change comment to history
-     */
-    public function addChangeComment(): void
-    {
-        ilHistory::_createEntry(
-            $this->page->getId(),
-            "update",
-            [],
-            $this->page->getParentType() . ":pg",
-            $this->request->getString("change_comment"),
-            true
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_added_comment"), true);
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
      * Confirm
      */
     public function delete(): void

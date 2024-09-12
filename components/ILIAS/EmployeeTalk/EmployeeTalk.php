@@ -33,7 +33,7 @@ class EmployeeTalk implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
 
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\EmployeeTalk\Setup\ilEmployeeTalkSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );

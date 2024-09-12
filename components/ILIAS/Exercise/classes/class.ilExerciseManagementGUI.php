@@ -31,7 +31,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 
 /**
- * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilExerciseManagementGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI, ilExPeerReviewGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilParticipantsPerAssignmentTableGUI
@@ -197,52 +197,6 @@ class ilExerciseManagementGUI
                     $this->requested_member_id
                 );
                 $this->ctrl->forwardCommand($gui);
-                break;
-
-                // feedback files LEGACY
-            case "ilfilesystemgui":
-                $ilTabs->clearTargets();
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, $this->getViewBack())
-                );
-
-                $this->tpl->setOnScreenMessage('info', $lng->txt("exc_fb_tutor_info"));
-
-                $fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
-                $fstorage->create();
-
-                $submission = new ilExSubmission($this->assignment, $this->requested_member_id);
-                $feedback_id = $submission->getFeedbackId();
-                $noti_rec_ids = $submission->getUserIds();
-
-                $fs_title = array();
-                foreach ($noti_rec_ids as $rec_id) {
-                    $fs_title[] = ilUserUtil::getNamePresentation($rec_id, false, false, "", true);
-                }
-                $fs_title = implode(" / ", $fs_title);
-
-                $fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath($feedback_id));
-                $fs_gui->setTableId("excfbfil" . $this->assignment->getId() . "_" . $feedback_id);
-                $fs_gui->setAllowDirectories(false);
-                $fs_gui->setTitle($lng->txt("exc_fb_files") . " - " .
-                    $this->assignment->getTitle() . " - " .
-                    $fs_title);
-                $pcommand = $fs_gui->getLastPerformedCommand();
-                if (is_array($pcommand) && ($pcommand["cmd"] ?? "") == "create_file") {
-                    foreach ($noti_rec_ids as $user_id) {
-                        $member_status = $this->assignment->getMemberStatus($user_id);
-                        $member_status->setFeedback(true);
-                        $member_status->update();
-                    }
-
-                    $this->notification->sendFeedbackNotification(
-                        $this->assignment->getId(),
-                        $noti_rec_ids,
-                        $pcommand["name"] ?? ""
-                    );
-                }
-                $this->ctrl->forwardCommand($fs_gui);
                 break;
 
             case 'ilrepositorysearchgui':
@@ -655,10 +609,15 @@ class ilExerciseManagementGUI
         $members_filter = new ilExerciseMembersFilter($this->exercise->getRefId(), $members, $this->user->getId());
         $members = $members_filter->filterParticipantsByAccess();
 
-        foreach (ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file) {
-            if (trim($file["atext"]) && ilObjUser::_exists($file["user_id"])) {
-                $feedback_data = $this->collectFeedbackDataFromPeer($file);
-                $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
+        $sm = $this->domain->submission($this->assignment->getId());
+        foreach ($sm->getSubmissionsOfOwners($members) as $sub) {
+            if (trim($sub->getText()) && $this->domain->profile()->exists($sub->getUserId())) {
+                $feedback_data = $this->collectFeedbackDataFromPeer(
+                    $sub->getUserId(),
+                    $sub->getTimestamp(),
+                    $sub->getText()
+                );
+                $submission_data = $this->assignment->getExerciseMemberAssignmentData($sub->getUserId(), $this->filter["status"] ?? "");
 
                 if (is_array($submission_data)) {
                     $data = array_merge($feedback_data, $submission_data);
@@ -684,6 +643,7 @@ class ilExerciseManagementGUI
     public function compareTextAssignmentsObject(): void
     {
         $this->setBackToMembers();
+        $subm = $this->domain->submission($this->assignment->getId());
 
         $group_panels_tpl = new ilTemplate("tpl.exc_group_report_panels.html", true, true, "components/ILIAS/Exercise");
         $group_panels_tpl->setVariable('TITLE', $this->lng->txt("exc_compare_selected_submissions"));
@@ -692,30 +652,26 @@ class ilExerciseManagementGUI
         //participant ids selected via checkboxes
         $participants = array_keys($this->getMultiActionUserIds());
 
-        $total_reports = 0;
         foreach ($participants as $participant_id) {
-            $submission = new ilExSubmission($this->assignment, $participant_id);
-
-            //submission data array
-            $files = $submission->getFiles();
-            $file = reset($files);
-
-            if (!$file) {
-                $file = [
-                    "user_id" => $participant_id,
-                    "ts" => null,
-                    "atext" => null
-                ];
+            $subs = $subm->getSubmissionsOfUser($participant_id);
+            $ts = "";
+            $text = "";
+            if ($s = $subs->current()) {
+                $ts = $s->getTimestamp();
+                $text = $s->getText();
             }
 
-            $feedback_data = $this->collectFeedbackDataFromPeer($file);
+            $feedback_data = $this->collectFeedbackDataFromPeer(
+                $participant_id,
+                $ts,
+                $text
+            );
 
-            $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
+            $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $participant_id, $this->filter["status"] ?? "");
 
             if (is_array($submission_data)) {
                 $data = array_merge($feedback_data, $submission_data);
                 $report_html .= $this->getReportPanel($data);
-                $total_reports++;
             }
         }
 
@@ -1223,49 +1179,6 @@ class ilExerciseManagementGUI
     // Download all submitted files (of all members).
 
     /**
-     * @throws ilObjectNotFoundException
-     * @throws ilDatabaseException
-     * @throws ilExerciseException
-     */
-    public function downloadAllObject(): void
-    {
-        $members = array();
-
-        foreach ($this->exercise->members_obj->getMembers() as $member_id) {
-            $submission = new ilExSubmission($this->assignment, $member_id);
-            $submission->updateTutorDownloadTime();
-
-            // get member object (ilObjUser)
-            if (ilObject::_exists($member_id)) {
-                $storage_id = "";
-                // adding file metadata
-                foreach ($submission->getFiles() as $file) {
-                    if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam()) {
-                        $storage_id = $file["team_id"];
-                    } else {
-                        $storage_id = $file["user_id"];
-                    }
-
-                    $members[$storage_id]["files"][$file["returned_id"]] = $file;
-                }
-                if ($this->assignment->getAssignmentType()->isSubmissionAssignedToTeam()) {
-                    $name = "Team " . $submission->getTeam()->getId();
-                } else {
-                    /** @var $tmp_obj ilObjUser */
-                    $tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
-                    $name = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
-                }
-                if ($storage_id > 0) {
-                    $members[$storage_id]["name"] = $name;
-                }
-                unset($tmp_obj);
-            }
-        }
-
-        ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members, "");
-    }
-
-    /**
      * @throws ilExcUnknownAssignmentTypeException
      */
     protected function getMultiActionUserIds(bool $a_keep_teams = false): array
@@ -1388,16 +1301,9 @@ class ilExerciseManagementGUI
 
         foreach ($member_ids as $usr_id) {
             $this->exercise->members_obj->deassignMember((int) $usr_id);
-            $this->removeUserSubmissionFilesFromWebDir((int) $usr_id);
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("exc_msg_participants_removed"), true);
         $ilCtrl->redirect($this, "members");
-    }
-
-    public function removeUserSubmissionFilesFromWebDir(int $user_id): void
-    {
-        $storage = new ilFSWebStorageExercise($this->exercise->getId(), $this->ass_id);
-        $storage->deleteUserSubmissionDirectory($user_id);
     }
 
     /**
@@ -2219,27 +2125,24 @@ class ilExerciseManagementGUI
         $member_id = $this->requested_member_id;
 
         $submission = new ilExSubmission($this->assignment, $member_id);
+        $entry = $submission->getSubmittedEntry($print_version);
+        if (is_null($entry)) {
+            throw new ilExerciseException("No submission entry for " . $this->assignment->getId() . " / " .
+                $member_id . ".");
+        }
+        $rid = $entry->getRid();
 
         $last_opening = $submission->getLastOpeningHTMLView();
         $submission_time = $submission->getLastSubmission();
 
-        // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
-        $zip_original_full_path = $this->getSubmissionZipFilePath($submission, $print_version);
-        $this->log->debug("zip original full path: " . $zip_original_full_path);
-
-        // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
-        $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
-        $this->log->debug("zip internal path: " . $zip_internal_path);
-
-        $arr = explode("_", basename($zip_original_full_path));
-        $obj_date = $arr[0];
-        $obj_id = (int) ($arr[1] ?? 0);
-        if ($obj_id === 0) {
-            throw new ilExerciseException("Cannot open HTML view for " . $zip_internal_path . " / " .
-                $submission->getSubmittedPrintFile() . ".");
+        if ($rid !== "") {
+            $zip_internal_path = "ilExercise/" . \ilFileSystemAbstractionStorage::createPathFromId(
+                $this->assignment->getExerciseId(),
+                "exc"
+            ) . "/subm_" . $this->assignment->getId() . "/" . $member_id . "/resource.zip";
+            $obj_id = str_replace([".zip", "print"], "", $entry->getTitle());
+            $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
         }
-
-        $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
         if ($print_version) {
             $obj_id .= "print";
         }
@@ -2263,98 +2166,29 @@ class ilExerciseManagementGUI
             ilUtil::redirect($index_html_file);
         }
         $error_msg = "";
-        if ($zip_original_full_path) {
-            $file_copied = $this->copyFileToWebDir($zip_internal_path);
-            $this->log->debug("file copied: " . $file_copied);
-            // e.g. data/ilias/ilExercise/3/exc_327/subm_9/2/20231212085734_167.zip ?
-            if ($file_copied) {
-                $this->zip->unzipFile($file_copied);
-                $web_filesystem->delete($zip_internal_path);
-                $this->log->debug("deleting: " . $zip_internal_path);
-
-                $submission_repository = $this->service->repo()->submission();
-                $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
-                ilWACSignedPath::signFolderOfStartFile($index_html_file);
-                ilUtil::redirect($index_html_file . "?" . time());
-            }
-
-            $error_msg = $this->lng->txt("exc_copy_zip_error");
+        if ($rid !== "") {
+            $file_copied = $this->domain->submission($this->ass_id)->copyRidToWebDir($rid, $zip_internal_path);
         }
+
+        // e.g. data/ilias/ilExercise/3/exc_327/subm_9/2/20231212085734_167.zip ?
+        if ($file_copied) {
+            $this->zip->unzipFile($file_copied);
+            $web_filesystem->delete($zip_internal_path);
+            $this->log->debug("deleting: " . $zip_internal_path);
+
+            $submission_repository = $this->service->repo()->submission();
+            $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
+            ilWACSignedPath::signFolderOfStartFile($index_html_file);
+            ilUtil::redirect($index_html_file . "?" . time());
+        }
+
+        $error_msg = $this->lng->txt("exc_copy_zip_error");
 
         if ($error_msg === '' || $error_msg === '0') {
             $error_msg = $this->lng->txt("exc_find_zip_error");
         }
 
         $this->tpl->setOnScreenMessage('failure', $error_msg);
-    }
-
-    /**
-     * Returns the ZIP file path from outside web directory
-     * @param ilExSubmission user who created the submission
-     * @return string|null
-     */
-    protected function getSubmissionZipFilePath(
-        ilExSubmission $submission,
-        bool $print_versions = false
-    ): ?string {
-        $submitted = $submission->getFiles(
-            null,
-            false,
-            null,
-            $print_versions
-        );
-        if ($submitted !== []) {
-            $submitted = array_pop($submitted);
-
-            return $submitted['filename'];
-        }
-
-        return null;
-    }
-
-    /**
-     * Generate the directories and copy the file if necessary.
-     * Returns the copied file path.
-     */
-    protected function copyFileToWebDir(
-        string $internal_file_path
-    ): ?string {
-        global $DIC;
-
-        $web_filesystem = $DIC->filesystem()->web();
-        $data_filesystem = $DIC->filesystem()->storage();
-
-        $internal_dirs = dirname($internal_file_path);
-        $zip_file = basename($internal_file_path);
-
-        if ($data_filesystem->has($internal_file_path)) {
-            $this->log->debug("internal file path: " . $internal_file_path);
-            if ($web_filesystem->hasDir($internal_dirs)) {
-                $web_filesystem->deleteDir($internal_dirs);
-            }
-            $web_filesystem->createDir($internal_dirs);
-
-            if ($web_filesystem->has($internal_file_path)) {
-                $web_filesystem->delete($internal_file_path);
-            }
-            if (!$web_filesystem->has($internal_file_path)) {
-                $this->log->debug("writing: " . $internal_file_path);
-                $stream = $data_filesystem->readStream($internal_file_path);
-                $web_filesystem->writeStream($internal_file_path, $stream);
-
-                return ILIAS_ABSOLUTE_PATH .
-                    DIRECTORY_SEPARATOR .
-                    ILIAS_WEB_DIR .
-                    DIRECTORY_SEPARATOR .
-                    CLIENT_ID .
-                    DIRECTORY_SEPARATOR .
-                    $internal_dirs .
-                    DIRECTORY_SEPARATOR .
-                    $zip_file;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -2382,27 +2216,29 @@ class ilExerciseManagementGUI
     }
 
     public function collectFeedbackDataFromPeer(
-        array $a_data
+        int $user_id,
+        string $ts,
+        string $text
     ): array {
-        $user = new ilObjUser($a_data["user_id"]);
+        $user = new ilObjUser($user_id);
         $uname = $user->getFirstname() . " " . $user->getLastname();
 
         $data = array(
-            "uid" => $a_data["user_id"],
+            "uid" => $user_id,
             "uname" => $uname,
-            "udate" => $a_data["ts"],
-            "utext" => ilRTE::_replaceMediaObjectImageSrc($a_data["atext"], 1) // mob id to mob src
+            "udate" => $ts,
+            "utext" => ilRTE::_replaceMediaObjectImageSrc($text, 1) // mob id to mob src
         );
 
         //get data peer and assign it
         $peer_review = new ilExPeerReview($this->assignment);
         $data["peer"] = array();
-        foreach ($peer_review->getPeerReviewsByPeerId($a_data['user_id']) as $value) {
+        foreach ($peer_review->getPeerReviewsByPeerId($user_id) as $value) {
             $data["peer"][] = $value['giver_id'];
         }
 
         $data["fb_received"] = count($data["peer"]);
-        $data["fb_given"] = $peer_review->countGivenFeedback(true, $a_data["user_id"]);
+        $data["fb_given"] = $peer_review->countGivenFeedback(true, $user_id);
 
         return $data;
     }

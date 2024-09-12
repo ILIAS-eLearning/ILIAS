@@ -41,7 +41,6 @@ class ilExerciseXMLParser extends ilSaxParser
     public bool $result;
     public int $mode;
     public ilExAssignment $assignment;
-    public ilFSStorageExercise $storage;
 
     public function __construct(
         ilObjExercise $exercise,
@@ -62,10 +61,6 @@ class ilExerciseXMLParser extends ilSaxParser
             $this->assignment->setExerciseId($exercise->getId());
             $this->assignment->save();
         }
-
-        $this->storage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
-        $this->storage->create();
-        $this->storage->init();
 
         $this->setXMLContent($a_xml_data);
         $this->obj_id = $obj_id;
@@ -175,9 +170,6 @@ class ilExerciseXMLParser extends ilSaxParser
             case 'Content':
                 $this->file_content = $this->trimAndStrip((string) $this->cdata);
                 break;
-            case 'File':
-                $this->updateFile($this->file_name, $this->file_content, $this->file_action);
-                break;
             case 'Comment':
                 $this->comment = $this->trimAndStrip((string) $this->cdata);
                 break;
@@ -224,39 +216,6 @@ class ilExerciseXMLParser extends ilSaxParser
 
         if ($action == "Detach" && $memberObject->isAssigned($user_id)) {
             $memberObject->deassignMember($user_id);
-        }
-    }
-
-    /**
-     * update file according to filename
-     *
-     * @param string $filename
-     * @param string $content  base 64 encoded string
-     * @param string $action can be Attach or Detach
-     */
-    private function updateFile(
-        string $filename,
-        string $b64encodedContent,
-        string $action
-    ): void {
-        if (strlen($filename) == 0) {
-            return;
-        }
-        $filename = $this->storage->getAbsolutePath() . "/" . $filename;
-
-        if ($action == "Attach") {
-            $content = base64_decode($b64encodedContent);
-            if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
-                $content = gzdecode($content);
-            } elseif ($this->mode == ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
-                $content = gzuncompress($content);
-            }
-
-            //echo $filename;
-            //$this->storage->writeToFile($content, $filename);
-        }
-        if ($action == "Detach") {
-            //$this->storage->deleteFile($filename);
         }
     }
 

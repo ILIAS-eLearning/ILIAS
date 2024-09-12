@@ -70,7 +70,7 @@ class ilExSubmissionGUI
         $this->exercise = $a_exercise;
         $this->user_id = $a_user_id;
 
-        $this->type_guis = ilExAssignmentTypesGUI::getInstance();
+        $this->type_guis = $gui->assignment()->types();
 
         // #12337
         if (!$this->exercise->members_obj->isAssigned($a_user_id)) {
@@ -277,13 +277,6 @@ class ilExSubmissionGUI
             $ilCtrl->redirect($this, "returnToParent");
         }
 
-        // this is due to temporary bug in handleGlobalFeedbackFileUpload that missed the last "/"
-        /*
-        $file = (is_file($this->assignment->getGlobalFeedbackFilePath()))
-            ? $this->assignment->getGlobalFeedbackFilePath()
-            : $this->assignment->getGlobalFeedbackFileStoragePath() . $this->assignment->getFeedbackFile();
-
-        ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());*/
         $this->domain->assignment()->sampleSolution($this->assignment->getId())->deliver();
     }
 

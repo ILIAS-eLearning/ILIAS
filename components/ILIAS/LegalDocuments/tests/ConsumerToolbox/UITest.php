@@ -62,7 +62,7 @@ class UITest extends TestCase
             ->method('exists')
             ->willReturnCallback(
                 function (string $txt) use (&$consecutive) {
-                    list($expected, $return) = array_shift($consecutive);
+                    [$expected, $return] = array_shift($consecutive);
                     $this->assertEquals($expected, $txt);
                     return $return;
                 }

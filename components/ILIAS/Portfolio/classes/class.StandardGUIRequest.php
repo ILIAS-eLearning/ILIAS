@@ -174,11 +174,6 @@ class StandardGUIRequest
         return $this->str("fpage");
     }
 
-    public function getBlogTitle(): string
-    {
-        return $this->str("blog");
-    }
-
     public function getPortfolioTitle(): string
     {
         return trim($this->str("pt"));

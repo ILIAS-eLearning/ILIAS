@@ -660,6 +660,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 if (!in_array($cmd, ['save', 'saveReturn'])) {
                     $question_gui->$cmd();
+                    return;
                 }
 
                 if (!$question_gui->saveQuestion()) {
@@ -1086,14 +1087,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         $out = [];
-
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
-            $toolbar = new ilToolbarGUI();
             $btn = $this->ui_factory->button()->primary(
                 $this->lng->txt('ass_create_question'),
                 $this->ctrl->getLinkTarget($this, 'createQuestionForm')
             );
-            $toolbar->addComponent($btn);
+            $this->toolbar->addComponent($btn);
 
             if ($import_questions_modal === null) {
                 $import_questions_modal = $this->buildImportQuestionsModal();
@@ -1103,7 +1102,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->lng->txt('import'),
                 $import_questions_modal->getShowSignal()
             );
-            $toolbar->addComponent($btn_import);
+            $this->toolbar->addComponent($btn_import);
             $out[] = $this->ui_renderer->render($import_questions_modal);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
@@ -1111,12 +1110,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->lng->txt('paste'),
                     $this->ctrl->getLinkTarget($this, 'paste')
                 );
-                $toolbar->addComponent($btn_paste);
+                $this->toolbar->addComponent($btn_paste);
             }
-
-            $this->tpl->setContent(
-                $out[] = $toolbar->getHTML()
-            );
         }
 
         $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());

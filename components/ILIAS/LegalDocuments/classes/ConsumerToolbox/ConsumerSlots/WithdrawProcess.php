@@ -35,6 +35,7 @@ use Closure;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
 use ilStartUpGUI;
+use ILIAS\Refinery\Transformation;
 
 final class WithdrawProcess implements WithdrawProcessInterface
 {
@@ -167,11 +168,6 @@ final class WithdrawProcess implements WithdrawProcessInterface
         $mail = new Mail();
         $mail->setRecipients([$this->settings->adminEmail()->value()]);
         $mail->sendGeneric($this->ui->txt('withdrawal_mail_subject'), $this->user->format($this->ui->txt('withdrawal_mail_text')));
-    }
-
-    private function refuseContent($components): PageFragment
-    {
-        return new PageContent($this->ui->txt('refuse_tos_acceptance'), $components);
     }
 
     private function query(string $query_parameter): ?string

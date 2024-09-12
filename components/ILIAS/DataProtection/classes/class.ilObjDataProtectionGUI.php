@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\DataProtection\Consumer;
 use ILIAS\DataProtection\Settings;
-use ILIAS\LegalDocuments\ConsumerToolbox\Settings as SettingsInterface;
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\ReadOnlyStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\ILIASSettingStore;
@@ -34,6 +33,7 @@ use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Component;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
+use ILIAS\UI\Component\Input\Input;
 
 /**
  * @ilCtrl_isCalledBy ilObjDataProtectionGUI: ilAdministrationGUI
@@ -45,7 +45,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
     private readonly ilLegalDocumentsAdministrationGUI $legal_documents;
     private readonly Container $container;
     private readonly Config $config;
-    private readonly SettingsInterface $data_protection_settings;
+    private readonly Settings $data_protection_settings;
     private readonly UI $ui;
 
     public function __construct()
@@ -77,7 +77,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         $this->container->language()->loadLanguageModule('dpro');
         $this->container->language()->loadLanguageModule('ldoc');
 
-        $next_class = $this->ctrl->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
         $cmd = $this->ctrl->getCmd('settings');
 
         switch (strtolower($next_class)) {
@@ -96,6 +96,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
                     case 'documents':
                         $this->ctrl->redirectByClass(ilLegalDocumentsAdministrationGUI::class, 'documents');
                         break;
+
                     default:
                         $reflection = new ReflectionClass(self::class);
                         if (!$reflection->hasMethod($cmd) || !$reflection->getMethod($cmd)->isPublic()) {
@@ -213,6 +214,9 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         });
     }
 
+    /**
+     * @param array<string|int, Input> $fields
+     */
     private function optionalGroup(string $label, string $description, array $fields): OptionalGroup
     {
         return $this->ui->create()->input()->field()->optionalGroup(
@@ -222,6 +226,9 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         );
     }
 
+    /**
+     * @param array<string|int, string> $options
+     */
     private function radio(string $prefix, array $options): Component
     {
         $field = $this->ui->create()->input()->field()->radio($this->ui->txt($prefix), $this->ui->txt($prefix . '_desc'));

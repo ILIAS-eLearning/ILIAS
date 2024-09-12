@@ -1,15 +1,13 @@
-<div class="ui-input-textarea">
-    <textarea
-        id="{ID}"
-        class="form-control form-control-sm"
-       <!-- BEGIN name --> name="{NAME}"<!-- END name -->
-        <!-- BEGIN disabled -->{DISABLED}<!-- END disabled -->
-        <!-- BEGIN with_min_limit -->minlength="{MIN_LIMIT}"<!-- END with_min_limit -->
-        <!-- BEGIN with_max_limit -->maxlength="{MAX_LIMIT}"<!-- END with_max_limit -->
-    ><!-- BEGIN value -->{VALUE}<!-- END value --></textarea>
-    <!-- BEGIN remainder -->
-    <div class="ui-input-textarea-remainder">
-        {REMAINDER_TEXT} <span data-action="remainder">{REMAINDER}</span>
-    </div>
-    <!-- END remainder -->
+<textarea
+    id="{ID}"
+    class="c-field-textarea"
+    <!-- BEGIN name --> name="{NAME}"<!-- END name -->
+    <!-- BEGIN disabled -->{DISABLED}<!-- END disabled -->
+    <!-- BEGIN with_min_limit -->minlength="{MIN_LIMIT}"<!-- END with_min_limit -->
+    <!-- BEGIN with_max_limit -->maxlength="{MAX_LIMIT}"<!-- END with_max_limit -->
+><!-- BEGIN value -->{VALUE}<!-- END value --></textarea>
+<!-- BEGIN remainder -->
+<div class="ui-input-textarea-remainder">
+    {REMAINDER_TEXT} <span data-action="remainder">{REMAINDER}</span>
 </div>
+<!-- END remainder -->

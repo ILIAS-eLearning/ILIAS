@@ -28,6 +28,7 @@ use ILIAS\DataProtection\Consumer as DataProtection;
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
  * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
+ * @ilCtrl_Calls ilStartUpGUI: ilLogoutPageGUI
  */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
@@ -56,6 +57,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private ilHelpGUI $help;
     private ILIAS\UI\Factory $ui_factory;
     private ILIAS\UI\Renderer $ui_renderer;
+
+    private static $forced_cmd = '';
 
     public function __construct(
         ilObjUser $user = null,
@@ -86,6 +89,21 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->ctrl->saveParameter($this, ['rep_ref_id', 'lang', 'target', 'client_id']);
         $this->user->setLanguage($this->lng->getLangKey());
         $this->help->setScreenIdComponent('init');
+    }
+
+    public static function setForcedCommand(string $cmd): void
+    {
+        self::$forced_cmd = $cmd;
+    }
+
+    private function checkForcedCommand(string $cmd): string
+    {
+        if (self::$forced_cmd) {
+            $cmd = self::$forced_cmd;
+            self::$forced_cmd = '';
+        }
+
+        return $cmd;
     }
 
     private function mergeValuesTrafo(): ILIAS\Refinery\Transformation
@@ -126,7 +144,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd('processIndexPHP');
+        $cmd = $this->checkForcedCommand($this->ctrl->getCmd('processIndexPHP'));
+
         $next_class = $this->ctrl->getNextClass($this) ?? '';
 
         switch (strtolower($next_class)) {
@@ -165,18 +184,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function jumpToRegistration(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass(ilAccountRegistrationGUI::class);
-        // $this->ctrl->setCmd('');
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilAccountRegistrationGUI::class);
     }
 
     private function jumpToPasswordAssistance(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass(ilPasswordAssistanceGUI::class);
-        // $this->ctrl->setCmd('');
-        $this->executeCommand();
+        $this->ctrl->redirectByClass(ilPasswordAssistanceGUI::class);
     }
 
     private function showLoginPageOrStartupPage(): void
@@ -213,6 +226,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     ]
                 );
             }
+
             $this->logger->debug('Show login page');
             if (isset($messages) && count($messages) > 0) {
                 foreach ($messages as $type => $content) {
@@ -246,15 +260,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'ext_uid',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $soapPw = $this->http->wrapper()->query()->retrieve(
             'soap_pw',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
+
         $credentials = new ilAuthFrontendCredentialsSoap(
             $GLOBALS['DIC']->http()->request(),
             $this->ctrl,
             $this->setting
         );
+
         $credentials->setUsername($extUid);
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
@@ -293,6 +310,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->lng->txt($message_key)
             );
         }
+
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
         }
@@ -953,9 +971,32 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui->setPresentationTitle('');
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader('');
-        $ret = $page_gui->showPage();
 
-        return $ret;
+        return $page_gui->showPage();
+    }
+
+    private function getLogoutPageEditorHTML(): string
+    {
+        $lpe = ilAuthLogoutPageEditorSettings::getInstance();
+        $active_lang = $lpe->getIliasEditorLanguage($this->lng->getLangKey());
+
+        if (!$active_lang) {
+            return '';
+        }
+
+        if (!ilPageUtil::_existsAndNotEmpty('aout', ilLanguage::lookupId($active_lang))) {
+            return '';
+        }
+
+        $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
+
+        $page_gui->setStyleId(0);
+
+        $page_gui->setPresentationTitle('');
+        $page_gui->setTemplateOutput(false);
+        $page_gui->setHeader('');
+
+        return $page_gui->showPage();
     }
 
     private function showRegistrationLinks(string $page_editor_html): string
@@ -1177,6 +1218,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $credentials,
             [$provider]
         );
+
         if ($frontend->migrateAccountNew()) {
             ilInitialisation::redirectToStartingPage();
         }
@@ -1229,6 +1271,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $credentials,
                     [$provider]
                 );
+
                 if ($frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])) {
                     ilInitialisation::redirectToStartingPage();
                 }
@@ -1239,7 +1282,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 // no break
             default:
                 $this->getLogger()->info('Account migration failed for user ' . $username);
-                $this->showAccountMigration($GLOBALS['lng']->txt('err_wrong_login'));
+                $this->showAccountMigration(null, $GLOBALS['lng']->txt('err_wrong_login'));
         }
     }
 
@@ -1259,6 +1302,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl->parseCurrentBlock();
         }
 
+        $tpl->setVariable('LPE', $this->getLogoutPageEditorHTML());
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('logout'));
         $tpl->setVariable(
             'TXT_LOGOUT_TEXT',
@@ -1770,6 +1814,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (isset($params['target']) && !isset($params['returnTo'])) {
             $params['returnTo'] = $params['target'];
         }
+
         if (isset($params['returnTo'])) {
             $auth->storeParam('target', $params['returnTo']);
         }

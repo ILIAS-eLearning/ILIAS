@@ -33,11 +33,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
-        /**
-         * @var $component Tree\Expandable
-         */
+        if (!$component instanceof Tree\Expandable) {
+            $this->cannotHandleComponent($component);
+        }
 
         $tpl_name = "tpl.tree.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
@@ -104,15 +102,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/tree.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Tree\Expandable::class
-        );
     }
 }

@@ -23,11 +23,12 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Component\Table\Column as I;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\Language\Language;
 
 class Factory implements I\Factory
 {
     public function __construct(
-        protected \ilLanguage $lng
+        protected Language $lng
     ) {
     }
 

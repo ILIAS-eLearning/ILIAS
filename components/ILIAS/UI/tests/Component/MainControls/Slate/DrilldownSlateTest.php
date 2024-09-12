@@ -42,7 +42,6 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\Menu\Factory(
                     $this->getSigGen(),
-                    new ilLanguageMock()
                 );
             }
 

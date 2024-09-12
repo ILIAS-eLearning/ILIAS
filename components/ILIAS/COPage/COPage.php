@@ -32,7 +32,7 @@ class COPage implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\COPage\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
@@ -40,7 +40,7 @@ class COPage implements Component\Component
         // This is included via anonymous classes as a testament to the fact, that
         // the js and css of the COPage should be restructured according to the target
         // structure in the component directory and the public directory.
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "components/ILIAS/COPage/PC/InteractiveImage/js";
@@ -50,7 +50,7 @@ class COPage implements Component\Component
                 return "components/ILIAS/COPage/PC/InteractiveImage/js";
             }
         };
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "components/ILIAS/COPage/Editor/js";
@@ -60,7 +60,7 @@ class COPage implements Component\Component
                 return "components/ILIAS/COPage/Editor/js";
             }
         };
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "components/ILIAS/COPage/js";
@@ -70,7 +70,7 @@ class COPage implements Component\Component
                 return "components/ILIAS/COPage/js";
             }
         };
-        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "components/ILIAS/COPage/css";

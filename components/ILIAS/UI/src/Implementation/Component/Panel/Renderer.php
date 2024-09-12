@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Panel;
 
@@ -35,26 +35,14 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Panel\Panel $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Panel\Standard) {
-            /**
-             * @var Component\Panel\Standard $component
-             */
             return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof Component\Panel\Sub) {
-            /**
-             * @var Component\Panel\Sub $component
-             */
             return $this->renderSub($component, $default_renderer);
+        } elseif ($component instanceof Component\Panel\Report) {
+            return $this->renderReport($component, $default_renderer);
         }
-        /**
-         * @var Component\Panel\Report $component
-         */
-        return $this->renderReport($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     protected function getContentAsString(Component\Component $component, RendererInterface $default_renderer): string
@@ -126,16 +114,16 @@ class Renderer extends AbstractComponentRenderer
     protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.report.html", true, true);
+
+        $actions = $component->getActions();
+
         $tpl->setVariable("TITLE", $component->getTitle());
+
+        if ($actions !== null) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Panel\Panel::class];
     }
 }

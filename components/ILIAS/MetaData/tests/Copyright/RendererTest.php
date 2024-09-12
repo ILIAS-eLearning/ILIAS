@@ -435,4 +435,118 @@ class RendererTest extends TestCase
         $this->assertSame(1, count($result));
         $this->assertInstanceOf(Icon::class, $result[0]);
     }
+
+    public function testCopyrightAsStringHasFullName(): void
+    {
+        $renderer = $this->getMockRenderer(
+            $this->getMockIcon(),
+            $this->getMockLink(),
+            $this->getMockLegacy(),
+            ''
+        );
+        $data = new class () extends NullCopyrightData {
+            public function fullName(): string
+            {
+                return 'full name of copyright';
+            }
+
+            public function link(): ?URI
+            {
+                return null;
+            }
+        };
+
+        $this->assertSame(
+            'full name of copyright',
+            $renderer->toString($data)
+        );
+    }
+
+    public function testCopyrightAsStringHasLink(): void
+    {
+        $renderer = $this->getMockRenderer(
+            $this->getMockIcon(),
+            $this->getMockLink(),
+            $this->getMockLegacy(),
+            ''
+        );
+        $uri = $this->getMockURI('http://www.example2.com');
+        $data = new class ($uri) extends NullCopyrightData {
+            public function __construct(protected URI $uri)
+            {
+            }
+
+            public function fullName(): string
+            {
+                return '';
+            }
+
+            public function link(): ?URI
+            {
+                return $this->uri;
+            }
+        };
+
+        $this->assertSame(
+            'http://www.example2.com',
+            $renderer->toString($data)
+        );
+    }
+
+    public function testCopyrightAsStringHasFullNameAndLink(): void
+    {
+        $renderer = $this->getMockRenderer(
+            $this->getMockIcon(),
+            $this->getMockLink(),
+            $this->getMockLegacy(),
+            ''
+        );
+        $uri = $this->getMockURI('http://www.example2.com');
+        $data = new class ($uri) extends NullCopyrightData {
+            public function __construct(protected URI $uri)
+            {
+            }
+
+            public function fullName(): string
+            {
+                return 'full name of copyright';
+            }
+
+            public function link(): ?URI
+            {
+                return $this->uri;
+            }
+        };
+
+        $this->assertSame(
+            'full name of copyright http://www.example2.com',
+            $renderer->toString($data)
+        );
+    }
+
+    public function testCopyrightAsStringHasNoFullNameOrLink(): void
+    {
+        $renderer = $this->getMockRenderer(
+            $this->getMockIcon(),
+            $this->getMockLink(),
+            $this->getMockLegacy(),
+            ''
+        );
+        $data = new class () extends NullCopyrightData {
+            public function fullName(): string
+            {
+                return '';
+            }
+
+            public function link(): ?URI
+            {
+                return null;
+            }
+        };
+
+        $this->assertSame(
+            '',
+            $renderer->toString($data)
+        );
+    }
 }

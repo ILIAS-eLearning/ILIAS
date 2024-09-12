@@ -108,7 +108,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         ) {
             $this->tabs_gui->addTab(
                 'md_copyright',
-                $this->lng->txt('md_copyright'),
+                $this->lng->txt('md_copyright_admin_tab'),
                 $this->ctrl->getLinkTargetByClass(
                     ilMDCopyrightSelectionGUI::class,
                     'showCopyrightSettings'

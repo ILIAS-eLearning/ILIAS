@@ -37,18 +37,16 @@ use ilDateTime;
 use ilDatePresentation;
 use ilObjUser;
 use DateTimeImmutable;
+use ILIAS\UI\Component\Component;
 
-/**
- * @implements Table<History>
- */
 class HistoryTable implements Table
 {
     /** @var Closure(DateTimeImmutable): string */
     private readonly Closure $format_date;
 
     /**
-     * @param Closure(class-string): object<class-string> $create
-     * @param null|Closure(DateTimeImmutable): string $create
+     * @param Closure(class-string, ... $constructor_args): object<class-string> $create
+     * @param null|Closure(DateTimeImmutable): string $format_date
      */
     public function __construct(
         private readonly HistoryRepository $repository,

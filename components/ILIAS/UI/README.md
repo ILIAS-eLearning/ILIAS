@@ -234,18 +234,17 @@ If you would like to implement a new component for the framework, you should per
         /**
          * @inheritdocs
          */
-        public function render(Component\Component $component, RendererInterface $default_renderer) {
-            $this->checkComponent($component);
+        public function render(Component\Component $component, RendererInterface $default_renderer): string 
+        {
+            // if this is not our component, call cannotHandleComponent($component)
+            // to throw a unified exception. 
+            if (!$component instanceof Component\Demo\Demo) {
+                $this->cannotHandleComponent($component);
+            }
+    
             $tpl = $this->getTemplate("tpl.demo.html", true, true);
             $tpl->setVariable("CONTENT",$component->getContent());
             return $tpl->get();
-        }
-
-        /**
-         * @inheritdocs
-         */
-        protected function getComponentInterfaceName() {
-            return array(Component\Demo\Demo::class);
         }
     }
     ```
@@ -482,6 +481,30 @@ EOT;
 }
 ```
 
+### How can I make my component look different in some context?
+
+For some use cases you might get to the point where you want to know where your
+component is rendered to emit different HTML in your renderer. A general idea of
+the UI framework is that components have their unique look that is recognisable
+throughout the system, which is the exact reason you could not find a simple way
+to get to know where your component is being rendered.
+
+There still might be circumstances where a context dependent rendering is indeed
+required. A context can be understood as a collection or stack of all other surrounding
+UI components. This means, if e.g. a Page component is rendered which needs to render
+a Dropdown component somewhere that features some further Shy button compoennt, the 
+rendering stack or context when the button is rendered would be "Page -> Dropdown -> Shy".
+The [DefaultRenderer](./src/Implementation/DefaultRenderer.php) orchestrates this process
+and is responsible to remember this context at any time during the entire rendering
+process. Component renderers are able to react to this context using a `RendererFactory`,
+which receives the current context as an argument when loading the renderer of some
+component. The [FSLoader](./src/UI/Implementation/Render/FSLoader.php) contains directions
+on how to introduce new renderers for different contexts in your component.
+
+**Before using this mechanism, please consider if you really require a different look in a
+different context and, and if thats the case, whether you could achieve the same effect using
+CSS or not.**
+
 ### How to Change an Existing Component?
 
 1. Create a new branch based on the current trunk.
@@ -650,8 +673,6 @@ npm i -D "eslint" "eslint-config-airbnb-base" "eslint-plugin-import"
 
 ```
 
-
-
 ## FAQ
 
 ### There are so many rules, is that really necessary?
@@ -663,23 +684,6 @@ GUI of ILIAS is no option for several reasons and the current state (without rul
 is anarchy, rules seem to be the only sensible option to get some structure. All
 existing rules have a purpose, but there might be a more terse way to explain
 them. If you have found it, we'll be glad to accept your PR.
-
-### How do I know where my component is rendered?
-
-For some use cases you might get to the point where you want to know where your
-component is rendered to emit different HTML in your renderer. A general idea of
-the UI framework is that components have their unique look that is recognisable
-throughout the system, which is the exact reason you could not find a simple way
-to get to know where your component is rendered.
-
-There still might be circumstances where a context dependent rendering is indeed
-required. The [Renderer](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Renderer.php)
-offers a `withAdditionalContext` method for that purpose, which can be used to
-alter the selection of the renderer for your component. Before using it, consider
-if you really require a different look in a different context and, if that is indeed
-the case, whether you could achieve the same effect by using CSS. The class [FSLoader](src/UI/Implementation/Render/FSLoader.php)
-contains directions how to introduce new renderers for different contexts in your
-component.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 

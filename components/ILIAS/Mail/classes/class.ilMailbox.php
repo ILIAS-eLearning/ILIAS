@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Folder\MailFolderData;
+use ILIAS\Mail\Folder\MailFolderType;
+
 /**
  * Mail Box class
  * Base class for creating and handling mail boxes
@@ -31,13 +34,7 @@ class ilMailbox
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilTree $mtree;
-    /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
-    protected array $actions = [
-        'moveMails' => '',
-        'markMailsRead' => '',
-        'markMailsUnread' => '',
-        'deleteMails' => '',
-    ];
+
     /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
     protected array $defaultFolders = [
         'b_inbox' => 'inbox',
@@ -70,13 +67,6 @@ class ilMailbox
         // (alternative: make createDefaultFolder call static in ilObjUser->saveAsNew())
         if (is_object($this->lng)) {
             $this->lng->loadLanguageModule("mail");
-
-            $this->actions = [
-                'moveMails' => $this->lng->txt('mail_move_to'),
-                'markMailsRead' => $this->lng->txt('mail_mark_read'),
-                'markMailsUnread' => $this->lng->txt('mail_mark_unread'),
-                'deleteMails' => $this->lng->txt('delete'),
-            ];
         }
     }
 
@@ -143,14 +133,6 @@ class ilMailbox
         $row = $this->db->fetchAssoc($res);
 
         return (int) $row['obj_id'];
-    }
-
-    /**
-     * @return array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
-     */
-    public function getActions(int $folderId): array
-    {
-        return $this->actions;
     }
 
     /**
@@ -267,10 +249,7 @@ class ilMailbox
         return true;
     }
 
-    /**
-     * @return array{obj_id: int, title: string, type: string}|null
-     */
-    public function getFolderData(int $folderId): ?array
+    public function getFolderData(int $folderId): ?MailFolderData
     {
         $res = $this->db->queryF(
             'SELECT * FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND obj_id = %s',
@@ -280,14 +259,22 @@ class ilMailbox
         $row = $this->db->fetchAssoc($res);
 
         if (is_array($row)) {
-            return [
-                'obj_id' => (int) $row['obj_id'],
-                'title' => (string) $row['title'],
-                'type' => (string) $row['m_type'],
-            ];
+            return $this->getFolderDataFromRow($row);
         }
 
         return null;
+    }
+
+    private function getFolderDataFromRow(array $row): MailFolderData
+    {
+        return new MailFolderData(
+            (int) $row['obj_id'],
+            (int) $row['user_id'],
+            MailFolderType::from($row['m_type']),
+            (string) ($row['m_type'] === MailFolderType::USER->value
+                ? $row['title']
+                : $this->lng->txt('mail_' . $row['title']))
+        );
     }
 
     public function getParentFolderId(int $folderId): int
@@ -302,23 +289,23 @@ class ilMailbox
         return is_array($row) ? (int) $row['parent'] : 0;
     }
 
+    /**
+     * @return MailFolderData[]
+     */
     public function getSubFolders(): array
     {
         $userFolders = [];
 
         foreach (array_keys($this->defaultFolders) as $key) {
             $res = $this->db->queryF(
-                'SELECT obj_id, m_type FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND title = %s',
+                'SELECT * FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND title = %s',
                 ['integer', 'text'],
                 [$this->usrId, $key]
             );
             $row = $this->db->fetchAssoc($res);
-
-            $userFolders[] = [
-                'title' => $key,
-                'type' => (string) $row['m_type'],
-                'obj_id' => (int) $row['obj_id'],
-            ];
+            if(is_array($row)) {
+                $userFolders[] = $this->getFolderDataFromRow($row);
+            }
         }
 
         $query = implode(' ', [
@@ -334,11 +321,7 @@ class ilMailbox
             [2, $this->usrId]
         );
         while ($row = $this->db->fetchAssoc($res)) {
-            $userFolders[] = [
-                'title' => (string) $row['title'],
-                'type' => (string) $row['m_type'],
-                'obj_id' => (int) $row['child'],
-            ];
+            $userFolders[] = $this->getFolderDataFromRow($row);
         }
 
         return $userFolders;
@@ -414,8 +397,8 @@ class ilMailbox
 
     public function isOwnedFolder(int $folderId): bool
     {
-        $folderData = $this->getFolderData($folderId);
+        $folder_data = $this->getFolderData($folderId);
 
-        return $folderData !== null && (int) $folderData['obj_id'] === $folderId;
+        return $folder_data?->getFolderId() === $folderId;
     }
 }

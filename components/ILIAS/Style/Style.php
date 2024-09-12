@@ -32,12 +32,12 @@ class Style implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilStyleSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\Style\Content\Setup\ContentStyleAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
 
 /**
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -52,7 +66,13 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
-        $status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds(
+        global $DIC;
+
+        /** @var ilObjectDataCache $ilObjDataCache */
+        $ilObjDataCache = $DIC['ilObjDataCache'];
+
+        $status_info['tlt'] = parent::_getTypicalLearningTime(
+            $ilObjDataCache->lookupType($a_obj_id),
             $a_obj_id
         );
         return $status_info;
@@ -91,7 +111,10 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        $tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+        $tlt = parent::_getTypicalLearningTime(
+            $this->ilObjDataCache->lookupType($a_obj_id),
+            $a_obj_id
+        );
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
         $spent = (int) ($re[0]["spent_seconds"] ?? 0);
 

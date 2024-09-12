@@ -28,6 +28,8 @@ use ILIAS\Refinery\Logical\Not;
 use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
+use ILIAS\Exercise\Submission\SubmissionManager;
+use ILIAS\Exercise\PeerReview\DomainService;
 
 class InternalDomainService
 {
@@ -35,6 +37,7 @@ class InternalDomainService
 
     protected InternalDataService $data;
     protected InternalRepoService $repo;
+    protected array $instance = [];
     protected Assignment\DomainService $assignment_service;
 
     public function __construct(
@@ -66,12 +69,23 @@ class InternalDomainService
         return $this->assignment_service;
     }
 
-    public function peerReview(\ilExAssignment $ass): ?\ilExPeerReview
+    public function submission(int $ass_id): SubmissionManager
     {
-        if ($ass->getPeerReview()) {
-            return new \ilExPeerReview($ass);
-        }
-        return null;
+        return $this->instance["subm"][$ass_id] ??
+            $this->instance["subm"][$ass_id] = new SubmissionManager(
+                $this->repo,
+                $this,
+                new \ilExcSubmissionStakeholder(),
+                $ass_id
+            );
+    }
+
+    public function peerReview(): DomainService
+    {
+        return new DomainService(
+            $this->repo,
+            $this
+        );
     }
 
     public function notification(int $ref_id): NotificationManager

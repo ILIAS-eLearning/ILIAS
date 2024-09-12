@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilForumPostingFileStakeholder extends AbstractResourceStakeholder
 {
-    private int $default_owner;
+    private readonly int $default_owner;
 
     public function __construct()
     {

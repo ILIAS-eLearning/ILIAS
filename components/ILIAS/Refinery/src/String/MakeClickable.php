@@ -44,7 +44,7 @@ class MakeClickable implements Transformation
     {
         $this->requireString($from);
 
-        return $this->replaceMatches($from, fn (int $startOfMatch, int $endOfMatch, string $url, string $protocol): string => (
+        return $this->replaceMatches($from, fn(int $startOfMatch, int $endOfMatch, string $url, string $protocol): string => (
             $this->shouldReplace($from, $startOfMatch, $endOfMatch) ?
                 $this->replace($url, $protocol) :
                 $url
@@ -58,7 +58,7 @@ class MakeClickable implements Transformation
 
         while (null !== ($matches = $this->match(self::URL_PATTERN, substr($from, $endOfLastMatch)))) {
             $startOfMatch = $endOfLastMatch + strpos(substr($from, $endOfLastMatch), $matches[0]);
-            $endOfMatch   = $startOfMatch   + strlen($matches[1] . $matches[2]);
+            $endOfMatch = $startOfMatch + strlen($matches[1] . $matches[2]);
 
             $stringParts[] = substr($from, $endOfLastMatch, $startOfMatch - $endOfLastMatch);
             $stringParts[] = $matches[1] . $replace($startOfMatch, $endOfMatch, $matches[2], $matches[4]);

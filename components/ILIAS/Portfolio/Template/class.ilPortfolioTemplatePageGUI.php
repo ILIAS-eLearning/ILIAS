@@ -51,13 +51,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
             return "";
         }
 
-        switch ($this->getPageObject()->getType()) {
-            case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                return $this->renderPageElement("BlogTemplate", $this->renderBlogTemplate());
-
-            default:
-                return parent::showPage();
-        }
+        return parent::showPage();
     }
 
     protected function renderPageElement(
@@ -75,11 +69,6 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
                     '</legend>' .
                     trim($a_html) .
                 '</fieldset>';
-    }
-
-    protected function renderBlogTemplate(): string
-    {
-        return $this->renderTeaser("blog_template", $this->lng->txt("obj_blog"));
     }
 
     public function getViewPageLink(): string

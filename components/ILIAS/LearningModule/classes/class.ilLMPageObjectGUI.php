@@ -109,7 +109,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 $link_xml = $this->getLinkXML($int_links);
                 $page_gui->setLinkXml($link_xml);
 
-                $page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
                 $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setLinkParams("ref_id=" . $this->content_object->getRefId());
@@ -330,21 +329,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         }
         $link_info .= "</IntLinkInfos>";
         return $link_info;
-    }
-
-    /**
-     * update history
-     */
-    public function updateHistory(): void
-    {
-        ilHistory::_createEntry(
-            $this->obj->getId(),
-            "update",
-            [],
-            $this->content_object->getType() . ":pg",
-            "",
-            true
-        );
     }
 
     /**

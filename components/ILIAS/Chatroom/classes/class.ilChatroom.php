@@ -38,7 +38,6 @@ class ilChatroom
     private static string $userTable = 'chatroom_users';
     private static string $sessionTable = 'chatroom_sessions';
     private static string $banTable = 'chatroom_bans';
-    private static string $uploadTable = 'chatroom_uploads';
     private array $settings = [];
     /**
      * Each value of this array describes a setting with the internal type.
@@ -469,24 +468,6 @@ class ilChatroom
     public function getRoomId(): int
     {
         return $this->roomId;
-    }
-
-    public function saveFileUploadToDb(int $user_id, string $filename, string $type): void
-    {
-        global $DIC;
-
-        $upload_id = $DIC->database()->nextId(self::$uploadTable);
-        $DIC->database()->insert(
-            self::$uploadTable,
-            [
-                'upload_id' => [ilDBConstants::T_INTEGER, $upload_id],
-                'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
-                'user_id' => [ilDBConstants::T_INTEGER, $user_id],
-                'filename' => [ilDBConstants::T_TEXT, $filename],
-                'filetype' => [ilDBConstants::T_TEXT, $type],
-                'timestamp' => [ilDBConstants::T_INTEGER, time()]
-            ]
-        );
     }
 
     public function banUser(int $user_id, int $actor_id, string $comment = ''): void

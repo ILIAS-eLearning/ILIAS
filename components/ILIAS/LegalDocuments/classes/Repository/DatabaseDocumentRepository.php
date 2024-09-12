@@ -112,11 +112,11 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
     }
 
     /**
-     * @param array<string, string> $fields_and_values
+     * @param array<string|int, string|int> $fields_and_values
      */
     private function updateDocument(DocumentId $document_id, array $fields_and_values): void
     {
-        match (get_class($document_id)) {
+        match ($document_id::class) {
             HashId::class => $this->lazyDocFields($fields_and_values, $document_id->hash()),
             NumberId::class => $this->setDocFields($fields_and_values, $document_id->number()),
         };
@@ -160,7 +160,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
 
     public function findId(DocumentId $document_id): Result
     {
-        return match (get_class($document_id)) {
+        return match ($document_id::class) {
             HashId::class => $this->findHash($document_id->hash()),
             NumberId::class => $this->find($document_id->number()),
         };
@@ -176,6 +176,7 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
      *     sorting: string,
      *     text: ?string,
      *     title: ?string,
+     *     type: string,
      * } $row
      * @param list<Criterion> $criteria
      */
@@ -246,6 +247,9 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function criterionFields(CriterionContent $content): array
     {
         return [
@@ -254,6 +258,9 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         ];
     }
 
+    /**
+     * @return Document[]
+     */
     private function queryDocuments(string $where = '1', string $limit = ''): array
     {
         $doc_table = $this->documentTable();

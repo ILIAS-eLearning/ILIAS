@@ -77,8 +77,8 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $nextClass = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
         switch (strtolower($nextClass)) {
@@ -89,17 +89,11 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                switch ($cmd) {
-                    case self::CMD_VIEW:
-                    case self::CMD_EDIT:
-                        $this->edit();
-                        break;
-                    case self::CMD_SAVE:
-                        $this->save();
-                        break;
-                    default:
-                        throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd);
-                }
+                match ($cmd) {
+                    self::CMD_VIEW, self::CMD_EDIT => $this->edit(),
+                    self::CMD_SAVE => $this->save(),
+                    default => throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd),
+                };
         }
     }
 

@@ -27,7 +27,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
- * Class ilObjContentPageGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPermissionGUI
@@ -44,17 +43,17 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    protected GlobalHttpState $http;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
-    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    private readonly GlobalHttpState $http;
+    private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_domain = null;
+    private readonly \ILIAS\Style\Content\GUIService $content_style_gui;
     private readonly ilNavigationHistory $navHistory;
     private readonly Container $dic;
     private bool $infoScreenEnabled = false;
-    private PageMetricsService $pageMetricsService;
-    private ilHelpGUI $help;
-    private \ILIAS\DI\UIServices $uiServices;
+    private readonly PageMetricsService $pageMetricsService;
+    private readonly ilHelpGUI $help;
+    private readonly \ILIAS\DI\UIServices $uiServices;
     private readonly bool $in_page_editor_style_context;
-    private LOMServices $lom_services;
+    private readonly LOMServices $lom_services;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -213,8 +212,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function executeCommand(): void
     {
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
+        $nextClass = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW) ?? '';
 
         $this->addToNavigationHistory();
 

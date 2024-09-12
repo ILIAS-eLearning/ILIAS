@@ -28,6 +28,8 @@ use ILIAS\DI\UIServices;
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Exercise\Submission\SubmissionManager $subm;
+    protected $log;
     protected ilToolbarGUI $toolbar;
     protected ilHelpGUI $help;
     protected ilObjUser $user;
@@ -45,6 +47,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->help = $DIC["ilHelp"];
         $this->user = $DIC->user();
         $this->ui = $DIC->ui();
+        $this->log = $DIC->logger()->exc();
+        $this->subm = $DIC->exercise()->internal()->domain()->submission(
+            $a_submission->getAssignment()->getId()
+        );
     }
 
     public function executeCommand(): void
@@ -60,7 +66,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         switch ($class) {
             case strtolower(ilRepoStandardUploadHandlerGUI::class):
-                $form = $this->getUploadForm();
+                if ($this->request->getZip()) {
+                    $form = $this->getZipUploadForm();
+                } else {
+                    $form = $this->getUploadForm();
+                }
                 $gui = $form->getRepoStandardUploadHandlerGUI("deliver");
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -80,10 +90,13 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $gui = $DIC->exercise()->internal()->gui();
+        $subm = $DIC->exercise()->internal()->domain()->submission(
+            $a_submission->getAssignment()->getId()
+        );
 
         $titles = array();
-        foreach ($a_submission->getFiles() as $file) {
-            $titles[] = htmlentities($file["filetitle"]);
+        foreach ($subm->getSubmissionsOfUser($a_submission->getUserId()) as $sub) {
+            $titles[] = htmlentities($sub->getTitle());
         }
         $files_str = implode("<br>", $titles);
         if ($files_str == "") {
@@ -189,7 +202,6 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $ilHelp->setScreenId("upload_submission");
 
         if (!$a_form) {
-            $a_form = $this->initUploadForm();
             $a_form = $this->getUploadForm();
             $this->tpl->setContent($a_form->render());
             return;
@@ -198,7 +210,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     }
 
     public function uploadZipFormObject(
-        ilPropertyFormGUI $a_form = null
+        \ILIAS\Repository\Form\FormAdapterGUI $a_form = null
     ): void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
@@ -211,9 +223,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         );
 
         if (!$a_form) {
-            $a_form = $this->initZipUploadForm();
+            $a_form = $this->getZipUploadForm();
         }
-        $this->tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($a_form->render());
     }
 
     /**
@@ -244,8 +256,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     protected function getUploadForm(): \ILIAS\Repository\Form\FormAdapterGUI
     {
         $max_file = $this->submission->getAssignment()->getMaxFile();
+        $cnt_sub = $this->subm->countSubmissionsOfUser($this->submission->getUserId());
         if ($max_file > 0) {
-            $max_file = $this->submission->getAssignment()->getMaxFile() - count($this->submission->getFiles());
+            $max_file = $this->submission->getAssignment()->getMaxFile() - $cnt_sub;
         } else {
             $max_file = 20;
         }
@@ -270,7 +283,13 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
         $title = $result->getName();
 
-        $this->submission->addFileUpload($result);
+        //$this->submission->addFileUpload($result);
+        $subm = $this->domain->submission($this->assignment->getId());
+        $subm->addUpload(
+            $this->user->getid(),
+            $result,
+            $title
+        );
 
         return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
             '',
@@ -283,7 +302,6 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     public function addUploadObject(): void
     {
         $ilCtrl = $this->ctrl;
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
         $this->handleNewUpload();
 
@@ -294,6 +312,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Init upload form form.
      */
+    /*
     protected function initZipUploadForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
@@ -313,76 +332,56 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $form->setFormAction($ilCtrl->getFormAction($this, "uploadZip"));
 
         return $form;
+    }*/
+
+    protected function getZipUploadForm(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        /*
+        $max_file = $this->submission->getAssignment()->getMaxFile();
+        if ($max_file > 0) {
+            $max_file = $this->submission->getAssignment()->getMaxFile() - count($this->submission->getFiles());
+        } else {
+            $max_file = 20;
+        }*/
+        $this->ctrl->setParameterByClass(self::class, "zip", "1");
+        $form_adapter = $this->gui
+            ->form(self::class, 'addUpload')
+            ->section("props", $this->lng->txt('file_add'))
+            ->file(
+                "deliver",
+                $this->lng->txt("files"),
+                \Closure::fromCallable([$this, 'handleZipUploadResult']),
+                "mep_id",
+                "",
+                1,
+                ["application/zip"]
+            );
+        return $form_adapter;
     }
 
-    /**
-     * Upload files
-     */
-    public function uploadFileObject(): void
-    {
-        $ilCtrl = $this->ctrl;
 
-        // #15322
-        if (!$this->submission->canSubmit()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
-        } else {
-            $form = $this->initUploadForm();
-            if (!$form->checkInput()) {
-                $this->uploadFormObject($form);
-                return;
-            }
 
-            $success = false;
-            foreach ($_FILES["deliver"]["name"] as $k => $v) {
-                $file = array(
-                    "name" => $_FILES["deliver"]["name"][$k],
-                    "type" => $_FILES["deliver"]["type"][$k],
-                    "tmp_name" => $_FILES["deliver"]["tmp_name"][$k],
-                    "error" => $_FILES["deliver"]["error"][$k],
-                    "size" => $_FILES["deliver"]["size"][$k],
-                    );
-                if (!$this->submission->uploadFile($file)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_upload_error") . " [Single File]", true);
-                } else {
-                    $success = true;
-                }
-            }
-
-            if ($success) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
-                $this->handleNewUpload();
-            }
+    protected function handleZipUploadResult(
+        \ILIAS\FileUpload\FileUpload $upload,
+        \ILIAS\FileUpload\DTO\UploadResult $result
+    ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
+        $title = $result->getName();
+        //$this->submission->addFileUpload($result);
+        $subm = $this->domain->submission($this->assignment->getId());
+        if ($this->submission->canSubmit()) {
+            $this->log->debug("-------------------------------------");
+            $subm->addZipUploads(
+                $this->user->getid(),
+                $result
+            );
         }
 
-        $ilCtrl->redirect($this, "submissionScreen");
-    }
-
-    /**
-     * Upload zip file
-     */
-    public function uploadZipObject(): void
-    {
-        $ilCtrl = $this->ctrl;
-
-        // #15322
-        if (!$this->submission->canSubmit()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
-        } else {
-            $form = $this->initZipUploadForm();
-            if (!$form->checkInput()) {
-                $this->uploadZipFormObject($form);
-                return;
-            }
-
-            if (preg_match("/zip/", $_FILES["deliver"]["type"]) == 1) {
-                if ($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"])) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
-                    $this->handleNewUpload();
-                }
-            }
-        }
-
-        $ilCtrl->redirect($this, "submissionScreen");
+        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+            '',
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+            $title,
+            ''
+        );
     }
 
     /**
@@ -416,17 +415,13 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             $cgui->setCancel($lng->txt("cancel"), "submissionScreen");
             $cgui->setConfirm($lng->txt("delete"), "deleteDelivered");
 
-            $files = $this->submission->getFiles();
+            $subs = $this->subm->getSubmissionsOfUser(
+                $this->submission->getUserId(),
+                $file_ids
+            );
 
-            foreach ($file_ids as $i) {
-                reset($files);
-                $title = "";
-                foreach ($files as $f) {
-                    if ($f["returned_id"] == $i) {
-                        $title = $f["filetitle"];
-                    }
-                }
-                $cgui->addItem("delivered[]", $i, $title);
+            foreach ($subs as $sub) {
+                $cgui->addItem("delivered[]", $sub->getId(), $sub->getTitle());
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -447,7 +442,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         } elseif (count($file_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("please_select_a_delivered_file_to_delete"), true);
         } else {
-            $this->submission->deleteSelectedFiles($file_ids);
+            $this->subm->deleteSubmissions(
+                $this->submission->getUserId(),
+                $file_ids
+            );
             $this->handleRemovedUpload();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_submitted_files_deleted"), true);

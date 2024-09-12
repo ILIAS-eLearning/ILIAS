@@ -1487,13 +1487,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("pg");
                     break;
@@ -1517,13 +1510,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             0,
                             $this->lang
                         );
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     $img_src = ilUtil::getImagePath("standard/icon_st.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("st");
                     break;
@@ -1561,13 +1547,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $this->lang
                 );
 
-            if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                if (!ilLMObject::_isPagePublic($this->requested_obj_id)) {
-                    $disabled = true;
-                    $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                }
-            }
             $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
             $id = $this->requested_obj_id;
 
@@ -1790,12 +1769,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output chapter title
                 if ($node["type"] == "st") {
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            continue;
-                        }
-                    }
 
                     $chap = new ilStructureObject($this->lm, $node["obj_id"]);
                     $tpl->setCurrentBlock("print_chapter");
@@ -1829,12 +1802,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output page
                 if ($node["type"] === "pg") {
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() === "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            continue;
-                        }
-                    }
 
                     $tpl->setCurrentBlock("print_item");
 

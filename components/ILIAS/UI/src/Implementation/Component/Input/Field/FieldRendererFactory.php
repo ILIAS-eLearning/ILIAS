@@ -27,7 +27,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
 {
     public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
-        if (in_array('DateTimeFieldInput', $contexts)
+        if (in_array('DurationFieldInput', $contexts)
+            && in_array('DateTimeFieldInput', $contexts)
             && in_array('StandardFilterContainerInput', $contexts)) {
             return new DateTimeFilterContextRenderer(
                 $this->ui_factory,

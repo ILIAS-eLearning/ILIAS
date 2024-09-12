@@ -207,10 +207,6 @@ class ilObjUser extends ilObject
                 $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
                 $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
             }
-
-            if (empty($this->prefs['hits_per_page'])) {
-                $this->prefs['hits_per_page'] = 10;
-            }
         } else {
             $ilErr->raiseError('<b>Error: There is no dataset with id ' .
                                $this->id . '!</b><br />class: ' . get_class($this) . '<br />Script: ' . __FILE__ .
@@ -3008,7 +3004,7 @@ class ilObjUser extends ilObject
     {
         $udata = new ilUserDefinedData($this->getId());
         foreach ($this->user_defined_data as $field => $value) {
-            if ($field != 'usr_id') {
+            if ($field !== 'usr_id' && $value !== null) {
                 $udata->set($field, $value);
             }
         }

@@ -55,7 +55,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
             if (!$tax_exp->handleCommand()) {
                 $a_html[] = array(
                     "title" => ilObject::_lookupTitle((int) $tax_id),
-                    "html" => $tax_exp->getHTML()
+                    "html" => $tax_exp->getHTML(true)
                 );
             }
         }

@@ -57,7 +57,7 @@ class ilMail
     public function __construct(
         private int $a_user_id,
         private ?ilMailAddressTypeFactory $mail_address_type_factory = null,
-        private ?ilMailRfc822AddressParserFactory $mail_address_parser_factory = null,
+        private ilMailRfc822AddressParserFactory $mail_address_parser_factory = new ilMailRfc822AddressParserFactory(),
         private ?ilAppEventHandler $event_handler = null,
         private ?ilLogger $logger = null,
         private ?ilDBInterface $db = null,
@@ -79,7 +79,6 @@ class ilMail
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
         $this->mail_address_type_factory = $mail_address_type_factory ?? new ilMailAddressTypeFactory(null, $logger);
-        $this->mail_address_parser_factory = $mail_address_parser_factory ?? new ilMailRfc822AddressParserFactory();
         $this->event_handler = $event_handler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
@@ -1414,7 +1413,7 @@ class ilMail
         if (!array_key_exists($usrId, $this->user_instances_by_id_map)) {
             try {
                 $user = new ilObjUser($usrId);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $user = null;
             }
 

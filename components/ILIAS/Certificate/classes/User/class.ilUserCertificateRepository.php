@@ -30,7 +30,7 @@ class ilUserCertificateRepository
     private readonly ilDBInterface $database;
     private readonly ilLogger $logger;
     private readonly string $defaultTitle;
-    private ?Factory $uuid_factory;
+    private readonly ?Factory $uuid_factory;
 
     public function __construct(
         ?ilDBInterface $database = null,
