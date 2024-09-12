@@ -412,7 +412,7 @@ class ilObjFileGUI extends ilObject2GUI
         )->withRequired(true);
 
         // add input for copyright selection if enabled in the metadata settings
-        if ($this->getLOM()->copyrightHelper()->isCopyrightSelectionActive()) {
+        if ($this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             $inputs[self::PARAM_COPYRIGHT_ID] = $this->getCopyrightSelectionInput('set_license_for_all_files');
         }
 
@@ -1148,10 +1148,5 @@ class ilObjFileGUI extends ilObject2GUI
     protected function getUser(): ilObjUser
     {
         return $this->user;
-    }
-
-    protected function getLOM(): LOMServices
-    {
-        return $this->lom_services;
     }
 }

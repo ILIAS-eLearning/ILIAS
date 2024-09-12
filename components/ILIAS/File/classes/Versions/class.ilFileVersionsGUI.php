@@ -650,13 +650,13 @@ class ilFileVersionsGUI
         );
 
         // return form at this point if copyright selection is not enabled
-        if (!$this->getLOM()->copyrightHelper()->isCopyrightSelectionActive()) {
+        if (!$this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             return $this->ui->factory()->input()->container()->form()->standard($form_action, $inputs);
         }
 
         // add the option for letting all unzipped files inherit the copyright of their parent zip (if a copyright has been set for the zip)
-        $lom_reader = $this->getLOM()->read($this->file->getId(), 0, $this->file->getType());
-        $lom_cp_helper = $this->getLOM()->copyrightHelper();
+        $lom_reader = $this->lom_services->read($this->file->getId(), 0, $this->file->getType());
+        $lom_cp_helper = $this->lom_services->copyrightHelper();
 
         if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
             $zip_copyright = $lom_cp_helper->readPresetCopyright($lom_reader);
@@ -761,10 +761,5 @@ class ilFileVersionsGUI
     protected function getLanguage(): \ilLanguage
     {
         return $this->lng;
-    }
-
-    protected function getLOM(): LOMServices
-    {
-        return $this->lom_services;
     }
 }

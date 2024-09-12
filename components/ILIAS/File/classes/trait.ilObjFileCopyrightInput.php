@@ -36,7 +36,7 @@ trait ilObjFileCopyrightInput
         }
 
         $copyright_input = $this->getUIFactory()->input()->field()->radio($this->getLanguage()->txt($lang_var_title));
-        foreach ($this->getLOM()->copyrightHelper()->getNonOutdatedCopyrightPresets() as $copyright_option) {
+        foreach ($this->lom_services->copyrightHelper()->getNonOutdatedCopyrightPresets() as $copyright_option) {
             $copyright_input = $copyright_input->withOption(
                 $copyright_option->identifier(),
                 $copyright_option->title(),
@@ -49,8 +49,6 @@ trait ilObjFileCopyrightInput
 
         return $copyright_input;
     }
-
-    abstract protected function getLOM(): LOMServices;
 
     abstract protected function getUIFactory(): Factory;
 
