@@ -287,19 +287,19 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             }
             switch ($filter) {
                 case 'roles':
-                    if (!in_array($filter_value, $a_user_info['role_ids'])) {
+                    if (!in_array($filter_value, ($a_user_info['role_ids'] ?? []))) {
                         return false;
                     }
                     break;
 
                 case 'filter_participated':
-                    if (!$a_user_info['participated']) {
+                    if (!($a_user_info['participated'] ?? false)) {
                         return false;
                     }
                     break;
 
                 case 'filter_registration':
-                    if (!$a_user_info['registered']) {
+                    if (!($a_user_info['registered'] ?? false)) {
                         return false;
                     }
                     break;
