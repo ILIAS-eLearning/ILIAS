@@ -3007,7 +3007,7 @@ class ilObjUser extends ilObject
     {
         $udata = new ilUserDefinedData($this->getId());
         foreach ($this->user_defined_data as $field => $value) {
-            if ($field != 'usr_id') {
+            if ($field !== 'usr_id' && $value !== null) {
                 $udata->set($field, $value);
             }
         }
