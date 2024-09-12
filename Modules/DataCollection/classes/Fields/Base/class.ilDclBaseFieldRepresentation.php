@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclBaseFieldRepresentation
@@ -141,23 +141,24 @@ abstract class ilDclBaseFieldRepresentation
         string $mode = "create"
     ): void {
         $opt = $this->buildFieldCreationInput($dcl, $mode);
-
-        if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-            $new_plugin_title = $opt->getTitle();
-            $plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
-            if ($plugin_name !== "DclBase") {
-                $new_plugin_title .= ': ' . $plugin_name;
+        if ($opt !== null) {
+            if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
+                $new_plugin_title = $opt->getTitle();
+                $plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
+                if ($plugin_name !== "DclBase") {
+                    $new_plugin_title .= ': ' . $plugin_name;
+                }
+                $opt->setTitle($new_plugin_title);
             }
-            $opt->setTitle($new_plugin_title);
-        }
 
-        $form->addOption($opt);
+            $form->addOption($opt);
+        }
     }
 
     /**
      * Build the creation-input-field
      */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
     {
         $opt = new ilRadioOption(
             $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
