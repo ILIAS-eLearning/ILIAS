@@ -19,7 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -62,26 +64,29 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
-        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
-                      ->disableOriginalConstructor()
-                      ->getMock();
+        $unzip = $this->getMockBuilder(ILIAS\Filesystem\Util\Archive\Unzip::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
             ->method('unzip')
             ->willReturn($unzip);
 
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+        $resource_ident = new ResourceIdentification('someId');
+
+        $irss_manager = $this->getMockBuilder(Manager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $irss_manager->method('stream')->willReturn($resource_ident);
         $irss = $this->getMockBuilder(IRSS::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
+        $irss->method('manage')->willReturn($irss_manager);
 
         $action = new ilCertificateTemplateImportAction(
             100,
@@ -142,9 +147,9 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
-        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
-                      ->disableOriginalConstructor()
-                      ->getMock();
+        $unzip = $this->getMockBuilder(ILIAS\Filesystem\Util\Archive\Unzip::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
@@ -156,8 +161,8 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $irss = $this->getMockBuilder(IRSS::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $action = new ilCertificateTemplateImportAction(
             100,
@@ -208,9 +213,9 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
-        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
-                      ->disableOriginalConstructor()
-                      ->getMock();
+        $unzip = $this->getMockBuilder(ILIAS\Filesystem\Util\Archive\Unzip::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
@@ -227,8 +232,8 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $irss = $this->getMockBuilder(IRSS::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $action = new ilCertificateTemplateImportAction(
             100,
@@ -285,8 +290,8 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $irss = $this->getMockBuilder(IRSS::class)
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $action = new ilCertificateTemplateImportAction(
             100,

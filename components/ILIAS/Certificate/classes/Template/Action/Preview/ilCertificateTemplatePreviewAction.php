@@ -31,7 +31,6 @@ class ilCertificateTemplatePreviewAction
     private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
     private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
     private readonly ilCertificatePdfFileNameFactory $pdfFileNameFactory;
-    private ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         private readonly ilCertificateTemplateRepository $templateRepository,
@@ -45,9 +44,6 @@ class ilCertificateTemplatePreviewAction
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
         global $DIC;
-        // TODO
-        $this->global_certificate_settings = new ilObjCertificateSettings();
-
         if (null === $user) {
             $user = $DIC->user();
         }
