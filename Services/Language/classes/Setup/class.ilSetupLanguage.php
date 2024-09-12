@@ -194,18 +194,17 @@ class ilSetupLanguage extends ilLanguage
     public function getInstalledLanguages(): array
     {
         global $ilDB;
-
-        $arr = array();
-
-        $query = "SELECT * FROM object_data " .
+        $arr = [];
+        if ($ilDB instanceof ilDBInterface) {
+            $query = "SELECT * FROM object_data " .
                 "WHERE type = " . $ilDB->quote("lng", "text") . " " .
                 "AND " . $ilDB->like("description", "text", "installed%");
-        $r = $ilDB->query($query);
+            $r = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchObject($r)) {
-            $arr[] = $row->title;
+            while ($row = $ilDB->fetchObject($r)) {
+                $arr[] = $row->title;
+            }
         }
-
         return $arr;
     }
 
@@ -215,18 +214,17 @@ class ilSetupLanguage extends ilLanguage
     public function getInstalledLocalLanguages(): array
     {
         global $ilDB;
-
-        $arr = array();
-
-        $query = "SELECT * FROM object_data " .
+        $arr = [];
+        if ($ilDB instanceof ilDBInterface) {
+            $query = "SELECT * FROM object_data " .
                 "WHERE type = " . $ilDB->quote("lng", "text") . " " .
                 "AND description = " . $ilDB->quote("installed_local", "text");
-        $r = $ilDB->query($query);
+            $r = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchObject($r)) {
-            $arr[] = $row->title;
+            while ($row = $ilDB->fetchObject($r)) {
+                $arr[] = $row->title;
+            }
         }
-
         return $arr;
     }
 
