@@ -11241,6 +11241,7 @@ mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
+mail#:#mail_1#:#1 Mail
 mail#:#mail_absence_auto_responder_body#:#Nachricht
 mail#:#mail_absence_auto_responder_body_hint#:#Dies ist eine automatisch generierte Nachricht. Wenn Sie weitere Mails an diese Adresse schicken, bekommen Sie frühestens [NEXT_AUTO_RESPONDER_DATETIME] eine weitere automatische Antwort.
 mail#:#mail_absence_auto_responder_body_info#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten alle %1$s Tage über Ihre Abwesenheit informiert.
@@ -11256,6 +11257,7 @@ mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+mail#:#mail_all_in_trash#:#Alle im Papierkorb
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler „%s“
@@ -11279,6 +11281,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder
 mail#:#mail_crs_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 mail#:#mail_deleted#:#Die Mail(s) wurden gelöscht
 mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
+mail#:#mail_download_attachment#:#Anhang herunterladen
 mail#:#mail_download_zip_no_attachments#:#Es wurden keine Anhänge gefunden.
 mail#:#mail_edit_tpl#:#Textvorlage bearbeiten
 mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
@@ -11310,15 +11313,17 @@ mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Anhänge
 mail#:#mail_filter_body#:#Nachricht
+mail#:#mail_filter_display#:#Anzeige
 mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
-mail#:#mail_filter_only_unread#:#Ungelesen
-mail#:#mail_filter_only_user_mails#:#Systemnachrichten ausblenden
-mail#:#mail_filter_only_with_attachments#:#Anhänge
 mail#:#mail_filter_period#:#Zeitraum
-mail#:#mail_filter_period_from#:#Von
-mail#:#mail_filter_period_until#:#Bis
 mail#:#mail_filter_recipients#:#An###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_filter_sender#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_filter_show_read#:#Gelesene
+mail#:#mail_filter_show_system_mails#:#System-Meldungen
+mail#:#mail_filter_show_unread#:#Ungelesene
+mail#:#mail_filter_show_user_mails#:#Persönliche Mails
+mail#:#mail_filter_show_with_attachments#:#Mails mit Anhängen
+mail#:#mail_filter_show_without_attachment#:#Mails ohne Anhang
 mail#:#mail_filter_subject#:#Betreff
 mail#:#mail_filter_txt#:#Suchen in
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -11406,7 +11411,7 @@ mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter s
 mail#:#mail_recipient_not_found#:#%1$s – Bitte korrigieren Sie die Angaben im „An”-Feld.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_rename_folder#:#Ordner umbenennen
 mail#:#mail_roles#:#alle Personen mit folgenden lokalen Rollen
-mail#:#mail_s#:#Mails
+mail#:#mail_s#:#%s Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, wenn Anrede „Frau”###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -11448,7 +11453,7 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. Es wird empfohlen einen Präfix anzugeben, um Nutzern das Filtern der Nachrichten zu vereinfachen.
 mail#:#mail_subject_too_long#:#Der Betreff ist zu lang.
-mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Mails gelöscht werden sollen?
+mail#:#mail_sure_delete#:#Sind Sie sicher, dass die folgenden Mails gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
