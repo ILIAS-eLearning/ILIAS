@@ -153,7 +153,7 @@ class ilDataCollectionExporter extends ilXmlExporter
         foreach ($a_ids as $id) {
             $md_ids[] = $id . ':0:dcl';
         }
-        if (!empty($md_ids)) {
+        if ($md_ids !== []) {
             $deps[] = [
                 'component' => 'components/ILIAS/MetaData',
                 'entity' => 'md',
