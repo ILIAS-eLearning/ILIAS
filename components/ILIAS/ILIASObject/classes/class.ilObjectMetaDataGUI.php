@@ -316,6 +316,7 @@ class ilObjectMetaDataGUI
                 'exc',
                 'lti',
                 'cmix',
+                'mep',
                 'mep:mpg'
             ])
         );
