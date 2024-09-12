@@ -2564,6 +2564,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->tabs_gui->activateTab('trash');
 
+        $this->lng->loadLanguageModule('cont');
+        $tpl->setOnScreenMessage('info', $this->lng->txt('cont_trash_general_usage'));
+
         $trash_table = new ilTrashTableGUI($this, 'trash', $this->object->getRefId());
         $trash_table->init();
         $trash_table->parse();

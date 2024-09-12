@@ -541,9 +541,6 @@ class ilObject
 
         $this->log->write("ilObject::create(), start");
 
-        $this->title = ilStr::shortenTextExtended($this->getTitle(), $this->max_title, $this->add_dots);
-        $this->desc = ilStr::shortenTextExtended($this->getDescription(), $this->max_desc, $this->add_dots);
-
         // determine owner
         $owner = 0;
         if ($this->getOwner() > 0) {

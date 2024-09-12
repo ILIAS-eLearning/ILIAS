@@ -99,10 +99,8 @@ class ilMDCopyrightSelectionEntry
         return $row->title ?? '';
     }
 
-    public static function _lookupCopyright(
-        string $a_cp_string,
-        bool $for_export = false
-    ): string {
+    public static function _lookupCopyright(string $a_cp_string): string
+    {
         global $DIC;
 
         $renderer = new Renderer(
@@ -119,71 +117,51 @@ class ilMDCopyrightSelectionEntry
         $entry = $repository->getEntry($entry_id);
         $components = $renderer->toUIComponents($entry->copyrightData());
 
-        /*
-         * Take icon out of the render if it comes from a file, to avoid
-         * file delivery links showing up in export files.
-         */
-        if ($for_export && !$entry->copyrightData()->isImageLink()) {
-            foreach ($components as $id => $component) {
-                if ($component instanceof Icon) {
-                    unset($components[$id]);
-                }
-            }
-        }
-
         return $ui_renderer->render($components);
     }
 
-    public static function lookupCopyrightByText(string $copyright_text): int
+    public static function _lookupCopyrightForExport(string $a_cp_string): string
     {
         global $DIC;
 
-        $db = $DIC->database();
-        $full_name = '';
-        $link = '';
-        $image_link = '';
-        $alt_text = '';
+        $repository = new DatabaseRepository($DIC->database());
 
-        //find the image
-        if (preg_match('/<\s*img((?:.|\n)*?)\/>/i', $copyright_text, $img_matches)) {
-            if (preg_match('/src\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $src_matches)) {
-                $image_link = strip_tags($src_matches[1]);
+        if (!$entry_id = self::_extractEntryId($a_cp_string)) {
+            return $a_cp_string;
+        }
+
+        $data = $repository->getEntry($entry_id)->copyrightData();
+
+        return (string) ($data->link() ?? $data->fullName());
+    }
+
+    public static function lookupCopyrightFromImport(string $copyright_text): int
+    {
+        global $DIC;
+
+        $repository = new DatabaseRepository($DIC->database());
+
+        // url should be made to match regardless of scheme
+        $normalized_copyright = str_replace('https://', 'http://', $copyright_text);
+
+        $matches_by_name = null;
+        foreach ($repository->getAllEntries() as $entry) {
+            $entry_link = (string) $entry->copyrightData()->link();
+            $normalized_link = str_replace('https://', 'http://', $entry_link);
+            if ($normalized_link !== '' && str_contains($normalized_copyright, $normalized_link)) {
+                return $entry->id();
             }
-            if (preg_match('/alt\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $alt_matches)) {
-                $alt_text = strip_tags($alt_matches[1]);
+
+            if (
+                is_null($matches_by_name) &&
+                trim($copyright_text) === trim($entry->copyrightData()->fullName())
+            ) {
+                $matches_by_name = $entry->id();
             }
         }
 
-        //find the link
-        if (preg_match('/<\s*a((?:.|\n)[^<]*?)<\s*\/a>/i', $copyright_text, $link_matches)) {
-            if (preg_match('/href\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $link_matches[1], $name_matches)) {
-                $link = strip_tags($name_matches[1]);
-            }
-            if (preg_match('/>((?:\n|.)*)/i', $link_matches[1], $href_matches)) {
-                $full_name = strip_tags($href_matches[1]);
-            }
-        } else {
-            $full_name = strip_tags($copyright_text);
-        }
-
-        /*
-         * Since the icon is not exported if it comes from a file, we have to be a bit
-         * more lenient with the matching if it's not there.
-         */
-        if ($image_link === '' && $alt_text === '') {
-            $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
-                'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
-                ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT);
-        } else {
-            $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
-                'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
-                ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT) .
-                ' AND image_link = ' . $db->quote($image_link, ilDBConstants::T_TEXT) .
-                ' AND alt_text = ' . $db->quote($alt_text, ilDBConstants::T_TEXT);
-        }
-        $res = $db->query($query);
-        while ($row = $db->fetchObject($res)) {
-            return (int) $row->entry_id;
+        if (!is_null($matches_by_name)) {
+            return $matches_by_name;
         }
         return 0;
     }

@@ -180,7 +180,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle((string) $data["title"]);
+            $this->setTitle($data["title"] ?? '');
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setComment($data["description"] ?? '');
             $this->setOriginalId($data["original_id"]);
@@ -536,7 +536,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             }
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
