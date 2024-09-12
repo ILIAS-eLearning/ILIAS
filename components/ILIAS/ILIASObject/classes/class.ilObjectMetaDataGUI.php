@@ -294,6 +294,7 @@ class ilObjectMetaDataGUI
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
+                'blog',
                 "crs",
                 'grp',
                 "file",
