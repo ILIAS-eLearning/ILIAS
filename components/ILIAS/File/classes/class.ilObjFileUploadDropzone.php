@@ -65,7 +65,7 @@ class ilObjFileUploadDropzone
     {
         static $active;
         if ($active === null) {
-            $active = $this->getLOM()->copyrightHelper()->isCopyrightSelectionActive();
+            $active = $this->lom_services->copyrightHelper()->isCopyrightSelectionActive();
         }
         return $active;
     }
@@ -163,10 +163,5 @@ class ilObjFileUploadDropzone
     protected function getRefinery(): \ILIAS\Refinery\Factory
     {
         return $this->refinery;
-    }
-
-    protected function getLOM(): LOMServices
-    {
-        return $this->lom_services;
     }
 }
