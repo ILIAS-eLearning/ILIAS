@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 /**
  * Class ilDclPluginFieldRepresentation
@@ -23,7 +23,7 @@
  */
 class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -48,11 +48,7 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
                 } else {
                 }
             } else {
-                $plugin_selection = new ilNonEditableValueGUI(
-                    $this->lng->txt('dcl_plugin_no_hooks_available'),
-                    'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME
-                );
-                $opt->addSubItem($plugin_selection);
+                return null;
             }
         }
 
