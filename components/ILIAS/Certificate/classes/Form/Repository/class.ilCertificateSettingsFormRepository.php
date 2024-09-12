@@ -28,6 +28,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Factory as UiFactory;
 use ILIAS\UI\Renderer as UiRenderer;
+use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -43,6 +44,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private readonly ilObjCertificateSettings $global_certificate_settings;
     private IRSS $irss;
     private readonly ilGlobalTemplateInterface $page_template;
+    private readonly CropToSquare $card_thumbnail_definition;
 
     public function __construct(
         private readonly int $objectId,
@@ -84,6 +86,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->templateRepository = $templateRepository ?? new ilCertificateTemplateDatabaseRepository(
             $DIC->database(),
             $logger ?? $DIC->logger()->cert()
+        );
+        $this->card_thumbnail_definition = new CropToSquare(
+            true,
+            100
         );
         $this->global_certificate_settings = new ilObjCertificateSettings();
     }
@@ -198,18 +204,18 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $certificateTemplate->getBackgroundImageIdentification()
             ) instanceof ResourceIdentification
         ) {
-            if ($this->global_certificate_settings->hasBackgroundImage()) {
-                $img = $this->irss->consume()->src(
-                    $this->global_certificate_settings->getBackgroundImageIdentification()
-                );
-                $bgimage->setImage($img->getSrc());
-                $bgimage->setAllowDeletion(false);
-            }
-        } else {
-            $identification = $this->irss->manage()->find($certificateTemplate->getBackgroundImageIdentification());
-            if (null !== $identification) {
-                $image = $this->irss->consume()->src($identification);
-                $bgimage->setImage($image->getSrc());
+            $bgimage->setAllowDeletion(false);
+        }
+        $identification = $this->irss->manage()->find($certificateTemplate->getBackgroundImageIdentification());
+        if ($identification instanceof ResourceIdentification) {
+            $background_flavour = $this->irss->flavours()->get(
+                $identification,
+                $this->card_thumbnail_definition
+            );
+            $flavour_urls = $this->irss->consume()->flavourUrls($background_flavour);
+            foreach ($flavour_urls->getURLs() as $url) {
+                /** @var string $url */
+                $bgimage->setImage($url);
             }
         }
 
