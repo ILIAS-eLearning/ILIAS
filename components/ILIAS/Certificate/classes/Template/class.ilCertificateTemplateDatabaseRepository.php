@@ -26,7 +26,6 @@ declare(strict_types=1);
 class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRepository
 {
     public const TABLE_NAME = 'il_cert_template';
-
     private readonly ilLogger $logger;
     private readonly ilObjectDataCache $objectDataCache;
 
@@ -125,12 +124,12 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $result = [];
 
         $sql = '
-            SELECT * FROM
-            ' . self::TABLE_NAME . '
-            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-            AND deleted = 0
-            ORDER BY version ASC
-        ';
+            SELECT * FROM ' .
+            self::TABLE_NAME . ' ' .
+            'WHERE obj_id = ' . $this->database->quote($objId, 'integer') . ' ' .
+            'AND deleted = 0 ' .
+            'ORDER BY version ASC'
+        ;
 
         $query = $this->database->query($sql);
 
