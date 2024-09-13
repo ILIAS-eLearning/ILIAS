@@ -182,7 +182,7 @@ export default class DataTable {
    * @return {void}
    */
   doActionForAll(originator) {
-    const modalContent = originator.parentNode.parentNode;
+    const modalContent = originator.parentNode.parentNode.parentNode;
     const modalClose = modalContent.getElementsByClassName('close').item(0);
     const selectedAction = modalContent
       .getElementsByClassName('modal-body')[0]
@@ -227,20 +227,20 @@ export default class DataTable {
       dataType: 'html',
     }).done(
       (html) => {
-        let modalId = '';
         if (this.#jquery(html).first().prop('tagName') === 'SCRIPT') {
           this.#jquery.globalEval(this.#jquery(html).first().text());
         } else {
-          if (this.#jquery(html).first().hasClass('modal')) {
+          let modal;
+          if (this.#jquery(html).first().hasClass('c-modal')) {
             this.#modalResponseArea.innerHTML = html;
-            modalId = this.#jquery(html).first().get(0).id;
+            modal = this.#modalResponseArea.firstChild;
           } else {
             this.#responseContent.innerHTML = html;
-            modalId = this.#responseContainer.id;
+            modal = this.#responseContainer;
           }
           const tmp = this.#jquery(`<div>${html}</div>`);
           tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
-          il.UI.modal.showModal(modalId, {}, { id: modalId });
+          il.UI.modal.showModal(modal, {}, { id: modal.id });
         }
       },
     );
