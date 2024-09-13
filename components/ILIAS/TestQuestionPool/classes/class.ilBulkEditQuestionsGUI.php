@@ -77,14 +77,20 @@ class ilBulkEditQuestionsGUI
                     $out[] = $this->getFormAuthor();
                     break;
                 case self::CMD_SAVEAUTHOR:
-                    $out = array_merge($out, $this->store($this->getFormAuthor()));
+                    $out = array_merge($out, $this->store(
+                        $this->getFormAuthor(),
+                        $this->getAuthorUpdater()
+                    ));
                     break;
 
                 case self::CMD_EDITLIFECYCLE:
                     $out[] = $this->getFormLifecycle();
                     break;
                 case self::CMD_SAVELIFECYCLE:
-                    $out = array_merge($out, $this->store($this->getFormLifecycle()));
+                    $out = array_merge($out, $this->store(
+                        $this->getFormLifecycle(),
+                        $this->getLifecycleUpdater()
+                    ));
                     break;
 
                 case self::CMD_EDITTAXONOMIES:
@@ -114,11 +120,13 @@ class ilBulkEditQuestionsGUI
         return $this->request_wrapper->retrieve(self::PARAM_IDS, $trafo);
     }
 
-    protected function store(Form\Standard $form): array
+    protected function store(Form\Standard $form, Closure $update): array
     {
         $out = [];
         $form = $form->withRequest($this->request);
-        if ($form->getData()) {
+        $data = $form->getData();
+        $questions = $this->getQuestions();
+        if ($data !== null && $update($questions, $data)) {
             $out[] = $this->ui_factory->messageBox()->success($this->lng->txt('qpl_bulkedit_success'));
         }
         $out[] = $form;
@@ -151,22 +159,18 @@ class ilBulkEditQuestionsGUI
                     ->withRequired(true)
             ]
         )
-        ->withAdditionalTransformation($this->getShiftTrafo())
-        ->withAdditionalTransformation($this->getAuthorUpdater());
+        ->withAdditionalTransformation($this->getShiftTrafo());
     }
 
-    protected function getAuthorUpdater(): Transformation
+    protected function getAuthorUpdater(): \Closure
     {
-        $questions = $this->getQuestions();
-        return $this->refinery->custom()->transformation(
-            function (string $author) use ($questions) {
-                foreach($questions as $q) {
-                    $q->setAuthor($author);
-                    $q->saveQuestionDataToDb();
-                }
-                return true;
+        return function (array $questions, string $author) {
+            foreach($questions as $q) {
+                $q->setAuthor($author);
+                $q->saveQuestionDataToDb();
             }
-        );
+            return true;
+        };
     }
 
     protected function getFormLifecycle(): Form\Standard
@@ -181,23 +185,19 @@ class ilBulkEditQuestionsGUI
                     ->withRequired(true)
             ]
         )
-        ->withAdditionalTransformation($this->getShiftTrafo())
-        ->withAdditionalTransformation($this->getLifecycleUpdater());
+        ->withAdditionalTransformation($this->getShiftTrafo());
     }
 
-    protected function getLifecycleUpdater(): Transformation
+    protected function getLifecycleUpdater(): \Closure
     {
-        $questions = $this->getQuestions();
-        return $this->refinery->custom()->transformation(
-            function (string $lifecycle) use ($questions) {
-                $lc = ilAssQuestionLifecycle::getInstance($lifecycle);
-                foreach($questions as $q) {
-                    $q->setLifecycle($lc);
-                    $q->saveToDb();
-                }
-                return true;
+        return function (array $questions, string $lifecycle) {
+            $lc = ilAssQuestionLifecycle::getInstance($lifecycle);
+            foreach($questions as $q) {
+                $q->setLifecycle($lc);
+                $q->saveToDb();
             }
-        );
+            return true;
+        };
     }
 
     protected function getFormTaxonomies(): ilPropertyFormGUI
