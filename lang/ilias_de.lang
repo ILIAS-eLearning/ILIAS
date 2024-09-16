@@ -11468,10 +11468,12 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. Es wird empfohlen einen Präfix anzugeben, um Nutzern das Filtern der Nachrichten zu vereinfachen.
 mail#:#mail_subject_too_long#:#Der Betreff ist zu lang.
+mail#:#mail_success_removed_user#:#Benutzer/innen aus der Liste entfernt.
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Mails gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
+mail#:#mail_sure_remove_user#:#Möchten Sie die folgenden Benutzer/innen aus der Liste entfernen?
 mail#:#mail_system_sys_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_from_addr#:#„FROM”-Adresse für automatisch versendete E-Mails
