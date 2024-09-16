@@ -1343,10 +1343,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ]
         );
 
-        $client_id = CLIENT_ID;
-
-        $this->ctrl->setParameter($this, 'client_id', $client_id);
-        $this->ctrl->setParameter($this, 'lang', $user_language);
         $target = new ConfigurableLogoutTarget(
             $this->ctrl,
             new ilSetting('auth'),
@@ -1362,7 +1358,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
         }
 
+        $client_id = CLIENT_ID;
         ilUtil::setCookie('ilClientId', '');
+
+        $this->ctrl->setParameter($this, 'lang', $user_language);
+        $this->ctrl->setParameter($this, 'client_id', $client_id);
 
         $this->mainTemplate->setOnScreenMessage(
             $this->mainTemplate::MESSAGE_TYPE_FAILURE,
