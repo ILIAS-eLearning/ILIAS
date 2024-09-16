@@ -25,11 +25,12 @@ use ILIAS\UI\Component\HasContentLanguage;
 use ILIAS\Data\LanguageTag;
 use ILIAS\UI\Component\HasHelpTopics;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Modal\ModalContent;
 
 /**
  * Link base interface.
  */
-interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptBindable
+interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptBindable, ModalContent
 {
     /**
      * Get the action url of a link

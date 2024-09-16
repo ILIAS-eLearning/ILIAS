@@ -39,4 +39,16 @@ class Factory implements F\Factory
     {
         return new Standard($this->field_factory, new Input\FormInputNameSource(), $post_url, $inputs);
     }
+
+    public function withoutButtons(string $post_url, array $inputs): F\Form
+    {
+        $signal_generator = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+        return new FormWithoutSubmitButton(
+            $signal_generator,
+            $this->field_factory,
+            new Input\FormInputNameSource(),
+            $post_url,
+            $inputs
+        );
+    }
 }

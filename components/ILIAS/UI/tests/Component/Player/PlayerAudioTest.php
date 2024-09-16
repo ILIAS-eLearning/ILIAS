@@ -48,6 +48,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
                     new I\Component\SignalGenerator(),
                     $this->item_factory,
                     $this->field_factory,
+                    $this->button()
                 );
             }
             public function button(): C\Button\Factory
