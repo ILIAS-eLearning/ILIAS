@@ -1845,7 +1845,6 @@ assessment#:#tst_session_settings#:#Ustawienia sesji
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test jest w trybie offline, ponieważ zmieniły się ustawienia dotyczące wyboru pytań testowych. Ponownie przyporządkuj do testu pytania. Test będzie można następnie ponownie ustawić w trybie online.
 assessment#:#tst_setting_offer_hints_info#:#Uczestnicy mogą zażądać podpowiedzi, aby odpowiedzieć na pytanie. Każda udzielona podpowiedź zmniejsza punkty za prawidłowe rozwiązanie.
 assessment#:#tst_setting_offer_hints_label#:#Podpowiedzi
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
