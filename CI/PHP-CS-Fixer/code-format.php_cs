@@ -24,6 +24,6 @@ return (new PhpCsFixer\Config())
         'strict_param' => false,
         'cast_spaces' => true,
         'concat_space' => ['spacing' => 'one'],
-        'function_typehint_space' => true
+        'type_declaration_spaces' => true
 	])
 	->setFinder($finder);
