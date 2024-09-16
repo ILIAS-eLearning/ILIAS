@@ -1396,6 +1396,7 @@ abstract class assQuestion
 
     protected function onDuplicate(int $originalParentId, int $originalQuestionId, int $duplicateParentId, int $duplicateQuestionId): void
     {
+        $this->copySuggestedSolutions($duplicateQuestionId);
         $this->duplicateSuggestedSolutionFiles($originalParentId, $originalQuestionId);
         $this->feedbackOBJ->duplicateFeedback($originalQuestionId, $duplicateQuestionId);
         $this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
@@ -1414,6 +1415,7 @@ abstract class assQuestion
 
     protected function onCopy(int $sourceParentId, int $sourceQuestionId, int $targetParentId, int $targetQuestionId): void
     {
+        $this->copySuggestedSolutions($targetQuestionId);
         $this->copySuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
         $this->feedbackOBJ->duplicateFeedback($sourceQuestionId, $targetQuestionId);
         $this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
@@ -1586,6 +1588,16 @@ abstract class assQuestion
                 }
             }
         }
+    }
+
+    protected function copySuggestedSolutions(int $target_question_id): void
+    {
+        $update = [];
+        foreach($this->getSuggestedSolutions() as $index => $solution) {
+            $solution = $solution->withQuestionId($target_question_id);
+            $update[] = $solution;
+        }
+        $this->getSuggestedSolutionsRepo()->update($update);
     }
 
     public function resolveInternalLink(string $internal_link): string
