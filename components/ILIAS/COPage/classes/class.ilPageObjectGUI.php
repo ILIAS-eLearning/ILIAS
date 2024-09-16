@@ -2061,11 +2061,6 @@ class ilPageObjectGUI
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
-        ilTooltipGUI::addTooltip(
-            "ilAdvSelListAnchorElement_char_style_selection",
-            $lng->txt("cont_more_character_styles"),
-            "iltinymenu_bd"
-        );
 
         return $btpl->get();
     }
