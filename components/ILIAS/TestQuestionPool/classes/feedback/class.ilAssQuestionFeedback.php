@@ -255,10 +255,6 @@ abstract class ilAssQuestionFeedback
 
             if (!$this->questionOBJ->getPreventRteUsage()) {
                 $property->setUseRte(true);
-                $property->addPlugin("latex");
-                $property->addButton("latex");
-                $property->addButton("pastelatex");
-
                 $property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
             } else {
@@ -266,6 +262,7 @@ abstract class ilAssQuestionFeedback
                 $property->setUseTagsForRteOnly(false);
             }
 
+            $property->removePlugin('ilimgupload');
             $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
         }
 
