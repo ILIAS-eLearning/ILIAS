@@ -109,7 +109,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 
         return [
             'confirmDeleteMembers' => $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('delete'),
+                $this->lng->txt('remove'),
                 $url_builder->withParameter($action_parameter_token_copy, 'confirmDeleteMembers'),
                 $row_id_token
             ),
