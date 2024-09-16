@@ -174,10 +174,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
             $areaInp->setRTESupport($this->question_obj->getId(), 'qpl', 'assessment');
 
-            $areaInp->addPlugin("latex");
-            $areaInp->addButton("latex");
-            $areaInp->addButton("pastelatex");
-
+            $areaInp->removePlugin('ilimgupload');
             $form->addItem($areaInp);
         }
 
