@@ -66,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
@@ -103,10 +103,16 @@ class Renderer extends AbstractComponentRenderer
             $options["url"] = "#$id";
             $options = json_encode($options);
             $code =
-                "$(document).on('$show', function(event, signalData) { il.UI.modal.showModal('$id', $options, signalData);});" .
-                "$(document).on('$close', function() { il.UI.modal.closeModal('$id');});";
+                "$(document).on('$show', function(event, signalData) {
+                    let modal = document.getElementById('$id');
+                    il.UI.modal.showModal(modal, $options, signalData, '$close');
+                });";
+
             if ($replace != "") {
-                $code .= "$(document).on('$replace', function(event, signalData) { il.UI.modal.replaceFromSignal('$id', signalData);});";
+                $code .= "$(document).on('$replace', function(event, signalData) {
+                    const id = event.target.closest('.c-modal').id;
+                    il.UI.core.replaceContent(id, signalData.options.url, 'component');
+                });";
             }
             return $code;
         });

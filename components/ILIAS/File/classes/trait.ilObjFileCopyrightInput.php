@@ -17,8 +17,9 @@
  *********************************************************************/
 
 declare(strict_types=1);
-use ILIAS\UI\Factory;
 
+use ILIAS\UI\Factory;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 
 /**
@@ -35,17 +36,14 @@ trait ilObjFileCopyrightInput
         }
 
         $copyright_input = $this->getUIFactory()->input()->field()->radio($this->getLanguage()->txt($lang_var_title));
-        $copyright_options = ilMDCopyrightSelectionEntry::_getEntries();
-        $default_entry_id = ilMDCopyrightSelectionEntry::getDefault();
-        foreach ($copyright_options as $copyright_option) {
-            $entry_id = $copyright_option->getEntryId();
+        foreach ($this->lom_services->copyrightHelper()->getNonOutdatedCopyrightPresets() as $copyright_option) {
             $copyright_input = $copyright_input->withOption(
-                (string) $entry_id,
-                $copyright_option->getTitle(),
-                $copyright_option->getDescription()
+                $copyright_option->identifier(),
+                $copyright_option->title(),
+                $copyright_option->description()
             );
-            if ($entry_id === $default_entry_id) {
-                $copyright_input = $copyright_input->withValue($entry_id);
+            if ($copyright_option->isDefault()) {
+                $copyright_input = $copyright_input->withValue($copyright_option->identifier());
             }
         }
 

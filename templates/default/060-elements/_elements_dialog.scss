@@ -1,0 +1,26 @@
+@use "../030-tools/patterns/tool_dialog-patterns" as dialog;
+
+dialog {
+  padding: 0;
+  animation-name: fadeDialogIn;
+  animation-duration: .3s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+dialog::backdrop {
+  animation-name: fadeBackdropIn;
+  animation-duration: .3s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes fadeBackdropIn {
+  from { backdrop-filter: blur(0 px) brightness(dialog.$modal-backdrop-opacity); }
+  to { backdrop-filter: blur(dialog.$modal-backdrop-blur) brightness(dialog.$modal-backdrop-opacity); }
+}
+
+@keyframes fadeDialogIn {
+  from { transform: translateY(10vh); opacity: 0; scale: .6;  }
+  to { transform: translateY(0vh); opacity: 1; scale: 1; }
+}

@@ -40,26 +40,24 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
-        $ilCtrl = $this->ctrl;
-
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->ref_id;
                 break;
 
             case "edit":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass(
-                    ["ilrepositorygui", "ilObjFileBasedLMGUI", "ilFileSystemGUI"],
-                    "listFiles"
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $cmd_link = $this->ctrl->getLinkTargetByClass(
+                    [ilRepositoryGUI::class, ilObjFileBasedLMGUI::class],
+                    ilObjFileBasedLMGUI::CMD_LIST_FILES
                 );
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 break;
 
             default:
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
 
