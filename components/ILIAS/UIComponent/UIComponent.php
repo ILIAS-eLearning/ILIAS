@@ -35,6 +35,8 @@ class UIComponent implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Explorer2.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\NodeModule("jstree/dist/jstree.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilOverlay.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "LegacyModal.js");
