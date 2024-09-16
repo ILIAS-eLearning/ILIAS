@@ -37,19 +37,12 @@ abstract class ilTestExportPlugin extends ilPlugin
         'csv'
     );
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ilLanguage $lng;
-    private \ilCtrl $ctrl;
 
     public function __construct(
         \ilDBInterface $db,
         \ilComponentRepositoryWrite $component_repository,
         string $id
     ) {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-
         parent::__construct($db, $component_repository, $id);
     }
 
@@ -104,7 +97,12 @@ abstract class ilTestExportPlugin extends ilPlugin
      */
     final public function export(): void
     {
-        global $DIC; // $DIC['tpl'] is not available in the constructor, so we need to fetch it here
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        // these dependencies need to be fetched here because they are not available in constructor during ILIAS setup
+        $tpl = $DIC->ui()->mainTemplate();
+        $ctrl = $DIC->ctrl();
+        $lng = $DIC->language();
 
         if (!$this->getTest() instanceof ilObjTest) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
@@ -114,15 +112,15 @@ abstract class ilTestExportPlugin extends ilPlugin
             $this->buildExportFile(new ilTestExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                $DIC['tpl']->setOnScreenMessage('failure', $e->getMessage(), true);
+                $tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
-                $DIC['tpl']->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
+                $tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
-            $this->ctrl->redirectByClass('iltestexportgui');
+            $ctrl->redirectByClass('iltestexportgui');
         }
 
-        $DIC['tpl']->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
-        $this->ctrl->redirectByClass('iltestexportgui');
+        $tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
+        $ctrl->redirectByClass('iltestexportgui');
     }
 
     /**
