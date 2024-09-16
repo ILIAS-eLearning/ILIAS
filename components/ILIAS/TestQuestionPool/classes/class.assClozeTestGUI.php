@@ -378,14 +378,12 @@ JS;
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-                $cloze_text->addPlugin("latex");
-                $cloze_text->addButton("latex");
-                $cloze_text->addButton("pastelatex");
             }
         } else {
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $cloze_text->setUseTagsForRteOnly(false);
         }
+        $cloze_text->removePlugin('ilimgupload');
         $cloze_text->setRTESupport($this->object->getId(), "qpl", "assessment");
         $form->addItem($cloze_text);
 
