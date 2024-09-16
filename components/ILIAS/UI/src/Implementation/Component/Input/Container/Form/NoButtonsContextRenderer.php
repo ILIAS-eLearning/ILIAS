@@ -34,10 +34,10 @@ class NoButtonsContextRenderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
+        if (!$component instanceof Form\Form) {
+            $this->cannotHandleComponent($component);
+        }
         return $this->renderNoSubmit($component, $default_renderer);
-        throw new LogicException("Cannot render: " . get_class($component));
     }
 
     protected function renderNoSubmit(

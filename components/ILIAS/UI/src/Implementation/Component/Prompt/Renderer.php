@@ -34,8 +34,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Prompt\Prompt) {
             return $this->renderPrompt($component, $default_renderer);
         }
@@ -43,7 +41,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderResponse($component, $default_renderer);
         }
 
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -105,8 +103,7 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
-        $context_renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable('CONTENT', $context_renderer->render($content_component));
+        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
         $tpl->setVariable('TITLE', $component->getTitle());
 
         $buttons = $component->getButtons();

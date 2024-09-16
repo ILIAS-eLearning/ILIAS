@@ -27,6 +27,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
+use ILIAS\UI\Implementation\Component\Button\Factory as ButtonFactoryImplementation;
 
 require_once(__DIR__ . "/../../../../Base.php");
 
@@ -60,6 +62,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
     protected NameSource $namesource;
     protected Refinery $refinery;
     protected Language $language;
+    private ButtonFactory $button_factory;
 
     public function setUp(): void
     {
@@ -70,6 +73,8 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
             new \ILIAS\Data\Factory(),
             $this->language
         );
+
+        $this->button_factory = new ButtonFactoryImplementation();
 
         parent::setUp();
     }
@@ -95,8 +100,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $context = $this->createMock(\ILIAS\UI\Component\Modal\RoundTrip::class);
         $context->method('getCanonicalName')->willReturn('RoundTripModal');
-        $renderer = $this->getDefaultRenderer(null, [$dummy_input])
-            ->withAdditionalContext($context);
+        $renderer = $this->getDefaultRenderer(null, [$dummy_input], [$context]);
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected_html),
@@ -129,8 +133,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $context = $this->createMock(\ILIAS\UI\Component\Modal\RoundTrip::class);
         $context->method('getCanonicalName')->willReturn('RoundTripModal');
-        $renderer = $this->getDefaultRenderer(null, [$dummy_input])
-            ->withAdditionalContext($context);
+        $renderer = $this->getDefaultRenderer(null, [$dummy_input], [$context]);
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected_html),
@@ -176,8 +179,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $context = $this->createMock(\ILIAS\UI\Component\Modal\RoundTrip::class);
         $context->method('getCanonicalName')->willReturn('RoundTripModal');
-        $renderer = $this->getDefaultRenderer(null, [$dummy_input])
-            ->withAdditionalContext($context);
+        $renderer = $this->getDefaultRenderer(null, [$dummy_input], [$context]);
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected_html),
@@ -195,5 +197,20 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
             $this->refinery,
             $this->language
         );
+    }
+
+    public function getUIFactory(): \NoUIFactory
+    {
+        return new class ($this->button_factory) extends \NoUIFactory {
+            public function __construct(
+                protected ButtonFactory $button_factory,
+            ) {
+            }
+
+            public function button(): ButtonFactory
+            {
+                return $this->button_factory;
+            }
+        };
     }
 }

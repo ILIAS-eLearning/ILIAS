@@ -37,10 +37,10 @@ class DialogContextRenderer extends AbstractComponentRenderer
     {
         $ui_fac = $this->getUIFactory();
 
-        /**
-         * @var Component\MessageBox\MessageBox $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\MessageBox\MessageBox) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = $this->getTemplate("tpl.messagebox.html", true, true);
         $tpl->setCurrentBlock("message_box");
 
@@ -67,10 +67,5 @@ class DialogContextRenderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\MessageBox\MessageBox::class);
     }
 }
