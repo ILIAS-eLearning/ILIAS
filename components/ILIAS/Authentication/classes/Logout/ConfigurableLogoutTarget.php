@@ -69,6 +69,7 @@ class ConfigurableLogoutTarget
             default:
                 break;
         }
+
         return new URI(
             $this->http_path .
             '/' . $this->ctrl->getLinkTargetByClass(ilStartUpGUI::class, 'showLogout')

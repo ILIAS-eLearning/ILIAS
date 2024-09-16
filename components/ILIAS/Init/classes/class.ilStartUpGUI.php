@@ -1365,8 +1365,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->ctrl->setParameter($this, 'client_id', $client_id);
 
         $this->mainTemplate->setOnScreenMessage(
-            $this->mainTemplate::MESSAGE_TYPE_FAILURE,
-            $this->lng->txt('logout_text'),
+            $this->mainTemplate::MESSAGE_TYPE_INFO,
+            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText(),
             true
         );
         $this->ctrl->redirectToURL((string) $url);
