@@ -226,7 +226,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $max_points_exceeded = false;
         foreach (array_keys($question_gui_list) as $question_id) {
             $reached_points = $form->getItemByPostVar("question__{$question_id}__points")->getValue();
-            $max_points = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
+            $max_points = $this->questionrepository->getForQuestionId($question_id)->getAvailablePoints();
 
             if ($reached_points > $max_points) {
                 $max_points_exceeded = true;
@@ -422,7 +422,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
             $nonedit = new \ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$question_id}__maxpoints");
             if ($initValues) {
-                $nonedit->setValue($this->questionrepository->getForQuestionId($question_id)->getMaximumPoints());
+                $nonedit->setValue($this->questionrepository->getForQuestionId($question_id)->getAvailablePoints());
             }
             $form->addItem($nonedit);
 

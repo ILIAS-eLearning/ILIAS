@@ -18,21 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Questions;
+namespace ILIAS\Test\Questions\Presentation;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Link;
+use ILIAS\UI\URLBuilder;
+use ILIAS\Language\Language;
 
 class QuestionsTableBinding implements Table\OrderingBinding
 {
     public function __construct(
-        protected array $records,
-        protected \ilLanguage $lng,
-        protected \Closure $title_link_builder,
-        protected TitleColumnsBuilder $title_builder,
-        protected bool $editing_enabled,
+        protected readonly array $records,
+        protected readonly Language $lng,
+        protected readonly UIFactory $ui_factory,
+        protected readonly TitleColumnsBuilder $title_builder,
+        protected readonly URLBuilder $url_builder,
+        protected readonly string $row_id_token,
+        protected readonly bool $editing_enabled
     ) {
     }
 
@@ -41,16 +46,15 @@ class QuestionsTableBinding implements Table\OrderingBinding
         array $visible_column_ids
     ): \Generator {
         foreach ($this->records as $record) {
-            $record['title'] = $this->getTitleLink($record['title'], $record['question_id']);
-            $record['type_tag'] = $this->lng->txt($record['type_tag']);
-            $record['complete'] = (bool) $record['complete'];
-            $record['lifecycle'] = \ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
-            $record['qpl'] = $this->title_builder->buildAccessCheckedQuestionpoolTitleAsLink(
-                $record['orig_obj_fi']
+            $row = $record->getAsQuestionsTableRow(
+                $this->lng,
+                $this->ui_factory,
+                $row_builder,
+                $this->title_builder,
+                $this->url_builder,
+                $this->row_id_token
             );
-
-            yield $row_builder->buildOrderingRow((string) $record['question_id'], $record)
-                ->withDisabledAction(QuestionsTable::ACTION_DELETE, $this->editing_enabled)
+            yield $row->withDisabledAction(QuestionsTable::ACTION_DELETE, $this->editing_enabled)
                 ->withDisabledAction(QuestionsTable::ACTION_COPY, $this->editing_enabled)
                 ->withDisabledAction(QuestionsTable::ACTION_ADD_TO_POOL, $this->editing_enabled)
                 ->withDisabledAction(QuestionsTable::ACTION_EDIT_QUESTION, $this->editing_enabled)
@@ -58,11 +62,5 @@ class QuestionsTableBinding implements Table\OrderingBinding
                 ->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $this->editing_enabled)
                 ->withDisabledAction(QuestionsTable::ACTION_HINTS, $this->editing_enabled);
         }
-    }
-
-    private function getTitleLink(string $title, int $question_id): Link\Standard
-    {
-        $f = $this->title_link_builder;
-        return $f($title, $question_id);
     }
 }

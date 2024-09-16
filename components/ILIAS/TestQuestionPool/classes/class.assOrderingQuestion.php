@@ -309,23 +309,18 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->getSolutionOrderingElementList($this->fetchIndexedValuesFromValuePairs($solution_values));
     }
 
-    /**
-     * @param ilAssNestedOrderingElementsInputGUI $inputGUI
-     * @param array $lastPost
-     * @param integer $activeId
-     * @param integer $pass
-     * @return ilAssOrderingElementList
-     * @throws ilTestException
-     * @throws ilTestQuestionPoolException
-     */
-    public function getSolutionOrderingElementListForTestOutput(ilAssNestedOrderingElementsInputGUI $inputGUI, $lastPost, $activeId, $pass): ilAssOrderingElementList
-    {
-        if ($inputGUI->isPostSubmit($lastPost)) {
-            return $this->fetchSolutionListFromFormSubmissionData($lastPost);
+    public function getSolutionOrderingElementListForTestOutput(
+        ilAssNestedOrderingElementsInputGUI $input_gui,
+        array $last_post,
+        int $active_id,
+        int $pass
+    ): ilAssOrderingElementList {
+        if ($input_gui->isPostSubmit($last_post)) {
+            return $this->fetchSolutionListFromFormSubmissionData($last_post);
         }
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs(
             // hey: prevPassSolutions - obsolete due to central check
-            $this->getTestOutputSolutions($activeId, $pass)
+            $this->getTestOutputSolutions($active_id, $pass)
             // hey.
         );
 
@@ -336,11 +331,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->getShuffledOrderingElementList();
     }
 
-    /**
-     * @param string $value1
-     * @param string $value2
-     * @return ilAssOrderingElement
-     */
     protected function getSolutionValuePairBrandedOrderingElementByRandomIdentifier(
         int $value1,
         string $value2
@@ -360,7 +350,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     protected function getSolutionValuePairBrandedOrderingElementBySolutionIdentifier(
-        string $value1,
+        int $value1,
         string $value2
     ): ilAssOrderingElement {
         $solution_identifier = $value1;
@@ -682,7 +672,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $value1 = $orderingElement->getStorageValue1($this->getOrderingType());
                     $value2 = $orderingElement->getStorageValue2($this->getOrderingType());
 
-                    $this->saveCurrentSolution($active_id, $pass, $value1, trim($value2), $authorized);
+                    $this->saveCurrentSolution($active_id, $pass, $value1, trim((string) $value2), $authorized);
                 }
             }
         );

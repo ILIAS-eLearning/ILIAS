@@ -32,12 +32,11 @@ class GeneralQuestionPropertiesRepository
     /**
      * @var array<ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties>
      */
-    private static array $general_properties_cache = [];
+    private array $general_properties_cache = [];
 
     public function __construct(
-        private \ilDBInterface $database,
-        private \ilComponentFactory $component_factory,
-        private \ilLanguage $lng
+        private \ilDBInterface $db,
+        private \ilComponentFactory $component_factory
     ) {
     }
 
@@ -47,79 +46,121 @@ class GeneralQuestionPropertiesRepository
             return new GeneralQuestionProperties($this->component_factory, $question_id);
         }
 
-        if (!isset(self::$general_properties_cache[$question_id])) {
-            self::$general_properties_cache[$question_id] = $this->retrieveGeneralProperties($question_id);
+        if (!isset($this->general_properties_cache[$question_id])) {
+            $this->general_properties_cache[$question_id] = null;
+            $question_data = $this->retrieveGeneralProperties([$question_id]);
+            if (isset($question_data[$question_id])) {
+                $this->general_properties_cache[$question_id] = $question_data[$question_id];
+            }
         }
 
-        return self::$general_properties_cache[$question_id];
+        return $this->general_properties_cache[$question_id];
     }
 
-    private function retrieveGeneralProperties(int $question_id): ?GeneralQuestionProperties
+    /**
+     *
+     * @param array<int> $question_ids
+     * @return $array<GeneralQuestionProperties|null>
+     */
+    public function getForQuestionIds(array $question_ids): ?array
     {
-        $query_result = $this->database->queryF(
-            'SELECT q.*, qt.type_tag'
+        $question_properties = [];
+
+        foreach ($question_ids as $question_id) {
+            if (isset($this->general_properties_cache[$question_id])) {
+                $question_properties[$question_id] = $this->general_properties_cache[$question_id];
+                unset($question_ids[$question_id]);
+            }
+        }
+
+        foreach ($this->retrieveGeneralProperties($question_ids) as $question_id => $question) {
+            $this->general_properties_cache[$question_id] = $question;
+            $question_properties[$question_id] = $question;
+            unset($question_ids[$question_id]);
+        }
+
+        foreach ($question_ids as $question_id) {
+            $this->general_properties_cache[$question_id] = null;
+            $question_properties[$question_id] = null;
+        }
+
+        return $question_properties;
+    }
+
+    /**
+     *
+     * @param array<int> $question_ids
+     * @return array<GeneralQuestionProperties>
+     */
+    private function retrieveGeneralProperties(array $question_ids): array
+    {
+        $query_result = $this->db->query(
+            'SELECT q.*, qt.type_tag, oq.obj_fi as oq_obj_fi'
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ' q'
             . ' INNER JOIN ' . self::QUESTION_TYPES_TABLE . ' qt'
             . ' ON q.question_type_fi = qt.question_type_id'
-            . ' WHERE question_id = %s',
-            [\ilDBConstants::T_INTEGER],
-            [$question_id]
+            . ' LEFT JOIN ' . self::MAIN_QUESTION_TABLE . ' oq'
+            . ' ON oq.question_id = q.original_id'
+            . ' WHERE ' . $this->db->in(
+                'q.question_id',
+                $question_ids,
+                false,
+                \ilDBConstants::T_INTEGER
+            )
         );
 
-        if ($this->database->numRows($query_result) === 0) {
-            return null;
+        $questions = [];
+        while ($question_info = $this->db->fetchObject($query_result)) {
+            $questions[$question_info->question_id] = new GeneralQuestionProperties(
+                $this->component_factory,
+                $question_info->question_id,
+                $question_info->original_id,
+                $question_info->external_id,
+                $question_info->obj_fi,
+                $question_info->oq_obj_fi,
+                $question_info->question_type_fi,
+                $question_info->type_tag,
+                $question_info->owner,
+                $question_info->title,
+                $question_info->description,
+                $question_info->question_text,
+                $question_info->points,
+                $question_info->nr_of_tries,
+                $question_info->lifecycle,
+                $question_info->author,
+                $question_info->tstamp,
+                $question_info->created,
+                (bool) $question_info->complete,
+                $question_info->add_cont_edit_mode
+            );
         }
-
-        $question_info = $this->database->fetchObject($query_result);
-        return new GeneralQuestionProperties(
-            $this->component_factory,
-            $question_id,
-            $question_info->original_id,
-            $question_info->external_id,
-            $question_info->obj_fi,
-            $question_info->question_type_fi,
-            $question_info->type_tag,
-            $question_info->owner,
-            $question_info->title,
-            $question_info->description,
-            $question_info->question_text,
-            $question_info->points,
-            $question_info->nr_of_tries,
-            $question_info->lifecycle,
-            $question_info->author,
-            $question_info->tstamp,
-            $question_info->created,
-            (bool) $question_info->complete,
-            $question_info->add_cont_edit_mode
-        );
+        return $questions;
     }
-
-
 
     public function getFractionOfReachedToReachablePointsTotal(int $question_id): float
     {
 
-        $questions_result = $this->database->queryF(
+        $questions_result = $this->db->queryF(
             'SELECT question_id, points FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE original_id = %s OR question_id = %s',
             [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$question_id, $question_id]
         );
-        if ($this->database->numRows($questions_result) === 0) {
+        if ($this->db->numRows($questions_result) === 0) {
             return 0.0;
         }
 
         $found_questions = [];
-        while ($found_questions_row = $this->database->fetchObject($questions_result)) {
+        while ($found_questions_row = $this->db->fetchObject($questions_result)) {
             $found_questions[$found_questions_row->question_id] = $found_questions_row->points;
         }
 
-        $points_result = $this->database->query(
+        $points_result = $this->db->query(
             'SELECT question_fi, points FROM ' . self::TEST_RESULTS_TABLE
-            . ' WHERE ' . $this->database->in('question_fi', array_keys($found_questions), false, \ilDBConstants::T_INTEGER)
+            . ' WHERE ' . $this->db->in('question_fi', array_keys($found_questions), false, \ilDBConstants::T_INTEGER)
         );
 
         $answers = [];
-        while ($points_row = $this->database->fetchObject($points_result)) {
+        while ($points_row = $this->db->fetchObject($points_result)) {
             $answers[] = [
                 'reached' => $points_row->points,
                 'reachable' => $found_questions[$points_row->question_fi]
@@ -146,22 +187,22 @@ class GeneralQuestionPropertiesRepository
      */
     public function areQuestionsAnsweredByUser(int $user_id, array $question_ids): bool
     {
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(DISTINCT question_fi) cnt FROM ' . self::TEST_RESULTS_TABLE . ' JOIN tst_active'
             . ' ON (active_id = active_fi)'
-            . ' WHERE ' . $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER)
+            . ' WHERE ' . $this->db->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER)
             . ' AND user_fi = %s',
             [\ilDBConstants::T_INTEGER],
             [$user_id]
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt === count($question_ids);
     }
 
     public function lookupResultRecordExist(int $active_id, int $question_id, int $pass): bool
     {
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(*) cnt '
             . ' FROM ' . self::TEST_RESULTS_TABLE
             . ' WHERE active_fi = %s'
@@ -171,7 +212,7 @@ class GeneralQuestionPropertiesRepository
             [$active_id, $question_id, $pass]
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
     }
 
@@ -188,7 +229,7 @@ class GeneralQuestionPropertiesRepository
      */
     public function usageCount(int $question_id = 0): int
     {
-        $result_tests_fixed = $this->database->queryF(
+        $result_tests_fixed = $this->db->queryF(
             'SELECT COUNT(' . self::MAIN_QUESTION_TABLE . '.question_id) question_count'
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ', ' . self::TEST_FIXED_QUESTION_TABLE
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.question_id = ' . self::TEST_FIXED_QUESTION_TABLE . '.question_fi'
@@ -196,10 +237,10 @@ class GeneralQuestionPropertiesRepository
             [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
-        $row_tests_fixed = $this->database->fetchObject($result_tests_fixed);
+        $row_tests_fixed = $this->db->fetchObject($result_tests_fixed);
         $count = $row_tests_fixed->question_count;
 
-        $result_tests_random = $this->database->queryF(
+        $result_tests_random = $this->db->queryF(
             'SELECT COUNT(' . self::TEST_TO_ACTIVE_USER_TABLE . '.test_fi) question_count'
             . ' FROM ' . self::MAIN_QUESTION_TABLE
             . ' INNER JOIN ' . self::TEST_RANDOM_QUESTION_TABLE
@@ -211,7 +252,7 @@ class GeneralQuestionPropertiesRepository
             [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
-        $row_tests_random = $this->database->fetchObject($result_tests_random);
+        $row_tests_random = $this->db->fetchObject($result_tests_random);
         if ($row_tests_random !== null) {
             $count += $row_tests_random->question_count;
         }
@@ -228,14 +269,14 @@ class GeneralQuestionPropertiesRepository
             return [];
         }
 
-        $result = $this->database->query(
+        $result = $this->db->query(
             'SELECT question_id  FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE '
-                . $this->database->like('title', \ilDBConstants::T_TEXT, "%{$title}%"),
+                . $this->db->like('title', \ilDBConstants::T_TEXT, "%{$title}%"),
         );
 
         return array_map(
             static fn(\stdClass $q): int => $q->question_id,
-            $this->database->fetchAll($result, \ilDBConstants::FETCHMODE_OBJECT)
+            $this->db->fetchAll($result, \ilDBConstants::FETCHMODE_OBJECT)
         );
     }
 
@@ -245,13 +286,13 @@ class GeneralQuestionPropertiesRepository
             return false;
         }
 
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(question_id) cnt FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE question_id = %s',
             [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt === 1;
     }
 
@@ -261,20 +302,20 @@ class GeneralQuestionPropertiesRepository
             return false;
         }
 
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(question_id) cnt FROM ' . self::MAIN_QUESTION_TABLE
             . ' INNER JOIN ' . self::DATA_TABLE . ' ON obj_fi = obj_id WHERE question_id = %s AND type = "qpl"',
             [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt === 1;
     }
 
     public function isUsedInRandomTest(int $question_id): bool
     {
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(test_random_question_id) cnt'
             . ' FROM ' . self::TEST_RANDOM_QUESTION_TABLE
             . ' WHERE question_fi = %s',
@@ -282,13 +323,13 @@ class GeneralQuestionPropertiesRepository
             [$question_id]
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
     }
 
     public function originalQuestionExists(int $question_id): bool
     {
-        $res = $this->database->queryF(
+        $res = $this->db->queryF(
             'SELECT COUNT(dupl.question_id) cnt'
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ' dupl'
             . ' INNER JOIN ' . self::MAIN_QUESTION_TABLE . ' orig'
@@ -297,7 +338,7 @@ class GeneralQuestionPropertiesRepository
             [\ilDBConstants::T_INTEGER],
             [$question_id]
         );
-        $row = $this->database->fetchObject($res);
+        $row = $this->db->fetchObject($res);
 
         return $row->cnt > 0;
     }
@@ -307,9 +348,9 @@ class GeneralQuestionPropertiesRepository
         int $pass,
         array $question_ids
     ): array {
-        $in_question_ids = $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
+        $in_question_ids = $this->db->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
 
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT question_fi'
             . ' FROM ' . self::TEST_RESULTS_TABLE
             . ' WHERE active_fi = %s'
@@ -321,7 +362,7 @@ class GeneralQuestionPropertiesRepository
 
         $questions_having_result_record = [];
 
-        while ($row = $this->database->fetchObject($result)) {
+        while ($row = $this->db->fetchObject($result)) {
             $questions_having_result_record[] = $row->question_fi;
         }
 
@@ -335,9 +376,9 @@ class GeneralQuestionPropertiesRepository
 
     public function missingResultRecordExists(int $active_id, int $pass, array $question_ids): bool
     {
-        $in_question_ids = $this->database->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
+        $in_question_ids = $this->db->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
 
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(*) cnt'
             . ' FROM ' . self::TEST_RESULTS_TABLE
             . ' WHERE active_fi = %s'
@@ -347,34 +388,34 @@ class GeneralQuestionPropertiesRepository
             [$active_id, $pass]
         );
 
-        $row = $this->database->fetchAssoc($result);
+        $row = $this->db->fetchAssoc($result);
         return $row->cnt < count($question_ids);
     }
 
     public function isInActiveTest(int $obj_id): bool
     {
-        $result = $this->database->query(
+        $result = $this->db->query(
             'SELECT COUNT(user_fi) cnt FROM ' . self::TEST_TO_ACTIVE_USER_TABLE
             . ' JOIN ' . self::TEST_FIXED_QUESTION_TABLE
             . ' ON ' . self::TEST_FIXED_QUESTION_TABLE . '.test_fi = ' . self::TEST_TO_ACTIVE_USER_TABLE . '.test_fi '
             . ' JOIN ' . self::MAIN_QUESTION_TABLE
             . ' ON ' . self::MAIN_QUESTION_TABLE . '.question_id = ' . self::TEST_FIXED_QUESTION_TABLE . '.question_fi '
-            . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.obj_fi = ' . $this->database->quote($obj_id, \ilDBConstants::T_INTEGER)
+            . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.obj_fi = ' . $this->db->quote($obj_id, \ilDBConstants::T_INTEGER)
         );
 
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
     }
 
     public function questionTitleExistsInPool(int $questionpool_id, string $title): bool
     {
-        $result = $this->database->queryF(
+        $result = $this->db->queryF(
             'SELECT COUNT(*) cnt FROM ' . self::MAIN_QUESTION_TABLE
             . ' WHERE obj_fi = %s AND title = %s',
             [\ilDBConstants::T_INTEGER, \ilDBConstants::T_TEXT],
             [$questionpool_id, $title]
         );
-        $row = $this->database->fetchObject($result);
+        $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
     }
 }

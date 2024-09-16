@@ -21,8 +21,8 @@ declare(strict_types=1);
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-use ILIAS\Test\Questions\QuestionsTable;
-use ILIAS\Test\Questions\QuestionsTableQuery;
+use ILIAS\Test\Questions\Presentation\QuestionsTable;
+use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
@@ -36,6 +36,7 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
@@ -116,6 +117,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
     private ExportImportFactory $export_factory;
+    private TestQuestionsRepository $test_questions_repository;
     private GeneralQuestionPropertiesRepository $questionrepository;
     private QPLRequestDataCollector $qplrequest;
     private TitleColumnsBuilder $title_builder;
@@ -171,6 +173,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $local_dic = TestDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
+        $this->test_questions_repository = $local_dic['questions.repository'];
         $this->qplrequest = $local_dic['question.request_data_wrapper'];
         $this->title_builder = $local_dic['title_columns_builder'];
         $this->testrequest = $local_dic['request_data_collector'];
@@ -1980,8 +1983,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ui_renderer->render(
                 $this->getTable()
                 ->withQuestionEditing(!$is_random_test && !$has_started_test_runs)
-                ->getTableComponent($this->object->getTestQuestions())
-                ->withOrderingDisabled($is_random_test || $has_started_test_runs)
+                ->getTableComponent(
+                    $this->test_questions_repository->getQuestionPropertiesForQuestionIds(
+                        $this->getTestObject()->getQuestions()
+                    )
+                )->withOrderingDisabled($is_random_test || $has_started_test_runs)
             )
         );
         $this->tpl->parseCurrentBlock();
@@ -2811,7 +2817,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             $original_question_id = $questionInstance->getOriginalId();
             if ($original_question_id !== null
-                && $this->questionrepository->originalQuestionExists($original_question_id)) {
+                && $this->test_questions_repository->originalQuestionExists($original_question_id)) {
                 $oldOriginal = assQuestion::instantiateQuestion($original_question_id);
                 $oldOriginal->delete($oldOriginal->getId());
             }
@@ -2998,7 +3004,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->table_query = new QuestionsTableQuery(
                 $this->http,
                 $this->refinery,
-                new \ILIAS\Data\Factory(),
+                $this->data_factory,
                 ['qlist', $id]
             );
         }
@@ -3016,7 +3022,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->ctrl,
             $this->object,
-            $this->questionrepository,
+            $this->test_questions_repository,
             $this->title_builder
         );
     }

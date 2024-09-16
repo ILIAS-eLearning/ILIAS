@@ -24,7 +24,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Questions\QuestionsTable;
+use ILIAS\Test\Questions\Presentation\QuestionsTable;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\RequestDataCollector;
 
@@ -100,11 +100,11 @@ class ilTestCorrectionsGUI
                     ->withOrderingDisabled(true)
             );
         } else {
-            $txt = $this->language->txt('tst_corrections_incompatible_question_set_type');
-
-            $infoBox = $this->ui_factory->messageBox()->info($txt);
-
-            $rendered_gui_component = $this->ui_renderer->render($infoBox);
+            $rendered_gui_component = $this->ui_renderer->render(
+                $this->ui_factory->messageBox()->info(
+                    $this->language->txt('tst_corrections_incompatible_question_set_type')
+                )
+            );
         }
 
         $this->main_tpl->setContent($rendered_gui_component);
@@ -503,10 +503,6 @@ class ilTestCorrectionsGUI
             return false;
         }
 
-        if (!$this->allowedInAdjustment($this->question_gui)) {
-            return false;
-        }
-
         return true;
     }
 
@@ -549,7 +545,7 @@ class ilTestCorrectionsGUI
     protected function getQuestions(): array
     {
 
-        if ($this->test_obj->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()) {
+        if (!$this->test_obj->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()) {
             return [];
         }
 
@@ -563,6 +559,7 @@ class ilTestCorrectionsGUI
                 }
 
                 $c[] = $v;
+                return $c;
             },
             []
         );
