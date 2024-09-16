@@ -66,7 +66,8 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'login' => 'breakdanceMcFunkyPants',
                     'email' => 'ilyas@ilias.de',
                     'second_email' => 'breakdance@funky.de'
-                ]
+                ],
+                null
             );
 
         $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');
