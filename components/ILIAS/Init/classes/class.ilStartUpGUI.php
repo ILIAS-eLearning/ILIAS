@@ -1342,12 +1342,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'used_external_auth_mode' => $used_external_auth_mode,
             ]
         );
-        if ($used_external_auth_mode && (int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_SAML) {
-            $this->logger->info('Redirecting user to SAML logout script');
-            $this->ctrl->redirectToURL(
-                'saml.php?action=logout&logout_url=' . urlencode(ilUtil::_getHttpPath() . '/login.php')
-            );
-        }
 
         $client_id = CLIENT_ID;
         ilUtil::setCookie('ilClientId', '');
@@ -1361,6 +1355,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ilUtil::_getHttpPath()
         );
         $url = $target->asURI();
+
+        if ($used_external_auth_mode && (int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_SAML) {
+            $this->logger->info('Redirecting user to SAML logout script');
+            $this->ctrl->redirectToURL(
+                'saml.php?action=logout&logout_url=' . urlencode((string) $url)
+            );
+        }
+
         $this->mainTemplate->setOnScreenMessage(
             $this->mainTemplate::MESSAGE_TYPE_FAILURE,
             $this->lng->txt('logout_text'),
