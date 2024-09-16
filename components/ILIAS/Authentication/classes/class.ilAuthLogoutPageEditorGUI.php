@@ -104,7 +104,7 @@ class ilAuthLogoutPageEditorGUI
                     $this->ctrl->getLinkTarget($this, 'show')
                 );
 
-                if (strtolower($this->redirect_source) !== strtolower(ilInternalLinkGUI::class)) {
+                if (strtolower($this->redirect_source ?? '') !== strtolower(ilInternalLinkGUI::class)) {
                     $this->forwardToPageObject();
                 }
                 break;
