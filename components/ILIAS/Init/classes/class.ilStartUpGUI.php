@@ -1344,7 +1344,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
 
         $client_id = CLIENT_ID;
-        ilUtil::setCookie('ilClientId', '');
 
         $this->ctrl->setParameter($this, 'client_id', $client_id);
         $this->ctrl->setParameter($this, 'lang', $user_language);
@@ -1362,6 +1361,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'saml.php?action=logout&logout_url=' . urlencode((string) $url)
             );
         }
+
+        ilUtil::setCookie('ilClientId', '');
 
         $this->mainTemplate->setOnScreenMessage(
             $this->mainTemplate::MESSAGE_TYPE_FAILURE,
