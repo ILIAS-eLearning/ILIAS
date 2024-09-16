@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,17 +37,17 @@ class WeekGridEntry
         $this->html = $html;
     }
 
-    public function getStart() : int
+    public function getStart(): int
     {
         return $this->start;
     }
 
-    public function getEnd() : int
+    public function getEnd(): int
     {
         return $this->end;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return $this->html;
     }

@@ -46,12 +46,12 @@ class ilObjExercise extends ilObject
     protected ilFileDataMail $file_obj;
     public ?ilExerciseMembers $members_obj = null;
     protected int $timestamp = 0;
-    protected int  $hour = 0;
-    protected int  $minutes = 0;
-    protected int  $day = 0;
-    protected int  $month = 0;
-    protected int  $year = 0;
-    protected string  $instruction = "";
+    protected int $hour = 0;
+    protected int $minutes = 0;
+    protected int $day = 0;
+    protected int $month = 0;
+    protected int $year = 0;
+    protected string $instruction = "";
     protected int $certificate_visibility = 0;
     protected int $tutor_feedback = 7; // [int]
     protected int $nr_random_mand = 0; // number of mandatory assignments in random pass mode

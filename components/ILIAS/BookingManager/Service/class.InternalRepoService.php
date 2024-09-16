@@ -70,21 +70,21 @@ class InternalRepoService
         return new ReservationTableSessionRepository();
     }
 
-    public function objects() : ObjectsDBRepository
+    public function objects(): ObjectsDBRepository
     {
         return new ObjectsDBRepository(
             $this->db
         );
     }
 
-    public function schedules() : SchedulesDBRepository
+    public function schedules(): SchedulesDBRepository
     {
         return new SchedulesDBRepository(
             $this->db
         );
     }
 
-    public function reservation() : ReservationDBRepository
+    public function reservation(): ReservationDBRepository
     {
         return new ReservationDBRepository($this->db);
     }
@@ -95,11 +95,11 @@ class InternalRepoService
      */
     public function reservationWithContextObjCache(
         array $context_obj_ids
-    ) : ReservationDBRepository {
+    ): ReservationDBRepository {
         return new ReservationDBRepository($this->db, $context_obj_ids);
     }
 
-    public function objectSelection() : SelectedObjectsDBRepository
+    public function objectSelection(): SelectedObjectsDBRepository
     {
         return new SelectedObjectsDBRepository($this->db);
     }

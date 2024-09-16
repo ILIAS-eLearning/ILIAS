@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,12 +43,12 @@ class ScheduleManager
         $this->pool_id = $pool_id;
     }
 
-    public function getScheduleList() : array
+    public function getScheduleList(): array
     {
         return $this->schedule_repo->getScheduleList($this->pool_id);
     }
 
-    public function hasSchedules() : bool
+    public function hasSchedules(): bool
     {
         return $this->schedule_repo->hasSchedules($this->pool_id);
     }
@@ -55,7 +57,7 @@ class ScheduleManager
      * @todo migrate to DTO
      * @deprecated
      */
-    public function getScheduleData() : array
+    public function getScheduleData(): array
     {
         return $this->schedule_repo->getScheduleData($this->pool_id);
     }

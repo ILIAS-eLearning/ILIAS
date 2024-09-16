@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class ReservationManager
         int $object_id,
         int $from,
         int $to
-    ) : int {
+    ): int {
         $counter = \ilBookingReservation::getAvailableObject(array($object_id), $from, $to, false, true);
         return (int) $counter[$object_id];
     }

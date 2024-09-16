@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ObjectSelectionListGUI
             ->objectSelection($pool_id);
     }
 
-    public function render() : string
+    public function render(): string
     {
         $tpl = new \ilTemplate("tpl.obj_selection.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
 

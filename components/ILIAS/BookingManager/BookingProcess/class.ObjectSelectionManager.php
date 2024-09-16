@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ObjectSelectionManager
         $this->pool_id = $pool_id;
     }
 
-    public function getSelectedObjects(int $user_id = 0) : array
+    public function getSelectedObjects(int $user_id = 0): array
     {
         if ($user_id === 0) {
             $user_id = $this->domain->user()->getId();
@@ -57,7 +59,7 @@ class ObjectSelectionManager
         );
     }
 
-    public function setSelectedObjects(array $obj_ids, int $user_id = 0) : void
+    public function setSelectedObjects(array $obj_ids, int $user_id = 0): void
     {
         if ($user_id === 0) {
             $user_id = $this->domain->user()->getId();

@@ -47,7 +47,7 @@ class InternalDataService
         int $start,
         int $end,
         string $html
-    ) : WeekGridEntry {
+    ): WeekGridEntry {
         return new WeekGridEntry(
             $start,
             $end,
