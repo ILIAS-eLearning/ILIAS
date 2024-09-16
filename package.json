@@ -16,7 +16,8 @@
     "jquery": "^3.6.0",
     "linkifyjs": "^4.1.3",
     "moment": "^2.29.4",
-    "tinymce": "^6.8.4"
+    "tinymce": "^6.8.4",
+    "jstree": "^3.3.16"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.1.0",
