@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Tests\Questions;
+namespace ILIAS\Test\Tests\Questions\Presentation;
 
-use ILIAS\Test\Questions\QuestionsTable;
-use ILIAS\Test\Questions\QuestionsTableQuery;
+use ILIAS\Test\Questions\Presentation\QuestionsTable;
+use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
 
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Modal;

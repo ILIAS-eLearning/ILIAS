@@ -567,14 +567,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $max = 0;
             foreach ($found_participants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
-                    if (is_object($userdata->getPass($i))) {
-                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
-                        if (is_array($question)) {
-                            $answered++;
-                            $reached += $question["reached"];
-                            $max += $question["points"];
-                        }
+                    if ($userdata->getPass($i) === null) {
+                        continue;
                     }
+                    $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                    if (!is_array($question)) {
+                        continue;
+                    }
+                    $answered++;
+                    $reached += $question['reached'];
+                    $max += $question['points'];
                 }
             }
             $percent = $max ? $reached / $max * 100.0 : 0;

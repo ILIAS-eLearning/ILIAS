@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Questions;
+namespace ILIAS\Test\Questions\Presentation;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -30,8 +32,6 @@ use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\Language\Language;
 
 use Psr\Http\Message\ServerRequestInterface;
-
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 * (editing) table for questions in test
@@ -70,7 +70,7 @@ class QuestionsTable
         protected Language $lng,
         protected \ilCtrl $ctrl,
         protected \ilObjTest $test_obj,
-        protected GeneralQuestionPropertiesRepository $questionrepository,
+        protected TestQuestionsRepository $questionrepository,
         protected TitleColumnsBuilder $title_builder
     ) {
         $this->table_id = (string) $test_obj->getId();
@@ -97,6 +97,11 @@ class QuestionsTable
 
     public function getTableComponent(array $data): Table\Ordering
     {
+        usort(
+            $data,
+            static fn(TestQuestionProperties $a, TestQuestionProperties $b): bool =>
+                $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
+        );
         $target = $this->commands->getActionURL(self::ACTION_SAVE_ORDER);
         $table = $this->ui_factory->table()->ordering(
             $this->lng->txt('list_of_questions'),
@@ -113,29 +118,16 @@ class QuestionsTable
 
     protected function getBinding(array $data): Table\OrderingBinding
     {
-        $title_link_action = $this->context === self::CONTEXT_DEFAULT
-            ? self::ACTION_PREVIEW : self::ACTION_CORRECTION;
-
+        list($url_builder, $row_id_token) = $this->commands->getRowBoundURLBuilder($title_link_action);
         return new QuestionsTableBinding(
             $data,
             $this->lng,
-            $this->getTitleLinkBuilder($title_link_action),
+            $this->ui_factory,
             $this->title_builder,
+            $url_builder,
+            $row_id_token,
             $this->question_editing,
         );
-    }
-
-    protected function getTitleLinkBuilder(string $title_link_action): \Closure
-    {
-        list($url_builder, $row_id_token) = $this->commands->getRowBoundURLBuilder($title_link_action);
-        return fn(string $title, int $question_id): Link\Standard =>
-            $this->ui_factory->link()->standard(
-                $title,
-                $url_builder
-                    ->withParameter($row_id_token, (string) $question_id)
-                    ->buildURI()
-                    ->__toString()
-            );
     }
 
     /**
@@ -162,6 +154,12 @@ class QuestionsTable
             'lifecycle' => $f->table()->column()->text($this->lng->txt('qst_lifecycle'))
                 ->withIsOptional(true, false),
             'qpl' => $f->table()->column()->link($this->lng->txt('qpl')),
+            'nr_of_answers' => $f->table()->column()->number($this->lng->txt('number_of_answers'))
+                ->withIsOptional(true, false),
+            'average_points' => $f->table()->column()->number($this->lng->txt('average_reached_points'))
+                ->withIsOptional(true, false),
+            'percentage_points_achieved' => $f->table()->column()->number($this->lng->txt('percentage_points_achieved'))
+                ->withIsOptional(true, false),
         ];
 
         if ($this->context !== self::CONTEXT_DEFAULT) {
@@ -377,6 +375,8 @@ class QuestionsTable
      */
     private function checkQuestionParametersForCopyToPool(array $question_ids): bool
     {
+        $question_properties = $this->questionrepository
+            ->getQuestionPropertiesForQuestionIds($question_ids);
         foreach ($question_ids as $q_id) {
             if (!$this->questionrepository->originalQuestionExists($q_id)) {
                 continue;
@@ -384,7 +384,7 @@ class QuestionsTable
 
             $type = ilObject::_lookupType(
                 assQuestion::lookupParentObjId(
-                    $this->questionrepository->getForQuestionId($q_id)->getOriginalId()
+                    $question_properties[$q_id]->getOriginalId()
                 )
             );
 

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Questions;
+namespace ILIAS\Test\Questions\Presentation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;

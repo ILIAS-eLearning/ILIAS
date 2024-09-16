@@ -151,7 +151,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
         return array_reduce(
             $questions,
             function (array $c, array $v): array {
-                $maxpoints = $this->questionrepository->getForQuestionId($v['question_id'])->getMaximumPoints();
+                $maxpoints = $this->questionrepository->getForQuestionId($v['question_id'])->getAvailablePoints();
                 $lang_var = $maxpoints === 1.0 ? $this->lng->txt('point') : $this->lng->txt('points');
                 $maxpoints_text = ' (' . $maxpoints . ' ' . $lang_var . ')';
 

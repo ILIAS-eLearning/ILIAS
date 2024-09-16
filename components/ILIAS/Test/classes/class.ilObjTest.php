@@ -2354,13 +2354,7 @@ class ilObjTest extends ilObject
         return $persons_array;
     }
 
-    /**
-    * Returns all persons who started the test
-    *
-    * @return array The user id's and names of the persons who started the test
-    * @access public
-    */
-    public function evalTotalPersonsArray($name_sort_order = "asc"): array
+    public function evalTotalPersonsArray(string $name_sort_order = 'asc'): array
     {
         $result = $this->db->queryF(
             "SELECT tst_active.user_fi, tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
@@ -2390,30 +2384,33 @@ class ilObjTest extends ilObject
         return $persons_array;
     }
 
-    /**
-    * Returns all participants who started the test
-    *
-    * @return array The active user id's and names of the persons who started the test
-    */
-    public function evalTotalParticipantsArray($name_sort_order = "asc"): array
+    public function evalTotalParticipantsArray(string $name_sort_order = 'asc'): array
     {
         $result = $this->db->queryF(
-            "SELECT tst_active.user_fi, tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+            'SELECT tst_active.user_fi, tst_active.active_id, usr_data.login, '
+            . 'usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active '
+            . 'LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id '
+            . 'WHERE tst_active.test_fi = %s '
+            . 'ORDER BY usr_data.lastname ' . strtoupper($name_sort_order),
             ['integer'],
             [$this->getTestId()]
         );
         $persons_array = [];
         while ($row = $this->db->fetchAssoc($result)) {
             if ($this->getAnonymity()) {
-                $persons_array[$row["active_id"]] = ["name" => $this->lng->txt("anonymous")];
+                $persons_array[$row['active_id']] = ['name' => $this->lng->txt("anonymous")];
             } else {
-                if (strlen($row["firstname"] . $row["lastname"] . $row["title"]) == 0) {
-                    $persons_array[$row["active_id"]] = ["name" => $this->lng->txt("deleted_user")];
+                if (strlen($row['firstname'] . $row['lastname'] . $row["title"]) == 0) {
+                    $persons_array[$row['active_id']] = ['name' => $this->lng->txt('deleted_user')];
                 } else {
-                    if ($row["user_fi"] == ANONYMOUS_USER_ID) {
-                        $persons_array[$row["active_id"]] = ["name" => $row["lastname"]];
+                    if ($row['user_fi'] == ANONYMOUS_USER_ID) {
+                        $persons_array[$row['active_id']] = ['name' => $row['lastname']];
                     } else {
-                        $persons_array[$row["active_id"]] = ["name" => trim($row["lastname"] . ", " . $row["firstname"] . " " . $row["title"]), "login" => $row["login"]];
+                        $persons_array[$row['active_id']] = [
+                            'name' => trim($row['lastname'] . ', ' . $row['firstname']
+                                . ' ' . $row['title']),
+                            'login' => $row['login']
+                        ];
                     }
                 }
             }
@@ -2421,32 +2418,26 @@ class ilObjTest extends ilObject
         return $persons_array;
     }
 
-    /**
-    * Retrieves all the assigned questions for all test passes of a test participant
-    *
-    * @return array An associated array containing the questions
-    * @access public
-    */
-    public function &getQuestionsOfTest($active_id): array
+    public function getQuestionsOfTest(int $active_id): array
     {
         if ($this->isRandomTest()) {
             $this->db->setLimit($this->getQuestionCount(), 0);
             $result = $this->db->queryF(
-                "SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
-                "tst_test_rnd_qst.pass, qpl_questions.points " .
-                "FROM tst_test_rnd_qst, qpl_questions " .
-                "WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
-                "AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence",
+                'SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, '
+                . 'tst_test_rnd_qst.pass, qpl_questions.points '
+                . 'FROM tst_test_rnd_qst, qpl_questions '
+                . 'WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id '
+                . 'AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence',
                 ['integer'],
                 [$active_id]
             );
         } else {
             $result = $this->db->queryF(
-                "SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
-                "qpl_questions.points " .
-                "FROM tst_test_question, tst_active, qpl_questions " .
-                "WHERE tst_test_question.question_fi = qpl_questions.question_id " .
-                "AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
+                'SELECT tst_test_question.sequence, tst_test_question.question_fi, '
+                . 'qpl_questions.points '
+                . 'FROM tst_test_question, tst_active, qpl_questions '
+                . 'WHERE tst_test_question.question_fi = qpl_questions.question_id '
+                . 'AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi',
                 ['integer'],
                 [$active_id]
             );
@@ -2460,33 +2451,27 @@ class ilObjTest extends ilObject
         return $qtest;
     }
 
-    /**
-    * Retrieves all the assigned questions for a test participant in a given test pass
-    *
-    * @return array An associated array containing the questions
-    * @access public
-    */
-    public function &getQuestionsOfPass($active_id, $pass): array
+    public function getQuestionsOfPass(int $active_id, int $pass): array
     {
         if ($this->isRandomTest()) {
             $this->db->setLimit($this->getQuestionCount(), 0);
             $result = $this->db->queryF(
-                "SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
-                "qpl_questions.points " .
-                "FROM tst_test_rnd_qst, qpl_questions " .
-                "WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
-                "AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s " .
-                "ORDER BY tst_test_rnd_qst.sequence",
+                'SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, '
+                . 'qpl_questions.points '
+                . 'FROM tst_test_rnd_qst, qpl_questions '
+                . 'WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id '
+                . 'AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s '
+                . 'ORDER BY tst_test_rnd_qst.sequence',
                 ['integer', 'integer'],
                 [$active_id, $pass]
             );
         } else {
             $result = $this->db->queryF(
-                "SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
-                "qpl_questions.points " .
-                "FROM tst_test_question, tst_active, qpl_questions " .
-                "WHERE tst_test_question.question_fi = qpl_questions.question_id " .
-                "AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
+                'SELECT tst_test_question.sequence, tst_test_question.question_fi, '
+                . 'qpl_questions.points '
+                . 'FROM tst_test_question, tst_active, qpl_questions '
+                . 'WHERE tst_test_question.question_fi = qpl_questions.question_id '
+                . 'AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi',
                 ['integer'],
                 [$active_id]
             );
@@ -2631,7 +2616,7 @@ class ilObjTest extends ilObject
                     $questionsbysequence = [];
 
                     while ($row = $this->db->fetchAssoc($result)) {
-                        $questionsbysequence[$row["sequence"]] = $row;
+                        $questionsbysequence[$row['sequence']] = $row;
                     }
 
                     $seqresult = $this->db->queryF(
@@ -2641,9 +2626,12 @@ class ilObjTest extends ilObject
                     );
 
                     while ($seqrow = $this->db->fetchAssoc($seqresult)) {
-                        $questionsequence = unserialize($seqrow["sequence"]);
+                        $questionsequence = unserialize($seqrow['sequence']);
 
                         foreach ($questionsequence as $sidx => $seq) {
+                            if (!isset($questionsbysequence[$seq])) {
+                                continue;
+                            }
                             $data->getParticipant($active_id)->addQuestion(
                                 $questionsbysequence[$seq]['original_id'] ?? 0,
                                 $questionsbysequence[$seq]['question_fi'],
@@ -2653,8 +2641,8 @@ class ilObjTest extends ilObject
                             );
 
                             $data->addQuestionTitle(
-                                $questionsbysequence[$seq]["question_fi"],
-                                $questionsbysequence[$seq]["title"]
+                                $questionsbysequence[$seq]['question_fi'],
+                                $questionsbysequence[$seq]['title']
                             );
                         }
                     }
@@ -2695,7 +2683,7 @@ class ilObjTest extends ilObject
         return $data;
     }
 
-    public function getQuestionCountAndPointsForPassOfParticipant($active_id, $pass): array
+    public function getQuestionCountAndPointsForPassOfParticipant(int $active_id, int $pass): array
     {
         $question_set_type = $this->lookupQuestionSetTypeByActiveId($active_id);
 
@@ -2761,106 +2749,6 @@ class ilObjTest extends ilObject
         $data = $this->getUnfilteredEvaluationData();
         $data->setFilter($filterby, $filtertext);
         return $data;
-    }
-
-    /**
-    * Creates an associated array with the results of all participants of a test
-    *
-    * @return array An associated array containing the results
-    * @access public
-    */
-    public function evalResultsOverview(): array
-    {
-        return $this->_evalResultsOverview($this->getTestId());
-    }
-
-    /**
-    * Creates an associated array with the results of all participants of a test
-    *
-    * @return array An associated array containing the results
-    * @access public
-    */
-    public function _evalResultsOverview($test_id): array
-    {
-        $result = $this->db->queryF(
-            "SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-            "tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
-            "qpl_questions.points maxpoints " .
-            "FROM tst_test_result, qpl_questions, tst_active " .
-            "LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-            "WHERE tst_active.active_id = tst_test_result.active_fi " .
-            "AND qpl_questions.question_id = tst_test_result.question_fi " .
-            "AND tst_active.test_fi = %s " .
-            "ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
-            ['integer'],
-            [$test_id]
-        );
-        $overview = [];
-        while ($row = $this->db->fetchAssoc($result)) {
-            if (!array_key_exists($row["active_fi"], $overview)) {
-                $overview[$row["active_fi"]] = [];
-                $overview[$row["active_fi"]]["firstname"] = $row["firstname"];
-                $overview[$row["active_fi"]]["lastname"] = $row["lastname"];
-                $overview[$row["active_fi"]]["title"] = $row["title"];
-                $overview[$row["active_fi"]]["login"] = $row["login"];
-                $overview[$row["active_fi"]]["usr_id"] = $row["usr_id"];
-                $overview[$row["active_fi"]]["started"] = $row["started"];
-                $overview[$row["active_fi"]]["finished"] = $row["finished"];
-            }
-            if (!array_key_exists($row["pass"], $overview[$row["active_fi"]])) {
-                $overview[$row["active_fi"]][$row["pass"]] = [];
-                $overview[$row["active_fi"]][$row["pass"]]["reached"] = 0;
-                $overview[$row["active_fi"]][$row["pass"]]["maxpoints"] = $row["maxpoints"];
-            }
-            array_push($overview[$row["active_fi"]][$row["pass"]], $row);
-            $overview[$row["active_fi"]][$row["pass"]]["reached"] += $row["points"];
-        }
-        return $overview;
-    }
-
-    /**
-    * Creates an associated array with the results for a given participant of a test
-    *
-    * @param integer $active_id The active id of the participant
-    * @return array An associated array containing the results
-    * @access public
-    */
-    public function evalResultsOverviewOfParticipant($active_id): array
-    {
-        $result = $this->db->queryF(
-            "SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-            "tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
-            "qpl_questions.points maxpoints " .
-            "FROM tst_test_result, qpl_questions, tst_active " .
-            "LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-            "WHERE tst_active.active_id = tst_test_result.active_fi " .
-            "AND qpl_questions.question_id = tst_test_result.question_fi " .
-            "AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
-            "ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
-            ['integer', 'integer'],
-            [$this->getTestId(), $active_id]
-        );
-        $overview = [];
-        while ($row = $this->db->fetchAssoc($result)) {
-            if (!array_key_exists($row["active_fi"], $overview)) {
-                $overview[$row["active_fi"]] = [];
-                $overview[$row["active_fi"]]["firstname"] = $row["firstname"];
-                $overview[$row["active_fi"]]["lastname"] = $row["lastname"];
-                $overview[$row["active_fi"]]["title"] = $row["title"];
-                $overview[$row["active_fi"]]["login"] = $row["login"];
-                $overview[$row["active_fi"]]["usr_id"] = $row["usr_id"];
-                $overview[$row["active_fi"]]["started"] = $row["started"];
-                $overview[$row["active_fi"]]["finished"] = $row["finished"];
-            }
-            if (!array_key_exists($row["pass"], $overview[$row["active_fi"]])) {
-                $overview[$row["active_fi"]][$row["pass"]] = [];
-                $overview[$row["active_fi"]][$row["pass"]]["reached"] = 0;
-                $overview[$row["active_fi"]][$row["pass"]]["maxpoints"] = $row["maxpoints"];
-            }
-            array_push($overview[$row["active_fi"]][$row["pass"]], $row);
-            $overview[$row["active_fi"]][$row["pass"]]["reached"] += $row["points"];
-        }
-        return $overview;
     }
 
     /**

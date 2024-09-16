@@ -124,7 +124,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                             'active_id' => $active_id,
                             'qst_id' => $question_data['qid'],
                             'reached_points' => \assQuestion::_getReachedPoints($active_id, $question_data['qid'], $pass_nr - 1),
-                            'maximum_points' => $this->questionrepository->getForQuestionId($question_data['qid'])->getMaximumPoints(),
+                            'maximum_points' => $this->questionrepository->getForQuestionId($question_data['qid'])->getAvailablePoints(),
                             'name' => $participant->getName()
                         ] + $feedback;
                     }
@@ -226,7 +226,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     $feedback_text = $current_feedback_info['feedback'];
                 }
 
-                $max_points_by_question_id[$question_id] = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
+                $max_points_by_question_id[$question_id] = $this->questionrepository->getForQuestionId($question_id)->getAvailablePoints();
                 $man_points_post[$pass][$active_id][$question_id] = (float) $reached_points;
                 if ($reached_points > $max_points_by_question_id[$question_id]) {
                     $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);

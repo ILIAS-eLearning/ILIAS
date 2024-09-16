@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool\Questions;
 
+use ILIAS\Language\Language;
+
 class GeneralQuestionProperties
 {
     public function __construct(
@@ -27,14 +29,15 @@ class GeneralQuestionProperties
         private readonly int $question_id,
         private ?int $original_id = null,
         private ?string $external_id = null,
-        private int $parent_id = 0,
+        private int $parent_object_id = 0,
+        private ?int $origin_object_id = null,
         private readonly int $type_id = 0,
         private readonly string $class_name = '',
         private int $owner = 0,
         private string $title = '',
         private string $description = '',
         private string $question_text = '',
-        private float $reachable_points = 0.0,
+        private float $available_points = 0.0,
         private int $number_of_tries = 0,
         private string $lifecycle = 'draft',
         private ?string $author = null,
@@ -52,7 +55,7 @@ class GeneralQuestionProperties
 
     public function getOriginalId(): ?int
     {
-        return $this->original_id;
+        return $this->origin_object_id;
     }
 
     public function withOriginalId(int $original_id): self
@@ -74,15 +77,27 @@ class GeneralQuestionProperties
         return $clone;
     }
 
-    public function getParentId(): int
+    public function getParentObjectId(): int
     {
-        return $this->parent_id;
+        return $this->parent_object_id;
     }
 
-    public function withParentId(int $parent_id): self
+    public function withParentObjectId(int $parent_id): self
     {
         $clone = clone $this;
-        $clone->parent_id = $parent_id;
+        $clone->parent_object_id = $parent_id;
+        return $clone;
+    }
+
+    public function getOriginObjectId(): ?int
+    {
+        return $this->origin_object_id;
+    }
+
+    public function withOriginObjectId(int $origin_object_id): self
+    {
+        $clone = clone $this;
+        $clone->origin_object_id = $origin_object_id;
         return $clone;
     }
 
@@ -101,7 +116,7 @@ class GeneralQuestionProperties
         return $this->class_name . 'GUI';
     }
 
-    public function getTypeName(\ilLanguage $lng): string
+    public function getTypeName(Language $lng): string
     {
         if ($this->class_name === '') {
             return '';
@@ -167,9 +182,9 @@ class GeneralQuestionProperties
         return $clone;
     }
 
-    public function getMaximumPoints(): float
+    public function getAvailablePoints(): float
     {
-        return $this->reachable_points;
+        return $this->available_points;
     }
 
     public function withMaximumPoints(float $reachable_points): self
@@ -239,7 +254,7 @@ class GeneralQuestionProperties
         return $clone;
     }
 
-    public function getCompletionStatus(): bool
+    public function isRequiredInformationComplete(): bool
     {
         return $this->complete;
     }
@@ -272,13 +287,13 @@ class GeneralQuestionProperties
         return [
             'question_id' => [\ilDBConstants::T_INTEGER, $this->getQuestionId()],
             'question_type_fi' => [\ilDBConstants::T_INTEGER, $this->getTypeId()],
-            'obj_fi' => [\ilDBConstants::T_INTEGER, $this->getParentId()],
+            'obj_fi' => [\ilDBConstants::T_INTEGER, $this->getParentObjectId()],
             'title' => [\ilDBConstants::T_TEXT, $this->getTitle()],
             'description' => [\ilDBConstants::T_TEXT, $this->getDescription()],
             'author' => [\ilDBConstants::T_TEXT, $this->getAuthor()],
             'owner' => [\ilDBConstants::T_INTEGER, $this->getOwner()],
-            'points' => [\ilDBConstants::T_FLOAT, $this->getMaximumPoints()],
-            'complete' => [\ilDBConstants::T_TEXT, $this->getCompletionStatus()],
+            'points' => [\ilDBConstants::T_FLOAT, $this->getAvailablePoints()],
+            'complete' => [\ilDBConstants::T_TEXT, $this->isRequiredInformationComplete()],
             'original_id' => [\ilDBConstants::T_INTEGER, $this->getOriginalId()],
             'tstamp' => [\ilDBConstants::T_INTEGER, $this->getUpdatedTimestamp()],
             'created' => [\ilDBConstants::T_INTEGER, $this->getCreatedTimestamp()],
