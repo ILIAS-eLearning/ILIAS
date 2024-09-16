@@ -1,4 +1,4 @@
-# ILIAS Security Group
+#@ ILIAS Security Group
 
 ## Table of Contents
 * [Reporting Security Issues](#reporting-security-issues)
@@ -16,7 +16,7 @@ from a member of the ILIAS security group about further steps.
 
 **Do not file an issue in the bugtracker!**
 
-1. Write an email to security@lists.ilias.de about your discovery, containing a
+1. Write an email to security@ilias.de about your discovery, containing a
 description of the issue with the scenario in which the problem is triggered and
 a description of its implications. Please provide all necessary steps to reproduce
 the issue. We kindly ask you to withhold full disclosure of the issue until a fix
