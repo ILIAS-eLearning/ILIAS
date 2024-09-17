@@ -28,6 +28,8 @@ use ILIAS\Data\DateFormat\DateFormat;
  */
 class ResultsExportExcel implements Exporter
 {
+    public const EXCEL_BACKGROUND_COLOR = 'C0C0C0';
+
     private DateFormat $user_date_format;
     private array $aggregated_data;
     private ?\ilTestEvaluationData $complete_data = null;
@@ -36,7 +38,7 @@ class ResultsExportExcel implements Exporter
      */
     private array $filter = [];
 
-    private \ilAssExcelFormatHelper $worksheet;
+    private \ilExcel $worksheet;
 
     public function __construct(
         private readonly \ilLanguage $lng,
@@ -48,7 +50,7 @@ class ResultsExportExcel implements Exporter
     ) {
         $this->user_date_format = $this->buildUserFormat($data_factory);
         $this->aggregated_data = $test_obj->getAggregatedResultsData();
-        $this->worksheet = new \ilAssExcelFormatHelper();
+        $this->worksheet = new \ilExcel();
     }
 
     public function withFilterByActiveId(int $active_id): self
@@ -131,7 +133,7 @@ class ResultsExportExcel implements Exporter
         $this->worksheet->sendToClient($this->filename);
     }
 
-    public function getContent(): \ilAssExcelFormatHelper
+    public function getContent(): \ilExcel
     {
         return $this->worksheet;
     }
@@ -157,7 +159,7 @@ class ResultsExportExcel implements Exporter
         $this->worksheet->setCell($current_row, $col++, $this->lng->txt('value'));
 
         $this->worksheet->setBold('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row);
-        $this->worksheet->setColors('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, \ilASSExcelFormatHelper::EXCEL_BACKGROUND_COLOR);
+        $this->worksheet->setColors('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, self::EXCEL_BACKGROUND_COLOR);
         return ++$current_row;
     }
 
@@ -183,7 +185,7 @@ class ResultsExportExcel implements Exporter
         $this->worksheet->setCell($current_row, $col++, $this->lng->txt('number_of_answers'));
 
         $this->worksheet->setBold('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row);
-        $this->worksheet->setColors('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, \ilASSExcelFormatHelper::EXCEL_BACKGROUND_COLOR);
+        $this->worksheet->setColors('A' . $current_row . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, self::EXCEL_BACKGROUND_COLOR);
         return ++$current_row;
     }
 
@@ -261,7 +263,7 @@ class ResultsExportExcel implements Exporter
         }
 
         $this->worksheet->setBold('A1:' . $this->worksheet->getColumnCoord($col - 1) . '1');
-        $this->worksheet->setColors('A1:' . $this->worksheet->getColumnCoord($col - 1) . '1', \ilASSExcelFormatHelper::EXCEL_BACKGROUND_COLOR);
+        $this->worksheet->setColors('A1:' . $this->worksheet->getColumnCoord($col - 1) . '1', self::EXCEL_BACKGROUND_COLOR);
 
         return $question_cols;
     }
@@ -417,7 +419,7 @@ class ResultsExportExcel implements Exporter
 
         $this->worksheet->mergeCells('A' . $current_row - 1 . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row - 1);
         $this->worksheet->setBold('A' . $current_row - 1 . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row);
-        $this->worksheet->setColors('A' . $current_row - 1 . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, \ilASSExcelFormatHelper::EXCEL_BACKGROUND_COLOR);
+        $this->worksheet->setColors('A' . $current_row - 1 . ':' . $this->worksheet->getColumnCoord($col - 1) . $current_row, self::EXCEL_BACKGROUND_COLOR);
 
         return ++$current_row;
     }
