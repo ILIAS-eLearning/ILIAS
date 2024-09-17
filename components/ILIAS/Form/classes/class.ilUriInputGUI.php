@@ -45,16 +45,19 @@ class ilUriInputGUI extends ilTextInputGUI
     {
         $lng = $this->lng;
 
+        $uri_string = trim($this->getInput());
+
         // check required
-        if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
-            $this->setAlert($lng->txt("msg_input_is_required"));
-            return false;
+        if ($uri_string === "") {
+            if ($this->getRequired()) {
+                $this->setAlert($lng->txt("msg_input_is_required"));
+                return false;
+            }
+            return true;
         }
 
-        $url = $this->getInput();
-
         try {
-            new URI($url);
+            new URI($uri_string);
         } catch (Throwable $e) {
             $this->setAlert($lng->txt("form_invalid_uri"));
             return false;
