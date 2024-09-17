@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
-
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
@@ -27,9 +26,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Questions\Presentation\QuestionsTable;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\RequestDataCollector;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -62,8 +59,6 @@ class ilTestCorrectionsGUI
         private readonly RequestDataCollector $testrequest,
         private readonly ilObjTest $test_obj,
         private readonly ilObjUser $scorer,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        protected QuestionsTable $table
     ) {
         $question_id = $this->testrequest->getQuestionId();
         if ($question_id !== 0) {
@@ -87,27 +82,6 @@ class ilTestCorrectionsGUI
 
         $command = $this->ctrl->getCmd('showQuestionList');
         $this->{$command}();
-    }
-
-    protected function showQuestionList()
-    {
-        $this->tabs->activateTab(TabsManager::TAB_ID_CORRECTION);
-
-        if ($this->test_obj->isFixedTest()) {
-            $rendered_gui_component = $this->ui_renderer->render(
-                $this->table
-                    ->getTableComponent($this->getQuestions())
-                    ->withOrderingDisabled(true)
-            );
-        } else {
-            $rendered_gui_component = $this->ui_renderer->render(
-                $this->ui_factory->messageBox()->info(
-                    $this->language->txt('tst_corrections_incompatible_question_set_type')
-                )
-            );
-        }
-
-        $this->main_tpl->setContent($rendered_gui_component);
     }
 
     protected function showQuestion(ilPropertyFormGUI $form = null)
@@ -451,8 +425,8 @@ class ilTestCorrectionsGUI
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
 
-        $this->help->setScreenIdComponent("tst");
-        $this->help->setScreenId("scoringadjust");
+        $this->help->setScreenIdComponent('tst');
+        $this->help->setScreenId('scoringadjust');
         $this->help->setSubScreenId($active_tab_id);
 
         $this->tabs->addTab(
@@ -479,7 +453,7 @@ class ilTestCorrectionsGUI
         $this->ctrl->clearParameterByClass(self::class, 'q_id');
         $this->tabs->setBackTarget(
             $this->language->txt('back'),
-            $this->ctrl->getLinkTargetByClass(self::class, 'showQuestionList')
+            $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'showQuestions')
         );
         $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'q_id', $question_gui->getObject()->getId());
         $this->ctrl->setParameterByClass(self::class, 'q_id', $question_gui->getObject()->getId());

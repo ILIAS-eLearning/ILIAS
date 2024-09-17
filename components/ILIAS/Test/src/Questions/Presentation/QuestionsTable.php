@@ -34,21 +34,18 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsTable implements Table\OrderingBinding
 {
-    public const ACTION_SAVE_ORDER = 'save_order';
-    public const ACTION_DELETE = 'delete';
-    public const ACTION_DELETE_CONFIRMED = 'deletion_confirmed';
-    public const ACTION_COPY = 'copy';
-    public const ACTION_ADD_TO_POOL = 'add_qpl';
-    public const ACTION_PREVIEW = 'preview';
-    public const ACTION_CORRECTION = 'correction';
-    public const ACTION_STATISTICS = 'statistics';
-    public const ACTION_EDIT_QUESTION = 'edit_question';
-    public const ACTION_EDIT_PAGE = 'edit_page';
-    public const ACTION_FEEDBACK = 'feedback';
-    public const ACTION_HINTS = 'hints';
-
-    public const CONTEXT_DEFAULT = 'default';
-    public const CONTEXT_CORRECTIONS = 'corrections';
+    private const ACTION_SAVE_ORDER = 'save_order';
+    private const ACTION_DELETE = 'delete';
+    private const ACTION_DELETE_CONFIRMED = 'deletion_confirmed';
+    private const ACTION_COPY = 'copy';
+    private const ACTION_ADD_TO_POOL = 'add_qpl';
+    private const ACTION_PREVIEW = 'preview';
+    private const ACTION_CORRECTION = 'correction';
+    private const ACTION_STATISTICS = 'statistics';
+    private const ACTION_EDIT_QUESTION = 'edit_question';
+    private const ACTION_EDIT_PAGE = 'edit_page';
+    private const ACTION_FEEDBACK = 'feedback';
+    private const ACTION_HINTS = 'hints';
 
     protected string $table_id;
     protected URLBuilder $url_builder;
@@ -69,6 +66,7 @@ class QuestionsTable implements Table\OrderingBinding
         protected TestQuestionsRepository $questionrepository,
         protected TitleColumnsBuilder $title_builder,
         protected array $records,
+        protected bool $is_adjusting_questions_with_results_allowed,
         protected bool $is_in_test_with_results,
         protected bool $is_in_test_with_random_question_set
     ) {
@@ -122,12 +120,15 @@ class QuestionsTable implements Table\OrderingBinding
             yield $row->withDisabledAction(
                 QuestionsTable::ACTION_DELETE,
                 $this->is_in_test_with_random_question_set && !$this->is_in_test_with_results
-            )->withDisabledAction(QuestionsTable::ACTION_COPY, $disable_default_actions)
-                ->withDisabledAction(QuestionsTable::ACTION_ADD_TO_POOL, $this->is_in_test_with_random_question_set)
-                ->withDisabledAction(QuestionsTable::ACTION_EDIT_QUESTION, $disable_default_actions)
-                ->withDisabledAction(QuestionsTable::ACTION_EDIT_PAGE, $disable_default_actions)
-                ->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $disable_default_actions)
-                ->withDisabledAction(QuestionsTable::ACTION_HINTS, $disable_default_actions);
+            )->withDisabledAction(self::ACTION_COPY, $disable_default_actions)
+            ->withDisabledAction(self::ACTION_ADD_TO_POOL, $this->is_in_test_with_random_question_set)
+            ->withDisabledAction(self::ACTION_EDIT_QUESTION, $disable_default_actions)
+            ->withDisabledAction(self::ACTION_EDIT_PAGE, $disable_default_actions)
+            ->withDisabledAction(
+                self::ACTION_CORRECTION,
+                $this->is_adjusting_questions_with_results_allowed && !$this->is_in_test_with_results
+            )->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $disable_default_actions)
+            ->withDisabledAction(QuestionsTable::ACTION_HINTS, $disable_default_actions);
         }
     }
 

@@ -166,7 +166,6 @@ class TestScoring
         if ($logger->isLoggingEnabled()) {
             $logger->logScoringInteraction(
                 new TestScoringInteraction(
-                    $this->lng,
                     $this->test->getRefId(),
                     $questiondata['id'],
                     $this->scorer->getId(),

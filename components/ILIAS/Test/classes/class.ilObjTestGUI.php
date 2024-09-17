@@ -88,7 +88,6 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
@@ -831,7 +830,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question_gui->setQuestionTabs();
 
                 if ($this->getTestObject()->evalTotalPersons() !== 0) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 $gui = new ilAssQuestionFeedbackEditingGUI(
@@ -866,10 +865,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->getTestObject()->getTestLogger(),
                     $this->testrequest,
                     $this->getTestObject(),
-                    $this->user,
-                    $this->questionrepository,
-                    $this->getTable()
-                        ->withContextCorrections()
+                    $this->user
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -922,7 +918,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 if (in_array($cmd, ['editQuestion', 'save', 'saveReturn', 'suggestedsolution'])
                     && $this->getTestObject()->evalTotalPersons() !== 0) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                     return;
                 }
@@ -959,25 +955,56 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     ): void {
         $this->prepareOutput();
 
+        $nr_of_participants_with_results = $this->getTestObject()->evalTotalPersons();
+
         $this->ctrl->saveParameter($this, 'q_id');
         $gui = new ilAssQuestionPreviewGUI(
             $this->ctrl,
             $this->rbac_system,
             $this->tabs_gui,
+            $this->toolbar,
             $this->tpl,
+            $this->ui_factory,
             $this->lng,
             $this->db,
             $this->refinery->random(),
             $this->global_screen,
             $this->http,
             $this->refinery,
-            !$this->getTestObject()->isRandomTest() && $this->getTestObject()->evalTotalPersons() === 0
+            $this->ref_id
         );
 
-        $gui->initQuestion(
-            $question_gui ?? assQuestion::instantiateQuestionGUI($this->fetchAuthoringQuestionIdParameter()),
-            $this->getTestObject()->getId()
-        );
+        if ($this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
+            $gui->setInfoMessage($this->lng->txt('question_is_part_of_running_test'));
+        }
+
+        if ($nr_of_participants_with_results > 0) {
+            $gui->addAdditionalCmd(
+                $this->lng->txt('tst_corrections_qst_form'),
+                $this->ctrl->getLinkTargetByClass(ilTestCorrectionsGUI::class, 'showQuestion')
+            );
+        }
+
+        $question_gui ??= assQuestion::instantiateQuestionGUI($this->fetchAuthoringQuestionIdParameter());
+
+        if (!$this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
+            $gui->setPrimaryCmd(
+                $this->lng->txt('edit_question'),
+                $this->ctrl->getLinkTargetByClass(
+                    get_class($question_gui),
+                    'editQuestion'
+                )
+            );
+            $gui->addAdditionalCmd(
+                $this->lng->txt('edit_page'),
+                $this->ctrl->getLinkTargetByClass(
+                    ilAssQuestionPageGUI::class,
+                    'edit'
+                )
+            );
+        }
+
+        $gui->initQuestion($question_gui, $this->getTestObject()->getId());
         $gui->initPreviewSettings($this->getTestObject()->getRefId());
         $gui->initPreviewSession($this->user->getId(), $this->testrequest->getQuestionId());
         $gui->initHintTracking();
@@ -3017,6 +3044,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->test_questions_repository->getQuestionPropertiesWithAggregatedResultsForQuestionIds(
                 $this->getTestObject()->getQuestions()
             ),
+            $this->getTestObject()->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed(),
             $this->getTestObject()->evalTotalPersons() !== 0,
             $this->getTestObject()->isRandomTest()
         );
