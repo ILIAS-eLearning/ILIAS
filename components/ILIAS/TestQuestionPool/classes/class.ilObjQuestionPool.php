@@ -41,13 +41,7 @@ class ilObjQuestionPool extends ilObject
     private bool $skill_service_enabled;
     private GeneralQuestionPropertiesRepository $questionrepository;
 
-    /**
-     * Constructor
-     * @access    public
-     * @param integer    reference_id or object_id
-     * @param boolean    treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
         $this->component_repository = $DIC['component.repository'];

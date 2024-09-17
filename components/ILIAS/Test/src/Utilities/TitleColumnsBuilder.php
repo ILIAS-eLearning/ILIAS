@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Test\Utilities;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 
 class TitleColumnsBuilder
@@ -98,7 +96,7 @@ class TitleColumnsBuilder
 
         return $this->ui_factory->link()->standard(
             \ilObject::_lookupTitle($test_obj_id),
-            $this->static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
+            $this->static_url->builder()->build('tst', new ReferenceId($test_ref_id))->__toString()
         );
     }
 

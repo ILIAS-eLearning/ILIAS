@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
@@ -377,9 +375,9 @@ class LogTable implements Table\DataRetrieval
         ];
     }
 
-    private function buildExcelWorkbook(array $header, array $content): \ilAssExcelFormatHelper
+    private function buildExcelWorkbook(array $header, array $content): \ilExcel
     {
-        $workbook = new \ilAssExcelFormatHelper();
+        $workbook = new \ilExcel();
         $workbook->addSheet($this->lng->txt('history'));
         $row = 1;
         $column = 0;
@@ -387,7 +385,7 @@ class LogTable implements Table\DataRetrieval
             $workbook->setCell($row, $column++, $header_cell);
         }
         $workbook->setBold('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row);
-        $workbook->setColors('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row, \ilASSExcelFormatHelper::EXCEL_BACKGROUND_COLOR);
+        $workbook->setColors('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row, 'C0C0C0');
 
         foreach ($content as $content_row) {
             $row++;

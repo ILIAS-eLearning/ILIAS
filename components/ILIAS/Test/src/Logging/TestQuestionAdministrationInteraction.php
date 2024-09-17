@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\StaticURL\Services as StaticURLServices;
@@ -71,7 +69,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         $values = [
             'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
-            'corresponding_test' => $this->buildTestTitleAsLink(
+            'corresponding_test' => $title_builder->buildTestTitleAsLink(
                 $this->test_ref_id
             ),
             'admin' => \ilUserUtil::getNamePresentation(
@@ -86,7 +84,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         ];
 
         if ($this->question_id !== null) {
-            $values['question'] = $this->buildQuestionTitleAsLink(
+            $values['question'] = $title_builder->buildQuestionTitleAsLink(
                 $this->question_id,
                 $this->test_ref_id
             );
