@@ -772,7 +772,7 @@ class ilSessionStatisticsGUI
                     break;
             }
         }
-        foreach ($meta as  $caption => $value) {
+        foreach ($meta as $caption => $value) {
             $csv->addColumn(strip_tags((string) $caption));
             $csv->addColumn(strip_tags((string) $value));
             $csv->addRow();

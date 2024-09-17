@@ -149,7 +149,7 @@ class ilAuthLogoutPageEditorGUI
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
-        $this->content_style_gui->addCss($this->tpl,  $this->ref_id);
+        $this->content_style_gui->addCss($this->tpl, $this->ref_id);
 
         $this->ctrl->setReturnByClass(ilLogoutPageGUI::class, 'edit');
         $page_gui = new ilLogoutPageGUI($this->key);

@@ -135,7 +135,7 @@ class ilAuthLoginPageEditorGUI
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
-        $this->content_style_gui->addCss($this->tpl,  $this->ref_id);
+        $this->content_style_gui->addCss($this->tpl, $this->ref_id);
 
         $this->ctrl->setReturnByClass(ilLoginPageGUI::class, 'edit');
         $page_gui = new ilLoginPageGUI($this->key);
