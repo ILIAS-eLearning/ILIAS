@@ -23,20 +23,16 @@ namespace ILIAS\Test\Questions\Presentation;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table;
-use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\Modal\Interruptive;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use ILIAS\Language\Language;
-
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
-* (editing) table for questions in test
-*/
-class QuestionsTable
+class QuestionsTable implements Table\OrderingBinding
 {
     public const ACTION_SAVE_ORDER = 'save_order';
     public const ACTION_DELETE = 'delete';
@@ -55,8 +51,8 @@ class QuestionsTable
     public const CONTEXT_CORRECTIONS = 'corrections';
 
     protected string $table_id;
-    protected string $context = self::CONTEXT_DEFAULT;
-    protected bool $question_editing = true;
+    protected URLBuilder $url_builder;
+    protected URLBuilderToken $row_id_token;
 
     /**
      * @param array $data <string, mixed>
@@ -71,42 +67,34 @@ class QuestionsTable
         protected \ilCtrl $ctrl,
         protected \ilObjTest $test_obj,
         protected TestQuestionsRepository $questionrepository,
-        protected TitleColumnsBuilder $title_builder
+        protected TitleColumnsBuilder $title_builder,
+        protected array $records,
+        protected bool $is_in_test_with_results,
+        protected bool $is_in_test_with_random_question_set
     ) {
         $this->table_id = (string) $test_obj->getId();
-    }
+        list($this->url_builder, $this->row_id_token) = $this->commands->getRowBoundURLBuilder(self::ACTION_PREVIEW);
 
-    public function withContextCorrections(): self
-    {
-        $clone = clone $this;
-        $clone->context = self::CONTEXT_CORRECTIONS;
-        return $clone;
-    }
-
-    public function withQuestionEditing(bool $question_editing = true): self
-    {
-        $clone = clone $this;
-        $clone->question_editing = $question_editing;
-        return $clone;
+        usort(
+            $this->records,
+            static fn(TestQuestionProperties $a, TestQuestionProperties $b): int =>
+                $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
+        );
     }
 
     protected function getOrderData(): ?array
     {
-        return $this->getTableComponent([])->getData();
+        return $this->getTableComponent()->getData();
     }
 
-    public function getTableComponent(array $data): Table\Ordering
+    public function getTableComponent(): Table\Ordering
     {
-        usort(
-            $data,
-            static fn(TestQuestionProperties $a, TestQuestionProperties $b): bool =>
-                $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
-        );
+
         $target = $this->commands->getActionURL(self::ACTION_SAVE_ORDER);
         $table = $this->ui_factory->table()->ordering(
             $this->lng->txt('list_of_questions'),
             $this->getColumns(),
-            $this->getBinding($data),
+            $this,
             $target
         )
         ->withId($this->table_id)
@@ -116,22 +104,34 @@ class QuestionsTable
         return $table;
     }
 
-    protected function getBinding(array $data): Table\OrderingBinding
-    {
-        list($url_builder, $row_id_token) = $this->commands->getRowBoundURLBuilder($title_link_action);
-        return new QuestionsTableBinding(
-            $data,
-            $this->lng,
-            $this->ui_factory,
-            $this->title_builder,
-            $url_builder,
-            $row_id_token,
-            $this->question_editing,
-        );
+    public function getRows(
+        Table\OrderingRowBuilder $row_builder,
+        array $visible_column_ids
+    ): \Generator {
+        $disable_default_actions = $this->is_in_test_with_random_question_set
+            || $this->is_in_test_with_results;
+        foreach ($this->records as $record) {
+            $row = $record->getAsQuestionsTableRow(
+                $this->lng,
+                $this->ui_factory,
+                $this->url_builder,
+                $row_builder,
+                $this->title_builder,
+                $this->row_id_token
+            );
+            yield $row->withDisabledAction(
+                QuestionsTable::ACTION_DELETE,
+                $this->is_in_test_with_random_question_set && !$this->is_in_test_with_results
+            )->withDisabledAction(QuestionsTable::ACTION_COPY, $disable_default_actions)
+                ->withDisabledAction(QuestionsTable::ACTION_ADD_TO_POOL, $this->is_in_test_with_random_question_set)
+                ->withDisabledAction(QuestionsTable::ACTION_EDIT_QUESTION, $disable_default_actions)
+                ->withDisabledAction(QuestionsTable::ACTION_EDIT_PAGE, $disable_default_actions)
+                ->withDisabledAction(QuestionsTable::ACTION_FEEDBACK, $disable_default_actions)
+                ->withDisabledAction(QuestionsTable::ACTION_HINTS, $disable_default_actions);
+        }
     }
 
     /**
-     * @return Column[]
      */
     protected function getColumns(): array
     {
@@ -162,9 +162,6 @@ class QuestionsTable
                 ->withIsOptional(true, false),
         ];
 
-        if ($this->context !== self::CONTEXT_DEFAULT) {
-            unset($columns['complete']);
-        }
         return $columns;
     }
 
@@ -173,10 +170,8 @@ class QuestionsTable
         $std_actions = [
             self::ACTION_DELETE => 'delete',
         ];
-        if ($this->context === self::CONTEXT_DEFAULT) {
-            $std_actions[self::ACTION_COPY] = 'copy';
-            $std_actions[self::ACTION_ADD_TO_POOL] = 'copy_and_link_to_questionpool';
-        }
+        $std_actions[self::ACTION_COPY] = 'copy';
+        $std_actions[self::ACTION_ADD_TO_POOL] = 'copy_and_link_to_questionpool';
 
         $single_actions = [
             self::ACTION_PREVIEW => 'preview',
@@ -187,10 +182,6 @@ class QuestionsTable
             self::ACTION_FEEDBACK => 'tst_feedback',
             self::ACTION_HINTS => 'tst_question_hints_tab',
         ];
-
-        if (! $this->question_editing) {
-            $std_actions = [];
-        }
 
         $actions = [];
         foreach (array_merge($single_actions, $std_actions) as $action => $txt) {
@@ -236,7 +227,7 @@ class QuestionsTable
         \Closure $protect_by_write_protection,
         \Closure $copy_and_link_to_questionpool
     ) {
-        switch($cmd) {
+        switch ($cmd) {
             case QuestionsTable::ACTION_SAVE_ORDER:
                 $data = $this->getOrderData();
                 $protect_by_write_protection();

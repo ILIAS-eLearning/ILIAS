@@ -28,7 +28,7 @@ class DatabaseRepository implements Repository
     private const SEQUENCE_TABLE_TEST_FIXED = 'tst_sequence';
     private const SEQUENCE_TABLE_TEST_RANDOM = 'tst_test_rnd_qst';
     private const QUESTION_ORDER_TABLE = 'tst_test_question';
-    private const RESULTS_TABLE = 'tst_rest_result';
+    private const RESULTS_TABLE = 'tst_test_result';
 
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -56,12 +56,12 @@ class DatabaseRepository implements Repository
                     $v->getQuestionId(),
                     $v
                 );
-                if ($sequence_properties[$id] !== null) {
+                if ($sequence_properties[$v->getQuestionId()] !== null) {
                     $question_properties = $question_properties
                         ->withSequenceInformation($sequence_properties[$v->getQuestionId()]);
                 }
 
-                $c[$v->question_fi] = $question_properties;
+                $c[$v->getQuestionId()] = $question_properties;
                 return $c;
             },
             array_fill_keys($question_ids, null)
@@ -97,6 +97,7 @@ class DatabaseRepository implements Repository
                     new PropertyAggregatedResults(
                         $v->question_fi,
                         $v->nr_of_answers,
+                        $c[$v->question_fi]->getGeneralQuestionProperties()->getAvailablePoints(),
                         $v->achieved_points
                     )
                 );

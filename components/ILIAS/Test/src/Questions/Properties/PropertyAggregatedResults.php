@@ -25,6 +25,7 @@ class PropertyAggregatedResults implements Property
     public function __construct(
         private readonly int $question_id,
         private readonly int $number_of_answers = 0,
+        private readonly float $available_points = 0.0,
         private readonly float $total_achieved_points = 0.0,
     ) {
     }
