@@ -511,17 +511,6 @@ class TabsManager
             }
         }
 
-        // NEW CORRECTIONS TAB
-        $setting = new \ilSetting('assessment');
-        $scoring_adjust_active = (bool) $setting->get('assessment_adjustments_enabled', '0');
-        if ($this->isWriteAccessGranted() && $scoring_adjust_active) {
-            $this->tabs->addTab(
-                self::TAB_ID_CORRECTION,
-                $this->lng->txt(self::TAB_ID_CORRECTION),
-                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestCorrectionsGUI::class])
-            );
-        }
-
         if ($this->checkStatisticsTabAccess()) {
             // statistics tab
             $this->tabs->addTarget(
