@@ -1009,7 +1009,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI implements ilContentPageObjectCon
 
             if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
                 $this->tabs_gui->addSubTab(
-                    self::UI_TAB_ID_STYLE,
+                    'style',
                     $this->lng->txt('cont_style'),
                     $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
                 );
