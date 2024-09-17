@@ -37,16 +37,20 @@ class Bar implements C\Chart\Bar\Bar
     protected string $title;
     protected Dataset $dataset;
     /**
-     * @var BarConfig[]
+     * @var C\Chart\Bar\BarConfig[]
      */
     protected array $bar_configs;
+    /**
+     * @var C\Chart\Bar\GroupConfig[]
+     */
+    protected array $group_configs;
     protected bool $title_visible = true;
     protected bool $legend_visible = true;
     protected string $legend_position = "top";
     protected bool $tooltips_visible = true;
     protected bool $stacked = false;
 
-    public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
+    public function __construct(string $title, Dataset $dataset, array $bar_configs = [], array $group_configs = [])
     {
         $this->title = $title;
         if ($dataset->isEmpty()) {
@@ -66,6 +70,7 @@ class Bar implements C\Chart\Bar\Bar
             $this->dataset = $dataset;
         }
         $this->bar_configs = $bar_configs;
+        $this->group_configs = $group_configs;
     }
 
     public function withTitle(string $title): self
@@ -102,6 +107,18 @@ class Bar implements C\Chart\Bar\Bar
     public function getBarConfigs(): array
     {
         return $this->bar_configs;
+    }
+
+    public function withGroupConfigs(array $group_configs): self
+    {
+        $clone = clone $this;
+        $clone->group_configs = $group_configs;
+        return $clone;
+    }
+
+    public function getGroupConfigs(): array
+    {
+        return $this->group_configs;
     }
 
     public function withTitleVisible(bool $title_visible): self
@@ -155,17 +172,5 @@ class Bar implements C\Chart\Bar\Bar
     public function isTooltipsVisible(): bool
     {
         return $this->tooltips_visible;
-    }
-
-    public function withStacked(bool $stacked): self
-    {
-        $clone = clone $this;
-        $clone->stacked = $stacked;
-        return $clone;
-    }
-
-    public function isStacked(): bool
-    {
-        return $this->stacked;
     }
 }

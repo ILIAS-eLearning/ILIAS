@@ -54,14 +54,4 @@ class BarConfigTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $bc->getRelativeWidth());
         $this->assertEquals($width, $bc1->getRelativeWidth());
     }
-
-    public function testWithStackGroup(): void
-    {
-        $bc = new BarConfig();
-        $group = "Stack 1";
-        $bc1 = $bc->withStackGroup($group);
-
-        $this->assertEquals("Stack 0", $bc->getStackGroup());
-        $this->assertEquals($group, $bc1->getStackGroup());
-    }
 }

@@ -238,22 +238,6 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $horizontal = $horizontal->withLegendPosition("middle");
     }
 
-    public function testWithStacked(): void
-    {
-        $f = $this->getFactory();
-
-        $dataset = $this->getSimpleDataset();
-
-        $horizontal = $f->horizontal(
-            "Horizontal Bar",
-            $dataset
-        );
-        $horizontal1 = $horizontal->withStacked(true);
-
-        $this->assertEquals(false, $horizontal->isStacked());
-        $this->assertEquals(true, $horizontal1->isStacked());
-    }
-
     public function testWithDataset(): void
     {
         $f = $this->getFactory();

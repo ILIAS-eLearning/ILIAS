@@ -18,19 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Data\Dimension;
+namespace ILIAS\UI\Component\Chart\Bar;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-abstract class Dimension
+class GroupConfig
 {
-    protected array $value_labels = [];
+    protected bool $stacked = false;
 
-    public function getLabels(): array
+    public function withStacked(bool $stacked = true): GroupConfig
     {
-        return $this->value_labels;
+        $clone = clone $this;
+        $clone->stacked = $stacked;
+        return $clone;
     }
 
-    abstract public function checkValue($value): void;
+    public function isStacked(): bool
+    {
+        return $this->stacked;
+    }
 }

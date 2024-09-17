@@ -6,6 +6,7 @@ namespace ILIAS\UI\examples\Chart\Bar\Horizontal;
 
 use ILIAS\UI\Component\Chart\Bar\Bar;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
+use ILIAS\UI\Component\Chart\Bar\GroupConfig;
 use ILIAS\UI\Component\Chart\Bar\XAxis;
 
 function stacked()
@@ -24,6 +25,8 @@ function stacked()
         "Dataset 1.1" => $c_dimension,
         "Dataset 1.2" => $c_dimension,
         "Dataset 1.3" => $c_dimension,
+    ], [
+        "Grouped Dataset" => $df->dimension()->group("Dataset 1.1", "Dataset 1.2", "Dataset 1.3"),
     ]);
 
     $dataset = $dataset->withPoint(
@@ -58,20 +61,25 @@ function stacked()
     $b2 = $b2->withColor($df->color("#307C88"));
     $b3 = new BarConfig();
     $b3 = $b3->withColor($df->color("#557b2e"));
+    $g = new GroupConfig();
+    $g = $g->withStacked(true);
 
     $bars = [
         "Dataset 1.1" => $b1,
         "Dataset 1.2" => $b2,
         "Dataset 1.3" => $b3
     ];
+    $groups = [
+        "Grouped Dataset" => $g
+    ];
 
     //Generating and rendering the vertical chart
     $bar = $f->chart()->bar()->horizontal(
         "A horizontal stacked bar chart",
         $dataset,
-        $bars
+        $bars,
+        $groups
     );
-    $bar = $bar->withStacked(true);
 
     // render
     return $renderer->render($bar);
