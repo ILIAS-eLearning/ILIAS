@@ -21,18 +21,17 @@ declare(strict_types=1);
 namespace ILIAS\Test\Questions\Properties;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\UI\Implementation\Component\Table\OrderingRow;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use ILIAS\Language\Language;
 
 class Properties implements Property
 {
-    private PropertySequence $sequence;
+    private ?PropertySequence $sequence = null;
     private PropertyAggregatedResults $aggregated_results;
 
     public function __construct(
@@ -48,6 +47,8 @@ class Properties implements Property
                 )
             );
         }
+
+        $this->aggregated_results = new PropertyAggregatedResults($question_id);
     }
 
     public function getQuestionId(): int
@@ -67,24 +68,14 @@ class Properties implements Property
 
     public function withSequenceInformation(PropertySequence $sequence): self
     {
-        if ($this->question_properties->getParentObjectId() !== $sequence->getTestId()) {
-            throw new \Exception(
-                sprintf(
-                    'The test ids do not match.  Id question: %s. Id sequence: %s.',
-                    $this->question_properties->getParentObjectId(),
-                    $sequence->getTestId()
-                )
-            );
-        }
-
         $clone = clone $this;
         $clone->sequence = $sequence;
         return $clone;
     }
 
-    public function getAggregatedResults(): PropertyAggregatedResults
+    public function getAggregatedResults(): ?PropertyAggregatedResults
     {
-        return $this->getAggregatedResults();
+        return $this->aggregated_results;
     }
 
     public function withAggregatedResults(PropertyAggregatedResults $aggregated_results): self
@@ -95,16 +86,17 @@ class Properties implements Property
     }
 
     public function getAsQuestionsTableRow(
-        UIFactory $ui_factory,
         Language $lng,
+        UIFactory $ui_factory,
         URLBuilder $url_builder,
         OrderingRowBuilder $row_builder,
         TitleColumnsBuilder $title_builder,
-        string $row_id_token
+        URLBuilderToken $row_id_token
     ): OrderingRow {
         return $row_builder->buildOrderingRow(
-            $this->question_id,
+            (string) $this->question_id,
             [
+                'question_id' => $this->question_id,
                 'title' => $ui_factory->link()->standard(
                     $this->question_properties->getTitle(),
                     $url_builder

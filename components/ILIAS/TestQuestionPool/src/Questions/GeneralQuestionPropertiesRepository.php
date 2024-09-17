@@ -66,17 +66,17 @@ class GeneralQuestionPropertiesRepository
     {
         $question_properties = [];
 
-        foreach ($question_ids as $question_id) {
+        foreach ($question_ids as $index => $question_id) {
             if (isset($this->general_properties_cache[$question_id])) {
                 $question_properties[$question_id] = $this->general_properties_cache[$question_id];
-                unset($question_ids[$question_id]);
+                unset($question_ids[$index]);
             }
         }
 
         foreach ($this->retrieveGeneralProperties($question_ids) as $question_id => $question) {
             $this->general_properties_cache[$question_id] = $question;
             $question_properties[$question_id] = $question;
-            unset($question_ids[$question_id]);
+            $question_ids = array_diff($question_ids, [$question_id]);
         }
 
         foreach ($question_ids as $question_id) {

@@ -37,7 +37,6 @@ use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -1972,22 +1971,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.il_as_tst_questions.html', 'components/ILIAS/Test');
 
-        $is_random_test = $this->getTestObject()->isRandomTest();
-        $has_started_test_runs = $this->getTestObject()->evalTotalPersons() !== 0;
-        $this->setupToolBarAndMessage($has_started_test_runs);
+        $this->setupToolBarAndMessage($this->getTestObject()->evalTotalPersons() !== 0);
 
         $this->tpl->setCurrentBlock('adm_content');
         $this->tpl->setVariable('ACTION_QUESTION_FORM', $this->ctrl->getFormAction($this));
         $this->tpl->setVariable(
             'QUESTIONBROWSER',
             $this->ui_renderer->render(
-                $this->getTable()
-                ->withQuestionEditing(!$is_random_test && !$has_started_test_runs)
-                ->getTableComponent(
-                    $this->test_questions_repository->getQuestionPropertiesForQuestionIds(
-                        $this->getTestObject()->getQuestions()
-                    )
-                )->withOrderingDisabled($is_random_test || $has_started_test_runs)
+                $this->getTable()->getTableComponent()
             )
         );
         $this->tpl->parseCurrentBlock();
@@ -3023,7 +3014,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl,
             $this->object,
             $this->test_questions_repository,
-            $this->title_builder
+            $this->title_builder,
+            $this->test_questions_repository->getQuestionPropertiesWithAggregatedResultsForQuestionIds(
+                $this->getTestObject()->getQuestions()
+            ),
+            $this->getTestObject()->evalTotalPersons() !== 0,
+            $this->getTestObject()->isRandomTest()
         );
     }
 }

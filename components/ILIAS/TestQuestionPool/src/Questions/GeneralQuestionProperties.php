@@ -122,7 +122,7 @@ class GeneralQuestionProperties
             return '';
         }
 
-        if (file_exists("./components/ILIAS/TestQuestionPool/classes/class." . $this->class_name . ".php")) {
+        if (file_exists(ILIAS_ABSOLUTE_PATH . '/components/ILIAS/TestQuestionPool/classes/class.' . $this->class_name . '.php')) {
             return $lng->txt($this->class_name);
         }
 
@@ -131,7 +131,7 @@ class GeneralQuestionProperties
                 return $pl->getQuestionTypeTranslation();
             }
         }
-        return "";
+        return '';
     }
 
     public function getOwner(): int

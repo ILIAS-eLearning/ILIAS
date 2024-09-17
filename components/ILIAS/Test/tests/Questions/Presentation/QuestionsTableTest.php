@@ -22,7 +22,6 @@ namespace ILIAS\Test\Tests\Questions\Presentation;
 
 use ILIAS\Test\Questions\Presentation\QuestionsTable;
 use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
-
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Modal;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -127,13 +126,11 @@ class QuestionsTableTest extends \ilTestBaseTestCase
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(QuestionsTable::class, $this->table_gui);
-        $this->assertInstanceOf(QuestionsTable::class, $this->table_gui->withContextCorrections());
-        $this->assertInstanceOf(QuestionsTable::class, $this->table_gui->withQuestionEditing());
     }
 
     public function testQuestionsTableGUIwillReturnProperTypes(): void
     {
-        $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTableComponent([]));
+        $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTableComponent());
         $this->assertInstanceOf(Modal\Interruptive::class, $this->table_gui->getDeleteConfirmation([]));
     }
 
