@@ -388,6 +388,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
                 <input id="id_1" type="text" class="c-field-text" />
             </div>
             <div class="c-input__help-byline">in 1</div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
         <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="">
             <label for="id_2">input2</label>
@@ -395,6 +396,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
                 <input id="id_2" type="text" class="c-field-text" />
             </div>
             <div class="c-input__help-byline">in 2</div>
+            <div class="c-input__value_representation"></div>
         </fieldset>
 EOT;
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($group));

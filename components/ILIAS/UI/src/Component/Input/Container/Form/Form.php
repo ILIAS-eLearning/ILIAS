@@ -26,9 +26,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Container;
 use ILIAS\UI\Component\Input\Input;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+
 /**
  * This describes commonalities between all forms.
  */
-interface Form extends Container
+interface Form extends Container, JavaScriptBindable
 {
 }
