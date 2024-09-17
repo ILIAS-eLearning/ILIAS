@@ -28,7 +28,7 @@ use ILIAS\Style\Content\GUIService;
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilObjectContentStyleSettingsGUI
  */
-class ilObjAuthSettingsGUI extends ilObjectGUI implements ilContentPageObjectConstants
+class ilObjAuthSettingsGUI extends ilObjectGUI
 {
     private ilLogger $logger;
     private ILIAS\UI\Factory $ui;
