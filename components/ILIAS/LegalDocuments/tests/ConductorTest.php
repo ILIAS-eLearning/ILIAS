@@ -50,6 +50,7 @@ use ilGlobalTemplateInterface;
 use ilObjUser;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\Data\Result\Error;
+use ilStartUpGUI;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -66,30 +67,6 @@ class ConductorTest extends TestCase
     {
         $instance = new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Routing::class));
         $this->assertInstanceOf(Provide::class, $instance->provide('foo'));
-    }
-
-    public function testOnLogout(): void
-    {
-        $constraint = $this->mock(Constraint::class);
-        $called = false;
-
-        $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('setParameterByClass')->with('dummy gui', 'withdraw_from', 'foo');
-
-        $container = $this->mockTree(Container::class, [
-            'refinery' => ['to' => ['string' => $constraint]],
-            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
-            'ctrl' => $ctrl,
-        ]);
-
-        $internal = $this->mockMethod(Internal::class, 'get', ['logout', 'foo'], static function () use (&$called): void {
-            $called = true;
-        });
-
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
-
-        $instance->onLogout('dummy gui');
-        $this->assertTrue($called);
     }
 
     public function testLoginPageHTML(): void
@@ -120,21 +97,40 @@ class ConductorTest extends TestCase
     {
         $constraint = $this->mock(Constraint::class);
         $component = $this->mock(Component::class);
+        $ctrl = $this->mock(ilCtrl::class);
+        $ctrl->expects(self::once())->method('setParameterByClass')->with(ilStartUpGUI::class, 'withdraw_from', 'foo');
 
         $container = $this->mockTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
-            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_from', $constraint], 'foo')]],
+            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
+            'ctrl' => $ctrl,
             'ui' => ['renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered')],
         ]);
 
-        $internal = $this->mockMethod(Internal::class, 'get', ['logout-text', 'foo'], static function () use ($component): Component {
-            return $component;
+        $called = false;
+
+        $internal = $this->mock(Internal::class);
+        $internal->method('get')->willReturnCallback(function ($param1, $param2) use (&$called, $component) {
+            if ($param1 === 'logout' && $param2 === 'foo') {
+                return static function () use (&$called) {
+                    $called = true;
+                };
+            }
+            if ($param1 === 'logout-text' && $param2 === 'foo') {
+                return static function () use ($component): Component {
+                    return $component;
+                };
+            }
+
+            return null;
         });
 
         $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
-        $this->assertSame('rendered', $instance->logoutText());
-        ;
+        $logoutText = $instance->logoutText();
+        $this->assertTrue($called);
+
+        $this->assertSame('rendered', $logoutText);
     }
 
     public function testModifyFooter(): void

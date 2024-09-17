@@ -1351,6 +1351,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $url = $target->asURI();
 
+        $this->mainTemplate->setOnScreenMessage(
+            $this->mainTemplate::MESSAGE_TYPE_INFO,
+            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText(),
+            true
+        );
+
         if ($used_external_auth_mode && (int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_SAML) {
             $this->logger->info('Redirecting user to SAML logout script');
             $this->ctrl->redirectToURL(
@@ -1363,12 +1369,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $this->ctrl->setParameter($this, 'lang', $user_language);
         $this->ctrl->setParameter($this, 'client_id', $client_id);
-
-        $this->mainTemplate->setOnScreenMessage(
-            $this->mainTemplate::MESSAGE_TYPE_INFO,
-            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText(),
-            true
-        );
         $this->ctrl->redirectToURL((string) $url);
     }
 

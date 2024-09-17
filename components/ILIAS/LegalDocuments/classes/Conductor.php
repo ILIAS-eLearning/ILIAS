@@ -62,21 +62,6 @@ class Conductor
         return new Provide($id, $this->internal, $this->container);
     }
 
-    public function onLogout(string $gui): void
-    {
-        try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-        } catch (Exception) {
-            return;
-        }
-
-        $logout = $this->internal->get('logout', $id);
-        if (null !== $logout) {
-            $this->container->ctrl()->setParameterByClass($gui, 'withdraw_from', $id);
-            $logout();
-        }
-    }
-
     public function loginPageHTML(string $id): string
     {
         $create = $this->internal->get('show-on-login-page', $id);
@@ -89,14 +74,19 @@ class Conductor
     public function logoutText(): string
     {
         try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_from', $this->container->refinery()->to()->string());
+            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
+
+            $logout = $this->internal->get('logout', $id);
+            if (null !== $logout) {
+                $this->container->ctrl()->setParameterByClass(ilStartUpGUI::class, 'withdraw_from', $id);
+                $logout();
+
+                $logout_text = $this->internal->get('logout-text', $id);
+                return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
+            }
         } catch (Exception) {
-            return '';
         }
-
-        $logout_text = $this->internal->get('logout-text', $id);
-
-        return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
+        return '';
     }
 
     public function modifyFooter(Footer $footer): Footer
