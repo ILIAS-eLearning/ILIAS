@@ -65,7 +65,7 @@ class ilBulkEditQuestionsGUI
 
         $out = [];
 
-        if($this->question_ids === []) {
+        if ($this->question_ids === []) {
             $out[] = $this->ui_factory->messageBox()->failure(
                 $this->lng->txt('qpl_bulkedit_no_ids')
             );
@@ -127,7 +127,8 @@ class ilBulkEditQuestionsGUI
         $data = $form->getData();
         $questions = $this->getQuestions();
         if ($data !== null && $update($questions, $data)) {
-            $out[] = $this->ui_factory->messageBox()->success($this->lng->txt('qpl_bulkedit_success'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_bulkedit_success'), true);
+            $this->ctrl->redirectByClass(ilObjQuestionPoolGUI::class, ilObjQuestionPoolGUI::DEFAULT_CMD);
         }
         $out[] = $form;
         return $out;
@@ -136,7 +137,7 @@ class ilBulkEditQuestionsGUI
     protected function getQuestions(): array
     {
         $questions = [];
-        foreach($this->question_ids as $qid) {
+        foreach ($this->question_ids as $qid) {
             $questions[] = \assQuestion::instantiateQuestion($qid);
         }
         return $questions;
@@ -165,7 +166,7 @@ class ilBulkEditQuestionsGUI
     protected function getAuthorUpdater(): \Closure
     {
         return function (array $questions, string $author) {
-            foreach($questions as $q) {
+            foreach ($questions as $q) {
                 $q->setAuthor($author);
                 $q->saveQuestionDataToDb();
             }
@@ -192,7 +193,7 @@ class ilBulkEditQuestionsGUI
     {
         return function (array $questions, string $lifecycle) {
             $lc = ilAssQuestionLifecycle::getInstance($lifecycle);
-            foreach($questions as $q) {
+            foreach ($questions as $q) {
                 $q->setLifecycle($lc);
                 $q->saveToDb();
             }
@@ -222,7 +223,7 @@ class ilBulkEditQuestionsGUI
         return $form;
     }
 
-    protected function storeTaxonomies(ilPropertyFormGUI $form): array
+    protected function storeTaxonomies(ilPropertyFormGUI $form): void
     {
         $questions = $this->getQuestions();
         $post = $this->request->getParsedBody();
@@ -232,7 +233,7 @@ class ilBulkEditQuestionsGUI
         $taxonomy_ids = \ilObjTaxonomy::getUsageOfObject($this->qpl_obj_id);
         foreach ($taxonomy_ids as $taxonomy_id) {
             $postvar = "tax_node_assign_$taxonomy_id";
-            foreach($questions as $q) {
+            foreach ($questions as $q) {
                 $assignments = new ilTaxNodeAssignment(ilObject::_lookupType($q->getObjId()), $q->getObjId(), 'quest', $taxonomy_id);
                 $assigned_nodes = $assignments->getAssignmentsOfItem($q->getId());
 
@@ -254,11 +255,8 @@ class ilBulkEditQuestionsGUI
                 }
             }
         }
-        $out = [];
-        $out[] = $this->ui_factory->messageBox()->success($this->lng->txt('qpl_bulkedit_success'));
-        $form->setValuesByPost();
-        $out[] = $this->ui_factory->legacy($form->getHTML());
-        return $out;
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_bulkedit_success'), true);
+        $this->ctrl->redirectByClass(ilObjQuestionPoolGUI::class, ilObjQuestionPoolGUI::DEFAULT_CMD);
     }
 
 }
