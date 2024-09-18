@@ -229,6 +229,8 @@ class ilObjMediaCast extends ilObject
 
         $id = parent::create();
 
+        $this->createMetaData();
+
         $query = "INSERT INTO il_media_cast_data (" .
             " id" .
             ", is_online" .
@@ -263,6 +265,8 @@ class ilObjMediaCast extends ilObject
         if (!parent::update()) {
             return false;
         }
+
+        $this->updateMetaData();
 
         // update media cast data
         $query = "UPDATE il_media_cast_data SET " .
@@ -318,6 +322,8 @@ class ilObjMediaCast extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         // delete all items
         $med_items = $this->getItemsArray();
@@ -458,6 +464,8 @@ class ilObjMediaCast extends ilObject
         if ($collection) {
             $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
         }
+
+        $this->cloneMetaData($new_obj);
 
         return $new_obj;
     }
