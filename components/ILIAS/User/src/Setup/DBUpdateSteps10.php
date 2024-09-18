@@ -33,6 +33,16 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
+        $this->db->manipulate(
+            'DELETE FROM usr_pref WHERE keyword = ' . $this->db->quote('hits_per_page', ilDBConstants::T_TEXT)
+        );
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE ' . $this->db->like('keyword', ilDBConstants::T_TEXT, '%hits_per_page%')
+        );
+    }
+
+    public function step_2(): void
+    {
         if (!$this->db->tableColumnExists(ChangeMailTokenDBRepository::TABLE_NAME, 'status')) {
             $this->db->addTableColumn(
                 ChangeMailTokenDBRepository::TABLE_NAME,
