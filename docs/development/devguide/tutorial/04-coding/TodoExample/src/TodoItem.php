@@ -40,7 +40,7 @@ class TodoItem
     }
 
     /**
-     * Get the id of the usere to which the item belongs
+     * Get the id of the user to which the item belongs
      */
     public function getUserId(): int
     {

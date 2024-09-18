@@ -54,7 +54,7 @@ interface ilGeoLocationRepository {
 	public function updateGeoLocationTimestampByCoordinates(float $a_searched_latitude, float $a_searched_longitude, \DateTimeImmutable $a_update_timestamp);
 
 	/**
-	 * Exaple for deleting single geo location identified by its id
+	 * Example for deleting single geo location identified by its id
 	 */
 	public function deleteGeoLocation(int $a_id);
 
