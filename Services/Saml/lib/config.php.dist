@@ -31,7 +31,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath'           => 'Services/saml/lib/',
+    'baseurlpath'           => 'Services/Saml/lib/',
     'certdir' => 'cert/',
     'loggingdir'            => '[[LOG_DIRECTORY]]',
     'datadir' => 'data/',
