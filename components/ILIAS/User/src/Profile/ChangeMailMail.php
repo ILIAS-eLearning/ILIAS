@@ -35,35 +35,30 @@ class ChangeMailMail extends \ilMimeMailNotification
         parent::__construct(false);
     }
 
-    public function send(): bool
+    public function send(string $new_email, int $validity): void
     {
-        if (!$this->user->getEmail()) {
-            $this->logger->debug(
-                sprintf(
-                    'Missing email address, did not send email to confirm email change to user %s (id: %s)',
-                    $this->user->getLogin(),
-                    $this->user->getId()
-                )
-            );
-            return false;
-        }
+        $this->sendEmailToNewEmailAddress($new_email, $validity);
+        $this->sendEmailToExistingAddress($new_email, $validity);
+    }
 
+    private function sendEmailToNewEmailAddress(string $new_email, int $validity): void
+    {
         $this->initMimeMail();
         $this->initLanguageByIso2Code($this->user->getLanguage());
-
-        $this->setSubject($this->lng->txt('change_email_email_subject'));
+        $this->setSubject($this->lng->txt('change_email_email_confirmation_subject'));
         $this->setBody($this->lng->txt('mail_salutation_n') . ' ' . $this->user->getFullname() . ',');
         $this->appendBody("\n\n");
         $this->appendBody(
             sprintf(
-                $this->lng->txt('change_email_email_body'),
+                $this->lng->txt('change_email_email_confirmation_body'),
                 $this->user->getLogin(),
-                $this->uri->__toString()
+                $this->uri->__toString(),
+                floor($validity / 60)
             )
         );
         $this->appendBody(\ilMail::_getInstallationSignature());
 
-        $this->sendMimeMail($this->user->getEmail());
+        $this->sendMimeMail($new_email);
         $this->logger->debug(
             sprintf(
                 'Email to confirm email change sent to user %s (id: %s|language: %s).',
@@ -72,6 +67,45 @@ class ChangeMailMail extends \ilMimeMailNotification
                 $this->user->getLanguage()
             )
         );
-        return true;
+    }
+
+    private function sendEmailToExistingAddress(string $new_email, int $validity): void
+    {
+        if (!$this->user->getEmail()) {
+            $this->logger->debug(
+                sprintf(
+                    'Missing email address, did not send email to inform about email change to user %s (id: %s)',
+                    $this->user->getLogin(),
+                    $this->user->getId()
+                )
+            );
+            return;
+        }
+
+        $this->initMimeMail();
+        $this->initLanguageByIso2Code($this->user->getLanguage());
+        $this->setSubject($this->lng->txt('change_email_email_information_subject'));
+        $this->setBody($this->lng->txt('mail_salutation_n') . ' ' . $this->user->getFullname() . ',');
+        $this->appendBody("\n\n");
+        $this->appendBody(
+            sprintf(
+                $this->lng->txt('change_email_email_information_body'),
+                $this->user->getLogin(),
+                $new_email,
+                floor($validity / 60)
+            )
+        );
+        $this->appendBody(\ilMail::_getInstallationSignature());
+
+        $this->sendMimeMail($this->user->getEmail());
+        $this->logger->debug(
+            sprintf(
+                'Email to inform about email change sent to user %s (id: %s|language: %s).',
+                $this->user->getLogin(),
+                $this->user->getId(),
+                $this->user->getLanguage()
+            )
+        );
+
     }
 }

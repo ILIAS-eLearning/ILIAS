@@ -21,6 +21,7 @@ namespace ILIAS\User\Profile;
 interface ChangeMailTokenRepository
 {
     public function getNewTokenForUser(\ilObjUser $user, string $new_email, int $now): ChangeMailToken;
+    public function hasUserValidEmailConfirmationToken(\ilObjUser $user): bool;
 
     /**
      * This Function will check if the token is actually valid for the given user
