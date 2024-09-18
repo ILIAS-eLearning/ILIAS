@@ -26,7 +26,6 @@ use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\User\Profile\GUIRequest;
 use ILIAS\User\Profile\ChangeMailTokenRepository;
 use ILIAS\User\Profile\ChangeMailTokenDBRepository;
-
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
@@ -490,6 +489,11 @@ class ilPersonalProfileGUI
 
     private function buildInfoText(): string
     {
+        $change_mail_info = '';
+        if ($this->change_mail_token_repo->hasUserValidEmailConfirmationToken($this->user)) {
+            $change_mail_info = $this->lng->txt('change_email_info_message');
+        }
+
         $it = '';
         if ($this->profile_request->getPrompted() === 1) {
             $it = $this->prompt_repository->getSettings()->getPromptText($this->user->getLanguage());
@@ -498,7 +502,13 @@ class ilPersonalProfileGUI
             $it = $this->prompt_repository->getSettings()->getInfoText($this->user->getLanguage());
         }
         if (trim($it) === '') {
-            return '';
+            return $change_mail_info === ''
+                ? ''
+                : $this->ui_renderer->render($this->ui_factory->messageBox()->info($change_mail_info));
+        }
+
+        if ($change_mail_info !== '') {
+            $it .= '<br>' . $change_mail_info;
         }
 
         $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
@@ -796,9 +806,8 @@ class ilPersonalProfileGUI
                         ->getUriForStatus($this->static_url->builder()),
                 $this->lng,
                 $this->logger
-            ))->send() === true
-                ? $this->tpl->setOnScreenMessage('info', $this->lng->txt('change_email_email_sent'))
-                : $this->tpl->setOnScreenMessage('failure', $this->lng->txt('change_email_email_could_not_be_sent'));
+            ))->send($token->getNewEmail(), ChangeMailStatus::EmailConfirmation->getValidity($this->settings));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('change_email_email_sent'));
             $this->showPublicProfile();
             return;
         }
@@ -1157,7 +1166,7 @@ class ilPersonalProfileGUI
             if (strpos($k, 'chk_') !== 0) {
                 continue;
             }
-            if  (substr($k, -2) === $key_suffix) {
+            if (substr($k, -2) === $key_suffix) {
                 $k = str_replace(['-1', '-2'], '', $k);
             }
             $checked_values[$k] = $v;

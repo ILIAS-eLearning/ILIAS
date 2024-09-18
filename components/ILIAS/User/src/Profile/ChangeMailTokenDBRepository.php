@@ -46,6 +46,34 @@ class ChangeMailTokenDBRepository implements ChangeMailTokenRepository
         return $token;
     }
 
+    public function hasUserValidEmailConfirmationToken(\ilObjUser $user): bool
+    {
+        $query = $this->db->queryF(
+            'SELECT count(*) as cnt FROM `' . self::TABLE_NAME . '`' . PHP_EOL
+                . 'WHERE `usr_id` = %s' . PHP_EOL
+                . 'AND `status` = %s' . PHP_EOL
+                . 'AND `created_ts` >= %s',
+            [
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER,
+                \ilDBConstants::T_INTEGER
+            ],
+            [
+                $user->getId(),
+                ChangeMailStatus::EmailConfirmation->value,
+                time() - ChangeMailStatus::EmailConfirmation->getValidity($this->settings)
+            ]
+        );
+
+        $result = $this->db->fetchObject($query);
+
+        if ($result->cnt > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getTokenForTokenString(string $token_string, \ilObjUser $user): ?ChangeMailToken
     {
         $query = $this->db->queryF(
@@ -102,8 +130,8 @@ class ChangeMailTokenDBRepository implements ChangeMailTokenRepository
             ChangeMailStatus::Login->getValidity($this->settings),
             ChangeMailStatus::EmailConfirmation->getValidity($this->settings)
         );
-        $query = 'DELETE FROM `' . self::TABLE_NAME . '` WHERE `created_ts` <= %s';
-        $this->db->manipulateF($query, [\ilDBConstants::T_INTEGER], [time() + $validity]);
+        $query = 'DELETE FROM `' . self::TABLE_NAME . '` WHERE `created_ts` < %s';
+        $this->db->manipulateF($query, [\ilDBConstants::T_INTEGER], [time() - $validity]);
     }
 
     private function storeChangeMailToken(ChangeMailToken $token): void
@@ -114,6 +142,7 @@ class ChangeMailTokenDBRepository implements ChangeMailTokenRepository
                 'token' => ['text', $token->getToken()]
             ],
             [
+                'usr_id' => [\ilDBConstants::T_TEXT, $token->getUserId()],
                 'new_email' => [\ilDBConstants::T_TEXT, $token->getNewEmail()],
                 'status' => [\ilDBConstants::T_INTEGER, $token->getStatus()->value],
                 'created_ts' => [\ilDBConstants::T_INTEGER, $token->getCreatedTimestamp()]

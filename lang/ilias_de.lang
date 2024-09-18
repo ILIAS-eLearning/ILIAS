@@ -17110,10 +17110,12 @@ ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
-user#:#change_email_email_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen.
-user#:#change_email_email_could_not_be_sent#:#Die E-Mail zum Bestätigen Ihrer E-Mail-Adresse konnte nicht verschickt werden.
+user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_confirmation_subject#:#Bestätigung der Änderung der E-Mail-Adresse
+user#:#change_email_email_information_body#:#Es wurde eine Änderung der E-Mail-Adresse des Kontos %s auf %s angestossen. Eine E-Mail mit einem Link zur Bestätigung wurde an die neue Adresse geschickt. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_information_subject#:#Information über Änderung der E-Mail-Adresse
 user#:#change_email_email_sent#:#Die E-Mail zum Bestätigen Ihrer E-Mail-Adresse wurde verschickt. Bitte schauen Sie in Ihre Inbox und überprüfen Sie Ihren Spam-Ordner, wenn Sie in den nächsten Minuten keine E-mail erhalten.
-user#:#change_email_email_subject#:#Bestätigung der Änderung der E-Mail-Adresse
+user#:#change_email_info_message#:#Für dieses Konto gibt es einen hängigen Prozess zu Änderung der E-Mail-Adresse.
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
 user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_empty_btn#:#Zwischenablage leeren

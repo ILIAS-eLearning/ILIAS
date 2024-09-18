@@ -43,6 +43,17 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
+        if (!$this->db->tableColumnExists(ChangeMailTokenDBRepository::TABLE_NAME, 'usr_id')) {
+            $this->db->addTableColumn(
+                ChangeMailTokenDBRepository::TABLE_NAME,
+                'usr_id',
+                [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'notnull' => true,
+                    'length' => 8
+                ]
+            );
+        }
         if (!$this->db->tableColumnExists(ChangeMailTokenDBRepository::TABLE_NAME, 'status')) {
             $this->db->addTableColumn(
                 ChangeMailTokenDBRepository::TABLE_NAME,
