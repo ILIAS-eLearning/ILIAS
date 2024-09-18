@@ -114,7 +114,7 @@ class ilSearchAutoComplete
                 $rec["keyword"] = '"' . $rec["keyword"] . '"';
             }
             if (!in_array($rec["keyword"], $list) && !in_array($rec["rbac_id"], $checked)) {
-                if (ilSearchAutoComplete::checkObjectPermission($rec["rbac_id"])) {
+                if (ilSearchAutoComplete::checkObjectPermission((int) $rec["rbac_id"])) {
                     $list[] = $lim . $rec["keyword"];
                     $cnt++;
                 }
