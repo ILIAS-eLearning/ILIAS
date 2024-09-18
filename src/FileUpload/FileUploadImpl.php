@@ -358,6 +358,10 @@ final class FileUploadImpl implements FileUpload
         }
 
         $uploadedFiles = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
+        $uploadedFiles = array_filter(
+            $uploadedFiles,
+            fn (UploadedFileInterface $uploadedFile) => $uploadedFile->getError() !== UPLOAD_ERR_NO_FILE
+        );
 
         return ($uploadedFiles !== []);
     }
