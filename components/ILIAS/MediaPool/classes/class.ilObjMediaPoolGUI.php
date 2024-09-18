@@ -33,6 +33,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
@@ -427,6 +428,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->tpl->printToStdout();
                 break;
 
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $ilTabs->activateTab("meta_data");
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
 
             default:
                 $this->prepareOutput();

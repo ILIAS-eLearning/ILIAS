@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaPool;
+
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\MetaData\Repository\Search\Clauses\Mode;
+use ILIAS\MetaData\Repository\Search\Clauses\Operator;
 
 /**
  * Media pool repository
@@ -27,11 +31,13 @@ namespace ILIAS\MediaPool;
 class MediaPoolRepository
 {
     protected \ilDBInterface $db;
+    protected LOMServices $lom_services;
 
     public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
         $this->db = ($db) ?: $DIC->database();
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     /**
@@ -75,9 +81,11 @@ class MediaPoolRepository
         $query .=
             " ORDER BY object_data.title";
 
-        $objs = array();
+        $objs = [];
+        $obj_ids = [];
         $set = $db->query($query);
         while ($rec = $db->fetchAssoc($set)) {
+            $obj_ids[] = $rec['obj_id'];
             $rec["foreign_id"] = $rec["obj_id"];
             $rec["obj_id"] = "";
             $objs[] = $rec;
@@ -85,8 +93,8 @@ class MediaPoolRepository
 
         // Keyword filter
         if ($keyword_filter) {
-            $res = \ilMDKeyword::_searchKeywords($keyword_filter, 'mob', 0);
-
+            $res = $this->filterSubIDsByLOMKeywords($keyword_filter, 0, 'mob', ...$obj_ids);
+            $filtered = [];
             foreach ($objs as $obj) {
                 if (in_array($obj['foreign_id'], $res)) {
                     $filtered[] = $obj;
@@ -131,23 +139,26 @@ class MediaPoolRepository
             $query .= " AND " . $db->like("mep_item.title", "text", "%" . trim($title_filter) . "%");
         }
 
-        $objs = array();
+        $objs = [];
+        $obj_ids = [];
         $set = $db->query($query);
         while ($rec = $db->fetchAssoc($set)) {
             //$rec["foreign_id"] = $rec["obj_id"];
             //$rec["obj_id"] = "";
             $objs[] = $rec;
+            $obj_ids[] = $rec['obj_id'];
         }
 
         // Keyword filter
         if ($keyword_filter) {
-            $res = \ilMDKeyword::_searchKeywords($keyword_filter, 'mpg', $pool_id);
+            $res = $this->filterSubIDsByLOMKeywords($keyword_filter, $pool_id, 'mpg', ...$obj_ids);
+            $filtered = [];
             foreach ($objs as $obj) {
                 if (in_array($obj['obj_id'], $res)) {
                     $filtered[] = $obj;
                 }
             }
-            return (array) $filtered;
+            return $filtered;
         }
         return $objs;
     }
@@ -179,5 +190,47 @@ class MediaPoolRepository
         );
 
         return \ilArrayUtil::sortArray(array_merge($mobs, $snippets), "title", "asc");
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function filterSubIDsByLOMKeywords(
+        string $keywords,
+        int $pool_id,
+        string $type,
+        int ...$sub_ids
+    ): array {
+        if (trim($keywords) === "" || empty($sub_ids)) {
+            return $sub_ids;
+        }
+
+        $searcher = $this->lom_services->search();
+        $paths = $this->lom_services->paths();
+
+        $basic_clauses = [];
+        foreach (explode(' ', $keywords) as $keyword) {
+            $basic_clauses = $searcher->getClauseFactory()->getBasicClause(
+                $paths->keywords(),
+                Mode::CONTAINS,
+                $keyword
+            );
+        }
+        $search_clause = $searcher->getClauseFactory()->getJoinedClauses(
+            Operator::OR,
+            ...$basic_clauses
+        );
+
+        $filters = [];
+        foreach ($sub_ids as $sub_id) {
+            $filters[] = $searcher->getFilter($pool_id, $sub_id, $type);
+        }
+
+        $search_results = $searcher->execute($search_clause, null, null, ...$filters);
+        $filtered_sub_ids = [];
+        foreach ($search_results as $result) {
+            $filtered_sub_ids[] = $result->subID();
+        }
+        return $filtered_sub_ids;
     }
 }
