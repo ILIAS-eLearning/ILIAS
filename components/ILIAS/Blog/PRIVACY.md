@@ -15,6 +15,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Mail/Contacts** service implements a user search for finding users to share blogs with.
     - [AccessControl](../AccessControl/PRIVACY.md)
     - [Info Screen Service](../InfoScreen/PRIVACY.md)
+    - [Learning Object Metadata](../../../components/ILIAS/MetaData/Privacy.md)
 
 ## General Information
 

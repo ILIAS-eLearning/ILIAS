@@ -387,6 +387,12 @@ class ilBlogDataSet extends ilDataSet
                 $this->reading_time->activate($newObj->getId(), (bool) ($a_rec["ReadingTime"] ?? false));
 
                 $a_mapping->addMapping("components/ILIAS/Blog", "blog", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping(
+                    'components/ILIAS/MetaData',
+                    'md',
+                    $a_rec["Id"] . ':0:blog',
+                    $newObj->getId() . ':0:blog'
+                );
                 break;
 
             case "blog_posting":

@@ -28,6 +28,7 @@ use ILIAS\Blog\StandardGUIRequest;
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilObjectMetaDataGUI
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
@@ -506,6 +507,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
+                $mdgui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
+                $mdtab = $mdgui->getTab();
+                if ($mdtab) {
+                    $this->tabs_gui->addTab(
+                        "meta_data",
+                        $this->lng->txt("meta_data"),
+                        $mdtab
+                    );
+                }
                 $this->tabs_gui->addTab(
                     "export",
                     $lng->txt("export"),
@@ -780,6 +790,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("notifications");
                 $gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $ilTabs->activateTab("meta_data");
+                $gui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
