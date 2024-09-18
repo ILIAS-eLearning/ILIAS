@@ -222,16 +222,16 @@ class ilMailFormGUI
         $mailer->setSaveInSentbox(true);
 
         if ($errors = $mailer->enqueue(
-            ilUtil::securePlainString($value['rcp_to']),
-            ilUtil::securePlainString($value['rcp_cc']),
-            ilUtil::securePlainString($value['rcp_bcc']),
+            ilUtil::securePlainString(implode(',', $value['rcp_to'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_cc'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_bcc'])),
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $files,
             $value['use_placeholders']
         )
         ) {
-            $_POST['attachments'] = $files;
+            $value['attachments'] = $files;
             $this->showSubmissionErrors($errors);
         } else {
             $mailer->persistToStage(
@@ -281,12 +281,9 @@ class ilMailFormGUI
         $draftFolderId = $this->mbox->getDraftsFolder();
 
         if ($errors = $this->umail->validateRecipients(
-            ilUtil::securePlainString($value['rcp_to']),
-            ilUtil::securePlainString($value['rcp_cc']),
-            ilUtil::securePlainString($value['rcp_bcc']),
-            $value['m_message'],
-            $files,
-            $value['use_placeholders']
+            ilUtil::securePlainString(implode(',', $value['rcp_to'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_cc'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_bcc']))
         )) {
             $this->showSubmissionErrors($errors);
             $this->showForm($form);
@@ -303,9 +300,9 @@ class ilMailFormGUI
         $this->umail->updateDraft(
             $draftFolderId,
             $files,
-            ilUtil::securePlainString($value['rcp_to']),
-            ilUtil::securePlainString($value['rcp_cc']),
-            ilUtil::securePlainString($value['rcp_bcc']),
+            ilUtil::securePlainString(implode(',', $value['rcp_to'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_cc'])),
+            ilUtil::securePlainString(implode(',', $value['rcp_bcc'])),
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $draftId,
@@ -342,9 +339,9 @@ class ilMailFormGUI
             $this->umail->persistToStage(
                 $this->user->getId(),
                 $files,
-                ilUtil::securePlainString($result['rcp_to']->getValue()),
-                ilUtil::securePlainString($result['rcp_cc']->getValue()),
-                ilUtil::securePlainString($result['rcp_bcc']->getValue()),
+                ilUtil::securePlainString(implode(',', $result['rcp_to']->getValue())),
+                ilUtil::securePlainString(implode(',', $result['rcp_cc']->getValue())),
+                ilUtil::securePlainString(implode(',', $result['rcp_bcc']->getValue())),
                 ilUtil::securePlainString($result['m_subject']->getValue()),
                 ilUtil::securePlainString($result['m_message']->getValue()),
                 (bool) $result['use_placeholders']->getValue(),
@@ -571,6 +568,8 @@ class ilMailFormGUI
                         'to'
                     );
                 }
+                $mailData['rcp_to'] = explode(',', $mailData['rcp_to']);
+
                 if (ilSession::get('mail_search_results_cc')) {
                     $mailData = $this->umail->appendSearchResult(
                         $this->refinery->kindlyTo()->listOf(
@@ -841,13 +840,27 @@ class ilMailFormGUI
     {
         $ff = $this->ui_factory->input()->field();
 
-        $rcp_to = $ff->text($this->lng->txt('mail_to'))
-                     ->withRequired(true)
-                     ->withValue($mailData["rcp_to"] ?? '');
-        $rcp_cc = $ff->text($this->lng->txt('mail_cc'))
-                     ->withValue($mailData["rcp_cc"] ?? '');
-        $rcp_bcc = $ff->text($this->lng->txt('mail_bcc'))
-                      ->withValue($mailData["rcp_bcc"] ?? '');
+        $user_ids = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
+        $logins = [];
+        foreach ($user_ids as $user_id) {
+            $logins[] = $this->user->getLoginByUserId($user_id);
+        }
+
+        $rcp_to = $ff->tag($this->lng->txt('mail_to'), $logins)->withRequired(true);
+        $rcp_cc = $ff->tag($this->lng->txt('mail_cc'), $logins);
+        $rcp_bcc = $ff->tag($this->lng->txt('mail_bcc'), $logins);
+
+        if (!is_null($mailData)) {
+            if ($mailData['rcp_to'] != '') {
+                $rcp_to = $rcp_to->withValue((array) $mailData['rcp_to']);
+            }
+            if ($mailData['rcp_cc'] != '') {
+                $rcp_cc = $rcp_cc->withValue((array) $mailData['rcp_cc']);
+            }
+            if ($mailData['rcp_bcc'] != '') {
+                $rcp_bcc = $rcp_bcc->withValue((array) $mailData['rcp_bcc']);
+            }
+        }
 
         $has_files = !empty($mailData["attachments"]);
         $attachments = $ff->file(
@@ -1079,5 +1092,20 @@ class ilMailFormGUI
             );
             $this->toolbar->addComponent($btn);
         }
+
+        $action = $this->ctrl->getFormAction($this, 'editAttachments');
+        $btn = $bf->standard(
+            $this->lng->txt('edit_attachments'),
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.il-standard-form');
+                    mailform.action = '{$action}';
+                    mailform.submit();                    
+                });";
+            }
+        );
+        $this->toolbar->addComponent($btn);
     }
 }

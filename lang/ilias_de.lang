@@ -11282,6 +11282,7 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto 
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
+mail#:#edit_attachments#:#Anhänge bearbeiten
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#Chatraum öffnen

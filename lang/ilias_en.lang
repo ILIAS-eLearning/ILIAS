@@ -11276,6 +11276,7 @@ mail#:#chat_users_without_login#:#The following users don't have an ILIAS accoun
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
+mail#:#edit_attachments#:#Edit Attachments
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
