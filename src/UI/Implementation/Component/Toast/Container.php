@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Toast;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Toast as ComponentInterface;
+use ILIAS\UI\NotImplementedException;
 
 class Container implements ComponentInterface\Container
 {
@@ -49,5 +50,24 @@ class Container implements ComponentInterface\Container
         $clone = clone $this;
         $clone->toasts = [];
         return $clone;
+    }
+
+    public function withVanishTime(int $vanishTime): Container
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getVanishTime(): int
+    {
+        throw new NotImplementedException();
+    }
+    public function withDelayTime(int $delayTime): Container
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getDelayTime(): int
+    {
+        throw new NotImplementedException();
     }
 }
