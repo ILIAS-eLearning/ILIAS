@@ -44,7 +44,7 @@ class ilAuthLogoutPageEditorSettings
         return self::$instance ?? (self::$instance = new self());
     }
 
-    protected function getStorage(): ilSetting
+    private function getStorage(): ilSetting
     {
         return $this->storage;
     }

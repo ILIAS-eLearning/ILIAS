@@ -34,8 +34,8 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
     private const DEACTIVATE = 'deactivate';
     private const EDIT = 'edit';
 
-    protected ServerRequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface $request;
+    private Data\Factory $data_factory;
     /**
      * @var list<array<string, mixed>>|null
      */

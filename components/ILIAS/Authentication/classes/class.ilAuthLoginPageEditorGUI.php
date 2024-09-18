@@ -90,7 +90,7 @@ class ilAuthLoginPageEditorGUI
                     $this->ctrl->getLinkTarget($this, 'show')
                 );
 
-                if (strtolower((string) $this->redirect_source) !== strtolower(ilInternalLinkGUI::class)) {
+                if (strtolower($this->redirect_source ?? '') !== strtolower(ilInternalLinkGUI::class)) {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -184,7 +184,8 @@ class ilAuthLoginPageEditorGUI
                 break;
 
             case 'edit':
-                $this->ctrl->setParameter($this, 'loginpage_languages_key', current($keys));
+                $this->ctrl->setParameter($this, 'loginpage_languages_key', (string) current($keys));
+                $this->ctrl->setParameter($this, 'key', ilLanguage::lookupId((string) current($keys)));
                 $this->ctrl->redirectByClass(ilLoginPageGUI::class, 'edit');
 
                 // no break
@@ -208,7 +209,7 @@ class ilAuthLoginPageEditorGUI
 
         $lang_keys = $this->lng->getInstalledLanguages();
 
-        if (current($keys) !== 'ALL_OBJECTS') {
+        if ((string) current($keys) !== 'ALL_OBJECTS') {
             $lang_keys = array_intersect($keys, $lang_keys);
         }
 
