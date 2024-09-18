@@ -72,4 +72,13 @@ class ilObjAuthSettings extends ilObject
 
         return true;
     }
+
+    public static function getAuthSettingsRefId(): int
+    {
+        $auth_settings_objects = ilObject::_getObjectsByType('auth');
+        $auth_settings_obj_id = (int) reset($auth_settings_objects)['obj_id'];
+        $auth_settings_ref_ids = ilObject::_getAllReferences($auth_settings_obj_id);
+
+        return (int) reset($auth_settings_ref_ids);
+    }
 }

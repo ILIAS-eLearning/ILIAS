@@ -963,7 +963,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return '';
         }
 
-        // get page object
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, ilObjAuthSettings::getAuthSettingsRefId());
+
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
         $page_gui->setStyleId(0);
@@ -987,6 +988,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (!ilPageUtil::_existsAndNotEmpty('aout', ilLanguage::lookupId($active_lang))) {
             return '';
         }
+
+        $this->dic->contentStyle()->gui()->addCss($this->mainTemplate, ilObjAuthSettings::getAuthSettingsRefId());
 
         $page_gui = new ilLogoutPageGUI(ilLanguage::lookupId($active_lang));
 

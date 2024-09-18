@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Style\Content\GUIService;
+
 /**
  * @ilCtrl_isCalledBy ilAuthLogoutPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthLogoutPageEditorGUI: ilLogoutPageGUI
@@ -42,6 +44,7 @@ class ilAuthLogoutPageEditorGUI
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     private ?string $redirect_source = null;
     private ?int $key = null;
+    private GUIService $content_style_gui;
 
     public function __construct(int $a_ref_id)
     {
@@ -65,9 +68,12 @@ class ilAuthLogoutPageEditorGUI
         $this->ref_id = $a_ref_id;
 
         $this->settings = ilAuthLogoutPageEditorSettings::getInstance();
-        $this->content_style_domain = $DIC->contentStyle()
-                                          ->domain()
-                                          ->styleForRefId($a_ref_id);
+
+        $content_style = $DIC->contentStyle();
+        $this->content_style_domain = $content_style
+            ->domain()
+            ->styleForRefId($a_ref_id);
+        $this->content_style_gui = $content_style->gui();
 
         $query_wrapper = $DIC->http()->wrapper()->query();
         $post_wrapper = $DIC->http()->wrapper()->post();
@@ -143,6 +149,7 @@ class ilAuthLogoutPageEditorGUI
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+        $this->content_style_gui->addCss($this->tpl, $this->ref_id);
 
         $this->ctrl->setReturnByClass(ilLogoutPageGUI::class, 'edit');
         $page_gui = new ilLogoutPageGUI($this->key);
