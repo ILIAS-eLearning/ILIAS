@@ -95,4 +95,9 @@ class Number extends Column implements C\Number
             $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_numerical_descending')
         ];
     }
+
+    public function withIsNullable(bool $nullable): void
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }

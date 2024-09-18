@@ -58,4 +58,9 @@ class TimeSpan extends Column implements C\TimeSpan
             $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_descending')
         ];
     }
+
+    public function withIsNullable(bool $nullable): void
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
