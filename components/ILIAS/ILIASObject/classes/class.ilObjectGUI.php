@@ -1210,6 +1210,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $file_upload_input = $field_factory->file(new \ImportUploadHandlerGUI(), $this->lng->txt('import_file'))
             ->withAcceptedMimeTypes(self::SUPPORTED_IMPORT_MIME_TYPES)
+            ->withRequired(true)
             ->withMaxFiles(1);
 
         if ($upload_files !== []) {
@@ -1949,7 +1950,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         array $subtypes
     ): array {
         $add_new_items_content_array = [];
-        foreach($obj_types_in_group as $type) {
+        foreach ($obj_types_in_group as $type) {
             if (!array_key_exists($type, $subtypes)) {
                 continue;
             }
