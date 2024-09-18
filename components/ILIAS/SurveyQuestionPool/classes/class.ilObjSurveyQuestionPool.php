@@ -96,8 +96,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
 
         // clone meta data
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $new_md = $md->cloneMD($newObj->getId(), 0, $newObj->getType());
+        $this->cloneMetaData($newObj);
 
         // update the metadata with the new title of the question pool
         $newObj->updateMetaData();
