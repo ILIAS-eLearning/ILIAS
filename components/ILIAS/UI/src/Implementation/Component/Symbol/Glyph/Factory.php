@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
 use ILIAS\UI\Component\Symbol\Glyph as G;
+use ILIAS\UI\NotImplementedException;
 
 class Factory implements G\Factory
 {
@@ -431,5 +432,21 @@ class Factory implements G\Factory
     public function launch(string $action = null): G\Glyph
     {
         return new Glyph(G\Glyph::LAUNCH, "launch", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function check(): G\Glyph
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function uncheck(): G\Glyph
+    {
+        throw new NotImplementedException();
     }
 }
