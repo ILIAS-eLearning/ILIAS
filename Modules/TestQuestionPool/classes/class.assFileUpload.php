@@ -1177,11 +1177,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function isFileUploadAvailable(): bool
     {
-        if (!isset($_FILES['upload'])) {
-            return false;
-        }
-
-        if (!isset($_FILES['upload']['tmp_name'])) {
+        if (!$this->file_upload->hasUploads()) {
             return false;
         }
 
@@ -1189,6 +1185,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->file_upload->process();
         }
 
-        return strlen($_FILES['upload']['tmp_name']) > 0;
+        return true;
     }
 }
