@@ -99,28 +99,6 @@ class ilIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $rid, $message);
     }
 
-    protected function getRemoveResult(string $rid): HandlerResult
-    {
-        $id = $this->storage->manage()->find($rid);
-        if ($id !== null) {
-            $rev = $this->storage->manage()->getCurrentRevision($id);
-            $rev_num = $rev->getVersionNumber();
-            $this->storage->manage()->removeRevision($id, $rev_num);
-            return new BasicHandlerResult(
-                $this->getFileIdentifierParameterName(),
-                HandlerResult::STATUS_OK,
-                $rid,
-                'file deleted'
-            );
-        }
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_FAILED,
-            $rid,
-            'file not found'
-        );
-    }
-
     public function getInfoResult(string $rid): ?FileInfoResult
     {
         $id = $this->storage->manage()->find($rid);

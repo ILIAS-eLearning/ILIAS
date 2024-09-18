@@ -45,15 +45,6 @@ interface UploadHandler
      */
     public function getUploadURL(): string;
 
-
-    /**
-     * @return string of the URL where in GUI deleted files are handled. The URL
-     * is called by POST with a field with name from getFileIdentifierParameterName()
-     * and the FileID of the deleted file.
-     */
-    public function getFileRemovalURL(): string;
-
-
     /**
      * @return string of the URL where in GUI existing files are handled. The URL
      * is called by GET with a field with name from getFileIdentifierParameterName()

@@ -78,16 +78,6 @@ class ilMDCopyrightImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_OK,
-            $identifier,
-            'asynchronous removal blocked'
-        );
-    }
-
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
