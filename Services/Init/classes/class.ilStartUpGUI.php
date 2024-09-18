@@ -98,7 +98,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function saniziteArrayElementsTrafo(): ILIAS\Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(static function (array $values): array {
-            return ilArrayUtil::stripSlashesRecursive($values);
+            $processed_values = array_merge(
+                ilArrayUtil::stripSlashesRecursive($values),
+                isset($values[self::PROP_PASSWORD]) ? [self::PROP_PASSWORD => $values[self::PROP_PASSWORD]] : []
+            );
+
+            return $processed_values;
         });
     }
 
