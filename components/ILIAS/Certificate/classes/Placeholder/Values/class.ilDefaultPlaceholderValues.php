@@ -143,7 +143,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $birthday = '';
         $dateObject = $user->getBirthday();
         if (null !== $dateObject) {
-            $birthday = $this->dateHelper->formatDate($dateObject, $this->birthdayDateFormat);
+            $birthday = $this->dateHelper->formatDate($dateObject, $user, $this->birthdayDateFormat);
         }
 
         $placeholder['USER_BIRTHDAY'] = $this->utilHelper->prepareFormOutput((trim($birthday)));
@@ -156,10 +156,12 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_MATRICULATION'] = $this->utilHelper->prepareFormOutput((trim($user->getMatriculation())));
         $placeholder['DATE'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
             time(),
+            $user,
             $this->dateFormat
         ))));
         $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
+            $user,
             $this->dateFormat
         ))));
 
@@ -190,6 +192,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             "USER_SALUTATION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_salutation")),
             "USER_BIRTHDAY" => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
+                null,
                 $this->dateFormat
             )))),
             "USER_INSTITUTION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_institution")),
@@ -201,18 +204,22 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             "USER_MATRICULATION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_matriculation")),
             'DATE' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
+                null,
                 $this->dateFormat
             )))),
             'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
+                null,
                 $this->dateFormat
             )))),
             'DATE_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
+                null,
                 $this->dateFormat
             )))),
             'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
+                null,
                 $this->dateFormat
             ))))
         ];
