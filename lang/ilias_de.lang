@@ -5159,6 +5159,7 @@ common#:#objs_rglo#:#ECS-Glossare
 common#:#objs_rgrp#:#ECS-Gruppen
 common#:#objs_rlm#:#ECS-Lernmodule
 common#:#objs_role#:#Rollen
+common#:#objs_rolf#:#Rollenordner
 common#:#objs_rtst#:#ECS-Tests
 common#:#objs_rwik#:#ECS-Wikis
 common#:#objs_sahs#:#SCORM-Lernmodule
