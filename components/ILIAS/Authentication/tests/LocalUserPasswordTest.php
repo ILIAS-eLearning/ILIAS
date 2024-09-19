@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\Authentication\Password\LocalUserPasswordEncoderFactory;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use org\bovigo\vfs;
-use PHPUnit\Framework\TestCase;
 
 class LocalUserPasswordTest extends ilUserBaseTestCase
 {
