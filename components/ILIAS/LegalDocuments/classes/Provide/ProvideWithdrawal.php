@@ -24,7 +24,6 @@ use ilAuthSession;
 use ilCtrlInterface;
 use ilSession;
 use ilStartUpGUI;
-use ilPersonalProfileGUI;
 use Closure;
 
 class ProvideWithdrawal

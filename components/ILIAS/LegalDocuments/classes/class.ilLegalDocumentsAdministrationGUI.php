@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\Config;
 use ILIAS\DI\Container;
 use ILIAS\Data\Result;

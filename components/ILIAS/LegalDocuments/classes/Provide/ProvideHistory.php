@@ -28,7 +28,6 @@ use ILIAS\LegalDocuments\Repository\HistoryRepository;
 use ILIAS\LegalDocuments\Table\HistoryTable;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
-use ILIAS\LegalDocuments\TableConfig;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\UI\Component\Component;

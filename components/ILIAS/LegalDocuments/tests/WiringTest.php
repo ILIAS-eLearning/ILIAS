@@ -27,7 +27,6 @@ use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Map;
 use ILIAS\LegalDocuments\SlotConstructor;
 use PHPUnit\Framework\TestCase;

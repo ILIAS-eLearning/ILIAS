@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\Value;
 
-use ILIAS\LegalDocuments\Value\DocumentContent;
-
 class History
 {
     /**

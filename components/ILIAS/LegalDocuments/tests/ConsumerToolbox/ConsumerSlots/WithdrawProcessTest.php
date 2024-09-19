@@ -30,7 +30,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\test\ContainerMock;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\WithdrawProcess;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../ContainerMock.php';

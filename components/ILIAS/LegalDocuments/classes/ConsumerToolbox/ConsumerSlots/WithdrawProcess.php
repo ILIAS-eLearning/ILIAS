@@ -27,8 +27,6 @@ use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\LegalDocuments\PageFragment\PageContent;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
-use ilSession;
-use ilInitialisation;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use Closure;

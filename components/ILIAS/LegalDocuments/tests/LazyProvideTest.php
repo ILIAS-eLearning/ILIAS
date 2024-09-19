@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test;
 
 use ILIAS\LegalDocuments\Provide;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\LazyProvide;
 

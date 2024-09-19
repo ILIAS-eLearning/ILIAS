@@ -23,7 +23,6 @@ namespace ILIAS\LegalDocuments\test\ConsumerToolbox;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\OnlineStatusFilter;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\ModifyFooter;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;

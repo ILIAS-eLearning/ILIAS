@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\ConsumerSlots;
 
 use ILIAS\UI\Component\Component;
-use ilObjUser;
 use ILIAS\LegalDocuments\PageFragment;
 
 interface WithdrawProcess

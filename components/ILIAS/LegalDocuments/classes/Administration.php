@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 use ILIAS\UI\Component\Button\Standard as Button;
-use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\CriterionContent;
@@ -34,7 +33,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use Closure;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 use ILIAS\LegalDocuments\DocumentId\NumberId;
 use ILIAS\LegalDocuments\DocumentId\HashId;
 use ILIAS\LegalDocuments\FileUpload\UploadHandler;

@@ -19,7 +19,6 @@
 namespace ILIAS\LegalDocuments\Setup;
 
 use ILIAS\LegalDocuments\Consumer;
-use ILIAS\LegalDocuments\Internal;
 use ILIAS\Setup\Artifact;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact\BuildArtifactObjective;

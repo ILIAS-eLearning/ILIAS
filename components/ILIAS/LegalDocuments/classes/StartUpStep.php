@@ -20,19 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\LegalDocuments\Intercept;
 use ILIAS\LegalDocuments\Intercept\LazyIntercept;
 use ILIAS\LegalDocuments\Intercept\NullIntercept;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\UI\NotImplementedException;
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use ilCtrl;
-use ilObjLegalDocumentsGUI;
-use ILIAS\UI\Component\Component;
 use Closure;
-use ilRepositoryGUI;
 
 class StartUpStep extends StartUpSequenceStep
 {

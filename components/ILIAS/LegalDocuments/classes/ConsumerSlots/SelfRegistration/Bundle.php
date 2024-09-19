@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
-use ILIAS\LegalDocuments\ConsumerSlots;
 use ilObjUser;
 use ilPropertyFormGUI;
 

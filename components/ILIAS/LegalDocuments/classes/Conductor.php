@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration\Bundle;
