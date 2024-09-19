@@ -1095,6 +1095,18 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					if(!jQuery('#canvas_' + a_id + '_' + i).attr('id')) {
 						mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
 					}
+					// disbale answer options
+					document.querySelectorAll('area').forEach(function(area) {
+						area.addEventListener('mouseover', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+						area.addEventListener('mouseout', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+						area.addEventListener('click', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+					});
 				}
 				// remove incorrect
 				else {
