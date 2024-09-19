@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Component;
 use ILIAS\TermsOfService\Consumer;
 use ILIAS\TermsOfService\Settings;
 use ILIAS\LegalDocuments\Config;
