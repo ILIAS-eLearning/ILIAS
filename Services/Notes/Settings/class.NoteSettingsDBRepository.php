@@ -44,12 +44,13 @@ class NoteSettingsDBRepository
     ): bool {
         $db = $this->db;
         $set = $db->query(
-            "SELECT rep_obj_id FROM note_settings " .
+            "SELECT activated FROM note_settings " .
             " WHERE rep_obj_id = " . $db->quote($obj_id, "integer") .
-            " AND activated = " . $db->quote(1, "integer")
+            " ORDER BY obj_type ASC"
         );
+
         if ($db->fetchAssoc($set)) {
-            return true;
+            return (bool)$db->fetchAssoc($set)["activated"];
         }
         return false;
     }
@@ -93,7 +94,7 @@ class NoteSettingsDBRepository
             [
            "rep_obj_id" => ["integer", $obj_id],
            "obj_id" => ["integer", $sub_obj_id],
-           "obj_type" => ["integer", $obj_type],
+           "obj_type" => ["string", $obj_type],
         ],
             [
                 "activated" => ["integer", (int) $a_activate]
