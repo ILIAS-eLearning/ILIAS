@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\Password;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Language\Language;
 
 class Group
 {
