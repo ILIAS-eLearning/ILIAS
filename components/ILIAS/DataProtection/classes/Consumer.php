@@ -45,7 +45,7 @@ final class Consumer implements ConsumerInterface
 
     public function __construct(?Container $container = null)
     {
-        $this->container = $container ?? $GLOBALS['DIC'];
+        $this->container = $container ?? $GLOBALS['DIC'] ?? new Container();
     }
 
     public function id(): string
