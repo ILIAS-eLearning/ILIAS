@@ -64,6 +64,7 @@ class MailFolderData
     {
         return $this->type === MailFolderType::SENT;
     }
+
     public function isTrash(): bool
     {
         return $this->type === MailFolderType::TRASH;

@@ -43,7 +43,6 @@ use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 use DateTimeImmutable;
 use DateTimeZone;
-use ILIAS\UI\Component\Symbol\Symbol;
 
 class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
@@ -64,7 +63,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
     private array $avatars = [];
 
     /**
-     * @param MailFolderData[]  $user_folders
+     * @param MailFolderData[] $user_folders
      */
     public function __construct(
         private readonly URLBuilder $url_builder,
@@ -216,13 +215,21 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
         foreach ($this->user_folders as $target_folder) {
             if ($target_folder->getFolderId() !== $this->current_folder->getFolderId()) {
-                $actions[self::ACTION_MOVE_TO . (string) $target_folder->getFolderId()] = $this->ui_factory->table()->action()->multi(
-                    $this->lng->txt('mail_move_to') . ' ' . $target_folder->getTitle()
-                     . ($target_folder->isTrash() ? ' (' . $this->lng->txt('delete') . ')' : ''),
-                    $this->url_builder->withParameter($this->action_token, self::ACTION_MOVE_TO)
-                    ->withParameter($this->folder_token, (string) $target_folder->getFolderId()),
-                    $this->row_id_token
-                );
+                $action_title = $this->lng->txt('mail_move_to') . ' ' . $target_folder->getTitle();
+                if ($target_folder->isTrash()) {
+                    $action_title .= ' (' . $this->lng->txt('delete') . ')';
+                }
+
+                $actions[self::ACTION_MOVE_TO . $target_folder->getFolderId()] = $this->ui_factory
+                    ->table()
+                    ->action()
+                    ->multi(
+                        $action_title,
+                        $this->url_builder
+                            ->withParameter($this->action_token, self::ACTION_MOVE_TO)
+                            ->withParameter($this->folder_token, (string) $target_folder->getFolderId()),
+                        $this->row_id_token
+                    );
             }
         }
 
@@ -251,7 +258,6 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         ?array $filter_data,            // not used, because data is filtered by MailDataSearch
         ?array $additional_parameters   // not used
     ): \Generator {
-
         // mapping of table columns to allowed order columns of the mailbox query
         $order_columns = [
             'status' => MailBoxOrderColumn::STATUS,
@@ -304,9 +310,10 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             yield $row_builder->buildDataRow(
                 (string) $record->getMailId(),
                 $data
-            )
-            ->withDisabledAction(self::ACTION_REPLY, !$record->hasPersonalSender())
-            ->withDisabledAction(self::ACTION_DOWNLOAD_ATTACHMENT, !$record->hasAttachments());
+            )->withDisabledAction(self::ACTION_REPLY, !$record->hasPersonalSender())->withDisabledAction(
+                self::ACTION_DOWNLOAD_ATTACHMENT,
+                !$record->hasAttachments()
+            );
         }
     }
 
@@ -365,13 +372,15 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
         if (!empty($user = ilMailUserCache::getUserObjectById($record->getSenderId()))) {
             if ($user->hasPublicProfile()) {
-                return $this->ui_renderer->render($this->ui_factory->link()->standard(
-                    $user->getPublicName(),
-                    (string) $this->url_builder
-                        ->withParameter($this->action_token, self::ACTION_PROFILE)
-                        ->withParameter($this->row_id_token, (string) $record->getMailId())
-                        ->buildURI()
-                ));
+                return $this->ui_renderer->render(
+                    $this->ui_factory->link()->standard(
+                        $user->getPublicName(),
+                        (string) $this->url_builder
+                            ->withParameter($this->action_token, self::ACTION_PROFILE)
+                            ->withParameter($this->row_id_token, (string) $record->getMailId())
+                            ->buildURI()
+                    )
+                );
             }
 
             return $user->getPublicName();
@@ -392,7 +401,10 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         return $this->ui_factory->link()->standard(
             $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($record->getSubject()),
             (string) $this->url_builder
-                ->withParameter($this->action_token, $this->current_folder->isDrafts() ? self::ACTION_EDIT : self::ACTION_SHOW)
+                ->withParameter(
+                    $this->action_token,
+                    $this->current_folder->isDrafts() ? self::ACTION_EDIT : self::ACTION_SHOW
+                )
                 ->withParameter($this->row_id_token, (string) $record->getMailId())
                 ->buildURI()
         );

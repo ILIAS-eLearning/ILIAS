@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Message;
 
 use ilDBInterface;
-use ilMail;
 use ilDBConstants;
 use DateTimeImmutable;
 use DateTimeZone;
-use ilTimeZone;
 use ILIAS\Data\Order;
 use ilUserSearchOptions;
 
@@ -269,10 +267,10 @@ class MailBoxQuery
 
         if ($this->order_column === MailBoxOrderColumn::FROM) {
             $query .= ' ORDER BY '
-                    . ' u.firstname ' . $this->order_direction . ', '
-                    . ' u.lastname ' . $this->order_direction . ', '
-                    . ' u.login ' . $this->order_direction . ', '
-                    . ' m.import_name ' . $this->order_direction;
+                . ' u.firstname ' . $this->order_direction . ', '
+                . ' u.lastname ' . $this->order_direction . ', '
+                . ' u.login ' . $this->order_direction . ', '
+                . ' m.import_name ' . $this->order_direction;
         } else {
             $query .= ' ORDER BY ' . $this->order_column->value . ' ' . $this->order_direction;
         }
@@ -379,17 +377,18 @@ class MailBoxQuery
 
         if ($this->has_attachment === true) {
             $parts[] = '(m.attachments != ' . $this->db->quote(serialize(null), ilDBConstants::T_TEXT)
-                            . ' AND m.attachments != ' . $this->db->quote(serialize([]), ilDBConstants::T_TEXT) . ')';
+                . ' AND m.attachments != ' . $this->db->quote(serialize([]), ilDBConstants::T_TEXT) . ')';
         } elseif ($this->has_attachment === false) {
             $parts[] = '(m.attachments = ' . $this->db->quote(serialize(null), ilDBConstants::T_TEXT)
-                            . '  OR m.attachments = ' . $this->db->quote(serialize([]), ilDBConstants::T_TEXT) . ')';
+                . '  OR m.attachments = ' . $this->db->quote(serialize([]), ilDBConstants::T_TEXT) . ')';
         }
 
         if ($this->period_start !== null) {
             $parts[] = 'm.send_time >= ' . $this->db->quote(
                 // convert to server time zone (set by ilias initialisation)
-                $this->period_start->setTimezone(new DateTimeZone(date_default_timezone_get()))
-                                   ->format('Y-m-d H:i:s'),
+                $this->period_start
+                    ->setTimezone(new DateTimeZone(date_default_timezone_get()))
+                    ->format('Y-m-d H:i:s'),
                 ilDBConstants::T_TIMESTAMP
             );
         }
@@ -397,8 +396,9 @@ class MailBoxQuery
         if ($this->period_end !== null) {
             $parts[] = 'm.send_time <= ' . $this->db->quote(
                 // convert to server time zone (set by ilias initialisation)
-                $this->period_end->setTimezone(new DateTimeZone(date_default_timezone_get()))
-                                 ->format('Y-m-d H:i:s'),
+                $this->period_end
+                    ->setTimezone(new DateTimeZone(date_default_timezone_get()))
+                    ->format('Y-m-d H:i:s'),
                 ilDBConstants::T_TIMESTAMP
             );
         }

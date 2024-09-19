@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Placeholder;
 
-use ilObjUser;
 use ilLanguage;
 use ilUserUtil;
 

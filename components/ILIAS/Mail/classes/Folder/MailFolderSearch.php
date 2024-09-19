@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
-use Exception;
-use ilSearchSettings;
 use ilMailSearchResult;
 use ilMailLuceneSearcher;
 use ilMailLuceneQueryParser;
@@ -65,10 +63,10 @@ class MailFolderSearch
 
         if ($this->lucene_enabled && (
             ($this->filter->getSender() ?? '') !== '' ||
-                ($this->filter->getRecipients() ?? '') !== '' ||
-                ($this->filter->getSubject() ?? '') !== '' ||
-                ($this->filter->getBody() ?? '') !== '' ||
-                ($this->filter->getAttachment() ?? '') !== ''
+            ($this->filter->getRecipients() ?? '') !== '' ||
+            ($this->filter->getSubject() ?? '') !== '' ||
+            ($this->filter->getBody() ?? '') !== '' ||
+            ($this->filter->getAttachment() ?? '') !== ''
         )) {
             $query_parser = new ilMailLuceneQueryParser('');
             $query_parser->setFields([
@@ -141,7 +139,6 @@ class MailFolderSearch
         ?MailBoxOrderColumn $order_column,
         ?string $order_direction
     ): array {
-
         return $this->mailbox_query
             ->withFilteredIds($this->getFilteredIds())
             ->withLimit($limit)
@@ -154,6 +151,7 @@ class MailFolderSearch
     /**
      * Get the cached mail ids from a lucene search for selected filter criteria
      * These will be used as additional filter for the mailbox query
+     * @return null|list<int>
      */
     private function getFilteredIds(): ?array
     {

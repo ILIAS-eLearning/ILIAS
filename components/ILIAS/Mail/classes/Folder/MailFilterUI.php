@@ -33,7 +33,6 @@ use DateTimeZone;
 class MailFilterUI
 {
     private FilterComponent $filter;
-    private ?string $sender;
 
     public function __construct(
         private readonly string $target_url,
@@ -48,7 +47,9 @@ class MailFilterUI
         if ($this->folder->hasIncomingMails()) {
             $inputs['sender'] = $this->ui_factory->input()->field()->text($this->lng->txt('mail_filter_sender'));
         } else {
-            $inputs['recipients'] = $this->ui_factory->input()->field()->text($this->lng->txt('mail_filter_recipients'));
+            $inputs['recipients'] = $this->ui_factory->input()->field()->text(
+                $this->lng->txt('mail_filter_recipients')
+            );
         }
 
         $inputs['subject'] = $this->ui_factory->input()->field()->text($this->lng->txt('mail_filter_subject'));
@@ -66,8 +67,9 @@ class MailFilterUI
             'with_attachment' => $this->lng->txt('mail_filter_show_with_attachments'),
             'without_attachment' => $this->lng->txt('mail_filter_show_without_attachment')
         ]);
-        $inputs['period'] = $this->ui_factory->input()->field()->duration($this->lng->txt('mail_filter_period'))
-                                                               ->withTimezone($this->user_time_zone->getName());
+        $inputs['period'] = $this->ui_factory
+            ->input()->field()->duration($this->lng->txt('mail_filter_period'))
+            ->withTimezone($this->user_time_zone->getName());
 
         $this->filter = $this->filter_service->standard(
             self::class,
@@ -75,7 +77,7 @@ class MailFilterUI
             //elements
             $inputs,
             // initially rendered
-            array_map(fn($value) => true, $inputs),
+            array_map(fn($value): bool => true, $inputs),
             false,
             false
         );

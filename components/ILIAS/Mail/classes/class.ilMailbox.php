@@ -25,33 +25,33 @@ use ILIAS\Mail\Folder\MailFolderType;
  * Mail Box class
  * Base class for creating and handling mail boxes
  *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  *
  */
 class ilMailbox
 {
-    protected ilLanguage $lng;
-    protected ilDBInterface $db;
-    protected ilTree $mtree;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
+    private ilTree $mtree;
 
     /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
-    protected array $defaultFolders = [
+    private array $defaultFolders = [
         'b_inbox' => 'inbox',
         'c_trash' => 'trash',
         'd_drafts' => 'drafts',
         'e_sent' => 'sent',
         'z_local' => 'local',
     ];
-    protected string $table_mail_obj_data;
-    protected string $table_tree;
+    private string $table_mail_obj_data;
+    private string $table_tree;
 
     public function __construct(protected int $usrId)
     {
         global $DIC;
 
         if ($usrId < 1) {
-            throw new InvalidArgumentException("Cannot create mailbox without user id");
+            throw new InvalidArgumentException('Cannot create mailbox without user id');
         }
 
         $this->lng = $DIC->language();
@@ -62,12 +62,7 @@ class ilMailbox
         $this->mtree = new ilTree($this->usrId);
         $this->mtree->setTableNames($this->table_tree, $this->table_mail_obj_data);
 
-        // i added this, becaus if i create a new user automatically during
-        // CAS authentication, we have no $lng variable (alex, 16.6.2006)
-        // (alternative: make createDefaultFolder call static in ilObjUser->saveAsNew())
-        if (is_object($this->lng)) {
-            $this->lng->loadLanguageModule("mail");
-        }
+        $this->lng->loadLanguageModule('mail');
     }
 
     public function getRooFolder(): int
@@ -303,7 +298,7 @@ class ilMailbox
                 [$this->usrId, $key]
             );
             $row = $this->db->fetchAssoc($res);
-            if(is_array($row)) {
+            if (is_array($row)) {
                 $userFolders[] = $this->getFolderDataFromRow($row);
             }
         }

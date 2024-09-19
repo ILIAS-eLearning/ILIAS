@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
-    protected array $fields = [];
+    /** @var array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}|array{} */
+    private array $fields = [];
 
     public function parse(): void
     {
@@ -62,7 +63,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
      * Set the fields to query for
      * ILIAS 10: the values are not boolean, but different query strings for the fields
      *
-     * @param array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}  $fields
+     * @param array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}|array{} $fields
      */
     public function setFields(array $fields): void
     {
@@ -72,7 +73,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     /**
      * Get the fields to query for
      * ILIAS 10 the values are not boolean, but different query strings for the fields
-     * @return array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}
+     * @return array{'title': ?string, 'content': ?string, 'mattachment': ?string, 'msender': ?string}|array{}
      */
     public function getFields(): array
     {
