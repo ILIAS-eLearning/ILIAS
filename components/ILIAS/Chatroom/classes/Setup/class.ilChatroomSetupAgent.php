@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
-use ILIAS\UI;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Chatroom\Setup\UpdateSteps;
 
