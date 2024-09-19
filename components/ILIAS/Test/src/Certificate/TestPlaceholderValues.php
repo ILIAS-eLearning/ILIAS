@@ -149,7 +149,7 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
 
         if ($completionDate !== false && $completionDate !== '') {
             /** @var ilObjUser $user */
-            $user = $this->objectHelper->getInstanceByObjId($userId);
+            $user = $this->objectHelper->getInstanceByObjId($user_id);
             $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
             $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
