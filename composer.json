@@ -18,6 +18,9 @@
 			"@php cli/build_bootstrap.php components/ILIAS/Setup/resources/dependency_resolution.php setup",
 			"@php cli/setup.php build --yes"
 		],
+		"pre-install-cmd": [
+			"mkdir -p public/Customizing/plugins"
+		],
 		"post-install-cmd": [
 			"@php vendor/composer/rmdirs.php"
 		],
