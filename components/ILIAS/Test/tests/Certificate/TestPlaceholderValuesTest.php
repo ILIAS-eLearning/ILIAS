@@ -86,8 +86,17 @@ class TestPlaceholderValuesTest extends TestCase
         $test_object->method('getMarkSchema')
             ->willReturn($mark_schema);
 
+        $user_object = $this->getMockBuilder(\ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $object_helper->method('getInstanceByObjId')
-            ->willReturn($test_object);
+            ->willReturnMap(
+                [
+                    [200, $test_object],
+                    [10, $user_object]
+                ]
+            );
 
         $test_object_helper = $this->getMockBuilder(CertificateTestObjectHelper::class)
             ->getMock();
