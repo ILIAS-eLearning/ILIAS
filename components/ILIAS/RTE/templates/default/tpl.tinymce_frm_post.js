@@ -145,8 +145,7 @@ function UploadHandler(blobInfo, success, failure, progress) {
 };
 
 tinymce.init({
-    mode: "textareas",
-    editor_deselector: "noRTEditor",
+    selector: "textarea.RTEditor",
     branding: false,
     language: "{LANG}",
     block_formats: ilTinyMCETranslateFormats(),
@@ -160,10 +159,6 @@ tinymce.init({
     images_file_types: "gif, jpg, jpeg, png",
     file_picker_types: "image",
     automatic_uploads: true,
-    images_upload_handler: UploadHandler,
-    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
-    ilimgupload_file_extensions: "{TXT_ALLOWED_FILE_EXTENSIONS}",
-    ilimgupload_maxsize: "{TXT_MAX_SIZE}",
     importcss_append: true,
     file_picker_callback: ilTinyMCEImagePickerCallback,
     plugin_insertdate_dateFormat: "%d.%m.%Y",

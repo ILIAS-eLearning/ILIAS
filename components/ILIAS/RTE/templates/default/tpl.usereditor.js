@@ -5,10 +5,9 @@ function ilTinyMceInitCallback(ed) { // Add hook for onContextMenu so that Inser
 }
 
 tinymce.init({
-    mode: "textareas",
     menubar: false,
     branding: false,
-    editor_selector: "{SELECTOR}",
+    selector: "{SELECTOR}",
     language: "{LANG}",
     plugins: "save",
     fix_list_elements: true,
@@ -28,7 +27,7 @@ tinymce.init({
     resize: 'true',
     font_formats: "Arial=sans-serif;Courier=monospace;Times Roman=serif",
     fontsize_formats: "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
-    setup: function(ed) { 
+    setup: function(ed) {
         ed.on('init', ilTinyMceInitCallback);
         ed.on('keyup', charCounter);
     }
