@@ -1,0 +1,8 @@
+{
+  "randomize": true,
+  "showSeed": true,
+  "testMatch": [
+    "**/components/ILIAS/**/tests/**/*.js",
+    "**/docs/**/tests/**/*.js"
+  ]
+}

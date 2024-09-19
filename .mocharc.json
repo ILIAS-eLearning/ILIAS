@@ -1,8 +1,0 @@
-{
-  "require": [
-    "@babel/register"
-  ],
-  "spec": [
-    "components/ILIAS/**/tests/**/*.js"
-  ]
-}

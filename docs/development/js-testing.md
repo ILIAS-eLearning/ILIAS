@@ -1,92 +1,81 @@
 # JavaScript Testing
 
-Unit tests are important for continuous integration, which also includes JavaScript unit tests. ILIAS uses the
-[mocha.js](https://mochajs.org/) library for client-side testing, along with the [chai.js](https://www.chaijs.com/)
-assertion library. Check out their official documentation for more detailed information.
+Unit tests are important for continuous development and integration. This also includes JavaScript unit tests. ILIAS
+uses the [Jest](https://jestjs.io/) framework for client-side unit tests. Check out their official documentation for
+more detailed information.
 
 ## Writing Tests
 
-JavaScript unit tests should either be located in the ILIAS [`tests`](./tests) directory or in a module or services own
-dedicated sub-directory. If you decide to introduce a new dedicated sub-directory outside of the `tests` directory you
-must adjust the `spec` property in the global [`.mocharc.json`](./.mocharc.json) configuration file accordingly, e.g.
+A JavaScript unit test can be implemented, by simply creating a `.js` file inside a components `tests/` directory 
+(regardless of its nesting). Jest will scan this directory recursively and treat any JavaScript file as a unit test.
 
-```json
-{
-  //...
-  spec: [
-    "path/to/testDir"
-    //...
-  ]
-}
-```
+### Using Jest
 
-### Using Mocha.js
-
-Mocha.js is a JavaScript test framework that runs on Node.js and in the browser. It does not natively support ES6
-modules, which is why we use the [`@babel/register`](https://babeljs.io/docs/babel-register) to transpile ES6 modules at
-runtime. This is why we need to pass the `--require "@babel/register"` flag to the `mocha` command, as will be described
-later on.
-
-When writing a test there are some global functions that you might use to setup and structure your tests:
+When writing a unit test, you need to import each global from the `@jest/globals` node module. This will give you proper
+intelisense and make your code compliant to our code-style rules. An example unit test could look something like this:
 
 ```javascript
-describe('Test Suite', function () {
-  before(function () {
+import { describe, it } from '@jest/globals';
+
+describe('Test Block 1', function () {
+  it('Test Case 1', function () {
+    // ...
+  });
+  // ...
+});
+```
+
+Jest provides a set of functions which can be used to set up your test blocks and/or test suites:
+
+```javascript
+import { beforeAll, beforeEach, afterAll, afterEach, describe } from '@jest/globals';
+
+describe('Test Block 1', () => {
+  beforeAll(() => {
     // runs once before the first test in this block
   });
 
-  after(function () {
+  afterAll(() => {
     // runs once after the last test in this block
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     // runs before each test in this block
   });
 
-  afterEach(function () {
+  afterEach(() => {
     // runs after each test in this block
   });
-
-  // test cases
-  it('Test Case 1', function () {
-    // test case
-  });
 });
 ```
 
-Each file should only contain one `describe()` block, which can contain multiple `it()` blocks. The `before*()`
-and `after*()` can be used as needed.
+If one of these functions is used outside of a `describe()` block, their behaviour will affect the scope of the entire
+test suite. E.g. `beforeEach()` will be called before **every** `it()` test case, regardless of its `describe()` block.
 
-**Please note the use of `function` instead of arrow-functions (`() => {}`), which is recommended by the official
-documentation to allow using `this` in the right context.** Our code-style enforce the usage of arrow-functions over
-normal ones, so we should only use `function` if we need to use `this`.
-
-### Using Chai.js
-
-Chai.js is an assertion library we use in combination with Mocha.js. It provides a lot of different ways to assert
-things as we know them from tools like PHPUnit. Check out the official [documentation](https://www.chaijs.com/api/) for
-more details. A simple example would be:
+We peform our assertions using Jest's built-in `expect` object:
 
 ```javascript
-import { assert } from 'chai';
+import { expect } from '@jest/globals';
 
-describe('Test Suite', function () {
-  it('Test Case 1', function () {
-    assert.equal(1, 1);
-  });
-});
+const object = { foo: 'foo', bar: 'bar', };
+
+expect(object).toBeInstanceOf(Object);
+expect(object).toContainEqual(expect.not.objectContaining({foobar: 'foobar'}));
+expect(object).toContainEqual(expect.objectContaining({foo: 'foo'}));
+// ...
 ```
 
-_You can also import and use `expect()` or `should()`, which are somewhat similar to normal assertions._
+Please refer to the official documentation for a full list of possible assertions: 
+https://jestjs.io/docs/expect#reference
 
 ### Example
 
-You can find a working example of a unit test in the [`js-unit-test`](./code-examples/js-unit-test) directory. You can
-run the example in the terminal with:
+You can find a working example of a test suite in the [`js-unit-test`](./code-examples/js-unit-test) directory. You can run the example in the
+terminal with:
 
 ```bash
-# Run all tests in a specific directory
-mocha --no-config --require "@babel/register" "./docs/development/js/code-examples/js-unit-test-example/test"
+# Run the example
+npm test -- docs/development/js/code-examples/js-unit-test-example/tests/Component.js
 ```
 
 ## Running Tests
@@ -103,13 +92,10 @@ instead:
 
 ```bash
 # Run all tests in a specific directory
-mocha --no-config --require "@babel/register" "path/to/directory"
+npm test -- path/to/directory
 ```
 
 ```bash
 # Run one specific test file
-mocha --no-config --require "@babel/register" "path/to/file.js"
+npm test -- path/to/file.js
 ```
-
-_Note that `mocha` might not be resolved properly in each shell, in which case you need to replace id
-by `node_modules/.bin/mocha`._

@@ -15,34 +15,33 @@
  ********************************************************************
  */
 
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, expect, it } from '@jest/globals';
 import URLBuilderToken from '../../resources/js/Core/src/core.URLBuilderToken';
 
 const URLBuilderTokenLength = 24;
 
 describe('URLBuilderToken is available', () => {
   it('URLBuilderToken', () => {
-    expect(URLBuilderToken).to.not.be.undefined;
+    expect(URLBuilderToken).toBeDefined();
   });
 });
 
 describe('URLBuilderToken Test', () => {
   it('constructor()', () => {
     const token = new URLBuilderToken(['testing'], 'name');
-    expect(token).to.be.an('object');
-    expect(token).to.be.instanceOf(URLBuilderToken);
+    expect(token).toBeInstanceOf(Object);
+    expect(token).toBeInstanceOf(URLBuilderToken);
   });
 
   it('getName()', () => {
     const token = new URLBuilderToken(['testing'], 'name');
-    expect(token.getName()).to.eql('testing_name');
+    expect(token.getName()).toEqual('testing_name');
   });
 
   it('getToken()', () => {
     const token = new URLBuilderToken(['testing'], 'name');
-    expect(token.getToken()).to.not.be.empty;
-    expect(token.getToken()).to.be.a('string');
-    expect(token.getToken()).to.have.lengthOf(URLBuilderTokenLength);
+    expect(token.getToken()).not.toHaveLength(0);
+    expect(typeof token.getToken()).toBe('string');
+    expect(token.getToken()).toHaveLength(URLBuilderTokenLength);
   });
 });

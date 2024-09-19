@@ -15,7 +15,7 @@
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import { assert } from 'chai';
+import { describe, expect, it } from '@jest/globals';
 import getImageElement from '../../../resources/js/Image/src/getImageElement';
 
 class HTMLImageElementMock {
@@ -47,7 +47,7 @@ describe('getImageElement', () => {
 
     const imageElement = getImageElement(document, '');
 
-    assert.equal(imageElement.id, expectedImageId);
+    expect(imageElement.id).toEqual(expectedImageId);
   });
 
   it('should find an image directly associated to the id.', () => {
@@ -62,7 +62,7 @@ describe('getImageElement', () => {
 
     const imageElement = getImageElement(document, '');
 
-    assert.equal(imageElement.id, expectedImageId);
+    expect(imageElement.id).toEqual(expectedImageId);
   });
 
   it('should return null if no image was found.', () => {
@@ -74,10 +74,10 @@ describe('getImageElement', () => {
     };
 
     const imageElement1 = getImageElement(document, '');
-    assert.isNull(imageElement1);
+    expect(imageElement1).toBeNull();
 
     document.getElementById = () => null;
     const imageElement2 = getImageElement(document, '');
-    assert.isNull(imageElement2);
+    expect(imageElement2).toBeNull();
   });
 });

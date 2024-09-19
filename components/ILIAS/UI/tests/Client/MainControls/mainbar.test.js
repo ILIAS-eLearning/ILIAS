@@ -1,23 +1,36 @@
-// 'use strict';
-import { expect } from 'chai';
-// import { assert } from 'chai';
-import mainbar from '../../../resources/js/MainControls/src/mainbar.main.js';
-import model from '../../../resources/js/MainControls/src/mainbar.model.js';
-import persistence from '../../../resources/js/MainControls/src/mainbar.persistence.js';
-import renderer from '../../../resources/js/MainControls/src/mainbar.renderer.js';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+import { describe, expect, it } from '@jest/globals';
+import mainbar from '../../../resources/js/MainControls/src/mainbar.main';
+import model from '../../../resources/js/MainControls/src/mainbar.model';
+import persistence from '../../../resources/js/MainControls/src/mainbar.persistence';
+import renderer from '../../../resources/js/MainControls/src/mainbar.renderer';
 
 describe('mainbar components are there', () => {
   it('mainbar', () => {
-    expect(mainbar).to.not.be.undefined;
+    expect(mainbar).toBeDefined();
   });
   it('model', () => {
-    expect(model).to.not.be.undefined;
+    expect(model).toBeDefined();
   });
   it('persistence', () => {
-    expect(persistence).to.not.be.undefined;
+    expect(persistence).toBeDefined();
   });
   it('renderer', () => {
-    expect(renderer).to.not.be.undefined;
+    expect(renderer).toBeDefined();
   });
 });
 
@@ -33,9 +46,9 @@ describe('mainbar model', () => {
 
   it('initializes with (empty) state', () => {
     state = m.getState();
-    expect(state).to.be.an('object');
-    expect(state.entries).to.be.an('object');
-    expect(state.tools).to.be.an('object');
+    expect(state).toBeInstanceOf(Object);
+    expect(state.entries).toBeInstanceOf(Object);
+    expect(state.tools).toBeInstanceOf(Object);
     // ....
   });
 
@@ -47,31 +60,31 @@ describe('mainbar model', () => {
     entry = state.entries[entry_id];
     sub_entry = state.entries[sub_entry_id];
 
-    expect(entry).to.be.an('object');
+    expect(entry).toBeInstanceOf(Object);
     expect([
       entry.id,
       entry.engaged,
       entry.hidden,
-    ]).to.eql([
+    ]).toEqual([
       entry_id,
       false,
       false,
     ]);
 
     tool_entry = state.tools[tool_entry_id];
-    expect(tool_entry).to.be.an('object');
+    expect(tool_entry).toBeInstanceOf(Object);
   });
 
   it('entries have (top-)levels and model filters properly', () => {
     expect([
       entry.isTopLevel(),
       sub_entry.isTopLevel(),
-    ]).to.eql([
+    ]).toEqual([
       true,
       false,
     ]);
 
-    expect(m.getTopLevelEntries()).to.eql([entry]);
+    expect(m.getTopLevelEntries()).toEqual([entry]);
   });
 
   it('actions engage and disengage entries', () => {
@@ -82,7 +95,7 @@ describe('mainbar model', () => {
       state.entries[entry_id].engaged,
       state.entries[sub_entry_id].engaged,
       state.tools[tool_entry_id].engaged,
-    ]).to.eql([
+    ]).toEqual([
       true,
       false,
       false,
@@ -94,7 +107,7 @@ describe('mainbar model', () => {
       state.entries[entry_id].engaged,
       state.entries[sub_entry_id].engaged,
       state.tools[tool_entry_id].engaged,
-    ]).to.eql([
+    ]).toEqual([
       false,
       false,
       false,
@@ -106,7 +119,7 @@ describe('mainbar model', () => {
       state.entries[entry_id].engaged,
       state.entries[sub_entry_id].engaged,
       state.tools[tool_entry_id].engaged,
-    ]).to.eql([
+    ]).toEqual([
       true,
       true,
       false,
@@ -118,7 +131,7 @@ describe('mainbar model', () => {
       state.entries[entry_id].engaged,
       state.entries[sub_entry_id].engaged,
       state.tools[tool_entry_id].engaged,
-    ]).to.eql([
+    ]).toEqual([
       false,
       true, // subentry, still engaged.
       true,
@@ -130,7 +143,7 @@ describe('mainbar model', () => {
       state.entries[entry_id].engaged,
       state.entries[sub_entry_id].engaged,
       state.tools[tool_entry_id].engaged,
-    ]).to.eql([
+    ]).toEqual([
       true,
       true, // subentry, still engaged.
       false,
@@ -144,14 +157,14 @@ describe('mainbar model', () => {
 
     state.entries['xx:1'].engaged = true;
     state.entries['xx:1:1'].engaged = true;
-    expect(m.isInView('xx:1')).to.be.true;
-    expect(m.isInView('xx:1:1')).to.be.true;
+    expect(m.isInView('xx:1')).toBe(true);
+    expect(m.isInView('xx:1:1')).toBe(true);
 
     state.entries['xx:1'].engaged = false;
     state.entries['xx:1:1'].engaged = true;
-    expect(m.isInView('xx:1')).to.be.false;
-    expect(m.isInView('xx:1:1')).to.be.false;
+    expect(m.isInView('xx:1')).toBe(false);
+    expect(m.isInView('xx:1:1')).toBe(false);
 
-    expect(m.isInView('apparently_nonsense')).to.be.true;
+    expect(m.isInView('apparently_nonsense')).toBe(true);
   });
 });

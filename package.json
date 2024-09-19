@@ -1,11 +1,10 @@
 {
   "name": "ilias",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "ILIAS open source e-Learning",
   "browser": "js/index.js",
   "directories": {
-    "doc": "docs",
-    "test": "tests"
+    "doc": "docs"
   },
   "dependencies": {
     "@uppy/core": "^3.8.0",
@@ -20,9 +19,10 @@
     "jstree": "^3.3.16"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.3",
+    "@jest/globals": "^29.7.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "chai": "^4.2.0",
     "eslint": "^8.39.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -30,7 +30,7 @@
     "rollup": "^2.18.0"
   },
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "jest --config='.jestrc.json' ./components"
   },
   "repository": {
     "type": "git",

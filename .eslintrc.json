@@ -10,13 +10,6 @@
     "document": "readonly",
     "window": "readonly",
     "il": "writable",
-    // globals from the mocha testing framework.
-    "beforeEach": "readonly",
-    "afterEach": "readonly",
-    "describe": "readonly",
-    "before": "readonly",
-    "after": "readonly",
-    "it": "readonly"
   },
   // minified and bundled scripts are exempt from the
   // code-style.
