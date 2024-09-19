@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\API;
 
-use ILIAS\Certificate\API\Data\UserCertificateDto;
 use ILIAS\Certificate\API\Filter\UserDataFilter;
 use ILIAS\Certificate\API\Repository\UserDataRepository;
 use ilCertificateQueueEntry;

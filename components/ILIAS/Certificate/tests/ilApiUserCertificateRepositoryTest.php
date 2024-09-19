@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
