@@ -50,7 +50,7 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
         $this->assertSame('v5.4.0', $template->getIliasVersion());
         $this->assertSame($time, $template->getCreatedTimestamp());
         $this->assertTrue($template->isCurrentlyActive());
-        $this->assertSame('/some/where/background.jpg', $template->getBackgroundImagePath());
+        $this->assertSame('/some/where/background.jpg', $template->getBackgroundImageIdentification());
         $this->assertSame(555, $template->getId());
     }
 }

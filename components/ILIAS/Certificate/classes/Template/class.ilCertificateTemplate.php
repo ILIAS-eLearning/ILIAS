@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -33,8 +35,8 @@ class ilCertificateTemplate
         private readonly string $iliasVersion,
         private readonly int $createdTimestamp,
         private readonly bool $currentlyActive,
-        private readonly string $backgroundImagePath = '',
-        private readonly string $thumbnailImagePath = '',
+        private readonly string $backgroundIdentification = '',
+        private readonly string $thumbnailIdentification = '',
         private readonly ?int $id = null,
         private readonly bool $deleted = false
     ) {
@@ -85,9 +87,9 @@ class ilCertificateTemplate
         return $this->id;
     }
 
-    public function getBackgroundImagePath(): string
+    public function getBackgroundImageIdentification(): string
     {
-        return $this->backgroundImagePath;
+        return $this->backgroundIdentification;
     }
 
     public function getObjType(): string
@@ -100,8 +102,8 @@ class ilCertificateTemplate
         return $this->deleted;
     }
 
-    public function getThumbnailImagePath(): string
+    public function getThumbnailImageIdentification(): string
     {
-        return $this->thumbnailImagePath;
+        return $this->thumbnailIdentification;
     }
 }

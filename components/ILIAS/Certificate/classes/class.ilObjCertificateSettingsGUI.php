@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\Overview\CertificateOverviewTable;
 
 /**
@@ -33,9 +34,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public const TAB_CERTIFICATES = 'certificates';
     public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';
     public const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
+    private IRSS $irss;
+    protected ILIAS\HTTP\GlobalHttpState $httpState;
+    protected ILIAS\FileUpload\FileUpload $upload;
 
-    private readonly \ILIAS\HTTP\GlobalHttpState $httpState;
-    private readonly \ILIAS\FileUpload\FileUpload $upload;
+    /** @var ilObjCertificateSettings */
+    protected ?ilObject $object;
     private readonly ilLogger $logger;
     private readonly ilUserCertificateRepository $user_certificate_repo;
     private readonly ilCertificateActiveValidator $certificate_active_validator;
@@ -60,6 +64,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('trac');
 
+        $this->irss = $DIC->resourceStorage();
+
         $this->user_certificate_repo = $user_certificate_repo ?: new ilUserCertificateRepository();
         $this->certificate_active_validator = $certificate_active_validator ?: new ilCertificateActiveValidator();
     }
@@ -80,14 +86,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
 
+                break;
             default:
                 if (!$cmd || $cmd === 'view') {
                     $cmd = 'settings';
                 }
 
                 $this->$cmd();
+
                 break;
         }
     }
@@ -172,8 +179,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
 
         if ($this->object->hasBackgroundImage()) {
-            ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-            $bgimage->setImage(ilWACSignedPath::signFile($this->object->getDefaultBackgroundImagePathWeb()));
+            $rid = $this->object->getBackgroundImageIdentification();
+            $bgimage->setImage($this->irss->consume()->src($rid)->getSrc());
         }
         $bgimage->setInfo($this->lng->txt('default_background_info'));
         $form->addItem($bgimage);
@@ -187,8 +194,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             'letterlandscape' => $this->lng->txt('certificate_letter_landscape') // (11 inch x 8.5 inch)
         ];
         $format->setOptions($defaultformats);
-        $format->setValue($form_settings->get("pageformat", ''));
-        $format->setInfo($this->lng->txt("certificate_page_format_info"));
+        $format->setValue($form_settings->get('pageformat', ''));
+        $format->setInfo($this->lng->txt('certificate_page_format_info'));
         $form->addItem($format);
 
         if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
@@ -233,11 +240,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($form->getHTML());
     }
+
     public function certificatesOverview(): void
     {
         if (
-            !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+            !$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
@@ -252,8 +260,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public function downloadCertificate(): void
     {
         if (
-            !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+            !$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
@@ -270,7 +278,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         }
 
-        //Only one download at a time is possible
+        // Only one download at a time is possible
         $certificate_id = $certificate_id[array_key_first($certificate_id)];
 
         try {
@@ -298,7 +306,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function save(): void
     {
-        $form_settings = new ilSetting("certificate");
+        $form_settings = new ilSetting('certificate');
 
         $mode = $this->httpState->wrapper()->post()->retrieve(
             'persistent_certificate_mode',

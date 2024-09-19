@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -36,7 +37,7 @@ class ilCertificateTemplateExportAction
         private readonly int $objectId,
         private readonly string $certificatePath,
         private readonly ilCertificateTemplateRepository $templateRepository,
-        private readonly Filesystem $filesystem,
+        private readonly IRSS $irss,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null
     ) {
@@ -53,9 +54,6 @@ class ilCertificateTemplateExportAction
 
     /**
      * Creates a downloadable file via the browser
-     * @throws FileAlreadyExistsException
-     * @throws FileNotFoundException
-     * @throws IOException
      */
     public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID): void
     {
@@ -74,14 +72,14 @@ class ilCertificateTemplateExportAction
             $template->getCertificateContent()
         );
 
-        $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
-            $streams['background.jpg'] = $this->filesystem->readStream($backgroundImagePath);
+        $background_rid = $this->irss->manage()->find($template->getBackgroundImageIdentification());
+        if ($background_rid instanceof ResourceIdentification) {
+            $streams['background.jpg'] = $this->irss->consume()->stream($background_rid)->getStream();
         }
 
-        $thumbnailImagePath = $template->getThumbnailImagePath();
-        if ($thumbnailImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
-            $streams['thumbnail.svg'] = $this->filesystem->readStream($thumbnailImagePath);
+        $thumbnail_rid = $this->irss->manage()->find($template->getThumbnailImageIdentification());
+        if ($thumbnail_rid instanceof ResourceIdentification) {
+            $streams['thumbnail.svg'] = $this->irss->consume()->stream($thumbnail_rid)->getStream();
         }
 
         $objectType = $this->objectHelper->lookupType($this->objectId);

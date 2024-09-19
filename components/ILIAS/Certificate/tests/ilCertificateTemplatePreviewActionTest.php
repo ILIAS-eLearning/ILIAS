@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -38,6 +40,10 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ]);
+
+        $irss = $this->getMockBuilder(IRSS::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
@@ -106,6 +112,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $previewAction = new ilCertificateTemplatePreviewAction(
             $templateRepository,
             $placeholderValuesObject,
+            $irss,
             'some/where/',
             $user,
             $utilHelper,

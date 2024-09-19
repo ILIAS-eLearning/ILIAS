@@ -514,7 +514,7 @@ class ilTestTabsManager
             $settingsCommands = [
                 'marks', 'showMarkSchema','addMarkStep', 'deleteMarkSteps',
                 'resetToSimpleMarkSchema', 'saveMarks', 'certificate',
-                'certificateEditor', 'certificateRemoveBackground', 'certificateSave',
+                'certificateEditor', 'certificateSave',
                 'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport',
                 'scoring', 'defaults', 'addDefaults', 'deleteDefaults', 'applyDefaults',
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
