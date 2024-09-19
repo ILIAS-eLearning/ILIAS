@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\DataProtection\Consumer;
 use ILIAS\DataProtection\Settings;
-use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\ReadOnlyStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\ILIASSettingStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
@@ -28,7 +27,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\Config;
 use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Component;
 use ILIAS\Data\Factory as DataFactory;
