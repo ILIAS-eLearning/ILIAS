@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Standard;
 
-function with_all_view_controls(): string
+function with_view_controls(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
