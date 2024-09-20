@@ -88,6 +88,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
@@ -3042,9 +3043,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->object,
             $this->test_questions_repository,
             $this->title_builder,
-            $this->test_questions_repository->getQuestionPropertiesWithAggregatedResultsForQuestionIds(
-                $this->getTestObject()->getQuestions()
-            ),
             $this->getTestObject()->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed(),
             $this->getTestObject()->evalTotalPersons() !== 0,
             $this->getTestObject()->isRandomTest()

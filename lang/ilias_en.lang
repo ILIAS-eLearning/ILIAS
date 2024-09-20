@@ -1268,7 +1268,7 @@ assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to 
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#test_enable_archiving#:#Enable Archiving
-assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. The options to edit questions are limited until you remove these data sets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 assessment#:#test_jump_to#:#Jump to Question

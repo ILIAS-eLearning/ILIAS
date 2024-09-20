@@ -6901,6 +6901,7 @@ class ilObjTest extends ilObject
         }
         return $all;
     }
+
     public function getQuestions(): array
     {
         return $this->questions;

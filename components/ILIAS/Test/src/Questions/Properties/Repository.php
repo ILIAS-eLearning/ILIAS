@@ -28,7 +28,7 @@ interface Repository
      * another reason.
      * As the question ids are test specific the results will also be for a single test.
      */
-    public function getQuestionPropertiesForQuestionId(int $question_id): ?QuestionProperties;
+    public function getQuestionPropertiesForQuestionId(int $question_id): ?Properties;
 
     /**
      * Returns an array of Properties-objects if available. An entry might be null
@@ -42,15 +42,18 @@ interface Repository
     public function getQuestionPropertiesForQuestionIds(array $question_ids): array;
 
     /**
-     * Returns an array of Properties-objects with AggregatedResultsProperties
-     * if available. A entry might be null when a question does not exist anymore
-     * (this should not happen, but...) and it might also have the AggregatedResultsProperty
-     * set to null, if there are no results for the question.
-     * As the question ids are test specific the results will also be for a single test.
-     *
-     * @return array<Properties|null>
+     * @return array<Properties>
      */
-    public function getQuestionPropertiesWithAggregatedResultsForQuestionIds(array $question_ids): array;
+    public function getQuestionPropertiesForTest(\ilObjTest $test): array;
+
+    /**
+     * Returns an array of Properties-objects with AggregatedResultsProperties
+     * if available. An entry might also have the AggregatedResultsProperty
+     * set to null, if there are no results for the question.
+     *
+     * @return array<Properties>
+     */
+    public function getQuestionPropertiesWithAggregatedResultsForTest(\ilObjTest $test): array;
 
     /**
      * This is an adaptor to query the question pool if a question exists for

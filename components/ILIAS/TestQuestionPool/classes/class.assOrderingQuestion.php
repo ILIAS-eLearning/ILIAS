@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
-
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -294,7 +293,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getOrderingElementListForSolutionOutput(
         bool $force_correct_solution,
         int $active_id,
-        int $pass_index
+        ?int $pass_index
     ): ilAssOrderingElementList {
         if ($force_correct_solution || !$active_id || $pass_index === null) {
             return $this->getOrderingElementList();
@@ -656,7 +655,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         ?int $pass = null,
         bool $authorized = true
     ): bool {
-        if($this->questionpool_request->raw('test_answer_changed') === null) {
+        if ($this->questionpool_request->raw('test_answer_changed') === null) {
             return true;
         }
 
@@ -1297,7 +1296,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     private function getOrderingTypeLangVars(int $ordering_type): array
     {
-        switch($ordering_type) {
+        switch ($ordering_type) {
             case self::OQ_PICTURES:
                 return ['qst_nested_nested_answers_off', 'oq_btn_use_order_pictures'];
             case self::OQ_TERMS:

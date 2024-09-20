@@ -29,14 +29,11 @@ class GeneralQuestionPropertiesRepository
     private const TEST_RESULTS_TABLE = 'tst_test_result';
     private const TEST_TO_ACTIVE_USER_TABLE = 'tst_active';
     private const DATA_TABLE = 'object_data';
-    /**
-     * @var array<ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties>
-     */
-    private array $general_properties_cache = [];
 
     public function __construct(
         private \ilDBInterface $db,
-        private \ilComponentFactory $component_factory
+        private \ilComponentFactory $component_factory,
+        private \ilComponentRepository $component_repository
     ) {
     }
 
@@ -46,45 +43,16 @@ class GeneralQuestionPropertiesRepository
             return new GeneralQuestionProperties($this->component_factory, $question_id);
         }
 
-        if (!isset($this->general_properties_cache[$question_id])) {
-            $this->general_properties_cache[$question_id] = null;
-            $question_data = $this->retrieveGeneralProperties([$question_id]);
-            if (isset($question_data[$question_id])) {
-                $this->general_properties_cache[$question_id] = $question_data[$question_id];
-            }
-        }
-
-        return $this->general_properties_cache[$question_id];
+        $question_data = $this->getForWhereClause('q.question_id=' . $question_id);
+        return $question_data[$question_id] ?? null;
     }
 
     /**
-     *
-     * @param array<int> $question_ids
-     * @return $array<GeneralQuestionProperties|null>
+     * @return array<GeneralQuestionProperties>
      */
-    public function getForQuestionIds(array $question_ids): ?array
+    public function getForParentObjectId(int $obj_id): array
     {
-        $question_properties = [];
-
-        foreach ($question_ids as $index => $question_id) {
-            if (isset($this->general_properties_cache[$question_id])) {
-                $question_properties[$question_id] = $this->general_properties_cache[$question_id];
-                unset($question_ids[$index]);
-            }
-        }
-
-        foreach ($this->retrieveGeneralProperties($question_ids) as $question_id => $question) {
-            $this->general_properties_cache[$question_id] = $question;
-            $question_properties[$question_id] = $question;
-            $question_ids = array_diff($question_ids, [$question_id]);
-        }
-
-        foreach ($question_ids as $question_id) {
-            $this->general_properties_cache[$question_id] = null;
-            $question_properties[$question_id] = null;
-        }
-
-        return $question_properties;
+        return $this->getForWhereClause('q.obj_fi=' . $obj_id);
     }
 
     /**
@@ -92,54 +60,20 @@ class GeneralQuestionPropertiesRepository
      * @param array<int> $question_ids
      * @return array<GeneralQuestionProperties>
      */
-    private function retrieveGeneralProperties(array $question_ids): array
+    public function getForQuestionIds(array $question_ids): array
     {
-        $query_result = $this->db->query(
-            'SELECT q.*, qt.type_tag, oq.obj_fi as oq_obj_fi'
-            . ' FROM ' . self::MAIN_QUESTION_TABLE . ' q'
-            . ' INNER JOIN ' . self::QUESTION_TYPES_TABLE . ' qt'
-            . ' ON q.question_type_fi = qt.question_type_id'
-            . ' LEFT JOIN ' . self::MAIN_QUESTION_TABLE . ' oq'
-            . ' ON oq.question_id = q.original_id'
-            . ' WHERE ' . $this->db->in(
+        return $this->getForWhereClause(
+            $this->db->in(
                 'q.question_id',
                 $question_ids,
                 false,
                 \ilDBConstants::T_INTEGER
             )
         );
-
-        $questions = [];
-        while ($question_info = $this->db->fetchObject($query_result)) {
-            $questions[$question_info->question_id] = new GeneralQuestionProperties(
-                $this->component_factory,
-                $question_info->question_id,
-                $question_info->original_id,
-                $question_info->external_id,
-                $question_info->obj_fi,
-                $question_info->oq_obj_fi,
-                $question_info->question_type_fi,
-                $question_info->type_tag,
-                $question_info->owner,
-                $question_info->title,
-                $question_info->description,
-                $question_info->question_text,
-                $question_info->points,
-                $question_info->nr_of_tries,
-                $question_info->lifecycle,
-                $question_info->author,
-                $question_info->tstamp,
-                $question_info->created,
-                (bool) $question_info->complete,
-                $question_info->add_cont_edit_mode
-            );
-        }
-        return $questions;
     }
 
     public function getFractionOfReachedToReachablePointsTotal(int $question_id): float
     {
-
         $questions_result = $this->db->queryF(
             'SELECT question_id, points FROM ' . self::MAIN_QUESTION_TABLE . ' WHERE original_id = %s OR question_id = %s',
             [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
@@ -183,7 +117,7 @@ class GeneralQuestionPropertiesRepository
      * Checks if an array of question ids is answered by a user or not
      *
      * @param int user_id
-     * @param int[] $question_ids user id array
+     * @param array<int> $question_ids
      */
     public function areQuestionsAnsweredByUser(int $user_id, array $question_ids): bool
     {
@@ -216,9 +150,6 @@ class GeneralQuestionPropertiesRepository
         return $row->cnt > 0;
     }
 
-    /**
-     * Checks whether the question is in use or not in pools or tests
-     */
     public function isInUse(int $question_id = 0): bool
     {
         return $this->usageCount($question_id) > 0;
@@ -417,5 +348,78 @@ class GeneralQuestionPropertiesRepository
         );
         $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
+    }
+
+    private function buildGeneralQuestionPropertyFromDBRecords(\stdClass $db_record): GeneralQuestionProperties
+    {
+        return new GeneralQuestionProperties(
+            $this->component_factory,
+            $db_record->question_id,
+            $db_record->original_id,
+            $db_record->external_id,
+            $db_record->obj_fi,
+            $db_record->oq_obj_fi,
+            $db_record->question_type_fi,
+            $db_record->type_tag,
+            $db_record->owner,
+            $db_record->title,
+            $db_record->description,
+            $db_record->question_text,
+            $db_record->points,
+            $db_record->nr_of_tries,
+            $db_record->lifecycle,
+            $db_record->author,
+            $db_record->tstamp,
+            $db_record->created,
+            (bool) $db_record->complete,
+            $db_record->add_cont_edit_mode
+        );
+    }
+
+    /**
+     * @return array<GeneralQuestionProperties>
+     */
+    private function getForWhereClause(string $where): array
+    {
+        $query_result = $this->db->query(
+            'SELECT q.*, qt.type_tag, qt.plugin as is_plugin, qt.plugin_name, oq.obj_fi as oq_obj_fi'
+            . ' FROM ' . self::MAIN_QUESTION_TABLE . ' q'
+            . ' INNER JOIN ' . self::QUESTION_TYPES_TABLE . ' qt'
+            . ' ON q.question_type_fi = qt.question_type_id'
+            . ' LEFT JOIN ' . self::MAIN_QUESTION_TABLE . ' oq'
+            . ' ON oq.question_id = q.original_id'
+            . ' WHERE ' . $where
+        );
+
+        $questions = [];
+        while ($db_record = $this->db->fetchObject($query_result)) {
+            if (!$this->isQuestionTypeAvailable($db_record->plugin_name)) {
+                continue;
+            }
+            $questions[$db_record->question_id] = $this
+                ->buildGeneralQuestionPropertyFromDBRecords($db_record);
+        }
+        return $questions;
+    }
+
+    /*
+     * $param array<stdClass> $question_data
+     */
+    private function isQuestionTypeAvailable(?string $plugin_name): bool
+    {
+        if ($plugin_name === null) {
+            return true;
+        }
+
+        $plugin_slot = !$this->component_repository->getComponentByTypeAndName(
+            ilComponentInfo::TYPE_MODULES,
+            'TestQuestionPool'
+        )->getPluginSlotById('qst');
+
+        if ($plugin_slot->hasPluginName($plugin_name)) {
+            return false;
+        }
+
+        return $plugin_slot->getPluginByName($plugin_name)->isActive();
     }
 }
