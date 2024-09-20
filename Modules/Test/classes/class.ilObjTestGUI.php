@@ -1336,6 +1336,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $questionParentObjId = $_POST["qpl"];
         }
 
+        $imp = new ilImport($this->testrequest->getRefId());
+        $map = $imp->getMapping();
+        $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
+
         if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
             $newObj->saveToDb();
 
@@ -1344,9 +1348,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $fileName = ilSession::get('tst_import_subdir') . '.zip';
             $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
-            $imp = new ilImport($this->testrequest->getRefId());
-            $map = $imp->getMapping();
-            $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
+
             $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
         } else {
             $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
@@ -1356,16 +1358,51 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             }
             $qtiParser->setTestObject($newObj);
             $qtiParser->startParsing();
+            $newObj = $qtiParser->getTestObject();
             $newObj->saveToDb();
+
             $questionPageParser = new ilQuestionPageParser($newObj, ilSession::get("tst_import_xml_file"), ilSession::get("tst_import_subdir"));
             $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
             $questionPageParser->startParsing();
+
+            foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
+                $map->addMapping(
+                    "Services/Taxonomy",
+                    "tax_item",
+                    "tst:quest:$oldQuestionId",
+                    $newQuestionId
+                );
+
+                $map->addMapping(
+                    "Services/Taxonomy",
+                    "tax_item_obj_id",
+                    "tst:quest:$oldQuestionId",
+                    $newObj->getId()
+                );
+
+                $map->addMapping(
+                    "Modules/Test",
+                    "quest",
+                    $oldQuestionId,
+                    $newQuestionId
+                );
+            }
+
+            if ($newObj->isRandomTest()) {
+                $newObj->questions = [];
+                $parser = new ilObjTestXMLParser(ilSession::get("tst_import_xml_file"));
+                $parser->setTestOBJ($newObj);
+                $parser->setImportMapping($map);
+                $parser->startParsing();
+            }
 
             if (file_exists(ilSession::get("tst_import_results_file"))) {
                 $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
                 $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
                 $results->startParsing();
             }
+
+            $newObj->saveToDb();
             $newObj->update();
         }
 
