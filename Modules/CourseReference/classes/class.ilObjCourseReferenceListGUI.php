@@ -131,7 +131,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $this->deleted = !$target_ref_id || $tree->isDeleted($target_ref_id);
 
         $ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
-        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id, $target_obj_id);
+        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget((int) $target_ref_id, (int) $target_obj_id);
         $ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
 
 
