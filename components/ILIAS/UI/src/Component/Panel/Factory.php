@@ -47,9 +47,7 @@ interface Factory
      *      2: Standard Panels SHOULD be used in the center content as primary Container for grouping content of varying content.
      *
      *   composition:
-     *      1: Standard Panels MAY contain a Mode View Control to change the current presentation of the content.
-     *      2: Standard Panels MAY contain a Pagination View Control to display data in chunks.
-     *      3: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+     *      1: Standard Panels MAY contain one or more View Controls.
      * ---
      * @param string $title
      * @param Component[]|Component
