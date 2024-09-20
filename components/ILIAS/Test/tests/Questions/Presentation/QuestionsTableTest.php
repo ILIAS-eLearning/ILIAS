@@ -24,7 +24,7 @@ use ILIAS\Test\Questions\Presentation\QuestionsTable;
 use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Modal;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Questions\Properties\DatabaseRepository as QuestionsRepository;
 
 /**
  * Class QuestionsTableTest
@@ -42,7 +42,6 @@ class QuestionsTableTest extends \ilTestBaseTestCase
         $this->addGlobal_http();
         $this->addGlobal_lng();
 
-        $records = $this->getSomeRecords();
         $obj_test = $this->getMockBuilder(\ilObjTest::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -64,63 +63,51 @@ class QuestionsTableTest extends \ilTestBaseTestCase
                 ]
             );
 
-        $questionrepository = new class () extends GeneralQuestionPropertiesRepository {
-            public function __construct()
-            {
-            }
-        };
+        $questionrepository = $this->getMockBuilder(QuestionsRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $questionrepository->expects($this->any())
+            ->method('getQuestionPropertiesWithAggregatedResultsForTest')
+            ->willReturn(
+                [
+                    new \ILIAS\Test\Questions\Properties\Properties(
+                        77,
+                        new \ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties(
+                            $this->createMock(\ilComponentFactory::class),
+                            77,
+                            88,
+                            null,
+                            0,
+                            null,
+                            7,
+                            '',
+                            0,
+                            'question one',
+                            'description one',
+                            '',
+                            3
+                        )
+                    )
+                ]
+            );
 
         $title_builder = $this->createMock(\ILIAS\Test\Utilities\TitleColumnsBuilder::class);
 
-        $this->table_gui = new class (
-            $records,
-            $DIC,
-            $obj_test,
+        $this->table_gui = new QuestionsTable(
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['http']->request(),
             $commands,
+            $DIC['lng'],
+            $DIC['ilCtrl'],
+            $obj_test,
             $questionrepository,
-            $title_builder
-        ) extends QuestionsTable {
-            public function __construct(
-                protected $data,
-                $DIC,
-                $obj_test,
-                $commands,
-                $questionrepository,
-                $title_builder
-            ) {
-                parent::__construct(
-                    $DIC['ui.factory'],
-                    $DIC['ui.renderer'],
-                    $DIC['tpl'],
-                    $DIC['http']->request(),
-                    $commands,
-                    $DIC['lng'],
-                    $DIC['ilCtrl'],
-                    $obj_test,
-                    $questionrepository,
-                    $title_builder
-                );
-            }
-            public function _getBinding()
-            {
-                return $this->getBinding($this->data);
-            }
-        };
-    }
-    protected function getSomeRecords(): array
-    {
-        return [
-            [
-            'question_id' => 77,
-            'orig_obj_fi' => 88,
-            'title' => 'question one',
-            'desc' => 'description one',
-            'type_tag' => 'assOrderingQuestion',
-            'complete' => '1',
-            'lifecycle' => 'draft',
-            'points' => 3,
-            ],
-        ];
+            $title_builder,
+            false,
+            false,
+            false
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -137,7 +124,7 @@ class QuestionsTableTest extends \ilTestBaseTestCase
     public function testQuestionsTableDefinesActions(): void
     {
         $row = $this->createMock(Table\OrderingRow::class);
-        $row->expects($this->exactly(7))
+        $row->expects($this->exactly(8))
             ->method('withDisabledAction')
             ->willReturn($row);
 
@@ -147,7 +134,6 @@ class QuestionsTableTest extends \ilTestBaseTestCase
             ->method('buildOrderingRow')
             ->willReturn($row);
 
-        iterator_to_array($this->table_gui->_getBinding()->getRows($row_builder, []));
-
+        iterator_to_array($this->table_gui->getRows($row_builder, []));
     }
 }
