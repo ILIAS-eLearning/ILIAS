@@ -135,7 +135,7 @@ class ilMailTemplateConvertHtmlToMarkdown implements Migration
      * Converts all HTML tags in ilMailTemplateConvertHtmlToMarkdown::tags to markdown
      * and removes all other HTML tags
      */
-    private function convert(string $html): string
+    public function convert(string $html): string
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
