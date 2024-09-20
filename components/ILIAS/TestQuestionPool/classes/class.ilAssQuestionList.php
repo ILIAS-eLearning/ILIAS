@@ -37,7 +37,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private array $taxParentIds = [];
     private array $taxParentTypes = [];
     private ?int $answerStatusActiveId = null;
-    private array $forcedQuestionIds = [];
     protected bool $join_obj_data = true;
 
     /**
@@ -224,22 +223,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->join_obj_data;
     }
 
-    /**
-     * @param array $forcedQuestionIds
-     */
-    public function setForcedQuestionIds($forcedQuestionIds): void
-    {
-        $this->forcedQuestionIds = $forcedQuestionIds;
-    }
-
-    /**
-     * @return array
-     */
-    public function getForcedQuestionIds(): array
-    {
-        return $this->forcedQuestionIds;
-    }
-
     private function getParentObjFilterExpression(): ?string
     {
         if ($this->getParentObjId()) {
@@ -293,7 +276,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     private function getTaxonomyFilterExpressions(): array
     {
         $expressions = [];
-        if($this->taxFiltersExcludeAnyObjectsWithTaxonomies) {
+        if ($this->taxFiltersExcludeAnyObjectsWithTaxonomies) {
             $expressions[] = 'question_id NOT IN (SELECT DISTINCT item_id FROM tax_node_assignment)';
             return $expressions;
         }
@@ -548,18 +531,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function buildQuery(): string
     {
-        $query = $this->buildBasicQuery() . "
+        return $this->buildBasicQuery() . "
 			{$this->getConditionalFilterExpression()}
 		";
-
-        if (count($this->getForcedQuestionIds())) {
-            $query .= "
-				UNION {$this->buildBasicQuery()}
-				AND	{$this->db->in('qpl_questions.question_id', $this->getForcedQuestionIds(), false, 'integer')}
-			";
-        }
-
-        return $query;
     }
 
     public function load(): void

@@ -61,7 +61,7 @@ class Properties implements Property
         return $this->question_properties;
     }
 
-    public function getSequenceInformation(): PropertySequence
+    public function getSequenceInformation(): ?PropertySequence
     {
         return $this->sequence;
     }

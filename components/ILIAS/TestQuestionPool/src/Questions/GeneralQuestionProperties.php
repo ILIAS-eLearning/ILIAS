@@ -55,7 +55,7 @@ class GeneralQuestionProperties
 
     public function getOriginalId(): ?int
     {
-        return $this->origin_object_id;
+        return $this->original_id;
     }
 
     public function withOriginalId(int $original_id): self

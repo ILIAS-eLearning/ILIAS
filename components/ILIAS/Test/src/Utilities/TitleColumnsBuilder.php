@@ -132,14 +132,14 @@ class TitleColumnsBuilder
             return $this->ui_factory->link()->standard(
                 $title ?? $this->lng->txt('tst_question_not_from_pool_info'),
                 ''
-            );
+            )->withDisabled();
         }
 
         if (\ilObject::_lookupType($qpl_id, $reference) !== 'qpl') {
             return $this->ui_factory->link()->standard(
                 $this->lng->txt('tst_question_not_from_pool_info'),
                 ''
-            );
+            )->withDisabled();
         }
 
         $qpl_obj_id = $qpl_id;

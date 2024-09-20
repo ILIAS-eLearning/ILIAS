@@ -47,47 +47,39 @@ class QuestionsTable implements Table\OrderingBinding
     private const ACTION_FEEDBACK = 'feedback';
     private const ACTION_HINTS = 'hints';
 
-    protected string $table_id;
-    protected URLBuilder $url_builder;
-    protected URLBuilderToken $row_id_token;
+    private string $table_id;
+    private URLBuilder $url_builder;
+    private URLBuilderToken $row_id_token;
 
     /**
      * @param array $data <string, mixed>
      */
     public function __construct(
-        protected UIFactory $ui_factory,
-        protected UIRenderer $ui_renderer,
-        protected \ilGlobalTemplateInterface $tpl,
-        protected ServerRequestInterface $request,
-        protected QuestionsTableQuery $commands,
-        protected Language $lng,
-        protected \ilCtrl $ctrl,
-        protected \ilObjTest $test_obj,
-        protected TestQuestionsRepository $questionrepository,
-        protected TitleColumnsBuilder $title_builder,
-        protected array $records,
-        protected bool $is_adjusting_questions_with_results_allowed,
-        protected bool $is_in_test_with_results,
-        protected bool $is_in_test_with_random_question_set
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private \ilGlobalTemplateInterface $tpl,
+        private readonly ServerRequestInterface $request,
+        private readonly QuestionsTableQuery $commands,
+        private readonly Language $lng,
+        private readonly \ilCtrl $ctrl,
+        private readonly \ilObjTest $test_obj,
+        private readonly TestQuestionsRepository $questionrepository,
+        private readonly TitleColumnsBuilder $title_builder,
+        private readonly bool $is_adjusting_questions_with_results_allowed,
+        private readonly bool $is_in_test_with_results,
+        private readonly bool $is_in_test_with_random_question_set
     ) {
         $this->table_id = (string) $test_obj->getId();
         list($this->url_builder, $this->row_id_token) = $this->commands->getRowBoundURLBuilder(self::ACTION_PREVIEW);
-
-        usort(
-            $this->records,
-            static fn(TestQuestionProperties $a, TestQuestionProperties $b): int =>
-                $a->getSequenceInformation()->getPlaceInSequence() <=> $b->getSequenceInformation()->getPlaceInSequence()
-        );
     }
 
-    protected function getOrderData(): ?array
+    private function getOrderData(): ?array
     {
         return $this->getTableComponent()->getData();
     }
 
     public function getTableComponent(): Table\Ordering
     {
-
         $target = $this->commands->getActionURL(self::ACTION_SAVE_ORDER);
         $table = $this->ui_factory->table()->ordering(
             $this->lng->txt('list_of_questions'),
@@ -108,7 +100,7 @@ class QuestionsTable implements Table\OrderingBinding
     ): \Generator {
         $disable_default_actions = $this->is_in_test_with_random_question_set
             || $this->is_in_test_with_results;
-        foreach ($this->records as $record) {
+        foreach ($this->getRecords() as $record) {
             $row = $record->getAsQuestionsTableRow(
                 $this->lng,
                 $this->ui_factory,
@@ -132,9 +124,7 @@ class QuestionsTable implements Table\OrderingBinding
         }
     }
 
-    /**
-     */
-    protected function getColumns(): array
+    private function getColumns(): array
     {
         $f = $this->ui_factory;
         $columns = [
@@ -166,7 +156,7 @@ class QuestionsTable implements Table\OrderingBinding
         return $columns;
     }
 
-    protected function getActions(): array
+    private function getActions(): array
     {
         $std_actions = [
             self::ACTION_DELETE => 'delete',
@@ -203,7 +193,8 @@ class QuestionsTable implements Table\OrderingBinding
         $items = [];
         foreach ($row_ids as $id) {
             $qdata = $this->test_obj->getQuestionDataset($id);
-            $type = $this->questionrepository->getForQuestionId($id)->getTypeName($this->lng);
+            $type = $this->questionrepository->getQuestionPropertiesForQuestionId($id)
+                ->getGeneralQuestionProperties()->getTypeName($this->lng);
             $icon = $this->ui_renderer->render(
                 $this->ui_factory->symbol()->icon()->standard('ques', $type, 'small')
             );
@@ -374,9 +365,9 @@ class QuestionsTable implements Table\OrderingBinding
                 continue;
             }
 
-            $type = ilObject::_lookupType(
-                assQuestion::lookupParentObjId(
-                    $question_properties[$q_id]->getOriginalId()
+            $type = \ilObject::_lookupType(
+                \assQuestion::lookupParentObjId(
+                    $question_properties[$q_id]->getGeneralQuestionProperties()->getOriginalId()
                 )
             );
 
@@ -386,5 +377,17 @@ class QuestionsTable implements Table\OrderingBinding
             }
         }
         return true;
+    }
+
+    private function getRecords(): \Generator
+    {
+        $records = $this->questionrepository
+            ->getQuestionPropertiesWithAggregatedResultsForTest($this->test_obj);
+        usort(
+            $records,
+            static fn(TestQuestionProperties $a, TestQuestionProperties $b): int =>
+                $a->getSequenceInformation()?->getPlaceInSequence() <=> $b->getSequenceInformation()?->getPlaceInSequence()
+        );
+        yield from $records;
     }
 }
