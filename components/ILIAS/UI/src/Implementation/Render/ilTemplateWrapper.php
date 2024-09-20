@@ -28,13 +28,9 @@ use ilTemplate;
  */
 class ilTemplateWrapper implements Template
 {
-    protected ilGlobalTemplateInterface $global_tpl;
-    private ilTemplate $tpl;
-
-    final public function __construct(ilGlobalTemplateInterface $global_tpl, ilTemplate $tpl)
-    {
-        $this->global_tpl = $global_tpl;
-        $this->tpl = $tpl;
+    final public function __construct(
+        private ilTemplate $tpl,
+    ) {
     }
 
     /**
@@ -78,13 +74,5 @@ class ilTemplateWrapper implements Template
             $block = "__global__";
         }
         return $this->tpl->get($block);
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function addOnLoadCode(string $code): void
-    {
-        $this->global_tpl->addOnLoadCode($code);
     }
 }

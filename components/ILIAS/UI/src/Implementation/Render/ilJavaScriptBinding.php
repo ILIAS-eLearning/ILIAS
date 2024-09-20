@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
-use ilGlobalTemplateInterface;
-
 /**
  * Wraps global ilTemplate to provide JavaScriptBinding.
  */
@@ -29,16 +27,14 @@ class ilJavaScriptBinding implements JavaScriptBinding
 {
     public const PREFIX = "il_ui_fw_";
 
-    private ilGlobalTemplateInterface $global_tpl;
-
     /**
      * Cache for all registered JS code
      */
     protected array $code = array();
 
-    public function __construct(ilGlobalTemplateInterface $global_tpl)
-    {
-        $this->global_tpl = $global_tpl;
+    public function __construct(
+        private \ILIAS\UICore\GlobalTemplate $global_tpl,
+    ) {
     }
 
     /**

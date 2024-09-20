@@ -32,6 +32,9 @@ class Style implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $implement[UI\Implementation\Render\ImagePathResolver::class] = static fn() =>
+            new \ilImagePathResolver();
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilStyleSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]

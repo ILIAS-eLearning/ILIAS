@@ -13,16 +13,17 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-use ILIAS\UICore\GlobalTemplate;
+namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * @author Stefan Kesseler <skesseler@databay.de>
- * @author Sascha Hofmann <shofmann@databay.de>
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface ilGlobalTemplateInterface extends GlobalTemplate
+interface PhpUploadLimit
 {
+    /**
+     * Returns the smaller php-ini option of 'post_max_size' and 'upload_max_filesize' in bytes.
+     */
+    public function getPhpUploadLimitInBytes(): int;
 }

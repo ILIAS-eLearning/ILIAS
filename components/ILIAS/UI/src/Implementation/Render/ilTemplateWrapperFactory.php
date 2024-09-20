@@ -28,19 +28,12 @@ use ilTemplate;
  */
 class ilTemplateWrapperFactory implements TemplateFactory
 {
-    protected ilGlobalTemplateInterface $global_tpl;
-
-    public function __construct(ilGlobalTemplateInterface $global_tpl)
-    {
-        $this->global_tpl = $global_tpl;
-    }
-
     /**
      * @inheritdocs
      */
     public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template
     {
         $tpl = new ilTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
-        return new ilTemplateWrapper($this->global_tpl, $tpl);
+        return new ilTemplateWrapper($tpl);
     }
 }

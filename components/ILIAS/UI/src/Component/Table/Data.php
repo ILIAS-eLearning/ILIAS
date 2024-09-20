@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-use ILIAS\UI\Component\Input\ViewControl\ViewControl;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;

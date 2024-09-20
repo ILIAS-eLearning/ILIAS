@@ -32,6 +32,11 @@ class FileServices implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $implement[UI\Component\Input\Field\PhpUploadLimit::class] = static fn() =>
+            new FileServices\FileServicesLegacyInitialisationAdapter();
+        $implement[UI\Component\Input\Field\GlobalUploadLimit::class] = static fn() =>
+            new FileServices\FileServicesLegacyInitialisationAdapter();
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilFileServicesSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]

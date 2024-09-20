@@ -40,12 +40,6 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
     $GLOBALS['ilGlobalStartTime'] = microtime();
 }
 
-global $DIC;
-if (null === $DIC) {
-    // Don't remove this, intellisense autocompletion does not work in PhpStorm without a top level assignment
-    $DIC = new Container();
-}
-
 /**
  * ILIAS Initialisation Utility Class
  * perform basic setup: init database handler, load configuration file,
@@ -415,7 +409,7 @@ class ilInitialisation
         $ilias_http_path = preg_replace('/goto.php$/', '', $ilias_http_path);
         $ilias_http_path = preg_replace('/go\/.*$/', '', $ilias_http_path);
 
-        $f = new \ILIAS\Data\Factory();
+        $f = $GLOBALS["DIC"][\ILIAS\Data\Factory::class];
         $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($ilias_http_path));
 
         $base_URI = $uri->getBaseURI();
@@ -433,7 +427,7 @@ class ilInitialisation
             return;
         }
         global $DIC;
-        $df = new \ILIAS\Data\Factory();
+        $df = $DIC[\ILIAS\Data\Factory::class];
 
         // check whether ini file object exists
         if (!$DIC->isDependencyAvailable('iliasIni')) {
@@ -706,7 +700,7 @@ class ilInitialisation
                 $c->database(),
                 $c->settings(),
                 $c->logger()->cron(),
-                (new \ILIAS\Data\Factory())->clock()
+                $c[\ILIAS\Data\Factory::class]->clock(),
             );
         };
     }
@@ -998,9 +992,6 @@ class ilInitialisation
                 $DIC->offsetUnset('lng');
             }
             self::initGlobal('lng', ilLanguage::getGlobalInstance());
-            //re-init refinery with the user's language
-            unset($DIC['refinery']);
-            self::initRefinery($DIC);
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
@@ -1124,7 +1115,6 @@ class ilInitialisation
             return;
         }
 
-        $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();
         };
@@ -1208,7 +1198,7 @@ class ilInitialisation
         // breaks CAS: must be included after CAS context isset in AuthUtils
 
         self::requireCommonIncludes();
-        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory())->version(ILIAS_VERSION_NUMERIC);
+        $GLOBALS["DIC"]["ilias.version"] = $GLOBALS["DIC"][\ILIAS\Data\Factory::class]->version(ILIAS_VERSION_NUMERIC);
 
         // error handler
         self::initGlobal(
@@ -1323,7 +1313,6 @@ class ilInitialisation
         unset($tree);
 
         self::setSessionCookieParams();
-        self::initRefinery($DIC);
 
         (new InitCtrlService())->init($DIC);
 
@@ -1469,13 +1458,11 @@ class ilInitialisation
     }
 
     /**
-     * init the ILIAS UI framework.
+     * @deprecated this mechanism will be removed as part of the component revision and
+     *             the refactoring to the new bootstrap mechanism.
      */
-    public static function initUIFramework(\ILIAS\DI\Container $c): void
+    public static function applyPluginManipulationsToUiFramework(\ILIAS\DI\Container $c): void
     {
-        $init_ui = new InitUIFramework();
-        $init_ui->init($c);
-
         $component_repository = $c["component.repository"];
         $component_factory = $c["component.factory"];
         foreach ($component_repository->getPlugins() as $pl) {
@@ -1491,19 +1478,6 @@ class ilInitialisation
                 }
             }
         }
-    }
-
-    /**
-     * @param \ILIAS\DI\Container $container
-     */
-    protected static function initRefinery(\ILIAS\DI\Container $container): void
-    {
-        $container['refinery'] = function ($container) {
-            $dataFactory = new \ILIAS\Data\Factory();
-            $language = $container['lng'];
-
-            return new \ILIAS\Refinery\Factory($dataFactory, $language);
-        };
     }
 
     /**
@@ -1550,7 +1524,7 @@ class ilInitialisation
             self::initUploadPolicies($DIC);
         }
 
-        self::initUIFramework($GLOBALS["DIC"]);
+        self::applyPluginManipulationsToUiFramework($GLOBALS["DIC"]);
         $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
         self::initGlobal("tpl", $tpl);
 

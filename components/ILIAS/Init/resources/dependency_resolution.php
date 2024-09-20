@@ -13,16 +13,10 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-use ILIAS\UICore\GlobalTemplate;
-
-/**
- * @author Stefan Kesseler <skesseler@databay.de>
- * @author Sascha Hofmann <shofmann@databay.de>
- * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface ilGlobalTemplateInterface extends GlobalTemplate
-{
-}
+
+return [
+    "*" => [
+        \ILIAS\Language\Language::class => \ILIAS\Language\LanguageLegacyInitialisationAdapter::class,
+    ],
+];

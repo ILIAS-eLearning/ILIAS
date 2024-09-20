@@ -32,6 +32,32 @@ class Session implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        // currently this is will be a session storage because we cannot store
+        // data on the client, see https://mantis.ilias.de/view.php?id=38503.
+        // @todo: please implement this inside a proper service.
+        $implement[UI\Component\Table\Storage::class] = static fn() =>
+            new class () implements UI\Component\Table\Storage {
+                public function offsetExists(mixed $offset): bool
+                {
+                    return \ilSession::has($offset);
+                }
+                public function offsetGet(mixed $offset): mixed
+                {
+                    return \ilSession::get($offset);
+                }
+                public function offsetSet(mixed $offset, mixed $value): void
+                {
+                    if (!is_string($offset)) {
+                        throw new \InvalidArgumentException('Offset needs to be of type string.');
+                    }
+                    \ilSession::set($offset, $value);
+                }
+                public function offsetUnset(mixed $offset): void
+                {
+                    \ilSession::clear($offset);
+                }
+            };
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilSessionSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
