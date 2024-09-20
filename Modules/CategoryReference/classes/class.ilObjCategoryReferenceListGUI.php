@@ -113,7 +113,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 
         $this->deleted = !$target_ref_id || $tree->isDeleted($target_ref_id);
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem((int) $target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         $this->commands = ilObjCategoryReferenceAccess::_getCommands($this->reference_ref_id);
