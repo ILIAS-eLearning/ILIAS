@@ -279,8 +279,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $this->tabs_manager->getSettingsSubTabs();
-                $this->tabs_gui->activateTab('settings');
-                $this->tabs_gui->activateSubTab('lti_provider');
+                $this->tabs_manager->activateTab('settings');
+                $this->tabs_manager->activateSubTab('lti_provider');
                 $lti_gui = new ilLTIProviderObjectSettingGUI($this->getTestObject()->getRefId());
                 $lti_gui->setCustomRolesForSelection($this->rbac_review->getLocalRoles($this->getTestObject()->getRefId()));
                 $lti_gui->offerLTIRolesForSelection(false);
@@ -294,7 +294,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->tabs_gui->activateTab(TabsManager::TAB_ID_EXPORT);
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_EXPORT);
 
                 $selected_files = [];
                 if ($this->testrequest->isset('file') && $this->testrequest->raw('file')) {
@@ -355,7 +355,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->tabs_gui->activateTab(TabsManager::TAB_ID_META_DATA);
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_META_DATA);
                 $md_gui = new ilObjectMetaDataGUI($this->getTestObject());
                 $this->ctrl->forwardCommand($md_gui);
                 break;
@@ -482,7 +482,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->tabs_gui->activateTab(TabsManager::TAB_ID_PERMISSIONS);
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -493,7 +493,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->tabs_gui->activateTab(TabsManager::TAB_ID_LEARNING_PROGRESS);
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_LEARNING_PROGRESS);
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->getTestObject()->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
 
@@ -506,7 +506,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->prepareOutput();
                 $this->addHeaderAction();
 
-                $this->tabs_gui->activateTab(TabsManager::TAB_ID_SETTINGS);
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
                 $gui_factory = new ilCertificateGUIFactory();
                 $output_gui = $gui_factory->create($this->getTestObject());
@@ -692,7 +692,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $gui = new ilTestSkillAdministrationGUI(
                     $this->ctrl,
                     $this->access,
-                    $this->tabs_gui,
+                    $this->tabs_manager,
                     $this->tpl,
                     $this->lng,
                     $this->refinery,
@@ -1264,7 +1264,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
         $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
         $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_gui->activateTab('results');
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_RESULTS);
         $this->ctrl->forwardCommand($gui);
     }
 
@@ -1845,7 +1845,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $sub_screen_id = ['createQuestion'];
 
-        $this->tabs_gui->activateTab('assQuestions');
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_QUESTIONS);
         $this->help->setScreenId('assQuestions');
         $this->help->setSubScreenId(implode('_', $sub_screen_id));
 
@@ -2129,7 +2129,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportLegacyLogs')
             )
         );
-        $this->tabs_gui->activateTab(TabsManager::TAB_ID_HISTORY);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_HISTORY);
 
         list($filter, $table_gui) = $this->getTestObject()->getTestLogViewer()->getLogTable(
             $url_builder,
@@ -2303,7 +2303,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
-        $this->tabs_gui->activateTab(TabsManager::TAB_ID_SETTINGS);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
         $this->toolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
@@ -2464,7 +2464,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->redirectByClass(TestScreenGUI::class, TestScreenGUI::DEFAULT_CMD);
         }
 
-        $this->tabs_gui->activateTab(TabsManager::TAB_ID_INFOSCREEN);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_INFOSCREEN);
 
         if ($this->access->checkAccess('read', '', $this->testrequest->getRefId())) {
             $this->trackTestObjectReadEvent();
@@ -2681,7 +2681,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function certificateObject()
     {
-        $this->tabs_gui->activateTab(TabsManager::TAB_ID_SETTINGS);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
         $guiFactory = new ilCertificateGUIFactory();
         $output_gui = $guiFactory->create($this->getTestObject());
@@ -3008,7 +3008,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl,
             $this->tpl,
             $this->http,
-            $this->tabs_gui,
+            $this->tabs_manager,
             $this->access,
             $this->test_access,
             $this->db,
