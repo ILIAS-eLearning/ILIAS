@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Course\Certificate;
 
+use ilObjUser;
 use ilLanguage;
 use ilObjCourse;
 use ilDBInterface;
@@ -115,11 +116,19 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $objectMock->method('getObjectTranslation')
             ->willReturn($obj_translation);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+        $user_object = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+            ->getMock();
         $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
+            ->willReturnMap(
+                [
+                    [200, $objectMock],
+                    [100, $user_object]
+                ]
+            );
 
         $participantsHelper = $this->getMockBuilder(CertificateParticipantsHelper::class)
             ->getMock();
