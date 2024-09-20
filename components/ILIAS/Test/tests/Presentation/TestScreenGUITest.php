@@ -19,7 +19,6 @@
 namespace ILIAS\Test\Tests\Presentation;
 
 use ILIAS\Test\Presentation\TestScreenGUI;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -39,7 +38,7 @@ class TestScreenGUITest extends \ilTestBaseTestCase
             $this->createMock(\ilCtrl::class),
             $this->createMock(\ilGlobalTemplateInterface::class),
             $this->createMock(HTTPServices::class),
-            $this->createMock(\ilTabsGUI::class),
+            $this->createMock(\ILIAS\Test\Presentation\TabsManager::class),
             $this->createMock(\ilAccessHandler::class),
             $this->createMock(\ilTestAccess::class),
             $this->createMock(\ilDBInterface::class),

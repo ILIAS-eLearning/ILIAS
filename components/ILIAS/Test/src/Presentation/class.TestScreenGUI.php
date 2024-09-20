@@ -64,7 +64,7 @@ class TestScreenGUI
         private readonly \ilCtrlInterface $ctrl,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly HTTPServices $http,
-        private readonly \ilTabsGUI $tabs,
+        private readonly TabsManager $tabs_manager,
         private readonly \ilAccessHandler $access,
         private readonly \ilTestAccess $test_access,
         private readonly \ilDBInterface $database,
@@ -103,7 +103,7 @@ class TestScreenGUI
 
     public function testScreen(): void
     {
-        $this->tabs->activateTab(TabsManager::TAB_ID_TEST);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_TEST);
         $this->tpl->setPermanentLink($this->object->getType(), $this->ref_id);
 
         $elements = [];

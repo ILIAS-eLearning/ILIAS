@@ -72,6 +72,8 @@ class TabsManager
     public const SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE = 'edit_introduction';
     public const SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE = 'edit_concluding_remarks';
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
+    public const SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS = 'skill_level_thresholds';
+    public const SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS = 'question_skill_assignment';
     private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
 
     protected ?string $parent_back_href = null;
@@ -445,16 +447,6 @@ class TabsManager
                     'ilcertificategui'
                 ]
             );
-
-            // skill service
-            if ($this->test_object->isSkillServiceToBeConsidered()) {
-                $link = $this->ctrl->getLinkTargetByClass(
-                    ['ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'],
-                    \ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
-                );
-
-                $this->tabs->addTarget('tst_tab_competences', $link, [], []);
-            }
         }
 
         if ($this->needsDashboardTab()) {
@@ -644,6 +636,20 @@ class TabsManager
             $this->lng->txt('edit_test_questions'),
             $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
         );
+
+        if ($this->test_object->isSkillServiceToBeConsidered()) {
+            $this->tabs->addSubTab(
+                self::SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS,
+                $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
+                $this->ctrl->getLinkTargetByClass(
+                    [
+                        \ilTestSkillAdministrationGUI::class,
+                        \ilAssQuestionSkillAssignmentsGUI::class
+                    ],
+                    \ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+                )
+            );
+        }
     }
 
     protected function getStatisticsSubTabs(): void
@@ -721,6 +727,20 @@ class TabsManager
                 ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'ceateSave',
                     'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport'],
                 ['', 'ilobjtestgui', 'ilcertificategui']
+            );
+        }
+
+        if ($this->test_object->isSkillServiceToBeConsidered()) {
+            $this->tabs->addSubTab(
+                self::SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS,
+                $this->lng->txt('tst_skl_sub_tab_thresholds'),
+                $this->ctrl->getLinkTargetByClass(
+                    [
+                        \ilTestSkillAdministrationGUI::class,
+                        \ilTestSkillLevelThresholdsGUI::class
+                    ],
+                    \ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+                )
             );
         }
 
