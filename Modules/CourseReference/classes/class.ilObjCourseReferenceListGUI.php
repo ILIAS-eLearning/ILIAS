@@ -135,7 +135,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
 
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem((int) $target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');

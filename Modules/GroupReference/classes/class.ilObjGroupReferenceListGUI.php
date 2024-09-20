@@ -122,7 +122,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id, $target_obj_id);
 
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem((int) $target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         include_once('./Modules/GroupReference/classes/class.ilObjGroupReferenceAccess.php');
