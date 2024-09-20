@@ -93,7 +93,7 @@ class NoteSettingsDBRepository
             [
            "rep_obj_id" => ["integer", $obj_id],
            "obj_id" => ["integer", $sub_obj_id],
-           "obj_type" => ["integer", $obj_type],
+           "obj_type" => ["string", $obj_type],
         ],
             [
                 "activated" => ["integer", (int) $a_activate]
