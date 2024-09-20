@@ -23,10 +23,11 @@ if (!file_exists('../ilias.ini.php')) {
 }
 
 require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
-ilInitialisation::initILIAS();
-
+global $DIC;
 ilStartUpGUI::setForcedCommand('doLogout');
-$ilCtrl->callBaseClass(ilStartUpGUI::class);
-$ilBench->save();
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC['ilBench']->save();
 exit();

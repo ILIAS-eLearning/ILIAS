@@ -38,6 +38,13 @@ class PasswordContraintsTest extends TestCase
             public function loadLanguageModule(string $a_module): void
             {
             }
+            public function getLangKey(): string
+            {
+                return '';
+            }
+            public function toJS($key): void
+            {
+            }
         };
         $d = new \ILIAS\Data\Factory();
         $refinery = new \ILIAS\Refinery\Factory($d, $lng);

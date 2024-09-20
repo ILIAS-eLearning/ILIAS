@@ -27,16 +27,16 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
  */
 class SettingsScoringGUITest extends ilTestBaseTestCase
 {
+    use UITestHelper;
+
     protected function getUIComponents(): array
     {
-        $test_helper = new UITestHelper();
-
         return [
-            $test_helper->factory(),
-            $test_helper->renderer(),
+            $this->factory(),
+            $this->renderer(),
             $this->createMock(ServerRequestInterface::class),
             $this->getMockBuilder(\ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock(),
-            $test_helper->mainTemplate(),
+            $this->mainTemplate(),
             $this->createMock(ilTabsGUI::class)
         ];
     }

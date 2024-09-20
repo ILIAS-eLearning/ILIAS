@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PROPFIND'
 }
 // END WebDAV: Block WebDAV Requests from Microsoft WebDAV MiniRedir client.
 
-ilInitialisation::initILIAS();
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
-$ilCtrl->callBaseClass(ilStartUpGUI::class);
-$ilBench->save();
+global $DIC;
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC['ilBench']->save();

@@ -211,7 +211,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $loader = $this->createMock(Loader::class);
         $loader->method('getRendererFor')->willReturn($this->component_renderer);
 
-        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding());
+        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding(), $this->getLanguage());
 
         $this->component_renderer->expects($this->once())
             ->method("render")
@@ -232,7 +232,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $loader = $this->createMock(Loader::class);
         $loader->method('getRendererFor')->willReturn($this->component_renderer);
 
-        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding());
+        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding(), $this->getLanguage());
 
         $this->component_renderer->expects($this->once())
             ->method("render")

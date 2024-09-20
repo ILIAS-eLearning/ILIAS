@@ -40,6 +40,7 @@ class DefaultRenderer implements Renderer
     public function __construct(
         private Render\Loader $component_renderer_loader,
         private JavaScriptBinding $java_script_binding,
+        private \ILIAS\Language\Language $language,
     ) {
     }
 
@@ -48,6 +49,8 @@ class DefaultRenderer implements Renderer
      */
     public function render($component, ?Renderer $root = null)
     {
+        $this->language->loadLanguageModule('ui');
+
         $root = $root ?? $this;
 
         if (is_array($component)) {

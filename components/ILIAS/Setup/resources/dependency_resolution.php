@@ -13,9 +13,6 @@
 
 return [
     "*" => [
-        "\\ILIAS\\Language\\Language" => "ilSetupLanguage"
+        \ILIAS\Language\Language::class => \ilSetupLanguage::class
     ],
-    "\\ILIAS\\Refinery" => [
-        "\\ILIAS\Language\Language" => "myLanguage"
-    ]
 ];

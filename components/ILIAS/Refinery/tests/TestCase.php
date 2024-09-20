@@ -29,6 +29,7 @@ class ilLanguageMock implements Language
     /** @var string[] */
     public array $requested = [];
     public string $lang_module = 'common';
+    public string $lang_key = 'en';
 
     public function __construct()
     {
@@ -46,6 +47,11 @@ class ilLanguageMock implements Language
 
     public function loadLanguageModule(string $a_module): void
     {
+    }
+
+    public function getLangKey(): string
+    {
+        return $this->lang_key;
     }
 }
 

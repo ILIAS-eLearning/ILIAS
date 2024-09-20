@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
-use ilGlobalTemplateInterface;
 use InvalidArgumentException;
 
 /**
@@ -29,11 +28,9 @@ use InvalidArgumentException;
  */
 class ilResourceRegistry implements ResourceRegistry
 {
-    protected ilGlobalTemplateInterface $il_template;
-
-    public function __construct(ilGlobalTemplateInterface $il_template)
-    {
-        $this->il_template = $il_template;
+    public function __construct(
+        protected \ILIAS\UICore\GlobalTemplate $il_template,
+    ) {
     }
 
     /**

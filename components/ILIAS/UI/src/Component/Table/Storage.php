@@ -13,16 +13,13 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
-use ILIAS\UICore\GlobalTemplate;
+ */
+  
+namespace ILIAS\UI\Component\Table;
 
 /**
- * @author Stefan Kesseler <skesseler@databay.de>
- * @author Sascha Hofmann <shofmann@databay.de>
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface ilGlobalTemplateInterface extends GlobalTemplate
+interface Storage extends \ArrayAccess
 {
 }

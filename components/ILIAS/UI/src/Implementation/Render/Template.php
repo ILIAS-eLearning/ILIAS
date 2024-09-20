@@ -52,11 +52,4 @@ interface Template
      * Get the rendered template or a specific block.
      */
     public function get(string $block = null): string;
-
-    /**
-     * Add some javascript to be executed on_load of the rendered page.
-     * TODO: This seems to be no rendering, but a javascript concern. We should
-     * revise this when introducing patterns for javascript.
-     */
-    public function addOnLoadCode(string $code): void;
 }

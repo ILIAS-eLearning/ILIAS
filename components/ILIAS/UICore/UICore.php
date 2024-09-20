@@ -32,10 +32,13 @@ class UICore implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $define[] = UICore\GlobalTemplate::class;
+
+        $implement[UICore\GlobalTemplate::class] = static fn() =>
+            new UICore\GlobalTemplateLegacyInitialisationAdapter();
+
         $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ilUICoreSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
+            new \ilUICoreSetupAgent();
 
         /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>
