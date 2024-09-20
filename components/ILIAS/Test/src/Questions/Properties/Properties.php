@@ -24,7 +24,7 @@ use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
-use ILIAS\UI\Implementation\Component\Table\OrderingRow;
+use ILIAS\UI\Component\Table\OrderingRow;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Language\Language;

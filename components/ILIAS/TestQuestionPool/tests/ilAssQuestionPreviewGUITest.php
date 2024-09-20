@@ -64,7 +64,8 @@ class ilAssQuestionPreviewGUITest extends assBaseTestCase
             $random_group,
             $global_screen,
             $http,
-            $refinery
+            $refinery,
+            0
         );
     }
 
