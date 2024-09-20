@@ -21,9 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogger;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
@@ -176,6 +174,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         }
 
         $test_question_set_config = $this->buildTestQuestionSetConfig();
+        array_map(
+            fn(int $v): int => $this->test_obj->insertQuestion($v),
+            $selected_array
+        );
 
         $this->test_obj->saveCompleteStatus($test_question_set_config);
 
