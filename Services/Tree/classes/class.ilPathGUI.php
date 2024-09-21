@@ -1,27 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
 /**
  * Creates a path for a start and endnode
@@ -41,6 +36,7 @@ class ilPathGUI
 
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected ilCtrlInterface $ctrl;
     protected ilObjectDefinition $objectDefinition;
 
     /**
@@ -54,6 +50,7 @@ class ilPathGUI
         $this->endnode = (int) ROOT_FOLDER_ID;
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
+        $this->ctrl = $DIC['ilCtrl'];
         $this->objectDefinition = $DIC['objDefinition'];
     }
 
@@ -203,7 +200,7 @@ class ilPathGUI
 
                 if (!$this->tree->isDeleted($ref_id)) {
                     $tpl->setCurrentBlock('locator_item');
-                    $tpl->setVariable('LINK_ITEM', ilLink::_getLink($ref_id, $type));
+                    $tpl->setVariable('LINK_ITEM', $this->buildLink($ref_id, $type));
                     $tpl->setVariable('ITEM', $title);
                     $tpl->parseCurrentBlock();
                 } else {
@@ -226,6 +223,15 @@ class ilPathGUI
             return $this->lng->txt('obj_' . $type);
         }
         return ilObject::_lookupTitle($a_obj_id);
+    }
+
+    protected function buildLink(int $ref_id, string $type): string
+    {
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'ref_id', $ref_id);
+            return $this->ctrl->getLinkTargetByClass(ilAdministrationGUI::class, 'jump');
+        }
+        return ilLink::_getLink($ref_id, $type);
     }
 
     /**

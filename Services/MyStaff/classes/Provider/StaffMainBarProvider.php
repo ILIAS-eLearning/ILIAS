@@ -52,6 +52,10 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
      */
     final public function getStaticSubItems(): array
     {
+        if (!ilMyStaffAccess::isMyStaffActive()) {
+            return [];
+        }
+
         $this->dic->language()->loadLanguageModule('mst');
         $dic = $this->dic;
         $items = [];

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * Class ilAuthProviderSaml
  */
-final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
+class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     private const LOG_COMPONENT = 'auth';
 

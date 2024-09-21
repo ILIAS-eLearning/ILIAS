@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 9.x 2024-06-09
+* @version 9.x 2024-09-13
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -3461,7 +3461,7 @@ common#:#adve_assessment_settings#:#Teszt- és kiértékelés
 common#:#adve_frm_post_settings#:#Fórumhozzászólások
 common#:#adve_general_settings#:#Általános beállítások
 common#:#adve_survey_settings#:#Kérdőív
-common#:#agree_date#:#Agreed on###27 08 2024 new variable
+common#:#agree_date#:#Elfogadva ekkor:
 common#:#all#:#Összes
 common#:#all_global_roles#:#Globális szerepek
 common#:#all_local_roles#:#Helyi szerepek (összes)
@@ -5971,7 +5971,7 @@ common#:#webfolder_dir_info#:#Böngészője nem tud webmappákat megnyitni. Olva
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions#:#Leírás webmappa használatához
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerelemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
-common#:#webfolder_instructions_text#:#[WINDOWS] <h3>Utasítások Windows rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Fájlkezelőt (például Windows + E billentyűkombináció).</li> <li>Válassza a 'Hálózati meghajtó csatlakoztatása' opciót.</li> <li>Adja a meg hálózati csatlakoztatandó mappának az következőt (másolja majd illessze be az URL-t):<br /><br /> <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Kattintson a 'Befejezés' gombra.</li> <li>Amennyiben szükséges, adja meg felhasználónevét és jelszavát.</li> <li>Ezután a hálózati meghajtót a többi meghajtók között megtalálja.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a személyes beállításai alatt tudja megváltoztatni.[/WINDOWS][MAC] <h3>Utasítások Mac OS X rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Keresőt (Finder).</li> <li>Válassza a 'Menj &gt; Kapcsolódás Szerverhez...' menüt.<br/>Erre a 'Kapcsolódás szerverhez' dialógusablak nyílik meg.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br/><b>[WEBFOLDER_URI]</b><br/> és válassza a ’Kapcsolódás’-t.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/MAC][LINUX] <h3>Utasítások Linux rendszerhez Konquerorral történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Konqueror böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>majd nyomja meg az Enter billentyűt.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <h3>Utasítások Linux rendszerhez Nautilus-szal történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Nautilus böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>majd nyomja meg az Enter billentyűt..</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/LINUX]  <h3>Tippek &amp; támogatás</h3> <ul> <li>Ezeket a lépéséket <b>csak egyszer</b> szükséges végrehajtani. Később is elérheti ezt a kapcsolatot.</li> </ul> <ul> <li>Almappához csatlakozhat, de a mappától felfelé már nem tud lépni.</li> </ul> <ul> <li>Ha nem sikerül elérnie a hálózati meghajtót, vegye fel a kapcsolatot egy rendszergazdával.</li> </ul>
+common#:#webfolder_instructions_text#:#[WINDOWS] <h3>Utasítások Windows rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Fájlkezelőt (például Windows + E billentyűkombináció).</li> <li>Válassza a 'Hálózati meghajtó csatlakoztatása' opciót.</li> <li>Adja a meg hálózati csatlakoztatandó mappának az következőt (másolja majd illessze be az URL-t):<br /><br /> <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Kattintson a 'Befejezés' gombra.</li> <li>Amennyiben szükséges, adja meg felhasználónevét és jelszavát.</li> <li>Ezután a hálózati meghajtót a többi meghajtók között megtalálja.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a személyes beállításai alatt tudja megváltoztatni.[/WINDOWS][MAC] <h3>Utasítások Mac OS X rendszerrel történő csatlakozáshoz</h3> <ol> <li>Nyissa meg a Keresőt (Finder).</li> <li>Válassza a 'Menj &gt; Kapcsolódás Szerverhez...' menüt.<br/>Erre a 'Kapcsolódás szerverhez' dialógusablak nyílik meg.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br/><b>[WEBFOLDER_URI]</b><br/> és válassza a ’Kapcsolódás’-t.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/MAC][LINUX] <h3>Utasítások Linux rendszerhez Konquerorral történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Konqueror böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>majd nyomja meg az Enter billentyűt.</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <h3>Utasítások Linux rendszerhez Nautilus-szal történő csatlakozáshoz</h3> <ol> <li>Indítsa el a Nautilus böngészőt.</li> <li>Szerver URL-nek a következő URL-t adja meg:<br /> <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>majd nyomja meg az Enter billentyűt..</li> <li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li> </ol> <br /> Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/LINUX] <h3>Tippek &amp; támogatás</h3> <ul> <li>Ezeket a lépéséket <b>csak egyszer</b> szükséges végrehajtani. Később is elérheti ezt a kapcsolatot.</li> </ul> <ul> <li>Almappához csatlakozhat, de a mappától felfelé már nem tud lépni.</li> </ul> <ul> <li>Ha nem sikerül elérnie a hálózati meghajtót, vegye fel a kapcsolatot egy rendszergazdával.</li> </ul>
 common#:#webfolder_instructions_titletext#:#Megnyitás webmappaként
 common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>, <a href="%4$s">más böngészővel</a>.
 common#:#webr#:#Weblink
@@ -6044,7 +6044,7 @@ cont#:#cont_news_timeline_info#:#Hírek idővonal lapjának bekapcsolása
 cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
 cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal lap lesz a kezdőoldal.
 cont#:#cont_news_timeline_tab#:#Idővonal
-cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_no_title#:#Üres cím
 cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, ...)
 cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
 cont#:#cont_path#:#Útvonal
@@ -6976,7 +6976,7 @@ content#:#cont_sc_auto_continue_info#:#A felhasználókat az utolsó aktivitásu
 content#:#cont_sc_auto_review_2004#:#Adatrögzítés befejezése
 content#:#cont_sc_auto_review_completed#:#ha a korábbi állapot befejezte
 content#:#cont_sc_auto_review_completed_and_passed#:#ha a korábbi állapot befejezte és sikeresen teljesítette
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ha a  korábbi állapot befejezte vagy sikeresen teljesítette, de nem nem teljesítette
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ha a korábbi állapot befejezte vagy sikeresen teljesítette, de nem nem teljesítette
 content#:#cont_sc_auto_review_completed_or_passed#:#ha a korábbi állapot befejezte vagy sikeresen teljesítette
 content#:#cont_sc_auto_review_info_2004#:#A felhasználó nyomkövetési állapotát zároljuk egy fejezetnél/SCO-nál, amikor a fentebbiek közül a kiválasztottra vált. Későbbi látogatások során az állapot már nem módosul.<br />Válassza a 'soha (megfelel a SCORM specifikációnak)' beállítást, ha a tananyag használja a SCORM 2004 szerinti 'Szekvenálás & Navigáció'-t.
 content#:#cont_sc_auto_review_no#:#soha (megfelel a SCORM specifikációnak)
@@ -7502,8 +7502,8 @@ crs#:#crs_course_period_not_valid#:#A kurzusidőszak nem érvényes.
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_create_date#:#Dátum létrehozása
 crs#:#crs_custom_user_fields#:#Kurzushoz tartozó felhasználói adatok
-crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
-crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###18 06 2024 new variable
+crs#:#crs_custom_user_fields_infobox#:#További adatmezők létrehozása a kurzustagok számára, amelyeket csatlakozáskor ki kell töltenük. Ezt az információt további oszlopként is megjelenítheti a 'Tagok' lapon.
+crs#:#crs_custom_user_fields_table_title#:#A kurzus releváns felhasználói adatai
 crs#:#crs_dates#:#Dátumok
 crs#:#crs_deactivate_notification#:#Értesítés kikapcsolása
 crs#:#crs_delete_objectve_sure#:#Biztos, hogy törli a kiválasztott célokat?
@@ -7862,7 +7862,7 @@ crs#:#crs_subject_course_group_notification#:#Napi levél ehhez: %s
 crs#:#crs_subscribe_member#:#'%s' kurzusra regisztráció
 crs#:#crs_subscribe_member_body#:#ezúton értesítjük, hogy '%s' kurzusra sikeresen regisztrált.
 crs#:#crs_subscribe_wl#:#'%s' kurzusra regisztráció
-crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült. Ön a(z) %s. a listán.  A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
+crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült. Ön a(z) %s. a listán. A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
 crs#:#crs_subscriber#:#Csatlakozni kívánó
 crs#:#crs_subscribers_deleted#:#Törölt csatlakozni kívánó(k)
 crs#:#crs_subscription#:#Feliratkozás
@@ -8855,8 +8855,8 @@ didactic#:#grp_closed_info#:#A csoportot csak tagjaik láthatják.
 didactic#:#more_translations#:#További fordítások
 didactic#:#sess_closed#:#Zárt esemény
 didactic#:#sess_closed_info#:#Az eseményt csak a résztvevőik láthatják.
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###18 06 2024 new variable
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###18 06 2024 new variable
+dpro#:#dpro_accept_usr_agreement_anonymous#:#Adatvédelmi Nyilatkozat
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Adatvédelmi Nyilatkozatot.
 dpro#:#dpro_account_reg_not_possible#:#A regisztráció jelenleg nem lehetséges, mert nincs Adatvédelmi Nyilatkozat. Kérem, további információért keresse a <a href="%1$s">rendszer üzemeltetőjét</a>.
 dpro#:#dpro_agree_date#:#Adatvédelmi Nyilatkozat elfogadása
 dpro#:#dpro_last_reset_date#:#Az Adatvédelmi Nyilatkozatot elfogadásait törölték (%s). Csak akkor tegye ezt meg újra, ha módosult az Adatvédelmi Nyilatkozat tartalma és ezért azt újra el kell fogadtatni a felhasználókkal.
@@ -9475,7 +9475,7 @@ exc#:#exc_rel_start_latest_lead_text#:#%s a legkésőbbi
 exc#:#exc_rel_start_lead_text#:#Submit %s nappal a kezdés után
 exc#:#exc_relative_date#:#Relatív Dátum
 exc#:#exc_relative_date_info#:#Az összes felhasználónál a feladat megkezdésétől számítjuk a határidőt.
-exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
+exc#:#exc_relative_date_period#:#Munkaidő
 exc#:#exc_rem_time_after_start#:#Hátralévő idő
 exc#:#exc_reminder_cron_ok#:#Emlékeztető kiküldve:
 exc#:#exc_reminder_end#:#Emlékeztetők vége
@@ -9695,7 +9695,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#Nyomtatási nézet megjelenítése
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Új exportfájl jött létre.
-exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
+exp#:#export_files_deleted#:#A kijelölt exportfájlokat sikeresen törölte.
 export#:#export_create#:#Létrehozás
 export#:#export_create_new_file#:#Új exportfájl létrehozása
 export#:#export_existing#:#Újrafelhasználás
@@ -10215,7 +10215,7 @@ grp#:#grp_create_or_use_existing#:#Meglévő vagy új csoporthoz hozzáadja a fe
 grp#:#grp_created_and_user_been_added#:#A csoportot sikeresen létrehozta és a felhasználót sikeresen hozzáadta.
 grp#:#grp_custom_user_fields#:#Csoporthoz tartozó felhasználói adatok
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###30 04 2024 new variable
-grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###18 06 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#A csoport releváns felhasználói adatai
 grp#:#grp_deactivate_notification#:#Értesítés kikapcsolása
 grp#:#grp_edit_members#:#Résztvevők módosítása
 grp#:#grp_enable_map#:#Csoporttérkép engedélyezése
@@ -10264,7 +10264,7 @@ grp#:#grp_mail_tutors_only_info#:#Csak vezetők használhatják a 'Tagok' lapon 
 grp#:#grp_mail_type#:#Levél küldése tagoknak
 grp#:#grp_mail_unsubscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' csoportból tagságát sikeresen töröltük.
 grp#:#grp_mail_unsubscribe_member_sub#:#'%s' csoporttagság törlése
-grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült. Ön a(z) %s. a listán.  Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
+grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült. Ön a(z) %s. a listán. Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
 grp#:#grp_mail_wl_sub#:#'%s' csoportba regisztráció
 grp#:#grp_map_location#:#Csoporttérkép helye
 grp#:#grp_map_settings#:#Térképbeállítások
@@ -11557,11 +11557,11 @@ mathjax#:#mathjax_limiter#:#Beágyazott határolójelek
 mathjax#:#mathjax_limiter_info#:#Válassza ki a beágyazott határolójeleket, ahogy azok az Ön MathJax installációjában konfiguráltak.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#Polyfill URJ-je
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
+mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2-höz és 3-hoz nem szükséges
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Távolítson el minden polyfill.io hivatkozást! Lásd https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#MathJax Script URL-je
 mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2-höz például %s
-mathjax#:#mathjax_script_url_desc_line2#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: %s
+mathjax#:#mathjax_script_url_desc_line2#:#Kérem, aktiválja a biztonságos módot, hogy elkerülje a MathJax kódon keresztüli javascript-alapú XSS-támadásokat. MathJax 2 alatt ezt a CDN url-hez a 'Safe' paraméter hozzádásával teheti meg. MathJax 3 alatt egy szkriptet kell beletennie, ami ezt beállítja, mielőtt a MathJax betöltődik. Például: https://domain/ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js
 mathjax#:#mathjax_server_address#:#Szerver címe
 mathjax#:#mathjax_server_address_info#:#Például http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#A MathJax gyorsítótárát sikeresen ürítette.
@@ -12566,7 +12566,7 @@ mme#:#type_separator#:#Elválasztó
 mme#:#type_separator_info#:#Ennek az elemnek a címe egy szürke sávban fog megjelenni. Amennyiben nem ad meg címet, egy egyszerű vonal fog ott megjelenni.
 mme#:#type_top_link_item#:#Linkel
 mme#:#type_top_parent_item#:#Tartalmazza
-mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
+mme#:#unable_to_render#:#'%s' / '%s' nem jeleníthető meg.
 mob#:#mob_choose_from_pool#:#Választás médiagyűjteményből
 mob#:#mob_external_url#:#Külső URL
 mob#:#mob_extract_preview_image#:#Előnézeti kép kicsomagolása
@@ -14656,8 +14656,8 @@ registration#:#reg_direct#:#Közvetlen regisztráció
 registration#:#reg_direct_info#:#Új felhasználó regisztrációkérése automatikusan jóváhagyásra kerül.
 registration#:#reg_disabled#:#Regisztráció nem lehetséges
 registration#:#reg_domain#:#Tartomány
-registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_p#:#'%s' domainek már másik szerephez hozzá vannak rendelve.
+registration#:#reg_domain_already_assigned_s#:#'%s' domain már másik szerephez hozzá van rendelve.
 registration#:#reg_email#:#Automatikus szerep-összerendelés
 registration#:#reg_email_domains#:#Az alábbi e-mail cím domain-ek érvényesek: %s
 registration#:#reg_email_domains_code#:#Regisztrációs kóddal bármely e-mail cím érvényes.
@@ -16665,7 +16665,7 @@ survey#:#svy_page_add_question#:#Új %s létrehozása
 survey#:#svy_page_error#:#Egy kérdés megválaszolásakor egy hiba jelentkezett. További információért keresse meg a kérdést!
 survey#:#svy_page_errors#:#Kérdések megválaszolásakor hibák jelentkeztek. További információért keresse meg a kérdéseket!
 survey#:#svy_participant#:#Résztvevő
-survey#:#svy_participants#:#Participants###30 07 2024 new variable
+survey#:#svy_participants#:#Résztvevők
 survey#:#svy_participation#:#Részvétel
 survey#:#svy_please_select_unused_codes#:#Válasszon egy, még el nem használt kódot.
 survey#:#svy_print_hide_labels#:#Címkék elrejtése
@@ -16865,8 +16865,8 @@ tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése
 tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
 tbl#:#tbl_templates#:#Nézet
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Szolgáltatási feltételek
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Szolgáltatási feltételeket
 tos#:#tos_account_reg_not_possible#:#Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href="%1$s">rendszerüzemeltetőkkel</a>.
 tos#:#tos_agree_date#:#Elfogadás időpontja
 tos#:#tos_agreement#:#Szolgáltatási feltételek
@@ -17148,7 +17148,7 @@ tstv#:#tstv_create#:#Tesztigazolás létrehozása
 tstv#:#tstv_create_info#:#Válasszon ki egy befejezett tesztet, hogy igazolást generáljon hozzá.
 ui#:#datatable_multiaction_label#:#Tömeges művelet
 ui#:#datatable_multiactionmodal_actionlabel#:#művelet
-ui#:#datatable_multiactionmodal_apply#:#Apply###18 06 2024 new variable
+ui#:#datatable_multiactionmodal_apply#:#Alkalmazás
 ui#:#datatable_multiactionmodal_listentry#:#alakmazás az összes objektumra
 ui#:#datatable_multiactionmodal_msg#:#<b>Vigyázat!</b> Több objektumra van hatással.
 ui#:#datatable_multiactionmodal_title#:#Művelet több objektumon.
@@ -17211,7 +17211,7 @@ user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének enge
 user#:#enable_local_user_administration_info#:#A 'Helyi ILIAS-fiókok kezelése' lap megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#feedhash#:#Hírcsatorna-hash
 user#:#has_role#:#Szabály
-user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
+user#:#info_accessFree_sure#:#Biztos, hogy eltávoltja az érvényesség korlátját az alábbi fiókokból?
 user#:#inform_user_mail_info#:#Email-t küldünk a felhasználónak. Az e-mail tartalma megadható itt: Rendszerbeállítások » ILIAS-fiókok » Beállítások » Új felhasználónak levél.
 user#:#interests#:#Érdeklődési körök
 user#:#interests_general#:#Általános érdeklődési kör

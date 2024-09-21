@@ -46,14 +46,14 @@ class ilMStListCompetencesSkills
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, email, lvl.title as skill_level';
+        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, ulvl.user_id, login, firstname, lastname, email, lvl.title as skill_level';
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
             ' INNER JOIN usr_data ud ON ud.usr_id = sk.user_id ' .
             ' INNER JOIN skl_tree_node sktree ON sktree.obj_id = sk.skill_node_id ' .
-            ' INNER JOIN (SELECT trigger_obj_id, skill_id, MAX(level_id) AS level_id ' .
-            ' FROM skl_user_has_level WHERE self_eval = 0 GROUP BY skill_id) ulvl ON sk.skill_node_id = ulvl.skill_id ' .
+            ' INNER JOIN (SELECT user_id, trigger_obj_id, skill_id, MAX(level_id) AS level_id ' .
+            ' FROM skl_user_has_level WHERE self_eval = 0 GROUP BY skill_id, user_id) ulvl ON sk.skill_node_id = ulvl.skill_id AND sk.user_id = ulvl.user_id ' .
             ' INNER JOIN skl_level lvl ON lvl.id = ulvl.level_id ' .
             ' WHERE ';
 

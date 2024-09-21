@@ -615,8 +615,8 @@ class PropertyAndActionBuilderUI
                 $cnt++;
                 // get mime type
                 //$mime = \ilObjMediaObject::getMimeType($file['fullpath']);
-                $mime = $file["mime"];
-                $output_filename = htmlspecialchars($file['name']);
+                $mime = $file["mime"] ?? "";
+                $output_filename = htmlspecialchars($file['name'] ?? "");
 
                 if ($this->media_type->isImage($mime)) {
                     $item_id = "il-ex-modal-img-" . $ass->getId() . "-" . $cnt;

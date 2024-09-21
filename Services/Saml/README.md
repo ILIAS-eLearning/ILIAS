@@ -103,7 +103,7 @@ The key `debug` is now not a boolean but an array value instead. New installatio
 The key `baseurlpath` must be changed to the following. New installations will have this value as default.
 ```diff
 - 'baseurlpath' => 'simplesaml/',
-+ 'baseurlpath' => 'Services/saml/lib/',
++ 'baseurlpath' => 'Services/Saml/lib/',
 ```
 
 If it does not already exist the key `module.enable` must be added with the following content. New installations will have this value as default.

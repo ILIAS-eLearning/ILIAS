@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 var ilias = {}; //namespace
 var icount = 0; //interaction count
 ilias.UTILS={};
@@ -1095,6 +1111,18 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					if(!jQuery('#canvas_' + a_id + '_' + i).attr('id')) {
 						mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
 					}
+					// disbale answer options
+					document.querySelectorAll('area').forEach(function(area) {
+						area.addEventListener('mouseover', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+						area.addEventListener('mouseout', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+						area.addEventListener('click', function(event) {
+							event.stopImmediatePropagation();
+						}, true);
+					});
 				}
 				// remove incorrect
 				else {
