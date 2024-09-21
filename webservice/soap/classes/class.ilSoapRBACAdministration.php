@@ -115,12 +115,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to assign users', 'Server');
         }
 
-        if (!$rbacadmin->assignUser($role_id, $user_id)) {
-            return $this->raiseError(
-                'Error rbacadmin->assignUser()',
-                'Server'
-            );
-        }
+        
         return true;
     }
 
