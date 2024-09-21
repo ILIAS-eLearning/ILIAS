@@ -45,6 +45,12 @@ class StandardGUIRequest
         return $this->int("ref_id");
     }
 
+    public function getWspId(): int
+    {
+        return $this->int("wsp_id");
+    }
+
+
     public function getGotoPage(): int
     {
         return $this->int("gtp");

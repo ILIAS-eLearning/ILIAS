@@ -30,6 +30,7 @@ use ILIAS\Repository\Object\ObjectAdapter;
 use ILIAS\Repository\Profile\ProfileAdapter;
 use ILIAS\Repository\Resources\DomainService;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\StaticURL\Services as StaticUrl;
 
 trait GlobalDICDomainServices
 {
@@ -133,5 +134,10 @@ trait GlobalDICDomainServices
             $this->DIC->archives(),
             $this->DIC->legacyArchives()
         );
+    }
+
+    public function staticUrl(): StaticUrl
+    {
+        return $this->DIC['static_url'];
     }
 }

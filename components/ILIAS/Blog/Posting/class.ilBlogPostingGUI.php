@@ -30,11 +30,12 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Blog\InternalGUIService $blog_gui;
     protected ProfileGUI $profile_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
-    protected ilTabsGUI$tabs;
+    protected ilTabsGUI $tabs;
     protected ilLocatorGUI $locator;
     protected ilSetting $settings;
     protected LOMServices $lom_services;
@@ -113,6 +114,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
         $this->profile_gui = $DIC->blog()->internal()->gui()->profile();
+        $this->blog_gui = $DIC->blog()->internal()->gui();
     }
 
     public function executeCommand(): string
@@ -219,13 +221,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             ));
         }
         // permanent link
-        $append = ($this->blpg > 0)
-            ? "_" . $this->blpg
-            : "";
-        if ($this->isInWorkspace()) {
-            $append .= "_wsp";
-        }
-        $tpl->setPermanentLink("blog", $this->node_id, $append);
+        $ref_id = $this->isInWorkspace()
+            ? 0
+            : $this->node_id;
+        $wsp_id = $this->isInWorkspace()
+            ? $this->node_id
+            : 0;
+        $this->blog_gui->permanentLink($ref_id, $wsp_id)->setPermanentLink($this->blpg);
 
         $wtpl->setVariable("PAGE", parent::preview());
 
