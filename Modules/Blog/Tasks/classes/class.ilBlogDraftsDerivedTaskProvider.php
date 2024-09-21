@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
+    protected \ILIAS\Blog\InternalGUIService $gui;
     protected ilTaskService $taskService;
     protected \ilAccess $accessHandler;
     protected \ilLanguage $lng;
@@ -33,6 +34,9 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         \ilAccessHandler $accessHandler,
         \ilLanguage $lng
     ) {
+        global $DIC;
+
+        $this->gui = $DIC->blog()->internal()->gui();
         $this->taskService = $taskService;
         $this->accessHandler = $accessHandler;
         $this->lng = $lng;
@@ -62,15 +66,14 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
                 if (!$active && $withdrawn === null) {
                     $refId = $this->getFirstRefIdWithPermission('read', $blog_id, $user_id);
                     $wspId = 0;
-
-                    $url = ilLink::_getStaticLink($refId, 'blog', true, "_" . $post_id . "_edit");
+                    $url = $this->gui->permanentLink($refId)->getPermanentLink($post_id, true);
 
                     if ($refId === 0) {
                         $wspId = $this->getWspId($blog_id, $user_id);
                         if ($wspId === 0) {
                             continue;
                         }
-                        $url = ilLink::_getStaticLink($wspId, 'blog', true, "_" . $post_id . "_edit_wsp");
+                        $url = $this->gui->permanentLink(0, $wspId)->getPermanentLink($post_id, true);
                     }
 
                     $title = sprintf(

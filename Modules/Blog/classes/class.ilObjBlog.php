@@ -350,7 +350,7 @@ class ilObjBlog extends ilObject2
             $blga_set = new ilSetting("blga");
 
             // as banner height should overflow, we only handle width (otherwise resizeToFixedSize could be used)
-            $banner_width = (int)$blga_set->get("banner_width");
+            $banner_width = (int) $blga_set->get("banner_width");
             // $banner_height = (int)$blga_set->get("banner_height");
 
             $this->image_conversion->croppedSquare(
@@ -624,7 +624,6 @@ class ilObjBlog extends ilObject2
     {
         global $DIC;
 
-        $tpl = $DIC["tpl"];
         $ilSetting = $DIC->settings();
 
         if (!$ilSetting->get('enable_global_profiles')) {
@@ -636,10 +635,12 @@ class ilObjBlog extends ilObject2
             $wsp_id = new ilWorkspaceTree(0);
             $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
             $is_wsp = "_wsp";
+            $pl = $DIC->blog()->internal()->gui()->permanentLink(0, (int) $a_wsp_id);
         } else {
             $a_wsp_id = substr($a_wsp_id, 0, -4);
             $obj_id = ilObject::_lookupObjId((int) $a_wsp_id);
             $is_wsp = null;
+            $pl = $DIC->blog()->internal()->gui()->permanentLink((int) $a_wsp_id);
         }
         if (!$obj_id) {
             return;
@@ -652,7 +653,7 @@ class ilObjBlog extends ilObject2
 
         $feed = new ilFeedWriter();
 
-        $url = ilLink::_getStaticLink((int) $a_wsp_id, "blog", true, (string) $is_wsp);
+        $url = $pl->getPermanentLink();
         $url = str_replace("&", "&amp;", $url);
 
         // #11870
@@ -677,7 +678,7 @@ class ilObjBlog extends ilObject2
             $snippet = str_replace("&", "&amp;", $snippet);
             $snippet = "<![CDATA[" . $snippet . "]]>";
 
-            $url = ilLink::_getStaticLink((int) $a_wsp_id, "blog", true, "_" . $id . $is_wsp);
+            $url = $pl->getPermanentLink((int) $id);
             $url = str_replace("&", "&amp;", $url);
 
             $feed_item = new ilFeedItem();

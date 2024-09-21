@@ -1560,9 +1560,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             // permanent link
             if ($a_cmd !== "preview" && $a_cmd !== "previewEmbedded") {
                 if ($this->id_type === self::WORKSPACE_NODE_ID) {
-                    $goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_" . $item["id"]);
+                    $goto = $this->gui->permanentLink(0, $this->node_id)->getPermanentLink((int) $item["id"]);
                 } else {
-                    $goto = ilLink::_getStaticLink($this->node_id, $this->getType(), true, "_" . $item["id"]);
+                    $goto = $this->gui->permanentLink($this->node_id)->getPermanentLink((int) $item["id"]);
                 }
                 $wtpl->setCurrentBlock("permalink");
                 $wtpl->setVariable("URL_PERMALINK", $goto);
@@ -1656,13 +1656,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         // permalink
         if ($a_cmd === "previewFullscreen") {
-            $this->tpl->setPermanentLink(
-                "blog",
-                $this->node_id,
-                ($this->id_type === self::WORKSPACE_NODE_ID)
-                ? "_wsp"
-                : ""
-            );
+            $ref_id = ($this->id_type === self::WORKSPACE_NODE_ID)
+                ? 0
+                : $this->node_id;
+            $wsp_id = ($this->id_type === self::WORKSPACE_NODE_ID)
+                ? $this->node_id
+                : 0;
+            $this->gui->permanentLink($ref_id, $wsp_id)->setPermanentLink();
         }
 
         if (!$is_empty || $a_show_inactive) {
