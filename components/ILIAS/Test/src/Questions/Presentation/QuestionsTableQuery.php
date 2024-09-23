@@ -36,6 +36,7 @@ class QuestionsTableQuery
     protected URLBuilder $url_builder;
     protected URLBuilderToken $action_token;
     protected URLBuilderToken $row_id_token;
+    protected URLBuilderToken $print_view_type_token;
 
     public function __construct(
         HTTPService $http,
@@ -46,15 +47,17 @@ class QuestionsTableQuery
         $this->request = $http->request();
         $this->request_wrapper = $http->wrapper()->query();
 
-        $url_builder = $this->getUrlBuilder();
-        list($url_builder, $action_token, $row_id_token) = $url_builder->acquireParameters(
+        list(
+            $this->url_builder,
+            $this->action_token,
+            $this->row_id_token,
+            $this->print_view_type_token
+        ) = $this->getUrlBuilder()->acquireParameters(
             $namespace,
             'action',
-            'ids'
+            'ids',
+            'print_view_type'
         );
-        $this->url_builder = $url_builder;
-        $this->action_token = $action_token;
-        $this->row_id_token = $row_id_token;
     }
 
     private function getUrlBuilder(): URLBuilder
@@ -76,15 +79,9 @@ class QuestionsTableQuery
         return $url;
     }
 
-    public function getQueryCommand(): ?string
+    public function getTableAction(): ?string
     {
-        if (! $this->request_wrapper->has($this->action_token->getName())) {
-            return null;
-        }
-        return $this->request_wrapper->retrieve(
-            $this->action_token->getName(),
-            $this->refinery->kindlyTo()->string()
-        );
+        return $this->retrieveStringOrNull($this->action_token);
     }
 
     public function getRowIds(\ilObjTest $obj_test): ?array
@@ -109,11 +106,35 @@ class QuestionsTableQuery
         );
     }
 
+    public function getPrintViewType(): ?string
+    {
+        return $this->retrieveStringOrNull($this->print_view_type_token);
+    }
+
     public function getActionURL(string $action): URI
     {
         return $this->url_builder->withParameter(
             $this->action_token,
             $action
+        )->buildURI();
+    }
+
+    public function getPrintViewTypeURL(
+        string $action,
+        string $type
+    ): URI {
+        return $this->url_builder->withParameter(
+            $this->action_token,
+            $action
+        )->withParameter(
+            $this->print_view_type_token,
+            $type
+        )->withParameter(
+            $this->row_id_token,
+            $this->request_wrapper->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->identity()
+            )
         )->buildURI();
     }
 
@@ -123,5 +144,24 @@ class QuestionsTableQuery
             $this->url_builder->withParameter($this->action_token, $action),
             $this->row_id_token
         ];
+    }
+
+    private function retrieveStringOrNull(URLBuilderToken $token): ?string
+    {
+        return $this->request_wrapper->retrieve(
+            $token->getName(),
+            $this->refinery->custom()->transformation(
+                function (?string $v): ?string {
+                    if ($v === null) {
+                        return null;
+                    }
+                    $tv = $this->refinery->kindlyTo()->string()->transform($v);
+                    if ($tv === '') {
+                        return null;
+                    }
+                    return $tv;
+                }
+            )
+        );
     }
 }

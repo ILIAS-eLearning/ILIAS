@@ -223,35 +223,32 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
     public function getHTML(): string
     {
-        $headerBlock = $this->buildQuestionPositionString();
+        $header_block = $this->buildQuestionPositionString();
 
         switch ($this->getHeaderMode()) {
             case 1:
 
-                $headerBlock .= " - " . $this->getQuestionTitle();
-                $headerBlock .= $this->buildQuestionPostponedString();
-                $headerBlock .= $this->buildQuestionObligatoryString();
+                $header_block .= " - " . $this->getQuestionTitle();
+                $header_block .= $this->buildQuestionPostponedString();
+                $header_block .= $this->buildQuestionObligatoryString();
                 break;
 
             case 2:
 
-                $headerBlock .= $this->buildQuestionPostponedString();
-                $headerBlock .= $this->buildQuestionObligatoryString();
+                $header_block .= $this->buildQuestionPostponedString();
+                $header_block .= $this->buildQuestionObligatoryString();
                 break;
 
             case 0:
             default:
 
-                $headerBlock .= " - " . $this->getQuestionTitle();
-                $headerBlock .= $this->buildQuestionPostponedString();
-                // fau: testNav - put the points in parentheses here, not in building the string
-                $headerBlock .= ' (' . $this->buildQuestionPointsString() . ')';
-                // fau.
-                $headerBlock .= $this->buildQuestionObligatoryString();
+                $header_block .= " - " . $this->getQuestionTitle();
+                $header_block .= $this->buildQuestionPostponedString();
+                $header_block .= ' (' . $this->buildQuestionPointsString() . ')';
         }
 
-        $headerBlock .= $this->buildQuestionRelatedObjectivesString();
+        $header_block .= $this->buildQuestionRelatedObjectivesString();
 
-        return $headerBlock;
+        return $header_block;
     }
 }
