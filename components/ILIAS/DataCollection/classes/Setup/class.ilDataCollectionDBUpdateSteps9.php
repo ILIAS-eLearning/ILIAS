@@ -206,4 +206,9 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('il_dcl_tableview', 'step_s');
         }
     }
+
+    public function step_14(): void
+    {
+        $this->db->manipulate('UPDATE il_dcl_field_prop SET value = "" WHERE value IS NULL');
+    }
 }
