@@ -766,6 +766,7 @@ assessment#:#glossary_term#:#Glossary Term
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
+assessment#:#hide_best_solution#:#Hide best solution
 assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
@@ -1230,8 +1231,10 @@ assessment#:#showSuggestedSolution#:#Type
 assessment#:#show_all_test_properties_on_info_page#:#Show all Test Properties
 assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#show_answer_overview#:#Show Answer Overview
+assessment#:#show_best_solution#:#Show best solution
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
+assessment#:#show_hide_best_solution#:#Show or hide best solution
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview

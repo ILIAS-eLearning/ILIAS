@@ -25,8 +25,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\UI\Component\Table\OrderingRow;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 use ILIAS\Language\Language;
 
 class Properties implements Property
@@ -88,10 +86,9 @@ class Properties implements Property
     public function getAsQuestionsTableRow(
         Language $lng,
         UIFactory $ui_factory,
-        URLBuilder $url_builder,
+        \Closure $question_target_link_builder,
         OrderingRowBuilder $row_builder,
-        TitleColumnsBuilder $title_builder,
-        URLBuilderToken $row_id_token
+        TitleColumnsBuilder $title_builder
     ): OrderingRow {
         return $row_builder->buildOrderingRow(
             (string) $this->question_id,
@@ -99,10 +96,7 @@ class Properties implements Property
                 'question_id' => $this->question_id,
                 'title' => $ui_factory->link()->standard(
                     $this->question_properties->getTitle(),
-                    $url_builder
-                            ->withParameter($row_id_token, (string) $this->question_id)
-                            ->buildURI()
-                            ->__toString()
+                    $question_target_link_builder($this->question_id)
                 ),
                 'description' => $this->question_properties->getDescription(),
                 'type_tag' => $this->question_properties->getTypeName($lng),

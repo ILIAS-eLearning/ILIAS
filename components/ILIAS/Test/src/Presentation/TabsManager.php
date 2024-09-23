@@ -131,6 +131,12 @@ class TabsManager
         }
     }
 
+    public function resetTabsAndAddBacklink(string $back_link_target): void
+    {
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget($this->lng->txt('back'), $back_link_target);
+    }
+
     public function getParentBackLabel(): ?string
     {
         return $this->parent_back_label;

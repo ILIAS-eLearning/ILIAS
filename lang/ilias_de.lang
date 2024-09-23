@@ -766,6 +766,7 @@ assessment#:#glossary_term#:#Glossarbegriff
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
+assessment#:#hide_best_solution#:#Beste Antworten ausblenden
 assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
@@ -1230,8 +1231,10 @@ assessment#:#showSuggestedSolution#:#Art
 assessment#:#show_all_test_properties_on_info_page#:#Testeigenschaften anzeigen
 assessment#:#show_all_test_properties_on_info_page_byline#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
+assessment#:#show_best_solution#:#Beste Antworten einblenden
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_hide_best_solution#:#Beste Antworten ein- oder ausblenden
 assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
