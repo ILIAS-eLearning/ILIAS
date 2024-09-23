@@ -141,7 +141,7 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
                 '/\[([A-Z_\/]+?)\]/',
                 '{{$1}}'
             );
-            $body = preg_replace(
+            $body = $this->replaceInText(
                 $row['body'],
                 '/\[([A-Z_\/]+?)\]/',
                 '{{$1}}'
