@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
 use ILIAS\Mail\Service\MailSignatureService;
@@ -66,6 +67,7 @@ class ilMail
         private ?ilMailbox $mailbox = null,
         private ?ilMailMimeSenderFactory $sender_factory = null,
         private ?Closure $usr_id_by_login_callable = null,
+        private ?AutoresponderService $auto_responder_service = null,
         private ?int $mail_admin_node_ref_id = null,
         private ?int $mail_obj_ref_id = null,
         private ?ilObjUser $actor = null,
@@ -93,9 +95,9 @@ class ilMail
         $this->usr_id_by_login_callable = $usr_id_by_login_callable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
+        $this->auto_responder_service = $auto_responder_service ?? $DIC->mail()->autoresponder();
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
 
-        $this->mail_obj_ref_id = $mail_admin_node_ref_id;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
         }
@@ -106,6 +108,11 @@ class ilMail
         $this->refinery = $DIC->refinery();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
         $this->signature_service = $signature_service ?? $DIC->mail()->signature();
+    }
+
+    public function autoresponder(): AutoresponderService
+    {
+        return $this->auto_responder_service;
     }
 
     public function withContextId(string $context_id): self
@@ -592,6 +599,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ): bool {
+        $this->auto_responder_service->emptyAutoresponderData();
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -645,6 +653,9 @@ class ilMail
                 $sentMailId
             );
         }
+
+        $this->auto_responder_service->disableAutoresponder();
+        $this->auto_responder_service->handleAutoresponderMails($this->user_id);
 
         return true;
     }
@@ -749,6 +760,14 @@ class ilMail
                 $subject,
                 $individualMessage,
                 $recipient->getUserId()
+            );
+
+            $mail_receiver_options = $this->getMailOptionsByUserId($this->user_id);
+
+            $this->auto_responder_service->enqueueAutoresponderIfEnabled(
+                $recipient->getUserId(),
+                $recipient->getMailOptions(),
+                $mail_receiver_options,
             );
 
             if ($attachments !== []) {
@@ -1076,7 +1095,12 @@ class ilMail
             $a_use_placeholders,
             $this->getSaveInSentbox(),
             (string) $this->context_id,
-            serialize($this->context_parameters),
+            serialize(array_merge(
+                $this->context_parameters,
+                [
+                    'auto_responder' => $this->auto_responder_service->isAutoresponderEnabled()
+                ]
+            )),
         ]);
         $interaction = $taskFactory->createTask(
             ilMailDeliveryJobUserInteraction::class,
