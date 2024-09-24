@@ -29,7 +29,7 @@ class ilCertificateDateHelper
     public function formatDate($date, ilObjUser $user = null, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
-            require_once 'components/ILIAS/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+            require_once '../components/ILIAS/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
