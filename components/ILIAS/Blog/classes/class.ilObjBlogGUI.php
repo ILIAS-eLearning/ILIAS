@@ -53,8 +53,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected string $keyword = "";
     protected ?int $author = null;
     protected bool $month_default = false;
-    protected int $gtp = 0;
-    protected string $edt;
     protected int $blpg = 0;
     protected int $old_nr = 0;
     protected int $ppage = 0;
@@ -110,8 +108,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->blog_request = $gui->standardRequest();
 
         $req = $this->blog_request;
-        $this->gtp = $req->getGotoPage();
-        $this->edt = $req->getEditing();
         $this->blpg = $req->getBlogPage();
         $this->old_nr = $req->getOldNr();
         $this->ppage = $req->getPPage();
@@ -548,23 +544,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         if ($next_class !== "ilexportgui") {
             $this->triggerAssignmentTool();
         }
-
-        // goto link to blog posting
-        if ($this->gtp > 0) {
-            $page_id = $this->gtp;
-            if (ilBlogPosting::exists($this->object_id, $page_id)) {
-                // #12312
-                $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $page_id);
-                if ($this->edt === "edit") {
-                    $ilCtrl->redirectByClass("ilblogpostinggui", "edit");
-                } else {
-                    $ilCtrl->redirectByClass("ilblogpostinggui", "previewFullscreen");
-                }
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("blog_posting_not_found"));
-            }
-        }
-
 
         $cmd = $ilCtrl->getCmd();
 
@@ -2504,54 +2483,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->object->getRefId(),
             $this->object->getId()
         );
-    }
-
-    /**
-     * Deep link
-     */
-    public static function _goto(string $a_target): void
-    {
-        global $DIC;
-
-        $ilCtrl = $DIC->ctrl();
-        $access = $DIC->access();
-
-        $id = explode("_", $a_target);
-        if (substr($a_target, -3) === "wsp") {
-            $ilCtrl->setParameterByClass("ilSharedResourceGUI", "wsp_id", $id[0]);
-
-            if (count($id) >= 2) {
-                if (is_numeric($id[1])) {
-                    $ilCtrl->setParameterByClass("ilSharedResourceGUI", "gtp", $id[1]);
-                } else {
-                    $ilCtrl->setParameterByClass("ilSharedResourceGUI", "kwd", $id[1]);
-                }
-                if (($id[2] ?? "") === "edit") {
-                    $ilCtrl->setParameterByClass("ilSharedResourceGUI", "edt", $id[2]);
-                }
-            }
-            $ilCtrl->redirectByClass("ilSharedResourceGUI", "");
-        } else {
-            $ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $id[0]);
-
-            if (count($id) >= 2) {
-                if (is_numeric($id[1])) {
-                    $ilCtrl->setParameterByClass("ilRepositoryGUI", "gtp", $id[1]);
-                } else {
-                    $ilCtrl->setParameterByClass("ilRepositoryGUI", "kwd", $id[1]);
-                }
-
-                if (($id[2] ?? "") === "edit") {
-                    $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
-                }
-            }
-            if ($access->checkAccess("read", "", (int) $id[0])) {
-                $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
-            }
-            if ($access->checkAccess("visible", "", (int) $id[0])) {
-                $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
-            }
-        }
     }
 
     /**

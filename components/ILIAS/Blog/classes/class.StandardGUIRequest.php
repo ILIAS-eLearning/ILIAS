@@ -50,17 +50,6 @@ class StandardGUIRequest
         return $this->int("wsp_id");
     }
 
-
-    public function getGotoPage(): int
-    {
-        return $this->int("gtp");
-    }
-
-    public function getEditing(): string
-    {
-        return $this->str("edt");
-    }
-
     public function getBlogPage(): int
     {
         return $this->int("blpg");
