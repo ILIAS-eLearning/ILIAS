@@ -20,144 +20,73 @@ declare(strict_types=1);
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package components\ILIAS/Test
  */
 class ilTestResultHeaderLabelBuilder
 {
     public const LO_TEST_TYPE_INITIAL = 'loTestInitial';
     public const LO_TEST_TYPE_QUALIFYING = 'loTestQualifying';
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $objCache;
+    protected ?int $objectiveOrientedContainerId = null;
+    protected ?int $testObjId = null;
+    protected ?int $testRefId = null;
+    protected ?int $userId = null;
+    protected ?string $attempt_last_access_date = null;
+    protected ?string $crsTitle = null;
+    protected ?string $testType = null;
+    protected array $objectives = [];
 
-    /**
-     * @var integer
-     */
-    protected $objectiveOrientedContainerId;
-
-    /**
-     * @var integer
-     */
-    protected $testObjId;
-
-    /**
-     * @var integer
-     */
-    protected $testRefId;
-
-    /**
-     * @var integer
-     */
-    protected $userId;
-
-    /**
-     * @var string
-     */
-    protected $crsTitle;
-
-    /**
-     * @var string
-     */
-    protected $testType;
-
-    /**
-     * @var array
-     */
-    protected $objectives;
-
-    /**
-     * @param ilLanguage $lng
-     * @param ilObjectDataCache $objCache
-     */
-    public function __construct(ilLanguage $lng, ilObjectDataCache $objCache)
-    {
-        $this->lng = $lng;
-        $this->objCache = $objCache;
-
-        $this->objectiveOrientedContainerId = null;
-        $this->testObjId = null;
-        $this->testRefId = null;
-        $this->userId = null;
-
-        $this->testType = null;
-        $this->crsTitle = null;
-
-        $this->objectives = [];
+    public function __construct(
+        protected ilLanguage $lng,
+        protected ilObjectDataCache $objCache
+    ) {
     }
 
-    /**
-     * @return int
-     */
     public function getObjectiveOrientedContainerId(): ?int
     {
         return $this->objectiveOrientedContainerId;
     }
 
-    /**
-     * @param int $objectiveOrientedContainerId
-     */
-    public function setObjectiveOrientedContainerId($objectiveOrientedContainerId)
+    public function setObjectiveOrientedContainerId(int $objectiveOrientedContainerId): void
     {
         $this->objectiveOrientedContainerId = $objectiveOrientedContainerId;
     }
 
-    /**
-     * @return int
-     */
     public function getTestObjId(): ?int
     {
         return $this->testObjId;
     }
 
-    /**
-     * @param int $testObjId
-     */
-    public function setTestObjId($testObjId)
+    public function setTestObjId(int $testObjId): void
     {
         $this->testObjId = $testObjId;
     }
 
-    /**
-     * @return int
-     */
     public function getTestRefId(): ?int
     {
         return $this->testRefId;
     }
 
-    /**
-     * @param int $testRefId
-     */
-    public function setTestRefId($testRefId)
+    public function setTestRefId(int $testRefId): void
     {
         $this->testRefId = $testRefId;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId(): ?int
     {
         return $this->userId;
     }
 
-    /**
-     * @param int $userId
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): void
     {
         $this->userId = $userId;
     }
 
-    public function initObjectiveOrientedMode()
+    public function setAttemptLastAccessDate(string $formatted_date): void
+    {
+        $this->attempt_last_access_date = $formatted_date;
+    }
+
+    public function initObjectiveOrientedMode(): void
     {
         $this->initTestType();
         $this->initObjectives();
@@ -232,12 +161,12 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return string
      */
-    public function getPassDetailsHeaderLabel($attemptNumber): string
+    public function getPassDetailsHeaderLabel($attempt): string
     {
         if (!$this->getObjectiveOrientedContainerId()) {
             return sprintf(
                 $this->lng->txt('tst_pass_details_overview_table_title'),
-                $attemptNumber
+                $attempt
             );
         }
 
@@ -245,13 +174,13 @@ class ilTestResultHeaderLabelBuilder
             return sprintf(
                 $this->lng->txt('tst_pass_details_header_lo_initial'),
                 $this->getObjectivesString(),
-                $this->getAttemptLabel($attemptNumber)
+                $this->getAttemptLabel($attempt)
             );
         } elseif ($this->isQualifyingTest()) {
             return sprintf(
                 $this->lng->txt('tst_pass_details_header_lo_qualifying'),
                 $this->getObjectivesString(),
-                $this->getAttemptLabel($attemptNumber)
+                $this->getAttemptLabel($attempt)
             );
         }
 
@@ -330,12 +259,12 @@ class ilTestResultHeaderLabelBuilder
         return implode(', ', $this->objectives);
     }
 
-    private function getAttemptLabel($attemptNumber): string
+    private function getAttemptLabel(int $attempt): string
     {
-        return sprintf($this->lng->txt('tst_res_lo_try_n'), $attemptNumber);
+        return sprintf($this->lng->txt('tst_res_lo_try_n'), $attempt);
     }
 
-    public function getListOfAnswersHeaderLabel($attemptNumber): string
+    public function getListOfAnswersHeaderLabel(int $attempt): string
     {
         $langVar = 'tst_eval_results_by_pass';
 
@@ -343,7 +272,13 @@ class ilTestResultHeaderLabelBuilder
             $langVar = 'tst_eval_results_by_pass_lo';
         }
 
-        return sprintf($this->lng->txt($langVar), $attemptNumber);
+        $title = sprintf($this->lng->txt($langVar), $attempt);
+
+        if ($this->attempt_last_access_date === null) {
+            return $title;
+        }
+
+        return "{$title} - {$this->attempt_last_access_date}";
     }
 
     public function getVirtualListOfAnswersHeaderLabel(): string

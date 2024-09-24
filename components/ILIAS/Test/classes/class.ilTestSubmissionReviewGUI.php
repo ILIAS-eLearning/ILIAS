@@ -122,7 +122,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $objectivesList = null;
 
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
+            $testSequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
             $testSequence->loadFromDb();
             $testSequence->loadQuestions();
 

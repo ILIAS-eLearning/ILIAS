@@ -87,7 +87,7 @@ class ilTestServiceGUI
     protected int $ref_id;
 
     protected ?ilTestSessionFactory $testSessionFactory = null;
-    protected ?ilTestSequenceFactory $testSequenceFactory = null;
+    protected ?ilTestSequenceFactory $test_sequence_factory = null;
     protected ?ilTestParticipantData $participantData = null;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
@@ -156,7 +156,7 @@ class ilTestServiceGUI
         $this->lng->loadLanguageModule('cert');
         $this->ref_id = $this->object->getRefId();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
+        $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
         $this->objective_oriented_container = null;
     }
 
@@ -171,44 +171,43 @@ class ilTestServiceGUI
     }
 
     /**
-     * This method uses the data of a given test pass to create an evaluation for displaying into a table used in the ilTestEvaluationGUI
-     *
-     * @param ilTestSession $testSession the current test session
-     * @param array $passes An integer array of test runs
-     * @param boolean $withResults $withResults tells the method to include all scoring data into the  returned row
-     * @return array The array contains the date of the requested row
+     * @param array<int> $passes An integer array of test runs
+     * @return array<mixed>
      */
-    public function getPassOverviewTableData(ilTestSession $testSession, $passes, $withResults): array
-    {
+    public function getPassOverviewTableData(
+        ilTestSession $test_session,
+        array $passes,
+        bool $with_results
+    ): array {
         $data = [];
 
         $objective_oriented_presentation = $this->getObjectiveOrientedContainer()
             ?->isObjectiveOrientedPresentationRequired() ?? false;
 
         if ($objective_oriented_presentation) {
-            $considerHiddenQuestions = false;
+            $consider_hidden_questions = false;
 
-            $objectives_adapter = ilLOTestQuestionAdapter::getInstance($testSession);
+            $objectives_adapter = ilLOTestQuestionAdapter::getInstance($test_session);
         } else {
-            $considerHiddenQuestions = true;
+            $consider_hidden_questions = true;
         }
 
-        $scoredPass = $this->object->_getResultPass($testSession->getActiveId());
+        $scored_pass = \ilObjTest::_getResultPass($test_session->getActiveId());
 
-        $questionHintRequestRegister = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
-            $testSession->getActiveId()
+        $question_hint_request_register = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
+            $test_session->getActiveId()
         );
 
         foreach ($passes as $pass) {
             $row = [
                 'scored' => false,
                 'pass' => $pass,
-                'date' => ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass)
+                'date' => ilObjTest::lookupLastTestPassAccess($test_session->getActiveId(), $pass)
             ];
             $considerOptionalQuestions = true;
 
             if ($objective_oriented_presentation) {
-                $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($testSession->getActiveId(), $pass);
+                $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($test_session->getActiveId(), $pass);
                 $test_sequence->loadFromDb();
                 $test_sequence->loadQuestions();
 
@@ -216,7 +215,7 @@ class ilTestServiceGUI
                     $considerOptionalQuestions = false;
                 }
 
-                $test_sequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
+                $test_sequence->setConsiderHiddenQuestionsEnabled($consider_hidden_questions);
                 $test_sequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
 
                 $objectives_list = $this->buildQuestionRelatedObjectivesList($objectives_adapter, $test_sequence);
@@ -225,39 +224,51 @@ class ilTestServiceGUI
                 $row['objectives'] = $objectives_list->getUniqueObjectivesStringForQuestions($test_sequence->getUserSequenceQuestions());
             }
 
-            if ($withResults) {
-                $result_array = $this->object->getTestResult($testSession->getActiveId(), $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
+            if (!$with_results) {
+                $data[] = $row;
+                continue;
+            }
 
-                foreach ($result_array as $resultStructKEY => $question) {
-                    if ($resultStructKEY === 'test' || $resultStructKEY === 'pass') {
-                        continue;
-                    }
+            $result_array = $this->object->getTestResult(
+                $test_session->getActiveId(),
+                $pass,
+                false,
+                $consider_hidden_questions,
+                $considerOptionalQuestions
+            );
 
-                    $requestData = $questionHintRequestRegister->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
-
-                    if ($requestData instanceof ilAssQuestionHintRequestStatisticData && $result_array[$resultStructKEY]['requested_hints'] === null) {
-                        $result_array['pass']['total_requested_hints'] += $requestData->getRequestsCount();
-
-                        $result_array[$resultStructKEY]['requested_hints'] = $requestData->getRequestsCount();
-                        $result_array[$resultStructKEY]['hint_points'] = $requestData->getRequestsPoints();
-                    }
+            foreach ($result_array as $result_struct_key => $question) {
+                if ($result_struct_key === 'test'
+                    || $result_struct_key === 'pass'
+                    || $result_array[$result_struct_key]['requested_hints'] !== null) {
+                    continue;
                 }
 
-                if (!$result_array['pass']['total_max_points']) {
-                    $row['percentage'] = 0;
-                } else {
-                    $row['percentage'] = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
+                $request_data = $question_hint_request_register->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
+
+                if ($request_data === null) {
+                    continue;
                 }
 
-                $row['max_points'] = $result_array['pass']['total_max_points'];
-                $row['reached_points'] = $result_array['pass']['total_reached_points'];
-                $row['scored'] = ($pass == $scoredPass);
-                $row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
-                $row['num_questions_total'] = $result_array['pass']['num_questions_total'];
+                $result_array['pass']['total_requested_hints'] += $request_data->getRequestsCount();
+                $result_array[$result_struct_key]['requested_hints'] = $request_data->getRequestsCount();
+                $result_array[$result_struct_key]['hint_points'] = $request_data->getRequestsPoints();
+            }
 
-                if ($this->object->isOfferingQuestionHintsEnabled()) {
-                    $row['hints'] = $result_array['pass']['total_requested_hints'];
-                }
+            if (!$result_array['pass']['total_max_points']) {
+                $row['percentage'] = 0;
+            } else {
+                $row['percentage'] = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
+            }
+
+            $row['max_points'] = $result_array['pass']['total_max_points'];
+            $row['reached_points'] = $result_array['pass']['total_reached_points'];
+            $row['scored'] = ($pass == $scored_pass);
+            $row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
+            $row['num_questions_total'] = $result_array['pass']['num_questions_total'];
+
+            if ($this->object->isOfferingQuestionHintsEnabled()) {
+                $row['hints'] = $result_array['pass']['total_requested_hints'];
             }
 
             $data[] = $row;
@@ -335,7 +346,7 @@ class ilTestServiceGUI
         ilTestQuestionRelatedObjectivesList $objectives_list = null,
         ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null
     ): string {
-        $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "components/ILIAS/Test");
+        $maintemplate = new ilTemplate('tpl.il_as_tst_list_of_answers.html', true, true, 'components/ILIAS/Test');
 
         $counter = 1;
         // output of questions with solutions
@@ -347,13 +358,13 @@ class ilTestServiceGUI
                 $question_data['qid'] = -1;
             }
 
-            if (($question_data["workedthrough"] == 1) || ($only_answered_questions == false)) {
-                $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
+            if (($question_data['workedthrough'] == 1) || ($only_answered_questions == false)) {
+                $template = new ilTemplate('tpl.il_as_qpl_question_printview.html', true, true, 'components/ILIAS/TestQuestionPool');
                 $question_id = $question_data["qid"] ?? null;
                 if ($question_id !== null
                     && $question_id !== -1
                     && is_numeric($question_id)) {
-                    $maintemplate->setCurrentBlock("printview_question");
+                    $maintemplate->setCurrentBlock('printview_question');
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
 
                     $question_gui->getObject()->setShuffler($this->shuffler->getAnswerShuffleFor(
@@ -416,7 +427,7 @@ class ilTestServiceGUI
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 
-                        $maintemplate->setCurrentBlock("printview_question");
+                        $maintemplate->setCurrentBlock('printview_question');
                         $maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
                         $maintemplate->parseCurrentBlock();
                         $counter++;
@@ -435,7 +446,7 @@ class ilTestServiceGUI
             $headerText = '';
         }
 
-        $maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
+        $maintemplate->setVariable('RESULTS_OVERVIEW', $headerText);
         return $maintemplate->get();
     }
 
@@ -535,7 +546,7 @@ class ilTestServiceGUI
             $user = new ilObjUser($user_id);
         } else {
             $user = new ilObjUser();
-            $user->setLastname($this->lng->txt("deleted_user"));
+            $user->setLastname($this->lng->txt('deleted_user'));
         }
         $t = $testSession->getSubmittedTimestamp();
         if (!$t) {
@@ -544,7 +555,7 @@ class ilTestServiceGUI
 
         if ($this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()) {
             $uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
-            $template->setCurrentBlock("name");
+            $template->setCurrentBlock('name');
             $template->setVariable('TXT_USR_NAME', $this->lng->txt("name"));
             $template->setVariable('VALUE_USR_NAME', $uname);
             $template->parseCurrentBlock();
@@ -683,7 +694,7 @@ class ilTestServiceGUI
             $objectives_list = null;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-                $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
+                $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
                 $test_sequence->loadFromDb();
                 $test_sequence->loadQuestions();
 
@@ -924,7 +935,7 @@ class ilTestServiceGUI
 
         $active_id = (int) $this->testrequest->raw('evaluation');
 
-        $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
+        $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
         $test_sequence->loadFromDb();
         $test_sequence->loadQuestions();
 
@@ -933,7 +944,7 @@ class ilTestServiceGUI
         }
 
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $test_sequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
+            $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
             $test_sequence->loadFromDb();
             $test_sequence->loadQuestions();
 
