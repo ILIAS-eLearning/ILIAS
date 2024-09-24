@@ -25,7 +25,6 @@ use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TabsManager;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -195,20 +194,11 @@ class SettingsScoringGUI extends TestSettingsGUI
             $this->refinery
         ];
 
+        $environment = [
+            'user_date_format' => $this->active_user->getDateTimeFormat(),
+            'user_time_zone' => $this->active_user->getTimeZone()
+        ];
 
-        $environment = [];
-
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            $user_format = $data_factory->dateFormat()->withTime24($user_format);
-        } else {
-            $user_format = $data_factory->dateFormat()->withTime12($user_format);
-        }
-        $environment['user_date_format'] = $user_format;
-        $environment['user_time_zone'] = $this->active_user->getTimeZone();
-
-        $anonymity_flag = (bool) $this->test_object->getAnonymity();
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
 
         $settings = $this->loadScoreSettings();
