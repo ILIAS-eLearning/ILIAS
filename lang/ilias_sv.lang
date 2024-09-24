@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Svarsstatistik för %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#En efterkorrigering är endast möjlig om testet använder ett fast frågeurval.
 assessment#:#tst_corrections_manscore_reset_warning#:#Det finns %s manuella poäng för frågan "%s (ID
 assessment#:#tst_corrections_qst_form#:#Korrigering av punkterna
-assessment#:#tst_corrections_qst_remove_confirmation#:#Vill du svara på frågan "%s (ID
 assessment#:#tst_corrections_tab_question#:#Fråga
 assessment#:#tst_corrections_tab_solution#:#Lösning
 assessment#:#tst_corrections_tab_statistics#:#Statistik över svar
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Frågepool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Visa taxonomifilter
 assessment#:#tst_insert_missing_question#:#Välj minst en fråga att lägga till i testet!
 assessment#:#tst_insert_questions#:#Är du säker på att du vill lägga till följande frågor i testet?
-assessment#:#tst_insert_questions_and_results#:#Detta test har redan gjorts av %s användare. Om du lägger till frågor kommer alla befintliga testresultat för detta test att raderas! Är du säker på att du vill lägga till följande frågor?
 assessment#:#tst_instant_feedback#:#Direkt feedback
 assessment#:#tst_instant_feedback_answer_generic#:#Feedback på den korrekta lösningen
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Om hela svaret är korrekt kommer ILIAS att visa en typ av feedback när knappen "Begär feedback" klickas. Om hela svaret inte är helt korrekt visas en annan återkoppling. Båda versionerna måste lagras på fliken "Feedback" i frågan.

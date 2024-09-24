@@ -20,13 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Questions\Presentation\QuestionsTable;
-use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -47,12 +42,10 @@ class ilTestCorrectionsGUI
     public function __construct(
         private readonly ilDBInterface $database,
         private readonly ilCtrlInterface $ctrl,
-        private readonly ilAccessHandler $access,
         private readonly ilLanguage $language,
         private readonly ilTabsGUI $tabs,
         private readonly ilHelpGUI $help,
         private readonly UIFactory $ui_factory,
-        private readonly UIRenderer $ui_renderer,
         private readonly ilGlobalTemplateInterface $main_tpl,
         private readonly RefineryFactory $refinery,
         private readonly TestLogger $logger,
@@ -312,91 +305,6 @@ class ilTestCorrectionsGUI
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('saved_successfully'));
         $this->showAnswerStatistic();
-    }
-
-    protected function confirmQuestionRemoval()
-    {
-        $this->tabs->activateTab(TabsManager::TAB_ID_CORRECTION);
-
-        $confirmation = sprintf(
-            $this->language->txt('tst_corrections_qst_remove_confirmation'),
-            $this->question_gui->getObject()->getTitle(),
-            $this->question_gui->getObject()->getId()
-        );
-
-        $buttons = [
-            $this->ui_factory->button()->standard(
-                $this->language->txt('confirm'),
-                $this->ctrl->getLinkTarget($this, 'performQuestionRemoval')
-            ),
-            $this->ui_factory->button()->standard(
-                $this->language->txt('cancel'),
-                $this->ctrl->getLinkTarget($this, 'showQuestionList')
-            )
-        ];
-
-        $this->main_tpl->setContent($this->ui_renderer->render(
-            $this->ui_factory->messageBox()->confirmation($confirmation)->withButtons($buttons)
-        ));
-    }
-
-    protected function performQuestionRemoval(): void
-    {
-        $question_gui = $this->question_gui;
-        $scoring = new TestScoring(
-            $this->test_obj,
-            $this->scorer,
-            $this->database,
-            $this->language
-        );
-
-        $participant_data = new ilTestParticipantData($this->database, $this->language);
-        $participant_data->load($this->test_obj->getTestId());
-
-        $question_gui->getObject()->removeAllExistingSolutions();
-        $scoring->removeAllQuestionResults($question_gui->getObject()->getId());
-
-        $this->test_obj->removeQuestion($question_gui->getObject()->getId());
-        $reindexedSequencePositionMap = $this->test_obj->reindexFixedQuestionOrdering();
-        $this->test_obj->loadQuestions();
-
-        $this->test_obj->removeQuestionFromSequences(
-            $question_gui->getObject()->getId(),
-            $participant_data->getActiveIds(),
-            $reindexedSequencePositionMap
-        );
-
-        $scoring->updatePassAndTestResults($participant_data->getActiveIds());
-        ilLPStatusWrapper::_refreshStatus($this->test_obj->getId(), $participant_data->getUserIds());
-        $question_gui->getObject()->delete($question_gui->getObject()->getId());
-
-        if ($this->test_obj->getTestQuestions() === []) {
-            $object_properties = $this->test_obj->getObjectProperties();
-            $object_properties->storePropertyIsOnline(
-                $object_properties->getPropertyIsOnline()->withOffline()
-            );
-        }
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->test_obj->getRefId(),
-                    $this->scorer->getId(),
-                    TestAdministrationInteractionTypes::QUESTION_REMOVED_IN_CORRECTIONS,
-                    [
-                        AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question_gui->getObject()->getTitle(),
-                        AdditionalInformationGenerator::KEY_QUESTION_TEXT => $question_gui->getObject()->getQuestion(),
-                        AdditionalInformationGenerator::KEY_QUESTION_ID => $question_gui->getObject()->getId(),
-                        AdditionalInformationGenerator::KEY_QUESTION_TYPE => $question_gui->getObject()->getQuestionType()
-                    ]
-                )
-            );
-        }
-
-        $this->question_gui = null;
-
-        $this->ctrl->clearParameterByClass(self::class, 'q_id');
-        $this->showQuestionList();
     }
 
     protected function addHiddenItemsFromArray(ilConfirmationGUI $gui, $array, $curPath = [])

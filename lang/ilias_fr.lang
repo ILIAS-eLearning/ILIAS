@@ -1332,7 +1332,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_corrections_qst_form#:#Correction of Points
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
@@ -1482,7 +1481,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banque de Ques
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Utiliser un Filtre de Taxinomie
 assessment#:#tst_insert_missing_question#:#Veuillez sélectionner au moins une question pour l'ajouter dans le test.
 assessment#:#tst_insert_questions#:#Etes-vous sà»r(e) de vouloir ajouter la (les) question(s) suivante(s) dans le test ?
-assessment#:#tst_insert_questions_and_results#:#Ce test a déjà  été exécuté par %s utilisateur(s). L'ajout de nouvelles questions effacera tous les résultats de ces utilisateurs. Etes-vous sà»r(e) de vouloir ajouter cette (ces) question(s) dans le test ?
 assessment#:#tst_instant_feedback#:#Commentaire instantané après chaque réponse
 assessment#:#tst_instant_feedback_answer_generic#:#Afficher un Retour d'Information Générique ("Correct/Incorrect")
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Si coché, le Commentaire marquera un simple "Correct" ou "Incorrect" selon la configuration de la question.

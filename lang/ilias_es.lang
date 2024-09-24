@@ -1349,7 +1349,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###07 02 2020 new variable
 assessment#:#tst_corrections_qst_form#:#Correction of Points
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
@@ -1499,7 +1498,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banco de pregu
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Proporcionar filtro de taxonomía
 assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en el test!
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
-assessment#:#tst_insert_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s). Insertar preguntas a este test borrará todos los resultados de estos usuarios. Esta seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
 assessment#:#tst_instant_feedback#:#Retroalimentación Instantánea - Información que se puede mostrar después de cada pregunta
 assessment#:#tst_instant_feedback_answer_generic#:#Mostrar comentarios del tutor genéricos para "Correcto/Incorrecto"
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Los comentarios del tutor genéricos muestran un mensaje de "correcto" o "incorrecto" que se ha debido configurar al editar la pregunta.

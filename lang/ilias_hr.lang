@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistika odgovora za %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#Postoji %s ručnih ocjena za pitanje „%s (ID: %s)". Kada se pitanje spremi, sve se ručne ocjene resetiraju.
 assessment#:#tst_corrections_qst_form#:#Ispravak bodova
-assessment#:#tst_corrections_qst_remove_confirmation#:#Želite li zaista definitivno ukloniti pitanje "%s (ID: %s)" iz testa?
 assessment#:#tst_corrections_tab_question#:#Pitanje
 assessment#:#tst_corrections_tab_solution#:#Rješenje
 assessment#:#tst_corrections_tab_statistics#:#Statistika odgovora
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Izvorni bazen 
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Prikaži taksonomijski filtar
 assessment#:#tst_insert_missing_question#:#Molimo odaberite najmanje jedno pitanje koje želite dodati u test!
 assessment#:#tst_insert_questions#:#Jeste li sigurni da sljedeće pitanje(a) želite dodati u test?
-assessment#:#tst_insert_questions_and_results#:#Ovaj je test ispunilo već %s korisnika. Dodavanjem pitanja u ovaj test uklonit će se svi rezultate testiranja tih korisnika. Jeste li sigurni da sljedeće pitanje(a) želite dodati u test?
 assessment#:#tst_instant_feedback#:#Izravne povratne informacije
 assessment#:#tst_instant_feedback_answer_generic#:#Povratne informacije o točnom odgovoru
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ako je odgovor u potpunosti točan, ILIAS će nakon klika na tipku ‘Provjeri’ pokazati jednu vrstu povratne informacije.  Ako odgovor nije u potpunosti točan, prikazat će se druga vrsta povratne informacije. Obje vrste povratne informacije moraju biti pohranjene u kartici ‘Povratna informacija’ dotičnog pitanja.

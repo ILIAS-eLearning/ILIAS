@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistika pro %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#Jsou %s manuální vyhodnocování, která byla provedena pro otázku „%s (ID: %s)“. Při ukládání otázky budou vymazána všechna manuální vyhodnocení.
 assessment#:#tst_corrections_qst_form#:#Oprava bodů
-assessment#:#tst_corrections_qst_remove_confirmation#:#Opravdu chcete z testu definitivně odstranit otázku „%s (ID: %s)“?
 assessment#:#tst_corrections_tab_question#:#Otázka
 assessment#:#tst_corrections_tab_solution#:#Řešení
 assessment#:#tst_corrections_tab_statistics#:#Statistika
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Zdrojový zás
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Poskytnout filtr taxonomie
 assessment#:#tst_insert_missing_question#:#Vyberte prosím alespoň jednu otázku ke vložení do tohoto testu!
 assessment#:#tst_insert_questions#:#Určitě chcete vložit následující otázky do testu?
-assessment#:#tst_insert_questions_and_results#:#Tento test již vykonalo %s uživatelů. Vložení otázek do tohoto testu vymaže všechny výsledky testů těchto uživatelů. Skutečně chcete vložit následující otázky do tohoto testu?
 assessment#:#tst_instant_feedback#:#Okamžitý ohlas
 assessment#:#tst_instant_feedback_answer_generic#:#Zobrazit obecný ("Správně/Chybně") ohlas
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Generická zpětná vazba vytiskne jednoduchou zpětnou vazbu „správně“ nebo „špatně“ podle konfigurace otázky.

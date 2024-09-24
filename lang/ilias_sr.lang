@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s###10 11 20
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###07 02 2020 new variable
 assessment#:#tst_corrections_qst_form#:#Correction of Points###10 11 2018 new variable
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?###10 11 2018 new variable
 assessment#:#tst_corrections_tab_question#:#Question###10 11 2018 new variable
 assessment#:#tst_corrections_tab_solution#:#Solution###10 11 2018 new variable
 assessment#:#tst_corrections_tab_statistics#:#Statistics###10 11 2018 new variable
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Questio
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter###24 10 2013 new variable
 assessment#:#tst_insert_missing_question#:#Molimo odaberite najmanje jedno pitanje koje treba ubaciti u test!
 assessment#:#tst_insert_questions#:#Da li ste sigurni da želite da ubacite sledece pitanje(a) u test?
-assessment#:#tst_insert_questions_and_results#:#Ovaj test je vec izvršen/uraden od strane %s korisnika. Ubacivanjem pitanja u ovaj test ce ukloniti sve rezultate testa ovih korisnika. Da li ste sigurni da želite da ubacite sledece(a) pitanje(a) u test?
 assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
 assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback###28 08 2012 new variable
 assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.###26 09 2014 new variable

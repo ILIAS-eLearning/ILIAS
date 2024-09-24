@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Estatística para %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#Existem %s pontuações manuais que foram feitas para a pergunta "%s (ID: %s)". Todas as pontuações manuais serão repostas quando guardar a pergunta.
 assessment#:#tst_corrections_qst_form#:#Correção de pontos
-assessment#:#tst_corrections_qst_remove_confirmation#:#Tem a certeza que quer remover a pergunta "%s (ID: %s)" do teste?
 assessment#:#tst_corrections_tab_question#:#Pergunta
 assessment#:#tst_corrections_tab_solution#:#Solução
 assessment#:#tst_corrections_tab_statistics#:#Estatística
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banco de pergu
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Fornecer filtro de taxonomia
 assessment#:#tst_insert_missing_question#:#Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
 assessment#:#tst_insert_questions#:#Este teste foi já feito por %s utilizador(es). Inserir perguntas neste teste removerá todos os resultados destes utilizadores. Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
-assessment#:#tst_insert_questions_and_results#:#Feedback sobre resposta totalmente correta
 assessment#:#tst_instant_feedback#:#Feedback instantâneo
 assessment#:#tst_instant_feedback_answer_generic#:#Se a resposta fornecida estiver totalmente correta, ILIAS mostra um tipo de feedback se clicar no botão ‘Marcar’. Se a resposta fornecida não estiver totalmente correta, será exibido outro tipo de feedback. Ambos os tipos de feedback foram preparados no separador ‘Feedback’ da respetiva pergunta.
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Feedback específico fornecido para cada resposta
