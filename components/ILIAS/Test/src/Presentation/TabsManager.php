@@ -58,7 +58,7 @@ class TabsManager
     public const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
     public const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
 
-    public const TAB_ID_RESULTS = 'results';
+    public const TAB_ID_YOUR_RESULTS = 'your_results';
     public const SUBTAB_ID_PARTICIPANTS_RESULTS = 'participantsresults';
     public const SUBTAB_ID_MY_RESULTS = 'myresults';
     public const SUBTAB_ID_LO_RESULTS = 'loresults';
@@ -97,7 +97,7 @@ class TabsManager
     {
         switch ($tab_id) {
             case self::TAB_ID_EXAM_DASHBOARD:
-            case self::TAB_ID_RESULTS:
+            case self::TAB_ID_YOUR_RESULTS:
             case self::TAB_ID_SETTINGS:
 
                 $this->tabs->activateTab($tab_id);
@@ -463,8 +463,8 @@ class TabsManager
 
         if ($this->needsResultsTab()) {
             $this->tabs->addTab(
-                self::TAB_ID_RESULTS,
-                $this->lng->txt('results_tab'),
+                self::TAB_ID_YOUR_RESULTS,
+                $this->lng->txt('your_results'),
                 $this->getResultsTabTarget()
             );
         }
