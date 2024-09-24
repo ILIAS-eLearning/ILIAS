@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Misturar perguntas
 assessment#:#tst_shuffle_questions_description#:#Usar as minhas respostas anteriores como valores por defeito nas futuras tentativas de teste
 assessment#:#tst_signature#:#Assinatura
 assessment#:#tst_single_answer_details#:#Mostrar resposta única
-assessment#:#tst_single_results#:#Resultados por pergunta
 assessment#:#tst_skill_triggerings_num_req_answers#:#Quantidade de respostas necessária para acionadores de competência
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#As competências não são ativadas antes de esta quantidade de perguntas respondidas contribuir para o cálculo do nível de competência.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Pelo menos uma das competências abordadas por este teste não é ativada pela quantidade mínima exigida de perguntas.<br />A quantidade de perguntas exigida: %s

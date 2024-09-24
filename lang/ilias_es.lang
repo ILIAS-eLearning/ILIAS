@@ -1882,7 +1882,6 @@ assessment#:#tst_shuffle_questions#:#Aleatorizar preguntas
 assessment#:#tst_shuffle_questions_description#:#Aleatorizar la secuencia de preguntas para cada usuario al comienzo del test
 assessment#:#tst_signature#:#Firma
 assessment#:#tst_single_answer_details#:#Mostrar respuesta única
-assessment#:#tst_single_results#:#Resultados por pregunta
 assessment#:#tst_skill_triggerings_num_req_answers#:#Cantidad de respuestas requeridas para activadores de competencias
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Las competencias no son activadas antes de que esta cantidad de preguntas contestadas contribuya al cálculo del nivel de competencia.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Al menos una de las competencias evaluadas en este test no se aborda con la cantidad mínima necesaria de preguntas.<br />Cantidad necesaria de preguntas: %s

@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Promiješaj pitanja
 assessment#:#tst_shuffle_questions_description#:#Miješa se redoslijed pitanja za svakog sudionika i svaki prolaz testa.
 assessment#:#tst_signature#:#Potpis
 assessment#:#tst_single_answer_details#:#Prikaži pojedinačni odgovor
-assessment#:#tst_single_results#:#Rezultati pojedinačnih pitanja
 assessment#:#tst_skill_triggerings_num_req_answers#:#Potreban broj odgovora za procjenu kompetencija
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetencije se procjenjuju samo ako barem taj broj odgovora pridonosi izračunavanju razine kompetencije.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Barem za jednu kompetenciju obrađenu u testu nije dodijeljen dovoljan broj pitanja. Za ove kompetencije ne evidentiraju se unosi kompetencija za sudionike. <br />Minimalni broj dodijeljenih pitanja: %s

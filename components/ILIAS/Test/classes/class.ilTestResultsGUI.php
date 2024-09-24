@@ -26,7 +26,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Skill\Service\SkillService;
 
@@ -81,7 +80,7 @@ class ilTestResultsGUI
     public function executeCommand(): void
     {
         $this->test_tabs->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
-        $this->test_tabs->getResultsSubTabs();
+        $this->test_tabs->getYourResultsSubTabs();
 
         switch ($this->ctrl->getNextClass()) {
             case 'ilparticipantstestresultsgui':
@@ -115,7 +114,7 @@ class ilTestResultsGUI
                 break;
 
             case 'ilmytestresultsgui':
-                if (!$this->test_tabs->needsMyResultsSubTab()) {
+                if (!$this->test_tabs->needsYourResultsTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
@@ -148,7 +147,7 @@ class ilTestResultsGUI
                 break;
 
             case 'ilmytestsolutionsgui':
-                if (!$this->test_tabs->needsMySolutionsSubTab()) {
+                if (!$this->test_tabs->needsYourSolutionsSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 

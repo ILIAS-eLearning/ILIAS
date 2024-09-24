@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Kérdések összekeverése
 assessment#:#tst_shuffle_questions_description#:#Kérdéssorrend keverése minden tesztkitöltéshez.
 assessment#:#tst_signature#:#Aláírás
 assessment#:#tst_single_answer_details#:#Egyszeres válasz megjelenítése
-assessment#:#tst_single_results#:#Eredmények kérdések szerint
 assessment#:#tst_skill_triggerings_num_req_answers#:#Kompetencia felméréséhez szükséges válaszok száma
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés, így azokhoz egy kompetenciabejegyzést sem fogunk rögzíteni.<br />A szükséges minimális kérdésszám: %s

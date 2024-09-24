@@ -1865,7 +1865,6 @@ assessment#:#tst_shuffle_questions#:#Mélanger les Questions
 assessment#:#tst_shuffle_questions_description#:#Mélanger l'ordre des questions à chaque lancement du test.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Montrer une seule réponse
-assessment#:#tst_single_results#:#Résultats par réponse
 assessment#:#tst_skill_triggerings_num_req_answers#:#Nombre requis de réponses pour que les Compétences soient déclenchées
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Les Compétences ne sont pas déclenchées tant que cette quantité de réponses aux questions n'ait été atteint car cela contribue au calcul du niveau de compétence.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Au moins une des compétences abordées dans ce test n’est pas déclenchée par le nombre minimum de questions requises.<br />Nombre de questions requises: %s

@@ -625,6 +625,7 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen sondern nur im vorliegenden Test nutzen
+assessment#:#download_all_files#:#Alle Dateien herunterladen
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
@@ -1924,7 +1925,6 @@ assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
-assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
@@ -2056,7 +2056,7 @@ assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
-assessment#:#your_test_results#:#Ihre Ergebnisse
+assessment#:#your_results#:#Ihre Ergebnisse
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Anmeldekonto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
 auth#:#auth_account_code_title#:#Anmeldekonten-Code

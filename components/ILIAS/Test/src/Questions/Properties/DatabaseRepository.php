@@ -30,6 +30,7 @@ class DatabaseRepository implements Repository
     private const LINKING_TABLE_TEST_FIXED = 'tst_test_question';
     private const LINKING_TABLE_TEST_RANDOM = 'tst_rnd_cpy';
     private const RESULTS_TABLE = 'tst_test_result';
+    private const ATTEMPTS_TABLE = 'tst_active';
 
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -69,6 +70,7 @@ class DatabaseRepository implements Repository
         $query = $this->db->query(
             'SELECT question_fi, COUNT(*) as nr_of_answers, SUM(points) as achieved_points'
             . ' FROM ' . self::RESULTS_TABLE
+            . ' INNER JOIN ' . self::ATTEMPTS_TABLE . ' ON active_fi = active_id'
             . ' WHERE answered = 1 AND ' . $this->db->in(
                 'question_fi',
                 array_keys($general_question_properties),
@@ -96,6 +98,18 @@ class DatabaseRepository implements Repository
             },
             $general_question_properties
         );
+    }
+
+    public function questionHasAnswers(int $question_id): bool
+    {
+        $query = $this->db->query(
+            'SELECT COUNT(*) as nr_of_answers'
+            . ' FROM ' . self::RESULTS_TABLE
+            . ' INNER JOIN ' . self::ATTEMPTS_TABLE . ' ON active_fi = active_id'
+            . ' WHERE answered = 1 AND question_fi=' . $question_id
+        );
+
+        return $this->db->fetchObject($query)->nr_of_answers > 0;
     }
 
     public function originalQuestionExists(int $question_id): bool

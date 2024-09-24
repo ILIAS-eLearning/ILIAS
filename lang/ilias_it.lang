@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Mischia le domande
 assessment#:#tst_shuffle_questions_description#:#Mischia l'ordine delle domande durante il test
 assessment#:#tst_signature#:#Firma
 assessment#:#tst_single_answer_details#:#Mostra risposta singola
-assessment#:#tst_single_results#:#Risultati per domanda singola
 assessment#:#tst_skill_triggerings_num_req_answers#:#Quantità richiesta di risposte per i trigger di competenza
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Le competenze non vengono attivate prima che questa quantità di risposte alle domande contribuisca al calcolo del livello di competenza.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Almeno una delle competenze affrontate da questo test non è attivata dalla quantità minima richiesta di domande.<br />La quantità richiesta di domande: %s

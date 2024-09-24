@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Zamíchat otázky
 assessment#:#tst_shuffle_questions_description#:#Zamíchat sekvenci otázek pro každý průchod testem
 assessment#:#tst_signature#:#Podpis
 assessment#:#tst_single_answer_details#:#Zobrazit jednu odpověď
-assessment#:#tst_single_results#:#Výsledky podle otázek
 assessment#:#tst_skill_triggerings_num_req_answers#:#Požadovaný počet odpovědí pro spouštěče způsobilosti
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Způsobilosti nejsou spuštěny dříve, než tento počet zodpovězených otázek přispěje k výpočtu úrovně způsobilosti.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Nejméně jedna ze způsobilostí, kterou se zabývá tento test, není aktivována minimálním požadovaným počtem otázek.<br />Požadovaný počet otázek: %s

@@ -448,24 +448,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     }
 
     /**
-     * Creates a ZIP file containing all file uploads for a given question in a test
-     *
-     */
-    public function exportFileUploadsForAllParticipants()
-    {
-        $question_object = assQuestion::instantiateQuestion((int) $this->testrequest->raw("qid"));
-        if ($question_object instanceof ilObjFileHandlingQuestionType) {
-            $question_object->deliverFileUploadZIPFile(
-                $this->ref_id,
-                $this->object->getTestId(),
-                $this->object->getTitle()
-            );
-        } else {
-            $this->ctrl->redirect($this, "singleResults");
-        }
-    }
-
-    /**
     * Output of anonymous aggregated results for the test
     */
     public function eval_a()
@@ -781,7 +763,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
 
     }
-
 
     public function outParticipantsResultsOverview()
     {
@@ -1182,70 +1163,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->setCss();
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
-    }
-
-    /**
-     * Creates user results for single questions
-     *
-     */
-    public function singleResults()
-    {
-        if (!$this->getTestAccess()->checkStatisticsAccess()) {
-            ilObjTestGUI::accessViolationRedirect();
-        }
-
-        $this->object->setAccessFilteredParticipantList(
-            $this->object->buildStatisticsAccessFilteredParticipantList()
-        );
-
-        $this->tabs->activateTab(TabsManager::TAB_ID_STATISTICS);
-
-        $data = $this->object->getCompleteEvaluationData();
-        $counter = 0;
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "components/ILIAS/Test");
-        $found_participants = $data->getParticipants();
-        if ($found_participants === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_no_evaluation_data"));
-            return;
-        }
-
-        $rows = [];
-        foreach ($data->getQuestionTitles() as $question_id => $question_title) {
-            $answered = 0;
-            $reached = 0;
-            $max = 0;
-            foreach ($found_participants as $userdata) {
-                $pass = $userdata->getScoredPass();
-                if (is_object($userdata->getPass($pass))) {
-                    $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
-                    if (is_array($question)) {
-                        $answered++;
-                    }
-                }
-            }
-            $counter++;
-            $this->ctrl->setParameter($this, "qid", $question_id);
-            $question_object = assQuestion::instantiateQuestion($question_id);
-            $download = '';
-            if ($question_object instanceof ilObjFileHandlingQuestionType
-                && $question_object->hasFileUploads($this->object->getTestId())) {
-                $download = '<a href="' . $this->ctrl->getLinkTarget($this, "exportFileUploadsForAllParticipants") . '">'
-                    . $this->lng->txt('download') . '</a>';
-            }
-            $rows[] = [
-                'qid' => $question_id,
-                'question_title' => $question_title,
-                'number_of_answers' => $answered,
-                'output' => "<a target='_blank' href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
-                'file_uploads' => $download
-            ];
-        }
-
-        $table_gui = new ilResultsByQuestionTableGUI($this, 'singleResults');
-        $table_gui->setTitle($this->lng->txt('tst_answered_questions_test'));
-        $table_gui->setData($rows);
-
-        $this->tpl->setVariable('TBL_SINGLE_ANSWERS', $table_gui->getHTML());
     }
 
     public function outCertificate()

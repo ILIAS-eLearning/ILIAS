@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Mix frågor
 assessment#:#tst_shuffle_questions_description#:#Ordningen på frågorna kommer att ändras per deltagare och per testkörning.
 assessment#:#tst_signature#:#Signatur
 assessment#:#tst_single_answer_details#:#Visa ett enda svar
-assessment#:#tst_single_results#:#Resultat på enskilda frågor
 assessment#:#tst_skill_triggerings_num_req_answers#:#Nödvändigt antal svar för kompetensundersökningar
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetens samlas endast in när minst detta antal svar bidrar till beräkningen av kompetensnivån.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Minst en kompetens som tas upp i testet har inte tilldelats ett tillräckligt antal frågor. För dessa kompetenser registreras inga kompetensposter för deltagarna.<br />Minsta antal tilldelade frågor

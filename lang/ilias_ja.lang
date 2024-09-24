@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#問題をシャッフル
 assessment#:#tst_shuffle_questions_description#:#各受験者と実施済テストの問題シーケンスをシャッフル
 assessment#:#tst_signature#:#署名
 assessment#:#tst_single_answer_details#:#単一解答を表示
-assessment#:#tst_single_results#:#問題別の結果
 assessment#:#tst_skill_triggerings_num_req_answers#:#能力トリガー用の回答数が必須です。
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#この前に能力はトリガーされなく、問題回答数は能力レベルの計算へ寄与します。
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#これにより処理される能力の一つはこのテストは、必須問題最小数でトリガーされません。<br />必須問題数は: %sです。
