@@ -1,9 +1,15 @@
-<h1>{PRINT_TEST}</h1>
-<h3>{TITLE}</h3>
-<p>{TXT_PRINT_DATE}:&nbsp;{VALUE_PRINT_DATE}&nbsp;&nbsp;{TXT_MAXIMUM_POINTS}:&nbsp;{VALUE_MAXIMUM_POINTS}</p>
+<h1>{TITLE}</h1>
+<p>{TXT_PRINT_DATE}:&nbsp;{VALUE_PRINT_DATE}</p>
 <!-- BEGIN question -->
 <div class="questionPrintview clearfix">
-	<div class="questionTitle">{QUESTION_HEADER}<!-- BEGIN id_info_block --> [{TXT_QUESTION_ID}: {QUESTION_ID}]<!-- END id_info_block --></div>
+    <strong>{TXT_USR_NAME}</strong>: {VALUE_USR_NAME}
+    <!-- BEGIN matriculation -->,
+        <strong>{TXT_USR_MATRIC}</strong>:{VALUE_USR_MATRIC}
+    <!-- END matriculation -->
+    <!-- BEGIN client_ip -->,
+        <strong>{TXT_CLIENT_IP}</strong>:{VALUE_CLIENT_IP}
+    <!-- END client_ip -->
+    {TXT_PASS}: {VALUE_PASS}
 	{SOLUTION_OUTPUT}
 </div>
 <!-- END question -->
