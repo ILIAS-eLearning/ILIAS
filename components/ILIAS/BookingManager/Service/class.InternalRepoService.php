@@ -25,6 +25,7 @@ use ILIAS\BookingManager\Objects\ObjectsDBRepository;
 use ILIAS\BookingManager\Reservations\ReservationDBRepository;
 use ILIAS\BookingManager\BookingProcess\SelectedObjectsDBRepository;
 use ILIAS\BookingManager\Schedule\SchedulesDBRepository;
+use ILIAS\BookginManager\Participants\ParticipantsRepository;
 
 /**
  * Repository internal repo service
@@ -102,6 +103,11 @@ class InternalRepoService
     public function objectSelection(): SelectedObjectsDBRepository
     {
         return new SelectedObjectsDBRepository($this->db);
+    }
+
+    public function participants(): ParticipantsRepository
+    {
+        return new ParticipantsRepository($this->db);
     }
 
 }

@@ -54,4 +54,9 @@ class ParticipantsManager
         $participant = new \ilBookingParticipant($user_id, $pool_id);
     }
 
+    public function removeFromAll(int $user_id): void
+    {
+        $this->repo->participants()->removeFromAll($user_id);
+    }
+
 }

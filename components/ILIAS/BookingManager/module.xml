@@ -15,6 +15,9 @@
 			<sub_type id="bobj" amet="1" />
 		</object>
 	</objects>
+	<events>
+		<event type="listen" id="Services/User" />
+	</events>
 	<web_access_checker>
 		<secure_path path="ilBookingManager" checking-class="ilObjBookingPoolAccess"/>
 	</web_access_checker>
