@@ -137,7 +137,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $table->setTitle($this->lng->txt('tst_man_scoring_by_qst'));
 
         if ($selected_question_data !== null) {
-            $maxpoints = $selected_question_data->getMaximumPoints();
+            $maxpoints = $selected_question_data->getAvailablePoints();
             $table->setCurQuestionMaxPoints($maxpoints);
             $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
             if ($maxpoints === 1.0) {
