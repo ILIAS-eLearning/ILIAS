@@ -2752,7 +2752,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->refinery,
                     $this->lng,
                     $this->ctrl,
-                    $this->test_questions_repository,
+                    $this->user,
                     new \ilTestQuestionHeaderBlockBuilder($this->lng),
                     $this->getTestObject()
                 ),

@@ -106,9 +106,15 @@ class QuestionsTableQuery
         );
     }
 
-    public function getPrintViewType(): ?string
+    public function getPrintViewType(): string
     {
-        return $this->retrieveStringOrNull($this->print_view_type_token);
+        if (!$this->request_wrapper->has($this->print_view_type_token->getName())) {
+            return '';
+        }
+        return $this->request_wrapper->retrieve(
+            $this->print_view_type_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
     }
 
     public function getActionURL(string $action): URI

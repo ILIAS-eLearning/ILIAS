@@ -21,13 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Test\Questions\Presentation;
 
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
-use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table\OrderingRow;
 use ILIAS\UI\Component\Table\Action\Action as TableAction;
 use ILIAS\UI\Component\Modal\Interruptive;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\URI;
 use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
@@ -48,9 +46,6 @@ class QuestionsTableActions
     private const ACTION_HINTS = 'hints';
     private const ACTION_PRINT_QUESTIONS = 'print_questions';
     private const ACTION_PRINT_ANSWERS = 'print_answers';
-
-    private const RESULTS_VIEW_TYPE_SHOW = 'show';
-    private const RESULTS_VIEW_TYPE_HIDE = 'hide';
 
     private string $table_id;
 
@@ -235,14 +230,6 @@ class QuestionsTableActions
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_removed'), true);
                 return true;
 
-            case self::ACTION_DELETE_WITH_RESULTS_CONFIRMED:
-                $this->redirectWithQuestionParameters(
-                    current($row_ids),
-                    \ilAssQuestionPageGUI::class,
-                    'edit'
-                );
-                return false;
-
             case self::ACTION_COPY:
                 if (array_filter($row_ids) === []) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
@@ -272,15 +259,16 @@ class QuestionsTableActions
                 }
                 $protect_by_write_protection();
                 $this->question_printer->printSelectedQuestions(
-                    [
-                        $this->lng->txt('show_best_solution') => $this->table_query
-                            ->getPrintViewTypeURL(self::ACTION_PRINT_QUESTIONS, self::RESULTS_VIEW_TYPE_SHOW)->__toString(),
-                        $this->lng->txt('hide_best_solution') => $this->table_query
-                            ->getPrintViewTypeURL(self::ACTION_PRINT_QUESTIONS, self::RESULTS_VIEW_TYPE_HIDE)->__toString()
-                    ],
-                    $this->table_query->getPrintViewType() ?? self::RESULTS_VIEW_TYPE_SHOW === self::RESULTS_VIEW_TYPE_HIDE
-                        ? [$this->lng->txt('hide_best_solution') => self::RESULTS_VIEW_TYPE_HIDE]
-                        : [$this->lng->txt('show_best_solution') => self::RESULTS_VIEW_TYPE_SHOW],
+                    array_reduce(
+                        Types::cases(),
+                        function (array $c, Types $v): array {
+                            $c[$v->getLabel($this->lng)] = $this->table_query
+                                ->getPrintViewTypeURL(self::ACTION_PRINT_QUESTIONS, $v->value)->__toString();
+                            return $c;
+                        },
+                        []
+                    ),
+                    Types::tryFrom($this->table_query->getPrintViewType()) ?? Types::RESULTS_VIEW_TYPE_SHOW,
                     $row_ids
                 );
                 return false;
