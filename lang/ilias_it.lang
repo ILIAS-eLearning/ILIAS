@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###07 02 2020 new variable
 assessment#:#tst_corrections_qst_form#:#Correction of Points
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Gruppo di doma
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Fornisci Filtro tassonomia
 assessment#:#tst_insert_missing_question#:#Per favore, scegli almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel test?
-assessment#:#tst_insert_questions_and_results#:#Questo test è gia' stato eseguito da  %s utente(i). L'inserimento di ulteriori domande nel test causera' la cancellazione di tutti i risultati precedenti degli utenti. Sei sicuro di voler inserire le seguenti domande nel test?
 assessment#:#tst_instant_feedback#:#Feedback istantaneo - Queste informazioni vengono mostrate subito dopo l'avvenuta risposta ad una domanda
 assessment#:#tst_instant_feedback_answer_generic#:#Mostra valutazione generica ("Corretto/Sbagliato")
 assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.

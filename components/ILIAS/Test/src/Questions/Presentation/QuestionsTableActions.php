@@ -46,7 +46,8 @@ class QuestionsTableActions
     private const ACTION_EDIT_PAGE = 'edit_page';
     private const ACTION_FEEDBACK = 'feedback';
     private const ACTION_HINTS = 'hints';
-    private const ACTION_PRINT = 'print';
+    private const ACTION_PRINT_QUESTIONS = 'print_questions';
+    private const ACTION_PRINT_ANSWERS = 'print_answers';
 
     private const RESULTS_VIEW_TYPE_SHOW = 'show';
     private const RESULTS_VIEW_TYPE_HIDE = 'hide';
@@ -60,15 +61,12 @@ class QuestionsTableActions
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private \ilGlobalTemplateInterface $tpl,
-        private TabsManager $tabs_manager,
-        private \ilToolbarGUI $toolbar,
-        private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly QuestionsTableQuery $table_query,
         private readonly Language $lng,
         private readonly \ilCtrl $ctrl,
         private readonly TestQuestionsRepository $questionrepository,
-        private readonly \ilTestQuestionHeaderBlockBuilder $question_header_builder,
+        private readonly Printer $question_printer,
         private readonly \ilObjTest $test_obj,
         private readonly bool $is_adjusting_questions_with_results_allowed,
         private readonly bool $is_in_test_with_results,
@@ -94,7 +92,7 @@ class QuestionsTableActions
                 self::ACTION_ADJUST,
                 $this->is_adjusting_questions_with_results_allowed && !$this->is_in_test_with_results
             )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_HINTS, $disable_default_actions);
+            ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results);
     }
 
     public function getOrderActionUrl(): URI
@@ -118,11 +116,12 @@ class QuestionsTableActions
             self::ACTION_EDIT_PAGE => $ag('single', 'edit_page', self::ACTION_EDIT_PAGE),
             self::ACTION_FEEDBACK => $ag('single', 'tst_feedback', self::ACTION_FEEDBACK),
             self::ACTION_HINTS => $ag('single', 'tst_question_hints_tab', self::ACTION_HINTS),
+            self::ACTION_PRINT_ANSWERS => $ag('single', 'print_answers', self::ACTION_PRINT_ANSWERS),
             self::ACTION_DELETE => $ag('standard', 'delete', self::ACTION_DELETE)
                 ->withAsync(),
             self::ACTION_COPY => $ag('standard', 'copy', self::ACTION_COPY),
             self::ACTION_ADD_TO_POOL => $ag('standard', 'copy_and_link_to_questionpool', self::ACTION_ADD_TO_POOL),
-            self::ACTION_PRINT => $ag('multi', 'print', self::ACTION_PRINT)
+            self::ACTION_PRINT_QUESTIONS => $ag('multi', 'print', self::ACTION_PRINT_QUESTIONS)
         ];
     }
 
@@ -227,10 +226,22 @@ class QuestionsTableActions
                     return true;
                 }
                 $protect_by_write_protection();
-                $this->test_obj->removeQuestions($row_ids);
-                $this->test_obj->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
+                if ($this->is_in_test_with_results) {
+                    $this->test_obj->removeQuestionsWithResults($row_ids);
+                } else {
+                    $this->test_obj->removeQuestions($row_ids);
+                    $this->test_obj->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());
+                }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_removed'), true);
                 return true;
+
+            case self::ACTION_DELETE_WITH_RESULTS_CONFIRMED:
+                $this->redirectWithQuestionParameters(
+                    current($row_ids),
+                    \ilAssQuestionPageGUI::class,
+                    'edit'
+                );
+                return false;
 
             case self::ACTION_COPY:
                 if (array_filter($row_ids) === []) {
@@ -254,13 +265,29 @@ class QuestionsTableActions
                 $copy_and_link_to_questionpool();
                 return true;
 
-            case self::ACTION_PRINT:
+            case self::ACTION_PRINT_QUESTIONS:
                 if (array_filter($row_ids) === []) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
                     return true;
                 }
                 $protect_by_write_protection();
-                $this->printSelectedQuestions($row_ids);
+                $this->question_printer->printSelectedQuestions(
+                    [
+                        $this->lng->txt('show_best_solution') => $this->table_query
+                            ->getPrintViewTypeURL(self::ACTION_PRINT_QUESTIONS, self::RESULTS_VIEW_TYPE_SHOW)->__toString(),
+                        $this->lng->txt('hide_best_solution') => $this->table_query
+                            ->getPrintViewTypeURL(self::ACTION_PRINT_QUESTIONS, self::RESULTS_VIEW_TYPE_HIDE)->__toString()
+                    ],
+                    $this->table_query->getPrintViewType() ?? self::RESULTS_VIEW_TYPE_SHOW === self::RESULTS_VIEW_TYPE_HIDE
+                        ? [$this->lng->txt('hide_best_solution') => self::RESULTS_VIEW_TYPE_HIDE]
+                        : [$this->lng->txt('show_best_solution') => self::RESULTS_VIEW_TYPE_SHOW],
+                    $row_ids
+                );
+                return false;
+
+            case self::ACTION_PRINT_ANSWERS:
+                $protect_by_write_protection();
+                $this->question_printer->printAnswers(current($row_ids));
                 return false;
 
             default:
@@ -287,7 +314,11 @@ class QuestionsTableActions
 
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('remove'),
-            $this->lng->txt('tst_remove_questions'),
+            $this->lng->txt(
+                $this->is_in_test_with_results
+                    ? 'tst_remove_questions_and_results'
+                    : 'tst_remove_questions'
+            ),
             $this->table_query->getActionURL(self::ACTION_DELETE_CONFIRMED)->__toString()
         )
         ->withAffectedItems($items);
@@ -338,91 +369,5 @@ class QuestionsTableActions
             }
         }
         return true;
-    }
-
-    /**
-     *
-     * @param array<int> $question_ids
-     */
-    private function printSelectedQuestions(array $question_ids): void
-    {
-        $this->tabs_manager->resetTabsAndAddBacklink(
-            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
-        );
-
-        $print_view_type = $this->table_query->getPrintViewType() ?? self::RESULTS_VIEW_TYPE_SHOW;
-        $this->toolbar->addComponent(
-            $this->ui_factory->viewControl()->mode(
-                [
-                    $this->lng->txt('show_best_solution') => $this->table_query
-                        ->getPrintViewTypeURL(self::ACTION_PRINT, self::RESULTS_VIEW_TYPE_SHOW)->__toString(),
-                    $this->lng->txt('hide_best_solution') => $this->table_query
-                        ->getPrintViewTypeURL(self::ACTION_PRINT, self::RESULTS_VIEW_TYPE_HIDE)->__toString()
-                ],
-                $this->lng->txt('show_hide_best_solution')
-            )->withActive(
-                $print_view_type === self::RESULTS_VIEW_TYPE_HIDE
-                    ? $this->lng->txt('hide_best_solution')
-                    : $this->lng->txt('show_best_solution')
-            )
-        );
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard('print', 'javascript:window.print();')
-        );
-
-        $template = new \ilTemplate('tpl.il_as_tst_print_test_confirm.html', true, true, 'components/ILIAS/Test');
-
-        $this->tpl->addCss(\ilUtil::getStyleSheetLocation('output', 'test_print.css'), 'print');
-
-        $print_date = mktime((int) date('H'), (int) date('i'), (int) date('s'), (int) date('m'), (int) date('d'), (int) date('Y'));
-        $max_points = 0;
-        $counter = 1;
-        $this->question_header_builder->setHeaderMode($this->test_obj->getTitleOutput());
-
-        foreach ($question_ids as $question_id) {
-            $template->setCurrentBlock('question');
-            $question_gui = $this->test_obj->createQuestionGUI('', $question_id);
-            if ($print_view_type === self::RESULTS_VIEW_TYPE_HIDE) {
-                $question_gui->setRenderPurpose(\assQuestionGUI::RENDER_PURPOSE_PREVIEW);
-            } else {
-                $question_gui->setPresentationContext(\assQuestionGUI::PRESENTATION_CONTEXT_TEST);
-            }
-
-            $this->question_header_builder->setQuestionTitle($question_gui->getObject()->getTitle());
-            $this->question_header_builder->setQuestionPoints($question_gui->getObject()->getMaximumPoints());
-            $this->question_header_builder->setQuestionPosition($counter);
-            $template->setVariable('QUESTION_HEADER', $this->question_header_builder->getHTML());
-
-            if ($print_view_type === self::RESULTS_VIEW_TYPE_HIDE) {
-                $template->setVariable('SOLUTION_OUTPUT', $question_gui->getPreview(false));
-            } else {
-                $template->setVariable('TXT_QUESTION_ID', $this->lng->txt('question_id_short'));
-                $template->setVariable('QUESTION_ID', $question_gui->getObject()->getId());
-                $template->setVariable('SOLUTION_OUTPUT', $question_gui->getSolutionOutput(0, null, false, true, false, false));
-            }
-
-            $template->parseCurrentBlock('question');
-            $counter++;
-            $max_points += $question_gui->getObject()->getMaximumPoints();
-        }
-
-        $template->setVariable(
-            'TITLE',
-            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
-                $this->test_obj->getTitle()
-            )
-        );
-        $template->setVariable('PRINT_TEST', $this->lng->txt('tst_print'));
-        $template->setVariable('TXT_PRINT_DATE', $this->lng->txt('date'));
-        $template->setVariable(
-            'VALUE_PRINT_DATE',
-            \ilDatePresentation::formatDate(new \ilDateTime($print_date, IL_CAL_UNIX))
-        );
-        $template->setVariable(
-            'TXT_MAXIMUM_POINTS',
-            $this->lng->txt('tst_maximum_points')
-        );
-        $template->setVariable('VALUE_MAXIMUM_POINTS', $max_points);
-        $this->tpl->setVariable('PRINT_CONTENT', $template->get());
     }
 }

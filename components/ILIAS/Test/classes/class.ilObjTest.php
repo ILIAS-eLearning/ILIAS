@@ -446,15 +446,15 @@ class ilObjTest extends ilObject
         return true;
     }
 
-    public function saveCompleteStatus(ilTestQuestionSetConfig $testQuestionSetConfig): void
+    public function saveCompleteStatus(ilTestQuestionSetConfig $test_question_set_config): void
     {
         $complete = 0;
-        if ($this->isComplete($testQuestionSetConfig)) {
+        if ($this->isComplete($test_question_set_config)) {
             $complete = 1;
         }
         if ($this->getTestId() > 0) {
             $this->db->manipulateF(
-                "UPDATE tst_tests SET complete = %s WHERE test_id = %s",
+                'UPDATE tst_tests SET complete = %s WHERE test_id = %s',
                 ['text', 'integer'],
                 [$complete, $this->test_id]
             );
@@ -1018,13 +1018,73 @@ class ilObjTest extends ilObject
         return $this->getMainSettings()->getAccessSettings()->getPassword();
     }
 
+    public function removeQuestionsWithResults(array $question_ids): void
+    {
+        $scoring = new TestScoring(
+            $this->test_obj,
+            $this->user,
+            $this->db,
+            $this->lng
+        );
+
+        array_walk(
+            $question_ids,
+            fn(int $v, int $k) => $this->removeQuestionWithResults($v, $scoring)
+        );
+    }
+
+    private function removeQuestionWithResults(int $question_id, TestScoring $scoring): \Closure
+    {
+        $question = \assQuestion::instantiateQuestion($question_id);
+
+        $participant_data = new ilTestParticipantData($this->database, $this->language);
+        $participant_data->load($this->test_id);
+
+        $question->removeAllExistingSolutions();
+        $scoring->removeAllQuestionResults($question_id);
+
+        $this->removeQuestion($question_id);
+        $this->test_obj->removeQuestionFromSequences(
+            $question_id,
+            $participant_data->getActiveIds(),
+            $this->reindexFixedQuestionOrdering()
+        );
+
+        $scoring->updatePassAndTestResults($participant_data->getActiveIds());
+        ilLPStatusWrapper::_refreshStatus($this->getId(), $participant_data->getUserIds());
+        $question->delete($question_id);
+
+        if ($this->getTestQuestions() === []) {
+            $object_properties = $this->getObjectProperties();
+            $object_properties->storePropertyIsOnline(
+                $object_properties->getPropertyIsOnline()->withOffline()
+            );
+        }
+
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::QUESTION_REMOVED_IN_CORRECTIONS,
+                    [
+                        AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question->getTitle(),
+                        AdditionalInformationGenerator::KEY_QUESTION_TEXT => $question->getQuestion(),
+                        AdditionalInformationGenerator::KEY_QUESTION_ID => $question->getId(),
+                        AdditionalInformationGenerator::KEY_QUESTION_TYPE => $question->getQuestionType()
+                    ]
+                )
+            );
+        }
+    }
+
     /**
      * @param array<int> $active_ids
      */
     public function removeQuestionFromSequences(
         int $question_id,
         array $active_ids,
-        ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+        ilTestReindexedSequencePositionMap $reindexed_sequence_position_map
     ): void {
         $test_sequence_factory = new ilTestSequenceFactory(
             $this,
@@ -1040,19 +1100,19 @@ class ilObjTest extends ilObject
                 $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
                 $test_sequence->loadFromDb();
 
-                $test_sequence->removeQuestion($question_id, $reindexedSequencePositionMap);
+                $test_sequence->removeQuestion($question_id, $reindexed_sequence_position_map);
                 $test_sequence->saveToDb();
             }
         }
     }
 
     /**
-     * @param int[] $remove_question_ids
+     * @param array<int> $question_ids
      */
-    public function removeQuestions(array $remove_question_ids): void
+    public function removeQuestions(array $question_ids): void
     {
-        foreach ($remove_question_ids as $value) {
-            $this->removeQuestion((int) $value);
+        foreach ($question_ids as $question_id) {
+            $this->removeQuestion((int) $question_id);
         }
 
         $this->reindexFixedQuestionOrdering();

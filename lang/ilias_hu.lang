@@ -1347,7 +1347,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#%s statisztikái
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#%s manuális pontozás található '%s (ID: %s)' kérdéshez, ezek mind elvesznek a kérdés mentésekor.
 assessment#:#tst_corrections_qst_form#:#Pontok javítása
-assessment#:#tst_corrections_qst_remove_confirmation#:#, Biztos, hogy véglegesen eltávolítja '%s (ID: %s)' kérdést a tesztből?
 assessment#:#tst_corrections_tab_question#:#Kérdés
 assessment#:#tst_corrections_tab_solution#:#Megoldás
 assessment#:#tst_corrections_tab_statistics#:#Statisztikák
@@ -1497,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Forrás kérd�
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Taxonómia alapján szűrő biztosítása
 assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a tesztbe beillesztéshez!
 assessment#:#tst_insert_questions#:#Biztos, hogy beilleszti az alábbi kérdés(eke)t a tesztbe?
-assessment#:#tst_insert_questions_and_results#:#Ezt a tesztet %s felhasználó már kitöltötte. A kérdések beillesztésével törli ezen felhasználók minden teszteredményét is. Biztos, hogy beilleszti az alábbi kérdéseket a tesztbe?
 assessment#:#tst_instant_feedback#:#Azonnali visszajelzés
 assessment#:#tst_instant_feedback_answer_generic#:#Visszajelzés teljesen hibátlan válasz esetén
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Amennyiben a válasz tökéletes, az 'Ellenőrzés' gombra kattintáskor visszajelzést jelenít meg. Amennyiben a válasz nem teljesen hibátlan, másfajta visszajelzés jelenik meg. Mindkét típust az adott kérdés 'Tanulói visszajelzés' fülénél kell meghatározni.

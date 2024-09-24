@@ -386,10 +386,8 @@ class TabsManager
                 $target,
                 [
                     'showQuestions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
-                    'filter', 'resetFilter', 'insertQuestions',
-                    'back', 'removeQuestions', 'moveQuestions',
-                    'insertQuestionsBefore', 'insertQuestionsAfter', 'confirmRemoveQuestions',
-                    'cancelRemoveQuestions', 'executeCreateQuestion', 'cancelCreateQuestion',
+                    'filter', 'resetFilter', 'insertQuestions', 'back',
+                    'executeCreateQuestion', 'cancelCreateQuestion',
                     'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',
                     'addsource', 'removesource', 'randomQuestions'
                 ],
