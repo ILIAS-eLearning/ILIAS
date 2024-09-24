@@ -1248,7 +1248,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
         $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
         $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_RESULTS);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
         $this->ctrl->forwardCommand($gui);
     }
 

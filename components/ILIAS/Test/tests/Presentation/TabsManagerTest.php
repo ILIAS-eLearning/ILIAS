@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests\Presentation;
 
 use ILIAS\Test\Presentation\TabsManager;
-
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -63,7 +62,7 @@ class TabsManagerTest extends \ilTestBaseTestCase
         global $DIC;
         $DIC['ilTabs']->expects($this->exactly(2))->method('activateTab');
         $this->testObj->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
-        $this->testObj->activateTab(TabsManager::TAB_ID_RESULTS);
+        $this->testObj->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
         $this->testObj->activateTab('randomString');
     }
 

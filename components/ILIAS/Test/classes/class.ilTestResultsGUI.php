@@ -23,7 +23,6 @@ use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -81,7 +80,7 @@ class ilTestResultsGUI
 
     public function executeCommand(): void
     {
-        $this->test_tabs->activateTab(TabsManager::TAB_ID_RESULTS);
+        $this->test_tabs->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
         $this->test_tabs->getResultsSubTabs();
 
         switch ($this->ctrl->getNextClass()) {

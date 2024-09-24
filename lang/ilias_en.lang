@@ -2056,6 +2056,7 @@ assessment#:#without_solutions_participants#:#Participants without solutions
 assessment#:#worked_through#:#Worked Through
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
+assessment#:#your_results#:#Your Results
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use an ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
