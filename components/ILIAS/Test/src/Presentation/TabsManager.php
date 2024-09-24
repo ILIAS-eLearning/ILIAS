@@ -110,7 +110,6 @@ class TabsManager
             case self::SUBTAB_ID_FIXED_PARTICIPANTS:
             case self::SUBTAB_ID_TIME_EXTENSION:
 
-            case self::SUBTAB_ID_PARTICIPANTS_RESULTS:
             case self::SUBTAB_ID_MY_RESULTS:
             case self::SUBTAB_ID_LO_RESULTS:
             case self::SUBTAB_ID_HIGHSCORE:
@@ -461,11 +460,11 @@ class TabsManager
             );
         }
 
-        if ($this->needsResultsTab()) {
+        if ($this->needsYourResultsTab()) {
             $this->tabs->addTab(
                 self::TAB_ID_YOUR_RESULTS,
                 $this->lng->txt('your_results'),
-                $this->getResultsTabTarget()
+                $this->getYourResultsTabTarget()
             );
         }
 
@@ -674,15 +673,6 @@ class TabsManager
             '',
             ''
         );
-
-        // question export
-        $this->tabs->addSubTabTarget(
-            'tst_single_results',
-            $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'singleResults'),
-            ['singleResults'],
-            '',
-            ''
-        );
     }
 
     public function getSettingsSubTabs(): void
@@ -823,58 +813,41 @@ class TabsManager
         return $this->lng->txt('autoparticipants_subtab');
     }
 
-    protected function needsResultsTab(): bool
-    {
-        return $this->needsParticipantsResultsSubTab() || $this->test_object->isScoreReportingEnabled() || $this->needsMySolutionsSubTab();
-    }
-
-    protected function getResultsTabTarget(): string
-    {
-        if ($this->needsParticipantsResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilParticipantsTestResultsGUI::class]);
-        }
-
-        if ($this->needsLoResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class]);
-        }
-
-        if ($this->needsMyResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
-        }
-
-        if ($this->needsMySolutionsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI']);
-        }
-
-        return $this->ctrl->getLinkTargetByClass('ilTestResultsGUI');
-    }
-
-    public function needsMyResultsSubTab(): bool
+    public function needsYourResultsTab(): bool
     {
         return $this->test_session->reportableResultsAvailable($this->test_object);
     }
 
+    protected function getYourResultsTabTarget(): string
+    {
+        if ($this->needsLoResultsSubTab()) {
+            return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class]);
+        }
+
+        if ($this->needsYourSolutionsSubTab()) {
+            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI']);
+        }
+
+        return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
+    }
+
+    protected function needsYourResultsSubTab(): bool
+    {
+        return $this->test_object->isScoreReportingEnabled() || $this->needsYourSolutionsSubTab();
+    }
+
     public function needsLoResultsSubTab(): bool
     {
-        if (!$this->needsMyResultsSubTab()) {
+        if (!$this->needsYourResultsTab()) {
             return false;
         }
 
         return $this->objective_parent->isObjectiveOrientedPresentationRequired();
     }
 
-    public function needsParticipantsResultsSubTab(): bool
-    {
-        if ($this->test_access->checkParticipantsResultsAccess()) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function needsHighSoreSubTab(): bool
     {
-        if (!$this->needsMyResultsSubTab()) {
+        if (!$this->needsYourResultsTab()) {
             return false;
         }
 
@@ -883,28 +856,20 @@ class TabsManager
 
     public function needsSkillResultsSubTab(): bool
     {
-        if (!$this->needsMyResultsSubTab()) {
+        if (!$this->needsYourResultsTab()) {
             return false;
         }
 
         return $this->test_object->isSkillServiceToBeConsidered();
     }
 
-    public function needsMySolutionsSubTab(): bool
+    public function needsYourSolutionsSubTab(): bool
     {
         return $this->test_object->canShowSolutionPrintview($this->test_session->getUserId());
     }
 
-    public function getResultsSubTabs(): void
+    public function getYourResultsSubTabs(): void
     {
-        if ($this->needsParticipantsResultsSubTab()) {
-            $this->tabs->addSubTab(
-                self::SUBTAB_ID_PARTICIPANTS_RESULTS,
-                $this->lng->txt('participants_results_subtab'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
-            );
-        }
-
         if ($this->needsLoResultsSubTab()) {
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_LO_RESULTS,
@@ -913,7 +878,7 @@ class TabsManager
             );
         }
 
-        if ($this->needsMyResultsSubTab()) {
+        if ($this->needsYourResultsSubTab()) {
             $myResultsLabel = $this->lng->txt('tst_show_results');
 
             if ($this->needsLoResultsSubTab()) {
@@ -943,7 +908,7 @@ class TabsManager
             );
         }
 
-        if ($this->needsMySolutionsSubTab()) {
+        if ($this->needsYourSolutionsSubTab()) {
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_MY_SOLUTIONS,
                 $this->lng->txt('tst_list_of_answers_show'),

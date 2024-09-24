@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Przemieszaj pytania
 assessment#:#tst_shuffle_questions_description#:#Przestaw kolejność pytań dla każdego użytkownika rozpoczynającego test.
 assessment#:#tst_signature#:#Podpis
 assessment#:#tst_single_answer_details#:#Pokaż pojedynczą odpowiedź
-assessment#:#tst_single_results#:#Wyniki według pytań
 assessment#:#tst_skill_triggerings_num_req_answers#:#Potrzebna liczba odpowiedzi do podniesienia kompetencji
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetencje podnoszone są dopiero wówczas, gdy co najmniej ta liczba odpowiedzi wpływa na obliczenie poziomu kompetencji.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Przynajmniej jedna zawarta w teście kompetencja nie została przyporządkowana do wystarczającej liczby pytań.<br />Minimalna liczba dla przyporządkowanych pytań: %s

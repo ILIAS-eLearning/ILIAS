@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer###26 09 2014 new variable
-assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers###30 08 2015 new variable
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.###30 08 2015 new variable
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###10 11 2018 new variable

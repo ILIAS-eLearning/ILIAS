@@ -1880,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Zmešaj vprašanja
 assessment#:#tst_shuffle_questions_description#:#Vrstni red vprašanj za vsakega udeleženca in vsak test se znova zmeša.
 assessment#:#tst_signature#:#Podpis
 assessment#:#tst_single_answer_details#:#Pokaži posamezni odgovor
-assessment#:#tst_single_results#:#Rezultati posameznih vprašanj
 assessment#:#tst_skill_triggerings_num_req_answers#:#Potrebno število odgovorov za ugotavljanje kompetenc
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetence se ugotavljajo le, če vsaj toliko odgovorov prispeva k izračunu stopnje kompetenc.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Najmanj ena od kompetenc, ki jih vključuje test, ni bila dodeljena zadostnemu številu vprašanj. Za te kompetence niso zabeleženi nobeni vnosi kompetenc za udeležence.<br />Minimalno število za dodeljena vprašanja: %s

@@ -625,6 +625,7 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this test)
+assessment#:#download_all_files#:#Download All Files
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
@@ -1924,7 +1925,6 @@ assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test attempt.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
-assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s

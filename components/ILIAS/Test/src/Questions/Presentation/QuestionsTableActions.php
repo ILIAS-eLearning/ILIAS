@@ -46,6 +46,7 @@ class QuestionsTableActions
     private const ACTION_HINTS = 'hints';
     private const ACTION_PRINT_QUESTIONS = 'print_questions';
     private const ACTION_PRINT_ANSWERS = 'print_answers';
+    private const ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS = 'download_files';
 
     private string $table_id;
 
@@ -87,7 +88,12 @@ class QuestionsTableActions
                 self::ACTION_ADJUST,
                 $this->is_adjusting_questions_with_results_allowed && !$this->is_in_test_with_results
             )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results);
+            ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results)
+            ->withDisabledAction(
+                self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS,
+                $row->getCellContent('type_tag') !== $this->lng->txt(\assFileUpload::class)
+                || !$this->questionrepository->questionHasAnswers((int) $row->getId())
+            );
     }
 
     public function getOrderActionUrl(): URI
@@ -112,6 +118,7 @@ class QuestionsTableActions
             self::ACTION_FEEDBACK => $ag('single', 'tst_feedback', self::ACTION_FEEDBACK),
             self::ACTION_HINTS => $ag('single', 'tst_question_hints_tab', self::ACTION_HINTS),
             self::ACTION_PRINT_ANSWERS => $ag('single', 'print_answers', self::ACTION_PRINT_ANSWERS),
+            self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS => $ag('single', 'download_all_files', self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS),
             self::ACTION_DELETE => $ag('standard', 'delete', self::ACTION_DELETE)
                 ->withAsync(),
             self::ACTION_COPY => $ag('standard', 'copy', self::ACTION_COPY),
@@ -278,6 +285,18 @@ class QuestionsTableActions
                 $this->question_printer->printAnswers(current($row_ids));
                 return false;
 
+            case self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS:
+                $protect_by_write_protection();
+                $question_object = \assQuestion::instantiateQuestion(current($row_ids));
+                if ($question_object instanceof \ilObjFileHandlingQuestionType) {
+                    $question_object->deliverFileUploadZIPFile(
+                        $this->test_obj->getRefId(),
+                        $this->test_obj->getTestId(),
+                        $this->test_obj->getTitle()
+                    );
+                }
+
+                // no break
             default:
                 throw new \InvalidArgumentException("No such table_cmd: '$cmd'.");
         }

@@ -73,7 +73,7 @@ class QuestionsTable implements OrderingBinding
                 $row_builder,
                 $this->title_builder
             );
-            yield $this->table_actions->setDisabledActions($row);
+            yield $this->table_actions->setDisabledActions($row, $record);
         }
     }
 
