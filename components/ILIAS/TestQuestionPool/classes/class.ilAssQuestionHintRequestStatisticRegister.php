@@ -16,43 +16,37 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilAssQuestionHintRequestStatisticRegister
- *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package components\ILIAS/Test(QuestionPool)
  */
 class ilAssQuestionHintRequestStatisticRegister
 {
     /**
-     * @var array
+     * @var array<ilAssQuestionHintRequestStatisticData>
      */
-    protected $requestsByTestPassIndexAndQuestionId = [];
+    protected $requests_by_test_pass_and_question_id = [];
 
-    /**
-     * @param integer $passIndex
-     * @param integer $qId
-     * @param ilAssQuestionHintRequestStatisticData $request
-     */
-    public function addRequestByTestPassIndexAndQuestionId($passIndex, $qId, ilAssQuestionHintRequestStatisticData $request): void
-    {
-        if (!isset($this->requestsByTestPassIndexAndQuestionId[$passIndex])) {
-            $this->requestsByTestPassIndexAndQuestionId[$passIndex] = [];
+    public function addRequestByTestPassIndexAndQuestionId(
+        int $pass,
+        int $question_id,
+        ilAssQuestionHintRequestStatisticData $request
+    ): void {
+        if (!isset($this->requests_by_test_pass_and_question_id[$pass])) {
+            $this->requests_by_test_pass_and_question_id[$pass] = [];
         }
 
-        $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId] = $request;
+        $this->requests_by_test_pass_and_question_id[$pass][$question_id] = $request;
     }
 
-    /**
-     * @param integer $passIndex
-     * @param integer $qId
-     */
-    public function getRequestByTestPassIndexAndQuestionId($passIndex, $qId)
-    {
-        if (isset($this->requestsByTestPassIndexAndQuestionId[$passIndex]) && isset($this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId])) {
-            return $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId];
+    public function getRequestByTestPassIndexAndQuestionId(
+        int $pass,
+        int $question_id
+    ): ?ilAssQuestionHintRequestStatisticData {
+        if (isset($this->requests_by_test_pass_and_question_id[$pass])
+            && isset($this->requests_by_test_pass_and_question_id[$pass][$question_id])) {
+            return $this->requests_by_test_pass_and_question_id[$pass][$question_id];
         }
         return null;
     }

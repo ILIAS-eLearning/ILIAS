@@ -63,9 +63,8 @@ class Printer
                 $this->lng->txt('show_hide_best_solution')
             )->withActive($selected_print_view_type->getLabel($this->lng))
         );
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard('print', 'javascript:window.print();')
-        );
+
+        $this->addPrintButtonToToolbar();
 
         $template = new \ilTemplate('tpl.il_as_tst_print_questions_preview.html', true, true, 'components/ILIAS/Test');
 
@@ -126,9 +125,7 @@ class Printer
             $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
         );
 
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard('print', 'javascript:window.print();')
-        );
+        $this->addPrintButtonToToolbar();
 
         $template = new \ilTemplate('tpl.il_as_tst_print_questions_answers.html', true, true, 'components/ILIAS/Test');
         $this->tpl->addCss(\ilUtil::getStyleSheetLocation('output', 'test_print.css'), 'print');
@@ -235,5 +232,12 @@ class Printer
         $template->setVariable('TXT_PASS', $this->lng->txt('scored_pass'));
         $template->setVariable('VALUE_PASS', $pass);
         return $template;
+    }
+
+    private function addPrintButtonToToolbar(): void
+    {
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard('print', 'javascript:window.print();')
+        );
     }
 }
