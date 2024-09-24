@@ -42,13 +42,12 @@ class ResultsExportExcel implements Exporter
 
     public function __construct(
         private readonly \ilLanguage $lng,
-        DataFactory $data_factory,
         private readonly \ilObjUser $current_user,
         private readonly \ilObjTest $test_obj,
         private readonly string $filename = '',
         private readonly bool $scoredonly = true,
     ) {
-        $this->user_date_format = $this->buildUserFormat($data_factory);
+        $this->user_date_format = $this->current_user->getDateTimeFormat();
         $this->aggregated_data = $test_obj->getAggregatedResultsData();
         $this->worksheet = new \ilExcel();
     }
@@ -527,14 +526,5 @@ class ResultsExportExcel implements Exporter
         return (new \DateTimeImmutable("@{$linux_ts}"))
             ->setTimezone(new \DateTimeZone($this->current_user->getTimeZone()))
             ->format($this->user_date_format->toString());
-    }
-
-    private function buildUserFormat(DataFactory $data_factory): DateFormat
-    {
-        $user_format = $this->current_user->getDateFormat();
-        if ($this->current_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            return $data_factory->dateFormat()->withTime24($user_format);
-        }
-        return $data_factory->dateFormat()->withTime12($user_format);
     }
 }

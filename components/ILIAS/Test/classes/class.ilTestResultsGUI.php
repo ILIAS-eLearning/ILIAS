@@ -258,24 +258,18 @@ class ilTestResultsGUI
             case SettingsResultSummary::SCORE_REPORTING_DATE:
                 $date = $this->test_object->getScoreSettings()->getResultSummarySettings()->getReportingDate()
                     ->setTimezone(new \DateTimeZone($this->user->getTimeZone()));
-                $date_format = $this->user->getDateFormat();
-                if ($this->user->getTimeFormat() === (string) ilCalendarSettings::TIME_FORMAT_12) {
-                    $format = (new DataFactory())->dateFormat()->withTime12($date_format)->toString();
-                } else {
-                    $format = (new DataFactory())->dateFormat()->withTime24($date_format)->toString();
-                }
 
                 if (!$this->test_object->hasAnyTestResult($this->test_session)) {
                     $message = sprintf(
                         $this->lng->txt('tst_res_tab_msg_res_after_date_no_res'),
-                        $date->format($format)
+                        $date->format($this->user->getDateTimeFormat())
                     );
                     break;
                 }
 
                 $message = sprintf(
                     $this->lng->txt('tst_res_tab_msg_res_after_date'),
-                    $date->format($format)
+                    $date->format($this->user->getDateTimeFormat())
                 );
                 break;
 

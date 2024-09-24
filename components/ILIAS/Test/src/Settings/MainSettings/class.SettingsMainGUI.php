@@ -323,16 +323,8 @@ class SettingsMainGUI extends TestSettingsGUI
         $input_factory = $this->ui_factory->input();
         $refinery = $this->refinery;
 
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            $user_format = $data_factory->dateFormat()->withTime24($user_format);
-        } else {
-            $user_format = $data_factory->dateFormat()->withTime12($user_format);
-        }
-
         $environment['participant_data_exists'] = $this->test_object->participantDataExist();
-        $environment['user_date_format'] = $user_format;
+        $environment['user_date_format'] = $this->active_user->getDateTimeFormat();
         $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $main_inputs = [
@@ -560,13 +552,9 @@ class SettingsMainGUI extends TestSettingsGUI
         $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
         $value = $this->getValueForActivationLimitedOptionalGroup();
 
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        $format = $data_factory->dateFormat()->withTime24($user_format);
-
         $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
             ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($format)
+            ->withFormat($this->active_user->getDateTimeFormat())
             ->withUseTime(true)
             ->withRequired(true);
         $inputs['activation_visibility'] = $field_factory->checkbox(

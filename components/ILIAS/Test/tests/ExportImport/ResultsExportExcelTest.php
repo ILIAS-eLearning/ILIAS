@@ -28,7 +28,6 @@ class ResultsExportExcelTest extends \ilTestBaseTestCase
     {
         $excel_export = new ResultsExportExcel(
             $this->createMock(\ilLanguage::class),
-            $this->createMock(\ILIAS\Data\Factory::class),
             $this->createMock(\ilObjUser::class),
             $this->getTestObjMock()
         );
