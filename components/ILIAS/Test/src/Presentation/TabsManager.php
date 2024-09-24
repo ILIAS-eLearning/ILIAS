@@ -358,46 +358,9 @@ class TabsManager
             );
         }
 
-        // questions tab
-        if ($this->isWriteAccessGranted()) {
-            $up = $this->wrapper->has('up')
-                && $this->wrapper->retrieve('up', $this->refinery->string()) !== '';
-            $down = $this->wrapper->has('down')
-                && $this->wrapper->retrieve('down', $this->refinery->string()) !== '';
-            $browse = $this->wrapper->has('browse')
-                && $this->wrapper->retrieve('browse', $this->refinery->int()) === 1;
-
-            $force_active = ($up || $down || $browse) ? true : false;
-
-            if ($this->test_object->isFixedTest()) {
-                $target = $this->ctrl->getLinkTargetByClass(
-                    \ilObjTestGUI::class,
-                    \ilObjTestGUI::SHOW_QUESTIONS_CMD
-                );
-            }
-
-            if ($this->test_object->isRandomTest()) {
-                $target = $this->ctrl->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
-            }
-
-            $this->tabs->addTarget(
-                'assQuestions',
-                $target,
-                [
-                    'showQuestions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
-                    'filter', 'resetFilter', 'insertQuestions', 'back',
-                    'executeCreateQuestion', 'cancelCreateQuestion',
-                    'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',
-                    'addsource', 'removesource', 'randomQuestions'
-                ],
-                '',
-                '',
-                $force_active
-            );
-        }
-
         // info tab
-        if ($this->isReadAccessGranted() && !$this->test_object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
+        if ($this->isReadAccessGranted()
+            && !$this->test_object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
                 $this->ctrl->getLinkTargetByClass(
@@ -451,6 +414,29 @@ class TabsManager
                 ]
             );
         }
+
+        if ($this->test_object->isFixedTest()) {
+            $target = $this->ctrl->getLinkTargetByClass(
+                \ilObjTestGUI::class,
+                \ilObjTestGUI::SHOW_QUESTIONS_CMD
+            );
+        }
+
+        if ($this->test_object->isRandomTest()) {
+            $target = $this->ctrl->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
+        }
+
+        $this->tabs->addTarget(
+            'assQuestions',
+            $target,
+            [
+                'showQuestions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
+                'filter', 'resetFilter', 'insertQuestions', 'back',
+                'executeCreateQuestion', 'cancelCreateQuestion',
+                'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',
+                'addsource', 'removesource', 'randomQuestions'
+            ],
+        );
 
         if ($this->needsDashboardTab()) {
             $this->tabs->addTab(

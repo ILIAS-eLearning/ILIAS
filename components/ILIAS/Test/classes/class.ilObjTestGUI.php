@@ -870,13 +870,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                if ($cmd === 'properties'
-                    && ($this->testrequest->raw('browse')
-                        || $this->testrequest->raw('up')
-                        || $this->testrequest->raw('down'))) {
-                    $this->showQuestionsObject();
-                    return;
-                }
 
                 if ($cmd === 'testScreen') {
                     $this->ctrl->forwardCommand($this->getTestScreenGUIInstance());
