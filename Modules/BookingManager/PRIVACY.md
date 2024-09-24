@@ -56,6 +56,9 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
   - all reservation data is deleted
   - all preference data is deleted
 
+- If a user is deleted
+  - The user is removed from the participants lists of all booking object.
+  - Reservations by the user are not deleted (to keep the historic data correct). However when presented, only "Deleted User Account" appears in the reservation list.
 
 ## Data being exported
 

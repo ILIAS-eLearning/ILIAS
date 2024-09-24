@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,8 +42,8 @@ class ParticipantsManager
 
     public function createIfNotExisting(
         int $user_id,
-        int $pool_id) : void
-    {
+        int $pool_id
+    ): void {
         if (!\ilObjUser::_exists($user_id)) {
             throw new \ilException("User $user_id does not exist.");
         }
@@ -50,6 +52,11 @@ class ParticipantsManager
         }
 
         $participant = new \ilBookingParticipant($user_id, $pool_id);
+    }
+
+    public function removeFromAll(int $user_id): void
+    {
+        $this->repo->participants()->removeFromAll($user_id);
     }
 
 }

@@ -25,6 +25,7 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
 use ILIAS\BookingManager\Objects\ObjectsManager;
 use ILIAS\BookingManager\Schedule\ScheduleManager;
+use ILIAS\BookingManager\User\UserEvent;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -144,6 +145,11 @@ class InternalDomainService
             $this,
             $pool_id
         );
+    }
+
+    public function userEvent(): UserEvent
+    {
+        return new UserEvent($this);
     }
 
 }

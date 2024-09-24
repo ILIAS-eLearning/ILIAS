@@ -17,6 +17,10 @@
  *********************************************************************/
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
+use ILIAS\BookingManager\InternalGUIService;
+use ILIAS\BookingManager\InternalDomainService;
+use ILIAS\BookingManager\Schedule\ScheduleManager;
+use ILIAS\BookingManager\Reservations\ReservationDBRepository;
 
 /**
  * List booking objects
@@ -24,10 +28,11 @@ use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
-    protected \ILIAS\BookingManager\InternalGUIService $gui;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
     protected ilObjBookingPool $pool;
-    protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
-    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $reservation_repo;
+    protected ScheduleManager $schedule_manager;
+    protected ReservationDBRepository $reservation_repo;
     protected ReservationTableSessionRepository $table_repo;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -57,7 +62,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->gui = $DIC->bookingManager()->internal()->gui();
+        $service = $DIC->bookingManager()->internal();
+        $this->gui = $service->gui();
+        $this->domain = $service->domain();
         $this->pool = $pool;
         $a_pool_id = $pool->getId();
         $a_has_schedule = ($pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
@@ -187,8 +194,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $this->setSelectAllCheckbox('mrsv');
         }
-
-
         ilDatePresentation::setUseRelativeDates(false);
     }
 
@@ -641,9 +646,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         // #11995
-        $uname = $a_set["user_name"];
-        if (!trim($uname)) {
-            $uname = "[" . $lng->txt("user_deleted") . "]";
+        $profile = $this->domain->profile();
+        $user_id = (int) $a_set['user_id'];
+        if (!$profile->exists($user_id)) {
+            $uname = $profile->getDeletedUserNamePresentation();
         } else {
             $uname = ilUserUtil::getNamePresentation($a_set['user_id'], false, true, "", true);
         }
