@@ -840,15 +840,6 @@ class ilObjExerciseGUI extends ilObjectGUI
         }
     }
 
-    public static function _goto(
-        string $a_target,
-        string $a_raw
-    ): void {
-        global $DIC;
-
-        $DIC->exercise()->internal()->gui()->permanentLink()->goto($a_target, $a_raw);
-    }
-
     /**
      * Add locator item
      */
