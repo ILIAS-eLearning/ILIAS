@@ -8488,10 +8488,10 @@ dcl#:#dcl_activate_view#:#Vorlage für Einzelansicht aktivieren
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
-dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
+dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
@@ -8549,7 +8549,7 @@ dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.###23 02 2024 new variable
-dcl#:#dcl_edit#:#Datensammlung bearbeiten
+dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
@@ -8561,7 +8561,7 @@ dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
 dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_field_datatype#:#Feld Datentyp
@@ -8588,8 +8588,8 @@ dcl#:#dcl_ilias_reference#:#Objekt im Magazin
 dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
 dcl#:#dcl_ilias_reference_link#:#Als Link in der Tabellenansicht anzeigen
 dcl#:#dcl_import#:#Datensammlung importieren
-dcl#:#dcl_import_enabled#:#Tabelle importieren
-dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selbst Daten in die Tabellen importieren, solange sie entsprechende Schreibrechte besitzen.
+dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_in_export#:#Exportierbar
@@ -8606,7 +8606,7 @@ dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maxi
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_limited_desc#:#Einträge können nur im Zeitraum zwischen Start und Ende hinzugefügt, bearbeitet und gelöscht werden.
 dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
@@ -8655,7 +8655,7 @@ dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
-dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
+dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
@@ -8667,7 +8667,7 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
+dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8694,7 +8694,7 @@ dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
-dcl#:#dcl_save_confirmation#:#Speicherbestätigung
+dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
 dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
@@ -8718,7 +8718,7 @@ dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Personen in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
