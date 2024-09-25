@@ -35,15 +35,15 @@
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {
-    "@babel/register": "^7.18.9",
     "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "chai": "^4.2.0",
     "jsdom": "19.0.0",
     "less": "^4.1.1",
     "mocha": "^10.1.0",
-    "rollup": "^2.18.0",
+    "rollup": "^2.79.1",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
