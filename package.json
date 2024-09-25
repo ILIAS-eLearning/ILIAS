@@ -47,7 +47,7 @@
     "jsdom": "19.0.0",
     "less": "^4.1.1",
     "mocha": "^10.2.0",
-    "rollup": "^2.18.0"
+    "rollup": "^3.29.5"
   },
   "scripts": {
     "test": "mocha --recursive"
