@@ -1757,9 +1757,9 @@ of ILIAS. The file contains the following fields:
 
 The following directories are currently unmaintained:
 
-* Services/Context
-* Services/CSV
-* Services/EventHandling
-* Services/Excel
-* Services/QTI
-* Services/Randomization
+* ILIAS/Context
+* ILIAS/CSV
+* ILIAS/EventHandling
+* ILIAS/Excel
+* ILIAS/QTI
+* ILIAS/Randomization

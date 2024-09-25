@@ -128,12 +128,12 @@ info screen. As parameters, you have to pass the familiar [ID-triple](identifyin
 ### Import/Export
 
 In order for LOM to be included in the import and export of your
-object, you need to add `Services/MetaData` to the dependencies in
+object, you need to add component `ILIAS/MetaData` to the dependencies in
 `getXmlExportTailDependencies` in your `ilXmlExporter`. Add the
 following entry to the array returned there:
 
     $dependencies[] = [
-        'component' => 'Services/MetaData',
+        'component' => 'components/ILIAS/MetaData',
         'entity' => 'md',
         'ids' => $ids,
     ];
@@ -148,7 +148,7 @@ to add a mapping for the exported LOM from the exported object to the
 newly imported one:
 
     $a_mapping->addMapping(
-        'Services/MetaData',
+        'components/ILIAS/MetaData',
         'md',
         $old_id,
         $new_id

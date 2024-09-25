@@ -130,7 +130,7 @@ class ilGlossaryPresentationGUI
  
     function getPresentationTable()
     {
-        include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+        include_once("./components/ILIAS/Glossary/classes/class.ilPresentationListTableGUI.php");
         $table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
             $this->offlineMode(), $this->tax_node, $this->glossary->getTaxonomyId());
         return $table;

@@ -1,6 +1,6 @@
 # Roadmap
 
-Since Categories are Containers you might look for the [ROADMAP of the Container service](../../Services/Container/ROADMAP.md), since it tackles relevant issues that also apply for other container components.
+Since Categories are Containers you might look for the [ROADMAP of the Container service](../../components/ILIAS/Container/ROADMAP.md), since it tackles relevant issues that also apply for other container components.
 
 ## Short Term
 

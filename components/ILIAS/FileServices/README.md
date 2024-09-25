@@ -32,7 +32,7 @@ abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 abstract public function getInfoForExistingFiles(array $file_ids) : array;
 ```
-Of course, your UploadHandler must then be accessible via ilCtrl, so it needs corresponding statements in the class (this is only example, you must define a ilCtrl-way which fits your location, see [Services/UICore/ilctrl.md](../../Services/UICore/ilctrl.md)):
+Of course, your UploadHandler must then be accessible via ilCtrl, so it needs corresponding statements in the class (this is only example, you must define a ilCtrl-way which fits your location, see [ILIAS/UICore/ilctrl.md](../../components/ILIAS/UICore/ilctrl.md)):
 
 ```php
 /**
