@@ -285,7 +285,7 @@ If you would like to implement a new component for the framework, you should per
     interaction. Post the the link to this test-case in a comment/the description of your PR.
 17. Optional: If your component introduces a new factory, do not forget to wire it up in the according
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
-    `Services/Init/class/class.ilInitialisation.php`.
+    `components/ILIAS/Init/class/class.ilInitialisation.php`.
 
 ### How to write unit tests for a Component?
 

@@ -34,7 +34,7 @@ The main purpose of blogs is to frequently share information on certain topics o
 
 ## Data being stored
 
-Single blog postings are stored using the [COPage](../../Services/COPage/PRIVACY.md) service. The author may include any personal content in these pages. The pages are not structured with any personal data related scheme (like e.g. the user service storing birthday, name or address information).
+Single blog postings are stored using the [COPage](../../components/ILIAS/COPage/PRIVACY.md) service. The author may include any personal content in these pages. The pages are not structured with any personal data related scheme (like e.g. the user service storing birthday, name or address information).
 
 The blog component additionally store the following personal data for each posting:
 - A **timestamp "created"** that stores the creation date of the blog posting.

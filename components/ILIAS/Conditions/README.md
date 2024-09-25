@@ -2,9 +2,9 @@
 
 ## Container as Condition Controller
 
-If a component `Modules/[Container]` wants to take over the control of conditions for its children elements it needs to
+If a component `ILIAS/[Container]` wants to take over the control of conditions for its children elements it needs to
 implement `ilConditionControllerInterface` in a class `il[Container]ConditionController` located
-under `Modules/[Container]/classes/class.il[Container]ConditionController.php`.
+under `components/ILIAS/[Container]/classes/class.il[Container]ConditionController.php`.
 
 The constructor of the class MUST be public accessible and MUST NOT make use of mandatory parameters.
 

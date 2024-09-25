@@ -209,4 +209,4 @@ search for "Multi Select" in the `filter.js` and check the extra code which was 
 for that Input.
 
 # Handle Files
-You find information how to handle File-Uploads in [Services/FileServices/README.md](../../../../Services/FileServices/README.md) 
+You find information how to handle File-Uploads in [components/ILIAS/FileServices/README.md](../../../../components/ILIAS/FileServices/README.md) 

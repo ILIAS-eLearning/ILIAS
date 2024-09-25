@@ -358,7 +358,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *enable* (type: boolean) the logging, defaults to `false`
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
-* *mathjax* (type: object) contains settings for Services/MathJax
+* *mathjax* (type: object) contains settings for ILIAS/MathJax
     
     The MathJax settings can also be done manually in the ILIAS adminstration.  
     Settings included here will overwrite those at the next update.
@@ -390,14 +390,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *server_for_browser* (type: boolean) use the server for rendering in the browser
   * *server_for_export* (type: boolean) use the server for HTML exports
   * *server_for_pdf* (type: boolean) use the server for PDF generation
-* *preview* (type: object) contains settings for Services/Preview
+* *preview* (type: object) contains settings for ILIAS/Preview
     ```
 	"preview" : {
 		"path_to_ghostscript" : "/usr/bin/gs"
 	},
     ```
   * *path_to_ghostscript* (type: string) executable
-* *mediaobject* (type: object) contains settings for Services/MediaObjects
+* *mediaobject* (type: object) contains settings for ILIAS/MediaObjects
     ```
 	"mediaobject" : {
 		"path_to_ffmpeg" : "/usr/bin/ffmpeg"
@@ -413,7 +413,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
   * *manage_system_styles* (type: boolean) via a GUI in the installation, defaults to `false`
   * *path_to_scss* (type: string) to compile scss to css
-* **systemfolder** (type: object) settings for Module/SystemFolder
+* **systemfolder** (type: object) settings for ILIAS/SystemFolder
     ```
 	"systemfolder" : {
 		"client" : {
@@ -452,7 +452,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     * *country* (type: string) of said person
     * *phone* (type: string) of said person
     * **email** (type: string) of said person
-* *utilities* (type: object) contains settings for Services/Utilities
+* *utilities* (type: object) contains settings for ILIAS/Utilities
     ```
 	"utilities" : {
 		"path_to_convert" : "/usr/bin/convert",
@@ -516,7 +516,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *soap_connect_timeout* (type: number) maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted, defaults to `10`
   * *rpc_server_host* (type: string) Java-Server host (must be set too, if *rpc_server_port* is set)
   * *rpc_server_port* (type: string or number) Java-Server port (must be set too, if *rpc_server_host* is set)
-* *chatroom* (type: object) see also [Chat Server Setup](/Modules/Chatroom/README.md), eg.:
+* *chatroom* (type: object) see also [Chat Server Setup](/components/ILIAS/Chatroom/README.md), eg.:
     ```
 	"chatroom" : {
 		"address" : "192.168.47.14",

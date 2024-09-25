@@ -616,7 +616,7 @@ to provide a proper method to get values from `$_GET` as outlined in [API-Design
 
 HTMLPurifier is a well known library that attempt to transform HTML to a restricted
 - pure - form, where the consumer of the library can configure which tags and
-attributes are allowed. ILIAS wraps that library in `Services/HTML`. Currently
+attributes are allowed. ILIAS wraps that library in `ILIAS/HTML`. Currently
 the wrapper is only used in the Test & Assessment, the Forum and the Terms of Service,
 where it should clean user supplied HTML to prevent XSS-attacks.
 
@@ -653,12 +653,12 @@ cooperation with regards to the principles outlined in the [Core Considerations]
 On the other hand, the current state of the form-inputs might already hint at
 some potential for future improvements in the libraries as well as in general. 
 The code presented in the following was discussed in [this PR](https://github.com/ILIAS-eLearning/ILIAS/pull/1189)
-and is now [part of the ILIAS-core](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L159).
+and is now [part of the ILIAS-core](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L162).
 Since we want to show case how input data can be secured here, we refer to the
 explanation of the [Inputs in the UI-Framework](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/src/UI/Component/Input/README.md)
 for further explanation regarding visual aspects of the form.
 
-We first will have a look into [`ilObjStudyProgrammeSettingsGUI::update`](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L159) 
+We first will have a look into [`ilObjStudyProgrammeSettingsGUI::update`](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L154) 
 to get a general idea of the structure of the processing. The example is
 shortened a little to highlight the essentials, while comments are added
 for explanation:
@@ -694,7 +694,7 @@ if ($update_possible) {
 The essential part of the input processing is the definition of shape, constraints
 and transformations of the input, which goes along with visual requirements when
 definining forms. We thus have a look at the shortened and commented method
-[`ilObjStudyProgrammeSettingsGUI::buildForm`](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L216):
+[`ilObjStudyProgrammeSettingsGUI::buildForm`](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L159):
 
 ```php
 // We define some shortcuts for brevity in the definition later on.

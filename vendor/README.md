@@ -72,6 +72,6 @@ Technical Board replaces the `composer.json` and `packages.json` file in the
 
 ## Deprecated Locations
 
-- **Deprecated**: PHP libraries installad manually, located in some /Services/\*/libs and /Modules/\*/libs directories
+- **Deprecated**: PHP libraries installad manually, located in some /components/ILIAS/\*/libs and /components/ILIAS/\*/libs directories
 - **Deprecated**: JS- and client-side libraries installed using bower, see [bower-readme](bower/README.md)
-- **Deprecated**: JS- and client-side libraries installed manually, currently also located in /Services\/* and /Modules\/*
+- **Deprecated**: JS- and client-side libraries installed manually, currently also located in /components/ILIAS\/*

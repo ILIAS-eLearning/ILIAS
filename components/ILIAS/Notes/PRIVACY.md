@@ -28,7 +28,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
 - Each **comment or note** stores the **user ID** of the account that  created the comment or note. _Reason_: This ID is essential to present users their own notes or author information in comments.
 - Each comment or note stores the **creation timestamp** and the **timestamp of the last update**. _Reason_: This data is required to sort notes and comments and to indicated updates on the content.
 - Each comment or note stores the **object ID** of the referenced repository object (e.g. a course or a learning module). _Reason_: Notes and comments can be attached to these objects and should be presented together with these objects.
-- Additionally a comment or note may store a **news ID** (see Services/News), if it has been attached to a news entry of an object.
+- Additionally a comment or note may store a **news ID** (see ILIAS/News), if it has been attached to a news entry of an object.
 - Each comment or note stores a **text*** being entered by the author. There is not history being stored for a text. If the author changes the text, the old version will no be stored.
 - Older versions of the feature have stored an additional **subject** field, which has been abandoned. (DB field still exists)
 

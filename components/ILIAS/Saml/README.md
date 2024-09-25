@@ -145,6 +145,6 @@ The key `NameIDPolicy` cannot be a string. It must be an array of the following 
 
 Due to the routing changes in ILIAS 10 the `baseurlpath` needs to be changed in the `$ILI_DATA/auth/saml/config/config.php`. New installations will have this value as default.
 ```diff
-- 'baseurlpath' => 'Services/Saml/lib/',
+- 'baseurlpath' => 'components/ILIAS/Saml/lib/',
 + 'baseurlpath' => '',
 ```

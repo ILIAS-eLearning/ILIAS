@@ -19,7 +19,7 @@ will keep on working for some time technically, but are deprecated as decided by
 the [Jour Fixe on 2021-06-08](https://docu.ilias.de/goto_docu_wiki_wpage_5889_1357.html).
 
 General directions on how to use the database in ILIAS are to be found [in the according
-readme of Services/Database](Services/Database/README.md).
+readme of ILIAS/Database](components/ILIAS/Database/README.md).
 
 ## Schema Updates
 
