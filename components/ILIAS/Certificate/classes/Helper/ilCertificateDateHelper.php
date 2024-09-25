@@ -26,20 +26,19 @@ class ilCertificateDateHelper
     public function formatDate($date, ilObjUser $user = null, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
-
-        if ($user) {
-            ilDatePresentation::setLanguage(new ilLanguage($user->getLanguage()));
-            ilDatePresentation::setUser($user);
-        }
-
-        $date = ilDatePresentation::formatDate(new ilDate($date, $dateFormat));
-
+        $date = ilDatePresentation::formatDate(
+            new ilDate($date, $dateFormat),
+            false,
+            false,
+            false,
+            $user
+        );
         ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
         return $date;
@@ -52,19 +51,20 @@ class ilCertificateDateHelper
     public function formatDateTime($dateTime, ilObjuser $user = null, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
         $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
-        if ($user) {
-            ilDatePresentation::setLanguage(new ilLanguage($user->getLanguage()));
-            ilDatePresentation::setUser($user);
-        }
-
-        $date = ilDatePresentation::formatDate(new ilDateTime($dateTime, $dateFormat));
+        $date = ilDatePresentation::formatDate(
+            new ilDateTime($dateTime, $dateFormat),
+            false,
+            false,
+            false,
+            $user
+        );
 
         ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
