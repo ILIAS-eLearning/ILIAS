@@ -4456,12 +4456,16 @@ hr.il-divider-with-label {
 .il-input-rating .il-input-rating__options {
   float: left;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
 }
 .il-input-rating input.il-input-rating-scaleoption {
+  overflow: hidden;
   padding: 0;
-  margin: 0 0 0 -20px;
+  margin: 0;
   opacity: 0;
+  width: 0;
+  height: 0;
 }
 .il-input-rating .glyphicon-star:before {
   content: "★";
@@ -4470,7 +4474,6 @@ hr.il-divider-with-label {
   content: "☆";
 }
 .il-input-rating .il-input-rating-star {
-  float: right;
   position: relative;
   display: block;
   margin-top: -3px;
@@ -4502,6 +4505,7 @@ hr.il-divider-with-label {
 .il-input-rating.disabled .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
 .il-input-rating.disabled .il-input-rating-star:hover ~ .il-input-rating-star,
 .il-input-rating.disabled .il-input-rating-star:hover {
+  cursor: not-allowed;
   color: #737373;
 }
 .il-input-rating.disabled .il-input-rating__none {
@@ -4509,6 +4513,7 @@ hr.il-divider-with-label {
 }
 .il-input-rating .il-input-rating__average {
   height: 1px;
+  width: 100%;
   background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
 }
 .il-input-rating .il-input-rating__average_value {

@@ -3,7 +3,6 @@
 
 @use "../030-tools/tool_focus-outline" as t-focus;
 
-$cursor-disabled: not-allowed;
 
 button {
 	cursor: pointer;
