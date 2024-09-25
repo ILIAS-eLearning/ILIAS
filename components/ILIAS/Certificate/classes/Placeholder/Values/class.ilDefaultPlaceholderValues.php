@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Data\UUID\Factory;
 
-require_once '../components/ILIAS/Calendar/classes/class.ilDateTime.php'; // // Required because of global contant IL_CAL_DATE
-
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>
@@ -32,6 +30,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilCertificateObjectHelper $objectHelper;
     private readonly ilCertificateDateHelper $dateHelper;
     private readonly int $dateFormat;
+    private readonly int $birthdayDateFormat;
     private readonly ilLanguage $language;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
@@ -47,22 +46,15 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
         ?ILIAS\Data\UUID\Factory $uuid_factory = null,
-        private readonly int $birthdayDateFormat = IL_CAL_DATE,
+        ?int $birthdayDateFormat = null
     ) {
-        if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
-        }
-        $this->objectHelper = $objectHelper;
+        $this->objectHelper = $objectHelper ?? new ilCertificateObjectHelper();
+        $this->dateHelper = $dateHelper ?? new ilCertificateDateHelper();
 
-        if (null === $dateHelper) {
-            $dateHelper = new ilCertificateDateHelper();
-        }
-        $this->dateHelper = $dateHelper;
+        require_once __DIR__ . '/../../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
 
-        if (null === $dateFormat) {
-            $dateFormat = IL_CAL_UNIX;
-        }
-        $this->dateFormat = $dateFormat;
+        $this->dateFormat = $dateFormat ?? IL_CAL_UNIX;
+        $this->birthdayDateFormat = $birthdayDateFormat ?? IL_CAL_UNIX;
 
         if (null === $language) {
             global $DIC;
@@ -71,20 +63,10 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->language = $language;
 
-        if (null === $utilHelper) {
-            $utilHelper = new ilCertificateUtilHelper();
-        }
-        $this->utilHelper = $utilHelper;
-
-        if (null === $userDefinedFieldsPlaceholderValues) {
-            $userDefinedFieldsPlaceholderValues = new ilUserDefinedFieldsPlaceholderValues();
-        }
-        $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
-
-        if (!$uuid_factory) {
-            $uuid_factory = new ILIAS\Data\UUID\Factory();
-        }
-        $this->uuid_factory = $uuid_factory;
+        $this->utilHelper = $utilHelper ?? new ilCertificateUtilHelper();
+        $this->userDefinedFieldsPlaceholderValues =
+            $userDefinedFieldsPlaceholderValues ?? new ilUserDefinedFieldsPlaceholderValues();
+        $this->uuid_factory = $uuid_factory ?? new ILIAS\Data\UUID\Factory();
 
         $this->placeholder = [
             'CERTIFICATE_ID' => '',

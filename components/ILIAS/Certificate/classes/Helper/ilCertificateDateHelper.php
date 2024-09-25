@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateDateHelper
 {
     /**
@@ -29,7 +26,7 @@ class ilCertificateDateHelper
     public function formatDate($date, ilObjUser $user = null, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
-            require_once '../components/ILIAS/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
@@ -55,7 +52,7 @@ class ilCertificateDateHelper
     public function formatDateTime($dateTime, ilObjuser $user = null, ?int $dateFormat = null): string
     {
         if (null === $dateFormat) {
-            require_once '../components/ILIAS/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
             $dateFormat = IL_CAL_DATETIME;
         }
 
