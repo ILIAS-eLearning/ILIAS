@@ -31,7 +31,7 @@ trait TableViewControlOrdering
 
     protected function initViewControlOrdering(): void
     {
-        $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);
+        $this->order = $this->getOrder();
     }
 
     private function initialOrder(): string
@@ -74,7 +74,10 @@ trait TableViewControlOrdering
             $sort_options[$labels[0]] = $order_asc;
             $sort_options[$labels[1]] = $order_desc;
         }
-        return $this->view_control_factory->sortation($sort_options);
+
+        $value = $this->getOrder()->join('', fn($ret, $key, $value) => [$key, $value]);
+        return $this->view_control_factory->sortation($sort_options)
+            ->withValue($value);
     }
 
     public function withOrder(?Order $order): self
