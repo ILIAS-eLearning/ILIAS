@@ -9,9 +9,10 @@
   }
   .il-input-rating__options {
     float: left;
+    display: flex;
+    flex-direction: row;
   }
   input.il-input-rating-scaleoption {
-    float: right;
     padding: 0;
     margin: 0 0 0 -20px;
     opacity: 0;
