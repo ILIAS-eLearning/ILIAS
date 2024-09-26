@@ -18,20 +18,25 @@
 
 declare(strict_types=1);
 
-/**
- * @package components\ILIAS/Test
- * Environment/settings to control result presentation
- */
-class ilTestPassResultsSettings
+namespace ILIAS\Test\Results\Presentation;
+
+class Settings
 {
     public function __construct(
-        protected bool $show_hidden_questions = false,
-        protected bool $show_optional_questions = false,
-        protected bool $show_best_solution = true,
-        protected bool $show_feedback = true,
-        protected bool $question_text_only = false,
-        protected bool $show_recapitulation = false
+        private int $test_obj_id,
+        private bool $show_hidden_questions = false,
+        private bool $show_optional_questions = false,
+        private bool $show_hints = false,
+        private bool $show_best_solution = true,
+        private bool $show_feedback = true,
+        private bool $question_text_only = false,
+        private bool $show_recapitulation = false
     ) {
+    }
+
+    public function getTestObjId(): int
+    {
+        $this->test_obj_id;
     }
 
     public function getShowHiddenQuestions(): bool
@@ -42,6 +47,11 @@ class ilTestPassResultsSettings
     public function getShowOptionalQuestions(): bool
     {
         return $this->show_optional_questions;
+    }
+
+    public function getShowHints(): bool
+    {
+        return $this->show_hints;
     }
 
     public function getShowBestSolution(): bool

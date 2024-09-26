@@ -18,6 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -25,10 +31,6 @@ use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\TestDIC;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Logging\TestLogger;
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -77,8 +79,8 @@ class ilTestServiceGUI
     protected readonly UIRenderer $ui_renderer;
     protected readonly SkillService $skills_service;
     protected readonly ilTestShuffler $shuffler;
-    protected readonly ilTestResultsFactory $results_factory;
-    protected readonly ilTestResultsPresentationFactory $results_presentation_factory;
+    protected readonly ResultsDataFactory $results_data_factory;
+    protected readonly ResultsPresentationFactory $results_presentation_factory;
 
     protected readonly ILIAS $ilias;
     protected readonly ilSetting $settings;
@@ -86,7 +88,7 @@ class ilTestServiceGUI
     protected readonly ilTree $tree;
     protected int $ref_id;
 
-    protected ?ilTestSessionFactory $testSessionFactory = null;
+    protected ?ilTestSessionFactory $test_session_factory = null;
     protected ?ilTestSequenceFactory $test_sequence_factory = null;
     protected ?ilTestParticipantData $participantData = null;
 
@@ -147,7 +149,7 @@ class ilTestServiceGUI
         $this->logger = $local_dic['logging.logger'];
         $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
         $this->shuffler = $local_dic['shuffler'];
-        $this->results_factory = $local_dic['results.factory'];
+        $this->results_data_factory = $local_dic['results.data.factory'];
         $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
 
@@ -155,7 +157,7 @@ class ilTestServiceGUI
 
         $this->lng->loadLanguageModule('cert');
         $this->ref_id = $this->object->getRefId();
-        $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
+        $this->test_session_factory = new ilTestSessionFactory($this->object, $this->db, $this->user);
         $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
         $this->objective_oriented_container = null;
     }
@@ -344,7 +346,7 @@ class ilTestServiceGUI
         $show_reached_points = false,
         $anchorNav = false,
         ilTestQuestionRelatedObjectivesList $objectives_list = null,
-        ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null
+        ResultsTitlesBuilder $testResultHeaderLabelBuilder = null
     ): string {
         $maintemplate = new ilTemplate('tpl.il_as_tst_list_of_answers.html', true, true, 'components/ILIAS/Test');
 
@@ -408,7 +410,7 @@ class ilTestServiceGUI
 
                         if ($show_best_solution) {
                             $compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', true, true, 'components/ILIAS/Test');
-                            $test_session = $this->testSessionFactory->getSession($active_id);
+                            $test_session = $this->test_session_factory->getSession($active_id);
                             if ($pass <= $test_session->getLastFinishedPass()) {
                                 $compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
                             } else {
@@ -454,7 +456,7 @@ class ilTestServiceGUI
         array $result_array,
         int $active_id,
         int $pass,
-        ilTestServiceGUI|ilParticipantsTestResultsGUI $target_gui,
+        ilTestServiceGUI $target_gui,
         string $target_cmd,
         ilTestQuestionRelatedObjectivesList $objectives_list = null,
         bool $multiple_objectives_involved = true
@@ -647,155 +649,8 @@ class ilTestServiceGUI
         return $template->get();
     }
 
-    /**
-     * Output of the pass overview for a test called by a test participant
-     *
-     * @param ilTestSession $testSession
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $show_pass_details
-     * @param boolean $show_answers
-     * @param boolean $show_question_only
-     * @param boolean $show_reached_points
-     * @access public
-     */
-    public function getResultsOfUserOutput(
-        ilTestSession $testSession,
-        int $active_id,
-        int $pass,
-        ilParticipantsTestResultsGUI $target_gui,
-        bool $show_pass_details = true,
-        bool $show_answers = true,
-        bool $show_question_only = false,
-        bool $show_reached_points = false
-    ): string {
-        $template = new ilTemplate("tpl.il_as_tst_results_participant.html", true, true, "components/ILIAS/Test");
-
-        if ($this->participantData instanceof ilTestParticipantData) {
-            $user_id = $this->participantData->getUserIdByActiveId($active_id);
-            $uname = $this->participantData->getConcatedFullnameByActiveId($active_id, false);
-        } else {
-            $user_id = $this->object->_getUserIdFromActiveId($active_id);
-            $uname = $this->object->userLookupFullName($user_id, true);
-        }
-
-        if ($this->object->getAnonymity()) {
-            $uname = $this->lng->txt('anonymous');
-        }
-
-        if ((($this->testrequest->isset('pass')) && (strlen($this->testrequest->raw("pass")) > 0)) || (!is_null($pass))) {
-            if (is_null($pass)) {
-                $pass = $this->testrequest->raw("pass");
-            }
-        }
-
-        if (!is_null($pass)) {
-            $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
-            $objectives_list = null;
-
-            if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-                $test_sequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
-                $test_sequence->loadFromDb();
-                $test_sequence->loadQuestions();
-
-                $objectives_adapter = ilLOTestQuestionAdapter::getInstance($testSession);
-
-                $objectives_list = $this->buildQuestionRelatedObjectivesList($objectives_adapter, $test_sequence);
-                $objectives_list->loadObjectivesTitles();
-
-                $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
-                $testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
-                $testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
-                $testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
-                $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
-            }
-
-            $result_array = $this->object->getTestResult(
-                $active_id,
-                $pass,
-                false,
-                !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-            );
-
-            $user_id = $this->object->_getUserIdFromActiveId($active_id);
-            $showAllAnswers = true;
-            if ($this->object->isExecutable($testSession, $user_id)) {
-                $showAllAnswers = false;
-            }
-            if ($show_answers) {
-                $list_of_answers = $this->getPassListOfAnswers(
-                    $result_array,
-                    $active_id,
-                    $pass,
-                    ilSession::get('tst_results_show_best_solutions'),
-                    $showAllAnswers,
-                    $show_question_only,
-                    $show_reached_points,
-                    $show_pass_details,
-                    $objectives_list,
-                    $testResultHeaderLabelBuilder
-                );
-                $template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-            }
-
-            if ($show_pass_details) {
-                $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-                    $result_array,
-                    $active_id,
-                    $pass,
-                    $target_gui,
-                    "getResultsOfUserOutput",
-                    $objectives_list
-                );
-                $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
-                $template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
-            }
-
-            $signature = $this->getResultsSignature();
-            $template->setVariable("SIGNATURE", $signature);
-
-            if ($this->object->isShowExamIdInTestResultsEnabled()) {
-                $template->setCurrentBlock('exam_id_footer');
-                $template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
-                    $testSession->getActiveId(),
-                    $pass
-                ));
-                $template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-                $template->parseCurrentBlock();
-            }
-        }
-
-        $template->setCurrentBlock('participant_back_anchor');
-        $template->setVariable("HREF_PARTICIPANT_BACK_ANCHOR", "#tst_results_toolbar");
-        $template->setVariable("TXT_PARTICIPANT_BACK_ANCHOR", $this->lng->txt('tst_back_to_top'));
-        $template->parseCurrentBlock();
-
-        $template->setCurrentBlock('participant_block_id');
-        $template->setVariable("PARTICIPANT_BLOCK_ID", "participant_active_{$active_id}");
-        $template->parseCurrentBlock();
-
-        if ($this->isGradingMessageRequired()) {
-            $gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
-            $gradingMessageBuilder->buildList();
-
-            $template->setCurrentBlock('grading_message');
-            $template->setVariable('GRADING_MESSAGE', $gradingMessageBuilder->getList());
-            $template->parseCurrentBlock();
-        }
-
-
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
-        $template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-        $template->setVariable("USER_DATA", $user_data);
-
-        $this->populateExamId($template, (int) $active_id, (int) $pass);
-        $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
-
-        return $template->get();
-    }
-
     protected function buildPassDetailsOverviewTableGUI(
-        ilTestServiceGUI|ilParticipantsTestResultsGUI $target_gui,
+        ilTestServiceGUI $target_gui,
         string $target_cmd
     ): ilTestPassDetailsOverviewTableGUI {
         return new ilTestPassDetailsOverviewTableGUI($this->ctrl, $target_gui, $target_cmd);
@@ -890,32 +745,16 @@ class ilTestServiceGUI
         return $filteredTestResult;
     }
 
-    /**
-     * @param string $content
-     */
-    protected function populateContent($content)
+    protected function populateContent(string $content): void
     {
         $this->tpl->setContent($content);
     }
 
-    /**
-     * @return ilTestResultsToolbarGUI
-     */
-    protected function buildUserTestResultsToolbarGUI(): ilTestResultsToolbarGUI
-    {
-        $toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
-
-        return $toolbar;
-    }
-
-    protected function outCorrectSolutionCmd()
+    protected function outCorrectSolutionCmd(): void
     {
         $this->outCorrectSolution(); // cannot be named xxxCmd, because it's also called from context without Cmd in names
     }
 
-    /**
-     * Creates an output of the solution of an answer compared to the correct solution
-     */
     protected function outCorrectSolution(): void
     {
         if (!$this->object->getShowSolutionDetails()) {
@@ -923,7 +762,7 @@ class ilTestServiceGUI
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
-        $testSession = $this->testSessionFactory->getSession();
+        $testSession = $this->test_session_factory->getSession();
         $active_id = $testSession->getActiveId();
 
         if (!($active_id > 0)) {

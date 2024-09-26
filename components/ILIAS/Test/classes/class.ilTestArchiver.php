@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\RequestDataCollector;
-
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitleBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
 use ILIAS\ResourceStorage\Services as IRSS;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author Maximilian Becker <mbecker@databay.de>
@@ -43,7 +43,7 @@ class ilTestArchiver
     public const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
     public const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
-    protected const TEST_RESULT_FILENAME = 'test_result.html';
+    private const TEST_RESULT_FILENAME = 'test_result.html';
 
     public const TEST_OVERVIEW_HTML_FILENAME = 'results_overview_html_v';
     public const TEST_OVERVIEW_HTML_POSTFIX = '.html';
@@ -60,9 +60,9 @@ class ilTestArchiver
 
     public const EXPORT_DIRECTORY = 'archive_exports';
 
-    protected $external_directory_path;
-    protected $client_id = CLIENT_ID;
-    protected $archive_data_index;
+    private string $external_directory_path;
+    private string $client_id = CLIENT_ID;
+    private $archive_data_index;
 
     protected ilTestHTMLGenerator $html_generator;
 
@@ -71,19 +71,13 @@ class ilTestArchiver
     public function __construct(
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
-        private readonly ilCtrlInterface $ctrl,
         private readonly ilObjUser $user,
-        private readonly ilTabsGUI $tabs,
-        private readonly ilToolbarGUI $toolbar,
-        private readonly ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly GlobalHttpState $http,
-        private readonly RefineryFactory $refinery,
-        private readonly ilAccess $access,
         private readonly IRSS $irss,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        private readonly RequestDataCollector $testrequest,
+        private readonly ServerRequestInterface $request,
+        private readonly ilObjectDataCache $obj_cache,
+        private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly int $test_obj_id,
         private ?int $test_ref_id = null
     ) {
@@ -274,8 +268,7 @@ class ilTestArchiver
         $result = $this->db->query($query);
 
         $outfile_lines = '';
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $this->db->fetchAssoc($result)) {
+        while (($row = $this->db->fetchAssoc($result)) !== null) {
             $outfile_lines .= "\r\n" . implode("\t", $row);
         }
         file_put_contents($this->getTestArchive() . self::DIR_SEP . self::TEST_LOG_FILENAME, $outfile_lines);
@@ -286,38 +279,21 @@ class ilTestArchiver
             $test->setRefId($this->test_ref_id);
         }
 
-        $gui = new ilParticipantsTestResultsGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
-            $this->ui_factory,
-            $this->ui_renderer,
-            new ilTestParticipantAccessFilterFactory($this->access),
-            $this->questionrepository,
-            $this->testrequest,
-            $this->http,
-            $this->refinery
-        );
-        $gui->setTestObj($test);
-
-        $objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
-        $gui->setObjectiveParent($objectiveOrientedContainer);
         $array_of_actives = [];
         $participants = $test->getParticipants();
 
-        foreach ($participants as $key => $value) {
+        foreach (array_keys($participants) as $key) {
             $array_of_actives[] = $key;
         }
-        $output_template = $gui->createUserResults(true, false, true, $array_of_actives);
 
-        $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.html';
-        $this->html_generator->generateHTML($output_template->get(), $filename);
-
-        return;
+        $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_attempt_overview.html';
+        $this->html_generator->generateHTML(
+            $this->createUserResultsForArchive(
+                $test,
+                $array_of_actives
+            ),
+            $filename
+        );
     }
 
     public function ensureZipExportDirectoryExists(): void
@@ -532,7 +508,7 @@ class ilTestArchiver
         return;
     }
 
-    protected function determinePassDataPath(
+    private function determinePassDataPath(
         string $date,
         int $active_fi,
         int $pass,
@@ -555,7 +531,185 @@ class ilTestArchiver
         return $line;
     }
 
-    protected function logArchivingProcess(string $message): void
+    private function createUserResultsForArchive(
+        \ilObjTest $test_obj,
+        array $active_ids,
+    ): string {
+        $template = new ilTemplate('tpl.il_as_tst_participants_result_output.html', true, true, 'components/ILIAS/Test');
+
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $participant_data->setParticipantAccessFilter(
+            $this->participant_access_filter_factory->getAccessResultsUserFilter($test_obj->getRefId())
+        );
+        $participant_data->setActiveIdsFilter($active_ids);
+        $participant_data->load($test_obj->getTestId());
+
+        $test_session_factory = new ilTestSessionFactory($test_obj, $this->db, $this->user);
+
+        $count = 0;
+        foreach ($active_ids as $active_id) {
+            if (!in_array($active_id, $participant_data->getActiveIds())) {
+                continue;
+            }
+
+            $count++;
+            $results = '';
+            if ($active_id > 0) {
+                $results = $this->getResultsOfUserOutput(
+                    $test_obj,
+                    $test_session_factory->getSession($active_id),
+                    $participant_data->getUserDataByActiveId($active_id),
+                    (int) $active_id,
+                    ilObjTest::_getResultPass($active_id)
+                );
+            }
+            if ($count < count($active_ids)) {
+                $template->touchBlock('break');
+            }
+            $template->setCurrentBlock('user_result');
+            $template->setVariable('USER_RESULT', $results);
+            $template->parseCurrentBlock();
+        }
+
+        return $template->get();
+    }
+
+    public function getResultsOfUserOutput(
+        \ilObjTest $test_obj,
+        ilTestSession $test_session,
+        array $participant_data,
+        int $active_id,
+        int $attempt
+    ): string {
+        $template = new ilTemplate('tpl.il_as_tst_results_participant.html', true, true, 'components/ILIAS/Test');
+
+        $uname = "{$participant_data['firstname']} {$participant_data['lastname']}";
+        if ($test_obj->getAnonymity()) {
+            $uname = $this->lng->txt('anonymous');
+        }
+
+        $test_result_title_builder = new ResultsTitleBuilder($this->lng, $this->obj_cache);
+
+        $result_array = $test_obj->getTestResult(
+            $active_id,
+            $attempt,
+            false,
+            true
+        );
+
+        $table = $this->ui_factory->table()->data(
+            $test_result_title_builder->getPassDetailsHeaderLabel($attempt + 1),
+            $this->getColumnsForAttemptOverviewTable($test_obj->isOfferingQuestionHintsEnabled()),
+            $this->getDataRetrievalForAttemptOverviewTable($result_array)
+        )->withRequest($this->request);
+        $template->setVariable(
+            'PASS_DETAILS',
+            $this->ui_renderer->render($table)
+        );
+
+        if ($test_obj->isShowExamIdInTestResultsEnabled()) {
+            $template->setCurrentBlock('exam_id_footer');
+            $template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                $test_session->getActiveId(),
+                $attempt
+            ));
+            $template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+            $template->parseCurrentBlock();
+        }
+
+        $template->setCurrentBlock('participant_block_id');
+        $template->setVariable('PARTICIPANT_BLOCK_ID', "participant_active_{$active_id}");
+        $template->parseCurrentBlock();
+
+        $template->setVariable('TEXT_HEADING', sprintf($this->lng->txt('tst_result_user_name'), $uname));
+
+        if ($participant_data['matriculation'] !== '') {
+            $template->setVariable('USER_DATA', "{$this->lng->txt('matriculation')}: {$participant_data['matriculation']}");
+        }
+
+        $results = $test_obj->getResultsForActiveId($active_id);
+        $status = $this->lng->txt($results['passed'] ? 'passed_official' : 'failed_official');
+        $template->setVariable(
+            'GRADING_MESSAGE',
+            "{$this->lng->txt('passed_status')}: {$status}<br>"
+            . "{$this->lng->txt('tst_mark')}: {$results['mark_official']}"
+        );
+
+        $template->setVariable('PASS_FINISH_DATE_LABEL', $this->lng->txt('tst_pass_finished_on'));
+        $template->setVariable(
+            'PASS_FINISH_DATE_VALUE',
+            (new \DateTimeImmutable('@' . ilObjTest::lookupLastTestPassAccess($active_id, $attempt)))
+                ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
+                ->format($this->user->getDateTimeFormat()->toString())
+        );
+
+        return $template->get();
+    }
+
+    private function getColumnsForAttemptOverviewTable(
+        bool $show_requested_hints_info
+    ): array {
+        $cf = $this->ui_factory->table()->column();
+        $columns = [
+            'order' => $cf->number($this->lng->txt('order')),
+            'question_id' => $cf->number($this->lng->txt('question_id')),
+            'title' => $cf->text($this->lng->txt('tst_question_title')),
+            'reachable_points' => $cf->number($this->lng->txt('tst_maximum_points')),
+            'reached_points' => $cf->number($this->lng->txt('tst_reached_points'))
+        ];
+        if ($show_requested_hints_info) {
+            $columns['hints'] = $cf->number($this->lng->txt('tst_question_hints_requested_hint_count_header'));
+        }
+        $columns['solved'] = $cf->text($this->lng->txt('tst_percent_solved'));
+        return $columns;
+    }
+
+    private function getDataRetrievalForAttemptOverviewTable(array $result_data): DataRetrieval
+    {
+        return new class ($result_data) implements DataRetrieval {
+            public function __construct(
+                private readonly array $result_data
+            ) {
+            }
+
+            public function getRows(
+                DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Range $range,
+                Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                $i = 1;
+                foreach ($this->result_data as $result) {
+                    if (!isset($result['qid'])) {
+                        continue;
+                    }
+                    yield $row_builder->buildDataRow(
+                        (string) $result['qid'],
+                        [
+                            'order' => $i++,
+                            'question_id' => $result['qid'],
+                            'title' => $result['title'],
+                            'reachable_points' => $result['max'],
+                            'reached_points' => $result['reached'],
+                            'hints' => $result['requested_hints'] ?? 0,
+                            'solved' => $result['percent']
+                        ]
+                    );
+                }
+            }
+
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return count($this->result_data);
+            }
+        };
+    }
+
+    private function logArchivingProcess(string $message): void
     {
         $archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
         if (file_exists($archive)) {

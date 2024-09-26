@@ -16,23 +16,29 @@
  *
  *********************************************************************/
 
-namespace Results;
+declare(strict_types=1);
 
-use ilTestBaseTestCase;
-use ilTestResultsFactory;
-use ilTestShuffler;
+namespace ILIAS\Test\Tests\Results\Presentation;
+
+use ILIAS\Test\Results\Presentation\Factory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\Data\Factory as DataFactory;
 
-class ilTestResultsFactoryTest extends ilTestBaseTestCase
+class FactoryTest extends \ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilTestResultsFactoryTest = new ilTestResultsFactory(
-            $this->createMock(ilTestShuffler::class),
+        $ilTestResultsPresentationFactory = new Factory(
             $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class)
+            $this->createMock(UIRenderer::class),
+            $this->createMock(Refinery::class),
+            $this->createMock(DataFactory::class),
+            $this->createMock(HTTPService::class),
+            $this->createMock(\ilLanguage::class)
         );
-        $this->assertInstanceOf(ilTestResultsFactory::class, $ilTestResultsFactoryTest);
+        $this->assertInstanceOf(Factory::class, $ilTestResultsPresentationFactory);
     }
 }

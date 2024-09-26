@@ -18,19 +18,20 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Implementation\Component\Table\Presentation;
+namespace ILIAS\Test\Results\Presentation;
+
+use ILIAS\Test\Results\Data\AttemptResult;
+use ILIAS\Test\Results\Data\QuestionResult;
+use ILIAS\UI\Implementation\Component\Table\Presentation as PresentationTable;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Language\Language;
 
-/**
- * @package components\ILIAS/Test
- * Table Presentation of Pass Results
- */
-class ilTestPassResultsTable
+class AttemptResultsTable
 {
     private const ENV = 'e';
     private const LNG = 'l';
@@ -43,16 +44,17 @@ class ilTestPassResultsTable
     private const SORT_OPT_ORDEROFAPPEARANCE = 'ooa';
     private const SORT_OPT_POSSIBLESCORE = 'ms';
 
-    protected Presentation $table;
+    protected PresentationTable $table;
 
     public function __construct(
         UIFactory $ui_factory,
-        protected UIRenderer $ui_renderer,
-        protected Refinery $refinery,
-        protected HTTPService $http,
+        private UIRenderer $ui_renderer,
+        private Refinery $refinery,
+        private HTTPService $http,
         DataFactory $data_factory,
-        ilLanguage $lng,
-        protected ilTestPassResult $test_results,
+        Language $lng,
+        private AttemptResult $test_results,
+        private Settings $settings,
         string $title
     ) {
         list($mode, $sortation) = $this->getViewControlsParameter();
@@ -65,7 +67,7 @@ class ilTestPassResultsTable
             $this->getMapping()
         )
         ->withEnvironment([
-            self::ENV => $test_results->getSettings(),
+            self::ENV => $settings,
             self::LNG => $lng
         ])
         ->withData($results);
@@ -76,20 +78,25 @@ class ilTestPassResultsTable
         return $this->ui_renderer->render($this->table);
     }
 
+    public function getTableComponent(): PresentationTable
+    {
+        return $this->table;
+    }
+
     /**
-     * @param ilQuestionResult[] $question_results
+     * @param array<QuestionResult> $question_results
      */
-    protected function applyControls(
+    private function applyControls(
         string $mode,
         string $sortation,
         array $question_results
     ) {
-        switch($mode) {
+        switch ($mode) {
             case self::MODE_OPT_CORRECT:
-                $filter = static fn($qr) => $qr->getCorrect() === ilQuestionResult::CORRECT_FULL;
+                $filter = static fn($qr) => $qr->getCorrect() === QuestionResult::CORRECT_FULL;
                 break;
             case self::MODE_OPT_INCORRECT:
-                $filter = static fn($qr) => $qr->getCorrect() !== ilQuestionResult::CORRECT_FULL;
+                $filter = static fn($qr) => $qr->getCorrect() !== QuestionResult::CORRECT_FULL;
                 break;
             case self::MODE_OPT_ALL:
             default:
@@ -100,22 +107,22 @@ class ilTestPassResultsTable
         if ($sortation === self::SORT_OPT_POSSIBLESCORE) {
             usort(
                 $question_results,
-                static fn(ilQuestionResult $a, ilQuestionResult $b) => $a->getQuestionScore() <=> $b->getQuestionScore()
+                static fn(QuestionResult $a, QuestionResult $b) => $a->getQuestionScore() <=> $b->getQuestionScore()
             );
             $question_results = array_reverse($question_results);
         }
         return $question_results;
     }
 
-    protected function getViewControlNamespace(): array
+    private function getViewControlNamespace(): array
     {
         $namespace = self::URL_NAMESPACE;
         $namespace[] = (string) $this->test_results->getActiveId();
-        $namespace[] = (string) $this->test_results->getPass();
+        $namespace[] = (string) $this->test_results->getAttempt();
         return $namespace;
     }
 
-    protected function getViewControlsParameter(): array
+    private function getViewControlsParameter(): array
     {
         $request = $this->http->wrapper()->query();
         $pre = implode(URLBuilder::SEPARATOR, $this->getViewControlNamespace()) . URLBuilder::SEPARATOR;
@@ -130,11 +137,11 @@ class ilTestPassResultsTable
     }
 
     /**
-     * return \ILIAS\UI\ViewControl\ViewControl[]
+     * return array<\ILIAS\UI\ViewControl\ViewControl>
      */
-    protected function getViewControls(
+    private function getViewControls(
         UIFactory $ui_factory,
-        ilLanguage $lng,
+        Language $lng,
         URLBuilder $target,
         string $mode,
         string $sortation
@@ -171,7 +178,7 @@ class ilTestPassResultsTable
         ];
     }
 
-    protected function getMapping(): \Closure
+    private function getMapping(): \Closure
     {
         return function ($row, $question, $ui_factory, $environment) {
             $env = $environment[self::ENV];
@@ -228,21 +235,21 @@ class ilTestPassResultsTable
 
             $content = $ui_factory->layout()->alignment()->vertical(...$contents);
 
-            switch($question->getCorrect()) {
-                case ilQuestionResult::CORRECT_FULL:
+            switch ($question->getCorrect()) {
+                case QuestionResult::CORRECT_FULL:
                     $icon_name = 'icon_ok.svg';
                     $label = $lng->txt("answer_is_right");
                     break;
-                case ilQuestionResult::CORRECT_PARTIAL:
+                case QuestionResult::CORRECT_PARTIAL:
                     $icon_name = 'icon_mostly_ok.svg';
                     $label = $lng->txt("answer_is_not_correct_but_positive");
                     break;
-                case ilQuestionResult::CORRECT_NONE:
+                case QuestionResult::CORRECT_NONE:
                     $icon_name = 'icon_not_ok.svg';
                     $label = $lng->txt("answer_is_wrong");
                     break;
             }
-            $path = ilUtil::getImagePath('standard/' . $icon_name);
+            $path = \ilUtil::getImagePath('standard/' . $icon_name);
             $correct_icon = $ui_factory->symbol()->icon()->custom(
                 $path,
                 $label

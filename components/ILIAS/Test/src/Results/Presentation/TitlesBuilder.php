@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Results\Presentation;
 
+use ILIAS\Language\Language;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  */
@@ -38,8 +40,8 @@ class TitlesBuilder
     private array $objectives = [];
 
     public function __construct(
-        protected ilLanguage $lng,
-        protected ilObjectDataCache $objCache
+        protected Language $lng,
+        protected \ilObjectDataCache $obj_cache
     ) {
     }
 
@@ -183,7 +185,7 @@ class TitlesBuilder
 
     private function initTestType()
     {
-        $loSettings = ilLOSettings::getInstanceByObjId($this->objective_oriented_container_id);
+        $loSettings = \ilLOSettings::getInstanceByObjId($this->objective_oriented_container_id);
 
         if ($loSettings->getInitialTest() == $this->test_ref_id) {
             $this->test_type = self::LO_TEST_TYPE_INITIAL;
@@ -194,7 +196,7 @@ class TitlesBuilder
 
     private function initObjectives()
     {
-        $lo_attempts = ilLOTestRun::getRun($this->objective_oriented_container_id, $this->user_id, $this->test_obj_id);
+        $lo_attempts = \ilLOTestRun::getRun($this->objective_oriented_container_id, $this->user_id, $this->test_obj_id);
 
         $this->objectives = [];
 
@@ -205,7 +207,7 @@ class TitlesBuilder
 
     private function initCourseTitle()
     {
-        $this->crs_title = $this->objCache->lookupTitle((int) $this->getObjectiveOrientedContainerId());
+        $this->crs_title = $this->obj_cache->lookupTitle((int) $this->getObjectiveOrientedContainerId());
     }
 
     private function isInitialTest(): bool
@@ -272,7 +274,7 @@ class TitlesBuilder
 
     private function getObjectiveTitle(ilLOTestRun $loRun)
     {
-        return ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
+        return \ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
     }
 
     private function getObjectivesString(): string

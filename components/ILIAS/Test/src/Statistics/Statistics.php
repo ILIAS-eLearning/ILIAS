@@ -35,7 +35,7 @@ class Statistics
         $this->stat_data = array_values($median_array);
         sort($this->stat_data);
 
-        if (($median_user_id = array_search($this->median(), $median_array)) !== false) {
+        if (($median_user_id = array_search(($rank = $this->rankMedian()), $median_array)) !== false) {
             $this->median_user = $eval_data->getParticipant($median_user_id);
         }
     }
@@ -232,7 +232,7 @@ class Statistics
     * be the arithmetic mean of the two middle values when the data size is even.
     * In this case the median could a value which is not part of the data set.
     */
-    public function rankMedian(): ?float
+    public function rankMedian(): ?int
     {
         $count = $this->count();
         if ($count === 0) {
@@ -240,10 +240,10 @@ class Statistics
         }
 
         if (($count % 2) === 0) {
-            return $rank_median = ($count + 1) / 2;
+            return $count / 2;
         }
 
-        return $rank_median = ($count + 1) / 2;
+        return ($count + 1) / 2;
     }
 
     /**

@@ -41,8 +41,13 @@ use ILIAS\Test\Logging\Factory as InteractionFactory;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
+
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\Container as ILIASContainer;
 use Pimple\Container as PimpleContainer;
 use ILIAS\Data\Factory as DataFactory;
@@ -76,15 +81,15 @@ class TestDIC extends PimpleContainer
                 $DIC['ui.factory']
             );
 
-        $dic['results.factory'] = static fn($c): \ilTestResultsFactory =>
-            new \ilTestResultsFactory(
+        $dic['results.data.factory'] = static fn($c): ResultsDataFactory =>
+            new ResultsDataFactory(
                 $c['shuffler'],
                 $DIC['ui.factory'],
                 $DIC['ui.renderer']
             );
 
-        $dic['results.presentation.factory'] = static fn($c): \ilTestResultsPresentationFactory =>
-           new \ilTestResultsPresentationFactory(
+        $dic['results.presentation.factory'] = static fn($c): ResultsPresentationFactory =>
+           new ResultsPresentationFactory(
                $DIC['ui.factory'],
                $DIC['ui.renderer'],
                $DIC['refinery'],

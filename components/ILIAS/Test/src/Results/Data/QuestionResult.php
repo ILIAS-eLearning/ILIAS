@@ -18,29 +18,27 @@
 
 declare(strict_types=1);
 
-/**
- * @package components\ILIAS/Test
- * Results for one question/user
- */
-class ilQuestionResult
+namespace ILIAS\Test\Results\Data;
+
+class QuestionResult
 {
     public const CORRECT_FULL = 1;
     public const CORRECT_PARTIAL = 2;
     public const CORRECT_NONE = 3;
 
     public function __construct(
-        protected int $id,
-        protected string $type,
-        protected string $title,
-        protected float $question_score,
-        protected float $usr_score,
-        protected string $usr_solution,
-        protected string $best_solution,
-        protected string $feedback,
-        protected bool $workedthrough,
-        protected bool $answered,
-        protected int $requested_hints,
-        protected ?string $content_for_recapitulation
+        private readonly int $id,
+        private readonly string $type,
+        private readonly string $title,
+        private readonly float $question_score,
+        private readonly float $usr_score,
+        private readonly string $usr_solution,
+        private readonly string $best_solution,
+        private readonly string $feedback,
+        private readonly bool $workedthrough,
+        private readonly bool $answered,
+        private readonly int $requested_hints,
+        private readonly ?string $content_for_recapitulation
     ) {
     }
 

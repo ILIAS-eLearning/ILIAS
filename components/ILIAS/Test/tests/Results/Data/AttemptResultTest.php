@@ -16,21 +16,19 @@
  *
  *********************************************************************/
 
-namespace Results;
+namespace ILIAS\Test\Tests\Results\Data;
 
-use ilQuestionResult;
-use ilTestBaseTestCase;
-use ilTestPassResult;
-use ilTestPassResultsSettings;
+use ILIAS\Test\Results\Presentation\AttemptResult;
+use ILIAS\Test\Results\Presentation\QuestionResult;
 
-class ilTestPassResultTest extends ilTestBaseTestCase
+class AttemptResultTest extends ilTestBaseTestCase
 {
     /**
      * @dataProvider getSettingsDataProvider
      */
     public function testGetSettings(ilTestPassResultsSettings $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $ilTestPassResult = new AttemptResult(
             $IO,
             0,
             0,
@@ -51,7 +49,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
      */
     public function testGetActiveId(int $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $ilTestPassResult = new AttemptResult(
             new ilTestPassResultsSettings(),
             $IO,
             0,
@@ -74,7 +72,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
      */
     public function testGetPass(int $IO): void
     {
-        $ilTestPassResult = new ilTestPassResult(
+        $ilTestPassResult = new AttemptResult(
             new ilTestPassResultsSettings(),
             0,
             $IO,
@@ -98,7 +96,7 @@ class ilTestPassResultTest extends ilTestBaseTestCase
     public function testGetQuestionResults(\Closure $IO): void
     {
         $IO = $IO($this);
-        $ilTestPassResult = new ilTestPassResult(
+        $ilTestPassResult = new AttemptResult(
             new ilTestPassResultsSettings(),
             0,
             0,
@@ -112,11 +110,11 @@ class ilTestPassResultTest extends ilTestBaseTestCase
         return [
             [static fn(self $test_case): array => []],
             [static fn(self $test_case): array => [
-                $test_case->createMock(ilQuestionResult::class)
+                $test_case->createMock(QuestionResult::class)
             ]],
             [static fn(self $test_case): array => [
-                $test_case->createMock(ilQuestionResult::class),
-                $test_case->createMock(ilQuestionResult::class),
+                $test_case->createMock(QuestionResult::class),
+                $test_case->createMock(QuestionResult::class),
             ]]
         ];
 

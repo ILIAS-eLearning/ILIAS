@@ -237,7 +237,8 @@ class Printer
     private function addPrintButtonToToolbar(): void
     {
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard('print', 'javascript:window.print();')
+            $this->ui_factory->button()->standard('print', '')
+                ->withOnLoadCode(fn($id) => "$('#$id').on('click', ()=>{window.print();})")
         );
     }
 }

@@ -18,52 +18,132 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Results\Data;
+
+use ILIAS\Test\Results\Presentation\Settings as ResultPresentationSettings;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
-/**
- * @package components\ILIAS/Test
- * Results (currently, for one user and pass)
- */
-class ilTestResultsFactory
+class Factory
 {
-    /**
-     * @param ilQuestionResult[] $question_results
+    /*
+     * @var array<int test_obj_id, \ilTestEvaluationData> $test_data
      */
+    private array $test_data = [];
     public function __construct(
-        protected ilTestShuffler $shuffler,
+        protected \ilTestShuffler $shuffler,
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer
     ) {
     }
-    public function getPassResultsFor(
-        ilObjTest $test_obj,
+
+    /**
+     * @return array<\ilTestEvaluationPassData>
+     */
+    public function getAttemptIdsArrayFor(
+        \ilObjTest $test_obj,
+        int $active_id
+    ): array {
+        $eval = $this->retrieveResultData($test_obj);
+        return array_keys($eval->getParticipant($active_id)->getPasses());
+    }
+
+    public function getOverviewDataForTest(
+        \ilObjTest $test_obj
+    ): ?TestOverview {
+        $eval = $this->retrieveResultData($test_obj);
+        $found_participants = $eval->getParticipants();
+        if ($found_participants === []) {
+            return null;
+        }
+
+        $total_passed = 0;
+        $total_passed_reached = 0.0;
+        $total_passed_max = 0.0;
+        $total_passed_time = 0;
+        foreach ($found_participants as $userdata) {
+            if ($userdata->getPassed()) {
+                $total_passed++;
+                $total_passed_reached += $userdata->getReached();
+                $total_passed_max += $userdata->getMaxpoints();
+                $total_passed_time += $userdata->getTimeOnTask();
+            }
+        }
+
+        return new TestOverview(
+            $test_obj->getId(),
+            count($found_participants),
+            $eval->getTotalFinishedParticipants(),
+            $total_passed,
+            $test_obj->evalTotalStartedAverageTime($eval->getParticipantIds()),
+            $total_passed_time,
+            $eval->getStatistics()->rankMedian(),
+            $eval->getStatistics()->getEvaluationDataOfMedianUser()?->getMark() ?? '',
+            $eval->getStatistics()->median(),
+            $total_passed === 0 ? 0 : $total_passed_reached / $total_passed
+        );
+    }
+
+    public function getAttemptOverviewFor(
+        ResultPresentationSettings $settings,
+        \ilObjTest $test_obj,
         int $active_id,
-        int $pass_id,
-        bool $is_user_output = true
-    ): ilTestPassResult {
-        $settings = $this->getPassResultsSettings($test_obj, $is_user_output);
-        return $this->buildPassResults(
+        int $attempt_id
+    ): ?AttemptOverview {
+        $eval = $this->retrieveResultData($test_obj);
+        $found_participants = $eval->getParticipants();
+        $participant_data = $eval->getParticipant($active_id);
+        $attempt_data = $participant_data?->getPass($attempt_id);
+        if ($found_participants === []
+            || $attempt_data === null) {
+            return null;
+        }
+
+        return new AttemptOverview(
+            $active_id,
+            $attempt_id,
+            $settings,
+            $attempt_data->getReachedPoints(),
+            $attempt_data->getMaxPoints(),
+            $attempt_data->getMark(),
+            $attempt_data->getRequestedHintsCount(),
+            $attempt_data->getWorkingTime(),
+            new \DateTimeImmutable('@' . $participant_data->getFirstVisit()),
+            new \DateTimeImmutable('@' . $participant_data->getLastVisit()),
+            $participant_data->getPassCount(),
+            $participant_data->getScoredPass(),
+            $eval->getStatistics()->rank($participant_data->getReached())
+        );
+    }
+
+    public function getAttemptResultsFor(
+        ResultPresentationSettings $settings,
+        \ilObjTest $test_obj,
+        int $active_id,
+        int $attempt_id,
+        bool $is_user_output
+    ): AttemptResult {
+        return $this->buildAttemptResults(
             $settings,
             $test_obj,
             $active_id,
-            $pass_id,
+            $attempt_id,
             $is_user_output
         );
     }
 
-    protected function buildPassResults(
-        ilTestPassResultsSettings $settings,
-        ilObjTest $test_obj,
+    private function buildAttemptResults(
+        ResultPresentationSettings $settings,
+        \ilObjTest $test_obj,
         int $active_id,
-        int $pass_id,
+        int $attempt_id,
         bool $is_user_output
-    ): ilTestPassResult {
+    ): AttemptResult {
         $question_results = [];
 
         $results = $test_obj->getTestResult(
             $active_id,
-            $pass_id,
+            $attempt_id,
             false, //$ordered_sequence
             $settings->getShowHiddenQuestions(),
             $settings->getShowOptionalQuestions()
@@ -94,8 +174,8 @@ class ilTestResultsFactory
             $requested_hints = (int) $qresult['requested_hints'];
 
 
-            $question_gui = $test_obj->createQuestionGUI("", $qid);
-            $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $pass_id);
+            $question_gui = $test_obj->createQuestionGUI('', $qid);
+            $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $attempt_id);
             $question = $question_gui->getObject();
             $question->setShuffler($shuffle_trafo);
             $question_gui->setObject($question);
@@ -105,7 +185,7 @@ class ilTestResultsFactory
             $show_inline_feedback = $settings->getShowFeedback();
             $usr_solution = $question_gui->getSolutionOutput(
                 $active_id,
-                $pass_id,
+                $attempt_id,
                 $graphical_output,
                 $result_output,
                 $show_question_only,
@@ -121,7 +201,7 @@ class ilTestResultsFactory
             ) {
                 $usr_solution .= $question_gui->getAutoSavedSolutionOutput(
                     $active_id,
-                    $pass_id,
+                    $attempt_id,
                     false,
                     false,
                     false,
@@ -138,7 +218,7 @@ class ilTestResultsFactory
             $show_inline_feedback = false;
             $best_solution = $question_gui->getSolutionOutput(
                 $active_id,
-                $pass_id,
+                $attempt_id,
                 $graphical_output,
                 $result_output,
                 $show_question_only,
@@ -154,14 +234,14 @@ class ilTestResultsFactory
                 $best_solution = $this->ui_renderer->render($this->ui_factory->legacy('<div class="ilc_question_Standard">' . $best_solution . '</div>'));
             }
 
-            $feedback = $question_gui->getGenericFeedbackOutput($active_id, $pass_id);
+            $feedback = $question_gui->getGenericFeedbackOutput($active_id, $attempt_id);
 
             $recapitulation = null;
             if ($is_user_output && $settings->getShowRecapitulation()) {
                 $recapitulation = $question_gui->getObject()->getSuggestedSolutionOutput();
             }
 
-            $question_results[] = new ilQuestionResult(
+            $question_results[] = new QuestionResult(
                 $qid,
                 $type,
                 $title,
@@ -177,38 +257,23 @@ class ilTestResultsFactory
             );
         }
 
-        return new ilTestPassResult(
-            $settings,
+        return new AttemptResult(
             $active_id,
-            $pass_id,
+            $attempt_id,
             $question_results
         );
     }
 
-    protected function getPassResultsSettings(
-        ilObjTest $test_obj,
-        bool $is_user_output
-    ): ilTestPassResultsSettings {
-        $settings = $test_obj->getScoreSettings();
-        $settings_summary = $settings->getResultSummarySettings();
-        $settings_result = $settings->getResultDetailsSettings();
+    private function retrieveResultData(\ilObjTest $test_obj): \ilTestEvaluationData
+    {
+        if (!isset($this->test_data[$test_obj->getId()])) {
+            $test_obj->setAccessFilteredParticipantList(
+                $test_obj->buildStatisticsAccessFilteredParticipantList()
+            );
 
-        $show_hidden_questions = false;
-        $show_optional_questions = true;
-        $show_best_solution = $is_user_output ?
-            $settings_result->getShowSolutionListComparison() :
-            (bool) ilSession::get('tst_results_show_best_solutions');
-        $show_feedback = $settings_result->getShowSolutionFeedback();
-        $show_question_text_only = $settings_result->getShowSolutionAnswersOnly();
-        $show_content_for_recapitulation = $settings_result->getShowSolutionSuggested();
+            $this->test_data[$test_obj->getId()] = $test_obj->getCompleteEvaluationData();
+        }
 
-        return new ilTestPassResultsSettings(
-            $show_hidden_questions,
-            $show_optional_questions,
-            $show_best_solution,
-            $show_feedback,
-            $show_question_text_only,
-            $show_content_for_recapitulation
-        );
+        return $this->test_data[$test_obj->getId()];
     }
 }

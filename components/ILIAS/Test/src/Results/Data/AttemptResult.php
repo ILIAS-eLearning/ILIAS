@@ -18,26 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * @package components\ILIAS/Test
- * Results for one user and pass
- */
-class ilTestPassResult
+namespace ILIAS\Test\Results\Data;
+
+class AttemptResult
 {
     /**
-     * @param ilQuestionResult[] $question_results
+     * @param array<QuestionResult> $question_results
      */
     public function __construct(
-        protected ilTestPassResultsSettings $settings,
-        protected int $active_id,
-        protected int $pass_id,
-        protected array $question_results
+        private readonly int $active_id,
+        private readonly int $attempt_id,
+        private readonly array $question_results
     ) {
-    }
-
-    public function getSettings(): ilTestPassResultsSettings
-    {
-        return $this->settings;
     }
 
     public function getActiveId(): int
@@ -45,13 +37,13 @@ class ilTestPassResult
         return $this->active_id;
     }
 
-    public function getPass(): int
+    public function getAttempt(): int
     {
-        return $this->pass_id;
+        return $this->attempt_id;
     }
 
     /**
-     * @return ilQuestionResult[];
+     * @return array<QuestionResult>;
      */
     public function getQuestionResults(): array
     {
