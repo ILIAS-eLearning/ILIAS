@@ -231,6 +231,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
             $finishHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'finishTestPassForSingleUser');
             $actions[] = $this->ui_factory->link()->standard($this->lng->txt('finish_test'), $finishHref);
         }
+        $access_results_hef = $this->ctrl->getLinkTargetByClass(ilTestEvaluationGUI::class, 'showResults');
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('show_results'), $access_results_hef);
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         return $this->ui_renderer->render($dropdown);
     }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -25,7 +27,6 @@ declare(strict_types=1);
  * @package components\ILIAS/Test
  *
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilTestResultsToolbarGUI
  */
 class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 {
@@ -70,18 +71,20 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
     private function showVirtualPassCmd()
     {
-        $test_session = $this->testSessionFactory->getSession();
+        $test_session = $this->test_session_factory->getSession();
 
         if (!$this->object->getShowPassDetails()) {
             $executable = $this->object->isExecutable($test_session, $test_session->getUserId());
 
-            if ($executable["executable"]) {
+            if ($executable['executable']) {
                 $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
             }
         }
 
-        $toolbar = $this->buildUserTestResultsToolbarGUI();
-        $toolbar->build();
+        $this->toolbar->addComponent(
+            $this->ui->factory()->button()->standard($this->lng->txt('print'), '')
+                ->withOnLoadCode(fn($id) => "$('#$id').on('click', ()=>{window.print();})")
+        );
 
         $virtual_sequence = $this->service->buildVirtualSequence($test_session);
         $user_results = $this->service->getVirtualSequenceUserResults($virtual_sequence);
@@ -91,7 +94,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $objectives_list = $this->buildQuestionRelatedObjectivesList($objectives_adapter, $virtual_sequence);
         $objectives_list->loadObjectivesTitles();
 
-        $test_result_header_label_builder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
+        $test_result_header_label_builder = new ResultsTitlesBuilder($this->lng, $this->obj_cache);
 
         $test_result_header_label_builder->setObjectiveOrientedContainerId($test_session->getObjectiveOrientedContainerId());
         $test_result_header_label_builder->setUserId($test_session->getUserId());
@@ -136,6 +139,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
             $tpl->parseCurrentBlock();
         }
 
-        $this->populateContent($this->ctrl->getHTML($toolbar) . $tpl->get());
+        $this->populateContent($tpl->get());
     }
 }

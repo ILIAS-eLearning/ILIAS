@@ -122,21 +122,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj->runObject();
     }
 
-    public function testOutEvaluationObject(): void
-    {
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock
-            ->expects($this->once())
-            ->method('redirectByClass')
-            ->with('iltestevaluationgui', 'outEvaluation')
-        ;
-        $this->setGlobalVariable('ilCtrl', $ctrl_mock);
-
-        $testObj = $this->getNewTestGUI();
-
-        $testObj->outEvaluationObject();
-    }
-
     public function testBackObject(): void
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);

@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace Results;
+declare(strict_types=1);
 
-use ilTestBaseTestCase;
+namespace ILIAS\Test\Tests\Results\Presentation;
 
-class ilTestPassResultsTableTest extends ilTestBaseTestCase
+class AttemptResultsTableTest extends \ilTestBaseTestCase
 {
     public function testSuppressWarning(): void
     {

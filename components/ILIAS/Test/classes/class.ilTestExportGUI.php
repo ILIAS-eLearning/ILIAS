@@ -18,28 +18,19 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\Types as ExportImportTypes;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\ResourceStorage\Services as IRSS;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Export User Interface Class
  *
  * @author       Michael Jansen <mjansen@databay.de>
  * @author       Maximilian Becker <mbecker@databay.de>
- *
- * @version      $Id$
- *
- * @ingroup components\ILIASTest
- *
- * @ilCtrl_Calls ilTestExportGUI: ilParticipantsTestResultsGUI
  */
 class ilTestExportGUI extends ilExportGUI
 {
@@ -47,19 +38,15 @@ class ilTestExportGUI extends ilExportGUI
         ilObjTestGUI $parent_gui,
         private readonly ilDBInterface $db,
         private readonly ExportImportFactory $export_factory,
-        private readonly TestLogger $logger,
         private readonly ilObjectDataCache $obj_cache,
         private readonly ilObjUser $user,
-        private readonly ilTabsGUI $tabs,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly ilComponentRepository $component_repository,
-        private readonly ilComponentFactory $component_factory,
         private readonly IRSS $irss,
+        private readonly ServerRequestInterface $request,
+        private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly ilTestHTMLGenerator $html_generator,
         private readonly array $selected_files,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        private readonly RequestDataCollector $testrequest
     ) {
         parent::__construct($parent_gui, null);
 
@@ -101,22 +88,15 @@ class ilTestExportGUI extends ilExportGUI
 
             $archiveService = new ilTestArchiveService(
                 $this->obj,
-                $this->questionrepository,
-                $this->testrequest,
                 $this->lng,
                 $this->db,
-                $this->ctrl,
                 $this->user,
-                $this->tabs,
-                $this->toolbar,
-                $this->tpl,
                 $this->ui_factory,
                 $this->ui_renderer,
-                $this->http,
-                $this->refinery,
-                $this->access,
                 $this->irss,
+                $this->request,
                 $this->obj_cache,
+                $this->participant_access_filter_factory,
                 $this->html_generator
             );
             $archiveService->setParticipantData($participantData);
@@ -127,19 +107,13 @@ class ilTestExportGUI extends ilExportGUI
             $archive_exp = new ilTestArchiver(
                 $this->lng,
                 $this->db,
-                $this->ctrl,
                 $this->user,
-                $this->tabs,
-                $this->toolbar,
-                $this->tpl,
                 $this->ui_factory,
                 $this->ui_renderer,
-                $this->http,
-                $this->refinery,
-                $this->access,
                 $this->irss,
-                $this->questionrepository,
-                $this->testrequest,
+                $this->request,
+                $this->obj_cache,
+                $this->participant_access_filter_factory,
                 $test_id,
                 $test_ref
             );
@@ -186,19 +160,13 @@ class ilTestExportGUI extends ilExportGUI
         $archiver = new ilTestArchiver(
             $this->lng,
             $this->db,
-            $this->ctrl,
             $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->http,
-            $this->refinery,
-            $this->access,
             $this->irss,
-            $this->questionrepository,
-            $this->testrequest,
+            $this->request,
+            $this->obj_cache,
+            $this->participant_access_filter_factory,
             $this->getParentGUI()->getTestObject()->getId()
         );
         $archive_dir = $archiver->getZipExportDirectory();
@@ -281,19 +249,13 @@ class ilTestExportGUI extends ilExportGUI
         $archiver = new ilTestArchiver(
             $this->lng,
             $this->db,
-            $this->ctrl,
             $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->http,
-            $this->refinery,
-            $this->access,
             $this->irss,
-            $this->questionrepository,
-            $this->testrequest,
+            $this->request,
+            $this->obj_cache,
+            $this->participant_access_filter_factory,
             $this->getParentGUI()->getTestObject()->getId()
         );
         $filename = basename($this->selected_files[0]);
@@ -316,19 +278,13 @@ class ilTestExportGUI extends ilExportGUI
         $archiver = new ilTestArchiver(
             $this->lng,
             $this->db,
-            $this->ctrl,
             $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->http,
-            $this->refinery,
-            $this->access,
             $this->irss,
-            $this->questionrepository,
-            $this->testrequest,
+            $this->request,
+            $this->obj_cache,
+            $this->participant_access_filter_factory,
             $this->getParentGUI()->getTestObject()->getId()
         );
         $archiveDir = $archiver->getZipExportDirectory();

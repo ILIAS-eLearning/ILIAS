@@ -26,31 +26,15 @@ declare(strict_types=1);
  */
 class ilTestGradingMessageBuilder
 {
-    private $tpl;
+    private ilTemplate $tpl;
+    private array $resultData;
+    private int $activeId;
 
     /**
-     * @var array
-     */
-    private $resultData;
-
-    /**
-     * @var integer
-     */
-    private $activeId;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    private $container;
-
-    /**
-     * @var string[] $messageText
+     * @var array<string> $messageText
      */
     private array $messageText = [];
 
-    /**
-     * @param ilLanguage $lng
-     * @param ilObjTest $testOBJ
-     */
     public function __construct(
         private ilLanguage $lng,
         private ilGlobalTemplateInterface $main_tpl,

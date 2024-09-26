@@ -334,9 +334,9 @@ class ilTestEvaluationData
         $this->participants[$active_id] = $participant;
     }
 
-    public function getParticipant(int $active_id): ilTestEvaluationUserData
+    public function getParticipant(int $active_id): ?ilTestEvaluationUserData
     {
-        return $this->participants[$active_id];
+        return $this->participants[$active_id] ?? null;
     }
 
     public function participantExists($active_id): bool

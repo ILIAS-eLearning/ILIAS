@@ -389,10 +389,6 @@ trait ilTestBaseTestCaseTrait
             => $this->createMock(
                 \ilTestShuffler::class
             );
-        $local_dic_mock['results.factory'] = fn(Pimple\Container $c)
-            => $this->createMock(
-                \ilTestResultsFactory::class
-            );
         $local_dic_mock['results.presentation.factory'] = fn(Pimple\Container $c)
             => $this->createMock(
                 \ilTestResultsPresentationFactory::class

@@ -72,7 +72,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ILIAS\Test\Scoring\Marks\MarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilParticipantsTestResultsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjTestGUI: ILIAS\Test\Presentation\TestScreenGUI
@@ -89,7 +89,6 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
@@ -120,6 +119,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ExportImportFactory $export_factory;
     private TestQuestionsRepository $test_questions_repository;
     private GeneralQuestionPropertiesRepository $questionrepository;
+    private ilTestParticipantAccessFilterFactory $participant_access_filter_factory;
     private QPLRequestDataCollector $qplrequest;
     private TitleColumnsBuilder $title_builder;
     protected ?TabsManager $tabs_manager = null;
@@ -180,6 +180,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->title_builder = $local_dic['title_columns_builder'];
         $this->testrequest = $local_dic['request_data_collector'];
         $this->export_factory = $local_dic['exportimport.factory'];
+        $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -294,15 +295,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this,
                     $this->db,
                     $this->export_factory,
-                    $this->getTestObject()->getTestlogger(),
                     $this->obj_data_cache,
                     $this->user,
-                    $this->tabs_gui,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->component_repository,
-                    $this->component_factory,
                     $this->irss,
+                    $this->request,
+                    $this->participant_access_filter_factory,
                     new ilTestHTMLGenerator(),
                     $selected_files,
                     $this->questionrepository,
@@ -1205,46 +1204,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         return parent::prepareOutput($show_subobjects);
     }
 
-    private function userResultsGatewayObject()
-    {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass('ilTestEvaluationGUI');
-        // $this->ctrl->setCmd('outUserResultsOverview');
-        $this->tabs_gui->clearTargets();
-
-        $this->forwardToEvaluationGUI();
-    }
-
-    private function testResultsGatewayObject(): void
-    {
-        $this->tabs_gui->clearTargets();
-
-        $this->prepareOutput();
-        $this->addHeaderAction();
-        $gui = new ilParticipantsTestResultsGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            $this->tabs_gui,
-            $this->toolbar,
-            $this->tpl,
-            $this->ui_factory,
-            $this->ui_renderer,
-            new ilTestParticipantAccessFilterFactory($this->access),
-            $this->questionrepository,
-            $this->testrequest,
-            $this->http,
-            $this->refinery
-        );
-        $gui->setTestObj($this->getTestObject());
-        $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
-        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
-        $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
-        $this->ctrl->forwardCommand($gui);
-    }
-
     private function showEditTestPageGUI(string $cmd): void
     {
         $this->prepareOutput();
@@ -1301,11 +1260,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private function prepareSubGuiOutput()
     {
         $this->tpl->loadStandardTemplate();
-
-        // set locator
         $this->setLocator();
-
-        // set title and description and title icon
         $this->setTitleAndDescription();
     }
 
@@ -1314,14 +1269,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
-    public function outEvaluationObject()
-    {
-        $this->ctrl->redirectByClass("iltestevaluationgui", "outEvaluation");
-    }
-
-    /**
-    * form for new test object import
-    */
     protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
@@ -1858,7 +1805,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($has_started_test_runs) {
             $link = $this->ui_factory->link()->standard(
                 $this->lng->txt('test_has_datasets_warning_page_view_link'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
+                $this->ctrl->getLinkTargetByClass(['ilDashboardGUI'])
             );
 
             $message = $this->lng->txt('test_has_datasets_warning_page_view');

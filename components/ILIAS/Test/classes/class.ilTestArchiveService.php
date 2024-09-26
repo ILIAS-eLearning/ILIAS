@@ -18,14 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\RequestDataCollector;
-
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
@@ -40,22 +36,15 @@ class ilTestArchiveService
 
     public function __construct(
         private readonly ilObjTest $test_obj,
-        private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        private readonly RequestDataCollector $testrequest,
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
-        private readonly ilCtrlInterface $ctrl,
         private readonly ilObjUser $user,
-        private readonly ilTabsGUI $tabs,
-        private readonly ilToolbarGUI $toolbar,
-        private readonly ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly GlobalHttpState $http,
-        private readonly Refinery $refinery,
-        private readonly ilAccess $access,
         private readonly IRSS $irss,
+        private readonly ServerRequestInterface $request,
         private readonly ilObjectDataCache $obj_cache,
+        private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly ilTestHTMLGenerator $html_generator
     ) {
         $this->participantData = null;
@@ -88,19 +77,13 @@ class ilTestArchiveService
         $archiver = new ilTestArchiver(
             $this->lng,
             $this->db,
-            $this->ctrl,
             $this->user,
-            $this->tabs,
-            $this->toolbar,
-            $this->tpl,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->http,
-            $this->refinery,
-            $this->access,
             $this->irss,
-            $this->questionrepository,
-            $this->testrequest,
+            $this->request,
+            $this->obj_cache,
+            $this->participant_access_filter_factory,
             $this->test_obj->getId()
         );
         $archiver->setParticipantData($this->getParticipantData());
@@ -123,7 +106,7 @@ class ilTestArchiveService
         );
 
         $gui = new ilTestServiceGUI($this->test_obj);
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
+        $testResultHeaderLabelBuilder = new ResultsTitlesBuilder($this->lng, $this->obj_cache);
 
         return $gui->getPassListOfAnswers(
             $results,

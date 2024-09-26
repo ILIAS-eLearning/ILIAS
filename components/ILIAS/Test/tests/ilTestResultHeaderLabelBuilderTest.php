@@ -16,19 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
+
 /**
- * Class ilTestResultHeaderLabelBuilderTest
  * @author Marvin Beym <mbeym@databay.de>
  */
 class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 {
-    private ilTestResultHeaderLabelBuilder $testObj;
+    private ResultsTitlesBuilder $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestResultHeaderLabelBuilder(
+        $this->testObj = new ResultsTitlesBuilder(
             $this->createMock(ilLanguage::class),
             $this->createMock(ilObjectDataCache::class)
         );
@@ -36,7 +39,7 @@ class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestResultHeaderLabelBuilder::class, $this->testObj);
+        $this->assertInstanceOf(ResultsTitlesBuilder::class, $this->testObj);
     }
 
     public function testObjectiveOrientedContainerId(): void

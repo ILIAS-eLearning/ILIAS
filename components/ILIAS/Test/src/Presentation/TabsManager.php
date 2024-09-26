@@ -48,7 +48,6 @@ class TabsManager
     public const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
     public const TAB_ID_MANUAL_SCORING = 'manscoring';
     public const TAB_ID_CORRECTION = 'scoringadjust';
-    public const TAB_ID_STATISTICS = 'statistics';
     public const TAB_ID_HISTORY = 'history';
     public const TAB_ID_META_DATA = 'meta_data';
     public const TAB_ID_EXPORT = 'export';
@@ -179,11 +178,6 @@ class TabsManager
         return $this->access->checkAccess('write', '', $this->test_object->getRefId());
     }
 
-    protected function isStatisticsAccessGranted(): bool
-    {
-        return $this->access->checkAccess('tst_statistics', '', $this->test_object->getRefId());
-    }
-
     protected function isHistoryAccessGranted(): bool
     {
         return $this->access->checkAccess('tst_history_read', '', $this->test_object->getRefId());
@@ -213,11 +207,6 @@ class TabsManager
         return $this->test_access->checkScoreParticipantsAccess();
     }
 
-    protected function checkStatisticsTabAccess(): bool
-    {
-        return $this->test_access->checkStatisticsAccess();
-    }
-
     public function perform(): void
     {
         if ($this->isTabsConfigSetupRequired()) {
@@ -241,7 +230,7 @@ class TabsManager
 
         if ($this->ctrl->getCmdClass() == 'iltestevaluationgui') {
             return in_array($this->ctrl->getCmd(), [
-                '', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
+                '', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'singleResults'
             ]);
         }
 
@@ -330,18 +319,6 @@ class TabsManager
                 break;
             case 'export':
             case 'print':
-                break;
-            case 'statistics':
-            case 'eval_a':
-            case 'detailedEvaluation':
-            case 'outEvaluation':
-            case 'singleResults':
-            case 'exportEvaluation':
-            case 'evalUserDetail':
-            case 'outStatisticsResultsOverview':
-            case 'statisticsPassDetails':
-            case 'exportCertificateArchive':
-                $this->getStatisticsSubTabs();
                 break;
         }
 
@@ -492,29 +469,6 @@ class TabsManager
             }
         }
 
-        if ($this->checkStatisticsTabAccess()) {
-            // statistics tab
-            $this->tabs->addTarget(
-                self::TAB_ID_STATISTICS,
-                $this->ctrl->getLinkTargetByClass(
-                    [\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilTestEvaluationGUI::class],
-                    'outEvaluation'
-                ),
-                [
-                    'statistics',
-                    'outEvaluation',
-                    'exportEvaluation',
-                    'detailedEvaluation',
-                    'eval_a',
-                    'evalUserDetail',
-                    'outStatisticsResultsOverview',
-                    'statisticsPassDetails',
-                    'singleResults'
-                ],
-                ''
-            );
-        }
-
         if ($this->isHistoryAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_HISTORY,
@@ -639,26 +593,6 @@ class TabsManager
                 )
             );
         }
-    }
-
-    protected function getStatisticsSubTabs(): void
-    {
-        $this->tabs->addSubTabTarget(
-            'eval_all_users',
-            $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outEvaluation'),
-            ['outEvaluation', 'detailedEvaluation', 'exportEvaluation', 'evalUserDetail', 'passDetails',
-                'outStatisticsResultsOverview', 'statisticsPassDetails', 'exportCertificateArchive'],
-            ''
-        );
-
-        // aggregated results subtab
-        $this->tabs->addSubTabTarget(
-            'tst_results_aggregated',
-            $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'eval_a'),
-            ['eval_a'],
-            '',
-            ''
-        );
     }
 
     public function getSettingsSubTabs(): void

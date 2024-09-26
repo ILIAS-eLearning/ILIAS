@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Access\test;
+namespace ILIAS\Test\Tests\Results\Data;
 
+use ILIAS\Test\Results\Presentation\QuestionResult;
 use PHPUnit\Framework\TestCase;
 
-class TestResultsQuestionResultsTest extends TestCase
+class QuestionResultTest extends TestCase
 {
-    public function testTestResultsQuestionResultsBasicProps(): void
+    public function testTestQuestionResultBasicProperties(): void
     {
-        $qr = new \ilQuestionResult(
+        $qr = new QuestionResult(
             $id = 66,
             $type = 'some type',
             $title = 'a question title',
@@ -47,7 +48,7 @@ class TestResultsQuestionResultsTest extends TestCase
         $this->assertEquals($question_score, $qr->getQuestionScore());
         $this->assertEquals($usr_score, $qr->getUserScore());
         $this->assertEquals(50, $qr->getUserScorePercent());
-        $this->assertEquals(\ilQuestionResult::CORRECT_PARTIAL, $qr->getCorrect());
+        $this->assertEquals(QuestionResult::CORRECT_PARTIAL, $qr->getCorrect());
         $this->assertEquals($feedback, $qr->getFeedback());
         $this->assertTrue($qr->isWorkedThrough());
         $this->assertTrue($qr->isAnswered());

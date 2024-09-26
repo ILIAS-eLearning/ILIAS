@@ -6764,22 +6764,6 @@ class ilObjTest extends ilObject
         $mail->sendSimpleNotification($owner_id, $this->getTitle(), $usr_data);
     }
 
-    /**
-     * Gets additional user fields that should be shown in the user evaluation
-     *
-     * @return array An array containing the database fields that should be shown in the evaluation
-     */
-    public function getEvaluationAdditionalFields(): array
-    {
-        $table_gui = new ilEvaluationAllTableGUI(
-            new ilObjTestGUI($this->getRefId()),
-            'outEvaluation',
-            $this->settings,
-            $this->getAnonymity()
-        );
-        return $table_gui->getSelectedColumns();
-    }
-
     public function sendAdvancedNotification(int $active_id): void
     {
         $mail = new ilTestMailNotification();

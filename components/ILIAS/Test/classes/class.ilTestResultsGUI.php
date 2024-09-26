@@ -37,7 +37,6 @@ use ILIAS\Skill\Service\SkillService;
  *
  * @package components\ILIAS/Test
  *
- * @ilCtrl_Calls ilTestResultsGUI: ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
@@ -83,36 +82,6 @@ class ilTestResultsGUI
         $this->test_tabs->getYourResultsSubTabs();
 
         switch ($this->ctrl->getNextClass()) {
-            case 'ilparticipantstestresultsgui':
-                if (!$this->test_access->checkParticipantsResultsAccess()) {
-                    ilObjTestGUI::accessViolationRedirect();
-                }
-
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
-
-                $gui = new ilParticipantsTestResultsGUI(
-                    $this->ctrl,
-                    $this->lng,
-                    $this->db,
-                    $this->user,
-                    $this->tabs,
-                    $this->toolbar,
-                    $this->main_tpl,
-                    $this->ui_factory,
-                    $this->ui_renderer,
-                    new ilTestParticipantAccessFilterFactory($this->access),
-                    $this->questionrepository,
-                    $this->testrequest,
-                    $this->http,
-                    $this->refinery
-                );
-                $gui->setTestObj($this->test_object);
-                $gui->setQuestionSetConfig($this->question_set_config);
-                $gui->setTestAccess($this->test_access);
-                $gui->setObjectiveParent($this->objective_parent);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'ilmytestresultsgui':
                 if (!$this->test_tabs->needsYourResultsTab()) {
                     ilObjTestGUI::accessViolationRedirect();

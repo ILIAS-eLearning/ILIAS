@@ -127,31 +127,6 @@ class ilObjTestListGUI extends ilObjectListGUI
         if ($this->access->checkAccess('read', '', $this->ref_id)) {
             $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
         }
-        return $this->handleUserResultsCommand($commands);
-    }
-
-    private function handleUserResultsCommand($commands)
-    {
-        if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
-            return $this->removeUserResultsCommand($commands);
-        }
-
-        if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $this->user->getId())) {
-            return $this->removeUserResultsCommand($commands);
-        }
-
-        return $commands;
-    }
-
-    private function removeUserResultsCommand($commands)
-    {
-        foreach ($commands as $key => $command) {
-            if ($command['cmd'] == 'userResultsGateway') {
-                unset($commands[$key]);
-                break;
-            }
-        }
-
         return $commands;
     }
 
