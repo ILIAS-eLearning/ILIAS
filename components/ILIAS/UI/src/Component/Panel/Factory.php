@@ -109,9 +109,7 @@ interface Factory
      *         Report Panels SHOULD be used when user generated content of two sources (i.e results, guidelines in a template)
      *         is to be displayed alongside each other.
      *   composition:
-     *      1: Report Panels MAY contain a Mode View Control to change the current presentation of the content.
-     *      2: Report Panels MAY contain a Pagination View Control to display data in chunks.
-     *      3: Report Panels MAY contain a Sortation View Control to perform ordering actions to the presented data.
+     *      1: Report Panels MAY contain one or more View Controls.
      *   interaction:
      *      1: Links MAY open new views.
      *      2: Buttons MAY trigger actions or inline editing.
