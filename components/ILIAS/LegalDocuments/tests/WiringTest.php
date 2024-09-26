@@ -72,7 +72,6 @@ class WiringTest extends TestCase
 
         $this->assertSame([
             'withdraw',
-            'logout',
             'intercept',
             'logout-text',
             'show-on-login-page',
@@ -81,7 +80,6 @@ class WiringTest extends TestCase
         $this->assertTrue(array_is_list($map['intercept']));
         $this->assertTrue(array_is_list($map['show-on-login-page']));
         $this->assertFalse(array_is_list($map['withdraw']));
-        $this->assertFalse(array_is_list($map['logout']));
         $this->assertFalse(array_is_list($map['logout-text']));
     }
 

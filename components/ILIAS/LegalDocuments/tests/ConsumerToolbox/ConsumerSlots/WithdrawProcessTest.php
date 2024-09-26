@@ -99,7 +99,9 @@ class WithdrawProcessTest extends TestCase
             $this->fail(...)
         );
 
-        $instance->withdrawalRequested();
+        $reflection = new \ReflectionClass($instance);
+        $method = $reflection->getMethod('withdrawalRequested');
+        $method->invoke($instance);
     }
 
     public function testWithdrawalRequestedWithInvalidUser(): void
@@ -114,7 +116,9 @@ class WithdrawProcessTest extends TestCase
             $this->fail(...)
         );
 
-        $instance->withdrawalRequested();
+        $reflection = new \ReflectionClass($instance);
+        $method = $reflection->getMethod('withdrawalRequested');
+        $method->invoke($instance);
         $this->assertTrue(true);
     }
 

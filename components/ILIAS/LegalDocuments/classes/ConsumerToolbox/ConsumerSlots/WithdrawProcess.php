@@ -32,7 +32,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use Closure;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
-use ilStartUpGUI;
 use ILIAS\Refinery\Transformation;
 
 final class WithdrawProcess implements WithdrawProcessInterface
@@ -54,7 +53,10 @@ final class WithdrawProcess implements WithdrawProcessInterface
 
     public function showValidatePasswordMessage(): array
     {
-        $status = $this->query('withdrawal_relogin_content');
+        $status = $this->withdrawalRequested();
+        if ($status === null) {
+            return [];
+        }
         $lng = 'withdraw_consent_description_' . ($status === 'external' ? 'external' : 'internal');
 
         return [
@@ -68,17 +70,17 @@ final class WithdrawProcess implements WithdrawProcessInterface
         return $this->user->withdrawalRequested()->value();
     }
 
-    public function withdrawalRequested(): void
+    private function withdrawalRequested(): ?string
     {
         if ($this->user->cannotAgree() || $this->user->neverAgreed()) {
-            return;
+            return null;
         }
 
         $this->user->withdrawalRequested()->update(true);
 
         $external = $this->user->isExternalAccount();
 
-        $this->routing->ctrl()->setParameterByClass(ilStartUpGUI::class, 'withdrawal_relogin_content', $external ? 'external' : 'internal');
+        return $external ? 'external' : 'internal';
     }
 
     public function withdrawalFinished(): void

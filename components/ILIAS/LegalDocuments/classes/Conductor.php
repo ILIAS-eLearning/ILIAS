@@ -39,6 +39,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
+use ILIAS\components\Authentication\Logout\LogoutTarget;
 
 class Conductor
 {
@@ -61,21 +62,6 @@ class Conductor
         return new Provide($id, $this->internal, $this->container);
     }
 
-    public function onLogout(string $gui): void
-    {
-        try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-        } catch (Exception) {
-            return;
-        }
-
-        $logout = $this->internal->get('logout', $id);
-        if (null !== $logout) {
-            $this->container->ctrl()->setParameterByClass($gui, 'withdraw_from', $id);
-            $logout();
-        }
-    }
-
     public function loginPageHTML(string $id): string
     {
         $create = $this->internal->get('show-on-login-page', $id);
@@ -88,7 +74,10 @@ class Conductor
     public function logoutText(): string
     {
         try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_from', $this->container->refinery()->to()->string());
+            $id = $this->container->http()->wrapper()->query()->retrieve(
+                'withdraw_consent',
+                $this->container->refinery()->to()->string()
+            );
         } catch (Exception) {
             return '';
         }
@@ -96,6 +85,15 @@ class Conductor
         $logout_text = $this->internal->get('logout-text', $id);
 
         return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
+    }
+
+    public function logoutTarget(LogoutTarget $target): LogoutTarget
+    {
+        return new WithdrawalAcknowledgementLogoutTarget(
+            $target,
+            $this->container->http()->wrapper()->query()->has('withdraw_consent'),
+            $this->container->ctrl()
+        );
     }
 
     public function modifyFooter(Footer $footer): Footer

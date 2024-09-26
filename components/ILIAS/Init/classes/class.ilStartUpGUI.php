@@ -24,6 +24,9 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\TermsOfService\Consumer as TermsOfService;
 use ILIAS\DataProtection\Consumer as DataProtection;
+use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
+use ILIAS\LegalDocuments;
+use ILIAS\LegalDocuments\Conductor;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -1312,10 +1315,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tpl->setVariable('LPE', $this->getLogoutPageEditorHTML());
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('logout'));
-        $tpl->setVariable(
-            'TXT_LOGOUT_TEXT',
-            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText()
-        );
         $tpl->setVariable('TXT_LOGIN', $this->lng->txt('login_to_ilias'));
         $tpl->setVariable(
             'CLIENT_ID',
@@ -1327,6 +1326,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function doLogout(): void
     {
+        /** @var Conductor $legal_documents */
+        $legal_documents = $this->dic['legalDocuments'];
+
         $this->eventHandler->raise(
             'components/ILIAS/Authentication',
             'beforeLogout',
@@ -1350,19 +1352,35 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'used_external_auth_mode' => $used_external_auth_mode,
             ]
         );
+
+        $target = new ConfigurableLogoutTarget(
+            $this->ctrl,
+            new ilSetting('auth'),
+            $this->access,
+            ilUtil::_getHttpPath()
+        );
+        $target = $legal_documents->logoutTarget($target);
+        $url = $target->asURI();
+
+        $this->mainTemplate->setOnScreenMessage(
+            $this->mainTemplate::MESSAGE_TYPE_INFO,
+            $this->lng->txt('logout_text') . $legal_documents->logoutText(),
+            true
+        );
+
         if ($used_external_auth_mode && (int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_SAML) {
             $this->logger->info('Redirecting user to SAML logout script');
             $this->ctrl->redirectToURL(
-                'saml.php?action=logout&logout_url=' . urlencode(ilUtil::_getHttpPath() . '/login.php')
+                'saml.php?action=logout&logout_url=' . urlencode((string) $url)
             );
         }
 
         $client_id = CLIENT_ID;
         ilUtil::setCookie('ilClientId', '');
 
-        $this->ctrl->setParameter($this, 'client_id', $client_id);
         $this->ctrl->setParameter($this, 'lang', $user_language);
-        $this->ctrl->redirect($this, 'showLogout');
+        $this->ctrl->setParameter($this, 'client_id', $client_id);
+        $this->ctrl->redirectToURL((string) $url);
     }
 
     protected function showLegalDocuments(): void
