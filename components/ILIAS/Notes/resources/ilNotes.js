@@ -67,7 +67,7 @@ const ilNotes = {
     e.stopPropagation(); // #11546 - list properties not working
 
     // hide overlays
-    il.Overlay.hideAllOverlays(e, true);
+    // il.Overlay.hideAllOverlays(e, true);
 
     this.hash = hash;
     this.update_code = update_code;
@@ -96,8 +96,6 @@ const ilNotes = {
     $('#il_notes_modal').remove();
     let modal_template = this.getModalTemplate();
     modal_template = modal_template.replace('#notes_title#', head_str);
-    // modal_template = modal_template.replace('#content#', content);
-    // modal_template = modal_template.replace('#button_title#', button_txt);
 
     $('body').append(`<div id='il_notes_modal'>${modal_template}</div>`);
     document.querySelectorAll('#il_notes_modal .modal-footer').forEach((el) => {
