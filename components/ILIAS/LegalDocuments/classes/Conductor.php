@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration\Bundle;
@@ -90,7 +89,7 @@ class Conductor
 
     public function logoutTarget(LogoutTarget $target): LogoutTarget
     {
-        return new ForcedLogoutTarget(
+        return new WithdrawalAcknowledgementLogoutTarget(
             $target,
             $this->container->http()->wrapper()->query()->has('withdraw_consent'),
             $this->container->ctrl()

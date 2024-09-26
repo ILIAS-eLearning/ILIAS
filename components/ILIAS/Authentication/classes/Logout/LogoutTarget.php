@@ -20,14 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\Authentication\Logout;
 
-use ilLink;
-use ilAccess;
-use ilObject;
-use ilSetting;
-use ilStartUpGUI;
 use ILIAS\Data\URI;
-use ilCtrlInterface;
-use InvalidArgumentException;
 
 interface LogoutTarget
 {

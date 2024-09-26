@@ -102,7 +102,6 @@ class WithdrawProcessTest extends TestCase
 
         $reflection = new \ReflectionClass($instance);
         $method = $reflection->getMethod('withdrawalRequested');
-        $method->setAccessible(true);
         $method->invoke($instance);
     }
 
@@ -120,7 +119,6 @@ class WithdrawProcessTest extends TestCase
 
         $reflection = new \ReflectionClass($instance);
         $method = $reflection->getMethod('withdrawalRequested');
-        $method->setAccessible(true);
         $method->invoke($instance);
         $this->assertTrue(true);
     }

@@ -26,13 +26,13 @@ use ilCtrlInterface;
 use ILIAS\Authentication\Logout\LogoutDestinations;
 use ILIAS\components\Authentication\Logout\LogoutTarget;
 
-class ForcedLogoutTarget implements LogoutTarget
+readonly class WithdrawalAcknowledgementLogoutTarget implements LogoutTarget
 {
     public function __construct(
-        private readonly LogoutTarget $origin,
-        private readonly bool $user_withdrew_legal_docs,
-        private readonly ilCtrlInterface $ctrl,
-        private readonly string $http_path = ILIAS_HTTP_PATH
+        private LogoutTarget $origin,
+        private bool $user_withdrew_legal_docs,
+        private ilCtrlInterface $ctrl,
+        private string $http_path = ILIAS_HTTP_PATH
     ) {
     }
 
