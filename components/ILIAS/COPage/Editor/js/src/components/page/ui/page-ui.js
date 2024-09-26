@@ -1044,7 +1044,7 @@ export default class PageUI {
   }
 
   hideDeleteConfirmation() {
-    this.util.hideCurrentModal();
+    this.util.hideModal(this.uiModel.modal);
   }
 
   //
