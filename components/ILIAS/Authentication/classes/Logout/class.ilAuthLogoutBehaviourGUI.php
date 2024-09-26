@@ -220,9 +220,10 @@ class ilAuthLogoutBehaviourGUI
             $mode = $data['logout_behaviour']['logout_behaviour_settings'][0];
 
             switch ($mode) {
-                case LogoutDestinations::LOGIN_SCREEN:
-                case LogoutDestinations::LOGOUT_SCREEN:
+                case LogoutDestinations::LOGIN_SCREEN->value:
+                case LogoutDestinations::LOGOUT_SCREEN->value:
                     break;
+
                 case ConfigurableLogoutTarget::INTERNAL_RESSOURCE:
                     $this->settings->set(
                         'logout_behaviour_ref_id',
@@ -230,6 +231,7 @@ class ilAuthLogoutBehaviourGUI
                     );
                     break;
                 case ConfigurableLogoutTarget::EXTERNAL_RESSOURCE:
+
                     $url = $data['logout_behaviour']['logout_behaviour_settings'][1]['url'] ?? '';
                     $this->settings->set('logout_behaviour_url', (string) $url);
                     break;

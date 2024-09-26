@@ -21,15 +21,16 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ilCtrlInterface;
-use ILIAS\components\Authentication\Logout\LogoutTarget;
 use ILIAS\Data\URI;
-use ilStartUpGUI;
+use ilCtrlInterface;
 use ILIAS\Authentication\Logout\LogoutDestinations;
+use ILIAS\components\Authentication\Logout\LogoutTarget;
 
 class ForcedLogoutTarget implements LogoutTarget
 {
     public function __construct(
+        private readonly LogoutTarget $origin,
+        private readonly bool $user_withdrew_legal_docs,
         private readonly ilCtrlInterface $ctrl,
         private readonly string $http_path = ILIAS_HTTP_PATH
     ) {
@@ -37,6 +38,10 @@ class ForcedLogoutTarget implements LogoutTarget
 
     public function asURI(): URI
     {
-        return LogoutDestinations::LOGIN_SCREEN->asURI($this->ctrl, $this->http_path);
+        if ($this->user_withdrew_legal_docs) {
+            return LogoutDestinations::LOGIN_SCREEN->asURI($this->ctrl, $this->http_path);
+        }
+
+        return $this->origin->asURI();
     }
 }

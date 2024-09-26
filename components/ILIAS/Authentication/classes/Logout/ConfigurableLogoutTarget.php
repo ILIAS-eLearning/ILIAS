@@ -47,6 +47,7 @@ class ConfigurableLogoutTarget implements LogoutTarget
         switch ($this->settings->get('logout_behaviour', '')) {
             case LogoutDestinations::LOGIN_SCREEN->value:
                 return LogoutDestinations::LOGIN_SCREEN->asURI($this->ctrl, $this->http_path);
+
             case self::INTERNAL_RESSOURCE:
                 $ref_id = (int) $this->settings->get('logout_behaviour_ref_id', '0');
                 if ($this->isValidInternalResource($ref_id)) {
@@ -54,13 +55,14 @@ class ConfigurableLogoutTarget implements LogoutTarget
                 }
 
                 break;
+
             case self::EXTERNAL_RESSOURCE:
                 $url = $this->settings->get('logout_behaviour_url', '');
                 if ($url && $this->isValidExternalResource($url)) {
                     return new URI($url);
                 }
-
                 break;
+
             case LogoutDestinations::LOGOUT_SCREEN->value:
             default:
                 break;
