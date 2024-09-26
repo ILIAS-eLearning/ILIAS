@@ -19,56 +19,15 @@
 declare(strict_types=1);
 
 use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
-use ILIAS\Setup\Config;
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
-use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
-use ILIAS\Test\Setup\ilSeparateQuestionListSettingMigration;
 
-class ilTestSetupAgent extends NullAgent
+class ilWorkflowEngineSetupAgent extends NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
-
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
-    {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilTest9DBUpdateSteps());
-    }
-
-    public function getStatusObjective(Metrics\Storage $storage): Objective
-    {
-        return new Setup\ObjectiveCollection(
-            "Metrics from the Test & Assessment",
-            false,
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps()),
-            new ilTestDatabaseInconsistencyMetricsCollectedObjective($storage)
-        );
-    }
-
-    public function hasConfig(): bool
-    {
-        return false;
-    }
 
     public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException("Agent has no config.");
-    }
-
-    public function getInstallObjective(Config $config = null): Objective
-    {
-        return new Setup\Objective\NullObjective();
-    }
-
-    public function getBuildObjective(): Objective
-    {
-        return new Setup\Objective\NullObjective();
-    }
-
-    public function getMigrations(): array
-    {
-        return [];
     }
 }
