@@ -784,26 +784,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         global $tpl;
 
-        // @todo move this to auth utils.
-        // login via ILIAS (this also includes ldap)
-        // If local authentication is enabled for shibboleth users, we
-        // display the login form for ILIAS here.
-        if (($this->setting->get("auth_mode") != ilAuthUtils::AUTH_SHIBBOLETH ||
-                $this->setting->get("shib_auth_allow_local")) &&
-            $this->setting->get("auth_mode") != ilAuthUtils::AUTH_CAS) {
-            if (!$form instanceof ilPropertyFormGUI) {
-                $form = $this->initStandardLoginForm();
-            }
-
-            return $this->substituteLoginPageElements(
-                $tpl,
-                $page_editor_html,
-                $form->getHTML(),
-                '[list-login-form]',
-                'LOGIN_FORM'
-            );
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initStandardLoginForm();
         }
-        return $page_editor_html;
+
+        return $this->substituteLoginPageElements(
+            $tpl,
+            $page_editor_html,
+            $form->getHTML(),
+            '[list-login-form]',
+            'LOGIN_FORM'
+        );
     }
 
     /**
