@@ -61,9 +61,7 @@ class ilExportImportDirectory extends ilImportDirectory
                                     ->sortByName();
             foreach ($finder as $file) {
                 $basename = basename($file->getPath());
-                if ($this->matchesType($type, $basename)) {
-                    $files[base64_encode($file->getPath())] = $basename;
-                }
+                $files[base64_encode($file->getPath())] = $basename;
             }
         }
         asort($files);
