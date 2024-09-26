@@ -90,19 +90,7 @@ class Conductor
 
     public function logoutTarget(LogoutTarget $target): LogoutTarget
     {
-        $user_withdrew_legal_docs = false;
-        try {
-            $id = $this->container->http()->wrapper()->query()->retrieve(
-                'withdraw_consent',
-                $this->container->refinery()->to()->string()
-            );
-            if ($id !== '') {
-                $user_withdrew_legal_docs = true;
-            }
-        } catch (Exception) {
-        }
-
-        return new ForcedLogoutTarget($target, $user_withdrew_legal_docs, $this->container->ctrl());
+        return new ForcedLogoutTarget($target, $this->container->http()->wrapper()->query()->has('withdraw_consent'), $this->container->ctrl());
     }
 
     public function modifyFooter(Footer $footer): Footer
