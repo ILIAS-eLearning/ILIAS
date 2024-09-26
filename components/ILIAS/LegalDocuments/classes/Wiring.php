@@ -69,7 +69,6 @@ class Wiring implements UseSlot
         $withdraw = $this->protect($withdraw_process->showWithdraw(...), $withdraw_process->isOnGoing(...));
 
         return $this->addTo('withdraw', $this->slot->id(), $withdraw)
-                    ->addTo('logout', $this->slot->id(), $withdraw_process->withdrawalRequested(...))
                     ->addTo('intercept', new ConditionalIntercept($withdraw_process->isOnGoing(...), $this->slot->id(), new Target($this->path(ilLegalDocumentsWithdrawalGUI::class))))
                     ->addTo('logout-text', $this->slot->id(), $withdraw_process->showValidatePasswordMessage(...))
                     ->addTo('show-on-login-page', $this->slot->withdrawalFinished($withdraw_process->withdrawalFinished(...)));

@@ -25,6 +25,8 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\TermsOfService\Consumer as TermsOfService;
 use ILIAS\DataProtection\Consumer as DataProtection;
 use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
+use ILIAS\LegalDocuments;
+use ILIAS\LegalDocuments\Conductor;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -1319,6 +1321,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     private function doLogout(): void
     {
+        /** @var Conductor $legal_documents */
+        $legal_documents = $this->dic['legalDocuments'];
+
         $this->eventHandler->raise(
             'components/ILIAS/Authentication',
             'beforeLogout',
@@ -1349,11 +1354,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->access,
             ilUtil::_getHttpPath()
         );
+        $target = $legal_documents->logoutTarget($target);
         $url = $target->asURI();
 
         $this->mainTemplate->setOnScreenMessage(
             $this->mainTemplate::MESSAGE_TYPE_INFO,
-            $this->lng->txt('logout_text') . $this->dic['legalDocuments']->logoutText(),
+            $this->lng->txt('logout_text') . $legal_documents->logoutText(),
             true
         );
 

@@ -40,6 +40,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
+use ILIAS\components\Authentication\Logout\LogoutTarget;
 
 class Conductor
 {
@@ -74,19 +75,35 @@ class Conductor
     public function logoutText(): string
     {
         try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-
-            $logout = $this->internal->get('logout', $id);
-            if (null !== $logout) {
-                $this->container->ctrl()->setParameterByClass(ilStartUpGUI::class, 'withdraw_from', $id);
-                $logout();
-
-                $logout_text = $this->internal->get('logout-text', $id);
-                return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
-            }
+            $id = $this->container->http()->wrapper()->query()->retrieve(
+                'withdraw_consent',
+                $this->container->refinery()->to()->string()
+            );
         } catch (Exception) {
+            return '';
         }
-        return '';
+
+        $logout_text = $this->internal->get('logout-text', $id);
+
+        return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
+    }
+
+    public function logoutTarget(LogoutTarget $target): LogoutTarget
+    {
+        try {
+            $id = $this->container->http()->wrapper()->query()->retrieve(
+                'withdraw_consent',
+                $this->container->refinery()->to()->string()
+            );
+        } catch (Exception) {
+            $id = null;
+        }
+
+        if ($id !== null) {
+            return new ForcedLogoutTarget($this->container->ctrl());
+        }
+
+        return $target;
     }
 
     public function modifyFooter(Footer $footer): Footer

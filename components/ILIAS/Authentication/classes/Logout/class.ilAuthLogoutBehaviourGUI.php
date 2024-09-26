@@ -23,6 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Authentication\Logout\LogoutDestinations;
 use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
@@ -142,17 +143,17 @@ class ilAuthLogoutBehaviourGUI
         $logout_behaviour_switchable_group = $this->ui_factory->input()->field()
             ->switchableGroup(
                 [
-                    'logout_screen' => $logout_group,
-                    'login_screen' => $login_group,
-                    'internal_ressource' => $internal_group,
-                    'external_ressource' => $external_group
+                    LogoutDestinations::LOGOUT_SCREEN->value => $logout_group,
+                    LogoutDestinations::LOGIN_SCREEN->value => $login_group,
+                    ConfigurableLogoutTarget::INTERNAL_RESSOURCE => $internal_group,
+                    ConfigurableLogoutTarget::EXTERNAL_RESSOURCE => $external_group
                 ],
                 $this->lng->txt('destination_after_logout')
             )
             ->withValue(
                 $this->settings->get(
                     'logout_behaviour',
-                    'logout_screen'
+                    LogoutDestinations::LOGOUT_SCREEN->value
                 )
             );
 
@@ -176,7 +177,7 @@ class ilAuthLogoutBehaviourGUI
 
     public function showForm(): void
     {
-        $mode = $this->settings->get('logout_behaviour', 'logout_screen');
+        $mode = $this->settings->get('logout_behaviour', LogoutDestinations::LOGOUT_SCREEN->value);
         $ref_id = (int) $this->settings->get('logout_behaviour_ref_id', '');
         $content = '';
         if ($mode === ConfigurableLogoutTarget::INTERNAL_RESSOURCE &&
@@ -219,8 +220,8 @@ class ilAuthLogoutBehaviourGUI
             $mode = $data['logout_behaviour']['logout_behaviour_settings'][0];
 
             switch ($mode) {
-                case ConfigurableLogoutTarget::LOGOUT_SCREEN:
-                case ConfigurableLogoutTarget::LOGIN_SCREEN:
+                case LogoutDestinations::LOGIN_SCREEN:
+                case LogoutDestinations::LOGOUT_SCREEN:
                     break;
                 case ConfigurableLogoutTarget::INTERNAL_RESSOURCE:
                     $this->settings->set(

@@ -97,25 +97,16 @@ class ConductorTest extends TestCase
     {
         $constraint = $this->mock(Constraint::class);
         $component = $this->mock(Component::class);
-        $ctrl = $this->mock(ilCtrl::class);
-        $ctrl->expects(self::once())->method('setParameterByClass')->with(ilStartUpGUI::class, 'withdraw_from', 'foo');
 
         $container = $this->mockTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
             'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
-            'ctrl' => $ctrl,
             'ui' => ['renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered')],
         ]);
 
-        $called = false;
 
         $internal = $this->mock(Internal::class);
         $internal->method('get')->willReturnCallback(function ($param1, $param2) use (&$called, $component) {
-            if ($param1 === 'logout' && $param2 === 'foo') {
-                return static function () use (&$called) {
-                    $called = true;
-                };
-            }
             if ($param1 === 'logout-text' && $param2 === 'foo') {
                 return static function () use ($component): Component {
                     return $component;
@@ -128,7 +119,6 @@ class ConductorTest extends TestCase
         $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
         $logoutText = $instance->logoutText();
-        $this->assertTrue($called);
 
         $this->assertSame('rendered', $logoutText);
     }

@@ -24,15 +24,13 @@ use ilLink;
 use ilAccess;
 use ilObject;
 use ilSetting;
-use ilStartUpGUI;
 use ILIAS\Data\URI;
 use ilCtrlInterface;
 use InvalidArgumentException;
+use ILIAS\Authentication\Logout\LogoutDestinations;
 
-class ConfigurableLogoutTarget
+class ConfigurableLogoutTarget implements LogoutTarget
 {
-    public const LOGIN_SCREEN = 'login_screen';
-    public const LOGOUT_SCREEN = 'logout_screen';
     public const INTERNAL_RESSOURCE = 'internal_ressource';
     public const EXTERNAL_RESSOURCE = 'external_ressource';
 
@@ -47,33 +45,28 @@ class ConfigurableLogoutTarget
     public function asURI(): URI
     {
         switch ($this->settings->get('logout_behaviour', '')) {
-            case self::LOGIN_SCREEN:
-                return new URI(
-                    $this->http_path .
-                    '/' . $this->ctrl->getLinkTargetByClass(ilStartUpGUI::class, 'showLoginPage')
-                );
-
+            case LogoutDestinations::LOGIN_SCREEN->value:
+                return LogoutDestinations::LOGIN_SCREEN->asURI($this->ctrl, $this->http_path);
             case self::INTERNAL_RESSOURCE:
                 $ref_id = (int) $this->settings->get('logout_behaviour_ref_id', '0');
                 if ($this->isValidInternalResource($ref_id)) {
                     return new URI(ilLink::_getStaticLink($ref_id));
                 }
+
                 break;
             case self::EXTERNAL_RESSOURCE:
                 $url = $this->settings->get('logout_behaviour_url', '');
                 if ($url && $this->isValidExternalResource($url)) {
                     return new URI($url);
                 }
+
                 break;
-            case self::LOGOUT_SCREEN:
+            case LogoutDestinations::LOGOUT_SCREEN->value:
             default:
                 break;
         }
 
-        return new URI(
-            $this->http_path .
-            '/' . $this->ctrl->getLinkTargetByClass(ilStartUpGUI::class, 'showLogout')
-        );
+        return LogoutDestinations::LOGOUT_SCREEN->asURI($this->ctrl, $this->http_path);
     }
 
     public function isValidInternalResource(int $ref_id): bool

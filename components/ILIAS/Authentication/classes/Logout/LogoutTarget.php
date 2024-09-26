@@ -18,20 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\LegalDocuments\ConsumerSlots;
+namespace ILIAS\components\Authentication\Logout;
 
-use ILIAS\UI\Component\Component;
-use ilObjUser;
-use ILIAS\LegalDocuments\PageFragment;
+use ilLink;
+use ilAccess;
+use ilObject;
+use ilSetting;
+use ilStartUpGUI;
+use ILIAS\Data\URI;
+use ilCtrlInterface;
+use InvalidArgumentException;
 
-interface WithdrawProcess
+interface LogoutTarget
 {
-    public function showWithdraw(string $gui, string $cmd): PageFragment;
-
-    /**
-     * @return list<Component>
-     */
-    public function showValidatePasswordMessage(): array;
-    public function isOnGoing(): bool;
-    public function withdrawalFinished(): void;
+    public function asURI(): URI;
 }
