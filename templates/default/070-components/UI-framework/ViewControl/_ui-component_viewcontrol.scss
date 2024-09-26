@@ -1,5 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../070-components/UI-framework/Button/ui-component_button" as *;
 
 
@@ -37,6 +38,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 // buttons inside the container
 .il-viewcontrol-section,
 .il-viewcontrol-section .btn-group,
+.il-viewcontrol-section .dropdown,
 .il-viewcontrol-pagination__sectioncontrol,
 .il-viewcontrol-pagination__num-of-items,
 .il-viewcontrol-pagination,
@@ -51,6 +53,22 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		min-height: $il-btn-ctrl-inner-btn-height;
 		min-width: $il-btn-ctrl-inner-btn-height;
 		border-radius: $il-border-radius-secondary-large;
+	}
+}
+
+.il-viewcontrol-section .dropdown > .btn-default {
+	border: 1px solid $il-btn-ctrl-engaged-border;
+	background-color: $il-main-bg;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 400px;
+	@media screen and (max-width: $screen-md-max) {
+		max-width: 200px;
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		max-width: 100px;
 	}
 }
 

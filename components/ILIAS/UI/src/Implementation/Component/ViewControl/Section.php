@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Month;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Dropdown;
 
 class Section implements C\ViewControl\Section
 {
@@ -36,7 +37,7 @@ class Section implements C\ViewControl\Section
 
     public function __construct(Button $previous_action, Component $button, Button $next_action)
     {
-        if (!$button instanceof Month) {
+        if (!($button instanceof Month) && !($button instanceof Dropdown\Standard)) {
             $this->checkArgInstanceOf("button", $button, Button::class);
         }
         $this->previous_action = $previous_action;
