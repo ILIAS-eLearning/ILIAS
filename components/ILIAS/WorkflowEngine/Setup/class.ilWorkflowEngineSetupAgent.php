@@ -25,19 +25,26 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
+use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
+use ILIAS\Test\Setup\ilSeparateQuestionListSettingMigration;
 
-class ilWorkflowEngineSetupAgent extends NullAgent
+class ilTestSetupAgent extends NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
 
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilWorkflowEngine9DBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilTest9DBUpdateSteps());
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilWorkflowEngine9DBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "Metrics from the Test & Assessment",
+            false,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps()),
+            new ilTestDatabaseInconsistencyMetricsCollectedObjective($storage)
+        );
     }
 
     public function hasConfig(): bool
