@@ -39,7 +39,12 @@ class ilTestSetupAgent extends NullAgent
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "Metrics from the Test & Assessment",
+            false,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps()),
+            new ilTestDatabaseInconsistencyMetricsCollectedObjective($storage)
+        );
     }
 
     public function hasConfig(): bool
