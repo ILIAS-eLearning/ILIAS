@@ -143,9 +143,11 @@ class ilLDAPAttributeToUser
         ) as $role_data) {
             $this->writer->xmlElement(
                 'Role',
-                array('Id' => $role_data['id'],
+                [
+                    'Id' => $role_data['id'],
                     'Type' => $role_data['type'],
-                    'Action' => $role_data['action']),
+                    'Action' => $role_data['action']
+                ],
                 ''
             );
         }
@@ -165,9 +167,11 @@ class ilLDAPAttributeToUser
         ) as $role_data) {
             $this->writer->xmlElement(
                 'Role',
-                array('Id' => $role_data['id'],
+                [
+                    'Id' => $role_data['id'],
                     'Type' => $role_data['type'],
-                    'Action' => $role_data['action']),
+                    'Action' => $role_data['action']
+                ],
                 ''
             );
         }
@@ -196,10 +200,10 @@ class ilLDAPAttributeToUser
 
                 ++$cnt_update;
                 // User exists
-                $this->writer->xmlStartTag('User', array('Id' => $usr_id,'Action' => 'Update'));
-                $this->writer->xmlElement('Login', array(), $user['ilInternalAccount']);
-                $this->writer->xmlElement('ExternalAccount', array(), $external_account);
-                $this->writer->xmlElement('AuthMode', array('type' => $this->getNewUserAuthMode()));
+                $this->writer->xmlStartTag('User', ['Id' => $usr_id, 'Action' => 'Update']);
+                $this->writer->xmlElement('Login', [], $user['ilInternalAccount']);
+                $this->writer->xmlElement('ExternalAccount', [], $external_account);
+                $this->writer->xmlElement('AuthMode', ['type' => $this->getNewUserAuthMode()]);
 
                 if ($this->isModeActive(self::MODE_INITIALIZE_ROLES)) {
                     $this->parseRoleAssignmentsForCreation($external_account, $user);
@@ -210,28 +214,28 @@ class ilLDAPAttributeToUser
             } else {
                 ++$cnt_create;
                 // Create user
-                $this->writer->xmlStartTag('User', array('Action' => 'Insert'));
-                $this->writer->xmlElement('Login', array(), ilAuthUtils::_generateLogin($external_account));
+                $this->writer->xmlStartTag('User', ['Action' => 'Insert']);
+                $this->writer->xmlElement('Login', [], ilAuthUtils::_generateLogin($external_account));
 
                 $this->parseRoleAssignmentsForCreation($external_account, $user);
                 $rules = $this->mapping->getRules(true);
             }
 
-            $this->writer->xmlElement('Active', array(), "true");
-            $this->writer->xmlElement('TimeLimitOwner', array(), 7);
-            $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
-            $this->writer->xmlElement('TimeLimitFrom', array(), time());
-            $this->writer->xmlElement('TimeLimitUntil', array(), time());
+            $this->writer->xmlElement('Active', [], "true");
+            $this->writer->xmlElement('TimeLimitOwner', [], 7);
+            $this->writer->xmlElement('TimeLimitUnlimited', [], 1);
+            $this->writer->xmlElement('TimeLimitFrom', [], time());
+            $this->writer->xmlElement('TimeLimitUntil', [], time());
 
             // only for new users.
             // If auth_mode is 'default' (ldap) this status should remain.
             if (!$user['ilInternalAccount']) {
                 $this->writer->xmlElement(
                     'AuthMode',
-                    array('type' => $this->getNewUserAuthMode()),
+                    ['type' => $this->getNewUserAuthMode()],
                     $this->getNewUserAuthMode()
                 );
-                $this->writer->xmlElement('ExternalAccount', array(), $external_account);
+                $this->writer->xmlElement('ExternalAccount', [], $external_account);
             }
             foreach ($rules as $field => $data) {
                 // Do Mapping: it is possible to assign multiple ldap attribute to one user data field
@@ -245,87 +249,87 @@ class ilLDAPAttributeToUser
 
                             case 'm':
                             case 'male':
-                                $this->writer->xmlElement('Gender', array(), 'm');
+                                $this->writer->xmlElement('Gender', [], 'm');
                                 break;
 
                             case 'f':
                             case 'female':
-                                $this->writer->xmlElement('Gender', array(), 'f');
+                                $this->writer->xmlElement('Gender', [], 'f');
                                 break;
 
                             default:
                                 // use the default for anything that is not clearly m or f
-                                $this->writer->xmlElement('Gender', array(), 'n');
+                                $this->writer->xmlElement('Gender', [], 'n');
                                 break;
                         }
                         break;
 
                     case 'firstname':
-                        $this->writer->xmlElement('Firstname', array(), $value);
+                        $this->writer->xmlElement('Firstname', [], $value);
                         break;
 
                     case 'lastname':
-                        $this->writer->xmlElement('Lastname', array(), $value);
+                        $this->writer->xmlElement('Lastname', [], $value);
                         break;
 
                     case 'hobby':
-                        $this->writer->xmlElement('Hobby', array(), $value);
+                        $this->writer->xmlElement('Hobby', [], $value);
                         break;
 
                     case 'title':
-                        $this->writer->xmlElement('Title', array(), $value);
+                        $this->writer->xmlElement('Title', [], $value);
                         break;
 
                     case 'institution':
-                        $this->writer->xmlElement('Institution', array(), $value);
+                        $this->writer->xmlElement('Institution', [], $value);
                         break;
 
                     case 'department':
-                        $this->writer->xmlElement('Department', array(), $value);
+                        $this->writer->xmlElement('Department', [], $value);
                         break;
 
                     case 'street':
-                        $this->writer->xmlElement('Street', array(), $value);
+                        $this->writer->xmlElement('Street', [], $value);
                         break;
 
                     case 'city':
-                        $this->writer->xmlElement('City', array(), $value);
+                        $this->writer->xmlElement('City', [], $value);
                         break;
 
                     case 'zipcode':
-                        $this->writer->xmlElement('PostalCode', array(), $value);
+                        $this->writer->xmlElement('PostalCode', [], $value);
                         break;
 
                     case 'country':
-                        $this->writer->xmlElement('Country', array(), $value);
+                        $this->writer->xmlElement('Country', [], $value);
                         break;
 
                     case 'phone_office':
-                        $this->writer->xmlElement('PhoneOffice', array(), $value);
+                        $this->writer->xmlElement('PhoneOffice', [], $value);
                         break;
 
                     case 'phone_home':
-                        $this->writer->xmlElement('PhoneHome', array(), $value);
+                        $this->writer->xmlElement('PhoneHome', [], $value);
                         break;
 
                     case 'phone_mobile':
-                        $this->writer->xmlElement('PhoneMobile', array(), $value);
+                        $this->writer->xmlElement('PhoneMobile', [], $value);
                         break;
 
                     case 'fax':
-                        $this->writer->xmlElement('Fax', array(), $value);
+                        $this->writer->xmlElement('Fax', [], $value);
                         break;
 
                     case 'email':
-                        $this->writer->xmlElement('Email', array(), $value);
+                        $this->writer->xmlElement('Email', [], $value);
                         break;
 
                     case 'second_email':
-                        $this->writer->xmlElement('SecondEmail', array(), $value);
+                        $this->writer->xmlElement('SecondEmail', [], $value);
                         break;
 
                     case 'matriculation':
-                        $this->writer->xmlElement('Matriculation', array(), $value);
+                        $this->writer->xmlElement('Matriculation', [], $value);
                         break;
 
                     default:
@@ -339,10 +343,20 @@ class ilLDAPAttributeToUser
                         }
                         $this->initUserDefinedFields();
                         $definition = $this->udf->getDefinition((int) $id_data[1]);
+                        if (empty($definition)) {
+                            $this->logger->warning(sprintf(
+                                "Invalid/Orphaned UD field mapping detected: %s",
+                                $field
+                            ));
+                            break;
+                        }
+
                         $this->writer->xmlElement(
                             'UserDefinedField',
-                            array('Id' => $definition['il_id'],
-                                                                            'Name' => $definition['field_name']),
+                            [
+                                'Id' => $definition['il_id'],
+                                'Name' => $definition['field_name']
+                            ],
                             $value
                         );
                         break;

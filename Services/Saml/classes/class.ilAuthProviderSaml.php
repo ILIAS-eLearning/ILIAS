@@ -495,6 +495,14 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
                 }
 
                 $definition = ilUserDefinedFields::_getInstance()->getDefinition((int) $udf_data[1]);
+                if (empty($definition)) {
+                    ilLoggerFactory::getLogger('auth')->warning(sprintf(
+                        "Invalid/Orphaned UD field mapping detected: %s",
+                        $rule->getAttribute()
+                    ));
+                    break;
+                }
+
                 $xml_writer->xmlElement(
                     'UserDefinedField',
                     ['Id' => $definition['il_id'], 'Name' => $definition['field_name']],
