@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Abstract class ilLPStatus for all learning progress modes
@@ -889,8 +890,9 @@ class ilLPStatus
         }
 
         // missing objects in DB (default mode)
+        $existing_obj_ids = array_keys($existing);
         if (sizeof($existing) != sizeof($a_obj_ids)) {
-            foreach (array_diff($a_obj_ids, $existing) as $obj_id) {
+            foreach (array_diff($a_obj_ids, $existing_obj_ids) as $obj_id) {
                 $olp = ilObjectLP::getInstance($obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
