@@ -1,6 +1,10 @@
 <?php
 
+namespace IntLink;
+
 use PHPUnit\Framework\TestCase;
+use ILIAS;
+use ilLanguage;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -11,13 +15,13 @@ class LinkStandardGUIRequestTest extends TestCase
     {
     }
 
-    protected function getRequest(array $get, array $post): \ILIAS\Link\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\COPage\IntLink\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $data = new \ILIAS\Data\Factory();
         $refinery = new \ILIAS\Refinery\Factory($data, $lng_mock);
-        return new \ILIAS\Link\StandardGUIRequest(
+        return new \ILIAS\COPage\IntLink\StandardGUIRequest(
             $http_mock,
             $refinery,
             $get,
