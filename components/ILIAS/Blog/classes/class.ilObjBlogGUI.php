@@ -1745,7 +1745,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $wtpl->setCurrentBlock("keyword");
             foreach ($keywords as $keyword => $counter) {
                 if (!$a_link_template) {
-                    $ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
+                    $ilCtrl->setParameter($this, "kwd", urlencode((string) $keyword)); // #15885
                     $url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     $ilCtrl->setParameter($this, "kwd", "");
                 } else {
@@ -2017,7 +2017,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $keywords = array();
         foreach ($tmp as $item) {
-            $keywords[$item["keyword"]] = $item["counter"];
+            $keywords[(string) $item["keyword"]] = $item["counter"];
         }
         return $keywords;
     }
