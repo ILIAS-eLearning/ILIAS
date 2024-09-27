@@ -659,25 +659,21 @@ class ilObjectGUI implements ImplementsCreationCallback
     {
         $title = $this->getCreationFormTitle();
 
+        if (is_array($form)) {
+            throw new Exception('We do not deal with arrays here.');
+        }
+
         $content = $form;
         if ($form instanceof ilPropertyFormGUI) {
             $form->setTitle('');
             $form->setTitleIcon('');
             $form->setTableWidth('100%');
             $content = $this->ui_factory->legacy($form->getHTML());
-        } elseif (is_array($form)) {
-            $content = $this->ui_factory->legacy(
-                array_reduce(
-                    $form,
-                    fn(string $c, ilPropertyFormGUI $v) => $c . $v->getHTML(),
-                    ''
-                )
-            );
         }
 
-        $panel = $this->ui_factory->panel()->standard($title, $content);
-
-        return $this->ui_renderer->render($panel);
+        return $this->ui_renderer->render(
+            $this->ui_factory->panel()->standard($title, $content)
+        );
     }
 
     protected function getCreationFormTitle(): string
