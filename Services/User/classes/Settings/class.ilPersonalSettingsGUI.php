@@ -94,7 +94,6 @@ class ilPersonalSettingsGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $DIC['ilDB'],
-            $DIC['tpl'],
             $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],

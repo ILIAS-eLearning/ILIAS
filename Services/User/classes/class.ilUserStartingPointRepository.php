@@ -60,7 +60,6 @@ class ilUserStartingPointRepository
     public function __construct(
         private readonly ilObjUser $user,
         private readonly ilDBInterface $db,
-        private ilGlobalTemplateInterface $tpl,
         private readonly LoggingServices $log,
         private readonly ilTree $tree,
         private readonly ilRbacReview $rbac_review,
