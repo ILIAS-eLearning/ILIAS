@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Link;
+namespace ILIAS\COPage\IntLink;
 
 use ILIAS\Repository\BaseGUIRequest;
 

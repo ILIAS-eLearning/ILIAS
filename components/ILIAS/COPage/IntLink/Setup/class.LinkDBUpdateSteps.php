@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Link\Setup;
+namespace ILIAS\COPage\IntLink\Setup;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

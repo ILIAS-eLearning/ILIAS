@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Link\StandardGUIRequest;
+use ILIAS\COPage\IntLink\StandardGUIRequest;
 
 /**
  * Internal link selector
@@ -275,7 +275,7 @@ class ilInternalLinkGUI
             }
         }
         if ($ilCtrl->isAsynch()) {
-            $tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "components/ILIAS/Link");
+            $tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "components/ILIAS/COPage/IntLink");
             $tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget(
                 $this,
                 "",
@@ -284,7 +284,7 @@ class ilInternalLinkGUI
                 false
             ));
         } else {
-            $tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "components/ILIAS/Link");
+            $tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "components/ILIAS/COPage/IntLink");
             $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         }
 
@@ -676,7 +676,7 @@ class ilInternalLinkGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $tpl = new ilTemplate("tpl.link_file.html", true, true, "components/ILIAS/Link");
+        $tpl = new ilTemplate("tpl.link_file.html", true, true, "components/ILIAS/COPage/IntLink");
         if (!is_object($this->uploaded_file)) {
             $tpl->setCurrentBlock("form");
             $tpl->setVariable(
@@ -841,7 +841,7 @@ class ilInternalLinkGUI
 
         $ilCtrl->setParameter($this, "link_type", $this->link_type);
 
-        $tpl = new ilTemplate("tpl.link_help_explorer.html", true, true, "components/ILIAS/Link");
+        $tpl = new ilTemplate("tpl.link_help_explorer.html", true, true, "components/ILIAS/COPage/IntLink");
 
         $output = $this->getTargetExplorer();
 
@@ -927,17 +927,35 @@ class ilInternalLinkGUI
         $tpl->addJavaScript("assets/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
 
+        //$tpl->addJavascript("../components/ILIAS/COPage/IntLink/resources/ilIntLink.js");
         $tpl->addJavascript("assets/js/ilIntLink.js");
         // #18721
         $tpl->addJavaScript("assets/js/Form.js");
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($lng->txt("link_link"));
-        $modal->setId("ilIntLinkModal");
-        $modal->setBody("<div id='ilIntLinkModalContent'></div>");
+        $mt = self::getModalTemplate();
 
-        return $modal->getHTML();
+        $html = "<div id='ilIntLinkModal' data-show-signal='".$mt["show"]."' data-close-signal='".$mt["close"]."'>".
+            $mt["template"] .
+            "</div>";
+
+        return $html;
     }
+
+    public static function getModalTemplate(): array
+    {
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        $ui = $DIC->ui();
+        $modal = $ui->factory()->modal()->roundtrip($lng->txt("link_link"), $ui->factory()->legacy("<div id='ilIntLinkModalContent'></div>"));
+        $modalt["show"] = $modal->getShowSignal()->getId();
+        $modalt["close"] = $modal->getCloseSignal()->getId();
+        $modalt["template"] = $ui->renderer()->renderAsync($modal);
+
+        return $modalt;
+    }
+
 
     /**
      * Render internal link item

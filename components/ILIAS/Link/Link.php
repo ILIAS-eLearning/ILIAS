@@ -33,12 +33,10 @@ class Link implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ILIAS\Link\Setup\Agent(
+            new COPage\IntLink\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
 
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilIntLink.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilExtLink.js");
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>

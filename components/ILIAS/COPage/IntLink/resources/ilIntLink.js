@@ -143,7 +143,16 @@ il.IntLink =
 	 * panel is used by other features, too (e.g. wiki link handling)
 	 */
 	showPanel: function() {
-		$('#ilIntLinkModal').modal('show');
+		const modalEl = document.getElementById("ilIntLinkModal");
+		const showSignal = modalEl.dataset.showSignal;
+		$(document).trigger(
+			showSignal,
+			{
+				id: showSignal,
+				triggerer: $(this),
+				options: JSON.parse('[]'),
+			},
+		);
 	},
 
 	sendAjaxGetRequestToUrl: function (url, par = {}, args= {}) {
@@ -351,7 +360,16 @@ il.IntLink =
 	},
 
 	hidePanel: function () {
-		$('#ilIntLinkModal').modal('hide');
+		const modalEl = document.getElementById("ilIntLinkModal");
+		const closeSignal = modalEl.dataset.closeSignal;
+		$(document).trigger(
+			closeSignal,
+			{
+				id: closeSignal,
+				triggerer: $(this),
+				options: JSON.parse('[]'),
+			},
+		);
 	},
 	
 	setMepPoolFolder: function(mep_fold_id) {
