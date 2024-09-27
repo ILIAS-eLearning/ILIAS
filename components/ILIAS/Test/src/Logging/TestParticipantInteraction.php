@@ -112,7 +112,7 @@ class TestParticipantInteraction implements TestUserInteraction
             \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone'])
                 ->format($environment['date_format']),
-            $title_builder->buildTestTitleAsText($lng, $this->test_ref_id),
+            $title_builder->buildTestTitleAsText($this->test_ref_id),
             '',
             \ilUserUtil::getNamePresentation(
                 $this->pax_id,
@@ -122,11 +122,7 @@ class TestParticipantInteraction implements TestUserInteraction
                 true
             ),
             $this->source_ip,
-            $title_builder->buildQuestionTitleAsText(
-                $properties_repository,
-                $lng,
-                $this->question_id
-            ),
+            $title_builder->buildQuestionTitleAsText($this->question_id),
             $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
             $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
             $additional_info->parseForExport($this->additional_data, $environment)
