@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 include_once "Services/Object/classes/class.ilObjectLP.php";
 
@@ -73,10 +73,14 @@ class ilPluginLP extends ilObjectLP
 
     public function getCurrentMode(): int
     {
-        if ($this->status !== null) {
-            return ilLPObjSettings::LP_MODE_PLUGIN;
+        if (is_null($this->status)) {
+            return ilLPObjSettings::LP_MODE_UNDEFINED;
         }
-        return ilLPObjSettings::LP_MODE_UNDEFINED;
+        $mode = ilLPObjSettings::_lookupDBMode($this->obj_id);
+        if ($mode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+            return ilLPObjSettings::LP_MODE_DEACTIVATED;
+        }
+        return ilLPObjSettings::LP_MODE_PLUGIN;
     }
 
     protected static function isLPMember(array &$res, int $usr_id, array $obj_ids): bool
