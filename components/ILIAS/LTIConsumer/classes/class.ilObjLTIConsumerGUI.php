@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+
 /**
  * Class ilObjLTIConsumerGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -78,7 +80,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @return \ilPropertyFormGUI[]|null[]
+     * @return array<ilPropertyFormGUI>
      */
     protected function initCreateForm(string $a_new_type): array
     {
@@ -92,6 +94,27 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         return $forms;
+    }
+
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $forms): string
+    {
+        if (!is_array($forms)) {
+            throw new Exception('We only deal with arrays here.');
+        }
+
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        array_walk(
+            $forms,
+            function (ilPropertyFormGUI $v, string $k) use ($acc): void {
+                $acc->addItem(
+                    $v->getTitle(),
+                    $v->getHTML()
+                );
+            }
+        );
+
+        return $acc->getHTML();
     }
 
     protected function initNewForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
