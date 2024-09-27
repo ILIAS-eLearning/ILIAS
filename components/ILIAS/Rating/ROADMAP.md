@@ -18,4 +18,4 @@ The current ilRating class should be transformed to a repository like pattern, t
 
 ## Transform widget to KS
 
-The rating widget should make use of KS components. The stars may be implemented by Glyphs, the overlay should be migrated to a Popover.
+The rating widget should make use of KS components. The stars may be implemented by Glyphs. There is an input element, however the presentation (e.g. repository items or on the page header) needs to be clarified, including the concrete interaction.
