@@ -1078,9 +1078,9 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $form = $this->initEditForm();
         if ($form->checkInput() && $this->validateCustom($form)) {
-            $this->object->setTitle($form->getInput("title"));
-            $this->object->setDescription($form->getInput("desc"));
             $this->updateCustom($form);
+            $this->object->setTitle($form->getInput('title'));
+            $this->object->setDescription($form->getInput('desc'));
             $this->object->update();
 
             $this->afterUpdate();
