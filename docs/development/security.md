@@ -30,5 +30,5 @@ Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get 
 * Robin Baumgartner, sr solutions ag, Burgdorf, Switzerland
 * Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
 * Rob Falkenstein, University of Freiburg - IT Services, Germany
-* Manuel G. Müller, Qualitus GmbH, Cologne, Germany
+* Alex Hartwig, Qualitus GmbH, Cologne, Germany
 * David Tokar, WEKA Media GmbH & Co. KG, Kissing, Germany
