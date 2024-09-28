@@ -86,7 +86,8 @@ class InternalDomainService
     {
         return new TeamManager(
             $this->repo,
-            $this
+            $this,
+            new \ilExcTutorTeamFeedbackFileStakeholder()
         );
     }
 
@@ -95,4 +96,13 @@ class InternalDomainService
         return new IndividualDeadlineManager();
     }
 
+    public function exercise(
+        int $obj_id
+    ): ExerciseManager {
+        return new ExerciseManager(
+            $this->repo,
+            $this,
+            $obj_id
+        );
+    }
 }

@@ -782,6 +782,10 @@ class ilExSubmission
         int $a_exc_id,
         int $a_user_id
     ): void {
+        global $DIC;
+
+        $db = $DIC->database();
+
         foreach (ilExAssignment::getInstancesByExercise($a_exc_id) as $ass) {
             $submission = new self($ass, $a_user_id);
             $submission->deleteAllFiles();
@@ -796,6 +800,13 @@ class ilExSubmission
             $member_status = $ass->getMemberStatus($a_user_id);
             $member_status->setStatus("notgraded");
             $member_status->update();
+
+            $db->manipulateF(
+                "DELETE FROM exc_usr_tutor " .
+                "WHERE ass_id = %s AND usr_id = %s",
+                array("integer", "integer"),
+                array($ass->getId(), $a_user_id)
+            );
         }
     }
 

@@ -1267,11 +1267,10 @@ class ilExAssignmentEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-
         $delete = false;
         foreach ($this->requested_ass_ids as $id) {
             $ass = new ilExAssignment(ilUtil::stripSlashes($id));
-            $ass->delete();
+            $ass->delete($this->exc);
             $delete = true;
         }
 
