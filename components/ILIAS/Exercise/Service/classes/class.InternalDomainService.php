@@ -24,8 +24,6 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\DI\Container;
 use ILIAS\Exercise\Object\ObjectManager;
 use ILIAS\Exercise\Notification\NotificationManager;
-use ILIAS\Refinery\Logical\Not;
-use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
@@ -100,7 +98,8 @@ class InternalDomainService
     {
         return new TeamManager(
             $this->repo,
-            $this
+            $this,
+            new \ilExcTutorTeamFeedbackFileStakeholder()
         );
     }
 
@@ -109,4 +108,13 @@ class InternalDomainService
         return new IndividualDeadlineManager();
     }
 
+    public function exercise(
+        int $obj_id
+    ): ExerciseManager {
+        return new ExerciseManager(
+            $this->repo,
+            $this,
+            $obj_id
+        );
+    }
 }

@@ -21,7 +21,6 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
@@ -325,13 +324,20 @@ class ilObjExercise extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        $em = $this->service->domain()->exercise($this->getId());
+        $em->delete($this);
+
+        // members
+        $members = new ilExerciseMembers($this);
+        $members->delete();
+
         // put here course specific stuff
         $this->deleteMetaData();
 
         $ilDB->manipulate("DELETE FROM exc_data " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
 
-        ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
