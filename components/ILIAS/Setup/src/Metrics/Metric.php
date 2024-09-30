@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Setup\Metrics;
 
 use ILIAS\UI\Factory;
@@ -32,97 +32,49 @@ use ILIAS\UI\Component\Panel\Report;
  */
 final class Metric
 {
-    /**
-     * The stability of a metric tells how often we expect changes in the metric.
-     */
-    // Config metrics only change when some administrator explicitely changes
-    // a configuration.
-    public const STABILITY_CONFIG = "config";
-    // Stable metric only change occassionally when some change in the installation
-    // happened, e.g. a config change or an update.
-    public const STABILITY_STABLE = "stable";
-    // Volatile metrics may change at every time even unexpectedly.
-    public const STABILITY_VOLATILE = "volatile";
-    // This should only be used for collections with mixed content.
-    public const STABILITY_MIXED = "mixed";
-
-    /**
-     * The type of the metric tells what to expect of the values.
-     */
-    // Simply a yes or a no.
-    public const TYPE_BOOL = "bool";
-    // A number that always increases.
-    public const TYPE_COUNTER = "counter";
-    // A numeric value to measure some quantity of the installation.
-    public const TYPE_GAUGE = "gauge";
-    // A timestamp to inform about a certain event in the installation.
-    public const TYPE_TIMESTAMP = "timestamp";
-    // Some textual information about the installation. Prefer using one of the
-    // other types.
-    public const TYPE_TEXT = "text";
-    // A collection of metrics that contains multiple named metrics.
-    public const TYPE_COLLECTION = "collection";
-
-    /**
-     * @var string one of STABILITY_*
-     */
-    protected string $stability;
-
-    /**
-     * @var string one of TYPE_*
-     */
-    protected string $type;
-
-    /**
-     * @var mixed
-     */
-    protected $value;
-
-
-    protected ?string $description;
+    protected $value = null;
 
     public function __construct(
-        string $stability,
-        string $type,
-        $value,
-        string $description = null
+        protected MetricStability $stability,
+        protected MetricType $type,
+        protected $value_producer,
+        protected ?string $description = null
     ) {
         $this->checkStability($stability, $type);
         $this->checkType($type);
-        $this->checkValue($type, $value);
-
-        $this->stability = $stability;
-        $this->type = $type;
-        $this->value = $value;
-        $this->description = $description;
-    }
-
-    protected function checkStability(string $stability, string $type): void
-    {
-        if (
-            $stability !== self::STABILITY_CONFIG
-            && $stability !== self::STABILITY_STABLE
-            && $stability !== self::STABILITY_VOLATILE
-            && !($stability === self::STABILITY_MIXED && $type === self::TYPE_COLLECTION)
-        ) {
+        if (!is_callable($value_producer)) {
             throw new \InvalidArgumentException(
-                "Invalid stability for metric: $stability"
+                "Expected \$value_producer to be callable."
             );
         }
     }
 
-    protected function checkType($type): void
+    protected function checkStability(MetricStability $stability, MetricType $type): void
     {
         if (
-            $type !== self::TYPE_BOOL
-            && $type !== self::TYPE_COUNTER
-            && $type !== self::TYPE_GAUGE
-            && $type !== self::TYPE_TIMESTAMP
-            && $type !== self::TYPE_TEXT
-            && $type !== self::TYPE_COLLECTION
+            $stability !== MetricStability::CONFIG
+            && $stability !== MetricStability::STABLE
+            && $stability !== MetricStability::VOLATILE
+            && !($stability === MetricStability::MIXED && $type === MetricType::COLLECTION)
         ) {
             throw new \InvalidArgumentException(
-                "Invalid type for metric: $type"
+                "Invalid stability for metric: $stability->name"
+            );
+        }
+    }
+
+    protected function checkType(MetricType $type): void
+    {
+        if (
+            $type !== MetricType::BOOL
+            && $type !== MetricType::COUNTER
+            && $type !== MetricType::GAUGE
+            && $type !== MetricType::TIMESTAMP
+            && $type !== MetricType::TEXT
+            && $type !== MetricType::COLLECTION
+        ) {
+            throw new \InvalidArgumentException(
+                "Invalid type for metric: $type->name"
             );
         }
     }
@@ -130,19 +82,19 @@ final class Metric
     protected function checkValue($type, $value): void
     {
         if (
-            ($type === self::TYPE_BOOL && !is_bool($value))
-            || ($type === self::TYPE_COUNTER && !is_int($value))
-            || ($type === self::TYPE_GAUGE && !(is_int($value) || is_float($value)))
-            || ($type === self::TYPE_TIMESTAMP && !($value instanceof \DateTimeImmutable))
-            || ($type === self::TYPE_TEXT && !is_string($value))
-            || ($type === self::TYPE_COLLECTION && !is_array($value))
+            ($type === MetricType::BOOL && !is_bool($value))
+            || ($type === MetricType::COUNTER && !is_int($value))
+            || ($type === MetricType::GAUGE && !(is_int($value) || is_float($value)))
+            || ($type === MetricType::TIMESTAMP && !($value instanceof \DateTimeImmutable))
+            || ($type === MetricType::TEXT && !is_string($value))
+            || ($type === MetricType::COLLECTION && !is_array($value))
         ) {
             throw new \InvalidArgumentException(
-                "Invalid type " . gettype($value) . " for metric of type $type"
+                "Invalid type " . gettype($value) . " for metric of type $type->name"
             );
         }
 
-        if ($type === self::TYPE_COLLECTION) {
+        if ($type === MetricType::COLLECTION) {
             foreach ($value as $v) {
                 if (!($v instanceof Metric)) {
                     throw new \InvalidArgumentException(
@@ -153,12 +105,12 @@ final class Metric
         }
     }
 
-    public function getStability(): string
+    public function getStability(): MetricStability
     {
         return $this->stability;
     }
 
-    public function getType(): string
+    public function getType(): MetricType
     {
         return $this->type;
     }
@@ -168,6 +120,14 @@ final class Metric
      */
     public function getValue()
     {
+        if (!is_null($this->value)) {
+            return $this->value;
+        }
+
+        $value = $this->value_producer->__invoke();
+        $this->checkValue($this->getType(), $value);
+        $this->value = $value;
+
         return $this->value;
     }
 
@@ -180,33 +140,33 @@ final class Metric
     {
         $value = $this->getValue();
         switch ($this->getType()) {
-            case self::TYPE_BOOL:
+            case MetricType::BOOL:
                 if ($value) {
                     return "true";
                 } else {
                     return "false";
                 }
                 // no break
-            case self::TYPE_COUNTER:
+            case MetricType::COUNTER:
                 return "$value";
-            case self::TYPE_GAUGE:
+            case MetricType::GAUGE:
                 if (is_int($value)) {
                     return "$value";
                 }
                 return sprintf("%.03f", $value);
-            case self::TYPE_TIMESTAMP:
+            case MetricType::TIMESTAMP:
                 return $value->format(\DateTimeInterface::ISO8601);
-            case self::TYPE_TEXT:
+            case MetricType::TEXT:
                 if (substr_count($value, "\n") > 0) {
                     return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
                 }
                 return $value;
-            case self::TYPE_COLLECTION:
+            case MetricType::COLLECTION:
                 return implode(
                     "\n",
                     array_map(
                         function (string $k, Metric $v) use ($indentation): string {
-                            if ($v->getType() === self::TYPE_COLLECTION) {
+                            if ($v->getType() === MetricType::COLLECTION) {
                                 $split = "\n";
                             } else {
                                 $split = " ";
@@ -218,7 +178,7 @@ final class Metric
                     )
                 );
             default:
-                throw new \LogicException("Unknown type: " . $this->getType());
+                throw new \LogicException("Unknown type: " . $this->getType()->name);
         }
     }
 
@@ -227,35 +187,35 @@ final class Metric
         $value = $this->getValue();
 
         switch ($this->getType()) {
-            case self::TYPE_BOOL:
+            case MetricType::BOOL:
                 if ($value) {
                     return "true";
                 } else {
                     return "false";
                 }
                 // no break
-            case self::TYPE_COUNTER:
+            case MetricType::COUNTER:
                 return (string) $value;
-            case self::TYPE_GAUGE:
+            case MetricType::GAUGE:
                 if (is_int($value)) {
                     return (string) $value;
                 }
                 return sprintf("%.03f", $value);
-            case self::TYPE_TIMESTAMP:
+            case MetricType::TIMESTAMP:
                 return $value->format(\DateTimeInterface::ISO8601);
-            case self::TYPE_TEXT:
+            case MetricType::TEXT:
                 if (substr_count($value, "\n") > 0) {
                     return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
                 }
                 return $value;
-            case self::TYPE_COLLECTION:
+            case MetricType::COLLECTION:
                 $result = [];
                 foreach ($value as $key => $val) {
                     $result[$key] = $val->toArray($indentation + 1);
                 }
                 return $result;
             default:
-                throw new \LogicException("Unknown type: " . $this->getType());
+                throw new \LogicException("Unknown type: " . $this->getType()->name);
         }
     }
 
@@ -274,16 +234,16 @@ final class Metric
      *
      * @return (Metric|null)[]
      */
-    public function extractByStability(string $stability): array
+    public function extractByStability(MetricStability $stability): array
     {
-        if ($stability === self::STABILITY_MIXED) {
+        if ($stability === MetricStability::MIXED) {
             throw new \LogicException("Can not extract by mixed.");
         }
 
         if ($this->getStability() === $stability) {
             return [$this, null];
         }
-        if ($this->getType() !== self::TYPE_COLLECTION) {
+        if ($this->getType() !== MetricType::COLLECTION) {
             return [null, $this];
         }
 
@@ -304,8 +264,8 @@ final class Metric
         if ($extracted !== []) {
             $extracted = new Metric(
                 $stability,
-                self::TYPE_COLLECTION,
-                $extracted,
+                MetricType::COLLECTION,
+                fn() => $extracted,
                 $this->getDescription()
             );
         } else {
@@ -315,8 +275,8 @@ final class Metric
         if ($rest !== []) {
             $rest = new Metric(
                 $this->getStability(),
-                self::TYPE_COLLECTION,
-                $rest,
+                MetricType::COLLECTION,
+                fn() => $rest,
                 $this->getDescription()
             );
         } else {

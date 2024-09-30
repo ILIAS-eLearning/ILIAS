@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
@@ -21,24 +37,24 @@ class ilSystemFolderMetricsCollectedObjective extends Setup\Metrics\CollectedObj
         }
         $settings = $factory->settingsFor("common");
         $firstname = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_CONFIG,
-            Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_firstname", "")
+            Setup\Metrics\MetricStability::CONFIG,
+            Setup\Metrics\MetricType::TEXT,
+            fn() => $settings->get("admin_firstname", "")
         );
         $lastname = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_CONFIG,
-            Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_lastname", "")
+            Setup\Metrics\MetricStability::CONFIG,
+            Setup\Metrics\MetricType::TEXT,
+            fn() => $settings->get("admin_lastname", "")
         );
         $email = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_CONFIG,
-            Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_email", "")
+            Setup\Metrics\MetricStability::CONFIG,
+            Setup\Metrics\MetricType::TEXT,
+            fn() => $settings->get("admin_email", "")
         );
         $contact = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_CONFIG,
-            Setup\Metrics\Metric::TYPE_COLLECTION,
-            [
+            Setup\Metrics\MetricStability::CONFIG,
+            Setup\Metrics\MetricType::COLLECTION,
+            fn() => [
                 "firstname" => $firstname,
                 "lastname" => $lastname,
                 "email" => $email

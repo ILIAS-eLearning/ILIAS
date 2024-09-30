@@ -39,12 +39,12 @@ class ilBackgroundTasksMetricsCollectedObjective extends Setup\Metrics\Collected
 
         $storage->storeConfigText(
             "type",
-            $ini->readVariable("background_tasks", "concurrency"),
+            fn() => $ini->readVariable("background_tasks", "concurrency"),
             "The type of execution used for background tasks"
         );
         $storage->storeConfigGauge(
             "max_number_of_concurrent_tasks",
-            (int) $ini->readVariable("background_tasks", "number_of_concurrent_tasks"),
+            fn() => (int) $ini->readVariable("background_tasks", "number_of_concurrent_tasks"),
             "The maximum amount of concurrent tasks used to run background tasks."
         );
     }

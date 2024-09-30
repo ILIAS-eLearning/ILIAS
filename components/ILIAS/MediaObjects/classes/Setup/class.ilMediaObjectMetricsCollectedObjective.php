@@ -39,7 +39,7 @@ class ilMediaObjectMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
         $storage->storeConfigText(
             "path_to_ffmpeg",
-            $ini->readVariable("tools", "ffmpeg"),
+            fn() => $ini->readVariable("tools", "ffmpeg"),
             "The path to the binary of ffmpeg to convert videos."
         );
     }

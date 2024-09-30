@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -53,7 +53,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         if ($client_ini) {
             $storage->storeConfigText(
                 "default_language",
-                $client_ini->readVariable("language", "default"),
+                fn() => $client_ini->readVariable("language", "default"),
                 "The language that is used by default."
             );
         }
@@ -72,30 +72,30 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $local_languages = $this->il_setup_language->getLocalLanguages();
         foreach ($this->il_setup_language->getInstalledLanguages() as $lang) {
             $local_file = new Setup\Metrics\Metric(
-                Setup\Metrics\Metric::STABILITY_STABLE,
-                Setup\Metrics\Metric::TYPE_BOOL,
-                in_array($lang, $local_languages, true),
+                Setup\Metrics\MetricStability::STABLE,
+                Setup\Metrics\MetricType::BOOL,
+                fn() => in_array($lang, $local_languages, true),
                 "Is there a local language file for the language?"
             );
             $local_changes = new Setup\Metrics\Metric(
-                Setup\Metrics\Metric::STABILITY_STABLE,
-                Setup\Metrics\Metric::TYPE_BOOL,
-                count($this->il_setup_language->getLocalChanges($lang)) > 0,
+                Setup\Metrics\MetricStability::STABLE,
+                Setup\Metrics\MetricType::BOOL,
+                fn() => count($this->il_setup_language->getLocalChanges($lang)) > 0,
                 "Are there local changes for the language?"
             );
             $installed_languages[$lang] = new Setup\Metrics\Metric(
-                Setup\Metrics\Metric::STABILITY_STABLE,
-                Setup\Metrics\Metric::TYPE_COLLECTION,
-                [
+                Setup\Metrics\MetricStability::STABLE,
+                Setup\Metrics\MetricType::COLLECTION,
+                fn() => [
                     "local_file" => $local_file,
                     "local_changes" => $local_changes
                 ]
             );
         }
         $installed_languages = new Setup\Metrics\Metric(
-            Setup\Metrics\Metric::STABILITY_STABLE,
-            Setup\Metrics\Metric::TYPE_COLLECTION,
-            $installed_languages
+            Setup\Metrics\MetricStability::STABLE,
+            Setup\Metrics\MetricType::COLLECTION,
+            fn() => $installed_languages
         );
         $storage->store(
             "installed_languages",
