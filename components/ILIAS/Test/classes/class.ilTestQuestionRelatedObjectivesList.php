@@ -90,8 +90,8 @@ class ilTestQuestionRelatedObjectivesList
      */
     public function getQuestionRelatedObjectiveTitles($questionId): string
     {
-        if (!isset($this->objectivesByQuestion['questionId'])
-            || !is_array($this->objectivesByQuestion['questionId'])) {
+        if (!isset($this->objectivesByQuestion[$questionId])
+            || !is_array($this->objectivesByQuestion[$questionId])) {
             return '';
         }
 
@@ -137,8 +137,8 @@ class ilTestQuestionRelatedObjectivesList
 
     public function isQuestionRelatedToObjective($questionId, $objectiveId): bool
     {
-        if (!isset($this->objectivesByQuestion['questionId'])
-            || !is_array($this->objectivesByQuestion['questionId'])) {
+        if (!isset($this->objectivesByQuestion[$questionId])
+            || !is_array($this->objectivesByQuestion[$questionId])) {
             return false;
         }
 
