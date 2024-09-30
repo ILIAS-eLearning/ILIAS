@@ -32,8 +32,8 @@ jobs:
       - name: 'Install Dependencies'
         uses: php-actions/composer@v6
         with:
-          php_version: 8.0
-          args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
+          php_version: 8.1
+          args: --no-interaction --no-progress --ignore-platform-reqs
 
       - name: 'PHStan Custom Rules'
         run: scripts/PHPStan/run_legacy_ui_report.sh
