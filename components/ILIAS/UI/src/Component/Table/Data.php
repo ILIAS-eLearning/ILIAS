@@ -44,11 +44,6 @@ interface Data extends Table
     public function withRequest(ServerRequestInterface $request): static;
 
     /**
-     * Number of Rows is the amount of rows shown per page
-     */
-    public function withNumberOfRows(int $number_of_rows): self;
-
-    /**
      * Not all columns are neccessarily visible; "selected optional" is the
      * positive list of shown columns (the non-optional columns are always shown
      * and are not included here)

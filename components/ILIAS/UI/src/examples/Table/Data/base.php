@@ -157,10 +157,10 @@ function base()
                     $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_x.svg', '', 'small'),
                 ];
                 $icon = $icons[2];
-                if($record['achieve'] > 80) {
+                if ($record['achieve'] > 80) {
                     $icon = $icons[0];
                 }
-                if($record['achieve'] < 30) {
+                if ($record['achieve'] < 30) {
                     $icon = $icons[1];
                 }
                 $record['achieve'] = $icon;
@@ -227,6 +227,12 @@ function base()
             ->data('a data table', $columns, $data_retrieval)
             ->withId('example_base')
             ->withActions($actions)
+
+            //these are initial settings that apply if the according view control
+            //has not been operated, yet
+            ->withRange(new Range(0, 2))
+            ->withOrder(new Order('achieve', Order::DESC))
+
             ->withRequest($request);
 
     /**
