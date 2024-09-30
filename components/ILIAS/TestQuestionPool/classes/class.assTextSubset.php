@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -386,9 +385,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $pass = ilObjTest::_getPass($active_id);
         }
 
+        $solution_submit = $this->getSolutionSubmit();
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
-            function () use ($active_id, $pass, $authorized) {
-                $solution_submit = $this->getSolutionSubmit();
+            function () use ($active_id, $pass, $authorized, $solution_submit) {
                 $this->removeCurrentSolution($active_id, $pass, $authorized);
 
                 foreach ($solution_submit as $value) {
@@ -744,7 +743,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     private function getMatchingMethodLangVar(string $matching_method): string
     {
-        switch($matching_method) {
+        switch ($matching_method) {
             case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
                 return 'cloze_textgap_case_insensitive';
             case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
