@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 {
@@ -45,7 +45,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
             case 'visible':
             case 'read':
                 $target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
-                if (!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $target_ref_id)) {
+                if (!$target_ref_id || !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $target_ref_id)) {
                     return false;
                 }
                 break;
