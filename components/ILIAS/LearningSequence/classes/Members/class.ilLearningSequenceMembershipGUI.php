@@ -47,6 +47,21 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         parent::__construct($repository_gui, $obj);
     }
 
+    protected function members(): void
+    {
+        $may_manage_members = $this->checkRbacOrPositionAccessBool(
+            'manage_members',
+            'manage_members',
+            $this->getParentObject()->getRefId()
+        );
+
+        if ($may_manage_members) {
+            $this->participants();
+        } else {
+            $this->jump2UsersGallery();
+        }
+    }
+
     protected function printMembers(): void
     {
         $this->checkPermission('read');
@@ -169,8 +184,14 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         $participants = $this->post_wrapper->retrieve(
             "visible_member_ids",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
         );
+
+
+
 
         $notification = [];
         if ($this->post_wrapper->has('notification')) {

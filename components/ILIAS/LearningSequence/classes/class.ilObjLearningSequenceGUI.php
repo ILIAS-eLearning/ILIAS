@@ -111,7 +111,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected string $obj_type;
     protected ilNavigationHistory $navigation_history;
     protected ilObjectService $obj_service;
-    protected ilObjLearningSequence $ls_object;
     protected ilRbacReview $rbac_review;
     protected ilHelpGUI $help;
     protected ILIAS\UI\Factory $ui_factory;
@@ -271,33 +270,46 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilinfoscreengui":
-                $this->info($cmd);
+                $this->tabs->setTabActive(self::TAB_INFO);
+                $this->ctrl->forwardCommand($this->getGUIInfo());
                 break;
             case "ilpermissiongui":
-                $this->permissions($cmd);
+                $this->tabs->setTabActive(self::TAB_PERMISSIONS);
+                $this->ctrl->forwardCommand($this->getGUIPermissions());
                 break;
             case "ilobjlearningsequencesettingsgui":
-                $this->settings($cmd);
+                $this->tabs->activateTab(self::TAB_SETTINGS);
+                $this->ctrl->forwardCommand($this->getGUISettings());
                 break;
             case "ilobjlearningsequencecontentgui":
-                $this->manageContent($cmd);
+                $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
+                $this->addSubTabsForContent(self::TAB_MANAGE);
+                $this->ctrl->forwardCommand($this->getGUIManageContent());
                 break;
             case "ilobjlearningsequencelearnergui":
-                $this->learnerView($cmd);
+                $this->addContentStyleCss();
+                $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
+                $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
+                $this->ctrl->forwardCommand($this->getGUILearnerView());
                 break;
             case "illearningsequencemembershipgui":
-                $this->manage_members($cmd);
+                $this->tabs->setTabActive(self::TAB_MEMBERS);
+                $this->ctrl->forwardCommand($this->getGUIMembers());
                 break;
             case 'illearningprogressgui':
-                $this->learningProgress();
+                $this->tabs->setTabActive(self::TAB_LP);
+                $this->ctrl->forwardCommand($this->getGUILearningProgress());
                 break;
             case 'ilexportgui':
-                $this->export();
+                $gui = new ilExportGUI($this);
+                $gui->addFormat("xml");
+                $this->tabs->setTabActive(self::TAB_EXPORT);
+                $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilobjectcopygui':
-                $cp = new ilObjectCopyGUI($this);
-                $cp->setType('lso');
-                $this->ctrl->forwardCommand($cp);
+                $gui = new ilObjectCopyGUI($this);
+                $gui->setType('lso');
+                $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilobjindividualassessmentgui':
                 $struct = ['ilrepositorygui', 'ilobjindividualassessmentgui'];
@@ -305,18 +317,15 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     $struct[] = 'ilindividualassessmentsettingsgui';
                 }
                 $this->ctrl->redirectByClass($struct, $cmd);
-                break;
+                // no break
             case 'ilobjtestgui':
                 $struct = ['ilrepositorygui', 'ilobjtestgui'];
                 $this->ctrl->redirectByClass($struct, $cmd);
-                break;
+                // no break
             case 'ilobjlearningsequencelppollinggui':
                 $gui = $this->object->getLocalDI()["gui.learner.lp"];
-                $this->ctrl->setCmd($cmd);
                 $this->ctrl->forwardCommand($gui);
                 break;
-
-
             case "ilobjlearningsequenceeditintrogui":
                 $which_page = LSOPageType::INTRO;
                 $which_tab = self::TAB_EDIT_INTRO;
@@ -340,7 +349,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     $which_page->value,
                     $this->object->getContentPageId()
                 );
-                $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
 
                 //editor's guis will write to template, but not return
@@ -363,20 +371,27 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_IMPORT:
                         $this->routeImportCmdObject();
                         break;
-                    case self::CMD_INFO:
-                    case self::CMD_INFO_SCREEN:
-                        $this->info();
-                        break;
                     case self::CMD_VIEW:
                     case self::CMD_LEARNER_VIEW:
-                    case self::CMD_CONTENT:
-                    case self::CMD_MEMBERS:
+                        $this->view();
+                        // no break
+                    case self::CMD_INFO:
+                    case self::CMD_INFO_SCREEN:
+                        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, $cmd);
+                        // no break
                     case self::CMD_SETTINGS:
-                    case self::CMD_SAVE:
-                    case self::CMD_CREATE:
+                        $this->ctrl->redirectByClass(ilObjLearningSequenceSettingsGUI::class, $cmd);
+                        // no break
+                    case self::CMD_CONTENT:
+                        $this->ctrl->redirectByClass(ilObjLearningSequenceContentGUI::class, $cmd);
+                        // no break
+                    case self::CMD_MEMBERS:
+                    case self::CMD_MEMBERS_GALLERY:
+                        $this->ctrl->redirectByClass(ilLearningSequenceMembershipGUI::class, $cmd);
+                        // no break
                     case self::CMD_UNPARTICIPATE:
-                        $this->$cmd();
-                        break;
+                        $this->unparticipate();
+                        // no break
                     case self::CMD_CANCEL:
                         if ($this->getCreationMode()) {
                             $this->cancelCreation();
@@ -421,7 +436,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_CANCEL_CUT:
                     case self::CMD_CANCEL_DELETE:
                     case self::CMD_CANCEL_LINK:
-                        $cmd = self::CMD_CONTENT;
+                        $this->view();
+                        break;
+
+                    case self::CMD_SAVE:
+                    case self::CMD_CREATE:
                         $this->$cmd();
                         break;
 
@@ -474,27 +493,19 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected function info(string $cmd = self::CMD_INFO): void
+    protected function getGUIInfo(): ilInfoScreenGUI
     {
-        $this->tabs->setTabActive(self::TAB_INFO);
-        $this->ctrl->setCmdClass('ilinfoscreengui');
-        $this->ctrl->setCmd($cmd);
-        $info = new ilInfoScreenGUI($this);
-        $this->ctrl->forwardCommand($info);
+        return new ilInfoScreenGUI($this);
     }
 
-    protected function permissions(string $cmd = self::CMD_PERMISSIONS): void
+    protected function getGUIPermissions(): ilPermissionGUI
     {
-        $this->tabs->setTabActive(self::TAB_PERMISSIONS);
-        $perm_gui = new ilPermissionGUI($this);
-        $this->ctrl->setCmd($cmd);
-        $this->ctrl->forwardCommand($perm_gui);
+        return new ilPermissionGUI($this);
     }
 
-    protected function settings(string $cmd = self::CMD_SETTINGS): void
+    protected function getGUISettings(): ilObjLearningSequenceSettingsGUI
     {
-        $this->tabs->activateTab(self::TAB_SETTINGS);
-        $gui = new ilObjLearningSequenceSettingsGUI(
+        return  new ilObjLearningSequenceSettingsGUI(
             $this->getObject(),
             $this->ctrl,
             $this->lng,
@@ -504,31 +515,26 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->ui_renderer,
             $this->request
         );
-        $this->ctrl->setCmd($cmd);
-        $this->ctrl->forwardCommand($gui);
     }
 
     protected function view(): void
     {
         $this->recordLearningSequenceRead();
         $this->tabs->clearSubTabs();
+
+        $cmd = self::CMD_INFO;
         if ($this->checkAccess("write")) {
-            $this->manageContent(self::CMD_CONTENT);
-            return;
+            $cmd = self::CMD_CONTENT;
+            $this->ctrl->redirectByClass(ilObjLearningSequenceContentGUI::class, $cmd);
         } elseif ($this->checkAccess("read")) {
-            $this->learnerView(self::CMD_LEARNER_VIEW);
-            return;
-        } else {
-            $this->info(self::CMD_INFO);
+            $cmd = self::CMD_LEARNER_VIEW;
+            $this->ctrl->redirectByClass(ilObjLearningSequenceLearnerGUI::class, $cmd);
         }
     }
 
-    protected function manageContent(string $cmd = self::CMD_CONTENT): void
+    protected function getGUIManageContent(): ilObjLearningSequenceContentGUI
     {
-        $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
-        $this->addSubTabsForContent(self::TAB_MANAGE);
-
-        $gui = new ilObjLearningSequenceContentGUI(
+        return new ilObjLearningSequenceContentGUI(
             $this,
             $this->ctrl,
             $this->tpl,
@@ -541,38 +547,16 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->ui_factory,
             $this->ui_renderer
         );
-        $this->ctrl->setCmd($cmd);
-        $this->ctrl->forwardCommand($gui);
     }
 
-    protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW): void
+    protected function getGUILearnerView(): ilObjLearningSequenceLearnerGUI
     {
-        $this->addContentStyleCss();
-        $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
-        $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
-
-        $gui = $this->object->getLocalDI()["gui.learner"];
-
-        $this->ctrl->setCmd($cmd);
-        $this->ctrl->forwardCommand($gui);
+        return $this->object->getLocalDI()["gui.learner"];
     }
 
-    protected function members(): void
+    protected function getGUIMembers(): ilLearningSequenceMembershipGUI
     {
-        $may_manage_members = $this->checkAccess("edit_members");
-        $this->ctrl->setCmdClass('ilLearningSequenceMembershipGUI');
-        if ($may_manage_members) {
-            $this->manage_members();
-        } else {
-            $this->manage_members(self::CMD_MEMBERS_GALLERY);
-        }
-    }
-
-    protected function manage_members(string $cmd = self::CMD_MANAGE_MEMBERS): void
-    {
-        $this->tabs->setTabActive(self::TAB_MEMBERS);
-
-        $ms_gui = new ilLearningSequenceMembershipGUI(
+        return new ilLearningSequenceMembershipGUI(
             $this,
             $this->getObject(),
             $this->getTrackingObject(),
@@ -585,36 +569,19 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->refinery,
             $this->ui_factory
         );
-
-        $this->ctrl->setCmd($cmd);
-        $this->ctrl->forwardCommand($ms_gui);
     }
 
-    protected function learningProgress(): void
+    protected function getGUILearningProgress(): ilLearningProgressGUI
     {
-        $this->tabs->setTabActive(self::TAB_LP);
-
         $for_user = $this->user->getId();
-
         if ($this->request_wrapper->has("user_id")) {
             $for_user = $this->request_wrapper->retrieve("user_id", $this->refinery->kindlyTo()->int());
         }
-
-        $lp_gui = new ilLearningProgressGUI(
+        return new ilLearningProgressGUI(
             ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
             $this->getObject()->getRefId(),
             $for_user
         );
-        $this->ctrl->forwardCommand($lp_gui);
-    }
-
-    protected function export(): void
-    {
-        $this->tabs->setTabActive(self::TAB_EXPORT);
-        $gui = new ilExportGUI($this);
-        $gui->addFormat("xml");
-
-        $this->ctrl->forwardCommand($gui);
     }
 
     protected function initDidacticTemplate(ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -669,17 +636,18 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if ($this->checkAccess('unparticipate')) {
             $usr_id = $this->user->getId();
             $this->getObject()->getLSRoles()->leave($usr_id);
-            $this->learnerView();
         }
+        $this->ctrl->redirectByClass('ilObjLearningSequenceLearnerGUI', self::CMD_LEARNER_VIEW);
     }
 
     protected function getTabs(): void
     {
         if ($this->checkAccess("read")) {
+            $cmd = $this->checkAccess("write") ? self::CMD_CONTENT : self::CMD_VIEW;
             $this->tabs->addTab(
                 self::TAB_CONTENT_MAIN,
                 $this->lng->txt(self::TAB_CONTENT_MAIN),
-                $this->ctrl->getLinkTarget($this, self::CMD_VIEW, "", false, false)
+                $this->ctrl->getLinkTarget($this, $cmd, "", false, false)
             );
         }
 
@@ -700,17 +668,21 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
 
         if ($this->checkAccess("read")) {
-            if ($this->checkAccess("manage_members")
-                || (
-                    $this->getObject()->getLSSettings()->getMembersGallery()
-                    &&
-                    $this->getObject()->getLSRoles()->isMember($this->user->getId())
-                )
+            $cmd = null;
+            if ($this->checkAccess("manage_members")) {
+                $cmd = self::CMD_MEMBERS;
+            } elseif (
+                $this->getObject()->getLSSettings()->getMembersGallery()
+                && $this->getObject()->getLSRoles()->isMember($this->user->getId())
             ) {
+                $cmd = self::CMD_MEMBERS_GALLERY;
+            }
+
+            if ($cmd) {
                 $this->tabs->addTab(
                     self::TAB_MEMBERS,
                     $this->lng->txt(self::TAB_MEMBERS),
-                    $this->ctrl->getLinkTarget($this, self::CMD_MEMBERS, "", false, false)
+                    $this->ctrl->getLinkTarget($this, $cmd, "", false, false)
                 );
             }
         }
@@ -739,15 +711,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             );
         }
     }
-
-    /**
-     * Redirects to Manage Content to make deletion screen work.
-     */
-    public function renderObject(): void
-    {
-        $this->manageContent();
-    }
-
 
     protected function addSubTabsForContent(string $active): void
     {
