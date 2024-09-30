@@ -815,11 +815,41 @@ class ilExAssignment
      */
     public function delete(
         ilObjExercise $exc,
-        bool $update_status = true): void
-    {
+        bool $update_status = true
+    ): void {
         $ilDB = $this->db;
 
+        // delete submissions
+        $exc_members = new ilExerciseMembers($exc);
+        foreach ($exc_members->getMembers() as $mem) {
+            $submission = new ilExSubmission($this, $mem);
+            $submission->deleteAllFiles();
+        }
+
+        $ilDB->manipulateF(
+            "DELETE FROM exc_usr_tutor " .
+            "WHERE ass_id = %s",
+            array("integer"),
+            array($this->getId())
+        );
+
         $this->deleteGlobalFeedbackFile();
+
+        // remove peer review data
+        if ($this->getPeerReview()) {
+            $peer_review = new ilExPeerReview($this);
+            $peer_review->resetPeerReviews();
+        }
+
+        $ilDB->manipulate(
+            "DELETE FROM exc_ass_file_order" .
+            " WHERE assignment_id = " . $ilDB->quote($this->getId(), 'integer')
+        );
+
+        $ilDB->manipulate(
+            "DELETE FROM exc_mem_ass_status" .
+            " WHERE ass_id = " . $ilDB->quote($this->getId(), 'integer')
+        );
 
         $ilDB->manipulate(
             "DELETE FROM exc_assignment WHERE " .
@@ -1549,8 +1579,7 @@ class ilExAssignment
     protected function handleCalendarEntries(
         string $a_event,
         ilObjExercise $exc
-    ): void
-    {
+    ): void {
         $ilAppEventHandler = $this->app_event_handler;
 
         $dl_id = $this->getId() . "0";
