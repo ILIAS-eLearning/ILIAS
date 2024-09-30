@@ -23,10 +23,8 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -44,7 +42,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -866,18 +863,6 @@ class ilObjTest extends ilObject
     {
         $this->marks_repository->storeMarkSchema($mark_schema);
         $this->mark_schema = null;
-    }
-
-    /**
-    * Gets the reporting date of the ilObjTest object
-    *
-    * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
-    * @access public
-    * @see $reporting_date
-    */
-    public function getReportingDate(): ?string
-    {
-        return $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()?->format('YmdHis');
     }
 
     public function getNrOfTries(): int
@@ -4308,21 +4293,9 @@ class ilObjTest extends ilObject
             return true;
         }
 
-        if ($this->getReportingDate() === null
-            || preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches) === false) {
-            return false;
-        }
-
-        $epoch_time = mktime(
-            (int) $matches[4],
-            (int) $matches[5],
-            (int) $matches[6],
-            (int) $matches[2],
-            (int) $matches[3],
-            (int) $matches[1]
-        );
-        if (time() < $epoch_time) {
-            return true;
+        $reporting_date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        if ($reporting_date !== null) {
+            return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
         return false;
     }
@@ -6299,7 +6272,7 @@ class ilObjTest extends ilObject
 
         $reporting_date = $testsettings['ReportingDate'];
         if (is_string($reporting_date)) {
-            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate']);
+            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
         }
 
         $score_settings = $this->getScoreSettings();

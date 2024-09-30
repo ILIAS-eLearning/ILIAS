@@ -26,7 +26,6 @@ use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultDetails;
 use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;
-
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Symbol as S;
@@ -71,7 +70,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertEquals(5, $s->withScoreReporting(5)->getScoreReporting());
         $this->assertTrue($s->withScoreReporting(1)->getScoreReportingEnabled());
         $this->assertFalse($s->withScoreReporting(0)->getScoreReportingEnabled());
-        $this->assertEquals($dat, $s->withReportingDate($dat)->getReportingDate());
         $this->assertTrue($s->withShowGradingStatusEnabled(true)->getShowGradingStatusEnabled());
         $this->assertFalse($s->withShowGradingStatusEnabled(false)->getShowGradingStatusEnabled());
         $this->assertTrue($s->withShowGradingMarkEnabled(true)->getShowGradingMarkEnabled());
@@ -154,7 +152,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
                     <label for="id_1_0_opt">tst_count_partial_solutions</label>
                     <div class="c-input__help-byline">tst_count_partial_solutions_desc</div>
                 </div>
-            
+
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_1_1_opt" value="1" />
                     <label for="id_1_1_opt">tst_count_correct_solutions</label>
@@ -396,7 +394,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             ['examid_in_test_res', 'examid_in_test_res_desc'],
         ];
         $options = '';
-        foreach($opts as $index => $entry) {
+        foreach ($opts as $index => $entry) {
             list($label, $byline) = $entry;
             $nr = (string) ($index + 1);
             $checked = $index === 6 ? ' checked="checked"' : '';
@@ -466,7 +464,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             ['tst_highscore_hints', 'tst_highscore_hints_description'],
             ['tst_highscore_wtime', 'tst_highscore_wtime_description']
         ];
-        foreach($opts as $index => $entry) {
+        foreach ($opts as $index => $entry) {
             list($label, $byline) = $entry;
             $nr = (string) ($index + 4);
             $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="c-field-checkbox" />';
@@ -521,7 +519,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertIsInt($t->getCountSystem());
         $this->assertIsInt($t->getScoreCutting());
         $this->assertIsInt($t->getPassScoring());
-        $this->assertNull($t->getReportingDate());
         $this->assertIsBool($t->getShowPassDetails());
         $this->assertIsBool($t->getShowSolutionAnswersOnly());
         $this->assertIsBool($t->getShowSolutionSignature());
