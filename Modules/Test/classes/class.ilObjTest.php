@@ -915,13 +915,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
     * Gets the reporting date of the ilObjTest object
     *
-    * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
+    * @return DateTimeImmutable|null The reporting date of the test or null (=FALSE) if no reporting date is set
     * @access public
     * @see $reporting_date
+    * @depracated Use Score Settings instead
     */
-    public function getReportingDate(): ?string
+    public function getReportingDate(): ?DateTimeImmutable
     {
-        return $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()?->format('YmdHis');
+        return $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
     }
 
     public function getNrOfTries(): int
@@ -4424,26 +4425,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $total = $this->evalTotalPersons();
         if ($total > 0) {
-            if ($this->getReportingDate()) {
-                if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches)) {
-                    $epoch_time = mktime(
-                        (int) $matches[4],
-                        (int) $matches[5],
-                        (int) $matches[6],
-                        (int) $matches[2],
-                        (int) $matches[3],
-                        (int) $matches[1]
-                    );
-                    $now = time();
-                    if ($now < $epoch_time) {
-                        return true;
-                    }
-                }
+            $reporting_date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+            if ($reporting_date !== null) {
+                return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
             }
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -6510,7 +6498,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $reporting_date = $testsettings['ReportingDate'];
         if (is_string($reporting_date)) {
-            $reporting_date = DateTimeImmutable($testsettings['ReportingDate']);
+            $reporting_date = DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
         }
 
         $score_settings = $this->getScoreSettings();

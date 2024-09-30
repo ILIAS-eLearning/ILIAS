@@ -70,7 +70,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
         if ($template_id) {
             $this->settingsTemplate = new ilSettingsTemplate(
-                (int)$template_id,
+                (int) $template_id,
                 ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
             );
         }
@@ -227,13 +227,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             return false;
         }
 
-        $now = (new DateTimeImmutable("NOW"))->format('YmdHis');
-
-        if (
-            $this->test_object->getScoreReporting() == ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE
-            && $this->test_object->getReportingDate() > $now
-        ) {
-            return false;
+        if ($this->testOBJ->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE) {
+            $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+            return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
 
         return true;
