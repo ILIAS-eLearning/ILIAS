@@ -599,6 +599,23 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END EmployeeTalk)
 
+[//]: # (BEGIN Excel)
+
+* **Excel**
+	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+	* Authority to Sign off on Code Changes: 
+	[skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+	* Testcases: Tested separately in each module that supports Excel.
+	* Tester: Tested separately in each module that supports Excel.
+    * Assignee for Security Reports: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Assignee for Security Issues: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+
+[//]: # (END Excel)
+
 [//]: # (BEGIN Exercise)
 
 * **Exercise**
@@ -1760,6 +1777,5 @@ The following directories are currently unmaintained:
 * ILIAS/Context
 * ILIAS/CSV
 * ILIAS/EventHandling
-* ILIAS/Excel
 * ILIAS/QTI
 * ILIAS/Randomization
