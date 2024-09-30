@@ -108,7 +108,7 @@ class Blocks
 
     public function ui(): UI
     {
-        return new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language());
+        return new UI($this->id, $this->container->ui(), $this->container->language());
     }
 
     public function user(Settings $global_settings, UserSettings $user_settings, ilObjUser $user): User
