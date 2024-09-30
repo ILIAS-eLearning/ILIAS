@@ -754,7 +754,7 @@ class ilExAssignment
         $exc->updateAllUsersStatus();
         self::createNewAssignmentRecords($next_id, $exc);
 
-        $this->handleCalendarEntries("create");
+        $this->handleCalendarEntries("create", $exc);
     }
 
     /**
@@ -807,13 +807,15 @@ class ilExAssignment
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
 
-        $this->handleCalendarEntries("update");
+        $this->handleCalendarEntries("update", $exc);
     }
 
     /**
      * @throws ilDateTimeException
      */
-    public function delete(): void
+    public function delete(
+        ilObjExercise $exc,
+        bool $update_status = true): void
     {
         $ilDB = $this->db;
 
@@ -823,10 +825,13 @@ class ilExAssignment
             "DELETE FROM exc_assignment WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
         );
-        $exc = new ilObjExercise($this->getExerciseId(), false);
-        $exc->updateAllUsersStatus();
 
-        $this->handleCalendarEntries("delete");
+        if ($update_status) {
+            $exc = new ilObjExercise($this->getExerciseId(), false);
+            $exc->updateAllUsersStatus();
+        }
+
+        $this->handleCalendarEntries("delete", $exc);
 
         $reminder = new ilExAssignmentReminder();
         $reminder->deleteReminders($this->getId());
@@ -1541,7 +1546,10 @@ class ilExAssignment
      * Handle calendar entries for deadline(s)
      * @throws ilDateTimeException
      */
-    protected function handleCalendarEntries(string $a_event): void
+    protected function handleCalendarEntries(
+        string $a_event,
+        ilObjExercise $exc
+    ): void
     {
         $ilAppEventHandler = $this->app_event_handler;
 
@@ -1578,8 +1586,6 @@ class ilExAssignment
                 $apps[] = $app;
             }
         }
-
-        $exc = new ilObjExercise($this->getExerciseId(), false);
 
         $ilAppEventHandler->raise(
             'Modules/Exercise',

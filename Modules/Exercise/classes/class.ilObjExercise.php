@@ -322,6 +322,12 @@ class ilObjExercise extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        foreach (ilExAssignment::getAssignmentDataOfExercise($this->getId()) as $item) {
+            $ass = new ilExAssignment($item["id"]);
+            $ass->delete($this, false);
+        }
+
         // put here course specific stuff
         $ilDB->manipulate("DELETE FROM exc_data " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
