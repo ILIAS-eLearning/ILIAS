@@ -2814,9 +2814,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $info->addProperty(
                     $this->lng->txt('tst_score_reporting_date'),
                     ilDatePresentation::formatDate(new ilDateTime(
-                        $reporting_date
-                            ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
-                            ->format('YmdHis'),
+                        $reporting_date->format('YmdHis'),
                         IL_CAL_TIMESTAMP,
                         $reporting_date->getTimezone()->getName()
                     ))

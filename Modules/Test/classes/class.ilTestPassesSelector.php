@@ -259,19 +259,8 @@ class ilTestPassesSelector
 
     private function isReportingDateReached(): bool
     {
-        $reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
-        $date = $this->testOBJ->getReportingDate();
-        $matches = [];
-
-        if (!preg_match($reg, $date, $matches)) {
-            return false;
-        }
-
-        $matches = array_map('intval', $matches);
-
-        $repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-
-        return time() >= $repTS;
+        $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 
     private function isProcessingTimeReached($pass): bool
@@ -300,7 +289,7 @@ class ilTestPassesSelector
         }
 
         $passes = $this->getLazyLoadedPasses();
-        if(!isset($passes[$last_finished_pass])) {
+        if (!isset($passes[$last_finished_pass])) {
             return null;
         }
         return $passes[$last_finished_pass]['tstamp'];

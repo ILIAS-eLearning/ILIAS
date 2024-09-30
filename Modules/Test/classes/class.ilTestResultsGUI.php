@@ -346,20 +346,24 @@ class ilTestResultsGUI
                 break;
 
             case ilObjTest::SCORE_REPORTING_DATE:
-
-                $date = new ilDateTime($this->testObj->getReportingDate(), IL_CAL_TIMESTAMP);
+                $reporting_date = $this->testObj->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+                $reporting_date = new ilDateTime(
+                    $reporting_date->format('YmdHis'),
+                    IL_CAL_TIMESTAMP,
+                    $reporting_date->getTimezone()->getName() //date is provided in UTC, formatDate prints it in user timezone
+                );
 
                 if (!$this->testObj->hasAnyTestResult($this->getTestSession())) {
                     $message = sprintf(
                         $DIC->language()->txt('tst_res_tab_msg_res_after_date_no_res'),
-                        ilDatePresentation::formatDate($date)
+                        ilDatePresentation::formatDate($reporting_date)
                     );
                     break;
                 }
 
                 $message = sprintf(
                     $DIC->language()->txt('tst_res_tab_msg_res_after_date'),
-                    ilDatePresentation::formatDate($date)
+                    ilDatePresentation::formatDate($reporting_date)
                 );
                 break;
 
