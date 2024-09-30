@@ -35,6 +35,8 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
+use ilInfoScreenGUI;
+use ilObjTestGUI;
 
 /**
  * Class TestScreenGUI
@@ -88,7 +90,7 @@ class TestScreenGUI
         }
 
         if (!$this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass(\ilObjTestGUI::class, 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->tpl->setOnScreenMessage('failure', sprintf(

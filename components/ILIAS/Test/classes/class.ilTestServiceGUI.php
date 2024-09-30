@@ -1079,14 +1079,14 @@ class ilTestServiceGUI
     {
         if (!$this->object->getShowSolutionDetails()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $testSession = $this->testSessionFactory->getSession();
         $active_id = $testSession->getActiveId();
 
         if (!($active_id > 0)) {
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->ctrl->saveParameter($this, "pass");

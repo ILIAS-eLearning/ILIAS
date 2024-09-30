@@ -241,7 +241,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         ];
 
         if (!$this->getCreationMode() && $this->object->getOfflineStatus() && in_array($cmd, $cmds_disabled_due_to_offline_status)) {
-            $cmd = 'infoScreen';
+            $cmd = ilInfoScreenGUI::CMD_SHOW_SUMMARY;
         }
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -270,7 +270,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             && $this->test_question_set_config_factory->getQuestionSetConfig()->areDepenciesBroken()
             && !$this->test_question_set_config_factory->getQuestionSetConfig()->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd)
         ) {
-            $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->determineObjectiveOrientedContainer();
@@ -329,13 +329,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->forwardCommand($export_gui);
                 break;
 
-            case "ilinfoscreengui":
-                if (!$this->access->checkAccess("read", "", $this->testrequest->getRefId()) && !$this->access->checkAccess("visible", "", $this->testrequest->getRefId())) {
+            case strtolower(ilInfoScreenGUI::class):
+                if (
+                    !$this->access->checkAccess('read', '', $this->testrequest->getRefId())
+                    && !$this->access->checkAccess('visible', '', $this->testrequest->getRefId())
+                ) {
                     $this->redirectAfterMissingRead();
                 }
+
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->infoScreen(); // forwards command
+                $this->infoScreen();
                 break;
 
             case strtolower(TestScreenGUI::class):
@@ -1307,7 +1311,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function runObject()
     {
-        $this->ctrl->redirect($this, "infoScreen");
+        $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
     }
 
     public function outEvaluationObject()
@@ -2028,7 +2032,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             // allow only write access
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirect($this, 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->getTabsManager()->getQuestionsSubTabs();
@@ -2215,7 +2219,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->getTabsManager()->getQuestionsSubTabs();
@@ -2277,7 +2281,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
         $this->getTabsManager()->getQuestionsSubTabs();
         $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "components/ILIAS/Test");
@@ -2343,7 +2347,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
@@ -2490,30 +2494,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     }
 
     /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
-    public function infoScreenObject()
-    {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen();
-    }
-
-    public function redirectToInfoScreenObject()
-    {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
-        $this->infoScreen($this->testrequest->raw('lock') ?? '');
-    }
-
-    /**
     * show information screen
     */
-    public function infoScreen($session_lock = "")
+    private function infoScreen($session_lock = "")
     {
         if (!$this->access->checkAccess("visible", "", $this->ref_id) && !$this->access->checkAccess("read", "", $_GET["ref_id"])) {
             $this->redirectAfterMissingRead();
@@ -2659,7 +2642,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getTestObject()->getId());
         $sltImportFails->deleteRegisteredImportFails();
 
-        $this->ctrl->redirect($this, 'infoScreen');
+        $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
     }
 
     public function addLocatorItems(): void
@@ -3068,7 +3051,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
     }
 
@@ -3089,7 +3072,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         $order = $this->testrequest->raw('order') ?? [];

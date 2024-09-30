@@ -503,9 +503,8 @@ class ilTestTabsManager
         if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'),
-                ['infoScreen', 'outIntroductionPage', 'showSummary',
-                    'setAnonymousId', 'redirectToInfoScreen']
+                $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, ilInfoScreenGUI::CMD_SHOW_SUMMARY),
+                [ilInfoScreenGUI::CMD_SHOW_SUMMARY, 'outIntroductionPage', 'setAnonymousId', 'redirectToInfoScreen']
             );
         }
 

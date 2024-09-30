@@ -134,7 +134,7 @@ class ilTestRandomQuestionSetConfigGUI
     {
         if (!$this->access->checkAccess("write", "", $this->test_obj->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         if ($this->isAvoidManipulationRedirectRequired()) {

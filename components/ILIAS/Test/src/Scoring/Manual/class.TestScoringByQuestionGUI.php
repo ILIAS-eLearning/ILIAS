@@ -22,6 +22,8 @@ namespace ILIAS\Test\Scoring\Manual;
 
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ilInfoScreenGUI;
+use ilObjTestGUI;
 
 class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 {
@@ -49,7 +51,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         if (!$this->test_access->checkScoreParticipantsAccess()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         \iljQueryUtil::initjQuery();
@@ -165,7 +167,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             }
 
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilInfoScreenGUI::class], ilInfoScreenGUI::CMD_SHOW_SUMMARY);
         }
 
         if ($scoring === []) {
