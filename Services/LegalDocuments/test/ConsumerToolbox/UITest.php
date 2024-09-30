@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test\ConsumerToolbox;
 
 use ILIAS\LegalDocuments\test\ContainerMock;
+use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory as UIFactory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
@@ -35,19 +36,19 @@ class UITest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UI::class, new UI('foo', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $this->mock(ilLanguage::class)));
+        $this->assertInstanceOf(UI::class, new UI('foo', $this->mock(UIServices::class), $this->mock(ilLanguage::class)));
     }
 
     public function testCreate(): void
     {
         $ui_factory = $this->mock(UIFactory::class);
-        $this->assertSame($ui_factory, (new UI('foo', $ui_factory, $this->mock(ilGlobalTemplateInterface::class), $this->mock(ilLanguage::class)))->create());
+        $this->assertSame($ui_factory, (new UI('foo', $this->mockTree(UIServices::class, ['factory' => $ui_factory]), $this->mock(ilLanguage::class)))->create());
     }
 
     public function testMainTemplate(): void
     {
         $template = $this->mock(ilGlobalTemplateInterface::class);
-        $this->assertSame($template, (new UI('foo', $this->mock(UIFactory::class), $template, $this->mock(ilLanguage::class)))->mainTemplate());
+        $this->assertSame($template, (new UI('foo', $this->mockTree(UIServices::class, ['mainTemplate' => $template]), $this->mock(ilLanguage::class)))->mainTemplate());
     }
 
     public function testTxt(): void
@@ -55,7 +56,7 @@ class UITest extends TestCase
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['ldoc_foo'], 'baz');
         $language->expects(self::exactly(2))->method('exists')->withConsecutive(['bar_foo'], ['ldoc_foo'])->willReturnOnConsecutiveCalls(false, true);
 
-        $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
+        $instance = new UI('bar', $this->mock(UIServices::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
     }
 
@@ -64,7 +65,7 @@ class UITest extends TestCase
         $language = $this->mockMethod(ilLanguage::class, 'txt', ['foo'], 'baz');
         $language->expects(self::exactly(2))->method('exists')->withConsecutive(['bar_foo'], ['ldoc_foo'])->willReturn(false);
 
-        $instance = new UI('bar', $this->mock(UIFactory::class), $this->mock(ilGlobalTemplateInterface::class), $language);
+        $instance = new UI('bar', $this->mock(UIServices::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
     }
 }
