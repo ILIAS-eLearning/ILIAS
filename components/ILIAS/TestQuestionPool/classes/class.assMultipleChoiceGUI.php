@@ -82,8 +82,16 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      * Get the single/multiline editing of answers
      * - The settings of an already saved question is preferred
      * - A new question will use the setting of the last edited question by the user
+     *
      * @param bool	$checkonly	get the setting for checking a POST
+     *
      * @return bool
+     * @deprecated Deprecated since ILIAS 8.14, will be removed in ILIAS 10.0. Use assMultipleChoice::isSingleline() instead.
+     *             The new method name may be subject to change.
+     *             The method will be removed due to its redundant nature and because this method implements specific
+     *             behaviour only for this question type. In order to maintain consistency and avoid unnecessary complexity
+     *             in the codebase, it's beneficial to remove such specific behaviors that are not shared across different
+     *             question types.
      */
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
@@ -645,7 +653,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
-        $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
+        $choice = $_POST['choice'];
+        if($this->object->hasAnswerTypeChanged() || !$this->object->isSingleline()) {
+            $choice = $this->cleanupAnswerText($choice,  !$this->object->isSingleline());
+        }
         if (!$this->object->isSingleline()) {
             foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
