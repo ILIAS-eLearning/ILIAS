@@ -55,7 +55,7 @@ class Factory implements \ILIAS\UI\Factory
         protected C\Toast\Factory $toast_factory,
         protected C\Legacy\Factory $legacy_factory,
         protected C\launcher\Factory $launcher_factory,
-        protected C\Entity\Factory $entity_factory
+        protected C\Entity\Factory $entity_factory,
     ) {
     }
 

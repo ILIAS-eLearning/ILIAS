@@ -222,6 +222,7 @@ class TestDefaultRenderer extends DefaultRenderer
     public function __construct(
         Render\Loader $component_renderer_loader,
         JavaScriptBinding $java_script_binding,
+        \ILIAS\Language\Language $language,
         array $with_stub_renderings = [],
         protected array $with_additional_contexts = [],
     ) {
@@ -231,7 +232,7 @@ class TestDefaultRenderer extends DefaultRenderer
 
         array_walk($this->with_additional_contexts, fn(Component $c) => $this->pushContext($c));
 
-        parent::__construct($component_renderer_loader, $java_script_binding);
+        parent::__construct($component_renderer_loader, $java_script_binding, $language);
     }
 
     public function _getRendererFor(IComponent $component): Render\ComponentRenderer
@@ -449,7 +450,7 @@ trait BaseUITestTrait
                 )
             )
         );
-        return new TestDefaultRenderer($component_renderer_loader, $js_binding, $with_stub_renderings, $with_additional_contexts);
+        return new TestDefaultRenderer($component_renderer_loader, $js_binding, $lng, $with_stub_renderings, $with_additional_contexts);
     }
 
     public function getDecoratedRenderer(Renderer $default)

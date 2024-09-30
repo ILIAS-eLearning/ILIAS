@@ -32,6 +32,9 @@ class Help implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $implement[UI\HelpTextRetriever::class] = static fn() =>
+            new \ilHelpUITextRetriever();
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\Help\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]

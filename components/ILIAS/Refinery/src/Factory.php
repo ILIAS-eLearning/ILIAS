@@ -31,8 +31,6 @@ class Factory
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;
-
-        $this->language->loadLanguageModule('validation');
     }
 
     /**
@@ -41,6 +39,7 @@ class Factory
      */
     public function to(): To\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new To\Group($this->dataFactory, $this->language);
     }
 
@@ -74,6 +73,7 @@ class Factory
      */
     public function int(): Integer\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Integer\Group($this->dataFactory, $this->language, $this->in());
     }
 
@@ -82,6 +82,7 @@ class Factory
      */
     public function string(): String\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new String\Group($this->dataFactory, $this->language);
     }
 
@@ -90,6 +91,7 @@ class Factory
      */
     public function custom(): Custom\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Custom\Group($this->dataFactory, $this->language);
     }
 
@@ -98,6 +100,7 @@ class Factory
      */
     public function container(): Container\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Container\Group($this->dataFactory);
     }
 
@@ -106,6 +109,7 @@ class Factory
      */
     public function password(): Password\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Password\Group($this->dataFactory, $this->language);
     }
 
@@ -114,6 +118,7 @@ class Factory
      */
     public function logical(): Logical\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Logical\Group($this->dataFactory, $this->language);
     }
 
@@ -122,6 +127,7 @@ class Factory
      */
     public function null(): Constraint
     {
+        $this->language->loadLanguageModule('validation');
         return new IsNull($this->dataFactory, $this->language);
     }
 
@@ -130,6 +136,7 @@ class Factory
      */
     public function numeric(): Numeric\Group
     {
+        $this->language->loadLanguageModule('validation');
         return new Numeric\Group($this->dataFactory, $this->language);
     }
 
@@ -160,6 +167,7 @@ class Factory
      */
     public function byTrying(array $transformations): ByTrying
     {
+        $this->language->loadLanguageModule('validation');
         return new ByTrying($transformations, $this->dataFactory, $this->language);
     }
 
@@ -180,6 +188,7 @@ class Factory
 
     public function executable(): Transformation
     {
+        $this->language->loadLanguageModule('validation');
         return new IsExecutableTransformation($this->language);
     }
 }

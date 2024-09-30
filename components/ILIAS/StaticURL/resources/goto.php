@@ -21,7 +21,8 @@
 use ILIAS\StaticURL\Services;
 
 require_once("../vendor/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 global $DIC;
 

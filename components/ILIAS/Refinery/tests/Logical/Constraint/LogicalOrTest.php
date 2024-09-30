@@ -127,6 +127,13 @@ class LogicalOrTest extends TestCase
             public function loadLanguageModule(string $a_module): void
             {
             }
+            public function getLangKey(): string
+            {
+                return '';
+            }
+            public function toJS($key): void
+            {
+            }
         };
         $data_factory = new DataFactory();
 
