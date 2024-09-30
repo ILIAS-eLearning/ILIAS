@@ -80,7 +80,6 @@ class ItemRenderer
         if (!$ilAccess->checkAccess('visible', '', $a_item_data['ref_id'], $a_item_data['type'], $a_item_data['obj_id'], $a_item_data['tree'])) {
             return '';
         }*/
-
         $view_mode = $this->view_mode;
         if ($item_group_list_presentation != "") {
             $view_mode = ($item_group_list_presentation === "tile")
