@@ -1337,7 +1337,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setTestId($data->test_id);
 
             if ($data->author) {
-                if(strlen($this->getAuthor()) == 0) {
+                if (strlen($this->getAuthor()) == 0) {
                     $this->saveAuthorToMetadata($data->author);
                 }
                 $this->setAuthor($data->author);
@@ -1978,17 +1978,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Gets the reporting date of the ilObjTest object
     *
-    * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
+    * @return DateTimeImmutable|null The reporting date of the test or null (=FALSE) if no reporting date is set
     * @access public
     * @see $reporting_date
+    * @depracated Use Score Settings instead
     */
-    public function getReportingDate(): ?string
+    public function getReportingDate(): ?DateTimeImmutable
     {
-        $date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
-        if ($date) {
-            $date = $date->format('YmdHis'); //legacy-reasons ;(
-        }
-        return $date;
+        return $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
     }
 
     /**
@@ -6121,14 +6118,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         $total = $this->evalTotalPersons();
         if ($total > 0) {
-            if ($this->getReportingDate()) {
-                if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches)) {
-                    $epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-                    $now = time();
-                    if ($now < $epoch_time) {
-                        return true;
-                    }
-                }
+            $reporting_date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+            if ($reporting_date !== null) {
+                return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
             }
             return false;
         } else {
