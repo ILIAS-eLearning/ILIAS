@@ -42,7 +42,7 @@ jobs:
         run: npm clean-install --omit-dev --ignore-scripts
 
       - name: Install Composer dependencies
-        run: composer install --no-interaction --no-progress --no-dev
+        run: composer install --no-interaction --no-progress --ignore-platform-reqs
 
       - name: 'PHStan Custom Rules'
         run: scripts/PHPStan/run_legacy_ui_report.sh
