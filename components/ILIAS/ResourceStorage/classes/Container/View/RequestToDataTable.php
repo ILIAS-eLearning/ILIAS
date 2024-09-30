@@ -184,8 +184,8 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
             $this->http->request()
         )->withActions(
             $this->action_builder->getActions()
-        )->withNumberOfRows(
-            $this->request->getItemsPerPage()
+        )->withRange(
+            new Range(0, $this->request->getItemsPerPage())
         );
     }
 
