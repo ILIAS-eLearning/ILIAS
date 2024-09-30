@@ -95,12 +95,7 @@ class BlocksTest extends TestCase
     public function testUi(): void
     {
         $container = $this->mock(Container::class);
-
-        $ui = $this->mock(UIServices::class);
-        $ui->expects(self::once())->method('factory')->willReturn($this->mock(UIFactory::class));
-        $ui->expects(self::once())->method('mainTemplate')->willReturn($this->mock(ilGlobalTemplateInterface::class));
-
-        $container->method('ui')->willReturn($ui);
+        $container->expects(self::once())->method('ui')->willReturn($this->mock(UIServices::class));
         $container->expects(self::once())->method('language')->willReturn($this->mock(ilLanguage::class));
 
         $instance = new Blocks(

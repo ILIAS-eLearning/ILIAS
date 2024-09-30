@@ -62,7 +62,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
         $this->config = $config;
         $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $this->config, $this->afterDocumentDeletion(...));
-        $this->ui = new UI(Consumer::ID, $this->dic->ui()->factory(), $this->dic->ui()->mainTemplate(), $this->dic->language());
+        $this->ui = new UI(Consumer::ID, $this->dic->ui(), $this->dic->language());
         $this->tos_settings = $this->createSettings();
     }
 
