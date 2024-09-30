@@ -41,7 +41,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     public function render(array &$a_html, object $a_parent_gui): void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
-            $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, "", (int) $tax_id, "", "");
+            $tax_exp = new ilTaxonomyClassificationExplorerGUI($a_parent_gui, "", (int) $tax_id, "", "");
             $tax_exp->setSkipRootNode(true);
             $tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 
@@ -55,7 +55,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
             if (!$tax_exp->handleCommand()) {
                 $a_html[] = array(
                     "title" => ilObject::_lookupTitle((int) $tax_id),
-                    "html" => $tax_exp->getHTML()
+                    "html" => $tax_exp->getHTML(true)
                 );
             }
         }
@@ -164,7 +164,6 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
                 $tax_nodes = array_merge($tax_nodes, $tax_tree->getSubTreeIds((int) $node_id));
                 $tax_nodes[] = (int) $node_id;
             }
-
             $tax_obj_ids[$tax_id] = ilTaxNodeAssignment::findObjectsByNode((int) $tax_id, $tax_nodes, "obj");
         }
 
