@@ -62,6 +62,7 @@ class InternalService
             $this->db
         );
         $this->domain = new InternalDomainService(
+            $this->DIC,
             $this->data,
             $this->repo
         );

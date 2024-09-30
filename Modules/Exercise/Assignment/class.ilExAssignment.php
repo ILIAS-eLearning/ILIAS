@@ -1508,7 +1508,7 @@ class ilExAssignment
             $file_name = $f["file"];
 
             // if checked in confirmation gui
-            if (is_array($a_files[$user_id]) && in_array(md5($file_name), $a_files[$user_id])) {
+            if (is_array($a_files[$user_id] ?? false) && in_array(md5($file_name), $a_files[$user_id])) {
                 $submission = new ilExSubmission($this, $user_id);
                 $feedback_id = $submission->getFeedbackId();
                 $noti_rec_ids = $submission->getUserIds();

@@ -418,6 +418,11 @@
 				let xhr = new XMLHttpRequest();
 				xhr.open('GET', getConfig().renderConversationItemsURL + '&ids=' + conversationIds);
 				xhr.onload = function () {
+					if (getModule().menuCollector === undefined) {
+						console.error("No menu collector found in the UI, please ensure the main bar item is enabled in the ILIAS administration!");
+						return;
+					}
+
 					if (xhr.status === 200) {
 						getModule().menuCollector.innerHTML = xhr.responseText;
 						getModule().menuCollector.querySelectorAll('script').forEach(element => {
@@ -430,7 +435,7 @@
 							.on('click', '[data-id]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 							.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
 					} else {
-						il.OnScreenChat.menuCollector.innerHTML = '';
+						getModule().menuCollector.innerHTML = '';
 						console.error(xhr.status + ': ' + xhr.responseText);
 					}
 				};

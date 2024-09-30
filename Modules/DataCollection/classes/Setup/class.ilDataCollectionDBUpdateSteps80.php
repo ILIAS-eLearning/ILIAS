@@ -140,4 +140,9 @@ class ilDataCollectionDBUpdateSteps implements \ilDatabaseUpdateSteps
             [ilDclDatatype::INPUTFORMAT_TEXT]
         );
     }
+
+    public function step_10(): void
+    {
+        $this->db->manipulate('UPDATE il_dcl_field_prop SET value = "" WHERE value IS NULL');
+    }
 }
