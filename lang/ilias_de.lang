@@ -8543,7 +8543,7 @@ dcl#:#dcl_datatype#:#Typ
 dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
 dcl#:#dcl_datetime#:#Datum per Eingabe
-dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder mi Kalender ausgewählt
+dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
