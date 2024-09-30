@@ -10,7 +10,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * ---
  * description: >
- *   This example wraps a Message Box into a Prompt (Response).
+ *   This example wraps a Message Box into a Prompt (Instruction).
  *
  * expected output: >
  *   A Message Box is rendered along with a Button triggering the Prompt.
@@ -37,7 +37,7 @@ function base()
     $message = $factory->messageBox()->success('some message box')
         ->withButtons([$factory->button()->standard('some Action', '#')]);
 
-    //when expecting a response, we do not want to render other examples
+    //when expecting an instruction, we do not want to render other examples
     $example_namespace = ['prompt', 'endpoints'];
     list($url_builder, $endpointtoken) = $url_builder->acquireParameters($example_namespace, "endpoint");
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
@@ -50,8 +50,8 @@ function base()
 
     //build the endpoint returning the wrapped message
     $query = $DIC->http()->wrapper()->query();
-    if($query->has($token->getName())) {
-        $response = $factory->prompt()->response($message);
+    if ($query->has($token->getName())) {
+        $response = $factory->prompt()->instruction()->show($message);
         echo($renderer->renderAsync($response));
         exit();
     }

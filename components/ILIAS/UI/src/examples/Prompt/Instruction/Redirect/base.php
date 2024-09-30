@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\Response\Redirect;
+namespace ILIAS\UI\examples\Prompt\Instruction\Redirect;
 
 use ILIAS\UI\Component\Prompt\PromptContent;
 use ILIAS\UI\URLBuilder;
@@ -10,7 +10,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * ---
  * description: >
- *   The example demonstrates how to use commands in the Response.
+ *   The example demonstrates how to use commands in the Instruction.
  *
  * expected output: >
  *   When clicking the button, the Prompt shows a Mesaae Box with a Link.
@@ -34,12 +34,12 @@ function base()
 
     //the endpoint; act according to parameter
     $query = $DIC->http()->wrapper()->query();
-    if($query->has($action_token->getName())) {
+    if ($query->has($action_token->getName())) {
         $action = $query->retrieve($action_token->getName(), $refinery->kindlyTo()->string());
-        if($action === 'redirection') {
-            //a response redirecting to an URL
+        if ($action === 'redirection') {
+            //an instruction to redirect to an URL
             $target = $df->uri('https://www.ilias.de');
-            $response = $factory->prompt()->redirect($target);
+            $response = $factory->prompt()->instruction()->redirect($target);
         } else {
             //The messagebox we are going to wrap into the prompt
             $redirect = $factory->link()->standard(
@@ -49,7 +49,7 @@ function base()
 
             $message = $factory->messageBox()->info('some message box')
                 ->withLinks([$redirect]);
-            $response = $factory->prompt()->response($message);
+            $response = $factory->prompt()->instruction()->show($message);
         }
         echo($renderer->renderAsync($response));
         exit();

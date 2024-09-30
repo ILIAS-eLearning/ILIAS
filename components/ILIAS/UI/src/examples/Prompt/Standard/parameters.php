@@ -10,7 +10,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * ---
  * description: >
- *   This shows how different responses are being used in the same Prompt
+ *   This shows how different instructions are being used in the same Prompt
  *   according to parameters, thus creating an 'internally navigational' Prompt.
  *   the additional buttons demonstrate the usage of JS within Prompts.
  *
@@ -32,11 +32,10 @@ function parameters()
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
 
-    //when expecting a response, we do not want to render other examples
+    //when expecting an instruction, we do not want to render other examples
     $example_namespace = ['prompt', 'endpoints'];
     list($url_builder, $endpointtoken) = $url_builder->acquireParameters($example_namespace, "endpoint");
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
-
 
     //build a prompt
     $query_namespace = ['prompt', 'example1'];
@@ -52,7 +51,7 @@ function parameters()
     $item = $icon;
     $links = [];
 
-    if($query->has($action_token->getName())) {
+    if ($query->has($action_token->getName())) {
         $action = $query->retrieve($action_token->getName(), $refinery->kindlyTo()->string());
         $amount = $query->retrieve($amount_token->getName(), $refinery->kindlyTo()->int()) ;
         switch ($action) {
@@ -93,7 +92,7 @@ function parameters()
                 throw new \Exception('?' . $action . $amount);
         }
 
-        $response = $factory->prompt()->response($prompt_content);
+        $response = $factory->prompt()->instruction()->show($prompt_content);
         echo($renderer->renderAsync($response));
         exit();
     }

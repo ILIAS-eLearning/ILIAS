@@ -23,11 +23,6 @@ namespace ILIAS\UI\Component\Prompt;
 use ILIAS\UI\Component;
 use ILIAS\Data\URI;
 
-/**
- * Interface Factory
- *
- * @package ILIAS\UI\Component\Prompt
- */
 interface Factory
 {
     /**
@@ -37,7 +32,7 @@ interface Factory
      *      A Prompt interrupts a user to focus on a certain task or/and
      *      prompts for information without the user losing the current context.
      *      The Prompt is async by default and merely provides a wrapper,
-     *      its contents are defined by the Prompt Response.
+     *      its contents are defined by the Prompt Instruction.
      *   composition: >
      *      The Prompt uses the HTML dialog tag.
      *   effect: >
@@ -46,12 +41,12 @@ interface Factory
      *      stay in context of the Prompt, i.e. you may take roundtrips to the
      *      server and modify the Prompt's content without closing it.
      * context:
-     *   - The Prompt requires a Prompt Response.
+     *   - The Prompt requires a Prompt Instruction.
      *
      * rules:
      *   usage:
      *     1: >
-     *      The server MUST answer with a PromptResponse Component
+     *      The server MUST answer with an Instruction Component
      *      to a request to the url provided to the Prompt.
      * ---
      * @return \ILIAS\UI\Component\Prompt\Prompt
@@ -62,69 +57,24 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      A Prompt Response serves as a formalized wrapper around output of
-     *      asynchrounous requests in order to provide contents for a Prompt.
-     *      It allows for dedicated changes to recurring parts of Prompts,
+     *      Prompt Instructions serve as a formalized wrapper around output of
+     *      asynchrounous requests in order to provide contents and commands
+     *      for a Prompt.
+     *      They allow for dedicated changes to recurring parts of Prompts,
      *      such as Title, Content or Buttons.
      *   composition: >
-     *      The Prompt Response accepts Prompt Content to be handled by
-     *      the Prompt.
+     *      The Instruction will render a div-element containing sections for
+     *      its respective parts.
      *   effect: >
-     *       The sections of the Prompt Response are rendered to their respective
+     *       The sections of the Prompt Instruction are rendered to their respective
      *       parts of the Prompt.
      *       Forms and Links are automatically turned into async requests to
      *       stay in context of the Prompt.
      *       You may also tell the Prompt to close or redirect - after the
      *       request has been processed.
-     * context:
-     *   - The Prompt Response is used for Prompts.
      *
      * ---
-     * @return \ILIAS\UI\Component\Prompt\Response
+     * @return \ILIAS\UI\Component\Prompt\Instruction\Factory
      */
-    public function response(
-        \ILIAS\UI\Component\Prompt\PromptContent $content
-    ): Response;
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *      Factors a Prompt Response without contents, but with a 'close'-command
-     *      for the Prompt.
-     *   composition: >
-     *      The Close Response does not have any relevant manifestation.
-     *   effect: >
-     *      Tells the Prompt to close: when the Close Response is retrieved
-     *      from the server, the Prompt is closed.
-     * context:
-     *   - The Close Response is used for Prompts.
-     *
-     * ---
-     * @return \ILIAS\UI\Component\Prompt\Response
-     */
-    public function close(): Response;
-
-    /**
-     * ---
-     * description:
-     *   purpose: >
-     *      Factors a Prompt Response without contents, but with a 'redirect'-command
-     *      for the Prompt.
-     *   composition: >
-     *      The Redirect Response does not have any relevant manifestation.
-     *   effect: >
-     *      Tells the Prompt to redirect the page. When the response is called
-     *      asynchronously, the server-side redirect will do so for the
-     *      async call only.
-     *      Use Redirect to redirect the client to the given URL.
-     *
-     * context:
-     *   - The Redirect Response is used for Prompts.
-     *
-     * ---
-     * @return \ILIAS\UI\Component\Prompt\Response
-     */
-    public function redirect(URI $redirect): Response;
-
+    public function instruction(): Instruction\Factory;
 }

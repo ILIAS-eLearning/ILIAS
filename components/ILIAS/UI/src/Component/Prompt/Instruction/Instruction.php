@@ -18,13 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Prompt;
+namespace ILIAS\UI\Component\Prompt\Instruction;
 
 use ILIAS\UI\Component\Component;
 
-/**
- *
- */
-interface Response extends Component
+interface Instruction extends Component
 {
 }

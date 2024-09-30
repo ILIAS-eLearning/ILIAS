@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\Response\Close;
+namespace ILIAS\UI\examples\Prompt\Instruction\Close;
 
 use ILIAS\UI\Component\Prompt\PromptContent;
 use ILIAS\UI\URLBuilder;
@@ -34,11 +34,11 @@ function base()
 
     //the endpoint; act according to parameter
     $query = $DIC->http()->wrapper()->query();
-    if($query->has($action_token->getName())) {
+    if ($query->has($action_token->getName())) {
         $action = $query->retrieve($action_token->getName(), $refinery->kindlyTo()->string());
-        if($action === 'closecommand') {
-            //a response simply closing the modal
-            $response = $factory->prompt()->close();
+        if ($action === 'closecommand') {
+            //an instruction to simply close the modal
+            $response = $factory->prompt()->instruction()->close();
         } else {
             //The messagebox we are going to wrap into the prompt
             $close = $factory->link()->standard(
@@ -48,7 +48,7 @@ function base()
 
             $message = $factory->messageBox()->info('some message box')
                 ->withLinks([$close]);
-            $response = $factory->prompt()->response($message);
+            $response = $factory->prompt()->instruction()->show($message);
         }
         echo($renderer->renderAsync($response));
         exit();

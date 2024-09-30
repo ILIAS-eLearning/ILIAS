@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\Response;
+namespace ILIAS\UI\examples\Prompt\Instruction\Show;
 
 use ILIAS\UI\Component\Prompt\PromptContent;
 use ILIAS\UI\URLBuilder;
@@ -28,7 +28,7 @@ function base()
         [$factory->input()->field()->text("Text Input")]
     );
 
-    $response = $factory->prompt()->response($content);
+    $response = $factory->prompt()->instruction()->show($content);
 
     //endpoint to return response on (asynch) call
     $refinery = $DIC['refinery'];
@@ -38,7 +38,7 @@ function base()
         "response"
     );
     $query = $DIC->http()->wrapper()->query();
-    if($query->has($url_token->getName())) {
+    if ($query->has($url_token->getName())) {
         echo($renderer->renderAsync($response));
         exit();
     }

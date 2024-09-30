@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt;
+namespace ILIAS\UI\Implementation\Component\Prompt\Instruction;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button;
@@ -29,7 +29,7 @@ use ILIAS\Data\URI;
 /**
  *
  */
-class Response implements I\Response
+class Instruction implements I\Instruction\Instruction
 {
     use ComponentHelper;
 

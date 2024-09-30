@@ -32,7 +32,7 @@ function form()
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
 
-    //when expecting a response, we do not want to render other examples
+    //when expecting an instruction, we do not want to render other examples
     $example_namespace = ['prompt', 'endpoints'];
     list($url_builder, $endpointtoken) = $url_builder->acquireParameters($example_namespace, "endpoint");
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
@@ -43,7 +43,7 @@ function form()
     $url_builder = $url_builder->withParameter($action_token, "form");
     $prompt = $factory->prompt()->standard($url_builder->buildURI());
 
-    //fill the response according to (query-)paramters
+    //fill the instruction according to (query-)parameters
     $query = $DIC->http()->wrapper()->query();
     if ($query->has($action_token->getName())
         && $query->has($action_token->getName())
@@ -62,21 +62,21 @@ function form()
             ]
         );
 
-        //set response
-        $response = $factory->prompt()->response($form);
+        //set the response
+        $response = $factory->prompt()->instruction()->show($form);
 
         $request = $DIC->http()->request();
         if ($request->getMethod() === 'POST') {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if($data !== null && reset($data) === 'close') {
+            if ($data !== null && reset($data) === 'close') {
                 /**
                  * alternatively:
                  * $response = $response->withCloseModal(true);
                  */
-                $response = $factory->prompt()->close();
+                $response = $factory->prompt()->instruction()->close();
             } else {
-                $response = $factory->prompt()->response($form);
+                $response = $factory->prompt()->instruction()->show($form);
             }
         }
 

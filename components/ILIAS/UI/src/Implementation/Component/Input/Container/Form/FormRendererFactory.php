@@ -26,7 +26,7 @@ use ILIAS\UI\Component;
 class FormRendererFactory extends Render\DefaultRendererFactory
 {
     public const NO_BUTTONS_FORM = [
-        'ResponsePrompt',
+        'InstructionInstructionPrompt',
         'RoundTripModal',
     ];
 

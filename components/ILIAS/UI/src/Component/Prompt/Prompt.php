@@ -25,9 +25,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
 
-/**
- * This describes a Prompt.
- */
 interface Prompt extends Component, JavaScriptBindable
 {
     /**
