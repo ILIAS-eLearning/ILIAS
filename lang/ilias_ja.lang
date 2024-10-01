@@ -2197,7 +2197,7 @@ badge#:#badge_obi_activate_info#:#ユーザはiliasからバッジをエクス�
 badge#:#badge_obi_contact#:#連絡先メールアドレス
 badge#:#badge_obi_contact_info#:#このE-mailアドレスはバッジの背面以外は表示されません。
 badge#:#badge_obi_organisation#:#組織
-badge#:#badge_obi_organisation_info#:#このエントリーはバッジの発行者として表示されｒます。
+badge#:#badge_obi_organisation_info#:#このエントリーはバッジの発行者として表示されます。
 badge#:#badge_obi_salt#:#塩
 badge#:#badge_obi_salt_info#:#バッジの認証を有効にするためにサードパーティを許可する文字と数字の組合せを入力します。これ以降のエントリー変更はしないでください。
 badge#:#badge_object_badges#:#目標のバッジ
@@ -5947,12 +5947,12 @@ common#:#wiki_add#:#Wikiに追加
 common#:#wiki_new#:#新規Wiki
 common#:#with#:#with
 common#:#withdraw_consent#:#承諾を取り消す
-common#:#withdraw_consent_description#:#ここで利用規約を取り消す
+common#:#withdraw_consent_description#:#ここで利用規約承諾を取り消します。
 common#:#withdraw_consent_description_external#:#ソースインストールの戻り解約プロセスを完了するためにもう一度ログインして下さい。
 common#:#withdraw_consent_description_internal#:#解約プロセス完了するためにもう一度ログインしてください。
-common#:#withdraw_consent_header#:#サービス許諾を解約する。
-common#:#withdraw_consent_info#:#利用規約を解約する。
-common#:#withdraw_consent_info_external#:#認証システムの管理者へ通知して利用規約を解約するための意向について連絡してください。
+common#:#withdraw_consent_header#:#利用規約承諾の取り消し
+common#:#withdraw_consent_info#:#利用規約承諾を取消します。
+common#:#withdraw_consent_info_external#:#認証システムの管理者へ通知して利用規約承諾の取消する意向を連絡してください。
 common#:#withdraw_consent_info_internal#:#ここで確認するとアカウントは削除されます。
 common#:#withdraw_usr_agreement#:#取り消し
 common#:#withdrawal_complete#:#完全に承諾を取り下げます。
@@ -6006,7 +6006,7 @@ cont#:#cont_news_timeline_info#:#ニュースタイムラインタブを有効�
 cont#:#cont_news_timeline_landing_page#:#ランディングページ
 cont#:#cont_news_timeline_landing_page_info#:#タイムラインページはランディングページになります。
 cont#:#cont_news_timeline_tab#:#タイムライン
-cont#:#cont_no_title#:#Empty Title###13 08 2024 new variable
+cont#:#cont_no_title#:#空のタイトル
 cont#:#cont_page_type_cont#:#リポジトリ；ページ(Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#コース開始ページ(学習オブジェクトビュー)
 cont#:#cont_path#:#Path
@@ -9306,7 +9306,7 @@ exc#:#exc_rel_last_submission#:#最終可能性の提出物
 exc#:#exc_rel_last_submission_info#:#このオプションdateを設定すると全てのユーザはこの締め切りが来るまでに提出する必要があります。
 exc#:#exc_relative_date#:#相対日数
 exc#:#exc_relative_date_info#:#締切はユーザが課題を開始する時間に応じて個別に設定されます。
-exc#:#exc_relative_date_period#:#Working Time###13 08 2024 new variable
+exc#:#exc_relative_date_period#:#作業時間
 exc#:#exc_rem_time_after_start#:#開始後の残り時間
 exc#:#exc_reminder_cron_ok#:#注意喚起を送信しました:
 exc#:#exc_reminder_end#:#注意喚起終了
@@ -14156,8 +14156,8 @@ registration#:#reg_direct#:#直接登録
 registration#:#reg_direct_info#:#有効にすると、すべての新規ユーザ登録リクエストは自動承認となります。
 registration#:#reg_disabled#:#登録不可
 registration#:#reg_domain#:#ドメイン
-registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###13 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###13 08 2024 new variable
+registration#:#reg_domain_already_assigned_p#:#ドメイン '%s' は他の役割へすでに入力済です。
+registration#:#reg_domain_already_assigned_s#:#ドメイン '%s' は他の役割へすでに入力済です。
 registration#:#reg_email#:#自動割当て
 registration#:#reg_email_domains#:#次のemailアドレスドメインは有効です:%s
 registration#:#reg_email_domains_code#:#登録コード付きのメールアドレスは有効
@@ -16739,7 +16739,7 @@ user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ
 user#:#has_role#:#役割
-user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###13 08 2024 new variable
+user#:#info_accessFree_sure#:#本当に次のアカウントから有効となっている日までを削除しますか?
 user#:#inform_user_mail_info#:#有効にするとユーザへメール送信されます。その内容は管理>ユーザ管理> 設定 > 新規アカウントメールの中で定義できます。
 user#:#interests#:#興味
 user#:#interests_general#:#一般的な興味
