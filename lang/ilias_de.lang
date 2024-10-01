@@ -8506,12 +8506,12 @@ dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
+dcl#:#dcl_asc#:#Aufsteigend ↑  
 dcl#:#dcl_boolean#:#Checkbox
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
+dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
@@ -8539,11 +8539,11 @@ dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf eine Tabelle und erstellen Sie mithilfe des Button „Feld hinzufügen“ neue Felder.
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
-dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_date_selection#:#Auswahlmenü Datum
-dcl#:#dcl_date_selection_desc#:#Bereitstellen von Auswahloptionen (Datum)
-dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_datatype#:#Typ
+dcl#:#dcl_date_selection#:#Datum per Auswahl
+dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
+dcl#:#dcl_datetime#:#Datum per Eingabe
+dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8557,7 +8557,7 @@ dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden.
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
-dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
+dcl#:#dcl_desc#:#Absteigend ↓
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
@@ -8568,7 +8568,7 @@ dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_edit_record#:#Eintrag bearbeiten
-dcl#:#dcl_edit_table#:#Tabelleneinstellungen
+dcl#:#dcl_edit_table#:#Einstellungen der Tabelle
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
@@ -8578,7 +8578,7 @@ dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
 dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
-dcl#:#dcl_field_datatype#:#Feld Datentyp
+dcl#:#dcl_field_datatype#:#Feldtyp
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
@@ -8586,21 +8586,21 @@ dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. T
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_file#:#Datei-Upload
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen einer Datei. Die hochgeladene Datei kann direkt aus der Datensammlung heruntergeladen werden.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten im ersten Tabellenblatt. In der ersten Zeile müssen die exakten Titel der Felder stehen, in den folgenden Zeilen die Werte der zu importierenden Einträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahl- und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
-dcl#:#dcl_height#:#Höhe
+dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
-dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_ilias_reference_link#:#Als Link in der Tabellenansicht anzeigen
+dcl#:#dcl_ilias_reference_desc#:#Auswahl eines Obiektes im Magazin
+dcl#:#dcl_ilias_reference_link#:#Ausgewähltes Objekt verlinken
 dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
 dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
@@ -8613,9 +8613,9 @@ dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer, der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
-dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
+dcl#:#dcl_learning_progress#:#Lernfortschritt
 dcl#:#dcl_legend_placeholders#:#Platzhalter
-dcl#:#dcl_length#:#Länge
+dcl#:#dcl_length#:#Maximale Zeichenanzahl
 dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
@@ -8630,8 +8630,8 @@ dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_max_text_length#:#Maximale Länge
-dcl#:#dcl_mob#:#Medienobjekt
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
+dcl#:#dcl_mob#:#Bild, Audio, Video
+dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
@@ -8653,12 +8653,12 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
+dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
-dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
+dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -8673,8 +8673,8 @@ dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich akti
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
+dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_online_info#:#Datensammlung ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff" und „Eintragen" genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten" verfügbar.
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_owner#:#Eigener Eintrag von
@@ -8689,22 +8689,22 @@ dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Ausdrücke gruppieren mit Klammern: ( )<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Achtung: Einträge in Datums- und Zahlenfeldern in einer Formel sind als Sekunden dimensioniert und müssen beispielsweise mit 86.400 multipliziert werden.<br><br>Folgende Platzhalter können im Ausdruck eingefügt werden:<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit ein bis fünf Sternen bewerten.
+dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
-dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen.
-dcl#:#dcl_reference_link_info#:#Die Vorlage für Einzelansicht muss in der referenzierten Tabelle aktiv sein.
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_regex#:#Regulärer Ausdruck
-dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
+dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
+dcl#:#dcl_reference_link_info#:#Achtung: Aktivieren Sie die Vorlage der Einzelansicht in der referenzierten Tabelle.
+dcl#:#dcl_reference_title#:#Feld auswahLen
+dcl#:#dcl_regex#:#Texteingabe einschranken
+dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
@@ -8714,10 +8714,10 @@ dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
-dcl#:#dcl_selection_type#:#Typ
-dcl#:#dcl_selection_type_combobox#:#Einfachauswahl (Dropdown)
-dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
-dcl#:#dcl_selection_type_single#:#Einfachauswahl (Liste)
+dcl#:#dcl_selection_type#:#Format
+dcl#:#dcl_selection_type_combobox#:#aus Auswahlmenü
+dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl aus Liste
+dcl#:#dcl_selection_type_single#:#Einfachauswahl aus Liste
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
@@ -8766,11 +8766,11 @@ dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
-dcl#:#dcl_text_selection#:#Auswahlmenü Text
-dcl#:#dcl_text_selection_desc#:#Bereitstellen von Auswahloptionen (Text)
+dcl#:#dcl_text_selection#:#Text per Auswahl
+dcl#:#dcl_text_selection_desc#:#Ausvorgegebenen Optionen kann eine Auswahl getroffen werden,
 dcl#:#dcl_title_standardview#:#Standard-Ansicht
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_unique_desc#:#Identische Einträge sind in diesem Feld nicht erlaubt.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_update_field#:#Feld aktualisieren
@@ -8782,7 +8782,7 @@ dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_width#:#Breite
+dcl#:#dcl_width#:#Breite in Pixel
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
@@ -8792,7 +8792,7 @@ dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
-dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
