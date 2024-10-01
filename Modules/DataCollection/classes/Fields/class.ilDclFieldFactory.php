@@ -16,12 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclFieldFactory
- * This Class handles the creation of all field-classes
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
 class ilDclFieldFactory
 {
     public static string $field_base_path_patter = "./Modules/DataCollection/classes/Fields/%s/";
@@ -39,10 +33,8 @@ class ilDclFieldFactory
      * @throws ilDclException
      * @throws Exception
      */
-    public static function getRecordFieldInstance(
-        object $field,  //object|ilDclBaseFieldModel
-        object $record //object|ilDclBaseRecordModel
-    ): ?ilDclBaseRecordFieldModel {
+    public static function getRecordFieldInstance(object $field, object $record): ilDclBaseRecordFieldModel
+    {
         if (!empty(self::$record_field_cache[$field->getId()][$record->getId()])) {
             return self::$record_field_cache[$field->getId()][$record->getId()];
         }
@@ -66,7 +58,6 @@ class ilDclFieldFactory
         }
 
         throw new RuntimeException("file not found " . $path);
-        return null;
     }
 
     protected static array $field_class_cache = array();
@@ -223,34 +214,23 @@ class ilDclFieldFactory
     public static function getFieldTypeByInstance(ilDclBaseFieldModel $field): string
     {
         global $DIC;
-        $component_factory = $DIC["component.factory"];
-        $component_repository = $DIC["component.repository"];
         $datatype = $field->getDatatype();
 
         if (!empty(self::$field_type_cache[$datatype->getId()])) {
-            if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-                if (!empty(self::$field_type_cache[$datatype->getId()][$field->getId()])) {
-                    return self::$field_type_cache[$datatype->getId()][$field->getId()];
-                }
-            } else {
-                return self::$field_type_cache[$datatype->getId()];
-            }
+            return self::$field_type_cache[$datatype->getId()];
         }
 
-        if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-            if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-                $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
-                $plugin_data = $component_factory->getPlugin($pd->getId());
-                $fieldtype = $plugin_data->getPluginClassPrefix() . ucfirst($plugin_data->getPluginName());
+        if (ilDclFieldTypePlugin::isPluginDatatype($datatype->getTitle())) {
+            $plugin_id = ilDclFieldTypePlugin::getPluginId($datatype->getTitle());
+            if ($DIC["component.repository"]->hasActivatedPlugin($plugin_id)) {
+                $fieldtype = 'il' . $DIC["component.repository"]->getPluginById($plugin_id)->getName();
             } else {
-                $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
+                $fieldtype = '';
             }
-            self::$field_type_cache[$datatype->getId()][$field->getId()] = $fieldtype;
         } else {
             $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
-            self::$field_type_cache[$datatype->getId()] = $fieldtype;
         }
-
+        self::$field_type_cache[$datatype->getId()] = $fieldtype;
         return $fieldtype;
     }
 
@@ -269,33 +249,18 @@ class ilDclFieldFactory
     public static function getClassPathByInstance(ilDclBaseFieldModel $field, string $class_pattern): string
     {
         global $DIC;
-        $component_factory = $DIC["component.factory"];
-        $component_repository = $DIC["component.repository"];
         $datatype = $field->getDatatype();
 
         if ($field->getId() != null && !empty(self::$class_path_cache[$field->getId()][$class_pattern])) {
             return self::$class_path_cache[$field->getId()][$class_pattern];
         }
 
-        if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-            if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-                if (!$component_repository->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->hasPluginName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME))) {
-                    throw new ilDclException(
-                        "Something went wrong by initializing the FieldHook-Plugin '"
-                        . $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME) . "' on Component '"
-                        . ilDclFieldTypePlugin::COMPONENT_NAME . "' with slot '" . ilDclFieldTypePlugin::SLOT_ID . "' on field: "
-                        . $field->getTitle()
-                    );
-                }
-                $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
-                $plugin_data = $component_factory->getPlugin($pd->getId());
-
-                $class_path = $plugin_data->getDirectory() . "/classes/";
+        if (ilDclFieldTypePlugin::isPluginDatatype($datatype->getTitle())) {
+            $plugin_id = ilDclFieldTypePlugin::getPluginId($datatype->getTitle());
+            if ($DIC["component.repository"]->hasActivatedPlugin($plugin_id)) {
+                $class_path = $DIC["component.repository"]->getPluginById($plugin_id)->getPath() . '/classes/';
             } else {
-                $class_path = sprintf(
-                    self::$field_base_path_patter,
-                    ucfirst(self::parseDatatypeTitle($datatype->getTitle()))
-                );
+                return '';
             }
         } else {
             $class_path = sprintf(

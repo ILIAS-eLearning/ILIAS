@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,19 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclDatatype
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
 class ilDclDatatype
 {
     public const INPUTFORMAT_NONE = 0;
@@ -40,6 +30,7 @@ class ilDclDatatype
     public const INPUTFORMAT_MOB = 9;
     public const INPUTFORMAT_REFERENCELIST = 10;
     public const INPUTFORMAT_FORMULA = 11;
+    /** @deprecated */
     public const INPUTFORMAT_PLUGIN = 12;
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
@@ -122,7 +113,7 @@ class ilDclDatatype
     /**
      * Get all possible Datatypes
      */
-    public static function getAllDatatype(): array
+    public static function getAllDatatype(bool $force = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -137,7 +128,14 @@ class ilDclDatatype
                 $instance = new ilDclDatatype();
                 $instance->loadDatatype($rec);
 
-                self::$datatype_cache[$rec['id']] = $instance;
+                if (
+                    $force ||
+                    !ilDclFieldTypePlugin::isPluginDatatype($instance->getTitle()) ||
+                    $DIC['component.repository']->hasActivatedPlugin(ilDclFieldTypePlugin::getPluginId($instance->getTitle()))
+                ) {
+                    self::$datatype_cache[$rec['id']] = $instance;
+                }
+
             }
         }
 

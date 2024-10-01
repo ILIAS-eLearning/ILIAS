@@ -16,15 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
 class ilDclBaseFieldModel
 {
     protected string $id = "";
@@ -716,11 +707,17 @@ class ilDclBaseFieldModel
         return true;
     }
 
+    /**
+     * @deprecated
+     */
     public function getStorageLocationOverride(): ?int
     {
         return $this->storage_location_override;
     }
 
+    /**
+     * @deprecated override ilDclFieldTypePlugin::getStorageLocation() instead
+     */
     public function setStorageLocationOverride(?int $storage_location_override): void
     {
         $this->storage_location_override = $storage_location_override;
