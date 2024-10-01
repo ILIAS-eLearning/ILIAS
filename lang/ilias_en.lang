@@ -11519,7 +11519,7 @@ mail#:#nc_mail_unread_messages_number_s#:#1 unread mail
 mail#:#only_inbox_trash#:#Limit to Inbox / Trash
 mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox or Trash folders of users. Otherwise, all messages are deleted regardless of the folder they are in.
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
-mail#:#orphaned_mail_subject#:#Notification of orphaned mails
+mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
