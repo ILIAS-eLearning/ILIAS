@@ -16,28 +16,32 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace Results\Toplist;
+
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+
 /**
- * Class ilTestTopListTest
+ * Class TestTopListRepositoryTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestTopListTest extends ilTestBaseTestCase
+class TestTopListRepositoryTest extends \ilTestBaseTestCase
 {
-    private ilTestTopList $testObj;
+    private TestTopListRepository $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->addGlobal_lng();
-
-        $this->testObj = new ilTestTopList(
+        $this->testObj = new TestTopListRepository(
             $this->getTestObjMock(),
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(\ilDBInterface::class)
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestTopList::class, $this->testObj);
+        $this->assertInstanceOf(TestTopListRepository::class, $this->testObj);
     }
 }

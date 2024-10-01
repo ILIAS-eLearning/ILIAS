@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory;
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+
 /**
  * Class ilTestToplistGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -33,16 +36,20 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
 
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilUser();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_http();
 
         $this->testObj = new ilTestToplistGUI(
             $this->getTestObjMock(),
-            $this->createMock(ilTestTopList::class),
+            $this->createMock(TestTopListRepository::class),
             $DIC['ilCtrl'],
             $DIC['tpl'],
             $DIC['lng'],
             $DIC['ilUser'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
+            $this->createMock(Factory::class),
+            $DIC['http']
         );
     }
 

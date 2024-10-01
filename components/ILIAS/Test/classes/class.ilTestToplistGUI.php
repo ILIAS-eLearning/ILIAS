@@ -18,8 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\Test\Results\Toplist\DataRetrieval;
+use ILIAS\Test\Results\Toplist\TopListOrder;
+use ILIAS\Test\Results\Toplist\TopListType;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Panel\Panel;
+use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\HTTP\GlobalHttpState as GlobalHttpState;
 
 /**
  * @author  Maximilian Becker <mbecker@databay.de>
@@ -28,14 +36,16 @@ use ILIAS\UI\Renderer as UIRenderer;
 class ilTestToplistGUI
 {
     public function __construct(
-        private ilObjTest $test_obj,
-        private ilTestTopList $toplist,
-        private ilCtrlInterface $ctrl,
-        private ilGlobalTemplateInterface $tpl,
-        private ilLanguage $lng,
-        private ilObjUser $user,
-        private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer
+        protected readonly ilObjTest $test_obj,
+        protected readonly TestTopListRepository $repository,
+        protected readonly ilCtrlInterface $ctrl,
+        protected readonly ilGlobalTemplateInterface $tpl,
+        protected readonly ilLanguage $lng,
+        protected readonly ilObjUser $user,
+        protected readonly UIFactory $ui_factory,
+        protected readonly UIRenderer $ui_renderer,
+        protected readonly DataFactory $data_factory,
+        protected readonly GlobalHttpState $http_state
     ) {
     }
 
@@ -61,17 +71,14 @@ class ilTestToplistGUI
 
     protected function showResultsToplistsCmd(): void
     {
-        $this->tpl->setContent(implode('', [
-            $this->renderMedianMarkPanel(),
-            $this->renderResultsToplistByScore(),
-            $this->renderResultsToplistByTime(),
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->buildMedianMarkPanel(),
+            ...$this->buildResultsToplists(TopListOrder::BY_SCORE),
+            ...$this->buildResultsToplists(TopListOrder::BY_TIME),
         ]));
     }
 
-    /**
-     * @return string
-     */
-    protected function renderMedianMarkPanel(): string
+    protected function buildMedianMarkPanel(): Panel
     {
         $title = $this->lng->txt('tst_median_mark_panel');
 
@@ -83,114 +90,61 @@ class ilTestToplistGUI
         $mark = $this->test_obj->getMarkSchema()->getMatchingMark($pct);
         $content = $mark->getShortName();
 
-        $panel = $this->ui_factory->panel()->standard(
+        return $this->ui_factory->panel()->standard(
             $title,
             $this->ui_factory->legacy($content)
         );
-
-        return $this->ui_renderer->render($panel);
     }
 
     /**
-     * @return string
+     * @return array<Data>
      */
-    protected function renderResultsToplistByScore(): string
+    protected function buildResultsToplists(TopListOrder $order_by): array
     {
-        $title = $this->lng->txt('toplist_by_score');
-        $html = '';
+        $tables = [];
 
         if ($this->isTopTenRankingTableRequired()) {
-            $topData = $this->toplist->getGeneralToplistByPercentage(
-                $this->test_obj->getRefId(),
-                (int) $this->user->getId()
-            );
-
-            $table = $this->buildTableGUI();
-            $table->setData($topData);
-            $table->setTitle($title);
-
-            $html .= $table->getHTML();
+            $tables[] = $this->buildTable(
+                $this->lng->txt('toplist_by_' . $order_by->getLabel()),
+                TopListType::GENERAL,
+                $order_by
+            )->withId('tst_top_list' . $this->test_obj->getRefId());
         }
 
         if ($this->isOwnRankingTableRequired()) {
-            $ownData = $this->toplist->getUserToplistByPercentage(
-                $this->test_obj->getRefId(),
-                (int) $this->user->getId()
-            );
-
-            $table = $this->buildTableGUI();
-            $table->setData($ownData);
-            if (!$this->isTopTenRankingTableRequired()) {
-                $table->setTitle($title);
-            }
-
-            $html .= $table->getHTML();
+            $tables[] = $this->buildTable(
+                count($tables) == 0 ? $this->lng->txt('toplist_by_score' . $order_by->getLabel()) : '',
+                TopListType::USER,
+                $order_by
+            )->withId('tst_own_list' . $this->test_obj->getRefId());
         }
 
-        return $html;
+        return $tables;
     }
 
-    /**
-     * @return string
-     */
-    protected function renderResultsToplistByTime(): string
+    protected function buildTable(string $title, TopListType $list_type, TopListOrder $order_by): Data
     {
-        $title = $this->lng->txt('toplist_by_time');
-        $html = '';
-
-        if ($this->isTopTenRankingTableRequired()) {
-            $topData = $this->toplist->getGeneralToplistByWorkingtime(
-                $this->test_obj->getRefId(),
-                $this->user->getId()
-            );
-
-            $table = $this->buildTableGUI();
-            $table->setData($topData);
-            $table->setTitle($title);
-
-            $html .= $table->getHTML();
-        }
-
-        if ($this->isOwnRankingTableRequired()) {
-            $ownData = $this->toplist->getUserToplistByWorkingtime(
-                $this->test_obj->getRefId(),
-                (int) $this->user->getId()
-            );
-
-            $table = $this->buildTableGUI();
-            $table->setData($ownData);
-
-            if (!$this->isTopTenRankingTableRequired()) {
-                $table->setTitle($title);
-            }
-
-            $html .= $table->getHTML();
-        }
-
-        return $html;
+        $table = new DataRetrieval(
+            $this->test_obj,
+            $this->repository,
+            $this->lng,
+            $this->user,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->data_factory,
+            $list_type,
+            $order_by
+        );
+        return $this->ui_factory->table()
+            ->data($title, $table->getColumns(), $table)
+            ->withRequest($this->http_state->request());
     }
 
-    /**
-     * @return ilTestTopListTableGUI
-     */
-    protected function buildTableGUI(): ilTestTopListTableGUI
-    {
-        $table = new ilTestTopListTableGUI($this, $this->test_obj);
-
-        return $table;
-    }
-
-    /**
-     * @return bool
-     */
     protected function isTopTenRankingTableRequired(): bool
     {
         return $this->test_obj->getHighscoreTopTable();
     }
 
-    /**
-     * @return bool
-     */
     protected function isOwnRankingTableRequired(): bool
     {
         return $this->test_obj->getHighscoreOwnTable();

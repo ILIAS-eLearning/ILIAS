@@ -22,7 +22,7 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -74,7 +74,8 @@ class ilTestResultsGUI
         private readonly SkillService $skills_service,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest,
-        private readonly GlobalHttpState $http
+        private readonly GlobalHttpState $http,
+        private readonly DataFactory $data_factory = new DataFactory()
     ) {
     }
 
@@ -242,13 +243,15 @@ class ilTestResultsGUI
 
                 $gui = new ilTestToplistGUI(
                     $this->getTestObj(),
-                    new ilTestTopList($this->getTestObj(), $this->db),
+                    new TestTopListRepository($this->getTestObj(), $this->db),
                     $this->ctrl,
                     $this->main_tpl,
                     $this->lng,
                     $this->user,
                     $this->ui_factory,
-                    $this->ui_renderer
+                    $this->ui_renderer,
+                    $this->data_factory,
+                    $this->http
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
