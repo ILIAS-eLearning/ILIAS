@@ -73,16 +73,16 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 
         require_once($plugin_php);
         if (!isset($id)) {
-            throw new \InvalidArgumentException("$path does not define \$id");
+            throw new \InvalidArgumentException("$plugin does not define \$id");
         }
         if (!isset($version)) {
-            throw new \InvalidArgumentException("$path does not define \$version");
+            throw new \InvalidArgumentException("$plugin does not define \$version");
         }
         if (!isset($ilias_min_version)) {
-            throw new \InvalidArgumentException("$path does not define \$ilias_min_version");
+            throw new \InvalidArgumentException("$plugin does not define \$ilias_min_version");
         }
         if (!isset($ilias_max_version)) {
-            throw new \InvalidArgumentException("$path does not define \$ilias_max_version");
+            throw new \InvalidArgumentException("$plugin does not define \$ilias_max_version");
         }
 
         if (isset($data[$id])) {
