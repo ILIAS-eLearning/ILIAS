@@ -50,7 +50,8 @@ il.TestPlayerQuestionEditControl = new function() {
         withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
         backgroundDetectorUrl: '',              // url called by the background detector
         forcedInstantFeedback: false,            // forced feedback will change the submit command
-        nextQuestionLocks: false
+        nextQuestionLocks: false,
+        autosaveFailureMessage: ''
     };
 
     /**
@@ -707,12 +708,15 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function autoSaveFailure(jqXHR) {
-
-        $('#autosavemessage').text(jqXHR.responseText)
-            .fadeIn(500, function(){
-                $('#autosavemessage').fadeOut(5000)
-        });
-        autoSavedData = '';
+      let responseText = config.autosaveFailureMessage;
+      if (typeof jqXHR.responseText !== 'undefined') {
+        responseText = jqXHR.responseText ;
+      }
+      $('#autosavemessage').text(responseText)
+          .fadeIn(500, function(){
+              $('#autosavemessage').fadeOut(5000)
+      });
+      autoSavedData = '';
     }
 };
 
