@@ -352,7 +352,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $filename = $_FILES["upload"]["name"];
         $filename_arr = pathinfo($_FILES["upload"]["name"]);
-        $suffix = $filename_arr["extension"];
+        $suffix = $filename_arr["extension"] ?? '';
         $mimetype = $_FILES["upload"]["type"];
         $size_bytes = $_FILES["upload"]["size"];
         $temp_name = $_FILES["upload"]["tmp_name"];
