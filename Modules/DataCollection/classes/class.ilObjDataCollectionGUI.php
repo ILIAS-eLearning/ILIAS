@@ -349,7 +349,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         //41821: Handles old permanent links. This is deprecated and removed for ILIAS 10
         if (count($params) > 1) {
             $goto_string = explode('/', $DIC->http()->request()->getRequestTarget());
-            if(str_contains(end($goto_string), 'dcl_')) {
+            if (str_contains(end($goto_string), 'dcl_')) {
                 $view = new ilDclTableView((int) $params[1]);
                 $params = [$params[0], $view->getTableId(), $params[1] ?? null, $params[2] ?? null];
             }

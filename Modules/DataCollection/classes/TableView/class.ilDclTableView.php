@@ -252,12 +252,22 @@ class ilDclTableView extends ActiveRecord
      */
     public function getFieldSettings(): array
     {
-        return ilDclTableViewFieldSetting::where(
+        $settings = ilDclTableViewFieldSetting::where(
             [
                 'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
             ]
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', [])->orderBy('il_dcl_tfield_set.field_order')->get();
+
+        $result = [];
+        foreach ($settings as $setting) {
+            $datatype = $setting->getFieldObject()->getDatatypeId();
+            if ($datatype === null || in_array($datatype, array_keys(ilDclDatatype::getAllDatatype()))) {
+                $result[] = $setting;
+            }
+        }
+
+        return $result;
     }
 
     /**

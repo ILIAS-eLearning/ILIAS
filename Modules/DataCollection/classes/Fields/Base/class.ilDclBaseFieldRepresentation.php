@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 abstract class ilDclBaseFieldRepresentation
@@ -136,7 +135,7 @@ abstract class ilDclBaseFieldRepresentation
     ): void {
         $opt = $this->buildFieldCreationInput($dcl, $mode);
         if ($opt !== null) {
-            if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
+            if ($mode != 'create' && ilDclFieldTypePlugin::isPluginDatatype($this->getField()->getDatatype()->getTitle())) {
                 $new_plugin_title = $opt->getTitle();
                 $plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
                 if ($plugin_name !== "DclBase") {
@@ -154,12 +153,18 @@ abstract class ilDclBaseFieldRepresentation
      */
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
     {
-        $opt = new ilRadioOption(
-            $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            (string) $this->getField()->getDatatypeId()
-        );
-        $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
-
+        $opt = null;
+        if ($this->getField()->getDatatypeId() !== null) {
+            $title = $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle());
+            $info = $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc');
+            if (ilDclFieldTypePlugin::isPluginDatatype($this->field->getDatatype()->getTitle())) {
+                $plugin = $this->component_factory->getPlugin(ilDclFieldTypePlugin::getPluginId($this->field->getDatatype()->getTitle()));
+                $title = (!str_ends_with($plugin->txt('field_type_name'), 'field_type_name-')) ? $plugin->txt('field_type_name') : $plugin->getPluginName();
+                $info = (!str_ends_with($plugin->txt('field_type_info'), 'field_type_info-')) ? $plugin->txt('field_type_info') : '';
+            }
+            $opt = new ilRadioOption($title, (string) $this->getField()->getDatatypeId());
+            $opt->setInfo($info);
+        }
         return $opt;
     }
 
