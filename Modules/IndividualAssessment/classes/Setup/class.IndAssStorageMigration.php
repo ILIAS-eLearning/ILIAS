@@ -89,20 +89,18 @@ class IndAssStorageMigration implements Setup\Migration
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
 
-        $obj_id = (int)$row['obj_id'];
-        $usr_id = (int)$row['usr_id'];
+        $obj_id = (int) $row['obj_id'];
+        $usr_id = (int) $row['usr_id'];
         $fs_storage = ilIndividualAssessmentFileStorage::getInstance($obj_id);
         $fs_storage->setUserId($usr_id);
         $filepath = $fs_storage->getAbsolutePath() . '/' . $row['file_name'];
 
         $resource_id = $this->helper->movePathToStorage($filepath, 6);
-        if(! $resource_id) {
-            throw new \Exception('not stored:' . $filepath);
+        if($resource_id) {
+            $identifier = $resource_id->serialize();
+            $query = "UPDATE iass_members SET file_name = '$identifier' WHERE obj_id = $obj_id AND usr_id = $usr_id";
+            $this->db->manipulate($query);
         }
-
-        $identifier = $resource_id->serialize();
-        $query = "UPDATE iass_members SET file_name = '$identifier' WHERE obj_id = $obj_id AND usr_id = $usr_id";
-        $this->db->manipulate($query);
     }
 
     public function getRemainingAmountOfSteps(): int
