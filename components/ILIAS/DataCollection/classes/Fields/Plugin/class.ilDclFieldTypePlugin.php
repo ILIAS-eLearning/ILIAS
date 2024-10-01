@@ -20,45 +20,59 @@ declare(strict_types=1);
 
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
+    public const DB_TYPES = ['text', 'text', 'integer', 'date'];
     public const COMPONENT_NAME = "DataCollection";
-    public const SLOT_NAME = "FieldTypeHook";
     public const SLOT_ID = "dclfth";
+    public const PLUGIN_SLOT_PREFIX = 'plugin_fth_';
 
-    /**
-     * @var ilDclFieldTypePlugin[] singleton-instance
-     */
-    protected static array $instances = [];
-
-    /**
-     * Singleton for abstract class
-     */
-    public static function getInstance(): ilDclFieldTypePlugin
+    public function install(): void
     {
-        $class = get_called_class();
-        if (!isset(self::$instances[$class])) {
-            self::$instances[$class] = new $class();
+        $field_type_name = ilDclFieldTypePlugin::PLUGIN_SLOT_PREFIX . $this->getId();
+        $datatypes = ilDclDatatype::getAllDatatype(true);
+        foreach ($datatypes as $datatype) {
+            if ($datatype->getTitle() === $field_type_name) {
+                parent::install();
+                return;
+            }
         }
 
-        return self::$instances[$class];
+        $field_model_class = 'il' . $this->getPluginName() . 'FieldModel';
+        $type = (new $field_model_class())->getStorageLocationOverride() ?? $this->getStorageLocation();
+        $this->db->manipulateF(
+            'INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location, sort) SELECT GREATEST(MAX(id), 1000) + 1, %s, %s, %s, GREATEST(MAX(sort), 10000) + 10 FROM il_dcl_datatype;',
+            [
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_INTEGER,
+            ],
+            [
+                $field_type_name,
+                $this::DB_TYPES[$type],
+                $type
+            ]
+        );
     }
 
-    public function getPluginTablePrefix(): string
+    public function getStorageLocation(): int
     {
-        return $this->getLanguageHandler()->getPrefix();
+        return 1;
     }
 
-    public function getPluginTableName(): string
+    public static function getDataType(string $plugin_id): string
     {
-        return $this->getPluginTablePrefix() . "_props";
+        return self::PLUGIN_SLOT_PREFIX . $plugin_id;
     }
 
-    public function getPluginConfigTableName(): string
+    public static function getPluginId(string $datatype): string
     {
-        return $this->getPluginTablePrefix() . "_config";
+        if (self::isPluginDatatype($datatype)) {
+            return substr($datatype, strlen(self::PLUGIN_SLOT_PREFIX));
+        }
+        throw new ilPluginException('Invalid datatype prefix for FieldTypHook-plugin');
     }
 
-    public function getPluginClassPrefix(): string
+    public static function isPluginDatatype(string $datatype): bool
     {
-        return 'il';
+        return substr($datatype, 0, strlen(self::PLUGIN_SLOT_PREFIX)) === self::PLUGIN_SLOT_PREFIX;
     }
 }
