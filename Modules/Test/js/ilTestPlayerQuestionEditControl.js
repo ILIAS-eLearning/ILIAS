@@ -65,6 +65,7 @@ il.TestPlayerQuestionEditControl = new function() {
         backgroundDetectorUrl: '',              // url called by the background detector
         forcedInstantFeedback: false,            // forced feedback will change the submit command
         nextQuestionLocks: false,
+        questionLocked: false,
         autosaveFailureMessage: ''
     };
 
