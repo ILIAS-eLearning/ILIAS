@@ -393,7 +393,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         if ($active_id > 0) {
             $selections = [];
-            $solutions = $this->object->getTestOutputSolutions($active_id, $pass ?? 0);
+            $solutions = $this->object->getSolutionValues($active_id, $pass ?? 0, true);
             foreach ($solutions as $solution) {
                 $selections[] = $solution['value1'];
             }
