@@ -467,14 +467,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
-            $toolbar->addFormButton(
-                $this->lng->txt('paste_clipboard_items'),
-                'paste'
+            $toolbar->addComponent(
+                $this->ui->factory()->button()->standard(
+                    $this->lng->txt('paste_clipboard_items'),
+                    $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, static::class], 'paste')
+                )
             );
 
-            $toolbar->addFormButton(
-                $this->lng->txt('clear_clipboard'),
-                'clear'
+            $toolbar->addComponent(
+                $this->ui->factory()->button()->standard(
+                    $this->lng->txt('clear_clipboard'),
+                    $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, static::class], 'clear')
+                )
             );
 
             $main_tpl->addAdminPanelToolbar($toolbar, true, false);
