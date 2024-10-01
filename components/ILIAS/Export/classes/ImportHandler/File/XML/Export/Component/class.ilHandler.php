@@ -80,7 +80,9 @@ class ilHandler extends ilXMLExportFileHandler implements ilComponentXMLExportFi
                 ->withNode($this->path->node()->simple()->withName('exp:Export'));
             $export_schema_handler = $this->schema->handlersFromXMLFileHandlerAtPath($this, $path_to_export_node)
                 ->current();
-            $major_version_str = $export_schema_handler->getVersion()->getMajor() . ".0.0";
+            $major_version_str = is_null($export_schema_handler->getVersion())
+                ? ((int) ILIAS_VERSION_NUMERIC) . ".0.0"
+                : $export_schema_handler->getVersion()->getMajor() . ".0.0";
             $major_structure_schema_version = new Version($major_version_str);
             $structure_schema_handler = $this->schema->handler()
                 ->withType('exp')
