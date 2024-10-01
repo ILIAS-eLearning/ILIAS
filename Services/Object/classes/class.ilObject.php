@@ -1582,8 +1582,10 @@ class ilObject
         $this->obj_log->debug("isTreeCopyDisabled: " . $options->isTreeCopyDisabled());
         $this->obj_log->debug("omit_tree: " . $omit_tree);
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
-            $title = $this->appendCopyInfo($target_id, $copy_id);
+            $title_with_suffix = $this->appendCopyInfo($target_id, $copy_id);
+            $title = strlen($title_with_suffix) < self::TITLE_LENGTH ? $title_with_suffix : $title;
             $this->obj_log->debug("title incl. copy info: " . $title);
+
         }
 
         // create instance
