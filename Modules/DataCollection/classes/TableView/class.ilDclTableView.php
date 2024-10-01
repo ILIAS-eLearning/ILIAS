@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTableView
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
 class ilDclTableView extends ActiveRecord
 {
     /**
@@ -340,12 +335,24 @@ class ilDclTableView extends ActiveRecord
      */
     public function getFieldSettings(): array
     {
-        return ilDclTableViewFieldSetting::where(
-            array(
+        $settings = ilDclTableViewFieldSetting::where(
+            [
                 'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
-            )
-        )->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))->orderBy('field_order')->get();
+            ]
+        )
+            ->innerjoin('il_dcl_tfield_set', 'field', 'field', ['field_order'])->orderBy('field_order')
+            ->get();
+
+        $result = [];
+        foreach ($settings as $setting) {
+            $datatype = $setting->getFieldObject()->getDatatypeId();
+            if ($datatype === null || in_array($datatype, array_keys(ilDclDatatype::getAllDatatype()))) {
+                $result[] = $setting;
+            }
+        }
+
+        return $result;
     }
 
     /**
