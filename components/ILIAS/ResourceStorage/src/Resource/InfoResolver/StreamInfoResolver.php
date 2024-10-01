@@ -23,6 +23,7 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 use DateTimeImmutable;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Stream\ZIPStream;
 
 /**
  * Class StreamInfoResolver
@@ -46,9 +47,19 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         string $revision_title,
         ?string $file_name = null
     ) {
-        $this->file_stream = $file_stream;
+        $metadata = $file_stream->getMetadata();
+        $uri = $metadata['uri'];
+
+        if ($file_stream instanceof ZIPStream) {
+            // ZIPStreams are not seekable and rewindable, we need to wrap them in another ZIPStream to
+            // be able to read(255) and get the mime-type without loosing the 255 bytes
+            $this->file_stream = new ZIPStream(fopen($uri, 'rb'));
+        } else {
+            $this->file_stream = $file_stream;
+        }
+
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
-        $this->path = $file_stream->getMetadata('uri');
+        $this->path = $uri;
         $this->initFileName($file_name);
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
         $this->initSize();
