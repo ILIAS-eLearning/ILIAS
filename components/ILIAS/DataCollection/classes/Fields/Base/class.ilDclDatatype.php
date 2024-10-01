@@ -32,6 +32,7 @@ class ilDclDatatype
     public const INPUTFORMAT_MOB = 9;
     public const INPUTFORMAT_REFERENCELIST = 10;
     public const INPUTFORMAT_FORMULA = 11;
+    /** @deprecated */
     public const INPUTFORMAT_PLUGIN = 12;
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
@@ -115,7 +116,7 @@ class ilDclDatatype
     /**
      * Get all possible Datatypes
      */
-    public static function getAllDatatype(): array
+    public static function getAllDatatype(bool $force = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -130,7 +131,14 @@ class ilDclDatatype
                 $instance = new ilDclDatatype();
                 $instance->loadDatatype($rec);
 
-                self::$datatype_cache[$rec['id']] = $instance;
+                if (
+                    $force ||
+                    !ilDclFieldTypePlugin::isPluginDatatype($instance->getTitle()) ||
+                    $DIC['component.repository']->hasActivatedPlugin(ilDclFieldTypePlugin::getPluginId($instance->getTitle()))
+                ) {
+                    self::$datatype_cache[$rec['id']] = $instance;
+                }
+
             }
         }
 
