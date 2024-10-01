@@ -24,7 +24,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
-    private ilLanguage$lng;
+    private ilLanguage $lng;
     private ilLocatorGUI $locator;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
