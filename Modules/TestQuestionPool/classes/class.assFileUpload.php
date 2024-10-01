@@ -378,7 +378,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             // check suffixes
             if (count($this->getAllowedExtensionsArray())) {
                 $filename_arr = pathinfo($upload_result->getName());
-                $suffix = $filename_arr['extension'];
+                $suffix = $filename_arr['extension'] ?? '';
                 $mimetype = $upload_result->getMimeType();
                 if ($suffix === '') {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_file_ext'), true);
