@@ -165,8 +165,13 @@ final class StreamDelivery extends BaseDelivery
             $sub_request = urldecode($sub_request);
             // remove query
             $sub_request = explode('?', $sub_request)[0];
-            $file_inside_zip_uri = "zip://$requested_zip#$sub_request";
-            $file_inside_zip_stream = fopen($file_inside_zip_uri, 'rb');
+
+            try {
+                $file_inside_ZIP = Streams::ofFileInsideZIP($requested_zip, $sub_request);
+            } catch (\Throwable) {
+                $this->notFound($r);
+            }
+            $file_inside_zip_uri = $file_inside_ZIP->getMetadata()['uri'];
 
             if ($file_inside_zip_stream === false) {
                 $this->notFound($r);
@@ -184,11 +189,12 @@ final class StreamDelivery extends BaseDelivery
                 Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
             );
 
+
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
                     $this->http->request(),
                     $r,
-                    Streams::ofResource($file_inside_zip_stream, true)
+                    $file_inside_ZIP
                 )
             );
         }
