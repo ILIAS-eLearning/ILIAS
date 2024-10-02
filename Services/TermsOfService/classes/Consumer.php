@@ -77,7 +77,7 @@ class Consumer implements ConsumerInterface
                     ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                     ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'tos_agree_date', 'tos'))
                     ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
-                    ->canUseSoapApi($constraint($public_api->agreed(...), 'TOS not accepted.'));
+                    ->canUseSoapApi($constraint(fn($u) => !$public_api->needsToAgree($u), 'TOS not accepted.'));
     }
 
     private function userHasWithdrawn(): void

@@ -54,7 +54,7 @@ class ProvideHistory
     public function table(object $gui, string $command, string $reset_command, string $auto_complete_command): Component
     {
         $auto_complete_link = $this->container->ctrl()->getLinkTarget($gui, $auto_complete_command, '', true);
-        $ui = new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language());
+        $ui = new UI($this->id, $this->container->ui(), $this->container->language());
         $modal = new DocumentModal($this->container->ui(), $this->document->contentAsComponent(...));
         $create = fn(string $class, ...$args) => $class === ilObjUser::class && !ilObjUser::_lookupLogin($args[0], 'login') ?
                 null :

@@ -76,7 +76,7 @@ class ProvideDocument
         $t = new DocumentTable(
             fn($criterion) => $this->toCondition($criterion)->asComponent(),
             $this->document_repository,
-            new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language()),
+            new UI($this->id, $this->container->ui(), $this->container->language()),
             new DocumentModal($this->container->ui(), $this->contentAsComponent(...))
         );
 

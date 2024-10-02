@@ -211,4 +211,81 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     {
         $this->db->manipulate('UPDATE il_dcl_field_prop SET value = "" WHERE value IS NULL');
     }
+
+    public function step_15(): void
+    {
+        if ($this->db->tableExists('il_dcl_field_prop_b')) {
+            $this->db->dropTable('il_dcl_field_prop_b');
+        }
+
+        if ($this->db->tableExists('il_dcl_field_prop_s_b')) {
+            $this->db->dropTable('il_dcl_field_prop_s_b');
+        }
+    }
+
+    public function step_16(): void
+    {
+        global $DIC;
+        $slot = $DIC['component.repository']->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID);
+        foreach ($slot->getPlugins() as $plugin) {
+            $plugin = $DIC['component.factory']->getPlugin($plugin->getId());
+            $field_type_name = ilDclFieldTypePlugin::getDataType($plugin->getId());
+
+            $field_ids = [];
+            $stmt = $this->db->queryF(
+                'SELECT field_id FROM il_dcl_field_prop WHERE name = "plugin_hook_name" AND value = %s',
+                [ilDBConstants::T_TEXT],
+                [$plugin->getPluginName()]
+            );
+            while ($row = $this->db->fetchAssoc($stmt)) {
+                $field_ids[] = (int) $row['field_id'];
+            }
+
+            $id = 0;
+            $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE title LIKE %s', [ilDBConstants::T_TEXT], [$field_type_name]);
+            while ($row = $this->db->fetchAssoc($stmt)) {
+                $id = (int) $row['id'];
+            }
+            if ($id === 0) {
+                $type = $plugin->getStorageLocation();
+                $field_model_class = 'il' . $plugin->getPluginName() . 'FieldModel';
+                $type = (new $field_model_class())->getStorageLocationOverride() ?? $plugin->getStorageLocation();
+
+                $this->db->manipulateF(
+                    'INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location, sort) SELECT GREATEST(MAX(id), 1000) + 1, %s, %s, %s, GREATEST(MAX(sort), 10000) + 10 FROM il_dcl_datatype;',
+                    [
+                        ilDBConstants::T_TEXT,
+                        ilDBConstants::T_TEXT,
+                        ilDBConstants::T_INTEGER
+                    ],
+                    [
+                        $field_type_name,
+                        ilDclFieldTypePlugin::DB_TYPES[$type],
+                        $type
+                    ]
+                );
+                $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE title LIKE %s', [ilDBConstants::T_TEXT], [$field_type_name]);
+                $id = (int) $this->db->fetchAssoc($stmt)['id'];
+            }
+
+            foreach ($field_ids as $field_id) {
+                $this->db->manipulateF(
+                    'UPDATE il_dcl_field SET datatype_id = %s WHERE id = %s',
+                    [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+                    [$id, $field_id]
+                );
+            }
+
+            $this->db->manipulateF(
+                'DELETE FROM il_dcl_field_prop WHERE name = "plugin_hook_name" AND value = %s',
+                [ilDBConstants::T_TEXT],
+                [$plugin->getPluginName()]
+            );
+        }
+        $this->db->manipulateF(
+            'DELETE FROM il_dcl_datatype WHERE id = %s',
+            [ilDBConstants::T_TEXT],
+            [ilDclDatatype::INPUTFORMAT_PLUGIN]
+        );
+    }
 }

@@ -681,11 +681,17 @@ class ilDclBaseFieldModel
         return true;
     }
 
+    /**
+     * @deprecated
+     */
     public function getStorageLocationOverride(): ?int
     {
         return $this->storage_location_override;
     }
 
+    /**
+     * @deprecated override ilDclFieldTypePlugin::getStorageLocation() instead
+     */
     public function setStorageLocationOverride(?int $storage_location_override): void
     {
         $this->storage_location_override = $storage_location_override;

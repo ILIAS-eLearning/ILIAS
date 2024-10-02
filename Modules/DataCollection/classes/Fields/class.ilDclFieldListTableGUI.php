@@ -14,15 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-
+ *********************************************************************/
 
 declare(strict_types=1);
 
-/**
- * @ilCtrl_Calls ilDateTime
- */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
     private ?int $order = null;
@@ -44,6 +39,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->parent_obj = $a_parent_obj;
         $this->table = ilDclCache::getTableCache($table_id);
+        $this->table->showInvalidFields(true);
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
@@ -263,10 +259,12 @@ class ilDclFieldListTableGUI extends ilTable2GUI
                 $this->table->getId()
             )) {
                 $dropdown_items = [];
-                $dropdown_items[] = $this->ui_factory->link()->standard(
-                    $this->lng->txt('edit'),
-                    $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'edit')
-                );
+                if (in_array($a_set->getDatatypeId(), array_keys(ilDclDatatype::getAllDatatype()))) {
+                    $dropdown_items[] = $this->ui_factory->link()->standard(
+                        $this->lng->txt('edit'),
+                        $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'edit')
+                    );
+                }
                 $dropdown_items[] = $this->ui_factory->link()->standard(
                     $this->lng->txt('delete'),
                     $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'confirmDelete')

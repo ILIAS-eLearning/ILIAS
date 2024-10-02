@@ -22,13 +22,16 @@
 class ilSingleUserShareGUI
 {
     protected ?int $wsp_node_id;
-    protected ?ilWorkspaceAccessHandler $wsp_access_handler;
+    /**
+     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected $wsp_access_handler;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
 
     public function __construct(
-        ?ilWorkspaceAccessHandler $wsp_access_handler = null,
+        $wsp_access_handler = null,
         ?int $wsp_node_id = null
     ) {
         global $DIC;

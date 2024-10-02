@@ -42,8 +42,7 @@ class DefaultMappings
     {
         $ui = new UI(
             $this->id,
-            $this->container->ui()->factory(),
-            $this->container->ui()->mainTemplate(),
+            $this->container->ui(),
             $this->container->language()
         );
 

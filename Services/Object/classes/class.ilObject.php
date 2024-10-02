@@ -1580,8 +1580,10 @@ class ilObject
         $this->obj_log->debug("isTreeCopyDisabled: " . $options->isTreeCopyDisabled());
         $this->obj_log->debug("omit_tree: " . $omit_tree);
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
-            $title = $this->appendCopyInfo($target_id, $copy_id);
+            $title_with_suffix = $this->appendCopyInfo($target_id, $copy_id);
+            $title = mb_strlen($title_with_suffix) < self::TITLE_LENGTH ? $title_with_suffix : $title;
             $this->obj_log->debug("title incl. copy info: " . $title);
+
         }
 
         /** @var ilObject $new_obj */
@@ -1703,7 +1705,7 @@ class ilObject
 
         $new_languages = [];
         $installed_langs = $this->lng->getInstalledLanguages();
-        foreach($obj_translations->getLanguages() as $language) {
+        foreach ($obj_translations->getLanguages() as $language) {
             $lang_code = $language->getLanguageCode();
             $suffix_lang = $lang_code;
             if (!in_array($suffix_lang, $installed_langs)) {
@@ -1728,7 +1730,7 @@ class ilObject
     {
         return function (array $npl, ?ilObjectTranslation $nt): array {
             $langs = $nt->getLanguages();
-            foreach($langs as $lang) {
+            foreach ($langs as $lang) {
                 if (!array_key_exists($lang->getLanguageCode(), $npl)) {
                     $npl[$lang->getLanguageCode()] = [];
                 }
