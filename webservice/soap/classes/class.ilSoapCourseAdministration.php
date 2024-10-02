@@ -398,6 +398,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
         $xml_parser = new ilCourseXMLParser($tmp_course);
+        $xml_parser->setMode(ilCourseXMLParser::MODE_SOAP);
         $xml_parser->setXMLContent($xml);
         $xml_parser->startParsing();
         $tmp_course->MDUpdateListener('General');
