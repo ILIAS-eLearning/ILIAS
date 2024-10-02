@@ -152,6 +152,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendStream(FileStream $stream, string $title): int
     {
+        $title = $this->ensureSuffix($title, pathinfo($stream->getMetadata('uri'))['extension'] ?? null);
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
