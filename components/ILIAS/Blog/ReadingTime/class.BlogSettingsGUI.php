@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Blog\ReadingTime;
 
+use ILIAS\Repository\Form\FormAdapterGUI;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -47,6 +49,19 @@ class BlogSettingsGUI
         }
     }
 
+    public function addSettingToFormAdapter(FormAdapterGUI $form): FormAdapterGUI
+    {
+        if ($this->manager->isGloballyActivated()) {
+            $form = $form->checkbox(
+                "est_reading_time",
+                $this->lng->txt("blog_est_reading_time"),
+                "",
+                $this->manager->isActivated($this->blog_id)
+            );
+        }
+        return $form;
+    }
+
     public function addValueToArray(array $values): array
     {
         $values["est_reading_time"] = $this->manager->isActivated($this->blog_id);
@@ -62,4 +77,15 @@ class BlogSettingsGUI
             );
         }
     }
+
+    public function saveSettingFromFormAdapter(FormAdapterGUI $form): void
+    {
+        if ($this->manager->isGloballyActivated()) {
+            $this->manager->activate(
+                $this->blog_id,
+                (bool) $form->getData("est_reading_time")
+            );
+        }
+    }
+
 }

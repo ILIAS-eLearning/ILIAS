@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,26 +16,34 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Blog;
+declare(strict_types=1);
 
-use ILIAS\Blog\Settings\SettingsDBRepository;
+namespace ILIAS\Blog\Settings;
 
-class InternalRepoService
+use ILIAS\Blog\InternalDataService;
+use ILIAS\Blog\InternalRepoService;
+
+class SettingsManager
 {
-    protected static array $instance = [];
-
     public function __construct(
         protected InternalDataService $data,
-        protected \ilDBInterface $db
+        protected InternalRepoService $repo
     ) {
     }
 
-    public function settings(): SettingsDBRepository
+
+    public function create(Settings $settings): void
     {
-        return self::$instance["settings"] ??
-            self::$instance["settings"] = new SettingsDBRepository(
-                $this->db,
-                $this->data
-            );
+        $this->repo->settings()->create($settings);
+    }
+
+    public function update(Settings $settings): void
+    {
+        $this->repo->settings()->update($settings);
+    }
+
+    public function getByObjId(int $id): ?Settings
+    {
+        return $this->repo->settings()->getByObjId($id);
     }
 }

@@ -23,6 +23,7 @@ namespace ILIAS\Blog;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\PermanentLink\PermanentLinkManager;
+use ILIAS\Blog\ReadingTime\GUIService;
 
 class InternalGUIService
 {
@@ -30,6 +31,7 @@ class InternalGUIService
 
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
@@ -94,4 +96,25 @@ class InternalGUIService
             $wsp_id
         );
     }
+
+    public function settings(): Settings\GUIService
+    {
+        return self::$instance["settings"] ??
+            self::$instance["settings"] = new Settings\GUIService(
+                $this->data_service,
+                $this->domain_service,
+                $this
+            );
+    }
+
+    public function readingTime(): GUIService
+    {
+        return self::$instance["reading_time"] ??
+            self::$instance["reading_time"] = new ReadingTime\GUIService(
+                $this->data_service,
+                $this->domain_service,
+                $this
+            );
+    }
+
 }

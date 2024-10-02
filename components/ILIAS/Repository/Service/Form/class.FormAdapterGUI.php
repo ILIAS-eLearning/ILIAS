@@ -28,6 +28,8 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class FormAdapterGUI
 {
+    use StdObjProperties;
+
     protected const DEFAULT_SECTION = "@internal_default_section";
     protected bool $in_modal = false;
     protected string $submit_caption = "";
@@ -62,6 +64,7 @@ class FormAdapterGUI
     protected int $async_mode = self::ASYNC_NONE;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected ?array $current_switch = null;
+    protected ?array $current_optional = null;
     protected ?array $current_group = null;
     protected static bool $initialised = false;
 
@@ -87,6 +90,7 @@ class FormAdapterGUI
         $this->data = new \ILIAS\Data\Factory();
         $this->submit_caption = $submit_caption;
         self::initJavascript();
+        $this->initStdObjProperties($DIC);
     }
 
     public static function getOnLoadCode(): string
@@ -363,6 +367,22 @@ class FormAdapterGUI
         return $this;
     }
 
+    public function optional(
+        string $key,
+        string $title,
+        string $description = "",
+        ?bool $value = null
+    ): self {
+        $this->current_optional = [
+            "key" => $key,
+            "title" => $title,
+            "description" => $description,
+            "value" => $value,
+            "group" => []
+        ];
+        return $this;
+    }
+
     public function group(string $key, string $title, string $description = ""): self
     {
         $this->endCurrentGroup();
@@ -403,6 +423,25 @@ class FormAdapterGUI
             }
             $key = $this->current_switch["key"];
             $this->current_switch = null;
+            $this->addField($key, $field);
+        }
+        if (!is_null($this->current_optional)) {
+            $field = $this->ui->factory()->input()->field()->optionalGroup(
+                $this->current_optional["fields"],
+                $this->current_optional["title"],
+                $this->current_optional["description"]
+            );
+            if ($this->current_optional["value"]) {
+                $value = [];
+                foreach ($this->current_optional["fields"] as $key => $input) {
+                    $value[$key] = $input->getValue();
+                }
+                $field = $field->withValue($value);
+            } else {
+                $field = $field->withValue(null);
+            }
+            $key = $this->current_optional["key"];
+            $this->current_optional = null;
             $this->addField($key, $field);
         }
         return $this;
@@ -460,7 +499,7 @@ class FormAdapterGUI
     }
 
 
-    protected function addField(string $key, FormInput $field): void
+    protected function addField(string $key, FormInput $field, $supress_0_key = false): void
     {
         if ($key === "") {
             throw new \ilException("Missing Input Key: " . $key);
@@ -479,14 +518,23 @@ class FormAdapterGUI
                 $field_path[] = 1;  // the value of subitems in SwitchableGroup are in the 1 key of the raw data
                 $field_path[] = $key;
             }
+        } elseif (!is_null($this->current_optional)) {
+            $field_path[] = $this->current_optional["key"];
+            $this->current_optional["fields"][$key] = $field;
+            $field_path[] = $key;
         } else {
             $this->sections[$this->current_section]["fields"][] = $key;
             $field_path[] = $key;
             if ($field instanceof \ILIAS\UI\Component\Input\Field\SwitchableGroup) {
                 $field_path[] = 0;      // the value of the SwitchableGroup is in the 0 key of the raw data
             }
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\OptionalGroup) {
+                //$field_path[] = 0;      // the value of the SwitchableGroup is in the 0 key of the raw data
+            }
             if ($field instanceof \ILIAS\UI\Component\Input\Field\File) {
-                $field_path[] = 0;      // the value of File Inputs is in the 0 key of the raw data
+                if (!$supress_0_key) {      // needed for tiles, that come with a custom transformation omitting the 0
+                    $field_path[] = 0;      // the value of File Inputs is in the 0 key of the raw data
+                }
             }
         }
         $this->fields[$key] = $field;
@@ -598,6 +646,10 @@ class FormAdapterGUI
         if ($field instanceof \ILIAS\UI\Component\Input\Field\DateTime) {
             /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
             $value = $this->getDateTimeData($value, $field->getUseTime());
+        }
+
+        if ($field instanceof \ILIAS\UI\Component\Input\Field\OptionalGroup) {
+            $value = is_array($value);
         }
 
         return $value;

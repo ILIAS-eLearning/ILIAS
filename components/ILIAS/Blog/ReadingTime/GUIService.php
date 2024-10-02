@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,26 +16,28 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Blog;
+declare(strict_types=1);
 
-use ILIAS\Blog\Settings\SettingsDBRepository;
+namespace ILIAS\Blog\ReadingTime;
 
-class InternalRepoService
+use ILIAS\Blog\InternalDataService;
+use ILIAS\Blog\InternalDomainService;
+use ILIAS\Blog\InternalGUIService;
+use ILIAS\Blog\Settings\SettingsGUI;
+
+class GUIService
 {
-    protected static array $instance = [];
-
     public function __construct(
         protected InternalDataService $data,
-        protected \ilDBInterface $db
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui
     ) {
     }
 
-    public function settings(): SettingsDBRepository
+    public function settingsGUI(int $obj_id): BlogSettingsGUI
     {
-        return self::$instance["settings"] ??
-            self::$instance["settings"] = new SettingsDBRepository(
-                $this->db,
-                $this->data
-            );
+        return new BlogSettingsGUI(
+            $obj_id
+        );
     }
 }

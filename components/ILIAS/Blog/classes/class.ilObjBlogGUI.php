@@ -29,6 +29,7 @@ use ILIAS\Blog\StandardGUIRequest;
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ILIAS\Blog\Settings\SettingsGUI
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
@@ -157,7 +158,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
 
-        $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
+        $this->reading_time_gui = $gui->readingTime()->settingsGUI($blog_id);
         $this->reading_time_manager = $domain->readingTime();
         $this->notes = $DIC->notes();
         $owner = $this->object?->getOwner() ?? 0;
@@ -488,10 +489,21 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         if ($this->checkPermissionBool("write")) {
+            /*$this->tabs_gui->addTab(
+                "settings",
+                $lng->txt("settings"),
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    "edit"
+                )
+            );*/
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit")
+                $this->ctrl->getLinkTargetByClass(
+                    [\ILIAS\Blog\Settings\SettingsGUI::class],
+                    ""
+                )
             );
 
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
@@ -777,6 +789,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->prepareOutput();
                 $ilTabs->activateTab("meta_data");
                 $gui = new ilObjectMetaDataGUI($this->object, null, null, $this->call_by_reference);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(\ILIAS\Blog\Settings\SettingsGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $ilTabs->activateTab("settings");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->obj_id,
+                    $this->id_type === self::REPOSITORY_NODE_ID
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
