@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Skill\Table;
 
 use ILIAS\Data;
+use ILIAS\UI\Component\Link\Link;
 
 /**
  * Wrapper for sortation and pagination of table records
@@ -49,8 +50,11 @@ trait TableRecords
             if (is_array($a[$aspect])) {
                 return $a[$aspect] <=> $b[$aspect];
             }
-            if ($a[$aspect] instanceof \ILIAS\UI\Component\Link\Link) {
+            if ($a[$aspect] instanceof Link) {
                 return $a[$aspect]->getLabel() <=> $b[$aspect]->getLabel();
+            }
+            if ($a[$aspect] instanceof \DateTimeImmutable) {
+                return $a[$aspect]->getTimestamp() <=> $b[$aspect]->getTimestamp();
             }
 
             return strcmp($a[$aspect], $b[$aspect]);
@@ -59,7 +63,6 @@ trait TableRecords
         if ($direction === $order::DESC) {
             $records = array_reverse($records);
         }
-
         return $records;
     }
 
