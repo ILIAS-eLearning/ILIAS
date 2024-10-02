@@ -1452,7 +1452,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        switch($this->getTitleOutput()) {
+        switch ($this->getTitleOutput()) {
             case '0':
             case '1':
                 return $title;
@@ -1469,7 +1469,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 } else {
                     $txt = $this->lng->txt("ass_question");
                 }
-                if($points != '') {
+                if ($points != '') {
                     $lngv = $this->lng->txt('points');
                     if ($points == 1) {
                         $lngv = $this->lng->txt('point');
@@ -3787,7 +3787,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "reporting_date");
             $reporting_date = $this->buildPeriodFromFormatedDateString(
-                $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()->format('Y-m-d H:m:s')
+                $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()->format('Y-m-d H:i:s')
             );
             $a_xml_writer->xmlElement("fieldentry", null, $reporting_date);
             $a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -4210,7 +4210,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $matches[4],
                     $matches[5],
                     $matches[6]
-                )
+                ),
+                new \DateTimeZone('UTC')
             );
         }
         return null;
