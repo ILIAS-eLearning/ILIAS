@@ -23,6 +23,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionSkippedException;
 use ILIAS\BackgroundTasks\Task\UserInteraction;
+use ILIAS\Export\ImportStatus\Exception\ilException;
 
 class AsyncTaskManager extends BasicTaskManager
 {
@@ -40,7 +41,7 @@ class AsyncTaskManager extends BasicTaskManager
         $bucket->setCurrentTask($bucket->getTask());
         $DIC->backgroundTasks()->persistence()->saveBucketAndItsTasks($bucket);
 
-        $DIC->logger()->root()->info("[BT] Trying to call webserver");
+        $DIC->logger()->bgtk()->info("Trying to call webserver");
 
         // Call SOAP-Server
         $soap_client = new \ilSoapClient();
@@ -59,17 +60,16 @@ class AsyncTaskManager extends BasicTaskManager
                 $session_id . '::' . $client_id,
             ));
             if ($result === false) {
-                $DIC->logger()->root()->info("[BT] Calling Webserver returned false, fallback to sync version");
-                $sync_manager = new SyncTaskManager($this->persistence);
-                $sync_manager->run($bucket);
+                throw new ilException("SOAP call returned false");
             }
         } catch (\Throwable $t) {
-            $DIC->logger()->root()->info("[BT] Calling Webserver failed, fallback to sync version");
+            $DIC->logger()->bgtk()->warning($t->getMessage());
+            $DIC->logger()->bgtk()->warning("Calling webserver failed, fallback to sync version");
             $sync_manager = new SyncTaskManager($this->persistence);
             $sync_manager->run($bucket);
-        } finally {
-            $DIC->logger()->root()->info("[BT] Calling webserver successful");
+            return;
         }
+        $DIC->logger()->bgtk()->info("Calling webserver successful");
     }
 
     /**
@@ -82,13 +82,13 @@ class AsyncTaskManager extends BasicTaskManager
         $n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
         $n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
 
-        $DIC->logger()->root()->info("[BackgroundTask] Starting background job.");
+        $DIC->logger()->bgtk()->info("Starting background job.");
         $persistence = $DIC->backgroundTasks()->persistence();
 
         // TODO search over all clients.
         $MAX_PARALLEL_JOBS = $n_of_tasks;
         if (count($persistence->getBucketIdsByState(State::RUNNING)) >= $MAX_PARALLEL_JOBS) {
-            $DIC->logger()->root()->info("[BT] Too many running jobs, worker going down.");
+            $DIC->logger()->bgtk()->info("Too many running jobs, worker going down.");
 
             return;
         }
@@ -115,14 +115,14 @@ class AsyncTaskManager extends BasicTaskManager
                 $this->persistence->saveBucketAndItsTasks($bucket);
             } catch (\Exception $e) {
                 $persistence->deleteBucket($bucket);
-                $DIC->logger()->root()->info("[BT] Exception while async computing: "
+                $DIC->logger()->bgtk()->info("Exception while async computing: "
                     . $e->getMessage());
-                $DIC->logger()->root()->info("[BT] Stack Trace: "
+                $DIC->logger()->bgtk()->info("Stack Trace: "
                     . $e->getTraceAsString());
             }
         }
 
-        $DIC->logger()->root()->info("[BT] One worker going down because there's nothing left to do.");
+        $DIC->logger()->bgtk()->info("One worker going down because there's nothing left to do.");
 
         return true;
     }
