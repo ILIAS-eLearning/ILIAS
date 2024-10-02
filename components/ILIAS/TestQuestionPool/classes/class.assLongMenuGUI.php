@@ -58,7 +58,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $user_solution = [];
         if ($active_id) {
-            $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, true);
             // hey.
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value["value1"]] = $solution_value["value2"];

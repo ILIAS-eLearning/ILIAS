@@ -40,6 +40,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\components\Authentication\Logout\LogoutTarget;
+use ILIAS\LegalDocuments\Value\Target;
 
 class Conductor
 {
@@ -155,6 +156,9 @@ class Conductor
         array_map(fn($proc) => $proc(), $this->internal->all('after-login'));
     }
 
+    /**
+     * @return Result<Target>
+     */
     public function findGotoLink(string $goto_target): Result
     {
         return $this->find(
@@ -247,7 +251,7 @@ class Conductor
     }
 
     /**
-     * @return Closure(Closure(string, string): Result<PageFragment>): string
+     * @return Closure(Closure(string, string): Result<PageFragment>): Result<string>
      */
     private function renderPageFragment(string $gui, string $cmd): Closure
     {

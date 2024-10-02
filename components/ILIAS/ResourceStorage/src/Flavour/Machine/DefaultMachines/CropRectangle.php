@@ -66,12 +66,13 @@ class CropRectangle extends AbstractMachine implements FlavourMachine
         }
         $image = $this->from($stream);
         if (!is_resource($image) && !$image instanceof \GdImage) {
-            throw new \Exception('Invalid  Image');
+            // we can't handle this image
+            return;
         }
 
         $stream_path = $stream->getMetadata('uri');
         if ($stream_path === 'php://memory') {
-            [$source_width, $source_height] = getimagesizefromstring((string)$stream);
+            [$source_width, $source_height] = getimagesizefromstring((string) $stream);
         } else {
             [$source_width, $source_height] = getimagesize($stream_path);
         }

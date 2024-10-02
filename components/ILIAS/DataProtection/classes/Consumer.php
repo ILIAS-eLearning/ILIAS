@@ -89,7 +89,7 @@ final class Consumer implements ConsumerInterface
                          ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                          ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'dpro_agree_date', 'dpro'))
                          ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
-                         ->canUseSoapApi($constraint($public_api->agreed(...), 'Data Protection not agreed.'));
+                         ->canUseSoapApi($constraint(fn($u) => !$public_api->needsToAgree($u), 'Data Protection not agreed.'));
         }
 
         return $slot;

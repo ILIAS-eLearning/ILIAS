@@ -65,7 +65,8 @@ il.TestPlayerQuestionEditControl = new function() {
         backgroundDetectorUrl: '',              // url called by the background detector
         forcedInstantFeedback: false,            // forced feedback will change the submit command
         nextQuestionLocks: false,
-        questionLocked: false
+        questionLocked: false,
+        autosaveFailureMessage: ''
     };
 
     /**
@@ -729,7 +730,7 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function autoSaveFailure(jqXHR) {
-      let responseText = 'Autosafe Timeout'
+      let responseText = config.autosaveFailureMessage;
       if (typeof jqXHR.responseText !== 'undefined') {
         responseText = jqXHR.responseText ;
       }
