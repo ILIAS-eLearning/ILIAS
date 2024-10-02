@@ -37,6 +37,14 @@ class AsyncTaskManager extends BasicTaskManager
     {
         global $DIC;
 
+        // check this before saving the bucket state to prevent an orphaned entry with 0%
+        if (!$DIC->settings()->get('soap_user_administration')) {
+            $DIC->logger()->bgtk()->warning("SOAP not enabled, fallback to sync version");
+            $sync_manager = new SyncTaskManager($this->persistence);
+            $sync_manager->run($bucket);
+            return;
+        }
+
         $bucket->setState(State::SCHEDULED);
         $bucket->setCurrentTask($bucket->getTask());
         $DIC->backgroundTasks()->persistence()->saveBucketAndItsTasks($bucket);
