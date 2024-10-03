@@ -49,6 +49,13 @@ class Settings
         return $this->id;
     }
 
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
+    }
+
     public function getProfilePicture(): bool
     {
         return $this->profile_picture;
