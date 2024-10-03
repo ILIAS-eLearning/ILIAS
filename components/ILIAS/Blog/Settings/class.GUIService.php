@@ -43,4 +43,16 @@ class GUIService
             $in_repository
         );
     }
+
+    public function blockSettingsGUI(int $obj_id, bool $in_repository): BlockSettingsGUI
+    {
+        return new BlockSettingsGUI(
+            $this->data,
+            $this->domain,
+            $this->gui,
+            $obj_id,
+            $in_repository
+        );
+    }
+
 }

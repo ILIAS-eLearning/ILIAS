@@ -87,7 +87,8 @@ class InternalDomainService
         return self::$instance["settings"] ??
             self::$instance["settings"] = new SettingsManager(
                 $this->data,
-                $this->repo
+                $this->repo,
+                $this
             );
     }
 

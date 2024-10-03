@@ -22,12 +22,14 @@ namespace ILIAS\Blog\Settings;
 
 use ILIAS\Blog\InternalDataService;
 use ILIAS\Blog\InternalRepoService;
+use ILIAS\Blog\InternalDomainService;
 
 class SettingsManager
 {
     public function __construct(
         protected InternalDataService $data,
-        protected InternalRepoService $repo
+        protected InternalRepoService $repo,
+        protected InternalDomainService $domain
     ) {
     }
 
@@ -45,5 +47,40 @@ class SettingsManager
     public function getByObjId(int $id): ?Settings
     {
         return $this->repo->settings()->getByObjId($id);
+    }
+
+    public function saveOrder(int $id, array $order): void
+    {
+        $this->repo->settings()->saveOrder($id, $order);
+    }
+
+    public function getOrderingOptions(
+        Settings $settings,
+        bool $in_repository
+    ): array {
+        $lng = $this->domain->lng();
+        $order_options = [];
+        foreach ($settings->getOrder() as $item) {
+            $order_options[$item] = $lng->txt("blog_" . $item);
+        }
+
+        $type = "navigation";
+        if (!isset($order_options[$type])) {
+            $order_options[$type] = $lng->txt("blog_" . $type);
+        }
+
+        if ($in_repository) {
+            $type = "authors";
+            if (!isset($order_options[$type])) {
+                $order_options[$type] = $lng->txt("blog_" . $type);
+            }
+        }
+
+        $type = "keywords";
+        if (!isset($order_options[$type])) {
+            $order_options[$type] = $lng->txt("blog_" . $type);
+        }
+
+        return $order_options;
     }
 }

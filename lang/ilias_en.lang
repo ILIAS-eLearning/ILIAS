@@ -2499,6 +2499,7 @@ blog#:#blog_settings#:#Blog Administration
 blog#:#blog_settings_navigation#:#Navigation Sidebar
 blog#:#blog_show_latest#:#Show Latest Posts/Drafts
 blog#:#blog_show_print_view#:#Show Print View
+blog#:#blog_side_blocks#:#Side Blocks
 blog#:#blog_starting_page#:#Starting Page
 blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication

@@ -116,7 +116,20 @@ class SettingsDBRepository
         if ($rec !== false) {
             return $this->getSettingsFromRecord($rec);
         }
-
         return null;
     }
+
+    public function saveOrder(int $id, array $order): void
+    {
+        $this->db->update(
+            "il_blog",
+            [
+            "nav_order" => ["", implode(';', $order)]
+        ],
+            [
+                "id" => ["integer", $id]
+            ]
+        );
+    }
+
 }

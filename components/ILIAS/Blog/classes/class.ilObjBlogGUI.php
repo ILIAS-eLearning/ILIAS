@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Blog\StandardGUIRequest;
+use ILIAS\Blog\Settings\SettingsGUI;
 
 /**
- * Class ilObjBlogGUI
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjBlogGUI: ILIAS\Blog\Settings\SettingsGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ILIAS\Blog\Settings\BlockSettingsGUI
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
@@ -204,6 +204,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         );
 
         $this->tabs_gui->addSubTab(
+            "side_blocks",
+            $this->lng->txt("blog_side_blocks"),
+            $this->ctrl->getLinkTargetByClass(
+                [\ILIAS\Blog\Settings\BlockSettingsGUI::class],
+                ""
+            )
+        );
+
+        $this->tabs_gui->addSubTab(
             "style",
             $this->lng->txt("obj_sty"),
             $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
@@ -228,225 +237,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->tabs_gui->activateSubTab($a_active);
     }
 
-    protected function initEditCustomForm(
-        ilPropertyFormGUI $a_form
-    ): void {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        $obj_service = $this->getObjectService();
-
-        $this->setSettingsSubTabs("properties");
-
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $appr = new ilCheckboxInputGUI($lng->txt("blog_enable_approval"), "approval");
-            $appr->setInfo($lng->txt("blog_enable_approval_info"));
-            $a_form->addItem($appr);
-        }
-
-        $notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
-        $a_form->addItem($notes);
-
-        if ($ilSetting->get('enable_global_profiles')) {
-            $rss = new ilCheckboxInputGUI($lng->txt("blog_enable_rss"), "rss");
-            $rss->setInfo($lng->txt("blog_enable_rss_info"));
-            $a_form->addItem($rss);
-        }
-
-
-        // navigation
-
-        $nav = new ilFormSectionHeaderGUI();
-        $nav->setTitle($lng->txt("blog_settings_navigation"));
-        $a_form->addItem($nav);
-
-        $nav_mode = new ilRadioGroupInputGUI($lng->txt("blog_nav_mode"), "nav");
-        $nav_mode->setRequired(true);
-        $a_form->addItem($nav_mode);
-
-        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_list"), (string) ilObjBlog::NAV_MODE_LIST);
-        $opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
-        $nav_mode->addOption($opt);
-
-
-        $mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-        $mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
-        $mon_num->setSize(3);
-        $mon_num->setMinValue(1);
-        $opt->addSubItem($mon_num);
-
-        $detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month_with_post"), "nav_list_mon_with_post");
-        $detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_with_post_info"));
-        //$detail_num->setRequired(true);
-        $detail_num->setSize(3);
-        //$detail_num->setMinValue(0);
-        $opt->addSubItem($detail_num);
-
-        $opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), (string) ilObjBlog::NAV_MODE_MONTH);
-        $opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
-        $nav_mode->addOption($opt);
-
-        $order_options = array();
-        if ($this->object->getOrder()) {
-            foreach ($this->object->getOrder() as $item) {
-                $order_options[] = $lng->txt("blog_" . $item);
-            }
-        }
-
-        if (!in_array($lng->txt("blog_navigation"), $order_options)) {
-            $order_options[] = $lng->txt("blog_navigation");
-        }
-
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            if (!in_array($lng->txt("blog_authors"), $order_options)) {
-                $order_options[] = $lng->txt("blog_authors");
-            }
-
-            $auth = new ilCheckboxInputGUI($lng->txt("blog_enable_nav_authors"), "nav_authors");
-            $auth->setInfo($lng->txt("blog_enable_nav_authors_info"));
-            $a_form->addItem($auth);
-        }
-
-        $keyw = new ilCheckboxInputGUI($lng->txt("blog_enable_keywords"), "keywords");
-        $keyw->setInfo($lng->txt("blog_enable_keywords_info"));
-        $a_form->addItem($keyw);
-
-        if (!in_array($lng->txt("blog_keywords"), $order_options)) {
-            $order_options[] = $lng->txt("blog_keywords");
-        }
-
-        $order = new ilNonEditableValueGUI($lng->txt("blog_nav_sortorder"), "order");
-        $order->setMultiValues($order_options);
-        $order->setValue(array_shift($order_options));
-        $order->setMulti(true, true, false);
-        $a_form->addItem($order);
-
-
-        // presentation (frame)
-
-        $pres = new ilFormSectionHeaderGUI();
-        $pres->setTitle($lng->txt("blog_presentation_frame"));
-        $a_form->addItem($pres);
-
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
-        }
-
-        $ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
-        $a_form->addItem($ppic);
-
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $ppic->setInfo($lng->txt("blog_profile_picture_repository_info"));
-        }
-
-        $blga_set = new ilSetting("blga");
-
-        $this->reading_time_gui->addSettingToForm($a_form);
-
-
-        // presentation (overview)
-
-        $list = new ilFormSectionHeaderGUI();
-        $list->setTitle($lng->txt("blog_presentation_overview"));
-        $a_form->addItem($list);
-
-
-        $post_num = new ilNumberInputGUI($lng->txt("blog_list_num_postings"), "ov_list_post_num");
-        $post_num->setInfo($lng->txt("blog_list_num_postings_info"));
-        $post_num->setSize(3);
-        $post_num->setMinValue(1);
-        $post_num->setRequired(true);
-        $a_form->addItem($post_num);
-
-        $abs_shorten = new ilCheckboxInputGUI($lng->txt("blog_abstract_shorten"), "abss");
-        $a_form->addItem($abs_shorten);
-
-        $abs_shorten_len = new ilNumberInputGUI($lng->txt("blog_abstract_shorten_length"), "abssl");
-        $abs_shorten_len->setSize(5);
-        $abs_shorten_len->setRequired(true);
-        $abs_shorten_len->setSuffix($lng->txt("blog_abstract_shorten_characters"));
-        $abs_shorten_len->setMinValue(50, true);
-        $abs_shorten->addSubItem($abs_shorten_len);
-
-        $abs_img = new ilCheckboxInputGUI($lng->txt("blog_abstract_image"), "absi");
-        $abs_img->setInfo($lng->txt("blog_abstract_image_info"));
-        $a_form->addItem($abs_img);
-
-        $abs_img_width = new ilNumberInputGUI($lng->txt("blog_abstract_image_width"), "absiw");
-        $abs_img_width->setSize(5);
-        $abs_img_width->setRequired(true);
-        $abs_img_width->setSuffix($lng->txt("blog_abstract_image_pixels"));
-        $abs_img_width->setMinValue(32, true);
-        $abs_img->addSubItem($abs_img_width);
-
-        $abs_img_height = new ilNumberInputGUI($lng->txt("blog_abstract_image_height"), "absih");
-        $abs_img_height->setSize(5);
-        $abs_img_height->setRequired(true);
-        $abs_img_height->setSuffix($lng->txt("blog_abstract_image_pixels"));
-        $abs_img_height->setMinValue(32, true);
-        $abs_img->addSubItem($abs_img_height);
-    }
-
-    protected function getEditFormCustomValues(array &$a_values): void
+    public function edit(): void
     {
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $a_values["approval"] = $this->object->hasApproval();
-            $a_values["nav_authors"] = $this->object->hasAuthors();
-        }
-        $a_values["keywords"] = $this->object->hasKeywords();
-        $a_values["notes"] = $this->object->getNotesStatus();
-        $a_values["ppic"] = $this->object->hasProfilePicture();
-        $a_values["rss"] = $this->object->hasRSS();
-        $a_values["abss"] = $this->object->hasAbstractShorten();
-        $a_values["absi"] = $this->object->hasAbstractImage();
-        $a_values["nav"] = $this->object->getNavMode();
-        $a_values["nav_list_mon_with_post"] = $this->object->getNavModeListMonthsWithPostings();
-        $a_values["nav_list_mon"] = $this->object->getNavModeListMonths();
-        $a_values["ov_list_post_num"] = $this->object->getOverviewPostings();
-
-        // #13420
-        $a_values["abssl"] = $this->object->getAbstractShortenLength() ?: ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
-        $a_values["absiw"] = $this->object->getAbstractImageWidth() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_WIDTH;
-        $a_values["absih"] = $this->object->getAbstractImageHeight() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
-        $a_values = $this->reading_time_gui->addValueToArray($a_values);
-    }
-
-    protected function updateCustom(ilPropertyFormGUI $form): void
-    {
-        $lng = $this->lng;
-        $obj_service = $this->getObjectService();
-
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $this->object->setApproval((bool) $form->getInput("approval"));
-            $this->object->setAuthors((bool) $form->getInput("nav_authors"));
-            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
-        }
-        $this->object->setKeywords((bool) $form->getInput("keywords"));
-        $this->object->setNotesStatus((bool) $form->getInput("notes"));
-        $this->object->setProfilePicture((bool) $form->getInput("ppic"));
-        $this->object->setRSS((bool) $form->getInput("rss"));
-        $this->object->setAbstractShorten((bool) $form->getInput("abss"));
-        $this->object->setAbstractShortenLength((int) $form->getInput("abssl"));
-        $this->object->setAbstractImage((bool) $form->getInput("absi"));
-        $this->object->setAbstractImageWidth((int) $form->getInput("absiw"));
-        $this->object->setAbstractImageHeight((int) $form->getInput("absih"));
-        $this->object->setNavMode((int) $form->getInput("nav"));
-        $this->object->setNavModeListMonthsWithPostings((int) $form->getInput("nav_list_mon_with_post"));
-        $this->object->setNavModeListMonths((int) $form->getInput("nav_list_mon"));
-        $this->object->setOverviewPostings((int) $form->getInput("ov_list_post_num"));
-        $this->reading_time_gui->saveSettingFromForm($form);
-
-        $order = (array) $form->getInput("order");
-
-        foreach ($order as $idx => $value) {
-            if ($value == $lng->txt("blog_navigation")) {
-                $order[$idx] = "navigation";
-            } elseif ($value == $lng->txt("blog_keywords")) {
-                $order[$idx] = "keywords";
-            } else {
-                $order[$idx] = "authors";
-            }
-        }
-        $this->object->setOrder($order);
+        $this->ctrl->redirectByClass(SettingsGUI::class, "");
     }
 
     protected function setTabs(): void
@@ -489,7 +282,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 "settings",
                 $lng->txt("settings"),
                 $this->ctrl->getLinkTargetByClass(
-                    [\ILIAS\Blog\Settings\SettingsGUI::class],
+                    [SettingsGUI::class],
                     ""
                 )
             );
@@ -780,11 +573,24 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case strtolower(\ILIAS\Blog\Settings\SettingsGUI::class):
+            case strtolower(SettingsGUI::class):
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("properties");
                 $gui = $this->gui->settings()->settingsGUI(
+                    $this->obj_id,
+                    $this->id_type === self::REPOSITORY_NODE_ID
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(\ILIAS\Blog\Settings\BlockSettingsGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("side_blocks");
+                $gui = $this->gui->settings()->blockSettingsGUI(
                     $this->obj_id,
                     $this->id_type === self::REPOSITORY_NODE_ID
                 );
