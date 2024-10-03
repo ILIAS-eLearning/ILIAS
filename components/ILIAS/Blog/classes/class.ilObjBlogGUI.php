@@ -270,14 +270,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         if ($this->checkPermissionBool("write")) {
-            /*$this->tabs_gui->addTab(
-                "settings",
-                $lng->txt("settings"),
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    "edit"
-                )
-            );*/
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
