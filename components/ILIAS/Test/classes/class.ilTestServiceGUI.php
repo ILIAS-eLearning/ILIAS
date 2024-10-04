@@ -23,6 +23,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -50,6 +51,7 @@ class ilTestServiceGUI
 {
     protected readonly RequestDataCollector $testrequest;
     protected readonly GeneralQuestionPropertiesRepository $questionrepository;
+    protected readonly TestQuestionsRepository $testquestionsrepository;
     protected ?ilTestService $service = null;
     protected readonly ilDBInterface $db;
     protected readonly ilLanguage $lng;
@@ -152,6 +154,8 @@ class ilTestServiceGUI
         $this->results_data_factory = $local_dic['results.data.factory'];
         $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
+        $this->testquestionsrepository = $local_dic['questions.properties.repository'];
+
 
         $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 

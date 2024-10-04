@@ -26,13 +26,11 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\Refinery\Transformation;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
@@ -559,7 +557,7 @@ abstract class assQuestion implements Question
         $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
 
         // adjust reached points regarding to tests scoring options
-        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
 
         return $reached_points;
     }
@@ -576,7 +574,7 @@ abstract class assQuestion implements Question
         $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
 
         // adjust reached points regarding to tests scoring options
-        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
 
         if (is_null($reached_points)) {
             $reached_points = 0.0;
@@ -1393,7 +1391,7 @@ abstract class assQuestion implements Question
     protected function removeAllImageFiles(string $image_target_path): void
     {
         $target = opendir($image_target_path);
-        while($target_file = readdir($target)) {
+        while ($target_file = readdir($target)) {
             if ($target_file === '.' || $target_file === '..') {
                 continue;
             }
@@ -1478,7 +1476,7 @@ abstract class assQuestion implements Question
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
 
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $new_context = $data_service->context(
                 $parent_target_id,
                 $target_id,
@@ -1508,7 +1506,7 @@ abstract class assQuestion implements Question
             $notes,
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $repo->deleteNote($note->getId());
         }
     }
@@ -1612,7 +1610,7 @@ abstract class assQuestion implements Question
     protected function copySuggestedSolutions(int $target_question_id): void
     {
         $update = [];
-        foreach($this->getSuggestedSolutions() as $index => $solution) {
+        foreach ($this->getSuggestedSolutions() as $index => $solution) {
             $solution = $solution->withQuestionId($target_question_id);
             $update[] = $solution;
         }
@@ -1869,7 +1867,7 @@ abstract class assQuestion implements Question
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): float
+    final public function adjustReachedPointsByScoringOptions(float $points, int $active_id): float
     {
         $count_system = ilObjTest::_getCountSystem($active_id);
         if ($count_system == 1) {
@@ -1917,68 +1915,59 @@ abstract class assQuestion implements Question
         float $maxpoints,
         int $pass,
         bool $manualscoring
-    ): bool {
+    ): void {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $refinery = $DIC['refinery'];
 
-        $float_trafo = $refinery->kindlyTo()->float();
-        try {
-            $points = $float_trafo->transform($points);
-        } catch (ILIAS\Refinery\ConstraintViolationException $e) {
-            return false;
+        if ($points > $maxpoints) {
+            return;
         }
 
-        if ($points <= $maxpoints) {
-            if ($pass === null) {
-                $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
-            }
+        if ($pass === null) {
+            $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
+        }
 
-            $rowsnum = 0;
-            $old_points = 0;
-            $result = $ilDB->queryF(
-                "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                ['integer','integer','integer'],
-                [$active_id, $question_id, $pass]
-            );
-            $manual = ($manualscoring) ? 1 : 0;
-            $rowsnum = $result->numRows();
-            if ($rowsnum > 0) {
-                $row = $ilDB->fetchAssoc($result);
-                $old_points = $row["points"];
-                if ($old_points !== $points) {
-                    $affectedRows = $ilDB->manipulateF(
-                        "UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                        ['float', 'integer', 'integer', 'integer', 'integer', 'integer'],
-                        [$points, $manual, time(), $active_id, $question_id, $pass]
-                    );
-                }
-            } else {
-                $next_id = $ilDB->nextId('tst_test_result');
+        $old_points = 0;
+        $result = $ilDB->queryF(
+            "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+            ['integer','integer','integer'],
+            [$active_id, $question_id, $pass]
+        );
+        $manual = ($manualscoring) ? 1 : 0;
+        $rowsnum = $result->numRows();
+        if ($rowsnum > 0) {
+            $row = $ilDB->fetchAssoc($result);
+            $old_points = $row['points'];
+            if ($old_points !== $points) {
                 $affectedRows = $ilDB->manipulateF(
-                    "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                    ['integer', 'integer','integer', 'float', 'integer', 'integer','integer'],
-                    [$next_id, $active_id, $question_id, $points, $pass, $manual, time()]
+                    "UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+                    ['float', 'integer', 'integer', 'integer', 'integer', 'integer'],
+                    [$points, $manual, time(), $active_id, $question_id, $pass]
                 );
             }
-
-            if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
-                $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
-                if ($test_id === null) {
-                    return false;
-                }
-                $test = new ilObjTest(
-                    $test_id,
-                    false
-                );
-                $test->updateTestPassResults($active_id, $pass);
-                ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
-            }
-
-            return true;
+        } else {
+            $next_id = $ilDB->nextId('tst_test_result');
+            $affectedRows = $ilDB->manipulateF(
+                "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                ['integer', 'integer','integer', 'float', 'integer', 'integer','integer'],
+                [$next_id, $active_id, $question_id, $points, $pass, $manual, time()]
+            );
         }
 
-        return false;
+        if (!self::isForcePassResultUpdateEnabled() && $old_points === $points && $rowsnum !== 0) {
+            return;
+        }
+
+        $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
+        if ($test_id === null) {
+            return;
+        }
+        $test = new ilObjTest(
+            $test_id,
+            false
+        );
+        $test->updateTestPassResults($active_id, $pass);
+        ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
     }
 
     public function getQuestion(): string

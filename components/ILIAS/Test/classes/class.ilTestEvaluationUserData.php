@@ -303,10 +303,10 @@ class ilTestEvaluationUserData
         }
 
         $this->questions[$pass][] = [
-            "id" => $question_id, // the so called "aid" from any historical time
-            "o_id" => $original_id, // when the "aid" was valid this was the "id"
-            "points" => $max_points,
-            "sequence" => $sequence
+            'id' => $question_id,
+            'o_id' => $original_id,
+            'points' => $max_points,
+            'sequence' => $sequence
         ];
     }
 
@@ -317,6 +317,24 @@ class ilTestEvaluationUserData
         } else {
             return null;
         }
+    }
+
+    public function getQuestionByAttemptAndId(int $attempt, int $question_id): ?array
+    {
+        if (!isset($this->questions[$attempt])) {
+            return null;
+        }
+
+        $question = array_filter(
+            $this->questions[$attempt],
+            fn(array $v): bool => $v['id'] === $question_id
+        );
+
+        if ($question === []) {
+            return null;
+        }
+
+        return array_shift($question);
     }
 
     public function getQuestionCount(int $pass = 0): int

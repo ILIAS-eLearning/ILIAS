@@ -2342,7 +2342,7 @@ class ilObjTest extends ilObject
      *
      * @return array The active ids, names and logins of the persons who started the test
     */
-    public function &getParticipants(): array
+    public function getParticipants(): array
     {
         $result = $this->db->queryF(
             "SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
@@ -6383,7 +6383,7 @@ class ilObjTest extends ilObject
      * @return array The feedback text
      * @access public
      */
-    public static function getCompleteManualFeedback(int $question_id): array
+    public function getCompleteManualFeedback(int $question_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -6413,23 +6413,17 @@ class ilObjTest extends ilObject
         int $question_id,
         int $pass,
         ?string $feedback,
-        bool $finalized = false,
-        bool $is_single_feedback = false
-    ): bool {
+        bool $finalized = false
+    ): void {
         $feedback_old = self::getSingleManualFeedback($active_id, $question_id, $pass);
+        $this->db->manipulateF(
+            'DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s',
+            ['integer', 'integer', 'integer'],
+            [$active_id, $question_id, $pass]
+        );
 
-        $finalized_record = (int) ($feedback_old['finalized_evaluation'] ?? 0);
-        if ($finalized_record === 0 || ($is_single_feedback && $finalized_record === 1)) {
-            $this->db->manipulateF(
-                'DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s',
-                ['integer', 'integer', 'integer'],
-                [$active_id, $question_id, $pass]
-            );
+        $this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old);
 
-            $this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old);
-        }
-
-        return true;
     }
 
     private function insertManualFeedback(

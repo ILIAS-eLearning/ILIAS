@@ -1220,6 +1220,7 @@ assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at le
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
+assessment#:#select_question#:#Select a Question
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_unit#:#--- Select Unit ---
 assessment#:#selected_category#:#Selected Category: %s

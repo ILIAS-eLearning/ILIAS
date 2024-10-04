@@ -192,7 +192,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $content_html .= $table->getHTML() . '<br />';
 
         if ($form === null) {
-            $question_gui_list = $this->service->getManScoringQuestionGuiList($active_id, $pass);
+            $question_gui_list = $this->getManScoringQuestionGuiList($active_id, $pass);
             $form = $this->buildManScoringParticipantForm($question_gui_list, $active_id, $pass, true);
         }
 
@@ -211,7 +211,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $pass = $this->fetchPassParameter($active_id);
 
-        $question_gui_list = $this->service->getManScoringQuestionGuiList($active_id, $pass);
+        $question_gui_list = $this->getManScoringQuestionGuiList($active_id, $pass);
         $form = $this->buildManScoringParticipantForm($question_gui_list, $active_id, $pass, false);
 
         $form->setValuesByPost();
@@ -278,8 +278,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 $question_id,
                 $pass,
                 $feedback_text,
-                $finalized,
-                true
+                $finalized
             );
 
             if ($this->logger->isLoggingEnabled()) {
@@ -396,7 +395,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $question_solution = $question_gui->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
             $best_solution = $question_gui->getObject()->getSuggestedSolutionOutput();
 
-            $feedback = $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
+            $feedback = \ilObjTest::getSingleManualFeedback($active_id, $question_id, $pass);
 
             $disabled = false;
             if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
@@ -469,8 +468,26 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         return $form;
     }
 
-    private function sendManScoringParticipantNotification(): void
+    private function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
+        $test_result_data = $this->object->getTestResult($active_id, $pass);
+
+        $man_scoring_question_gui_list = [];
+
+        foreach ($test_result_data as $question_data) {
+            if (!isset($question_data['qid'])) {
+                continue;
+            }
+
+            if (!isset($question_data['type'])) {
+                throw new ilTestException('no question type given!');
+            }
+
+            $man_scoring_question_gui_list[ $question_data['qid'] ] = $this->object
+                ->createQuestionGUI('', $question_data['qid']);
+        }
+
+        return $man_scoring_question_gui_list;
     }
 
     private function buildManScoringParticipantsTable(bool $withData = false): TestScoringByParticipantTableGUI
