@@ -28,28 +28,32 @@ use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepositoryInterface;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileTeamRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipRepository;
+use ILIAS\Exercise\Settings\SettingsDBRepository;
 
-/**
- * Internal repo factory
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
     protected IRSSWrapper $irss_wrapper;
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
     protected Submission\SubmissionRepository $submission_repo;
+    protected static array $instance = [];
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
         $this->irss_wrapper = new IRSSWrapper($data);
+    }
+
+    public function settings(): SettingsDBRepository
+    {
+        return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
     }
 
     public function assignment(): Assignment\RepoService
     {
-        return new Assignment\RepoService(
+        return self::$instance["assignment"] ??= new Assignment\RepoService(
             $this->data,
             $this->db
         );
@@ -57,7 +61,7 @@ class InternalRepoService
 
     public function peerReview(): PeerReview\RepoService
     {
-        return new PeerReview\RepoService(
+        return self::$instance["peer_review"] ??= new PeerReview\RepoService(
             $this->irss_wrapper,
             $this->data,
             $this->db
@@ -67,7 +71,7 @@ class InternalRepoService
 
     public function submission(): Submission\SubmissionRepositoryInterface
     {
-        return new Submission\SubmissionRepository(
+        return self::$instance["submission"] ??= new Submission\SubmissionRepository(
             $this->irss_wrapper,
             $this->data,
             $this->db
@@ -76,7 +80,7 @@ class InternalRepoService
 
     public function instructionFiles(): InstructionFileRepository
     {
-        return new InstructionFileRepository(
+        return self::$instance["instruction"] ??= new InstructionFileRepository(
             $this->irss_wrapper,
             $this->db
         );
@@ -84,7 +88,7 @@ class InternalRepoService
 
     public function sampleSolution(): SampleSolutionRepository
     {
-        return new SampleSolutionRepository(
+        return self::$instance["sample_sol"] ??= new SampleSolutionRepository(
             $this->irss_wrapper,
             $this->db
         );
@@ -92,7 +96,7 @@ class InternalRepoService
 
     public function tutorFeedbackFile(): TutorFeedbackFileRepository
     {
-        return new TutorFeedbackFileRepository(
+        return self::$instance["tutor_feedback"] ??= new TutorFeedbackFileRepository(
             $this->irss_wrapper,
             $this->db
         );
@@ -100,7 +104,7 @@ class InternalRepoService
 
     public function tutorFeedbackFileTeam(): TutorFeedbackFileTeamRepository
     {
-        return new TutorFeedbackFileTeamRepository(
+        return self::$instance["tutor_feedback_team"] ??= new TutorFeedbackFileTeamRepository(
             $this->irss_wrapper,
             $this->db
         );
@@ -108,7 +112,7 @@ class InternalRepoService
 
     public function tutorFeedbackZip(): TutorFeedbackZipRepository
     {
-        return new TutorFeedbackZipRepository(
+        return self::$instance["tutor_feedback_zip"] ??= new TutorFeedbackZipRepository(
             $this->irss_wrapper,
             $this->db
         );
@@ -116,10 +120,9 @@ class InternalRepoService
 
     public function team(): TeamDBRepository
     {
-        return new TeamDBRepository(
+        return self::$instance["team"] ??= new TeamDBRepository(
             $this->db,
             $this->data
         );
     }
-
 }
