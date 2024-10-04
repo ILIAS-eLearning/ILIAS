@@ -143,6 +143,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
+    protected ilUIService $ui_service;
 
     protected bool $create_question_mode;
 
@@ -172,10 +173,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->archives = $DIC->archives();
         $this->type = 'tst';
         $this->data_factory = new DataFactory();
+        $this->ui_service = $DIC->uiService();
 
         $local_dic = TestDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
-        $this->test_questions_repository = $local_dic['questions.repository'];
+        $this->test_questions_repository = $local_dic['questions.properties.repository'];
         $this->qplrequest = $local_dic['question.request_data_wrapper'];
         $this->title_builder = $local_dic['title_columns_builder'];
         $this->testrequest = $local_dic['request_data_collector'];
@@ -504,7 +506,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $output_gui = new TestScoringByQuestionGUI($this->getTestObject());
+                $output_gui = new TestScoringByQuestionGUI($this->getTestObject(), $this->ui_service);
                 $output_gui->setTestAccess($this->getTestAccess());
                 $this->ctrl->forwardCommand($output_gui);
                 break;

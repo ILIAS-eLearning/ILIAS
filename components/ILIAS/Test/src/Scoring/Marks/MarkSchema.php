@@ -147,7 +147,7 @@ class MarkSchema
             function ($a, $b): int {
                 if ($a->getMinimumLevel() === $b->getMinimumLevel()) {
                     $res = strcmp($a->getShortName(), $b->getShortName());
-                    if ($res == 0) {
+                    if ($res === 0) {
                         return strcmp($a->getOfficialName(), $b->getOfficialName());
                     } else {
                         return $res;

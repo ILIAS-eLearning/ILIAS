@@ -104,10 +104,6 @@ class LogTable implements Table\DataRetrieval
         )->withActions($this->getActions());
     }
 
-    /**
-     * Filters should be part of the Table; for now, since they are not fully
-     * integrated, they are rendered and applied seperately
-     */
     public function getFilter(\ilUIService $ui_service): Filter
     {
         $field_factory = $this->ui_factory->input()->field();

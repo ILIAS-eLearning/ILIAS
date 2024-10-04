@@ -144,7 +144,7 @@ class TestScoring
     ): void {
         $question = $question_gui->getObject();
         $reached = $question->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id);
 
         if ($this->preserve_manual_scores === true && $questiondata['manual'] === 1) {
             return;

@@ -182,7 +182,7 @@ class TestDIC extends PimpleContainer
                 $c['question.general_properties.repository']
             );
 
-        $dic['questions.repository'] = static fn($c): TestQuestionsRepository =>
+        $dic['questions.properties.repository'] = static fn($c): TestQuestionsRepository =>
             new TestQuestionsDatabaseRepository(
                 $DIC['ilDB'],
                 $c['question.general_properties.repository']

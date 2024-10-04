@@ -115,36 +115,6 @@ class ilTestService
         return $passOverwiewData;
     }
 
-    /**
-     * Returns the list of answers of a users test pass and offers a scoring option
-     */
-    public function getManScoringQuestionGuiList(int $active_id, int $pass): array
-    {
-        if (!$this->object->getGlobalSettings()->isManualScoringEnabled()) {
-            return [];
-        }
-
-        $test_result_data = $this->object->getTestResult($active_id, $pass);
-
-        $man_scoring_question_gui_list = [];
-
-        foreach ($test_result_data as $question_data) {
-            if (!isset($question_data['qid'])) {
-                continue;
-            }
-
-            if (!isset($question_data['type'])) {
-                throw new ilTestException('no question type given!');
-            }
-
-            $question_gui = $this->object->createQuestionGUI("", $question_data['qid']);
-
-            $man_scoring_question_gui_list[ $question_data['qid'] ] = $question_gui;
-        }
-
-        return $man_scoring_question_gui_list;
-    }
-
     public static function isManScoringDone(int $active_id): bool
     {
         return (new TestManScoringDoneHelper())->isDone($active_id);
@@ -207,39 +177,40 @@ class ilTestService
         return $virtualPassResults;
     }
 
-    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $test_sequence): array
+    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, bool $obligationsFilterEnabled): array
     {
-        $result_array = $test_sequence->getSequenceSummary();
+        $result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
 
         $marked_questions = [];
 
         if ($this->object->getShowMarker()) {
-            $marked_questions = ilObjTest::_getSolvedQuestions($test_sequence->getActiveId());
+            $marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
         }
 
         $data = [];
-        $first_question = true;
+        $firstQuestion = true;
 
-        foreach ($result_array as $value) {
-            $disable_link = $this->object->isFollowupQuestionAnswerFixationEnabled()
-                && !$value['presented']
-                && !$first_question;
+        foreach ($result_array as $key => $value) {
+            $disableLink = (
+                $this->object->isFollowupQuestionAnswerFixationEnabled()
+                && !$value['presented'] && !$firstQuestion
+            );
 
-            $description = '';
+            $description = "";
             if ($this->object->getListOfQuestionsDescription()) {
-                $description = $value['description'];
+                $description = $value["description"];
             }
 
-            $points = '';
+            $points = "";
             if (!$this->object->getTitleOutput()) {
-                $points = $value['points'];
+                $points = $value["points"];
             }
 
             $marked = false;
             if (count($marked_questions)) {
-                if (array_key_exists($value['qid'], $marked_questions)) {
-                    $obj = $marked_questions[$value['qid']];
-                    if ($obj['solved'] === 1) {
+                if (array_key_exists($value["qid"], $marked_questions)) {
+                    $obj = $marked_questions[$value["qid"]];
+                    if ($obj["solved"] == 1) {
                         $marked = true;
                     }
                 }
@@ -249,19 +220,20 @@ class ilTestService
 
             // fau: testNav - add number parameter for getQuestionTitle()
             $data[] = [
-                'order' => $value['nr'],
-                'title' => $this->object->getQuestionTitle($value['title'], $value['nr'], $value['points']),
+                'order' => $value["nr"],
+                'title' => $this->object->getQuestionTitle($value["title"], $value["nr"], $value["points"]),
                 'description' => $description,
-                'disabled' => $disable_link,
-                'worked_through' => $value['worked_through'],
-                'postponed' => $value['postponed'],
+                'disabled' => $disableLink,
+                'worked_through' => $value["worked_through"],
+                'postponed' => $value["postponed"],
                 'points' => $points,
                 'marked' => $marked,
-                'sequence' => $value['sequence'],
+                'sequence' => $value["sequence"],
+                'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
             ];
 
-            $first_question = false;
+            $firstQuestion = false;
             // fau.
         }
 

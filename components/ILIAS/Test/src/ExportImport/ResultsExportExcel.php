@@ -485,21 +485,6 @@ class ResultsExportExcel implements Exporter
         return $user_data->getPasses();
     }
 
-    private function orderQuestions(array $questions): array
-    {
-        $key = $this->test_obj->isRandomTest() ? 'qid' : 'sequence';
-        usort(
-            $questions,
-            static function ($a, $b) use ($key) {
-                if (isset($a[$key], $b[$key]) && $a[$key] > $b[$key]) {
-                    return 1;
-                }
-                return -1;
-            }
-        );
-        return $questions;
-    }
-
     private function getUserFieldsForUserID(?int $user_id): array
     {
         if ($user_id === null) {
