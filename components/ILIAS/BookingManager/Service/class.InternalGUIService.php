@@ -29,7 +29,7 @@ use ILIAS\Repository\GlobalDICGUIServices;
 class InternalGUIService
 {
     use GlobalDICGUIServices;
-
+    protected static array $instances = [];
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
 
@@ -82,4 +82,14 @@ class InternalGUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function settings(): Settings\GUIService
+    {
+        return self::$instances["settings"] ??= new Settings\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

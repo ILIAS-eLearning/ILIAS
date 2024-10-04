@@ -266,26 +266,36 @@ class FormAdapterGUI
 
         $format = $this->user->getDateFormat();
         $dt_format = (string) $format;
-        /*
-        switch ((int) $this->user->getDateFormat()) {
-            case \ilCalendarSettings::DATE_FORMAT_DMY:
-                $format = $this->data->dateFormat()->germanShort();
-                $dt_format = "d.m.Y";
-                break;
-            case \ilCalendarSettings::DATE_FORMAT_MDY:
-                $format = $this->data->dateFormat()->custom()->month()->slash()->day()->slash()->year();
-                $dt_format = "m/d/Y";
-                break;
-            default:
-                $format = $this->data->dateFormat()->standard();
-                $dt_format = "Y-m-d";
-                break;
-        }*/
 
         $field = $field->withFormat($format);
         if (!is_null($value)) {
             $field = $field->withValue(
                 (new \DateTime($value->get(IL_CAL_DATE)))->format($dt_format)
+            );
+        }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function dateTime(
+        string $key,
+        string $title,
+        string $description = "",
+        ?\ilDateTime $value = null
+    ): self {
+        $field = $this->ui->factory()->input()->field()->dateTime($title, $description)->withUseTime(true);
+
+        if ((int) $this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+            $dt_format = $this->data->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $dt_format = $this->data->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+        $field = $field->withFormat($dt_format);
+        if (!is_null($value) && !is_null($value->get(IL_CAL_DATETIME))) {
+            $field = $field->withValue(
+                (new \DateTime($value->get(IL_CAL_DATETIME)))->format(
+                    ((string) $dt_format)
+                )
             );
         }
         $this->addField($key, $field);
