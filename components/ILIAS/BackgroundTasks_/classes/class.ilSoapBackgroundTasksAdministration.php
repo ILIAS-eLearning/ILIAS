@@ -34,6 +34,8 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
      */
     public function runAsync(string $sid)
     {
+        ignore_user_abort(true);
+
         $this->initAuth($sid);
         $this->initIlias();
 
