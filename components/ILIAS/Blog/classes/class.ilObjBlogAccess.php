@@ -135,7 +135,7 @@ class ilObjBlogAccess extends ilObjectAccess
         switch ($permission) {
             case "visible":
             case "read":
-                if (self::_isOffline($obj_id)) {
+                if (self::_isOffline($obj_id) && !$this->access->checkAccessOfUser($user_id, "write", "", $ref_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
                     return false;
                 }

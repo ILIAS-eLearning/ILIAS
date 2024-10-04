@@ -31,7 +31,9 @@ class SettingsGUI
         protected InternalDataService $data,
         protected InternalDomainService $domain,
         protected InternalGUIService $gui,
-        protected int $obj_id
+        protected int $obj_id,
+        protected int $ref_id,
+        protected bool $creation_mode
     ) {
     }
 
@@ -66,6 +68,12 @@ class SettingsGUI
                               $this->obj_id,
                               "book"
                           );
+
+        $form = $form->addDidacticTemplates(
+            "book",
+            $this->ref_id,
+            $this->creation_mode
+        );
 
         $form = $form
             ->switch(
@@ -175,6 +183,14 @@ class SettingsGUI
                 $this->obj_id,
                 "book"
             );
+
+        $form = $form->addAdditionalFeatures(
+            $this->obj_id,
+            [
+                \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+            ]
+        );
+
         return $form;
     }
 
@@ -200,6 +216,12 @@ class SettingsGUI
                 $this->obj_id,
                 "book"
             );
+            $form->saveAdditionalFeatures(
+                $this->obj_id,
+                [
+                    \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                ]
+            );
 
             $settings = $this->data->settings(
                 $this->obj_id,
@@ -217,6 +239,14 @@ class SettingsGUI
             );
 
             $this->domain->bookingSettings()->update($settings);
+
+
+            // check if template is changed
+            $form->redirectToDidacticConfirmationIfChanged(
+                $this->ref_id,
+                "book",
+                self::class
+            );
 
             $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
             $ctrl->redirectByClass(self::class, "edit");

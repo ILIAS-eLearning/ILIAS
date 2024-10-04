@@ -236,9 +236,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
             case strtolower(SettingsGUI::class):
                 $this->checkPermission("write");
+                $this->showNoScheduleMessage();
                 $ilTabs->activateTab("settings");
                 $gui = $this->gui->settings()->settingsGUI(
-                    $this->object->getId()
+                    $this->object->getId(),
+                    $this->requested_ref_id,
+                    $this->getCreationMode()
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -258,7 +261,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     protected function afterSave(ilObject $new_object): void
     {
-        $new_object->setOffline(true);
         $new_object->update();
 
         // always send a message
@@ -285,22 +287,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     public function editObject(): void
     {
-        $this->showNoScheduleMessage();
-        if (!$this->checkPermissionBool("write")) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
-        }
-
-        $this->tabs_gui->activateTab("settings");
-
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values) {
-            $form->setValuesByArray($values, true);
-        }
-
-        $this->addExternalEditFormCustom($form);
-
-        $this->tpl->setContent($form->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class, "");
     }
 
     public function showNoScheduleMessage(): void
@@ -424,56 +411,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $feat = new ilFormSectionHeaderGUI();
         $feat->setTitle($this->lng->txt('obj_features'));
         $form->addItem($feat);
-    }
-
-    protected function getEditFormCustomValues(
-        array &$a_values
-    ): void {
-        $a_values["online"] = !$this->object->isOffline();
-        $a_values["public"] = $this->object->hasPublicLog();
-        $a_values["messages"] = $this->object->usesMessages();
-        $a_values["stype"] = $this->object->getScheduleType();
-        $a_values["limit"] = $this->object->getOverallLimit();
-        $a_values["period"] = $this->object->getReservationFilterPeriod();
-        $a_values["rmd"] = $this->object->getReminderStatus();
-        $a_values["rmd_day"] = $this->object->getReminderDay();
-        $a_values["preference_nr"] = $this->object->getPreferenceNumber();
-        if ($this->object->getPreferenceDeadline() > 0) {
-            $a_values["pref_deadline"] = new ilDateTime($this->object->getPreferenceDeadline(), IL_CAL_UNIX);
-        }
-    }
-
-    protected function updateCustom(ilPropertyFormGUI $form): void
-    {
-        $obj_service = $this->getObjectService();
-
-        $pref_deadline = $form->getItemByPostVar("pref_deadline");
-        if ($pref_deadline !== null) {
-            $pref_deadline = $pref_deadline->getDate();
-            $pref_deadline = $pref_deadline
-                ? $pref_deadline->get(IL_CAL_UNIX)
-                : 0;
-
-            $this->object->setOffline(!$form->getInput('online'));
-            $this->object->setReminderStatus((int) $form->getInput('rmd'));
-            $this->object->setReminderDay($form->getInput('rmd_day'));
-            $this->object->setPublicLog($form->getInput('public'));
-            $this->object->setScheduleType($form->getInput('stype'));
-            $this->object->setMessages((bool) (int) $form->getInput('messages'));
-            $this->object->setOverallLimit($form->getInput('limit') ?: null);
-            $this->object->setReservationFilterPeriod($form->getInput('period') != '' ? (int) $form->getInput('period') : null);
-            $this->object->setPreferenceDeadline($pref_deadline);
-            $this->object->setPreferenceNumber($form->getInput('preference_nr'));
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
-
-            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-                $this->object->getId(),
-                $form,
-                array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
-            );
-        }
     }
 
     public function addExternalEditFormCustom(ilPropertyFormGUI $form): void

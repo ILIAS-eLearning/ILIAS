@@ -33,13 +33,18 @@ class GUIService
     ) {
     }
 
-    public function settingsGUI(int $obj_id): SettingsGUI
-    {
+    public function settingsGUI(
+        int $obj_id,
+        int $ref_id,
+        bool $creation_mode
+    ): SettingsGUI {
         return new SettingsGUI(
             $this->data,
             $this->domain,
             $this->gui,
-            $obj_id
+            $obj_id,
+            $ref_id,
+            $creation_mode
         );
     }
 }

@@ -96,4 +96,165 @@ trait StdObjProperties
         $obj_prop->storePropertyIsOnline($this->getData("is_online"));
     }
 
+    public function addAdditionalFeatures(
+        int $obj_id,
+        array $services
+    ): self {
+        global $DIC;
+
+        $ilSetting = $DIC->settings();
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+
+        $lng->loadLanguageModule("obj");
+
+        $form = $this->section("add", $lng->txt("obj_features"));
+
+        // (local) custom metadata
+        if (in_array(\ilObjectServiceSettingsGUI::CUSTOM_METADATA, $services)) {
+            $form = $this->checkbox(
+                \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                $lng->txt('obj_tool_setting_custom_metadata'),
+                $lng->txt('obj_tool_setting_custom_metadata_info'),
+                (bool) \ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                )
+            );
+        }
+
+        return $this;
+    }
+
+    public function saveAdditionalFeatures(
+        int $obj_id,
+        array $services
+    ): void {
+        // (local) custom metadata
+        $key = \ilObjectServiceSettingsGUI::CUSTOM_METADATA;
+        if (in_array($key, $services)) {
+            \ilContainer::_writeContainerSetting($obj_id, $key, (string) $this->getData($key));
+        }
+    }
+
+    public function addDidacticTemplates(
+        string $type,
+        int $ref_id,
+        bool $creation_mode,
+        array $additional_template_options = []
+    ): self {
+        list($existing_exclusive, $options) = $this->buildDidacticTemplateOptions(
+            $type,
+            $ref_id,
+            $additional_template_options
+        );
+
+        if (sizeof($options) < 2) {
+            return $this;
+        }
+
+        // workaround for containers in edit mode
+        if (!$creation_mode) {
+            $current_value = 'dtpl_' . \ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
+
+            if (!in_array($current_value, array_keys($options)) || ($existing_exclusive && $current_value == "dtpl_0")) {
+                //add or rename actual value to not available
+                $options[$current_value] = [$this->lng->txt('not_available')];
+            }
+        } else {
+            if ($existing_exclusive) {
+                //if an exclusive template exists use the second template as default value - Whatever the f*** that means!
+                $keys = array_keys($options);
+                $current_value = $keys[1];
+            } else {
+                $current_value = 'dtpl_0';
+            }
+        }
+
+        $form = $this->radio(
+            'didactic_type',
+            $this->lng->txt('type'),
+            "",
+            $current_value
+        );
+
+        foreach ($options as $id => $data) {
+            /*
+            if ($existing_exclusive && $id == 'dtpl_0') {
+                //set default disabled if an exclusive template exists
+                $option->setDisabled(true);
+            }*/
+            $form = $this->radioOption(
+                (string) $id,
+                $data[0] ?? '',
+                $data[1] ?? ''
+            );
+        }
+        return $form;
+    }
+
+    private function buildDidacticTemplateOptions(
+        string $type,
+        int $ref_id,
+        array $additional_template_options = []
+    ): array {
+        $this->lng->loadLanguageModule('didactic');
+        $existing_exclusive = false;
+        $options = [];
+        $options['dtpl_0'] = [
+            $this->lng->txt('didactic_default_type'),
+            sprintf(
+                $this->lng->txt('didactic_default_type_info'),
+                $this->lng->txt('objs_' . $type)
+            )
+        ];
+
+        $templates = \ilDidacticTemplateSettings::getInstanceByObjectType($type)->getTemplates();
+        if ($templates) {
+            foreach ($templates as $template) {
+                if ($template->isEffective((int) $ref_id)) {
+                    $options["dtpl_" . $template->getId()] = [
+                        $template->getPresentationTitle(),
+                        $template->getPresentationDescription()
+                    ];
+
+                    if ($template->isExclusive()) {
+                        $existing_exclusive = true;
+                    }
+                }
+            }
+        }
+
+        return [$existing_exclusive, array_merge($options, $additional_template_options)];
+    }
+
+    public function redirectToDidacticConfirmationIfChanged(
+        int $ref_id,
+        string $type,
+        string $gui_class,
+        array $additional_template_options = []
+    ): void {
+        list($existing_exclusive, $options) = $this->buildDidacticTemplateOptions(
+            $type,
+            $ref_id,
+            $additional_template_options
+        );
+
+        if (sizeof($options) < 2) {
+            return;
+        }
+
+        $current_tpl_id = \ilDidacticTemplateObjSettings::lookupTemplateId(
+            $ref_id
+        );
+        $new_tpl_id = $this->getData('didactic_type');
+
+        if ($new_tpl_id !== $current_tpl_id) {
+            // redirect to didactic template confirmation
+            $this->ctrl->redirect([$gui_class, \ilDidacticTemplateGUI::class], "confirmTemplateSwitch");
+            return;
+        }
+    }
+
+
 }
