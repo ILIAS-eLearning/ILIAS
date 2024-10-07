@@ -29,24 +29,19 @@ use ILIAS\Glossary\Presentation\PresentationManager;
 use ILIAS\Glossary\Taxonomy\TaxonomyManager;
 use ILIAS\components\ILIAS\Glossary\Table\TableManager;
 use ILIAS\Glossary\Metadata\MetadataManager;
+use ILIAS\Glossary\Settings\SettingsManager;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 
@@ -117,4 +112,14 @@ class InternalDomainService
     {
         return new TableManager();
     }
+
+    public function glossarySettings(): SettingsManager
+    {
+        return self::$instance["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
 }
