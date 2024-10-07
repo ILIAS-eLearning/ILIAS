@@ -114,6 +114,7 @@ class ilBadgeProfileGUI
     protected function listBadges(): void
     {
         $this->tpl->setContent($this->renderDeck($this->tile_view->show()));
+        $this->noti_repo->updateLastCheckedTimestamp();
     }
 
     private function renderDeck(string $deck): string
