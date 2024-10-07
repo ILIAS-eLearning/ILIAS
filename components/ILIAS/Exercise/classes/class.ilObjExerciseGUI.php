@@ -18,6 +18,7 @@
 
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise;
+use ILIAS\Exercise\Settings;
 
 /**
  * @author       Stefan Meyer <smeyer@databay.de>
@@ -28,6 +29,7 @@ use ILIAS\Exercise;
  * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI
  * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilAssignmentPresentationGUI
  * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI, ilObjectMetaDataGUI, ilPortfolioExerciseGUI, ilExcRandomAssignmentGUI
+ * @ilCtrl_Calls ilObjExerciseGUI: ILIAS\Exercise\Settings\SettingsGUI
  */
 class ilObjExerciseGUI extends ilObjectGUI
 {
@@ -248,6 +250,17 @@ class ilObjExerciseGUI extends ilObjectGUI
             case strtolower(ilAssignmentPresentationGUI::class):
                 $this->checkPermission("read");
                 $gui = $this->exercise_ui->assignment()->assignmentPresentationGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(Settings\SettingsGUI::class):
+                $this->checkPermission("write");
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs();
+                $this->tabs_gui->activateSubTab("edit");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId()
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -601,14 +614,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         // edit properties
         if ($this->checkPermissionBool("write")) {
-            /*$tabs_gui->addTab("assignments",
-                $lng->txt("exc_edit_assignments"),
-                $this->ctrl->getLinkTarget($this, 'listAssignments'));*/
-
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, 'edit')
+                $this->ctrl->getLinkTargetByClass(Settings\SettingsGUI::class, "")
             );
         }
         if ($this->access->checkRbacOrPositionPermissionAccess(
@@ -811,9 +820,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
     public function editObject(): void
     {
-        $this->setSettingsSubTabs();
-        $this->tabs_gui->activateSubTab("edit");
-        parent::editObject();
+        $this->ctrl->redirectByClass(Settings\SettingsGUI::class, "");
     }
 
     protected function setSettingsSubTabs(): void

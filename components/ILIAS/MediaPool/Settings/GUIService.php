@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,31 +16,30 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\MediaPool;
+declare(strict_types=1);
 
-use ILIAS\MediaPool\Clipboard;
-use ILIAS\MediaPool\Settings\SettingsDBRepository;
+namespace ILIAS\MediaPool\Settings;
 
-class InternalRepoService
+use ILIAS\MediaPool\InternalDataService;
+use ILIAS\MediaPool\InternalDomainService;
+use ILIAS\MediaPool\InternalGUIService;
+
+class GUIService
 {
-    protected static array $instance = [];
-
     public function __construct(
         protected InternalDataService $data,
-        protected \ilDBInterface $db
+        protected InternalDomainService $domain,
+        protected InternalGUIService $gui
     ) {
     }
 
-    public function clipboard(): Clipboard\ClipboardSessionRepository
+    public function settingsGUI(int $obj_id): SettingsGUI
     {
-        return self::$instance["clipboard"] ??= new Clipboard\ClipboardSessionRepository();
-    }
-
-    public function settings(): SettingsDBRepository
-    {
-        return self::$instance["settings"] ??= new SettingsDBRepository(
-            $this->db,
-            $this->data
+        return new SettingsGUI(
+            $this->data,
+            $this->domain,
+            $this->gui,
+            $obj_id
         );
     }
 

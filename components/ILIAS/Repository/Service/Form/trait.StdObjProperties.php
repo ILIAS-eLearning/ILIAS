@@ -27,6 +27,7 @@ use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
 trait StdObjProperties
 {
     protected \ilObjectPropertiesAgregator $object_prop;
+
     protected function initStdObjProperties(Container $DIC)
     {
         $this->object_prop = ilObjectDIC::dic()['object_properties_agregator'];
@@ -45,6 +46,18 @@ trait StdObjProperties
         return $this;
     }
 
+    public function addStdTitle(
+        int $obj_id,
+        string $type
+    ): FormAdapterGUI {
+        $obj_prop = $this->object_prop->getFor($obj_id, $type);
+        $inputs = $obj_prop
+            ->getPropertyTitleAndDescription()
+            ->toForm($this->lng, $this->ui->factory()->input()->field(), $this->refinery)->getInputs();
+        $this->addField("title", $inputs[0]);
+        return $this;
+    }
+
     public function saveStdTitleAndDescription(
         int $obj_id,
         string $type
@@ -58,13 +71,26 @@ trait StdObjProperties
         );
     }
 
+    public function saveStdTitle(
+        int $obj_id,
+        string $type
+    ): void {
+        $obj_prop = $this->object_prop->getFor($obj_id, $type);
+        $obj_prop->storePropertyTitleAndDescription(
+            new \ilObjectPropertyTitleAndDescription(
+                $this->getData("title"),
+                ""
+            )
+        );
+    }
+
     public function addStdTile(
         int $obj_id,
         string $type
     ): FormAdapterGUI {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $input = $obj_prop->getPropertyTileImage()
-            ->toForm($this->lng, $this->ui->factory()->input()->field(), $this->refinery);
+                          ->toForm($this->lng, $this->ui->factory()->input()->field(), $this->refinery);
         $this->addField("tile", $input, true);
         return $this;
     }
@@ -95,6 +121,68 @@ trait StdObjProperties
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $obj_prop->storePropertyIsOnline($this->getData("is_online"));
     }
+
+    public function addStdAvailability(int $ref_id, $visibility_info = ""): self
+    {
+        $lng = $this->lng;
+        $activation = \ilObjectActivation::getItem($ref_id);
+        $start = $end = $visibility = null;
+        if (($activation["timing_type"] ?? null) === \ilObjectActivation::TIMINGS_ACTIVATION) {
+            $start = (int) $activation["timing_start"];
+            $end = (int) $activation["timing_end"];
+            $visibility = (bool) $activation["visible"];
+        }
+        $enabled = ($end > 0) || ($start > 0);
+        $form = $this
+            ->optional(
+                "limited",
+                $lng->txt("rep_time_based_availability"),
+                "",
+                $enabled
+            )
+            ->dateTimeDuration(
+                "availability",
+                $this->lng->txt("rep_time_period"),
+                "",
+                new \ilDateTime($start, IL_CAL_UNIX),
+                new \ilDateTime($end, IL_CAL_UNIX)
+            )
+            ->checkbox(
+                "visibility",
+                $this->lng->txt("rep_activation_limited_visibility"),
+                $visibility_info,
+                $visibility
+            )
+            ->end();
+        return $form;
+    }
+
+    public function saveStdAvailability(int $ref_id): void
+    {
+        $item = new \ilObjectActivation();
+        if (!$this->getData("limited")) {
+            $item->setTimingType(\ilObjectActivation::TIMINGS_DEACTIVATED);
+        } else {
+            $avail = $this->getData("availability");
+            $from = $to = null;
+            if (!is_null($avail) && !is_null($avail[0])) {
+                $from = $avail[0]->getUnixTime();
+            }
+            if (!is_null($avail) && !is_null($avail[1])) {
+                $to = $avail[1]->getUnixTime();
+            }
+            if ($from > 0 || $to > 0) {
+                $item->setTimingType(\ilObjectActivation::TIMINGS_ACTIVATION);
+                $item->setTimingStart($from);
+                $item->setTimingEnd($to);
+                $item->toggleVisible($this->getData("visibility"));
+            } else {
+                $item->setTimingType(\ilObjectActivation::TIMINGS_DEACTIVATED);
+            }
+        }
+        $item->update($ref_id);
+    }
+
 
     public function addAdditionalFeatures(
         int $obj_id,
@@ -157,7 +245,10 @@ trait StdObjProperties
         if (!$creation_mode) {
             $current_value = 'dtpl_' . \ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
 
-            if (!in_array($current_value, array_keys($options)) || ($existing_exclusive && $current_value == "dtpl_0")) {
+            if (!in_array(
+                $current_value,
+                array_keys($options)
+            ) || ($existing_exclusive && $current_value == "dtpl_0")) {
                 //add or rename actual value to not available
                 $options[$current_value] = [$this->lng->txt('not_available')];
             }
@@ -255,6 +346,5 @@ trait StdObjProperties
             return;
         }
     }
-
 
 }

@@ -65,24 +65,23 @@ class SettingsGUI
         $form = $this->gui
             ->form(self::class, "save")
             ->section("general", $lng->txt('exc_edit_exercise'))
-            ->addStdTitleAndDescription(
-                $this->obj_id,
-                "exc"
-            )
-            ->section("avail", $lng->txt('rep_availibilty'))
-            ->addOnline(
-                $this->obj_id,
-                "exc"
-            )
-            ->section("pres", $lng->txt('presentation'))
-            ->addStdTitleAndDescription(
-                $this->obj_id,
-                "exc"
-            );
+            ->addStdTitleAndDescription($this->obj_id, "exc")
+            ->section("avail", $lng->txt('rep_activation_availability'))
+            ->addOnline($this->obj_id, "exc")
+            ->section("pres", $lng->txt('obj_presentation'))
+            ->addStdTile($this->obj_id, "exc");
 
         $form = $form
             ->section("pass_exc", $lng->txt('exc_passing_exc'))
-            ->switch("pass_mode", $lng->txt("exc_pass_mode"), "", $settings->getPassMode())
+            ->switch(
+                "pass_mode",
+                $lng->txt("exc_pass_mode"),
+                (!$random_manager->canBeDeactivated() && $settings->getPassMode() == \ilObjExercise::PASS_MODE_RANDOM)
+                    ? $lng->txt("exc_pass_mode_not_changeable_info") . " " .
+                    implode(" ", $random_manager->getDeniedDeactivationReasons())
+                    : "",
+                $settings->getPassMode()
+            )
             ->group(
                 \ilObjExercise::PASS_MODE_ALL,
                 $lng->txt("exc_pass_all"),
@@ -97,7 +96,7 @@ class SettingsGUI
                 "pass_nr",
                 $lng->txt("exc_min_nr"),
                 $lng->txt("exc_min_nr_info"),
-                max(\ilExAssignment::countMandatory($this->obj_id), 1)
+                $settings->getPassNr()
             )->required()
             ->group(
                 \ilObjExercise::PASS_MODE_RANDOM,
@@ -107,9 +106,9 @@ class SettingsGUI
                         " ",
                         $random_manager->getDeniedActivationReasons()
                     )
-                    : $lng->txt("exc_random_selection_info")
+                    : $lng->txt("exc_random_selection_info"),
+                (!$random_manager->canBeActivated() && $settings->getPassMode() != \ilObjExercise::PASS_MODE_RANDOM)
             )
-            /*->disabled(!$random_manager->canBeActivated() && $this->object->getPassMode() != ilObjExercise::PASS_MODE_RANDOM)*/
             ->number(
                 "nr_random_mand",
                 $lng->txt("exc_nr_random_mand"),
@@ -119,7 +118,8 @@ class SettingsGUI
                 \ilExAssignment::count($this->obj_id)
             )
             ->required()
-            ->end();
+            ->end()
+            ->disabled((!$random_manager->canBeDeactivated() && $settings->getPassMode() == \ilObjExercise::PASS_MODE_RANDOM));
 
         $form = $form
             ->switch(
@@ -149,7 +149,12 @@ class SettingsGUI
             ->checkbox(
                 "notification",
                 $lng->txt("exc_submission_notification"),
-                $lng->txt("exc_submission_notification_info")
+                $lng->txt("exc_submission_notification_info"),
+                \ilNotification::hasNotification(
+                    \ilNotification::TYPE_EXERCISE_SUBMISSION,
+                    $this->domain->user()->getId(),
+                    $this->obj_id
+                )
             );
 
         $form = $form
@@ -173,7 +178,12 @@ class SettingsGUI
                 $settings->hasTutorFeedbackText()
             );
 
-        $form = $form->section("features", $lng->txt('obj_features'));
+        $form = $form->addAdditionalFeatures(
+            $this->obj_id,
+            [
+                \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+            ]
+        );
 
         return $form;
     }
@@ -193,11 +203,40 @@ class SettingsGUI
             $form->saveStdTile($this->obj_id, "exc");
             $form->saveOnline($this->obj_id, "exc");
 
+            $feedback = 0;
+            $feedback += $form->getData("exc_settings_feedback_mail")
+                ? \ilObjExercise::TUTOR_FEEDBACK_MAIL
+                : 0;
+            $feedback += $form->getData("exc_settings_feedback_file")
+                ? \ilObjExercise::TUTOR_FEEDBACK_FILE
+                : 0;
+            $feedback += $form->getData("exc_settings_feedback_text")
+                ? \ilObjExercise::TUTOR_FEEDBACK_TEXT
+                : 0;
             $settings = $this->data->settings(
-                $this->obj_id
+                $this->obj_id,
+                $old_settings->getInstruction(),    // obsolete?
+                $old_settings->getTimeStamp(),  // obsolete?
+                $form->getData("pass_mode"),
+                (int) $form->getData("nr_random_mand"),
+                (int) $form->getData("pass_nr"),
+                (bool) $form->getData("show_submissions"),
+                (bool) $form->getData("completion_by_submission"),
+                (int) $old_settings->getCertificateVisibility(),  // obsolete?
+                $feedback
             );
-
             $this->domain->exerciseSettings()->update($settings);
+
+            \ilNotification::setNotification(
+                \ilNotification::TYPE_EXERCISE_SUBMISSION,
+                $this->domain->user()->getId(),
+                $this->obj_id,
+                (bool) $form->getData("notification")
+            );
+            $form->saveAdditionalFeatures(
+                $this->obj_id,
+                [\ilObjectServiceSettingsGUI::CUSTOM_METADATA]
+            );
 
             $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
             $ctrl->redirectByClass(self::class, "edit");

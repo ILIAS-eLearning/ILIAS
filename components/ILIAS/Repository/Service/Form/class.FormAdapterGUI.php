@@ -207,10 +207,19 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function required(): self
+    public function required($required = true): self
     {
-        if ($field = $this->getLastField()) {
+        if ($required && ($field = $this->getLastField())) {
             $field = $field->withRequired(true);
+            $this->replaceLastField($field);
+        }
+        return $this;
+    }
+
+    public function disabled($disabled = true): self
+    {
+        if ($disabled && ($field = $this->getLastField())) {
+            $field = $field->withDisabled(true);
             $this->replaceLastField($field);
         }
         return $this;
@@ -298,6 +307,45 @@ class FormAdapterGUI
                 )
             );
         }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function dateTimeDuration(
+        string $key,
+        string $title,
+        string $description = "",
+        ?\ilDateTime $from = null,
+        ?\ilDateTime $to = null,
+        string $label_from = "",
+        string $label_to = ""
+    ): self {
+        if ($label_from === "") {
+            $label_from = $this->lng->txt("rep_activation_limited_start");
+        }
+        if ($label_to === "") {
+            $label_to = $this->lng->txt("rep_activation_limited_end");
+        }
+        $field = $this->ui->factory()->input()->field()->duration($title, $description)->withUseTime(true)->withLabels($label_from, $label_to);
+
+        if ((int) $this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+            $dt_format = $this->data->dateFormat()->withTime12($this->user->getDateFormat());
+        } else {
+            $dt_format = $this->data->dateFormat()->withTime24($this->user->getDateFormat());
+        }
+        $field = $field->withFormat($dt_format);
+        $val_from = $val_to = null;
+        if (!is_null($from) && !is_null($from->get(IL_CAL_DATETIME))) {
+            $val_from = (new \DateTime(
+                $from->get(IL_CAL_DATETIME)
+            ))->format((string) $dt_format);
+        }
+        if (!is_null($to) && !is_null($to->get(IL_CAL_DATETIME))) {
+            $val_to = (new \DateTime(
+                $to->get(IL_CAL_DATETIME)
+            ))->format((string) $dt_format);
+        }
+        $field = $field->withValue([$val_from, $val_to]);
         $this->addField($key, $field);
         return $this;
     }
@@ -393,13 +441,14 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function group(string $key, string $title, string $description = ""): self
+    public function group(string $key, string $title, string $description = "", $disabled = false): self
     {
         $this->endCurrentGroup();
         $this->current_group = [
             "key" => $key,
             "title" => $title,
             "description" => $description,
+            "disabled" => $disabled,
             "fields" => []
         ];
         return $this;
@@ -413,7 +462,8 @@ class FormAdapterGUI
                     $this->ui->factory()->input()->field()->group(
                         $this->current_group["fields"],
                         $this->current_group["title"]
-                    )->withByline($this->current_group["description"]);
+                    )->withByline($this->current_group["description"])
+                    ->withDisabled($this->current_group["disabled"]);
             }
         }
         $this->current_group = null;
@@ -640,7 +690,7 @@ class FormAdapterGUI
         $this->_getData();
 
         if (!isset($this->fields[$key])) {
-            throw new \ilException("Unknown Key: " . $key);
+            return null;
         }
 
         $value = $this->raw_data;
@@ -656,6 +706,14 @@ class FormAdapterGUI
         if ($field instanceof \ILIAS\UI\Component\Input\Field\DateTime) {
             /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
             $value = $this->getDateTimeData($value, $field->getUseTime());
+        }
+
+        if ($field instanceof \ILIAS\UI\Component\Input\Field\Duration) {
+            /** @var \ILIAS\UI\Component\Input\Field\DateTime $field */
+            $value = [
+                $this->getDateTimeData($value["start"], $field->getUseTime()),
+                $this->getDateTimeData($value["end"], $field->getUseTime()),
+            ];
         }
 
         if ($field instanceof \ILIAS\UI\Component\Input\Field\OptionalGroup) {

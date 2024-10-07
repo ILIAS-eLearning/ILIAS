@@ -21,6 +21,7 @@
  */
 class ilObjBookingPoolAccess extends ilObjectAccess
 {
+    protected ilLanguage $lng;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
@@ -32,6 +33,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
+        $this->lng = $DIC->language();
     }
 
     public static function _getCommands(): array

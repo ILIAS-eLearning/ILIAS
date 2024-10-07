@@ -18,32 +18,35 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Portfolio;
+namespace ILIAS\MediaPool\Settings;
 
-use ILIAS\Portfolio\Access\AccessSessionRepository;
-use ILIAS\Portfolio\Settings\SettingsDBRepository;
-
-class InternalRepoService
+class Settings
 {
-    protected static array $instance = [];
-
     public function __construct(
-        protected InternalDataService $data,
-        protected \ilDBInterface $db
+        protected int $id,
+        protected int $default_width,
+        protected int $default_height,
+        protected bool $for_translation
     ) {
     }
 
-    public function accessSession(): AccessSessionRepository
+    public function getId(): int
     {
-        return self::$instance["access"] ??= new AccessSessionRepository();
+        return $this->id;
     }
 
-    public function settings(): SettingsDBRepository
+    public function getDefaultWidth(): int
     {
-        return self::$instance["settings"] ??= new SettingsDBRepository(
-            $this->db,
-            $this->data
-        );
+        return $this->default_width;
     }
 
+    public function getDefaultHeight(): int
+    {
+        return $this->default_height;
+    }
+
+    public function getForTranslation(): bool
+    {
+        return $this->for_translation;
+    }
 }
