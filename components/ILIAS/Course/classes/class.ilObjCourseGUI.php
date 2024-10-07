@@ -120,9 +120,6 @@ class ilObjCourseGUI extends ilContainerGUI
             return;
         }
 
-        // Fill meta header tags
-        ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
-
         // Trac access
         if ($this->ctrl->getNextClass() != "ilcolumngui") {
             ilLearningProgress::_tracProgress(
@@ -202,9 +199,6 @@ class ilObjCourseGUI extends ilContainerGUI
         if (!$this->checkPermissionBool('read')) {
             $this->checkPermission('visible');
         }
-
-        // Fill meta header tags
-        ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
 
         $this->tabs_gui->setTabActive('info_short');
         $files = ilCourseFile::_readFilesByCourse($this->object->getId());

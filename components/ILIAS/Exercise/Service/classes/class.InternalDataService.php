@@ -23,6 +23,9 @@ namespace ILIAS\Exercise;
 use ILIAS\Exercise\Assignment\Assignment;
 use ILIAS\Exercise\IRSS\ResourceInformation;
 use ILIAS\Exercise\Team\TeamMember;
+use ILIAS\Exercise\Submission\Submission;
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaFile;
+use ILIAS\Exercise\Settings\Settings;
 
 /**
  * Internal factory for data objects
@@ -93,4 +96,73 @@ class InternalDataService
         );
     }
 
+    public function submission(
+        int $id,
+        int $ass_id,
+        int $user_id,
+        int $team_id = 0,
+        string $title = "",
+        string $text = "",
+        string $rid = "",
+        string $mimetype = "",
+        string $timestamp = "",
+        bool $late = false
+    ): Submission {
+        return new Submission(
+            $id,
+            $ass_id,
+            $user_id,
+            $team_id,
+            $title,
+            $text,
+            $rid,
+            $mimetype,
+            $timestamp,
+            $late
+        );
+    }
+
+    public function criteriaFile(
+        int $ass_id,
+        int $giver_id,
+        int $peer_id,
+        int $criteria_id,
+        string $rid,
+        string $title
+    ): CriteriaFile {
+        return new CriteriaFile(
+            $ass_id,
+            $giver_id,
+            $peer_id,
+            $criteria_id,
+            $rid,
+            $title
+        );
+    }
+
+    public function settings(
+        int $obj_id = 0,
+        string $instruction = "",
+        int $time_stamp = 0,
+        string $pass_mode = \ilObjExercise::PASS_MODE_ALL,
+        int $nr_mandatory_random = 0,
+        int $pass_nr = 0,
+        bool $show_submissions = false,
+        bool $compl_by_submission = false,
+        int $certificate_visibility = 0,
+        int $tfeedback = 7
+    ): Settings {
+        return new Settings(
+            $obj_id,
+            $instruction,
+            $time_stamp,
+            $pass_mode,
+            $nr_mandatory_random,
+            $pass_nr,
+            $show_submissions,
+            $compl_by_submission,
+            $certificate_visibility,
+            $tfeedback
+        );
+    }
 }

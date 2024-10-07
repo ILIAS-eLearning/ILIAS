@@ -476,6 +476,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
                         $ui->factory()->button()->standard('#button_title#', '#'),
                     ]);
         $modalt["signal"] = $modal->getShowSignal()->getId();
+        $modalt["closeSignal"] = $modal->getCloseSignal()->getId();
         $modalt["template"] = $ui->renderer()->renderAsync($modal);
 
         return $modalt;

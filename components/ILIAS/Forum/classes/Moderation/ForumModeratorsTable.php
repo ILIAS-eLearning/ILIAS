@@ -33,8 +33,6 @@ use ilCtrlInterface;
 
 class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
-    private ilForumModerators $forum_moderators;
-
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
     /**
@@ -43,7 +41,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     private ?array $records = null;
 
     public function __construct(
-        ilForumModerators $forum_moderators,
+        private readonly ilForumModerators $forum_moderators,
         private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
@@ -51,7 +49,6 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
-        $this->forum_moderators = $forum_moderators;
     }
 
     public function getComponent(): UI\Component\Table\Data

@@ -34,7 +34,7 @@ class Setup implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[EntryPoint::class] = fn() =>
+        $contribute[EntryPoint::class] = static fn() =>
             new \ILIAS\Setup\CLI\App(
                 $internal["command.install"],
                 $internal["command.update"],
@@ -44,52 +44,52 @@ class Setup implements Component\Component
                 $internal["command.migrate"]
             );
 
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilCommonSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $pull[\ILIAS\Data\Factory::class]
             );
 
-        $internal["command.install"] = fn() =>
+        $internal["command.install"] = static fn() =>
             new \ILIAS\Setup\CLI\InstallCommand(
                 $internal["agent_finder"],
                 $internal["config_reader"],
                 $internal["common_preconditions"]
             );
-        $internal["command.update"] = fn() =>
+        $internal["command.update"] = static fn() =>
             new \ILIAS\Setup\CLI\UpdateCommand(
                 $internal["agent_finder"],
                 $internal["config_reader"],
                 $internal["common_preconditions"]
             );
-        $internal["command.build"] = fn() =>
+        $internal["command.build"] = static fn() =>
             new \ILIAS\Setup\CLI\BuildCommand(
                 $internal["agent_finder"]
             );
-        $internal["command.achieve"] = fn() =>
+        $internal["command.achieve"] = static fn() =>
             new \ILIAS\Setup\CLI\AchieveCommand(
                 $internal["agent_finder"],
                 $internal["config_reader"],
                 $internal["common_preconditions"],
                 $pull[\ILIAS\Refinery\Factory::class],
             );
-        $internal["command.status"] = fn() =>
+        $internal["command.status"] = static fn() =>
             new \ILIAS\Setup\CLI\StatusCommand(
                 $internal["agent_finder"]
             );
-        $internal["command.migrate"] = fn() =>
+        $internal["command.migrate"] = static fn() =>
             new \ILIAS\Setup\CLI\MigrateCommand(
                 $internal["agent_finder"],
                 $internal["common_preconditions"]
             );
 
-        $internal["common_preconditions"] = fn() =>
+        $internal["common_preconditions"] = static fn() =>
             [
                 new \ilOwnRiskConfirmedObjective(),
                 new \ilUseRootConfirmed()
             ];
 
-        $internal["agent_finder"] = fn() =>
+        $internal["agent_finder"] = static fn() =>
             new \ILIAS\Setup\ImplementationOfAgentFinder(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $pull[\ILIAS\Data\Factory::class],
@@ -98,15 +98,15 @@ class Setup implements Component\Component
                 $seek[\ILIAS\Setup\Agent::class]
             );
 
-        $internal["config_reader"] = fn() =>
+        $internal["config_reader"] = static fn() =>
             new \ILIAS\Setup\CLI\ConfigReader(
                 $internal["json.parser"]
             );
 
-        $internal["interface_finder"] = fn() =>
+        $internal["interface_finder"] = static fn() =>
             new \ILIAS\Setup\ImplementationOfInterfaceFinder();
 
-        $internal["json.parser"] = fn() =>
+        $internal["json.parser"] = static fn() =>
             new \Seld\JsonLint\JsonParser();
     }
 }

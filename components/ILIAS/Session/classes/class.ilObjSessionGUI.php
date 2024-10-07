@@ -21,7 +21,6 @@ declare(strict_types=1);
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
@@ -56,7 +55,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected int $container_ref_id = 0;
     protected int $container_obj_id = 0;
     protected ?ilPropertyFormGUI $form = null;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected ?ilEventRecurrence $rec = null;
     protected ?ilEventItems $event_items = null;
     protected ?ilEventParticipants $event_part = null;
@@ -1348,7 +1347,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setOrderColumn($this->requested_sort_by);
         $tbl->setOrderDirection($this->requested_sort_order);
         $tbl->setOffset($this->requested_offset);
-        $tbl->setLimit((int) $ilUser->getPref("hits_per_page"));
         $tbl->setMaxCount(count($members));
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 

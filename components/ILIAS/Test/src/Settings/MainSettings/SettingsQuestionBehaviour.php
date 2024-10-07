@@ -235,7 +235,7 @@ class SettingsQuestionBehaviour extends TestSettings
             ),
             'instant_feedback_generic' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_answer_generic'),
-                $lng->txt('tst_instant_feedback_answer_specific_desc')
+                $lng->txt('tst_instant_feedback_answer_generic_desc')
             ),
             'instant_feedback_specific' => $f->checkbox(
                 $lng->txt('tst_instant_feedback_answer_specific'),

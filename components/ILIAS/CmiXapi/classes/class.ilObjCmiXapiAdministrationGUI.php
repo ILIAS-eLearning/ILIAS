@@ -51,12 +51,13 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         );
 
         // permissions tab
-
-        $this->tabs_gui->addTab(
-            self::TAB_ID_PERMISSIONS,
-            $this->lng->txt(self::TAB_ID_PERMISSIONS),
-            $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
-        );
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+            $this->tabs_gui->addTab(
+                self::TAB_ID_PERMISSIONS,
+                $this->lng->txt(self::TAB_ID_PERMISSIONS),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
+            );
+        }
     }
 
     public function executeCommand(): void
@@ -89,12 +90,15 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
 
-        $toolbar = $this->buildLrsTypesToolbarGUI();
+        $toolbarHtml = "";
+        if ($this->rbac_system->checkAccess('write', $this->getRefId())) {
+            $toolbarHtml = $this->buildLrsTypesToolbarGUI()->getHTML();
+        }
 
         $table = $this->buildLrsTypesTableGUI();
 
         $table->setData(ilCmiXapiLrsTypeList::getTypesData(true));
-        $this->tpl->setContent($toolbar->getHTML() . $table->getHTML());
+        $this->tpl->setContent($toolbarHtml . $table->getHTML());
     }
 
     protected function buildLrsTypesTableGUI(): \ilCmiXapiLrsTypesTableGUI
@@ -395,19 +399,16 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
             $DIC->language()->txt('conf_privacy_name_firstname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_name_lastname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_name_fullname'),
             (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
         );
-        $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $lrsType->getPrivacyName());
         $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * GUI class for object translation handling.
  * @author Alexander Killing <killing@leifos.de>
@@ -29,6 +31,7 @@ class ilMultilingualismGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
+    protected LOMServices $lom_services;
     protected ilMultilingualism $obj_trans;
     protected bool $title_descr_only = true;
     protected string $start_title = "";
@@ -46,6 +49,7 @@ class ilMultilingualismGUI
         $this->lng->loadLanguageModule('obj');
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->obj_trans = ilMultilingualism::getInstance($a_obj_id, $a_type);
         $this->request = new \ILIAS\Multilingualism\StandardGUIRequest(
@@ -233,9 +237,13 @@ class ilMultilingualismGUI
 
         $form = new ilPropertyFormGUI();
 
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
+
         // master language
         if (!$a_add) {
-            $options = ilMDLanguageItem::_getLanguages();
             $si = new ilSelectInputGUI($lng->txt("obj_master_lang"), "master_lang");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());
@@ -244,7 +252,6 @@ class ilMultilingualismGUI
 
         // additional languages
         if ($a_add) {
-            $options = ilMDLanguageItem::_getLanguages();
             $options = array("" => $lng->txt("please_select")) + $options;
             $si = new ilSelectInputGUI($lng->txt("obj_additional_langs"), "additional_langs");
             $si->setOptions($options);

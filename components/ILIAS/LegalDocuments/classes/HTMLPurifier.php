@@ -28,13 +28,14 @@ use Closure;
 class HTMLPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
     /** @var list<string> */
-    private array $allowed_tags;
-    private string $cache_directory;
+    private readonly array $allowed_tags;
+    private readonly string $cache_directory;
 
     /** @var Closure(): HTMLPurifier_Config */
-    private Closure $create_config;
+    private readonly Closure $create_config;
 
     /**
+     * @param list<string> $allowed_tags
      * @param null|Closure(): HTMLPurifier_Config $create_config
      */
     public function __construct(

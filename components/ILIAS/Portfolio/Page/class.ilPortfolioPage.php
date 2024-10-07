@@ -24,7 +24,6 @@
 class ilPortfolioPage extends ilPageObject
 {
     public const TYPE_PAGE = 1;
-    public const TYPE_BLOG = 2;
 
     protected int $portfolio_id;
     protected int $type = 1;
@@ -393,28 +392,5 @@ class ilPortfolioPage extends ilPageObject
         }
 
         return $changed;
-    }
-
-    /**
-     * Get portfolio pages for blog
-     *
-     * @param int $a_blog_id
-     * @return ilPortfolioPage[]
-     */
-    public static function getPagesForBlog(
-        int $a_blog_id
-    ): array {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT * FROM usr_portfolio_page" .
-            " WHERE title = " . $ilDB->quote($a_blog_id, "text") .
-            " AND type = " . $ilDB->quote(self::TYPE_BLOG, "integer"));
-        $pages = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $pages[] = new ilPortfolioPage($rec["id"]);
-        }
-        return $pages;
     }
 }

@@ -163,10 +163,10 @@ class ilExAssignmentInfo
         if ($submission->hasSubmitted()) {
             // #16888
             $submitted = $submission->getSelectedObject();
-            if ($submitted["ts"] != "") {
+            if ($submitted?->getTimestamp() !== "") {
                 $ret["submitted"] = [
                     "txt" => $this->lng->txt("exc_last_submission"),
-                    "value" => ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME))
+                    "value" => ilDatePresentation::formatDate(new ilDateTime($submitted?->getTimestamp(), IL_CAL_DATETIME))
                 ];
             }
         }

@@ -40,16 +40,16 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
-            $iff = fn (
+            $iff = fn(
                 $id
             ): \ILIAS\GlobalScreen\Identification\IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
-            $l = fn (
+            $l = fn(
                 string $content
             ): \ILIAS\UI\Component\Legacy\Legacy => $this->dic->ui()->factory()->legacy($content);
             $tools[] = $this->factory->tool($iff("tree"))
                                      ->withTitle($title)
                                      ->withSymbol($icon)
-                                     ->withContentWrapper(fn (
+                                     ->withContentWrapper(fn(
                                      ): \ILIAS\UI\Component\Legacy\Legacy => $l($this->getEditTree(
                                          $additional_data->get(self::TAX_TREE_GUI_PATH),
                                          $additional_data->get(self::TAX_ID),

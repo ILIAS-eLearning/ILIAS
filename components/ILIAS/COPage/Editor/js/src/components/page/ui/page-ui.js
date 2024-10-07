@@ -96,7 +96,7 @@ export default class PageUI {
     toolSlate,
     pageModifier,
   ) {
-    this.debug = false;
+    this.debug = true;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
     this.model = {};
@@ -289,6 +289,11 @@ export default class PageUI {
               ));
             });
             ul.appendChild(li);
+          }
+          if (ul.style.display == 'block') {
+            ul.style.display = '';
+          } else {
+            ul.style.display = 'block';
           }
         });
       });
@@ -509,6 +514,8 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const pageUI = this;
+    const scrollSpeed = 5;
+    const scrollThreshold = 40; // distance from the edge to start scrolling
 
     if (!draggableSelector) {
       draggableSelector = '.il_editarea, .il_editarea_disabled';
@@ -518,40 +525,63 @@ export default class PageUI {
       droppableSelector = '.il_droparea';
     }
 
-    $(draggableSelector).filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable({
-      cursor: 'move',
-      revert: false,
-      scroll: true,
-      distance: 3,
-      cursorAt: { top: 5, left: 20 },
-      snap: true,
-      snapMode: 'outer',
-      start(event, ui) {
+    const mainElement = document.querySelector('main.il-layout-page-content');
+
+    function autoScroll(event) {
+      const rect = mainElement.getBoundingClientRect();
+
+      if (event.clientY < rect.top + scrollThreshold) {
+        mainElement.scrollBy(0, -scrollSpeed);
+      } else if (event.clientY > rect.bottom - scrollThreshold) {
+        mainElement.scrollBy(0, scrollSpeed);
+      }
+    }
+
+
+    document.querySelectorAll(draggableSelector).forEach((draggableElement) => {
+      if (pageUI.isProtectedElement(draggableElement)) {
+        return;
+      }
+
+      draggableElement.setAttribute('draggable', true);
+
+      draggableElement.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', event.target.id);
+
+        // Create a transparent clone for the drag image
+        const dragClone = draggableElement.cloneNode(true);
+        dragClone.style.position = 'absolute';
+        dragClone.style.top = '-9999px'; // Move it offscreen
+        document.body.appendChild(dragClone);
+        event.dataTransfer.setDragImage(dragClone, 0, 0);
+
+        // event.target.classList.add('copg-dragging');
         dispatch.dispatch(action.page().editor().dndDrag());
-      },
-      stop(event, ui) {
+
+        mainElement.addEventListener('dragover', autoScroll);
+      });
+
+      draggableElement.addEventListener('dragend', () => {
+        // event.target.classList.remove('copg-dragging');
         dispatch.dispatch(action.page().editor().dndStopped());
-      },
-      helper: (() => $("<div class='il-copg-drag'>&nbsp;</div>")),		/* temp helper */
+        mainElement.removeEventListener('dragover', autoScroll);
+      });
     });
 
-    $(droppableSelector).droppable({
-      drop: (event, ui) => {
-        ui.draggable.draggable('option', 'revert', false);
+    document.querySelectorAll(droppableSelector).forEach((droppableElement) => {
+      droppableElement.addEventListener('dragover', (event) => {
+        event.preventDefault(); // Necessary to allow a drop
+      });
 
-        // @todo: remove legacy
-        const target_id = event.target.id.substr(6);
-        const source_id = ui.draggable[0].id.substr(7);
+      droppableElement.addEventListener('drop', (event) => {
+        event.preventDefault();
 
-        dispatch.dispatch(action.page().editor().dndDrop(target_id, source_id));
-      },
+        const sourceId = event.dataTransfer.getData('text/plain');
+        const targetId = event.target.id.substr(6); // Remove 'TARGET' prefix
+
+        dispatch.dispatch(action.page().editor().dndDrop(targetId, sourceId));
+      });
     });
-
-    // this is needed to make scrolling while dragging with helper possible
-    $('main.il-layout-page-content').css('position', 'relative');
-
     this.hideDropareas();
   }
 
@@ -845,17 +875,19 @@ export default class PageUI {
   //
 
   enableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('enable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.setAttribute('draggable', true);
+      }
+    });
   }
 
   disableDragDrop() {
-    const pageUI = this;
-    $('.il_editarea').filter(function (index) {
-      return !pageUI.isProtectedElement(this);
-    }).draggable('disable');
+    document.querySelectorAll('.il_editarea').forEach((draggableElement) => {
+      if (!this.isProtectedElement(draggableElement)) {
+        draggableElement.removeAttribute('draggable');
+      }
+    });
   }
 
   showAddButtons() {
@@ -1012,7 +1044,7 @@ export default class PageUI {
   }
 
   hideDeleteConfirmation() {
-    this.util.hideCurrentModal();
+    this.util.hideModal(this.uiModel.modal);
   }
 
   //

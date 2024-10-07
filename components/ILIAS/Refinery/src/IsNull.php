@@ -22,7 +22,6 @@ namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ILIAS\Language\Language;
 
 class IsNull extends Constraint
 {

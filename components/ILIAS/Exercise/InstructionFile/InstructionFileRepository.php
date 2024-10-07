@@ -20,19 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\InstructionFile;
 
-use ILIAS\Exercise\IRSS\CollectionWrapper;
+use ILIAS\Exercise\IRSS\IRSSWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Exercise\IRSS\ResourceInformation;
+use ILIAS\Filesystem\Stream\FileStream;
 
 class InstructionFileRepository
 {
-    protected CollectionWrapper $wrapper;
-    protected CollectionWrapper $collection;
+    protected IRSSWrapper $wrapper;
     protected \ilDBInterface $db;
 
     public function __construct(
-        CollectionWrapper $wrapper,
+        IRSSWrapper $wrapper,
         \ilDBInterface $db
     ) {
         $this->db = $db;
@@ -119,6 +119,19 @@ class InstructionFileRepository
             }
         }
         throw new \ilExerciseException("Resource $file not found.");
+    }
+
+    public function getStream(
+        int $ass_id,
+        string $rid
+    ): ?FileStream {
+        /** @var ResourceInformation $info */
+        foreach ($this->getCollectionResourcesInfo($ass_id) as $info) {
+            if ($rid === $info->getRid()) {
+                return $this->wrapper->stream($info->getRid());
+            }
+        }
+        return null;
     }
 
     public function getCollectionResourcesInfo(

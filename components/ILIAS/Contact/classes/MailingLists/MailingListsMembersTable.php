@@ -32,8 +32,8 @@ use ilMailingList;
 
 class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 {
-    private ServerRequestInterface $request;
-    private Data\Factory $data_factory;
+    private readonly ServerRequestInterface $request;
+    private readonly Data\Factory $data_factory;
     /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
@@ -109,7 +109,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 
         return [
             'confirmDeleteMembers' => $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('delete'),
+                $this->lng->txt('remove'),
                 $url_builder->withParameter($action_parameter_token_copy, 'confirmDeleteMembers'),
                 $row_id_token
             ),

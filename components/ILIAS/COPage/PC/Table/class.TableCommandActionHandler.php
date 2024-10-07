@@ -223,7 +223,6 @@ class TableCommandActionHandler implements Server\CommandActionHandler
                         $updated = (!is_null($text));
                         $text = $text["text"];
                     }
-
                     if ($updated) {
                         $text = \ilPCParagraph::_input2xml(
                             $text,

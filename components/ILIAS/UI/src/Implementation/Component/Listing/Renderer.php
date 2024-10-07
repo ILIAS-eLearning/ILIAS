@@ -35,11 +35,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Listing\Listing $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Listing\Descriptive) {
             return $this->render_descriptive($component, $default_renderer);
         }
@@ -48,7 +43,11 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderProperty($component, $default_renderer);
         }
 
-        return $this->render_simple($component, $default_renderer);
+        if ($component instanceof Component\Listing\Listing) {
+            return $this->render_simple($component, $default_renderer);
+        }
+
+        $this->cannotHandleComponent($component);
     }
 
     protected function render_descriptive(
@@ -121,13 +120,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Listing\Listing::class];
     }
 }

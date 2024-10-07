@@ -203,9 +203,9 @@ class ilAccountMail
 
             $mail_subject = $tmp_lang->txt('reg_mail_subject');
 
-            $timelimit = "";
+            $timelimit = '';
             if (!$user->checkTimeLimit()) {
-                $tmp_lang->loadLanguageModule("registration");
+                $tmp_lang->loadLanguageModule('registration');
 
                 // #6098
                 $timelimit_from = new ilDateTime($user->getTimeLimitFrom(), IL_CAL_UNIX);
@@ -257,41 +257,36 @@ class ilAccountMail
         $replacements = [];
 
         // determine salutation
-        switch ($a_user->getGender()) {
-            case "f":
-                $replacements["MAIL_SALUTATION"] = trim($a_amail["sal_f"]);
-                break;
-            case "m":
-                $replacements["MAIL_SALUTATION"] = trim($a_amail["sal_m"]);
-                break;
-            default:
-                $replacements["MAIL_SALUTATION"] = trim($a_amail["sal_g"]);
-        }
-        $replacements["LOGIN"] = $a_user->getLogin();
-        $replacements["FIRST_NAME"] = $a_user->getFirstname();
-        $replacements["LAST_NAME"] = $a_user->getLastname();
+        $replacements['MAIL_SALUTATION'] = match ($a_user->getGender()) {
+            'f' => trim((string) $a_amail['sal_f']),
+            'm' => trim((string) $a_amail['sal_m']),
+            default => trim((string) $a_amail['sal_g']),
+        };
+        $replacements['LOGIN'] = $a_user->getLogin();
+        $replacements['FIRST_NAME'] = $a_user->getFirstname();
+        $replacements['LAST_NAME'] = $a_user->getLastname();
         // BEGIN Mail Include E-Mail Address in account mail
-        $replacements["EMAIL"] = $a_user->getEmail();
+        $replacements['EMAIL'] = $a_user->getEmail();
         // END Mail Include E-Mail Address in account mail
-        $replacements["PASSWORD"] = $this->getUserPassword();
-        $replacements["ILIAS_URL"] = ILIAS_HTTP_PATH . "/login.php?client_id=" . CLIENT_ID;
-        $replacements["CLIENT_NAME"] = CLIENT_NAME;
-        $replacements["ADMIN_MAIL"] = $ilSetting->get("admin_email");
-        $replacements["IF_PASSWORD"] = $this->getUserPassword() != "";
-        $replacements["IF_NO_PASSWORD"] = $this->getUserPassword() == "";
+        $replacements['PASSWORD'] = $this->getUserPassword();
+        $replacements['ILIAS_URL'] = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
+        $replacements['CLIENT_NAME'] = CLIENT_NAME;
+        $replacements['ADMIN_MAIL'] = $ilSetting->get('admin_email');
+        $replacements['IF_PASSWORD'] = $this->getUserPassword() != '';
+        $replacements['IF_NO_PASSWORD'] = $this->getUserPassword() == '';
 
         // #13346
         if (!$a_user->getTimeLimitUnlimited()) {
             // #6098
-            $replacements["IF_TIMELIMIT"] = !$a_user->getTimeLimitUnlimited();
+            $replacements['IF_TIMELIMIT'] = !$a_user->getTimeLimitUnlimited();
             $timelimit_from = new ilDateTime($a_user->getTimeLimitFrom(), IL_CAL_UNIX);
             $timelimit_until = new ilDateTime($a_user->getTimeLimitUntil(), IL_CAL_UNIX);
             $timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
-            $replacements["TIMELIMIT"] = $timelimit;
+            $replacements['TIMELIMIT'] = $timelimit;
         }
 
         // target
-        $replacements["IF_TARGET"] = false;
+        $replacements['IF_TARGET'] = false;
         if ($this->http->wrapper()->query()->has('target') &&
             $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string()) !== ''
         ) {
@@ -301,13 +296,13 @@ class ilAccountMail
                 $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type === $tarr[0]) {
-                    $replacements["TARGET_TITLE"] = ilObject::_lookupTitle($obj_id);
-                    $replacements["TARGET"] = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . '&target=' . $target;
+                    $replacements['TARGET_TITLE'] = ilObject::_lookupTitle($obj_id);
+                    $replacements['TARGET'] = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . '&target=' . $target;
 
                     // this looks complicated, but we may have no initilised $lng object here
                     // if mail is send during user creation in authentication
-                    $replacements["TARGET_TYPE"] = ilLanguage::_lookupEntry($a_lang, "common", "obj_" . $tarr[0]);
-                    $replacements["IF_TARGET"] = true;
+                    $replacements['TARGET_TYPE'] = ilLanguage::_lookupEntry($a_lang, 'common', 'obj_' . $tarr[0]);
+                    $replacements['IF_TARGET'] = true;
                 }
             }
         }

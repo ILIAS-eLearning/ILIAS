@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field as I;
-use ilLanguage;
+use ILIAS\Language\Language;
 use LogicException;
 use InvalidArgumentException;
 
@@ -44,7 +44,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng,
+        Language $lng,
         array $inputs,
         string $label,
         ?string $byline = null

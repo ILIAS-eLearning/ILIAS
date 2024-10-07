@@ -394,7 +394,7 @@ class ilMailTemplateGUI
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         try {
             $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
         }
 
@@ -478,7 +478,7 @@ class ilMailTemplateGUI
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         try {
             $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
         }
         $placeholders->supportsRerenderSignal(

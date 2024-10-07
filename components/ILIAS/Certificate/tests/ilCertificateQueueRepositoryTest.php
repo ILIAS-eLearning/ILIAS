@@ -134,7 +134,8 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'state' => 'SomeState',
                     'template_id' => 1000,
                     'started_timestamp' => 123_456_789
-                ]
+                ],
+                null
             );
 
         $repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);

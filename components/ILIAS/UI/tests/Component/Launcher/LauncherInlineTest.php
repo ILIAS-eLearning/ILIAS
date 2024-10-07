@@ -29,7 +29,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
     protected ILIAS\Data\Factory $df;
-    protected ilLanguage $language;
+    protected ILIAS\Language\Language $language;
 
     public function setUp(): void
     {
@@ -38,7 +38,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
 
     protected function getInputFactory(): I\Input\Field\Factory
     {
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(I\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
@@ -221,31 +221,33 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     </div>
     <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" role="img"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
     <div class="c-launcher__form">
-        <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+        <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
             <div class="modal-dialog" role="document" data-replace-marker="component">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                        <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
                         <h1 class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">$msg_html
-                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
-                            <div class="form-group row">
-                                <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
-                                <div class="col-sm-8 col-md-9 col-lg-10">
-                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="form-control form-control-sm" />
-                                    <div class="help-block">ok</div>
+                        <form id="id_3" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
+                            <fieldset class="c-input" data-il-ui-component="checkbox-field-input" data-il-ui-input-name="form/input_0">
+                                <label for="id_2">Understood</label>
+                                <div class="c-input__field">
+                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="c-field-checkbox" />
                                 </div>
-                            </div>
+                                <div class="c-input__help-byline">ok</div>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-default" id="id_4">some submit label</button>
-                        <button class="btn btn-default" data-dismiss="modal">some cancel label</button>
+                        <form>
+                            <button class="btn btn-default" id="id_4">some submit label</button>
+                            <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">some cancel label</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </dialog>
     </div>
 </div>
 EXP;

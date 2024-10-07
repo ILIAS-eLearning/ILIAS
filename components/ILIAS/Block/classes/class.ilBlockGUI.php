@@ -124,7 +124,7 @@ abstract class ilBlockGUI
         ilYuiUtil::initConnection();
         $this->main_tpl->addJavaScript("./assets/js/ilblockcallback.js");
 
-        $this->setLimit((int) $this->user->getPref("hits_per_page"));
+        $this->setLimit(25);
 
         $this->requested_ref_id = $this->request->getRefId();
     }

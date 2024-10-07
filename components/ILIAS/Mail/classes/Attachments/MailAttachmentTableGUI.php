@@ -27,10 +27,9 @@ use ilDateTime;
 
 class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
-    private AttachmentManagement $mode;
-    private \ILIAS\UI\URLBuilder $url_builder;
-    private \ILIAS\UI\URLBuilderToken $action_parameter_token;
-    private \ILIAS\UI\URLBuilderToken $row_id_token;
+    private readonly \ILIAS\UI\URLBuilder $url_builder;
+    private readonly \ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private readonly \ILIAS\UI\URLBuilderToken $row_id_token;
 
     /**
      * @param list<array{"checked": bool, "filename": string, "filesize": int, "filecreatedate": int}> $records
@@ -45,10 +44,8 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
         private readonly \ILIAS\Data\Factory $df,
         private readonly string $parent_cmd,
-        AttachmentManagement $mode
+        private readonly AttachmentManagement $mode
     ) {
-        $this->mode = $mode;
-
         $form_action = $this->df->uri(
             \ilUtil::_getHttpPath() . '/' .
             $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)

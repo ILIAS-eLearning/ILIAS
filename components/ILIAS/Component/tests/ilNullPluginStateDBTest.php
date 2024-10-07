@@ -21,6 +21,9 @@ use ILIAS\Data;
 
 class ilNullPluginStateDBTest extends TestCase
 {
+    protected ilPluginStateDB $db;
+    protected Data\Factory $data_factory;
+
     protected function setUp(): void
     {
         $this->db = new \ilNullPluginStateDB();

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilMMItemTranslationGUI
@@ -41,6 +42,7 @@ class ilMMItemTranslationGUI
 
     private ilMMItemFacadeInterface $item_facade;
     private ilGlobalTemplateInterface $main_tpl;
+    private LOMServices $lom_services;
 
     /**
      * ilMMItemTranslationGUI constructor.
@@ -49,6 +51,7 @@ class ilMMItemTranslationGUI
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->item_facade = $item_facade;
         $this->repository = $repository;
         $this->lng()->loadLanguageModule("mme");
@@ -144,7 +147,10 @@ class ilMMItemTranslationGUI
         $form->setFormAction($this->ctrl()->getFormAction($this));
 
         // additional languages
-        $options = ilMDLanguageItem::_getLanguages();
+        $options = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $options[$language->value()] = $language->presentableLabel();
+        }
         $options = array("" => $this->lng()->txt("please_select")) + $options;
         $si = new ilSelectInputGUI($this->lng()->txt("additional_langs"), "additional_langs");
         $si->setOptions($options);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjectMetaDataGUI
@@ -111,14 +111,12 @@ class ilObjectMetaDataGUI
                 }
             }
 
-            $md_obj = new ilMD($this->obj_id, (int) $this->sub_id, $this->getLOMType());
-
             if (!$this->in_workspace && $in_repository) {
                 // (parent) container taxonomies?
                 $this->tax_md_gui = new ilTaxMDGUI(
-                    $md_obj->getRBACId(),
-                    $md_obj->getObjId(),
-                    $md_obj->getObjType(),
+                    $this->obj_id,
+                    (int) $this->sub_id === 0 ? $this->obj_id : (int) $this->sub_id,
+                    $this->getLOMType(),
                     $this->ref_id
                 );
                 $tax_ids = $this->tax_md_gui->getSelectableTaxonomies();
@@ -296,6 +294,7 @@ class ilObjectMetaDataGUI
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
+                'blog',
                 "crs",
                 'grp',
                 "file",
@@ -305,6 +304,7 @@ class ilObjectMetaDataGUI
                 "tst",
                 "qpl",
                 ":mob",
+                'mcst',
                 "webr",
                 "htlm",
                 "lm",
@@ -318,6 +318,7 @@ class ilObjectMetaDataGUI
                 'exc',
                 'lti',
                 'cmix',
+                'mep',
                 'mep:mpg'
             ])
         );

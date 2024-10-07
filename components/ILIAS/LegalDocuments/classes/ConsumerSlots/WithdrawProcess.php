@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\ConsumerSlots;
 
 use ILIAS\UI\Component\Component;
-use ilObjUser;
 use ILIAS\LegalDocuments\PageFragment;
 
 interface WithdrawProcess
@@ -33,6 +32,5 @@ interface WithdrawProcess
      */
     public function showValidatePasswordMessage(): array;
     public function isOnGoing(): bool;
-    public function withdrawalRequested(): void;
     public function withdrawalFinished(): void;
 }

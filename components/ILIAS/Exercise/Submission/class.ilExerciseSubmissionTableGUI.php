@@ -19,16 +19,11 @@
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
-/**
- * Exercise submission table
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author Alexander Killing <killing@leifos.de>
- */
 abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 {
     public const MODE_BY_ASSIGNMENT = 1;
     public const MODE_BY_USER = 2;
+    protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\Assignment\DomainService $ass_domain;
     protected ilExerciseSubmissionFeedbackGUI $feedback_gui;
 
@@ -154,6 +149,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $this->initFilter();
         $this->setData($this->parseData());
         $this->ass_domain = $DIC->exercise()->internal()->domain()->assignment();
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     public function initFilter(): void
@@ -421,7 +417,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     if (!$has_no_team_yet) {
                         $this->tpl->setVariable(
                             "VAL_" . strtoupper($col),
-                            ilLegacyFormElementsUtil::prepareFormOutput(trim((string) $a_row[$col]))
+                            ilLegacyFormElementsUtil::prepareFormOutput(
+                                trim((string) ($a_row[$col] ?? ""))
+                            )
                         );
                     }
                     break;
@@ -451,8 +449,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "submission":
                     if ($col == "submission" && $a_row["submission_obj"]) {
                         $include_seconds = true;
-                        foreach ($a_row["submission_obj"]->getFiles() as $file) {
-                            if ($file["late"]) {
+                        $sm = $this->domain->submission($a_row["submission_obj"]->getAssignment()->getId());
+                        foreach ($sm->getSubmissionsOfUser($a_row["submission_obj"]->getUserId()) as $sub) {
+                            if ($sub->getLate()) {
                                 $this->tpl->setVariable("TXT_LATE", $this->lng->txt("exc_late_submission"));
                                 break;
                             }
@@ -460,7 +459,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     }
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
-                        $a_row[$col]
+                        ($a_row[$col] ?? false)
                             ? ilDatePresentation::formatDate(
                                 new ilDateTime($a_row[$col], IL_CAL_DATETIME),
                                 false,
@@ -560,18 +559,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $items[] = $this->ui_factory->button()->shy(
                         $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
                         $ilCtrl->getLinkTargetByClass(ilResourceCollectionGUI::class, "")
-                    );
-                } else {
-                    // LEGACY
-                    $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
-                    $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
-                    $counter = $counter
-                        ? " (" . $counter . ")"
-                        : "";
-
-                    $items[] = $this->ui_factory->button()->shy(
-                        $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
-                        $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
                     );
                 }
             }

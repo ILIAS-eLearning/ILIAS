@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
+use ILIAS\MediaObjects\Metadata\MetadataManager;
 
 /**
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
@@ -36,6 +37,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     protected ilErrorHandling $error;
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
+    protected MetadataManager $md;
 
     // $adv_ref_id - $adv_type - $adv_subtype:
     // Object, that defines the adv md records being used. Default is $this->object, but the
@@ -87,6 +89,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $lng->loadLanguageModule("mob");
         $this->file_service_settings = $DIC->fileServiceSettings();
         $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
+        $this->md = $DIC->mediaObjects()->internal()->domain()->metadata();
     }
 
     /**
@@ -1383,6 +1386,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         global $DIC;
 
         $lng = $DIC->language();
+        $lom_services = $DIC->learningObjectMetadata();
 
         $tpl = new ilTemplate("tpl.media_info.html", true, true, "components/ILIAS/MediaObjects");
         $types = array("Standard", "Fullscreen");
@@ -1443,9 +1447,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // output keywords
             if ($type == "Standard") {
-                if (count($kws = ilMDKeyword::lookupKeywords(0, $med->getMobId()))) {
+                $keyword_data = $lom_services
+                    ->read(0, $med->getMobId(), 'mob', $lom_services->paths()->keywords())
+                    ->allData($lom_services->paths()->keywords());
+                $presentable_keywords = $lom_services->dataHelper()->makePresentableAsList(
+                    ', ',
+                    ...$keyword_data
+                );
+                if ($presentable_keywords !== '') {
                     $tpl->setCurrentBlock('additional_info');
-                    $tpl->setVariable('ADD_INFO', $lng->txt('keywords') . ': ' . implode(', ', $kws));
+                    $tpl->setVariable('ADD_INFO', $lng->txt('keywords') . ': ' . $presentable_keywords);
                     $tpl->parseCurrentBlock();
                 }
             }
@@ -1628,7 +1639,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $ilToolbar->addInputItem($fi, true);
 
             // language
-            $options = ilMDLanguageItem::_getLanguages();
+            $options = $this->md->getLOMLanguagesForSelectInputs();
             $si = new ilSelectInputGUI($this->lng->txt("mob_language"), "language");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());

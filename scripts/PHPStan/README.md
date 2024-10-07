@@ -11,13 +11,13 @@ The entire report comprises a CSV file for each component and a summarised file 
 
 All results will be written to the directory `./Reports`. 
 
-To run the rules individually (e.g. for the directory Modules/File), the following command can be used:
+To run the rules individually (e.g. for the directory ILIAS/File), the following command can be used:
 
 ```bash
-./scripts/PHPStan/run_legacy_ui_report.sh Modules/File
+./scripts/PHPStan/run_legacy_ui_report.sh components/ILIAS/File
 ```
 
-If you want to just check and show violations directly (without csv-report), you can use the following command (for Modules/File):
+If you want to just check and show violations directly (without csv-report), you can use the following command (for components/ILIAS/File):
 
 ```bash
 ./vendor/composer/vendor/bin/phpstan analyse -c ./scripts/PHPStan/legacy_ui.neon -a ./vendor/composer/vendor/autoload.php --no-interaction --no-progress  components/ILIAS/File 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
@@ -40,7 +42,6 @@ class ilObjContentObject extends ilObject
     protected bool $numbering = false;
     protected bool $toc_active = false;
     protected bool $lm_menu_active = false;
-    protected string $public_access_mode = '';
     protected string $toc_mode = '';
     protected bool $restrict_forw_nav = false;
     protected bool $store_tries = false;
@@ -62,6 +63,7 @@ class ilObjContentObject extends ilObject
     protected ilObjLearningModule $lm;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected LOMServices $lom_services;
 
     public function __construct(
         int $a_id = 0,
@@ -78,7 +80,7 @@ class ilObjContentObject extends ilObject
         if (isset($DIC["ilLocator"])) {
             $this->locator = $DIC["ilLocator"];
         }
-
+        $this->lom_services = $DIC->learningObjectMetadata();
         $this->notes = $DIC->notes();
 
         // this also calls read() method! (if $a_id is set)
@@ -728,14 +730,6 @@ class ilObjContentObject extends ilObject
     }
 
     /**
-     * get public access mode ("complete" | "selected")
-     */
-    public function getPublicAccessMode(): string
-    {
-        return $this->public_access_mode;
-    }
-
-    /**
      * set toc mode
      * @param string $a_toc_mode		"chapters" | "pages"
      */
@@ -847,21 +841,6 @@ class ilObjContentObject extends ilObject
         return $this->clean_frames;
     }
 
-    public function setHistoryUserComments(bool $a_comm): void
-    {
-        $this->user_comments = $a_comm;
-    }
-
-    public function setPublicAccessMode(string $a_mode): void
-    {
-        $this->public_access_mode = $a_mode;
-    }
-
-    public function isActiveHistoryUserComments(): bool
-    {
-        return $this->user_comments;
-    }
-
     public function setHeaderPage(int $a_pg): void
     {
         $this->header_page = $a_pg;
@@ -904,8 +883,6 @@ class ilObjContentObject extends ilObject
         $this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
         $this->setHeaderPage((int) $lm_rec["header_page"]);
         $this->setFooterPage((int) $lm_rec["footer_page"]);
-        $this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
-        $this->setPublicAccessMode((string) $lm_rec["public_access_mode"]);
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
@@ -943,8 +920,6 @@ class ilObjContentObject extends ilObject
             " downloads_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text") . "," .
             " downloads_public_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text") . "," .
             " clean_frames = " . $ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text") . "," .
-            " hist_user_comments = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments()), "text") . "," .
-            " public_access_mode = " . $ilDB->quote($this->getPublicAccessMode(), "text") . "," .
             " public_xml_file = " . $ilDB->quote($this->getPublicExportFile("xml"), "text") . "," .
             " public_html_file = " . $ilDB->quote($this->getPublicExportFile("html"), "text") . "," .
             " header_page = " . $ilDB->quote($this->getHeaderPage(), "integer") . "," .
@@ -1428,10 +1403,17 @@ class ilObjContentObject extends ilObject
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
     ): void {
-        $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+        /*
+         * As far as I can tell, this is unused.
+         *
+         * I traced usages of this method up to ilObjContentObjectGUI::export and
+         * ilObjMediaPoolGUI::export (both via ilObjContentObject::exportXML), which have
+         * both been made redundant by the usual export mechanisms.
+         */
+        /*$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $a_xml_writer->appendXML($md2xml->getXML());*/
     }
 
     public function exportXMLStructureObjects(
@@ -1585,11 +1567,6 @@ class ilObjContentObject extends ilObject
         // Public notes activation
         $attrs = array("Name" => "PublicNotes", "Value" =>
             ilUtil::tf2yn($this->publicNotes()));
-        $a_xml_writer->xmlElement("Property", $attrs);
-
-        // History comments for authors activation
-        $attrs = array("Name" => "HistoryUserComments", "Value" =>
-            ilUtil::tf2yn($this->isActiveHistoryUserComments()));
         $a_xml_writer->xmlElement("Property", $attrs);
 
         // Rating
@@ -1763,19 +1740,6 @@ class ilObjContentObject extends ilObject
                     $parent_id = $lmtree->getParentId($source_obj->getId());
                     $lmtree->deleteTree($node_data);
 
-                    // write history entry
-                    ilHistory::_createEntry(
-                        $source_obj->getId(),
-                        "cut",
-                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
-                        $this->getType() . ":pg"
-                    );
-                    ilHistory::_createEntry(
-                        $parent_id,
-                        "cut_page",
-                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                        $this->getType() . ":st"
-                    );
                 } else {
                     // copy page
                     $new_page = $source_obj->copy($this->lm);
@@ -1807,22 +1771,6 @@ class ilObjContentObject extends ilObject
                         $target_pos
                     );
 
-                    // write history entry
-                    if ($movecopy == "move") {
-                        // write history comments
-                        ilHistory::_createEntry(
-                            $source_obj->getId(),
-                            "paste",
-                            array(ilLMObject::_lookupTitle($parent), $parent),
-                            $this->getType() . ":pg"
-                        );
-                        ilHistory::_createEntry(
-                            $parent,
-                            "paste_page",
-                            array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                            $this->getType() . ":st"
-                        );
-                    }
                 }
             }
         }
@@ -1950,8 +1898,6 @@ class ilObjContentObject extends ilObject
         $new_obj->setActiveDownloadsPublic($this->isActiveDownloadsPublic());
         $new_obj->setPublicNotes($this->publicNotes());
         $new_obj->setCleanFrames($this->cleanFrames());
-        $new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
-        $new_obj->setPublicAccessMode($this->getPublicAccessMode());
         $new_obj->setPageHeader($this->getPageHeader());
         $new_obj->setRating($this->hasRating());
         $new_obj->setRatingPages($this->hasRatingPages());
@@ -2176,24 +2122,22 @@ class ilObjContentObject extends ilObject
                 break;
 
             case 'General':
-
                 // Update Title and description
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_gen = $md->getGeneral())) {
+                $ot = ilObjectTranslation::getInstance($this->getId());
+                if (!$ot->getContentActivated()) {
                     return;
                 }
 
-                $ot = ilObjectTranslation::getInstance($this->getId());
-                if ($ot->getContentActivated()) {
-                    $ot->setDefaultTitle($md_gen->getTitle());
+                $paths = $this->lom_services->paths();
+                $reader = $this->lom_services->read(
+                    $this->getId(),
+                    0,
+                    $this->getType(),
+                    $paths->custom()->withNextStep('general')->get()
+                );
 
-                    foreach ($md_gen->getDescriptionIds() as $id) {
-                        $md_des = $md_gen->getDescription($id);
-                        $ot->setDefaultDescription($md_des->getDescription());
-                        break;
-                    }
-                    $ot->save();
-                }
+                $ot->setDefaultTitle($reader->firstData($paths->title())->value());
+                $ot->setDefaultDescription($reader->firstData($paths->firstDescription())->value());
                 break;
         }
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -469,15 +469,6 @@ class ilSessionStatisticsGUI
 
         $active = ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
 
-        $control_active = ((int) $this->settings->get('session_handling_type', "0") === 1);
-        if ($control_active) {
-            $control_max_sessions = (int) $this->settings->get('session_max_count', (string) ilSessionControl::DEFAULT_MAX_COUNT);
-            $control_min_idle = (int) $this->settings->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE);
-            $control_max_idle = (int) $this->settings->get('session_max_idle', (string) ilSessionControl::DEFAULT_MAX_IDLE);
-            $control_max_idle_first = (int) $this->settings->get('session_max_idle_after_first_request', (string) ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST);
-        }
-
-        $last_maxed_out = new ilDateTime(ilSessionStatistics::getLastMaxedOut(), IL_CAL_UNIX);
         $last_aggr = new ilDateTime(ilSessionStatistics::getLastAggregation(), IL_CAL_UNIX);
 
 
@@ -490,32 +481,6 @@ class ilSessionStatisticsGUI
 
         $left->setVariable("CAPTION_LAST_AGGR", $this->lng->txt("trac_last_aggregation"));
         $left->setVariable("VALUE_LAST_AGGR", ilDatePresentation::formatDate($last_aggr));
-
-        $left->setVariable("CAPTION_LAST_MAX", $this->lng->txt("trac_last_maxed_out_sessions"));
-        $left->setVariable("VALUE_LAST_MAX", ilDatePresentation::formatDate($last_maxed_out));
-
-        $left->setVariable("CAPTION_SESSION_CONTROL", $this->lng->txt("sess_load_dependent_session_handling"));
-        if (!$control_active) {
-            $left->setVariable("VALUE_SESSION_CONTROL", $this->lng->txt("no"));
-        } else {
-            $left->setVariable("VALUE_SESSION_CONTROL", $this->lng->txt("yes"));
-
-            $left->setCurrentBlock("control_details");
-
-            $left->setVariable("CAPTION_SESSION_CONTROL_LIMIT", $this->lng->txt("session_max_count"));
-            $left->setVariable("VALUE_SESSION_CONTROL_LIMIT", $control_max_sessions);
-
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MIN", $this->lng->txt("session_min_idle"));
-            $left->setVariable("VALUE_SESSION_CONTROL_IDLE_MIN", $control_min_idle);
-
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MAX", $this->lng->txt("session_max_idle"));
-            $left->setVariable("VALUE_SESSION_CONTROL_IDLE_MAX", $control_max_idle);
-
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_FIRST", $this->lng->txt("session_max_idle_after_first_request"));
-            $left->setVariable("VALUE_SESSION_CONTROL_IDLE_FIRST", $control_max_idle_first);
-
-            $left->parseCurrentBlock();
-        }
 
         // sync button
         if ($this->access->checkAccess("write", "", $this->ref_id)) {
@@ -531,11 +496,9 @@ class ilSessionStatisticsGUI
     {
         // basic data - time related
 
-        $maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($a_time_from, $a_time_to) / 60);
         $counters = ilSessionStatistics::getNumberOfSessionsByType($a_time_from, $a_time_to);
         $opened = (int) $counters["opened"];
-        $closed_limit = (int) $counters["closed_limit"];
-        unset($counters["opened"], $counters["closed_limit"]);
+        unset($counters["opened"]);
 
 
         // build center column
@@ -549,8 +512,6 @@ class ilSessionStatisticsGUI
                 new ilDateTime($a_time_to, IL_CAL_UNIX)
             ) . ")";
 
-        $data["maxed_out_time"] = array($this->lng->txt("trac_maxed_out_time"), $maxed_out_duration);
-        $data["maxed_out_counter"] = array($this->lng->txt("trac_maxed_out_counter"), $closed_limit);
         $data["opened"] = array($this->lng->txt("trac_sessions_opened"), $opened);
         $data["closed"] = array($this->lng->txt("trac_sessions_closed"), array_sum($counters));
         foreach ($counters as $type => $counter) {
@@ -629,12 +590,6 @@ class ilSessionStatisticsGUI
             $colors[] = $colors_map[$measure];
         }
 
-        if ($a_scale === self::SCALE_DAY || $a_scale === self::SCALE_WEEK) {
-            $max_line = $chart->getDataInstance(ilChartGrid::DATA_LINES);
-            $max_line->setLabel($this->lng->txt("session_max_count"));
-            $colors[] = "#cc0000";
-        }
-
         $chart->setColors($colors);
 
         $chart_data = $this->adaptDataToScale($a_scale, $a_data);
@@ -689,17 +644,10 @@ class ilSessionStatisticsGUI
                 $value = (int) $item["active_" . $measure];
                 $act_line[$measure]->addPoint($date, $value);
             }
-
-            if (isset($max_line)) {
-                $max_line->addPoint($date, (int) $item["max_sessions"]);
-            }
         }
 
         foreach ($act_line as $line) {
             $chart->addData($line);
-        }
-        if (isset($max_line)) {
-            $chart->addData($max_line);
         }
 
         $chart->setTicks($labels, null, true);
@@ -824,7 +772,7 @@ class ilSessionStatisticsGUI
                     break;
             }
         }
-        foreach ($meta as  $caption => $value) {
+        foreach ($meta as $caption => $value) {
             $csv->addColumn(strip_tags((string) $caption));
             $csv->addColumn(strip_tags((string) $value));
             $csv->addRow();

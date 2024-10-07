@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+
+use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -427,9 +429,6 @@ class ilObjUserGUI extends ilObjectGUI
                 $user_object->setPref('style', $sknst[1]);
             }
         }
-        if ($this->isSettingChangeable('hits_per_page')) {
-            $user_object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
-        }
         if ($this->isSettingChangeable('hide_own_online_status')) {
             $user_object->setPref(
                 'hide_own_online_status',
@@ -744,9 +743,6 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->object->setPref('style', $sknst[1]);
                 }
             }
-            if ($this->isSettingChangeable('hits_per_page')) {
-                $this->object->setPref('hits_per_page', $this->form_gui->getInput('hits_per_page'));
-            }
             if ($this->isSettingChangeable('hide_own_online_status')) {
                 $this->object->setPref(
                     'hide_own_online_status',
@@ -899,7 +895,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         $data['language'] = $this->object->getLanguage();
         $data['skin_style'] = $this->object->skin . ':' . $this->object->prefs['style'];
-        $data['hits_per_page'] = $this->object->prefs['hits_per_page'] ?? '';
         $data['hide_own_online_status'] = $this->object->prefs['hide_own_online_status'] ?? '';
         $data['bs_allow_to_contact_me'] = ($this->object->prefs['bs_allow_to_contact_me'] ?? '') == 'y';
         $data['chat_osc_accept_msg'] = ($this->object->prefs['chat_osc_accept_msg'] ?? '') == 'y';
@@ -1253,7 +1248,6 @@ class ilObjUserGUI extends ilObjectGUI
         if ($a_mode == 'create'
             || $this->isSettingChangeable('language')
             || $this->isSettingChangeable('skin_style')
-            || $this->isSettingChangeable('hits_per_page')
             || $this->isSettingChangeable('hide_own_online_status')
             || $this->isSettingChangeable('bs_allow_to_contact_me')
             || $this->isSettingChangeable('chat_osc_accept_msg')
@@ -1321,26 +1315,6 @@ class ilObjUserGUI extends ilObjectGUI
             $sk->setValue($this->default_layout_and_style);
 
             $this->form_gui->addItem($sk);
-        }
-
-        if ($this->isSettingChangeable('hits_per_page')) {
-            $hpp = new ilSelectInputGUI(
-                $this->lng->txt('hits_per_page'),
-                'hits_per_page'
-            );
-            $options = [
-                10 => 10,
-                15 => 15,
-                20 => 20,
-                30 => 30,
-                40 => 40,
-                50 => 50,
-                100 => 100,
-                9999 => $this->lng->txt('no_limit')
-            ];
-            $hpp->setOptions($options);
-            $hpp->setValue($this->settings->get('hits_per_page'));
-            $this->form_gui->addItem($hpp);
         }
 
         if ($this->isSettingChangeable('hide_own_online_status')) {
@@ -1456,11 +1430,6 @@ class ilObjUserGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_file'));
         } else {
             $store_file = 'usr_' . $this->object->getId() . '.' . 'jpg';
-
-
-            // Store profile picture
-            // This part can be changed when using new Inputs: Currently we map the $_FILES array to get the 'correct' upload as it was before
-            $this->uploads->process();
 
             $rid = $this->moveFileToStorage();
 
@@ -1819,7 +1788,7 @@ class ilObjUserGUI extends ilObjectGUI
             return '';
         }
 
-        $usr_lang = new ilLanguage($this->object->getLanguage());
+        $usr_lang = new Language($this->object->getLanguage());
         $usr_lang->loadLanguageModule('crs');
         $usr_lang->loadLanguageModule('registration');
 
@@ -1871,15 +1840,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
-
-        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
-            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
-            $class = ilPersonalProfileGUI::class;
-            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
-            $ilCtrl->clearParametersByClass($class);
-            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
-            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
-        }
 
         // #10888
         if ($a_target == md5('usrdelown')) {

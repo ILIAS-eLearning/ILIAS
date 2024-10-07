@@ -289,7 +289,7 @@ class ilMimeMail
 
     protected function buildHtmlInlineImages(string $skin, string $style): void
     {
-	    $this->gatherImagesFromDirectory('../components/ILIAS/Mail/templates/default/img');
+        $this->gatherImagesFromDirectory('../components/ILIAS/Mail/templates/default/img');
 
         if ($skin !== 'default') {
             $skinDirectory = '../Customizing/global/skin/' . $skin . '/' . $style . '/components/ILIAS/Mail/img';

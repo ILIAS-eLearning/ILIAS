@@ -1,10 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\MetaData\OERHarvester\Initiator;
+use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface;
+use ILIAS\MetaData\OERHarvester\Results\Wrapper as ResultWrapper;
 
 /**
  * Cron job for definition for oer harvesting
@@ -12,13 +29,13 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  */
 class ilCronOerHarvester extends ilCronJob
 {
-    public const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
-    public const DEFAULT_SCHEDULE_VALUE = 1;
+    protected const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    protected const DEFAULT_SCHEDULE_VALUE = 1;
 
     private ilLogger $logger;
     private ilLanguage $lng;
-
-    private ilOerHarvesterSettings $settings;
+    private Initiator $initiator;
+    private SettingsInterface $settings;
 
     public function __construct()
     {
@@ -28,7 +45,8 @@ class ilCronOerHarvester extends ilCronJob
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
-        $this->settings = ilOerHarvesterSettings::getInstance();
+        $this->initiator = new Initiator($DIC);
+        $this->settings = $this->initiator->settings();
     }
 
     public function getTitle(): string
@@ -86,13 +104,36 @@ class ilCronOerHarvester extends ilCronJob
         $explorer->setRootId(ROOT_FOLDER_ID);
         $explorer->setTypeWhiteList(['cat']);
 
-        if ($this->settings->getTarget()) {
-            $explorer->setPathOpen($this->settings->getTarget());
-            $target->setValue($this->settings->getTarget());
+        $target_ref_id = $this->settings->getContainerRefIDForHarvesting();
+        if ($target_ref_id) {
+            $explorer->setPathOpen($target_ref_id);
+            $target->setValue($target_ref_id);
         }
 
         $target->setRequired(true);
         $a_form->addItem($target);
+
+        // source for exposing
+        $ex_target = new ilRepositorySelector2InputGUI(
+            $this->lng->txt('meta_oer_exposed_source'),
+            'exposed_source',
+            false,
+            $a_form
+        );
+
+        $ex_explorer = $ex_target->getExplorerGUI();
+        $ex_explorer->setSelectMode('exposed_source', false);
+        $ex_explorer->setRootId(ROOT_FOLDER_ID);
+        $ex_explorer->setTypeWhiteList(['cat']);
+
+        $ex_target_ref_id = $this->settings->getContainerRefIDForExposing();
+        if ($ex_target_ref_id) {
+            $ex_explorer->setPathOpen($ex_target_ref_id);
+            $ex_target->setValue($ex_target_ref_id);
+        }
+
+        $ex_target->setRequired(true);
+        $a_form->addItem($ex_target);
 
         // copyright selection
         $checkbox_group = new ilCheckboxGroupInputGUI(
@@ -100,7 +141,7 @@ class ilCronOerHarvester extends ilCronJob
             'copyright'
         );
         $checkbox_group->setRequired(true);
-        $checkbox_group->setValue($this->settings->getCopyrightTemplates());
+        $checkbox_group->setValue($this->settings->getCopyrightEntryIDsSelectedForHarvesting());
         $checkbox_group->setInfo(
             $this->lng->txt('meta_oer_copyright_selection_info')
         );
@@ -118,21 +159,25 @@ class ilCronOerHarvester extends ilCronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->settings->setTarget((int) $a_form->getInput('target'));
-        $this->settings->setCopyrightTemplates($a_form->getInput('copyright'));
-        $this->settings->save();
+        $copyrights = [];
+        foreach ($a_form->getInput('copyright') as $id) {
+            $copyrights[] = (int) $id;
+        }
 
+        $this->settings->saveContainerRefIDForHarvesting((int) $a_form->getInput('target'));
+        $this->settings->saveContainerRefIDForExposing((int) $a_form->getInput('exposed_source'));
+        $this->settings->saveCopyrightEntryIDsSelectedForHarvesting(...$copyrights);
         return true;
     }
 
     public function run(): ilCronJobResult
     {
         $this->logger->info('Started cron oer harvester.');
-        $harvester = new ilOerHarvester(new ilCronJobResult());
-        $res = $harvester->run();
+        $harvester = $this->initiator->harvester();
+        $res = $harvester->run(new ResultWrapper(new ilCronJobResult()));
         $this->logger->info('cron oer harvester finished');
 
-        return $res;
+        return $res->get();
     }
 
     public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void

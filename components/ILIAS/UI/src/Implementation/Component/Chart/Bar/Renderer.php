@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
@@ -34,24 +34,13 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Bar\Bar $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Bar\Horizontal) {
-            /**
-             * @var Bar\Horizontal $component
-             */
             return $this->renderHorizontal($component, $default_renderer);
         } elseif ($component instanceof Bar\Vertical) {
-            /**
-             * @var Bar\Vertical $component
-             */
             return $this->renderVertical($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderHorizontal(
@@ -416,12 +405,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/chart.js/dist/chart.min.js');
+        $registry->register('assets/js/chart.umd.js');
         $registry->register('assets/js/bar.js');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Bar\Bar::class];
     }
 }

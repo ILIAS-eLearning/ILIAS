@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Description of class
@@ -30,7 +31,8 @@ class ilObjectPropertiesAgregator
     public function __construct(
         private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalPropertiesRepository $additional_properties_repository,
-        private ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory
+        private ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory,
+        private LOMServices $lom_services
     ) {
     }
 
@@ -43,7 +45,7 @@ class ilObjectPropertiesAgregator
             $this->core_properties_repository,
             $this->additional_properties_repository->getFor($object_id),
             $this->additional_properties_repository,
-            new ilMD($object_id, 0, $core_properties->getType() ?? '')
+            $this->lom_services
         );
     }
 

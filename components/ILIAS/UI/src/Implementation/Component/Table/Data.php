@@ -29,11 +29,10 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindable;
 use ILIAS\Data\Factory as DataFactory;
-
-
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\Data\Range;
+use ILIAS\Data\Order;
 
 class Data extends AbstractTable implements T\Data
 {
@@ -130,14 +129,17 @@ class Data extends AbstractTable implements T\Data
             $data = $view_controls->getData();
             $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
             $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
+            $order = $data[self::VIEWCONTROL_KEY_ORDERING];
+            $order = ($order instanceof Order) ? $order : null;
+
             $table = $table
                 ->withRange($range)
-                ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
+                ->withOrder($order)
                 ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
         }
 
         return [
-            $table->withFilter($filter_data),
+            $table,
             $view_controls
         ];
     }
@@ -146,7 +148,7 @@ class Data extends AbstractTable implements T\Data
     {
         $view_controls = [
             self::VIEWCONTROL_KEY_PAGINATION => $this->getViewControlPagination($total_count),
-            self::VIEWCONTROL_KEY_ORDERING => $this->getViewControlOrdering(),
+            self::VIEWCONTROL_KEY_ORDERING => $this->getViewControlOrdering($total_count),
             self::VIEWCONTROL_KEY_FIELDSELECTION => $this->getViewControlFieldSelection(),
         ];
         $view_controls = array_filter($view_controls);

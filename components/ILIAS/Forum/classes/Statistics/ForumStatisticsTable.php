@@ -49,7 +49,7 @@ class ForumStatisticsTable implements DataRetrieval
      * @var list<array<string, mixed>>|null
      */
     private ?array $records = null;
-    private ilLPStatusIcons $icons;
+    private readonly ilLPStatusIcons $icons;
 
     public function __construct(
         private readonly ilObjForum $forum,
@@ -208,23 +208,18 @@ class ForumStatisticsTable implements DataRetrieval
         if ($this->has_active_lp &&
             $this->has_general_lp_access &&
             ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id)) {
-            switch (true) {
-                case in_array($user_id, $this->completed, false):
-                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM);
-                    break;
-
-                case in_array($user_id, $this->in_progress, false):
-                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM);
-                    break;
-
-                case in_array($user_id, $this->failed, false):
-                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM);
-                    break;
-
-                default:
-                    $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
-                    break;
-            }
+            $icon = match (true) {
+                in_array($user_id, $this->completed, false) => $this->icons->renderIconForStatus(
+                    ilLPStatus::LP_STATUS_COMPLETED_NUM
+                ),
+                in_array($user_id, $this->in_progress, false) => $this->icons->renderIconForStatus(
+                    ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+                ),
+                in_array($user_id, $this->failed, false) => $this->icons->renderIconForStatus(
+                    ilLPStatus::LP_STATUS_FAILED_NUM
+                ),
+                default => $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM),
+            };
         }
 
         return $icon;

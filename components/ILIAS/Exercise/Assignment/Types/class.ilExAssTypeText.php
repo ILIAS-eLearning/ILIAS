@@ -23,7 +23,7 @@
  */
 class ilExAssTypeText implements ilExAssignmentTypeInterface
 {
-    protected ilLanguage$lng;
+    protected ilLanguage $lng;
 
     /**
      * Constructor

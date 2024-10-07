@@ -29,16 +29,36 @@ use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Structure\Definitions\NullDefinition;
 use ILIAS\MetaData\Elements\Data\NullDataFactory;
+use ILIAS\MetaData\Elements\RessourceID\NullRessourceIDFactory;
+use ILIAS\MetaData\Elements\SetInterface;
+use ILIAS\MetaData\Elements\RessourceID\NullRessourceID;
 
 class ScaffoldFactoryTest extends TestCase
 {
     public function testCreateScaffold(): void
     {
-        $factory = new ScaffoldFactory(new NullDataFactory());
+        $factory = new ScaffoldFactory(
+            new NullDataFactory(),
+            new NullRessourceIDFactory()
+        );
         $scaffold = $factory->scaffold(new NullDefinition());
 
         $this->assertInstanceOf(ElementInterface::class, $scaffold);
         $this->assertSame(NoID::SCAFFOLD, $scaffold->getMDID());
         $this->assertSame(Type::NULL, $scaffold->getData()->type());
+    }
+
+    public function testCreateSet(): void
+    {
+        $factory = new ScaffoldFactory(
+            new NullDataFactory(),
+            new NullRessourceIDFactory()
+        );
+
+        $root_definition = new NullDefinition();
+        $set = $factory->set($root_definition);
+
+        $this->assertInstanceOf(SetInterface::class, $set);
+        $this->assertInstanceOf(NullRessourceID::class, $set->getRessourceID());
     }
 }

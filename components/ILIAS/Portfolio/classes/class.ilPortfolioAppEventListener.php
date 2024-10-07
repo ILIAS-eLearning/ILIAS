@@ -45,20 +45,6 @@ class ilPortfolioAppEventListener
         }
     }
 
-    protected static function beforeDeletion(
-        array $parameter
-    ): void {
-        if (is_object($parameter["object"])) {
-            /** @var ilObject $obj */
-            $obj = $parameter["object"];
-            if ($obj instanceof \ilObjBlog) {
-                $blog_id = $obj->getId();
-                $action = new ilPortfolioPageAction();
-                $action->deletePagesOfBlog($blog_id);
-            }
-        }
-    }
-
     protected static function firstLogin(
         array $parameter
     ): void {

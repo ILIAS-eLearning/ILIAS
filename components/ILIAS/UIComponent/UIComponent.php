@@ -48,14 +48,27 @@ class UIComponent implements Component\Component
             new Component\Resource\ComponentJS($this, "AdvancedSelectionList.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilTextHighlighter.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "node_modules/jstree";
+            }
+            public function getTarget(): string
+            {
+                return "node_modules/jstree";
+            }
+        };
+
+
         /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("qtip2/dist/jquery.qtip.min.js");
         */
         /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
             new Component\Resource\NodeModule("jstree/dist/jstree.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
            new Component\Resource\NodeModule("jstree/dist/themes/default/style.min.css");
         */
     }

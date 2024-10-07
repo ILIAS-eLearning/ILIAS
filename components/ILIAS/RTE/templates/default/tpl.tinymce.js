@@ -61,11 +61,9 @@ function ilTinyMCETranslateFormats() {
         if (title_translation === undefined) {
             title_translation = title;
         }
-        translated_formats.push(title_translation + "=" + block_array[format]);
+        translated_formats.push(title_translation + '=' + block_array[format]);
     }
-    var result = translated_formats.join(';');
-    return result;
-
+    return translated_formats.join(';');
 }
 
 function ilTinyMceInitCallback(ed) {
@@ -96,81 +94,8 @@ var ilTinyMceInitCallbackRegistry = new _ilTinyMceInitCallbackRegistry();
 
 window.ilTinyMceInitCallbackRegistry = ilTinyMceInitCallbackRegistry;
 
-function ilTinyMCEImagePickerCallback(cb, value, meta) {
-    var input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.setAttribute('name', 'img_file');
-    input.setAttribute('id', 'img_file');
-
-
-    /*
-      Note: In modern browsers input[type="file"] is functional without
-      even adding it to the DOM, but that might not be the case in some older
-      or quirky browsers like IE, so you might want to add it to the DOM
-      just in case, and visually hide it. And do not forget do remove it
-      once you do not need it anymore.
-    */
-
-    input.onchange = function() {
-        var file = this.files[0];
-
-        var reader = new FileReader();
-        reader.onload = function() {
-            /*
-              Note: Now we need to register the blob in TinyMCEs image blob
-              registry. In the next release this part hopefully won't be
-              necessary, as we are looking to handle it internally.
-            */
-            var id = 'blobid' + (new Date()).getTime();
-            var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-            var base64 = reader.result.split(',')[1];
-            var blobInfo = blobCache.create(id, file, base64);
-            blobCache.add(blobInfo);
-
-            /* call the callback and populate the Title field with the file name */
-            cb(blobInfo.blobUri(), { title: file.name });
-        };
-        reader.readAsDataURL(file);
-    };
-    input.click();
-}
-
-function UploadHandler(blobInfo, success, failure, progress) {
-    var xhr, formData;
-    var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', uploadUrl);
-    xhr.setRequestHeader('Accept', 'application/json');
-    //xhr.withCredentials = settings.credentials;
-    xhr.upload.onprogress = function(e) {
-        progress(e.loaded / e.total * 100);
-    };
-    xhr.onerror = function() {
-        failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-    };
-    xhr.onload = function() {
-        if (xhr.status < 200 || xhr.status >= 300) {
-            failure('HTTP Error: ' + xhr.status);
-            return;
-        }
-        var json = JSON.parse(xhr.responseText);
-        if (!json || typeof json.response !== 'object') {
-
-            failure('Invalid JSON: ' + xhr.responseText);
-            return;
-        }
-        var location = json.response.uploaded_file.location;
-        success(location);
-    };
-    var formData = new FormData();
-    formData.append('img_file', blobInfo.blob(), blobInfo.filename());
-    xhr.send(formData);
-};
-
 tinymce.init({
-    mode: "textareas",
-    editor_deselector: "noRTEditor",
+    selector: "textarea.RTEditor",
     branding: false,
     language: "{LANG}",
     //blockformats has changed it's definition in 5.x. please fix the translations
@@ -190,10 +115,7 @@ tinymce.init({
     images_file_types: "gif, jpg, jpeg, png",
     file_picker_types: "image",
     automatic_uploads: true,
-    images_upload_handler: UploadHandler,
-    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
     importcss_append: true,
-    file_picker_callback: ilTinyMCEImagePickerCallback,
     plugin_insertdate_dateFormat: "%d.%m.%Y",
     plugin_insertdate_timeFormat: "%H:%M:%S",
     image_caption: true,
@@ -210,23 +132,6 @@ tinymce.init({
     <!-- END formelements -->
     <!-- BEGIN forced_root_block -->forced_root_block : '{FORCED_ROOT_BLOCK}',<!-- END forced_root_block -->
 
-    ilimgupload_file_extensions: "{TXT_ALLOWED_FILE_EXTENSIONS}",
-    ilimgupload_maxsize: "{TXT_MAX_SIZE}",
-    setup: function(ed) {
-        ed.on('init', ilTinyMceInitCallback);
-        ed.on('init', function() {
-            if (il.Form) {
-                il.Form.showCharCounterTinymce(ed);
-            }
-
-        });
-
-        ed.on('keyup', function() {
-            if (il.Form) {
-                il.Form.showCharCounterTinymce(ed);
-            }
-        });
-    },
     init_instance_callback: function(ed) {
         ilTinyMceInitCallbackRegistry.callCallbacks(ed);
     }

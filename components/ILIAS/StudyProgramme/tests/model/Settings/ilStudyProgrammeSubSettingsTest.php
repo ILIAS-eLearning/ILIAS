@@ -38,6 +38,7 @@ class ilStudyProgrammeSubSettingsTest extends \PHPUnit\Framework\TestCase
     protected ilLanguage $lng;
     protected Refinery $refinery;
     protected FieldFactory $field_factory;
+    protected DataFactory $data_factory;
 
     public function setUp(): void
     {

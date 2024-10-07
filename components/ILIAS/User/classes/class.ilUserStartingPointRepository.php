@@ -60,7 +60,6 @@ class ilUserStartingPointRepository
     public function __construct(
         private readonly ilObjUser $user,
         private readonly ilDBInterface $db,
-        private ilGlobalTemplateInterface $tpl,
         private readonly LoggingServices $log,
         private readonly ilTree $tree,
         private readonly ilRbacReview $rbac_review,
@@ -420,7 +419,7 @@ class ilUserStartingPointRepository
                 )
             )
         ) {
-            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $this->log->user()->debug(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = self::START_REPOSITORY;
         }
 
@@ -433,7 +432,7 @@ class ilUserStartingPointRepository
             || $starting_point['type'] === self::START_PD_CALENDAR
                 && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
-            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $this->log->user()->debug(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = $this->getFallbackStartingPointType();
         }
 

@@ -21,6 +21,8 @@
  */
 class ilObjBookingPoolAccess extends ilObjectAccess
 {
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
 
@@ -30,6 +32,8 @@ class ilObjBookingPoolAccess extends ilObjectAccess
 
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->access = $DIC->access();
+        $this->lng = $DIC->language();
     }
 
     public static function _getCommands(): array
@@ -79,8 +83,8 @@ class ilObjBookingPoolAccess extends ilObjectAccess
         //TODO refactor this: first check if the object is online and then the permissions.
         #22653
         if (($permission === "visible" || $permission === "read") && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
-            $pool = new ilObjBookingPool($ref_id);
-            if ($pool->isOffline()) {
+            if (self::_isOffline($obj_id)) {
+                $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
                 return false;
             }
         }

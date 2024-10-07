@@ -110,15 +110,6 @@ class ilLMContentRendererGUI
             $status = self::STATUS_NO_ACCESS;
         }
 
-
-        // check if page is (not) visible in public area
-        if ($user->getId() == ANONYMOUS_USER_ID &&
-            $this->lm->getPublicAccessMode() == 'selected') {
-            if (!ilLMObject::_isPagePublic($this->current_page)) {
-                $status = self::STATUS_NO_PUBLIC_ACCESS;
-            }
-        }
-
         // preconditions
         if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page)) {
             $status = self::STATUS_FAILED_PRECONDITIONS;

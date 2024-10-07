@@ -311,13 +311,6 @@ class ilLMNavigationRendererGUI
                             true
                         );
 
-                    if ($this->user->getId() === ANONYMOUS_USER_ID &&
-                        $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     break;
 
                     // learning module
@@ -338,13 +331,6 @@ class ilLMNavigationRendererGUI
                             $this->lang,
                             true
                         );
-                    if ($this->user->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm->getPublicAccessMode() === "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     break;
             }
 

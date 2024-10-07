@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		xmlns:xs='http://www.w3.org/2001/XMLSchema'
+		elementFormDefault="qualified"
+>
+	<xs:complexType name='Data' mixed='true'>
+	</xs:complexType>
+
+	<!-- ilObjContentPage -->
+	<xs:element name="Copa">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="title" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="description" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="info-tab" minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="style-id" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="id" type="Data"/>
+	<xs:element name="title" type="Data"/>
+	<xs:element name="description" type="Data"/>
+	<xs:element name="info-tab" type="Data"/>
+	<xs:element name="style-id" type="xs:integer"/>
+</xs:schema>

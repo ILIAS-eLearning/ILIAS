@@ -18,12 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Style\Content\GUIService;
+
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilObjectContentStyleSettingsGUI
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
@@ -33,6 +36,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     private ILIAS\Http\Services $http;
 
     private ?ilPropertyFormGUI $form;
+    private GUIService $content_style_gui;
 
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
@@ -48,6 +52,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
+        $this->lng->loadLanguageModule('content');
+        $this->content_style_gui = $DIC->contentStyle()->gui();
     }
 
     public function viewObject(): void
@@ -842,19 +848,52 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             case 'ilauthloginpageeditorgui':
 
-                $this->setSubTabs("authSettings");
+                $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
-                $this->tabs_gui->setSubTabActive("auth_login_editor");
+                $this->tabs_gui->setSubTabActive('auth_login_editor');
 
                 $lpe = new ilAuthLoginPageEditorGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($lpe);
                 break;
 
+            case 'ilauthlogoutpageeditorgui':
+
+                $this->setSubTabs('authSettings');
+                $this->tabs_gui->setTabActive('authentication_settings');
+                $this->tabs_gui->setSubTabActive('logout_editor');
+
+                $lpe = new ilAuthLogoutPageEditorGUI($this->object->getRefId());
+                $this->ctrl->forwardCommand($lpe);
+                break;
+
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->checkPermission('write');
+                $this->setTitleAndDescription();
+                $this->setSubTabs('authSettings');
+                $this->tabs_gui->activateTab('authentication_settings');
+                $this->tabs_gui->activateSubTab('style');
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
+
+            case strtolower(ilAuthLogoutBehaviourGUI::class):
+                $this->setSubTabs('authSettings');
+                $this->tabs_gui->setTabActive('authentication_settings');
+                $this->tabs_gui->setSubTabActive('logout_behaviour');
+
+                $gui = new ilAuthLogoutBehaviourGUI();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 if (!$cmd) {
-                    $cmd = "authSettings";
+                    $cmd = 'authSettings';
                 }
-                $cmd .= "Object";
+                $cmd .= 'Object';
                 $this->$cmd();
 
                 break;
@@ -967,6 +1006,27 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     'auth_login_editor',
                     $this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui', ''),
                     ''
+                );
+
+                $this->tabs_gui->addSubTabTarget(
+                    'logout_behaviour',
+                    $this->ctrl->getLinkTargetByClass(ilAuthLogoutBehaviourGUI::class, ''),
+                    ''
+                );
+            }
+
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+                $this->tabs_gui->addSubTabTarget(
+                    'logout_editor',
+                    $this->ctrl->getLinkTargetByClass(ilAuthLogoutPageEditorGUI::class)
+                );
+            }
+
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+                $this->tabs_gui->addSubTab(
+                    'style',
+                    $this->lng->txt('cont_style'),
+                    $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
                 );
             }
         }

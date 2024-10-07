@@ -18,50 +18,37 @@
 
 declare(strict_types=1);
 
-/**
- * Storage of editor settings
- *
- * @author Stefan Meyer <meyer@leifos.com>
- */
 class ilAuthLoginPageEditorSettings
 {
     public const MODE__UNDEFINED = 0;
     public const MODE_IPE = 2;
 
+    private static ?self $instance = null;
+
+    /**
+     * @var array<string, bool>
+     */
     private array $languages = [];
-
-    private static ?ilAuthLoginPageEditorSettings $instance = null;
     private ilSetting $storage;
-
-    private int $mode = 0;
-
+    private int $mode = self::MODE__UNDEFINED;
     private ilLanguage $lng;
 
-    public function __construct()
+    private function __construct()
     {
         global $DIC;
-        $this->lng = $DIC->language();
 
+        $this->lng = $DIC->language();
         $this->storage = new ilSetting('login_editor');
+
         $this->read();
     }
 
-    /**
-     * Get singelton instance
-     * @return ilAuthLoginPageEditorSettings
-     */
-    public static function getInstance(): ilAuthLoginPageEditorSettings
+    public static function getInstance(): self
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-        return self::$instance = new ilAuthLoginPageEditorSettings();
+        return self::$instance ?? (self::$instance = new self());
     }
 
-    /**
-     * @return ilSetting
-     */
-    protected function getStorage(): ilSetting
+    private function getStorage(): ilSetting
     {
         return $this->storage;
     }
@@ -76,41 +63,29 @@ class ilAuthLoginPageEditorSettings
         return $this->mode;
     }
 
-    /**
-     * Get ilias editor language
-     * @param string $a_langkey
-     * @return string
-     */
     public function getIliasEditorLanguage(string $a_langkey): string
     {
         if ($this->isIliasEditorEnabled($a_langkey)) {
             return $a_langkey;
         }
+
         if ($this->isIliasEditorEnabled($this->lng->getDefaultLanguage())) {
             return $this->lng->getDefaultLanguage();
         }
+
         return '';
     }
 
-    /**
-     * Enable editor for language
-     */
     public function enableIliasEditor(string $a_langkey, bool $a_status): void
     {
         $this->languages[$a_langkey] = $a_status;
     }
 
-    /**
-     * Check if ilias editor is enabled for a language
-     */
     public function isIliasEditorEnabled(string $a_langkey): bool
     {
         return $this->languages[$a_langkey] ?? false;
     }
 
-    /**
-     * Update settings
-     */
     public function update(): void
     {
         $this->getStorage()->set('mode', (string) $this->getMode());
@@ -120,17 +95,13 @@ class ilAuthLoginPageEditorSettings
         }
     }
 
-    /**
-     * Read settings
-     */
     public function read(): void
     {
         $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
 
-        // Language settings
         $this->languages = [];
         foreach ($this->lng->getInstalledLanguages() as $lngkey) {
-            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ""));
+            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ''));
         }
     }
 }

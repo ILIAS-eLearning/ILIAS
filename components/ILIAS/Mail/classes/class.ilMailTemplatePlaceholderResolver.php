@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 class ilMailTemplatePlaceholderResolver
 {
-    protected Mustache_Engine $mustache_engine;
-
-    public function __construct(Mustache_Engine $mustache_engine)
+    public function __construct(protected Mustache_Engine $mustache_engine)
     {
-        $this->mustache_engine = $mustache_engine;
     }
 
     /**

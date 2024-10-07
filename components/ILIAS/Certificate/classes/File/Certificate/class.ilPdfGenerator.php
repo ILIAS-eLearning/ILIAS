@@ -102,7 +102,7 @@ class ilPdfGenerator
             ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), 'file://' . CLIENT_WEB_DIR],
             $certificateContent
         );
-        
+
         $certificateContent = $this->mathJaxHelper->fillXlsFoContent($certificateContent);
 
         $pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);

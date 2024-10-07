@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
 use ILIAS\UI\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
 
 require_once(__DIR__ . "/../../../../Base.php");
@@ -58,7 +59,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
     protected SignalGenerator $signal_generator;
     protected NameSource $namesource;
     protected Refinery $refinery;
-    protected \ilLanguageMock $language;
+    protected Language $language;
 
     public function setUp(): void
     {
@@ -88,7 +89,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         );
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
             $dummy_input->getCanonicalName() .
             "</form>";
 
@@ -116,10 +117,12 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         );
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
-            $dummy_input->getCanonicalName() .
-            "<div class=\"il-standard-form-footer clearfix\"><span class=\"asterisk\">*</span><span class=\"small\"> $required_lang_var</span></div>" .
-            "</form>";
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            $dummy_input->getCanonicalName()
+            . "<div class=\"c-form__footer\">"
+            . "<div class=\"c-form__required\"><span class=\"asterisk\">*</span><span class=\"small\"> $required_lang_var</span></div>"
+            . "</div>"
+            . "</form>";
 
         $renderer = $this->getDefaultRenderer(null, [$dummy_input]);
 
@@ -160,8 +163,8 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         $data = $form->getData();
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
-            "<div class=\"help-block alert alert-danger\" role=\"alert\">$error_lang_var</div>" .
+            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<div class=\"c-form__error-msg alert alert-danger\" role=\"alert\">$error_lang_var</div>" .
             $dummy_input->getCanonicalName() .
             "</form>";
 

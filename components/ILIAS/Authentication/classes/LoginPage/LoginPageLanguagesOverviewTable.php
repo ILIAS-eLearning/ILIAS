@@ -26,7 +26,7 @@ use ilArrayUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use ilAuthLoginPageEditorSettings;
 use ilLanguage;
-use ilCtrl;
+use ilCtrlInterface;
 
 class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
@@ -34,15 +34,15 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
     private const DEACTIVATE = 'deactivate';
     private const EDIT = 'edit';
 
-    protected ServerRequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface $request;
+    private Data\Factory $data_factory;
     /**
      * @var list<array<string, mixed>>|null
      */
     private ?array $records = null;
 
     public function __construct(
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
@@ -115,12 +115,12 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
                 $overview_row_id
             ),
             self::ACTIVATE => $this->ui_factory->table()->action()->standard(
-                $this->lng->txt('login_page_activate'),
+                $this->lng->txt('page_design_activate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
             ),
             self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
-                $this->lng->txt('login_page_deactivate'),
+                $this->lng->txt('page_design_deactivate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
             )

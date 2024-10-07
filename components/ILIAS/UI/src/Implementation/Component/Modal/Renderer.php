@@ -40,11 +40,12 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Modal\Modal) {
+            $this->cannotHandleComponent($component);
+        }
 
         // If the modal is rendered async, we just create a fake container which will be
         // replaced by the modal upon successful ajax request
-        /** @var Modal $component */
         if ($component->getAsyncRenderUrl()) {
             return $this->renderAsync($component);
         }
@@ -56,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Modal\Lightbox) {
             return $this->renderLightbox($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -65,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
@@ -102,10 +103,16 @@ class Renderer extends AbstractComponentRenderer
             $options["url"] = "#$id";
             $options = json_encode($options);
             $code =
-                "$(document).on('$show', function(event, signalData) { il.UI.modal.showModal('$id', $options, signalData);});" .
-                "$(document).on('$close', function() { il.UI.modal.closeModal('$id');});";
+                "$(document).on('$show', function(event, signalData) {
+                    let modal = document.getElementById('$id');
+                    il.UI.modal.showModal(modal, $options, signalData, '$close');
+                });";
+
             if ($replace != "") {
-                $code .= "$(document).on('$replace', function(event, signalData) { il.UI.modal.replaceFromSignal('$id', signalData);});";
+                $code .= "$(document).on('$replace', function(event, signalData) {
+                    const id = event.target.closest('.c-modal').id;
+                    il.UI.core.replaceContent(id, signalData.options.url, 'component');
+                });";
             }
             return $code;
         });
@@ -258,18 +265,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable('ID_CAROUSEL4', $id_carousel);
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Modal\Interruptive::class,
-            Component\Modal\RoundTrip::class,
-            Component\Modal\Lightbox::class,
-        );
     }
 
     private function renderPage(LightboxPage $page, bool $first, Template $tpl, RendererInterface $default_renderer): void

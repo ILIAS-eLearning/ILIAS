@@ -77,9 +77,12 @@ class ilUserProfilePictureMachine extends AbstractMachine implements FlavourMach
 
         $i = 0;
         foreach ($for_definition->getSizes() as $size) {
+            if (($croped_image = $this->cropImage($stream, $size)) === null) {
+                continue;
+            }
             yield new Result(
                 $for_definition,
-                $this->cropImage($stream, $size),
+                $croped_image,
                 $i,
                 true
             );
@@ -90,7 +93,7 @@ class ilUserProfilePictureMachine extends AbstractMachine implements FlavourMach
     protected function cropImage(
         FileStream $stream,
         int $size
-    ) {
+    ): ?FileStream {
         $quality = $size <= self::FULL_QUALITY_SIZE_THRESHOLD
             ? 100 // we take 100% jpeg quality for small resultions
             : $this->definition->getQuality();
@@ -104,12 +107,12 @@ class ilUserProfilePictureMachine extends AbstractMachine implements FlavourMach
                 $size,
                 $quality
             )
-        )->current()->getStream();
+        )->current()?->getStream();
     }
 
     protected function makeGreyScale(
         FileStream $stream
-    ) {
+    ): ?FileStream {
         return $this->grey->processStream(
             $this->information,
             $stream,
@@ -117,6 +120,6 @@ class ilUserProfilePictureMachine extends AbstractMachine implements FlavourMach
                 false,
                 $this->definition->getQuality()
             )
-        )->current()->getStream();
+        )->current()?->getStream();
     }
 }

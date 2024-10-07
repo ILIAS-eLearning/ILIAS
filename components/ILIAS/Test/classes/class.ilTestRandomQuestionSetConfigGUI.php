@@ -527,7 +527,6 @@ class ilTestRandomQuestionSetConfigGUI
         $this->test_obj->saveCompleteStatus($this->question_set_config);
     }
 
-    // hey: randomPoolSelector - new pool selector explorer command
     protected function showPoolSelectorExplorerCmd(): void
     {
         $this->question_set_config->loadFromDb();
@@ -547,9 +546,8 @@ class ilTestRandomQuestionSetConfigGUI
             return;
         }
 
-        $this->tpl->setContent($selector->getHTML());
+        $this->tpl->setContent($selector->getHTML(true));
     }
-    // hey.
 
     private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null): void
     {

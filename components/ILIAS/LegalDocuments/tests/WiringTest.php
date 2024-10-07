@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
+use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\Refinery\Constraint;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerSlots\WithdrawProcess;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Map;
 use ILIAS\LegalDocuments\SlotConstructor;
 use PHPUnit\Framework\TestCase;
@@ -72,7 +72,6 @@ class WiringTest extends TestCase
 
         $this->assertSame([
             'withdraw',
-            'logout',
             'intercept',
             'logout-text',
             'show-on-login-page',
@@ -81,7 +80,6 @@ class WiringTest extends TestCase
         $this->assertTrue(array_is_list($map['intercept']));
         $this->assertTrue(array_is_list($map['show-on-login-page']));
         $this->assertFalse(array_is_list($map['withdraw']));
-        $this->assertFalse(array_is_list($map['logout']));
         $this->assertFalse(array_is_list($map['logout-text']));
     }
 
@@ -184,6 +182,19 @@ class WiringTest extends TestCase
         );
 
         $this->assertSame($map, $instance->hasUserManagementFields($proc)->map());
+    }
+
+    public function testHasPublicApi(): void
+    {
+        $map = $this->mock(Map::class);
+        $public_api = $this->mock(PublicApi::class);
+
+        $instance = new Wiring(
+            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
+            $this->mockMethod(Map::class, 'set', ['public-api', 'foo', $public_api], $map)
+        );
+
+        $this->assertSame($map, $instance->hasPublicApi($public_api)->map());
     }
 
     public function testMap(): void

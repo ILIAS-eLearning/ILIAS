@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\UI\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -92,9 +90,6 @@ class ilLDAPServerTest extends TestCase
         $setting = $DIC['ilSetting'];
         $setting->method("get")->willReturnCallback(
             function ($arg) {
-                if ($arg === 'session_handling_type') {
-                    return (string) ilSession::SESSION_HANDLING_FIXED;
-                }
                 if ($arg === 'session_statistics') {
                     return "0";
                 }
@@ -120,9 +115,6 @@ class ilLDAPServerTest extends TestCase
         $setting = $DIC['ilSetting'];
         $setting->method("get")->willReturnCallback(
             function ($arg) {
-                if ($arg === 'session_handling_type') {
-                    return (string) ilSession::SESSION_HANDLING_FIXED;
-                }
                 if ($arg === 'session_statistics') {
                     return "0";
                 }

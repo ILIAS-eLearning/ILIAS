@@ -17,7 +17,7 @@ The presentation uses some legacy templates, e.g. ilLMContentRendererGUI. This s
 
 ### Refactor Editing Clipboard
 
-- The editing cliboard uses static calls to `ilEditClipboard` and features in `ilUser`. This should be moved to one decent repo class in `Modules/LearningModule`.
+- The editing cliboard uses static calls to `ilEditClipboard` and features in `ilUser`. This should be moved to one decent repo class in `ILIAS/LearningModule`.
 
 ### Improve Architecture
 

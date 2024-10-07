@@ -24,7 +24,6 @@ use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilLanguage;
-use ilConfirmationGUI;
 
 require_once __DIR__ . '/../ContainerMock.php';
 

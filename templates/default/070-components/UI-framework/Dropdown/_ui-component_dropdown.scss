@@ -56,13 +56,13 @@ $cursor-disabled: not-allowed !default;
   .dropdown {
 	position: relative;
 	display: inline-block; // so dropdown can be in one line with a button
+	min-width: max-content;
   }
   
   // The dropdown menu (ul)
   .dropdown-menu {
 	position: absolute;
 	top: 100%;
-	left: 0;
 	z-index: $zindex-dropdown;
 	display: none; // none by default, but block on "open" of the menu
 	float: left;
@@ -87,7 +87,17 @@ $cursor-disabled: not-allowed !default;
 	  right: 0;
 	  left: auto;
 	}
-  
+ 
+	&.dropdown-menu__right {
+	  right: auto;
+	  left: 0;
+	}
+	&.dropdown-menu__left {
+	  right: 0;
+	  left: auto;
+	}
+	
+
 	// Dividers (basically an hr) within the dropdown
 	.divider {
 	  @include t-ndiv.nav-divider($dropdown-divider-bg);

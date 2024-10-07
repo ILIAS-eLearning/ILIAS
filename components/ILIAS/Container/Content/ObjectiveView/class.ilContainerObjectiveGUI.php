@@ -868,6 +868,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      * @param bool        $a_sub
      * @param int         $a_sub_style
      * @return string
+     * @deprecated use ks progress or ks progress bar meter instead
      */
     public static function renderProgressBar(
         int $a_perc_result = null,
@@ -926,11 +927,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             #$tpl->parseCurrentBlock();
         }
 
-        if ($a_tt_id &&
-            $a_tt_txt) {
-            ilTooltipGUI::addTooltip($a_tt_id, $a_tt_txt);
-        }
-
         if ($a_sub) {
             $tpl->setVariable("SUB_STYLE", ' style="padding-left: ' . $a_sub_style . 'px;"');
             $tpl->setVariable("SUB_INIT", $a_sub);
@@ -946,8 +942,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      * @param int|null    $a_compare_value
      * @param string|null $a_caption
      * @param string|null $a_url
-     * @param string|null $a_tt_id
-     * @param string|null $a_tt_txt
+     * @param string|null $a_tt_id (deprecated, does not seem to be used)
+     * @param string|null $a_tt_txt (deprecated, does not seem to be used)
      * @param string|null $a_next_step
      * @param bool        $a_sub
      * @param int         $a_sub_style
@@ -1011,11 +1007,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             //$tpl->setCurrentBlock("nstep_bl");
             $tpl->setVariable("TXT_NEXT_STEP", $a_next_step);
             //$tpl->parseCurrentBlock();
-        }
-
-        if ($a_tt_id &&
-            $a_tt_txt) {
-            ilTooltipGUI::addTooltip($a_tt_id, $a_tt_txt);
         }
 
         if ($a_sub) {

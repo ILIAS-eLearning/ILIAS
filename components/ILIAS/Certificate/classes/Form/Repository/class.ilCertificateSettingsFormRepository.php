@@ -102,7 +102,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
-        $command = $this->ctrl->getCmd();
+        $command = $this->ctrl->getCmd() ?? '';
 
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
@@ -249,17 +249,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $form->addItem($rect);
 
         $certificate = new ilTextAreaInputGUI($this->language->txt('certificate_text'), 'certificate_text');
-        $certificate->setInfo($this->language->txt('certificate_text_info'));
-        $certificate->removePlugin('ilimgupload');
         $certificate->setRequired(true);
         $certificate->setRows(20);
         $certificate->setCols(80);
 
-        $placeholderHtmlDescription = $this->placeholderDescriptionObject->createPlaceholderHtmlDescription();
-
-        $placeholderDescriptionInHtml = $placeholderHtmlDescription;
-
-        $certificate->setInfo($placeholderDescriptionInHtml);
+        $certificate->setInfo(
+            $this->language->txt('certificate_text_info') . $this->placeholderDescriptionObject->createPlaceholderHtmlDescription()
+        );
 
         $certificate->setUseRte(true, '3.4.7');
 

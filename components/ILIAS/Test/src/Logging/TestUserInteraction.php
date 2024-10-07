@@ -39,7 +39,6 @@ interface TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repo,
         UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow;

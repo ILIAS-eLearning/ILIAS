@@ -24,13 +24,13 @@ use ILIAS\Data\Result\Error;
 use ilObjUser;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\Value\Document;
 use Closure;
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting\BooleanSetting;
 use ILIAS\LegalDocuments\Provide;
 use ilAuthUtils;
 use ILIAS\Data\Clock\ClockInterface as Clock;
+use DateTimeImmutable;
 
 class User
 {
@@ -86,6 +86,10 @@ class User
 
     public function needsToAcceptNewDocument(): bool
     {
+        if ($this->neverAgreed()) {
+            return true;
+        }
+
         $true = fn() => new Ok(true);
         $db = $this->legal_documents->history();
 

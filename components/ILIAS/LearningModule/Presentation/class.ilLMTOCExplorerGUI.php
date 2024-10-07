@@ -314,13 +314,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
             }
         }
 
-        if ($a_node["type"] == "pg") {
-            // check public area mode
-            if ($ilUser->getId() == ANONYMOUS_USER_ID && !ilLMObject::_isPagePublic($a_node["child"], true)) {
-                return false;
-            }
-        }
-
         return true;
     }
 

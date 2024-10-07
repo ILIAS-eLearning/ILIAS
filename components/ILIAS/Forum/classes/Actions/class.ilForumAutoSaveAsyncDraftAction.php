@@ -18,26 +18,19 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilForumSaveAsyncDraftAction
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
 class ilForumAutoSaveAsyncDraftAction
 {
-    private Closure $subjectFormatterCallable;
-
     public function __construct(
-        private ilObjUser $actor,
-        private ilPropertyFormGUI $form,
-        private ilForumProperties $forumProperties,
-        private ilForumTopic $thread,
-        private ?ilForumPost $relatedPost,
-        Closure $subjectFormatterCallable,
+        private readonly ilObjUser $actor,
+        private readonly ilPropertyFormGUI $form,
+        private readonly ilForumProperties $forumProperties,
+        private readonly ilForumTopic $thread,
+        private readonly ?ilForumPost $relatedPost,
+        private Closure $subjectFormatterCallable,
         private int $relatedDraftId,
-        private int $relatedForumId,
-        private string $action
+        private readonly int $relatedForumId,
+        private readonly string $action
     ) {
-        $this->subjectFormatterCallable = $subjectFormatterCallable;
     }
 
     public function executeAndGetResponseObject(): stdClass

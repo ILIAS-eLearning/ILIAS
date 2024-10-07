@@ -26,7 +26,7 @@ class ilForumDraftsHistory
 {
     public const MEDIAOBJECT_TYPE = 'frm~h:html';
 
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private int $history_id = 0;
     private int $draft_id = 0;
     private string $post_subject = '';

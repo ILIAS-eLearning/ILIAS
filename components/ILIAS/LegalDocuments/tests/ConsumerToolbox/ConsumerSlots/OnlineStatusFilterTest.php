@@ -22,8 +22,6 @@ namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ilRbacReview;
-use ilDBInterface;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\OnlineStatusFilter;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../ContainerMock.php';

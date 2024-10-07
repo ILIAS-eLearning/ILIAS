@@ -1,6 +1,6 @@
 # Multilinguasm
 
-There is a high dependency of this component to Services/Object, especially the ObjectTranslation classes.
+There is a high dependency of this component to ILIAS/Object, especially the ObjectTranslation classes.
 
 ## Variants of support
 - Objects may not use any translations at all

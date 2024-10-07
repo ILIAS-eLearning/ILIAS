@@ -1,7 +1,7 @@
 # User Data
 ## Access Data of the User Currently Logged in
 
-An instance of class `ilObjUser` for the user currently logged in ILIAS is available through the DI-Container. You can use the public methods of this class to access the data of the current user (see `Services/User/classes/class.ilObjUser.php`):
+An instance of class `ilObjUser` for the user currently logged in ILIAS is available through the DI-Container. You can use the public methods of this class to access the data of the current user (see `components/ILIAS/User/classes/class.ilObjUser.php`):
 
 ```php
 function foo()

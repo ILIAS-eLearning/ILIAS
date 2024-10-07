@@ -32,13 +32,14 @@ use ilObjUser;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\Data\Result\Ok;
 use Closure;
+use ILIAS\UI\Component\Component;
+use ilFormPropertyGUI;
 
 final class SelfRegistration implements SelfRegistrationInterface
 {
     private readonly Closure $create_input;
 
     /**
-     * @param Closure(ilObjUser $user): User
      * @param Closure(list<Component>|Component): string $render
      * @param Closure(ilObjUser): User $build_user
      * @param Closure(string): object $create_input
@@ -86,6 +87,9 @@ final class SelfRegistration implements SelfRegistrationInterface
         ($this->build_user)($user)->acceptMatchingDocument();
     }
 
+    /**
+     * @return array<ilFormPropertyGUI|ilFormSectionHeaderGUI>
+     */
     private function guis(Document $document): array
     {
         $header = ($this->create_input)(ilFormSectionHeaderGUI::class);

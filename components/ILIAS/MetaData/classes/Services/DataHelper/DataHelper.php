@@ -95,4 +95,19 @@ class DataHelper implements DataHelperInterface
     {
         return $this->internal_helper->datetimeFromObject($object);
     }
+
+    /**
+     * @return LabelledValueInterface[]
+     */
+    public function getAllLanguages(): array
+    {
+        $languages = [];
+        foreach ($this->internal_helper->getAllLanguages() as $language) {
+            $languages[] = new LabelledValue(
+                $language,
+                $this->data_presentation->language($language)
+            );
+        }
+        return $languages;
+    }
 }

@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Component\Dropzone\File\File as FileDropzone;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\DI\UIServices;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -37,6 +38,7 @@ class ilObjFileUploadDropzone
     protected ilAccess $access;
     protected UIServices $ui;
     protected \ILIAS\Refinery\Factory $refinery;
+    protected LOMServices $lom_services;
 
     protected int $target_ref_id;
     protected ?string $content;
@@ -52,6 +54,7 @@ class ilObjFileUploadDropzone
         $this->ctrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
         $this->refinery = $DIC->refinery();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->upload_handler = new ilObjFileUploadHandlerGUI();
         $this->target_ref_id = $target_ref_id;
@@ -62,7 +65,7 @@ class ilObjFileUploadDropzone
     {
         static $active;
         if ($active === null) {
-            $active = ilMDSettings::_getInstance()->isCopyrightSelectionActive();
+            $active = $this->lom_services->copyrightHelper()->isCopyrightSelectionActive();
         }
         return $active;
     }

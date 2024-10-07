@@ -29,6 +29,8 @@ use ILIAS\Repository\Object\ObjectAdapterInterface;
 use ILIAS\Repository\Object\ObjectAdapter;
 use ILIAS\Repository\Profile\ProfileAdapter;
 use ILIAS\Repository\Resources\DomainService;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\StaticURL\Services as StaticUrl;
 
 trait GlobalDICDomainServices
 {
@@ -121,11 +123,21 @@ trait GlobalDICDomainServices
         return $this->DIC->backgroundTasks();
     }
 
+    public function learningObjectMetadata(): LOMServices
+    {
+        return $this->DIC->learningObjectMetadata();
+    }
+
     public function resources(): DomainService
     {
         return new DomainService(
             $this->DIC->archives(),
             $this->DIC->legacyArchives()
         );
+    }
+
+    public function staticUrl(): StaticUrl
+    {
+        return $this->DIC['static_url'];
     }
 }

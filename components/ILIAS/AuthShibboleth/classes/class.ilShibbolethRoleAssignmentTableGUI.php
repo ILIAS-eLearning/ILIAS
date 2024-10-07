@@ -23,14 +23,16 @@
  */
 class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 {
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct(ilAuthShibbolethSettingsGUI $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
         $this->addColumn('', 'f', 1);
         $this->addColumn($this->lng->txt('shib_rule_type'), 'type', "20%");
         $this->addColumn($this->lng->txt('shib_ilias_role'), 'role', "30%");
@@ -42,6 +44,9 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);

@@ -32,8 +32,8 @@ abstract class ilExplorerBaseGUI
     protected ilCtrl $ctrl;
     protected ?ilGlobalTemplateInterface $tpl;
 
-    protected static string $js_tree_path = "./assets/js/jstree.js";
-    protected static string $js_tree_path_css = "./assets/css/style.min.css";
+    protected static string $js_tree_path = "./node_modules/jstree/dist/jstree.js";
+    protected static string $js_tree_path_css = "./node_modules/jstree/dist/themes/default/style.min.css";
 
     protected static string $js_expl_path = "assets/js/Explorer2.js";
     protected bool $skip_root_node = false;

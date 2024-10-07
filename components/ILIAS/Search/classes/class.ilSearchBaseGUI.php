@@ -56,6 +56,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
     protected ilSearchSettings $settings;
     protected ?ilPropertyFormGUI $form = null;
+    protected ?ilSearchFilterGUI $search_filter = null;
+    protected ?array $search_filter_data = null;
     protected ClipboardManager $clipboard;
     protected ViewManager $container_view_manager;
     protected ilFavouritesManager $favourites;
@@ -126,30 +128,28 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->tpl->setTitle($this->lng->txt("search"));
     }
 
+    /**
+     * @todo: Check if this can be removed. Still used in ilLuceneUserSearchGUI?
+     */
     public function initStandardSearchForm(int $a_mode): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setOpenTag(false);
         $this->form->setCloseTag(false);
 
-        // term combination
-        $radg = new ilHiddenInputGUI('search_term_combination');
-        $radg->setValue((string) ilSearchSettings::getInstance()->getDefaultOperator());
-        $this->form->addItem($radg);
-
         if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
+            $radg = new ilRadioGroupInputGUI($this->lng->txt("search_type"), "type");
             if ($a_mode == self::SEARCH_FORM_STANDARD) {
                 // search type
-                $radg = new ilRadioGroupInputGUI($this->lng->txt("search_type"), "type");
                 $radg->setValue(
                     $this->getType() ==
-                        ilSearchBaseGUI::SEARCH_FAST ?
-                        (string) ilSearchBaseGUI::SEARCH_FAST :
-                        (string) ilSearchBaseGUI::SEARCH_DETAILS
+                        self::SEARCH_FAST ?
+                        (string) self::SEARCH_FAST :
+                        (string) self::SEARCH_DETAILS
                 );
-                $op1 = new ilRadioOption($this->lng->txt("search_fast_info"), (string) ilSearchBaseGUI::SEARCH_FAST);
+                $op1 = new ilRadioOption($this->lng->txt("search_fast_info"), (string) self::SEARCH_FAST);
                 $radg->addOption($op1);
-                $op2 = new ilRadioOption($this->lng->txt("search_details_info"), (string) ilSearchBaseGUI::SEARCH_DETAILS);
+                $op2 = new ilRadioOption($this->lng->txt("search_details_info"), (string) self::SEARCH_DETAILS);
             } else {
                 $op2 = new ilCheckboxInputGUI($this->lng->txt('search_filter_by_type'), 'item_filter_enabled');
                 $op2->setValue('1');
@@ -188,7 +188,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                 $op2->setChecked(true);
             }
 
-            if ($a_mode == ilSearchBaseGUI::SEARCH_FORM_STANDARD) {
+            if ($a_mode == self::SEARCH_FORM_STANDARD) {
                 $radg->addOption($op2);
                 $this->form->addItem($radg);
             } else {
@@ -199,41 +199,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
         return $this->form;
     }
-
-
-    public function getSearchAreaForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setOpenTag(false);
-        $form->setCloseTag(false);
-
-        // term combination
-        $radg = new ilHiddenInputGUI('search_term_combination');
-        $radg->setValue((string) ilSearchSettings::getInstance()->getDefaultOperator());
-        $form->addItem($radg);
-
-        // search area
-        $ti = new ilRepositorySelectorInputGUI($this->lng->txt("search_area"), "area");
-        $ti->setSelectText($this->lng->txt("search_select_search_area"));
-        $form->addItem($ti);
-        $ti->readFromSession();
-
-        // alex, 15.8.2012: Added the following lines to get the value
-        // from the main menu top right input search form
-        if ($this->http->wrapper()->post()->has('root_id')) {
-            $ti->setValue(
-                $this->http->wrapper()->post()->retrieve(
-                    'root_id',
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-            $ti->writeToSession();
-        }
-        $form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
-
-        return $form;
-    }
-
 
     public function handleCommand(string $a_cmd): void
     {
@@ -436,71 +401,75 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         exit;
     }
 
-    protected function getCreationDateForm(): ilPropertyFormGUI
-    {
-        $options = $this->search_cache->getCreationFilter();
-
-        $form = new ilPropertyFormGUI();
-        $form->setOpenTag(false);
-        $form->setCloseTag(false);
-
-        $enabled = new ilCheckboxInputGUI($this->lng->txt('search_filter_cd'), 'screation');
-        $enabled->setValue('1');
-        $enabled->setChecked((bool) ($options['enabled'] ?? false));
-        $form->addItem($enabled);
-
-
-        $limit_sel = new ilSelectInputGUI('', 'screation_ontype');
-        $limit_sel->setValue($options['ontype'] ?? '');
-        $limit_sel->setOptions(
-            array(
-                    1 => $this->lng->txt('search_created_after'),
-                    2 => $this->lng->txt('search_created_before'),
-                    3 => $this->lng->txt('search_created_on')
-            )
-        );
-        $enabled->addSubItem($limit_sel);
-
-
-        if ($options['date'] ?? false) {
-            $now = new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
-        } else {
-            $now = new ilDate(time(), IL_CAL_UNIX);
-        }
-        $ds = new ilDateTimeInputGUI('', 'screation_date');
-        $ds->setRequired(true);
-        $ds->setDate($now);
-        $enabled->addSubItem($ds);
-
-        $form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
-
-        return $form;
-    }
-
     protected function getSearchCache(): ilUserSearchCache
     {
         return $this->search_cache;
     }
 
     /**
-     * @return array<{enabled: bool, type: string, ontype: int, date: ilDate, duration: int}>
+     * @return array<{date_start: string, date_end: string}>
      */
     protected function loadCreationFilter(): array
     {
         if (!$this->settings->isDateFilterEnabled()) {
-            return array();
+            return [];
         }
 
-
-        $form = $this->getCreationDateForm();
-        $options = array();
-        if ($form->checkInput()) {
-            $options['enabled'] = $form->getInput('screation');
-            $options['type'] = $form->getInput('screation_type');
-            $options['ontype'] = $form->getInput('screation_ontype');
-            $options['date'] = $form->getItemByPostVar('screation_date')->getDate()->get(IL_CAL_UNIX);
-            $options['duration'] = $form->getInput('screation_duration');
+        $options = [];
+        if (isset($this->search_filter_data["search_date"])) {
+            $options["date_start"] = $this->search_filter_data["search_date"][0];
+            $options["date_end"] = $this->search_filter_data["search_date"][1];
         }
+
         return $options;
+    }
+
+    protected function renderSearch(string $term, int $root_node = 0)
+    {
+        ilOverlayGUI::initJavascript();
+        $this->tpl->addJavascript("assets/js/Search.js");
+
+        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "performSearch"));
+        $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($term));
+        $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
+        $btn = ilSubmitButton::getInstance();
+        $btn->setCommand("performSearch");
+        $btn->setCaption("search");
+        $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
+
+        if ($root_node) {
+            $this->renderFilter($root_node);
+        }
+    }
+
+    protected function renderFilter(int $root_node)
+    {
+        $filter_html = $this->search_filter->getHTML();
+        preg_match('/id="([^"]+)"/', $filter_html, $matches);
+        $filter_id = $matches[1];
+        $this->tpl->setVariable("SEARCH_FILTER", $filter_html);
+        // scope in filter must be manipulated by JS if search is triggered in meta bar
+        $this->tpl->addOnLoadCode("il.Search.syncFilterScope('" . $filter_id . "', '" . $root_node . "');");
+    }
+
+    protected function initFilter(int $mode)
+    {
+        $this->search_filter = new ilSearchFilterGUI($this, $mode);
+        $this->search_filter_data = $this->search_filter->getData();
+    }
+
+    protected function getStringArrayTransformation(): ILIAS\Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(
+            static function (array $arr): array {
+                // keep keys(!), transform all values to string
+                return array_map(
+                    static function ($v): string {
+                        return \ilUtil::stripSlashes((string) $v);
+                    },
+                    $arr
+                );
+            }
+        );
     }
 }

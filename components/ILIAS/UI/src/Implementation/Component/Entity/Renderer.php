@@ -34,8 +34,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-        return $this->renderEntity($component, $default_renderer);
+        if ($component instanceof Component\Entity\Entity) {
+            return $this->renderEntity($component, $default_renderer);
+        }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderEntity(Entity $component, RendererInterface $default_renderer): string
@@ -90,15 +92,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $default_renderer->render($values);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Entity\Standard::class
-        ];
     }
 }

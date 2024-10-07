@@ -27,14 +27,12 @@ use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\LegalDocuments\PageFragment\PageContent;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
-use ilSession;
-use ilInitialisation;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use Closure;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
-use ilStartUpGUI;
+use ILIAS\Refinery\Transformation;
 
 final class WithdrawProcess implements WithdrawProcessInterface
 {
@@ -55,7 +53,10 @@ final class WithdrawProcess implements WithdrawProcessInterface
 
     public function showValidatePasswordMessage(): array
     {
-        $status = $this->query('withdrawal_relogin_content');
+        $status = $this->withdrawalRequested();
+        if ($status === null) {
+            return [];
+        }
         $lng = 'withdraw_consent_description_' . ($status === 'external' ? 'external' : 'internal');
 
         return [
@@ -69,17 +70,17 @@ final class WithdrawProcess implements WithdrawProcessInterface
         return $this->user->withdrawalRequested()->value();
     }
 
-    public function withdrawalRequested(): void
+    private function withdrawalRequested(): ?string
     {
         if ($this->user->cannotAgree() || $this->user->neverAgreed()) {
-            return;
+            return null;
         }
 
         $this->user->withdrawalRequested()->update(true);
 
         $external = $this->user->isExternalAccount();
 
-        $this->routing->ctrl()->setParameterByClass(ilStartUpGUI::class, 'withdrawal_relogin_content', $external ? 'external' : 'internal');
+        return $external ? 'external' : 'internal';
     }
 
     public function withdrawalFinished(): void
@@ -167,11 +168,6 @@ final class WithdrawProcess implements WithdrawProcessInterface
         $mail = new Mail();
         $mail->setRecipients([$this->settings->adminEmail()->value()]);
         $mail->sendGeneric($this->ui->txt('withdrawal_mail_subject'), $this->user->format($this->ui->txt('withdrawal_mail_text')));
-    }
-
-    private function refuseContent($components): PageFragment
-    {
-        return new PageContent($this->ui->txt('refuse_tos_acceptance'), $components);
     }
 
     private function query(string $query_parameter): ?string

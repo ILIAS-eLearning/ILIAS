@@ -44,14 +44,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case 'illearningprogressgui':
-                $this->tabs_gui->setTabActive('learning_progress');
-                $lp_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION
-                );
-                $this->ctrl->forwardCommand($lp_gui);
-                break;
-
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->activateTab('statistics');
                 $os_gui = new ilLPObjectStatisticsGUI(
@@ -103,18 +95,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                     ),
                     "",
                     "illpobjectstatisticsgui"
-                );
-            }
-
-            if (ilObjUserTracking::_enabledLearningProgress()) {
-                $this->tabs_gui->addTarget(
-                    "learning_progress",
-                    $this->ctrl->getLinkTargetByClass(
-                        "illearningprogressgui",
-                        "show"
-                    ),
-                    "",
-                    "illearningprogressgui"
                 );
             }
 

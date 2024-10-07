@@ -309,7 +309,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     private function getPostMessage(): string
     {
-        $pos_message = $this->provider->getPostMessage();
+        $pos_message = $this->provider->getPostMessage() ?? '';
         if (strip_tags($pos_message) !== $pos_message) {
             $pos_message = preg_replace("/\n/i", "", $pos_message);
             $pos_message = preg_replace("/<li([^>]*)>/i", "\n<li$1>", $pos_message);

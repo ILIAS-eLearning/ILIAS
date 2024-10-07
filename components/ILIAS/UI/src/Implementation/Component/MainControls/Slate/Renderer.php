@@ -30,7 +30,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof ISlate\Slate) {
+            $this->cannotHandleComponent($component);
+        }
+
         switch (true) {
             case ($component instanceof ISlate\Notification):
                 return $this->renderNotificationSlate($component, $default_renderer);
@@ -175,18 +178,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/maincontrols.min.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            ISlate\Legacy::class,
-            ISlate\Combined::class,
-            ISlate\Notification::class,
-            ISlate\Drilldown::class
-        );
     }
 }

@@ -13,47 +13,91 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 declare(strict_types=1);
 
+use ILIAS\AccessControl\Log\Table;
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
- * New PermissionGUI (extends from old ilPermission2GUI)
- * RBAC related output
- *
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @version      $Id$
  * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI, ilObjectPermissionStatusGUI
  * @ingroup      ServicesAccessControl
  */
-class ilPermissionGUI extends ilPermission2GUI
+class ilPermissionGUI
 {
-    protected const CMD_PERM_POSITIONS = 'permPositions';
     public const CMD_SAVE_POSITIONS_PERMISSIONS = 'savePositionsPermissions';
+    private const CMD_PERM_POSITIONS = 'permPositions';
+    private const TAB_POSITION_PERMISSION_SETTINGS = "position_permission_settings";
 
-    protected object $current_obj;
+    private ilObjectGUI $current_obj;
 
-    protected ilRecommendedContentManager $recommended_content_manager;
-    protected ilToolbarGUI $toolbar;
-    protected UIFactory $ui_factory;
-    protected ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
-    protected ilOrgUnitPositionDBRepository $positionRepo;
-    protected ilOrgUnitPermissionDBRepository $permissionRepo;
-    protected ilOrgUnitOperationDBRepository $operationRepo;
+    private ilRecommendedContentManager $recommended_content_manager;
+    private ilOrgUnitPositionDBRepository $positionRepo;
+    private ilOrgUnitPermissionDBRepository $permissionRepo;
+    private ilOrgUnitOperationDBRepository $operationRepo;
 
-    public function __construct(object $a_gui_obj)
+    private ilObjectGUI $gui_obj;
+    private ilErrorHandling $ilErr;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilObjectDefinition $object_definition;
+    private ilGlobalTemplateInterface $tpl;
+    private ilUIService $ui_service;
+    private ilRbacSystem $rbacsystem;
+    private ilRbacReview $rbacreview;
+    private ilRbacAdmin $rbacadmin;
+    private ilObjectDataCache $objectDataCache;
+    private ilTabsGUI $tabs;
+    private GlobalHttpState $http;
+    private Factory $refinery;
+    private ilToolbarGUI $toolbar;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+    private DataFactory $data_factory;
+    private ilDBInterface $db;
+    private ilObjUser $user;
+    private ilTree $tree;
+
+    public function __construct(ilObjectGUI $a_gui_obj)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->wrapper = $DIC->http()->wrapper();
+        $this->object_definition = $DIC['objDefinition'];
+        $this->ui_service = $DIC->uiService();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->rbacreview = $DIC['rbacreview'];
+        $this->rbacadmin = $DIC['rbacadmin'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->ilErr = $DIC['ilErr'];
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->ui_factory = $DIC['ui.factory'];
-        parent::__construct($a_gui_obj);
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->db = $DIC['ilDB'];
+        $this->user = $DIC['ilUser'];
+        $this->tree = $DIC['tree'];
+
+        $this->data_factory = new DataFactory();
         $this->recommended_content_manager = new ilRecommendedContentManager();
+
+        $this->lng->loadLanguageModule('rbac');
+        $this->gui_obj = $a_gui_obj;
+        $this->tabs->activateTab('perm_settings');
     }
 
     private function getPositionRepo(): ilOrgUnitPositionDBRepository
@@ -147,7 +191,7 @@ class ilPermissionGUI extends ilPermission2GUI
     /**
      * Called after toolbar action applyTemplateSwitch
      */
-    protected function confirmTemplateSwitch(): void
+    public function confirmTemplateSwitch(): void
     {
         $this->ctrl->setReturn($this, 'perm');
         // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
@@ -167,7 +211,7 @@ class ilPermissionGUI extends ilPermission2GUI
             $this->toolbar->addSeparator();
         }
 
-        if ($this->objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) && !$this->isAdministrationObject()
+        if ($this->object_definition->hasLocalRoles($this->getCurrentObject()->getType()) && !$this->isAdministrationObject()
         ) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
@@ -195,12 +239,12 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function isAdminRoleFolder(): bool
+    private function isAdminRoleFolder(): bool
     {
         return $this->getCurrentObject()->getRefId() == ROLE_FOLDER_ID;
     }
 
-    protected function isAdministrationObject(): bool
+    private function isAdministrationObject(): bool
     {
         return $this->getCurrentObject()->getType() == 'adm';
     }
@@ -208,12 +252,12 @@ class ilPermissionGUI extends ilPermission2GUI
     /**
      * Check if node is subobject of administration folder
      */
-    protected function isInAdministration(): bool
+    private function isInAdministration(): bool
     {
-        return (bool) $GLOBALS['DIC']['tree']->isGrandChild(SYSTEM_FOLDER_ID, $this->getCurrentObject()->getRefId());
+        return $this->tree->isGrandChild(SYSTEM_FOLDER_ID, $this->getCurrentObject()->getRefId());
     }
 
-    protected function applyFilter(): void
+    public function applyFilter(): void
     {
         $table = new ilObjectRolePermissionTableGUI($this, 'perm', $this->getCurrentObject()->getRefId());
         $table->resetOffset();
@@ -221,7 +265,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->perm($table);
     }
 
-    protected function resetFilter(): void
+    public function resetFilter(): void
     {
         $table = new ilObjectRolePermissionTableGUI($this, 'perm', $this->getCurrentObject()->getRefId());
         $table->resetOffset();
@@ -283,16 +327,10 @@ class ilPermissionGUI extends ilPermission2GUI
 
     protected function savePermissions(): void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $objDefinition = $DIC['objDefinition'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         $table = new ilObjectRolePermissionTableGUI($this, 'perm', $this->getCurrentObject()->getRefId());
 
         $roles = $this->applyRoleFilter(
-            $rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId()),
+            $this->rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId()),
             (int) $table->getFilterItemByPostVar('role')->getValue()
         );
 
@@ -300,19 +338,19 @@ class ilPermissionGUI extends ilPermission2GUI
         $log_old = ilRbacLog::gatherFaPa($this->getCurrentObject()->getRefId(), array_keys((array) $roles));
 
         # all possible create permissions
-        $possible_ops_ids = $rbacreview->getOperationsByTypeAndClass(
+        $possible_ops_ids = $this->rbacreview->getOperationsByTypeAndClass(
             $this->getCurrentObject()->getType(),
             'create'
         );
 
         # createable (activated) create permissions
-        $create_types = $objDefinition->getCreatableSubObjects(
+        $create_types = $this->object_definition->getCreatableSubObjects(
             $this->getCurrentObject()->getType()
         );
         $createable_ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys((array) $create_types));
 
-        $post_perm = $this->wrapper->post()->has('perm')
-            ? $this->wrapper->post()->retrieve(
+        $post_perm = $this->http->wrapper()->post()->has('perm')
+            ? $this->http->wrapper()->post()->retrieve(
                 'perm',
                 $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->dictOf(
@@ -328,7 +366,7 @@ class ilPermissionGUI extends ilPermission2GUI
             }
 
             $new_ops = array_keys((array) ($post_perm[$role] ?? []));
-            $old_ops = $rbacreview->getRoleOperationsOnObject(
+            $old_ops = $this->rbacreview->getRoleOperationsOnObject(
                 $role,
                 $this->getCurrentObject()->getRefId()
             );
@@ -343,12 +381,12 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
             }
 
-            $rbacadmin->revokePermission(
+            $this->rbacadmin->revokePermission(
                 $this->getCurrentObject()->getRefId(),
                 $role
             );
 
-            $rbacadmin->grantPermission(
+            $this->rbacadmin->grantPermission(
                 $role,
                 array_unique($new_ops),
                 $this->getCurrentObject()->getRefId()
@@ -356,8 +394,8 @@ class ilPermissionGUI extends ilPermission2GUI
         }
 
         if (ilPermissionGUI::hasContainerCommands($this->getCurrentObject()->getType())) {
-            $inherit_post = $this->wrapper->post()->has('inherit')
-                ? $this->wrapper->post()->retrieve(
+            $inherit_post = $this->http->wrapper()->post()->has('inherit')
+                ? $this->http->wrapper()->post()->retrieve(
                     'inherit',
                     $this->refinery->kindlyTo()->dictOf(
                         $this->refinery->kindlyTo()->bool()
@@ -380,7 +418,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 if (
                     $parent_id === $this->getCurrentObject()->getRefId()
                     && !isset($inherit_post[$obj_id])
-                    && !$rbacreview->isBlockedAtPosition($obj_id, $this->getCurrentObject()->getRefId())
+                    && !$this->rbacreview->isBlockedAtPosition($obj_id, $this->getCurrentObject()->getRefId())
                 ) {
                     ilLoggerFactory::getLogger('ac')->debug('Stop local policy for: ' . $role['obj_id']);
                     $role_obj = ilObjectFactory::getInstanceByObjId($obj_id);
@@ -394,35 +432,35 @@ class ilPermissionGUI extends ilPermission2GUI
                     && isset($inherit_post[$obj_id])
                 ) {
                     ilLoggerFactory::getLogger('ac')->debug('Create local policy');
-                    $rbacadmin->copyRoleTemplatePermissions(
+                    $this->rbacadmin->copyRoleTemplatePermissions(
                         $obj_id,
                         $parent_id,
                         $this->getCurrentObject()->getRefId(),
                         $obj_id
                     );
                     ilLoggerFactory::getLogger('ac')->debug('Assign role to folder');
-                    $rbacadmin->assignRoleToFolder($obj_id, $this->getCurrentObject()->getRefId(), 'n');
+                    $this->rbacadmin->assignRoleToFolder($obj_id, $this->getCurrentObject()->getRefId(), 'n');
                 }
             }
         }
 
         // Protect permissions
         if (ilPermissionGUI::hasContainerCommands($this->getCurrentObject()->getType())) {
-            $protected_post = $this->wrapper->post()->has('protect')
-                ? $this->wrapper->post()->retrieve(
+            $protected_post = $this->http->wrapper()->post()->has('protect')
+                ? $this->http->wrapper()->post()->retrieve(
                     'protect',
                     $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
                 )
                 : [];
             foreach ($roles as $role) {
                 $obj_id = (int) $role['obj_id'];
-                if ($rbacreview->isAssignable($obj_id, $this->getCurrentObject()->getRefId())) {
+                if ($this->rbacreview->isAssignable($obj_id, $this->getCurrentObject()->getRefId())) {
                     if (isset($protected_post[$obj_id]) &&
-                        !$rbacreview->isProtected($this->getCurrentObject()->getRefId(), $obj_id)) {
-                        $rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $obj_id, 'y');
+                        !$this->rbacreview->isProtected($this->getCurrentObject()->getRefId(), $obj_id)) {
+                        $this->rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $obj_id, 'y');
                     } elseif (!isset($protected_post[$obj_id]) &&
-                        $rbacreview->isProtected($this->getCurrentObject()->getRefId(), $obj_id)) {
-                        $rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $obj_id, 'n');
+                        $this->rbacreview->isProtected($this->getCurrentObject()->getRefId(), $obj_id)) {
+                        $this->rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $obj_id, 'n');
                     }
                 }
             }
@@ -440,10 +478,9 @@ class ilPermissionGUI extends ilPermission2GUI
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'perm');
-        #$this->perm();
     }
 
-    protected function showConfirmBlockRole(array $a_blocked_info): void
+    private function showConfirmBlockRole(array $a_blocked_info): void
     {
         $info = '';
         if ($a_blocked_info['new_blocked']) {
@@ -481,18 +518,18 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function modifyBlockRoles(): void
+    private function modifyBlockRoles(): void
     {
         $this->blockRoles(
-            $this->wrapper->post()->has('new_block')
-                ? $this->wrapper->post()->retrieve(
+            $this->http->wrapper()->post()->has('new_block')
+                ? $this->http->wrapper()->post()->retrieve(
                     'new_block',
                     $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
                 )
                 : []
         );
-        $this->unblockRoles($this->wrapper->post()->has('new_unblock')
-            ? $this->wrapper->post()->retrieve(
+        $this->unblockRoles($this->http->wrapper()->post()->has('new_unblock')
+            ? $this->http->wrapper()->post()->retrieve(
                 'new_unblock',
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             )
@@ -502,10 +539,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->ctrl->redirect($this, 'perm');
     }
 
-    /**
-     *
-     */
-    protected function unblockRoles($roles): void
+    private function unblockRoles(array $roles): void
     {
         foreach ($roles as $role) {
             // delete local policy
@@ -529,7 +563,7 @@ class ilPermissionGUI extends ilPermission2GUI
         }
     }
 
-    protected function blockRoles($roles): void
+    private function blockRoles(array $roles): void
     {
         foreach ($roles as $role) {
             // Set assign to 'y' only if it is a local role
@@ -564,7 +598,7 @@ class ilPermissionGUI extends ilPermission2GUI
         return $objDefinition->isContainer($a_type) && $a_type != 'root' && $a_type != 'adm' && $a_type != 'rolf';
     }
 
-    protected function displayImportRoleForm(ilPropertyFormGUI $form = null): void
+    private function displayImportRoleForm(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->clearTargets();
 
@@ -574,7 +608,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function doImportRole(): void
+    private function doImportRole(): void
     {
         $form = $this->initImportForm();
         if ($form->checkInput()) {
@@ -609,10 +643,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->displayImportRoleForm($form);
     }
 
-    /**
-     * init import form
-     */
-    protected function initImportForm(): ilPropertyFormGUI
+    private function initImportForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -628,7 +659,7 @@ class ilPermissionGUI extends ilPermission2GUI
         return $form;
     }
 
-    protected function initRoleForm(): ilPropertyFormGUI
+    private function initRoleForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -698,18 +729,15 @@ class ilPermissionGUI extends ilPermission2GUI
         }
 
         // Local policy only for containers
-        if ($this->objDefinition->isContainer($this->getCurrentObject()->getType())) {
-            $check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
+        if ($this->object_definition->isContainer($this->getCurrentObject()->getType())) {
+            $check = new ilCheckboxInputGUI($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
             $check->setInfo($this->lng->txt('rbac_change_existing_objects_desc_new_role'));
             $form->addItem($check);
         }
         return $form;
     }
 
-    /**
-     * Show add role form
-     */
-    protected function displayAddRoleForm(): void
+    public function displayAddRoleForm(): void
     {
         $this->tabs->clearTargets();
         $form = $this->initRoleForm();
@@ -722,7 +750,7 @@ class ilPermissionGUI extends ilPermission2GUI
      * is displayed in the permission settings dialogue for an object
      * TODO: change this bahaviour
      */
-    protected function addRole(): void
+    public function addRole(): void
     {
         $form = $this->initRoleForm();
         if ($form->checkInput()) {
@@ -787,23 +815,19 @@ class ilPermissionGUI extends ilPermission2GUI
         }
     }
 
-    protected function getModifiedBlockedSettings(): array
+    private function getModifiedBlockedSettings(): array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
         $blocked_info['new_blocked'] = [];
         $blocked_info['new_unblocked'] = [];
         $blocked_info['num'] = 0;
-        $visible_block = $this->wrapper->post()->has('visible_block')
-            ? $this->wrapper->post()->retrieve(
+        $visible_block = $this->http->wrapper()->post()->has('visible_block')
+            ? $this->http->wrapper()->post()->retrieve(
                 'visible_block',
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             )
             : [];
-        $block_post = $this->wrapper->post()->has('block')
-            ? $this->wrapper->post()->retrieve(
+        $block_post = $this->http->wrapper()->post()->has('block')
+            ? $this->http->wrapper()->post()->retrieve(
                 'block',
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             )
@@ -811,7 +835,7 @@ class ilPermissionGUI extends ilPermission2GUI
 
 
         foreach ($visible_block as $role => $one) {
-            $blocked = $rbacreview->isBlockedAtPosition($role, $this->getCurrentObject()->getRefId());
+            $blocked = $this->rbacreview->isBlockedAtPosition($role, $this->getCurrentObject()->getRefId());
             if (isset($block_post[$role]) && !$blocked) {
                 $blocked_info['new_blocked'][] = $role;
                 $blocked_info['num']++;
@@ -824,11 +848,7 @@ class ilPermissionGUI extends ilPermission2GUI
         return $blocked_info;
     }
 
-    //
-    // OrgUnit Position Permissions
-    //
-
-    protected function permPositions(): void
+    public function permPositions(): void
     {
         $perm = self::CMD_PERM_POSITIONS;
         $this->__initSubTabs($perm);
@@ -839,7 +859,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function savePositionsPermissions(): void
+    public function savePositionsPermissions(): void
     {
         $this->__initSubTabs(self::CMD_PERM_POSITIONS);
 
@@ -847,8 +867,8 @@ class ilPermissionGUI extends ilPermission2GUI
         $ref_id = $this->getCurrentObject()->getRefId();
 
         // handle local sets
-        $local_post = $this->wrapper->post()->has('local')
-            ? $this->wrapper->post()->retrieve(
+        $local_post = $this->http->wrapper()->post()->has('local')
+            ? $this->http->wrapper()->post()->retrieve(
                 'local',
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
             )
@@ -862,8 +882,8 @@ class ilPermissionGUI extends ilPermission2GUI
             }
         }
 
-        $position_perm_post = $this->wrapper->post()->has('position_perm')
-            ? $this->wrapper->post()->retrieve(
+        $position_perm_post = $this->http->wrapper()->post()->has('position_perm')
+            ? $this->http->wrapper()->post()->retrieve(
                 'position_perm',
                 $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->dictOf(
@@ -891,5 +911,144 @@ class ilPermissionGUI extends ilPermission2GUI
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_PERM_POSITIONS);
+    }
+
+    public function owner(): void
+    {
+        $this->__initSubTabs('owner');
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, "owner"));
+        $form->setTitle($this->lng->txt("info_owner_of_object"));
+
+        $login = new ilTextInputGUI($this->lng->txt("login"), "owner");
+        $login->setDataSource($this->ctrl->getLinkTargetByClass([get_class($this),
+                                                                      'ilRepositorySearchGUI'
+        ], 'doUserAutoComplete', '', true));
+        $login->setRequired(true);
+        $login->setSize(50);
+        $login->setInfo($this->lng->txt("chown_warning"));
+        $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->getObject()->getOwner()));
+        $form->addItem($login);
+        $form->addCommandButton("changeOwner", $this->lng->txt("change_owner"));
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    public function changeOwner(): void
+    {
+        $owner = '';
+        if ($this->http->wrapper()->post()->has('owner')) {
+            $owner = $this->http->wrapper()->post()->retrieve(
+                'owner',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (!$user_id = ilObjUser::_lookupId($owner)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
+            $this->owner();
+            return;
+        }
+
+        // no need to change?
+        if ($user_id != $this->gui_obj->getObject()->getOwner()) {
+            $this->gui_obj->getObject()->setOwner($user_id);
+            $this->gui_obj->getObject()->updateOwner();
+            $this->objectDataCache->deleteCachedEntry($this->gui_obj->getObject()->getId());
+
+            if (ilRbacLog::isActive()) {
+                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->getObject()->getRefId(), [$user_id]);
+            }
+        }
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('owner_updated'), true);
+
+        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
+            $this->ctrl->redirect($this->gui_obj);
+            return;
+        }
+        $this->ctrl->redirect($this, 'owner');
+    }
+
+    private function __initSubTabs(string $a_cmd): void
+    {
+        $perm = $a_cmd === 'perm';
+        $perm_positions = $a_cmd === ilPermissionGUI::CMD_PERM_POSITIONS;
+        $info = $a_cmd === 'perminfo';
+        $owner = $a_cmd === 'owner';
+        $log = $a_cmd === 'log';
+
+        $this->tabs->addSubTabTarget(
+            "permission_settings",
+            $this->ctrl->getLinkTarget($this, "perm"),
+            "",
+            "",
+            "",
+            $perm
+        );
+
+        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->getObject()->getId())) {
+            $this->tabs->addSubTabTarget(
+                self::TAB_POSITION_PERMISSION_SETTINGS,
+                $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS),
+                "",
+                "",
+                "",
+                $perm_positions
+            );
+        }
+
+        $this->tabs->addSubTabTarget(
+            "info_status_info",
+            $this->ctrl->getLinkTargetByClass([get_class($this), "ilobjectpermissionstatusgui"], "perminfo"),
+            "",
+            "",
+            "",
+            $info
+        );
+        $this->tabs->addSubTabTarget(
+            "owner",
+            $this->ctrl->getLinkTarget($this, "owner"),
+            "",
+            "",
+            "",
+            $owner
+        );
+
+        if (ilRbacLog::isActive()) {
+            $this->tabs->addSubTabTarget(
+                "rbac_log",
+                $this->ctrl->getLinkTarget($this, 'log'),
+                "",
+                "",
+                "",
+                $log
+            );
+        }
+    }
+
+    public function log(): void
+    {
+        if (!ilRbacLog::isActive()) {
+            $this->ctrl->redirect($this, 'perm');
+        }
+
+        $this->__initSubTabs('log');
+
+        $table = new Table(
+            new ilRbacLog($this->db),
+            $this->ui_factory,
+            $this->data_factory,
+            $this->lng,
+            $this->ctrl,
+            $this->ui_service,
+            $this->object_definition,
+            $this->http->request(),
+            $this->rbacreview,
+            $this->user,
+            $this->gui_obj
+        );
+        $this->tpl->setContent($this->ui_renderer->render(
+            $table->getTableAndFilter()
+        ));
     }
 }

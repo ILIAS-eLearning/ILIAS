@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropRectangle;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
+use ILIAS\Filesystem\Stream\Stream;
 
 class ilObjectTileImageFlavourMachine extends AbstractMachine implements FlavourMachine
 {
@@ -42,7 +43,6 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
     {
         $this->crop = new CropRectangle();
     }
-
 
     public function getId(): string
     {
@@ -70,9 +70,12 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
 
         $i = 0;
         foreach ($for_definition->getWidths() as $width) {
+            if (($crop_stream = $this->cropImage($stream, $width)) === null) {
+                continue;
+            }
             yield new Result(
                 $for_definition,
-                $this->cropImage($stream, $width),
+                $crop_stream,
                 $i,
                 true
             );
@@ -83,11 +86,10 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
     protected function cropImage(
         FileStream $stream,
         int $width
-    ) {
+    ): ?Stream {
         $quality = $width <= self::FULL_QUALITY_SIZE_THRESHOLD
             ? 100 // we take 100% jpeg quality for small resultions
             : $this->definition->getQuality();
-
 
         return $this->crop->processStream(
             $this->information,
@@ -98,6 +100,6 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
                 $this->definition->getRatio(),
                 $quality
             )
-        )->current()->getStream();
+        )->current()?->getStream();
     }
 }

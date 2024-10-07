@@ -20,10 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Glossary\Metadata;
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 class MetadataManager
 {
-    public function __construct()
+    protected LOMServices $lom_services;
+
+    public function __construct(LOMServices $lom_services)
     {
+        $this->lom_services = $lom_services;
+    }
+
+    public function getLOMLanguagesForSelectInputs(): array
+    {
+        $languages = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $languages[$language->value()] = $language->presentableLabel();
+        }
+        return $languages;
     }
 
     /**

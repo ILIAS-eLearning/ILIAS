@@ -31,25 +31,22 @@ class ilOpenIdConnectSettingsGUI
     private const STAB_ROLES = 'roles';
 
     private const DEFAULT_CMD = 'settings';
-    private int $ref_id;
     /** @var array $body */
     private $body;
-    private ilOpenIdConnectSettings $settings;
-    private ilLanguage $lng;
-    private ilCtrl $ctrl;
-    private ilLogger $logger;
-    private ilAccessHandler $access;
-    private ilRbacReview $review;
-    private ilErrorHandling $error;
-    private ilGlobalTemplateInterface $mainTemplate;
-    private ilTabsGUI $tabs;
-    private FileUpload $upload;
+    private readonly ilOpenIdConnectSettings $settings;
+    private readonly ilLanguage $lng;
+    private readonly ilCtrl $ctrl;
+    private readonly ilLogger $logger;
+    private readonly ilAccessHandler $access;
+    private readonly ilRbacReview $review;
+    private readonly ilErrorHandling $error;
+    private readonly ilGlobalTemplateInterface $mainTemplate;
+    private readonly ilTabsGUI $tabs;
+    private readonly FileUpload $upload;
 
-    public function __construct(int $a_ref_id)
+    public function __construct(private readonly int $ref_id)
     {
         global $DIC;
-
-        $this->ref_id = $a_ref_id;
 
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('auth');
@@ -384,17 +381,11 @@ class ilOpenIdConnectSettingsGUI
         }
 
         try {
-            switch ((int) $form->getInput('validate_scopes')) {
-                case ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER:
-                    $discoveryURL = $form->getInput('provider') . '/.well-known/openid-configuration';
-                    break;
-                case ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM:
-                    $discoveryURL = $form->getInput('custom_discovery_url');
-                    break;
-                default:
-                    $discoveryURL = null;
-                    break;
-            }
+            $discoveryURL = match ((int) $form->getInput('validate_scopes')) {
+                ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER => $form->getInput('provider') . '/.well-known/openid-configuration',
+                ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM => $form->getInput('custom_discovery_url'),
+                default => null,
+            };
             $validation_result = !is_null($discoveryURL) ? $this->settings->validateScopes($discoveryURL, (array) $scopes) : [];
 
             if (!empty($validation_result)) {
@@ -426,7 +417,7 @@ class ilOpenIdConnectSettingsGUI
         $this->settings->setActive((bool) $form->getInput('activation'));
         $this->settings->setProvider((string) $form->getInput('provider'));
         $this->settings->setClientId((string) $form->getInput('client_id'));
-        if ((string) $form->getInput('secret') !== '' && strcmp($form->getInput('secret'), '******') !== 0) {
+        if ((string) $form->getInput('secret') !== '' && strcmp((string) $form->getInput('secret'), '******') !== 0) {
             $this->settings->setSecret((string) $form->getInput('secret'));
         }
         $this->settings->setAdditionalScopes((array) $scopes);
@@ -625,7 +616,7 @@ class ilOpenIdConnectSettingsGUI
                 $role_settings[(int) $role_id]['update'] = !$form->getInput('role_map_update_' . $role_id);
                 $role_settings[(int) $role_id]['value'] = '';
 
-                $input_role = trim($form->getInput('role_map_' . $role_id));
+                $input_role = trim((string) $form->getInput('role_map_' . $role_id));
                 if ($input_role === '') {
                     continue;
                 }

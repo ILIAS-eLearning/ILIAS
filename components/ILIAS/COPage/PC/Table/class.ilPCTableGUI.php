@@ -382,9 +382,12 @@ class ilPCTableGUI extends ilPageContentGUI
         } else {
             $s_lang = $ilUser->getLanguage();
         }
-        $lang = ilMDLanguageItem::_getLanguages();
+        $languages = [];
+        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
+            $languages[$language->value()] = $language->presentableLabel();
+        }
         $language = new ilSelectInputGUI($this->lng->txt("language"), "language");
-        $language->setOptions($lang);
+        $language->setOptions($languages);
         $language->setValue($s_lang);
         $this->form->addItem($language);
 

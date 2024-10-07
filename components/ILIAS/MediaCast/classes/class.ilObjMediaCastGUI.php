@@ -22,12 +22,15 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\MediaCast\Settings\SettingsGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI, McstImageGalleryGUI, McstPodcastGUI, ilCommentGUI
+ * @ilCtrl_Calls ilObjMediaCastGUI: ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjMediaCastGUI: ILIAS\MediaCast\Settings\SettingsGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -191,6 +194,23 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($this->getCommentGUI());
                 break;
 
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission("write");
+                $ilTabs->activateTab("meta_data");
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(SettingsGUI::class):
+                $this->checkPermission("write");
+                $ilTabs->activateTab("id_settings");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    $this->object->getRefId()
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 if (!$cmd) {
                     $cmd = "infoScreen";
@@ -208,13 +228,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms(string $new_type): array
+    public function editObject(): void
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
-                self::CFORM_IMPORT => $this->initImportForm($new_type));
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
+        }
 
-        return $forms;
+        $this->ctrl->redirectByClass(SettingsGUI::class, "");
     }
+
 
     protected function afterSave(ilObject $new_object): void
     {
@@ -1011,6 +1033,7 @@ EOT;
 
         $info = new ilInfoScreenGUI($this);
 
+        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         $info->enablePrivateNotes();
 
         // general information
@@ -1069,7 +1092,7 @@ EOT;
             $ilTabs->addTab(
                 "id_settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "editSettings")
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class, "")
             );
         }
 
@@ -1079,6 +1102,18 @@ EOT;
                 $lng->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'), '')
             );
+        }
+
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTab(
+                    "meta_data",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
+                );
+            }
         }
 
         // export
@@ -1135,269 +1170,7 @@ EOT;
 
     public function editSettingsObject(): void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-
-        $this->checkPermission("write");
-        $ilTabs->activateTab("id_settings");
-
-        $this->initSettingsForm();
-        $tpl->setContent($this->form_gui->getHTML());
-    }
-
-    /**
-     * Init Settings Form
-     */
-    public function initSettingsForm(): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $obj_service = $this->object_service;
-
-        $lng->loadLanguageModule("mcst");
-
-        $this->form_gui = new ilPropertyFormGUI();
-        $this->form_gui->setTitle($lng->txt("mcst_settings"));
-
-        // Title
-        $tit = new ilTextInputGUI($lng->txt("title"), "title");
-        $tit->setValue($this->object->getTitle());
-        $tit->setRequired(true);
-        $this->form_gui->addItem($tit);
-
-        // description
-        $des = new ilTextAreaInputGUI($lng->txt("description"), "description");
-        $des->setValue($this->object->getLongDescription());
-        $this->form_gui->addItem($des);
-
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($lng->txt("rep_activation_availability"));
-        $this->form_gui->addItem($sh);
-
-        // Online
-        $online = new ilCheckboxInputGUI($lng->txt("online"), "online");
-        $online->setChecked($this->object->getOnline());
-        $this->form_gui->addItem($online);
-
-        // presentation
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($lng->txt("obj_presentation"));
-        $this->form_gui->addItem($sh);
-
-        // tile image
-        $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->addTileImage();
-
-        // Sorting
-        $sort = new ilRadioGroupInputGUI($lng->txt("mcst_ordering"), "order");
-        $sort->addOption(new ilRadioOption(
-            $lng->txt("mcst_ordering_title"),
-            ilObjMediaCast::ORDER_TITLE
-        ));
-        $sort->addOption(new ilRadioOption(
-            $lng->txt("mcst_ordering_creation_date_asc"),
-            ilObjMediaCast::ORDER_CREATION_DATE_ASC
-        ));
-        $sort->addOption(new ilRadioOption(
-            $lng->txt("mcst_ordering_creation_date_desc"),
-            ilObjMediaCast::ORDER_CREATION_DATE_DESC
-        ));
-        $sort->addOption(new ilRadioOption(
-            $lng->txt("mcst_ordering_manual"),
-            ilObjMediaCast::ORDER_MANUAL
-        ));
-        $sort->setValue($this->object->getOrder());
-        $this->form_gui->addItem($sort);
-
-        // view mode
-        $si = new ilRadioGroupInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
-        /*$si->addOption(new ilRadioOption(
-            $lng->txt("mcst_list"),
-            ilObjMediaCast::VIEW_LIST
-        ));
-        $si->addOption(new ilRadioOption(
-            $lng->txt("mcst_gallery"),
-            ilObjMediaCast::VIEW_GALLERY
-        ));*/
-        $si->addOption(new ilRadioOption(
-            $lng->txt("mcst_img_gallery"),
-            ilObjMediaCast::VIEW_IMG_GALLERY
-        ));
-        $si->addOption(new ilRadioOption(
-            $lng->txt("mcst_podcast"),
-            ilObjMediaCast::VIEW_PODCAST
-        ));
-        $si->addOption($vc_opt = new ilRadioOption(
-            $lng->txt("mcst_video_cast"),
-            ilObjMediaCast::VIEW_VCAST
-        ));
-
-        //		$si->setOptions($options);
-        $si->setValue($this->object->getViewMode());
-        $this->form_gui->addItem($si);
-
-        // autoplay
-        $options = array(
-            ilObjMediaCast::AUTOPLAY_NO => $lng->txt("mcst_no_autoplay"),
-            ilObjMediaCast::AUTOPLAY_ACT => $lng->txt("mcst_autoplay_active"),
-            ilObjMediaCast::AUTOPLAY_INACT => $lng->txt("mcst_autoplay_inactive")
-        );
-        $si = new ilSelectInputGUI($lng->txt("mcst_autoplay"), "autoplaymode");
-        $si->setInfo($lng->txt("mcst_autoplay_info"));
-        $si->setOptions($options);
-        $si->setValue($this->object->getAutoplayMode());
-        $vc_opt->addSubItem($si);
-
-        // number of initial videos
-        $ti = new ilNumberInputGUI($lng->txt("mcst_nr_videos"), "nr_videos");
-        $ti->setValue(max(1, $this->object->getNumberInitialVideos()));
-        $ti->setMinValue(1);
-        $ti->setSize(2);
-        $vc_opt->addSubItem($ti);
-
-        // Downloadable
-        $downloadable = new ilCheckboxInputGUI($lng->txt("mcst_downloadable"), "downloadable");
-        $downloadable->setChecked($this->object->getDownloadable());
-        $downloadable->setInfo($lng->txt("mcst_downloadable_info"));
-        $this->form_gui->addItem($downloadable);
-
-        $news_set = new ilSetting("news");
-        $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-
-        //Default Visibility
-        if ($enable_internal_rss) {
-            // webfeed
-            $sh = new ilFormSectionHeaderGUI();
-            $sh->setTitle($lng->txt("mcst_webfeed"));
-            $this->form_gui->addItem($sh);
-
-            $radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
-            $radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
-            $radio_option->setInfo($lng->txt("news_news_item_def_visibility_users_info"));
-            $radio_group->addOption($radio_option);
-            $radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
-            $radio_option->setInfo($lng->txt("news_news_item_def_visibility_public_info"));
-            $radio_group->addOption($radio_option);
-            $radio_group->setRequired(false);
-            $radio_group->setValue($this->object->getDefaultAccess());
-            #$ch->addSubItem($radio_group);
-            $this->form_gui->addItem($radio_group);
-
-            //Extra Feed
-            $public_feed = ilBlockSetting::_lookup("news", "public_feed", 0, $this->object->getId());
-            $ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"), "extra_feed");
-            $ch->setInfo($lng->txt("news_public_feed_info"));
-            $ch->setChecked((bool) $public_feed);
-            $this->form_gui->addItem($ch);
-
-            // keep minimal x number of items
-            $ni = new ilNumberInputGUI($this->lng->txt("news_keep_minimal_x_items"), "keep_rss_min");
-            $ni->setMaxValue(100);
-            $ni->setMinValue(0);
-            $ni->setMaxLength(3);
-            $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("news_keep_minimal_x_items_info") . " (" .
-                    ilNewsItem::_lookupRSSPeriod() . " " . (ilNewsItem::_lookupRSSPeriod() == 1 ? $lng->txt("day") : $lng->txt("days")) . ")");
-            $ni->setValue((int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->object->getId()));
-            $ch->addSubItem($ni);
-
-            // Include Files in Pubic Items
-            $incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
-            $incl_files->setChecked($this->object->getPublicFiles());
-            $incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
-            #$ch->addSubItem($incl_files);
-            $this->form_gui->addItem($incl_files);
-        }
-
-        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
-            $sh = new ilFormSectionHeaderGUI();
-            $sh->setTitle($lng->txt("learning_progress"));
-            $this->form_gui->addItem($sh);
-
-            // Include new items automatically in learning progress
-            $auto_lp = new ilCheckboxInputGUI($lng->txt("mcst_new_items_det_lp"), "auto_det_lp");
-            $auto_lp->setChecked($this->object->getNewItemsInLearningProgress());
-            $auto_lp->setInfo($lng->txt("mcst_new_items_det_lp_info"));
-            $this->form_gui->addItem($auto_lp);
-        }
-
-        // additional features
-        $feat = new ilFormSectionHeaderGUI();
-        $feat->setTitle($this->lng->txt('obj_features'));
-        $this->form_gui->addItem($feat);
-
-        if (!$this->settings->get('disable_comments')) {
-            $this->lng->loadLanguageModule("notes");
-            $comments = new ilCheckboxInputGUI($lng->txt("notes_comments"), "comments");
-            $comments->setChecked($this->object->getComments());
-            $this->form_gui->addItem($comments);
-        }
-
-        // Form action and save button
-        $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
-        $this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
-    }
-
-    public function saveSettingsObject(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        $obj_service = $this->object_service;
-
-        $this->checkPermission("write");
-        $ilTabs->activateTab("id_settings");
-
-        $this->initSettingsForm();
-        if ($this->form_gui->checkInput()) {
-            $news_set = new ilSetting("news");
-            $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-
-            $this->object->setTitle($this->form_gui->getInput("title"));
-            $this->object->setDescription($this->form_gui->getInput("description"));
-            $this->object->setOnline($this->form_gui->getInput("online"));
-            $this->object->setDownloadable($this->form_gui->getInput("downloadable"));
-            $this->object->setOrder($this->form_gui->getInput("order"));
-            $this->object->setViewMode($this->form_gui->getInput("viewmode"));
-            $this->object->setAutoplayMode((int) $this->form_gui->getInput("autoplaymode"));
-            $this->object->setNumberInitialVideos((int) $this->form_gui->getInput("nr_videos"));
-            $this->object->setNewItemsInLearningProgress((int) $this->form_gui->getInput("auto_det_lp"));
-
-            if (!$this->settings->get('disable_comments')) {
-                $this->object->setComments($this->form_gui->getInput("comments"));
-            }
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
-
-            if ($enable_internal_rss) {
-                $this->object->setPublicFiles($this->form_gui->getInput("public_files"));
-                $this->object->setDefaultAccess($this->form_gui->getInput("defaultaccess"));
-            }
-            $this->object->update();
-
-            if ($enable_internal_rss) {
-                ilBlockSetting::_write(
-                    "news",
-                    "public_feed",
-                    $this->form_gui->getInput("extra_feed"),
-                    0,
-                    $this->object->getId()
-                );
-
-                ilBlockSetting::_write(
-                    "news",
-                    "keep_rss_min",
-                    $this->form_gui->getInput("keep_rss_min"),
-                    0,
-                    $this->object->getId()
-                );
-            }
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "editSettings");
-        } else {
-            $this->form_gui->setValuesByPost();
-            $this->tpl->setContent($this->form_gui->getHTML());
-        }
+        $this->editObject();
     }
 
     protected function addLocatorItems(): void

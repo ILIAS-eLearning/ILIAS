@@ -29,7 +29,6 @@ use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\SelfRegistration;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../ContainerMock.php';

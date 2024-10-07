@@ -89,7 +89,7 @@ class InternalDomainService
 
     public function metadata(): MetadataManager
     {
-        return new MetadataManager();
+        return new MetadataManager($this->learningObjectMetadata());
     }
 
     public function presentation(\ilObjGlossary $glossary, int $user_id = 0): PresentationManager

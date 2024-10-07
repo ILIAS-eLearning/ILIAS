@@ -42,7 +42,7 @@ class ColumnFactoryTest extends AbstractFactoryTestCase
 
     protected function buildColumnFactory()
     {
-        $lng = $this->getMockBuilder(\ilLanguage::class)
+        $lng = $this->getMockBuilder(\ILIAS\Language\Language::class)
             ->disableOriginalConstructor()
             ->getMock();
         $lng->method('txt')->willReturnCallback(fn($v) => $v);

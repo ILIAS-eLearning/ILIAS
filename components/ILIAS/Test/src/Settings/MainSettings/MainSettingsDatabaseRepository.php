@@ -235,5 +235,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             $values,
             ['test_id' => ['integer', $settings->getTestId()]]
         );
+        unset(self::$instances_by_test_fi[$settings->getTestId()]);
+        unset(self::$instances_by_obj_fi[$settings->getObjId()]);
     }
 }

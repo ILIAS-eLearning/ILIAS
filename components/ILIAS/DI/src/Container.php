@@ -465,7 +465,7 @@ class Container extends \Pimple\Container
 
     public function learningObjectMetadata(): \ILIAS\MetaData\Services\ServicesInterface
     {
-        return new \ILIAS\MetaData\Services\Services($this);
+        return $this['learning_object_metadata'] ?? new \ILIAS\MetaData\Services\Services($this);
     }
 
     /**

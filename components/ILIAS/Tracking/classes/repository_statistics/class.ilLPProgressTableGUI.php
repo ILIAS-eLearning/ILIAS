@@ -110,8 +110,6 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                 "hideSelected",
                 $this->lng->txt("trac_hide_selected")
             );
-
-            $this->setShowTemplates(true);
         } else {
             $olp = ilObjectLP::getInstance($this->parent_obj_id);
             $collection = $olp->getCollectionInstance();

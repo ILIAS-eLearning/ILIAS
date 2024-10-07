@@ -19,68 +19,88 @@
  */
 class ilAuthProviderShibboleth extends ilAuthProvider
 {
+    private ILIAS $ilias;
+    private ilSetting $settings;
+
+    public function __construct(ilAuthCredentials $credentials)
+    {
+        global $DIC;
+        $this->ilias = $DIC['ilias'];
+        $this->settings = $DIC->settings();
+        parent::__construct($credentials);
+    }
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilSystemStyleException
+     * @throws ilPasswordException
+     * @throws ilObjectTypeMismatchException
+     * @throws ilUserException
+     */
     public function doAuthentication(ilAuthStatus $status): bool
     {
-        global $DIC; // for backwards compatibility of hook environment variables
-        $ilias = $DIC['ilias'];
-        $ilSetting = $DIC['ilSetting'];
-        $shibServerData = shibServerData::getInstance();
+        $shib_server_data = shibServerData::getInstance();
 
-        if ($shibServerData->getLogin() !== '' && $shibServerData->getLogin() !== '0') {
-            $shibUser = shibUser::buildInstance($shibServerData);
+        if ($shib_server_data->getLogin() !== '' && $shib_server_data->getLogin() !== '0') {
+            $shib_user = shibUser::buildInstance($shib_server_data);
             // for backword compatibility of hook environment variables
-            $userObj = &$shibUser; // For shib_data_conv included Script
-            $newUser = $shibUser->isNew(); // For shib_data_conv included Script
-            if ($shibUser->isNew()) {
-                $shibUser->createFields();
-                $shibUser->setPref('hits_per_page', $ilSetting->get('hits_per_page'));
+            $new_user = $shib_user->isNew(); // For shib_data_conv included Script
+            $settings = new ilShibbolethSettings();
+            $account_creation = $settings->getAccountCreation();
+            if (!$new_user) {
+                $shib_user->updateFields();
+                // Include custom code that can be used to further modify
+                // certain Shibboleth user attributes
+                if (
+                    $this->ilias->getSetting('shib_data_conv') &&
+                    $this->ilias->getSetting('shib_data_conv') !== '' &&
+                    is_readable($this->ilias->getSetting('shib_data_conv'))
+                ) {
+                    /** @noRector */
+                    include($this->ilias->getSetting('shib_data_conv'));
+                }
+                $shib_user = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($shib_user);
+                $shib_user->update();
+                $shib_user = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($shib_user);
+                ilShibbolethRoleAssignmentRules::updateAssignments($shib_user->getId(), $_SERVER);
+            } elseif (!($account_creation === ilShibbolethSettings::ACCOUNT_CREATION_DISABLED)) {
+                $shib_user->createFields();
+                $shib_user->setPref('hits_per_page', $this->settings->get('hits_per_page'));
 
                 // Modify user data before creating the user
                 // Include custom code that can be used to further modify
                 // certain Shibboleth user attributes
                 if (
-                    $ilias->getSetting('shib_data_conv') &&
-                    $ilias->getSetting('shib_data_conv', '') !== '' &&
-                    is_readable($ilias->getSetting('shib_data_conv'))
+                    $this->ilias->getSetting('shib_data_conv') &&
+                    $this->ilias->getSetting('shib_data_conv', '') !== '' &&
+                    is_readable($this->ilias->getSetting('shib_data_conv'))
                 ) {
                     /** @noRector */
-                    include($ilias->getSetting('shib_data_conv'));
+                    include($this->ilias->getSetting('shib_data_conv'));
                 }
-                $shibUser = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shibUser);
-                $shibUser->create();
-                $shibUser->saveAsNew();
-                $shibUser->updateOwner();
-                $shibUser->writePrefs();
-                $shibUser = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shibUser);
-                ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);
-            } else {
-                $shibUser->updateFields();
-                // Include custom code that can be used to further modify
-                // certain Shibboleth user attributes
-                if (
-                    $ilias->getSetting('shib_data_conv') &&
-                    $ilias->getSetting('shib_data_conv') !== '' &&
-                    is_readable($ilias->getSetting('shib_data_conv'))
-                ) {
-                    /** @noRector */
-                    include($ilias->getSetting('shib_data_conv'));
+                $shib_user = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shib_user);
+                if ($account_creation === ilShibbolethSettings::ACCOUNT_CREATION_WITH_APPROVAL) {
+                    $shib_user->setActive(false);
                 }
-                //				$shibUser->update();
-                $shibUser = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($shibUser);
-                $shibUser->update();
-                $shibUser = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($shibUser);
-                ilShibbolethRoleAssignmentRules::updateAssignments($shibUser->getId(), $_SERVER);
+                $shib_user->create();
+                $shib_user->saveAsNew();
+                $shib_user->updateOwner();
+                $shib_user->writePrefs();
+                $shib_user = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shib_user);
+                ilShibbolethRoleAssignmentRules::doAssignments($shib_user->getId(), $_SERVER);
             }
 
-            $settings = new ilShibbolethSettings();
-
-            if (!$newUser || !$settings->adminMustActivate()) {
+            if(!$new_user || $account_creation === ilShibbolethSettings::ACCOUNT_CREATION_ENABLED) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-                $status->setAuthenticatedUserId(ilObjUser::_lookupId($shibUser->getLogin()));
-            } elseif ($settings->adminMustActivate()) {
+                $status->setAuthenticatedUserId(ilObjUser::_lookupId($shib_user->getLogin()));
+            } elseif ($account_creation === ilShibbolethSettings::ACCOUNT_CREATION_WITH_APPROVAL) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $status->setReason('err_inactive');
+            } else {
+                $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+                $status->setReason('err_disabled');
             }
+
         } else {
             $this->getLogger()->info('Shibboleth authentication failed.');
             $this->handleAuthenticationFail($status, 'err_wrong_login');

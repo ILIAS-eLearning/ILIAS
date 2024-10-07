@@ -22,6 +22,7 @@ declare(strict_types=1);
  * @package ilias-core
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
+ * @deprecated will be removed with ILIAS 11, LOM should only be exported as a tail dependency
  */
 class ilMDXMLCopier extends ilMDSaxParser
 {

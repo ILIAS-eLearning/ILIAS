@@ -36,8 +36,12 @@ class ilStudyProgrammeSetupAgent extends NullAgent
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/StudyProgramme',
             false,
+            // ILIAS 10
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilStudyProgrammeAutoMembershipTableUpdateSteps()
             ),
         );
     }
@@ -47,9 +51,14 @@ class ilStudyProgrammeSetupAgent extends NullAgent
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/StudyProgramme',
             true,
+            // ILIAS 10
             new ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilStudyProgrammeAutoMembershipTableUpdateSteps()
             ),
         );
     }

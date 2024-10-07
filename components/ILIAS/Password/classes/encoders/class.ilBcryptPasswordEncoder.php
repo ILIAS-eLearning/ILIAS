@@ -147,7 +147,7 @@ final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($userSecret), STR_PAD_BOTH),
-            $clientSecret,
+            $clientSecret ?? '',
             true
         );
         $salt = substr(
@@ -187,7 +187,7 @@ final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH),
-            $this->client_salt,
+            (string) $this->client_salt,
             true
         );
 

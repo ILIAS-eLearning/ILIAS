@@ -16,12 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * Assignment types gui.
- *
- * @author killing@leifos.de
- * @ingroup components\ILIASExercise
- */
 class ilExAssignmentTypesGUI
 {
     protected array $class_names = array(
@@ -33,19 +27,10 @@ class ilExAssignmentTypesGUI
         ilExAssignment::TYPE_WIKI_TEAM => "ilExAssTypeWikiTeamGUI"
     );
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Get instance
-     */
-    public static function getInstance(): \ilExAssignmentTypesGUI
-    {
-        return new self();
+    public function __construct(
+        protected \ILIAS\Exercise\InternalDomainService $domain,
+        protected \ILIAS\Exercise\InternalGUIService $gui
+    ) {
     }
 
     /**
@@ -60,22 +45,40 @@ class ilExAssignmentTypesGUI
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
-                return new ilExAssTypeUploadGUI();
+                return new ilExAssTypeUploadGUI(
+                    $this->domain,
+                    $this->gui
+                );
 
             case ilExAssignment::TYPE_BLOG:
-                return new ilExAssTypeBlogGUI();
+                return new ilExAssTypeBlogGUI(
+                    $this->domain,
+                    $this->gui
+                );
 
             case ilExAssignment::TYPE_PORTFOLIO:
-                return new ilExAssTypePortfolioGUI();
+                return new ilExAssTypePortfolioGUI(
+                    $this->domain,
+                    $this->gui
+                );
 
             case ilExAssignment::TYPE_UPLOAD_TEAM:
-                return new ilExAssTypeUploadTeamGUI();
+                return new ilExAssTypeUploadTeamGUI(
+                    $this->domain,
+                    $this->gui
+                );
 
             case ilExAssignment::TYPE_TEXT:
-                return new ilExAssTypeTextGUI();
+                return new ilExAssTypeTextGUI(
+                    $this->domain,
+                    $this->gui
+                );
 
             case ilExAssignment::TYPE_WIKI_TEAM:
-                return new ilExAssTypeWikiTeamGUI();
+                return new ilExAssTypeWikiTeamGUI(
+                    $this->domain,
+                    $this->gui
+                );
         }
 
         // we should throw some exception here

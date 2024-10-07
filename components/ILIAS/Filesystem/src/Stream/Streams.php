@@ -61,18 +61,31 @@ final class Streams
      *
      * @see fopen()
      */
-    public static function ofResource($resource, bool $inside_zip = false): \ILIAS\Filesystem\Stream\Stream
+    public static function ofResource($resource): \ILIAS\Filesystem\Stream\Stream
     {
         if (!is_resource($resource)) {
             throw new \InvalidArgumentException(
                 'The argument $resource must be of type resource but was "' . gettype($resource) . '"'
             );
         }
-
-        if ($inside_zip) {
-            return new ZIPStream($resource);
-        }
         return new Stream($resource);
+    }
+
+    public static function ofFileInsideZIP(string $path_to_zip, string $path_inside_zip): \ILIAS\Filesystem\Stream\ZIPStream
+    {
+        try {
+            $resource = fopen('zip://' . $path_to_zip . '#/' . $path_inside_zip, 'rb');
+            $resource = $resource ?: fopen('zip://' . $path_to_zip . '#' . $path_inside_zip, 'rb');;
+        } catch (\Throwable) {
+            $resource = null;
+        }
+
+        if (!is_resource($resource)) {
+            throw new \InvalidArgumentException(
+                'The argument $path_to_zip must be an existing zip file path and $path_inside_zip must be a valid path inside the zip file.'
+            );
+        }
+        return new ZIPStream($resource);
     }
 
     /**

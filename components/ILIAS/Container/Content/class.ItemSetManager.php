@@ -42,6 +42,7 @@ class ItemSetManager
     protected array $rendered = [];
     protected int $mode = self::FLAT;
     protected ?\ilContainerUserFilter $user_filter = null;
+    protected bool $initialised = false;
 
     /**
      * @param int $mode self::TREE|self::FLAT|self::SINGLE
@@ -81,6 +82,9 @@ class ItemSetManager
      */
     protected function init(): void
     {
+        if ($this->initialised) {
+            return;
+        }
         $tree = $this->domain->repositoryTree();
         if ($this->mode === self::TREE) {
             $this->raw = $tree->getSubTree($tree->getNodeData($this->parent_ref_id));
@@ -97,6 +101,7 @@ class ItemSetManager
         $this->groupItems();
         $this->sortSessions();
         $this->preloadAdvancedMDValues();
+        $this->initialised = true;
     }
 
     /**

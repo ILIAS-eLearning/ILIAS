@@ -316,11 +316,15 @@ class ilMaterializedPathTree implements ilTreeImplementation
                 $a_node_id,
                 $this->getTree()->getTreeId()
             ));
-            $row = $this->db->fetchAssoc($res);
+            $node = $this->db->fetchAssoc($res);
+
+            if($node === null) {
+                return; //Nothing to delete. $node does not exists
+            }
 
             $query = 'DELETE FROM ' . $this->getTree()->getTreeTable() . ' ' .
-                'WHERE path BETWEEN ' . $this->db->quote($row['path'], 'text') . ' ' .
-                'AND ' . $this->db->quote($row['path'] . '.Z', 'text') . ' ' .
+                'WHERE path BETWEEN ' . $this->db->quote($node['path'], 'text') . ' ' .
+                'AND ' . $this->db->quote($node['path'] . '.Z', 'text') . ' ' .
                 'AND ' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
                     $this->getTree()->getTreeId(),
                     'integer'
@@ -583,7 +587,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function validateParentRelations(): array
     {
-        $query = 'select child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
+        $query = 'select ' . $this->getTree()->getTreePk() .', child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
             '( ' .
             'select child from ' . $this->getTree()->getTreeTable() . ' parent where child.parent = parent.child and ' .
             '(child.path BETWEEN parent.path AND CONCAT(parent.path,' . $this->db->quote('Z', 'text') . ') )' . ')' .

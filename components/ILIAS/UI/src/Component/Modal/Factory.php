@@ -134,7 +134,7 @@ interface Factory
      * @param string|null $post_url
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */
-    public function roundtrip(string $title, array $content, array $inputs = [], string $post_url = null): RoundTrip;
+    public function roundtrip(string $title, Component\Component|array|null $content, array $inputs = [], string $post_url = null): RoundTrip;
 
 
     /**

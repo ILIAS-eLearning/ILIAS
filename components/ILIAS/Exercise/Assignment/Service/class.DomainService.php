@@ -50,12 +50,12 @@ class DomainService
     }
 
 
-    public function assignments(int $ref_id, int $user_id): AssignmentManager
+    public function assignments(int $obj_id, int $user_id): AssignmentManager
     {
         return new AssignmentManager(
             $this->repo_service,
             $this->domain_service,
-            $ref_id,
+            $obj_id,
             $user_id
         );
     }

@@ -25,6 +25,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected ilObjectDataCache $obj_data_cache;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
+    protected ilLogger $logger;
 
     public function __construct()
     {
@@ -33,6 +34,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->user = $DIC->user();
         $this->access = $DIC->access();
+        $this->logger = $DIC->logger()->mob();
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
@@ -71,8 +73,17 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     break;
 
                 default:
-                    if ($this->checkAccessMobUsage($usage, $oid)) {
+                    if ($oid !== null && $this->checkAccessMobUsage($usage, $oid)) {
                         return true;
+                    }
+
+                    if ($oid === null) {
+                        $this->logger->error(
+                            sprintf(
+                                "Could not determine parent obj_id for usage: %s",
+                                json_encode($usage, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+                            )
+                        );
                     }
                     break;
             }

@@ -34,10 +34,10 @@ class ilMailMemberSearchGUI
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilAccessHandler $access;
-    private \ILIAS\UI\Factory $ui_factory;
-    private Services $http;
-    private Renderer $ui_renderer;
-    private Factory $refinery;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly Services $http;
+    private readonly Renderer $ui_renderer;
+    private readonly Factory $refinery;
 
     /**
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
@@ -75,15 +75,10 @@ class ilMailMemberSearchGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showSelectableUsers');
-                break;
-        }
+        match ($action) {
+            'sendMailToSelectedUsers' => $this->sendMailToSelectedUsers(),
+            default => $this->ctrl->redirect($this, 'showSelectableUsers'),
+        };
     }
 
     public function executeCommand(): bool
@@ -256,18 +251,30 @@ class ilMailMemberSearchGUI
         $selected_user_ids = $this->http->wrapper()->query()->retrieve(
             'contact_search_members_user_ids',
             $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
             ])
         );
 
+        if ((string) current($selected_user_ids) === 'ALL_OBJECTS') {
+            $selected_user_ids = [];
+            $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
+            $entries = $provider->getData();
+
+            foreach ($entries as $entry) {
+                $selected_user_ids[] = (int) $entry['user_id'];
+            }
+        } else {
+            $selected_user_ids = array_map(intval(...), $selected_user_ids);
+        }
+
         $rcps = [];
         foreach ($selected_user_ids as $usr_id) {
-            $rcps[] = ilObjUser::_lookupLogin((int) $usr_id);
+            $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
         if (array_filter($rcps) === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
             $this->showSelectableUsers();
             return;
         }

@@ -260,11 +260,7 @@ abstract class SurveyQuestionGUI
         $question->setCols(80);
         if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $question->setUseRte(true);
-            $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-            $question->addPlugin("latex");
-            $question->addButton("latex");
-            $question->addButton("pastelatex");
-            $question->setRTESupport($this->object->getId(), "spl", "survey");
+            $question->setRteTagSet("mini");
         }
         $form->addItem($question);
 

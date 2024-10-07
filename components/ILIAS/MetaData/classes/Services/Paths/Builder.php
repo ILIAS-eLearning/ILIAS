@@ -49,20 +49,36 @@ class Builder implements BuilderInterface
         return $clone;
     }
 
+    /**
+     * @throws \ilMDServicesException
+     */
     public function withAdditionalFilterAtCurrentStep(
         FilterType $type,
         string ...$values
     ): BuilderInterface {
         $clone = clone $this;
-        $clone->internal_builder = $clone->internal_builder->withAdditionalFilterAtCurrentStep(
-            $type,
-            ...$values
-        );
+        try {
+            $clone->internal_builder = $clone->internal_builder->withAdditionalFilterAtCurrentStep(
+                $type,
+                ...$values
+            );
+        } catch (\ilMDPathException $e) {
+            throw new \ilMDServicesException($e->getMessage());
+        }
+
         return $clone;
     }
 
+    /**
+     * @throws \ilMDServicesException
+     */
     public function get(): PathInterface
     {
-        return $this->internal_builder->get();
+        try {
+            return $this->internal_builder->get();
+        } catch (\ilMDPathException $e) {
+            throw new \ilMDServicesException($e->getMessage());
+        }
+
     }
 }

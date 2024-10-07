@@ -26,29 +26,25 @@ use ILIAS\LegalDocuments\Table;
 use ILIAS\LegalDocuments\Value\History;
 use ILIAS\LegalDocuments\Repository\HistoryRepository;
 use ILIAS\LegalDocuments\TableSelection;
-use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Legacy\ResettingDurationInputGUI;
-use ilLanguage;
 use ilTextInputGUI;
 use ilDateDurationInputGUI;
 use ilDateTime;
 use ilDatePresentation;
 use ilObjUser;
 use DateTimeImmutable;
+use ILIAS\UI\Component\Component;
 
-/**
- * @implements Table<History>
- */
 class HistoryTable implements Table
 {
     /** @var Closure(DateTimeImmutable): string */
     private readonly Closure $format_date;
 
     /**
-     * @param Closure(class-string): object<class-string> $create
-     * @param null|Closure(DateTimeImmutable): string $create
+     * @param Closure(class-string, ... $constructor_args): object<class-string> $create
+     * @param null|Closure(DateTimeImmutable): string $format_date
      */
     public function __construct(
         private readonly HistoryRepository $repository,

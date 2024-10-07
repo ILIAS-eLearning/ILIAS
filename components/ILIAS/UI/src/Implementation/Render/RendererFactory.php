@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -36,14 +36,4 @@ interface RendererFactory
      * @param string[] $contexts
      */
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer;
-
-    // TODO: This is missing some method to enumerate contexts and the different
-    // renderers. This would be needed to show different renderings in the Kitchen
-    // Sink.
-
-    /**
-     * Todo: This was implemented to fix 21830. Do we really want this on the renderer
-     * factory interfaces?
-     */
-    public function getJSBinding(): JavaScriptBinding;
 }

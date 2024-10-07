@@ -48,8 +48,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof MainBar) {
             return $this->renderMainbar($component, $default_renderer);
         }
@@ -65,7 +63,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\MainControls\SystemInfo) {
             return $this->renderSystemInfo($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function calculateMainBarTreePosition($pos, $slate)
@@ -460,19 +458,5 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('assets/js/maincontrols.min.js');
         $registry->register('assets/js/GS.js');
         $registry->register('assets/js/system_info.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            MetaBar::class,
-            MainBar::class,
-            Footer::class,
-            ModeInfo::class,
-            Component\MainControls\SystemInfo::class
-        );
     }
 }

@@ -21,33 +21,29 @@ declare(strict_types=1);
 namespace ILIAS\MediaPool;
 
 use ILIAS\MediaPool\Clipboard;
+use ILIAS\MediaPool\Settings\SettingsDBRepository;
 
-/**
- * Repository internal repo service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected static array $instance = [];
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
     }
-
-    /*
-    public function ...() : ...\RepoService
-    {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
 
     public function clipboard(): Clipboard\ClipboardSessionRepository
     {
-        return new Clipboard\ClipboardSessionRepository();
+        return self::$instance["clipboard"] ??= new Clipboard\ClipboardSessionRepository();
     }
+
+    public function settings(): SettingsDBRepository
+    {
+        return self::$instance["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
+    }
+
 }

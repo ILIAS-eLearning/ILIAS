@@ -23,16 +23,10 @@ namespace ILIAS\LegalDocuments\Value;
 class Target
 {
     /**
-     * @var string|list<string>
-     */
-    private $path;
-
-    /**
      * @param string|list<string> $path
      */
-    public function __construct($path, private readonly string $command = '')
+    public function __construct(private $path, private readonly string $command = '')
     {
-        $this->path = $path;
     }
 
     /**

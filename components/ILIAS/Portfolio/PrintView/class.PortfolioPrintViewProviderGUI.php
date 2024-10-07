@@ -27,6 +27,7 @@ use ilPropertyFormGUI;
  */
 class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
+    protected bool $include_declaration = false;
     protected StandardGUIRequest $port_request;
     protected \ilLanguage $lng;
     protected \ilObjPortfolio $portfolio;
@@ -104,39 +105,15 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $op3->addSubItem($nl);
 
         foreach ($pages as $p) {
-            if ($p["type"] != \ilPortfolioPage::TYPE_BLOG) {
-                $nl->addListNode(
-                    $p["id"],
-                    $p["title"],
-                    0,
-                    false,
-                    false,
-                    \ilUtil::getImagePath("standard/icon_pg.svg"),
-                    $lng->txt("page")
-                );
-            } else {
-                $nl->addListNode(
-                    $p["id"],
-                    $lng->txt("obj_blog") . ": " . \ilObject::_lookupTitle($p["title"]),
-                    0,
-                    false,
-                    false,
-                    \ilUtil::getImagePath("standard/icon_blog.svg"),
-                    $lng->txt("obj_blog")
-                );
-                $pages2 = \ilBlogPosting::getAllPostings($p["title"]);
-                foreach ($pages2 as $p2) {
-                    $nl->addListNode(
-                        "b" . $p2["id"],
-                        $p2["title"],
-                        $p["id"],
-                        false,
-                        false,
-                        \ilUtil::getImagePath("standard/icon_pg.svg"),
-                        $lng->txt("page")
-                    );
-                }
-            }
+            $nl->addListNode(
+                $p["id"],
+                $p["title"],
+                0,
+                false,
+                false,
+                \ilUtil::getImagePath("standard/icon_pg.svg"),
+                $lng->txt("page")
+            );
         }
 
         $form->addItem($radg);
@@ -190,17 +167,12 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             "components/ILIAS/Portfolio"
         );
         foreach ($pages as $page) {
-            if ($page["type"] != \ilPortfolioPage::TYPE_BLOG) {
-                if (is_array($this->selected_pages) &&
-                    !in_array($page["id"], $this->selected_pages)) {
-                    continue;
-                }
-                $cover_tpl->setCurrentBlock("content_item");
-                $cover_tpl->setVariable("ITEM_TITLE", $page["title"]);
-            } else {
-                $cover_tpl->setCurrentBlock("content_item");
-                $cover_tpl->setVariable("ITEM_TITLE", $lng->txt("obj_blog") . ": " . \ilObject::_lookupTitle($page["title"]));
+            if (is_array($this->selected_pages) &&
+                !in_array($page["id"], $this->selected_pages)) {
+                continue;
             }
+            $cover_tpl->setCurrentBlock("content_item");
+            $cover_tpl->setVariable("ITEM_TITLE", $page["title"]);
             $cover_tpl->parseCurrentBlock();
         }
 
@@ -245,32 +217,15 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $page_head_str = $page_head_tpl->get();
 
         foreach ($pages as $page) {
-            if ($page["type"] != \ilPortfolioPage::TYPE_BLOG) {
-                if (is_array($this->selected_pages) &&
-                    !in_array($page["id"], $this->selected_pages)) {
-                    continue;
-                }
-
-                $page_gui = new \ilPortfolioPageGUI($this->portfolio->getId(), $page["id"]);
-                $page_gui->setOutputMode($this->getOutputMode());
-                $page_gui->setPresentationTitle($page["title"]);
-                $html = $this->ctrl->getHTML($page_gui);
-                $print_pages[] = $page_head_str . $html;
-            } else {
-                $pages2 = \ilBlogPosting::getAllPostings($page["title"]);
-                foreach ($pages2 as $p2) {
-                    if ($this->port_request->getPrintSelectedType() === "selection" &&
-                        (!in_array("b" . $p2["id"], $this->port_request->getObjIds()))) {
-                        continue;
-                    }
-                    $page_gui = new \ilBlogPostingGUI(0, null, $p2["id"]);
-                    $page_gui->setFileDownloadLink("#");
-                    $page_gui->setFullscreenLink("#");
-                    $page_gui->setSourcecodeDownloadScript("#");
-                    $page_gui->setOutputMode($this->getOutputMode());
-                    $print_pages[] = $page_head_str . $page_gui->showPage(\ilObject::_lookupTitle($page["title"]) . ": " . $page_gui->getBlogPosting()->getTitle());
-                }
+            if (is_array($this->selected_pages) &&
+                !in_array($page["id"], $this->selected_pages)) {
+                continue;
             }
+            $page_gui = new \ilPortfolioPageGUI($this->portfolio->getId(), $page["id"]);
+            $page_gui->setOutputMode($this->getOutputMode());
+            $page_gui->setPresentationTitle($page["title"]);
+            $html = $this->ctrl->getHTML($page_gui);
+            $print_pages[] = $page_head_str . $html;
         }
 
         return $print_pages;

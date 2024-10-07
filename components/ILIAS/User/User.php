@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\User\Setup\Agent;
+
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Refinery\Factory as Refinery;
+
 class User implements Component\Component
 {
     public function init(
@@ -32,9 +37,9 @@ class User implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ilUserSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+        $contribute[SetupAgent::class] = fn() =>
+            new Agent(
+                $pull[Refinery::class]
             );
     }
 }

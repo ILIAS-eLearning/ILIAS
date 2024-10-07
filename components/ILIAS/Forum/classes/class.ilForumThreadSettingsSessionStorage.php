@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilForumThreadSettingsSessionStorage
 {
-    public function __construct(private string $key)
+    public function __construct(private readonly string $key)
     {
     }
 

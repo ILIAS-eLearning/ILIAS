@@ -21,7 +21,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
-use ILIAS\MetaData\Services\Services as Metadata;
+use ILIAS\MetaData\Services\ServicesInterface as Metadata;
 use ILIAS\MetaData\Services\Reader\ReaderInterface as Reader;
 
 /**

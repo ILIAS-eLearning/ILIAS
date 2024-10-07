@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\Condition\Definition;
 
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\LegalDocuments\Condition;
 use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\Condition\UserCountry;

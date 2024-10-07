@@ -26,10 +26,8 @@ use Closure;
 use ILIAS\LegalDocuments\Table as TableInterface;
 use ILIAS\LegalDocuments\TableSelection;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory as UIFactory;
 use ilTable2GUI;
 use ILIAS\LegalDocuments\SmoothTableConfig;
-use ILIAS\LegalDocuments\TableFilter;
 use InvalidArgumentException;
 use ILIAS\UI\Component\Modal\Modal;
 use ilFormPropertyGUI;
@@ -75,7 +73,7 @@ class Table extends ilTable2GUI implements TableSelection
         parent::setMaxCount($a_max_count);
     }
 
-    public function setSelectableColumns(...$names): void
+    public function setSelectableColumns(string ...$names): void
     {
         $this->sel = array_merge($this->sel, $names);
     }

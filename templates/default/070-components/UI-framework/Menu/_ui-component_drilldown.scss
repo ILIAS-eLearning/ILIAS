@@ -105,7 +105,8 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
         .c-drilldown__menulevel--trigger,
         .btn-bulky,
         .link-bulky,
-        hr {
+        hr,
+        .il-divider  {
             display: none;
         }
 

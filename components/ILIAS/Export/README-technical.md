@@ -8,7 +8,7 @@ ILIAS provides support for a standard way of representing ILIAS export screens a
 
 ### Export User Interface: Class ilExportGUI
 
-The export tab should be placed accoring to the [tabs guidelines](https://docu.ilias.de/goto_docu_wiki_wpage_481_1357.html). The export screen should be implemented by using class `ilExportGUI` which is located in `Services/Export/classes`. The basic lines of code needed are:
+The export tab should be placed accoring to the [tabs guidelines](https://docu.ilias.de/goto_docu_wiki_wpage_481_1357.html). The export screen should be implemented by using class `ilExportGUI` which is located in `components/ILIAS/Export/classes`. The basic lines of code needed are:
 
 ```php
 // the code is placed in the ilObj...GUI class of the repository resource
@@ -31,7 +31,7 @@ if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 ...
 ```
 
-The simple example above can be found in `Modules/Exercise/classes/class.ilObjExerciseGUI.php`. A more complex usage can be found in learning modules, class `Modules/LearningModule/classes/class.ilObjContentObjectGUI.php`. This uses the `addFormat()` method to add multiple formats and custom columns and multi commands:
+The simple example above can be found in `ILIAS/Exercise/classes/class.ilObjExerciseGUI.php`. A more complex usage can be found in learning modules, class `ILIAS/LearningModule/classes/class.ilObjContentObjectGUI.php`. This uses the `addFormat()` method to add multiple formats and custom columns and multi commands:
 
 ```php
 // in executeCommand()
@@ -49,7 +49,7 @@ $ret = $this->ctrl->forwardCommand($exp_gui);
 ```
 
 ### Class il<Component>Exporter
-For the XML export the export user interface class calls a generic export method ilExport->exportObject (Services/Export). To use this generic export, you need to implement an il\<Module\>Exporter class that is derived from `ilXmlExporter`.
+For the XML export the export user interface class calls a generic export method ilExport->exportObject (ILIAS/Export). To use this generic export, you need to implement an il\<Module\>Exporter class that is derived from `ilXmlExporter`.
 
 The method exportObject of ilExport triggers a **modularized export process** that is **not limited to repository resources**. It **can be used by any component** of ILIAS for different sets of entities. E.g. the service MetaData implements a class `ilMetaDataExporter` and the module MediaPool implements a class `ilMediaPoolExporter`.
 
@@ -108,7 +108,7 @@ public function getXmlExportTailDependencies(string $a_entity, string $a_target_
     }
     return array (
         array(
-            "component" => "Services/MetaData",
+            "component" => "components/ILIAS/MetaData",
             "entity" => "md",
             "ids" => $md_ids)
         );
@@ -123,7 +123,7 @@ function getValidSchemaVersions(string $a_entity) : array
 {
     return array (
         "4.1.0" => array(
-            "namespace" => "http://www.ilias.de/Services/MediaObjects/mob/4_1",
+            "namespace" => "http://www.ilias.de/components/ILIAS/MediaObjects/mob/4_1",
             "xsd_file" => "ilias_mob_4_1.xsd",
             "uses_dataset" => true,
             "min" => "4.1.0",
@@ -141,14 +141,14 @@ The standard export process creates a file named `<timestamp>__<installation id>
 ```php
 <Manifest MainEntity="mep" Title="My Pool" TargetRelease="4.1.0"
 InstallationId="4411" InstallationUrl="http://scott.local/ilias">
-    <ExportFile Component="Services/MediaObjects" Path="Services/MediaObjects/set_1/export.xml"/>
-    <ExportFile Component="Services/MetaData" Path="Services/MetaData/set_1/export.xml"/>
-    <ExportFile Component="Modules/MediaPool" Path="Modules/MediaPool/set_1/export.xml"/>
-    <ExportFile Component="Services/MediaObjects" Path="Services/MediaObjects/set_2/export.xml"/>
-    <ExportFile Component="Services/MetaData" Path="Services/MetaData/set_2/export.xml"/>
-    <ExportFile Component="Modules/File" Path="Modules/File/set_1/export.xml"/>
-    <ExportFile Component="Services/MetaData" Path="Services/MetaData/set_3/export.xml"/>
-    <ExportFile Component="Services/COPage" Path="Services/COPage/set_1/export.xml"/>
+    <ExportFile Component="components/ILIAS/MediaObjects" Path="components/ILIAS/MediaObjects/set_1/export.xml"/>
+    <ExportFile Component="components/ILIAS/MetaData" Path="components/ILIAS/MetaData/set_1/export.xml"/>
+    <ExportFile Component="components/ILIAS/MediaPool" Path="components/ILIAS/MediaPool/set_1/export.xml"/>
+    <ExportFile Component="components/ILIAS/MediaObjects" Path="components/ILIAS/MediaObjects/set_2/export.xml"/>
+    <ExportFile Component="components/ILIAS/MetaData" Path="components/ILIAS/MetaData/set_2/export.xml"/>
+    <ExportFile Component="components/ILIAS/File" Path="components/ILIAS/File/set_1/export.xml"/>
+    <ExportFile Component="components/ILIAS/MetaData" Path="components/ILIAS/MetaData/set_3/export.xml"/>
+    <ExportFile Component="components/ILIAS/COPage" Path="components/ILIAS/COPage/set_1/export.xml"/>
 </Manifest>
 ```
 
@@ -156,11 +156,11 @@ The example above shows the manifest file for a media pool which lists all compo
 
 ## Import
 
-ILIAS also provides a standardized import process for packages that have been created with the standard export process. The process for importing a repository resource is started with a call of `ilImport->importObject` (Services/Export). All involved components must provide a class `il<Component>Importer` that handles the import of the corresponding data.
+ILIAS also provides a standardized import process for packages that have been created with the standard export process. The process for importing a repository resource is started with a call of `ilImport->importObject` (ILIAS/Export). All involved components must provide a class `il<Component>Importer` that handles the import of the corresponding data.
 
 ### Class il<Component>Importer
 
-This class must be derived from `ilXmlImporter` (Services/Export). The class must provide:
+This class must be derived from `ilXmlImporter` (ILIAS/Export). The class must provide:
 
 - a method `importXmlRepresentation()` that imports the XML of the export.
 
@@ -169,7 +169,7 @@ Additionally the class may implement an `init()` method that is called at the be
 ```php
 function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
 {
-    $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
+    $new_id = $a_mapping->getMapping("components/ILIAS/MetaData", "md", $a_id);
     if ($new_id != "")
     {
         $id = explode(":", $new_id);
@@ -182,13 +182,13 @@ function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, 
 The example above imports the XML data that has been created by the corresponding `il<Component>Exporter` class, in this case `ilMetaDataExporter`. The ID provided is the ID of the export file. In this case the new id depends on the object that depends on the meta data, e.g. a media object. The media object has been imported before in this case and provided mapping information for the metadata via the mapping object that is passed to importXmlRepresentation. The mapping object allows to add (set) old-to-new-ID mappings and to lookup them up (get).
 
 ```php
-// code in Services/MediaObjects that creates new media objects from
+// code in ILIAS/MediaObjects that creates new media objects from
 // import xml and adds mapping for metadata
 $newObj = new ilObjMediaObject();
 ...
 $newObj->create();
 ...
-$a_mapping->addMapping("Services/MetaData", "md",
+$a_mapping->addMapping("components/ILIAS/MetaData", "md",
     "0:".$old_id.":mob", "0:".$newObj->getId().":mob");
 ```
 

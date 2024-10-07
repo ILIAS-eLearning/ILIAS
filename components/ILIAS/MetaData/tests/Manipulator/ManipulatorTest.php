@@ -58,8 +58,8 @@ use ILIAS\MetaData\Paths\Steps\NullStep;
 use ILIAS\MetaData\Paths\Steps\StepInterface;
 use ILIAS\MetaData\Repository\NullRepository;
 use ILIAS\MetaData\Repository\RepositoryInterface;
-use ILIAS\MetaData\Repository\Utilities\NullScaffoldProvider;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\NullScaffoldProvider;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 use ILIAS\MetaData\Paths\Steps\StepToken;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Structure\Definitions\NullDefinition;
@@ -87,26 +87,12 @@ class ManipulatorTest extends TestCase
         };
     }
 
-    public function getScaffoldProviderMock(): ScaffoldProviderInterface
+    protected function getScaffoldProviderMock(): ScaffoldProviderInterface
     {
         return new class () extends NullScaffoldProvider {
             public function getScaffoldsForElement(ElementInterface $element): \Generator
             {
                 yield from [];
-            }
-        };
-    }
-
-    protected function getRepositoryMock(): RepositoryInterface
-    {
-        return new class ($this) extends NullRepository {
-            public function __construct(protected ManipulatorTest $test)
-            {
-            }
-
-            public function scaffolds(): ScaffoldProviderInterface
-            {
-                return $this->test->getScaffoldProviderMock();
             }
         };
     }
@@ -812,7 +798,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareDelete_001(): void
     {
         $manipulator = new Manipulator(
-            new NullRepository(),
+            new NullScaffoldProvider(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -935,7 +921,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareDelete_002(): void
     {
         $manipulator = new Manipulator(
-            new NullRepository(),
+            new NullScaffoldProvider(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1034,7 +1020,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareCreateOrUpdate_001(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1082,7 +1068,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareCreateOrUpdate_002(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1182,7 +1168,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareCreateOrUpdate_003(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1305,7 +1291,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareCreateOrUpdate_004(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1440,7 +1426,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareCreateOrUpdate_005(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1601,7 +1587,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareForceCreate01(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),
@@ -1749,7 +1735,7 @@ class ManipulatorTest extends TestCase
     public function testPrepareForceCreate02(): void
     {
         $manipulator = new Manipulator(
-            $this->getRepositoryMock(),
+            $this->getScaffoldProviderMock(),
             $this->getMarkerFactoryMock(),
             $this->getNavigatorFactoryMock(),
             $this->getPathFactoryMock(),

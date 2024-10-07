@@ -26,6 +26,7 @@ use ILIAS\Portfolio\StandardGUIRequest;
  */
 class ilPortfolioExerciseGUI
 {
+    protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected StandardGUIRequest $port_request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -57,6 +58,7 @@ class ilPortfolioExerciseGUI
         $this->ass_id = $this->port_request->getExcAssId();
         $this->file = $this->port_request->getExcFile();
         $this->ui = $DIC->ui();
+        $this->exc_domain = $DIC->exercise()->internal()->domain();
     }
 
     public function executeCommand(): void
@@ -180,7 +182,7 @@ class ilPortfolioExerciseGUI
 
                 $text .= "<p>" . sprintf(
                     $lng->txt("prtf_exercise_submitted_info"),
-                    ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
+                    ilDatePresentation::formatDate(new ilDateTime($submitted?->getTimestamp(), IL_CAL_DATETIME)),
                     ""
                 ) . "</p>";
                 $buttons[] = $ui->factory()->button()->standard($lng->txt("prtf_download_submission"), $dl_link);
@@ -261,19 +263,21 @@ class ilPortfolioExerciseGUI
     public function downloadExcSubFile(): void
     {
         $ass = new ilExAssignment($this->ass_id);
-        $submission = new ilExSubmission($ass, $this->user_id);
-        $submitted = $submission->getFiles();
-        if (count($submitted) > 0) {
-            $submitted = array_pop($submitted);
-
-            $user_data = ilObjUser::_lookupName($submitted["user_id"]);
-            $title = ilObject::_lookupTitle($submitted["obj_id"]) . " - " .
+        $sub_manager = $this->exc_domain->submission($this->ass_id);
+        $sub = $sub_manager->getSubmissionsOfUser($this->user_id)->current();
+        if ($sub) {
+            $user_data = ilObjUser::_lookupName($this->user_id);
+            $title = ilObject::_lookupTitle($ass->getExerciseId()) . " - " .
                 $ass->getTitle() . " - " .
                 $user_data["firstname"] . " " .
                 $user_data["lastname"] . " (" .
                 $user_data["login"] . ").zip";
 
-            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
+            $sub_manager->deliverFile(
+                $this->user_id,
+                $sub->getRid(),
+                $title
+            );
         }
     }
 
@@ -327,7 +331,7 @@ class ilPortfolioExerciseGUI
         if ($submission->hasSubmitted()) {
             // #16888
             $submitted = $submission->getSelectedObject();
-            if ($submitted["ts"] != "") {
+            if ($submitted?->getTimestamp() != "") {
                 $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $ass_id);
                 $dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcSubFile");
                 $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");

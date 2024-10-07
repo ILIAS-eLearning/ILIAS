@@ -20,20 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\TutorFeedbackFile;
 
-use ILIAS\Exercise\IRSS\CollectionWrapper;
+use ILIAS\Exercise\IRSS\IRSSWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use _PHPStan_95cdbe577\Nette\Neon\Exception;
 use ILIAS\Exercise\IRSS\ResourceInformation;
 
 class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInterface
 {
-    protected CollectionWrapper $wrapper;
-    protected CollectionWrapper $collection;
+    protected IRSSWrapper $wrapper;
+    protected IRSSWrapper $collection;
     protected \ilDBInterface $db;
 
     public function __construct(
-        CollectionWrapper $wrapper,
+        IRSSWrapper $wrapper,
         \ilDBInterface $db
     ) {
         $this->db = $db;
@@ -161,4 +160,22 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
     ): void {
         throw new \ilExerciseException("Collection cannot be deleted for user in team assignment $ass_id.");
     }
+
+    public function deleteTeamCollection(
+        int $team_id,
+        ResourceStakeholder $stakeholder
+    ): void {
+        $set = $this->db->queryF(
+            "SELECT feedback_rcid FROM exc_team_data " .
+            " WHERE id = %s",
+            ["integer"],
+            [$team_id]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        $rcid = $rec["feedback_rcid"] ?? "";
+        if ($rcid !== "") {
+            $this->wrapper->deleteCollectionForIdString($rcid, $stakeholder);
+        }
+    }
+
 }

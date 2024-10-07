@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Clock\ClockInterface;
@@ -60,16 +60,7 @@ class ilSessionReminder
 
         $ilSetting = $DIC['ilSetting'];
 
-        $isSessionReminderEnabled = (bool) $ilSetting->get('session_reminder_enabled', null);
-        $sessionHandlingMode = (int) $ilSetting->get(
-            'session_handling_type',
-            (string) ilSession::SESSION_HANDLING_FIXED
-        );
-
-        return (
-            $isSessionReminderEnabled &&
-            $sessionHandlingMode === ilSession::SESSION_HANDLING_FIXED
-        );
+        return (bool) $ilSetting->get('session_reminder_enabled');
     }
 
     public function __construct(ilObjUser $user, ClockInterface $clock)
@@ -89,7 +80,7 @@ class ilSessionReminder
             )) * 60
         );
 
-        $this->setExpirationTime(ilSession::getIdleValue(true) + $this->clock->now()->getTimestamp());
+        $this->setExpirationTime(ilSession::getIdleValue() + $this->clock->now()->getTimestamp());
         $this->setCurrentTime($this->clock->now()->getTimestamp());
 
         $this->calculateSecondsUntilExpiration();

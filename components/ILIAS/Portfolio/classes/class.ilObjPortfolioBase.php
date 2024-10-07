@@ -125,22 +125,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->font_color = $a_value;
     }
 
-    /**
-     * Get banner image
-     */
-    public function getImage(): string
-    {
-        return $this->img;
-    }
-
-    /**
-     * Set banner image
-     */
-    public function setImage(string $a_value): void
-    {
-        $this->img = $a_value;
-    }
-
     //
     // CRUD
     //
@@ -157,7 +141,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setProfilePicture((bool) $row["ppic"]);
         $this->setBackgroundColor((string) $row["bg_color"]);
         $this->setFontColor((string) $row["font_color"]);
-        $this->setImage((string) $row["img"]);
 
         // #14661
         $this->setPublicComments($this->notes->domain()->commentsActive($this->id));
@@ -189,8 +172,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             "is_online" => array("integer", $this->isOnline()),
             "ppic" => array("integer", $this->hasProfilePicture()),
             "bg_color" => array("text", $this->getBackgroundColor()),
-            "font_color" => array("text", $this->getFontColor()),
-            "img" => array("text", $this->getImage())
+            "font_color" => array("text", $this->getFontColor())
         );
         $this->doUpdateCustom($fields);
 
@@ -226,111 +208,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 
     //
-    // IMAGES
-    //
-
-    /**
-     * Get banner image incl. path
-     */
-    public function getImageFullPath(
-        bool $a_as_thumb = false
-    ): string {
-        if ($this->img) {
-            $path = self::initStorage($this->id);
-            if (!$a_as_thumb) {
-                return $path . $this->img;
-            }
-
-            return $path . "thb_" . $this->img;
-        }
-        return "";
-    }
-
-    /**
-     * remove existing file
-     */
-    public function deleteImage(): void
-    {
-        if ($this->id) {
-            $storage = new ilFSStoragePortfolio($this->id);
-            $storage->delete();
-
-            $this->setImage("");
-        }
-    }
-
-    /**
-     * Init file system storage
-     */
-    public static function initStorage(
-        int $a_id,
-        string $a_subdir = null
-    ): string {
-        $storage = new ilFSStoragePortfolio($a_id);
-        $storage->create();
-
-        $path = $storage->getAbsolutePath() . "/";
-
-        if ($a_subdir) {
-            $path .= $a_subdir . "/";
-
-            if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
-            }
-        }
-
-        return $path;
-    }
-
-    /**
-     * Upload new image file
-     */
-    public function uploadImage(
-        array $a_upload
-    ): bool {
-        if (!$this->id) {
-            return false;
-        }
-
-        $this->deleteImage();
-
-        // #10074
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
-
-        $path = self::initStorage($this->id);
-        $original = "org_" . $this->id . "_" . $clean_name;
-        $thumb = "thb_" . $this->id . "_" . $clean_name;
-        $processed = $this->id . "_" . $clean_name;
-
-        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
-            chmod($path . $original, 0770);
-
-            $prfa_set = new ilSetting("prfa");
-            /* as banner height should overflow, we only handle width
-            $dimensions = $prfa_set->get("banner_width")."x".
-                $prfa_set->get("banner_height");
-            */
-            $dimensions = $prfa_set->get("banner_width");
-
-            // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-            // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilShellUtil::escapeShellArg($path . $original);
-            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
-            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilShellUtil::execConvert(
-                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
-            );
-
-            $this->setImage($processed);
-
-            return true;
-        }
-        return false;
-    }
-
-
-    //
     // TRANSMOGRIFIER
     //
 
@@ -351,13 +228,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $a_target->setProfilePicture($a_source->hasProfilePicture());
         $a_target->setFontColor($a_source->getFontColor());
         $a_target->setBackgroundColor($a_source->getBackgroundColor());
-        $a_target->setImage($a_source->getImage());
         $a_target->update();
-
-        // banner/images
-        $source_dir = $a_source->initStorage($a_source->getId());
-        $target_dir = $a_target->initStorage($a_target->getId());
-        ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
 
         // container settings
         foreach (ilContainer::_getContainerSettings($a_source->getId()) as $keyword => $value) {
@@ -449,7 +320,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $pskills = array_keys($skill_personal_service->getSelectedUserSkills($ilUser->getId()));
 
         // copy pages
-        $blog_count = 0;
         $page_map = array();
         foreach (ilPortfolioPage::getAllPortfolioPages($source_id) as $page) {
             $page_id = $page["id"];
@@ -477,43 +347,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
             $valid = false;
             switch ($page_type) {
-                // blog => blog template
-                case ilPortfolioPage::TYPE_BLOG:
-                    if ($direction === "p2t") {
-                        $page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
-                        $page_title = $lng->txt("obj_blog") . " " . (++$blog_count);
-                        $valid = true;
-                    }
-                    break;
-
-                    // blog template => blog (needs recipe)
-                case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                    if ($direction === "t2p" && (is_array($page_recipe) || $copy_all)) {
-                        $page_type = ilPortfolioPage::TYPE_BLOG;
-                        if ($copy_all) {
-                            $page_title = self::createBlogInPersonalWorkspace($page_title);
-                            $valid = true;
-                        } elseif ($page_recipe[0] == "blog") {
-                            switch ($page_recipe[1]) {
-                                case "create":
-                                    $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
-                                    $valid = true;
-                                    break;
-
-                                case "reuse":
-                                    $page_title = $page_recipe[2];
-                                    $valid = true;
-                                    break;
-
-                                case "ignore":
-                                    // do nothing
-                                    break;
-                            }
-                        }
-                    }
-                    break;
-
-                    // page editor
+                // page editor
                 default:
                     $target_page->setXMLContent(
                         $source_page->copyXmlContent(
@@ -590,37 +424,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         foreach ($nodes as $node) {
             $node->setAttribute($a_attr_id, $a_attr_value);
         }
-    }
-
-    protected static function createBlogInPersonalWorkspace(string $a_title): int
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        static $ws_access = null;
-
-        $blog = new ilObjBlog();
-        $blog->setType("blog");
-        $blog->setTitle($a_title);
-        $blog->create();
-
-        if (!$ws_access) {
-            $tree = new ilWorkspaceTree($ilUser->getId());
-
-            // #13235
-            if (!$tree->getRootId()) {
-                $tree->createTreeForUser($ilUser->getId());
-            }
-
-            $ws_access = new ilWorkspaceAccessHandler($tree);
-        }
-
-        $tree = $ws_access->getTree();
-        $node_id = $tree->insertObject($tree->getRootId(), $blog->getId());
-        $ws_access->setPermissions($tree->getRootId(), $node_id);
-
-        return $blog->getId();
     }
 
     /**

@@ -30,5 +30,7 @@ interface RendererInterface
      * Returns a string in a legacy UI component if only a string can be returned.
      * @return Image[]|Link[]|Legacy[]
      */
-    public function toUIComponents(CopyrightData $copyright): array;
+    public function toUIComponents(CopyrightDataInterface $copyright): array;
+
+    public function toString(CopyrightDataInterface $copyright): string;
 }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Class ilLMPresentationGUI
  * GUI class for learning module presentation
@@ -55,6 +57,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilLocatorGUI $locator;
     protected ilTree $tree;
     protected ilHelpGUI $help;
+    protected LOMServices $lom_services;
     protected ilObjLearningModule $lm;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
@@ -117,6 +120,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
         $this->global_screen = $DIC->globalScreen();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $lng = $DIC->language();
         $rbacsystem = $DIC->rbac()->system();
@@ -1487,13 +1491,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("pg");
                     break;
@@ -1517,13 +1514,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             0,
                             $this->lang
                         );
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            $disabled = true;
-                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                        }
-                    }
                     $img_src = ilUtil::getImagePath("standard/icon_st.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("st");
                     break;
@@ -1561,13 +1551,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $this->lang
                 );
 
-            if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                if (!ilLMObject::_isPagePublic($this->requested_obj_id)) {
-                    $disabled = true;
-                    $text .= " (" . $this->lng->txt("cont_no_access") . ")";
-                }
-            }
             $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
             $id = $this->requested_obj_id;
 
@@ -1654,7 +1637,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $footer_page_content = "";
         $chapter_title = "";
         $did_chap_page_header = false;
-        $description = "";
+
+        $lom_paths = $this->lom_services->paths();
+        $lom_data_helper = $this->lom_services->dataHelper();
+        $lom_cp_helper = $this->lom_services->copyrightHelper();
+        $lom_reader = $this->lom_services->read($this->lm->getId(), 0, $this->lm->getType());
 
         if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu()) {
             return;
@@ -1790,12 +1777,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output chapter title
                 if ($node["type"] == "st") {
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            continue;
-                        }
-                    }
 
                     $chap = new ilStructureObject($this->lm, $node["obj_id"]);
                     $tpl->setCurrentBlock("print_chapter");
@@ -1829,12 +1810,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output page
                 if ($node["type"] === "pg") {
-                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
-                        $this->lm_gui->getObject()->getPublicAccessMode() === "selected") {
-                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
-                            continue;
-                        }
-                    }
 
                     $tpl->setCurrentBlock("print_item");
 
@@ -2059,16 +2034,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $tpl->setCurrentBlock("print_header");
             $tpl->setVariable("LM_TITLE", $this->getLMPresentationTitle());
             if ($this->lm->getDescription() != "none") {
-                $md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
-                $md_gen = $md->getGeneral();
-                foreach ($md_gen->getDescriptionIds() as $id) {
-                    $md_des = $md_gen->getDescription($id);
-                    $description = $md_des->getDescription();
-                }
-
                 $tpl->setVariable(
                     "LM_DESCRIPTION",
-                    $description
+                    $lom_reader->firstData($lom_paths->firstDescription())->value()
                 );
             }
             $tpl->parseCurrentBlock();
@@ -2123,40 +2091,32 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         // output author information
-        $md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
-        if (is_object($lifecycle = $md->getLifecycle())) {
-            $sep = $author = "";
-            foreach (($ids = $lifecycle->getContributeIds()) as $con_id) {
-                $md_con = $lifecycle->getContribute($con_id);
-                if ($md_con->getRole() == "Author") {
-                    foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
-                        $author = $author . $sep . $md_ent->getEntity();
-                        $sep = ", ";
-                    }
-                }
-            }
-            if ($author != "") {
-                $this->lng->loadLanguageModule("meta");
-                $tpl->setCurrentBlock("author");
-                $tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
-                $tpl->setVariable("LM_AUTHOR", $author);
-                $tpl->parseCurrentBlock();
-            }
+        $authors = $lom_data_helper->makePresentableAsList(
+            ", ",
+            ...$lom_reader->allData($lom_paths->authors())
+        );
+        if ($authors != "") {
+            $this->lng->loadLanguageModule("meta");
+            $tpl->setCurrentBlock("author");
+            $tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
+            $tpl->setVariable("LM_AUTHOR", $authors);
+            $tpl->parseCurrentBlock();
         }
 
         // output copyright information
-        if (is_object($md_rights = $md->getRights())) {
-            $copyright = $md_rights->getDescription();
-            $copyright = ilMDUtils::_parseCopyright($copyright);
-
-            if ($copyright != "") {
-                $this->lng->loadLanguageModule("meta");
-                $tpl->setCurrentBlock("copyright");
-                $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
-                $tpl->setVariable("LM_COPYRIGHT", $copyright);
-                $tpl->parseCurrentBlock();
-            }
+        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
+            $copyright = $this->ui->renderer()->render(
+                $lom_cp_helper->readPresetCopyright($lom_reader)->presentAsUIComponents()
+            );
+        } else {
+            $copyright = $lom_cp_helper->readCustomCopyright($lom_reader);
+        }
+        if ($copyright != "") {
+            $this->lng->loadLanguageModule("meta");
+            $tpl->setCurrentBlock("copyright");
+            $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
+            $tpl->setVariable("LM_COPYRIGHT", $copyright);
+            $tpl->parseCurrentBlock();
         }
         $this->tpl->setContent($tpl->get());
         $this->tpl->addOnLoadCode("il.Util.print();");
@@ -2183,19 +2143,21 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "components/ILIAS/LearningModule");
 
         // output copyright information
-        $md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
-        if (is_object($md_rights = $md->getRights())) {
-            $copyright = $md_rights->getDescription();
-
-            $copyright = ilMDUtils::_parseCopyright($copyright);
-
-            if ($copyright != "") {
-                $this->lng->loadLanguageModule("meta");
-                $tpl->setCurrentBlock("copyright");
-                $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
-                $tpl->setVariable("LM_COPYRIGHT", $copyright);
-                $tpl->parseCurrentBlock();
-            }
+        $lom_cp_helper = $this->lom_services->copyrightHelper();
+        $lom_reader = $this->lom_services->read($this->lm->getId(), 0, $this->lm->getType());
+        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
+            $copyright = $this->ui->renderer()->render(
+                $lom_cp_helper->readPresetCopyright($lom_reader)->presentAsUIComponents()
+            );
+        } else {
+            $copyright = $lom_cp_helper->readCustomCopyright($lom_reader);
+        }
+        if ($copyright != "") {
+            $this->lng->loadLanguageModule("meta");
+            $tpl->setCurrentBlock("copyright");
+            $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
+            $tpl->setVariable("LM_COPYRIGHT", $copyright);
+            $tpl->parseCurrentBlock();
         }
 
         $download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);

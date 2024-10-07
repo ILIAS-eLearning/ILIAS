@@ -24,14 +24,9 @@
 abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilShibbolethAuthenticationPluginInt
 {
     /**
-     * @var ilShibbolethAuthenticationPlugin[]
-     */
-    protected array $active_plugins = [];
-
-    /**
      * @param mixed $a_value
      */
-    protected function checkValue(array $a_user_data, string $a_keyword, $a_value): bool
+    protected function checkValue(array $a_user_data, string $a_keyword, string $a_value): bool
     {
         if (!$a_user_data[$a_keyword]) {
             return false;

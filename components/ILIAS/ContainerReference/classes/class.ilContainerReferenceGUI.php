@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\ContainerReference\StandardGUIRequest;
 
@@ -133,7 +133,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $form = $this->initForm(self::MODE_CREATE);
         $this->tpl->setContent($form->getHTML());
     }
-
 
     public function saveObject(): void
     {
@@ -264,7 +263,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $form->addItem($ttype);
 
         $repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
-        //$repo->setParent($this);
         $repo->setRequired(true);
         $repo->getExplorerGUI()->setSelectableTypes([$this->getTargetType()]);
         $repo->getExplorerGUI()->setTypeWhiteList(
@@ -273,6 +271,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 ["root", "cat", "grp", "fold", "crs"]
             )
         );
+        $repo->getExplorerGUI()->setClickablePermission('visible');
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 
         if ($a_mode === self::MODE_EDIT) {

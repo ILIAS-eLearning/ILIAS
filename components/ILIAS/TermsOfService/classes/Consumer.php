@@ -29,11 +29,11 @@ use ilObjUser;
 use ILIAS\LegalDocuments\LazyProvide;
 use ILIAS\LegalDocuments\ConsumerToolbox\Blocks;
 use Closure;
+use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 
 class Consumer implements ConsumerInterface
 {
     private readonly Container $container;
-    private readonly Closure $lazy_users;
 
     public const ID = 'tos';
 
@@ -51,29 +51,32 @@ class Consumer implements ConsumerInterface
     {
         $blocks = new Blocks($this->id(), $this->container, $provide);
         $default = $blocks->defaultMappings();
-        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
-                     ->hasHistory();
-
         $global_settings = new Settings($blocks->selectSettingsFrom($blocks->readOnlyStore($blocks->globalStore())));
-
-        if (!$global_settings->enabled()->value()) {
-            return $slot;
-        }
-
+        $is_active = $global_settings->enabled()->value();
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings($user, $blocks->selectSettingsFrom(
             $blocks->userStore($user)
         ), $this->container->refinery()), $user);
+        $public_api = new PublicApi($is_active, $build_user);
+        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
+                     ->hasHistory()
+                     ->hasPublicApi($public_api);
+
+        if (!$is_active) {
+            return $slot;
+        }
 
         $user = $build_user($this->container->user());
+        $constraint = $this->container->refinery()->custom()->constraint(...);
 
         return $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
-                    ->hasAgreement($blocks->slot()->agreement($user, $global_settings), 'agreement')
+                    ->hasAgreement($blocks->slot()->agreement($user), 'agreement')
                     ->showInFooter($blocks->slot()->modifyFooter($user))
                     ->showOnLoginPage($blocks->slot()->showOnLoginPage())
                     ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                     ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                     ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'tos_agree_date', 'tos'))
-                    ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user));
+                    ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
+                    ->canUseSoapApi($constraint(fn($u) => !$public_api->needsToAgree($u), 'TOS not accepted.'));
     }
 
     private function userHasWithdrawn(): void

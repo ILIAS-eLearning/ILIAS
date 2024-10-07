@@ -73,7 +73,7 @@ class ilPRGMail
         string $body_template
     ): bool {
         $user_info = $assignment->getUserInformation();
-        $gender = $user_info->getGender() ?? 'n';
+        $gender = $user_info->getGender() ?: 'anonymous';
         $name = implode(' ', [$user_info->getFirstname(), $user_info->getLastname()]);
         $login = $user_info->getLogin();
         $prg_link = \ilLink::_getStaticLink(ilObjStudyProgramme::getRefIdFor($assignment->getRootId()), 'prg');

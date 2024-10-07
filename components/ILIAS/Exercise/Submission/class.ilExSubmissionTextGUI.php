@@ -26,6 +26,7 @@
  */
 class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Exercise\Submission\SubmissionManager $sub_manager;
     protected ilObjUser $user;
     protected ilHelpGUI $help;
 
@@ -38,6 +39,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         parent::__construct($a_exercise, $a_submission);
         $this->user = $DIC->user();
         $this->help = $DIC["ilHelp"];
+        $this->sub_manager = $DIC->exercise()->internal()->domain()->submission(
+            $a_submission->getAssignment()->getId()
+        );
     }
 
     public function executeCommand(): void
@@ -123,28 +127,8 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             $form->addItem($text);
 
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-                // custom rte tags
                 $text->setUseRte(true);
-                $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
-
-                // see ilObjForumGUI
-                $text->disableButtons(array(
-                    'charmap',
-                    'undo',
-                    'redo',
-                    'alignleft',
-                    'aligncenter',
-                    'alignright',
-                    'alignjustify',
-                    'anchor',
-                    'fullscreen',
-                    'cut',
-                    'copy',
-                    'paste',
-                    'pastetext',
-                    'code',
-                    // 'formatselect' #13234
-                ));
+                $text->setRteTagSet("mini");
             }
 
             $form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
@@ -181,13 +165,12 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         if ($a_form === null) {
             $a_form = $this->initAssignmentTextForm();
 
-            $files = $this->submission->getFiles();
-            if ($files !== []) {
-                $files = array_shift($files);
-                if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
+            $sub = $this->sub_manager->getSubmissionsOfUser($this->submission->getUserId())->current();
+            if ($sub) {
+                if (trim($sub->getText()) !== '' && trim($sub->getText()) !== '0') {
                     $text = $a_form->getItemByPostVar("atxt");
                     // mob id to mob src
-                    $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
+                    $text->setValue(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1));
                 }
             }
         }
@@ -266,18 +249,17 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
         $a_form = $this->initAssignmentTextForm(true);
 
-        $files = $this->submission->getFiles();
-        if ($files !== []) {
-            $files = array_shift($files);
-            if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
-                if ($files["late"] &&
+        $sub = $this->sub_manager->getSubmissionsOfUser($this->submission->getUserId())->current();
+        if ($sub) {
+            if (trim($sub->getText()) !== '' && trim($sub->getText()) !== '0') {
+                if ($sub->getLate() &&
                     !$this->submission->hasPeerReviewAccess()) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_late_submission"));
                 }
 
                 $text = $a_form->getItemByPostVar("atxt");
                 // mob id to mob src
-                $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
+                $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1)));
             }
         }
         $this->tpl->setContent($a_form->getHTML());

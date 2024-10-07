@@ -26,20 +26,20 @@ declare(strict_types=1);
  */
 class ilForumModeratorsGUI
 {
-    private ilCtrlInterface $ctrl;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilTabsGUI $tabs;
-    private ilErrorHandling $error;
-    private ilObjUser $user;
-    private ilToolbarGUI $toolbar;
-    private ilForumModerators $oForumModerators;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilLanguage $lng;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilErrorHandling $error;
+    private readonly ilObjUser $user;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilForumModerators $oForumModerators;
     private int $ref_id = 0;
-    private ilAccessHandler $access;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
-    private \ILIAS\Refinery\Factory $refinery;
-    private \ILIAS\HTTP\Services $http;
-    private \ILIAS\UI\Factory $ui_factory;
+    private readonly ilAccessHandler $access;
+    private readonly \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly \ILIAS\HTTP\Services $http;
+    private readonly \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
@@ -80,8 +80,8 @@ class ilForumModeratorsGUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
 
         switch (strtolower($next_class)) {
             case strtolower(ilRepositorySearchGUI::class):
@@ -209,14 +209,9 @@ class ilForumModeratorsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'detachModeratorRole':
-                $this->detachModeratorRole();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showModerators');
-                break;
-        }
+        match ($action) {
+            'detachModeratorRole' => $this->detachModeratorRole(),
+            default => $this->ctrl->redirect($this, 'showModerators'),
+        };
     }
 }

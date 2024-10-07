@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * language handling
@@ -410,7 +410,7 @@ class ilLanguage implements \ILIAS\Language\Language
             $language_detection = new ilLanguageDetection();
             $language = $language_detection->detect();
 
-            $ilUser->setPref("language", $language);
+            ilSession::set("lang", $language);
         }
 
         $post_change_lang_to = [];
@@ -427,7 +427,7 @@ class ilLanguage implements \ILIAS\Language\Language
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed
         if ($ilUser instanceof ilObjUser &&
-            (($ilUser->getId() && !$ilUser->isAnonymous()) || !$isset_get_lang)
+            (($ilUser->getId() && !$ilUser->isAnonymous()))
         ) {
             ilSession::set("lang", $ilUser->getPref("language"));
         }

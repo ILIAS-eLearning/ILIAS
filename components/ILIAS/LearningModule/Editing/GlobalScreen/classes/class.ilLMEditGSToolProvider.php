@@ -74,7 +74,6 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
     private function getContent(): string
     {
         global $DIC;
-
         $request = $DIC->learningModule()
             ->internal()
             ->gui()
@@ -85,6 +84,6 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
 
         $exp = new ilLMEditorExplorerGUI("illmeditorgui", "showTree", $lm);
 
-        return $exp->getHTML();
+        return $exp->getHTML(true);
     }
 }

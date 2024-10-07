@@ -184,7 +184,6 @@ class ilPortfolioDataSet extends ilDataSet
                 $newObj->setBackgroundColor($a_rec["BgColor"]);
                 $newObj->setFontColor($a_rec["FontColor"]);
                 $newObj->setProfilePicture($a_rec["Ppic"]);
-                $newObj->setImage($a_rec["Img"]);
                 $newObj->update();
 
                 // handle image(s)

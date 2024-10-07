@@ -15,7 +15,7 @@ for 'Certificates' to their component.
   * [Java Server](#java-server)
   * [Certificate Settings](#certificate-settings)
 * [GUI](#gui)
-* [Implementation for new Services/Module](#implementation-for-new-services-module)
+* [Implementation for new components](#implementation-for-new-components)
   * [Placeholder Description](#placeholder-description)
     * [Methods](#methods)
   * [Placeholder Values](#placeholder-values)
@@ -135,7 +135,7 @@ in a separated tab in `Learning History`.
 The subtab `Certificate` is only visible when certificates
 are activates via the [certificate settings](#certificate-settings).
 
-## Implementation for new Services/Module
+## Implementation for new components
 
 A new/separate case MUST be added in the following classes:
 * [`ilCertificateGUIFactory::create`](classes/Gui/class.ilCertificateGUIFactory.php)
@@ -425,9 +425,9 @@ certificates to the cron job queue.
 There are a few possible events the certificate service is
 listening to:
 
-| Event            | Component            | Explanation                                           |
-|------------------|----------------------|-------------------------------------------------------|
-| updateStatus     | Services/Tracking    | This event will be thrown by the Learning Progress    |
+| Event            | Component          | Explanation                                           |
+|------------------|--------------------|-------------------------------------------------------|
+| updateStatus     | ILIAS/Tracking     | This event will be thrown by the Learning Progress    |
 
 #### updateStatus
 
@@ -435,8 +435,8 @@ On an update status event (performed by the Learning Progress)
 a possible new user certificate will be added directly to the queue.
 
 If the Learning Progress is globally deactivated, the administrator
-can enter particular Modules/Services for Learning Progress.
-The course is NOT supported for this behaviour, but Modules/Services
+can enter particular components for Learning Progress.
+The course is NOT supported for this behaviour, but components
 can be added via the certificates template settings UI.
 Completing all of the selected events will add the user
 into the [queue](#cron-queue-classes).

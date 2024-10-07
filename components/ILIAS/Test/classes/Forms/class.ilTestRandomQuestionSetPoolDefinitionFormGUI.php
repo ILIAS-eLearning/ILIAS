@@ -113,8 +113,6 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 
 
         if ($available_taxonomy_ids !== []) {
-            ilOverlayGUI::initJavaScript();
-
             $filter = $sourcePool->getOriginalTaxonomyFilter();
             foreach ($available_taxonomy_ids as $tax_id) {
                 $taxonomy = new ilObjTaxonomy($tax_id);

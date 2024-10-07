@@ -82,6 +82,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($query->has('key_one'));
         $this->assertTrue($query->has('key_two'));
         $this->assertFalse($query->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $query->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();
@@ -106,6 +107,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($post->has('key_one'));
         $this->assertTrue($post->has('key_two'));
         $this->assertFalse($post->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $post->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();
@@ -130,6 +132,7 @@ class WrapperTest extends AbstractBaseTestCase
         $this->assertTrue($cookie->has('key_one'));
         $this->assertTrue($cookie->has('key_two'));
         $this->assertFalse($cookie->has('key_three'));
+        $this->assertEquals(['key_one', 'key_two'], $cookie->keys());
 
         $string_trafo = $this->refinery->kindlyTo()->string();
         $int_trafo = $this->refinery->kindlyTo()->int();

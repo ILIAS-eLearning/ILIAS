@@ -170,34 +170,6 @@ class ilExerciseXMLWriter extends ilXmlWriter
         int $ex_id,
         int $as_id
     ): void {
-        $this->xmlStartTag("Files");
-        $storage = new ilFSStorageExercise($ex_id, $as_id);
-        $files = $storage->getFiles();
-
-        if (count($files)) {
-            foreach ($files as $file) {
-                $this->xmlStartTag("File", array("size" => $file ["size"] ));
-                $this->xmlElement("Filename", null, $file ["name"]);
-                if ($this->attachFileContents) {
-                    $filename = $file ["fullpath"];
-                    if (is_file($filename)) {
-                        $content = file_get_contents($filename);
-                        $attribs = array("mode" => "PLAIN" );
-                        if ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED) {
-                            $attribs = array("mode" => "ZLIB" );
-                            $content = gzcompress($content, 9);
-                        } elseif ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED) {
-                            $attribs = array("mode" => "GZIP" );
-                            $content = gzencode($content, 9);
-                        }
-                        $content = base64_encode($content);
-                        $this->xmlElement("Content", $attribs, $content);
-                    }
-                }
-                $this->xmlEndTag("File");
-            }
-        }
-        $this->xmlEndTag("Files");
     }
 
     /**

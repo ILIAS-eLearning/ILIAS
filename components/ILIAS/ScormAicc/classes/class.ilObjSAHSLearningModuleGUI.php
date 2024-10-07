@@ -141,7 +141,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             case "ilinfoscreengui":
                 $ilTabs->setTabActive('info_short');
-                $this->infoScreen();
+                $this->infoScreenForward();
                 break;
 
             case "ilcommonactiondispatchergui":

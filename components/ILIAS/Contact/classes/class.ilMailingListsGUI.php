@@ -42,7 +42,7 @@ class ilMailingListsGUI
     private ilPropertyFormGUI $form_gui;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
-    private ilTabsGUI $tabs;
+    private readonly ilTabsGUI $tabs;
 
     public function __construct()
     {
@@ -122,15 +122,10 @@ class ilMailingListsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'confirmDeleteMembers':
-                $this->confirmDeleteMembers();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showMailingLists');
-                break;
-        }
+        match ($action) {
+            'confirmDeleteMembers' => $this->confirmDeleteMembers(),
+            default => $this->ctrl->redirect($this, 'showMailingLists'),
+        };
     }
 
     private function handleMailingListActions(): void
@@ -142,31 +137,17 @@ class ilMailingListsGUI
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'mailToList':
-                $this->mailToList();
-                break;
-
-            case 'confirmDelete':
-                $this->confirmDelete();
-                break;
-
-            case 'showMembersList':
-                $this->showMembersList();
-                break;
-
-            case 'showForm':
-                $this->showForm();
-                break;
-
-            default:
-                $this->ctrl->redirect($this, 'showMailingLists');
-                break;
-        }
+        match ($action) {
+            'mailToList' => $this->mailToList(),
+            'confirmDelete' => $this->confirmDelete(),
+            'showMembersList' => $this->showMembersList(),
+            'showForm' => $this->showForm(),
+            default => $this->ctrl->redirect($this, 'showMailingLists'),
+        };
     }
 
     /**
-     * @return int[]
+     * @return list<int>|list<string>
      */
     private function getMailingListIdsFromRequest(): array
     {
@@ -185,7 +166,7 @@ class ilMailingListsGUI
             $ml_ids = $this->http->wrapper()->query()->retrieve(
                 'contact_mailinglist_list_ml_ids',
                 $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                     $this->refinery->always([])
                 ])
             );
@@ -203,6 +184,14 @@ class ilMailingListsGUI
             return true;
         }
 
+        if ((string) current($ml_ids) === 'ALL_OBJECTS') {
+            $entries = $this->mlists->getAll();
+        } else {
+            $entries = $this->mlists->getSelected(
+                array_map(intval(...), $ml_ids)
+            );
+        }
+
         $c_gui = new ilConfirmationGUI();
 
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDelete'));
@@ -210,7 +199,6 @@ class ilMailingListsGUI
         $c_gui->setCancel($this->lng->txt('cancel'), 'showMailingLists');
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDelete');
 
-        $entries = $this->mlists->getSelected($ml_ids);
         foreach ($entries as $entry) {
             $c_gui->addItem('ml_id[]', (string) $entry->getId(), $entry->getTitle());
         }
@@ -279,6 +267,16 @@ class ilMailingListsGUI
             return true;
         }
 
+        if ((string) current($ml_ids) === 'ALL_OBJECTS') {
+            $entries = $this->mlists->getAll();
+            $ml_ids = [];
+            foreach ($entries as $entry) {
+                $ml_ids[] = $entry->getId();
+            }
+        } else {
+            $ml_ids = array_map(intval(...), $ml_ids);
+        }
+
         $mail_data = $this->umail->retrieveFromStage();
         $lists = [];
         foreach ($ml_ids as $id) {
@@ -304,7 +302,7 @@ class ilMailingListsGUI
             );
         }
 
-        ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+        ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=search_res');
 
         return true;
     }
@@ -528,7 +526,7 @@ class ilMailingListsGUI
         $requested_record_ids = $this->http->wrapper()->query()->retrieve(
             'contact_mailinglist_members_entry_ids',
             $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
             ])
         );
@@ -540,10 +538,20 @@ class ilMailingListsGUI
             return true;
         }
 
+        if ((string) current($requested_record_ids) === 'ALL_OBJECTS') {
+            $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
+            $requested_record_ids = [];
+            foreach ($assigned_entries as $entry) {
+                $requested_record_ids[] = $entry['a_id'];
+            }
+        } else {
+            $requested_record_ids = array_map(intval(...), $requested_record_ids);
+        }
+
         $c_gui = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteMembers'));
-        $c_gui->setHeaderText($this->lng->txt('mail_sure_delete_entry'));
+        $c_gui->setHeaderText($this->lng->txt('mail_sure_remove_user'));
         $c_gui->setCancel($this->lng->txt('cancel'), 'showMembersList');
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteMembers');
 
@@ -590,7 +598,7 @@ class ilMailingListsGUI
                     $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_success_removed_user'));
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
         }

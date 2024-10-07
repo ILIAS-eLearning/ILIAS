@@ -2064,7 +2064,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $submission = new ilExSubmission($ass, $this->user->getId());
             if ($submission->hasSubmitted()) {
                 $submitted = $submission->getSelectedObject();
-                if ($submitted["ts"] != "") {
+                if ($submitted?->getTimestamp() != "") {
                     $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
                 }
                 $dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");

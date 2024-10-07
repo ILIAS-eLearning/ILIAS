@@ -219,22 +219,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * Init creation forms
-     * this will create the default creation forms: new, import, clone
-     */
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = [];
-        $forms[self::CFORM_NEW] = $this->initCreateForm($new_type);
-
-        if ($this->supportsExport()) {
-            $forms[self::CFORM_IMPORT] = $this->initImportForm($new_type);
-        }
-
-        return $forms;
-    }
-
-    /**
      * @return bool returns true if this plugin object supports cloning
      */
     protected function supportsCloning(): bool

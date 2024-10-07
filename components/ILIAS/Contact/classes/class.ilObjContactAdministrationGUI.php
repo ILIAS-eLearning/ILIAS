@@ -62,8 +62,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
         switch (strtolower($next_class)) {

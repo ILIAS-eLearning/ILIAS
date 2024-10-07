@@ -273,7 +273,7 @@ class ilExAssignmentTeam
     }
 
     public function writeLog(
-        string $a_action,
+        int $a_action,
         string $a_details = null
     ): void {
         self::writeTeamLog($this->id, $a_action, $a_details);
@@ -284,7 +284,7 @@ class ilExAssignmentTeam
      */
     public static function writeTeamLog(
         int $a_team_id,
-        string $a_action,
+        int $a_action,
         string $a_details = null
     ): void {
         global $DIC;

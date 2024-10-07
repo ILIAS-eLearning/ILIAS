@@ -243,21 +243,24 @@ class ilLPStatusCollection extends ilLPStatus
         return $status_info;
     }
 
-    public static function _getTypicalLearningTime(int $a_obj_id): int
+    public static function _getTypicalLearningTime(string $type, int $obj_id, int $sub_id = 0): int
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if ($ilObjDataCache->lookupType($a_obj_id) == 'sahs') {
-            return parent::_getTypicalLearningTime($a_obj_id);
+        if ($type == 'sahs') {
+            return parent::_getTypicalLearningTime($type, $obj_id);
         }
 
         $tlt = 0;
-        $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+        $status_info = ilLPStatusWrapper::_getStatusInfo($obj_id);
         foreach ($status_info['collections'] as $item) {
+            $obj_id = $ilObjDataCache->lookupObjId((int) $item);
+            $type = $ilObjDataCache->lookupType($obj_id);
             $tlt += ilLPStatusWrapper::_getTypicalLearningTime(
-                $ilObjDataCache->lookupObjId((int) $item)
+                $type,
+                $obj_id
             );
         }
         return $tlt;

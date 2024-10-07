@@ -324,7 +324,7 @@ Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
  ```
 
 note:
-If you use a proxied [Chat Server](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Modules/Chatroom/README.md), you MUST add the url to the CSP definition:  
+If you use a proxied [Chat Server](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/components/ILIAS/Chatroom/README.md), you MUST add the url to the CSP definition:  
 
 ```
 connect-src 'self' wss://onscreenchat.%HOSTNAME% https://onscreenchat.%HOSTNAME%;
@@ -648,19 +648,19 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
     }
 ```
 
-**[ilFileDelivery](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Services/FileDelivery/classes/override.php.template)** (concerns NGINX/PHP-FPM):
+**[ilFileDelivery](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/components/ILIAS/FileDelivery/classes/override.php.template)** (concerns NGINX/PHP-FPM):
 > This is needed if you want to use the ilFileDelivery::DELIVERY_METHOD_XACCEL or the ilFileDelivery::DELIVERY_METHOD_XSENDFILE Method since PHP can't figure out whether X-Accel ist installed or not.""
 
 rename the file:
 
 ```
-%DOCROOT%/Services/FileDelivery/classes/override.php.template
+%DOCROOT%/components/ILIAS/FileDelivery/classes/override.php.template
 ```
 
 to
 
 ```
-%DOCROOT%/Services/FileDelivery/classes/override.php
+%DOCROOT%/components/ILIAS/FileDelivery/classes/override.php
 ```
 
 ## Use secure passwords
