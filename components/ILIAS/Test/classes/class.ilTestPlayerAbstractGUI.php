@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\Questions\Presentation\QuestionsOfAttemptTable;
 use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
@@ -1956,24 +1958,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->ctrl->setParameter($this, 'sequence', $this->testrequest->raw('sequence'));
 
-        $table_gui = new ilListOfQuestionsTableGUI(
-            $this,
-            'showQuestion',
+        $table = new QuestionsOfAttemptTable(
+            $this->lng,
+            $this->ctrl,
             $this->ui_factory,
-            $this->ui_renderer
+            new DataFactory(),
+            $this->http,
+            $this,
+            $this->object,
+            $question_summary_data
         );
-        if (($this->object->getNrOfTries() - 1) === $this->test_session->getPass()) {
-            $table_gui->setUserHasAttemptsLeft(false);
-        }
-        $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
-        $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
-        $table_gui->setFinishTestButtonEnabled(true);
-
-        $table_gui->init();
-
-        $table_gui->setData($question_summary_data);
-
-        $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());
+        $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $this->ui_renderer->render($table->buildComponents()));
 
         if ($this->object->getEnableProcessingTime()) {
             $this->outProcessingTime($active_id);
@@ -2039,7 +2034,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "components/ILIAS/Test");
 
-        $result_array = &$this->object->getTestResult(
+        $result_array = $this->object->getTestResult(
             $active_id,
             $pass,
             false,
