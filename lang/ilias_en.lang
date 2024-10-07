@@ -3837,6 +3837,7 @@ common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to
 common#:#current_password#:#Current Password
 common#:#current_user_avatar#:#Your User Avatar
 common#:#currently_used_disk_space#:#Currently used disk space
+common#:#customize_page#:#Customize Page
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
 common#:#daily#:#daily
@@ -8073,6 +8074,9 @@ dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites
 dash#:#dash_avail_presentation#:#Available Presentations
 dash#:#dash_avail_sortation#:#Available Sortations
 dash#:#dash_click_here#:#Click here
+dash#:#dash_co_delete#:#Delete Dashboard style
+dash#:#dash_co_lang#:#Dashboard style by languages
+dash#:#dash_customization#:#Customize Dashboard Content
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
@@ -8094,6 +8098,7 @@ dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List

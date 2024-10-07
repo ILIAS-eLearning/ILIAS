@@ -1,6 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="dash">
+	<copage>
+		<pageobject parent_type="dshs" class_name="ilDashboardPage" directory="classes"/>
+	</copage>
 	<baseclasses>
 		<baseclass name="ilDashboardGUI" dir="classes" />
 	</baseclasses>
