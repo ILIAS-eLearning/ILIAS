@@ -3,6 +3,8 @@
 il.MetaDataCopyrightListener = {
 
   modalSignalId: '',
+  modalWithOERWarningSignalID: '',
+  potentialOERValues: [],
   radioGroupId: '',
   form: HTMLFormElement,
   formButton: HTMLButtonElement,
@@ -11,9 +13,13 @@ il.MetaDataCopyrightListener = {
 
   initialValue: '',
 
-  init(modalSignalId, radioGroupId) {
+  init(modalSignalId, modalWithOERWarningSignalID, potentialOERValues, radioGroupId) {
     this.modalSignalId = modalSignalId;
+    this.modalWithOERWarningSignalID = modalWithOERWarningSignalID;
+    this.potentialOERValues = JSON.parse(potentialOERValues);
+
     this.radioGroupId = radioGroupId;
+
     this.form = $(`input[id^='${this.radioGroupId}']`)[0].form;
     this.formButton = $(':submit', this.form);
 
@@ -22,19 +28,30 @@ il.MetaDataCopyrightListener = {
     $(this.form).on(
       'submit',
       (event) => {
-        const currentValue = $(`input[id^='${il.MetaDataCopyrightListener.radioGroupId}']:checked`).val();
+        const currentRadioInput = $(`input[id^='${il.MetaDataCopyrightListener.radioGroupId}']:checked`);
+        const currentValue = currentRadioInput.val();
+        const harvestingBlockedCheckbox = currentRadioInput.parent().find('input:checkbox');
 
-        if (currentValue !== il.MetaDataCopyrightListener.initialValue) {
-          if (!il.MetaDataCopyrightListener.confirmed) {
-            event.preventDefault();
-            il.MetaDataCopyrightListener.triggerModal(event);
-          }
+        let signal = this.modalSignalId;
+        if (
+          this.potentialOERValues.includes(currentValue)
+          && !harvestingBlockedCheckbox.checked
+        ) {
+          signal = this.modalWithOERWarningSignalID;
+        }
+
+        if (
+          currentValue !== il.MetaDataCopyrightListener.initialValue
+          && !il.MetaDataCopyrightListener.confirmed
+        ) {
+          event.preventDefault();
+          il.MetaDataCopyrightListener.triggerModal(signal, event);
         }
       },
     );
   },
 
-  triggerModal(event) {
+  triggerModal(signal, event) {
     const buttonName = il.MetaDataCopyrightListener.formButton[0].textContent;
     $('.modal-dialog').find('form').find('input').prop('value', buttonName);
     $('.modal-dialog').find('form').on(
@@ -50,9 +67,9 @@ il.MetaDataCopyrightListener = {
 
     // Show modal
     $(document).trigger(
-      il.MetaDataCopyrightListener.modalSignalId,
+      signal,
       {
-        id: this.modalSignalId,
+        id: signal,
         event,
         triggerer: this.radioGroupId, // previously this was the form id
       },

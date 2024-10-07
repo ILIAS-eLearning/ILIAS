@@ -24,7 +24,9 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface;
 use ILIAS\MetaData\OERHarvester\Settings\NullSettings;
 use ILIAS\MetaData\OERHarvester\RepositoryObjects\HandlerInterface as ObjectHandler;
-use ILIAS\MetaData\OERHarvester\RepositoryObjects\NullHandler;
+use ILIAS\MetaData\OERHarvester\RepositoryObjects\NullHandler as NullObjectHandler;
+use ILIAS\MetaData\OERHarvester\Export\HandlerInterface as ExportHandler;
+use ILIAS\MetaData\OERHarvester\Export\NullHandler as NullExportHandler;
 use ILIAS\MetaData\OERHarvester\ResourceStatus\RepositoryInterface as StatusRepository;
 use ILIAS\MetaData\OERHarvester\ResourceStatus\NullRepository as NullStatusRepository;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\RepositoryInterface as ExposedRecordRepository;
@@ -41,7 +43,6 @@ use ILIAS\MetaData\OERHarvester\ExposedRecords\RecordInfosInterface;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\NullRecordInfos;
 use ILIAS\MetaData\OERHarvester\Results\WrapperInterface;
 use ILIAS\MetaData\OERHarvester\Results\NullWrapper;
-use ilMDOERHarvesterException;
 
 class HarvesterTest extends TestCase
 {
@@ -104,7 +105,7 @@ class HarvesterTest extends TestCase
             $obj_ids_referenced_in_container,
             $throw_error_on_deletion_ref_id,
             $throw_error_on_ref_creation_obj_id
-        ) extends NullHandler {
+        ) extends NullObjectHandler {
             public array $exposed_ref_creations = [];
             public array $exposed_ref_deletions = [];
 
@@ -120,7 +121,7 @@ class HarvesterTest extends TestCase
             public function referenceObjectInTargetContainer(int $obj_id, int $container_ref_id): int
             {
                 if ($obj_id === $this->throw_error_on_ref_creation_obj_id) {
-                    throw new ilMDOERHarvesterException('error');
+                    throw new \ilMDOERHarvesterException('error');
                 }
                 $new_ref_id = (int) ($container_ref_id . $obj_id);
                 $this->exposed_ref_creations[] = [
@@ -147,7 +148,7 @@ class HarvesterTest extends TestCase
             public function deleteReference(int $ref_id): void
             {
                 if ($ref_id === $this->throw_error_on_deletion_ref_id) {
-                    throw new ilMDOERHarvesterException('error');
+                    throw new \ilMDOERHarvesterException('error');
                 }
                 $this->exposed_ref_deletions[] = $ref_id;
             }
@@ -155,6 +156,37 @@ class HarvesterTest extends TestCase
             public function getTypeOfReferencedObject(int $ref_id): string
             {
                 return 'type_' . $ref_id;
+            }
+        };
+    }
+
+    protected function getExportHandler(
+        ?int $throw_exception_for_id = null,
+        int ...$already_have_export_obj_ids
+    ): ExportHandler {
+        return new class ($throw_exception_for_id, $already_have_export_obj_ids) extends NullExportHandler {
+            public array $exposed_created_exports_obj_ids = [];
+
+            public function __construct(
+                protected ?int $throw_exception_for_id,
+                protected array $already_have_export_obj_ids
+            ) {
+            }
+
+            public function hasPublicAccessExport(int $obj_id): bool
+            {
+                if ($this->throw_exception_for_id === $obj_id) {
+                    throw new \Exception('error');
+                }
+                return in_array($obj_id, $this->already_have_export_obj_ids);
+            }
+
+            public function createPublicAccessExport(int $obj_id): void
+            {
+                if ($this->throw_exception_for_id === $obj_id) {
+                    throw new \Exception('error');
+                }
+                $this->exposed_created_exports_obj_ids[] = $obj_id;
             }
         };
     }
@@ -181,7 +213,7 @@ class HarvesterTest extends TestCase
             public function getAllHarvestedObjIDs(): \Generator
             {
                 if ($this->throw_error === true) {
-                    throw new ilMDOERHarvesterException('error');
+                    throw new \ilMDOERHarvesterException('error');
                 }
                 yield from array_keys($this->currently_harvested);
             }
@@ -408,6 +440,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler(),
+            $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $this->getExposedRecordRepository(),
             $search_factory = $this->getSearchFactory(45),
@@ -437,6 +470,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler(),
+            $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332, 45 => 12345], [32]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(45, 32),
@@ -462,6 +496,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler([32]),
+            $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(45, 32),
@@ -487,6 +522,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler([], 0, [], 12345),
+            $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332, 45 => 12345, 67 => 12367]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(),
@@ -512,6 +548,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332]),
             $this->getExposedRecordRepository(),
             $search_factory = $this->getSearchFactory(32, 45),
@@ -544,6 +581,7 @@ class HarvesterTest extends TestCase
             [['obj_id' => 45, 'container_ref_id' => 123, 'new_ref_id' => 12345]],
             $object_handler->exposed_ref_creations
         );
+        $this->assertSame([45], $export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunDoNotHarvestBlockedObject(): void
@@ -551,6 +589,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332], [45]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(32, 45),
@@ -569,6 +608,7 @@ class HarvesterTest extends TestCase
         );
         $this->assertEmpty($status_repo->exposed_creations);
         $this->assertEmpty($object_handler->exposed_ref_creations);
+        $this->assertEmpty($export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunDoNotHarvestDeletedObject(): void
@@ -576,6 +616,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler([45]),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(32, 45),
@@ -594,6 +635,7 @@ class HarvesterTest extends TestCase
         );
         $this->assertEmpty($status_repo->exposed_creations);
         $this->assertEmpty($object_handler->exposed_ref_creations);
+        $this->assertEmpty($export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunDoNotHarvestAlreadyHarvestedObject(): void
@@ -601,6 +643,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(32, 45),
@@ -619,6 +662,7 @@ class HarvesterTest extends TestCase
         );
         $this->assertEmpty($status_repo->exposed_creations);
         $this->assertEmpty($object_handler->exposed_ref_creations);
+        $this->assertEmpty($export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunDoNotHarvestIfNoTargetContainerIsSet(): void
@@ -626,6 +670,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 0, 456),
             $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([32 => 12332]),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(32, 45),
@@ -644,6 +689,7 @@ class HarvesterTest extends TestCase
         );
         $this->assertEmpty($status_repo->exposed_creations);
         $this->assertEmpty($object_handler->exposed_ref_creations);
+        $this->assertEmpty($export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunHarvestObjectContinueDespiteError(): void
@@ -651,6 +697,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $object_handler = $this->getObjectHandler([], 0, [], null, 45),
+            $export_handler = $this->getExportHandler(),
             $status_repo = $this->getStatusRepository(),
             $this->getExposedRecordRepository(),
             $this->getSearchFactory(32, 45, 67),
@@ -681,6 +728,89 @@ class HarvesterTest extends TestCase
             ],
             $object_handler->exposed_ref_creations
         );
+        $this->assertSame([32, 67], $export_handler->exposed_created_exports_obj_ids);
+    }
+
+    public function testRunHarvestObjectDoNotExportWhenExportExists(): void
+    {
+        $harvester = new Harvester(
+            $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
+            $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(null, 45),
+            $status_repo = $this->getStatusRepository([32 => 12332]),
+            $this->getExposedRecordRepository(),
+            $search_factory = $this->getSearchFactory(32, 45),
+            $this->getXMLWriter(),
+            $this->getNullLogger()
+        );
+
+        $result = $harvester->run($this->getCronResultWrapper());
+
+        $this->assertSame(\ilCronJobResult::STATUS_OK, $result->exposed_status);
+        $this->assertSame(
+            'Deleted 0 deprecated references.<br>' .
+            'Created 1 new references.<br>' .
+            'Created, updated, or deleted 0 exposed records.',
+            $result->exposed_message
+        );
+        $this->assertSame(
+            [[
+                 'restricted' => true,
+                 'types' => ['type', 'second type'],
+                 'entries' => [12, 5]
+             ]],
+            $search_factory->exposed_search_params
+        );
+        $this->assertSame(
+            [['obj_id' => 45, 'href_id' => 12345]],
+            $status_repo->exposed_creations
+        );
+        $this->assertSame(
+            [['obj_id' => 45, 'container_ref_id' => 123, 'new_ref_id' => 12345]],
+            $object_handler->exposed_ref_creations
+        );
+        $this->assertEmpty($export_handler->exposed_created_exports_obj_ids);
+    }
+
+    public function testRunHarvestObjectContinueDespiteExportError(): void
+    {
+        $harvester = new Harvester(
+            $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
+            $object_handler = $this->getObjectHandler(),
+            $export_handler = $this->getExportHandler(45),
+            $status_repo = $this->getStatusRepository(),
+            $this->getExposedRecordRepository(),
+            $this->getSearchFactory(32, 45, 67),
+            $this->getXMLWriter(),
+            $this->getNullLogger()
+        );
+
+        $result = $harvester->run($this->getCronResultWrapper());
+
+        $this->assertSame(\ilCronJobResult::STATUS_OK, $result->exposed_status);
+        $this->assertSame(
+            'Deleted 0 deprecated references.<br>' .
+            'Created 3 new references.<br>' .
+            'Created, updated, or deleted 0 exposed records.',
+            $result->exposed_message
+        );
+        $this->assertSame(
+            [
+                ['obj_id' => 32, 'href_id' => 12332],
+                ['obj_id' => 45, 'href_id' => 12345],
+                ['obj_id' => 67, 'href_id' => 12367]
+            ],
+            $status_repo->exposed_creations
+        );
+        $this->assertSame(
+            [
+                ['obj_id' => 32, 'container_ref_id' => 123, 'new_ref_id' => 12332],
+                ['obj_id' => 45, 'container_ref_id' => 123, 'new_ref_id' => 12345],
+                ['obj_id' => 67, 'container_ref_id' => 123, 'new_ref_id' => 12367]
+            ],
+            $object_handler->exposed_ref_creations
+        );
+        $this->assertSame([32, 67], $export_handler->exposed_created_exports_obj_ids);
     }
 
     public function testRunDeleteExposedRecordIncorrectTypeOrCopyright(): void
@@ -688,6 +818,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>', 45 => '<el>45</el>']),
             $search_factory = $this->getSearchFactory(32),
@@ -725,6 +856,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332], [45]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>', 45 => '<el>45</el>']),
             $this->getSearchFactory(32, 45),
@@ -754,6 +886,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([45], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>', 45 => '<el>45</el>']),
             $this->getSearchFactory(32, 45),
@@ -783,6 +916,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>', 45 => '<el>45</el>']),
             $this->getSearchFactory(32, 45),
@@ -812,6 +946,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>', 45 => '<el>45</el>']),
             $this->getSearchFactory(32, 45),
@@ -850,6 +985,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>']),
             $this->getSearchFactory(32, 45),
@@ -889,6 +1025,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332], [45]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>']),
             $this->getSearchFactory(32, 45),
@@ -915,6 +1052,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([45], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>']),
             $this->getSearchFactory(32, 45),
@@ -941,6 +1079,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 456),
             $this->getObjectHandler([], 456, [32]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>']),
             $this->getSearchFactory(32, 45),
@@ -967,6 +1106,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5], 123, 0),
             $this->getObjectHandler([], 456, [32, 45]),
+            $this->getExportHandler(),
             $this->getStatusRepository([32 => 12332, 45 => 12345]),
             $record_repo = $this->getExposedRecordRepository([32 => '<el>32</el>']),
             $this->getSearchFactory(32, 45),
@@ -993,6 +1133,7 @@ class HarvesterTest extends TestCase
         $harvester = new Harvester(
             $this->getSettings(['type', 'second type'], [12, 5]),
             $object_handler = $this->getObjectHandler(),
+            $this->getExportHandler(),
             $status_repo = $this->getStatusRepository([], [], true),
             $this->getExposedRecordRepository(),
             $search_factory = $this->getSearchFactory(),

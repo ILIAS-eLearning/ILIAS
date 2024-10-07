@@ -18,24 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\XML\Copyright\Links;
+namespace ILIAS\MetaData\OERHarvester\Export;
 
-use ILIAS\Data\URI;
-use ILIAS\Data\ReferenceId;
-use ILIAS\Data\ObjectId;
-
-interface LinkGeneratorInterface
+interface HandlerInterface
 {
-    public function generateLinkForReference(
-        int $ref_id,
-        string $type
-    ): URI;
+    public function hasPublicAccessExport(int $obj_id): bool;
 
-    public function doesReferenceHavePublicAccessExport(
-        int $ref_id
-    ): bool;
-
-    public function generateLinkForPublicAccessExportOfReference(
-        int $ref_id
-    ): ?URI;
+    public function createPublicAccessExport(int $obj_id): void;
 }

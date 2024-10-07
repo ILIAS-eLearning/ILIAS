@@ -28,11 +28,13 @@ use ILIAS\MetaData\OERHarvester\ExposedRecords\RepositoryInterface as ExposedRec
 use ILIAS\MetaData\Copyright\Search\FactoryInterface as CopyrightSearchFactory;
 use ILIAS\MetaData\OERHarvester\XML\WriterInterface as SimpleDCXMLWriter;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\RecordInterface;
+use ILIAS\MetaData\OERHarvester\Export\HandlerInterface as ExportHandler;
 
 class Harvester
 {
     protected SettingsInterface $settings;
     protected ObjectHandler $object_handler;
+    protected ExportHandler $export_handler;
     protected StatusRepository $status_repository;
     protected ExposedRecordRepository $exposed_record_repository;
     protected CopyrightSearchFactory $copyright_search_factory;
@@ -42,6 +44,7 @@ class Harvester
     public function __construct(
         SettingsInterface $settings,
         ObjectHandler $object_handler,
+        ExportHandler $export_handler,
         StatusRepository $status_repository,
         ExposedRecordRepository $exposed_record_repository,
         CopyrightSearchFactory $copyright_search_factory,
@@ -50,6 +53,7 @@ class Harvester
     ) {
         $this->settings = $settings;
         $this->object_handler = $object_handler;
+        $this->export_handler = $export_handler;
         $this->status_repository = $status_repository;
         $this->exposed_record_repository = $exposed_record_repository;
         $this->copyright_search_factory = $copyright_search_factory;
@@ -184,6 +188,18 @@ class Harvester
                 continue;
             }
             $this->status_repository->setHarvestRefID($obj_id, $new_ref_id);
+
+            try {
+                if (!$this->export_handler->hasPublicAccessExport($obj_id)) {
+                    $this->export_handler->createPublicAccessExport($obj_id);
+                }
+            } catch (\Exception $e) {
+                $this->logError(
+                    'Error when creating export for object with obj_id ' .
+                    $obj_id . ': ' . $e->getMessage()
+                );
+            }
+
             $count++;
         }
         return $count;
