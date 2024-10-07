@@ -123,4 +123,22 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_8(): void
+    {
+        $this->db->modifyTableColumn(
+            'qpl_questions',
+            'author',
+            ['type' => 'text', 'length' => 512]
+        );
+    }
+
+    public function step_9(): void
+    {
+        $this->db->modifyTableColumn(
+            'qpl_questions',
+            'title',
+            ['type' => 'text', 'length' => 124]
+        );
+    }
 }

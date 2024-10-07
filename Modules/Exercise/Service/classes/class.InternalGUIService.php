@@ -32,12 +32,11 @@ use ILIAS\DI\Container;
 class InternalGUIService
 {
     use GlobalDICGUIServices;
-    protected \ILIAS\Exercise\InternalDataService $data_service;
-    protected \ILIAS\Exercise\InternalDomainService $domain_service;
+    protected InternalDataService $data_service;
+    protected InternalDomainService $domain_service;
     protected \ilLanguage $lng;
     protected \ilCtrl $ctrl;
     protected \ilToolbarGUI $toolbar;
-    protected UIServices $ui;
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
 
@@ -98,11 +97,11 @@ class InternalGUIService
             $exc = $this->request()->getExercise();
         }
         return new \ilExcRandomAssignmentGUI(
-            $this->ui,
-            $this->toolbar,
-            $this->lng,
-            $this->ctrl,
-            $this->service->domain()->assignment()->randomAssignments($exc)
+            $this->ui(),
+            $this->toolbar(),
+            $this->domain_service->lng(),
+            $this->ctrl(),
+            $this->domain_service->assignment()->randomAssignments($exc)
         );
     }
 

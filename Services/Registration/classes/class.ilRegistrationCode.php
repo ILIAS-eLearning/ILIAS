@@ -246,13 +246,29 @@ class ilRegistrationCode
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT code_id FROM reg_registration_codes ' .
+        $query = 'SELECT alimit, alimitdt FROM reg_registration_codes ' .
             'WHERE used = ' . $ilDB->quote(0, 'integer') . ' ' .
             'AND reg_enabled = ' . $ilDB->quote(1, 'integer') . ' ' .
             'AND code = ' . $ilDB->quote($a_code, 'text');
         $res = $ilDB->query($query);
+        if ($ilDB->numRows($res) !== 1) {
+            return false;
+        }
 
-        return (bool) $res->numRows();
+        $is_valid = true;
+
+        $row = $ilDB->fetchAssoc($res);
+        if ($row['alimit'] === 'absolute') {
+            $clock_factory = (new \ILIAS\Data\Factory())->clock();
+            $right_interval = new DateTimeImmutable(
+                $row['alimitdt'],
+                $clock_factory->system()->now()->getTimezone()
+            );
+
+            $is_valid = $right_interval >= $clock_factory->system()->now();
+        }
+
+        return  $is_valid;
     }
 
     public static function useCode(string $code): bool

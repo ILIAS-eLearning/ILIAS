@@ -344,7 +344,13 @@ class ilObjSurveyQuestionPool extends ilObject
         if ($obj_id) {
             $question->setObjId($obj_id);
         }
-        $question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
+        $max_len = 195;
+        if (strlen($question->getTitle() . $suffix) > $max_len) {
+            $title = substr($question->getTitle(), 0, $max_len - strlen($suffix)) . $suffix;
+        } else {
+            $title = $question->getTitle() . $suffix;
+        }
+        $question->duplicate(false, $title, $ilUser->fullname, $ilUser->id);
     }
 
     /**

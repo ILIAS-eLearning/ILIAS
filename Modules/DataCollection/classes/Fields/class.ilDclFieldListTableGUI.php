@@ -17,16 +17,6 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFieldListTableGUI
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Oskar Truffer <ot@studer-raimann.ch>
- * @version      $Id:
- * @extends      ilTable2GUI
- * @ilCtrl_Calls ilDateTime
- */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
     private $order = null;
@@ -50,6 +40,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->parent_obj = $a_parent_obj;
         $this->table = ilDclCache::getTableCache($table_id);
+        $this->table->showInvalidFields(true);
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
@@ -282,7 +273,9 @@ class ilDclFieldListTableGUI extends ilTable2GUI
                 $this->parent_obj->getDataCollectionObject()->getRefId(),
                 $this->table->getId()
             )) {
-                $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
+                if (in_array($a_set->getDatatypeId(), array_keys(ilDclDatatype::getAllDatatype()))) {
+                    $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
+                }
                 $alist->addItem(
                     $lng->txt('delete'),
                     'delete',

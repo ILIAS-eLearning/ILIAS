@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,48 +16,40 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilLearningSequenceXMLParser extends ilSaxParser
 {
     protected ilObjLearningSequence $obj;
-    protected bool $storing;
+    protected bool $storing = false;
 
     /**
      * @var (string|int)[]
      */
-    protected array $object;
+    protected array $object = [];
 
     /**
      * @var (string|int)[]
      */
-    protected array $ls_item_data;
+    protected array $ls_item_data = [];
 
     /**
      * @var string[]
      */
-    protected array $settings;
+    protected array $settings = [];
 
-    /**
-     * @var array
-     */
-    protected array $lp_settings;
-    protected int $counter;
+    protected array $lp_settings = [];
+    protected int $counter = 0;
     protected string $actual_name;
-    protected string $cdata;
+    protected string $cdata = '';
 
     public function __construct(ilObjLearningSequence $obj, string $xml)
     {
         parent::__construct();
 
         $this->obj = $obj;
-        $this->storing = false;
         $this->setXMLContent($xml);
-
-        $this->object = array();
-        $this->ls_item_data = array();
-        $this->settings = array();
-        $this->lp_settings = array();
-        $this->lp_settings["lp_item_ref_ids"] = array();
-        $this->counter = 0;
+        $this->lp_settings["lp_item_ref_ids"] = [];
     }
 
     /**
@@ -178,7 +168,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected function storeData(): void
     {
         if ($this->storing) {
-            $this->ls_item_data[$this->counter][$this->actual_name] = $this->cdata ?? "";
+            $this->ls_item_data[$this->counter][$this->actual_name] = $this->cdata;
         }
     }
 }

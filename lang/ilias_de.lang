@@ -11098,8 +11098,8 @@ mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
-mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
-mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
+mail#:#orphaned_mail_body#:#Es existieren alte oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+mail#:#orphaned_mail_subject#:#Benachrichtigung über alte Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8

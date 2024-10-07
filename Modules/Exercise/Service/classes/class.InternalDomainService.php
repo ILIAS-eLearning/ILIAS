@@ -20,17 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise;
 
+use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\DI\Container;
+
 /**
  * Exercise domain service (business logic)
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDomainService
 {
+    use GlobalDICDomainServices;
     protected InternalDataService $data;
     protected InternalRepoService $repo;
     protected Assignment\DomainService $assignment_service;
 
     public function __construct(
+        Container $DIC,
         InternalDataService $data,
         InternalRepoService $repo
     ) {
@@ -40,9 +45,10 @@ class InternalDomainService
             $this,
             $repo
         );
+        $this->initDomainServices($DIC);
     }
 
-    public function refinery():\ILIAS\Refinery\Factory
+    public function refinery(): \ILIAS\Refinery\Factory
     {
         global $DIC;
         return $DIC->refinery();

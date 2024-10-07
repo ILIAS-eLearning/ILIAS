@@ -754,7 +754,7 @@ class ilExAssignment
         $exc->updateAllUsersStatus();
         self::createNewAssignmentRecords($next_id, $exc);
 
-        $this->handleCalendarEntries("create");
+        $this->handleCalendarEntries("create", $exc);
     }
 
     /**
@@ -807,26 +807,61 @@ class ilExAssignment
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
 
-        $this->handleCalendarEntries("update");
+        $this->handleCalendarEntries("update", $exc);
     }
 
     /**
      * @throws ilDateTimeException
      */
-    public function delete(): void
-    {
+    public function delete(
+        ilObjExercise $exc,
+        bool $update_status = true
+    ): void {
         $ilDB = $this->db;
 
+        // delete submissions
+        $exc_members = new ilExerciseMembers($exc);
+        foreach ($exc_members->getMembers() as $mem) {
+            $submission = new ilExSubmission($this, $mem);
+            $submission->deleteAllFiles();
+        }
+
+        $ilDB->manipulateF(
+            "DELETE FROM exc_usr_tutor " .
+            "WHERE ass_id = %s",
+            array("integer"),
+            array($this->getId())
+        );
+
         $this->deleteGlobalFeedbackFile();
+
+        // remove peer review data
+        if ($this->getPeerReview()) {
+            $peer_review = new ilExPeerReview($this);
+            $peer_review->resetPeerReviews();
+        }
+
+        $ilDB->manipulate(
+            "DELETE FROM exc_ass_file_order" .
+            " WHERE assignment_id = " . $ilDB->quote($this->getId(), 'integer')
+        );
+
+        $ilDB->manipulate(
+            "DELETE FROM exc_mem_ass_status" .
+            " WHERE ass_id = " . $ilDB->quote($this->getId(), 'integer')
+        );
 
         $ilDB->manipulate(
             "DELETE FROM exc_assignment WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
         );
-        $exc = new ilObjExercise($this->getExerciseId(), false);
-        $exc->updateAllUsersStatus();
 
-        $this->handleCalendarEntries("delete");
+        if ($update_status) {
+            $exc = new ilObjExercise($this->getExerciseId(), false);
+            $exc->updateAllUsersStatus();
+        }
+
+        $this->handleCalendarEntries("delete", $exc);
 
         $reminder = new ilExAssignmentReminder();
         $reminder->deleteReminders($this->getId());
@@ -1503,7 +1538,7 @@ class ilExAssignment
             $file_name = $f["file"];
 
             // if checked in confirmation gui
-            if (is_array($a_files[$user_id]) && in_array(md5($file_name), $a_files[$user_id])) {
+            if (is_array($a_files[$user_id] ?? false) && in_array(md5($file_name), $a_files[$user_id])) {
                 $submission = new ilExSubmission($this, $user_id);
                 $feedback_id = $submission->getFeedbackId();
                 $noti_rec_ids = $submission->getUserIds();
@@ -1541,8 +1576,10 @@ class ilExAssignment
      * Handle calendar entries for deadline(s)
      * @throws ilDateTimeException
      */
-    protected function handleCalendarEntries(string $a_event): void
-    {
+    protected function handleCalendarEntries(
+        string $a_event,
+        ilObjExercise $exc
+    ): void {
         $ilAppEventHandler = $this->app_event_handler;
 
         $dl_id = $this->getId() . "0";
@@ -1578,8 +1615,6 @@ class ilExAssignment
                 $apps[] = $app;
             }
         }
-
-        $exc = new ilObjExercise($this->getExerciseId(), false);
 
         $ilAppEventHandler->raise(
             'Modules/Exercise',

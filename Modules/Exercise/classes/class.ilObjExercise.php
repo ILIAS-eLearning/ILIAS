@@ -46,12 +46,12 @@ class ilObjExercise extends ilObject
     protected ilFileDataMail $file_obj;
     public ?ilExerciseMembers $members_obj = null;
     protected int $timestamp = 0;
-    protected int  $hour = 0;
-    protected int  $minutes = 0;
-    protected int  $day = 0;
-    protected int  $month = 0;
-    protected int  $year = 0;
-    protected string  $instruction = "";
+    protected int $hour = 0;
+    protected int $minutes = 0;
+    protected int $day = 0;
+    protected int $month = 0;
+    protected int $year = 0;
+    protected string $instruction = "";
     protected int $certificate_visibility = 0;
     protected int $tutor_feedback = 7; // [int]
     protected int $nr_random_mand = 0; // number of mandatory assignments in random pass mode
@@ -322,11 +322,23 @@ class ilObjExercise extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        foreach (ilExAssignment::getAssignmentDataOfExercise($this->getId()) as $item) {
+            $ass = new ilExAssignment($item["id"]);
+            $ass->delete($this, false);
+        }
+
+        // members
+        $members = new ilExerciseMembers($this);
+        $members->delete();
+
         // put here course specific stuff
         $ilDB->manipulate("DELETE FROM exc_data " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
 
-        ilExcCriteriaCatalogue::deleteByParent($this->getId());
+        foreach (\ilExcCriteriaCatalogue::getInstancesByParentId($this->getId()) as $crit_cat) {
+            $crit_cat->delete();
+        }
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());

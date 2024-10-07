@@ -621,12 +621,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         $ilCtrl->setParameter($this, "prvm", "fsc");
                         break;
 
-                    // blog in portfolio
+                        // blog in portfolio
                     case "previewEmbedded":
                         $ilCtrl->setParameter($this, "prvm", "emb");
                         break;
 
-                    // edit
+                        // edit
                     default:
                         $this->setContentStyleSheet();
 
@@ -688,7 +688,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->renderFullScreen($ret, $nav);
                             break;
 
-                        // blog in portfolio
+                            // blog in portfolio
                         case "previewEmbedded":
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
@@ -697,7 +697,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->rendered_content = $this->buildEmbedded($ret, $nav);
                             return;
 
-                        // ilias/editor
+                            // ilias/editor
                         default:
                             // infos about draft status / snippet
                             $info = array();
@@ -1921,7 +1921,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $wtpl->setCurrentBlock("keyword");
             foreach ($keywords as $keyword => $counter) {
                 if (!$a_link_template) {
-                    $ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
+                    $ilCtrl->setParameter($this, "kwd", urlencode((string) $keyword)); // #15885
                     $url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     $ilCtrl->setParameter($this, "kwd", "");
                 } else {
@@ -2399,7 +2399,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $keywords = array();
         foreach ($tmp as $item) {
-            $keywords[$item["keyword"]] = $item["counter"];
+            $keywords[(string) $item["keyword"]] = $item["counter"];
         }
         return $keywords;
     }

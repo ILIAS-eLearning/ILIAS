@@ -117,12 +117,12 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         $target_title = ilContainerReference::_lookupTitle($obj_id);
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
-        $this->deleted = $tree->isDeleted($target_ref_id);
+        $this->deleted = !$target_ref_id || $tree->isDeleted($target_ref_id);
 
-        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id, $target_obj_id);
+        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget((int) $target_ref_id, (int) $target_obj_id);
 
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem((int) $target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         include_once('./Modules/GroupReference/classes/class.ilObjGroupReferenceAccess.php');

@@ -1016,6 +1016,7 @@ abstract class assQuestionGUI
             // author
             $author = new ilTextInputGUI($this->lng->txt("author"), "author");
             $author->setValue($this->object->getAuthor());
+            $author->setMaxLength(512);
             $author->setRequired(true);
             $form->addItem($author);
 
