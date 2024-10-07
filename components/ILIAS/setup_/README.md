@@ -12,10 +12,10 @@ main commands to manage ILIAS installations:
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
-* `--skip 
-* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named plugin from the command
-* `--no-plugins` will exclude all plugins from the command
-* `install <plugin name>` (or `update <plugin name>` respectively) will update or install the specified plugin
+* `--skip-legacy-plugin
+* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named legacy plugin from the command
+* `--no-legacy-plugins` will exclude all plugins from the command
+* `install <legacy plugin name>` (or `update <legacy plugin name>` respectively) will update or install the specified legacy plugin
 
 `install` requires a [configuration file](#about-the-config-file) to do the job.
 `update` can be used without this file for updating the installation only, but is
@@ -59,9 +59,9 @@ configs without secrets.
 
 The setup will also install plugins of the installation, unless the plugin explicitely
 defines that it cannot be installed via CLI setup. If you still want to skip a plugin
-for installation, use the skip-option: `php cli/setup.php install --skip <plugin name> config.json`.
+for installation, use the skip-option: `php cli/setup.php install --skip-legacy-plugin <plugin name> config.json`.
 The option can be repeated to cover multiple plugins. If you want to skip plugins
-alltogether, use the `--no-plugins` option. If you only want to install a specific
+alltogether, use the `--no-legacy-plugins` option. If you only want to install a specific
 plugin, use `php cli/setup.php install config.json <plugin name>`.
 
 The install command also offers the option to import a zip file during setup. The 
