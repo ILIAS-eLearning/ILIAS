@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications via Cron Job
 common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted post.
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -9934,6 +9933,8 @@ forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_draft#:#Edit Draft
 forum#:#forums_edit_post#:#Edit Post
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
+forum#:#forums_forum_notification#:#Send Forum Notifications
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new posts in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Please provide a reason for hiding this post.
