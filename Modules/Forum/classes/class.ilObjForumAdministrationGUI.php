@@ -264,7 +264,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 self::PROP_SECTION_NOTIFICATIONS => $section('frm_adm_sec_notifications', $disable_if_no_permission([
                     'forum_notification' => $checkbox_with_func(
                         'forum_notification',
-                        'cron_forum_notification',
+                        'forums_forum_notification',
                         fn($field) => (
                             $field
                             ->withDisabled($this->forumJobActive())
