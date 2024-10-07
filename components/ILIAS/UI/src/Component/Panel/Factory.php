@@ -108,6 +108,8 @@ interface Factory
      *      1: >
      *         Report Panels SHOULD be used when user generated content of two sources (i.e results, guidelines in a template)
      *         is to be displayed alongside each other.
+     *   composition:
+     *      1: Report Panels MAY contain one or more View Controls.
      *   interaction:
      *      1: Links MAY open new views.
      *      2: Buttons MAY trigger actions or inline editing.
