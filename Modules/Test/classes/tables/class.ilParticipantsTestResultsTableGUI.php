@@ -184,7 +184,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
             $resultsHref = $this->ctrl->getLinkTargetByClass([ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class], 'outParticipantsResultsOverview');
             $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_show_results'), $resultsHref);
         }
-        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions);
         return $this->ui_renderer->render($dropdown);
     }
 

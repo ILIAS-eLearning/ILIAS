@@ -274,7 +274,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
             foreach ($actions as $cmd => $label) {
                 $action_links[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
             }
-            $dropdown = $this->ui_factory->dropdown()->standard($action_links)->withLabel($this->lng->txt('actions'));
+            $dropdown = $this->ui_factory->dropdown()->standard($action_links);
             $html = $this->ui_renderer->render($dropdown);
         } else {
             $cmd = key($actions);
