@@ -40,3 +40,8 @@ A general overview on our processes can be found in the [development guide](http
 - [Javascript Modules](js-modules.md): How to modularise your Javascript code
 - [Javascript Bundling](js-bundling.md): How to bundle your Javascript code files
 - [Javascript Third-Party Libs](js-libraries.md): Managing Javascript third-party libs or frameworks
+
+### Templating
+
+- [System Styles](../../templates/README.md): Information about templating in ILIAS
+- [SCSS Guidelines](../../templeates/Guidelines_SCSS-Coding.md): Guidelines about the use of SCSS syntax in ILIAS for style code changes.
