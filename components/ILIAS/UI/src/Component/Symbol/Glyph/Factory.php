@@ -1460,4 +1460,48 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function launch(string $action = null): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Check Glyph indicates a positive status (e.g. approved/complete/ok/yes/finished/passed)
+     *   composition: >
+     *      The Check Glyph uses a checkmark.
+     * context: >
+     *   The Check Glyph can be used in combination with the Uncheck Glyph to display binary states.
+     *
+     * rules:
+     *   accessibility:
+     *      1: > The aria-label MUST be 'check'.
+     *   style:
+     *      1: > The Check Glyph SHOULD display a checkmark in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: > The Check Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function check(): Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Uncheck Glyph indicates a negative status (e.g. disapproved/blocked/no/failed/rejected)
+     *   composition: >
+     *      The Check Glyph uses a diagonal cross.
+     * context: >
+     *   The Uncheck Glyph can be used in combination with the Check Glyph to display binary states.
+     *
+     * rules:
+     *   accessibility:
+     *      1: > The aria-label MUST be 'uncheck'.
+     *   style:
+     *      1: > The uncheck Glyph SHOULD display a symmetric diagonal cross in the geometric focus of a mono-colored symmetric shape
+     *   usage:
+     *      1: > The Uncheck Glyph SHOULD be used to display a unary state or one option of a binary state.
+     * ---
+     * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function uncheck(): Glyph;
 }
