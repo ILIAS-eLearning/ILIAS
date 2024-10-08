@@ -99,7 +99,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
     public function getOnloadCode(): array
     {
         return [
-            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
+            $this->getInitializationOnLoadCode()
         ];
     }
 
