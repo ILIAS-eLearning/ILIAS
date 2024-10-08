@@ -1,6 +1,6 @@
-<form id="{ID}" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data" {NAME}<!-- BEGIN action --> action="{URL}"<!-- END action --> method="post" novalidate="novalidate">
+<form id="{ID}" role="form" class="c-form c-form--horizontal" enctype="multipart/form-data"<!-- BEGIN reference_error --> describedby="{ERROR_ID}"<!-- END reference_error --> {NAME}<!-- BEGIN action --> action="{URL}"<!-- END action --> method="post" novalidate="novalidate">
 	<!-- BEGIN error -->
-	<div class="c-form__error-msg alert alert-danger" role="alert">
+	<div id="{ERROR_ID}" class="c-form__error-msg alert alert-danger">
 		{ERROR}
 	</div>
 	<!-- END error -->

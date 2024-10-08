@@ -14630,7 +14630,7 @@ registration#:#reg_direct_info#:#New user registration requests are automaticall
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
@@ -17053,6 +17053,7 @@ ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_error#:#Error
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
 ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.
