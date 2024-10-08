@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#作成スタイル
 common#:#created#:#作成日
 common#:#cron_forum_notification#:#フォーラム通知を送る
 common#:#cron_forum_notification_crob_desc#:#有効にすると掲示板通知を有効にしている全てのユーザは不急に関わらず各投稿に対して新規投稿の全メール通知を毎日受領します。
-common#:#cron_forum_notification_desc#:#有効にすると、特定のフォーラムトピックスの新規投稿を知りたがっている全ユーザへメール通知されます。
 common#:#cron_forum_notification_disabled#:#Cron jobがアクティブ時は無効化できません。
 common#:#cron_jobs#:#Cronジョブ
 common#:#cron_lucene_index#:#ライセンス検索インデックスを更新
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS索引
 common#:#objs_rgrp#:#ECSグループ
 common#:#objs_rlm#:#ECSラーニングモジュール
 common#:#objs_role#:#役割
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECSテスト
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#SCORM/AICCラーニングモジュール
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (1行当たり2タイルまで)
 cont#:#cont_tile_size_4#:#full (1行当たり1タイル)
 cont#:#cont_tile_view#:#タイル
 cont#:#cont_tile_view_info#:#サムネイルスタイルタイルでコンテンツオブジェクトを表示。このタイルのイメージは個別オブジェクト別の設定でuploadできます。
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#コンタクトを承認しました
 contact#:#contact_awrn_ap_contacts_info#:#ユーザの承認した全てのコンタクトが表示されます。
 contact#:#contact_awrn_req_contacts#:#コンタクト要求
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#ファイルをダウンロード
 forum#:#forums_edit_draft#:#ドラフトを編集
 forum#:#forums_edit_post#:#記事を編集
 forum#:#forums_enable_notification#:#このトピックの通知を有効
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#この掲示板の新規メッセージは今後通知されません。
 forum#:#forums_info_censor2_post#:#検閲を取り消しますか?
 forum#:#forums_info_censor_post#:#本当にこの記事を非表示にしますか?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#ユーザ
 mail#:#mail_subject_prefix#:#メール件名
 mail#:#mail_subject_prefix_info#:#自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。
 mail#:#mail_subject_too_long#:#件名が長すぎます。
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#本当にマークされたメールを削除しますか?
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
 mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全に削除されます
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#テクニカル送信者
 mail#:#mail_system_sys_env_from_addr_info#:#このフィールドを空にしておくとSMTP転送が有効の場合に送信者のemailアドレスが使用されます。そうでなければ、管理者責任でこの値を構成することです。
 mail#:#mail_system_sys_from_addr#:#送信者email(From)
@@ -17148,7 +17153,7 @@ tstv#:#tstv_create#:#テスト証明の作成
 tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成します
 ui#:#datatable_multiaction_label#:#Bulk Actions
 ui#:#datatable_multiactionmodal_actionlabel#:#操作
-ui#:#datatable_multiactionmodal_buttonlabel#:#実行
+ui#:#datatable_multiactionmodal_apply#:#Apply###08 10 2024 new variable
 ui#:#datatable_multiactionmodal_listentry#:#全てのオブジェクトへ適用
 ui#:#datatable_multiactionmodal_msg#:#<b>警告!</b> 複数オブジェクトが影響
 ui#:#datatable_multiactionmodal_title#:#複数オブジェクト上の操作

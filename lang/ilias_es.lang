@@ -3786,7 +3786,6 @@ common#:#create_stylesheet#:#Crear Estilo
 common#:#created#:#Crear fecha
 common#:#cron_forum_notification#:#Enviar notificación de foros
 common#:#cron_forum_notification_crob_desc#:#Si se habilita, todos los usuarios que han activado las notificaciones en el foro recibirán un correo electrónico diario con todos los nuevos mensajes, pero no una notificación inmediata de cada envío realizado.
-common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificación por e-mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Tareas de Cron
 common#:#cron_lucene_index#:#Actualizar Índice de Búsqueda Lucene
@@ -5161,6 +5160,7 @@ common#:#objs_rglo#:#Glosarios ECS
 common#:#objs_rgrp#:#Grupos ECS
 common#:#objs_rlm#:#Módulos de aprendizaje ECS
 common#:#objs_role#:#Roles
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#Tests ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Módulos de Aprendizaje SCORM/AICC
@@ -6097,6 +6097,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Contactos aprobados
 contact#:#contact_awrn_ap_contacts_info#:#Se muestran todos los contactos aprobados por el usuario.
 contact#:#contact_awrn_req_contacts#:#Solicitudes de contactos
@@ -9934,6 +9935,8 @@ forum#:#forums_download_attachment#:#Descargar archivo
 forum#:#forums_edit_draft#:#Editar borrador
 forum#:#forums_edit_post#:#Editar mensaje
 forum#:#forums_enable_notification#:#Habilitar notificación para este tema
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Ya no se te notificarán nuevos mensajes en este foro
 forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere visualizar este mensaje?
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
@@ -11469,10 +11472,12 @@ mail#:#mail_smtp_user#:#Usuario
 mail#:#mail_subject_prefix#:#Asunto del Correo
 mail#:#mail_subject_prefix_info#:#Introduzca un texto, que precederá al asunto del correo saliente.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Está seguro de eliminar los correo(s) marcados
 mail#:#mail_sure_delete_entry#:#Está seguro que quiere eliminar las siguientes entradas
 mail#:#mail_sure_delete_file#:#El archivo será eliminado permanentemente
 mail#:#mail_sure_delete_folder#:#La carpeta y su contenido será eliminado permanentemente
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Remitente técnico
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)

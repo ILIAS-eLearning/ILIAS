@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Създаване на стил
 common#:#created#:#Дата на създаване
 common#:#cron_forum_notification#:#Изпращане на известия от форума
 common#:#cron_forum_notification_crob_desc#:#Ако е разрешено, всички потребители, които са активирали известията за форума, ще получават ежедневно съобщение за всички нови публикации, но не и незабавно известие за всяка изпратена публикация.
-common#:#cron_forum_notification_desc#:#Ако е разрешено, всички потребители, които искат да бъдат информирани за нови публикации в определени теми във форума, ще получават известия по имейл.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Хронологично определени задачи
 common#:#cron_lucene_index#:#Актуализиране на индекса за търсене в Lucene
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS речници
 common#:#objs_rgrp#:#ECS групи
 common#:#objs_rlm#:#ECS модули за обучение
 common#:#objs_role#:#Роли
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS тестове
 common#:#objs_rwik#:#ECS Уикита
 common#:#objs_sahs#:#SCORM/AICC модули за обучение
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Плочки
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Одобрени контакти
 contact#:#contact_awrn_ap_contacts_info#:#всички контакти, одобрени от потребителя.
 contact#:#contact_awrn_req_contacts#:#Заявки за контакт
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Изтегляне на файл
 forum#:#forums_edit_draft#:#Редактиране на проекта
 forum#:#forums_edit_post#:#Редактиране на статия
 forum#:#forums_enable_notification#:#Активиране на уведомяването
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Няма да получавате известия за нови съобщения в този форум.
 forum#:#forums_info_censor2_post#:#Отмяна на цензурата?
 forum#:#forums_info_censor_post#:#Сигурни ли сте, че желаете да скриете тази статия?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Потребител
 mail#:#mail_subject_prefix#:#Темата на съобщението
 mail#:#mail_subject_prefix_info#:#Введете текст, който ще бъде добавен към реда на темата на автоматично генерираните изходящи имейли
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Сигурни ли сте, че желаете да изтриете маркираната поща
 mail#:#mail_sure_delete_entry#:#Сигурни ли сте, че желаете да изтриете следните записи
 mail#:#mail_sure_delete_file#:#Файлът ще бъде премахнат трайно
 mail#:#mail_sure_delete_folder#:#Папката и нейното съдържание ще бъдат премахнати трайно
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_env_from_addr_info#:#Ако оставите това поле празно, ще се използва имейл адресът на подателя, ако е разрешен SMTP трансфер. В противен случай конфигурирането на тази стойност е отговорност на администратора на сървъра.
 mail#:#mail_system_sys_from_addr#:#Имейл на подателя (от)

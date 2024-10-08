@@ -3782,7 +3782,6 @@ common#:#create_stylesheet#:#Ustvari slog
 common#:#created#:#Ustvarjeno dne
 common#:#cron_forum_notification#:#Pošiljaj obvestila s foruma
 common#:#cron_forum_notification_crob_desc#:#Če je aktivirano, bo ILIAS dnevno pošiljal obvestila uporabnikom, ki želijo pri izbranih forumih ali temah na forumih biti obveščeni o novih ali spremenjenih objavah. Bodite pozorni na: če aktivirate to obliko obveščanja o forumih, ne bodo več poslana neposredna obvestila (Administracija / Forumi / Obveščanje o forumih).
-common#:#cron_forum_notification_desc#:#Če je aktivirano, bo ILIAS pošiljal e-pošto uporabnikom, ki želijo pri izbranih temah na forumu biti obveščeni o novih objavah.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_lucene_index#:#Posodobi iskalni indeks Lucene
@@ -5157,6 +5156,7 @@ common#:#objs_rglo#:#Glosarji ECS
 common#:#objs_rgrp#:#Skupine ECS
 common#:#objs_rlm#:#Učni moduli ECS
 common#:#objs_role#:#Vloge
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#Testi ECS
 common#:#objs_rwik#:#Wiki ECS
 common#:#objs_sahs#:#Učni moduli SCORM
@@ -6093,6 +6093,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Ploščice
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -9930,6 +9931,8 @@ forum#:#forums_download_attachment#:#Prenesi datoteko
 forum#:#forums_edit_draft#:#Uredi osnutek
 forum#:#forums_edit_post#:#Uredi objavo
 forum#:#forums_enable_notification#:#Začni obveščanje za temo
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Ne boste več prejemali obvestil o novih objavah v tem forumu.
 forum#:#forums_info_censor2_post#:#Ali ste prepričani, da želite odpraviti cenzuro za to objavo?
 forum#:#forums_info_censor_post#:#Ali ste prepričani, da želite skriti ta članek?
@@ -11465,10 +11468,12 @@ mail#:#mail_smtp_user#:#Uporabnik
 mail#:#mail_subject_prefix#:#Zadeva e-pošte
 mail#:#mail_subject_prefix_info#:#Tukaj lahko vnesete besedilo, ki bo postavljeno pred vrstico z zadevo v izhodni, samodejno generirani e-pošti. Priporočljiva je uporaba predpone, saj tako uporabnikom olajšate filtriranje sporočil.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Ali ste prepričani, da želite izbrisati označeno e-pošto?
 mail#:#mail_sure_delete_entry#:#Ali ste prepričani, da želite izbrisati označene vnose?
 mail#:#mail_sure_delete_file#:#Ali ste prepričani, da želite izbrisati izbrane datoteke?
 mail#:#mail_sure_delete_folder#:#Mapa in njena vsebina bosta nepreklicno izbrisani!
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Tehnični pošiljatelj
 mail#:#mail_system_sys_env_from_addr_info#:#Če to polje pustite prazno, bo uporabljen e-poštni naslov pošiljatelja, če je uporabljeno pošiljanje SMTP. V nasprotnem primeru je naloga adminisratorja, da konfigurira glavo.
 mail#:#mail_system_sys_from_addr#:#E-poštni naslov pošiljatelja (From)

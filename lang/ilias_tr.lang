@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Oluştur Stil
 common#:#created#:#Oluşturulma Tarihi
 common#:#cron_forum_notification#:#Forum Bildirimleri Gönder
 common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting.###30 12 2013 new variable
-common#:#cron_forum_notification_desc#:#Etkinse, belirtilen forumdaki yeni mesajlardan haberdar olmak isteyen tüm kullanıcılara e-posta gönderilecektir.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Lucene arama dizinini güncelle
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS Sözlükleri
 common#:#objs_rgrp#:#ECS Grupları
 common#:#objs_rlm#:#ECS Öğrenme Modülleri
 common#:#objs_role#:#Roller
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS Testleri
 common#:#objs_rwik#:#ECS Wiki'ler
 common#:#objs_sahs#:#SCORM / AICC Öğrenme Modülleri
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts###30 08 2015 new variable
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts#:#Contact Requests###30 08 2015 new variable
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Dosya indir
 forum#:#forums_edit_draft#:#Edit draft###25 10 2016 new variable
 forum#:#forums_edit_post#:#Düzenleme Madde
 forum#:#forums_enable_notification#:#Bu Konu için Etkinleştir Bildirim
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Artık bu foruma yeni mesajlar haberdar edilecektir.
 forum#:#forums_info_censor2_post#:#Sansür Revoke?
 forum#:#forums_info_censor_post#:#bu makaleyi gizlemek istediğinizden emin misiniz?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#Posta Konusu
 mail#:#mail_subject_prefix_info#:#e-postalar oluşturulan giden oto konu satırına önüne alınacağı, bir metin girin.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#İşaretli postaları silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_entry#:#Aşağıdaki girdileri silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_file#:#Seçilen dosyaları silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_folder#:#klasörü ve içindekileri kalıcı olarak silinecek
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender###31 08 2017 new variable
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.###31 08 2017 new variable
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)###31 08 2017 new variable

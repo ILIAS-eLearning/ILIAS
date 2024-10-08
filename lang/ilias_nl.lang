@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Aanmaken stijl
 common#:#created#:#Aanmaakdatum
 common#:#cron_forum_notification#:#Verzend forum berichten
 common#:#cron_forum_notification_crob_desc#:#Als ingeschakeld zullen alle gebruikers die forumberichtgeving hebben ingeschakeld, een dagelijkse e-mail ontvangen met alle berichten en niet een afzonderlijk bericht voor iedere geplaats bericht.
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS Glossaries
 common#:#objs_rgrp#:#ECS Groepen
 common#:#objs_rlm#:#ECS Learning Modules
 common#:#objs_role#:#Rollen
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS Toetsen
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM/AICC lesmodules
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts###30 08 2015 new variable
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts#:#Contact Requests###30 08 2015 new variable
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Download bestand
 forum#:#forums_edit_draft#:#Edit draft###25 10 2016 new variable
 forum#:#forums_edit_post#:#Wijzigen bericht
 forum#:#forums_enable_notification#:#Laat berichten toe voor dit onderwerp
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Je zult geen berichten meer ontvangen betreffende nieuwe onderwerpen in dit forum.
 forum#:#forums_info_censor2_post#:#Herroep censor
 forum#:#forums_info_censor_post#:#Ben je zeker dat je dit bericht wilt verbergen
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#E-mail Subject
 mail#:#mail_subject_prefix_info#:#Deze tekst wordt getoond in de onderwerp lijn van de automatische mails, voor het feitelijk onderwerp.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Ben je zeker dat je de gemarkeerde e-mail wilt verwijderen?
 mail#:#mail_sure_delete_entry#:#Ben je zeker dat je de volgende bijdragen wilt verwijderen?
 mail#:#mail_sure_delete_file#:#Het bestand zal verwijderd worden
 mail#:#mail_sure_delete_folder#:#De map en de inhoud zullen verwijderd worden
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender###31 08 2017 new variable
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.###31 08 2017 new variable
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)###31 08 2017 new variable

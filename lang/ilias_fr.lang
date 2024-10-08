@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Créer Style
 common#:#created#:#Date de Création
 common#:#cron_forum_notification#:#Envoyer les Notifications de Forum
 common#:#cron_forum_notification_crob_desc#:#Lorsque activé, les utilisateurs ayant reçu des notifications de forums reçoivent un email quotidien remplaçant ces notifications.
-common#:#cron_forum_notification_desc#:#Si autorisé, tous les utilisateurs , qui souhaitent être informés des nouveaux articles ajoutés aux sujets de discussion indiqués, recevront automatiquement des notifications par mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Tâches Cron
 common#:#cron_lucene_index#:#Mettre à jour l'index de recherche Lucene
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#Glossaires ECS
 common#:#objs_rgrp#:#Groupes ECS
 common#:#objs_rlm#:#Modules Pédagogiques ECS
 common#:#objs_role#:#Rôles
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#Tests ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Modules SCORM/AICC
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 10 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 10 2023 new variable
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Contacts approuvés
 contact#:#contact_awrn_ap_contacts_info#:#Tous les contacts approuvés par l'utilisateur sont répertoriés.
 contact#:#contact_awrn_req_contacts#:#Demandes de contacts
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Télécharger fichier
 forum#:#forums_edit_draft#:#Éditer le brouillon
 forum#:#forums_edit_post#:#Modifier article
 forum#:#forums_enable_notification#:#Activer ma notification pour ce sujet
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Vous ne serez plus notifié des nouveaux messages sur ce forum.
 forum#:#forums_info_censor2_post#:#Etes-vous sûr de vouloir continuer à cacher cet article ?
 forum#:#forums_info_censor_post#:#Etes-vous sûr de vouloir cacher cet article ?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Utilisateur
 mail#:#mail_subject_prefix#:#Objet du Mail
 mail#:#mail_subject_prefix_info#:#Saisir un texte qui sera ajouté à  la rubrique "objet" des mails générés automatiquement.
 mail#:#mail_subject_too_long#:#The subject is too long.###31 10 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Êtes-vous sûr(e) de vouloir supprimer les messages sélectionnés ?
 mail#:#mail_sure_delete_entry#:#Êtes-vous sûr(e) de vouloir supprimer les entrées suivantes ?
 mail#:#mail_sure_delete_file#:#Êtes-vous sûr(e) de vouloir supprimer les fichiers sélectionnés ?
 mail#:#mail_sure_delete_folder#:#Le dossier et son contenu seront détruits définitivement
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Expéditeur technique
 mail#:#mail_system_sys_env_from_addr_info#:#Si vous laissez ce champ vide, l’adresse mail de l’expéditeur sera utilisée si le transfert SMTP est activé. Autrement, l’administrateur du serveur est responsable pour la configuration de cette valeur.
 mail#:#mail_system_sys_from_addr#:#E-mail de l’expéditeur (de)

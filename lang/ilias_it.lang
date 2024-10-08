@@ -3783,7 +3783,6 @@ common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Data di creazione
 common#:#cron_forum_notification#:#Invia notifiche al forum
 common#:#cron_forum_notification_crob_desc#:#Se abilitato, tutti gli utenti che hanno abilitato le notifiche del forum riceveranno una mail giornaliera su tutti i nuovi post ma nessuna notifica immediata per ogni post inviato.
-common#:#cron_forum_notification_desc#:#Se selezionato, tutti gli utenti, che vogliono essere informati su nuovi contributi in particolari forum, riceveranno una comunicazione via e-mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron job
 common#:#cron_lucene_index#:#Aggiorna l'indice di ricerca di Lucene
@@ -5158,6 +5157,7 @@ common#:#objs_rglo#:#Glossari ESC
 common#:#objs_rgrp#:#Gruppi ESC
 common#:#objs_rlm#:#Moduli di apprendimento ESC
 common#:#objs_role#:#Ruoli
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#Test ESC
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#Moduli SCORM/AICC
@@ -6094,6 +6094,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Mattonelle
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Contatti confermati
 contact#:#contact_awrn_ap_contacts_info#:#Sono elencati tutti i contatti confermati dall’utente.
 contact#:#contact_awrn_req_contacts#:#Richieste di contatto
@@ -9931,6 +9932,8 @@ forum#:#forums_download_attachment#:#Download dell'allegato
 forum#:#forums_edit_draft#:#Modifica bozza
 forum#:#forums_edit_post#:#Modifica messaggio
 forum#:#forums_enable_notification#:#Abilita la notifica
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Non sarete piu'informati di nuovi messaggi in questo forum.
 forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo messaggio?
 forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
@@ -11466,10 +11469,12 @@ mail#:#mail_smtp_user#:#Utente
 mail#:#mail_subject_prefix#:#Oggetto
 mail#:#mail_subject_prefix_info#:#Inserisci un testo, che verrà anteposto alla riga dell'oggetto di auto generazione di e-mail in uscita. Si raccomanda l'uso di un prefisso per supportare il filtraggio dei messaggi da parte degli utenti.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate?
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate?
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato?
 mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata?
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Mittente tecnico
 mail#:#mail_system_sys_env_from_addr_info#:#Se si lascia vuoto questo campo, verrà utilizzato l'indirizzo e-mail del mittente se il trasferimento SMTP è abilitato. In caso contrario, è responsabilità dell'amministratore del server configurare questo valore.
 mail#:#mail_system_sys_from_addr#:#Email mittente (da)

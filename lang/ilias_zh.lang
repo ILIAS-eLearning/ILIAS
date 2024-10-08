@@ -3783,7 +3783,6 @@ common#:#create_stylesheet#:#创建风格
 common#:#created#:#创建日期
 common#:#cron_forum_notification#:#发送论坛通知
 common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting.###30 12 2013 new variable
-common#:#cron_forum_notification_desc#:#如果启用，所有的用户，谁想了解特定的论坛主题的新贴子，将通过电子邮件得到通知。
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#定时(Cron)作业
 common#:#cron_lucene_index#:#更新Lucene搜索索引
@@ -5158,6 +5157,7 @@ common#:#objs_rglo#:#ECS 词汇表
 common#:#objs_rgrp#:#ECS 组
 common#:#objs_rlm#:#ECS 学习模块
 common#:#objs_role#:#角色
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS 测试
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM/AICC 学习模块
@@ -6094,6 +6094,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Tiles###10 11 2018 new variable
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts###30 08 2015 new variable
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###30 08 2015 new variable
 contact#:#contact_awrn_req_contacts#:#Contact Requests###30 08 2015 new variable
@@ -9931,6 +9932,8 @@ forum#:#forums_download_attachment#:#下载附件
 forum#:#forums_edit_draft#:#Edit draft###25 10 2016 new variable
 forum#:#forums_edit_post#:#编辑文章
 forum#:#forums_enable_notification#:#启用通知
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#在这个论坛中，您将不再接收新消息通知。
 forum#:#forums_info_censor2_post#:#您确定要继续隐藏此篇文章吗？
 forum#:#forums_info_censor_post#:#您确定要隐藏这篇文章吗？
@@ -11466,10 +11469,12 @@ mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#邮件主题
 mail#:#mail_subject_prefix_info#:#输入一个文本，它将被加到自动生成的电子邮件输出的标题行的前面。
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#您确定要删除已标记的邮件吗？
 mail#:#mail_sure_delete_entry#:#您确定要删除下列条目吗？
 mail#:#mail_sure_delete_file#:#文件将永久删除
 mail#:#mail_sure_delete_folder#:#文件夹及其内容将永久删除
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender###31 08 2017 new variable
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.###31 08 2017 new variable
 mail#:#mail_system_sys_from_addr#:#Sender Email (From)###31 08 2017 new variable

@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Kreiraj stil
 common#:#created#:#Kreirano dana
 common#:#cron_forum_notification#:#Pošalji obavijesti s foruma
 common#:#cron_forum_notification_crob_desc#:#Ako je omogućeno, svi korisnici koji su omogućili obavijesti za određene forume ili teme foruma svakodnevno će od ILIAS-a dobivati e-poštu s obavijestima o svim novim ili promijenjenim objavama, ali bez neposredne obavijesti za svaku predanu objavu.
-common#:#cron_forum_notification_desc#:#Ako je omogućeno, ILIAS će svim korisnicima koji žele biti obaviješteni o novim objavama po navedenim temama foruma, slati obavijesti poštom.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Ažurirajte indeks pretraživanja Lucene
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS pojmovnici
 common#:#objs_rgrp#:#ECS skupine
 common#:#objs_rlm#:#ECS moduli za učenje
 common#:#objs_role#:#Uloge
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS testovi
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#SCORM moduli za učenje
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Pločice
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Preuzmi datoteku
 forum#:#forums_edit_draft#:#Uredi skicu
 forum#:#forums_edit_post#:#Uredi članak
 forum#:#forums_enable_notification#:#Omogući obavijest za ovu temuz
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Više nećete biti obaviješteni o novim porukama na ovom forumu.
 forum#:#forums_info_censor2_post#:#Ukinuti cenzuru?
 forum#:#forums_info_censor_post#:#Jeste li sigurni da želite sakriti ovaj članak?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Korisnik
 mail#:#mail_subject_prefix#:#Predmet pošte
 mail#:#mail_subject_prefix_info#:#Unesite tekst koji će biti dodan u redak predmeta odlazne automatski generirane e-pošte. Preporučuje se upotreba prefiksa radi podrške filtriranja poruka od strane korisnika.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Jeste li sigurni da želite izbrisati označenu(e) poruku(e)?
 mail#:#mail_sure_delete_entry#:#Jeste li sigurni da želite izbrisati sljedeće unose?
 mail#:#mail_sure_delete_file#:#Jeste li sigurni da želite izbrisati odabrane datoteke?
 mail#:#mail_sure_delete_folder#:#Mapa i njezin sadržaj trajno će se ukloniti
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Tehnički pošiljatelj
 mail#:#mail_system_sys_env_from_addr_info#:#Ako ovo polje ostavite prazno, e-adresa pošiljatelja koristit će se ako je omogućen SMTP prijenos. Inače je odgovornost administratora servera da konfigurira ovu vrijednost.
 mail#:#mail_system_sys_from_addr#:#E-pošta pošiljatelja (od)

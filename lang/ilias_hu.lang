@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Stílus létrehozása
 common#:#created#:#Létrehozva
 common#:#cron_forum_notification#:#Fórumértesítések küldése ütemezett feladattal
 common#:#cron_forum_notification_crob_desc#:#Az összes olyan felhasználó, aki a fórumértesítéseket engedélyezte bizonyos fórumokról, illetve témákról, a több, egymástól független azonnali e-mail értesítések helyett napi összesítő e-mail értesítést kap az új és a módosított hozzászólásokról.
-common#:#cron_forum_notification_desc#:#Azon felhasználók, akik meghatározott fórumtémákban értesülni szeretnének új hozzászólásokról, e-mailben értesítést kapnak.
 common#:#cron_forum_notification_disabled#:#Addig nem kapcsolható ki, amíg az ütemezett feladat aktív.
 common#:#cron_jobs#:#Ütemezett feladatok
 common#:#cron_lucene_index#:#Lucene keresési index aktualizálása
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS fogalomtárak
 common#:#objs_rgrp#:#ECS csoportok
 common#:#objs_rlm#:#ECS tananyagok
 common#:#objs_role#:#Szerepek
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS tesztek
 common#:#objs_rwik#:#ECS wikik
 common#:#objs_sahs#:#SCORM-tananyagok
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra nagy (soronként 1-2 csempe)
 cont#:#cont_tile_size_4#:#teljes (soronként 1 csempe)
 cont#:#cont_tile_view#:#Csempék
 cont#:#cont_tile_view_info#:#Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel.
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
 contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
 contact#:#contact_awrn_req_contacts#:#'Ismerősnek jelölés' kérések
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Fájl letöltése
 forum#:#forums_edit_draft#:#Piszkozat módosítása
 forum#:#forums_edit_post#:#Hozzászólás módosítása
 forum#:#forums_enable_notification#:#Értesítés kérése ehhez a témához
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Nem kap a továbbiakban értesítést, ha új hozzászólás születik ebben a fórumban.
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_censor_post#:#Biztos, hogy elrejti ezt a hozzászólást?
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Felhasználó
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_subject_too_long#:#A tárgy túl hosszú.
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Biztos, hogy törli a megjelölt level(ek)et?
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
 mail#:#mail_sure_delete_folder#:#A mappa és tartalma véglegesen el lesz távolítva.
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technikai feladó
 mail#:#mail_system_sys_env_from_addr_info#:#Üres mező esetén a feladó e-mail címét használjuk, ha az SMTP be van kapcsolva. Különben a szerver rendszergazdájának a feladta beállítani ezt az értéket.
 mail#:#mail_system_sys_from_addr#:#Küldő e-mail címe (feladó)

@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Skapa Stil
 common#:#created#:#Skapad på
 common#:#cron_forum_notification#:#Skicka Forums-aviseringar
 common#:#cron_forum_notification_crob_desc#:#Om aktiverat skickar ILIAS dagliga meddelanden till användare som vill bli meddelade om nya och ändrade inlägg i utvalda forum eller forumämnen. Vänligen observera
-common#:#cron_forum_notification_desc#:#Om aktiverat skickar ILIAS e-postmeddelanden till de användare som vill bli meddelade om nya inlägg i utvalda forumämnen.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron jobb
 common#:#cron_lucene_index#:#Uppdatera Lucene sökindex
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#ECS ordlistor
 common#:#objs_rgrp#:#ECS-grupper
 common#:#objs_rlm#:#ECS utbildningsmoduler
 common#:#objs_role#:#Rolls
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#ECS-tester
 common#:#objs_rwik#:#ECS wikis
 common#:#objs_sahs#:#SCORM utbildningsmoduler
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#mycket stor (upp till två plattor på en rad)
 cont#:#cont_tile_size_4#:# full bredd (en kakelplatta på en rad)
 cont#:#cont_tile_view#:#Kakelplattor
 cont#:#cont_tile_view_info#:#Visa underordnade objekt som brickor. Bilder för dessa plattor kan laddas upp i inställningarna för varje enskilt objekt.
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Bekräftade kontakter
 contact#:#contact_awrn_ap_contacts_info#:#Alla bekräftade kontakter för en användare listas.
 contact#:#contact_awrn_req_contacts#:#Kontaktförfrågningar
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Ladda ner fil
 forum#:#forums_edit_draft#:#Redigera utkast
 forum#:#forums_edit_post#:#Redigera inlägg
 forum#:#forums_enable_notification#:#Starta anmälan för detta ämne
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Du kommer inte längre att meddelas om nya inlägg i detta forum.
 forum#:#forums_info_censor2_post#:#Är du säker på att censuren bör hävas för det här inlägget?
 forum#:#forums_info_censor_post#:#Giv en anledning till censuren.
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Användare
 mail#:#mail_subject_prefix#:#Ämne för e-post
 mail#:#mail_subject_prefix_info#:#Du kan ange en text här som kommer att prefixas till ämnesraden i utgående, automatiskt genererade e-postmeddelanden. Det rekommenderas att ange ett prefix för att göra det lättare för användarna att filtrera meddelandena.
 mail#:#mail_subject_too_long#:#Ämnet är för långt.
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Är du säker på att du vill radera de markerade e-postmeddelandena?
 mail#:#mail_sure_delete_entry#:#Är du säker på att du vill ta bort de markerade posterna?
 mail#:#mail_sure_delete_file#:#Är du säker på att du vill radera de markerade filerna?
 mail#:#mail_sure_delete_folder#:#Mappen och dess innehåll är oåterkalleligen raderade!
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender Address ("SENDER")###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 mail#:#mail_system_sys_env_from_addr_info#:# Ange den tekniska sändningsadressen ("SENDER"-rubriken) här. Om du lämnar fältet tomt kommer avsändarens e-postadress ("FROM" header) att användas för extern sändning. I annat fall är det serveradministrationens uppgift att konfigurera rubriken.###Modif
 mail#:#mail_system_sys_from_addr#:#FROM" adress för automatiskt skickade e-postmeddelanden

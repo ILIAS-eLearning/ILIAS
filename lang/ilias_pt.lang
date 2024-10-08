@@ -3784,7 +3784,6 @@ common#:#create_stylesheet#:#Fórum
 common#:#created#:#Esqueceu-se do nome de utilizador?
 common#:#cron_forum_notification#:#Enviar notificações de fóruns
 common#:#cron_forum_notification_crob_desc#:#Fóruns
-common#:#cron_forum_notification_desc#:#Artigos
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.###30 04 2024 new variable
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_lucene_index#:#Atualizar índice de pesquisa Lucene
@@ -5159,6 +5158,7 @@ common#:#objs_rglo#:#Glossários ECS
 common#:#objs_rgrp#:#Grupos ECS
 common#:#objs_rlm#:#Módulos de aprendizagem ECS
 common#:#objs_role#:#Ler
+common#:#objs_rolf#:#Role Folders###08 10 2024 new variable
 common#:#objs_rtst#:#Testes ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Quantidade de acessos de leitura não-anónimos
@@ -6095,6 +6095,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles per row)###31 03 2023 new
 cont#:#cont_tile_size_4#:#full (one tile per row)###31 03 2023 new variable
 cont#:#cont_tile_view#:#Propriedades de instância
 cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.###16 03 2023 new variable
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###08 10 2024 new variable
 contact#:#contact_awrn_ap_contacts#:#Contactos aprovados
 contact#:#contact_awrn_ap_contacts_info#:#Todos os contactos aprovados pelo utilizador estão listados.
 contact#:#contact_awrn_req_contacts#:#Pedidos de contactos
@@ -9932,6 +9933,8 @@ forum#:#forums_download_attachment#:#Ilhas Åland
 forum#:#forums_edit_draft#:#Editar esboço
 forum#:#forums_edit_post#:#Azerbaijão
 forum#:#forums_enable_notification#:#Bósnia-Herzegovina
+forum#:#forums_forum_notification#:#Send Forum Notifications###08 10 2024 new variable
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.###08 10 2024 new variable
 forum#:#forums_forum_notification_disabled#:#Deixa de ser notificado sobre novas mensagens neste fórum.
 forum#:#forums_info_censor2_post#:#Bélgica
 forum#:#forums_info_censor_post#:#Bulgária
@@ -11467,10 +11470,12 @@ mail#:#mail_smtp_user#:#Utilizador
 mail#:#mail_subject_prefix#:#Itens selecionados
 mail#:#mail_subject_prefix_info#:#Escolha a vista preferida dos itens pessoais.
 mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.###08 10 2024 new variable
 mail#:#mail_sure_delete#:#Computador pessoal
 mail#:#mail_sure_delete_entry#:#Tem de selecionar pelo menos uma vista, seja ‘Itens selecionados’ e/ou ‘As minhas adesões’.
 mail#:#mail_sure_delete_file#:#Favorito(s)
 mail#:#mail_sure_delete_folder#:#Pasta(s)
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?###08 10 2024 new variable
 mail#:#mail_system_sys_env_from_addr#:#Remetente técnico
 mail#:#mail_system_sys_env_from_addr_info#:#Bem-vindo ao seu computador pessoal!
 mail#:#mail_system_sys_from_addr#:#Este é o seu espaço pessoal para organizar o seu trabalho e aprendizagem. Pode colocar recursos de outras áreas no seu computador pessoal. Para fazer isso tem de realizar dois passos:
