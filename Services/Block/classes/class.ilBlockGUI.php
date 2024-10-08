@@ -696,7 +696,7 @@ abstract class ilBlockGUI
     {
         $data = $this->getData();
         $this->max_count = count($data);
-        $data = array_slice($data, $this->getOffset(), $this->getLimit());
+        $data = array_slice($data, $this->getOffset(), $this->getLimit(), true);
         $this->preloadData($data);
         return $data;
     }
