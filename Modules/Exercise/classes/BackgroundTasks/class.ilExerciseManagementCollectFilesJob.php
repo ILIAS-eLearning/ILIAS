@@ -256,7 +256,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     protected function isExcelNeeded(int $a_ass_type, bool $a_has_fbk): bool
     {
-        if ($a_ass_type == ilExAssignment::TYPE_TEXT) {
+        if ($a_ass_type == ilExAssignment::TYPE_TEXT || $a_ass_type == ilExAssignment::TYPE_UPLOAD
+            || $a_ass_type == ilExAssignment::TYPE_UPLOAD_TEAM) {
             return true;
         } elseif ($a_has_fbk && $a_ass_type != ilExAssignment::TYPE_UPLOAD_TEAM) {
             return true;
@@ -498,6 +499,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                     $this->title_columns[] = $this->lng->txt("exc_submission_text");
                     break;
                 case ilExAssignment::TYPE_UPLOAD:
+                case ilExAssignment::TYPE_UPLOAD_TEAM:
+                    if ($assignment_type === ilExAssignment::TYPE_UPLOAD_TEAM) {
+                        $first_excel_column_for_review++;
+                        $this->title_columns[] = $this->lng->txt("exc_team");
+                    }
                     $num_columns_submission = $this->getExtraColumnsForSubmissionFiles($this->exercise_id, $assignment_id);
                     if ($num_columns_submission > 1) {
                         for ($i = 1; $i <= $num_columns_submission; $i++) {
@@ -553,6 +559,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                         }
                     } else {
                         $col = self::FIRST_DEFAULT_SUBMIT_COLUMN;
+                        if ($assignment_type === ilExAssignment::TYPE_UPLOAD_TEAM) {
+                            $team_id = ilExAssignmentTeam::getTeamId($this->assignment->getId(), $participant_id, false);
+                            $this->excel->setCell($row, $col, (string) $team_id);
+                            $col++;
+                        }
                         foreach ($submission_files as $submission_file) {
                             $this->excel->setCell($row, self::SUBMISSION_DATE_COLUMN, $submission_file['timestamp']);
 
@@ -562,7 +573,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                                 $this->excel->setCell($row, $col, $submission_file['filetitle']);
                             }
                             $this->excel->setColors($this->excel->getCoordByColumnAndRow($col, $row), self::BG_COLOR, self::LINK_COLOR);
-                            $this->addLink($row, $col, $submission_file);
+                            if ($assignment_type != ilExAssignment::TYPE_UPLOAD_TEAM) {
+                                $this->addLink($row, $col, $submission_file);
+                            }
                             $col++; //does not affect blogs and portfolios.
                         }
                     }
