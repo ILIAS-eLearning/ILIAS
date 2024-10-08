@@ -483,17 +483,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             case strtolower(ilExportGUI::class):
                 $this->tabs_gui->activateTab('export');
                 $exp = new ilExportGUI($this);
-                $exp->addFormat('html');
-                $exp->addFormat('xml');
-                if ($cmd === 'createExportFile') {
-                    if ($this->http->wrapper()->post()->has('format')) {
-                        $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
-                        if ($format === 'html') {
-                            $fex_gui = new ilForumExportGUI();
-                            $fex_gui->exportHTML();
-                        }
-                    }
-                }
                 $this->ctrl->forwardCommand($exp);
                 break;
 
@@ -805,14 +794,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $found_threads = false;
-        if(count($top_group) > 0) {
+        if (count($top_group) > 0) {
             $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
             $found_threads = true;
         } else {
             $top_threads = $this->factory->item()->group('', $top_group);
         }
 
-        if(count($thread_group) > 0) {
+        if (count($thread_group) > 0) {
             $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
             $found_threads = true;
         } else {
