@@ -32,6 +32,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_ilCtrl();
+        $this->addGlobal_http();
         $this->addGlobal_ilUser();
         $this->addGlobal_ilTabs();
         $this->addGlobal_tree();
@@ -51,6 +52,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
             $DIC['tpl'],
             $DIC['ilDB'],
             $DIC['tree'],
+            $DIC['http'],
             $DIC['component.repository'],
             $DIC['objDefinition'],
             $DIC['ilObjDataCache'],
