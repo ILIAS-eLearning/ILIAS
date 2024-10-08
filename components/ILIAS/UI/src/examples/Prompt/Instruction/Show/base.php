@@ -10,7 +10,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * ---
  * description: >
- *   The example displays the HTML of a Response.
+ *   The example displays the HTML of an Instruction.
  * ---
  */
 function base()

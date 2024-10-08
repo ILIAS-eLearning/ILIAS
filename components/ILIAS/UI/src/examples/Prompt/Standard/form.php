@@ -79,7 +79,7 @@ function form()
                 $response = $factory->prompt()->instruction()->show($form);
             }
         }
-
+        $response = $response->withTitle('prompt form example');
         echo($renderer->renderAsync($response));
         exit();
     }

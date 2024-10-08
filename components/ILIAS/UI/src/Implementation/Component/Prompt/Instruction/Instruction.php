@@ -39,15 +39,23 @@ class Instruction implements I\Instruction\Instruction
     protected array $buttons = [];
     protected string $cmd = 'show';
     protected array $params = [];
+    protected string $title = '';
 
     public function __construct(
         protected ?I\PromptContent $content
     ) {
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
-        return $this->content->getPromptTitle();
+        return $this->title ? $this->title : $this->content->getPromptTitle();
+    }
+
+    public function withTitle(string $title): self
+    {
+        $clone = clone $this;
+        $clone->title = $title;
+        return $clone;
     }
 
     public function withContent(I\PromptContent $content): self

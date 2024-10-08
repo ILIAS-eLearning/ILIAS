@@ -65,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable('ID', $id);
-        $tpl->setVariable('URI', $component->getAsyncUrl()->__toString());
+        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
 
         return $tpl->get();
     }

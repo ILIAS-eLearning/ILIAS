@@ -40,6 +40,7 @@ interface Factory
      *       stay in context of the Prompt.
      *       You may also tell the Prompt to close or redirect - after the
      *       request has been processed.
+     *
      * context:
      *   - The Prompt Instruction is used for Prompts.
      *
@@ -61,6 +62,7 @@ interface Factory
      *   effect: >
      *      Tells the Prompt to close: when the Close Instruction is retrieved
      *      from the server, the Prompt is closed.
+     *
      * context:
      *   - The Close Instruction is used for Prompts.
      *

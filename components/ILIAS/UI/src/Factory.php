@@ -1057,12 +1057,12 @@ interface Factory
      *     Prompt urges the user to make the input instead of simply giving the
      *     opportunity to do so. Hence, Prompts are used to request certain user input
      *     that is required to move on in an ongoing workflow.
-     *   composition:
+     *   composition: >
      *     The Prompt provides a wrapper for Prompt Content; the content is transmitted
      *     asynchrounously via a Prompt Response. The Response consists of a Title, the
      *     actual content, and Buttons. The Prompt will allways hold a button for dismissing
      *     it.
-     *   effect:
+     *   effect: >
      *     All controls of the original context are inaccessible until the Prompt is
      *     either satisfied or dismissed by the user.
      *   rivals:
@@ -1083,6 +1083,17 @@ interface Factory
      *       Prompts SHOULD take the user back to where they took of. Once the Prompt is
      *       dismissed or completed the user should be back in the view that they saw
      *       when starting the Prompt.
+     *   accessibility:
+     *     1: >
+     *       The Prommpt's dialog-tag MUST bear the role-attribute "dialog".
+     *     2: >
+     *       All interactions offered by a Prompt MUST be accessible by only using
+     *       the keyboard.
+     *     3: >
+     *        The Prompt MUST be closable by pressing the ESC key.
+     *     4: >
+     *        The Prompt SHOULD have an meaningful/informative title in regard to
+     *        its contents
      *
      * ---
      * @return \ILIAS\UI\Component\Prompt\Factory
