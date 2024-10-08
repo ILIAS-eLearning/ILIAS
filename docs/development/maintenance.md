@@ -991,34 +991,33 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END LoginAuthAndRegistration)
 
-[//]: # (BEGIN LTI)
-
-* **LTI**
-    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to Sign off on Code Changes: [jcop](https://docu.ilias.de/go/usr/30511)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-	* Tester: [stv](https://docu.ilias.de/goto_docu_usr_45359.html)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END LTI)
-
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
     * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to Sign off on Code Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654)
     * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
     * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
     * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
     * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
+
+[//]: # (BEGIN LTI)
+
+* **LTI Provider**
+    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END LTI)
 
 [//]: # (BEGIN Mail)
 
