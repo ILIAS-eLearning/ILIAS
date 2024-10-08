@@ -1051,7 +1051,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#問題/能力割り当て
 assessment#:#qpl_skl_sub_tab_usages#:#割り当て間隔
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
 assessment#:#qpl_tab_competences#:#能力
-assessment#:#qpl_taxonomy_tab_info_message#:#Taxonomies in question pools can be used to filter the questions. After activating the function in the "Settings" tab, they are displayed in the filter in the "Questions" tab.###30 07 2024 new variable
+assessment#:#qpl_taxonomy_tab_info_message#:#問題集の分類は問題のフィルタとして利用できます。"設定"タブの機能を変更すると。"問題"タブ内のフィルタへ表示されます。
 assessment#:#qst_error_text_too_long#:#間違いとしてマークされた複数のテキスト要素は長すぎます。間違いとしてマークされるテキスト要素の最大数は150文字です。
 assessment#:#qst_essay_allready_written_words#:#入力した文字数:
 assessment#:#qst_essay_chars_remaining#:#残り文字数:
@@ -2198,7 +2198,7 @@ badge#:#badge_obi_activate_info#:#ユーザはiliasからバッジをエクス�
 badge#:#badge_obi_contact#:#連絡先メールアドレス
 badge#:#badge_obi_contact_info#:#このE-mailアドレスはバッジの背面以外は表示されません。
 badge#:#badge_obi_organisation#:#組織
-badge#:#badge_obi_organisation_info#:#このエントリーはバッジの発行者として表示されｒます。
+badge#:#badge_obi_organisation_info#:#このエントリーはバッジの発行者として表示されます。
 badge#:#badge_obi_salt#:#塩
 badge#:#badge_obi_salt_info#:#バッジの認証を有効にするためにサードパーティを許可する文字と数字の組合せを入力します。これ以降のエントリー変更はしないでください。
 badge#:#badge_object_badges#:#目標のバッジ
@@ -3461,7 +3461,7 @@ common#:#adve_assessment_settings#:#テストとアセスメント設定
 common#:#adve_frm_post_settings#:#フォーラム投稿
 common#:#adve_general_settings#:#全体設定
 common#:#adve_survey_settings#:#サーベイ設定
-common#:#agree_date#:#Agreed on###27 08 2024 new variable
+common#:#agree_date#:#承諾日
 common#:#all#:#All
 common#:#all_global_roles#:#グローバルの役割
 common#:#all_local_roles#:#ローカルの役割 (全て)
@@ -3914,19 +3914,19 @@ common#:#download_link#:#ダウンロードリンク
 common#:#download_multiple_objects#:#複数オブジェクトをダウンロード
 common#:#download_selected_items#:#ダウンロード
 common#:#downloading_settings#:#ダウンロード設定
-common#:#dpro_accept_usr_agreement#:#データ保護宣言を承諾しますか?
-common#:#dpro_accept_usr_agreement_intro#:#新しいデータ保護宣言があります。ILIAS利用前に承諾する必要があります。次のドキュメントを十分に読んだ上で 同意または同意しないをページ末へ回答します。
-common#:#dpro_force_accept_usr_agreement#:#データ保護宣言を承諾する必要があります。
-common#:#dpro_no_agreement_description#:#このシステム用のデータ保護宣言文書がありません。 <a href="%1$s">システム管理者</a>へコンタクトしてください。
-common#:#dpro_refuse_acceptance#:#データ保護宣言を撤回
-common#:#dpro_usr_agreement#:#データ保護宣言
-common#:#dpro_usr_agreement_footer_intro#:#このデータ保護宣言を承諾する事を宣言しました。
-common#:#dpro_withdraw_consent_description#:#ここで、データ保護宣言の承諾を撤回
-common#:#dpro_withdraw_consent_description_external#:#データ保護宣言承諾撤回処理を完了するにはILIASシステムへ戻って再ログインしてください。
-common#:#dpro_withdraw_consent_description_internal#:#データ保護宣言承諾撤回を完了するには再ログインしてください。
-common#:#dpro_withdraw_consent_header#:#データ保護宣言承諾を撤回
-common#:#dpro_withdraw_consent_info#:#データ保護宣言承諾の撤回
-common#:#dpro_withdraw_consent_info_external#:#認証システムの管理者へコンタクトして、データ保護宣言撤回の意思を伝えてください。
+common#:#dpro_accept_usr_agreement#:#データ保護規約を承諾しますか?
+common#:#dpro_accept_usr_agreement_intro#:#新しいデータ保護規約があります。ILIAS利用前に承諾する必要があります。次のドキュメントを十分に読んだ上で 同意または同意しないをページ末へ回答します。
+common#:#dpro_force_accept_usr_agreement#:#データ保護規約を承諾する必要があります。
+common#:#dpro_no_agreement_description#:#このシステム用のデータ保護規約文書がありません。 <a href="%1$s">システム管理者</a>へコンタクトしてください。
+common#:#dpro_refuse_acceptance#:#データ保護規約承諾を拒否
+common#:#dpro_usr_agreement#:#データ保護規約
+common#:#dpro_usr_agreement_footer_intro#:#このデータ保護規約を承諾する事に同意しました。
+common#:#dpro_withdraw_consent_description#:#ここで、データ保護規約の承諾を破棄
+common#:#dpro_withdraw_consent_description_external#:#データ保護規約承諾破棄処理を完了するにはILIASシステムへ戻って再ログインしてください。
+common#:#dpro_withdraw_consent_description_internal#:#データ保護規約承諾破棄を完了するには再ログインしてください。
+common#:#dpro_withdraw_consent_header#:#データ保護規約承諾を破棄
+common#:#dpro_withdraw_consent_info#:#データ保護規約承諾の破棄
+common#:#dpro_withdraw_consent_info_external#:#認証システムの管理者へコンタクトして、データ保護規約破棄の意思を伝えてください。
 common#:#drafts#:#ドラフト
 common#:#drag_file_here#:#ここへドラッグアンドドロップ
 common#:#drag_files_here#:#ここへファイルをドラッグアンドドロップする
@@ -4891,8 +4891,8 @@ common#:#obj_crsv#:#コース証明書
 common#:#obj_dbk#:#Digilibブック
 common#:#obj_dcl#:#データ収集
 common#:#obj_dcl_duplicate#:#データ収集をコピー
-common#:#obj_dpro#:#データ保護宣言
-common#:#obj_dpro_desc#:#データ保護宣言設定
+common#:#obj_dpro#:#データ保護規約
+common#:#obj_dpro_desc#:#データ保護規約設定
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard設定
 common#:#obj_ecss#:#ECS
@@ -5745,19 +5745,19 @@ common#:#tomorrow#:#明日
 common#:#toolbar_more_actions#:#アクション詳細
 common#:#tools#:#ツール
 common#:#top_of_page#:#ページのトップ
-common#:#tos_accept_usr_agreement#:#サービス条件を承諾
-common#:#tos_accept_usr_agreement_intro#:#新しいサービス条件があります。ILIAS利用に先だってそれを承諾する必要があります。次のドキュメントをよく読んでページ末の承諾または拒否をして下さい。
-common#:#tos_force_accept_usr_agreement#:#サービス条件を承諾する必要があります。
-common#:#tos_no_agreement_description#:#現在このシステムのサービス条件ドキュメントは利用できません。 <a href="%1$s">システム管理者</a>へコンタクトしてください。
-common#:#tos_refuse_acceptance#:#サービス条件承諾を拒否
-common#:#tos_usr_agreement#:#サービス条件
-common#:#tos_usr_agreement_footer_intro#:#このサービス条件を承諾する事を宣言しました。
-common#:#tos_withdraw_consent_description#:#ここでサービス条件承諾を撤回する
-common#:#tos_withdraw_consent_description_external#:#サービス条件承諾撤回の処理を完了するには、ILIASシステムへ戻り再ログインしてください。
-common#:#tos_withdraw_consent_description_internal#:#サービス条件承諾撤回処理を完了するには再度ログインしてください。
-common#:#tos_withdraw_consent_header#:#サービス条件承諾を撤回
-common#:#tos_withdraw_consent_info#:#サービス条件に承諾を撤回
-common#:#tos_withdraw_consent_info_external#:#認証システムの管理者へコンタクトしてサービス条件承諾の撤回する意思を伝えてください。
+common#:#tos_accept_usr_agreement#:#利用規約を承諾
+common#:#tos_accept_usr_agreement_intro#:#新しい利用規約があります。ILIAS利用に先だってそれを承諾する必要があります。次のドキュメントをよく読んでページ末の承諾または拒否をして下さい。
+common#:#tos_force_accept_usr_agreement#:#利用規約を承諾する必要があります。
+common#:#tos_no_agreement_description#:#現在このシステムの利用規約ドキュメントは利用できません。 <a href="%1$s">システム管理者</a>へコンタクトしてください。
+common#:#tos_refuse_acceptance#:#利用規約承諾を拒否
+common#:#tos_usr_agreement#:#利用規約
+common#:#tos_usr_agreement_footer_intro#:#この利用規約を承諾する事を宣言しました。
+common#:#tos_withdraw_consent_description#:#ここで利用規約承諾を撤回する
+common#:#tos_withdraw_consent_description_external#:#利用規約承諾撤回の処理を完了するには、ILIASシステムへ戻り再ログインしてください。
+common#:#tos_withdraw_consent_description_internal#:#利用規約承諾撤回処理を完了するには再度ログインしてください。
+common#:#tos_withdraw_consent_header#:#利用規約承諾を撤回
+common#:#tos_withdraw_consent_info#:#利用規約に承諾を撤回
+common#:#tos_withdraw_consent_info_external#:#認証システムの管理者へコンタクトして利用規約承諾の撤回する意思を伝えてください。
 common#:#total#:#合計
 common#:#tracking_settings#:#追跡設定
 common#:#translation#:#翻訳
@@ -6044,7 +6044,7 @@ cont#:#cont_news_timeline_info#:#ニュースタイムラインタブを有効�
 cont#:#cont_news_timeline_landing_page#:#ランディングページ
 cont#:#cont_news_timeline_landing_page_info#:#タイムラインページはランディングページになります。
 cont#:#cont_news_timeline_tab#:#タイムライン
-cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_no_title#:#空のタイトル
 cont#:#cont_page_type_cont#:#リポジトリ；ページ(Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#コース開始ページ(学習オブジェクトビュー)
 cont#:#cont_path#:#Path
@@ -7503,7 +7503,7 @@ crs#:#crs_course_status_of_users#:#ユーザの合格状況
 crs#:#crs_create_date#:#作成日
 crs#:#crs_custom_user_fields#:#関連ユーザデータのコース
 crs#:#crs_custom_user_fields_infobox#:#参加した際に記入するコースメンバー用の追加データフィールドを作成します。"メンバー"の追加列用としてこの情報を表示できます。
-crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###18 06 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#このコースの関連ユーザデータ
 crs#:#crs_dates#:#日付
 crs#:#crs_deactivate_notification#:#通知をオフ
 crs#:#crs_delete_objectve_sure#:#本当に選択した学習目標を削除しますか?
@@ -8855,23 +8855,23 @@ didactic#:#grp_closed_info#:#グループは非メンバーには表示されま
 didactic#:#more_translations#:#もっと翻訳
 didactic#:#sess_closed#:#非公開セッション
 didactic#:#sess_closed_info#:#非参加者にはセッションは表示されません。
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###18 06 2024 new variable
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###18 06 2024 new variable
+dpro#:#dpro_accept_usr_agreement_anonymous#:#データ保護規約
+dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#ILIAS利用の前に次のデータ保護規約を承諾します。
 dpro#:#dpro_account_reg_not_possible#:#データ保護承諾の宣言書がないため現在自己登録はできません。 詳細は<a href="%1$s">システム管理者</a> へ尋ねてください。
 dpro#:#dpro_agree_date#:#データ保護承諾宣言書
-dpro#:#dpro_last_reset_date#:#データ保護宣言は %s にリセットされます。ドキュメントへ変更が行われると、データ保護宣言のみがリセットされて全ユーザへドキュメントへの承諾を要求します。
+dpro#:#dpro_last_reset_date#:#データ保護規約は %s にリセットされます。ドキュメントへ変更が行われると、データ保護規約のみがリセットされて全ユーザへドキュメントへの承諾を要求します。
 dpro#:#dpro_mode#:#承諾モード
-dpro#:#dpro_mode_desc#:#いつ、どのようにしてデータ保護宣言を承諾すべきか構成してください。
+dpro#:#dpro_mode_desc#:#いつ、どのようにしてデータ保護規約を承諾すべきか構成してください。
 dpro#:#dpro_no_acceptance#:#なし、参考情報限定
-dpro#:#dpro_no_documents_exist#:#データ保護宣言ドキュメントが現在見当たりません。
-dpro#:#dpro_no_documents_exist_cant_save#:#データ保護宣言ドキュメントが現在見当たりません。 このサービスを有効化するにはドキュメントを一つは追加してください。
+dpro#:#dpro_no_documents_exist#:#データ保護規約ドキュメントが現在見当たりません。
+dpro#:#dpro_no_documents_exist_cant_save#:#データ保護規約ドキュメントが現在見当たりません。 このサービスを有効化するにはドキュメントを一つは追加してください。
 dpro#:#dpro_once#:#一度承諾
-dpro#:#dpro_reset_for_all_users#:#データ保護宣言をリセットする。
-dpro#:#dpro_status_enable#:#データ保護宣言を有効化
-dpro#:#dpro_status_enable_desc#:#可能であれば、ユーザの初回ログインの際に新規ユーザ用の登録フォームの最後に個別言語単位でデータ保護宣言ドキュメントを表示します。 ILIASへ入る前にデータ保護宣言への承諾が必須です。
-dpro#:#dpro_sure_reset_tos#:#システムの全ユーザ用のデータ保護宣言を本当にリセットしますか？例として、SOAPwebサービスお使ってるアカウントに対しても適用されます。
-dpro#:#dpro_withdrawal_usr_deletion#:#データ保護宣言撤回に対するアカウント削除
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#以前承諾したデータ保護宣言ドキュメントの承諾をユーザが撤回するとユーザのアカウント削除につながることになります。
+dpro#:#dpro_reset_for_all_users#:#データ保護規約をリセットする。
+dpro#:#dpro_status_enable#:#データ保護規約を有効化
+dpro#:#dpro_status_enable_desc#:#可能であれば、ユーザの初回ログインの際に新規ユーザ用の登録フォームの最後に個別言語単位でデータ保護規約ドキュメントを表示します。 ILIASへ入る前にデータ保護規約への承諾が必須です。
+dpro#:#dpro_sure_reset_tos#:#システムの全ユーザ用のデータ保護規約を本当にリセットしますか？例として、SOAPwebサービスお使ってるアカウントに対しても適用されます。
+dpro#:#dpro_withdrawal_usr_deletion#:#データ保護規約破棄に対するアカウント削除
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#以前承諾したデータ保護規約ドキュメントの承諾をユーザが破棄するとユーザのアカウント削除につながることになります。
 ecs#:#cert_serial#:#証明書シリアル番号
 ecs#:#ecs_abr#:#略語
 ecs#:#ecs_account_duration#:#アクティベーション期間の延長
@@ -9475,7 +9475,7 @@ exc#:#exc_rel_start_latest_lead_text#:# %s が最終
 exc#:#exc_rel_start_lead_text#:#開始後の提出日にち %s
 exc#:#exc_relative_date#:#相対日数
 exc#:#exc_relative_date_info#:#期限はユーザが課題を開始する時間に応じて個別に設定されます。
-exc#:#exc_relative_date_period#:#Working Time###30 07 2024 new variable
+exc#:#exc_relative_date_period#:#作業時間
 exc#:#exc_rem_time_after_start#:#開始後の残り時間
 exc#:#exc_reminder_cron_ok#:#注意喚起を送信しました:
 exc#:#exc_reminder_end#:#注意喚起終了
@@ -9695,7 +9695,7 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_show_print_view#:#印刷View表示
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#新しいエクスポートファイルが作成されました。
-exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
+exp#:#export_files_deleted#:#選択のファイルは削除されました。
 export#:#export_create#:#作成
 export#:#export_create_new_file#:#新規エクスポート ファイルを作成
 export#:#export_existing#:#再利用
@@ -10215,7 +10215,7 @@ grp#:#grp_create_or_use_existing#:#既存のグループへユーザを追加す
 grp#:#grp_created_and_user_been_added#:#グループの作成とユーザーを追加しました。
 grp#:#grp_custom_user_fields#:#関連ユーザデータのグループ
 grp#:#grp_custom_user_fields_infobox#:#参加時にグループメンバー用に記入するための追加データを生成します。"メンバー"タブ内の追加列にこの情報を表示できます。
-grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###18 06 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#このグループの関連ユーザデータ
 grp#:#grp_deactivate_notification#:#通知をオフ
 grp#:#grp_edit_members#:#受講者を編集
 grp#:#grp_enable_map#:#グループmapを有効
@@ -11557,11 +11557,11 @@ mathjax#:#mathjax_limiter#:#インライン区切り文字
 mathjax#:#mathjax_limiter_info#:#MathJaxを有効にする構成するインライン区切り文字を選択します。
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#多角形のURL
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
+mathjax#:#mathjax_polyfill_url_desc_line1#:#MathJax 2 には不要
+mathjax#:#mathjax_polyfill_url_desc_line2#:#MathJax 3の例  https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#MathJax ScriptのURL
-mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2 の例 %s
-mathjax#:#mathjax_script_url_desc_line2#:#javascriptのMathJaxコードでXSS攻撃を回避するためのセーフモード有効にして下さい。MathJax 2用はCDN urlへ'セーフ'パラメータを追加する事で有効化できます。MathJax 3用はMathjaxを読込む前に構成するスクリプトをincludeする必要があります。例の使用 %s
+mathjax#:#mathjax_script_url_desc_line1#:#MathJax 2 の例 https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe
+mathjax#:#mathjax_script_url_desc_line2#:#MathJax 3 の例 https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_server_address#:#サーバアドレス
 mathjax#:#mathjax_server_address_info#:#例 http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#MathJaxキャッシュはクリヤされました。
@@ -12566,7 +12566,7 @@ mme#:#type_separator#:#セパレータ
 mme#:#type_separator_info#:#このアイテムのタイトルはグレイバナーに表示されます。タイトルを未入力の場合は単線が表示されます。
 mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#コンテナ
-mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###18 06 2024 new variable
+mme#:#unable_to_render#:# '%s' in '%s'を表示不可
 mob#:#mob_choose_from_pool#:#メディア集から選択
 mob#:#mob_external_url#:#外部URL
 mob#:#mob_extract_preview_image#:#解凍プレビューイメージ
@@ -14656,8 +14656,8 @@ registration#:#reg_direct#:#直接登録
 registration#:#reg_direct_info#:#有効にすると、すべての新規ユーザ登録リクエストは自動承認となります。
 registration#:#reg_disabled#:#登録不可
 registration#:#reg_domain#:#ドメイン
-registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###27 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###27 08 2024 new variable
+registration#:#reg_domain_already_assigned_p#:#ドメイン '%s' は既に別の役割が入力されています。
+registration#:#reg_domain_already_assigned_s#:#ドメイン '%s' は既に別の役割が入力されています。
 registration#:#reg_email#:#自動割当て
 registration#:#reg_email_domains#:#次のemailアドレスドメインは有効です:%s
 registration#:#reg_email_domains_code#:#登録コード付きのメールアドレスは有効
@@ -16665,7 +16665,7 @@ survey#:#svy_page_add_question#:#新しく%sを追加
 survey#:#svy_page_error#:#質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!
 survey#:#svy_page_errors#:#質問回答中にエラーがありました。質問欄に表示されているエラー詳細情報を参照してください!
 survey#:#svy_participant#:#参加者
-survey#:#svy_participants#:#Participants###30 07 2024 new variable
+survey#:#svy_participants#:#参加者
 survey#:#svy_participation#:#参加
 survey#:#svy_please_select_unused_codes#:#未使用のコードを一つは選択してください。
 survey#:#svy_print_hide_labels#:#ラベルを非表示
@@ -16865,8 +16865,8 @@ tbl#:#tbl_template_created#:#現在の表示が保存されました。
 tbl#:#tbl_template_delete#:#保存した表示を削除します
 tbl#:#tbl_template_deleted#:#保全した表示を削除しました。
 tbl#:#tbl_templates#:#表示
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###18 06 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###18 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#利用規約
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#ILIASを利用する前に次の利用規約を承諾します。
 tos#:#tos_account_reg_not_possible#:#ユーザ許諾が無いので自己登録はできません。詳細に関しては<a href="%1$s">システム管理者</a>へコンタクトしてください。
 tos#:#tos_agree_date#:#ToS 承諾日
 tos#:#tos_agreement#:#サービス使用許諾
@@ -17148,7 +17148,7 @@ tstv#:#tstv_create#:#テスト証明の作成
 tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成します
 ui#:#datatable_multiaction_label#:#Bulk Actions
 ui#:#datatable_multiactionmodal_actionlabel#:#操作
-ui#:#datatable_multiactionmodal_apply#:#Apply###18 06 2024 new variable
+ui#:#datatable_multiactionmodal_buttonlabel#:#実行
 ui#:#datatable_multiactionmodal_listentry#:#全てのオブジェクトへ適用
 ui#:#datatable_multiactionmodal_msg#:#<b>警告!</b> 複数オブジェクトが影響
 ui#:#datatable_multiactionmodal_title#:#複数オブジェクト上の操作
@@ -17211,7 +17211,7 @@ user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ
 user#:#has_role#:#役割
-user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?###30 07 2024 new variable
+user#:#info_accessFree_sure#:#次のアカウントから有効日までを本当に削除しますか?
 user#:#inform_user_mail_info#:#有効にするとユーザへメール送信されます。その内容は管理>ユーザ管理> 設定 > 新規アカウントメールの中で定義できます。
 user#:#interests#:#興味
 user#:#interests_general#:#一般的な興味
