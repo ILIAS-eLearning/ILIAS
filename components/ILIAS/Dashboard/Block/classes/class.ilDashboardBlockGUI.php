@@ -148,7 +148,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $cards = array_filter(array_map($this->getCardForData(...), $group));
             if ($cards) {
                 $groupedCards[] = $this->ui->factory()->panel()->sub(
-                    $title,
+                    (string) $title,
                     $this->factory->deck($cards)->withNormalCardsSize()
                 );
             }
