@@ -46,7 +46,7 @@ class ilAuthProviderFactory
 
         $providers = [];
         foreach ($sequence as $position => $authmode) {
-            $provider = $this->getProviderByAuthMode($credentials, $authmode);
+            $provider = $this->getProviderByAuthMode($credentials, (string) $authmode);
             if ($provider instanceof ilAuthProviderInterface) {
                 $providers[] = $provider;
             }
