@@ -207,7 +207,8 @@ class ilTestArchiver
      * @param $pass
      * @return void
      */
-    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj){
+    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj)
+    {
         $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
         foreach ($questions as $question) {
             $question = $tst_obj->getQuestionDataset($question['question_fi']);
@@ -227,10 +228,10 @@ class ilTestArchiver
                     mkdir($archive_folder, 0777, true);
                 }
                 foreach ($folder_content as $file_name) {
-                    if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)){
-                        if ($active_fi == intval($matches[1]) && $pass == $matches[2]){
+                    if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)) {
+                        if ($active_fi == intval($matches[1]) && $pass == $matches[2]) {
 
-                            $local_file= $local_folder . $file_name;
+                            $local_file = $local_folder . $file_name;
                             $target_destination = $archive_folder . $file_name;
                             copy($local_file, $target_destination);
                             $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
@@ -667,7 +668,7 @@ class ilTestArchiver
         }
 
         $this->appendToArchiveDataIndex(
-            date('Y'),
+            date(DATE_ISO8601),
             $active_fi,
             $pass,
             $user->getFirstname(),
