@@ -100,7 +100,6 @@ class ilCronOerHarvester extends ilCronJob
         );
 
         $explorer = $target->getExplorerGUI();
-        $explorer->setSelectMode('target', false);
         $explorer->setRootId(ROOT_FOLDER_ID);
         $explorer->setTypeWhiteList(['cat']);
 
@@ -122,7 +121,6 @@ class ilCronOerHarvester extends ilCronJob
         );
 
         $ex_explorer = $ex_target->getExplorerGUI();
-        $ex_explorer->setSelectMode('exposed_source', false);
         $ex_explorer->setRootId(ROOT_FOLDER_ID);
         $ex_explorer->setTypeWhiteList(['cat']);
 
