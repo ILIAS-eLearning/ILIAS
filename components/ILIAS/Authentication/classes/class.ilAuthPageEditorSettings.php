@@ -18,49 +18,39 @@
 
 declare(strict_types=1);
 
-class ilAuthLoginPageEditorSettings
-{
-    public const MODE__UNDEFINED = 0;
-    public const MODE_IPE = 2;
+use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
 
-    private static ?self $instance = null;
+class ilAuthPageEditorSettings
+{
+    /** @var array<value-of<AuthPageEditorContext>, self> */
+    private static array $instances = [];
 
     /**
      * @var array<string, bool>
      */
     private array $languages = [];
     private ilSetting $storage;
-    private int $mode = self::MODE__UNDEFINED;
     private ilLanguage $lng;
 
-    private function __construct()
+
+    private function __construct(AuthPageEditorContext $context)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->storage = new ilSetting('login_editor');
+        $this->storage = new ilSetting($context->value);
 
         $this->read();
     }
 
-    public static function getInstance(): self
+    public static function getInstance(AuthPageEditorContext $context): self
     {
-        return self::$instance ?? (self::$instance = new self());
+        return self::$instances[$context->value] ?? (self::$instances[$context->value] = new self($context));
     }
 
     private function getStorage(): ilSetting
     {
         return $this->storage;
-    }
-
-    public function setMode(int $a_mode): void
-    {
-        $this->mode = $a_mode;
-    }
-
-    public function getMode(): int
-    {
-        return $this->mode;
     }
 
     public function getIliasEditorLanguage(string $a_langkey): string
@@ -88,8 +78,6 @@ class ilAuthLoginPageEditorSettings
 
     public function update(): void
     {
-        $this->getStorage()->set('mode', (string) $this->getMode());
-
         foreach ($this->languages as $lngkey => $stat) {
             $this->storage->set($lngkey, (string) $stat);
         }
@@ -97,8 +85,6 @@ class ilAuthLoginPageEditorSettings
 
     public function read(): void
     {
-        $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
-
         $this->languages = [];
         foreach ($this->lng->getInstalledLanguages() as $lngkey) {
             $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ''));

@@ -18,19 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * Login page object
- *
- * @author Alex Killing <alex.killing@gmx.de>
- */
 class ilLoginPage extends ilPageObject
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
+    final public const PAGE_TYPE = 'auth';
+
     public function getParentType(): string
     {
-        return "auth";
+        return self::PAGE_TYPE;
     }
 }

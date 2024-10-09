@@ -18,21 +18,13 @@
 
 declare(strict_types=1);
 
-/**
- * Login page configuration
- *
- * @author Alex Killing <alex.killing@gmx.de>
- */
 class ilLoginPageConfig extends ilPageConfig
 {
-    /**
-     * Init
-     */
     public function init(): void
     {
-        $this->setEnablePCType("LoginPageElement", true);
-        $this->setEnablePCType("FileList", false);
-        $this->setEnablePCType("Map", false);
+        $this->setEnablePCType('LoginPageElement', true);
+        $this->setEnablePCType('FileList', false);
+        $this->setEnablePCType('Map', false);
         $this->setEnableInternalLinks(true);
     }
 }

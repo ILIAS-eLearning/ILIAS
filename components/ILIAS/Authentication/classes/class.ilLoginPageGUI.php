@@ -19,10 +19,6 @@
 declare(strict_types=1);
 
 /**
- * Login page GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
  * @ilCtrl_Calls ilLoginPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilLoginPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLoginPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
@@ -31,6 +27,6 @@ class ilLoginPageGUI extends ilPageObjectGUI
 {
     public function __construct(int $a_id = 0, int $a_old_nr = 0)
     {
-        parent::__construct("auth", $a_id, $a_old_nr);
+        parent::__construct(ilLoginPage::PAGE_TYPE, $a_id, $a_old_nr);
     }
 }
