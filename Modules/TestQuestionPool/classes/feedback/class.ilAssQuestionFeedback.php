@@ -88,19 +88,17 @@ abstract class ilAssQuestionFeedback
     public function getGenericFeedbackTestPresentation(int $questionId, bool $solutionCompleted): string
     {
         if ($this->page_obj_output_mode == "edit") {
-            return "";
+            return '';
         }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $generic_feedback = $this->getPageObjectContent(
-                $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted)
+            return $this->cleanupPageContent(
+                $this->getPageObjectContent(
+                    $this->getGenericFeedbackPageObjectType(),
+                    $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted)
+                )
             );
-
-            $generic_feedback_test_presentation_html = $this->cleanupPageContent($generic_feedback);
-        } else {
-            $genericFeedbackTestPresentationHTML = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
         }
-        return $genericFeedbackTestPresentationHTML;
+        return $this->getGenericFeedbackContent($questionId, $solutionCompleted);
     }
 
     /**
@@ -745,7 +743,8 @@ abstract class ilAssQuestionFeedback
             $xpath = new DOMXPath($doc);
             $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
             foreach ($nodes_after_comments as $node_after_comments) {
-                if (trim($node_after_comments->nodeValue) === '') {
+                if (trim($node_after_comments->nodeValue) === ''
+                    && $node_after_comments->childElementCount === 0) {
                     return '';
                 }
             }
