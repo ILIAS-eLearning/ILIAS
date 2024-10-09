@@ -1450,7 +1450,7 @@ JS;
      */
     private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext): void
     {
-        if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
+        if ($this->isRenderPurposePrintPdf()) {
             $gaptemplate->setCurrentBlock('gap_span');
             $gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);
         } elseif ($gap->getType() == CLOZE_SELECT) {
