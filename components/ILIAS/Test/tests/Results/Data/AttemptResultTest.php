@@ -21,7 +21,7 @@ namespace ILIAS\Test\Tests\Results\Data;
 use ILIAS\Test\Results\Presentation\AttemptResult;
 use ILIAS\Test\Results\Presentation\QuestionResult;
 
-class AttemptResultTest extends ilTestBaseTestCase
+class AttemptResultTest extends \ilTestBaseTestCase
 {
     /**
      * @dataProvider getSettingsDataProvider
