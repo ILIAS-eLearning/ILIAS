@@ -34,10 +34,10 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->manipulate(
-            'DELETE FROM usr_pref WHERE keyword = ' . $this->db->quote('hits_per_page', ilDBConstants::T_TEXT)
+            'DELETE FROM usr_pref WHERE keyword = ' . $this->db->quote('hits_per_page', \ilDBConstants::T_TEXT)
         );
         $this->db->manipulate(
-            'DELETE FROM settings WHERE ' . $this->db->like('keyword', ilDBConstants::T_TEXT, '%hits_per_page%')
+            'DELETE FROM settings WHERE ' . $this->db->like('keyword', \ilDBConstants::T_TEXT, '%hits_per_page%')
         );
     }
 
