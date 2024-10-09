@@ -48,7 +48,6 @@ class Bar implements C\Chart\Bar\Bar
     protected bool $legend_visible = true;
     protected string $legend_position = "top";
     protected bool $tooltips_visible = true;
-    protected bool $stacked = false;
 
     public function __construct(string $title, Dataset $dataset, array $bar_configs = [], array $group_configs = [])
     {

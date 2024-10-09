@@ -22,8 +22,6 @@ declare(strict_types=1);
 require_once('./vendor/composer/vendor/autoload.php');
 
 use ILIAS\Data;
-use ILIAS\Data\Chart;
-use ILIAS\Data\Dimension;
 use PHPUnit\Framework\TestCase;
 
 class DatasetTest extends TestCase
@@ -41,6 +39,14 @@ class DatasetTest extends TestCase
         $dimensions = ["A dimension" => $c_dimension, "Another dimension" => $c_dimension];
 
         return $dimensions;
+    }
+
+    protected function getSimpleDimensionGroups(): array
+    {
+        $group = $this->f->dimension()->group("A dimension", "Another dimension");
+        $groups = ["A group" => $group, "Another group" => $group];
+
+        return $groups;
     }
 
     protected function getExtendedDimensions(): array
@@ -218,5 +224,35 @@ class DatasetTest extends TestCase
         $this->assertEquals(0, $dataset->getMaxValueForDimension("First dimension"));
         $this->assertEquals(-0.5, $dataset->getMaxValueForDimension("Second dimension"));
         $this->assertEquals(1.5, $dataset->getMaxValueForDimension("Third dimension"));
+    }
+
+    public function testDimensionsWithGroups(): void
+    {
+        try {
+            $dimensions = $this->getSimpleDimensions();
+            $groups = $this->getSimpleDimensionGroups();
+            $dataset = $this->f->dataset($dimensions, $groups);
+            $this->assertEquals($groups, $dataset->getDimensionGroups());
+        } catch (\InvalidArgumentException $e) {
+            $this->fail("This should not happen.");
+        }
+    }
+
+    public function testInvalidDimensionGroup(): void
+    {
+        $dimensions = $this->getSimpleDimensions();
+        $group = "Group";
+
+        $this->expectException(\InvalidArgumentException::class);
+        $dataset = $this->f->dataset($dimensions, ["A group" => $group]);
+    }
+
+    public function testInvalidDimensionGroupKey(): void
+    {
+        $dimensions = $this->getSimpleDimensions();
+        $group = $this->f->dimension()->group("A dimension");
+
+        $this->expectException(\InvalidArgumentException::class);
+        $dataset = $this->f->dataset($dimensions, [1 => $group]);
     }
 }

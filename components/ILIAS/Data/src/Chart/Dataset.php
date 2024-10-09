@@ -46,8 +46,8 @@ class Dataset
             }
             if (!$dimension instanceof Dimension\Dimension) {
                 throw new \InvalidArgumentException(
-                    "Expected array value to be an instance of Dimension. " .
-                    get_class($dimension) . " is given."
+                    "Expected array value to be an instance of Dimension." .
+                    (is_object($dimension) ? get_class($dimension) : gettype($dimension)) . " is given."
                 );
             }
         }
@@ -62,7 +62,7 @@ class Dataset
             if (!$group instanceof Dimension\DimensionGroup) {
                 throw new \InvalidArgumentException(
                     "Expected array value to be an instance of DimensionGroup. " .
-                    get_class($group) . " is given."
+                    (is_object($group) ? get_class($group) : gettype($group)) . " is given."
                 );
             }
         }
