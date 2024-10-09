@@ -88,7 +88,11 @@ class TableCommandActionHandler implements Server\CommandActionHandler
 
         $tab = new \ilPCDataTable($page);
         $tab->create($page, $hier_id, $pc_id);
-        $tab->setLanguage($this->user->getLanguage());
+        $lang = $this->user->getLanguage();
+        if ($lang === "") {
+            $lang = "en";
+        }
+        $tab->setLanguage($lang);
 
 
         $tab->addRows(
