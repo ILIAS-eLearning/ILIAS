@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Select repository nodes
@@ -99,7 +99,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
     public function getOnloadCode(): array
     {
         return [
-            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
+            $this->getInitializationOnLoadCode()
         ];
     }
 

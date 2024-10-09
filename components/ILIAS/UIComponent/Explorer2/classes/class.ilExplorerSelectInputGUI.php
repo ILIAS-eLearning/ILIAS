@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+
 /**
  * Select explorer tree nodes input GUI
  *
@@ -26,6 +28,8 @@
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
     protected ilGlobalTemplateInterface $global_template;
+    protected UIServices $ui;
+
     /**
      * @var string|int|array
      */
@@ -46,6 +50,8 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $this->multi_nodes = $a_multi;
         $this->explorer_gui = $a_explorer_gui;
         $this->global_template = $DIC->ui()->mainTemplate();
+
+        $this->ui = $DIC->ui();
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("exp_select");
@@ -152,11 +158,11 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     {
         $lng = $this->lng;
 
+        $on_load_code = $this->getInitializationOnLoadCode();
+
         $this->global_tpl->addJavascript("assets/js/Explorer2.js");
         $this->global_tpl->addJavascript("asserts/js/LegacyModal.js");
-        $this->global_tpl->addOnLoadCode(
-            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
-        );
+        $this->global_tpl->addOnLoadCode($on_load_code);
 
         $tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "components/ILIAS/UIComponent/Explorer2");
 
@@ -191,8 +197,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
-        $ol_js = "il.Explorer2.initSelect('" . $this->getFieldId() . "');";
-        $this->global_template->addOnLoadCode($ol_js);
+        $this->global_template->addOnLoadCode($on_load_code);
 
         //		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 
@@ -249,5 +254,22 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     {
         $html = $this->render("table_filter");
         return $html;
+    }
+
+    protected function getInitializationOnLoadCode(): string
+    {
+        $modal = $this->ui->factory()->modal()->roundtrip(
+            'placeholder',
+            $this->ui->factory()->legacy('<div id="' . $this->getFieldId() . '_expl_marker"></div>')
+        );
+        $rendered_modal = str_replace(
+            ["\r\n", "\n", "\r"],
+            ' ',
+            $this->ui->renderer()->render($modal)
+        );
+        return 'il.Explorer2.initSelect(\'' . $this->getFieldId() . '\',\'' .
+            $rendered_modal . '\',\'' .
+            $modal->getShowSignal() . '\',\'' .
+            $modal->getCloseSignal() . '\');';
     }
 }

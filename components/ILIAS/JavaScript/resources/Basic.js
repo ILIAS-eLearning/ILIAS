@@ -619,47 +619,7 @@ il.UICore = {
         il.Util.fixPosition(this);
       });
     });
-  },
-
-  showRightPanel() {
-    this.right_panel = il.Modal.dialogue({
-      id: 'il_right_panel',
-      show: true,
-      body: "<div id='ilRightPanel'></div>",
-      buttons: {
-      },
-    });
-  },
-
-  setRightPanelContent(c) {
-    $('div#ilRightPanel').html(c);
-  },
-
-  // load content from wrapper element into right panel
-  loadWrapperToRightPanel(wrapper_id) {
-    this.right_panel_wrapper = wrapper_id;
-    $(`#${wrapper_id}`).children().appendTo('#ilRightPanel');
-  },
-
-  // move the right panel content back to wrapper
-  unloadWrapperFromRightPanel() {
-    if (this.right_panel_wrapper != '') {
-      $('#ilRightPanel').children().appendTo(`#${this.right_panel_wrapper}`);
-    }
-    this.right_panel_wrapper = '';
-  },
-
-  hideRightPanel() {
-    il.UICore.unloadWrapperFromRightPanel();
-
-    if (this.right_panel) {
-      this.right_panel.hide();
-    }
-    return;
-
-    il.Overlay.hide(null, 'ilRightPanel');
-  },
-
+  }
 };
 
 $(document).on('visibilitychange', () => {
