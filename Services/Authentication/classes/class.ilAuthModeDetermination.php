@@ -213,7 +213,7 @@ class ilAuthModeDetermination
 
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
-                            if ($pl->isAuthActive($auth_mode)) {
+                            if ($pl->isAuthActive((int) $auth_mode)) {
                                 $this->position[] = $auth_mode;
                             }
                         }
