@@ -284,7 +284,10 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $form = $this->initForbiddenTagsForm();
 
 
-        $this->checkPermission("write");
+        if (!$this->checkPermissionBool("write")) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tagging_no_perm_write'), true);
+            $this->ctrl->redirect($this, "editForbiddenTags");
+        }
 
         if ($form->checkInput()) {
             $tags = str_replace(",", " ", $form->getInput("forbidden_tags"));
@@ -322,7 +325,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $this->checkPermission("write");
+        $this->checkPermission("read");
 
         $this->addSubTabs();
         $ilTabs->activateTab("tagging_edit_settings");
