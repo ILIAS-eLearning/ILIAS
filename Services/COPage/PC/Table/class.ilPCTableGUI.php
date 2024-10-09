@@ -1031,7 +1031,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->setTabs();
 
         $this->displayValidationError();
-
         $this->initEditor();
         $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
@@ -1137,11 +1136,11 @@ class ilPCTableGUI extends ilPageContentGUI
 
                 // cell
                 if ($node2->getAttribute("Hidden") != "Y") {
-                    if ($this->content_obj->getType() == "dtab") {
-                        $dtpl->touchBlock("cell_type");
-                        //$dtpl->setCurrentBlock("cell_type");
-                        //$dtpl->parseCurrentBlock();
-                    }
+                    //if ($this->content_obj->getType() == "dtab") {
+                    $dtpl->touchBlock("cell_type");
+                    //$dtpl->setCurrentBlock("cell_type");
+                    //$dtpl->parseCurrentBlock();
+                    //}
 
                     $dtpl->setCurrentBlock("cell");
 
@@ -1197,7 +1196,6 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
             $i++;
         }
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
 
         // add int link parts
